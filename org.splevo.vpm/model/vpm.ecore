@@ -15,16 +15,14 @@
           eType="#//variability/Variant" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="realizationTechnique"
           eType="#//realization/RealizationTechnique"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="softwareEntities" upperBound="-1"
           eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.omg.kdm/model/kdm.ecore#//core/KDMEntity"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/de.uka.ipd.sdq.featuremodel/model/featuremodel.ecore#//Feature"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Variant">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="softwareEntities" upperBound="-1"
           eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.omg.kdm/model/kdm.ecore#//core/KDMEntity"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/de.uka.ipd.sdq.featuremodel/model/featuremodel.ecore#//Feature"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="realization" nsURI="http://splevo.org/vpm/1.0/realization" nsPrefix="realization">
