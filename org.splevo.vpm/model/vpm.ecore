@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vpm"
+    nsURI="http://splevo.org/vpm/1.0" nsPrefix="org.splevo.vpm">
+  <eClassifiers xsi:type="ecore:EClass" name="VariationPointModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variationPoints" upperBound="-1"
+        eType="#//variability/VariationPoint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="realizationTechniques"
+        upperBound="-1" eType="#//realization/RealizationTechnique" containment="true"/>
+  </eClassifiers>
+  <eSubpackages name="variability" nsURI="http://splevo.org/vpm/1.0/variability" nsPrefix="variability">
+    <eClassifiers xsi:type="ecore:EClass" name="VariationPoint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variants" upperBound="-1"
+          eType="#//variability/Variant" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="realizationTechnique"
+          eType="#//realization/RealizationTechnique"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="softwareEntities" upperBound="-1"
+          eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.omg.kdm/model/kdm.ecore#//core/KDMEntity"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/de.uka.ipd.sdq.featuremodel/model/featuremodel.ecore#//Feature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Variant">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="softwareEntities" upperBound="-1"
+          eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.omg.kdm/model/kdm.ecore#//core/KDMEntity"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/de.uka.ipd.sdq.featuremodel/model/featuremodel.ecore#//Feature"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="realization" nsURI="http://splevo.org/vpm/1.0/realization" nsPrefix="realization">
+    <eClassifiers xsi:type="ecore:EClass" name="RealizationTechnique" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DesignTimeRealizationTechnique" abstract="true"
+        eSuperTypes="#//realization/RealizationTechnique">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A realization technique based on design changes for the individual products. For example reference architectures, which are considered, but derived per product are of this type."/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CompilationTimeRealizationTechnique"
+        abstract="true" eSuperTypes="#//realization/RealizationTechnique">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A variation technique where a specific variant is bound during compilation. For example pre-processer or constant based realizations."/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LinkingTimeRealizationTechnique" abstract="true"
+        eSuperTypes="#//realization/RealizationTechnique">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A realization time where the variant is chosen during linking, such as loading the variant of a liabrary that is physically available and accessible by the linker."/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RuntimeRealizationTechnique" abstract="true"
+        eSuperTypes="#//realization/RealizationTechnique">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A realization technique to derive the concrete product / variant, not before runtime. For example variable based product variation points are such systems."/>
+      </eAnnotations>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>
