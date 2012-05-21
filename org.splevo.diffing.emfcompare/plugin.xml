@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="org.splevo.diffing.emfcompare.EPackage1"
+            uri="kdm_diff.package1">
+      </package>
+   </extension>
+   <extension
+         point="org.eclipse.emf.compare.diff.engine">
+      <diffengine
+            engineClass="org.splevo.diffing.emfcompare.diff.KdmDiffEngine"
+            fileExtension="xmi"
+            label="KDM Diff Engine"
+            priority="high">
+      </diffengine>
+   </extension>
+   <extension
+         point="org.eclipse.emf.compare.match.engine">
+      <matchengine
+            engineClass="org.splevo.diffing.emfcompare.merge.KdmMatchEngine"
+            fileExtension="xmi"
+            label="KDM Match Engine"
+            priority="high">
+      </matchengine>
+   </extension>
+
+</plugin>
