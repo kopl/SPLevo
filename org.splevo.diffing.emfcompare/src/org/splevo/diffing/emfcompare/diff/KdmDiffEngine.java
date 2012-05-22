@@ -139,7 +139,7 @@ public class KdmDiffEngine extends GenericDiffEngine {
                 System.out.println(line);
                 lineNo++;
             }
-        } catch (CoreException | IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

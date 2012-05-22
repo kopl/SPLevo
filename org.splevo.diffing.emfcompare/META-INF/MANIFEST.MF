@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Kdm_diff
-Bundle-SymbolicName: kdm_diff; singleton:=true
+Bundle-Name: org.splevo.diffing.emfcompare
+Bundle-SymbolicName: org.splevo.diffing.emfcompare;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.splevo.diffing.emfcompare.Activator
 Require-Bundle: org.eclipse.ui,
@@ -16,4 +16,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.modisco.kdm.source.extension;bundle-version="0.9.0",
  org.eclipse.modisco.kdm.source.extension.ui;bundle-version="0.9.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
