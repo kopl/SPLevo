@@ -1,12 +1,9 @@
 package org.splevo.diffing.emfcompare.diff;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.diff.engine.GenericDiffEngine;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
@@ -15,11 +12,9 @@ import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.metamodel.UpdateReference;
-import org.eclipse.emf.compare.diff.metamodel.impl.DiffElementImpl;
 import org.eclipse.emf.compare.match.internal.statistic.NameSimilarity;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
-import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.eclipse.gmt.modisco.omg.kdm.source.SourceFile;
