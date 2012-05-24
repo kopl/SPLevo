@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="kdmdiff"
+    nsURI="http://www.eclipse.org/emf/compare/diff/kdm/1.0" nsPrefix="kdmdiff">
+  <eClassifiers xsi:type="ecore:EClass" name="KDMDiffExtension" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//AbstractDiffExtension platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementChange" abstract="true" interface="true"
+      eSuperTypes="#//KDMDiffExtension">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change on a statement level."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statement" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.modisco.omg.gastm/model/gastm.ecore#//Statement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementOrderChange" eSuperTypes="#//StatementChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change of a statement order. Statements are an ordered list within a parent element (e.g. a method or block statement). If the order is changed, the statement resides in the same parent element but the position in the ordered list is changed."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="statementIndexNew" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="statementIndexOld" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementInsert" eSuperTypes="#//StatementChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change representing a new statement which is only present in the left model. The referenced statement element represents the new statement in the left model."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementDelete" eSuperTypes="#//StatementChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A statement that was deleted. The statement element referenced by this change points to the old statement (in the right model) which does not exist anymore."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="ecore:EClass platform:/plugin/org.eclipse.modisco.omg.gastm/model/gastm.ecore#//Statement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementMove" eSuperTypes="#//StatementChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Identifies a statement that has been moved into a different parent element."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentNew" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.modisco.omg.gastm/model/gastm.ecore#//GASTMSyntaxObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentOld" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.modisco.omg.gastm/model/gastm.ecore#//GASTMSyntaxObject"/>
+  </eClassifiers>
+</ecore:EPackage>
