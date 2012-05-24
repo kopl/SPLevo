@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diff:ComparisonResourceSnapshot xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diff="http://www.eclipse.org/emf/compare/diff/1.1" xmlns:match="http://www.eclipse.org/emf/compare/match/1.1" date="2012-05-25T00:37:18.493+0200">
+  <diff>
+    <ownedElements xsi:type="diff:DiffGroup">
+      <subDiffElements xsi:type="diff:DiffGroup">
+        <subDiffElements xsi:type="diff:UpdateReference">
+          <reference href="http://www.eclipse.org/MoDisco/Java/Composition/0.1.incubation/javaApplication#//JavaApplication/javaModel"/>
+          <rightElement href="../CaseStudyCalculatorProject/models/implementation/jscience/_java2kdm.xmi#/"/>
+          <leftElement href="../CaseStudyCalculatorProject/models/implementation/native/_java2kdm.xmi#/"/>
+          <leftTarget href="/CaseStudyCalculatorProject/models/implementation/jscience/_java.xmi#/"/>
+          <rightTarget href="/CaseStudyCalculatorProject/models/implementation/native/_java.xmi#/"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:UpdateReference">
+          <reference href="http://www.eclipse.org/MoDisco/Java/Composition/0.1.incubation/javaApplication#//JavaApplication/deploymentModel"/>
+          <rightElement href="../CaseStudyCalculatorProject/models/implementation/jscience/_java2kdm.xmi#/"/>
+          <leftElement href="../CaseStudyCalculatorProject/models/implementation/native/_java2kdm.xmi#/"/>
+          <leftTarget href="/CaseStudyCalculatorProject/models/implementation/jscience/_kdm.xmi#//@model.0"/>
+          <rightTarget href="/CaseStudyCalculatorProject/models/implementation/native/_kdm.xmi#//@model.0"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:ReferenceChangeLeftTarget">
+          <reference href="http://www.eclipse.org/MoDisco/Java/Composition/0.1.incubation/javaApplication#//JavaApplication/java2DirectoryChildren"/>
+          <rightElement href="../CaseStudyCalculatorProject/models/implementation/jscience/_java2kdm.xmi#/"/>
+          <leftElement href="../CaseStudyCalculatorProject/models/implementation/native/_java2kdm.xmi#/"/>
+          <leftTarget href="/CaseStudyCalculatorProject/models/implementation/native/java2kdmFragments/Package2Directory_java2kdm.xmi#/"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:ReferenceChangeRightTarget">
+          <reference href="http://www.eclipse.org/MoDisco/Java/Composition/0.1.incubation/javaApplication#//JavaApplication/java2DirectoryChildren"/>
+          <rightElement href="../CaseStudyCalculatorProject/models/implementation/jscience/_java2kdm.xmi#/"/>
+          <leftElement href="../CaseStudyCalculatorProject/models/implementation/native/_java2kdm.xmi#/"/>
+          <rightTarget href="/CaseStudyCalculatorProject/models/implementation/jscience/java2kdmFragments/Package2Directory_java2kdm.xmi#/"/>
+        </subDiffElements>
+        <rightParent href="../CaseStudyCalculatorProject/models/implementation/jscience/_java2kdm.xmi#/"/>
+      </subDiffElements>
+    </ownedElements>
+    <leftRoots href="../CaseStudyCalculatorProject/models/implementation/native/_java2kdm.xmi#/"/>
+    <rightRoots href="../CaseStudyCalculatorProject/models/implementation/jscience/_java2kdm.xmi#/"/>
+  </diff>
+  <match>
+    <matchedElements xsi:type="match:Match2Elements" similarity="1.0">
+      <leftElement href="../CaseStudyCalculatorProject/models/implementation/native/_java2kdm.xmi#/"/>
+      <rightElement href="../CaseStudyCalculatorProject/models/implementation/jscience/_java2kdm.xmi#/"/>
+    </matchedElements>
+    <leftRoots href="../CaseStudyCalculatorProject/models/implementation/native/_java2kdm.xmi#/"/>
+    <rightRoots href="../CaseStudyCalculatorProject/models/implementation/jscience/_java2kdm.xmi#/"/>
+  </match>
+</diff:ComparisonResourceSnapshot>

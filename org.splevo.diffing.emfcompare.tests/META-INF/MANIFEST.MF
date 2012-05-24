@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests
+Bundle-SymbolicName: org.splevo.diffing.emfcompare.tests
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: org.splevo.diffing.emfcompare;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.junit;bundle-version="4.8.2",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.7.0"
