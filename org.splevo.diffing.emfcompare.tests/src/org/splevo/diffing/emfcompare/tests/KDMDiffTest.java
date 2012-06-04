@@ -37,9 +37,9 @@ import org.splevo.diffing.emfcompare.merge.KdmMatchEngine;
  */
 public class KDMDiffTest {
 	private static final File NATIVE_MODEL_FILE = new File(
-			"../CaseStudyCalculatorProject/models/implementation/native/_java2kdm.xmi");
+			"../CaseStudyCalculatorProject/models/implementation/native/_java.xmi");
 	private static final File JSCIENCE_MODEL_FILE = new File(
-			"../CaseStudyCalculatorProject/models/implementation/jscience/_java2kdm.xmi");
+			"../CaseStudyCalculatorProject/models/implementation/jscience/_java.xmi");
 	private EObject jscienceModel;
 	private EObject nativeModel;
 	private final IMatchEngine matchEngine = new KdmMatchEngine();
