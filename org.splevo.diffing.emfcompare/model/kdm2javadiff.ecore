@@ -167,5 +167,26 @@
         eType="#//ClassChange" containment="true" eOpposite="#//ClassChange/compilationUnitChange"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="importDeclarationChanges"
         upperBound="-1" eType="#//ImportDeclarationChange" containment="true" eOpposite="#//ImportDeclarationChange/compilationUnitChange"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packageChange" eType="#//PackageChange"
+        eOpposite="#//PackageChange/compilationUnitChanges"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PackageChange" eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffGroup">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The changes within a specific packages. &#xD;&#xA;Do to the hierarchical structure of packages, also packages can contain sub-packages."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compilationUnitChanges"
+        upperBound="-1" eType="#//CompilationUnitChange" containment="true" eOpposite="#//CompilationUnitChange/packageChange"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subPackages" upperBound="-1"
+        eType="#//PackageChange" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packageLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The package in the left model which is the new modified version."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packageRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The package in the right model which is the original version."/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>

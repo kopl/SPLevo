@@ -467,6 +467,29 @@ public class KDM2JavaDiffItemProviderAdapterFactory extends KDM2JavaDiffAdapterF
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PackageChangeItemProvider packageChangeItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPackageChangeAdapter() {
+		if (packageChangeItemProvider == null) {
+			packageChangeItemProvider = new PackageChangeItemProvider(this);
+		}
+
+		return packageChangeItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -582,6 +605,7 @@ public class KDM2JavaDiffItemProviderAdapterFactory extends KDM2JavaDiffAdapterF
 		if (methodInsertItemProvider != null) methodInsertItemProvider.dispose();
 		if (methodDeleteItemProvider != null) methodDeleteItemProvider.dispose();
 		if (compilationUnitChangeItemProvider != null) compilationUnitChangeItemProvider.dispose();
+		if (packageChangeItemProvider != null) packageChangeItemProvider.dispose();
 	}
 
 }

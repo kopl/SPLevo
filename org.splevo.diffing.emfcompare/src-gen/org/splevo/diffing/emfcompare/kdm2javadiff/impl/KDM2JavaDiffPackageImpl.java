@@ -35,6 +35,7 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.MethodDelete;
 import org.splevo.diffing.emfcompare.kdm2javadiff.MethodInsert;
 import org.splevo.diffing.emfcompare.kdm2javadiff.MethodModifierChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.MethodParameterChange;
+import org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.ReturnTypeChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.StatementChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.StatementDelete;
@@ -202,6 +203,13 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 	 * @generated
 	 */
 	private EClass compilationUnitChangeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass packageChangeEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -687,6 +695,60 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getCompilationUnitChange_PackageChange() {
+		return (EReference)compilationUnitChangeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPackageChange() {
+		return packageChangeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPackageChange_CompilationUnitChanges() {
+		return (EReference)packageChangeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPackageChange_SubPackages() {
+		return (EReference)packageChangeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPackageChange_PackageLeft() {
+		return (EReference)packageChangeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPackageChange_PackageRight() {
+		return (EReference)packageChangeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public KDM2JavaDiffFactory getKDM2JavaDiffFactory() {
 		return (KDM2JavaDiffFactory)getEFactoryInstance();
 	}
@@ -777,6 +839,13 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		compilationUnitChangeEClass = createEClass(COMPILATION_UNIT_CHANGE);
 		createEReference(compilationUnitChangeEClass, COMPILATION_UNIT_CHANGE__CLASS_CHANGES);
 		createEReference(compilationUnitChangeEClass, COMPILATION_UNIT_CHANGE__IMPORT_DECLARATION_CHANGES);
+		createEReference(compilationUnitChangeEClass, COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE);
+
+		packageChangeEClass = createEClass(PACKAGE_CHANGE);
+		createEReference(packageChangeEClass, PACKAGE_CHANGE__COMPILATION_UNIT_CHANGES);
+		createEReference(packageChangeEClass, PACKAGE_CHANGE__SUB_PACKAGES);
+		createEReference(packageChangeEClass, PACKAGE_CHANGE__PACKAGE_LEFT);
+		createEReference(packageChangeEClass, PACKAGE_CHANGE__PACKAGE_RIGHT);
 	}
 
 	/**
@@ -834,6 +903,7 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		methodInsertEClass.getESuperTypes().add(this.getMethodDeclarationChange());
 		methodDeleteEClass.getESuperTypes().add(this.getMethodDeclarationChange());
 		compilationUnitChangeEClass.getESuperTypes().add(theDiffPackage.getDiffGroup());
+		packageChangeEClass.getESuperTypes().add(theDiffPackage.getDiffGroup());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(kdm2JavaDiffExtensionEClass, KDM2JavaDiffExtension.class, "KDM2JavaDiffExtension", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -903,6 +973,13 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		initEClass(compilationUnitChangeEClass, CompilationUnitChange.class, "CompilationUnitChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompilationUnitChange_ClassChanges(), this.getClassChange(), this.getClassChange_CompilationUnitChange(), "classChanges", null, 0, -1, CompilationUnitChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCompilationUnitChange_ImportDeclarationChanges(), this.getImportDeclarationChange(), this.getImportDeclarationChange_CompilationUnitChange(), "importDeclarationChanges", null, 0, -1, CompilationUnitChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCompilationUnitChange_PackageChange(), this.getPackageChange(), this.getPackageChange_CompilationUnitChanges(), "packageChange", null, 0, 1, CompilationUnitChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(packageChangeEClass, PackageChange.class, "PackageChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPackageChange_CompilationUnitChanges(), this.getCompilationUnitChange(), this.getCompilationUnitChange_PackageChange(), "compilationUnitChanges", null, 0, -1, PackageChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPackageChange_SubPackages(), this.getPackageChange(), null, "subPackages", null, 0, -1, PackageChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPackageChange_PackageLeft(), theJavaPackage.getPackage(), null, "packageLeft", null, 0, 1, PackageChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPackageChange_PackageRight(), theJavaPackage.getPackage(), null, "packageRight", null, 0, 1, PackageChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -931,7 +1008,7 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		   source, 
 		   new String[] {
 			 "name", "ImportDeclarationChange"
-		   });					
+		   });								
 	}
 
 } //KDM2JavaDiffPackageImpl

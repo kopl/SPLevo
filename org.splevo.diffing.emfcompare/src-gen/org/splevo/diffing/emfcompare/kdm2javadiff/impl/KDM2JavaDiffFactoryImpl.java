@@ -77,6 +77,7 @@ public class KDM2JavaDiffFactoryImpl extends EFactoryImpl implements KDM2JavaDif
 			case KDM2JavaDiffPackage.METHOD_INSERT: return createMethodInsert();
 			case KDM2JavaDiffPackage.METHOD_DELETE: return createMethodDelete();
 			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE: return createCompilationUnitChange();
+			case KDM2JavaDiffPackage.PACKAGE_CHANGE: return createPackageChange();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -250,6 +251,16 @@ public class KDM2JavaDiffFactoryImpl extends EFactoryImpl implements KDM2JavaDif
 	public CompilationUnitChange createCompilationUnitChange() {
 		CompilationUnitChangeImpl compilationUnitChange = new CompilationUnitChangeImpl();
 		return compilationUnitChange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PackageChange createPackageChange() {
+		PackageChangeImpl packageChange = new PackageChangeImpl();
+		return packageChange;
 	}
 
 	/**

@@ -21,6 +21,7 @@ import org.eclipse.emf.compare.diff.provider.DiffGroupItemProvider;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -29,17 +30,17 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.ClassChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
+import org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.ClassChange} object.
+ * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ClassChangeItemProvider
+public class PackageChangeItemProvider
 	extends DiffGroupItemProvider
 	implements
 		IEditingDomainItemProvider,
@@ -53,7 +54,7 @@ public class ClassChangeItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ClassChangeItemProvider(AdapterFactory adapterFactory) {
+	public PackageChangeItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -68,8 +69,54 @@ public class ClassChangeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addPackageLeftPropertyDescriptor(object);
+			addPackageRightPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Package Left feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPackageLeftPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PackageChange_packageLeft_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PackageChange_packageLeft_feature", "_UI_PackageChange_type"),
+				 KDM2JavaDiffPackage.Literals.PACKAGE_CHANGE__PACKAGE_LEFT,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Package Right feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPackageRightPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PackageChange_packageRight_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PackageChange_packageRight_feature", "_UI_PackageChange_type"),
+				 KDM2JavaDiffPackage.Literals.PACKAGE_CHANGE__PACKAGE_RIGHT,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -84,8 +131,8 @@ public class ClassChangeItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(KDM2JavaDiffPackage.Literals.CLASS_CHANGE__CLASS_DECLARACTION_CHANGES);
-			childrenFeatures.add(KDM2JavaDiffPackage.Literals.CLASS_CHANGE__METHOD_CHANGES);
+			childrenFeatures.add(KDM2JavaDiffPackage.Literals.PACKAGE_CHANGE__COMPILATION_UNIT_CHANGES);
+			childrenFeatures.add(KDM2JavaDiffPackage.Literals.PACKAGE_CHANGE__SUB_PACKAGES);
 		}
 		return childrenFeatures;
 	}
@@ -104,14 +151,14 @@ public class ClassChangeItemProvider
 	}
 
 	/**
-	 * This returns ClassChange.gif.
+	 * This returns PackageChange.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ClassChange"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/PackageChange"));
 	}
 
 	/**
@@ -122,8 +169,8 @@ public class ClassChangeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		ClassChange classChange = (ClassChange)object;
-		return getString("_UI_ClassChange_type") + " " + classChange.isConflicting();
+		PackageChange packageChange = (PackageChange)object;
+		return getString("_UI_PackageChange_type") + " " + packageChange.isConflicting();
 	}
 
 	/**
@@ -137,9 +184,9 @@ public class ClassChangeItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(ClassChange.class)) {
-			case KDM2JavaDiffPackage.CLASS_CHANGE__CLASS_DECLARACTION_CHANGES:
-			case KDM2JavaDiffPackage.CLASS_CHANGE__METHOD_CHANGES:
+		switch (notification.getFeatureID(PackageChange.class)) {
+			case KDM2JavaDiffPackage.PACKAGE_CHANGE__COMPILATION_UNIT_CHANGES:
+			case KDM2JavaDiffPackage.PACKAGE_CHANGE__SUB_PACKAGES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -249,23 +296,13 @@ public class ClassChangeItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(KDM2JavaDiffPackage.Literals.CLASS_CHANGE__CLASS_DECLARACTION_CHANGES,
-				 KDM2JavaDiffFactory.eINSTANCE.createClassInsert()));
+				(KDM2JavaDiffPackage.Literals.PACKAGE_CHANGE__COMPILATION_UNIT_CHANGES,
+				 KDM2JavaDiffFactory.eINSTANCE.createCompilationUnitChange()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(KDM2JavaDiffPackage.Literals.CLASS_CHANGE__CLASS_DECLARACTION_CHANGES,
-				 KDM2JavaDiffFactory.eINSTANCE.createClassDelete()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(KDM2JavaDiffPackage.Literals.CLASS_CHANGE__CLASS_DECLARACTION_CHANGES,
-				 KDM2JavaDiffFactory.eINSTANCE.createClassModifierChange()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(KDM2JavaDiffPackage.Literals.CLASS_CHANGE__METHOD_CHANGES,
-				 KDM2JavaDiffFactory.eINSTANCE.createMethodChange()));
+				(KDM2JavaDiffPackage.Literals.PACKAGE_CHANGE__SUB_PACKAGES,
+				 KDM2JavaDiffFactory.eINSTANCE.createPackageChange()));
 	}
 
 	/**
@@ -281,8 +318,8 @@ public class ClassChangeItemProvider
 
 		boolean qualify =
 			childFeature == DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS ||
-			childFeature == KDM2JavaDiffPackage.Literals.CLASS_CHANGE__CLASS_DECLARACTION_CHANGES ||
-			childFeature == KDM2JavaDiffPackage.Literals.CLASS_CHANGE__METHOD_CHANGES;
+			childFeature == KDM2JavaDiffPackage.Literals.PACKAGE_CHANGE__COMPILATION_UNIT_CHANGES ||
+			childFeature == KDM2JavaDiffPackage.Literals.PACKAGE_CHANGE__SUB_PACKAGES;
 
 		if (qualify) {
 			return getString

@@ -2847,13 +2847,159 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int COMPILATION_UNIT_CHANGE__IMPORT_DECLARATION_CHANGES = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Package Change</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Compilation Unit Change</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPILATION_UNIT_CHANGE_FEATURE_COUNT = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 2;
+	int COMPILATION_UNIT_CHANGE_FEATURE_COUNT = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 3;
+
+
+	/**
+	 * The meta object id for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.PackageChangeImpl <em>Package Change</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.impl.PackageChangeImpl
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.impl.KDM2JavaDiffPackageImpl#getPackageChange()
+	 * @generated
+	 */
+	int PACKAGE_CHANGE = 22;
+
+	/**
+	 * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__SUB_DIFF_ELEMENTS = DiffPackage.DIFF_GROUP__SUB_DIFF_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__IS_HIDDEN_BY = DiffPackage.DIFF_GROUP__IS_HIDDEN_BY;
+
+	/**
+	 * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__CONFLICTING = DiffPackage.DIFF_GROUP__CONFLICTING;
+
+	/**
+	 * The feature id for the '<em><b>Kind</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__KIND = DiffPackage.DIFF_GROUP__KIND;
+
+	/**
+	 * The feature id for the '<em><b>Remote</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__REMOTE = DiffPackage.DIFF_GROUP__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__REQUIRES = DiffPackage.DIFF_GROUP__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__REQUIRED_BY = DiffPackage.DIFF_GROUP__REQUIRED_BY;
+
+	/**
+	 * The feature id for the '<em><b>Right Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__RIGHT_PARENT = DiffPackage.DIFF_GROUP__RIGHT_PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Subchanges</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__SUBCHANGES = DiffPackage.DIFF_GROUP__SUBCHANGES;
+
+	/**
+	 * The feature id for the '<em><b>Compilation Unit Changes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__COMPILATION_UNIT_CHANGES = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Sub Packages</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__SUB_PACKAGES = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Package Left</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__PACKAGE_LEFT = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Package Right</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__PACKAGE_RIGHT = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Package Change</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE_FEATURE_COUNT = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 4;
 
 
 	/**
@@ -3341,6 +3487,71 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	EReference getCompilationUnitChange_ImportDeclarationChanges();
 
 	/**
+	 * Returns the meta object for the container reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.CompilationUnitChange#getPackageChange <em>Package Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Package Change</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.CompilationUnitChange#getPackageChange()
+	 * @see #getCompilationUnitChange()
+	 * @generated
+	 */
+	EReference getCompilationUnitChange_PackageChange();
+
+	/**
+	 * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange <em>Package Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Package Change</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange
+	 * @generated
+	 */
+	EClass getPackageChange();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getCompilationUnitChanges <em>Compilation Unit Changes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Compilation Unit Changes</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getCompilationUnitChanges()
+	 * @see #getPackageChange()
+	 * @generated
+	 */
+	EReference getPackageChange_CompilationUnitChanges();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getSubPackages <em>Sub Packages</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Sub Packages</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getSubPackages()
+	 * @see #getPackageChange()
+	 * @generated
+	 */
+	EReference getPackageChange_SubPackages();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getPackageLeft <em>Package Left</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Package Left</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getPackageLeft()
+	 * @see #getPackageChange()
+	 * @generated
+	 */
+	EReference getPackageChange_PackageLeft();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getPackageRight <em>Package Right</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Package Right</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getPackageRight()
+	 * @see #getPackageChange()
+	 * @generated
+	 */
+	EReference getPackageChange_PackageRight();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3773,6 +3984,56 @@ public interface KDM2JavaDiffPackage extends EPackage {
 		 * @generated
 		 */
 		EReference COMPILATION_UNIT_CHANGE__IMPORT_DECLARATION_CHANGES = eINSTANCE.getCompilationUnitChange_ImportDeclarationChanges();
+
+		/**
+		 * The meta object literal for the '<em><b>Package Change</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE = eINSTANCE.getCompilationUnitChange_PackageChange();
+
+		/**
+		 * The meta object literal for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.PackageChangeImpl <em>Package Change</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.splevo.diffing.emfcompare.kdm2javadiff.impl.PackageChangeImpl
+		 * @see org.splevo.diffing.emfcompare.kdm2javadiff.impl.KDM2JavaDiffPackageImpl#getPackageChange()
+		 * @generated
+		 */
+		EClass PACKAGE_CHANGE = eINSTANCE.getPackageChange();
+
+		/**
+		 * The meta object literal for the '<em><b>Compilation Unit Changes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PACKAGE_CHANGE__COMPILATION_UNIT_CHANGES = eINSTANCE.getPackageChange_CompilationUnitChanges();
+
+		/**
+		 * The meta object literal for the '<em><b>Sub Packages</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PACKAGE_CHANGE__SUB_PACKAGES = eINSTANCE.getPackageChange_SubPackages();
+
+		/**
+		 * The meta object literal for the '<em><b>Package Left</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PACKAGE_CHANGE__PACKAGE_LEFT = eINSTANCE.getPackageChange_PackageLeft();
+
+		/**
+		 * The meta object literal for the '<em><b>Package Right</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PACKAGE_CHANGE__PACKAGE_RIGHT = eINSTANCE.getPackageChange_PackageRight();
 
 	}
 

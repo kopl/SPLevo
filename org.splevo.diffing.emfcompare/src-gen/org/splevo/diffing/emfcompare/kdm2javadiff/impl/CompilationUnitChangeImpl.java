@@ -8,6 +8,7 @@ package org.splevo.diffing.emfcompare.kdm2javadiff.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -17,13 +18,16 @@ import org.eclipse.emf.compare.diff.metamodel.impl.DiffGroupImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.splevo.diffing.emfcompare.kdm2javadiff.ClassChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.CompilationUnitChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
+import org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +38,7 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
  * <ul>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.CompilationUnitChangeImpl#getClassChanges <em>Class Changes</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.CompilationUnitChangeImpl#getImportDeclarationChanges <em>Import Declaration Changes</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.CompilationUnitChangeImpl#getPackageChange <em>Package Change</em>}</li>
  * </ul>
  * </p>
  *
@@ -108,6 +113,47 @@ public class CompilationUnitChangeImpl extends DiffGroupImpl implements Compilat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public PackageChange getPackageChange() {
+		if (eContainerFeatureID() != KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE) return null;
+		return (PackageChange)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetPackageChange(PackageChange newPackageChange, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newPackageChange, KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPackageChange(PackageChange newPackageChange) {
+		if (newPackageChange != eInternalContainer() || (eContainerFeatureID() != KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE && newPackageChange != null)) {
+			if (EcoreUtil.isAncestor(this, newPackageChange))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newPackageChange != null)
+				msgs = ((InternalEObject)newPackageChange).eInverseAdd(this, KDM2JavaDiffPackage.PACKAGE_CHANGE__COMPILATION_UNIT_CHANGES, PackageChange.class, msgs);
+			msgs = basicSetPackageChange(newPackageChange, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE, newPackageChange, newPackageChange));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -116,6 +162,10 @@ public class CompilationUnitChangeImpl extends DiffGroupImpl implements Compilat
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getClassChanges()).basicAdd(otherEnd, msgs);
 			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__IMPORT_DECLARATION_CHANGES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getImportDeclarationChanges()).basicAdd(otherEnd, msgs);
+			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetPackageChange((PackageChange)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -132,8 +182,24 @@ public class CompilationUnitChangeImpl extends DiffGroupImpl implements Compilat
 				return ((InternalEList<?>)getClassChanges()).basicRemove(otherEnd, msgs);
 			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__IMPORT_DECLARATION_CHANGES:
 				return ((InternalEList<?>)getImportDeclarationChanges()).basicRemove(otherEnd, msgs);
+			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE:
+				return basicSetPackageChange(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE:
+				return eInternalContainer().eInverseRemove(this, KDM2JavaDiffPackage.PACKAGE_CHANGE__COMPILATION_UNIT_CHANGES, PackageChange.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -148,6 +214,8 @@ public class CompilationUnitChangeImpl extends DiffGroupImpl implements Compilat
 				return getClassChanges();
 			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__IMPORT_DECLARATION_CHANGES:
 				return getImportDeclarationChanges();
+			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE:
+				return getPackageChange();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -169,6 +237,9 @@ public class CompilationUnitChangeImpl extends DiffGroupImpl implements Compilat
 				getImportDeclarationChanges().clear();
 				getImportDeclarationChanges().addAll((Collection<? extends ImportDeclarationChange>)newValue);
 				return;
+			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE:
+				setPackageChange((PackageChange)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -187,6 +258,9 @@ public class CompilationUnitChangeImpl extends DiffGroupImpl implements Compilat
 			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__IMPORT_DECLARATION_CHANGES:
 				getImportDeclarationChanges().clear();
 				return;
+			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE:
+				setPackageChange((PackageChange)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -203,6 +277,8 @@ public class CompilationUnitChangeImpl extends DiffGroupImpl implements Compilat
 				return classChanges != null && !classChanges.isEmpty();
 			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__IMPORT_DECLARATION_CHANGES:
 				return importDeclarationChanges != null && !importDeclarationChanges.isEmpty();
+			case KDM2JavaDiffPackage.COMPILATION_UNIT_CHANGE__PACKAGE_CHANGE:
+				return getPackageChange() != null;
 		}
 		return super.eIsSet(featureID);
 	}

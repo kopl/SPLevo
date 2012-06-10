@@ -52,6 +52,7 @@ public class KDM2JavaDiffTests extends TestSuite {
 		suite.addTestSuite(MethodInsertTest.class);
 		suite.addTestSuite(MethodDeleteTest.class);
 		suite.addTestSuite(CompilationUnitChangeTest.class);
+		suite.addTestSuite(PackageChangeTest.class);
 		return suite;
 	}
 

@@ -244,6 +244,11 @@ public class CompilationUnitChangeItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
+				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
+				 KDM2JavaDiffFactory.eINSTANCE.createPackageChange()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(KDM2JavaDiffPackage.Literals.COMPILATION_UNIT_CHANGE__CLASS_CHANGES,
 				 KDM2JavaDiffFactory.eINSTANCE.createClassChange()));
 

@@ -244,6 +244,11 @@ public class MethodChangeItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
+				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
+				 KDM2JavaDiffFactory.eINSTANCE.createPackageChange()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGE,
 				 KDM2JavaDiffFactory.eINSTANCE.createMethodModifierChange()));
 

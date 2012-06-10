@@ -179,6 +179,15 @@ public interface KDM2JavaDiffFactory extends EFactory {
 	CompilationUnitChange createCompilationUnitChange();
 
 	/**
+	 * Returns a new object of class '<em>Package Change</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Package Change</em>'.
+	 * @generated
+	 */
+	PackageChange createPackageChange();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

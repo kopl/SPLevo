@@ -20,6 +20,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
  * <ul>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.CompilationUnitChange#getClassChanges <em>Class Changes</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.CompilationUnitChange#getImportDeclarationChanges <em>Import Declaration Changes</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.CompilationUnitChange#getPackageChange <em>Package Change</em>}</li>
  * </ul>
  * </p>
  *
@@ -63,5 +64,33 @@ public interface CompilationUnitChange extends DiffGroup {
 	 * @generated
 	 */
 	EList<ImportDeclarationChange> getImportDeclarationChanges();
+
+	/**
+	 * Returns the value of the '<em><b>Package Change</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getCompilationUnitChanges <em>Compilation Unit Changes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Package Change</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Package Change</em>' container reference.
+	 * @see #setPackageChange(PackageChange)
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage#getCompilationUnitChange_PackageChange()
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.PackageChange#getCompilationUnitChanges
+	 * @model opposite="compilationUnitChanges" transient="false"
+	 * @generated
+	 */
+	PackageChange getPackageChange();
+
+	/**
+	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.CompilationUnitChange#getPackageChange <em>Package Change</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Package Change</em>' container reference.
+	 * @see #getPackageChange()
+	 * @generated
+	 */
+	void setPackageChange(PackageChange value);
 
 } // CompilationUnitChange
