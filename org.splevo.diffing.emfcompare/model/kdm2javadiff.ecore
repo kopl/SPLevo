@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="kdm2javadiff"
+    nsURI="http://www.eclipse.org/emf/compare/diff/kdm2java/1.0" nsPrefix="kdm2javadiff">
+  <eClassifiers xsi:type="ecore:EClass" name="KDM2JavaDiffExtension" abstract="true"
+      eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//AbstractDiffExtension platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An EMF Compare Diffing extension model specific for the kdm2java meta model extracted by the modisco tooling.&#xD;&#xA;&#xD;&#xA;This diffing uses the terms &quot;left model&quot; and &quot;right model&quot;. &#xD;&#xA;The right model identifies the original model.&#xD;&#xA;The left model the modified version."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementChange" abstract="true" interface="true"
+      eSuperTypes="#//KDM2JavaDiffExtension">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change on a statement level.&#xD;&#xA;Statements include simple statements as well as structural statements such as loops and conditions. Check the KDM/Java GAST model for details."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statementLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Statement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The statement in the left model which is the new modified version."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statementRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Statement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The statement in the right model which is the original version."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodChange" eType="#//MethodChange"
+        eOpposite="#//MethodChange/statementChanges"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementOrderChange" eSuperTypes="#//StatementChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change of a statement order. Statements are an ordered list within a parent element (e.g. a method or block statement). If the order is changed, the statement resides in the same parent element but the position in the ordered list is changed."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="statementIndexNew" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="statementIndexOld" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementInsert" eSuperTypes="#//StatementChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change representing a new statement which is only present in the left model. &#xD;&#xA;Accordingly the statementRight reference will always be null."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementDelete" eSuperTypes="#//StatementChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A statement that was deleted and is only present in the right model.&#xD;&#xA;Accordingly the statementLeft reference will always be null."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementMove" eSuperTypes="#//StatementChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Identifies a statement that has been moved into a different parent element."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentOld" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ASTNode">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The old parent in the program tree (should be part of the left model)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentNew" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ASTNode">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The new parent element in the program tree (should be part of the right model)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassDeclarationChange" abstract="true"
+      interface="true" eSuperTypes="#//KDM2JavaDiffExtension">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change on a class element."/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ClassDeclarationChange"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The class in the left model which is the new modified version."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The class in the right model which is the original version."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classChange" eType="#//ClassChange"
+        eOpposite="#//ClassChange/classDeclaractionChanges"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassInsert" eSuperTypes="#//ClassDeclarationChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change representing a new class which is only present in the left model. &#xD;&#xA;Accordingly the classRight reference will always be null."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassDelete" eSuperTypes="#//ClassDeclarationChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A class that was deleted and is only present in the right model.&#xD;&#xA;Accordingly the classLeft reference will always be null."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassModifierChange" eSuperTypes="#//ClassDeclarationChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A difference identifying that a classes modifier has been changed."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportDeclarationChange" abstract="true"
+      interface="true" eSuperTypes="#//KDM2JavaDiffExtension">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A difference identifying that an import has been changed."/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ImportDeclarationChange"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compilationUnitChange"
+        eType="#//CompilationUnitChange" eOpposite="#//CompilationUnitChange/importDeclarationChanges"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportInsert" eSuperTypes="#//ImportDeclarationChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change representing a new import which is only present in the left model. &#xD;&#xA;Accordingly the importRight reference will always be null."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportDelete" eSuperTypes="#//ImportDeclarationChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A import that was deleted and is only present in the right model.&#xD;&#xA;Accordingly the importLeft reference will always be null."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodDeclarationChange" abstract="true"
+      interface="true" eSuperTypes="#//KDM2JavaDiffExtension">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A differnece identifying a change about a method"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodChange" eType="#//MethodChange"
+        eOpposite="#//MethodChange/methodDeclarationChange"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodDeclarationLeft"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//MethodDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodDeclarationRight"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//MethodDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassChange" eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffGroup">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A class change group contains the changes in the classes declaration as well as the contained sub changes such as the changed methods within the class."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classDeclaractionChanges"
+        upperBound="-1" eType="#//ClassDeclarationChange" containment="true" eOpposite="#//ClassDeclarationChange/classChange">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The class desclaration changes of the class change group."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodChanges" lowerBound="1"
+        upperBound="-1" eType="#//MethodChange" containment="true" eOpposite="#//MethodChange/classChange"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compilationUnitChange"
+        eType="#//CompilationUnitChange" eOpposite="#//CompilationUnitChange/classChanges"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodChange" eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodDeclarationChange"
+        upperBound="-1" eType="#//MethodDeclarationChange" containment="true" eOpposite="#//MethodDeclarationChange/methodChange"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statementChanges" upperBound="-1"
+        eType="#//StatementChange" containment="true" eOpposite="#//StatementChange/methodChange"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classChange" eType="#//ClassChange"
+        eOpposite="#//ClassChange/methodChanges"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodModifierChange" eSuperTypes="#//MethodDeclarationChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnTypeChange" eSuperTypes="#//MethodDeclarationChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodParameterChange" eSuperTypes="#//MethodDeclarationChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodInsert" eSuperTypes="#//MethodDeclarationChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodDelete" eSuperTypes="#//MethodDeclarationChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompilationUnitChange" eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classChanges" upperBound="-1"
+        eType="#//ClassChange" containment="true" eOpposite="#//ClassChange/compilationUnitChange"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importDeclarationChanges"
+        upperBound="-1" eType="#//ImportDeclarationChange" containment="true" eOpposite="#//ImportDeclarationChange/compilationUnitChange"/>
+  </eClassifiers>
+</ecore:EPackage>
