@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffModelWizardID"
+            name="%_UI_KDM2JavaDiffModelWizard_label"
+            class="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/KDM2JavaDiffModelFile.gif">
+         <description>%_UI_KDM2JavaDiffModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffEditorID"
+            name="%_UI_KDM2JavaDiffEditor_label"
+            icon="icons/full/obj16/KDM2JavaDiffModelFile.gif"
+            extensions="KDM2JavaDiff"
+            class="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffEditor"
+            contributorClass="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
