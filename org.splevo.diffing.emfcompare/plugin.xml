@@ -5,8 +5,9 @@
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
-            class="org.splevo.diffing.emfcompare.EPackage1"
-            uri="kdm_diff.package1">
+            class="org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage"
+            genModel="model/kdm2javadiff.genmodel"
+            uri="http://www.eclipse.org/emf/compare/diff/kdm2java/1.0">
       </package>
    </extension>
    <extension
