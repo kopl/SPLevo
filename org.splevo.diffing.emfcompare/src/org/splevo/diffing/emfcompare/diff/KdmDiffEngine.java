@@ -2,6 +2,8 @@ package org.splevo.diffing.emfcompare.diff;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -28,6 +30,9 @@ import org.eclipse.gmt.modisco.omg.kdm.source.SourceFile;
 import org.eclipse.gmt.modisco.omg.kdm.source.SourceRegion;
 import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.eclipse.modisco.kdm.source.extension.ui.utils.Utils;
+import org.splevo.diffing.emfcompare.diff.handlers.ImportInsertHandler;
+import org.splevo.diffing.emfcompare.diff.handlers.Kdm2JavaDiffHandler;
+import org.splevo.diffing.emfcompare.diff.handlers.PackageChangeHandler;
 
 public class KdmDiffEngine extends GenericDiffEngine {
 
@@ -35,7 +40,6 @@ public class KdmDiffEngine extends GenericDiffEngine {
 	public DiffModel doDiff(MatchModel match, boolean threeWay) {
 		System.out.println("starting diff 1");
 		DiffModel diff = super.doDiff(match, threeWay);
-		traverseDiffModel(diff);
 		return diff;
 	}
 
@@ -44,7 +48,7 @@ public class KdmDiffEngine extends GenericDiffEngine {
 			IMatchManager manager) {
 		System.out.println("starting diff 2");
 		DiffModel diff = super.doDiff(match, threeWay, manager);
-		traverseDiffModel(diff);
+		executeTreeHandlers(diff);
 		return diff;
 	}
 
@@ -54,7 +58,7 @@ public class KdmDiffEngine extends GenericDiffEngine {
 		System.out.println("diff 3");
 		DiffModel diff = super.doDiffResourceSet(match, threeWay,
 				crossReferencer);
-		traverseDiffModel(diff);
+		executeTreeHandlers(diff);
 		return diff;
 	}
 
@@ -63,10 +67,38 @@ public class KdmDiffEngine extends GenericDiffEngine {
 			IMatchManager manager) {
 		System.out.println("diff 4");
 		DiffModel diff = super.doDiffResourceSet(match, threeWay, manager);
-		traverseDiffModel(diff);
+		executeTreeHandlers(diff);
 		return diff;
 	}
 
+	
+	
+	private void executeTreeHandlers(DiffModel diffModel) {
+		List<Kdm2JavaDiffHandler> handlers = new ArrayList<Kdm2JavaDiffHandler>();
+		handlers.add(new ImportInsertHandler());
+		handlers.add(new PackageChangeHandler());
+
+		for (TreeIterator<EObject> tIter = diffModel.eAllContents(); tIter
+				.hasNext();) {
+			EObject node = tIter.next();
+			if (node instanceof DiffElement) {
+				DiffElement diffElement = (DiffElement) node;
+				for (Kdm2JavaDiffHandler handler : handlers) {
+					if (handler.isValidSubtreeHandler(diffElement) && diffElement.eContainer() instanceof DiffElement) {
+						System.out.println("found handler " + handler.getClass() + " and handling " + diffElement);
+						DiffElement parent = (DiffElement) diffElement.eContainer();
+						
+						DiffElement processedElement = handler.handleSubtree(diffElement);
+						
+						//parent.getSubDiffElements().add(processedElement);
+						tIter.prune();
+					}
+				}
+			}
+		}
+	}
+	
+	@Deprecated
 	private void traverseDiffModel(DiffModel dModel) {
 		System.out.println("traversing diff model " + dModel.getClass());
 		/*
@@ -87,9 +119,11 @@ public class KdmDiffEngine extends GenericDiffEngine {
 		System.out.println("____________");
 		System.out.println("diff tree");
 		traverseDiffTreeForRefactorings(dModel);
+		System.out.println("____________");
 
 	}
 
+	@Deprecated
 	private void traverseDiffElement(DiffElement dElem, int indent) {
 		if (dElem instanceof DiffGroup
 				|| dElem instanceof ConflictingDiffElement) {
@@ -160,6 +194,7 @@ public class KdmDiffEngine extends GenericDiffEngine {
 	 * Test method that traverses the diff tree and looks for type refactorings in variable declaration.
 	 * @param diffModel the model to traverse
 	 */
+	@Deprecated
 	private void traverseDiffTreeForRefactorings(DiffModel diffModel) {
 		for (TreeIterator<EObject> tIter = diffModel.eAllContents(); tIter
 				.hasNext();) {
