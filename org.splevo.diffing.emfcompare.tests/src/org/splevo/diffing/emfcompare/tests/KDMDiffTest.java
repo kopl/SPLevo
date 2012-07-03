@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.splevo.diffing.emfcompare.diff.KdmDiffEngine;
+import org.splevo.diffing.emfcompare.diff.transform.DiffTreeTransformer;
 import org.splevo.diffing.emfcompare.merge.KdmMatchEngine;
 
 /**
@@ -188,9 +189,13 @@ public class KDMDiffTest {
 		newModelRes.getContents().add(snapshot);
 		final Map<String, String> saveOptions = new EMFCompareMap<String, String>();
 		saveOptions.put(XMLResource.OPTION_ENCODING,
-				System.getProperty("file.encoding"));
+				"UTF-8");
 		newModelRes.save(saveOptions);
+		
+		DiffTreeTransformer transformer = new DiffTreeTransformer();
+		transformer.convertModel(snapshot);
 	}
+	
 	
 	
 	/**

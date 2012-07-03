@@ -9,7 +9,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.diff.engine.GenericDiffEngine;
-import org.eclipse.emf.compare.diff.engine.IMatchManager;
 import org.eclipse.emf.compare.diff.metamodel.ConflictingDiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
@@ -43,14 +42,6 @@ public class KdmDiffEngine extends GenericDiffEngine {
 		return diff;
 	}
 
-	@Override
-	public DiffModel doDiff(MatchModel match, boolean threeWay,
-			IMatchManager manager) {
-		System.out.println("starting diff 2");
-		DiffModel diff = super.doDiff(match, threeWay, manager);
-		executeTreeHandlers(diff);
-		return diff;
-	}
 
 	@Override
 	public DiffModel doDiffResourceSet(MatchModel match, boolean threeWay,
@@ -58,15 +49,6 @@ public class KdmDiffEngine extends GenericDiffEngine {
 		System.out.println("diff 3");
 		DiffModel diff = super.doDiffResourceSet(match, threeWay,
 				crossReferencer);
-		executeTreeHandlers(diff);
-		return diff;
-	}
-
-	@Override
-	public DiffModel doDiffResourceSet(MatchModel match, boolean threeWay,
-			IMatchManager manager) {
-		System.out.println("diff 4");
-		DiffModel diff = super.doDiffResourceSet(match, threeWay, manager);
 		executeTreeHandlers(diff);
 		return diff;
 	}

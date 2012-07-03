@@ -54,7 +54,6 @@ public class CompilationUnitChangeImpl extends DiffGroupImpl implements Compilat
 	 * @ordered
 	 */
 	protected EList<ClassChange> classChanges;
-
 	/**
 	 * The cached value of the '{@link #getImportDeclarationChanges() <em>Import Declaration Changes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
