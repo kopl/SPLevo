@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -20,7 +19,6 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.splevo.diffing.emfcompare.kdm2javadiff.ImportDelete;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
 
@@ -124,12 +122,16 @@ public class ImportDeleteItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
 		ImportDelete importDelete = (ImportDelete)object;
-		return getString("_UI_ImportDelete_type") + " " + importDelete.isIsCollapsed();
+		String importName = "";
+		if(importDelete.getImportRight() != null){
+			importName = importDelete.getImportRight().getImportedElement().getName();
+		}
+		return getString("_UI_ImportDelete_type", new Object[] {importName});
 	}
 
 	/**

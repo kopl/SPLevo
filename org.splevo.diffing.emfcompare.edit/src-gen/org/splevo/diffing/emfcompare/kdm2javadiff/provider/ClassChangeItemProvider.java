@@ -30,6 +30,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.splevo.diffing.emfcompare.kdm2javadiff.ClassChange;
+import org.splevo.diffing.emfcompare.kdm2javadiff.ClassDeclarationChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
 
@@ -117,13 +118,31 @@ public class ClassChangeItemProvider
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
+	 * 
+	 * Adapted class change label to check if it contains at least on class declaration change. 
+	 * If this is the case, the corresponding class declaration is loaded and the name is presented.
+	 * If available, the left class is used, if not the right one is chosen as an alternative.
+	 * 
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
 		ClassChange classChange = (ClassChange)object;
-		return getString("_UI_ClassChange_type") + " " + classChange.isConflicting();
+		String className = "";
+		if(classChange.getClassDeclaractionChanges() != null
+				&& classChange.getClassDeclaractionChanges().size() > 0){
+			ClassDeclarationChange cdChange = classChange.getClassDeclaractionChanges().get(0);
+			
+			if(cdChange != null && cdChange.getClassLeft() != null){
+				className = cdChange.getClassLeft().getName();
+			
+			} else if(cdChange != null && cdChange.getClassRight() != null){
+				className = cdChange.getClassRight().getName();
+			}
+			
+		}
+		return getString("_UI_ClassChange_type", new Object[] {className});
 	}
 
 	/**

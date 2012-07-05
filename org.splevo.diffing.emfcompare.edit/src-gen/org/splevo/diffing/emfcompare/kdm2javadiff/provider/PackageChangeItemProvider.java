@@ -164,13 +164,19 @@ public class PackageChangeItemProvider
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
+	 * If a package is referenced, this the name of the package is used for the output.
+	 * 
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
 		PackageChange packageChange = (PackageChange)object;
-		return getString("_UI_PackageChange_type") + " " + packageChange.isConflicting();
+		String packageName = "";
+		if(packageChange.getPackageLeft() != null){
+			packageName = packageChange.getPackageLeft().getName();
+		}
+		return getString("_UI_PackageChange_type",new Object[] {packageName});
 	}
 
 	/**
