@@ -33,7 +33,7 @@ import org.eclipse.gmt.modisco.java.MethodDeclaration;
 public interface MethodDeclarationChange extends KDM2JavaDiffExtension {
 	/**
 	 * Returns the value of the '<em><b>Method Change</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChange <em>Method Declaration Change</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChanges <em>Method Declaration Changes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Method Change</em>' container reference isn't clear,
@@ -43,8 +43,8 @@ public interface MethodDeclarationChange extends KDM2JavaDiffExtension {
 	 * @return the value of the '<em>Method Change</em>' container reference.
 	 * @see #setMethodChange(MethodChange)
 	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage#getMethodDeclarationChange_MethodChange()
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChange
-	 * @model opposite="methodDeclarationChange" transient="false"
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChanges
+	 * @model opposite="methodDeclarationChanges" transient="false"
 	 * @generated
 	 */
 	MethodChange getMethodChange();

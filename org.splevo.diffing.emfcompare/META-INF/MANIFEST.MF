@@ -20,4 +20,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.diffing.emfcompare.diff,
  org.splevo.diffing.emfcompare.kdm2javadiff,
- org.splevo.diffing.emfcompare.kdm2javadiff.util
+ org.splevo.diffing.emfcompare.kdm2javadiff.util,
+ org.splevo.diffing.emfcompare.util

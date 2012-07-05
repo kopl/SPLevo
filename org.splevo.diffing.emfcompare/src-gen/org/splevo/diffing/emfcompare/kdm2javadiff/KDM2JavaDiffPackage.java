@@ -1779,13 +1779,13 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int METHOD_CHANGE__SUBCHANGES = DiffPackage.DIFF_GROUP__SUBCHANGES;
 
 	/**
-	 * The feature id for the '<em><b>Method Declaration Change</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Method Declaration Changes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METHOD_CHANGE__METHOD_DECLARATION_CHANGE = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 0;
+	int METHOD_CHANGE__METHOD_DECLARATION_CHANGES = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Statement Changes</b></em>' containment reference list.
@@ -2958,15 +2958,15 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	EClass getMethodChange();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChange <em>Method Declaration Change</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChanges <em>Method Declaration Changes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Method Declaration Change</em>'.
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChange()
+	 * @return the meta object for the containment reference list '<em>Method Declaration Changes</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChanges()
 	 * @see #getMethodChange()
 	 * @generated
 	 */
-	EReference getMethodChange_MethodDeclarationChange();
+	EReference getMethodChange_MethodDeclarationChanges();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getStatementChanges <em>Statement Changes</em>}'.
@@ -3472,12 +3472,12 @@ public interface KDM2JavaDiffPackage extends EPackage {
 		EClass METHOD_CHANGE = eINSTANCE.getMethodChange();
 
 		/**
-		 * The meta object literal for the '<em><b>Method Declaration Change</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Method Declaration Changes</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference METHOD_CHANGE__METHOD_DECLARATION_CHANGE = eINSTANCE.getMethodChange_MethodDeclarationChange();
+		EReference METHOD_CHANGE__METHOD_DECLARATION_CHANGES = eINSTANCE.getMethodChange_MethodDeclarationChanges();
 
 		/**
 		 * The meta object literal for the '<em><b>Statement Changes</b></em>' containment reference list feature.

@@ -37,7 +37,7 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.StatementChange;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.MethodChangeImpl#getMethodDeclarationChange <em>Method Declaration Change</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.MethodChangeImpl#getMethodDeclarationChanges <em>Method Declaration Changes</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.MethodChangeImpl#getStatementChanges <em>Statement Changes</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.MethodChangeImpl#getClassChange <em>Class Change</em>}</li>
  * </ul>
@@ -47,14 +47,14 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.StatementChange;
  */
 public class MethodChangeImpl extends DiffGroupImpl implements MethodChange {
 	/**
-	 * The cached value of the '{@link #getMethodDeclarationChange() <em>Method Declaration Change</em>}' containment reference list.
+	 * The cached value of the '{@link #getMethodDeclarationChanges() <em>Method Declaration Changes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getMethodDeclarationChange()
+	 * @see #getMethodDeclarationChanges()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<MethodDeclarationChange> methodDeclarationChange;
+	protected EList<MethodDeclarationChange> methodDeclarationChanges;
 
 	/**
 	 * The cached value of the '{@link #getStatementChanges() <em>Statement Changes</em>}' containment reference list.
@@ -90,11 +90,11 @@ public class MethodChangeImpl extends DiffGroupImpl implements MethodChange {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<MethodDeclarationChange> getMethodDeclarationChange() {
-		if (methodDeclarationChange == null) {
-			methodDeclarationChange = new EObjectContainmentWithInverseEList<MethodDeclarationChange>(MethodDeclarationChange.class, this, KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE, KDM2JavaDiffPackage.METHOD_DECLARATION_CHANGE__METHOD_CHANGE);
+	public EList<MethodDeclarationChange> getMethodDeclarationChanges() {
+		if (methodDeclarationChanges == null) {
+			methodDeclarationChanges = new EObjectContainmentWithInverseEList<MethodDeclarationChange>(MethodDeclarationChange.class, this, KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES, KDM2JavaDiffPackage.METHOD_DECLARATION_CHANGE__METHOD_CHANGE);
 		}
-		return methodDeclarationChange;
+		return methodDeclarationChanges;
 	}
 
 	/**
@@ -159,8 +159,8 @@ public class MethodChangeImpl extends DiffGroupImpl implements MethodChange {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getMethodDeclarationChange()).basicAdd(otherEnd, msgs);
+			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getMethodDeclarationChanges()).basicAdd(otherEnd, msgs);
 			case KDM2JavaDiffPackage.METHOD_CHANGE__STATEMENT_CHANGES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getStatementChanges()).basicAdd(otherEnd, msgs);
 			case KDM2JavaDiffPackage.METHOD_CHANGE__CLASS_CHANGE:
@@ -179,8 +179,8 @@ public class MethodChangeImpl extends DiffGroupImpl implements MethodChange {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE:
-				return ((InternalEList<?>)getMethodDeclarationChange()).basicRemove(otherEnd, msgs);
+			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES:
+				return ((InternalEList<?>)getMethodDeclarationChanges()).basicRemove(otherEnd, msgs);
 			case KDM2JavaDiffPackage.METHOD_CHANGE__STATEMENT_CHANGES:
 				return ((InternalEList<?>)getStatementChanges()).basicRemove(otherEnd, msgs);
 			case KDM2JavaDiffPackage.METHOD_CHANGE__CLASS_CHANGE:
@@ -211,8 +211,8 @@ public class MethodChangeImpl extends DiffGroupImpl implements MethodChange {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE:
-				return getMethodDeclarationChange();
+			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES:
+				return getMethodDeclarationChanges();
 			case KDM2JavaDiffPackage.METHOD_CHANGE__STATEMENT_CHANGES:
 				return getStatementChanges();
 			case KDM2JavaDiffPackage.METHOD_CHANGE__CLASS_CHANGE:
@@ -230,9 +230,9 @@ public class MethodChangeImpl extends DiffGroupImpl implements MethodChange {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE:
-				getMethodDeclarationChange().clear();
-				getMethodDeclarationChange().addAll((Collection<? extends MethodDeclarationChange>)newValue);
+			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES:
+				getMethodDeclarationChanges().clear();
+				getMethodDeclarationChanges().addAll((Collection<? extends MethodDeclarationChange>)newValue);
 				return;
 			case KDM2JavaDiffPackage.METHOD_CHANGE__STATEMENT_CHANGES:
 				getStatementChanges().clear();
@@ -253,8 +253,8 @@ public class MethodChangeImpl extends DiffGroupImpl implements MethodChange {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE:
-				getMethodDeclarationChange().clear();
+			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES:
+				getMethodDeclarationChanges().clear();
 				return;
 			case KDM2JavaDiffPackage.METHOD_CHANGE__STATEMENT_CHANGES:
 				getStatementChanges().clear();
@@ -274,8 +274,8 @@ public class MethodChangeImpl extends DiffGroupImpl implements MethodChange {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE:
-				return methodDeclarationChange != null && !methodDeclarationChange.isEmpty();
+			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES:
+				return methodDeclarationChanges != null && !methodDeclarationChanges.isEmpty();
 			case KDM2JavaDiffPackage.METHOD_CHANGE__STATEMENT_CHANGES:
 				return statementChanges != null && !statementChanges.isEmpty();
 			case KDM2JavaDiffPackage.METHOD_CHANGE__CLASS_CHANGE:

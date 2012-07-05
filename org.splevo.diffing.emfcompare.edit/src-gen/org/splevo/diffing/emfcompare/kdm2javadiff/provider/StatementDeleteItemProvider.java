@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -20,7 +19,6 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
 import org.splevo.diffing.emfcompare.kdm2javadiff.StatementDelete;
 
@@ -124,12 +122,16 @@ public class StatementDeleteItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
 		StatementDelete statementDelete = (StatementDelete)object;
-		return getString("_UI_StatementDelete_type") + " " + statementDelete.isIsCollapsed();
+		String statementName = "";
+		if(statementDelete.getStatementRight() != null){
+			statementName = statementDelete.getStatementRight().toString();
+		}
+		return getString("_UI_StatementDelete_type", new Object[] {statementName});
 	}
 
 	/**

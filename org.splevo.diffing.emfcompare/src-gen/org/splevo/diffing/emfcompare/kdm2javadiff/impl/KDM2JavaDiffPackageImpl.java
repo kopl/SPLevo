@@ -596,7 +596,7 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMethodChange_MethodDeclarationChange() {
+	public EReference getMethodChange_MethodDeclarationChanges() {
 		return (EReference)methodChangeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -822,7 +822,7 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		createEReference(classChangeEClass, CLASS_CHANGE__COMPILATION_UNIT_CHANGE);
 
 		methodChangeEClass = createEClass(METHOD_CHANGE);
-		createEReference(methodChangeEClass, METHOD_CHANGE__METHOD_DECLARATION_CHANGE);
+		createEReference(methodChangeEClass, METHOD_CHANGE__METHOD_DECLARATION_CHANGES);
 		createEReference(methodChangeEClass, METHOD_CHANGE__STATEMENT_CHANGES);
 		createEReference(methodChangeEClass, METHOD_CHANGE__CLASS_CHANGE);
 
@@ -946,7 +946,7 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		initEClass(importDeleteEClass, ImportDelete.class, "ImportDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(methodDeclarationChangeEClass, MethodDeclarationChange.class, "MethodDeclarationChange", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMethodDeclarationChange_MethodChange(), this.getMethodChange(), this.getMethodChange_MethodDeclarationChange(), "methodChange", null, 0, 1, MethodDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMethodDeclarationChange_MethodChange(), this.getMethodChange(), this.getMethodChange_MethodDeclarationChanges(), "methodChange", null, 0, 1, MethodDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMethodDeclarationChange_MethodDeclarationLeft(), theJavaPackage.getMethodDeclaration(), null, "methodDeclarationLeft", null, 0, 1, MethodDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMethodDeclarationChange_MethodDeclarationRight(), theJavaPackage.getMethodDeclaration(), null, "methodDeclarationRight", null, 0, 1, MethodDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -956,7 +956,7 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		initEReference(getClassChange_CompilationUnitChange(), this.getCompilationUnitChange(), this.getCompilationUnitChange_ClassChanges(), "compilationUnitChange", null, 0, 1, ClassChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(methodChangeEClass, MethodChange.class, "MethodChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMethodChange_MethodDeclarationChange(), this.getMethodDeclarationChange(), this.getMethodDeclarationChange_MethodChange(), "methodDeclarationChange", null, 0, -1, MethodChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMethodChange_MethodDeclarationChanges(), this.getMethodDeclarationChange(), this.getMethodDeclarationChange_MethodChange(), "methodDeclarationChanges", null, 0, -1, MethodChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMethodChange_StatementChanges(), this.getStatementChange(), this.getStatementChange_MethodChange(), "statementChanges", null, 0, -1, MethodChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMethodChange_ClassChange(), this.getClassChange(), this.getClassChange_MethodChanges(), "classChange", null, 0, 1, MethodChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

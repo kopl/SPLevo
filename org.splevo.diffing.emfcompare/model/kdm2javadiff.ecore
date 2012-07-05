@@ -128,7 +128,7 @@
       <details key="documentation" value="A differnece identifying a change about a method"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="methodChange" eType="#//MethodChange"
-        eOpposite="#//MethodChange/methodDeclarationChange"/>
+        eOpposite="#//MethodChange/methodDeclarationChanges"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="methodDeclarationLeft"
         eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//MethodDeclaration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="methodDeclarationRight"
@@ -150,7 +150,7 @@
         eType="#//CompilationUnitChange" eOpposite="#//CompilationUnitChange/classChanges"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MethodChange" eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffGroup">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="methodDeclarationChange"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodDeclarationChanges"
         upperBound="-1" eType="#//MethodDeclarationChange" containment="true" eOpposite="#//MethodDeclarationChange/methodChange"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="statementChanges" upperBound="-1"
         eType="#//StatementChange" containment="true" eOpposite="#//StatementChange/methodChange"/>

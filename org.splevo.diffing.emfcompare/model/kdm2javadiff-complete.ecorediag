@@ -895,7 +895,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_mSlgwbInEeGw0eB6u4Op8Q" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_mSlgwrInEeGw0eB6u4Op8Q" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="kdm2javadiff.ecore#//MethodChange/methodDeclarationChange"/>
+    <element xmi:type="ecore:EReference" href="kdm2javadiff.ecore#//MethodChange/methodDeclarationChanges"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mSlgw7InEeGw0eB6u4Op8Q" points="[0, 37, 78, -183]$[0, 220, 78, 0]$[-47, 220, 31, 0]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="__8CnNLInEeGw0eB6u4Op8Q" id="(0.36428571428571427,0.22448979591836735)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="__8It0LInEeGw0eB6u4Op8Q" id="(0.8597285067873304,0.1836734693877551)"/>

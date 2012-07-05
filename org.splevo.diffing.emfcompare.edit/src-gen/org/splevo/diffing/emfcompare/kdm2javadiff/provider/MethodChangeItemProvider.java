@@ -12,15 +12,10 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
-
 import org.eclipse.emf.compare.diff.provider.DiffGroupItemProvider;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -28,10 +23,11 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
 import org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange;
+import org.splevo.diffing.emfcompare.kdm2javadiff.MethodDeclarationChange;
+import org.splevo.diffing.emfcompare.kdm2javadiff.StatementChange;
 
 /**
  * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange} object.
@@ -84,7 +80,7 @@ public class MethodChangeItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGE);
+			childrenFeatures.add(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGES);
 			childrenFeatures.add(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__STATEMENT_CHANGES);
 		}
 		return childrenFeatures;
@@ -117,13 +113,49 @@ public class MethodChangeItemProvider
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
+	 * Modified label.
+	 * Method makes use of the method declaration changes statement changes to identify the method 
+	 * the changes are about.
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
+		
 		MethodChange methodChange = (MethodChange)object;
-		return getString("_UI_MethodChange_type") + " " + methodChange.isConflicting();
+
+		StringBuilder label = new StringBuilder();
+
+		label.append(methodChange.getSubchanges());
+		label.append(" ");
+		
+		label.append(getString("_UI_MethodChange_type"));
+		
+		// check if there is a method declaration change in this 
+		// group and try to get the name of the reference method
+		if(methodChange.getMethodDeclarationChanges().size() > 0){
+			MethodDeclarationChange declarationChange = methodChange.getMethodDeclarationChanges().iterator().next();
+			if(declarationChange.getMethodDeclarationLeft() != null){
+				label.append(" ");
+				label.append(declarationChange.getMethodDeclarationLeft().getName());
+			} else if(declarationChange.getMethodDeclarationRight() != null){
+				label.append(" ");
+				label.append(declarationChange.getMethodDeclarationRight().getName());
+			}
+		
+		// check the statement changes
+		} else if(methodChange.getStatementChanges().size() > 0){
+			StatementChange statementChange = methodChange.getStatementChanges().iterator().next();
+			if(statementChange.getStatementLeft() != null){
+				label.append(" ");
+				label.append(statementChange.getStatementLeft().eContainer().toString());
+			} else if(statementChange.getStatementRight() != null){
+				label.append(" ");
+				label.append(statementChange.getStatementLeft().eContainer().toString());
+			}
+		}
+		
+		return label.toString();
 	}
 
 	/**
@@ -138,7 +170,7 @@ public class MethodChangeItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MethodChange.class)) {
-			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE:
+			case KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES:
 			case KDM2JavaDiffPackage.METHOD_CHANGE__STATEMENT_CHANGES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -249,27 +281,27 @@ public class MethodChangeItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGE,
+				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGES,
 				 KDM2JavaDiffFactory.eINSTANCE.createMethodModifierChange()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGE,
+				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGES,
 				 KDM2JavaDiffFactory.eINSTANCE.createReturnTypeChange()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGE,
+				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGES,
 				 KDM2JavaDiffFactory.eINSTANCE.createMethodParameterChange()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGE,
+				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGES,
 				 KDM2JavaDiffFactory.eINSTANCE.createMethodInsert()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGE,
+				(KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGES,
 				 KDM2JavaDiffFactory.eINSTANCE.createMethodDelete()));
 
 		newChildDescriptors.add
@@ -307,7 +339,7 @@ public class MethodChangeItemProvider
 		boolean qualify =
 			childFeature == DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS ||
 			childFeature == KDM2JavaDiffPackage.Literals.METHOD_CHANGE__STATEMENT_CHANGES ||
-			childFeature == KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGE;
+			childFeature == KDM2JavaDiffPackage.Literals.METHOD_CHANGE__METHOD_DECLARATION_CHANGES;
 
 		if (qualify) {
 			return getString

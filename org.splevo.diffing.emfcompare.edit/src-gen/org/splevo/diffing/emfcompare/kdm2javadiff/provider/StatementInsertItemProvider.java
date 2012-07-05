@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -20,7 +19,6 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
 import org.splevo.diffing.emfcompare.kdm2javadiff.StatementInsert;
 
@@ -124,12 +122,16 @@ public class StatementInsertItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
 		StatementInsert statementInsert = (StatementInsert)object;
-		return getString("_UI_StatementInsert_type") + " " + statementInsert.isIsCollapsed();
+		String statementName = "";
+		if(statementInsert.getStatementLeft() != null){
+			statementName = statementInsert.getStatementLeft().toString();
+		}
+		return getString("_UI_StatementInsert_type", new Object[] {statementName});
 	}
 
 	/**

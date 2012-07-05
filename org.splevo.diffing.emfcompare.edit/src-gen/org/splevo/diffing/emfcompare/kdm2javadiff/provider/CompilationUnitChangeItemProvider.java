@@ -12,15 +12,10 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
-
 import org.eclipse.emf.compare.diff.provider.DiffGroupItemProvider;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -28,10 +23,16 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
+import org.eclipse.gmt.modisco.java.CompilationUnit;
+import org.splevo.diffing.emfcompare.kdm2javadiff.ClassChange;
+import org.splevo.diffing.emfcompare.kdm2javadiff.ClassDeclarationChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.CompilationUnitChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
+import org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange;
+import org.splevo.diffing.emfcompare.kdm2javadiff.MethodDeclarationChange;
+import org.splevo.diffing.emfcompare.kdm2javadiff.StatementChange;
+import org.splevo.diffing.emfcompare.util.ChangeUtil;
 
 /**
  * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.CompilationUnitChange} object.
@@ -117,13 +118,66 @@ public class CompilationUnitChangeItemProvider
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
+	 * Adds the number of sub changes to the string and tries to identify a compilation unit name
+	 * from the sub changes.
+	 * It might happen that there is no compilation unit in place. 
+	 * In such a case, a default label will be added.
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
+		
+		StringBuilder label = new StringBuilder();
+
 		CompilationUnitChange compilationUnitChange = (CompilationUnitChange)object;
-		return getString("_UI_CompilationUnitChange_type") + " " + compilationUnitChange.isConflicting();
+		label.append(compilationUnitChange.getSubchanges());
+		label.append(" ");
+		
+		label.append(getString("_UI_CompilationUnitChange_type"));
+		
+		CompilationUnit compUnit = null;
+		
+		// check the concrete sub types
+		if(compilationUnitChange.getClassChanges().size() > 0){
+			ClassChange classChange = compilationUnitChange.getClassChanges().iterator().next();
+			
+			// try to get the compilation unit from class declaration change
+			if(classChange.getClassDeclaractionChanges().size() > 0){
+				ClassDeclarationChange classDeclarationChange = classChange.getClassDeclaractionChanges().iterator().next();
+				compUnit = ChangeUtil.getCompilationUnit(classDeclarationChange);
+			}
+			
+			// try to get the compilation unit from method declaration change
+			if(classChange.getMethodChanges().size() > 0){
+				MethodChange methodChange = classChange.getMethodChanges().iterator().next();
+				
+				// check the method declarations
+				if(methodChange.getMethodDeclarationChanges().size() > 0){
+					MethodDeclarationChange methodDeclarationChange = methodChange.getMethodDeclarationChanges().iterator().next();
+					compUnit = ChangeUtil.getCompilationUnit(methodDeclarationChange);
+				}
+				
+				// check the statement changes
+				if(methodChange.getStatementChanges().size() > 0){
+					StatementChange statementChange = methodChange.getStatementChanges().iterator().next();
+					compUnit = ChangeUtil.getCompilationUnit(statementChange);
+				}
+			}
+		}
+		
+		// check the common sub diff elements list if none specific type has been identified
+		compUnit = ChangeUtil.getCompilationUnit(compilationUnitChange.getSubDiffElements().iterator().next());
+		
+		// append the compilation unit
+		label.append(" ");
+		if(compUnit != null){
+			label.append(compUnit.getName());
+		} else {
+			label.append(getString("_UI_Unknown_type"));
+		}
+
+		return label.toString();
 	}
 
 	/**

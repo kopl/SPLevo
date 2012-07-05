@@ -15,6 +15,7 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
 
 import org.eclipse.emf.compare.diff.provider.DiffGroupItemProvider;
@@ -164,19 +165,29 @@ public class PackageChangeItemProvider
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
-	 * If a package is referenced, this the name of the package is used for the output.
+	 * If a package is referenced, the name of the package is used for the output.
 	 * 
 	 * <!-- end-user-doc -->
 	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
+		
+		StringBuilder label = new StringBuilder();
+
+		final DiffGroup group = (DiffGroup)object;
+		label.append(group.getSubchanges());
+		label.append(" ");
+		
+		label.append(getString("_UI_PackageChange_type"));
+		
 		PackageChange packageChange = (PackageChange)object;
-		String packageName = "";
 		if(packageChange.getPackageLeft() != null){
-			packageName = packageChange.getPackageLeft().getName();
+			label.append(" ");
+			label.append(packageChange.getPackageLeft().getName());
 		}
-		return getString("_UI_PackageChange_type",new Object[] {packageName});
+
+		return label.toString();
 	}
 
 	/**

@@ -18,7 +18,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChange <em>Method Declaration Change</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getMethodDeclarationChanges <em>Method Declaration Changes</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getStatementChanges <em>Statement Changes</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange#getClassChange <em>Class Change</em>}</li>
  * </ul>
@@ -30,22 +30,22 @@ import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
  */
 public interface MethodChange extends DiffGroup {
 	/**
-	 * Returns the value of the '<em><b>Method Declaration Change</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Method Declaration Changes</b></em>' containment reference list.
 	 * The list contents are of type {@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodDeclarationChange}.
 	 * It is bidirectional and its opposite is '{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodDeclarationChange#getMethodChange <em>Method Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Method Declaration Change</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Method Declaration Changes</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Method Declaration Change</em>' containment reference list.
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage#getMethodChange_MethodDeclarationChange()
+	 * @return the value of the '<em>Method Declaration Changes</em>' containment reference list.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage#getMethodChange_MethodDeclarationChanges()
 	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.MethodDeclarationChange#getMethodChange
 	 * @model opposite="methodChange" containment="true"
 	 * @generated
 	 */
-	EList<MethodDeclarationChange> getMethodDeclarationChange();
+	EList<MethodDeclarationChange> getMethodDeclarationChanges();
 
 	/**
 	 * Returns the value of the '<em><b>Statement Changes</b></em>' containment reference list.

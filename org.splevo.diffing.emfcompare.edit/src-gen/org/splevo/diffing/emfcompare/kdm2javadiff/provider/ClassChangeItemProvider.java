@@ -12,15 +12,10 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
-
 import org.eclipse.emf.compare.diff.provider.DiffGroupItemProvider;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -28,11 +23,12 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
+import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.splevo.diffing.emfcompare.kdm2javadiff.ClassChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.ClassDeclarationChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
 import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
+import org.splevo.diffing.emfcompare.util.ChangeUtil;
 
 /**
  * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.ClassChange} object.
@@ -128,21 +124,40 @@ public class ClassChangeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		ClassChange classChange = (ClassChange)object;
-		String className = "";
-		if(classChange.getClassDeclaractionChanges() != null
-				&& classChange.getClassDeclaractionChanges().size() > 0){
+
+		StringBuilder label = new StringBuilder();
+
+		ClassChange classChange = (ClassChange) object;
+		label.append(classChange.getSubchanges());
+		label.append(" ");
+
+		label.append(getString("_UI_ClassChange_type"));
+		
+		ClassDeclaration classDecl = null;
+
+		if (classChange.getClassDeclaractionChanges().size() > 0) {
 			ClassDeclarationChange cdChange = classChange.getClassDeclaractionChanges().get(0);
-			
-			if(cdChange != null && cdChange.getClassLeft() != null){
-				className = cdChange.getClassLeft().getName();
-			
-			} else if(cdChange != null && cdChange.getClassRight() != null){
-				className = cdChange.getClassRight().getName();
+
+			if (cdChange != null && cdChange.getClassLeft() != null) {
+				classDecl = cdChange.getClassLeft();
+
+			} else if (cdChange != null && cdChange.getClassRight() != null) {
+				classDecl = cdChange.getClassRight();
 			}
-			
 		}
-		return getString("_UI_ClassChange_type", new Object[] {className});
+		
+		// check the common sub diff elements list if none specific type has been identified
+		classDecl = ChangeUtil.getClassDeclaration(classChange.getSubDiffElements().iterator().next());
+		
+		// append the compilation unit
+		label.append(" ");
+		if(classDecl != null){
+			label.append(classDecl.getName());
+		} else {
+			label.append(getString("_UI_Unknown_type"));
+		}
+
+		return label.toString();
 	}
 
 	/**

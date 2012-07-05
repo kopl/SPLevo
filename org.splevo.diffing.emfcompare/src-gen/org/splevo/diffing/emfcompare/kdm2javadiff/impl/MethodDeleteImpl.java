@@ -110,7 +110,7 @@ public class MethodDeleteImpl extends KDM2JavaDiffExtensionImpl implements Metho
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newMethodChange != null)
-				msgs = ((InternalEObject)newMethodChange).eInverseAdd(this, KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE, MethodChange.class, msgs);
+				msgs = ((InternalEObject)newMethodChange).eInverseAdd(this, KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES, MethodChange.class, msgs);
 			msgs = basicSetMethodChange(newMethodChange, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -233,7 +233,7 @@ public class MethodDeleteImpl extends KDM2JavaDiffExtensionImpl implements Metho
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case KDM2JavaDiffPackage.METHOD_DELETE__METHOD_CHANGE:
-				return eInternalContainer().eInverseRemove(this, KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGE, MethodChange.class, msgs);
+				return eInternalContainer().eInverseRemove(this, KDM2JavaDiffPackage.METHOD_CHANGE__METHOD_DECLARATION_CHANGES, MethodChange.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
