@@ -20,8 +20,8 @@ import org.eclipse.gmt.modisco.java.ASTNode;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentOld <em>Parent Old</em>}</li>
- *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentNew <em>Parent New</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentLeft <em>Parent Left</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentRight <em>Parent Right</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,53 +31,53 @@ import org.eclipse.gmt.modisco.java.ASTNode;
  */
 public interface StatementMove extends StatementChange {
 	/**
-	 * Returns the value of the '<em><b>Parent Old</b></em>' reference.
+	 * Returns the value of the '<em><b>Parent Left</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The old parent in the program tree (should be part of the left model)
+	 * The parent in the left program tree
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Parent Old</em>' reference.
-	 * @see #setParentOld(ASTNode)
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage#getStatementMove_ParentOld()
+	 * @return the value of the '<em>Parent Left</em>' reference.
+	 * @see #setParentLeft(ASTNode)
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage#getStatementMove_ParentLeft()
 	 * @model required="true"
 	 * @generated
 	 */
-	ASTNode getParentOld();
+	ASTNode getParentLeft();
 
 	/**
-	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentOld <em>Parent Old</em>}' reference.
+	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentLeft <em>Parent Left</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Parent Old</em>' reference.
-	 * @see #getParentOld()
+	 * @param value the new value of the '<em>Parent Left</em>' reference.
+	 * @see #getParentLeft()
 	 * @generated
 	 */
-	void setParentOld(ASTNode value);
+	void setParentLeft(ASTNode value);
 
 	/**
-	 * Returns the value of the '<em><b>Parent New</b></em>' reference.
+	 * Returns the value of the '<em><b>Parent Right</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The new parent element in the program tree (should be part of the right model)
+	 * The new parent element in the right program tree
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Parent New</em>' reference.
-	 * @see #setParentNew(ASTNode)
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage#getStatementMove_ParentNew()
+	 * @return the value of the '<em>Parent Right</em>' reference.
+	 * @see #setParentRight(ASTNode)
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage#getStatementMove_ParentRight()
 	 * @model required="true"
 	 * @generated
 	 */
-	ASTNode getParentNew();
+	ASTNode getParentRight();
 
 	/**
-	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentNew <em>Parent New</em>}' reference.
+	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentRight <em>Parent Right</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Parent New</em>' reference.
-	 * @see #getParentNew()
+	 * @param value the new value of the '<em>Parent Right</em>' reference.
+	 * @see #getParentRight()
 	 * @generated
 	 */
-	void setParentNew(ASTNode value);
+	void setParentRight(ASTNode value);
 
 } // StatementMove

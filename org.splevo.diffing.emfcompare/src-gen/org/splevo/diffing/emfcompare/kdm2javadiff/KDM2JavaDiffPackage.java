@@ -698,22 +698,22 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int STATEMENT_MOVE__METHOD_CHANGE = STATEMENT_CHANGE__METHOD_CHANGE;
 
 	/**
-	 * The feature id for the '<em><b>Parent Old</b></em>' reference.
+	 * The feature id for the '<em><b>Parent Left</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_MOVE__PARENT_OLD = STATEMENT_CHANGE_FEATURE_COUNT + 0;
+	int STATEMENT_MOVE__PARENT_LEFT = STATEMENT_CHANGE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Parent New</b></em>' reference.
+	 * The feature id for the '<em><b>Parent Right</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_MOVE__PARENT_NEW = STATEMENT_CHANGE_FEATURE_COUNT + 1;
+	int STATEMENT_MOVE__PARENT_RIGHT = STATEMENT_CHANGE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Statement Move</em>' class.
@@ -2704,26 +2704,26 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	EClass getStatementMove();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentOld <em>Parent Old</em>}'.
+	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentLeft <em>Parent Left</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Parent Old</em>'.
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentOld()
+	 * @return the meta object for the reference '<em>Parent Left</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentLeft()
 	 * @see #getStatementMove()
 	 * @generated
 	 */
-	EReference getStatementMove_ParentOld();
+	EReference getStatementMove_ParentLeft();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentNew <em>Parent New</em>}'.
+	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentRight <em>Parent Right</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Parent New</em>'.
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentNew()
+	 * @return the meta object for the reference '<em>Parent Right</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove#getParentRight()
 	 * @see #getStatementMove()
 	 * @generated
 	 */
-	EReference getStatementMove_ParentNew();
+	EReference getStatementMove_ParentRight();
 
 	/**
 	 * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ClassDeclarationChange <em>Class Declaration Change</em>}'.
@@ -3260,20 +3260,20 @@ public interface KDM2JavaDiffPackage extends EPackage {
 		EClass STATEMENT_MOVE = eINSTANCE.getStatementMove();
 
 		/**
-		 * The meta object literal for the '<em><b>Parent Old</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Parent Left</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference STATEMENT_MOVE__PARENT_OLD = eINSTANCE.getStatementMove_ParentOld();
+		EReference STATEMENT_MOVE__PARENT_LEFT = eINSTANCE.getStatementMove_ParentLeft();
 
 		/**
-		 * The meta object literal for the '<em><b>Parent New</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Parent Right</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference STATEMENT_MOVE__PARENT_NEW = eINSTANCE.getStatementMove_ParentNew();
+		EReference STATEMENT_MOVE__PARENT_RIGHT = eINSTANCE.getStatementMove_ParentRight();
 
 		/**
 		 * The meta object literal for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ClassDeclarationChange <em>Class Declaration Change</em>}' class.

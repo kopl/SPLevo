@@ -380,7 +380,7 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStatementMove_ParentOld() {
+	public EReference getStatementMove_ParentLeft() {
 		return (EReference)statementMoveEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -389,7 +389,7 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStatementMove_ParentNew() {
+	public EReference getStatementMove_ParentRight() {
 		return (EReference)statementMoveEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -788,8 +788,8 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		statementDeleteEClass = createEClass(STATEMENT_DELETE);
 
 		statementMoveEClass = createEClass(STATEMENT_MOVE);
-		createEReference(statementMoveEClass, STATEMENT_MOVE__PARENT_OLD);
-		createEReference(statementMoveEClass, STATEMENT_MOVE__PARENT_NEW);
+		createEReference(statementMoveEClass, STATEMENT_MOVE__PARENT_LEFT);
+		createEReference(statementMoveEClass, STATEMENT_MOVE__PARENT_RIGHT);
 
 		classDeclarationChangeEClass = createEClass(CLASS_DECLARATION_CHANGE);
 		createEReference(classDeclarationChangeEClass, CLASS_DECLARATION_CHANGE__CLASS_LEFT);
@@ -922,8 +922,8 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		initEClass(statementDeleteEClass, StatementDelete.class, "StatementDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(statementMoveEClass, StatementMove.class, "StatementMove", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getStatementMove_ParentOld(), theJavaPackage.getASTNode(), null, "parentOld", null, 1, 1, StatementMove.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStatementMove_ParentNew(), theJavaPackage.getASTNode(), null, "parentNew", null, 1, 1, StatementMove.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStatementMove_ParentLeft(), theJavaPackage.getASTNode(), null, "parentLeft", null, 1, 1, StatementMove.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStatementMove_ParentRight(), theJavaPackage.getASTNode(), null, "parentRight", null, 1, 1, StatementMove.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(classDeclarationChangeEClass, ClassDeclarationChange.class, "ClassDeclarationChange", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getClassDeclarationChange_ClassLeft(), theJavaPackage.getClassDeclaration(), null, "classLeft", null, 0, 1, ClassDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

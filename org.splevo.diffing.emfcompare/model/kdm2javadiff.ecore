@@ -50,16 +50,16 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Identifies a statement that has been moved into a different parent element."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parentOld" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentLeft" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ASTNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The old parent in the program tree (should be part of the left model)"/>
+        <details key="documentation" value="The parent in the left program tree"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parentNew" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRight" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ASTNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The new parent element in the program tree (should be part of the right model)"/>
+        <details key="documentation" value="The new parent element in the right program tree"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

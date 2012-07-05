@@ -154,8 +154,8 @@ public class DiffNodeTransformer extends DiffSwitch<DiffElement>{
 				StatementMove newDiffElement = KDM2JavaDiffFactory.eINSTANCE.createStatementMove();
 				newDiffElement.setStatementLeft(leftStatement);
 				newDiffElement.setStatementRight(rightStatement);
-				newDiffElement.setParentOld(leftStatement.getOriginalCompilationUnit());
-				newDiffElement.setParentNew(rightStatement.getOriginalCompilationUnit());
+				newDiffElement.setParentLeft(leftStatement.getOriginalCompilationUnit());
+				newDiffElement.setParentRight(rightStatement.getOriginalCompilationUnit());
 
 				newDiffElement.setMethodChange(lastMethodChange);
 				return newDiffElement;

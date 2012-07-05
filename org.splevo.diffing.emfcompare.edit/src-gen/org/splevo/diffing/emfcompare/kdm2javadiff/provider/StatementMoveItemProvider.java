@@ -61,8 +61,8 @@ public class StatementMoveItemProvider
 
 			addStatementLeftPropertyDescriptor(object);
 			addStatementRightPropertyDescriptor(object);
-			addParentOldPropertyDescriptor(object);
-			addParentNewPropertyDescriptor(object);
+			addParentLeftPropertyDescriptor(object);
+			addParentRightPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -112,19 +112,19 @@ public class StatementMoveItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Parent Old feature.
+	 * This adds a property descriptor for the Parent Left feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addParentOldPropertyDescriptor(Object object) {
+	protected void addParentLeftPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_StatementMove_parentOld_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_StatementMove_parentOld_feature", "_UI_StatementMove_type"),
-				 KDM2JavaDiffPackage.Literals.STATEMENT_MOVE__PARENT_OLD,
+				 getString("_UI_StatementMove_parentLeft_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_StatementMove_parentLeft_feature", "_UI_StatementMove_type"),
+				 KDM2JavaDiffPackage.Literals.STATEMENT_MOVE__PARENT_LEFT,
 				 true,
 				 false,
 				 true,
@@ -134,19 +134,19 @@ public class StatementMoveItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Parent New feature.
+	 * This adds a property descriptor for the Parent Right feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addParentNewPropertyDescriptor(Object object) {
+	protected void addParentRightPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_StatementMove_parentNew_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_StatementMove_parentNew_feature", "_UI_StatementMove_type"),
-				 KDM2JavaDiffPackage.Literals.STATEMENT_MOVE__PARENT_NEW,
+				 getString("_UI_StatementMove_parentRight_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_StatementMove_parentRight_feature", "_UI_StatementMove_type"),
+				 KDM2JavaDiffPackage.Literals.STATEMENT_MOVE__PARENT_RIGHT,
 				 true,
 				 false,
 				 true,

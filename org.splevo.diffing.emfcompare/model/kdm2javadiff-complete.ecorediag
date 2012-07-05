@@ -675,7 +675,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_PK5r8bIFEeGw0eB6u4Op8Q" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_PK5r8rIFEeGw0eB6u4Op8Q" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="kdm2javadiff.ecore#//StatementMove/parentOld"/>
+    <element xmi:type="ecore:EReference" href="kdm2javadiff.ecore#//StatementMove/parentLeft"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_PK5r87IFEeGw0eB6u4Op8Q" points="[3, 41, -7, -104]$[11, 132, 1, -13]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_PK8vQLIFEeGw0eB6u4Op8Q" id="(0.1619718309859155,0.14285714285714285)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_PK8vQbIFEeGw0eB6u4Op8Q" id="(0.14705882352941177,0.19444444444444445)"/>
@@ -689,7 +689,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_QwtMIbIFEeGw0eB6u4Op8Q" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_QwtMIrIFEeGw0eB6u4Op8Q" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="kdm2javadiff.ecore#//StatementMove/parentNew"/>
+    <element xmi:type="ecore:EReference" href="kdm2javadiff.ecore#//StatementMove/parentRight"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_QwtMI7IFEeGw0eB6u4Op8Q" points="[-7, 37, 2, -115]$[-7, 128, 2, -24]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_QwvoYLIFEeGw0eB6u4Op8Q" id="(0.7323943661971831,0.22448979591836735)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_QwvoYbIFEeGw0eB6u4Op8Q" id="(0.9313725490196079,0.027777777777777776)"/>

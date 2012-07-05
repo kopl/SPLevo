@@ -33,8 +33,8 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.StatementMove;
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.StatementMoveImpl#getStatementLeft <em>Statement Left</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.StatementMoveImpl#getStatementRight <em>Statement Right</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.StatementMoveImpl#getMethodChange <em>Method Change</em>}</li>
- *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.StatementMoveImpl#getParentOld <em>Parent Old</em>}</li>
- *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.StatementMoveImpl#getParentNew <em>Parent New</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.StatementMoveImpl#getParentLeft <em>Parent Left</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.StatementMoveImpl#getParentRight <em>Parent Right</em>}</li>
  * </ul>
  * </p>
  *
@@ -62,24 +62,24 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 	protected Statement statementRight;
 
 	/**
-	 * The cached value of the '{@link #getParentOld() <em>Parent Old</em>}' reference.
+	 * The cached value of the '{@link #getParentLeft() <em>Parent Left</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getParentOld()
+	 * @see #getParentLeft()
 	 * @generated
 	 * @ordered
 	 */
-	protected ASTNode parentOld;
+	protected ASTNode parentLeft;
 
 	/**
-	 * The cached value of the '{@link #getParentNew() <em>Parent New</em>}' reference.
+	 * The cached value of the '{@link #getParentRight() <em>Parent Right</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getParentNew()
+	 * @see #getParentRight()
 	 * @generated
 	 * @ordered
 	 */
-	protected ASTNode parentNew;
+	protected ASTNode parentRight;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -222,16 +222,16 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ASTNode getParentOld() {
-		if (parentOld != null && parentOld.eIsProxy()) {
-			InternalEObject oldParentOld = (InternalEObject)parentOld;
-			parentOld = (ASTNode)eResolveProxy(oldParentOld);
-			if (parentOld != oldParentOld) {
+	public ASTNode getParentLeft() {
+		if (parentLeft != null && parentLeft.eIsProxy()) {
+			InternalEObject oldParentLeft = (InternalEObject)parentLeft;
+			parentLeft = (ASTNode)eResolveProxy(oldParentLeft);
+			if (parentLeft != oldParentLeft) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_OLD, oldParentOld, parentOld));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_LEFT, oldParentLeft, parentLeft));
 			}
 		}
-		return parentOld;
+		return parentLeft;
 	}
 
 	/**
@@ -239,8 +239,8 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ASTNode basicGetParentOld() {
-		return parentOld;
+	public ASTNode basicGetParentLeft() {
+		return parentLeft;
 	}
 
 	/**
@@ -248,11 +248,11 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setParentOld(ASTNode newParentOld) {
-		ASTNode oldParentOld = parentOld;
-		parentOld = newParentOld;
+	public void setParentLeft(ASTNode newParentLeft) {
+		ASTNode oldParentLeft = parentLeft;
+		parentLeft = newParentLeft;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_OLD, oldParentOld, parentOld));
+			eNotify(new ENotificationImpl(this, Notification.SET, KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_LEFT, oldParentLeft, parentLeft));
 	}
 
 	/**
@@ -260,16 +260,16 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ASTNode getParentNew() {
-		if (parentNew != null && parentNew.eIsProxy()) {
-			InternalEObject oldParentNew = (InternalEObject)parentNew;
-			parentNew = (ASTNode)eResolveProxy(oldParentNew);
-			if (parentNew != oldParentNew) {
+	public ASTNode getParentRight() {
+		if (parentRight != null && parentRight.eIsProxy()) {
+			InternalEObject oldParentRight = (InternalEObject)parentRight;
+			parentRight = (ASTNode)eResolveProxy(oldParentRight);
+			if (parentRight != oldParentRight) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_NEW, oldParentNew, parentNew));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_RIGHT, oldParentRight, parentRight));
 			}
 		}
-		return parentNew;
+		return parentRight;
 	}
 
 	/**
@@ -277,8 +277,8 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ASTNode basicGetParentNew() {
-		return parentNew;
+	public ASTNode basicGetParentRight() {
+		return parentRight;
 	}
 
 	/**
@@ -286,11 +286,11 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setParentNew(ASTNode newParentNew) {
-		ASTNode oldParentNew = parentNew;
-		parentNew = newParentNew;
+	public void setParentRight(ASTNode newParentRight) {
+		ASTNode oldParentRight = parentRight;
+		parentRight = newParentRight;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_NEW, oldParentNew, parentNew));
+			eNotify(new ENotificationImpl(this, Notification.SET, KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_RIGHT, oldParentRight, parentRight));
 	}
 
 	/**
@@ -353,12 +353,12 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 				return basicGetStatementRight();
 			case KDM2JavaDiffPackage.STATEMENT_MOVE__METHOD_CHANGE:
 				return getMethodChange();
-			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_OLD:
-				if (resolve) return getParentOld();
-				return basicGetParentOld();
-			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_NEW:
-				if (resolve) return getParentNew();
-				return basicGetParentNew();
+			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_LEFT:
+				if (resolve) return getParentLeft();
+				return basicGetParentLeft();
+			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_RIGHT:
+				if (resolve) return getParentRight();
+				return basicGetParentRight();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -380,11 +380,11 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 			case KDM2JavaDiffPackage.STATEMENT_MOVE__METHOD_CHANGE:
 				setMethodChange((MethodChange)newValue);
 				return;
-			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_OLD:
-				setParentOld((ASTNode)newValue);
+			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_LEFT:
+				setParentLeft((ASTNode)newValue);
 				return;
-			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_NEW:
-				setParentNew((ASTNode)newValue);
+			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_RIGHT:
+				setParentRight((ASTNode)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -407,11 +407,11 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 			case KDM2JavaDiffPackage.STATEMENT_MOVE__METHOD_CHANGE:
 				setMethodChange((MethodChange)null);
 				return;
-			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_OLD:
-				setParentOld((ASTNode)null);
+			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_LEFT:
+				setParentLeft((ASTNode)null);
 				return;
-			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_NEW:
-				setParentNew((ASTNode)null);
+			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_RIGHT:
+				setParentRight((ASTNode)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -431,10 +431,10 @@ public class StatementMoveImpl extends KDM2JavaDiffExtensionImpl implements Stat
 				return statementRight != null;
 			case KDM2JavaDiffPackage.STATEMENT_MOVE__METHOD_CHANGE:
 				return getMethodChange() != null;
-			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_OLD:
-				return parentOld != null;
-			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_NEW:
-				return parentNew != null;
+			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_LEFT:
+				return parentLeft != null;
+			case KDM2JavaDiffPackage.STATEMENT_MOVE__PARENT_RIGHT:
+				return parentRight != null;
 		}
 		return super.eIsSet(featureID);
 	}
