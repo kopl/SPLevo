@@ -44,6 +44,8 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.KDM2JavaDiffExtensionImpl#isConflicting <em>Conflicting</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.KDM2JavaDiffExtensionImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.KDM2JavaDiffExtensionImpl#isRemote <em>Remote</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.KDM2JavaDiffExtensionImpl#getRequires <em>Requires</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.KDM2JavaDiffExtensionImpl#getRequiredBy <em>Required By</em>}</li>
  * </ul>
  * </p>
  *
@@ -129,6 +131,26 @@ public abstract class KDM2JavaDiffExtensionImpl extends AbstractDiffExtensionImp
 	 * @ordered
 	 */
 	protected boolean remote = REMOTE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getRequires() <em>Requires</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRequires()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<DiffElement> requires;
+
+	/**
+	 * The cached value of the '{@link #getRequiredBy() <em>Required By</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRequiredBy()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<DiffElement> requiredBy;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -217,12 +239,40 @@ public abstract class KDM2JavaDiffExtensionImpl extends AbstractDiffExtensionImp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<DiffElement> getRequires() {
+		if (requires == null) {
+			requires = new EObjectWithInverseResolvingEList.ManyInverse<DiffElement>(DiffElement.class, this, KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRES, DiffPackage.DIFF_ELEMENT__REQUIRED_BY);
+		}
+		return requires;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<DiffElement> getRequiredBy() {
+		if (requiredBy == null) {
+			requiredBy = new EObjectWithInverseResolvingEList.ManyInverse<DiffElement>(DiffElement.class, this, KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY, DiffPackage.DIFF_ELEMENT__REQUIRES);
+		}
+		return requiredBy;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__IS_HIDDEN_BY:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIsHiddenBy()).basicAdd(otherEnd, msgs);
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getRequires()).basicAdd(otherEnd, msgs);
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getRequiredBy()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -239,6 +289,10 @@ public abstract class KDM2JavaDiffExtensionImpl extends AbstractDiffExtensionImp
 				return ((InternalEList<?>)getSubDiffElements()).basicRemove(otherEnd, msgs);
 			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__IS_HIDDEN_BY:
 				return ((InternalEList<?>)getIsHiddenBy()).basicRemove(otherEnd, msgs);
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRES:
+				return ((InternalEList<?>)getRequires()).basicRemove(otherEnd, msgs);
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY:
+				return ((InternalEList<?>)getRequiredBy()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -261,6 +315,10 @@ public abstract class KDM2JavaDiffExtensionImpl extends AbstractDiffExtensionImp
 				return getKind();
 			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REMOTE:
 				return isRemote();
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRES:
+				return getRequires();
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY:
+				return getRequiredBy();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -285,6 +343,14 @@ public abstract class KDM2JavaDiffExtensionImpl extends AbstractDiffExtensionImp
 			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REMOTE:
 				setRemote((Boolean)newValue);
 				return;
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRES:
+				getRequires().clear();
+				getRequires().addAll((Collection<? extends DiffElement>)newValue);
+				return;
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY:
+				getRequiredBy().clear();
+				getRequiredBy().addAll((Collection<? extends DiffElement>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -305,6 +371,12 @@ public abstract class KDM2JavaDiffExtensionImpl extends AbstractDiffExtensionImp
 				return;
 			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REMOTE:
 				setRemote(REMOTE_EDEFAULT);
+				return;
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRES:
+				getRequires().clear();
+				return;
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY:
+				getRequiredBy().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -328,6 +400,10 @@ public abstract class KDM2JavaDiffExtensionImpl extends AbstractDiffExtensionImp
 				return kind != KIND_EDEFAULT;
 			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REMOTE:
 				return remote != REMOTE_EDEFAULT;
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRES:
+				return requires != null && !requires.isEmpty();
+			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY:
+				return requiredBy != null && !requiredBy.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -346,6 +422,8 @@ public abstract class KDM2JavaDiffExtensionImpl extends AbstractDiffExtensionImp
 				case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__CONFLICTING: return DiffPackage.DIFF_ELEMENT__CONFLICTING;
 				case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__KIND: return DiffPackage.DIFF_ELEMENT__KIND;
 				case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REMOTE: return DiffPackage.DIFF_ELEMENT__REMOTE;
+				case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRES: return DiffPackage.DIFF_ELEMENT__REQUIRES;
+				case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY: return DiffPackage.DIFF_ELEMENT__REQUIRED_BY;
 				default: return -1;
 			}
 		}
@@ -366,6 +444,8 @@ public abstract class KDM2JavaDiffExtensionImpl extends AbstractDiffExtensionImp
 				case DiffPackage.DIFF_ELEMENT__CONFLICTING: return KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__CONFLICTING;
 				case DiffPackage.DIFF_ELEMENT__KIND: return KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__KIND;
 				case DiffPackage.DIFF_ELEMENT__REMOTE: return KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REMOTE;
+				case DiffPackage.DIFF_ELEMENT__REQUIRES: return KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRES;
+				case DiffPackage.DIFF_ELEMENT__REQUIRED_BY: return KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY;
 				default: return -1;
 			}
 		}

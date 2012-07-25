@@ -135,13 +135,31 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int KDM2_JAVA_DIFF_EXTENSION__REMOTE = DiffPackage.ABSTRACT_DIFF_EXTENSION_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KDM2_JAVA_DIFF_EXTENSION__REQUIRES = DiffPackage.ABSTRACT_DIFF_EXTENSION_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY = DiffPackage.ABSTRACT_DIFF_EXTENSION_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Extension</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int KDM2_JAVA_DIFF_EXTENSION_FEATURE_COUNT = DiffPackage.ABSTRACT_DIFF_EXTENSION_FEATURE_COUNT + 5;
+	int KDM2_JAVA_DIFF_EXTENSION_FEATURE_COUNT = DiffPackage.ABSTRACT_DIFF_EXTENSION_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementChange <em>Statement Change</em>}' class.
@@ -215,6 +233,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int STATEMENT_CHANGE__REMOTE = KDM2_JAVA_DIFF_EXTENSION__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_CHANGE__REQUIRES = KDM2_JAVA_DIFF_EXTENSION__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_CHANGE__REQUIRED_BY = KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Statement Left</b></em>' reference.
@@ -324,6 +360,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int STATEMENT_ORDER_CHANGE__REMOTE = STATEMENT_CHANGE__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_ORDER_CHANGE__REQUIRES = STATEMENT_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_ORDER_CHANGE__REQUIRED_BY = STATEMENT_CHANGE__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Statement Left</b></em>' reference.
@@ -453,6 +507,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int STATEMENT_INSERT__REMOTE = STATEMENT_CHANGE__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_INSERT__REQUIRES = STATEMENT_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_INSERT__REQUIRED_BY = STATEMENT_CHANGE__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Statement Left</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -562,6 +634,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int STATEMENT_DELETE__REMOTE = STATEMENT_CHANGE__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_DELETE__REQUIRES = STATEMENT_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_DELETE__REQUIRED_BY = STATEMENT_CHANGE__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Statement Left</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -669,6 +759,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int STATEMENT_MOVE__REMOTE = STATEMENT_CHANGE__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_MOVE__REQUIRES = STATEMENT_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_MOVE__REQUIRED_BY = STATEMENT_CHANGE__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Statement Left</b></em>' reference.
@@ -798,6 +906,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int CLASS_DECLARATION_CHANGE__REMOTE = KDM2_JAVA_DIFF_EXTENSION__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_DECLARATION_CHANGE__REQUIRES = KDM2_JAVA_DIFF_EXTENSION__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_DECLARATION_CHANGE__REQUIRED_BY = KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Class Left</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -905,6 +1031,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLASS_INSERT__REMOTE = CLASS_DECLARATION_CHANGE__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_INSERT__REQUIRES = CLASS_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_INSERT__REQUIRED_BY = CLASS_DECLARATION_CHANGE__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Class Left</b></em>' reference.
@@ -1016,6 +1160,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int CLASS_DELETE__REMOTE = CLASS_DECLARATION_CHANGE__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_DELETE__REQUIRES = CLASS_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_DELETE__REQUIRED_BY = CLASS_DECLARATION_CHANGE__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Class Left</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1123,6 +1285,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLASS_MODIFIER_CHANGE__REMOTE = CLASS_DECLARATION_CHANGE__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_MODIFIER_CHANGE__REQUIRES = CLASS_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_MODIFIER_CHANGE__REQUIRED_BY = CLASS_DECLARATION_CHANGE__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Class Left</b></em>' reference.
@@ -1234,6 +1414,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int IMPORT_DECLARATION_CHANGE__REMOTE = KDM2_JAVA_DIFF_EXTENSION__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT_DECLARATION_CHANGE__REQUIRES = KDM2_JAVA_DIFF_EXTENSION__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT_DECLARATION_CHANGE__REQUIRED_BY = KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Import Left</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1341,6 +1539,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int IMPORT_INSERT__REMOTE = IMPORT_DECLARATION_CHANGE__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT_INSERT__REQUIRES = IMPORT_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT_INSERT__REQUIRED_BY = IMPORT_DECLARATION_CHANGE__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Import Left</b></em>' reference.
@@ -1452,6 +1668,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int IMPORT_DELETE__REMOTE = IMPORT_DECLARATION_CHANGE__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT_DELETE__REQUIRES = IMPORT_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT_DELETE__REQUIRED_BY = IMPORT_DECLARATION_CHANGE__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Import Left</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1561,6 +1795,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int METHOD_DECLARATION_CHANGE__REMOTE = KDM2_JAVA_DIFF_EXTENSION__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_DECLARATION_CHANGE__REQUIRES = KDM2_JAVA_DIFF_EXTENSION__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_DECLARATION_CHANGE__REQUIRED_BY = KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Method Change</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1650,6 +1902,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLASS_CHANGE__REMOTE = DiffPackage.DIFF_GROUP__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_CHANGE__REQUIRES = DiffPackage.DIFF_GROUP__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_CHANGE__REQUIRED_BY = DiffPackage.DIFF_GROUP__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Right Parent</b></em>' reference.
@@ -1759,6 +2029,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int METHOD_CHANGE__REMOTE = DiffPackage.DIFF_GROUP__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_CHANGE__REQUIRES = DiffPackage.DIFF_GROUP__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_CHANGE__REQUIRED_BY = DiffPackage.DIFF_GROUP__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Right Parent</b></em>' reference.
@@ -1888,6 +2176,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int METHOD_MODIFIER_CHANGE__REMOTE = METHOD_DECLARATION_CHANGE__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_MODIFIER_CHANGE__REQUIRES = METHOD_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_MODIFIER_CHANGE__REQUIRED_BY = METHOD_DECLARATION_CHANGE__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Method Change</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1995,6 +2301,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int RETURN_TYPE_CHANGE__REMOTE = METHOD_DECLARATION_CHANGE__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETURN_TYPE_CHANGE__REQUIRES = METHOD_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RETURN_TYPE_CHANGE__REQUIRED_BY = METHOD_DECLARATION_CHANGE__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Method Change</b></em>' container reference.
@@ -2106,6 +2430,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int METHOD_PARAMETER_CHANGE__REMOTE = METHOD_DECLARATION_CHANGE__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_PARAMETER_CHANGE__REQUIRES = METHOD_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_PARAMETER_CHANGE__REQUIRED_BY = METHOD_DECLARATION_CHANGE__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Method Change</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2213,6 +2555,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int METHOD_INSERT__REMOTE = METHOD_DECLARATION_CHANGE__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_INSERT__REQUIRES = METHOD_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_INSERT__REQUIRED_BY = METHOD_DECLARATION_CHANGE__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Method Change</b></em>' container reference.
@@ -2324,6 +2684,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int METHOD_DELETE__REMOTE = METHOD_DECLARATION_CHANGE__REMOTE;
 
 	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_DELETE__REQUIRES = METHOD_DECLARATION_CHANGE__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD_DELETE__REQUIRED_BY = METHOD_DECLARATION_CHANGE__REQUIRED_BY;
+
+	/**
 	 * The feature id for the '<em><b>Method Change</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2413,6 +2791,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int COMPILATION_UNIT_CHANGE__REMOTE = DiffPackage.DIFF_GROUP__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPILATION_UNIT_CHANGE__REQUIRES = DiffPackage.DIFF_GROUP__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPILATION_UNIT_CHANGE__REQUIRED_BY = DiffPackage.DIFF_GROUP__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Right Parent</b></em>' reference.
@@ -2523,6 +2919,24 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @ordered
 	 */
 	int PACKAGE_CHANGE__REMOTE = DiffPackage.DIFF_GROUP__REMOTE;
+
+	/**
+	 * The feature id for the '<em><b>Requires</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__REQUIRES = DiffPackage.DIFF_GROUP__REQUIRES;
+
+	/**
+	 * The feature id for the '<em><b>Required By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_CHANGE__REQUIRED_BY = DiffPackage.DIFF_GROUP__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Right Parent</b></em>' reference.

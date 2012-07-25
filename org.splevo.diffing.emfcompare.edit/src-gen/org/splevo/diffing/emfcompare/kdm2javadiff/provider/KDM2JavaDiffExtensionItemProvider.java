@@ -75,6 +75,8 @@ public class KDM2JavaDiffExtensionItemProvider
 			addConflictingPropertyDescriptor(object);
 			addKindPropertyDescriptor(object);
 			addRemotePropertyDescriptor(object);
+			addRequiresPropertyDescriptor(object);
+			addRequiredByPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -163,6 +165,50 @@ public class KDM2JavaDiffExtensionItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Requires feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRequiresPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DiffElement_requires_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DiffElement_requires_feature", "_UI_DiffElement_type"),
+				 DiffPackage.Literals.DIFF_ELEMENT__REQUIRES,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Required By feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRequiredByPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DiffElement_requiredBy_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DiffElement_requiredBy_feature", "_UI_DiffElement_type"),
+				 DiffPackage.Literals.DIFF_ELEMENT__REQUIRED_BY,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}
@@ -388,6 +434,11 @@ public class KDM2JavaDiffExtensionItemProvider
 			(createChildParameter
 				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
 				 DiffFactory.eINSTANCE.createAttributeChangeRightTarget()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
+				 DiffFactory.eINSTANCE.createAttributeOrderChange()));
 
 		newChildDescriptors.add
 			(createChildParameter
