@@ -26,7 +26,7 @@ import org.junit.Test;
  * @author Benjamin Klatt
  * 
  */
-public class DiffingServiceTest {
+public class EMFCompareDiffingServiceTest {
 	
 	/** Source path to the native calculator implementation */
 	private static final File NATIVE_MODEL_FILE = new File(
@@ -38,7 +38,7 @@ public class DiffingServiceTest {
 
 	/**
 	 * Test method for
-	 * {@link org.splevo.diffing.DiffingService#getDiff(org.eclipse.modisco.java.composition.javaapplication.JavaApplication, org.eclipse.modisco.java.composition.javaapplication.JavaApplication)}
+	 * {@link org.splevo.diffing.EMFCompareDiffingService#getDiff(org.eclipse.modisco.java.composition.javaapplication.JavaApplication, org.eclipse.modisco.java.composition.javaapplication.JavaApplication)}
 	 * .
 	 * 
 	 * @throws IOException
@@ -49,7 +49,7 @@ public class DiffingServiceTest {
 	 */
 	@Test
 	public final void testGetDiff() throws IOException, InterruptedException {
-		DiffingService diffingService = new DiffingService();
+		DiffingService diffingService = new EMFCompareDiffingService();
 		
 		List<File> leadingModelFiles = new ArrayList<File>();
 		leadingModelFiles.add(NATIVE_MODEL_FILE);
