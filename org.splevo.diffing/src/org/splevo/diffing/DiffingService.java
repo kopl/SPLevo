@@ -31,19 +31,16 @@ import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.engine.DefaultMatchScopeProvider;
 import org.eclipse.emf.compare.match.engine.IMatchEngine;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.metamodel.MatchPackage;
 import org.eclipse.emf.compare.match.metamodel.MatchResourceSet;
 import org.eclipse.emf.compare.match.metamodel.Side;
 import org.eclipse.emf.compare.match.metamodel.UnmatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.compare.util.EMFCompareMap;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.splevo.diffing.emfcompare.diff.KdmDiffEngine;
 import org.splevo.diffing.emfcompare.diff.transform.DiffTreeTransformer;
@@ -89,47 +86,23 @@ public class DiffingService {
 		// define the match resource set
 		final MatchResourceSet matchResourceSet;
 		final Map<String, Object> options = new EMFCompareMap<String, Object>();
-		options.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, new DefaultMatchScopeProvider(leftResource.getResourceSet(), rightResource.getResourceSet()));
+		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(leftResource.getResourceSet(), rightResource.getResourceSet());
+		options.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, matchScopeProvider);
 		matchResourceSet = MatchService.doResourceSetMatch(leftResource.getResourceSet(), rightResource.getResourceSet(),options);
 
 		// define the match scope provider
 		Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
-		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(leftResource.getResourceSet(), rightResource.getResourceSet());
 		matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,matchScopeProvider);
 		
-		
 		DiffResourceSet diffSet = DiffFactory.eINSTANCE.createDiffResourceSet();
-		CrossReferencer crossReferencer = new CrossReferencer(diffSet) {
-			private static final long serialVersionUID = 2615156054928729681L;
-
-			{
-				crossReference();
-			}
-			
-			@Override
-			protected boolean crossReference(EObject eObject, EReference eReference, EObject crossReferencedEObject) {
-				// FIXME shouldn't we test for eObject instanceof Match2Elements?
-				// Cross reference this if it is either one of the left, right, or ancestor elements
-				boolean crossReference = eReference == MatchPackage.eINSTANCE.getMatch2Elements_LeftElement()
-						|| eReference == MatchPackage.eINSTANCE.getMatch2Elements_RightElement()
-						|| eReference == MatchPackage.eINSTANCE.getMatch3Elements_OriginElement();
-
-				// Or if it is an unmatched element
-				crossReference = crossReference || eReference == MatchPackage.eINSTANCE.getUnmatchElement_Element();
-
-				if (crossReference) {
-					super.crossReference(eObject, eReference, crossReferencedEObject);
-				}
-
-				return crossReference;
-			}
-		};
+		CrossReferencer crossReferencer = new SPLevoCrossReferencer(diffSet);
 		
 		for (final MatchModel match : matchResourceSet.getMatchModels()) {
 			final DiffModel diffmodel = diffEngine.doDiffResourceSet(match, false, crossReferencer);
 
-			final Collection<AbstractDiffExtension> extensions = DiffService
-					.getCorrespondingDiffExtensions(match);
+			// load the diff model extensions for the match model
+			// and let each extension perform the post processing
+			final Collection<AbstractDiffExtension> extensions = DiffService.getCorrespondingDiffExtensions(match);
 			for (final AbstractDiffExtension ext : extensions) {
 				if (ext != null) {
 					ext.visit(diffmodel);
@@ -174,7 +147,7 @@ public class DiffingService {
 	 *            The DiffModel or DiffResourceSet.
 	 */
 	private static void fillRequiredDifferences(EObject model) {
-		CrossReferencer crossReferencer = new EcoreUtil.CrossReferencer(model) {
+		CrossReferencer crossReferencer = new CrossReferencer(model) {
 			/** Generic Serial ID. */
 			private static final long serialVersionUID = 1L;
 
