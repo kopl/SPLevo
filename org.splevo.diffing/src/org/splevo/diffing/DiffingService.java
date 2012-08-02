@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,61 +49,68 @@ import org.splevo.diffing.emfcompare.merge.KdmMatchEngine;
 
 /**
  * A service to analyze the difference between to abstract syntax trees.
+ * 
  * @author Benjamin Klatt
- *
+ * 
  */
 public class DiffingService {
-	
-	/** right input model resource */
-	private Resource rightResource;
-
-	/** left input model resource */
-	private Resource leftResource;
 
 	/** The KDM specific match engine */
 	private final IMatchEngine matchEngine = new KdmMatchEngine();
-	
+
 	/** The KDM specific diff engine */
 	private final IDiffEngine diffEngine = new KdmDiffEngine();
 
 	/**
-	 * Analyze the differences between two AST models.
-	 * This will build a diff model containing the differences.
+	 * Analyze the differences between two AST models. This will build a diff
+	 * model containing the differences.
 	 * 
-	 * @param leftASTModel The left model to be diffed.
-	 * @param rightASTModel The right model to be diffed.
+	 * @param leftASTModel
+	 *            The left model to be diffed.
+	 * @param rightASTModel
+	 *            The right model to be diffed.
 	 * @return
-	 * @throws IOException identifying that model files can not be loaded.
-	 * @throws InterruptedException identifying that the diffing process has been interrupted
+	 * @throws IOException
+	 *             identifying that model files can not be loaded.
+	 * @throws InterruptedException
+	 *             identifying that the diffing process has been interrupted
 	 */
-	public ComparisonResourceSetSnapshot getDiff(File leftASTModel, File rightASTModel) throws IOException, InterruptedException {
+	public ComparisonResourceSetSnapshot getDiff(List<File> leftASTModels,
+			List<File> rightASTModels) throws IOException, InterruptedException {
 
-		leftResource = loadModelResource(leftASTModel);
-		rightResource = loadModelResource(rightASTModel);
+		ResourceSet leftResourceSet = loadModelResourceSet(leftASTModels);
+		ResourceSet rightResourceSet = loadModelResourceSet(rightASTModels);
 
 		matchEngine.reset();
 		diffEngine.reset();
-		
+
 		// define the match resource set
 		final MatchResourceSet matchResourceSet;
 		final Map<String, Object> options = new EMFCompareMap<String, Object>();
-		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(leftResource.getResourceSet(), rightResource.getResourceSet());
-		options.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, matchScopeProvider);
-		matchResourceSet = MatchService.doResourceSetMatch(leftResource.getResourceSet(), rightResource.getResourceSet(),options);
+		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(
+				leftResourceSet, rightResourceSet);
+		options.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,
+				matchScopeProvider);
+		matchResourceSet = MatchService.doResourceSetMatch(
+				leftResourceSet, rightResourceSet,
+				options);
 
 		// define the match scope provider
 		Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
-		matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,matchScopeProvider);
-		
+		matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,
+				matchScopeProvider);
+
 		DiffResourceSet diffSet = DiffFactory.eINSTANCE.createDiffResourceSet();
 		CrossReferencer crossReferencer = new SPLevoCrossReferencer(diffSet);
-		
+
 		for (final MatchModel match : matchResourceSet.getMatchModels()) {
-			final DiffModel diffmodel = diffEngine.doDiffResourceSet(match, false, crossReferencer);
+			final DiffModel diffmodel = diffEngine.doDiffResourceSet(match,
+					false, crossReferencer);
 
 			// load the diff model extensions for the match model
 			// and let each extension perform the post processing
-			final Collection<AbstractDiffExtension> extensions = DiffService.getCorrespondingDiffExtensions(match);
+			final Collection<AbstractDiffExtension> extensions = DiffService
+					.getCorrespondingDiffExtensions(match);
 			for (final AbstractDiffExtension ext : extensions) {
 				if (ext != null) {
 					ext.visit(diffmodel);
@@ -115,9 +123,11 @@ public class DiffingService {
 		for (final UnmatchModel unmatch : matchResourceSet.getUnmatchedModels()) {
 			ResourceDependencyChange dependencyChange;
 			if (unmatch.getSide() == Side.LEFT) {
-				dependencyChange = DiffFactory.eINSTANCE.createResourceDependencyChangeLeftTarget();
+				dependencyChange = DiffFactory.eINSTANCE
+						.createResourceDependencyChangeLeftTarget();
 			} else {
-				dependencyChange = DiffFactory.eINSTANCE.createResourceDependencyChangeRightTarget();
+				dependencyChange = DiffFactory.eINSTANCE
+						.createResourceDependencyChangeRightTarget();
 			}
 			if (unmatch.isRemote()) {
 				dependencyChange.setRemote(true);
@@ -127,21 +137,20 @@ public class DiffingService {
 		}
 
 		fillRequiredDifferences(diffSet);
-		
-		ComparisonResourceSetSnapshot snapshot = buildResourceSetComparisionSnapshot(matchResourceSet,diffSet);
-				
+
+		ComparisonResourceSetSnapshot snapshot = buildResourceSetComparisionSnapshot(
+				matchResourceSet, diffSet);
+
 		DiffTreeTransformer transformer = new DiffTreeTransformer();
 		transformer.convertModel(snapshot);
-		
+
 		return snapshot;
-		
-    }
-	
-	
-	
+
+	}
+
 	/**
-	 * Post-processing on the DiffModel or DiffResourceSet to fill each {@link ModelElementChange} with
-	 * possible required others differences.
+	 * Post-processing on the DiffModel or DiffResourceSet to fill each
+	 * {@link ModelElementChange} with possible required others differences.
 	 * 
 	 * @param model
 	 *            The DiffModel or DiffResourceSet.
@@ -161,7 +170,7 @@ public class DiffingService {
 			final EObject obj = diffs.next();
 			if ((obj instanceof ModelElementChange || obj instanceof ReferenceChange)
 					&& !(obj instanceof AbstractDiffExtension)) {
-				fillRequiredDifferences(crossReferencer, (DiffElement)obj);
+				fillRequiredDifferences(crossReferencer, (DiffElement) obj);
 			}
 		}
 	}
@@ -174,12 +183,14 @@ public class DiffingService {
 	 * @param diff
 	 *            The difference to fill.
 	 */
-	private static void fillRequiredDifferences(CrossReferencer crossReferencer, final DiffElement diff) {
+	private static void fillRequiredDifferences(
+			CrossReferencer crossReferencer, final DiffElement diff) {
 		final Set<EObject> refEObjects = getReferencedEObjects(diff);
 		final Iterator<EObject> referencedEObjects = refEObjects.iterator();
 		while (referencedEObjects.hasNext()) {
 			final EObject referencedEObject = referencedEObjects.next();
-			final Collection<Setting> settings = crossReferencer.get(referencedEObject);
+			final Collection<Setting> settings = crossReferencer
+					.get(referencedEObject);
 			if (settings != null) {
 				for (Setting setting : settings) {
 					final EObject crossElt = setting.getEObject();
@@ -201,29 +212,31 @@ public class DiffingService {
 		EObject elt = null;
 		final Set<EObject> referencedEObjects = new LinkedHashSet<EObject>();
 		if (diff instanceof ModelElementChangeLeftTarget) {
-			final ModelElementChangeLeftTarget mec = (ModelElementChangeLeftTarget)diff;
+			final ModelElementChangeLeftTarget mec = (ModelElementChangeLeftTarget) diff;
 			elt = mec.getLeftElement();
-//			referencedEObjects.addAll(DiffReferenceUtil.getReferencedEObjects(elt, true));
+			// referencedEObjects.addAll(DiffReferenceUtil.getReferencedEObjects(elt,
+			// true));
 			referencedEObjects.remove(elt);
 		} else if (diff instanceof ModelElementChangeRightTarget) {
-			final ModelElementChangeRightTarget mec = (ModelElementChangeRightTarget)diff;
+			final ModelElementChangeRightTarget mec = (ModelElementChangeRightTarget) diff;
 			elt = mec.getRightElement();
-//			referencedEObjects.addAll(DiffReferenceUtil.getReferencedEObjects(elt, true));
+			// referencedEObjects.addAll(DiffReferenceUtil.getReferencedEObjects(elt,
+			// true));
 			referencedEObjects.remove(elt);
 		} else if (diff instanceof ReferenceChangeLeftTarget) {
-			final ReferenceChangeLeftTarget rc = (ReferenceChangeLeftTarget)diff;
+			final ReferenceChangeLeftTarget rc = (ReferenceChangeLeftTarget) diff;
 			final EObject leftTarget = rc.getLeftTarget();
 			if (leftTarget != null) {
 				referencedEObjects.add(leftTarget);
 			}
 		} else if (diff instanceof ReferenceChangeRightTarget) {
-			final ReferenceChangeRightTarget rc = (ReferenceChangeRightTarget)diff;
+			final ReferenceChangeRightTarget rc = (ReferenceChangeRightTarget) diff;
 			final EObject rightTarget = rc.getRightTarget();
 			if (rightTarget != null) {
 				referencedEObjects.add(rightTarget);
 			}
 		} else if (diff instanceof UpdateReference) {
-			final UpdateReference ur = (UpdateReference)diff;
+			final UpdateReference ur = (UpdateReference) diff;
 			final EObject leftTarget = ur.getLeftTarget();
 			final EObject rightTarget = ur.getRightTarget();
 			if (leftTarget != null && leftTarget != ur.getLeftElement()) {
@@ -237,8 +250,9 @@ public class DiffingService {
 	}
 
 	/**
-	 * Checks if the given difference {@link dest} is a good candidate to be added as required difference the
-	 * specified difference {@link origin}. A good candidate is a {@link ModelElementChange} which is not an
+	 * Checks if the given difference {@link dest} is a good candidate to be
+	 * added as required difference the specified difference {@link origin}. A
+	 * good candidate is a {@link ModelElementChange} which is not an
 	 * {@link AbstractDiffExtension}.
 	 * 
 	 * @param origin
@@ -246,22 +260,27 @@ public class DiffingService {
 	 * @param dest
 	 *            The difference candidate.
 	 */
-	private static void linkDifferences(final DiffElement origin, final EObject dest) {
-		if (dest instanceof ModelElementChange && !(dest instanceof AbstractDiffExtension)) {
-			final ModelElementChange mec = (ModelElementChange)dest;
-			//origin.getRequires().add(mec);
+	private static void linkDifferences(final DiffElement origin,
+			final EObject dest) {
+		if (dest instanceof ModelElementChange
+				&& !(dest instanceof AbstractDiffExtension)) {
+			final ModelElementChange mec = (ModelElementChange) dest;
+			// origin.getRequires().add(mec);
 			/*
-			 * In the case of UpdateReference differences, we've set the left and/or right target to an
-			 * unmatched value. We need to null out that value now in order not to merge it and use the result
-			 * of the ModelElementChange merging.
+			 * In the case of UpdateReference differences, we've set the left
+			 * and/or right target to an unmatched value. We need to null out
+			 * that value now in order not to merge it and use the result of the
+			 * ModelElementChange merging.
 			 */
 			if (origin instanceof UpdateReference) {
-				final UpdateReference updateDiff = (UpdateReference)origin;
+				final UpdateReference updateDiff = (UpdateReference) origin;
 				final EObject changedElement;
 				if (mec instanceof ModelElementChangeLeftTarget) {
-					changedElement = ((ModelElementChangeLeftTarget)mec).getLeftElement();
+					changedElement = ((ModelElementChangeLeftTarget) mec)
+							.getLeftElement();
 				} else if (mec instanceof ModelElementChangeRightTarget) {
-					changedElement = ((ModelElementChangeRightTarget)mec).getRightElement();
+					changedElement = ((ModelElementChangeRightTarget) mec)
+							.getRightElement();
 				} else {
 					changedElement = null;
 				}
@@ -273,10 +292,10 @@ public class DiffingService {
 			}
 		}
 	}
-	
+
 	/**
-	 * Create the comparsion resource snapshot combining the match and diff references 
-	 * as done by the default emf compare.
+	 * Create the comparsion resource snapshot combining the match and diff
+	 * references as done by the default emf compare.
 	 * 
 	 * @param matchModel
 	 *            matched model generated by EMF Compare
@@ -284,35 +303,38 @@ public class DiffingService {
 	 *            diff model generated by EMF Compare
 	 * @return The complete comparsion snapshot.
 	 */
-	private ComparisonResourceSetSnapshot buildResourceSetComparisionSnapshot(MatchResourceSet matchResourceSet, DiffResourceSet diffSet){
+	private ComparisonResourceSetSnapshot buildResourceSetComparisionSnapshot(
+			MatchResourceSet matchResourceSet, DiffResourceSet diffSet) {
 		final ComparisonResourceSetSnapshot snapshot = DiffFactory.eINSTANCE
 				.createComparisonResourceSetSnapshot();
 		snapshot.setDate(Calendar.getInstance().getTime());
 		snapshot.setMatchResourceSet(matchResourceSet);
-		snapshot.setDiffResourceSet(diffSet);		
+		snapshot.setDiffResourceSet(diffSet);
 		return snapshot;
 	}
-	
+
 	/**
 	 * Loads an Ecore model from the supplied file
 	 * 
-	 * @param modelFile
-	 *            model to load
-	 * @return model instance
+	 * @param modelFiles
+	 *            List of models to load
+	 * @return model resource set instance
 	 * @throws IOException
 	 *             possible load exception
 	 */
-	private Resource loadModelResource(File modelFile) throws IOException {
-		if (!modelFile.canRead()) {
-			throw new IllegalArgumentException("cannot read model file "
-					+ modelFile.getAbsolutePath());
+	private ResourceSet loadModelResourceSet(List<File> modelFiles)
+			throws IOException {
+		ResourceSet resourceSet = new ResourceSetImpl();
+		for (File modelFile : modelFiles) {
+			if (!modelFile.canRead()) {
+				throw new IllegalArgumentException("cannot read model file "
+						+ modelFile.getAbsolutePath());
+			}
+			URI fileUri = URI.createFileURI(modelFile.getPath());
+			Resource resource = resourceSet.createResource(fileUri);
+			resource.load(Collections.emptyMap());
 		}
-		ResourceSet resSet = new ResourceSetImpl();
-		URI fileUri = URI.createFileURI(modelFile.getPath());
-		Resource resource = resSet.createResource(fileUri);
-		resource.load(Collections.emptyMap());
 
-		
-		return resource;
+		return resourceSet;
 	}
 }

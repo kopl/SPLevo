@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -48,7 +50,14 @@ public class DiffingServiceTest {
 	@Test
 	public final void testGetDiff() throws IOException, InterruptedException {
 		DiffingService diffingService = new DiffingService();
-		ComparisonResourceSetSnapshot snapshot = diffingService.getDiff(NATIVE_MODEL_FILE, JSCIENCE_MODEL_FILE);
+		
+		List<File> leadingModelFiles = new ArrayList<File>();
+		leadingModelFiles.add(NATIVE_MODEL_FILE);
+		List<File> integrationModelFiles = new ArrayList<File>();
+		integrationModelFiles.add(JSCIENCE_MODEL_FILE);
+		
+		
+		ComparisonResourceSetSnapshot snapshot = diffingService.getDiff(leadingModelFiles,integrationModelFiles);
 		File targetFile = new File("testresult/testDiff.emfdiff");
 		saveDiff(targetFile, snapshot);
 	}
