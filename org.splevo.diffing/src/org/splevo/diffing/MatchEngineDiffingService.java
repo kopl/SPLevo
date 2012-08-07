@@ -3,15 +3,22 @@ package org.splevo.diffing;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.diff.engine.GenericDiffEngine;
 import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSetSnapshot;
+import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
+import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.metamodel.DiffResourceSet;
+import org.eclipse.emf.compare.diff.metamodel.impl.ModelElementChangeLeftTargetImpl;
 import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.engine.DefaultMatchScopeProvider;
+import org.eclipse.emf.compare.match.engine.IMatchEngine;
 import org.eclipse.emf.compare.match.metamodel.Match2Elements;
 import org.eclipse.emf.compare.match.metamodel.MatchElement;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
@@ -20,7 +27,9 @@ import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.compare.util.EMFCompareMap;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.gmt.modisco.java.emf.impl.ClassInstanceCreationImpl;
 import org.eclipse.gmt.modisco.java.emf.impl.JavadocImpl;
 import org.eclipse.gmt.modisco.java.emf.impl.MethodInvocationImpl;
@@ -28,6 +37,8 @@ import org.eclipse.gmt.modisco.java.emf.impl.PackageImpl;
 import org.eclipse.gmt.modisco.java.emf.impl.SingleVariableAccessImpl;
 import org.eclipse.gmt.modisco.java.emf.impl.TextElementImpl;
 import org.eclipse.gmt.modisco.java.emf.impl.TypeAccessImpl;
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+import org.splevo.diffing.emfcompare.merge.KdmMatchEngine;
 
 /**
  * Diffing Service that directly builds up the diffing model instead of using a post 
@@ -36,7 +47,76 @@ import org.eclipse.gmt.modisco.java.emf.impl.TypeAccessImpl;
  * @author Benjamin Klatt
  *
  */
-public class MatchEngineDiffingService extends AbstractDiffingService {
+public class MatchEngineDiffingService implements DiffingService {
+
+	// TODO: extend to more than one input model
+	public DiffModel doDiff(JavaApplication leadingModel, JavaApplication integrationModel) throws IOException, InterruptedException {
+		
+		
+		org.eclipse.gmt.modisco.java.Model leadingJavaModel = leadingModel.getJavaModel();
+		org.eclipse.gmt.modisco.java.Model integrationJavaModel = integrationModel.getJavaModel();
+
+		// configure the match engine
+		final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
+		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(leadingJavaModel, integrationJavaModel);
+		matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,matchScopeProvider);
+		
+		System.out.println("=======================================================");
+		System.out.println("==================== MATCHING PHASE  ==================");
+		System.out.println("=======================================================");
+		IMatchEngine matchEngine = new KdmMatchEngine();
+		MatchModel matchModel = matchEngine.modelMatch(leadingJavaModel, integrationJavaModel, matchOptions);
+		
+		System.out.println("==========================");
+		System.out.println("=== UNMATCHED ELEMENTS ===");
+		System.out.println("==========================");
+		EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
+		for (UnmatchElement unmatchedElement : unmatchedElements) {
+			 System.out.print(unmatchedElement.getSide()+"\t");
+			 System.out.print(unmatchedElement.getElement().getClass().getSimpleName()+"\t");
+			 System.out.print(buildOutput(unmatchedElement.getElement()));
+			 System.out.println();
+		}
+//		System.out.println("");
+//		System.out.println("");
+//		System.out.println("==========================");
+//		System.out.println("=== MATCHED ELEMENTS ===");
+//		System.out.println("==========================");
+//		EList<MatchElement> matchedElements = matchModel.getMatchedElements();
+//		for (MatchElement matchedElement : matchedElements) {
+//			printMatchedElement(matchedElement,0);
+//		}
+		
+		
+		System.out.println("=======================================================");
+		System.out.println("==================== DIFFING PHASE  ===================");
+		System.out.println("=======================================================");
+		
+		DiffModel diff = new GenericDiffEngine().doDiff(matchModel, false);
+		return diff;
+
+//		EList<DiffElement> diffElements = diff.getDifferences();
+//		for (DiffElement diffElement : diffElements) {
+//			switch (diffElement.getKind()) {
+//			case ADDITION:
+//				printADDITION(diffElement);
+//				break;
+//
+//			default:
+//				System.out.println(diffElement.getKind().getName() + "\t" + diffElement.getClass().getSimpleName());
+//				break;
+//			}
+//		}
+		
+		
+	}
+
+	private void printADDITION(DiffElement diffElement) {
+		System.out.println("ADDITION\t" + diffElement.getSubDiffElements().size());
+		if(diffElement instanceof ModelElementChangeLeftTargetImpl){
+			
+		}
+	}
 
 	@Override
 	public ComparisonResourceSetSnapshot getDiff(List<File> leftASTModels,
@@ -73,12 +153,16 @@ public class MatchEngineDiffingService extends AbstractDiffingService {
 		}
 		
         // build and return the snapshot
-		ComparisonResourceSetSnapshot snapshot = buildResourceSetComparisionSnapshot(
-				matchResourceSet, diffSet);
+		ComparisonResourceSetSnapshot snapshot = buildResourceSetComparisionSnapshot(matchResourceSet, diffSet);
 		
 		return snapshot;
 	}
 
+	/**
+	 * Print out a MatchedElement returned from a match engine to the console. 
+	 * @param matchedElement
+	 * @param indentIndex
+	 */
 	private void printMatchedElement(MatchElement matchedElement, int indentIndex) {
 
 		StringBuilder indent = new StringBuilder();
@@ -165,10 +249,13 @@ public class MatchEngineDiffingService extends AbstractDiffingService {
 	private MatchResourceSet buildMatchRessourceSet(
 			ResourceSet leftResourceSet, ResourceSet rightResourceSet)
 			throws InterruptedException {
+		
+		// configure the match engine
 		final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
 		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(leftResourceSet, rightResourceSet);
 		matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,matchScopeProvider);
-		final MatchResourceSet matchResourceSet = MatchService.doResourceSetMatch(leftResourceSet, rightResourceSet,matchOptions);
+		
+		MatchResourceSet matchResourceSet = MatchService.doResourceSetMatch(leftResourceSet, rightResourceSet,matchOptions);
 		return matchResourceSet;
 	}
 
@@ -190,6 +277,34 @@ public class MatchEngineDiffingService extends AbstractDiffingService {
 		snapshot.setMatchResourceSet(matchResourceSet);
 		snapshot.setDiffResourceSet(diffSet);
 		return snapshot;
+	}
+
+
+	/**
+	 * Loads an Ecore model from the supplied file
+	 * 
+	 * @param modelFiles
+	 *            List of models to load
+	 * @return model resource set instance
+	 * @throws IOException
+	 *             possible load exception
+	 */
+	protected ResourceSet loadModelResourceSet(List<File> modelFiles) throws IOException {
+		ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new
+		org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl());
+
+		for (File modelFile : modelFiles) {
+			if (!modelFile.canRead()) {
+				throw new IllegalArgumentException("cannot read model file "
+						+ modelFile.getAbsolutePath());
+			}
+			URI fileUri = URI.createFileURI(modelFile.getPath());
+			Resource resource = resourceSet.createResource(fileUri);
+			resource.load(Collections.emptyMap());
+		}
+	
+		return resourceSet;
 	}
 
 }

@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.diff.engine.IDiffEngine;
 import org.eclipse.emf.compare.diff.metamodel.AbstractDiffExtension;
 import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSetSnapshot;
@@ -37,7 +39,9 @@ import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.compare.util.EMFCompareMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.splevo.diffing.emfcompare.diff.KdmDiffEngine;
 import org.splevo.diffing.emfcompare.diff.transform.DiffTreeTransformer;
@@ -49,7 +53,7 @@ import org.splevo.diffing.emfcompare.merge.KdmMatchEngine;
  * @author Benjamin Klatt
  * 
  */
-public class EMFCompareDiffingService extends AbstractDiffingService {
+public class EMFCompareDiffingService implements DiffingService {
 
 	/** The KDM specific match engine */
 	private final IMatchEngine matchEngine = new KdmMatchEngine();
@@ -297,5 +301,33 @@ public class EMFCompareDiffingService extends AbstractDiffingService {
 		snapshot.setMatchResourceSet(matchResourceSet);
 		snapshot.setDiffResourceSet(diffSet);
 		return snapshot;
+	}
+
+
+	/**
+	 * Loads an Ecore model from the supplied file
+	 * 
+	 * @param modelFiles
+	 *            List of models to load
+	 * @return model resource set instance
+	 * @throws IOException
+	 *             possible load exception
+	 */
+	protected ResourceSet loadModelResourceSet(List<File> modelFiles) throws IOException {
+		ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new
+		org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl());
+
+		for (File modelFile : modelFiles) {
+			if (!modelFile.canRead()) {
+				throw new IllegalArgumentException("cannot read model file "
+						+ modelFile.getAbsolutePath());
+			}
+			URI fileUri = URI.createFileURI(modelFile.getPath());
+			Resource resource = resourceSet.createResource(fileUri);
+			resource.load(Collections.emptyMap());
+		}
+	
+		return resourceSet;
 	}
 }
