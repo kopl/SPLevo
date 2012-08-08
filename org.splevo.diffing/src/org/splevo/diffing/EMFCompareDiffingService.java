@@ -45,7 +45,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.splevo.diffing.emfcompare.diff.KdmDiffEngine;
 import org.splevo.diffing.emfcompare.diff.transform.DiffTreeTransformer;
-import org.splevo.diffing.emfcompare.merge.KdmMatchEngine;
+import org.splevo.diffing.emfcompare.match.KdmMatchEngine;
 
 /**
  * A service to analyze the difference between to abstract syntax trees.

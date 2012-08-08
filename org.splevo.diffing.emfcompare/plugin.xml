@@ -22,7 +22,7 @@
    <extension
          point="org.eclipse.emf.compare.match.engine">
       <matchengine
-            engineClass="org.splevo.diffing.emfcompare.merge.KdmMatchEngine"
+            engineClass="org.splevo.diffing.emfcompare.match.KdmMatchEngine"
             fileExtension="xmi"
             label="KDM Match Engine"
             priority="high">

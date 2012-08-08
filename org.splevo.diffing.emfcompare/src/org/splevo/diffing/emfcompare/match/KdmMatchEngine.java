@@ -1,4 +1,4 @@
-package org.splevo.diffing.emfcompare.merge;
+package org.splevo.diffing.emfcompare.match;
 
 import java.util.List;
 

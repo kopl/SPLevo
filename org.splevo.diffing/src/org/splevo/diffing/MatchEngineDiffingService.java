@@ -13,7 +13,7 @@ import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.compare.util.EMFCompareMap;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.splevo.diffing.emfcompare.merge.KdmMatchEngine;
+import org.splevo.diffing.emfcompare.match.KdmMatchEngine;
 import org.splevo.diffing.kdm.JavaModelElementPrinter;
 
 /**
