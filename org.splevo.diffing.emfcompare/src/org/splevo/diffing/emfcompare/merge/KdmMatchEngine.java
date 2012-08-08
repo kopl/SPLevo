@@ -5,6 +5,7 @@ import java.util.List;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.match.engine.GenericMatchEngine;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.omg.kdm.kdm.util.KdmSwitch;
 
 /**
  * A KDM specific match engine taking into account
