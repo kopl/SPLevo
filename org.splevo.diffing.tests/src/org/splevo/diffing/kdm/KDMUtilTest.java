@@ -1,10 +1,10 @@
 package org.splevo.diffing.kdm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
 
@@ -19,12 +19,12 @@ public class KDMUtilTest {
 	 */
 	@Test
 	public final void testLoadKDMModelFromDirectory() throws IOException {
-		String baseDirectory = "testmodels/implementation/native/";
-		JavaApplication applicationModel = KDMUtil.loadKDMModelFromDirectory(baseDirectory);
+		File java2kdmModelFile = new File("testmodels/implementation/gcd/native/_java2kdm.xmi");
+		
+		JavaApplication applicationModel = KDMUtil.loadKDMModel(java2kdmModelFile);
 		assertNotNull("No overarching model has been extracted",applicationModel);
 		assertNotNull("No java model has been extracted",applicationModel.getJavaModel());
 		assertNotNull("No inventory model has been extracted",applicationModel.getDeploymentModel());
-		System.out.println(ModelUtils.serialize(applicationModel.getDeploymentModel()));
 	}
 
 }

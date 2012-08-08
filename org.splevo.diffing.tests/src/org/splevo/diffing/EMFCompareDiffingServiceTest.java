@@ -30,11 +30,11 @@ public class EMFCompareDiffingServiceTest {
 	
 	/** Source path to the native calculator implementation */
 	private static final File NATIVE_MODEL_FILE = new File(
-			"testmodels/implementation/native/_java.xmi");
+			"testmodels/implementation/gcd/native/_java.xmi");
 	
 	/** Source path to the jscience based calculator implementation */
 	private static final File JSCIENCE_MODEL_FILE = new File(
-			"testmodels/implementation/jscience/_java.xmi");
+			"testmodels/implementation/gcd/jscience/_java.xmi");
 
 	/**
 	 * Test method for
@@ -58,7 +58,7 @@ public class EMFCompareDiffingServiceTest {
 		
 		
 		ComparisonResourceSetSnapshot snapshot = diffingService.getDiff(leadingModelFiles,integrationModelFiles);
-		File targetFile = new File("testresult/testDiff.emfdiff");
+		File targetFile = new File("testresult/gcd/testDiff.emfdiff");
 		saveDiff(targetFile, snapshot);
 	}
 
