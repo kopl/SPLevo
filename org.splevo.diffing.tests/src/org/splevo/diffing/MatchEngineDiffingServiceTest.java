@@ -10,6 +10,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeLeftTarget;
+import org.eclipse.emf.compare.diff.metamodel.UpdateAttribute;
+import org.eclipse.emf.compare.diff.metamodel.util.DiffSwitch;
 import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -58,8 +61,9 @@ public class MatchEngineDiffingServiceTest {
 		
 		EList<DiffElement> differences = diff.getDifferences();
 		for (DiffElement diffElement : differences) {
-			System.out.println(diffElement.getKind() +"\t"+diffElement.getClass());
+			System.out.println(diffElement.getKind()+": "+diffElement.getClass().getName());
 		}
+		
 		System.out.println("Found Differences: "+differences.size());
 		
 		

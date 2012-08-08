@@ -15,7 +15,6 @@ import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.metamodel.DiffResourceSet;
-import org.eclipse.emf.compare.diff.metamodel.impl.ModelElementChangeLeftTargetImpl;
 import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.engine.DefaultMatchScopeProvider;
 import org.eclipse.emf.compare.match.engine.IMatchEngine;
@@ -38,6 +37,7 @@ import org.eclipse.gmt.modisco.java.emf.impl.SingleVariableAccessImpl;
 import org.eclipse.gmt.modisco.java.emf.impl.TextElementImpl;
 import org.eclipse.gmt.modisco.java.emf.impl.TypeAccessImpl;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+import org.splevo.diffing.emfcompare.diff.transform.DiffTreeTransformer;
 import org.splevo.diffing.emfcompare.merge.KdmMatchEngine;
 
 /**
@@ -93,29 +93,21 @@ public class MatchEngineDiffingService implements DiffingService {
 		System.out.println("=======================================================");
 		
 		DiffModel diff = new GenericDiffEngine().doDiff(matchModel, false);
-		return diff;
-
-//		EList<DiffElement> diffElements = diff.getDifferences();
-//		for (DiffElement diffElement : diffElements) {
-//			switch (diffElement.getKind()) {
-//			case ADDITION:
-//				printADDITION(diffElement);
-//				break;
-//
-//			default:
-//				System.out.println(diffElement.getKind().getName() + "\t" + diffElement.getClass().getSimpleName());
-//				break;
-//			}
-//		}
 		
-		
-	}
+		DiffTreeTransformer transformer = new DiffTreeTransformer();
+		EList<DiffElement> differences = transformer.transformElements(diff.getDifferences());
 
-	private void printADDITION(DiffElement diffElement) {
-		System.out.println("ADDITION\t" + diffElement.getSubDiffElements().size());
-		if(diffElement instanceof ModelElementChangeLeftTargetImpl){
-			
+		for (DiffElement diffElement : differences) {
+			System.out.println(diffElement.getKind()+": "+diffElement);
 		}
+		
+		
+		
+		//DiffNodeTransformer diffSwitch = new DiffNodeTransformer();
+		
+		return diff;
+		
+		
 	}
 
 	@Override
