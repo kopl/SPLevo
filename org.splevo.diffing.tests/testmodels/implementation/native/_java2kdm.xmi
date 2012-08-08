@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<javaapplication:JavaApplication xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:javaapplication="http://www.eclipse.org/MoDisco/Java/Composition/0.1.incubation/javaApplication">
-  <javaModel href="testmodels/implementation/native/_java.xmi#/"/>
-  <deploymentModel href="testmodels/implementation/native/_kdm.xmi#//@model.0"/>
-  <java2DirectoryChildren href="testmodels/implementation/native/java2kdmFragments/Package2Directory_java2kdm.xmi#/"/>
-</javaapplication:JavaApplication>
