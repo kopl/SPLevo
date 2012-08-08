@@ -2,12 +2,11 @@ package org.splevo.diffing.emfcompare.diff.transform;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSetSnapshot;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
@@ -58,8 +57,8 @@ public class DiffTreeTransformer {
 		return transformedSet;
 	}
 
-	Collection<DiffElement> transformElements(Collection<DiffElement> sourceElements) {
-		List<DiffElement> transformedElems = new ArrayList<DiffElement>();
+	public EList<DiffElement> transformElements(EList<DiffElement> sourceElements) {
+		 EList<DiffElement> transformedElems = new BasicEList<DiffElement>();
 		for (DiffElement sourceElem : sourceElements) {
 			DiffElement targetElem = diffSwitch.doSwitch(sourceElem);
 
