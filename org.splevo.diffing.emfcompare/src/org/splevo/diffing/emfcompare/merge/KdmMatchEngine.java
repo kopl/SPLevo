@@ -5,6 +5,12 @@ import java.util.List;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.match.engine.GenericMatchEngine;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+import org.eclipse.gmt.modisco.java.ImportDeclaration;
+import org.eclipse.gmt.modisco.java.NamedElement;
+import org.eclipse.gmt.modisco.java.emf.impl.ClassDeclarationImpl;
+import org.eclipse.gmt.modisco.java.emf.impl.ImportDeclarationImpl;
+import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.eclipse.gmt.modisco.omg.kdm.kdm.util.KdmSwitch;
 
 /**
@@ -28,8 +34,38 @@ public class KdmMatchEngine extends GenericMatchEngine {
 	 * 
 	 */
 	@Override
-	protected boolean isSimilar(EObject obj1, EObject obj2)
+	protected boolean isSimilar(final EObject obj1, final EObject obj2)
 			throws FactoryException {
+
+		// if the types of the elements is different return false straight away
+		if(!obj1.getClass().equals(obj2.getClass())){
+			return false;
+		}
+		
+		if(obj1 instanceof ImportDeclaration){
+			NamedElement importedElement1 = ((ImportDeclaration) obj1).getImportedElement(); 
+			NamedElement importedElement2 = ((ImportDeclaration) obj2).getImportedElement();
+			
+			if(importedElement1 instanceof AbstractTypeDeclaration 
+					&& importedElement2 instanceof AbstractTypeDeclaration){
+				
+				AbstractTypeDeclaration atd1 = (AbstractTypeDeclaration) importedElement1;
+				AbstractTypeDeclaration atd2 = (AbstractTypeDeclaration) importedElement2;
+				
+				if(atd1.getName().equals(atd2.getName()) &&
+						atd1.getPackage().getName().equals(atd2.getPackage().getName())){
+					return true;
+				} else {
+					return false;
+				}
+					
+			}
+			
+			System.out.println("importedElement1:"+importedElement1);
+			System.out.println("importedElement2:"+importedElement2);
+		}
+		
+		
 		return super.isSimilar(obj1, obj2);
 	}
 	
