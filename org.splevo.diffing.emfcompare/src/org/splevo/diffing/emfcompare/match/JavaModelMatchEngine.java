@@ -8,10 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.NamedElement;
-import org.eclipse.gmt.modisco.java.emf.impl.ClassDeclarationImpl;
-import org.eclipse.gmt.modisco.java.emf.impl.ImportDeclarationImpl;
-import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
-import org.eclipse.gmt.modisco.omg.kdm.kdm.util.KdmSwitch;
+import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
 /**
  * A KDM specific match engine taking into account
@@ -26,7 +23,7 @@ import org.eclipse.gmt.modisco.omg.kdm.kdm.util.KdmSwitch;
  * @author benjamin
  *
  */
-public class KdmMatchEngine extends GenericMatchEngine {
+public class JavaModelMatchEngine extends GenericMatchEngine {
 	
 	/**
 	 * A custom similarity check for kdm / modisco elements.
@@ -42,6 +39,8 @@ public class KdmMatchEngine extends GenericMatchEngine {
 			return false;
 		}
 		
+		// Handle Import Declarations
+		// They should only match if they are about the same declaration type
 		if(obj1 instanceof ImportDeclaration){
 			NamedElement importedElement1 = ((ImportDeclaration) obj1).getImportedElement(); 
 			NamedElement importedElement2 = ((ImportDeclaration) obj2).getImportedElement();
@@ -60,14 +59,33 @@ public class KdmMatchEngine extends GenericMatchEngine {
 				}
 					
 			}
-			
-			System.out.println("importedElement1:"+importedElement1);
-			System.out.println("importedElement2:"+importedElement2);
+		}
+		
+		
+		// Handle Class declaration
+		// They should only match if they are in the same package and have the same name
+		// This might be further enhanced in the future by comparing 
+		// their contained fields, methods, etc.
+		if(obj1 instanceof AbstractTypeDeclaration){
+			AbstractTypeDeclaration type1 = (AbstractTypeDeclaration) obj1; 
+			AbstractTypeDeclaration type2 = (AbstractTypeDeclaration) obj2;
+						
+			if(type1.getName() != null && !type1.getName().equals(type2.getName())){
+				return false;
+			} else {
+				StringBuilder packageBuilder1 = new StringBuilder();
+				JavaModelUtil.buildPackagePath(type1.getPackage(), packageBuilder1);
+				StringBuilder packageBuilder2 = new StringBuilder();
+				JavaModelUtil.buildPackagePath(type2.getPackage(), packageBuilder2);
+				return packageBuilder1.toString().equals(packageBuilder2.toString());
+			}
 		}
 		
 		
 		return super.isSimilar(obj1, obj2);
 	}
+	
+	
 	
 	/**
 	 * Find the most similar object of a provided list of objects

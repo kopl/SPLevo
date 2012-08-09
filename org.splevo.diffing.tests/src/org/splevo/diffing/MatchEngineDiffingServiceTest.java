@@ -5,26 +5,14 @@ package org.splevo.diffing;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeLeftTarget;
 import org.eclipse.emf.compare.diff.metamodel.UpdateAttribute;
-import org.eclipse.emf.compare.diff.metamodel.util.DiffSwitch;
+import org.eclipse.emf.compare.diff.metamodel.impl.UpdateAttributeImpl;
 import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage;
 import org.junit.Test;
 import org.splevo.diffing.kdm.KDMUtil;
 

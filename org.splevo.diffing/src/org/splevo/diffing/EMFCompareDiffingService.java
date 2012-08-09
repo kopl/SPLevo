@@ -45,7 +45,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.splevo.diffing.emfcompare.diff.KdmDiffEngine;
 import org.splevo.diffing.emfcompare.diff.transform.DiffTreeTransformer;
-import org.splevo.diffing.emfcompare.match.KdmMatchEngine;
+import org.splevo.diffing.emfcompare.match.JavaModelMatchEngine;
 
 /**
  * A service to analyze the difference between to abstract syntax trees.
@@ -56,7 +56,7 @@ import org.splevo.diffing.emfcompare.match.KdmMatchEngine;
 public class EMFCompareDiffingService implements DiffingService {
 
 	/** The KDM specific match engine */
-	private final IMatchEngine matchEngine = new KdmMatchEngine();
+	private final IMatchEngine matchEngine = new JavaModelMatchEngine();
 
 	/** The KDM specific diff engine */
 	private final IDiffEngine diffEngine = new KdmDiffEngine();

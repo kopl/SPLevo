@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.compare.diff.engine.GenericDiffEngine;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.engine.DefaultMatchScopeProvider;
@@ -13,7 +12,8 @@ import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.compare.util.EMFCompareMap;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.splevo.diffing.emfcompare.match.KdmMatchEngine;
+import org.splevo.diffing.emfcompare.diff.JavaModelDiffEngine;
+import org.splevo.diffing.emfcompare.match.JavaModelMatchEngine;
 import org.splevo.diffing.kdm.JavaModelElementPrinter;
 
 /**
@@ -39,15 +39,11 @@ public class MatchEngineDiffingService {
 
 		JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
 		
-		System.out.println("=======================================================");
 		System.out.println("==================== MATCHING PHASE  ==================");
-		System.out.println("=======================================================");
-		IMatchEngine matchEngine = new KdmMatchEngine();
+		IMatchEngine matchEngine = new JavaModelMatchEngine();
 		MatchModel matchModel = matchEngine.modelMatch(leadingJavaModel, integrationJavaModel, matchOptions);
 		
-		System.out.println("==========================");
 		System.out.println("=== UNMATCHED ELEMENTS ===");
-		System.out.println("==========================");
 		EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
 		for (UnmatchElement unmatchedElement : unmatchedElements) {
 			 System.out.print(unmatchedElement.getSide()+"\t");
@@ -66,11 +62,9 @@ public class MatchEngineDiffingService {
 //		}
 		
 		
-		System.out.println("=======================================================");
 		System.out.println("==================== DIFFING PHASE  ===================");
-		System.out.println("=======================================================");
 		
-		DiffModel diffModel = new GenericDiffEngine().doDiff(matchModel, false);
+		DiffModel diffModel = new JavaModelDiffEngine().doDiff(matchModel, false);
 		
 		
 //		System.out.println("=======================================================");
