@@ -69,7 +69,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 		if(obj1 instanceof AbstractTypeDeclaration){
 			AbstractTypeDeclaration type1 = (AbstractTypeDeclaration) obj1; 
 			AbstractTypeDeclaration type2 = (AbstractTypeDeclaration) obj2;
-						
+
 			if(type1.getName() != null && !type1.getName().equals(type2.getName())){
 				return false;
 			} else {
@@ -80,7 +80,6 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 				return packageBuilder1.toString().equals(packageBuilder2.toString());
 			}
 		}
-		
 		
 		return super.isSimilar(obj1, obj2);
 	}

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="kdm2javadiff"
-    nsURI="http://www.eclipse.org/emf/compare/diff/kdm2java/1.0" nsPrefix="kdm2javadiff">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="kdm2javadiff" nsURI="http://www.eclipse.org/emf/compare/diff/kdm2java/1.0"
+    nsPrefix="kdm2javadiff">
   <eClassifiers xsi:type="ecore:EClass" name="KDM2JavaDiffExtension" abstract="true"
       eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//AbstractDiffExtension platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -100,27 +99,27 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImportDeclarationChange" abstract="true"
-      interface="true" eSuperTypes="#//KDM2JavaDiffExtension">
+      eSuperTypes="#//KDM2JavaDiffExtension">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A difference identifying that an import has been changed."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ImportDeclarationChange"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="importLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="importRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="compilationUnitChange"
         eType="#//CompilationUnitChange" eOpposite="#//CompilationUnitChange/importDeclarationChanges"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImportInsert" eSuperTypes="#//ImportDeclarationChange">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A change representing a new import which is only present in the left model. &#xD;&#xA;Accordingly the importRight reference will always be null."/>
+      <details key="documentation" value="A change representing a new import which is only present in the right model."/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImportDelete" eSuperTypes="#//ImportDeclarationChange">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A import that was deleted and is only present in the right model.&#xD;&#xA;Accordingly the importLeft reference will always be null."/>
+      <details key="documentation" value="An import that was deleted and is only present in the left model."/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MethodDeclarationChange" abstract="true"
       interface="true" eSuperTypes="#//KDM2JavaDiffExtension">

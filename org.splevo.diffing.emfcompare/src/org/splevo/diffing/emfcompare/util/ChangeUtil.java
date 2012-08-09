@@ -6,6 +6,8 @@ import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.splevo.diffing.emfcompare.kdm2javadiff.ClassDeclarationChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange;
+import org.splevo.diffing.emfcompare.kdm2javadiff.ImportDelete;
+import org.splevo.diffing.emfcompare.kdm2javadiff.ImportInsert;
 import org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.MethodDeclarationChange;
 import org.splevo.diffing.emfcompare.kdm2javadiff.StatementChange;
@@ -126,13 +128,12 @@ public class ChangeUtil {
 
 		CompilationUnit compUnit = null;
 
-		if (importDeclarationChange.getImportLeft() != null
-				&& importDeclarationChange.getImportLeft().getOriginalCompilationUnit() != null) {
-			compUnit = importDeclarationChange.getImportLeft().getOriginalCompilationUnit();
-			
-		} else if (importDeclarationChange.getImportRight() != null
-				&& importDeclarationChange.getImportRight().getOriginalCompilationUnit() != null) {
-			compUnit = importDeclarationChange.getImportRight().getOriginalCompilationUnit();
+		if(importDeclarationChange instanceof ImportDelete){
+			ImportDelete importDelete = (ImportDelete) importDeclarationChange;
+			compUnit = importDelete.getImportLeft().getOriginalCompilationUnit();
+		} else if(importDeclarationChange instanceof ImportInsert){
+			ImportInsert importInsert = (ImportInsert) importDeclarationChange;
+			compUnit = importInsert.getImportRight().getOriginalCompilationUnit();
 		}
 		
 		return compUnit;

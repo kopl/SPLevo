@@ -1341,10 +1341,10 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int CLASS_MODIFIER_CHANGE_FEATURE_COUNT = CLASS_DECLARATION_CHANGE_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange <em>Import Declaration Change</em>}' class.
+	 * The meta object id for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.ImportDeclarationChangeImpl <em>Import Declaration Change</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.impl.ImportDeclarationChangeImpl
 	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.impl.KDM2JavaDiffPackageImpl#getImportDeclarationChange()
 	 * @generated
 	 */
@@ -1432,31 +1432,13 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int IMPORT_DECLARATION_CHANGE__REQUIRED_BY = KDM2_JAVA_DIFF_EXTENSION__REQUIRED_BY;
 
 	/**
-	 * The feature id for the '<em><b>Import Left</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPORT_DECLARATION_CHANGE__IMPORT_LEFT = KDM2_JAVA_DIFF_EXTENSION_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Import Right</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPORT_DECLARATION_CHANGE__IMPORT_RIGHT = KDM2_JAVA_DIFF_EXTENSION_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Compilation Unit Change</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT_DECLARATION_CHANGE__COMPILATION_UNIT_CHANGE = KDM2_JAVA_DIFF_EXTENSION_FEATURE_COUNT + 2;
+	int IMPORT_DECLARATION_CHANGE__COMPILATION_UNIT_CHANGE = KDM2_JAVA_DIFF_EXTENSION_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Import Declaration Change</em>' class.
@@ -1465,7 +1447,7 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT_DECLARATION_CHANGE_FEATURE_COUNT = KDM2_JAVA_DIFF_EXTENSION_FEATURE_COUNT + 3;
+	int IMPORT_DECLARATION_CHANGE_FEATURE_COUNT = KDM2_JAVA_DIFF_EXTENSION_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.ImportInsertImpl <em>Import Insert</em>}' class.
@@ -1559,24 +1541,6 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int IMPORT_INSERT__REQUIRED_BY = IMPORT_DECLARATION_CHANGE__REQUIRED_BY;
 
 	/**
-	 * The feature id for the '<em><b>Import Left</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPORT_INSERT__IMPORT_LEFT = IMPORT_DECLARATION_CHANGE__IMPORT_LEFT;
-
-	/**
-	 * The feature id for the '<em><b>Import Right</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPORT_INSERT__IMPORT_RIGHT = IMPORT_DECLARATION_CHANGE__IMPORT_RIGHT;
-
-	/**
 	 * The feature id for the '<em><b>Compilation Unit Change</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1586,13 +1550,22 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int IMPORT_INSERT__COMPILATION_UNIT_CHANGE = IMPORT_DECLARATION_CHANGE__COMPILATION_UNIT_CHANGE;
 
 	/**
+	 * The feature id for the '<em><b>Import Right</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT_INSERT__IMPORT_RIGHT = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Import Insert</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT_INSERT_FEATURE_COUNT = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 0;
+	int IMPORT_INSERT_FEATURE_COUNT = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.ImportDeleteImpl <em>Import Delete</em>}' class.
@@ -1686,24 +1659,6 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int IMPORT_DELETE__REQUIRED_BY = IMPORT_DECLARATION_CHANGE__REQUIRED_BY;
 
 	/**
-	 * The feature id for the '<em><b>Import Left</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPORT_DELETE__IMPORT_LEFT = IMPORT_DECLARATION_CHANGE__IMPORT_LEFT;
-
-	/**
-	 * The feature id for the '<em><b>Import Right</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMPORT_DELETE__IMPORT_RIGHT = IMPORT_DECLARATION_CHANGE__IMPORT_RIGHT;
-
-	/**
 	 * The feature id for the '<em><b>Compilation Unit Change</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1713,13 +1668,22 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	int IMPORT_DELETE__COMPILATION_UNIT_CHANGE = IMPORT_DECLARATION_CHANGE__COMPILATION_UNIT_CHANGE;
 
 	/**
+	 * The feature id for the '<em><b>Import Left</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMPORT_DELETE__IMPORT_LEFT = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Import Delete</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT_DELETE_FEATURE_COUNT = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 0;
+	int IMPORT_DELETE_FEATURE_COUNT = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodDeclarationChange <em>Method Declaration Change</em>}' class.
@@ -3223,28 +3187,6 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	EClass getImportDeclarationChange();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange#getImportLeft <em>Import Left</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Import Left</em>'.
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange#getImportLeft()
-	 * @see #getImportDeclarationChange()
-	 * @generated
-	 */
-	EReference getImportDeclarationChange_ImportLeft();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange#getImportRight <em>Import Right</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Import Right</em>'.
-	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange#getImportRight()
-	 * @see #getImportDeclarationChange()
-	 * @generated
-	 */
-	EReference getImportDeclarationChange_ImportRight();
-
-	/**
 	 * Returns the meta object for the container reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange#getCompilationUnitChange <em>Compilation Unit Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3266,6 +3208,17 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	EClass getImportInsert();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ImportInsert#getImportRight <em>Import Right</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Import Right</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.ImportInsert#getImportRight()
+	 * @see #getImportInsert()
+	 * @generated
+	 */
+	EReference getImportInsert_ImportRight();
+
+	/**
 	 * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ImportDelete <em>Import Delete</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3274,6 +3227,17 @@ public interface KDM2JavaDiffPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getImportDelete();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ImportDelete#getImportLeft <em>Import Left</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Import Left</em>'.
+	 * @see org.splevo.diffing.emfcompare.kdm2javadiff.ImportDelete#getImportLeft()
+	 * @see #getImportDelete()
+	 * @generated
+	 */
+	EReference getImportDelete_ImportLeft();
 
 	/**
 	 * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodDeclarationChange <em>Method Declaration Change</em>}'.
@@ -3754,30 +3718,14 @@ public interface KDM2JavaDiffPackage extends EPackage {
 		EClass CLASS_MODIFIER_CHANGE = eINSTANCE.getClassModifierChange();
 
 		/**
-		 * The meta object literal for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange <em>Import Declaration Change</em>}' class.
+		 * The meta object literal for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.ImportDeclarationChangeImpl <em>Import Declaration Change</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange
+		 * @see org.splevo.diffing.emfcompare.kdm2javadiff.impl.ImportDeclarationChangeImpl
 		 * @see org.splevo.diffing.emfcompare.kdm2javadiff.impl.KDM2JavaDiffPackageImpl#getImportDeclarationChange()
 		 * @generated
 		 */
 		EClass IMPORT_DECLARATION_CHANGE = eINSTANCE.getImportDeclarationChange();
-
-		/**
-		 * The meta object literal for the '<em><b>Import Left</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference IMPORT_DECLARATION_CHANGE__IMPORT_LEFT = eINSTANCE.getImportDeclarationChange_ImportLeft();
-
-		/**
-		 * The meta object literal for the '<em><b>Import Right</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference IMPORT_DECLARATION_CHANGE__IMPORT_RIGHT = eINSTANCE.getImportDeclarationChange_ImportRight();
 
 		/**
 		 * The meta object literal for the '<em><b>Compilation Unit Change</b></em>' container reference feature.
@@ -3798,6 +3746,14 @@ public interface KDM2JavaDiffPackage extends EPackage {
 		EClass IMPORT_INSERT = eINSTANCE.getImportInsert();
 
 		/**
+		 * The meta object literal for the '<em><b>Import Right</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IMPORT_INSERT__IMPORT_RIGHT = eINSTANCE.getImportInsert_ImportRight();
+
+		/**
 		 * The meta object literal for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.impl.ImportDeleteImpl <em>Import Delete</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3806,6 +3762,14 @@ public interface KDM2JavaDiffPackage extends EPackage {
 		 * @generated
 		 */
 		EClass IMPORT_DELETE = eINSTANCE.getImportDelete();
+
+		/**
+		 * The meta object literal for the '<em><b>Import Left</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IMPORT_DELETE__IMPORT_LEFT = eINSTANCE.getImportDelete_ImportLeft();
 
 		/**
 		 * The meta object literal for the '{@link org.splevo.diffing.emfcompare.kdm2javadiff.MethodDeclarationChange <em>Method Declaration Change</em>}' class.

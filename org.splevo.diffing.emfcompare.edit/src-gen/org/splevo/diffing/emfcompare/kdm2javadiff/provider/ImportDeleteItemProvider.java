@@ -29,7 +29,7 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
  * @generated
  */
 public class ImportDeleteItemProvider
-	extends KDM2JavaDiffExtensionItemProvider
+	extends ImportDeclarationChangeItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -58,7 +58,6 @@ public class ImportDeleteItemProvider
 			super.getPropertyDescriptors(object);
 
 			addImportLeftPropertyDescriptor(object);
-			addImportRightPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -74,31 +73,9 @@ public class ImportDeleteItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ImportDeclarationChange_importLeft_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ImportDeclarationChange_importLeft_feature", "_UI_ImportDeclarationChange_type"),
-				 KDM2JavaDiffPackage.Literals.IMPORT_DECLARATION_CHANGE__IMPORT_LEFT,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Import Right feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addImportRightPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_ImportDeclarationChange_importRight_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ImportDeclarationChange_importRight_feature", "_UI_ImportDeclarationChange_type"),
-				 KDM2JavaDiffPackage.Literals.IMPORT_DECLARATION_CHANGE__IMPORT_RIGHT,
+				 getString("_UI_ImportDelete_importLeft_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ImportDelete_importLeft_feature", "_UI_ImportDelete_type"),
+				 KDM2JavaDiffPackage.Literals.IMPORT_DELETE__IMPORT_LEFT,
 				 true,
 				 false,
 				 true,
@@ -128,8 +105,8 @@ public class ImportDeleteItemProvider
 	public String getText(Object object) {
 		ImportDelete importDelete = (ImportDelete)object;
 		String importName = "";
-		if(importDelete.getImportRight() != null){
-			importName = importDelete.getImportRight().getImportedElement().getName();
+		if(importDelete.getImportLeft() != null){
+			importName = importDelete.getImportLeft().getImportedElement().getName();
 		}
 		return getString("_UI_ImportDelete_type", new Object[] {importName});
 	}

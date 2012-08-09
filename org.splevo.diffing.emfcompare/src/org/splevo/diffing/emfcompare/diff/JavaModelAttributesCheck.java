@@ -3,11 +3,8 @@ package org.splevo.diffing.emfcompare.diff;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
 import org.eclipse.emf.compare.diff.engine.check.AttributesCheck;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.Model;
-import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 
 /**
  * An attribute checker specific to the java model to 
@@ -27,6 +24,8 @@ public class JavaModelAttributesCheck extends AttributesCheck {
 	/**
 	 * Model specific check whether an attribute should be ignored or not.
 	 * 
+	 * @param attribute The EAttribute to check.
+	 * @return The decision whether to ignore the attribute or not.
 	 */
 	@Override
 	protected boolean shouldBeIgnored(EAttribute attribute) {
@@ -38,14 +37,10 @@ public class JavaModelAttributesCheck extends AttributesCheck {
 			}
 		}
 
-		// ignore changes in the Model
+		// ignore all attributes of the Model itself
 		if(Model.class.getCanonicalName().equals(attribute.getEContainingClass().getInstanceTypeName())){
 			return true;
 		}
-		
-		
-		
-		
 		
 		return super.shouldBeIgnored(attribute);
 	}

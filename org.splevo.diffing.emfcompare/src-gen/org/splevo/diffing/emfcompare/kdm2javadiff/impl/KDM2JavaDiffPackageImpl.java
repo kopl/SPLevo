@@ -470,26 +470,8 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getImportDeclarationChange_ImportLeft() {
-		return (EReference)importDeclarationChangeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getImportDeclarationChange_ImportRight() {
-		return (EReference)importDeclarationChangeEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getImportDeclarationChange_CompilationUnitChange() {
-		return (EReference)importDeclarationChangeEClass.getEStructuralFeatures().get(2);
+		return (EReference)importDeclarationChangeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -506,8 +488,26 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getImportInsert_ImportRight() {
+		return (EReference)importInsertEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getImportDelete() {
 		return importDeleteEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getImportDelete_ImportLeft() {
+		return (EReference)importDeleteEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -803,13 +803,13 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 		classModifierChangeEClass = createEClass(CLASS_MODIFIER_CHANGE);
 
 		importDeclarationChangeEClass = createEClass(IMPORT_DECLARATION_CHANGE);
-		createEReference(importDeclarationChangeEClass, IMPORT_DECLARATION_CHANGE__IMPORT_LEFT);
-		createEReference(importDeclarationChangeEClass, IMPORT_DECLARATION_CHANGE__IMPORT_RIGHT);
 		createEReference(importDeclarationChangeEClass, IMPORT_DECLARATION_CHANGE__COMPILATION_UNIT_CHANGE);
 
 		importInsertEClass = createEClass(IMPORT_INSERT);
+		createEReference(importInsertEClass, IMPORT_INSERT__IMPORT_RIGHT);
 
 		importDeleteEClass = createEClass(IMPORT_DELETE);
+		createEReference(importDeleteEClass, IMPORT_DELETE__IMPORT_LEFT);
 
 		methodDeclarationChangeEClass = createEClass(METHOD_DECLARATION_CHANGE);
 		createEReference(methodDeclarationChangeEClass, METHOD_DECLARATION_CHANGE__METHOD_CHANGE);
@@ -936,14 +936,14 @@ public class KDM2JavaDiffPackageImpl extends EPackageImpl implements KDM2JavaDif
 
 		initEClass(classModifierChangeEClass, ClassModifierChange.class, "ClassModifierChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(importDeclarationChangeEClass, ImportDeclarationChange.class, "ImportDeclarationChange", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getImportDeclarationChange_ImportLeft(), theJavaPackage.getImportDeclaration(), null, "importLeft", null, 0, 1, ImportDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getImportDeclarationChange_ImportRight(), theJavaPackage.getImportDeclaration(), null, "importRight", null, 0, 1, ImportDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(importDeclarationChangeEClass, ImportDeclarationChange.class, "ImportDeclarationChange", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getImportDeclarationChange_CompilationUnitChange(), this.getCompilationUnitChange(), this.getCompilationUnitChange_ImportDeclarationChanges(), "compilationUnitChange", null, 0, 1, ImportDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(importInsertEClass, ImportInsert.class, "ImportInsert", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getImportInsert_ImportRight(), theJavaPackage.getImportDeclaration(), null, "importRight", null, 0, 1, ImportInsert.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(importDeleteEClass, ImportDelete.class, "ImportDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getImportDelete_ImportLeft(), theJavaPackage.getImportDeclaration(), null, "importLeft", null, 0, 1, ImportDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(methodDeclarationChangeEClass, MethodDeclarationChange.class, "MethodDeclarationChange", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMethodDeclarationChange_MethodChange(), this.getMethodChange(), this.getMethodChange_MethodDeclarationChanges(), "methodChange", null, 0, 1, MethodDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

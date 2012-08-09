@@ -139,10 +139,9 @@ public class DiffNodeTransformer extends DiffSwitch<DiffElement>{
 
 	@Override
 	public DiffElement caseMoveModelElement(MoveModelElement object) {
-		if (object.getLeftElement() instanceof ImportDeclaration) {
+		if (object.getRightElement() instanceof ImportDeclaration) {
 			ImportInsert importInsert = KDM2JavaDiffFactory.eINSTANCE.createImportInsert();
-			importInsert.setImportLeft((ImportDeclaration) object.getLeftElement());
-			importInsert.setImportRight(null);
+			importInsert.setImportRight((ImportDeclaration) object.getRightElement());
 			importInsert.setCompilationUnitChange(lastCompilationUnit);
 			return importInsert;
 		}
