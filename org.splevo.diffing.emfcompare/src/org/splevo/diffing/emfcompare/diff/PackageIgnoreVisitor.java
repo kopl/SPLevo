@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gmt.modisco.java.ArrayType;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
+import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
+import org.eclipse.gmt.modisco.java.PrimitiveType;
+import org.eclipse.gmt.modisco.java.TypeParameter;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
@@ -30,7 +35,7 @@ public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
 	public PackageIgnoreVisitor(List<String> ignorePackages) {
 		this.ignorePackages.addAll(ignorePackages);
 	}
-
+	
 	/**
 	 * Check a class declaration whether it is located in one of the packages to
 	 * ignore.
@@ -40,19 +45,66 @@ public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
 	 */
 	@Override
 	public Boolean caseClassDeclaration(ClassDeclaration object) {
-
-		// get the full package path
-		StringBuilder packagePathBuilder = new StringBuilder();
-		JavaModelUtil.buildPackagePath(object.getPackage(), packagePathBuilder);
-		String packagePath = packagePathBuilder.toString();
-		
+		String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
 		for (String regex : ignorePackages) {
 			if(packagePath.matches(regex)){
 				return Boolean.TRUE;
 			}
 		}
-		
 		return Boolean.FALSE;
+	}
+
+	
+	/**
+	 * Check an interface declaration whether it is located in one of the packages to
+	 * ignore.
+	 * 
+	 * @param object
+	 *            The interface declaration to check.
+	 */
+	@Override
+	public Boolean caseInterfaceDeclaration(InterfaceDeclaration object) {
+		String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
+		for (String regex : ignorePackages) {
+			if(packagePath.matches(regex)){
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
+	}
+
+	/**
+	 * Type parameters are always ignored because they are relative to the local code construct
+	 * and do not have any important change except of code beautifying
+	 * TODO might need to be configurable if code beautifying should be considered.
+	 * 
+	 * @param object
+	 *            The type parameter declaration to check.
+	 */
+	@Override
+	public Boolean caseTypeParameter(TypeParameter object) {
+		return Boolean.TRUE;
+	}
+	
+	
+	/**
+	 * Check an array type by checking its element types.
+	 * If there is no element type accessible return False by default.
+	 */
+	@Override
+	public Boolean caseArrayType(ArrayType object) {
+		if(object.getElementType() != null){
+			return doSwitch(object.getElementType().getType());
+		}
+		return Boolean.FALSE;
+	}
+	
+	/**
+	 * Primitive types are always ignored.
+	 */
+	@Override
+	public Boolean casePrimitiveType(PrimitiveType object) {
+		return Boolean.TRUE;
 	}
 	
 	/**

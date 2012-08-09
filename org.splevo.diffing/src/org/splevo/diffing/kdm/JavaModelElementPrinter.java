@@ -63,7 +63,13 @@ public class JavaModelElementPrinter {
 		
 		@Override
 		public String caseTextElement(TextElement object) {
-			return object.getComments().toString().substring(0, 20);
+			if(object.getText() != null){
+				return object.getText().substring(0,20);
+			} else if(object.getComments() != null){
+				return object.getComments().toString().substring(0,20);
+			} else {
+				return "TextElement without text: "+object.toString();
+			}
 		}
 		
 		@Override

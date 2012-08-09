@@ -20,8 +20,6 @@ import org.splevo.diffing.emfcompare.util.JavaModelUtil;
  *  
  * @see http://www.eclipse.org/forums/index.php?t=msg&goto=511859&
  *  
- * @author benjamin
- *
  */
 public class JavaModelMatchEngine extends GenericMatchEngine {
 	

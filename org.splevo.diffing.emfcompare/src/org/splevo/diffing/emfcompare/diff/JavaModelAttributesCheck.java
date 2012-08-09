@@ -3,7 +3,9 @@ package org.splevo.diffing.emfcompare.diff;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
 import org.eclipse.emf.compare.diff.engine.check.AttributesCheck;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.gmt.modisco.java.Comment;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
+import org.eclipse.gmt.modisco.java.Javadoc;
 import org.eclipse.gmt.modisco.java.Model;
 
 /**
@@ -33,6 +35,15 @@ public class JavaModelAttributesCheck extends AttributesCheck {
 		// ignore CompilationUnit.originalFilePath
 		if("originalFilePath".equals(attribute.getName())){
 			if(CompilationUnit.class.getCanonicalName().equals(attribute.getEContainingClass().getInstanceTypeName())){
+				return true;
+			}
+		}
+		
+		// ignore JavaDoc.comment and Comment.comment
+		if("content".equals(attribute.getName())){
+			String containerTypeName = attribute.getEContainingClass().getInstanceTypeName();
+			if(Javadoc.class.getCanonicalName().equals(containerTypeName) ||
+					Comment.class.getCanonicalName().equals(containerTypeName)){
 				return true;
 			}
 		}

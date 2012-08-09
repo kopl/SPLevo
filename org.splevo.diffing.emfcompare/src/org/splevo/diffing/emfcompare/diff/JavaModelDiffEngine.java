@@ -5,15 +5,11 @@ import java.util.List;
 
 import org.eclipse.emf.compare.diff.engine.GenericDiffEngine;
 import org.eclipse.emf.compare.diff.engine.check.AttributesCheck;
+import org.eclipse.emf.compare.diff.engine.check.ReferencesCheck;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
-import org.eclipse.emf.compare.match.metamodel.Side;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.ImportDeclaration;
-import org.splevo.diffing.emfcompare.kdm2javadiff.ImportDelete;
-import org.splevo.diffing.emfcompare.kdm2javadiff.ImportInsert;
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
 
 /**
  * A diff engine specific to the modisco java application model.
@@ -37,6 +33,18 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 	}
 	
 	/**
+	 * Get the java model specific reference checker.
+	 * The JavaModelReferenceCheck class is customized to the specific
+	 * semantics of references contained in the modisco java model.
+	 */
+	@Override
+	protected ReferencesCheck getReferencesChecker() {
+		return new JavaModelReferenceCheck(getMatchManager(),ignorePackages);
+	}
+	
+	
+	
+	/**
 	 * Customized unmatched elements processing including:
 	 * - ignore elements from filtered packages
 	 */
@@ -53,24 +61,8 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 			final EObject element = unmatchElement.getElement();
 			final EObject leftParent = getMatchManager().getMatchedEObject(element.eContainer());
 
-			DiffElement diffElement = null;
-			
-			if(element instanceof ImportDeclaration){
-				if (unmatchElement.getSide() == Side.RIGHT) {
-					// add ImportInsert
-					final ImportInsert importInsert = KDM2JavaDiffFactory.eINSTANCE
-							.createImportInsert();
-					importInsert.setImportRight((ImportDeclaration) element);
-					importInsert.setRemote(unmatchElement.isRemote());
-					diffElement = importInsert;
-				} else {
-					// add ImportDelete
-					final ImportDelete importDelete = KDM2JavaDiffFactory.eINSTANCE.createImportDelete();
-					importDelete.setImportLeft((ImportDeclaration) element);
-					importDelete.setRemote(unmatchElement.isRemote());
-					diffElement = importDelete;
-				}
-			}
+			UnmatchedElementProcessor ueProcessor = new UnmatchedElementProcessor(unmatchElement);
+			DiffElement diffElement = ueProcessor.process(element);
 			
 			// check if a specific diff element has been created.
 			// otherwise add it to the list that still needs to be processed
@@ -80,7 +72,8 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 				filteredUnmatched.add(unmatchElement);
 			}
 		}
-			
+	
+		// Process the elements that were not handled by type specific diff's yet.
 		super.processUnmatchedElements(diffRoot, filteredUnmatched);
 	}
 	

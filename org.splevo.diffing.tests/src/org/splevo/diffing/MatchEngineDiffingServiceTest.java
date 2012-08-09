@@ -46,7 +46,7 @@ public class MatchEngineDiffingServiceTest {
 	 * @throws InterruptedException 
 	 * @throws Exception
 	 */
-	@Test
+//	@Test
 	public final void testImportDiff() throws IOException, InterruptedException {
 		
 		JavaApplication leadingModel = KDMUtil.loadKDMModel(IMPORT_TEST_FILE_1);
@@ -65,7 +65,7 @@ public class MatchEngineDiffingServiceTest {
 		
 		System.out.println("Found Differences: "+differences.size());
 		
-		ModelUtils.save(diff, "importDiffModel.emfdiff");
+		ModelUtils.save(diff, "testresult/importDiffModel.emfdiff");
 	}
 	
 	/**
@@ -79,13 +79,18 @@ public class MatchEngineDiffingServiceTest {
 	 * @throws InterruptedException 
 	 * @throws Exception
 	 */
-	//@Test
+	@Test
 	public final void testGetDiff() throws IOException, InterruptedException {
 		
 		JavaApplication leadingModel = KDMUtil.loadKDMModel(NATIVE_JAVA2KDMMODEL_FILE);
 		JavaApplication integrationModel = KDMUtil.loadKDMModel(JSCIENCE_JAVA2KDMMODEL_FILE);
 		
 		MatchEngineDiffingService diffingService = new MatchEngineDiffingService();
+		diffingService.getIgnorePackages().add("java.lang");
+		diffingService.getIgnorePackages().add("java.math");
+		diffingService.getIgnorePackages().add("java.io");
+		diffingService.getIgnorePackages().add("org.jscience.*");
+		
 		DiffModel diff = diffingService.doDiff(leadingModel,integrationModel);
 		
 		EList<DiffElement> differences = diff.getDifferences();
@@ -95,10 +100,6 @@ public class MatchEngineDiffingServiceTest {
 		
 		System.out.println("Found Differences: "+differences.size());
 		
-		
-		// TODO: process/interprete the differences persisited in the file below
-		// This file can be smoothly opened with the sample reflective editor.
-		// perhaps using a switch provided by emf compare?
-		ModelUtils.save(diff, "diffModel.emfdiff");
+		ModelUtils.save(diff, "testresult/gcdDiffModel.emfdiff");
 	}
 }

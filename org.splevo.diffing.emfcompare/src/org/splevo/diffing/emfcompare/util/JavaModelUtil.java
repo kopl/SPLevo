@@ -6,6 +6,23 @@ import org.eclipse.gmt.modisco.java.Package;
  * Utilities to work with the modisco java model.
  */
 public class JavaModelUtil {
+	
+	
+	/**
+	 * Get the complete path of a package with all parent packages separated by a dot.
+	 * This method fills up a provided string builder for a better performance.
+	 * 
+	 * The name of the provided package will be included as well.
+	 * 
+	 * @param packageElement The packageElement to build the complete package path for.
+	 * @return The complete package path.
+	 */
+	public static String buildPackagePath(Package packageElement){
+		StringBuilder packagePathBuilder = new StringBuilder();
+		JavaModelUtil.buildPackagePath(packageElement, packagePathBuilder);
+		return packagePathBuilder.toString();
+	}
+
 
 	/**
 	 * Get the complete path of a package with all parent packages separated by a dot.
