@@ -1,6 +1,7 @@
 package org.splevo.diffing.emfcompare.diff;
 
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 
@@ -34,6 +35,11 @@ public class UnmatchedElementFilter {
 		 */
 		@Override
 		public Boolean caseTextElement(TextElement object) {
+			return Boolean.TRUE;
+		}
+		
+		@Override
+		public Boolean defaultCase(EObject object) {
 			return Boolean.FALSE;
 		}
 		
