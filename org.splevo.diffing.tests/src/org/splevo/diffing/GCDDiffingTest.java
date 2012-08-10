@@ -20,7 +20,7 @@ import org.splevo.diffing.kdm.KDMUtil;
  * @author Benjamin Klatt
  * 
  */
-public class MatchEngineDiffingServiceTest {
+public class GCDDiffingTest {
 	
 	/** Source path to the native calculator implementation */
 	private static final File NATIVE_JAVA2KDMMODEL_FILE = new File("testmodels/implementation/gcd/native/_java2kdm.xmi");
@@ -28,45 +28,7 @@ public class MatchEngineDiffingServiceTest {
 	/** Source path to the jscience based calculator implementation */
 	private static final File JSCIENCE_JAVA2KDMMODEL_FILE = new File("testmodels/implementation/gcd/jscience/_java2kdm.xmi");
 
-	/** Source path to the native calculator implementation */
-	private static final File IMPORT_TEST_FILE_1 = new File("testmodels/implementation/importDiffing/1/1_java2kdm.xmi");
 	
-	/** Source path to the jscience based calculator implementation */
-	private static final File IMPORT_TEST_FILE_2 = new File("testmodels/implementation/importDiffing/2/2_java2kdm.xmi");
-
-	
-	/**
-	 * Test method for
-	 * {@link org.splevo.diffing.EMFCompareDiffingService#getDiff(org.eclipse.modisco.java.composition.javaapplication.JavaApplication, org.eclipse.modisco.java.composition.javaapplication.JavaApplication)}
-	 * .
-	 * 
-	 * @throws IOException
-	 *             Identifies that either the source models could not be loaded
-	 *             or the diff model could not be serialized.
-	 * @throws InterruptedException 
-	 * @throws Exception
-	 */
-//	@Test
-	public final void testImportDiff() throws IOException, InterruptedException {
-		
-		JavaApplication leadingModel = KDMUtil.loadKDMModel(IMPORT_TEST_FILE_1);
-		JavaApplication integrationModel = KDMUtil.loadKDMModel(IMPORT_TEST_FILE_2);
-		
-		MatchEngineDiffingService diffingService = new MatchEngineDiffingService();
-		diffingService.getIgnorePackages().add("java.lang");
-		diffingService.getIgnorePackages().add("java.math");
-		
-		DiffModel diff = diffingService.doDiff(leadingModel,integrationModel);
-		
-		EList<DiffElement> differences = diff.getDifferences();
-		for (DiffElement diffElement : differences) {
-			System.out.println(diffElement.getKind()+": "+diffElement.getClass().getName());
-		}
-		
-		System.out.println("Found Differences: "+differences.size());
-		
-		ModelUtils.save(diff, "testresult/importDiffModel.emfdiff");
-	}
 	
 	/**
 	 * Test method for
@@ -100,6 +62,6 @@ public class MatchEngineDiffingServiceTest {
 		
 		System.out.println("Found Differences: "+differences.size());
 		
-		ModelUtils.save(diff, "testresult/gcdDiffModel.emfdiff");
+		ModelUtils.save(diff, "testresult/gcdDiffModel.java2kdmdiff");
 	}
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="Cp1252"?>
-<diff:DiffModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diff="http://www.eclipse.org/emf/compare/diff/1.1" xmlns:kdm2javadiff="http://www.eclipse.org/emf/compare/diff/kdm2java/1.0">
+<diff:DiffModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diff="http://www.eclipse.org/emf/compare/diff/1.1" xmlns:java2kdmdiff="http://www.eclipse.org/emf/compare/diff/java2kdmdiff/1.0">
   <ownedElements xsi:type="diff:DiffGroup">
     <subDiffElements xsi:type="diff:DiffGroup">
       <subDiffElements xsi:type="diff:DiffGroup">
-        <subDiffElements xsi:type="kdm2javadiff:ImportDelete">
+        <subDiffElements xsi:type="java2kdmdiff:ImportDelete">
           <importLeft href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/1/1_java.xmi#//@compilationUnits.0/@imports.0"/>
         </subDiffElements>
-        <subDiffElements xsi:type="kdm2javadiff:ImportInsert">
+        <subDiffElements xsi:type="java2kdmdiff:ImportInsert">
           <importRight href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/2/2_java.xmi#//@compilationUnits.0/@imports.0"/>
         </subDiffElements>
         <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/2/2_java.xmi#//@compilationUnits.0"/>
