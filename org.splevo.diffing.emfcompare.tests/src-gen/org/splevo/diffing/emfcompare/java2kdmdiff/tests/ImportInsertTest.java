@@ -1,23 +1,19 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.tests;
+package org.splevo.diffing.emfcompare.java2kdmdiff.tests;
 
 import junit.textui.TestRunner;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
-import org.splevo.diffing.emfcompare.kdm2javadiff.MethodParameterChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
 
 /**
  * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Method Parameter Change</b></em>'.
+ * A test case for the model object '<em><b>Import Insert</b></em>'.
  * <!-- end-user-doc -->
  * @generated
  */
-public class MethodParameterChangeTest extends KDM2JavaDiffExtensionTest {
+public class ImportInsertTest extends ImportDeclarationChangeTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -25,28 +21,28 @@ public class MethodParameterChangeTest extends KDM2JavaDiffExtensionTest {
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(MethodParameterChangeTest.class);
+		TestRunner.run(ImportInsertTest.class);
 	}
 
 	/**
-	 * Constructs a new Method Parameter Change test case with the given name.
+	 * Constructs a new Import Insert test case with the given name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MethodParameterChangeTest(String name) {
+	public ImportInsertTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Returns the fixture for this Method Parameter Change test case.
+	 * Returns the fixture for this Import Insert test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	protected MethodParameterChange getFixture() {
-		return (MethodParameterChange)fixture;
+	protected ImportInsert getFixture() {
+		return (ImportInsert)fixture;
 	}
 
 	/**
@@ -57,7 +53,7 @@ public class MethodParameterChangeTest extends KDM2JavaDiffExtensionTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(KDM2JavaDiffFactory.eINSTANCE.createMethodParameterChange());
+		setFixture(Java2KDMDiffFactory.eINSTANCE.createImportInsert());
 	}
 
 	/**
@@ -71,4 +67,4 @@ public class MethodParameterChangeTest extends KDM2JavaDiffExtensionTest {
 		setFixture(null);
 	}
 
-} //MethodParameterChangeTest
+} //ImportInsertTest

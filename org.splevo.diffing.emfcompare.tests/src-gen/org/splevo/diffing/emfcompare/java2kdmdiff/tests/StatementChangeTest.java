@@ -1,33 +1,29 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.tests;
+package org.splevo.diffing.emfcompare.java2kdmdiff.tests;
 
 import junit.framework.TestCase;
 
 import junit.textui.TestRunner;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
-import org.splevo.diffing.emfcompare.kdm2javadiff.MethodChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
+import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
 
 /**
  * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Method Change</b></em>'.
+ * A test case for the model object '<em><b>Statement Change</b></em>'.
  * <!-- end-user-doc -->
  * @generated
  */
-public class MethodChangeTest extends TestCase {
+public class StatementChangeTest extends TestCase {
 
 	/**
-	 * The fixture for this Method Change test case.
+	 * The fixture for this Statement Change test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MethodChange fixture = null;
+	protected StatementChange fixture = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -35,36 +31,36 @@ public class MethodChangeTest extends TestCase {
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(MethodChangeTest.class);
+		TestRunner.run(StatementChangeTest.class);
 	}
 
 	/**
-	 * Constructs a new Method Change test case with the given name.
+	 * Constructs a new Statement Change test case with the given name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MethodChangeTest(String name) {
+	public StatementChangeTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Sets the fixture for this Method Change test case.
+	 * Sets the fixture for this Statement Change test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void setFixture(MethodChange fixture) {
+	protected void setFixture(StatementChange fixture) {
 		this.fixture = fixture;
 	}
 
 	/**
-	 * Returns the fixture for this Method Change test case.
+	 * Returns the fixture for this Statement Change test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MethodChange getFixture() {
+	protected StatementChange getFixture() {
 		return fixture;
 	}
 
@@ -76,7 +72,7 @@ public class MethodChangeTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(KDM2JavaDiffFactory.eINSTANCE.createMethodChange());
+		setFixture(Java2KDMDiffFactory.eINSTANCE.createStatementChange());
 	}
 
 	/**
@@ -90,4 +86,4 @@ public class MethodChangeTest extends TestCase {
 		setFixture(null);
 	}
 
-} //MethodChangeTest
+} //StatementChangeTest

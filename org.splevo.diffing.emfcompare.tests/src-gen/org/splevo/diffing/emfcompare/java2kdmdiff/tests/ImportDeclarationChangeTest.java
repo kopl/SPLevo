@@ -1,12 +1,8 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.tests;
+package org.splevo.diffing.emfcompare.java2kdmdiff.tests;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDeclarationChange;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,7 +10,7 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.ImportDeclarationChange;
  * <!-- end-user-doc -->
  * @generated
  */
-public abstract class ImportDeclarationChangeTest extends KDM2JavaDiffExtensionTest {
+public abstract class ImportDeclarationChangeTest extends Java2KDMDiffExtensionTest {
 
 	/**
 	 * Constructs a new Import Declaration Change test case with the given name.

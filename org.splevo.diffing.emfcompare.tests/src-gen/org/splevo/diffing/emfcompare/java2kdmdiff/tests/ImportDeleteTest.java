@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.tests;
+package org.splevo.diffing.emfcompare.java2kdmdiff.tests;
 
 import junit.textui.TestRunner;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.ImportDelete;
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,7 +13,7 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ImportDeleteTest extends KDM2JavaDiffExtensionTest {
+public class ImportDeleteTest extends ImportDeclarationChangeTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -57,7 +53,7 @@ public class ImportDeleteTest extends KDM2JavaDiffExtensionTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(KDM2JavaDiffFactory.eINSTANCE.createImportDelete());
+		setFixture(Java2KDMDiffFactory.eINSTANCE.createImportDelete());
 	}
 
 	/**

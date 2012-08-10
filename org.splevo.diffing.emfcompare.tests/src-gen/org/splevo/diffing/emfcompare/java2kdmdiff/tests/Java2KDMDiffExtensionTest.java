@@ -1,14 +1,10 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.tests;
+package org.splevo.diffing.emfcompare.java2kdmdiff.tests;
 
 import junit.framework.TestCase;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffExtension;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +19,7 @@ import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffExtension;
  * </p>
  * @generated
  */
-public abstract class KDM2JavaDiffExtensionTest extends TestCase {
+public abstract class Java2KDMDiffExtensionTest extends TestCase {
 
 	/**
 	 * The fixture for this Extension test case.
@@ -31,7 +27,7 @@ public abstract class KDM2JavaDiffExtensionTest extends TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected KDM2JavaDiffExtension fixture = null;
+	protected Java2KDMDiffExtension fixture = null;
 
 	/**
 	 * Constructs a new Extension test case with the given name.
@@ -39,7 +35,7 @@ public abstract class KDM2JavaDiffExtensionTest extends TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public KDM2JavaDiffExtensionTest(String name) {
+	public Java2KDMDiffExtensionTest(String name) {
 		super(name);
 	}
 
@@ -49,7 +45,7 @@ public abstract class KDM2JavaDiffExtensionTest extends TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void setFixture(KDM2JavaDiffExtension fixture) {
+	protected void setFixture(Java2KDMDiffExtension fixture) {
 		this.fixture = fixture;
 	}
 
@@ -59,7 +55,7 @@ public abstract class KDM2JavaDiffExtensionTest extends TestCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected KDM2JavaDiffExtension getFixture() {
+	protected Java2KDMDiffExtension getFixture() {
 		return fixture;
 	}
 
@@ -89,4 +85,4 @@ public abstract class KDM2JavaDiffExtensionTest extends TestCase {
 		fail();
 	}
 
-} //KDM2JavaDiffExtensionTest
+} //Java2KDMDiffExtensionTest

@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.tests;
+package org.splevo.diffing.emfcompare.java2kdmdiff.tests;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,19 +17,19 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import org.eclipse.emf.ecore.util.Diagnostician;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
-import org.splevo.diffing.emfcompare.kdm2javadiff.StatementOrderChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.util.KDM2JavaDiffResourceFactoryImpl;
+import org.splevo.diffing.emfcompare.java2kdmdiff.util.Java2KDMDiffResourceFactoryImpl;
 
 /**
  * <!-- begin-user-doc -->
- * A sample utility for the '<em><b>kdm2javadiff</b></em>' package.
+ * A sample utility for the '<em><b>java2kdmdiff</b></em>' package.
  * <!-- end-user-doc -->
  * @generated
  */
-public class KDM2JavaDiffExample {
+public class Java2KDMDiffExample {
 	/**
 	 * <!-- begin-user-doc -->
 	 * Load all the argument file paths or URIs as instances of the model.
@@ -50,21 +46,21 @@ public class KDM2JavaDiffExample {
 		//
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
 			(Resource.Factory.Registry.DEFAULT_EXTENSION, 
-			 new KDM2JavaDiffResourceFactoryImpl());
+			 new Java2KDMDiffResourceFactoryImpl());
 
 		// Register the package to ensure it is available during loading.
 		//
 		resourceSet.getPackageRegistry().put
-			(KDM2JavaDiffPackage.eNS_URI, 
-			 KDM2JavaDiffPackage.eINSTANCE);
+			(Java2KDMDiffPackage.eNS_URI, 
+			 Java2KDMDiffPackage.eINSTANCE);
         
 		// If there are no arguments, emit an appropriate usage message.
 		//
 		if (args.length == 0) {
 			System.out.println("Enter a list of file paths or URIs that have content like this:");
 			try {
-				Resource resource = resourceSet.createResource(URI.createURI("http:///My.kdm2javadiff"));
-				StatementOrderChange root = KDM2JavaDiffFactory.eINSTANCE.createStatementOrderChange();
+				Resource resource = resourceSet.createResource(URI.createURI("http:///My.java2kdmdiff"));
+				StatementChange root = Java2KDMDiffFactory.eINSTANCE.createStatementChange();
 				resource.getContents().add(root);
 				resource.save(System.out, null);
 			}
@@ -122,4 +118,4 @@ public class KDM2JavaDiffExample {
 		}
 	}
 
-} //KDM2JavaDiffExample
+} //Java2KDMDiffExample

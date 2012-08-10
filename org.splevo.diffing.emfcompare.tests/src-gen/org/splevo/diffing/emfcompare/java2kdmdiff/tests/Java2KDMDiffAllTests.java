@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.tests;
+package org.splevo.diffing.emfcompare.java2kdmdiff.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -13,11 +9,11 @@ import junit.textui.TestRunner;
 
 /**
  * <!-- begin-user-doc -->
- * A test suite for the '<em><b>KDM2JavaDiff</b></em>' model.
+ * A test suite for the '<em><b>Java2KDMDiff</b></em>' model.
  * <!-- end-user-doc -->
  * @generated
  */
-public class KDM2JavaDiffAllTests extends TestSuite {
+public class Java2KDMDiffAllTests extends TestSuite {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -34,8 +30,8 @@ public class KDM2JavaDiffAllTests extends TestSuite {
 	 * @generated
 	 */
 	public static Test suite() {
-		TestSuite suite = new KDM2JavaDiffAllTests("KDM2JavaDiff Tests");
-		suite.addTest(KDM2JavaDiffTests.suite());
+		TestSuite suite = new Java2KDMDiffAllTests("Java2KDMDiff Tests");
+		suite.addTest(Java2KDMDiffTests.suite());
 		return suite;
 	}
 
@@ -44,8 +40,8 @@ public class KDM2JavaDiffAllTests extends TestSuite {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public KDM2JavaDiffAllTests(String name) {
+	public Java2KDMDiffAllTests(String name) {
 		super(name);
 	}
 
-} //KDM2JavaDiffAllTests
+} //Java2KDMDiffAllTests
