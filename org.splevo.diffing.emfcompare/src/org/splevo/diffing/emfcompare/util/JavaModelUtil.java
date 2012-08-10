@@ -1,5 +1,6 @@
 package org.splevo.diffing.emfcompare.util;
 
+import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 
 /**
@@ -41,6 +42,20 @@ public class JavaModelUtil {
 			}
 			builder.append(packageElement.getName());
 		}
+	}
+	
+	/**
+	 * Build the full qualified name of a declared type.
+	 * 
+	 * @param type The type to get the fqn for.
+	 * @return The fqn according to package.package.typename
+	 */
+	public static String buildFullQualifiedName(AbstractTypeDeclaration type){
+		StringBuilder fqnBuilder = new StringBuilder();
+		JavaModelUtil.buildPackagePath(type.getPackage(), fqnBuilder);
+		fqnBuilder.append(".");
+		fqnBuilder.append(type.getName());
+		return fqnBuilder.toString();
 	}
 
 }
