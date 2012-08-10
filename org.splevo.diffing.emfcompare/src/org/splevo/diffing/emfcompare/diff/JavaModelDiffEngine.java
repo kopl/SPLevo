@@ -43,14 +43,12 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 	}
 	
 	
-	
 	/**
 	 * Customized unmatched elements processing including:
 	 * - ignore elements from filtered packages
 	 */
 	@Override
-	protected void processUnmatchedElements(DiffGroup diffRoot,
-			List<UnmatchElement> unmatched) {
+	protected void processUnmatchedElements(DiffGroup diffRoot, List<UnmatchElement> unmatched) {
 		
 		// filter due to package restrictions
 		unmatched = filterIgnoredPackages(unmatched);

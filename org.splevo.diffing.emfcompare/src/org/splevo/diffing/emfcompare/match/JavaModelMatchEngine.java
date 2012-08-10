@@ -39,6 +39,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 		
 		// Handle Import Declarations
 		// They should only match if they are about the same declaration type
+		// TODO refactor to use a EMF generated JavaSwitch()
 		if(obj1 instanceof ImportDeclaration){
 			NamedElement importedElement1 = ((ImportDeclaration) obj1).getImportedElement(); 
 			NamedElement importedElement2 = ((ImportDeclaration) obj2).getImportedElement();

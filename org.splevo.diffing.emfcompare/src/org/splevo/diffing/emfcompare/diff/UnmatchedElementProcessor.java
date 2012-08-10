@@ -6,9 +6,9 @@ import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
-import org.splevo.diffing.emfcompare.kdm2javadiff.ImportDelete;
-import org.splevo.diffing.emfcompare.kdm2javadiff.ImportInsert;
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
 
 /**
  * A processor to handle unmatched elements according to their type of element.
@@ -68,14 +68,14 @@ public class UnmatchedElementProcessor extends JavaSwitch<DiffElement> {
 		
 		if (unmatchElement.getSide() == Side.RIGHT) {
 			// add ImportInsert
-			final ImportInsert importInsert = KDM2JavaDiffFactory.eINSTANCE
+			final ImportInsert importInsert = Java2KDMDiffFactory.eINSTANCE
 					.createImportInsert();
 			importInsert.setImportRight((ImportDeclaration) element);
 			importInsert.setRemote(unmatchElement.isRemote());
 			return importInsert;
 		} else {
 			// add ImportDelete
-			final ImportDelete importDelete = KDM2JavaDiffFactory.eINSTANCE.createImportDelete();
+			final ImportDelete importDelete = Java2KDMDiffFactory.eINSTANCE.createImportDelete();
 			importDelete.setImportLeft((ImportDeclaration) element);
 			importDelete.setRemote(unmatchElement.isRemote());
 			return importDelete;
