@@ -20,7 +20,7 @@ import org.splevo.diffing.kdm.KDMUtil;
  * @author Benjamin Klatt
  * 
  */
-public class GCDDiffingTest {
+public class GCDDiffingTest extends AbstractDiffingTest {
 	
 	/** Source path to the native calculator implementation */
 	private static final File NATIVE_JAVA2KDMMODEL_FILE = new File("testmodels/implementation/gcd/native/_java2kdm.xmi");
@@ -28,8 +28,6 @@ public class GCDDiffingTest {
 	/** Source path to the jscience based calculator implementation */
 	private static final File JSCIENCE_JAVA2KDMMODEL_FILE = new File("testmodels/implementation/gcd/jscience/_java2kdm.xmi");
 
-	
-	
 	/**
 	 * Test method for
 	 * {@link org.splevo.diffing.EMFCompareDiffingService#getDiff(org.eclipse.modisco.java.composition.javaapplication.JavaApplication, org.eclipse.modisco.java.composition.javaapplication.JavaApplication)}

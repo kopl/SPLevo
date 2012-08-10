@@ -1,5 +1,7 @@
 package org.splevo.diffing.emfcompare.diff;
 
+import org.apache.log4j.Logger;
+
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
 import org.eclipse.emf.compare.diff.engine.check.AttributesCheck;
 import org.eclipse.emf.ecore.EAttribute;
@@ -14,6 +16,8 @@ import org.eclipse.gmt.modisco.java.Model;
  *
  */
 public class JavaModelAttributesCheck extends AttributesCheck {
+	
+    private Logger logger = Logger.getLogger(JavaModelAttributesCheck.class);
 
 	/**
 	 * Constructor to set the match manager to be used.
@@ -34,6 +38,7 @@ public class JavaModelAttributesCheck extends AttributesCheck {
 
 		// ignore CompilationUnit.originalFilePath
 		if("originalFilePath".equals(attribute.getName())){
+			logger.debug("originalFilePath attribute ignored");
 			if(CompilationUnit.class.getCanonicalName().equals(attribute.getEContainingClass().getInstanceTypeName())){
 				return true;
 			}

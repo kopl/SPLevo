@@ -11,7 +11,7 @@ import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
 import org.splevo.diffing.kdm.KDMUtil;
 
-public class ImportChangeDiffingTest {
+public class ImportChangeDiffingTest extends AbstractDiffingTest {
 
 	/** Source path to the native calculator implementation */
 	private static final File IMPORT_TEST_FILE_1 = new File("testmodels/implementation/importDiffing/1/1_java2kdm.xmi");

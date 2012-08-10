@@ -11,7 +11,7 @@ import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
 import org.splevo.diffing.kdm.KDMUtil;
 
-public class VariableDeclarationStatementDiffingTest {
+public class VariableDeclarationStatementDiffingTest extends AbstractDiffingTest {
 
 	/** Source path to the native calculator implementation */
 	private static final File VARDECL_TEST_FILE_1 = new File("testmodels/implementation/variabledeclaration/1/1_java2kdm.xmi");

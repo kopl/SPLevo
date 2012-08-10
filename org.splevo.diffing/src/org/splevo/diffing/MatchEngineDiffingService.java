@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.match.MatchOptions;
@@ -25,6 +26,8 @@ import org.splevo.diffing.kdm.JavaModelElementPrinter;
  * 
  */
 public class MatchEngineDiffingService {
+	
+    private Logger logger = Logger.getLogger(MatchEngineDiffingService.class);
 
 	/** Regular expressions defining packages to be ignored. */
 	private List<String> ignorePackages = new ArrayList<String>();
@@ -50,37 +53,40 @@ public class MatchEngineDiffingService {
 
 		JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
 
-		System.out.println("================ MATCHING PHASE  ===============");
+		logger.debug("================ MATCHING PHASE  ===============");
 		JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
 		MatchModel matchModel = matchEngine.modelMatch(leadingJavaModel,integrationJavaModel, matchOptions);
 
-		System.out.println("=== UNMATCHED ELEMENTS ===");
+		logger.debug("=== UNMATCHED ELEMENTS ===");
 		EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
 		for (UnmatchElement unmatchedElement : unmatchedElements) {
-			System.out.print(unmatchedElement.getSide() + "\t");
-			System.out.print(unmatchedElement.getElement().getClass().getSimpleName()+ "\t");
-			System.out.print(elementPrinter.printElement(unmatchedElement.getElement()));
-			System.out.println();
+			if(logger.isDebugEnabled()) {
+				StringBuilder debugMessage = new StringBuilder();
+				debugMessage.append(unmatchedElement.getSide() + "\t");
+				debugMessage.append(unmatchedElement.getElement().getClass().getSimpleName()+ "\t");
+				debugMessage.append(elementPrinter.printElement(unmatchedElement.getElement()));
+				logger.debug(debugMessage.toString());
+			}
 		}
-		// System.out.println("");
-		// System.out.println("");
-		// System.out.println("==========================");
-		// System.out.println("=== MATCHED ELEMENTS ===");
-		// System.out.println("==========================");
+		// logger.debug("");
+		// logger.debug("");
+		// logger.debug("==========================");
+		// logger.debug("=== MATCHED ELEMENTS ===");
+		// logger.debug("==========================");
 		// EList<MatchElement> matchedElements =
 		// matchModel.getMatchedElements();
 		// for (MatchElement matchedElement : matchedElements) {
 		// printMatchedElement(matchedElement,0);
 		// }
 
-		System.out.println("==================== DIFFING PHASE  ===================");
+		logger.debug("==================== DIFFING PHASE  ===================");
 		JavaModelDiffEngine javaModelDiffEngine = new JavaModelDiffEngine();
 		javaModelDiffEngine.getIgnorePackages().addAll(this.ignorePackages);
 		DiffModel diffModel = javaModelDiffEngine.doDiff(matchModel,false);
 
-		// System.out.println("=======================================================");
-		// System.out.println("==================== POST DIFFING PHASE  ==============");
-		// System.out.println("=======================================================");
+		// logger.debug("=======================================================");
+		// logger.debug("==================== POST DIFFING PHASE  ==============");
+		// logger.debug("=======================================================");
 		//
 		// DiffModelPostProcessor postProcessor = new DiffModelPostProcessor();
 		// DiffModel enhancedDiffModel = postProcessor.process(diffModel);
