@@ -50,6 +50,8 @@ public class GCDDiffingTest extends AbstractDiffingTest {
 		diffingService.getIgnorePackages().add("java.math");
 		diffingService.getIgnorePackages().add("java.io");
 		diffingService.getIgnorePackages().add("org.jscience.*");
+		diffingService.getIgnorePackages().add("org.jscience.*");
+		diffingService.getIgnorePackages().add("javolution.*");
 		
 		DiffModel diff = diffingService.doDiff(leadingModel,integrationModel);
 		

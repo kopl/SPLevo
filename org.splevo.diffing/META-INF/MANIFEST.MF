@@ -4,7 +4,8 @@ Bundle-Name: SPLevo Diffing
 Bundle-SymbolicName: org.splevo.diffing
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.7.0",
+Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
+ org.eclipse.emf.ecore;bundle-version="2.7.0",
  org.eclipse.emf.ecore.xmi;bundle-version="2.7.0",
  org.eclipse.gmt.modisco.java;bundle-version="0.9.1",
  org.eclipse.modisco.java.composition;bundle-version="0.9.1",
@@ -13,5 +14,4 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.7.0",
  org.eclipse.emf.compare.diff;bundle-version="1.2.2",
  org.eclipse.emf.compare.match;bundle-version="1.2.2",
  org.splevo.diffing.emfcompare;bundle-version="1.0.0",
- com.google.guava;bundle-version="10.0.1",
- org.apache.log4j;bundle-version="1.2.15"
+ com.google.guava;bundle-version="10.0.1"

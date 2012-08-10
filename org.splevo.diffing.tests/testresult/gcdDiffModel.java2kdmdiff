@@ -58,22 +58,7 @@
           </subDiffElements>
           <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.0/@ownedPackages.0"/>
         </subDiffElements>
-        <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
-          <leftParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.0"/>
-          <rightElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.0/@ownedPackages.1"/>
-        </subDiffElements>
         <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.0"/>
-      </subDiffElements>
-      <subDiffElements xsi:type="diff:DiffGroup">
-        <subDiffElements xsi:type="diff:ModelElementChangeLeftTarget">
-          <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.1"/>
-          <leftElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.1/@ownedPackages.2"/>
-        </subDiffElements>
-        <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.1"/>
-      </subDiffElements>
-      <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
-        <leftParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#/"/>
-        <rightElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.2"/>
       </subDiffElements>
       <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#/"/>
     </subDiffElements>

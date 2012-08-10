@@ -42,7 +42,6 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 		return new JavaModelReferenceCheck(getMatchManager(),ignorePackages);
 	}
 	
-	
 	/**
 	 * Customized unmatched elements processing including:
 	 * - ignore elements from filtered packages

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.ArrayType;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
+import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PrimitiveType;
 import org.eclipse.gmt.modisco.java.TypeParameter;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
@@ -65,6 +65,24 @@ public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
 	@Override
 	public Boolean caseInterfaceDeclaration(InterfaceDeclaration object) {
 		String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
+		for (String regex : ignorePackages) {
+			if(packagePath.matches(regex)){
+				return Boolean.TRUE;
+			}
+		}
+		return Boolean.FALSE;
+	}
+	
+	/**
+	 * Check a package declaration whether it is one of the packages to
+	 * ignore or located in one of them..
+	 * 
+	 * @param object
+	 *            The interface declaration to check.
+	 */
+	@Override
+	public Boolean casePackage(Package object) {
+		String packagePath = JavaModelUtil.buildPackagePath(object);
 		for (String regex : ignorePackages) {
 			if(packagePath.matches(regex)){
 				return Boolean.TRUE;
