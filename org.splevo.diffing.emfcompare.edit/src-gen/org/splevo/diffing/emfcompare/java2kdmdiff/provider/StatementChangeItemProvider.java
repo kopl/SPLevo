@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.provider;
+package org.splevo.diffing.emfcompare.java2kdmdiff.provider;
 
 
 import java.util.Collection;
@@ -12,7 +8,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
+import org.eclipse.emf.compare.diff.provider.DiffGroupItemProvider;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -20,18 +18,18 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
-import org.splevo.diffing.emfcompare.kdm2javadiff.ReturnTypeChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.ReturnTypeChange} object.
+ * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ReturnTypeChangeItemProvider
-	extends KDM2JavaDiffExtensionItemProvider
+public class StatementChangeItemProvider
+	extends DiffGroupItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -44,7 +42,7 @@ public class ReturnTypeChangeItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ReturnTypeChangeItemProvider(AdapterFactory adapterFactory) {
+	public StatementChangeItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -59,77 +57,47 @@ public class ReturnTypeChangeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addMethodDeclarationLeftPropertyDescriptor(object);
-			addMethodDeclarationRightPropertyDescriptor(object);
+			addStatementLeftPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Method Declaration Left feature.
+	 * This adds a property descriptor for the Statement Left feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addMethodDeclarationLeftPropertyDescriptor(Object object) {
+	protected void addStatementLeftPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_MethodDeclarationChange_methodDeclarationLeft_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MethodDeclarationChange_methodDeclarationLeft_feature", "_UI_MethodDeclarationChange_type"),
-				 KDM2JavaDiffPackage.Literals.METHOD_DECLARATION_CHANGE__METHOD_DECLARATION_LEFT,
+				 getString("_UI_StatementChange_statementLeft_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_StatementChange_statementLeft_feature", "_UI_StatementChange_type"),
+				 Java2KDMDiffPackage.Literals.STATEMENT_CHANGE__STATEMENT_LEFT,
 				 true,
 				 false,
 				 true,
 				 null,
 				 null,
 				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Method Declaration Right feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addMethodDeclarationRightPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MethodDeclarationChange_methodDeclarationRight_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MethodDeclarationChange_methodDeclarationRight_feature", "_UI_MethodDeclarationChange_type"),
-				 KDM2JavaDiffPackage.Literals.METHOD_DECLARATION_CHANGE__METHOD_DECLARATION_RIGHT,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns ReturnTypeChange.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ReturnTypeChange"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
-		ReturnTypeChange returnTypeChange = (ReturnTypeChange)object;
-		return getString("_UI_ReturnTypeChange_type") + " " + returnTypeChange.isIsCollapsed();
+		StatementChange statementChange = (StatementChange)object;
+		String statementName = "";
+		if(statementChange.getStatementLeft() != null){
+			statementName = statementChange.getStatementLeft().toString();
+		}
+		return getString("_UI_StatementChange_type", new Object[] {statementName});
 	}
 
 	/**
@@ -155,6 +123,32 @@ public class ReturnTypeChangeItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
+				 Java2KDMDiffFactory.eINSTANCE.createStatementChange()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
+				 Java2KDMDiffFactory.eINSTANCE.createImportInsert()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
+				 Java2KDMDiffFactory.eINSTANCE.createImportDelete()));
+	}
+
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator() {
+		return Java2KDMDiffEditPlugin.INSTANCE;
 	}
 
 }

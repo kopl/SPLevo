@@ -4,11 +4,11 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.splevo.diffing.emfcompare.edit;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.splevo.diffing.emfcompare.kdm2javadiff.provider.KDM2JavaDiffEditPlugin$Implementation
+Bundle-Activator: org.splevo.diffing.emfcompare.java2kdmdiff.provider.Java2KDMDiffEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.splevo.diffing.emfcompare.kdm2javadiff.provider
+Export-Package: org.splevo.diffing.emfcompare.java2kdmdiff.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.splevo.diffing.emfcompare;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,

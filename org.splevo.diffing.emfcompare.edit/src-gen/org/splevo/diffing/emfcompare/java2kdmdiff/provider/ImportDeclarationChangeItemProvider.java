@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.provider;
+package org.splevo.diffing.emfcompare.java2kdmdiff.provider;
 
 
 import java.util.Collection;
@@ -12,24 +8,24 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.splevo.diffing.emfcompare.kdm2javadiff.ImportInsert;
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
+
+import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDeclarationChange;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.ImportInsert} object.
+ * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDeclarationChange} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ImportInsertItemProvider
-	extends ImportDeclarationChangeItemProvider
+public class ImportDeclarationChangeItemProvider
+	extends Java2KDMDiffExtensionItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -42,7 +38,7 @@ public class ImportInsertItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ImportInsertItemProvider(AdapterFactory adapterFactory) {
+	public ImportDeclarationChangeItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -57,58 +53,20 @@ public class ImportInsertItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addImportRightPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Import Right feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addImportRightPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_ImportInsert_importRight_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ImportInsert_importRight_feature", "_UI_ImportInsert_type"),
-				 KDM2JavaDiffPackage.Literals.IMPORT_INSERT__IMPORT_RIGHT,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns ImportInsert.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ImportInsert"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated not
+	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		ImportInsert importInsert = (ImportInsert)object;
-		String importName = "";
-		if(importInsert.getImportRight() != null){
-			importName = importInsert.getImportRight().getImportedElement().getName();
-		}
-		return getString("_UI_ImportInsert_type", new Object[] {importName});
+		ImportDeclarationChange importDeclarationChange = (ImportDeclarationChange)object;
+		return getString("_UI_ImportDeclarationChange_type") + " " + importDeclarationChange.isIsCollapsed();
 	}
 
 	/**

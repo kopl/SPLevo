@@ -12,8 +12,8 @@
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <factory
-            uri="http://www.eclipse.org/emf/compare/diff/kdm2java/1.0"
-            class="org.splevo.diffing.emfcompare.kdm2javadiff.provider.KDM2JavaDiffItemProviderAdapterFactory"
+            uri="http://www.eclipse.org/emf/compare/diff/java2kdm/1.0"
+            class="org.splevo.diffing.emfcompare.java2kdmdiff.provider.Java2KDMDiffItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider

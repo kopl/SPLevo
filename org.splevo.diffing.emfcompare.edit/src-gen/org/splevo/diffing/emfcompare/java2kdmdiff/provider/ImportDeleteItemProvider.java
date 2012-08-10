@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.provider;
+package org.splevo.diffing.emfcompare.java2kdmdiff.provider;
 
 
 import java.util.Collection;
@@ -12,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -19,17 +16,18 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
-import org.splevo.diffing.emfcompare.kdm2javadiff.StatementInsert;
+
+import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.StatementInsert} object.
+ * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class StatementInsertItemProvider
-	extends KDM2JavaDiffExtensionItemProvider
+public class ImportDeleteItemProvider
+	extends ImportDeclarationChangeItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -42,7 +40,7 @@ public class StatementInsertItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public StatementInsertItemProvider(AdapterFactory adapterFactory) {
+	public ImportDeleteItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -57,26 +55,25 @@ public class StatementInsertItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addStatementLeftPropertyDescriptor(object);
-			addStatementRightPropertyDescriptor(object);
+			addImportLeftPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Statement Left feature.
+	 * This adds a property descriptor for the Import Left feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addStatementLeftPropertyDescriptor(Object object) {
+	protected void addImportLeftPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_StatementChange_statementLeft_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_StatementChange_statementLeft_feature", "_UI_StatementChange_type"),
-				 KDM2JavaDiffPackage.Literals.STATEMENT_CHANGE__STATEMENT_LEFT,
+				 getString("_UI_ImportDelete_importLeft_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ImportDelete_importLeft_feature", "_UI_ImportDelete_type"),
+				 Java2KDMDiffPackage.Literals.IMPORT_DELETE__IMPORT_LEFT,
 				 true,
 				 false,
 				 true,
@@ -86,36 +83,14 @@ public class StatementInsertItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Statement Right feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addStatementRightPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_StatementChange_statementRight_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_StatementChange_statementRight_feature", "_UI_StatementChange_type"),
-				 KDM2JavaDiffPackage.Literals.STATEMENT_CHANGE__STATEMENT_RIGHT,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns StatementInsert.gif.
+	 * This returns ImportDelete.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/StatementInsert"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ImportDelete"));
 	}
 
 	/**
@@ -126,12 +101,12 @@ public class StatementInsertItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		StatementInsert statementInsert = (StatementInsert)object;
-		String statementName = "";
-		if(statementInsert.getStatementLeft() != null){
-			statementName = statementInsert.getStatementLeft().toString();
+		ImportDelete importDelete = (ImportDelete)object;
+		String importName = "";
+		if(importDelete.getImportLeft() != null){
+			importName = importDelete.getImportLeft().getImportedElement().getName();
 		}
-		return getString("_UI_StatementInsert_type", new Object[] {statementName});
+		return getString("_UI_ImportDelete_type", new Object[] {importName});
 	}
 
 	/**

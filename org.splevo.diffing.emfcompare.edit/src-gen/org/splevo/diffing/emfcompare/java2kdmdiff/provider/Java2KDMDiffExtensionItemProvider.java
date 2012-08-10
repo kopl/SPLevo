@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.provider;
+package org.splevo.diffing.emfcompare.java2kdmdiff.provider;
 
 
 import java.util.Collection;
@@ -32,17 +28,17 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffExtension;
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffExtension} object.
+ * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class KDM2JavaDiffExtensionItemProvider
+public class Java2KDMDiffExtensionItemProvider
 	extends AbstractDiffExtensionItemProvider
 	implements
 		IEditingDomainItemProvider,
@@ -56,7 +52,7 @@ public class KDM2JavaDiffExtensionItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public KDM2JavaDiffExtensionItemProvider(AdapterFactory adapterFactory) {
+	public Java2KDMDiffExtensionItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -251,8 +247,8 @@ public class KDM2JavaDiffExtensionItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		KDM2JavaDiffExtension kdm2JavaDiffExtension = (KDM2JavaDiffExtension)object;
-		return getString("_UI_KDM2JavaDiffExtension_type") + " " + kdm2JavaDiffExtension.isIsCollapsed();
+		Java2KDMDiffExtension java2KDMDiffExtension = (Java2KDMDiffExtension)object;
+		return getString("_UI_Java2KDMDiffExtension_type") + " " + java2KDMDiffExtension.isIsCollapsed();
 	}
 
 	/**
@@ -266,13 +262,13 @@ public class KDM2JavaDiffExtensionItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(KDM2JavaDiffExtension.class)) {
-			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__CONFLICTING:
-			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__KIND:
-			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__REMOTE:
+		switch (notification.getFeatureID(Java2KDMDiffExtension.class)) {
+			case Java2KDMDiffPackage.JAVA2_KDM_DIFF_EXTENSION__CONFLICTING:
+			case Java2KDMDiffPackage.JAVA2_KDM_DIFF_EXTENSION__KIND:
+			case Java2KDMDiffPackage.JAVA2_KDM_DIFF_EXTENSION__REMOTE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case KDM2JavaDiffPackage.KDM2_JAVA_DIFF_EXTENSION__SUB_DIFF_ELEMENTS:
+			case Java2KDMDiffPackage.JAVA2_KDM_DIFF_EXTENSION__SUB_DIFF_ELEMENTS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -293,92 +289,17 @@ public class KDM2JavaDiffExtensionItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createStatementOrderChange()));
+				 Java2KDMDiffFactory.eINSTANCE.createStatementChange()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createStatementInsert()));
+				 Java2KDMDiffFactory.eINSTANCE.createImportInsert()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createStatementDelete()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createStatementMove()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createClassInsert()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createClassDelete()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createClassModifierChange()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createImportInsert()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createImportDelete()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createClassChange()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createMethodChange()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createMethodModifierChange()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createReturnTypeChange()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createMethodParameterChange()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createMethodInsert()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createMethodDelete()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createCompilationUnitChange()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
-				 KDM2JavaDiffFactory.eINSTANCE.createPackageChange()));
+				 Java2KDMDiffFactory.eINSTANCE.createImportDelete()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -499,7 +420,7 @@ public class KDM2JavaDiffExtensionItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return KDM2JavaDiffEditPlugin.INSTANCE;
+		return Java2KDMDiffEditPlugin.INSTANCE;
 	}
 
 }
