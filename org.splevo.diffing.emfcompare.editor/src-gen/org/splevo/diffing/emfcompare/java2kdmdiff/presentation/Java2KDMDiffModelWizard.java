@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.presentation;
+package org.splevo.diffing.emfcompare.java2kdmdiff.presentation;
 
 
 import java.util.ArrayList;
@@ -73,9 +69,9 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffFactory;
-import org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage;
-import org.splevo.diffing.emfcompare.kdm2javadiff.provider.KDM2JavaDiffEditPlugin;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.diffing.emfcompare.java2kdmdiff.provider.Java2KDMDiffEditPlugin;
 
 
 import org.eclipse.core.runtime.Path;
@@ -95,7 +91,7 @@ import org.eclipse.ui.PartInitException;
  * <!-- end-user-doc -->
  * @generated
  */
-public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
+public class Java2KDMDiffModelWizard extends Wizard implements INewWizard {
 	/**
 	 * The supported extensions for created files.
 	 * <!-- begin-user-doc -->
@@ -103,7 +99,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	 * @generated
 	 */
 	public static final List<String> FILE_EXTENSIONS =
-		Collections.unmodifiableList(Arrays.asList(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_KDM2JavaDiffEditorFilenameExtensions").split("\\s*,\\s*")));
+		Collections.unmodifiableList(Arrays.asList(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Java2KDMDiffEditorFilenameExtensions").split("\\s*,\\s*")));
 
 	/**
 	 * A formatted list of supported file extensions, suitable for display.
@@ -112,7 +108,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	 * @generated
 	 */
 	public static final String FORMATTED_FILE_EXTENSIONS =
-		KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_KDM2JavaDiffEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+		Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Java2KDMDiffEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
 
 	/**
 	 * This caches an instance of the model package.
@@ -120,7 +116,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected KDM2JavaDiffPackage kdm2JavaDiffPackage = KDM2JavaDiffPackage.eINSTANCE;
+	protected Java2KDMDiffPackage java2KDMDiffPackage = Java2KDMDiffPackage.eINSTANCE;
 
 	/**
 	 * This caches an instance of the model factory.
@@ -128,7 +124,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected KDM2JavaDiffFactory kdm2JavaDiffFactory = kdm2JavaDiffPackage.getKDM2JavaDiffFactory();
+	protected Java2KDMDiffFactory java2KDMDiffFactory = java2KDMDiffPackage.getJava2KDMDiffFactory();
 
 	/**
 	 * This is the file creation page.
@@ -136,7 +132,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected KDM2JavaDiffModelWizardNewFileCreationPage newFileCreationPage;
+	protected Java2KDMDiffModelWizardNewFileCreationPage newFileCreationPage;
 
 	/**
 	 * This is the initial object creation page.
@@ -144,7 +140,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected KDM2JavaDiffModelWizardInitialObjectCreationPage initialObjectCreationPage;
+	protected Java2KDMDiffModelWizardInitialObjectCreationPage initialObjectCreationPage;
 
 	/**
 	 * Remember the selection during initialization for populating the default container.
@@ -179,8 +175,8 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.workbench = workbench;
 		this.selection = selection;
-		setWindowTitle(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_Wizard_label"));
-		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(KDM2JavaDiffEditorPlugin.INSTANCE.getImage("full/wizban/NewKDM2JavaDiff")));
+		setWindowTitle(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Wizard_label"));
+		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(Java2KDMDiffEditorPlugin.INSTANCE.getImage("full/wizban/NewJava2KDMDiff")));
 	}
 
 	/**
@@ -192,7 +188,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	protected Collection<String> getInitialObjectNames() {
 		if (initialObjectNames == null) {
 			initialObjectNames = new ArrayList<String>();
-			for (EClassifier eClassifier : kdm2JavaDiffPackage.getEClassifiers()) {
+			for (EClassifier eClassifier : java2KDMDiffPackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
 					EClass eClass = (EClass)eClassifier;
 					if (!eClass.isAbstract()) {
@@ -212,8 +208,8 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	 * @generated
 	 */
 	protected EObject createInitialModel() {
-		EClass eClass = (EClass)kdm2JavaDiffPackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
-		EObject rootObject = kdm2JavaDiffFactory.create(eClass);
+		EClass eClass = (EClass)java2KDMDiffPackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
+		EObject rootObject = java2KDMDiffFactory.create(eClass);
 		return rootObject;
 	}
 
@@ -263,7 +259,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 							resource.save(options);
 						}
 						catch (Exception exception) {
-							KDM2JavaDiffEditorPlugin.INSTANCE.log(exception);
+							Java2KDMDiffEditorPlugin.INSTANCE.log(exception);
 						}
 						finally {
 							progressMonitor.done();
@@ -296,14 +292,14 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 					 workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());					 	 
 			}
 			catch (PartInitException exception) {
-				MessageDialog.openError(workbenchWindow.getShell(), KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
+				MessageDialog.openError(workbenchWindow.getShell(), Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
 				return false;
 			}
 
 			return true;
 		}
 		catch (Exception exception) {
-			KDM2JavaDiffEditorPlugin.INSTANCE.log(exception);
+			Java2KDMDiffEditorPlugin.INSTANCE.log(exception);
 			return false;
 		}
 	}
@@ -314,14 +310,14 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public class KDM2JavaDiffModelWizardNewFileCreationPage extends WizardNewFileCreationPage {
+	public class Java2KDMDiffModelWizardNewFileCreationPage extends WizardNewFileCreationPage {
 		/**
 		 * Pass in the selection.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public KDM2JavaDiffModelWizardNewFileCreationPage(String pageId, IStructuredSelection selection) {
+		public Java2KDMDiffModelWizardNewFileCreationPage(String pageId, IStructuredSelection selection) {
 			super(pageId, selection);
 		}
 
@@ -337,7 +333,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 				String extension = new Path(getFileName()).getFileExtension();
 				if (extension == null || !FILE_EXTENSIONS.contains(extension)) {
 					String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";
-					setErrorMessage(KDM2JavaDiffEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
+					setErrorMessage(Java2KDMDiffEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
 					return false;
 				}
 				return true;
@@ -361,7 +357,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public class KDM2JavaDiffModelWizardInitialObjectCreationPage extends WizardPage {
+	public class Java2KDMDiffModelWizardInitialObjectCreationPage extends WizardPage {
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -389,7 +385,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public KDM2JavaDiffModelWizardInitialObjectCreationPage(String pageId) {
+		public Java2KDMDiffModelWizardInitialObjectCreationPage(String pageId) {
 			super(pageId);
 		}
 
@@ -399,7 +395,8 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 		 * @generated
 		 */
 		public void createControl(Composite parent) {
-			Composite composite = new Composite(parent, SWT.NONE); {
+			Composite composite = new Composite(parent, SWT.NONE);
+			{
 				GridLayout layout = new GridLayout();
 				layout.numColumns = 1;
 				layout.verticalSpacing = 12;
@@ -414,7 +411,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 
 			Label containerLabel = new Label(composite, SWT.LEFT);
 			{
-				containerLabel.setText(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_ModelObject"));
+				containerLabel.setText(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_ModelObject"));
 
 				GridData data = new GridData();
 				data.horizontalAlignment = GridData.FILL;
@@ -440,7 +437,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 
 			Label encodingLabel = new Label(composite, SWT.LEFT);
 			{
-				encodingLabel.setText(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_XMLEncoding"));
+				encodingLabel.setText(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_XMLEncoding"));
 
 				GridData data = new GridData();
 				data.horizontalAlignment = GridData.FILL;
@@ -539,10 +536,10 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 		 */
 		protected String getLabel(String typeName) {
 			try {
-				return KDM2JavaDiffEditPlugin.INSTANCE.getString("_UI_" + typeName + "_type");
+				return Java2KDMDiffEditPlugin.INSTANCE.getString("_UI_" + typeName + "_type");
 			}
 			catch(MissingResourceException mre) {
-				KDM2JavaDiffEditorPlugin.INSTANCE.log(mre);
+				Java2KDMDiffEditorPlugin.INSTANCE.log(mre);
 			}
 			return typeName;
 		}
@@ -555,7 +552,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 		protected Collection<String> getEncodings() {
 			if (encodings == null) {
 				encodings = new ArrayList<String>();
-				for (StringTokenizer stringTokenizer = new StringTokenizer(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) {
+				for (StringTokenizer stringTokenizer = new StringTokenizer(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) {
 					encodings.add(stringTokenizer.nextToken());
 				}
 			}
@@ -573,10 +570,10 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 	public void addPages() {
 		// Create a page, set the title, and the initial model file name.
 		//
-		newFileCreationPage = new KDM2JavaDiffModelWizardNewFileCreationPage("Whatever", selection);
-		newFileCreationPage.setTitle(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_KDM2JavaDiffModelWizard_label"));
-		newFileCreationPage.setDescription(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_KDM2JavaDiffModelWizard_description"));
-		newFileCreationPage.setFileName(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_KDM2JavaDiffEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
+		newFileCreationPage = new Java2KDMDiffModelWizardNewFileCreationPage("Whatever", selection);
+		newFileCreationPage.setTitle(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Java2KDMDiffModelWizard_label"));
+		newFileCreationPage.setDescription(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Java2KDMDiffModelWizard_description"));
+		newFileCreationPage.setFileName(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Java2KDMDiffEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
 		addPage(newFileCreationPage);
 
 		// Try and get the resource selection to determine a current directory for the file dialog.
@@ -602,7 +599,7 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 
 					// Make up a unique new name here.
 					//
-					String defaultModelBaseFilename = KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_KDM2JavaDiffEditorFilenameDefaultBase");
+					String defaultModelBaseFilename = Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Java2KDMDiffEditorFilenameDefaultBase");
 					String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
 					String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
 					for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i) {
@@ -612,9 +609,9 @@ public class KDM2JavaDiffModelWizard extends Wizard implements INewWizard {
 				}
 			}
 		}
-		initialObjectCreationPage = new KDM2JavaDiffModelWizardInitialObjectCreationPage("Whatever2");
-		initialObjectCreationPage.setTitle(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_KDM2JavaDiffModelWizard_label"));
-		initialObjectCreationPage.setDescription(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description"));
+		initialObjectCreationPage = new Java2KDMDiffModelWizardInitialObjectCreationPage("Whatever2");
+		initialObjectCreationPage.setTitle(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Java2KDMDiffModelWizard_label"));
+		initialObjectCreationPage.setDescription(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description"));
 		addPage(initialObjectCreationPage);
 	}
 

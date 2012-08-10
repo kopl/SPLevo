@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.presentation;
+package org.splevo.diffing.emfcompare.java2kdmdiff.presentation;
 
 import org.eclipse.emf.common.EMFPlugin;
 
@@ -21,19 +17,19 @@ import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 import org.eclipse.gmt.modisco.java.emf.provider.JavaEditPlugin;
 
 /**
- * This is the central singleton for the KDM2JavaDiff editor plugin.
+ * This is the central singleton for the Java2KDMDiff editor plugin.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public final class KDM2JavaDiffEditorPlugin extends EMFPlugin {
+public final class Java2KDMDiffEditorPlugin extends EMFPlugin {
 	/**
 	 * Keep track of the singleton.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final KDM2JavaDiffEditorPlugin INSTANCE = new KDM2JavaDiffEditorPlugin();
+	public static final Java2KDMDiffEditorPlugin INSTANCE = new Java2KDMDiffEditorPlugin();
 	
 	/**
 	 * Keep track of the singleton.
@@ -49,7 +45,7 @@ public final class KDM2JavaDiffEditorPlugin extends EMFPlugin {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public KDM2JavaDiffEditorPlugin() {
+	public Java2KDMDiffEditorPlugin() {
 		super
 			(new ResourceLocator [] {
 				DiffEditPlugin.INSTANCE,

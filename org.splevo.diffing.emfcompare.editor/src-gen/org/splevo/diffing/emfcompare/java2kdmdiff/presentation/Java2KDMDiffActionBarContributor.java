@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.presentation;
+package org.splevo.diffing.emfcompare.java2kdmdiff.presentation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,12 +40,12 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
 /**
- * This is the action bar contributor for the KDM2JavaDiff model editor.
+ * This is the action bar contributor for the Java2KDMDiff model editor.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class KDM2JavaDiffActionBarContributor
+public class Java2KDMDiffActionBarContributor
 	extends EditingDomainActionBarContributor
 	implements ISelectionChangedListener {
 	/**
@@ -75,14 +71,14 @@ public class KDM2JavaDiffActionBarContributor
 	 * @generated
 	 */
 	protected IAction showPropertiesViewAction =
-		new Action(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item")) {
+		new Action(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item")) {
 			@Override
 			public void run() {
 				try {
 					getPage().showView("org.eclipse.ui.views.PropertySheet");
 				}
 				catch (PartInitException exception) {
-					KDM2JavaDiffEditorPlugin.INSTANCE.log(exception);
+					Java2KDMDiffEditorPlugin.INSTANCE.log(exception);
 				}
 			}
 		};
@@ -95,7 +91,7 @@ public class KDM2JavaDiffActionBarContributor
 	 * @generated
 	 */
 	protected IAction refreshViewerAction =
-		new Action(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item")) {
+		new Action(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item")) {
 			@Override
 			public boolean isEnabled() {
 				return activeEditorPart instanceof IViewerProvider;
@@ -152,7 +148,7 @@ public class KDM2JavaDiffActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public KDM2JavaDiffActionBarContributor() {
+	public Java2KDMDiffActionBarContributor() {
 		super(ADDITIONS_LAST_STYLE);
 		loadResourceAction = new LoadResourceAction();
 		validateAction = new ValidateAction();
@@ -167,8 +163,8 @@ public class KDM2JavaDiffActionBarContributor
 	 */
 	@Override
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
-		toolBarManager.add(new Separator("kdm2javadiff-settings"));
-		toolBarManager.add(new Separator("kdm2javadiff-additions"));
+		toolBarManager.add(new Separator("java2kdmdiff-settings"));
+		toolBarManager.add(new Separator("java2kdmdiff-additions"));
 	}
 
 	/**
@@ -182,7 +178,7 @@ public class KDM2JavaDiffActionBarContributor
 	public void contributeToMenu(IMenuManager menuManager) {
 		super.contributeToMenu(menuManager);
 
-		IMenuManager submenuManager = new MenuManager(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_KDM2JavaDiffEditor_menu"), "org.splevo.diffing.emfcompare.kdm2javadiffMenuID");
+		IMenuManager submenuManager = new MenuManager(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_Java2KDMDiffEditor_menu"), "org.splevo.diffing.emfcompare.java2kdmdiffMenuID");
 		menuManager.insertAfter("additions", submenuManager);
 		submenuManager.add(new Separator("settings"));
 		submenuManager.add(new Separator("actions"));
@@ -191,12 +187,12 @@ public class KDM2JavaDiffActionBarContributor
 
 		// Prepare for CreateChild item addition or removal.
 		//
-		createChildMenuManager = new MenuManager(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
+		createChildMenuManager = new MenuManager(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
 		submenuManager.insertBefore("additions", createChildMenuManager);
 
 		// Prepare for CreateSibling item addition or removal.
 		//
-		createSiblingMenuManager = new MenuManager(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
+		createSiblingMenuManager = new MenuManager(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
 		submenuManager.insertBefore("additions", createSiblingMenuManager);
 
 		// Force an update because Eclipse hides empty menus now.
@@ -387,11 +383,11 @@ public class KDM2JavaDiffActionBarContributor
 		super.menuAboutToShow(menuManager);
 		MenuManager submenuManager = null;
 
-		submenuManager = new MenuManager(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
+		submenuManager = new MenuManager(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
 		populateManager(submenuManager, createChildActions, null);
 		menuManager.insertBefore("edit", submenuManager);
 
-		submenuManager = new MenuManager(KDM2JavaDiffEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
+		submenuManager = new MenuManager(Java2KDMDiffEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
 		populateManager(submenuManager, createSiblingActions, null);
 		menuManager.insertBefore("edit", submenuManager);
 	}

@@ -1,10 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
-package org.splevo.diffing.emfcompare.kdm2javadiff.presentation;
+package org.splevo.diffing.emfcompare.java2kdmdiff.presentation;
 
 
 import java.io.IOException;
@@ -157,7 +153,7 @@ import org.eclipse.emf.edit.ui.util.EditUIUtil;
 
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
-import org.splevo.diffing.emfcompare.kdm2javadiff.provider.KDM2JavaDiffItemProviderAdapterFactory;
+import org.splevo.diffing.emfcompare.java2kdmdiff.provider.Java2KDMDiffItemProviderAdapterFactory;
 
 import org.eclipse.emf.compare.diff.provider.DiffItemProviderAdapterFactory;
 
@@ -171,12 +167,12 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 
 /**
- * This is an example of a KDM2JavaDiff model editor.
+ * This is an example of a Java2KDMDiff model editor.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class KDM2JavaDiffEditor
+public class Java2KDMDiffEditor
 	extends MultiPageEditorPart
 	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker {
 	/**
@@ -338,18 +334,18 @@ public class KDM2JavaDiffEditor
 			public void partActivated(IWorkbenchPart p) {
 				if (p instanceof ContentOutline) {
 					if (((ContentOutline)p).getCurrentPage() == contentOutlinePage) {
-						getActionBarContributor().setActiveEditor(KDM2JavaDiffEditor.this);
+						getActionBarContributor().setActiveEditor(Java2KDMDiffEditor.this);
 
 						setCurrentViewer(contentOutlineViewer);
 					}
 				}
 				else if (p instanceof PropertySheet) {
 					if (((PropertySheet)p).getCurrentPage() == propertySheetPage) {
-						getActionBarContributor().setActiveEditor(KDM2JavaDiffEditor.this);
+						getActionBarContributor().setActiveEditor(Java2KDMDiffEditor.this);
 						handleActivate();
 					}
 				}
-				else if (p == KDM2JavaDiffEditor.this) {
+				else if (p == Java2KDMDiffEditor.this) {
 					handleActivate();
 				}
 			}
@@ -512,7 +508,7 @@ public class KDM2JavaDiffEditor
 								 public void run() {
 									 removedResources.addAll(visitor.getRemovedResources());
 									 if (!isDirty()) {
-										 getSite().getPage().closeEditor(KDM2JavaDiffEditor.this, false);
+										 getSite().getPage().closeEditor(Java2KDMDiffEditor.this, false);
 									 }
 								 }
 							 });
@@ -523,7 +519,7 @@ public class KDM2JavaDiffEditor
 							(new Runnable() {
 								 public void run() {
 									 changedResources.addAll(visitor.getChangedResources());
-									 if (getSite().getPage().getActiveEditor() == KDM2JavaDiffEditor.this) {
+									 if (getSite().getPage().getActiveEditor() == Java2KDMDiffEditor.this) {
 										 handleActivate();
 									 }
 								 }
@@ -531,7 +527,7 @@ public class KDM2JavaDiffEditor
 					}
 				}
 				catch (CoreException exception) {
-					KDM2JavaDiffEditorPlugin.INSTANCE.log(exception);
+					Java2KDMDiffEditorPlugin.INSTANCE.log(exception);
 				}
 			}
 		};
@@ -555,7 +551,7 @@ public class KDM2JavaDiffEditor
 
 		if (!removedResources.isEmpty()) {
 			if (handleDirtyConflict()) {
-				getSite().getPage().closeEditor(KDM2JavaDiffEditor.this, false);
+				getSite().getPage().closeEditor(Java2KDMDiffEditor.this, false);
 			}
 			else {
 				removedResources.clear();
@@ -647,7 +643,7 @@ public class KDM2JavaDiffEditor
 					showTabs();
 				}
 				catch (PartInitException exception) {
-					KDM2JavaDiffEditorPlugin.INSTANCE.log(exception);
+					Java2KDMDiffEditorPlugin.INSTANCE.log(exception);
 				}
 			}
 
@@ -658,7 +654,7 @@ public class KDM2JavaDiffEditor
 						markerHelper.createMarkers(diagnostic);
 					}
 					catch (CoreException exception) {
-						KDM2JavaDiffEditorPlugin.INSTANCE.log(exception);
+						Java2KDMDiffEditorPlugin.INSTANCE.log(exception);
 					}
 				}
 			}
@@ -685,7 +681,7 @@ public class KDM2JavaDiffEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public KDM2JavaDiffEditor() {
+	public Java2KDMDiffEditor() {
 		super();
 		initializeEditingDomain();
 	}
@@ -702,7 +698,7 @@ public class KDM2JavaDiffEditor
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new KDM2JavaDiffItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new Java2KDMDiffItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new DiffItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new JavaItemProviderAdapterFactory());
@@ -1020,7 +1016,7 @@ public class KDM2JavaDiffEditor
 			//
 			{
 				ViewerPane viewerPane =
-					new ViewerPane(getSite().getPage(), KDM2JavaDiffEditor.this) {
+					new ViewerPane(getSite().getPage(), Java2KDMDiffEditor.this) {
 						@Override
 						public Viewer createViewer(Composite composite) {
 							Tree tree = new Tree(composite, SWT.MULTI);
@@ -1054,7 +1050,7 @@ public class KDM2JavaDiffEditor
 			//
 			{
 				ViewerPane viewerPane =
-					new ViewerPane(getSite().getPage(), KDM2JavaDiffEditor.this) {
+					new ViewerPane(getSite().getPage(), Java2KDMDiffEditor.this) {
 						@Override
 						public Viewer createViewer(Composite composite) {
 							Tree tree = new Tree(composite, SWT.MULTI);
@@ -1083,7 +1079,7 @@ public class KDM2JavaDiffEditor
 			//
 			{
 				ViewerPane viewerPane =
-					new ViewerPane(getSite().getPage(), KDM2JavaDiffEditor.this) {
+					new ViewerPane(getSite().getPage(), Java2KDMDiffEditor.this) {
 						@Override
 						public Viewer createViewer(Composite composite) {
 							return new ListViewer(composite);
@@ -1108,7 +1104,7 @@ public class KDM2JavaDiffEditor
 			//
 			{
 				ViewerPane viewerPane =
-					new ViewerPane(getSite().getPage(), KDM2JavaDiffEditor.this) {
+					new ViewerPane(getSite().getPage(), Java2KDMDiffEditor.this) {
 						@Override
 						public Viewer createViewer(Composite composite) {
 							return new TreeViewer(composite);
@@ -1135,7 +1131,7 @@ public class KDM2JavaDiffEditor
 			//
 			{
 				ViewerPane viewerPane =
-					new ViewerPane(getSite().getPage(), KDM2JavaDiffEditor.this) {
+					new ViewerPane(getSite().getPage(), Java2KDMDiffEditor.this) {
 						@Override
 						public Viewer createViewer(Composite composite) {
 							return new TableViewer(composite);
@@ -1178,7 +1174,7 @@ public class KDM2JavaDiffEditor
 			//
 			{
 				ViewerPane viewerPane =
-					new ViewerPane(getSite().getPage(), KDM2JavaDiffEditor.this) {
+					new ViewerPane(getSite().getPage(), Java2KDMDiffEditor.this) {
 						@Override
 						public Viewer createViewer(Composite composite) {
 							return new TreeViewer(composite);
@@ -1399,8 +1395,8 @@ public class KDM2JavaDiffEditor
 				new ExtendedPropertySheetPage(editingDomain) {
 					@Override
 					public void setSelectionToViewer(List<?> selection) {
-						KDM2JavaDiffEditor.this.setSelectionToViewer(selection);
-						KDM2JavaDiffEditor.this.setFocus();
+						Java2KDMDiffEditor.this.setSelectionToViewer(selection);
+						Java2KDMDiffEditor.this.setFocus();
 					}
 
 					@Override
@@ -1521,7 +1517,7 @@ public class KDM2JavaDiffEditor
 		catch (Exception exception) {
 			// Something went wrong that shouldn't.
 			//
-			KDM2JavaDiffEditorPlugin.INSTANCE.log(exception);
+			Java2KDMDiffEditorPlugin.INSTANCE.log(exception);
 		}
 		updateProblemIndication = true;
 		updateProblemIndication();
@@ -1614,7 +1610,7 @@ public class KDM2JavaDiffEditor
 			}
 		}
 		catch (CoreException exception) {
-			KDM2JavaDiffEditorPlugin.INSTANCE.log(exception);
+			Java2KDMDiffEditorPlugin.INSTANCE.log(exception);
 		}
 	}
 
@@ -1736,7 +1732,7 @@ public class KDM2JavaDiffEditor
 	 * @generated
 	 */
 	private static String getString(String key) {
-		return KDM2JavaDiffEditorPlugin.INSTANCE.getString(key);
+		return Java2KDMDiffEditorPlugin.INSTANCE.getString(key);
 	}
 
 	/**
@@ -1746,7 +1742,7 @@ public class KDM2JavaDiffEditor
 	 * @generated
 	 */
 	private static String getString(String key, Object s1) {
-		return KDM2JavaDiffEditorPlugin.INSTANCE.getString(key, new Object [] { s1 });
+		return Java2KDMDiffEditorPlugin.INSTANCE.getString(key, new Object [] { s1 });
 	}
 
 	/**

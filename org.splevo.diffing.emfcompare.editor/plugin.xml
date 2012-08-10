@@ -15,24 +15,24 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffModelWizardID"
-            name="%_UI_KDM2JavaDiffModelWizard_label"
-            class="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffModelWizard"
+            id="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffModelWizardID"
+            name="%_UI_Java2KDMDiffModelWizard_label"
+            class="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
-            icon="icons/full/obj16/KDM2JavaDiffModelFile.gif">
-         <description>%_UI_KDM2JavaDiffModelWizard_description</description>
+            icon="icons/full/obj16/Java2KDMDiffModelFile.gif">
+         <description>%_UI_Java2KDMDiffModelWizard_description</description>
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
    </extension>
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffEditorID"
-            name="%_UI_KDM2JavaDiffEditor_label"
-            icon="icons/full/obj16/KDM2JavaDiffModelFile.gif"
-            extensions="KDM2JavaDiff"
-            class="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffEditor"
-            contributorClass="org.splevo.diffing.emfcompare.kdm2javadiff.presentation.KDM2JavaDiffActionBarContributor">
+            id="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffEditorID"
+            name="%_UI_Java2KDMDiffEditor_label"
+            icon="icons/full/obj16/Java2KDMDiffModelFile.gif"
+            extensions="Java2KDMDiff"
+            class="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffEditor"
+            contributorClass="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffActionBarContributor">
       </editor>
    </extension>
 
