@@ -51,6 +51,10 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 		
 		// filter due to package restrictions
 		unmatched = filterIgnoredPackages(unmatched);
+
+		// initialize the processors and filters
+		UnmatchedElementProcessor ueProcessor = new UnmatchedElementProcessor();
+		UnmatchedElementFilter ueFilter = new UnmatchedElementFilter();
 		
 		// analyze unmatched elements to create specific diff types.
 		List<UnmatchElement> filteredUnmatched = new ArrayList<UnmatchElement>();
@@ -58,15 +62,17 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 			final EObject element = unmatchElement.getElement();
 			final EObject leftParent = getMatchManager().getMatchedEObject(element.eContainer());
 
-			UnmatchedElementProcessor ueProcessor = new UnmatchedElementProcessor(unmatchElement);
-			DiffElement diffElement = ueProcessor.process(element);
+			DiffElement diffElement = ueProcessor.process(unmatchElement);
 			
 			// check if a specific diff element has been created.
 			// otherwise add it to the list that still needs to be processed
 			if(diffElement != null){
 				addInContainerPackage(diffRoot, diffElement, leftParent);
 			} else {
-				filteredUnmatched.add(unmatchElement);
+				Boolean filter = ueFilter.filter(unmatchElement);
+				if(filter == Boolean.FALSE){
+					filteredUnmatched.add(unmatchElement);
+				}
 			}
 		}
 	
