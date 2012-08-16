@@ -154,7 +154,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 			String fqnType1 = JavaModelUtil.buildFullQualifiedName(type1);
 			String fqnType2 = JavaModelUtil.buildFullQualifiedName(type2);
 			if(!fqnType1.equals(fqnType2)){
-				logger.debug("methodInvocation filtered because of unmatched declaring type "+method1.getName());
+				logger.debug("methodInvocations not similar because of unmatched declaring type "+method1.getName());
 				return Boolean.FALSE;
 			}
 			
@@ -162,7 +162,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 			
 			// check parameter count
 			if(method1.getParameters().size() != method2.getParameters().size()){
-				logger.debug("methodInvocation filtered because of different parameter counts ");
+				logger.debug("methodInvocations not similar because of different parameter counts ");
 				return Boolean.FALSE;
 			}
 			
@@ -175,7 +175,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 				String var1TypeName = varDecl1.getType().getType().getName();
 				String var2TypeName = varDecl2.getType().getType().getName();
 				if(!var1TypeName.equals(var2TypeName)){
-					logger.debug("methodInvocation filtered because of different parameter types ");
+					logger.debug("methodInvocations not similar because of different parameter types ");
 					return Boolean.FALSE;
 				}
 			}
