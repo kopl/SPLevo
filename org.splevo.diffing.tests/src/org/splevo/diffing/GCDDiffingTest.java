@@ -45,7 +45,7 @@ public class GCDDiffingTest extends AbstractDiffingTest {
 		JavaApplication leadingModel = KDMUtil.loadKDMModel(NATIVE_JAVA2KDMMODEL_FILE);
 		JavaApplication integrationModel = KDMUtil.loadKDMModel(JSCIENCE_JAVA2KDMMODEL_FILE);
 		
-		MatchEngineDiffingService diffingService = new MatchEngineDiffingService();
+		Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
 		diffingService.getIgnorePackages().add("java.lang");
 		diffingService.getIgnorePackages().add("java.math");
 		diffingService.getIgnorePackages().add("java.io");
@@ -56,6 +56,7 @@ public class GCDDiffingTest extends AbstractDiffingTest {
 		DiffModel diff = diffingService.doDiff(leadingModel,integrationModel);
 		
 		EList<DiffElement> differences = diff.getDifferences();
+		
 		for (DiffElement diffElement : differences) {
 			System.out.println(diffElement.getKind()+": "+diffElement.getClass().getName());
 		}
