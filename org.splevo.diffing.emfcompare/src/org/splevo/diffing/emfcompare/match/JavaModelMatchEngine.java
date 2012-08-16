@@ -11,7 +11,6 @@ import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
-import org.splevo.diffing.emfcompare.diff.JavaModelAttributesCheck;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
 /**
