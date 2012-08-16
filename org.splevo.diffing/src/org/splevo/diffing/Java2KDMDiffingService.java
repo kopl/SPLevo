@@ -25,9 +25,9 @@ import org.splevo.diffing.kdm.JavaModelElementPrinter;
  * @author Benjamin Klatt
  * 
  */
-public class MatchEngineDiffingService {
+public class Java2KDMDiffingService {
 	
-    private Logger logger = Logger.getLogger(MatchEngineDiffingService.class);
+    private Logger logger = Logger.getLogger(Java2KDMDiffingService.class);
 
 	/** Regular expressions defining packages to be ignored. */
 	private List<String> ignorePackages = new ArrayList<String>();
