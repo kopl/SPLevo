@@ -8,7 +8,6 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.vpm.realization.tests,
- org.splevo.vpm.tests,
  org.splevo.vpm.variability.tests
 Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm;visibility:=reexport,

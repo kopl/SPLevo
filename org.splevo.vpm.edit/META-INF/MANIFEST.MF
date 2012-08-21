@@ -8,8 +8,7 @@ Bundle-Activator: org.splevo.vpm.provider.vpmEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.splevo.vpm.provider,
- org.splevo.vpm.realization.provider,
+Export-Package: org.splevo.vpm.realization.provider,
  org.splevo.vpm.variability.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm;visibility:=reexport,
@@ -19,5 +18,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.featuremodel.metamodel;visibility:=reexport,
  org.eclipse.featuremodel.metamodel.edit;visibility:=reexport,
  org.eclipse.gmt.modisco.omg.kdm;visibility:=reexport,
- org.eclipse.gmt.modisco.omg.kdm.edit;visibility:=reexport
+ org.eclipse.gmt.modisco.omg.kdm.edit;visibility:=reexport,
+ org.eclipse.gmt.modisco.java.edit;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy

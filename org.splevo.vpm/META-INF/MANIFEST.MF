@@ -7,17 +7,16 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.splevo.vpm,
- org.splevo.vpm.impl,
- org.splevo.vpm.realization,
+Export-Package: org.splevo.vpm.realization,
  org.splevo.vpm.realization.impl,
  org.splevo.vpm.realization.util,
- org.splevo.vpm.util,
  org.splevo.vpm.variability,
  org.splevo.vpm.variability.impl,
  org.splevo.vpm.variability.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.featuremodel.metamodel;visibility:=reexport,
- org.eclipse.gmt.modisco.omg.kdm;visibility:=reexport
+ org.eclipse.gmt.modisco.omg.kdm;visibility:=reexport,
+ org.eclipse.gmt.modisco.java;bundle-version="0.10.1",
+ org.eclipse.modisco.java.composition;bundle-version="0.10.0"
 Bundle-ActivationPolicy: lazy
