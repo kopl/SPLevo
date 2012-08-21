@@ -74,7 +74,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 		@Override
 		public Boolean caseImportDeclaration(ImportDeclaration object) {
 
-			NamedElement importedElement1 = ((ImportDeclaration) object).getImportedElement(); 
+			NamedElement importedElement1 = object.getImportedElement(); 
 			NamedElement importedElement2 = ((ImportDeclaration) compareElement).getImportedElement();
 			
 			if(importedElement1 instanceof AbstractTypeDeclaration 

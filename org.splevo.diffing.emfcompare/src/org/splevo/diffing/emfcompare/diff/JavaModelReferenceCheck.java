@@ -42,6 +42,9 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
 	 * the right model.
 	 * </p>
 	 * 
+	 * Note: The method has been overriden to extend the signiture of shouldBeIgnored to also 
+	 * hand over the origin element of the mapping
+	 * 
 	 * @param root
 	 *            {@link DiffGroup root} of the {@link DiffElement} to create.
 	 * @param mapping
@@ -71,6 +74,9 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
 	 * element if the reference is multi-valued or update of a single-valued reference) between the left and
 	 * the ancestor model, the right and the ancestor or between the left and the right model.
 	 * </p>
+	 * 
+	 * Note: The method has been overriden to extend the signiture of shouldBeIgnored to also 
+	 * hand over the origin element of the mapping
 	 * 
 	 * @param root
 	 *            {@link DiffGroup root} of the {@link DiffElement} to create.
