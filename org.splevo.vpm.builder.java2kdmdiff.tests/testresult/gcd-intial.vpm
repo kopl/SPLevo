@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="Cp1252"?>
+<variability:VariationPointModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:variability="http://splevo.org/vpm/1.0/variability">
+  <leadingModel href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#/"/>
+  <integrationModel href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#/"/>
+</variability:VariationPointModel>
