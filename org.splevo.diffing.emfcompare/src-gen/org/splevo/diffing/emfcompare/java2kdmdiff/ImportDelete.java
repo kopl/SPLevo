@@ -16,7 +16,7 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getImportLeft <em>Import Left</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getImportRight <em>Import Right</em>}</li>
  * </ul>
  * </p>
  *
@@ -26,29 +26,29 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
  */
 public interface ImportDelete extends ImportDeclarationChange {
 	/**
-	 * Returns the value of the '<em><b>Import Left</b></em>' reference.
+	 * Returns the value of the '<em><b>Import Right</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Import Left</em>' reference isn't clear,
+	 * If the meaning of the '<em>Import Right</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Import Left</em>' reference.
-	 * @see #setImportLeft(ImportDeclaration)
-	 * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getImportDelete_ImportLeft()
+	 * @return the value of the '<em>Import Right</em>' reference.
+	 * @see #setImportRight(ImportDeclaration)
+	 * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getImportDelete_ImportRight()
 	 * @model
 	 * @generated
 	 */
-	ImportDeclaration getImportLeft();
+	ImportDeclaration getImportRight();
 
 	/**
-	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getImportLeft <em>Import Left</em>}' reference.
+	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getImportRight <em>Import Right</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Import Left</em>' reference.
-	 * @see #getImportLeft()
+	 * @param value the new value of the '<em>Import Right</em>' reference.
+	 * @see #getImportRight()
 	 * @generated
 	 */
-	void setImportLeft(ImportDeclaration value);
+	void setImportRight(ImportDeclaration value);
 
 } // ImportDelete

@@ -19,7 +19,7 @@ import org.eclipse.gmt.modisco.java.Statement;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange#getStatementLeft <em>Statement Left</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange#getStatementRight <em>Statement Right</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,28 +29,28 @@ import org.eclipse.gmt.modisco.java.Statement;
  */
 public interface StatementChange extends DiffGroup {
 	/**
-	 * Returns the value of the '<em><b>Statement Left</b></em>' reference.
+	 * Returns the value of the '<em><b>Statement Right</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The statement in the left model which is the new modified version.
+	 * The statement in the right model which is the new modified version.
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Statement Left</em>' reference.
-	 * @see #setStatementLeft(Statement)
-	 * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getStatementChange_StatementLeft()
-	 * @model
+	 * @return the value of the '<em>Statement Right</em>' reference.
+	 * @see #setStatementRight(Statement)
+	 * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getStatementChange_StatementRight()
+	 * @model extendedMetaData="name='statementRight' namespace=''"
 	 * @generated
 	 */
-	Statement getStatementLeft();
+	Statement getStatementRight();
 
 	/**
-	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange#getStatementLeft <em>Statement Left</em>}' reference.
+	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange#getStatementRight <em>Statement Right</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Statement Left</em>' reference.
-	 * @see #getStatementLeft()
+	 * @param value the new value of the '<em>Statement Right</em>' reference.
+	 * @see #getStatementRight()
 	 * @generated
 	 */
-	void setStatementLeft(Statement value);
+	void setStatementRight(Statement value);
 
 } // StatementChange

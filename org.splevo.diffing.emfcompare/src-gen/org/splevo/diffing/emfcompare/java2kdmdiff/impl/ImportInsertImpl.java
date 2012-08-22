@@ -21,7 +21,7 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImportInsertImpl#getImportRight <em>Import Right</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImportInsertImpl#getImportLeft <em>Import Left</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,15 +29,14 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
  */
 public class ImportInsertImpl extends ImportDeclarationChangeImpl implements ImportInsert {
 	/**
-	 * The cached value of the '{@link #getImportRight() <em>Import Right</em>}' reference.
+	 * The cached value of the '{@link #getImportLeft() <em>Import Left</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getImportRight()
+	 * @see #getImportLeft()
 	 * @generated
 	 * @ordered
 	 */
-	protected ImportDeclaration importRight;
-
+	protected ImportDeclaration importLeft;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -62,16 +61,16 @@ public class ImportInsertImpl extends ImportDeclarationChangeImpl implements Imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ImportDeclaration getImportRight() {
-		if (importRight != null && importRight.eIsProxy()) {
-			InternalEObject oldImportRight = (InternalEObject)importRight;
-			importRight = (ImportDeclaration)eResolveProxy(oldImportRight);
-			if (importRight != oldImportRight) {
+	public ImportDeclaration getImportLeft() {
+		if (importLeft != null && importLeft.eIsProxy()) {
+			InternalEObject oldImportLeft = (InternalEObject)importLeft;
+			importLeft = (ImportDeclaration)eResolveProxy(oldImportLeft);
+			if (importLeft != oldImportLeft) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_RIGHT, oldImportRight, importRight));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_LEFT, oldImportLeft, importLeft));
 			}
 		}
-		return importRight;
+		return importLeft;
 	}
 
 	/**
@@ -79,8 +78,8 @@ public class ImportInsertImpl extends ImportDeclarationChangeImpl implements Imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ImportDeclaration basicGetImportRight() {
-		return importRight;
+	public ImportDeclaration basicGetImportLeft() {
+		return importLeft;
 	}
 
 	/**
@@ -88,11 +87,11 @@ public class ImportInsertImpl extends ImportDeclarationChangeImpl implements Imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setImportRight(ImportDeclaration newImportRight) {
-		ImportDeclaration oldImportRight = importRight;
-		importRight = newImportRight;
+	public void setImportLeft(ImportDeclaration newImportLeft) {
+		ImportDeclaration oldImportLeft = importLeft;
+		importLeft = newImportLeft;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_RIGHT, oldImportRight, importRight));
+			eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_LEFT, oldImportLeft, importLeft));
 	}
 
 	/**
@@ -103,9 +102,9 @@ public class ImportInsertImpl extends ImportDeclarationChangeImpl implements Imp
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_RIGHT:
-				if (resolve) return getImportRight();
-				return basicGetImportRight();
+			case Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_LEFT:
+				if (resolve) return getImportLeft();
+				return basicGetImportLeft();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -118,8 +117,8 @@ public class ImportInsertImpl extends ImportDeclarationChangeImpl implements Imp
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_RIGHT:
-				setImportRight((ImportDeclaration)newValue);
+			case Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_LEFT:
+				setImportLeft((ImportDeclaration)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -133,8 +132,8 @@ public class ImportInsertImpl extends ImportDeclarationChangeImpl implements Imp
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_RIGHT:
-				setImportRight((ImportDeclaration)null);
+			case Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_LEFT:
+				setImportLeft((ImportDeclaration)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -148,8 +147,8 @@ public class ImportInsertImpl extends ImportDeclarationChangeImpl implements Imp
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_RIGHT:
-				return importRight != null;
+			case Java2KDMDiffPackage.IMPORT_INSERT__IMPORT_LEFT:
+				return importLeft != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -1,14 +1,18 @@
 package org.splevo.diffing;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
 import org.splevo.diffing.kdm.KDMUtil;
 
 public class ImportChangeDiffingTest extends AbstractDiffingTest {
@@ -39,16 +43,24 @@ public class ImportChangeDiffingTest extends AbstractDiffingTest {
 		diffingService.getIgnorePackages().add("java.lang");
 		diffingService.getIgnorePackages().add("java.math");
 		
-		DiffModel diff = diffingService.doDiff(leadingModel,integrationModel);
+		DiffModel diff = diffingService.doDiff(integrationModel,leadingModel);
 		
 		EList<DiffElement> differences = diff.getDifferences();
+		assertEquals("Wrong number of differences detected",2,differences.size());
+		
 		for (DiffElement diffElement : differences) {
+			if(diffElement instanceof ImportInsert){
+				String importedClass = ((ImportInsert) diffElement).getImportLeft().getImportedElement().getName();
+				assertEquals("BigDecimal should have been recognized as new import","BigDecimal",importedClass);
+			} else if (diffElement instanceof ImportDelete){
+				String importedClass = ((ImportDelete) diffElement).getImportRight().getImportedElement().getName();
+				assertEquals("BigInteger should have been recognized as new import","BigInteger",importedClass);
+			} else {
+				fail("No other diff elements than ImportInsert and ImportDelete should have been detected.");
+			}
 			System.out.println(diffElement.getKind()+": "+diffElement.getClass().getName());
 		}
-		
 		System.out.println("Found Differences: "+differences.size());
-		
-		ModelUtils.save(diff, "testresult/importDiffModel.java2kdmdiff");
 	}
 
 }

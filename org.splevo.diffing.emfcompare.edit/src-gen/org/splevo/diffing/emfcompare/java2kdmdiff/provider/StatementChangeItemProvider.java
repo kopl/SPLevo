@@ -57,25 +57,25 @@ public class StatementChangeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addStatementLeftPropertyDescriptor(object);
+			addStatementRightPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Statement Left feature.
+	 * This adds a property descriptor for the Statement Right feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addStatementLeftPropertyDescriptor(Object object) {
+	protected void addStatementRightPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_StatementChange_statementLeft_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_StatementChange_statementLeft_feature", "_UI_StatementChange_type"),
-				 Java2KDMDiffPackage.Literals.STATEMENT_CHANGE__STATEMENT_LEFT,
+				 getString("_UI_StatementChange_statementRight_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_StatementChange_statementRight_feature", "_UI_StatementChange_type"),
+				 Java2KDMDiffPackage.Literals.STATEMENT_CHANGE__STATEMENT_RIGHT,
 				 true,
 				 false,
 				 true,
@@ -94,8 +94,8 @@ public class StatementChangeItemProvider
 	public String getText(Object object) {
 		StatementChange statementChange = (StatementChange)object;
 		String statementName = "";
-		if(statementChange.getStatementLeft() != null){
-			statementName = statementChange.getStatementLeft().toString();
+		if(statementChange.getStatementRight() != null){
+			statementName = statementChange.getStatementRight().toString();
 		}
 		return getString("_UI_StatementChange_type", new Object[] {statementName});
 	}

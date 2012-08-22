@@ -70,14 +70,13 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 		List<UnmatchElement> filteredUnmatched = new ArrayList<UnmatchElement>();
 		for (final UnmatchElement unmatchElement : unmatched) {
 			final EObject element = unmatchElement.getElement();
-			final EObject leftParent = getMatchManager().getMatchedEObject(element.eContainer());
 
 			DiffElement diffElement = ueProcessor.process(unmatchElement);
 			
 			// check if a specific diff element has been created.
 			// otherwise add it to the list that still needs to be processed
 			if(diffElement != null){
-				addInContainerPackage(diffRoot, diffElement, leftParent);
+				addInContainerPackage(diffRoot, diffElement, element.eContainer());
 			} else {
 				Boolean filter = ueFilter.filter(unmatchElement);
 				if(filter == Boolean.FALSE){
@@ -142,9 +141,9 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 			// group. Also try to get a matching element from the original model by using the match manager.
 			if(targetParent instanceof Statement){
 				StatementChange stmtGroup = Java2KDMDiffFactory.eINSTANCE.createStatementChange();
-				EObject statementLeft = getMatchManager().getMatchedEObject(targetParent);
-				if(statementLeft instanceof Statement){
-					stmtGroup.setStatementLeft((Statement) statementLeft);
+				EObject statementRight = getMatchManager().getMatchedEObject(targetParent);
+				if(statementRight instanceof Statement){
+					stmtGroup.setStatementRight((Statement) statementRight);
 				}
 				curGroup = stmtGroup;
 			} else {

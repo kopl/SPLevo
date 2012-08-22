@@ -55,25 +55,25 @@ public class ImportInsertItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addImportRightPropertyDescriptor(object);
+			addImportLeftPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Import Right feature.
+	 * This adds a property descriptor for the Import Left feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addImportRightPropertyDescriptor(Object object) {
+	protected void addImportLeftPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ImportInsert_importRight_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ImportInsert_importRight_feature", "_UI_ImportInsert_type"),
-				 Java2KDMDiffPackage.Literals.IMPORT_INSERT__IMPORT_RIGHT,
+				 getString("_UI_ImportInsert_importLeft_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ImportInsert_importLeft_feature", "_UI_ImportInsert_type"),
+				 Java2KDMDiffPackage.Literals.IMPORT_INSERT__IMPORT_LEFT,
 				 true,
 				 false,
 				 true,
@@ -103,8 +103,8 @@ public class ImportInsertItemProvider
 	public String getText(Object object) {
 		ImportInsert importInsert = (ImportInsert)object;
 		String importName = "";
-		if(importInsert.getImportRight() != null){
-			importName = importInsert.getImportRight().getImportedElement().getName();
+		if(importInsert.getImportLeft() != null){
+			importName = importInsert.getImportLeft().getImportedElement().getName();
 		}
 		return getString("_UI_ImportInsert_type", new Object[] {importName});
 	}

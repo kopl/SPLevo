@@ -11,55 +11,58 @@
                   <subDiffElements xsi:type="diff:DiffGroup">
                     <subDiffElements xsi:type="diff:UpdateReference">
                       <reference href="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java#//TypeAccess/type"/>
-                      <rightElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@type"/>
-                      <leftElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@type"/>
-                      <leftTarget href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
-                      <rightTarget href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+                      <rightElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@type"/>
+                      <leftElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@type"/>
+                      <leftTarget href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+                      <rightTarget href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
                     </subDiffElements>
-                    <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@type"/>
+                    <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@type"/>
                   </subDiffElements>
                   <subDiffElements xsi:type="diff:DiffGroup">
                     <subDiffElements xsi:type="diff:DiffGroup">
                       <subDiffElements xsi:type="diff:DiffGroup">
                         <subDiffElements xsi:type="diff:UpdateReference">
                           <reference href="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java#//TypeAccess/type"/>
-                          <rightElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@type"/>
-                          <leftElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@type"/>
-                          <leftTarget href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
-                          <rightTarget href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+                          <rightElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@type"/>
+                          <leftElement href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@type"/>
+                          <leftTarget href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+                          <rightTarget href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
                         </subDiffElements>
-                        <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@type"/>
+                        <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@type"/>
                       </subDiffElements>
-                      <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer"/>
+                      <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer"/>
                     </subDiffElements>
-                    <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0"/>
+                    <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0"/>
                   </subDiffElements>
-                  <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0"/>
-                  <statementLeft xsi:type="java:VariableDeclarationStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0"/>
+                  <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0"/>
+                  <statementRight xsi:type="java:VariableDeclarationStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0"/>
                 </subDiffElements>
-                <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body"/>
-                <statementLeft xsi:type="java:Block" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body"/>
+                <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body"/>
+                <statementRight xsi:type="java:Block" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body"/>
               </subDiffElements>
-              <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0"/>
+              <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0"/>
             </subDiffElements>
-            <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0"/>
+            <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedElements.0"/>
           </subDiffElements>
-          <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0/@ownedPackages.0"/>
+          <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0/@ownedPackages.0"/>
         </subDiffElements>
-        <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@ownedElements.0"/>
+        <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@ownedElements.0"/>
       </subDiffElements>
+      <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#/"/>
+    </subDiffElements>
+    <subDiffElements xsi:type="diff:DiffGroup">
       <subDiffElements xsi:type="diff:DiffGroup">
-        <subDiffElements xsi:type="java2kdmdiff:ImportDelete">
-          <importLeft href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@compilationUnits.0/@imports.0"/>
-        </subDiffElements>
         <subDiffElements xsi:type="java2kdmdiff:ImportInsert">
-          <importRight href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@compilationUnits.0/@imports.0"/>
+          <importLeft href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@compilationUnits.0/@imports.0"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="java2kdmdiff:ImportDelete">
+          <importRight href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#//@compilationUnits.0/@imports.0"/>
         </subDiffElements>
         <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#//@compilationUnits.0"/>
       </subDiffElements>
       <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#/"/>
     </subDiffElements>
   </ownedElements>
-  <leftRoots href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#/"/>
-  <rightRoots href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#/"/>
+  <leftRoots href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/2/2_java.xmi#/"/>
+  <rightRoots href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/variabledeclaration/1/1_java.xmi#/"/>
 </diff:DiffModel>

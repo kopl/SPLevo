@@ -150,7 +150,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStatementChange_StatementLeft() {
+	public EReference getStatementChange_StatementRight() {
 		return (EReference)statementChangeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -177,7 +177,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getImportInsert_ImportRight() {
+	public EReference getImportInsert_ImportLeft() {
 		return (EReference)importInsertEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -195,7 +195,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getImportDelete_ImportLeft() {
+	public EReference getImportDelete_ImportRight() {
 		return (EReference)importDeleteEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -230,15 +230,15 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 		java2KDMDiffExtensionEClass = createEClass(JAVA2_KDM_DIFF_EXTENSION);
 
 		statementChangeEClass = createEClass(STATEMENT_CHANGE);
-		createEReference(statementChangeEClass, STATEMENT_CHANGE__STATEMENT_LEFT);
+		createEReference(statementChangeEClass, STATEMENT_CHANGE__STATEMENT_RIGHT);
 
 		importDeclarationChangeEClass = createEClass(IMPORT_DECLARATION_CHANGE);
 
 		importInsertEClass = createEClass(IMPORT_INSERT);
-		createEReference(importInsertEClass, IMPORT_INSERT__IMPORT_RIGHT);
+		createEReference(importInsertEClass, IMPORT_INSERT__IMPORT_LEFT);
 
 		importDeleteEClass = createEClass(IMPORT_DELETE);
-		createEReference(importDeleteEClass, IMPORT_DELETE__IMPORT_LEFT);
+		createEReference(importDeleteEClass, IMPORT_DELETE__IMPORT_RIGHT);
 	}
 
 	/**
@@ -284,15 +284,15 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 		initEClass(java2KDMDiffExtensionEClass, Java2KDMDiffExtension.class, "Java2KDMDiffExtension", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(statementChangeEClass, StatementChange.class, "StatementChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getStatementChange_StatementLeft(), theJavaPackage.getStatement(), null, "statementLeft", null, 0, 1, StatementChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStatementChange_StatementRight(), theJavaPackage.getStatement(), null, "statementRight", null, 0, 1, StatementChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(importDeclarationChangeEClass, ImportDeclarationChange.class, "ImportDeclarationChange", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(importInsertEClass, ImportInsert.class, "ImportInsert", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getImportInsert_ImportRight(), theJavaPackage.getImportDeclaration(), null, "importRight", null, 0, 1, ImportInsert.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getImportInsert_ImportLeft(), theJavaPackage.getImportDeclaration(), null, "importLeft", null, 0, 1, ImportInsert.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(importDeleteEClass, ImportDelete.class, "ImportDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getImportDelete_ImportLeft(), theJavaPackage.getImportDeclaration(), null, "importLeft", null, 0, 1, ImportDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getImportDelete_ImportRight(), theJavaPackage.getImportDeclaration(), null, "importRight", null, 0, 1, ImportDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -309,7 +309,14 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";						
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";					
+		addAnnotation
+		  (getStatementChange_StatementRight(), 
+		   source, 
+		   new String[] {
+			 "name", "statementRight",
+			 "namespace", ""
+		   });			
 		addAnnotation
 		  (importDeclarationChangeEClass, 
 		   source, 

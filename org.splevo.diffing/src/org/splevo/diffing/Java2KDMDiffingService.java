@@ -40,22 +40,22 @@ public class Java2KDMDiffingService {
 	 * @return The difference model.
 	 * @throws InterruptedException Identifying that the match engine has been interrupted.
 	 */
-	public DiffModel doDiff(JavaApplication leadingModel,JavaApplication integrationModel)
+	public DiffModel doDiff(JavaApplication integrationModel,JavaApplication leadingModel)
 			throws InterruptedException {
 
-		Model leadingJavaModel = leadingModel.getJavaModel();
 		Model integrationJavaModel = integrationModel.getJavaModel();
+		Model leadingJavaModel = leadingModel.getJavaModel();
 
 		// configure the match engine
 		final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
-		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(leadingJavaModel, integrationJavaModel);
+		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationJavaModel, leadingJavaModel);
 		matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,matchScopeProvider);
 
 		JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
 
 		logger.debug("================ MATCHING PHASE  ===============");
 		JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
-		MatchModel matchModel = matchEngine.modelMatch(leadingJavaModel,integrationJavaModel, matchOptions);
+		MatchModel matchModel = matchEngine.modelMatch(integrationJavaModel, leadingJavaModel, matchOptions);
 
 		logger.debug("=== UNMATCHED ELEMENTS ===");
 		EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();

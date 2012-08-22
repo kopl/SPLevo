@@ -53,7 +53,7 @@ public class GCDDiffingTest extends AbstractDiffingTest {
 		diffingService.getIgnorePackages().add("org.jscience.*");
 		diffingService.getIgnorePackages().add("javolution.*");
 		
-		DiffModel diff = diffingService.doDiff(leadingModel,integrationModel);
+		DiffModel diff = diffingService.doDiff(integrationModel,leadingModel);
 		
 		EList<DiffElement> differences = diff.getDifferences();
 		

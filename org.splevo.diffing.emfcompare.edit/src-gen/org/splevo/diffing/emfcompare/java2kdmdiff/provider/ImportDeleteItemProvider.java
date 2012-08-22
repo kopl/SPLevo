@@ -55,25 +55,25 @@ public class ImportDeleteItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addImportLeftPropertyDescriptor(object);
+			addImportRightPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Import Left feature.
+	 * This adds a property descriptor for the Import Right feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addImportLeftPropertyDescriptor(Object object) {
+	protected void addImportRightPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ImportDelete_importLeft_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ImportDelete_importLeft_feature", "_UI_ImportDelete_type"),
-				 Java2KDMDiffPackage.Literals.IMPORT_DELETE__IMPORT_LEFT,
+				 getString("_UI_ImportDelete_importRight_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ImportDelete_importRight_feature", "_UI_ImportDelete_type"),
+				 Java2KDMDiffPackage.Literals.IMPORT_DELETE__IMPORT_RIGHT,
 				 true,
 				 false,
 				 true,
@@ -103,8 +103,8 @@ public class ImportDeleteItemProvider
 	public String getText(Object object) {
 		ImportDelete importDelete = (ImportDelete)object;
 		String importName = "";
-		if(importDelete.getImportLeft() != null){
-			importName = importDelete.getImportLeft().getImportedElement().getName();
+		if(importDelete.getImportRight() != null){
+			importName = importDelete.getImportRight().getImportedElement().getName();
 		}
 		return getString("_UI_ImportDelete_type", new Object[] {importName});
 	}

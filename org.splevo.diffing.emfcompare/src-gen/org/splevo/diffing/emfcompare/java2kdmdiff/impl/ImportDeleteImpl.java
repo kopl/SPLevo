@@ -3,14 +3,11 @@
 package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
-
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
@@ -21,7 +18,7 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImportDeleteImpl#getImportLeft <em>Import Left</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImportDeleteImpl#getImportRight <em>Import Right</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,15 +26,14 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
  */
 public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements ImportDelete {
 	/**
-	 * The cached value of the '{@link #getImportLeft() <em>Import Left</em>}' reference.
+	 * The cached value of the '{@link #getImportRight() <em>Import Right</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getImportLeft()
+	 * @see #getImportRight()
 	 * @generated
 	 * @ordered
 	 */
-	protected ImportDeclaration importLeft;
-
+	protected ImportDeclaration importRight;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -62,16 +58,16 @@ public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements Imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ImportDeclaration getImportLeft() {
-		if (importLeft != null && importLeft.eIsProxy()) {
-			InternalEObject oldImportLeft = (InternalEObject)importLeft;
-			importLeft = (ImportDeclaration)eResolveProxy(oldImportLeft);
-			if (importLeft != oldImportLeft) {
+	public ImportDeclaration getImportRight() {
+		if (importRight != null && importRight.eIsProxy()) {
+			InternalEObject oldImportRight = (InternalEObject)importRight;
+			importRight = (ImportDeclaration)eResolveProxy(oldImportRight);
+			if (importRight != oldImportRight) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_LEFT, oldImportLeft, importLeft));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT, oldImportRight, importRight));
 			}
 		}
-		return importLeft;
+		return importRight;
 	}
 
 	/**
@@ -79,8 +75,8 @@ public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements Imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ImportDeclaration basicGetImportLeft() {
-		return importLeft;
+	public ImportDeclaration basicGetImportRight() {
+		return importRight;
 	}
 
 	/**
@@ -88,11 +84,11 @@ public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements Imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setImportLeft(ImportDeclaration newImportLeft) {
-		ImportDeclaration oldImportLeft = importLeft;
-		importLeft = newImportLeft;
+	public void setImportRight(ImportDeclaration newImportRight) {
+		ImportDeclaration oldImportRight = importRight;
+		importRight = newImportRight;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_LEFT, oldImportLeft, importLeft));
+			eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT, oldImportRight, importRight));
 	}
 
 	/**
@@ -103,9 +99,9 @@ public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements Imp
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_LEFT:
-				if (resolve) return getImportLeft();
-				return basicGetImportLeft();
+			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
+				if (resolve) return getImportRight();
+				return basicGetImportRight();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -118,8 +114,8 @@ public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements Imp
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_LEFT:
-				setImportLeft((ImportDeclaration)newValue);
+			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
+				setImportRight((ImportDeclaration)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -133,8 +129,8 @@ public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements Imp
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_LEFT:
-				setImportLeft((ImportDeclaration)null);
+			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
+				setImportRight((ImportDeclaration)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -148,10 +144,21 @@ public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements Imp
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_LEFT:
-				return importLeft != null;
+			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
+				return importRight != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * The difference kind of an import delete is always DifferenceKind.DELETION
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	public DifferenceKind getKind() {
+		return DifferenceKind.DELETION;
 	}
 
 } //ImportDeleteImpl

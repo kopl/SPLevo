@@ -12,9 +12,13 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A change on a statement level.&#xD;&#xA;Statements include simple statements as well as structural statements such as loops and conditions. Check the KDM/Java GAST model for details."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="statementLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statementRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Statement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The statement in the left model which is the new modified version."/>
+        <details key="documentation" value="The statement in the right model which is the new modified version."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="name" value="statementRight"/>
+        <details key="namespace" value=""/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -31,12 +35,12 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A change representing a new import which is only present in the right model."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="importRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImportDelete" eSuperTypes="#//ImportDeclarationChange">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="An import that was deleted and is only present in the left model."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="importLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="importRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
   </eClassifiers>
 </ecore:EPackage>
