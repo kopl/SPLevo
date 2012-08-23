@@ -81,7 +81,8 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
 			case Java2KDMDiffPackage.STATEMENT_CHANGE: {
 				StatementChange statementChange = (StatementChange)theEObject;
 				T result = caseStatementChange(statementChange);
-				if (result == null) result = caseDiffGroup(statementChange);
+				if (result == null) result = caseJava2KDMDiffExtension(statementChange);
+				if (result == null) result = caseAbstractDiffExtension(statementChange);
 				if (result == null) result = caseDiffElement(statementChange);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -221,21 +222,6 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDiffElement(DiffElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Group</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Group</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseDiffGroup(DiffGroup object) {
 		return null;
 	}
 

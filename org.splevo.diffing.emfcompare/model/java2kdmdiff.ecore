@@ -8,9 +8,9 @@
       <details key="documentation" value="An EMF Compare Diffing extension model specific for the java2kdm meta model extracted by the modisco tooling.&#xD;&#xA;&#xD;&#xA;This diffing uses the terms &quot;left model&quot; and &quot;right model&quot;. &#xD;&#xA;The right model identifies the original model.&#xD;&#xA;The left model the modified version."/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StatementChange" eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffGroup">
+  <eClassifiers xsi:type="ecore:EClass" name="StatementChange" eSuperTypes="#//Java2KDMDiffExtension">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A change on a statement level.&#xD;&#xA;Statements include simple statements as well as structural statements such as loops and conditions. Check the KDM/Java GAST model for details."/>
+      <details key="documentation" value="A change on a statement level.&#xD;&#xA;Depending on the type of change (delete, add, remove, move) the left, right or both statement references are filled."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="statementRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Statement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -19,6 +19,11 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="name" value="statementRight"/>
         <details key="namespace" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statementLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Statement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The statement source element in the left model."/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

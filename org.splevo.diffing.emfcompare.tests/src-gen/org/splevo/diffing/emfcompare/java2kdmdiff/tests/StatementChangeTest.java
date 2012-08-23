@@ -15,15 +15,7 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
  * <!-- end-user-doc -->
  * @generated
  */
-public class StatementChangeTest extends TestCase {
-
-	/**
-	 * The fixture for this Statement Change test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected StatementChange fixture = null;
+public class StatementChangeTest extends Java2KDMDiffExtensionTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -45,23 +37,14 @@ public class StatementChangeTest extends TestCase {
 	}
 
 	/**
-	 * Sets the fixture for this Statement Change test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void setFixture(StatementChange fixture) {
-		this.fixture = fixture;
-	}
-
-	/**
 	 * Returns the fixture for this Statement Change test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected StatementChange getFixture() {
-		return fixture;
+		return (StatementChange)fixture;
 	}
 
 	/**

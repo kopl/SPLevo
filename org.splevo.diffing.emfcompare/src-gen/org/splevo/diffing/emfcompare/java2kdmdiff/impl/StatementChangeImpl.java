@@ -3,16 +3,11 @@
 package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.compare.diff.metamodel.impl.DiffGroupImpl;
-
+import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.gmt.modisco.java.Statement;
-
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
 
@@ -24,12 +19,13 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementChangeImpl#getStatementRight <em>Statement Right</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementChangeImpl#getStatementLeft <em>Statement Left</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class StatementChangeImpl extends DiffGroupImpl implements StatementChange {
+public class StatementChangeImpl extends Java2KDMDiffExtensionImpl implements StatementChange {
 	/**
 	 * The cached value of the '{@link #getStatementRight() <em>Statement Right</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -39,6 +35,15 @@ public class StatementChangeImpl extends DiffGroupImpl implements StatementChang
 	 * @ordered
 	 */
 	protected Statement statementRight;
+	/**
+	 * The cached value of the '{@link #getStatementLeft() <em>Statement Left</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStatementLeft()
+	 * @generated
+	 * @ordered
+	 */
+	protected Statement statementLeft;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -101,12 +106,53 @@ public class StatementChangeImpl extends DiffGroupImpl implements StatementChang
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Statement getStatementLeft() {
+		if (statementLeft != null && statementLeft.eIsProxy()) {
+			InternalEObject oldStatementLeft = (InternalEObject)statementLeft;
+			statementLeft = (Statement)eResolveProxy(oldStatementLeft);
+			if (statementLeft != oldStatementLeft) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_LEFT, oldStatementLeft, statementLeft));
+			}
+		}
+		return statementLeft;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Statement basicGetStatementLeft() {
+		return statementLeft;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStatementLeft(Statement newStatementLeft) {
+		Statement oldStatementLeft = statementLeft;
+		statementLeft = newStatementLeft;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_LEFT, oldStatementLeft, statementLeft));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_RIGHT:
 				if (resolve) return getStatementRight();
 				return basicGetStatementRight();
+			case Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_LEFT:
+				if (resolve) return getStatementLeft();
+				return basicGetStatementLeft();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -121,6 +167,9 @@ public class StatementChangeImpl extends DiffGroupImpl implements StatementChang
 		switch (featureID) {
 			case Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_RIGHT:
 				setStatementRight((Statement)newValue);
+				return;
+			case Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_LEFT:
+				setStatementLeft((Statement)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -137,6 +186,9 @@ public class StatementChangeImpl extends DiffGroupImpl implements StatementChang
 			case Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_RIGHT:
 				setStatementRight((Statement)null);
 				return;
+			case Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_LEFT:
+				setStatementLeft((Statement)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -151,8 +203,34 @@ public class StatementChangeImpl extends DiffGroupImpl implements StatementChang
 		switch (featureID) {
 			case Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_RIGHT:
 				return statementRight != null;
+			case Java2KDMDiffPackage.STATEMENT_CHANGE__STATEMENT_LEFT:
+				return statementLeft != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * The difference kind of a statement change 
+	 * depends on the references of right and left 
+	 * statements:
+	 * <ul>
+	 *  <li>statementLeft == null: Deletion</li>
+	 *  <li>statementRight == null: Addition</li>
+	 *  <li>otherwise: Change</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	public DifferenceKind getKind() {
+		if(getStatementLeft() == null){
+			return DifferenceKind.DELETION;
+		} else if(getStatementRight() == null){
+			return DifferenceKind.ADDITION;
+		} else {
+			return DifferenceKind.CHANGE;
+		}
 	}
 
 } //StatementChangeImpl

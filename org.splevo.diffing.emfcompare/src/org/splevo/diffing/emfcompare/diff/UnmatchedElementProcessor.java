@@ -59,16 +59,13 @@ public class UnmatchedElementProcessor {
 			
 			if (unmatchElement.getSide() == Side.LEFT) {
 				// add ImportInsert
-				final ImportInsert importInsert = Java2KDMDiffFactory.eINSTANCE
-						.createImportInsert();
-				importInsert.setImportLeft((ImportDeclaration) element);
-				importInsert.setRemote(unmatchElement.isRemote());
+				final ImportInsert importInsert = Java2KDMDiffFactory.eINSTANCE.createImportInsert();
+				importInsert.setImportLeft((ImportDeclaration) element);				
 				return importInsert;
 			} else {
 				// add ImportDelete
 				final ImportDelete importDelete = Java2KDMDiffFactory.eINSTANCE.createImportDelete();
 				importDelete.setImportRight((ImportDeclaration) element);
-				importDelete.setRemote(unmatchElement.isRemote());
 				return importDelete;
 			}
 		}

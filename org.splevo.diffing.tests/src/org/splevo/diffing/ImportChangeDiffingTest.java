@@ -6,9 +6,11 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
@@ -16,6 +18,9 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
 import org.splevo.diffing.kdm.KDMUtil;
 
 public class ImportChangeDiffingTest extends AbstractDiffingTest {
+	
+	/** The logger for this class. */
+    private Logger logger = Logger.getLogger(ImportChangeDiffingTest.class);
 
 	/** Source path to the native calculator implementation */
 	private static final File IMPORT_TEST_FILE_1 = new File("testmodels/implementation/importDiffing/1/1_java2kdm.xmi");
@@ -58,9 +63,11 @@ public class ImportChangeDiffingTest extends AbstractDiffingTest {
 			} else {
 				fail("No other diff elements than ImportInsert and ImportDelete should have been detected.");
 			}
-			System.out.println(diffElement.getKind()+": "+diffElement.getClass().getName());
+			logger.debug(diffElement.getKind()+": "+diffElement.getClass().getName());
 		}
-		System.out.println("Found Differences: "+differences.size());
+		logger.debug("Found Differences: "+differences.size());
+		
+		ModelUtils.save(diff, "testresult/importDiffModel.java2kdmdiff");
 	}
 
 }

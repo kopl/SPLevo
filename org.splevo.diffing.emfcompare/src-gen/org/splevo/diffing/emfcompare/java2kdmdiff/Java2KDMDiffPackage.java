@@ -167,13 +167,31 @@ public interface Java2KDMDiffPackage extends EPackage {
 	int STATEMENT_CHANGE = 1;
 
 	/**
+	 * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_CHANGE__HIDE_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__HIDE_ELEMENTS;
+
+	/**
+	 * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_CHANGE__IS_COLLAPSED = JAVA2_KDM_DIFF_EXTENSION__IS_COLLAPSED;
+
+	/**
 	 * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_CHANGE__SUB_DIFF_ELEMENTS = DiffPackage.DIFF_GROUP__SUB_DIFF_ELEMENTS;
+	int STATEMENT_CHANGE__SUB_DIFF_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__SUB_DIFF_ELEMENTS;
 
 	/**
 	 * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
@@ -182,7 +200,7 @@ public interface Java2KDMDiffPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_CHANGE__IS_HIDDEN_BY = DiffPackage.DIFF_GROUP__IS_HIDDEN_BY;
+	int STATEMENT_CHANGE__IS_HIDDEN_BY = JAVA2_KDM_DIFF_EXTENSION__IS_HIDDEN_BY;
 
 	/**
 	 * The feature id for the '<em><b>Conflicting</b></em>' attribute.
@@ -191,7 +209,7 @@ public interface Java2KDMDiffPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_CHANGE__CONFLICTING = DiffPackage.DIFF_GROUP__CONFLICTING;
+	int STATEMENT_CHANGE__CONFLICTING = JAVA2_KDM_DIFF_EXTENSION__CONFLICTING;
 
 	/**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -200,7 +218,7 @@ public interface Java2KDMDiffPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_CHANGE__KIND = DiffPackage.DIFF_GROUP__KIND;
+	int STATEMENT_CHANGE__KIND = JAVA2_KDM_DIFF_EXTENSION__KIND;
 
 	/**
 	 * The feature id for the '<em><b>Remote</b></em>' attribute.
@@ -209,7 +227,7 @@ public interface Java2KDMDiffPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_CHANGE__REMOTE = DiffPackage.DIFF_GROUP__REMOTE;
+	int STATEMENT_CHANGE__REMOTE = JAVA2_KDM_DIFF_EXTENSION__REMOTE;
 
 	/**
 	 * The feature id for the '<em><b>Requires</b></em>' reference list.
@@ -218,7 +236,7 @@ public interface Java2KDMDiffPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_CHANGE__REQUIRES = DiffPackage.DIFF_GROUP__REQUIRES;
+	int STATEMENT_CHANGE__REQUIRES = JAVA2_KDM_DIFF_EXTENSION__REQUIRES;
 
 	/**
 	 * The feature id for the '<em><b>Required By</b></em>' reference list.
@@ -227,25 +245,7 @@ public interface Java2KDMDiffPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_CHANGE__REQUIRED_BY = DiffPackage.DIFF_GROUP__REQUIRED_BY;
-
-	/**
-	 * The feature id for the '<em><b>Right Parent</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATEMENT_CHANGE__RIGHT_PARENT = DiffPackage.DIFF_GROUP__RIGHT_PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Subchanges</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATEMENT_CHANGE__SUBCHANGES = DiffPackage.DIFF_GROUP__SUBCHANGES;
+	int STATEMENT_CHANGE__REQUIRED_BY = JAVA2_KDM_DIFF_EXTENSION__REQUIRED_BY;
 
 	/**
 	 * The feature id for the '<em><b>Statement Right</b></em>' reference.
@@ -254,7 +254,16 @@ public interface Java2KDMDiffPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_CHANGE__STATEMENT_RIGHT = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 0;
+	int STATEMENT_CHANGE__STATEMENT_RIGHT = JAVA2_KDM_DIFF_EXTENSION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Statement Left</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT_CHANGE__STATEMENT_LEFT = JAVA2_KDM_DIFF_EXTENSION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Statement Change</em>' class.
@@ -263,7 +272,7 @@ public interface Java2KDMDiffPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATEMENT_CHANGE_FEATURE_COUNT = DiffPackage.DIFF_GROUP_FEATURE_COUNT + 1;
+	int STATEMENT_CHANGE_FEATURE_COUNT = JAVA2_KDM_DIFF_EXTENSION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImportDeclarationChangeImpl <em>Import Declaration Change</em>}' class.
@@ -616,6 +625,17 @@ public interface Java2KDMDiffPackage extends EPackage {
 	EReference getStatementChange_StatementRight();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange#getStatementLeft <em>Statement Left</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Statement Left</em>'.
+	 * @see org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange#getStatementLeft()
+	 * @see #getStatementChange()
+	 * @generated
+	 */
+	EReference getStatementChange_StatementLeft();
+
+	/**
 	 * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDeclarationChange <em>Import Declaration Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -716,6 +736,14 @@ public interface Java2KDMDiffPackage extends EPackage {
 		 * @generated
 		 */
 		EReference STATEMENT_CHANGE__STATEMENT_RIGHT = eINSTANCE.getStatementChange_StatementRight();
+
+		/**
+		 * The meta object literal for the '<em><b>Statement Left</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATEMENT_CHANGE__STATEMENT_LEFT = eINSTANCE.getStatementChange_StatementLeft();
 
 		/**
 		 * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImportDeclarationChangeImpl <em>Import Declaration Change</em>}' class.

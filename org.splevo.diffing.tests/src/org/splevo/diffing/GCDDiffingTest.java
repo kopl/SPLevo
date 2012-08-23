@@ -3,9 +3,12 @@
  */
 package org.splevo.diffing;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
@@ -21,6 +24,9 @@ import org.splevo.diffing.kdm.KDMUtil;
  * 
  */
 public class GCDDiffingTest extends AbstractDiffingTest {
+	
+	/** The logger for this class. */
+    private Logger logger = Logger.getLogger(VariableDeclarationStatementDiffingTest.class);
 	
 	/** Source path to the native calculator implementation */
 	private static final File NATIVE_JAVA2KDMMODEL_FILE = new File("testmodels/implementation/gcd/native/_java2kdm.xmi");
@@ -56,12 +62,13 @@ public class GCDDiffingTest extends AbstractDiffingTest {
 		DiffModel diff = diffingService.doDiff(integrationModel,leadingModel);
 		
 		EList<DiffElement> differences = diff.getDifferences();
+		assertEquals("Wrong number of differences detected",6,differences.size());
 		
 		for (DiffElement diffElement : differences) {
-			System.out.println(diffElement.getKind()+": "+diffElement.getClass().getName());
+			logger.debug(diffElement.getKind()+": "+diffElement.getClass().getName());
 		}
 		
-		System.out.println("Found Differences: "+differences.size());
+		logger.debug("Found Differences: "+differences.size());
 		
 		ModelUtils.save(diff, "testresult/gcdDiffModel.java2kdmdiff");
 	}

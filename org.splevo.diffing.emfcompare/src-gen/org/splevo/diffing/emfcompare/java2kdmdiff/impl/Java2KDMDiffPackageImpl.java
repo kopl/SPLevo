@@ -3,15 +3,11 @@
 package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.gmt.modisco.java.emf.JavaPackage;
-
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
@@ -159,6 +155,15 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getStatementChange_StatementLeft() {
+		return (EReference)statementChangeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getImportDeclarationChange() {
 		return importDeclarationChangeEClass;
 	}
@@ -231,6 +236,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
 		statementChangeEClass = createEClass(STATEMENT_CHANGE);
 		createEReference(statementChangeEClass, STATEMENT_CHANGE__STATEMENT_RIGHT);
+		createEReference(statementChangeEClass, STATEMENT_CHANGE__STATEMENT_LEFT);
 
 		importDeclarationChangeEClass = createEClass(IMPORT_DECLARATION_CHANGE);
 
@@ -275,7 +281,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 		// Add supertypes to classes
 		java2KDMDiffExtensionEClass.getESuperTypes().add(theDiffPackage.getAbstractDiffExtension());
 		java2KDMDiffExtensionEClass.getESuperTypes().add(theDiffPackage.getDiffElement());
-		statementChangeEClass.getESuperTypes().add(theDiffPackage.getDiffGroup());
+		statementChangeEClass.getESuperTypes().add(this.getJava2KDMDiffExtension());
 		importDeclarationChangeEClass.getESuperTypes().add(this.getJava2KDMDiffExtension());
 		importInsertEClass.getESuperTypes().add(this.getImportDeclarationChange());
 		importDeleteEClass.getESuperTypes().add(this.getImportDeclarationChange());
@@ -285,6 +291,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
 		initEClass(statementChangeEClass, StatementChange.class, "StatementChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStatementChange_StatementRight(), theJavaPackage.getStatement(), null, "statementRight", null, 0, 1, StatementChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStatementChange_StatementLeft(), theJavaPackage.getStatement(), null, "statementLeft", null, 0, 1, StatementChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(importDeclarationChangeEClass, ImportDeclarationChange.class, "ImportDeclarationChange", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -316,7 +323,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 		   new String[] {
 			 "name", "statementRight",
 			 "namespace", ""
-		   });			
+		   });				
 		addAnnotation
 		  (importDeclarationChangeEClass, 
 		   source, 

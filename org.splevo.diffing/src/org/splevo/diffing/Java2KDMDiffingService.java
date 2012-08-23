@@ -17,6 +17,7 @@ import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.emfcompare.diff.JavaModelDiffEngine;
 import org.splevo.diffing.emfcompare.match.JavaModelMatchEngine;
 import org.splevo.diffing.kdm.JavaModelElementPrinter;
+import org.splevo.diffing.postprocessor.DiffModelPostProcessor;
 
 /**
  * Diffing Service that directly builds up the diffing model instead of using a
@@ -68,30 +69,18 @@ public class Java2KDMDiffingService {
 				logger.debug(debugMessage.toString());
 			}
 		}
-		// logger.debug("");
-		// logger.debug("");
-		// logger.debug("==========================");
-		// logger.debug("=== MATCHED ELEMENTS ===");
-		// logger.debug("==========================");
-		// EList<MatchElement> matchedElements =
-		// matchModel.getMatchedElements();
-		// for (MatchElement matchedElement : matchedElements) {
-		// printMatchedElement(matchedElement,0);
-		// }
 
 		logger.debug("==================== DIFFING PHASE  ===================");
 		JavaModelDiffEngine javaModelDiffEngine = new JavaModelDiffEngine();
 		javaModelDiffEngine.getIgnorePackages().addAll(this.ignorePackages);
 		DiffModel diffModel = javaModelDiffEngine.doDiff(matchModel,false);
 
-		// logger.debug("=======================================================");
-		// logger.debug("==================== POST DIFFING PHASE  ==============");
-		// logger.debug("=======================================================");
-		//
-		// DiffModelPostProcessor postProcessor = new DiffModelPostProcessor();
-		// DiffModel enhancedDiffModel = postProcessor.process(diffModel);
-
-		// DiffNodeTransformer diffSwitch = new DiffNodeTransformer();
+		 logger.debug("=======================================================");
+		 logger.debug("==================== POST PROCESSING PHASE  ==============");
+		 logger.debug("=======================================================");
+		
+		 DiffModelPostProcessor postProcessor = new DiffModelPostProcessor(javaModelDiffEngine.getMatchManager());
+		 postProcessor.process(diffModel);
 
 		return diffModel;
 

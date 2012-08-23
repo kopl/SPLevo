@@ -100,10 +100,6 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
 				return createDiffElementAdapter();
 			}
 			@Override
-			public Adapter caseDiffGroup(DiffGroup object) {
-				return createDiffGroupAdapter();
-			}
-			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -218,20 +214,6 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDiffElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.compare.diff.metamodel.DiffGroup <em>Group</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.compare.diff.metamodel.DiffGroup
-	 * @generated
-	 */
-	public Adapter createDiffGroupAdapter() {
 		return null;
 	}
 

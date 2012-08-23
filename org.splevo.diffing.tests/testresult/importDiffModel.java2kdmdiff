@@ -3,17 +3,17 @@
   <ownedElements xsi:type="diff:DiffGroup">
     <subDiffElements xsi:type="diff:DiffGroup">
       <subDiffElements xsi:type="diff:DiffGroup">
-        <subDiffElements xsi:type="java2kdmdiff:ImportDelete">
-          <importLeft href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/1/1_java.xmi#//@compilationUnits.0/@imports.0"/>
-        </subDiffElements>
         <subDiffElements xsi:type="java2kdmdiff:ImportInsert">
-          <importRight href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/2/2_java.xmi#//@compilationUnits.0/@imports.0"/>
+          <importLeft href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/2/2_java.xmi#//@compilationUnits.0/@imports.0"/>
         </subDiffElements>
-        <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/2/2_java.xmi#//@compilationUnits.0"/>
+        <subDiffElements xsi:type="java2kdmdiff:ImportDelete">
+          <importRight href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/1/1_java.xmi#//@compilationUnits.0/@imports.0"/>
+        </subDiffElements>
+        <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/1/1_java.xmi#//@compilationUnits.0"/>
       </subDiffElements>
-      <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/2/2_java.xmi#/"/>
+      <rightParent href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/1/1_java.xmi#/"/>
     </subDiffElements>
   </ownedElements>
-  <leftRoots href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/1/1_java.xmi#/"/>
-  <rightRoots href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/2/2_java.xmi#/"/>
+  <leftRoots href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/2/2_java.xmi#/"/>
+  <rightRoots href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/importDiffing/1/1_java.xmi#/"/>
 </diff:DiffModel>
