@@ -20,6 +20,7 @@ import org.eclipse.gmt.modisco.java.ASTNode;
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.Variant#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getSoftwareEntities <em>Software Entities</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.Variant#getLeading <em>Leading</em>}</li>
  * </ul>
  * </p>
  *
@@ -69,5 +70,30 @@ public interface Variant extends EObject {
 	 * @generated
 	 */
 	EList<ASTNode> getSoftwareEntities();
+
+	/**
+	 * Returns the value of the '<em><b>Leading</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Flag identifying if the variant is one of the leading variantes.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Leading</em>' attribute.
+	 * @see #setLeading(Boolean)
+	 * @see org.splevo.vpm.variability.variabilityPackage#getVariant_Leading()
+	 * @model required="true"
+	 * @generated
+	 */
+	Boolean getLeading();
+
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.variability.Variant#getLeading <em>Leading</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Leading</em>' attribute.
+	 * @see #getLeading()
+	 * @generated
+	 */
+	void setLeading(Boolean value);
 
 } // Variant

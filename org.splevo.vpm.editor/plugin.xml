@@ -2,39 +2,9 @@
 <?eclipse version="3.0"?>
 
 <!--
- <copyright>
- </copyright>
-
- $Id$
 -->
 
 <plugin>
-
-   <extension point="org.eclipse.ui.newWizards">
-      <category
-            id="org.eclipse.emf.ecore.Wizard.category.ID"
-            name="%_UI_Wizard_category"/>
-      <wizard
-            id="org.splevo.vpm.presentation.vpmModelWizardID"
-            name="%_UI_vpmModelWizard_label"
-            class="org.splevo.vpm.presentation.vpmModelWizard"
-            category="org.eclipse.emf.ecore.Wizard.category.ID"
-            icon="icons/full/obj16/vpmModelFile.gif">
-         <description>%_UI_vpmModelWizard_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
-   </extension>
-
-   <extension point="org.eclipse.ui.editors">
-      <editor
-            id="org.splevo.vpm.presentation.vpmEditorID"
-            name="%_UI_vpmEditor_label"
-            icon="icons/full/obj16/vpmModelFile.gif"
-            extensions="vpm"
-            class="org.splevo.vpm.presentation.vpmEditor"
-            contributorClass="org.splevo.vpm.presentation.vpmActionBarContributor">
-      </editor>
-   </extension>
 
    <extension point="org.eclipse.ui.newWizards">
       <category

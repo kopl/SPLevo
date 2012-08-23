@@ -18,8 +18,11 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.variabilityPackage;
 
 /**
@@ -59,6 +62,7 @@ public class VariantItemProvider
 
 			addFeaturePropertyDescriptor(object);
 			addSoftwareEntitiesPropertyDescriptor(object);
+			addLeadingPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -108,13 +112,41 @@ public class VariantItemProvider
 	}
 
 	/**
-	 * This returns Variant.gif.
+	 * This adds a property descriptor for the Leading feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	protected void addLeadingPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Variant_leading_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Variant_leading_feature", "_UI_Variant_type"),
+				 variabilityPackage.Literals.VARIANT__LEADING,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns an icon for the variant element.
+	 * Depending on the leading flag, the icon is changed.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated not
+	 */
 	@Override
 	public Object getImage(Object object) {
+		if(object instanceof Variant){
+			if(((Variant) object).getLeading() == Boolean.FALSE){
+				return overlayImage(object, getResourceLocator().getImage("full/obj16/VariantIntegration"));
+			}
+		}
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/Variant"));
 	}
 
@@ -122,11 +154,15 @@ public class VariantItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Variant_type");
+		Boolean labelValue = ((Variant)object).getLeading();
+		String label = labelValue == null ? null : labelValue.toString();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Variant_type") :
+			getString("_UI_Variant_type") + " (Leading:" + label+")";
 	}
 
 	/**
@@ -139,6 +175,12 @@ public class VariantItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(Variant.class)) {
+			case variabilityPackage.VARIANT__LEADING:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 

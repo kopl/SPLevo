@@ -1,17 +1,16 @@
 package org.splevo.vpm.builder.java2kdmdiff;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.metamodel.util.DiffSwitch;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.Model;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityFactory;
 
 public class Java2KDMVPMBuilder {
+	
+    private Logger logger = Logger.getLogger(Java2KDMVPMBuilder.class);
 	
 	
 	/**
@@ -33,12 +32,15 @@ public class Java2KDMVPMBuilder {
 		
 		VariationPointModel vpm = initVPM(diffModel);
 		
-		EList<DiffElement> differences = diffModel.getOwnedElements();
-		
 		// visit the difference tree
-		DiffModelVisitor diffModelVisitor = new DiffModelVisitor(vpm);
-		for(TreeIterator<DiffElement> iter = EcoreUtil.getAllContents(differences); iter.hasNext();){
-			diffModelVisitor.doSwitch(iter.next());
+		Java2KDMDiffVisitor java2KDMDiffVisitor = new Java2KDMDiffVisitor();
+		for(DiffElement diffElement : diffModel.getDifferences()){
+			VariationPoint vp = java2KDMDiffVisitor.doSwitch(diffElement);
+			if(vp != null){
+				vpm.getVariationPoints().add(vp);
+			} else {
+				logger.info("null VariationPoint created");
+			}
 		}
 		
 		return vpm;
@@ -55,8 +57,8 @@ public class Java2KDMVPMBuilder {
 	private VariationPointModel initVPM(DiffModel diffModel) {
 		
 		// assume the diff models have only one root
-		Model leadingModel = (Model) diffModel.getLeftRoots().get(0);
-		Model integrationModel = (Model) diffModel.getRightRoots().get(0);
+		Model leadingModel = (Model) diffModel.getRightRoots().get(0);
+		Model integrationModel = (Model) diffModel.getLeftRoots().get(0);
 		
 		VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 		vpm.setLeadingModel(leadingModel);
@@ -94,25 +96,6 @@ public class Java2KDMVPMBuilder {
 		}
 		
 		return true;
-	}
-	
-	/**
-	 * A visitor for diff elements to fill up a variation point mode.
-	 */
-	private class DiffModelVisitor  extends DiffSwitch<VariationPoint>{
-		
-		/** The vpm to be filled internally */
-		private VariationPointModel vpm = null;
-		
-		/** 
-		 * Constructor requiring the variation point model to be filled.
-		 * 
-		 * @param vpm The model to be filled.
-		 */
-		public DiffModelVisitor(VariationPointModel vpm) {
-			this.vpm = vpm;
-		}
-		
 	}
 
 }

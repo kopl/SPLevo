@@ -32,6 +32,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getSoftwareEntities <em>Software Entities</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getLeading <em>Leading</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,6 +58,26 @@ public class VariantImpl extends EObjectImpl implements Variant {
 	 * @ordered
 	 */
 	protected EList<ASTNode> softwareEntities;
+
+	/**
+	 * The default value of the '{@link #getLeading() <em>Leading</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLeading()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean LEADING_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getLeading() <em>Leading</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLeading()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean leading = LEADING_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -132,6 +153,27 @@ public class VariantImpl extends EObjectImpl implements Variant {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getLeading() {
+		return leading;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLeading(Boolean newLeading) {
+		Boolean oldLeading = leading;
+		leading = newLeading;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIANT__LEADING, oldLeading, leading));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -140,6 +182,8 @@ public class VariantImpl extends EObjectImpl implements Variant {
 				return basicGetFeature();
 			case variabilityPackage.VARIANT__SOFTWARE_ENTITIES:
 				return getSoftwareEntities();
+			case variabilityPackage.VARIANT__LEADING:
+				return getLeading();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -160,6 +204,9 @@ public class VariantImpl extends EObjectImpl implements Variant {
 				getSoftwareEntities().clear();
 				getSoftwareEntities().addAll((Collection<? extends ASTNode>)newValue);
 				return;
+			case variabilityPackage.VARIANT__LEADING:
+				setLeading((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -178,6 +225,9 @@ public class VariantImpl extends EObjectImpl implements Variant {
 			case variabilityPackage.VARIANT__SOFTWARE_ENTITIES:
 				getSoftwareEntities().clear();
 				return;
+			case variabilityPackage.VARIANT__LEADING:
+				setLeading(LEADING_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -194,8 +244,26 @@ public class VariantImpl extends EObjectImpl implements Variant {
 				return feature != null;
 			case variabilityPackage.VARIANT__SOFTWARE_ENTITIES:
 				return softwareEntities != null && !softwareEntities.isEmpty();
+			case variabilityPackage.VARIANT__LEADING:
+				return LEADING_EDEFAULT == null ? leading != null : !LEADING_EDEFAULT.equals(leading);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (leading: ");
+		result.append(leading);
+		result.append(')');
+		return result.toString();
 	}
 
 } //VariantImpl

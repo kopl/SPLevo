@@ -2,6 +2,7 @@
  */
 package org.splevo.vpm.variability;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -138,13 +139,22 @@ public interface variabilityPackage extends EPackage {
 	int VARIANT__SOFTWARE_ENTITIES = 1;
 
 	/**
+	 * The feature id for the '<em><b>Leading</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIANT__LEADING = 2;
+
+	/**
 	 * The number of structural features of the '<em>Variant</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VARIANT_FEATURE_COUNT = 2;
+	int VARIANT_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariationPointModelImpl <em>Variation Point Model</em>}' class.
@@ -289,6 +299,17 @@ public interface variabilityPackage extends EPackage {
 	EReference getVariant_SoftwareEntities();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.Variant#getLeading <em>Leading</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Leading</em>'.
+	 * @see org.splevo.vpm.variability.Variant#getLeading()
+	 * @see #getVariant()
+	 * @generated
+	 */
+	EAttribute getVariant_Leading();
+
+	/**
 	 * Returns the meta object for class '{@link org.splevo.vpm.variability.VariationPointModel <em>Variation Point Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -431,6 +452,14 @@ public interface variabilityPackage extends EPackage {
 		 * @generated
 		 */
 		EReference VARIANT__SOFTWARE_ENTITIES = eINSTANCE.getVariant_SoftwareEntities();
+
+		/**
+		 * The meta object literal for the '<em><b>Leading</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VARIANT__LEADING = eINSTANCE.getVariant_Leading();
 
 		/**
 		 * The meta object literal for the '{@link org.splevo.vpm.variability.impl.VariationPointModelImpl <em>Variation Point Model</em>}' class.

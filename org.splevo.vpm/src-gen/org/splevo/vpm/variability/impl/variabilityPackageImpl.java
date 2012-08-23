@@ -2,10 +2,12 @@
  */
 package org.splevo.vpm.variability.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.featuremodel.FeatureModelPackage;
@@ -197,6 +199,15 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getVariant_Leading() {
+		return (EAttribute)variantEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getVariationPointModel() {
 		return variationPointModelEClass;
 	}
@@ -274,6 +285,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 		variantEClass = createEClass(VARIANT);
 		createEReference(variantEClass, VARIANT__FEATURE);
 		createEReference(variantEClass, VARIANT__SOFTWARE_ENTITIES);
+		createEAttribute(variantEClass, VARIANT__LEADING);
 
 		variationPointModelEClass = createEClass(VARIATION_POINT_MODEL);
 		createEReference(variationPointModelEClass, VARIATION_POINT_MODEL__VARIATION_POINTS);
@@ -309,6 +321,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 		realizationPackage therealizationPackage = (realizationPackage)EPackage.Registry.INSTANCE.getEPackage(realizationPackage.eNS_URI);
 		FeatureModelPackage theFeatureModelPackage = (FeatureModelPackage)EPackage.Registry.INSTANCE.getEPackage(FeatureModelPackage.eNS_URI);
 		JavaPackage theJavaPackage = (JavaPackage)EPackage.Registry.INSTANCE.getEPackage(JavaPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -326,6 +339,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 		initEClass(variantEClass, Variant.class, "Variant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getVariant_Feature(), theFeatureModelPackage.getFeature(), null, "feature", null, 0, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariant_SoftwareEntities(), theJavaPackage.getASTNode(), null, "softwareEntities", null, 0, -1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVariant_Leading(), theEcorePackage.getEBooleanObject(), "leading", null, 1, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(variationPointModelEClass, VariationPointModel.class, "VariationPointModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getVariationPointModel_VariationPoints(), this.getVariationPoint(), null, "variationPoints", null, 0, -1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
