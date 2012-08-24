@@ -17,6 +17,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.featuremodel.metamodel;visibility:=reexport,
  org.eclipse.gmt.modisco.omg.kdm;visibility:=reexport,
- org.eclipse.gmt.modisco.java;bundle-version="0.10.1",
- org.eclipse.modisco.java.composition;bundle-version="0.10.0"
+ org.eclipse.gmt.modisco.java;bundle-version="0.10.1";visibility:=reexport,
+ org.eclipse.modisco.java.composition;bundle-version="0.10.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
