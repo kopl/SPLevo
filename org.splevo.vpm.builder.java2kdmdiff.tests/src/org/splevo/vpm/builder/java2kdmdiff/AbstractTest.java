@@ -6,9 +6,9 @@ import org.apache.log4j.PatternLayout;
 import org.junit.Before;
 
 /**
- * Abstract base class for diffing tests. 
+ * Abstract base class for tests. 
  */
-public abstract class AbstractDiffingTest {
+public abstract class AbstractTest {
 
 	/**
 	 * Prepare the test.

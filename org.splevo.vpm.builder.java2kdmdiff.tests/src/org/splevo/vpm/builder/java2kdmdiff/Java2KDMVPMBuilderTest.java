@@ -22,7 +22,7 @@ import org.splevo.vpm.variability.VariationPointModel;
  * but for now, it improves the development cycles time for changes in the diff engine. 
  *
  */
-public class Java2KDMVPMBuilderTest extends AbstractDiffingTest {
+public class Java2KDMVPMBuilderTest extends AbstractTest {
 	
     private Logger logger = Logger.getLogger(Java2KDMVPMBuilderTest.class);
 
