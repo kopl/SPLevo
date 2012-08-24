@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="Cp1252"?>
+<featuremodel:FeatureModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:featuremodel="http://www.eclipse.org/featuremodel" id="_QPNnIO3mEeGewJgo7YzzJA" version="1.0">
+  <root id="_QPNnIe3mEeGewJgo7YzzJA" name="Calculator-JScience">
+    <children id="_QPNnIu3mEeGewJgo7YzzJA" lower="1" upper="1">
+      <features id="_QPNnI-3mEeGewJgo7YzzJA" name="CompilationUnitImpl">
+        <children id="_QPNnJO3mEeGewJgo7YzzJA" lower="1" upper="1">
+          <features id="_QPNnJe3mEeGewJgo7YzzJA" name="Import BigInteger"/>
+        </children>
+      </features>
+    </children>
+    <children id="_QPNnJu3mEeGewJgo7YzzJA" lower="1" upper="1">
+      <features id="_QPNnJ-3mEeGewJgo7YzzJA" name="CompilationUnitImpl">
+        <children id="_QPNnKO3mEeGewJgo7YzzJA" lower="1" upper="1">
+          <features id="_QPNnKe3mEeGewJgo7YzzJA" name="Import LargeInteger"/>
+        </children>
+      </features>
+    </children>
+    <children id="_QPNnKu3mEeGewJgo7YzzJA" lower="1" upper="1">
+      <features id="_QPNnK-3mEeGewJgo7YzzJA" name="BlockImpl">
+        <children id="_QPNnLO3mEeGewJgo7YzzJA" lower="1" upper="1">
+          <features id="_QPNnLe3mEeGewJgo7YzzJA" name="Statement Right"/>
+          <features id="_QPNnLu3mEeGewJgo7YzzJA" name="Statement Left"/>
+        </children>
+      </features>
+    </children>
+    <children id="_QPNnL-3mEeGewJgo7YzzJA" lower="1" upper="1">
+      <features id="_QPNnMO3mEeGewJgo7YzzJA" name="BlockImpl">
+        <children id="_QPNnMe3mEeGewJgo7YzzJA" lower="1" upper="1">
+          <features id="_QPNnMu3mEeGewJgo7YzzJA" name="Statement Right"/>
+          <features id="_QPNnM-3mEeGewJgo7YzzJA" name="Statement Left"/>
+        </children>
+      </features>
+    </children>
+    <children id="_QPNnNO3mEeGewJgo7YzzJA" lower="1" upper="1">
+      <features id="_QPNnNe3mEeGewJgo7YzzJA" name="BlockImpl">
+        <children id="_QPNnNu3mEeGewJgo7YzzJA" lower="1" upper="1">
+          <features id="_QPNnN-3mEeGewJgo7YzzJA" name="Statement Right"/>
+          <features id="_QPNnOO3mEeGewJgo7YzzJA" name="Statement Left"/>
+        </children>
+      </features>
+    </children>
+    <children id="_QPNnOe3mEeGewJgo7YzzJA" lower="1" upper="1">
+      <features id="_QPNnOu3mEeGewJgo7YzzJA" name="BlockImpl">
+        <children id="_QPNnO-3mEeGewJgo7YzzJA" lower="1" upper="1">
+          <features id="_QPNnPO3mEeGewJgo7YzzJA" name="Statement Right"/>
+          <features id="_QPNnPe3mEeGewJgo7YzzJA" name="Statement Left"/>
+        </children>
+      </features>
+    </children>
+  </root>
+</featuremodel:FeatureModel>
