@@ -124,8 +124,8 @@ public class VariationPointModelItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(variabilityPackage.Literals.VARIATION_POINT_MODEL__VARIATION_POINTS);
 			childrenFeatures.add(variabilityPackage.Literals.VARIATION_POINT_MODEL__REALIZATION_TECHNIQUES);
+			childrenFeatures.add(variabilityPackage.Literals.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS);
 		}
 		return childrenFeatures;
 	}
@@ -177,8 +177,8 @@ public class VariationPointModelItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(VariationPointModel.class)) {
-			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINTS:
 			case variabilityPackage.VARIATION_POINT_MODEL__REALIZATION_TECHNIQUES:
+			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -198,8 +198,8 @@ public class VariationPointModelItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(variabilityPackage.Literals.VARIATION_POINT_MODEL__VARIATION_POINTS,
-				 variabilityFactory.eINSTANCE.createVariationPoint()));
+				(variabilityPackage.Literals.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS,
+				 variabilityFactory.eINSTANCE.createVariationPointGroup()));
 	}
 
 	/**

@@ -11,6 +11,8 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -20,18 +22,19 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.splevo.vpm.variability.Variant;
+
+import org.splevo.vpm.variability.VariationPointGroup;
+import org.splevo.vpm.variability.variabilityFactory;
 import org.splevo.vpm.variability.variabilityPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.vpm.variability.Variant} object.
+ * This is the item provider adapter for a {@link org.splevo.vpm.variability.VariationPointGroup} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class VariantItemProvider
+public class VariationPointGroupItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -45,7 +48,7 @@ public class VariantItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public VariantItemProvider(AdapterFactory adapterFactory) {
+	public VariationPointGroupItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -60,72 +63,25 @@ public class VariantItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addFeaturePropertyDescriptor(object);
-			addSoftwareEntitiesPropertyDescriptor(object);
-			addLeadingPropertyDescriptor(object);
-			addVariantIdPropertyDescriptor(object);
+			addGroupIdPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Feature feature.
+	 * This adds a property descriptor for the Group Id feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addFeaturePropertyDescriptor(Object object) {
+	protected void addGroupIdPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Variant_feature_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Variant_feature_feature", "_UI_Variant_type"),
-				 variabilityPackage.Literals.VARIANT__FEATURE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Software Entities feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addSoftwareEntitiesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Variant_softwareEntities_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Variant_softwareEntities_feature", "_UI_Variant_type"),
-				 variabilityPackage.Literals.VARIANT__SOFTWARE_ENTITIES,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Leading feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addLeadingPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Variant_leading_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Variant_leading_feature", "_UI_Variant_type"),
-				 variabilityPackage.Literals.VARIANT__LEADING,
+				 getString("_UI_VariationPointGroup_groupId_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_VariationPointGroup_groupId_feature", "_UI_VariationPointGroup_type"),
+				 variabilityPackage.Literals.VARIATION_POINT_GROUP__GROUP_ID,
 				 true,
 				 false,
 				 false,
@@ -135,57 +91,58 @@ public class VariantItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Variant Id feature.
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addVariantIdPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Variant_variantId_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Variant_variantId_feature", "_UI_Variant_type"),
-				 variabilityPackage.Literals.VARIANT__VARIANT_ID,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+	@Override
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(variabilityPackage.Literals.VARIATION_POINT_GROUP__VARIATION_POINTS);
+		}
+		return childrenFeatures;
 	}
 
 	/**
-	 * This returns an icon for the variant element.
-	 * Depending on the leading flag, the icon is changed.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated not
+	 * @generated
+	 */
+	@Override
+	protected EStructuralFeature getChildFeature(Object object, Object child) {
+		// Check the type of the specified child object and return the proper feature to use for
+		// adding (see {@link AddCommand}) it as a child.
+
+		return super.getChildFeature(object, child);
+	}
+
+	/**
+	 * This returns VariationPointGroup.gif.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		if(object instanceof Variant){
-			if(((Variant) object).getLeading() == Boolean.FALSE){
-				return overlayImage(object, getResourceLocator().getImage("full/obj16/VariantIntegration"));
-			}
-		}
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Variant"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPointGroup"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated not
+	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		Boolean labelValue = ((Variant)object).getLeading();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((VariationPointGroup)object).getGroupId();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Variant_type") :
-			getString("_UI_Variant_type") + " (Leading:" + label+")";
+			getString("_UI_VariationPointGroup_type") :
+			getString("_UI_VariationPointGroup_type") + " " + label;
 	}
 
 	/**
@@ -199,10 +156,12 @@ public class VariantItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Variant.class)) {
-			case variabilityPackage.VARIANT__LEADING:
-			case variabilityPackage.VARIANT__VARIANT_ID:
+		switch (notification.getFeatureID(VariationPointGroup.class)) {
+			case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -218,6 +177,11 @@ public class VariantItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(variabilityPackage.Literals.VARIATION_POINT_GROUP__VARIATION_POINTS,
+				 variabilityFactory.eINSTANCE.createVariationPoint()));
 	}
 
 	/**

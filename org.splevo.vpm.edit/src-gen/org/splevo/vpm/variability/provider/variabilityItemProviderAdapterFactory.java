@@ -141,6 +141,29 @@ public class variabilityItemProviderAdapterFactory extends variabilityAdapterFac
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.splevo.vpm.variability.VariationPointGroup} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected VariationPointGroupItemProvider variationPointGroupItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.splevo.vpm.variability.VariationPointGroup}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createVariationPointGroupAdapter() {
+		if (variationPointGroupItemProvider == null) {
+			variationPointGroupItemProvider = new VariationPointGroupItemProvider(this);
+		}
+
+		return variationPointGroupItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -242,6 +265,7 @@ public class variabilityItemProviderAdapterFactory extends variabilityAdapterFac
 		if (variationPointItemProvider != null) variationPointItemProvider.dispose();
 		if (variantItemProvider != null) variantItemProvider.dispose();
 		if (variationPointModelItemProvider != null) variationPointModelItemProvider.dispose();
+		if (variationPointGroupItemProvider != null) variationPointGroupItemProvider.dispose();
 	}
 
 }

@@ -5,6 +5,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.gmt.modisco.java.Model;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityFactory;
 
@@ -37,7 +38,10 @@ public class Java2KDMVPMBuilder {
 		for(DiffElement diffElement : diffModel.getDifferences()){
 			VariationPoint vp = java2KDMDiffVisitor.doSwitch(diffElement);
 			if(vp != null){
-				vpm.getVariationPoints().add(vp);
+				VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
+				group.setGroupId(vp.getSoftwareEntity().getClass().getSimpleName());
+				group.getVariationPoints().add(vp);
+				vpm.getVariationPointGroups().add(group);
 			} else {
 				logger.info("null VariationPoint created");
 			}

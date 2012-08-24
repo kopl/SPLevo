@@ -80,6 +80,10 @@ public class variabilityAdapterFactory extends AdapterFactoryImpl {
 				return createVariationPointModelAdapter();
 			}
 			@Override
+			public Adapter caseVariationPointGroup(VariationPointGroup object) {
+				return createVariationPointGroupAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -138,6 +142,20 @@ public class variabilityAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createVariationPointModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.splevo.vpm.variability.VariationPointGroup <em>Variation Point Group</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.splevo.vpm.variability.VariationPointGroup
+	 * @generated
+	 */
+	public Adapter createVariationPointGroupAdapter() {
 		return null;
 	}
 

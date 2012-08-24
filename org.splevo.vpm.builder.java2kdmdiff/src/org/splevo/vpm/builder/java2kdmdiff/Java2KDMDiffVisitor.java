@@ -17,7 +17,7 @@ import org.splevo.vpm.variability.variabilityFactory;
  * A visitor for diff elements to fill up a variation point mode.
  */
 class Java2KDMDiffVisitor  extends Java2KDMDiffSwitch<VariationPoint>{
-
+	
 	/**
 	 * Handle import inserts.
 	 * VP references the compilation unit.
@@ -41,6 +41,7 @@ class Java2KDMDiffVisitor  extends Java2KDMDiffSwitch<VariationPoint>{
 		integrationVariant = variabilityFactory.eINSTANCE.createVariant();
 		integrationVariant.getSoftwareEntities().add(importDeclaration);
 		integrationVariant.setLeading(Boolean.FALSE);
+		integrationVariant.setVariantId("Import "+importDeclaration.getImportedElement().getName());
 		variationPoint.getVariants().add(integrationVariant);
 
 		// return the result
@@ -71,6 +72,7 @@ class Java2KDMDiffVisitor  extends Java2KDMDiffSwitch<VariationPoint>{
 		leadingVariant = variabilityFactory.eINSTANCE.createVariant();
 		leadingVariant.getSoftwareEntities().add(importDeclaration);
 		leadingVariant.setLeading(Boolean.TRUE);
+		leadingVariant.setVariantId("Import "+importDeclaration.getImportedElement().getName());
 		variationPoint.getVariants().add(leadingVariant);
 
 		// return the result
@@ -88,18 +90,20 @@ class Java2KDMDiffVisitor  extends Java2KDMDiffSwitch<VariationPoint>{
 		variationPoint.setSoftwareEntity(parent);
 
 		// create the leading variant
-		if(!DifferenceKind.ADDITION.equals(statementChange.getKind())){
+		if(!DifferenceKind.DELETION.equals(statementChange.getKind())){
 			Variant leadingVariant = variabilityFactory.eINSTANCE.createVariant();
-			leadingVariant.getSoftwareEntities().add(statement);
+			leadingVariant.getSoftwareEntities().add(statementChange.getStatementLeft());
 			leadingVariant.setLeading(Boolean.TRUE);
+			leadingVariant.setVariantId("Statement Right");
 			variationPoint.getVariants().add(leadingVariant);
 		}
 		
 		// create the variant to integrate
-		if(!DifferenceKind.DELETION.equals(statementChange.getKind())){
+		if(!DifferenceKind.ADDITION.equals(statementChange.getKind())){
 			Variant integrationVariant = variabilityFactory.eINSTANCE.createVariant();
-			integrationVariant.getSoftwareEntities().add(statementChange.getStatementLeft());
+			integrationVariant.getSoftwareEntities().add(statement);
 			integrationVariant.setLeading(Boolean.FALSE);
+			integrationVariant.setVariantId("Statement Left");
 			variationPoint.getVariants().add(integrationVariant);
 		}
 

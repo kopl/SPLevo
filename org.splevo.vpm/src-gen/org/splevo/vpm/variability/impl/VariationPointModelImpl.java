@@ -22,6 +22,7 @@ import org.eclipse.gmt.modisco.java.Model;
 
 import org.splevo.vpm.realization.RealizationTechnique;
 
+import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityPackage;
@@ -33,26 +34,16 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.vpm.variability.impl.VariationPointModelImpl#getVariationPoints <em>Variation Points</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointModelImpl#getRealizationTechniques <em>Realization Techniques</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointModelImpl#getLeadingModel <em>Leading Model</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointModelImpl#getIntegrationModel <em>Integration Model</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointModelImpl#getVariationPointGroups <em>Variation Point Groups</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class VariationPointModelImpl extends EObjectImpl implements VariationPointModel {
-	/**
-	 * The cached value of the '{@link #getVariationPoints() <em>Variation Points</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getVariationPoints()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<VariationPoint> variationPoints;
-
 	/**
 	 * The cached value of the '{@link #getRealizationTechniques() <em>Realization Techniques</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -84,6 +75,16 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	protected Model integrationModel;
 
 	/**
+	 * The cached value of the '{@link #getVariationPointGroups() <em>Variation Point Groups</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVariationPointGroups()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<VariationPointGroup> variationPointGroups;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -100,18 +101,6 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	@Override
 	protected EClass eStaticClass() {
 		return variabilityPackage.Literals.VARIATION_POINT_MODEL;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<VariationPoint> getVariationPoints() {
-		if (variationPoints == null) {
-			variationPoints = new EObjectContainmentEList<VariationPoint>(VariationPoint.class, this, variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINTS);
-		}
-		return variationPoints;
 	}
 
 	/**
@@ -207,13 +196,25 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<VariationPointGroup> getVariationPointGroups() {
+		if (variationPointGroups == null) {
+			variationPointGroups = new EObjectContainmentEList<VariationPointGroup>(VariationPointGroup.class, this, variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS);
+		}
+		return variationPointGroups;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINTS:
-				return ((InternalEList<?>)getVariationPoints()).basicRemove(otherEnd, msgs);
 			case variabilityPackage.VARIATION_POINT_MODEL__REALIZATION_TECHNIQUES:
 				return ((InternalEList<?>)getRealizationTechniques()).basicRemove(otherEnd, msgs);
+			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
+				return ((InternalEList<?>)getVariationPointGroups()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -226,8 +227,6 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINTS:
-				return getVariationPoints();
 			case variabilityPackage.VARIATION_POINT_MODEL__REALIZATION_TECHNIQUES:
 				return getRealizationTechniques();
 			case variabilityPackage.VARIATION_POINT_MODEL__LEADING_MODEL:
@@ -236,6 +235,8 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 			case variabilityPackage.VARIATION_POINT_MODEL__INTEGRATION_MODEL:
 				if (resolve) return getIntegrationModel();
 				return basicGetIntegrationModel();
+			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
+				return getVariationPointGroups();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -249,10 +250,6 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINTS:
-				getVariationPoints().clear();
-				getVariationPoints().addAll((Collection<? extends VariationPoint>)newValue);
-				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__REALIZATION_TECHNIQUES:
 				getRealizationTechniques().clear();
 				getRealizationTechniques().addAll((Collection<? extends RealizationTechnique>)newValue);
@@ -262,6 +259,10 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__INTEGRATION_MODEL:
 				setIntegrationModel((Model)newValue);
+				return;
+			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
+				getVariationPointGroups().clear();
+				getVariationPointGroups().addAll((Collection<? extends VariationPointGroup>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -275,9 +276,6 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINTS:
-				getVariationPoints().clear();
-				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__REALIZATION_TECHNIQUES:
 				getRealizationTechniques().clear();
 				return;
@@ -286,6 +284,9 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__INTEGRATION_MODEL:
 				setIntegrationModel((Model)null);
+				return;
+			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
+				getVariationPointGroups().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -299,14 +300,14 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINTS:
-				return variationPoints != null && !variationPoints.isEmpty();
 			case variabilityPackage.VARIATION_POINT_MODEL__REALIZATION_TECHNIQUES:
 				return realizationTechniques != null && !realizationTechniques.isEmpty();
 			case variabilityPackage.VARIATION_POINT_MODEL__LEADING_MODEL:
 				return leadingModel != null;
 			case variabilityPackage.VARIATION_POINT_MODEL__INTEGRATION_MODEL:
 				return integrationModel != null;
+			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
+				return variationPointGroups != null && !variationPointGroups.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

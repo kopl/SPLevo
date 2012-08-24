@@ -49,7 +49,7 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
 		Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
 		VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
 		
-		logger.debug("Number of variation points: "+vpm.getVariationPoints().size());
+		logger.debug("Number of variation point groups: "+vpm.getVariationPointGroups().size());
 		
 		ModelUtils.save(vpm, "testresult/gcd-intial.vpm");
 	}

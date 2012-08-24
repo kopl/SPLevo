@@ -148,13 +148,22 @@ public interface variabilityPackage extends EPackage {
 	int VARIANT__LEADING = 2;
 
 	/**
+	 * The feature id for the '<em><b>Variant Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIANT__VARIANT_ID = 3;
+
+	/**
 	 * The number of structural features of the '<em>Variant</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VARIANT_FEATURE_COUNT = 3;
+	int VARIANT_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariationPointModelImpl <em>Variation Point Model</em>}' class.
@@ -167,22 +176,13 @@ public interface variabilityPackage extends EPackage {
 	int VARIATION_POINT_MODEL = 2;
 
 	/**
-	 * The feature id for the '<em><b>Variation Points</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VARIATION_POINT_MODEL__VARIATION_POINTS = 0;
-
-	/**
 	 * The feature id for the '<em><b>Realization Techniques</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VARIATION_POINT_MODEL__REALIZATION_TECHNIQUES = 1;
+	int VARIATION_POINT_MODEL__REALIZATION_TECHNIQUES = 0;
 
 	/**
 	 * The feature id for the '<em><b>Leading Model</b></em>' reference.
@@ -191,7 +191,7 @@ public interface variabilityPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VARIATION_POINT_MODEL__LEADING_MODEL = 2;
+	int VARIATION_POINT_MODEL__LEADING_MODEL = 1;
 
 	/**
 	 * The feature id for the '<em><b>Integration Model</b></em>' reference.
@@ -200,7 +200,16 @@ public interface variabilityPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VARIATION_POINT_MODEL__INTEGRATION_MODEL = 3;
+	int VARIATION_POINT_MODEL__INTEGRATION_MODEL = 2;
+
+	/**
+	 * The feature id for the '<em><b>Variation Point Groups</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS = 3;
 
 	/**
 	 * The number of structural features of the '<em>Variation Point Model</em>' class.
@@ -210,6 +219,44 @@ public interface variabilityPackage extends EPackage {
 	 * @ordered
 	 */
 	int VARIATION_POINT_MODEL_FEATURE_COUNT = 4;
+
+
+	/**
+	 * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl <em>Variation Point Group</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.splevo.vpm.variability.impl.VariationPointGroupImpl
+	 * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getVariationPointGroup()
+	 * @generated
+	 */
+	int VARIATION_POINT_GROUP = 3;
+
+	/**
+	 * The feature id for the '<em><b>Variation Points</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIATION_POINT_GROUP__VARIATION_POINTS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Group Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIATION_POINT_GROUP__GROUP_ID = 1;
+
+	/**
+	 * The number of structural features of the '<em>Variation Point Group</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIATION_POINT_GROUP_FEATURE_COUNT = 2;
 
 
 	/**
@@ -310,6 +357,17 @@ public interface variabilityPackage extends EPackage {
 	EAttribute getVariant_Leading();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.Variant#getVariantId <em>Variant Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Variant Id</em>'.
+	 * @see org.splevo.vpm.variability.Variant#getVariantId()
+	 * @see #getVariant()
+	 * @generated
+	 */
+	EAttribute getVariant_VariantId();
+
+	/**
 	 * Returns the meta object for class '{@link org.splevo.vpm.variability.VariationPointModel <em>Variation Point Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -318,17 +376,6 @@ public interface variabilityPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getVariationPointModel();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.splevo.vpm.variability.VariationPointModel#getVariationPoints <em>Variation Points</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Variation Points</em>'.
-	 * @see org.splevo.vpm.variability.VariationPointModel#getVariationPoints()
-	 * @see #getVariationPointModel()
-	 * @generated
-	 */
-	EReference getVariationPointModel_VariationPoints();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.splevo.vpm.variability.VariationPointModel#getRealizationTechniques <em>Realization Techniques</em>}'.
@@ -362,6 +409,49 @@ public interface variabilityPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getVariationPointModel_IntegrationModel();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.splevo.vpm.variability.VariationPointModel#getVariationPointGroups <em>Variation Point Groups</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Variation Point Groups</em>'.
+	 * @see org.splevo.vpm.variability.VariationPointModel#getVariationPointGroups()
+	 * @see #getVariationPointModel()
+	 * @generated
+	 */
+	EReference getVariationPointModel_VariationPointGroups();
+
+	/**
+	 * Returns the meta object for class '{@link org.splevo.vpm.variability.VariationPointGroup <em>Variation Point Group</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Variation Point Group</em>'.
+	 * @see org.splevo.vpm.variability.VariationPointGroup
+	 * @generated
+	 */
+	EClass getVariationPointGroup();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.splevo.vpm.variability.VariationPointGroup#getVariationPoints <em>Variation Points</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Variation Points</em>'.
+	 * @see org.splevo.vpm.variability.VariationPointGroup#getVariationPoints()
+	 * @see #getVariationPointGroup()
+	 * @generated
+	 */
+	EReference getVariationPointGroup_VariationPoints();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.VariationPointGroup#getGroupId <em>Group Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Group Id</em>'.
+	 * @see org.splevo.vpm.variability.VariationPointGroup#getGroupId()
+	 * @see #getVariationPointGroup()
+	 * @generated
+	 */
+	EAttribute getVariationPointGroup_GroupId();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -462,6 +552,14 @@ public interface variabilityPackage extends EPackage {
 		EAttribute VARIANT__LEADING = eINSTANCE.getVariant_Leading();
 
 		/**
+		 * The meta object literal for the '<em><b>Variant Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VARIANT__VARIANT_ID = eINSTANCE.getVariant_VariantId();
+
+		/**
 		 * The meta object literal for the '{@link org.splevo.vpm.variability.impl.VariationPointModelImpl <em>Variation Point Model</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -470,14 +568,6 @@ public interface variabilityPackage extends EPackage {
 		 * @generated
 		 */
 		EClass VARIATION_POINT_MODEL = eINSTANCE.getVariationPointModel();
-
-		/**
-		 * The meta object literal for the '<em><b>Variation Points</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference VARIATION_POINT_MODEL__VARIATION_POINTS = eINSTANCE.getVariationPointModel_VariationPoints();
 
 		/**
 		 * The meta object literal for the '<em><b>Realization Techniques</b></em>' containment reference list feature.
@@ -502,6 +592,40 @@ public interface variabilityPackage extends EPackage {
 		 * @generated
 		 */
 		EReference VARIATION_POINT_MODEL__INTEGRATION_MODEL = eINSTANCE.getVariationPointModel_IntegrationModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Variation Point Groups</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS = eINSTANCE.getVariationPointModel_VariationPointGroups();
+
+		/**
+		 * The meta object literal for the '{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl <em>Variation Point Group</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.splevo.vpm.variability.impl.VariationPointGroupImpl
+		 * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getVariationPointGroup()
+		 * @generated
+		 */
+		EClass VARIATION_POINT_GROUP = eINSTANCE.getVariationPointGroup();
+
+		/**
+		 * The meta object literal for the '<em><b>Variation Points</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIATION_POINT_GROUP__VARIATION_POINTS = eINSTANCE.getVariationPointGroup_VariationPoints();
+
+		/**
+		 * The meta object literal for the '<em><b>Group Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VARIATION_POINT_GROUP__GROUP_ID = eINSTANCE.getVariationPointGroup_GroupId();
 
 	}
 

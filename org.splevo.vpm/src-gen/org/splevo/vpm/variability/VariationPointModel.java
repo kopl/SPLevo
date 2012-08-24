@@ -18,10 +18,10 @@ import org.splevo.vpm.realization.RealizationTechnique;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getVariationPoints <em>Variation Points</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getRealizationTechniques <em>Realization Techniques</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getLeadingModel <em>Leading Model</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getIntegrationModel <em>Integration Model</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getVariationPointGroups <em>Variation Point Groups</em>}</li>
  * </ul>
  * </p>
  *
@@ -30,22 +30,6 @@ import org.splevo.vpm.realization.RealizationTechnique;
  * @generated
  */
 public interface VariationPointModel extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Variation Points</b></em>' containment reference list.
-	 * The list contents are of type {@link org.splevo.vpm.variability.VariationPoint}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variation Points</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Variation Points</em>' containment reference list.
-	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_VariationPoints()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<VariationPoint> getVariationPoints();
-
 	/**
 	 * Returns the value of the '<em><b>Realization Techniques</b></em>' containment reference list.
 	 * The list contents are of type {@link org.splevo.vpm.realization.RealizationTechnique}.
@@ -113,5 +97,21 @@ public interface VariationPointModel extends EObject {
 	 * @generated
 	 */
 	void setIntegrationModel(Model value);
+
+	/**
+	 * Returns the value of the '<em><b>Variation Point Groups</b></em>' containment reference list.
+	 * The list contents are of type {@link org.splevo.vpm.variability.VariationPointGroup}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Variation Point Groups</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Variation Point Groups</em>' containment reference list.
+	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_VariationPointGroups()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<VariationPointGroup> getVariationPointGroups();
 
 } // VariationPointModel
