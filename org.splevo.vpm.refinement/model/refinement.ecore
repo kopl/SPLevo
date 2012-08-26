@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="refinement" nsURI="http://splevo.org/vpm/refinement/1.0" nsPrefix="org.splevo.vpm.refinement">
+  <eClassifiers xsi:type="ecore:EClass" name="Refinement" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A refinement identifies a refinement within a variation point model."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//RefinementType"
+        defaultValueLiteral="MANDATORY">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The refinement type defines how the refinement can or must be handled."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Merge" eSuperTypes="#//Refinement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variationPoints" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.splevo.vpm/model/vpm.ecore#//variability/VariationPoint">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The variation points to be merged."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Grouping" eSuperTypes="#//Refinement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variationPoints" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.splevo.vpm/model/vpm.ecore#//variability/VariationPoint">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The variation points to be grouped."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RefinementType">
+    <eLiterals name="MANDATORY"/>
+    <eLiterals name="OPTIONAL" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>
