@@ -3,6 +3,9 @@ package org.splevo.vpm.builder.java2kdmdiff;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.Block;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.Model;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -39,7 +42,17 @@ public class Java2KDMVPMBuilder {
 			VariationPoint vp = java2KDMDiffVisitor.doSwitch(diffElement);
 			if(vp != null){
 				VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
-				group.setGroupId(vp.getSoftwareEntity().getClass().getSimpleName());
+				
+				// set the group id to the class of the software entity
+				// except it is a block surrounded by a method
+				String groupID = vp.getSoftwareEntity().getClass().getSimpleName();
+				if(vp.getSoftwareEntity() instanceof Block){
+					EObject parent = ((Block) vp.getSoftwareEntity()).eContainer();
+					if(parent instanceof MethodDeclaration){
+						groupID = ((MethodDeclaration) parent).getName();
+					}
+				}
+				group.setGroupId(groupID);
 				group.getVariationPoints().add(vp);
 				vpm.getVariationPointGroups().add(group);
 			} else {
