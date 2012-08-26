@@ -28,6 +28,7 @@ import org.splevo.diffing.postprocessor.DiffModelPostProcessor;
  */
 public class Java2KDMDiffingService {
 	
+	/** The logger for this class. */
     private Logger logger = Logger.getLogger(Java2KDMDiffingService.class);
 
 	/** Regular expressions defining packages to be ignored. */
