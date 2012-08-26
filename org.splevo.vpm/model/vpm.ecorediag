@@ -276,7 +276,7 @@
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_1p07sHmsEeG7BrMXO-CD-g" type="3002" source="_wVDPYHmsEeG7BrMXO-CD-g" target="_1oVt-HmsEeG7BrMXO-CD-g">
     <children xmi:type="notation:Node" xmi:id="_1p07tHmsEeG7BrMXO-CD-g" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_1p07tXmsEeG7BrMXO-CD-g" x="-100" y="-17"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_1p07tXmsEeG7BrMXO-CD-g" x="-40" y="-34"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_1p07tnmsEeG7BrMXO-CD-g" type="4012">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_1p07t3msEeG7BrMXO-CD-g" x="10" y="10"/>
