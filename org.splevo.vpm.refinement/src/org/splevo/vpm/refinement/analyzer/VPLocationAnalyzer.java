@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.splevo.vpm.refinement.Grouping;
 import org.splevo.vpm.refinement.Refinement;
@@ -35,7 +36,17 @@ import org.splevo.vpm.variability.VariationPointModel;
  *
  */
 public class VPLocationAnalyzer {
+	
+	/** The logger for this class. */
+    private Logger logger = Logger.getLogger(VPLocationAnalyzer.class);
 
+    /**
+     * Analyze a variation point model and return a list of 
+     * recommended refinedments.
+     * 
+     * @param vpm The variation point model to analyzse.
+     * @return The list of recommended refinements.
+     */
 	public List<Refinement> analyze(VariationPointModel vpm) {
 		
 		// init the result list
@@ -52,8 +63,8 @@ public class VPLocationAnalyzer {
 				refinement.setType(RefinementType.OPTIONAL);
 				for (VariationPoint variationPoint : vpGroupCandidates.get(astNode)) {
 					refinement.getVariationPoints().add(variationPoint);
-					refinements.add(refinement);
 				}
+				refinements.add(refinement);
 			}
 		}
 		
@@ -71,6 +82,7 @@ public class VPLocationAnalyzer {
 		for(VariationPointGroup variationPointGroup : vpm.getVariationPointGroups()){
 			for(VariationPoint vp: variationPointGroup.getVariationPoints()){
 				ASTNode astNode = vp.getSoftwareEntity();
+				// TODO: Different ast nodes for the import declarations are created!
 				if(!vpGroupCandidates.containsKey(astNode)){
 					vpGroupCandidates.put(astNode, new ArrayList<VariationPoint>());
 				}

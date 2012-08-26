@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
 import org.splevo.diffing.Java2KDMDiffingService;
@@ -21,6 +22,7 @@ import org.splevo.vpm.variability.VariationPointModel;
  */
 public class VPMRefinementServiceTest extends AbstractTest {
 
+	/** The logger for this class. */
     private Logger logger = Logger.getLogger(VPMRefinementServiceTest.class);
 
 	/** Source path to the native calculator implementation */
@@ -37,20 +39,12 @@ public class VPMRefinementServiceTest extends AbstractTest {
 		
 		VPMRefinementService refinementService = new VPMRefinementService();
 		List<Refinement> refinements = refinementService.identifyRefinements(initialVpm);
-		for (Refinement refinement : refinements) {
-			if(refinement instanceof Grouping){
-				logger.debug("GROUPING: "+refinement.getType());
-				Grouping grouping = (Grouping) refinement;
-				logger.debug("#vps: "+grouping.getVariationPoints().size());
-				// TODO: it seems that the group identified in the refinement analyzer does not work
-			} else {
-				logger.debug("MERGE: "+refinement.getType());				
-			}
-		}
-		assertEquals("wrong number of refinements identified",2,refinements.size());
+		assertEquals("wrong number of refinements identified",1,refinements.size());
 		
 		VariationPointModel refinedVPM = refinementService.applyRefinements(refinements, initialVpm);
-		logger.debug("Number of variation point groups after refinement: "+refinedVPM.getVariationPointGroups().size());		
+		logger.debug("Number of variation point groups after refinement: "+refinedVPM.getVariationPointGroups().size());
+
+		ModelUtils.save(refinedVPM, "testresult/gcd-refined.vpm");
 		
 	}
 

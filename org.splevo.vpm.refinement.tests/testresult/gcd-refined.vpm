@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="Cp1252"?>
+<variability:VariationPointModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" xmlns:variability="http://splevo.org/vpm/1.0/variability">
+  <leadingModel href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#/"/>
+  <integrationModel href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#/"/>
+  <variationPointGroups groupId="CompilationUnitImpl">
+    <variationPoints>
+      <variants leading="false" variantId="Import LargeInteger">
+        <softwareEntities xsi:type="java:ImportDeclaration" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@compilationUnits.1/@imports.0"/>
+      </variants>
+      <softwareEntity xsi:type="java:CompilationUnit" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@compilationUnits.1"/>
+    </variationPoints>
+  </variationPointGroups>
+  <variationPointGroups groupId="CompilationUnitImpl">
+    <variationPoints>
+      <variants leading="true" variantId="Import BigInteger">
+        <softwareEntities xsi:type="java:ImportDeclaration" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@compilationUnits.1/@imports.0"/>
+      </variants>
+      <softwareEntity xsi:type="java:CompilationUnit" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@compilationUnits.1"/>
+    </variationPoints>
+  </variationPointGroups>
+  <variationPointGroups groupId="BlockImpl">
+    <variationPoints>
+      <variants leading="true" variantId="Statement Right">
+        <softwareEntities xsi:type="java:VariableDeclarationStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0"/>
+      </variants>
+      <variants leading="false" variantId="Statement Left">
+        <softwareEntities xsi:type="java:VariableDeclarationStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0"/>
+      </variants>
+      <softwareEntity xsi:type="java:Block" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body"/>
+    </variationPoints>
+    <variationPoints>
+      <variants leading="true" variantId="Statement Right">
+        <softwareEntities xsi:type="java:VariableDeclarationStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1"/>
+      </variants>
+      <variants leading="false" variantId="Statement Left">
+        <softwareEntities xsi:type="java:VariableDeclarationStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.1"/>
+      </variants>
+      <softwareEntity xsi:type="java:Block" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body"/>
+    </variationPoints>
+    <variationPoints>
+      <variants leading="true" variantId="Statement Right">
+        <softwareEntities xsi:type="java:VariableDeclarationStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.2"/>
+      </variants>
+      <variants leading="false" variantId="Statement Left">
+        <softwareEntities xsi:type="java:VariableDeclarationStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.2"/>
+      </variants>
+      <softwareEntity xsi:type="java:Block" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body"/>
+    </variationPoints>
+    <variationPoints>
+      <variants leading="true" variantId="Statement Right">
+        <softwareEntities xsi:type="java:ReturnStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.3"/>
+      </variants>
+      <variants leading="false" variantId="Statement Left">
+        <softwareEntities xsi:type="java:ReturnStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.3"/>
+      </variants>
+      <softwareEntity xsi:type="java:Block" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body"/>
+    </variationPoints>
+  </variationPointGroups>
+</variability:VariationPointModel>
