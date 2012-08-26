@@ -24,6 +24,7 @@ import org.splevo.vpm.realization.RealizationTechnique;
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getRealizationTechnique <em>Realization Technique</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getSoftwareEntity <em>Software Entity</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.VariationPoint#getGroup <em>Group</em>}</li>
  * </ul>
  * </p>
  *
@@ -124,5 +125,32 @@ public interface VariationPoint extends EObject {
 	 * @generated
 	 */
 	void setSoftwareEntity(ASTNode value);
+
+	/**
+	 * Returns the value of the '<em><b>Group</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.VariationPointGroup#getVariationPoints <em>Variation Points</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The variation point group containing the variation point.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Group</em>' container reference.
+	 * @see #setGroup(VariationPointGroup)
+	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_Group()
+	 * @see org.splevo.vpm.variability.VariationPointGroup#getVariationPoints
+	 * @model opposite="variationPoints" required="true" transient="false"
+	 * @generated
+	 */
+	VariationPointGroup getGroup();
+
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getGroup <em>Group</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Group</em>' container reference.
+	 * @see #getGroup()
+	 * @generated
+	 */
+	void setGroup(VariationPointGroup value);
 
 } // VariationPoint

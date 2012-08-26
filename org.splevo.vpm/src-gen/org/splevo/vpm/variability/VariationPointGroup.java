@@ -32,6 +32,7 @@ public interface VariationPointGroup extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Variation Points</b></em>' containment reference list.
 	 * The list contents are of type {@link org.splevo.vpm.variability.VariationPoint}.
+	 * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.VariationPoint#getGroup <em>Group</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -39,7 +40,8 @@ public interface VariationPointGroup extends EObject {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Variation Points</em>' containment reference list.
 	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointGroup_VariationPoints()
-	 * @model containment="true"
+	 * @see org.splevo.vpm.variability.VariationPoint#getGroup
+	 * @model opposite="group" containment="true"
 	 * @generated
 	 */
 	EList<VariationPoint> getVariationPoints();

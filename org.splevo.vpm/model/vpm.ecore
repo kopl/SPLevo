@@ -14,6 +14,12 @@
           <details key="documentation" value="The software entity, the variation is enclosed by."/>
         </eAnnotations>
       </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="group" lowerBound="1"
+          eType="#//variability/VariationPointGroup" eOpposite="#//variability/VariationPointGroup/variationPoints">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The variation point group containing the variation point."/>
+        </eAnnotations>
+      </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Variant">
       <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
@@ -47,7 +53,7 @@
         <details key="documentation" value="A variation point group combines variation points which belong together. &#xD;&#xA;While a variation point represents a location in the code which contains a variability and defines the different alternatives (variants) for this location, a group defines all variation points that contribute to a single software option (feature)."/>
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variationPoints" upperBound="-1"
-          eType="#//variability/VariationPoint" containment="true">
+          eType="#//variability/VariationPoint" containment="true" eOpposite="#//variability/VariationPoint/group">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="The variation points which are members of the variation point group."/>
         </eAnnotations>

@@ -102,13 +102,22 @@ public interface variabilityPackage extends EPackage {
 	int VARIATION_POINT__SOFTWARE_ENTITY = 3;
 
 	/**
+	 * The feature id for the '<em><b>Group</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIATION_POINT__GROUP = 4;
+
+	/**
 	 * The number of structural features of the '<em>Variation Point</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VARIATION_POINT_FEATURE_COUNT = 4;
+	int VARIATION_POINT_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariantImpl <em>Variant</em>}' class.
@@ -314,6 +323,17 @@ public interface variabilityPackage extends EPackage {
 	EReference getVariationPoint_SoftwareEntity();
 
 	/**
+	 * Returns the meta object for the container reference '{@link org.splevo.vpm.variability.VariationPoint#getGroup <em>Group</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Group</em>'.
+	 * @see org.splevo.vpm.variability.VariationPoint#getGroup()
+	 * @see #getVariationPoint()
+	 * @generated
+	 */
+	EReference getVariationPoint_Group();
+
+	/**
 	 * Returns the meta object for class '{@link org.splevo.vpm.variability.Variant <em>Variant</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -516,6 +536,14 @@ public interface variabilityPackage extends EPackage {
 		 * @generated
 		 */
 		EReference VARIATION_POINT__SOFTWARE_ENTITY = eINSTANCE.getVariationPoint_SoftwareEntity();
+
+		/**
+		 * The meta object literal for the '<em><b>Group</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIATION_POINT__GROUP = eINSTANCE.getVariationPoint_Group();
 
 		/**
 		 * The meta object literal for the '{@link org.splevo.vpm.variability.impl.VariantImpl <em>Variant</em>}' class.

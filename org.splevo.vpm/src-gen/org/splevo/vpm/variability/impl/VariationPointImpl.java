@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.featuremodel.Feature;
@@ -26,6 +27,7 @@ import org.splevo.vpm.realization.RealizationTechnique;
 
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.variabilityPackage;
 
 /**
@@ -39,6 +41,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getRealizationTechnique <em>Realization Technique</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getSoftwareEntity <em>Software Entity</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getGroup <em>Group</em>}</li>
  * </ul>
  * </p>
  *
@@ -235,13 +238,86 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public VariationPointGroup getGroup() {
+		if (eContainerFeatureID() != variabilityPackage.VARIATION_POINT__GROUP) return null;
+		return (VariationPointGroup)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetGroup(VariationPointGroup newGroup, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newGroup, variabilityPackage.VARIATION_POINT__GROUP, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setGroup(VariationPointGroup newGroup) {
+		if (newGroup != eInternalContainer() || (eContainerFeatureID() != variabilityPackage.VARIATION_POINT__GROUP && newGroup != null)) {
+			if (EcoreUtil.isAncestor(this, newGroup))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newGroup != null)
+				msgs = ((InternalEObject)newGroup).eInverseAdd(this, variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS, VariationPointGroup.class, msgs);
+			msgs = basicSetGroup(newGroup, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__GROUP, newGroup, newGroup));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case variabilityPackage.VARIATION_POINT__GROUP:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetGroup((VariationPointGroup)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case variabilityPackage.VARIATION_POINT__VARIANTS:
 				return ((InternalEList<?>)getVariants()).basicRemove(otherEnd, msgs);
+			case variabilityPackage.VARIATION_POINT__GROUP:
+				return basicSetGroup(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case variabilityPackage.VARIATION_POINT__GROUP:
+				return eInternalContainer().eInverseRemove(this, variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS, VariationPointGroup.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -263,6 +339,8 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
 			case variabilityPackage.VARIATION_POINT__SOFTWARE_ENTITY:
 				if (resolve) return getSoftwareEntity();
 				return basicGetSoftwareEntity();
+			case variabilityPackage.VARIATION_POINT__GROUP:
+				return getGroup();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -289,6 +367,9 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
 			case variabilityPackage.VARIATION_POINT__SOFTWARE_ENTITY:
 				setSoftwareEntity((ASTNode)newValue);
 				return;
+			case variabilityPackage.VARIATION_POINT__GROUP:
+				setGroup((VariationPointGroup)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -313,6 +394,9 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
 			case variabilityPackage.VARIATION_POINT__SOFTWARE_ENTITY:
 				setSoftwareEntity((ASTNode)null);
 				return;
+			case variabilityPackage.VARIATION_POINT__GROUP:
+				setGroup((VariationPointGroup)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -333,6 +417,8 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
 				return feature != null;
 			case variabilityPackage.VARIATION_POINT__SOFTWARE_ENTITY:
 				return softwareEntity != null;
+			case variabilityPackage.VARIATION_POINT__GROUP:
+				return getGroup() != null;
 		}
 		return super.eIsSet(featureID);
 	}

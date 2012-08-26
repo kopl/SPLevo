@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -93,7 +94,7 @@ public class VariationPointGroupImpl extends EObjectImpl implements VariationPoi
 	 */
 	public EList<VariationPoint> getVariationPoints() {
 		if (variationPoints == null) {
-			variationPoints = new EObjectContainmentEList<VariationPoint>(VariationPoint.class, this, variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS);
+			variationPoints = new EObjectContainmentWithInverseEList<VariationPoint>(VariationPoint.class, this, variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS, variabilityPackage.VARIATION_POINT__GROUP);
 		}
 		return variationPoints;
 	}
@@ -117,6 +118,21 @@ public class VariationPointGroupImpl extends EObjectImpl implements VariationPoi
 		groupId = newGroupId;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID, oldGroupId, groupId));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVariationPoints()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
