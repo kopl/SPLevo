@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="SPLevo"
+            id="org.splevo.ui">
+      </category>
+      <view
+            name="SPLevo Dashboard View"
+            icon="icons/splevo.gif"
+            category="org.splevo.ui"
+            class="org.splevo.ui.views.SPLevoDashboardView"
+            id="org.splevo.ui.views.SPLevoDashboardView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         id="org.splevo.ui.splevobuilder"
+         name="SPLevo Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="org.splevo.ui.nature.SPLevoBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="org.splevo.ui.splevonature"
+         name="SPLevo Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.splevo.ui.nature.SPLevoNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.splevo.ui.splevobuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.splevo.ui.splevoToggleNatureMenu"
+            nameFilter="*"
+            objectClass="org.eclipse.core.resources.IProject">
+         <action
+               class="org.splevo.ui.nature.ToggleNatureAction"
+               enablesFor="+"
+               id="org.splevo.ui.addRemoveNatureAction"
+               label="Add/Remove SPLevo Nature"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/splevo.gif"
+            id="org.splevo.ui.splevonature.icon"
+            natureId="org.splevo.ui.splevonature">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.splevo.ui.editors.SPLevoProjectEditor"
+            extensions=".splevoproject"
+            icon="icons/splevo.gif"
+            id="org.splevo.ui.editors.SPLevoProjectEditor"
+            name="SPLevo Project Editor">
+      </editor>
+   </extension>
+
+</plugin>

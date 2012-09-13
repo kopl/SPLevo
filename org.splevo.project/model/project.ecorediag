@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_6JGZ8OhmEeGE_bESYdztFA" type="EcoreTools" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_6JLScOhmEeGE_bESYdztFA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_6JMgkOhmEeGE_bESYdztFA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_6JMgkehmEeGE_bESYdztFA" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_6JNus-hmEeGE_bESYdztFA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/name"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_6JNutOhmEeGE_bESYdztFA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_6JNutehmEeGE_bESYdztFA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/description"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_6JNutuhmEeGE_bESYdztFA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_XnKcMOthEeGZuZgabgUZWQ" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/workspace"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_XnKcMethEeGZuZgabgUZWQ"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_PKA-sPHNEeGFp6Xjmh9KlA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/variantNameLeading"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_PKA-sfHNEeGFp6Xjmh9KlA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_VFnacPHNEeGFp6Xjmh9KlA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/variantNameIntegration"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_VFnacfHNEeGFp6Xjmh9KlA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_6JOVwOhmEeGE_bESYdztFA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/sourceModelPathLeading"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_6JOVwehmEeGE_bESYdztFA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_6JOVwuhmEeGE_bESYdztFA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/sourceModelPathIntegration"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_6JOVw-hmEeGE_bESYdztFA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_6JOVxOhmEeGE_bESYdztFA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/leadingProjects"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_6JOVxehmEeGE_bESYdztFA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_6JOVxuhmEeGE_bESYdztFA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/integrationProjects"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_6JOVx-hmEeGE_bESYdztFA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_6JMgkuhmEeGE_bESYdztFA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_6JMgk-hmEeGE_bESYdztFA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_6JMglOhmEeGE_bESYdztFA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_6JNHoOhmEeGE_bESYdztFA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_6JNusOhmEeGE_bESYdztFA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_6JNusehmEeGE_bESYdztFA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_6JNusuhmEeGE_bESYdztFA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_6JLScehmEeGE_bESYdztFA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="project.ecore#//SPLevoProject"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6JLScuhmEeGE_bESYdztFA" x="120" y="36"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_6JGZ8ehmEeGE_bESYdztFA"/>
+  <element xmi:type="ecore:EPackage" href="project.ecore#/"/>
+</notation:Diagram>
