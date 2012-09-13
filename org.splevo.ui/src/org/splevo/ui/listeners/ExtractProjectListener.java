@@ -7,7 +7,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.workflow.ExtractionJobConfiguration;
+import org.splevo.ui.workflow.ModelExtractionWorkflowConfiguration;
 import org.splevo.ui.workflow.ModelExtractionWorkflowDelegate;
 
 /**
@@ -45,7 +45,7 @@ public class ExtractProjectListener extends MouseAdapter {
 	private void runPalladioWFEbasedWorkflow(MouseEvent e){
 		
 		// build the job configuration
-		ExtractionJobConfiguration config = new ExtractionJobConfiguration();
+		ModelExtractionWorkflowConfiguration config = new ModelExtractionWorkflowConfiguration();
 		config.setSplevoProject(splevoProjectEditor.getSplevoProject());
 		config.setSplevoProjectEditor(splevoProjectEditor);
 		

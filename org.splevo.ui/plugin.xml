@@ -3,20 +3,6 @@
 <plugin>
 
    <extension
-         point="org.eclipse.ui.views">
-      <category
-            name="SPLevo"
-            id="org.splevo.ui">
-      </category>
-      <view
-            name="SPLevo Dashboard View"
-            icon="icons/splevo.gif"
-            category="org.splevo.ui"
-            class="org.splevo.ui.views.SPLevoDashboardView"
-            id="org.splevo.ui.views.SPLevoDashboardView">
-      </view>
-   </extension>
-   <extension
          point="org.eclipse.help.contexts">
       <contexts
             file="contexts.xml">

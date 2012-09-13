@@ -19,10 +19,10 @@ import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
  */
 public class ModelExtractionWorkflowDelegate
 		extends
-		AbstractWorkbenchDelegate<ExtractionJobConfiguration, UIBasedWorkflow<Blackboard<?>>> {
+		AbstractWorkbenchDelegate<ModelExtractionWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
 	/** The configuration of the workflow. */
-	private ExtractionJobConfiguration config = null;
+	private ModelExtractionWorkflowConfiguration config = null;
 
 	/**
 	 * Constructor requiring a a workflow configuration.
@@ -30,7 +30,7 @@ public class ModelExtractionWorkflowDelegate
 	 * @param config
 	 *            The configuration of the workflow.
 	 */
-	public ModelExtractionWorkflowDelegate(ExtractionJobConfiguration config) {
+	public ModelExtractionWorkflowDelegate(ModelExtractionWorkflowConfiguration config) {
 		this.config = config;
 	}
 
@@ -38,7 +38,7 @@ public class ModelExtractionWorkflowDelegate
 	 * Create the workflow
 	 */
 	@Override
-	protected IJob createWorkflowJob(ExtractionJobConfiguration config) {
+	protected IJob createWorkflowJob(ModelExtractionWorkflowConfiguration config) {
 		
 		OrderPreservingCompositeJob compositeJob = new OrderPreservingCompositeJob();
 
@@ -69,7 +69,7 @@ public class ModelExtractionWorkflowDelegate
 	}
 
 	@Override
-	protected ExtractionJobConfiguration getConfiguration() {
+	protected ModelExtractionWorkflowConfiguration getConfiguration() {
 		return this.config;
 	}
 }
