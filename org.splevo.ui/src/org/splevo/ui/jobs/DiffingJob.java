@@ -56,7 +56,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 		try {
 			
 			leadingModel = KDMUtil.loadKDMModel(new File(basePath+splevoProject.getSourceModelPathLeading()));
-			integrationModel = KDMUtil.loadKDMModel(new File(basePath+splevoProject.getSourceModelPathLeading()));
+			integrationModel = KDMUtil.loadKDMModel(new File(basePath+splevoProject.getSourceModelPathIntegration()));
 		} catch (IOException e) {
 			throw new JobFailedException("Failed to load source models",e);
 		}
