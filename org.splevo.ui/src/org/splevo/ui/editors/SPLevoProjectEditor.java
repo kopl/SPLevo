@@ -384,6 +384,12 @@ public class SPLevoProjectEditor extends EditorPart {
 		activityFlow5.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
 		activityFlow5.setAlignment(SWT.CENTER);
 		activityFlow5.setBounds(497, 105, 30, 30);
+		
+		Label lblSplevoDashboard = new Label(processControlContainer, SWT.NONE);
+		lblSplevoDashboard.setAlignment(SWT.CENTER);
+		lblSplevoDashboard.setFont(SWTResourceManager.getFont("Arial", 14, SWT.BOLD));
+		lblSplevoDashboard.setBounds(10, 10, 481, 30);
+		lblSplevoDashboard.setText("SPLevo Dashboard");
 	}
 
 	@Override
