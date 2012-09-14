@@ -6,6 +6,6 @@ package org.splevo.ui.workflow;
  *
  */
 public class DiffingWorkflowConfiguration extends
-		AbstractSPLevoWorkflowConfiguration {
+		BasicSPLevoWorkflowConfiguration {
 
 }

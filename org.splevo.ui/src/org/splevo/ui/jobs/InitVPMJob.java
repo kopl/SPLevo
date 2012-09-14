@@ -10,10 +10,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.splevo.diffing.Java2KDMDiffingService;
-import org.splevo.diffing.kdm.KDMUtil;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.project.SPLevoProject;
+import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
+import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
@@ -23,7 +23,7 @@ import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 /**
  * Job to extract a software model from an eclipse java project 
  */
-public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
+public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
 	/** The splevo project to store the required data to. */
 	private SPLevoProject splevoProject;
@@ -33,7 +33,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 	 * @param indeterminate
 	 *            whether the animation is unknown
 	 */
-	public DiffingJob(SPLevoProject splevoProject) {
+	public InitVPMJob(SPLevoProject splevoProject) {
 		this.splevoProject = splevoProject;
 	}
 
@@ -50,32 +50,18 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		String basePath = workspace.getRoot().getRawLocation().toOSString();
 
-		logger.info("Load source models");
-		JavaApplication leadingModel = null;
-		JavaApplication integrationModel = null;
+		logger.info("Load diff models");
+		File diffModelFile = new File(basePath+splevoProject.getDiffingModelPath());
+		DiffModel diffModel;
 		try {
-			
-			leadingModel = KDMUtil.loadKDMModel(new File(basePath+splevoProject.getSourceModelPathLeading()));
-			integrationModel = KDMUtil.loadKDMModel(new File(basePath+splevoProject.getSourceModelPathIntegration()));
+			diffModel = (DiffModel) ModelUtils.load(diffModelFile, new ResourceSetImpl());
 		} catch (IOException e) {
-			throw new JobFailedException("Failed to load source models",e);
+			throw new JobFailedException("Failed to load diff model.",e);
 		}
-		
-		logger.info("Init diffing service");
-		Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
-		String diffingRuleRaw = splevoProject.getDiffingFilterRules();
-		String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
-		for (String rule : parts) {
-			diffingService.getIgnorePackages().add(rule);
-		}
-		
-		logger.info("Execute diffing");
-		DiffModel diffModel = null;
-		try {
-			diffModel = diffingService.doDiff(integrationModel,leadingModel);
-		} catch (InterruptedException e) {
-			throw new JobFailedException("Failed to process diffing.",e);
-		}
+
+		logger.info("Build initival vpm model");
+		Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
+		VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
 		
 		// check if the process was canceled
 		if (monitor.isCanceled()) {
@@ -83,15 +69,16 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 			return;
 		}
 
-		logger.info("Save Diff Model");
+		logger.info("Save VPM Model");
 		try {
-			String targetPath = splevoProject.getWorkspace()
-									+ "models/diffmodel/diffModel.java2kdmdiff";
+			String targetPath = basePath
+									+ splevoProject.getWorkspace()
+									+ "models/vpms/initial-vpm.vpm";
 			
-			ModelUtils.save(diffModel, basePath+targetPath);
+			ModelUtils.save(vpm, targetPath);
 			splevoProject.setDiffingModelPath(targetPath);
 		} catch (IOException e) {
-			throw new JobFailedException("Failed to save diff model.",e);
+			throw new JobFailedException("Failed to save vpm model.",e);
 		}
 		
 		// refresh workspace
@@ -116,6 +103,6 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 	 */
 	@Override
 	public String getName() {
-		return "Diff source models Job";
+		return "Init VPM model Job";
 	}
 }

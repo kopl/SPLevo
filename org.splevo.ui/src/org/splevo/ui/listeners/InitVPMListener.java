@@ -8,13 +8,14 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.workflow.BasicSPLevoWorkflowConfiguration;
-import org.splevo.ui.workflow.ModelExtractionWorkflowDelegate;
+import org.splevo.ui.workflow.DiffingWorkflowDelegate;
+import org.splevo.ui.workflow.InitVPMWorkflowDelegate;
 
 /**
  * Mouse adapter to listen for events which trigger the extraction of the source
  * projects.
  */
-public class ExtractProjectListener extends MouseAdapter {
+public class InitVPMListener extends MouseAdapter {
 
 	/** The internal reference to the splevo project editor to work with. */
 	private SPLevoProjectEditor splevoProjectEditor = null;
@@ -25,7 +26,7 @@ public class ExtractProjectListener extends MouseAdapter {
 	 * @param splevoProject
 	 *            The references to the project.
 	 */
-	public ExtractProjectListener(SPLevoProjectEditor splevoProjectEditor) {
+	public InitVPMListener(SPLevoProjectEditor splevoProjectEditor) {
 		this.splevoProjectEditor = splevoProjectEditor;
 	}
 
@@ -44,8 +45,8 @@ public class ExtractProjectListener extends MouseAdapter {
 		}
 		
 		// trigger workflow
-		ModelExtractionWorkflowDelegate workflowDelegate = new ModelExtractionWorkflowDelegate(config);
-		IAction action = new Action("Extract"){};
+		InitVPMWorkflowDelegate workflowDelegate = new InitVPMWorkflowDelegate(config);
+		IAction action = new Action("Init VPM"){};
 		workflowDelegate.run(action);
 	}
 

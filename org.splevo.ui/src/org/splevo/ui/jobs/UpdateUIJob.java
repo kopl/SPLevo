@@ -49,7 +49,7 @@ public class UpdateUIJob extends AbstractJob {
 		
 		// refresh workspace
 		try {
-			ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_ONE, monitor);
+			ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}

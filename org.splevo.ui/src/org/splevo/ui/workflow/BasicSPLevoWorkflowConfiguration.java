@@ -5,7 +5,7 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
 
 import de.uka.ipd.sdq.workflow.AbstractJobConfiguration;
 
-public class AbstractSPLevoWorkflowConfiguration extends AbstractJobConfiguration {
+public class BasicSPLevoWorkflowConfiguration extends AbstractJobConfiguration {
 
 	/** The splevo project to process. */
 	private SPLevoProject splevoProject = null;

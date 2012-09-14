@@ -44,9 +44,11 @@ import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.ui.jobs.InitVPMJob;
 import org.splevo.ui.listeners.DiffSourceModelListener;
 import org.splevo.ui.listeners.ExtractProjectListener;
 import org.splevo.ui.listeners.GotoTabMouseListener;
+import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.MarkDirtyListener;
 import org.splevo.ui.listeners.ProjectDropListener;
 
@@ -377,6 +379,7 @@ public class SPLevoProjectEditor extends EditorPart {
 		activityFlow4.setBounds(383, 105, 30, 30);
 		
 		Button btnInitVpm = new Button(processControlContainer, SWT.WRAP);
+		btnInitVpm.addMouseListener(new InitVPMListener(this));
 		btnInitVpm.setBounds(419, 98, 72, 45);
 		btnInitVpm.setText("Init VPM");
 		

@@ -20,6 +20,7 @@ Require-Bundle: org.eclipse.ui,
  de.uka.ipd.sdq.workflow.workbench;bundle-version="1.0.0",
  org.eclipse.core.databinding.property;bundle-version="1.4.100",
  org.splevo.diffing;bundle-version="1.0.0",
- org.splevo.vpm;bundle-version="1.0.0"
+ org.splevo.vpm;bundle-version="1.0.0",
+ org.splevo.vpm.builder.java2kdmdiff;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
