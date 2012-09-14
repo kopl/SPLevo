@@ -53,16 +53,16 @@ public class Java2KDMDiffingService {
 		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationJavaModel, leadingJavaModel);
 		matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,matchScopeProvider);
 
-		JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
 
 		logger.debug("================ MATCHING PHASE  ===============");
 		JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
 		MatchModel matchModel = matchEngine.modelMatch(integrationJavaModel, leadingJavaModel, matchOptions);
 
-		logger.debug("=== UNMATCHED ELEMENTS ===");
-		EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
-		for (UnmatchElement unmatchedElement : unmatchedElements) {
-			if(logger.isDebugEnabled()) {
+		if(logger.isDebugEnabled()) {
+			logger.debug("=== UNMATCHED ELEMENTS ===");
+			EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
+			JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
+			for (UnmatchElement unmatchedElement : unmatchedElements) {
 				StringBuilder debugMessage = new StringBuilder();
 				debugMessage.append(unmatchedElement.getSide() + "\t");
 				debugMessage.append(unmatchedElement.getElement().getClass().getSimpleName()+ "\t");
