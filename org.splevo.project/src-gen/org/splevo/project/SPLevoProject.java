@@ -23,6 +23,9 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.splevo.project.SPLevoProject#getWorkspace <em>Workspace</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getVariantNameLeading <em>Variant Name Leading</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getVariantNameIntegration <em>Variant Name Integration</em>}</li>
+ *   <li>{@link org.splevo.project.SPLevoProject#getDiffingModelPath <em>Diffing Model Path</em>}</li>
+ *   <li>{@link org.splevo.project.SPLevoProject#getVpmModelPath <em>Vpm Model Path</em>}</li>
+ *   <li>{@link org.splevo.project.SPLevoProject#getDiffingFilterRules <em>Diffing Filter Rules</em>}</li>
  * </ul>
  * </p>
  *
@@ -238,5 +241,71 @@ public interface SPLevoProject extends EObject {
 	 * @generated
 	 */
 	void setVariantNameIntegration(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Diffing Model Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The path to the diffing model. It is optional, because the model might only exist within a temporary instance for the initial vpm creation.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Diffing Model Path</em>' attribute.
+	 * @see #setDiffingModelPath(String)
+	 * @see org.splevo.project.ProjectPackage#getSPLevoProject_DiffingModelPath()
+	 * @model
+	 * @generated
+	 */
+	String getDiffingModelPath();
+
+	/**
+	 * Sets the value of the '{@link org.splevo.project.SPLevoProject#getDiffingModelPath <em>Diffing Model Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Diffing Model Path</em>' attribute.
+	 * @see #getDiffingModelPath()
+	 * @generated
+	 */
+	void setDiffingModelPath(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Vpm Model Path</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The list of paths to the variation point models. All intermediary models are kept and referenced by this list. The last entry in this list represents the most recent model.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Vpm Model Path</em>' attribute list.
+	 * @see org.splevo.project.ProjectPackage#getSPLevoProject_VpmModelPath()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getVpmModelPath();
+
+	/**
+	 * Returns the value of the '<em><b>Diffing Filter Rules</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The rules to filter the packages during the diffing.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Diffing Filter Rules</em>' attribute.
+	 * @see #setDiffingFilterRules(String)
+	 * @see org.splevo.project.ProjectPackage#getSPLevoProject_DiffingFilterRules()
+	 * @model default="" required="true"
+	 * @generated
+	 */
+	String getDiffingFilterRules();
+
+	/**
+	 * Sets the value of the '{@link org.splevo.project.SPLevoProject#getDiffingFilterRules <em>Diffing Filter Rules</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Diffing Filter Rules</em>' attribute.
+	 * @see #getDiffingFilterRules()
+	 * @generated
+	 */
+	void setDiffingFilterRules(String value);
 
 } // SPLevoProject

@@ -39,6 +39,18 @@
         <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/integrationProjects"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_6JOVx-hmEeGE_bESYdztFA"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_j1veIP3GEeGA7MerUKfPKg" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/diffingModelPath"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_j1veIf3GEeGA7MerUKfPKg"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_vdm5IP3GEeGA7MerUKfPKg" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/vpmModelPath"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_vdm5If3GEeGA7MerUKfPKg"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_bI3woP3yEeGA7MerUKfPKg" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/diffingFilterRules"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_bI3wof3yEeGA7MerUKfPKg"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_6JMgkuhmEeGE_bESYdztFA"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_6JMgk-hmEeGE_bESYdztFA"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_6JMglOhmEeGE_bESYdztFA"/>

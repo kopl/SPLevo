@@ -44,6 +44,7 @@ import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.ui.listeners.DiffSourceModelListener;
 import org.splevo.ui.listeners.ExtractProjectListener;
 import org.splevo.ui.listeners.GotoTabMouseListener;
 import org.splevo.ui.listeners.MarkDirtyListener;
@@ -56,13 +57,14 @@ public class SPLevoProjectEditor extends EditorPart {
 	private static final int TABINDEX_PROJECT_INFOS = 0;
 	private static final int TABINDEX_PROCESS_CONTROL = 1;
 	private static final int TABINDEX_PROJECT_SELECTION = 2;
-	private static final int TABINDEX_DIFFING_MODEL = 3;
+	private static final int TABINDEX_SOURCE_MODELS = 3;
+	private static final int TABINDEX_DIFFING_MODEL = 4;
 
 	
 	/** The splevo project manipulated in the editor instance. */
 	private SPLevoProject splevoProject = null;
 
-	private TabFolder tabFolder = null;
+	private TabFolder tabFolder;
 	private TabItem tbtmProjectSelection = null;
 	/** The table viewer for the leading source models the variant should be integrated to */
 	private TableViewer viewerLeadingProjects;
@@ -79,8 +81,10 @@ public class SPLevoProjectEditor extends EditorPart {
 	private Text inputVariantNameLeading;
 	private Text inputVariantNameIntegration;
 	private Text messageTextBox;
-	private Text sourceModelLeading;
-	private Text sourceModelIntegration;
+	private Text sourceModelLeadingInput;
+	private Text sourceModelIntegrationInput;
+	private Text diffingModelInput;
+	private Text diffingPackageFilterInput;
 
 	public SPLevoProjectEditor() {
 		setTitleImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/splevo.gif"));
@@ -113,6 +117,7 @@ public class SPLevoProjectEditor extends EditorPart {
 		createProcessControlTab();
 		createProjectSelectionTab();
 		createSourceModelTab();
+		createDiffingModelTab();
 
 		// create message area
 		Composite messageArea = new Composite(parent, SWT.NONE);
@@ -133,11 +138,11 @@ public class SPLevoProjectEditor extends EditorPart {
 	}
 
 	/**
-	 * Create the tab to handle the diff model.
+	 * Create the tab to handle the source models.
 	 */
 	private void createSourceModelTab() {
 
-		TabItem tabItemSourceModel = new TabItem(tabFolder, SWT.NONE, TABINDEX_DIFFING_MODEL);
+		TabItem tabItemSourceModel = new TabItem(tabFolder, SWT.NONE, TABINDEX_SOURCE_MODELS);
 		tabItemSourceModel.setText("Source Models");
 		
 		Composite sourceModelTabComposite = new Composite(tabFolder, SWT.NONE);
@@ -152,15 +157,46 @@ public class SPLevoProjectEditor extends EditorPart {
 		lblLeadingProjectModel.setBounds(10, 44, 191, 20);
 		lblLeadingProjectModel.setText("Leading Source Model:");
 		
-		sourceModelLeading = new Text(sourceModelTabComposite, SWT.BORDER);
-		sourceModelLeading.setBounds(10, 67, 490, 26);
+		sourceModelLeadingInput = new Text(sourceModelTabComposite, SWT.BORDER);
+		sourceModelLeadingInput.setBounds(10, 67, 490, 26);
 		
 		Label lblsourceModelIntegration = new Label(sourceModelTabComposite, SWT.NONE);
 		lblsourceModelIntegration.setText("Integration Source Model:");
 		lblsourceModelIntegration.setBounds(10, 124, 191, 20);
 		
-		sourceModelIntegration = new Text(sourceModelTabComposite, SWT.BORDER);
-		sourceModelIntegration.setBounds(10, 147, 490, 26);
+		sourceModelIntegrationInput = new Text(sourceModelTabComposite, SWT.BORDER);
+		sourceModelIntegrationInput.setBounds(10, 147, 490, 26);
+
+	}
+
+	/**
+	 * Create the tab to handle the diff model.
+	 */
+	private void createDiffingModelTab() {
+		
+		TabItem tbtmDiffingModel = new TabItem(tabFolder, SWT.NONE, TABINDEX_DIFFING_MODEL);
+		tbtmDiffingModel.setText("Diffing Model");
+		
+		Composite composite = new Composite(tabFolder, SWT.NONE);
+		tbtmDiffingModel.setControl(composite);
+		
+		Label lblDiffingModelDescription = new Label(composite, SWT.NONE);
+		lblDiffingModelDescription.setText("The diffing model extracted from the source models.");
+		lblDiffingModelDescription.setBounds(10, 10, 490, 20);
+		
+		Label lblDiffingModel = new Label(composite, SWT.NONE);
+		lblDiffingModel.setText("Diffing Model:");
+		lblDiffingModel.setBounds(10, 44, 191, 20);
+		
+		diffingModelInput = new Text(composite, SWT.BORDER);
+		diffingModelInput.setBounds(10, 67, 490, 26);
+		
+		diffingPackageFilterInput = new Text(composite, SWT.BORDER | SWT.WRAP);
+		diffingPackageFilterInput.setBounds(10, 141, 490, 158);
+		
+		Label lblPackageFilterRules = new Label(composite, SWT.NONE);
+		lblPackageFilterRules.setBounds(10, 115, 266, 20);
+		lblPackageFilterRules.setText("Package Filter Rules (one per line):");
 	}
 
 	/**
@@ -281,7 +317,7 @@ public class SPLevoProjectEditor extends EditorPart {
 		lblInfo.setBounds(10, 62, 70, 20);
 		lblInfo.setText("Info");
 		
-		infoInput = new Text(projectInfoContainer, SWT.BORDER);
+		infoInput = new Text(projectInfoContainer, SWT.BORDER | SWT.WRAP);
 		infoInput.setBounds(113, 62, 307, 112);
 		
 		Label lblWorkspace = new Label(projectInfoContainer, SWT.NONE);
@@ -331,6 +367,7 @@ public class SPLevoProjectEditor extends EditorPart {
 		activityFlow3.setBounds(269, 105, 30, 30);
 		
 		Button btnDiffing = new Button(processControlContainer, SWT.WRAP);
+		btnDiffing.addMouseListener(new DiffSourceModelListener(this));
 		btnDiffing.setBounds(305, 98, 72, 45);
 		btnDiffing.setText("Diffing");
 		
@@ -459,47 +496,6 @@ public class SPLevoProjectEditor extends EditorPart {
 		dirtyFlag = true;
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
-	protected DataBindingContext initDataBindings() {
-		MarkDirtyListener markDirtyListerener = new MarkDirtyListener(this);
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		IObservableValue observeTextProjectNameInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(projectNameInput);
-		IObservableValue nameGetSplevoProjectObserveValue = PojoProperties.value("name").observe(getSplevoProject());
-		nameGetSplevoProjectObserveValue.addChangeListener(markDirtyListerener);
-		bindingContext.bindValue(observeTextProjectNameInputObserveWidget, nameGetSplevoProjectObserveValue, null, null);
-		//
-		IObservableValue observeTextInfoInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(infoInput);
-		IObservableValue descriptionGetSplevoProjectObserveValue = PojoProperties.value("description").observe(getSplevoProject());
-		descriptionGetSplevoProjectObserveValue.addChangeListener(markDirtyListerener);
-		bindingContext.bindValue(observeTextInfoInputObserveWidget, descriptionGetSplevoProjectObserveValue, null, null);
-		//
-		IObservableValue observeTextWorkspaceInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(workspaceInput);
-		IObservableValue workspaceGetSplevoProjectObserveValue = PojoProperties.value("workspace").observe(getSplevoProject());
-		workspaceGetSplevoProjectObserveValue.addChangeListener(markDirtyListerener);
-		bindingContext.bindValue(observeTextWorkspaceInputObserveWidget, workspaceGetSplevoProjectObserveValue, null, null);
-		//
-		IObservableValue observeTextInputVariantNameLeadingObserveWidget = WidgetProperties.text(SWT.Modify).observe(inputVariantNameLeading);
-		IObservableValue variantNameLeadingGetSplevoProjectObserveValue = PojoProperties.value("variantNameLeading").observe(getSplevoProject());
-		variantNameLeadingGetSplevoProjectObserveValue.addChangeListener(markDirtyListerener);
-		bindingContext.bindValue(observeTextInputVariantNameLeadingObserveWidget, variantNameLeadingGetSplevoProjectObserveValue, null, null);
-		//
-		IObservableValue observeTextInputVariantNameIntegrationObserveWidget = WidgetProperties.text(SWT.Modify).observe(inputVariantNameIntegration);
-		IObservableValue variantNameIntegrationGetSplevoProjectObserveValue = PojoProperties.value("variantNameIntegration").observe(getSplevoProject());
-		variantNameIntegrationGetSplevoProjectObserveValue.addChangeListener(markDirtyListerener);
-		bindingContext.bindValue(observeTextInputVariantNameIntegrationObserveWidget, variantNameIntegrationGetSplevoProjectObserveValue, null, null);
-		//
-		IObservableValue observeTextSourceModelLeadingObserveWidget = WidgetProperties.text(SWT.Modify).observe(sourceModelLeading);
-		IObservableValue sourceModelPathLeadingGetSplevoProjectObserveValue = PojoProperties.value("sourceModelPathLeading").observe(splevoProject);
-		sourceModelPathLeadingGetSplevoProjectObserveValue.addChangeListener(markDirtyListerener);
-		bindingContext.bindValue(observeTextSourceModelLeadingObserveWidget, sourceModelPathLeadingGetSplevoProjectObserveValue, null, null);
-		//
-		IObservableValue observeTextSourceModelIntegrationObserveWidget = WidgetProperties.text(SWT.Modify).observe(sourceModelIntegration);
-		IObservableValue sourceModelPathIntegrationGetSplevoProjectObserveValue = PojoProperties.value("sourceModelPathIntegration").observe(splevoProject);
-		sourceModelPathIntegrationGetSplevoProjectObserveValue.addChangeListener(markDirtyListerener);
-		bindingContext.bindValue(observeTextSourceModelIntegrationObserveWidget, sourceModelPathIntegrationGetSplevoProjectObserveValue, null, null);
-		//
-		return bindingContext;
-	}
 
 	/**
 	 * Update the ui and present the submitted message in an information dialog.
@@ -512,8 +508,63 @@ public class SPLevoProjectEditor extends EditorPart {
 	}
 		
 	public void updateUI(){
-		sourceModelLeading.setText(splevoProject.getSourceModelPathLeading());
-		sourceModelIntegration.setText(splevoProject.getSourceModelPathIntegration());
+		sourceModelLeadingInput.setText(splevoProject.getSourceModelPathLeading());
+		sourceModelIntegrationInput.setText(splevoProject.getSourceModelPathIntegration());
+		if(splevoProject.getDiffingModelPath() != null){
+			diffingModelInput.setText(splevoProject.getDiffingModelPath());
+		}
 		markAsDirty();
+	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		
+		MarkDirtyListener markDirtyListener = new MarkDirtyListener(this);
+		//
+		IObservableValue observeTextProjectNameInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(projectNameInput);
+		IObservableValue nameGetSplevoProjectObserveValue = PojoProperties.value("name").observe(getSplevoProject());
+		nameGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
+		bindingContext.bindValue(observeTextProjectNameInputObserveWidget, nameGetSplevoProjectObserveValue, null, null);
+		//
+		IObservableValue observeTextInfoInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(infoInput);
+		IObservableValue descriptionGetSplevoProjectObserveValue = PojoProperties.value("description").observe(getSplevoProject());
+		descriptionGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
+		bindingContext.bindValue(observeTextInfoInputObserveWidget, descriptionGetSplevoProjectObserveValue, null, null);
+		//
+		IObservableValue observeTextWorkspaceInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(workspaceInput);
+		IObservableValue workspaceGetSplevoProjectObserveValue = PojoProperties.value("workspace").observe(getSplevoProject());
+		workspaceGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
+		bindingContext.bindValue(observeTextWorkspaceInputObserveWidget, workspaceGetSplevoProjectObserveValue, null, null);
+		//
+		IObservableValue observeTextInputVariantNameLeadingObserveWidget = WidgetProperties.text(SWT.Modify).observe(inputVariantNameLeading);
+		IObservableValue variantNameLeadingGetSplevoProjectObserveValue = PojoProperties.value("variantNameLeading").observe(getSplevoProject());
+		variantNameLeadingGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
+		bindingContext.bindValue(observeTextInputVariantNameLeadingObserveWidget, variantNameLeadingGetSplevoProjectObserveValue, null, null);
+		//
+		IObservableValue observeTextInputVariantNameIntegrationObserveWidget = WidgetProperties.text(SWT.Modify).observe(inputVariantNameIntegration);
+		IObservableValue variantNameIntegrationGetSplevoProjectObserveValue = PojoProperties.value("variantNameIntegration").observe(getSplevoProject());
+		variantNameIntegrationGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
+		bindingContext.bindValue(observeTextInputVariantNameIntegrationObserveWidget, variantNameIntegrationGetSplevoProjectObserveValue, null, null);
+		//
+		IObservableValue observeTextSourceModelLeadingObserveWidget = WidgetProperties.text(SWT.Modify).observe(sourceModelLeadingInput);
+		IObservableValue sourceModelPathLeadingGetSplevoProjectObserveValue = PojoProperties.value("sourceModelPathLeading").observe(splevoProject);
+		sourceModelPathLeadingGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
+		bindingContext.bindValue(observeTextSourceModelLeadingObserveWidget, sourceModelPathLeadingGetSplevoProjectObserveValue, null, null);
+		//
+		IObservableValue observeTextSourceModelIntegrationObserveWidget = WidgetProperties.text(SWT.Modify).observe(sourceModelIntegrationInput);
+		IObservableValue sourceModelPathIntegrationGetSplevoProjectObserveValue = PojoProperties.value("sourceModelPathIntegration").observe(splevoProject);
+		sourceModelPathIntegrationGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
+		bindingContext.bindValue(observeTextSourceModelIntegrationObserveWidget, sourceModelPathIntegrationGetSplevoProjectObserveValue, null, null);
+		//
+		IObservableValue observeTextDiffingModelInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(diffingModelInput);
+		IObservableValue diffingModelPathSplevoProjectObserveValue = PojoProperties.value("diffingModelPath").observe(splevoProject);
+		diffingModelPathSplevoProjectObserveValue.addChangeListener(markDirtyListener);
+		bindingContext.bindValue(observeTextDiffingModelInputObserveWidget, diffingModelPathSplevoProjectObserveValue, null, null);
+		//
+		IObservableValue observeTextDiffingPackageFilterInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(diffingPackageFilterInput);
+		IObservableValue diffingFilterRulesSplevoProjectObserveValue = PojoProperties.value("diffingFilterRules").observe(splevoProject);
+		diffingFilterRulesSplevoProjectObserveValue.addChangeListener(markDirtyListener);
+		bindingContext.bindValue(observeTextDiffingPackageFilterInputObserveWidget, diffingFilterRulesSplevoProjectObserveValue, null, null);
+		//
+		return bindingContext;
 	}
 }

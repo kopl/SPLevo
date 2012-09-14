@@ -146,13 +146,40 @@ public interface ProjectPackage extends EPackage {
 	int SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION = 8;
 
 	/**
+	 * The feature id for the '<em><b>Diffing Model Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SP_LEVO_PROJECT__DIFFING_MODEL_PATH = 9;
+
+	/**
+	 * The feature id for the '<em><b>Vpm Model Path</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SP_LEVO_PROJECT__VPM_MODEL_PATH = 10;
+
+	/**
+	 * The feature id for the '<em><b>Diffing Filter Rules</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SP_LEVO_PROJECT__DIFFING_FILTER_RULES = 11;
+
+	/**
 	 * The number of structural features of the '<em>SP Levo Project</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SP_LEVO_PROJECT_FEATURE_COUNT = 9;
+	int SP_LEVO_PROJECT_FEATURE_COUNT = 12;
 
 
 	/**
@@ -265,6 +292,39 @@ public interface ProjectPackage extends EPackage {
 	EAttribute getSPLevoProject_VariantNameIntegration();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.splevo.project.SPLevoProject#getDiffingModelPath <em>Diffing Model Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Diffing Model Path</em>'.
+	 * @see org.splevo.project.SPLevoProject#getDiffingModelPath()
+	 * @see #getSPLevoProject()
+	 * @generated
+	 */
+	EAttribute getSPLevoProject_DiffingModelPath();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.splevo.project.SPLevoProject#getVpmModelPath <em>Vpm Model Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Vpm Model Path</em>'.
+	 * @see org.splevo.project.SPLevoProject#getVpmModelPath()
+	 * @see #getSPLevoProject()
+	 * @generated
+	 */
+	EAttribute getSPLevoProject_VpmModelPath();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.splevo.project.SPLevoProject#getDiffingFilterRules <em>Diffing Filter Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Diffing Filter Rules</em>'.
+	 * @see org.splevo.project.SPLevoProject#getDiffingFilterRules()
+	 * @see #getSPLevoProject()
+	 * @generated
+	 */
+	EAttribute getSPLevoProject_DiffingFilterRules();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -367,6 +427,30 @@ public interface ProjectPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION = eINSTANCE.getSPLevoProject_VariantNameIntegration();
+
+		/**
+		 * The meta object literal for the '<em><b>Diffing Model Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SP_LEVO_PROJECT__DIFFING_MODEL_PATH = eINSTANCE.getSPLevoProject_DiffingModelPath();
+
+		/**
+		 * The meta object literal for the '<em><b>Vpm Model Path</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SP_LEVO_PROJECT__VPM_MODEL_PATH = eINSTANCE.getSPLevoProject_VpmModelPath();
+
+		/**
+		 * The meta object literal for the '<em><b>Diffing Filter Rules</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SP_LEVO_PROJECT__DIFFING_FILTER_RULES = eINSTANCE.getSPLevoProject_DiffingFilterRules();
 
 	}
 

@@ -1,6 +1,5 @@
 package org.splevo.ui.jobs;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -15,7 +14,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.splevo.extraction.ExtractionService;
 import org.splevo.project.SPLevoProject;
 
-import de.uka.ipd.sdq.workflow.IJob;
+import de.uka.ipd.sdq.workflow.AbstractJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
@@ -23,11 +22,7 @@ import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 /**
  * Job to extract a software model from an eclipse java project 
  */
-public class ExtractionJob implements IJob {
-
-
-    /** The logger. */
-    protected Logger logger = Logger.getLogger(IJob.class);
+public class ExtractionJob extends AbstractJob {
 
 	/** The splevo project to store the required data to. */
 	private SPLevoProject splevoProject;
@@ -107,13 +102,6 @@ public class ExtractionJob implements IJob {
 			splevoProject.setSourceModelPathLeading(targetURI.path());
 		} else {
 			splevoProject.setSourceModelPathIntegration(targetURI.path());
-		}
-		
-		// refresh workspace
-		try {
-			workspace.getRoot().refreshLocal(IResource.DEPTH_ONE, monitor);
-		} catch (CoreException e) {
-			e.printStackTrace();
 		}
 		
 		

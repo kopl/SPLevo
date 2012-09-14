@@ -7,14 +7,14 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.workflow.ModelExtractionWorkflowConfiguration;
-import org.splevo.ui.workflow.ModelExtractionWorkflowDelegate;
+import org.splevo.ui.workflow.DiffingWorkflowConfiguration;
+import org.splevo.ui.workflow.DiffingWorkflowDelegate;
 
 /**
  * Mouse adapter to listen for events which trigger the extraction of the source
  * projects.
  */
-public class ExtractProjectListener extends MouseAdapter {
+public class DiffSourceModelListener extends MouseAdapter {
 
 	/** The internal reference to the splevo project editor to work with. */
 	private SPLevoProjectEditor splevoProjectEditor = null;
@@ -25,7 +25,7 @@ public class ExtractProjectListener extends MouseAdapter {
 	 * @param splevoProject
 	 *            The references to the project.
 	 */
-	public ExtractProjectListener(SPLevoProjectEditor splevoProjectEditor) {
+	public DiffSourceModelListener(SPLevoProjectEditor splevoProjectEditor) {
 		this.splevoProjectEditor = splevoProjectEditor;
 	}
 
@@ -33,7 +33,7 @@ public class ExtractProjectListener extends MouseAdapter {
 	public void mouseUp(MouseEvent e) {
 		
 		// build the job configuration
-		ModelExtractionWorkflowConfiguration config = buildWorflowConfiguration();
+		DiffingWorkflowConfiguration config = buildWorflowConfiguration();
 		
 		
 		// validate configuration
@@ -44,8 +44,8 @@ public class ExtractProjectListener extends MouseAdapter {
 		}
 		
 		// trigger workflow
-		ModelExtractionWorkflowDelegate workflowDelegate = new ModelExtractionWorkflowDelegate(config);
-		IAction action = new Action("Extract"){};
+		DiffingWorkflowDelegate workflowDelegate = new DiffingWorkflowDelegate(config);
+		IAction action = new Action("Diffing"){};
 		workflowDelegate.run(action);
 	}
 
@@ -53,8 +53,8 @@ public class ExtractProjectListener extends MouseAdapter {
 	 * Build the configuration for the workflow.
 	 * @return The prepared configuration.
 	 */
-	private ModelExtractionWorkflowConfiguration buildWorflowConfiguration() {
-		ModelExtractionWorkflowConfiguration config = new ModelExtractionWorkflowConfiguration();
+	private DiffingWorkflowConfiguration buildWorflowConfiguration() {
+		DiffingWorkflowConfiguration config = new DiffingWorkflowConfiguration();
 		config.setSplevoProject(splevoProjectEditor.getSplevoProject());
 		config.setSplevoProjectEditor(splevoProjectEditor);
 		return config;

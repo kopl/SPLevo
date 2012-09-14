@@ -182,6 +182,33 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSPLevoProject_DiffingModelPath() {
+		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSPLevoProject_VpmModelPath() {
+		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSPLevoProject_DiffingFilterRules() {
+		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ProjectFactory getProjectFactory() {
 		return (ProjectFactory)getEFactoryInstance();
 	}
@@ -215,6 +242,9 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__WORKSPACE);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VARIANT_NAME_LEADING);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION);
+		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_MODEL_PATH);
+		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VPM_MODEL_PATH);
+		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_FILTER_RULES);
 	}
 
 	/**
@@ -257,6 +287,9 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 		initEAttribute(getSPLevoProject_Workspace(), ecorePackage.getEString(), "workspace", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSPLevoProject_VariantNameLeading(), ecorePackage.getEString(), "variantNameLeading", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSPLevoProject_VariantNameIntegration(), ecorePackage.getEString(), "variantNameIntegration", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSPLevoProject_DiffingModelPath(), ecorePackage.getEString(), "diffingModelPath", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSPLevoProject_VpmModelPath(), ecorePackage.getEString(), "vpmModelPath", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSPLevoProject_DiffingFilterRules(), ecorePackage.getEString(), "diffingFilterRules", "", 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -51,7 +51,7 @@ public class ModelExtractionWorkflowDelegate
 		compositeJob.add(parallelExtractionJob);
 		
 		// init the ui update job
-		IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor());
+		IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(),"Source Models extracted");
 		compositeJob.add(updateUiJob);
 
 		// return the prepared workflow
