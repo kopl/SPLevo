@@ -47,10 +47,13 @@ import org.splevo.project.SPLevoProjectUtil;
 import org.splevo.ui.jobs.InitVPMJob;
 import org.splevo.ui.listeners.DiffSourceModelListener;
 import org.splevo.ui.listeners.ExtractProjectListener;
+import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.GotoTabMouseListener;
 import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.MarkDirtyListener;
 import org.splevo.ui.listeners.ProjectDropListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class SPLevoProjectEditor extends EditorPart {
 
@@ -82,7 +85,6 @@ public class SPLevoProjectEditor extends EditorPart {
 	private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance() };
 	private Text inputVariantNameLeading;
 	private Text inputVariantNameIntegration;
-	private Text messageTextBox;
 	private Text sourceModelLeadingInput;
 	private Text sourceModelIntegrationInput;
 	private Text diffingModelInput;
@@ -128,11 +130,6 @@ public class SPLevoProjectEditor extends EditorPart {
 		gd_messageArea.heightHint = 83;
 		gd_messageArea.widthHint = 838;
 		messageArea.setLayoutData(gd_messageArea);
-		
-		messageTextBox = new Text(messageArea, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL | SWT.MULTI);
-		messageTextBox.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		messageTextBox.setEditable(true);
-		messageTextBox.setBounds(0, 0, 835, 83);
 		
 		
 		initDataBindings();
@@ -338,6 +335,12 @@ public class SPLevoProjectEditor extends EditorPart {
 		Composite processControlContainer = new Composite(tabFolder, SWT.NONE);
 		tbtmProcessControl.setControl(processControlContainer);
 		
+		Label lblSplevoDashboard = new Label(processControlContainer, SWT.NONE);
+		lblSplevoDashboard.setAlignment(SWT.CENTER);
+		lblSplevoDashboard.setFont(SWTResourceManager.getFont("Arial", 14, SWT.BOLD));
+		lblSplevoDashboard.setBounds(10, 10, 746, 30);
+		lblSplevoDashboard.setText("SPLevo Dashboard");
+		
 		Label activityStart = new Label(processControlContainer, SWT.NONE);
 		activityStart.setAlignment(SWT.CENTER);
 		activityStart.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bullet_green.png"));
@@ -388,11 +391,19 @@ public class SPLevoProjectEditor extends EditorPart {
 		activityFlow5.setAlignment(SWT.CENTER);
 		activityFlow5.setBounds(497, 105, 30, 30);
 		
-		Label lblSplevoDashboard = new Label(processControlContainer, SWT.NONE);
-		lblSplevoDashboard.setAlignment(SWT.CENTER);
-		lblSplevoDashboard.setFont(SWTResourceManager.getFont("Arial", 14, SWT.BOLD));
-		lblSplevoDashboard.setBounds(10, 10, 481, 30);
-		lblSplevoDashboard.setText("SPLevo Dashboard");
+		Button btnRefineVPM = new Button(processControlContainer, SWT.WRAP);
+		btnRefineVPM.setText("Refine VPM");
+		btnRefineVPM.setBounds(529, 98, 72, 45);
+		
+		Label label = new Label(processControlContainer, SWT.NONE);
+		label.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
+		label.setAlignment(SWT.CENTER);
+		label.setBounds(607, 105, 30, 30);
+		
+		Button btnGenerateFeatureModel = new Button(processControlContainer, SWT.WRAP);
+		btnGenerateFeatureModel.addMouseListener(new GenerateFeatureModelListener(this));
+		btnGenerateFeatureModel.setText("Generate Feature Model");
+		btnGenerateFeatureModel.setBounds(638, 98, 118, 45);
 	}
 
 	@Override

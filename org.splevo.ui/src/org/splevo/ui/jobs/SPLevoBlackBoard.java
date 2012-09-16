@@ -1,6 +1,7 @@
 package org.splevo.ui.jobs;
 
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.featuremodel.FeatureModel;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -23,6 +24,23 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 	
 	/** The variation point model. */
 	VariationPointModel variationPointModel = null;
+	
+	/** The feature model. */
+	FeatureModel featureModel = null;
+
+	/**
+	 * @return the featureModel
+	 */
+	public FeatureModel getFeatureModel() {
+		return featureModel;
+	}
+
+	/**
+	 * @param featureModel the featureModel to set
+	 */
+	public void setFeatureModel(FeatureModel featureModel) {
+		this.featureModel = featureModel;
+	}
 
 	/**
 	 * @return the sourceModelLeading

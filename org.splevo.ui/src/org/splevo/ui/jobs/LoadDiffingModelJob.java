@@ -11,8 +11,6 @@ import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.project.SPLevoProject;
-import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
-import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
@@ -22,22 +20,23 @@ import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 /**
  * Job to extract a software model from an eclipse java project 
  */
-public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
+public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
 	/** The splevo project to store the required data to. */
 	private SPLevoProject splevoProject;
+	
 	/**
-	 * LongRunningOperation constructor
+	 * Constructor to set a reference to the splevoproject.
 	 * 
-	 * @param indeterminate
-	 *            whether the animation is unknown
+	 * @param splevoProject
+	 *            The reference to the splevoproject.
 	 */
-	public InitVPMJob(SPLevoProject splevoProject) {
+	public LoadDiffingModelJob(SPLevoProject splevoProject) {
 		this.splevoProject = splevoProject;
 	}
 
 	/**
-	 * Runs the long running operation
+	 * Execute the job.
 	 * 
 	 * @param monitor
 	 *            the progress monitor
@@ -59,20 +58,9 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 			throw new JobFailedException("Failed to load diff model.",e);
 		}
 
-		logger.info("Build initival vpm model");
-		Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
-		VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
-		
-		// check if the process was canceled
-		if (monitor.isCanceled()) {
-			monitor.done();
-			logger.info("Workflow cancled.");
-			return;
-		}
-
-		logger.info("Store VPM model in blackboard");
-		getBlackboard().setVariationPointModel(vpm);
-		
+		logger.info("Put diff model on the blackboard");
+		getBlackboard().setDiffModel(diffModel);
+				
 		// finish run
 		monitor.done();
 	}
@@ -88,6 +76,6 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 	 */
 	@Override
 	public String getName() {
-		return "Init VPM model Job";
+		return "Load diffing model Job";
 	}
 }

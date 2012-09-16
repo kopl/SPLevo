@@ -18,7 +18,7 @@
       <softwareEntity xsi:type="java:CompilationUnit" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java.xmi#//@compilationUnits.1"/>
     </variationPoints>
   </variationPointGroups>
-  <variationPointGroups groupId="BlockImpl">
+  <variationPointGroups groupId="gcd">
     <variationPoints>
       <variants leading="true" variantId="Statement Right">
         <softwareEntities xsi:type="java:VariableDeclarationStatement" href="file:/D:/Projekte/phd/Development/eclipse-juno/workspace/org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0"/>

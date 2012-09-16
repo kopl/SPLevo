@@ -155,13 +155,13 @@ public interface ProjectPackage extends EPackage {
 	int SP_LEVO_PROJECT__DIFFING_MODEL_PATH = 9;
 
 	/**
-	 * The feature id for the '<em><b>Vpm Model Path</b></em>' attribute list.
+	 * The feature id for the '<em><b>Vpm Model Paths</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SP_LEVO_PROJECT__VPM_MODEL_PATH = 10;
+	int SP_LEVO_PROJECT__VPM_MODEL_PATHS = 10;
 
 	/**
 	 * The feature id for the '<em><b>Diffing Filter Rules</b></em>' attribute.
@@ -303,15 +303,15 @@ public interface ProjectPackage extends EPackage {
 	EAttribute getSPLevoProject_DiffingModelPath();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.splevo.project.SPLevoProject#getVpmModelPath <em>Vpm Model Path</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.splevo.project.SPLevoProject#getVpmModelPaths <em>Vpm Model Paths</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Vpm Model Path</em>'.
-	 * @see org.splevo.project.SPLevoProject#getVpmModelPath()
+	 * @return the meta object for the attribute list '<em>Vpm Model Paths</em>'.
+	 * @see org.splevo.project.SPLevoProject#getVpmModelPaths()
 	 * @see #getSPLevoProject()
 	 * @generated
 	 */
-	EAttribute getSPLevoProject_VpmModelPath();
+	EAttribute getSPLevoProject_VpmModelPaths();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.splevo.project.SPLevoProject#getDiffingFilterRules <em>Diffing Filter Rules</em>}'.
@@ -437,12 +437,12 @@ public interface ProjectPackage extends EPackage {
 		EAttribute SP_LEVO_PROJECT__DIFFING_MODEL_PATH = eINSTANCE.getSPLevoProject_DiffingModelPath();
 
 		/**
-		 * The meta object literal for the '<em><b>Vpm Model Path</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Vpm Model Paths</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__VPM_MODEL_PATH = eINSTANCE.getSPLevoProject_VpmModelPath();
+		EAttribute SP_LEVO_PROJECT__VPM_MODEL_PATHS = eINSTANCE.getSPLevoProject_VpmModelPaths();
 
 		/**
 		 * The meta object literal for the '<em><b>Diffing Filter Rules</b></em>' attribute feature.

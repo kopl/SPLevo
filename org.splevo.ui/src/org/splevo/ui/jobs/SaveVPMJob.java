@@ -1,17 +1,12 @@
 package org.splevo.ui.jobs;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.project.SPLevoProject;
-import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
@@ -22,18 +17,24 @@ import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 /**
  * Job to extract a software model from an eclipse java project 
  */
-public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
+public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
 	/** The splevo project to store the required data to. */
 	private SPLevoProject splevoProject;
+	
+	/** The path to write the model to. */
+	private String targetPath;
+	
 	/**
-	 * LongRunningOperation constructor
+	 * Constructor to set the reference to the splevo project
+	 * and the target path to write the model to. 
 	 * 
-	 * @param indeterminate
-	 *            whether the animation is unknown
+	 * @param splevoProject The project to update.
+	 * @param targetPath The eclipse workspace relative path to write to.
 	 */
-	public InitVPMJob(SPLevoProject splevoProject) {
+	public SaveVPMJob(SPLevoProject splevoProject, String targetPath) {
 		this.splevoProject = splevoProject;
+		this.targetPath = targetPath;
 	}
 
 	/**
@@ -49,29 +50,16 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		String basePath = workspace.getRoot().getRawLocation().toOSString();
 
-		logger.info("Load diff models");
-		Java2KDMDiffPackage.eINSTANCE.eClass();
-		File diffModelFile = new File(basePath+splevoProject.getDiffingModelPath());
-		DiffModel diffModel;
+		VariationPointModel vpm = getBlackboard().getVariationPointModel();
+
+		logger.info("Save VPM Model");
 		try {
-			diffModel = (DiffModel) ModelUtils.load(diffModelFile, new ResourceSetImpl());
+			String modelPath = basePath + targetPath;			
+			ModelUtils.save(vpm, modelPath);
+			splevoProject.getVpmModelPaths().add(targetPath);
 		} catch (IOException e) {
-			throw new JobFailedException("Failed to load diff model.",e);
+			throw new JobFailedException("Failed to save vpm model.",e);
 		}
-
-		logger.info("Build initival vpm model");
-		Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
-		VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
-		
-		// check if the process was canceled
-		if (monitor.isCanceled()) {
-			monitor.done();
-			logger.info("Workflow cancled.");
-			return;
-		}
-
-		logger.info("Store VPM model in blackboard");
-		getBlackboard().setVariationPointModel(vpm);
 		
 		// finish run
 		monitor.done();

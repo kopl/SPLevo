@@ -191,7 +191,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSPLevoProject_VpmModelPath() {
+	public EAttribute getSPLevoProject_VpmModelPaths() {
 		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(10);
 	}
 
@@ -243,7 +243,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VARIANT_NAME_LEADING);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_MODEL_PATH);
-		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VPM_MODEL_PATH);
+		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VPM_MODEL_PATHS);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_FILTER_RULES);
 	}
 
@@ -288,7 +288,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 		initEAttribute(getSPLevoProject_VariantNameLeading(), ecorePackage.getEString(), "variantNameLeading", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSPLevoProject_VariantNameIntegration(), ecorePackage.getEString(), "variantNameIntegration", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSPLevoProject_DiffingModelPath(), ecorePackage.getEString(), "diffingModelPath", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_VpmModelPath(), ecorePackage.getEString(), "vpmModelPath", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSPLevoProject_VpmModelPaths(), ecorePackage.getEString(), "vpmModelPaths", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSPLevoProject_DiffingFilterRules(), ecorePackage.getEString(), "diffingFilterRules", "", 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource

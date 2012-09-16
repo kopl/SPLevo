@@ -44,7 +44,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_j1veIf3GEeGA7MerUKfPKg"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_vdm5IP3GEeGA7MerUKfPKg" type="2001">
-        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/vpmModelPath"/>
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/vpmModelPaths"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_vdm5If3GEeGA7MerUKfPKg"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_bI3woP3yEeGA7MerUKfPKg" type="2001">

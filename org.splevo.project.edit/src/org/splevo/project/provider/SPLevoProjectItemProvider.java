@@ -70,7 +70,7 @@ public class SPLevoProjectItemProvider
 			addVariantNameLeadingPropertyDescriptor(object);
 			addVariantNameIntegrationPropertyDescriptor(object);
 			addDiffingModelPathPropertyDescriptor(object);
-			addVpmModelPathPropertyDescriptor(object);
+			addVpmModelPathsPropertyDescriptor(object);
 			addDiffingFilterRulesPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -297,19 +297,19 @@ public class SPLevoProjectItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Vpm Model Path feature.
+	 * This adds a property descriptor for the Vpm Model Paths feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addVpmModelPathPropertyDescriptor(Object object) {
+	protected void addVpmModelPathsPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_SPLevoProject_vpmModelPath_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SPLevoProject_vpmModelPath_feature", "_UI_SPLevoProject_type"),
-				 ProjectPackage.Literals.SP_LEVO_PROJECT__VPM_MODEL_PATH,
+				 getString("_UI_SPLevoProject_vpmModelPaths_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SPLevoProject_vpmModelPaths_feature", "_UI_SPLevoProject_type"),
+				 ProjectPackage.Literals.SP_LEVO_PROJECT__VPM_MODEL_PATHS,
 				 true,
 				 false,
 				 false,
@@ -387,7 +387,7 @@ public class SPLevoProjectItemProvider
 			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
 			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
-			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATH:
+			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

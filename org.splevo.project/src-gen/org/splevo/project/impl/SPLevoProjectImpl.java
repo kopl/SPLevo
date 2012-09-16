@@ -35,7 +35,7 @@ import org.splevo.project.SPLevoProject;
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getVariantNameLeading <em>Variant Name Leading</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getVariantNameIntegration <em>Variant Name Integration</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDiffingModelPath <em>Diffing Model Path</em>}</li>
- *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getVpmModelPath <em>Vpm Model Path</em>}</li>
+ *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getVpmModelPaths <em>Vpm Model Paths</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDiffingFilterRules <em>Diffing Filter Rules</em>}</li>
  * </ul>
  * </p>
@@ -224,14 +224,14 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	protected String diffingModelPath = DIFFING_MODEL_PATH_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getVpmModelPath() <em>Vpm Model Path</em>}' attribute list.
+	 * The cached value of the '{@link #getVpmModelPaths() <em>Vpm Model Paths</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getVpmModelPath()
+	 * @see #getVpmModelPaths()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<String> vpmModelPath;
+	protected EList<String> vpmModelPaths;
 
 	/**
 	 * The default value of the '{@link #getDiffingFilterRules() <em>Diffing Filter Rules</em>}' attribute.
@@ -469,11 +469,11 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<String> getVpmModelPath() {
-		if (vpmModelPath == null) {
-			vpmModelPath = new EDataTypeUniqueEList<String>(String.class, this, ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATH);
+	public EList<String> getVpmModelPaths() {
+		if (vpmModelPaths == null) {
+			vpmModelPaths = new EDataTypeUniqueEList<String>(String.class, this, ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS);
 		}
-		return vpmModelPath;
+		return vpmModelPaths;
 	}
 
 	/**
@@ -525,8 +525,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 				return getVariantNameIntegration();
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
 				return getDiffingModelPath();
-			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATH:
-				return getVpmModelPath();
+			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
+				return getVpmModelPaths();
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
 				return getDiffingFilterRules();
 		}
@@ -574,9 +574,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
 				setDiffingModelPath((String)newValue);
 				return;
-			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATH:
-				getVpmModelPath().clear();
-				getVpmModelPath().addAll((Collection<? extends String>)newValue);
+			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
+				getVpmModelPaths().clear();
+				getVpmModelPaths().addAll((Collection<? extends String>)newValue);
 				return;
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
 				setDiffingFilterRules((String)newValue);
@@ -623,8 +623,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
 				setDiffingModelPath(DIFFING_MODEL_PATH_EDEFAULT);
 				return;
-			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATH:
-				getVpmModelPath().clear();
+			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
+				getVpmModelPaths().clear();
 				return;
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
 				setDiffingFilterRules(DIFFING_FILTER_RULES_EDEFAULT);
@@ -661,8 +661,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 				return VARIANT_NAME_INTEGRATION_EDEFAULT == null ? variantNameIntegration != null : !VARIANT_NAME_INTEGRATION_EDEFAULT.equals(variantNameIntegration);
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
 				return DIFFING_MODEL_PATH_EDEFAULT == null ? diffingModelPath != null : !DIFFING_MODEL_PATH_EDEFAULT.equals(diffingModelPath);
-			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATH:
-				return vpmModelPath != null && !vpmModelPath.isEmpty();
+			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
+				return vpmModelPaths != null && !vpmModelPaths.isEmpty();
 			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
 				return DIFFING_FILTER_RULES_EDEFAULT == null ? diffingFilterRules != null : !DIFFING_FILTER_RULES_EDEFAULT.equals(diffingFilterRules);
 		}
@@ -699,8 +699,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		result.append(variantNameIntegration);
 		result.append(", diffingModelPath: ");
 		result.append(diffingModelPath);
-		result.append(", vpmModelPath: ");
-		result.append(vpmModelPath);
+		result.append(", vpmModelPaths: ");
+		result.append(vpmModelPaths);
 		result.append(", diffingFilterRules: ");
 		result.append(diffingFilterRules);
 		result.append(')');

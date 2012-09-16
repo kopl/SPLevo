@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.splevo.project.SPLevoProject#getVariantNameLeading <em>Variant Name Leading</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getVariantNameIntegration <em>Variant Name Integration</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDiffingModelPath <em>Diffing Model Path</em>}</li>
- *   <li>{@link org.splevo.project.SPLevoProject#getVpmModelPath <em>Vpm Model Path</em>}</li>
+ *   <li>{@link org.splevo.project.SPLevoProject#getVpmModelPaths <em>Vpm Model Paths</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDiffingFilterRules <em>Diffing Filter Rules</em>}</li>
  * </ul>
  * </p>
@@ -268,19 +268,19 @@ public interface SPLevoProject extends EObject {
 	void setDiffingModelPath(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Vpm Model Path</b></em>' attribute list.
+	 * Returns the value of the '<em><b>Vpm Model Paths</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The list of paths to the variation point models. All intermediary models are kept and referenced by this list. The last entry in this list represents the most recent model.
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Vpm Model Path</em>' attribute list.
-	 * @see org.splevo.project.ProjectPackage#getSPLevoProject_VpmModelPath()
+	 * @return the value of the '<em>Vpm Model Paths</em>' attribute list.
+	 * @see org.splevo.project.ProjectPackage#getSPLevoProject_VpmModelPaths()
 	 * @model
 	 * @generated
 	 */
-	EList<String> getVpmModelPath();
+	EList<String> getVpmModelPaths();
 
 	/**
 	 * Returns the value of the '<em><b>Diffing Filter Rules</b></em>' attribute.

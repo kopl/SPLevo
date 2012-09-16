@@ -3,10 +3,10 @@ package org.splevo.ui.workflow;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
-import org.splevo.ui.jobs.InitVPMJob;
-import org.splevo.ui.jobs.LoadDiffingModelJob;
+import org.splevo.ui.jobs.GenerateFeatureModelJob;
+import org.splevo.ui.jobs.LoadVPMJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
-import org.splevo.ui.jobs.SaveVPMJob;
+import org.splevo.ui.jobs.SaveFeatureModelJob;
 import org.splevo.ui.jobs.UpdateUIJob;
 
 import de.uka.ipd.sdq.workflow.Blackboard;
@@ -19,7 +19,7 @@ import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
  * Delegate defining a workflow for the initial diffing of the software models.
  * This includes an update of the user interface to set the paths to the diffing models.
  */
-public class InitVPMWorkflowDelegate
+public class GenerateFeatureModelWorkflowDelegate
 		extends
 		AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
@@ -32,7 +32,7 @@ public class InitVPMWorkflowDelegate
 	 * @param config
 	 *            The configuration of the workflow.
 	 */
-	public InitVPMWorkflowDelegate(BasicSPLevoWorkflowConfiguration config) {
+	public GenerateFeatureModelWorkflowDelegate(BasicSPLevoWorkflowConfiguration config) {
 		this.config = config;
 	}
 
@@ -49,21 +49,21 @@ public class InitVPMWorkflowDelegate
 		SPLevoProject splevoProject = config.getSplevoProject();
 		
 		// load the diff model
-		LoadDiffingModelJob loadDiffJob = new LoadDiffingModelJob(splevoProject);
-		compositeJob.add(loadDiffJob);
+		LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
+		compositeJob.add(loadVPMJob);
 		
 		// init the vpm
-		InitVPMJob initVPMJob = new InitVPMJob(splevoProject);
-		compositeJob.add(initVPMJob);
+		GenerateFeatureModelJob generateFMJob = new GenerateFeatureModelJob();
+		compositeJob.add(generateFMJob);
 		
 		// save the model
 		String targetPath = splevoProject.getWorkspace()
-							+ "models/vpms/initial-vpm.vpm";
-		SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
-		compositeJob.add(saveVPMJob);
+							+ "models/fm/feature-model.featuremodel";
+		SaveFeatureModelJob saveFMJob = new SaveFeatureModelJob(targetPath);
+		compositeJob.add(saveFMJob);
 		
 		// init the ui update job
-		IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(),"Initial VPM created");
+		IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(),"Feature model generated");
 		compositeJob.add(updateUiJob);
 
 		// return the prepared workflow

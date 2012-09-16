@@ -1,25 +1,20 @@
 package org.splevo.ui.listeners;
 
-import java.io.File;
-
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
-import org.splevo.project.SPLevoProject;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.workflow.BasicSPLevoWorkflowConfiguration;
-import org.splevo.ui.workflow.InitVPMWorkflowDelegate;
+import org.splevo.ui.workflow.GenerateFeatureModelWorkflowDelegate;
 
 /**
  * Mouse adapter to listen for events which trigger the extraction of the source
  * projects.
  */
-public class InitVPMListener extends MouseAdapter {
+public class GenerateFeatureModelListener extends MouseAdapter {
 
 	/** The internal reference to the splevo project editor to work with. */
 	private SPLevoProjectEditor splevoProjectEditor = null;
@@ -30,7 +25,7 @@ public class InitVPMListener extends MouseAdapter {
 	 * @param splevoProject
 	 *            The references to the project.
 	 */
-	public InitVPMListener(SPLevoProjectEditor splevoProjectEditor) {
+	public GenerateFeatureModelListener(SPLevoProjectEditor splevoProjectEditor) {
 		this.splevoProjectEditor = splevoProjectEditor;
 	}
 
@@ -50,38 +45,18 @@ public class InitVPMListener extends MouseAdapter {
 		
 		// if there are existing vpms inform 
 		// the user that they will be deleted
-		if(config.getSplevoProject().getVpmModelPaths().size() > 0){
-			boolean proceed = MessageDialog.openConfirm(	shell, 
-									"Override existing VPMs", 
-									"There are existing VPMs. " +
-									"Initializing a new one will override those existing ones." +
-									"Do you want to proceed?");
-			if(!proceed){
-				return;
-			} else {
-				deleteVPMs(config.getSplevoProject());
-			}
+		if(config.getSplevoProject().getVpmModelPaths().size() == 0){
+			MessageDialog.openError(shell, 
+									"Variation Point Model Missing", 
+									"There is no variation point model available " +
+									"to generate a feature model from.");
+			return;
 		}
 		
 		// trigger workflow
-		InitVPMWorkflowDelegate workflowDelegate = new InitVPMWorkflowDelegate(config);
-		IAction action = new Action("Init VPM"){};
+		GenerateFeatureModelWorkflowDelegate workflowDelegate = new GenerateFeatureModelWorkflowDelegate(config);
+		IAction action = new Action("Generate feature model"){};
 		workflowDelegate.run(action);
-	}
-
-	/**
-	 * Delete the vpms registered in the splevo project.
-	 * @param splevoProject The project to get the vpms from.
-	 */
-	private void deleteVPMs(SPLevoProject splevoProject) {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		String basePath = workspace.getRoot().getRawLocation().toOSString();
-		for (String vpmPath : splevoProject.getVpmModelPaths()) {
-			String modelPath = basePath + vpmPath;
-			new File(modelPath).delete();
-		}
-		splevoProject.getVpmModelPaths().clear();
-		
 	}
 
 	/**
