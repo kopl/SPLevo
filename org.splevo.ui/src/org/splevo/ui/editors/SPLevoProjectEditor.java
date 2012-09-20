@@ -44,7 +44,6 @@ import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
-import org.splevo.ui.jobs.InitVPMJob;
 import org.splevo.ui.listeners.DiffSourceModelListener;
 import org.splevo.ui.listeners.ExtractProjectListener;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
@@ -52,8 +51,7 @@ import org.splevo.ui.listeners.GotoTabMouseListener;
 import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.MarkDirtyListener;
 import org.splevo.ui.listeners.ProjectDropListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.splevo.ui.listeners.VPMAnalysisListener;
 
 public class SPLevoProjectEditor extends EditorPart {
 
@@ -111,7 +109,7 @@ public class SPLevoProjectEditor extends EditorPart {
 		// init the data tables
 		tabFolder = new TabFolder(parent, SWT.NONE);
 		tabFolder.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridData gd_tabFolder = new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1);
+		GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_tabFolder.widthHint = 837;
 		gd_tabFolder.heightHint = 353;
 		tabFolder.setLayoutData(gd_tabFolder);
@@ -392,7 +390,8 @@ public class SPLevoProjectEditor extends EditorPart {
 		activityFlow5.setBounds(497, 105, 30, 30);
 		
 		Button btnRefineVPM = new Button(processControlContainer, SWT.WRAP);
-		btnRefineVPM.setText("Refine VPM");
+		btnRefineVPM.addMouseListener(new VPMAnalysisListener(this));
+		btnRefineVPM.setText("Analyze VPM");
 		btnRefineVPM.setBounds(529, 98, 72, 45);
 		
 		Label label = new Label(processControlContainer, SWT.NONE);

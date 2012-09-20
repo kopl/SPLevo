@@ -1,8 +1,13 @@
 package org.splevo.ui.jobs;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.featuremodel.FeatureModel;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+import org.splevo.ui.workflow.VPMAnalysisConfiguration;
+import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.Blackboard;
@@ -12,6 +17,13 @@ import de.uka.ipd.sdq.workflow.Blackboard;
  *
  */
 public class SPLevoBlackBoard extends Blackboard<Object> {
+
+	/**
+	 * @return the refinements
+	 */
+	public HashMap<VPMAnalysisConfiguration, List<Refinement>> getRefinements() {
+		return refinements;
+	}
 
 	/** The leading source model. */
 	JavaApplication sourceModelLeading = null;
@@ -27,6 +39,9 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 	
 	/** The feature model. */
 	FeatureModel featureModel = null;
+	
+	/** The map of analyzer - refinements pairs. */
+	HashMap<VPMAnalysisConfiguration, List<Refinement>> refinements = new HashMap<VPMAnalysisConfiguration, List<Refinement>>();
 
 	/**
 	 * @return the featureModel
