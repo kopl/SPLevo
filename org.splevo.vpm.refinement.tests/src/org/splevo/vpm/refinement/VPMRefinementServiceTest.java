@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.splevo.diffing.Java2KDMDiffingService;
 import org.splevo.diffing.kdm.KDMUtil;
 import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
+import org.splevo.vpm.refinement.simplelocation.VPLocationAnalyzer;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -31,6 +32,12 @@ public class VPMRefinementServiceTest extends AbstractTest {
 	/** Source path to the jscience based calculator implementation */
 	private static final File JSCIENCE_JAVA2KDMMODEL_FILE = new File("../org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java2kdm.xmi");
 
+	/**
+	 * Test of a basic refinement analysis and application.
+	 * This test makes use of the basic location based variation point analysis.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void testRefinements() throws IOException, InterruptedException {
 
@@ -38,7 +45,8 @@ public class VPMRefinementServiceTest extends AbstractTest {
 		logger.debug("Number of initial variation point groups: "+initialVpm.getVariationPointGroups().size());
 		
 		VPMRefinementService refinementService = new VPMRefinementService();
-		List<Refinement> refinements = refinementService.identifyRefinements(initialVpm);
+		VPLocationAnalyzer analyzer = new VPLocationAnalyzer();
+		List<Refinement> refinements = refinementService.identifyRefinements(initialVpm,analyzer);
 		assertEquals("wrong number of refinements identified",1,refinements.size());
 		
 		VariationPointModel refinedVPM = refinementService.applyRefinements(refinements, initialVpm);
