@@ -43,8 +43,8 @@ public class ModelExtractionWorkflowDelegate
 		OrderPreservingCompositeJob compositeJob = new OrderPreservingCompositeJob();
 
 		// init the parallel extraction
-		ExtractionJob leadingExtractionJob = new ExtractionJob(config.getSplevoProject(), true);
-		ExtractionJob integrationExtractionJob = new ExtractionJob(config.getSplevoProject(), false);
+		ExtractionJob leadingExtractionJob = new ExtractionJob(config.getSplevoProjectEditor().getSplevoProject(), true);
+		ExtractionJob integrationExtractionJob = new ExtractionJob(config.getSplevoProjectEditor().getSplevoProject(), false);
 		ParallelCompositeJob parallelExtractionJob = new ParallelCompositeJob();
 		parallelExtractionJob.add(leadingExtractionJob);
 		parallelExtractionJob.add(integrationExtractionJob);

@@ -41,7 +41,7 @@ public class DiffingWorkflowDelegate
 		OrderPreservingCompositeJob compositeJob = new OrderPreservingCompositeJob();
 
 		// init the parallel extraction
-		DiffingJob diffingJob = new DiffingJob(config.getSplevoProject());
+		DiffingJob diffingJob = new DiffingJob(config.getSplevoProjectEditor().getSplevoProject());
 		compositeJob.add(diffingJob);
 		
 		// init the ui update job

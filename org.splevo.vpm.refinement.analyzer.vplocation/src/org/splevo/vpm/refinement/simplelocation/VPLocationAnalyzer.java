@@ -63,6 +63,8 @@ public class VPLocationAnalyzer implements VPMRefinementAnalyzer {
 					refinement.getVariationPoints().add(variationPoint);
 				}
 				refinements.add(refinement);
+			} else {
+				logger.info("No group candidates found.");
 			}
 		}
 		

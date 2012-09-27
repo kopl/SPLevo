@@ -55,7 +55,6 @@ public class DiffSourceModelListener extends MouseAdapter {
 	 */
 	private DiffingWorkflowConfiguration buildWorflowConfiguration() {
 		DiffingWorkflowConfiguration config = new DiffingWorkflowConfiguration();
-		config.setSplevoProject(splevoProjectEditor.getSplevoProject());
 		config.setSplevoProjectEditor(splevoProjectEditor);
 		return config;
 	}

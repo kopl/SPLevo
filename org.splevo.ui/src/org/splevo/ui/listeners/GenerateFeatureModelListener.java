@@ -45,7 +45,7 @@ public class GenerateFeatureModelListener extends MouseAdapter {
 		
 		// if there are existing vpms inform 
 		// the user that they will be deleted
-		if(config.getSplevoProject().getVpmModelPaths().size() == 0){
+		if(config.getSplevoProjectEditor().getSplevoProject().getVpmModelPaths().size() == 0){
 			MessageDialog.openError(shell, 
 									"Variation Point Model Missing", 
 									"There is no variation point model available " +
@@ -65,7 +65,6 @@ public class GenerateFeatureModelListener extends MouseAdapter {
 	 */
 	private BasicSPLevoWorkflowConfiguration buildWorflowConfiguration() {
 		BasicSPLevoWorkflowConfiguration config = new BasicSPLevoWorkflowConfiguration();
-		config.setSplevoProject(splevoProjectEditor.getSplevoProject());
 		config.setSplevoProjectEditor(splevoProjectEditor);
 		return config;
 	}

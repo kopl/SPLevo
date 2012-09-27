@@ -144,6 +144,15 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getRefinement_VariationPoints() {
+		return (EReference)refinementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMerge() {
 		return mergeEClass;
 	}
@@ -153,26 +162,8 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMerge_VariationPoints() {
-		return (EReference)mergeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getGrouping() {
 		return groupingEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getGrouping_VariationPoints() {
-		return (EReference)groupingEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -214,12 +205,11 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 		// Create classes and their features
 		refinementEClass = createEClass(REFINEMENT);
 		createEAttribute(refinementEClass, REFINEMENT__TYPE);
+		createEReference(refinementEClass, REFINEMENT__VARIATION_POINTS);
 
 		mergeEClass = createEClass(MERGE);
-		createEReference(mergeEClass, MERGE__VARIATION_POINTS);
 
 		groupingEClass = createEClass(GROUPING);
-		createEReference(groupingEClass, GROUPING__VARIATION_POINTS);
 
 		// Create enums
 		refinementTypeEEnum = createEEnum(REFINEMENT_TYPE);
@@ -262,12 +252,11 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 		// Initialize classes and features; add operations and parameters
 		initEClass(refinementEClass, Refinement.class, "Refinement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRefinement_Type(), this.getRefinementType(), "type", "MANDATORY", 1, 1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRefinement_VariationPoints(), thevariabilityPackage.getVariationPoint(), null, "variationPoints", null, 0, -1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mergeEClass, Merge.class, "Merge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMerge_VariationPoints(), thevariabilityPackage.getVariationPoint(), null, "variationPoints", null, 0, -1, Merge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(groupingEClass, Grouping.class, "Grouping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getGrouping_VariationPoints(), thevariabilityPackage.getVariationPoint(), null, "variationPoints", null, 0, -1, Grouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(refinementTypeEEnum, RefinementType.class, "RefinementType");

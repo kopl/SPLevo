@@ -2,7 +2,9 @@
  */
 package org.splevo.vpm.refinement;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getType <em>Type</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getVariationPoints <em>Variation Points</em>}</li>
  * </ul>
  * </p>
  *
@@ -53,5 +56,20 @@ public interface Refinement extends EObject {
 	 * @generated
 	 */
 	void setType(RefinementType value);
+
+	/**
+	 * Returns the value of the '<em><b>Variation Points</b></em>' reference list.
+	 * The list contents are of type {@link org.splevo.vpm.variability.VariationPoint}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The variation points to be merged.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Variation Points</em>' reference list.
+	 * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement_VariationPoints()
+	 * @model
+	 * @generated
+	 */
+	EList<VariationPoint> getVariationPoints();
 
 } // Refinement

@@ -1,5 +1,6 @@
 package org.splevo.ui.jobs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,13 +19,6 @@ import de.uka.ipd.sdq.workflow.Blackboard;
  */
 public class SPLevoBlackBoard extends Blackboard<Object> {
 
-	/**
-	 * @return the refinements
-	 */
-	public HashMap<VPMAnalysisConfiguration, List<Refinement>> getRefinements() {
-		return refinements;
-	}
-
 	/** The leading source model. */
 	JavaApplication sourceModelLeading = null;
 
@@ -41,8 +35,11 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 	FeatureModel featureModel = null;
 	
 	/** The map of analyzer - refinements pairs. */
-	HashMap<VPMAnalysisConfiguration, List<Refinement>> refinements = new HashMap<VPMAnalysisConfiguration, List<Refinement>>();
+	HashMap<VPMAnalysisConfiguration, List<Refinement>> analysisResults = new HashMap<VPMAnalysisConfiguration, List<Refinement>>();
 
+	/** The refinements to apply to the vpm model. */
+	List<Refinement> refinementsToApply = new ArrayList<Refinement>();
+	
 	/**
 	 * @return the featureModel
 	 */
@@ -111,6 +108,20 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 	 */
 	public void setVariationPointModel(VariationPointModel variationPointModel) {
 		this.variationPointModel = variationPointModel;
+	}
+
+	/**
+	 * @return the analysis results
+	 */
+	public HashMap<VPMAnalysisConfiguration, List<Refinement>> getAnalysisResults() {
+		return analysisResults;
+	}
+
+	/**
+	 * @return the refinementsToApply
+	 */
+	public List<Refinement> getRefinementsToApply() {
+		return refinementsToApply;
 	}
 	
 }

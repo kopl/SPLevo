@@ -2,16 +2,20 @@
  */
 package org.splevo.vpm.refinement.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementType;
+import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,6 +25,7 @@ import org.splevo.vpm.refinement.RefinementType;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getVariationPoints <em>Variation Points</em>}</li>
  * </ul>
  * </p>
  *
@@ -46,6 +51,16 @@ public abstract class RefinementImpl extends EObjectImpl implements Refinement {
 	 * @ordered
 	 */
 	protected RefinementType type = TYPE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getVariationPoints() <em>Variation Points</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVariationPoints()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<VariationPoint> variationPoints;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -92,11 +107,25 @@ public abstract class RefinementImpl extends EObjectImpl implements Refinement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<VariationPoint> getVariationPoints() {
+		if (variationPoints == null) {
+			variationPoints = new EObjectResolvingEList<VariationPoint>(VariationPoint.class, this, RefinementPackage.REFINEMENT__VARIATION_POINTS);
+		}
+		return variationPoints;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case RefinementPackage.REFINEMENT__TYPE:
 				return getType();
+			case RefinementPackage.REFINEMENT__VARIATION_POINTS:
+				return getVariationPoints();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -106,11 +135,16 @@ public abstract class RefinementImpl extends EObjectImpl implements Refinement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case RefinementPackage.REFINEMENT__TYPE:
 				setType((RefinementType)newValue);
+				return;
+			case RefinementPackage.REFINEMENT__VARIATION_POINTS:
+				getVariationPoints().clear();
+				getVariationPoints().addAll((Collection<? extends VariationPoint>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -127,6 +161,9 @@ public abstract class RefinementImpl extends EObjectImpl implements Refinement {
 			case RefinementPackage.REFINEMENT__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
+			case RefinementPackage.REFINEMENT__VARIATION_POINTS:
+				getVariationPoints().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -141,6 +178,8 @@ public abstract class RefinementImpl extends EObjectImpl implements Refinement {
 		switch (featureID) {
 			case RefinementPackage.REFINEMENT__TYPE:
 				return type != TYPE_EDEFAULT;
+			case RefinementPackage.REFINEMENT__VARIATION_POINTS:
+				return variationPoints != null && !variationPoints.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

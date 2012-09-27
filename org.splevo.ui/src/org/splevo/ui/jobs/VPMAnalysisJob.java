@@ -49,7 +49,7 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
 		List<Refinement> refinements = service.identifyRefinements(vpm,analysisConfig.getAnalyzer());
 		
 		logger.info("Store the identified refinements in the blackboard");
-		getBlackboard().getRefinements().put(analysisConfig, refinements);
+		getBlackboard().getAnalysisResults().put(analysisConfig, refinements);
 		
 		// finish run
 		monitor.done();

@@ -76,13 +76,22 @@ public interface RefinementPackage extends EPackage {
 	int REFINEMENT__TYPE = 0;
 
 	/**
+	 * The feature id for the '<em><b>Variation Points</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFINEMENT__VARIATION_POINTS = 1;
+
+	/**
 	 * The number of structural features of the '<em>Refinement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFINEMENT_FEATURE_COUNT = 1;
+	int REFINEMENT_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.vpm.refinement.impl.MergeImpl <em>Merge</em>}' class.
@@ -110,7 +119,7 @@ public interface RefinementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MERGE__VARIATION_POINTS = REFINEMENT_FEATURE_COUNT + 0;
+	int MERGE__VARIATION_POINTS = REFINEMENT__VARIATION_POINTS;
 
 	/**
 	 * The number of structural features of the '<em>Merge</em>' class.
@@ -119,7 +128,7 @@ public interface RefinementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MERGE_FEATURE_COUNT = REFINEMENT_FEATURE_COUNT + 1;
+	int MERGE_FEATURE_COUNT = REFINEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.vpm.refinement.impl.GroupingImpl <em>Grouping</em>}' class.
@@ -147,7 +156,7 @@ public interface RefinementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GROUPING__VARIATION_POINTS = REFINEMENT_FEATURE_COUNT + 0;
+	int GROUPING__VARIATION_POINTS = REFINEMENT__VARIATION_POINTS;
 
 	/**
 	 * The number of structural features of the '<em>Grouping</em>' class.
@@ -156,7 +165,7 @@ public interface RefinementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GROUPING_FEATURE_COUNT = REFINEMENT_FEATURE_COUNT + 1;
+	int GROUPING_FEATURE_COUNT = REFINEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}' enum.
@@ -191,6 +200,17 @@ public interface RefinementPackage extends EPackage {
 	EAttribute getRefinement_Type();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.splevo.vpm.refinement.Refinement#getVariationPoints <em>Variation Points</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Variation Points</em>'.
+	 * @see org.splevo.vpm.refinement.Refinement#getVariationPoints()
+	 * @see #getRefinement()
+	 * @generated
+	 */
+	EReference getRefinement_VariationPoints();
+
+	/**
 	 * Returns the meta object for class '{@link org.splevo.vpm.refinement.Merge <em>Merge</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -201,17 +221,6 @@ public interface RefinementPackage extends EPackage {
 	EClass getMerge();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.splevo.vpm.refinement.Merge#getVariationPoints <em>Variation Points</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Variation Points</em>'.
-	 * @see org.splevo.vpm.refinement.Merge#getVariationPoints()
-	 * @see #getMerge()
-	 * @generated
-	 */
-	EReference getMerge_VariationPoints();
-
-	/**
 	 * Returns the meta object for class '{@link org.splevo.vpm.refinement.Grouping <em>Grouping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -220,17 +229,6 @@ public interface RefinementPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getGrouping();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.splevo.vpm.refinement.Grouping#getVariationPoints <em>Variation Points</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Variation Points</em>'.
-	 * @see org.splevo.vpm.refinement.Grouping#getVariationPoints()
-	 * @see #getGrouping()
-	 * @generated
-	 */
-	EReference getGrouping_VariationPoints();
 
 	/**
 	 * Returns the meta object for enum '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}'.
@@ -283,6 +281,14 @@ public interface RefinementPackage extends EPackage {
 		EAttribute REFINEMENT__TYPE = eINSTANCE.getRefinement_Type();
 
 		/**
+		 * The meta object literal for the '<em><b>Variation Points</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REFINEMENT__VARIATION_POINTS = eINSTANCE.getRefinement_VariationPoints();
+
+		/**
 		 * The meta object literal for the '{@link org.splevo.vpm.refinement.impl.MergeImpl <em>Merge</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -293,14 +299,6 @@ public interface RefinementPackage extends EPackage {
 		EClass MERGE = eINSTANCE.getMerge();
 
 		/**
-		 * The meta object literal for the '<em><b>Variation Points</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MERGE__VARIATION_POINTS = eINSTANCE.getMerge_VariationPoints();
-
-		/**
 		 * The meta object literal for the '{@link org.splevo.vpm.refinement.impl.GroupingImpl <em>Grouping</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -309,14 +307,6 @@ public interface RefinementPackage extends EPackage {
 		 * @generated
 		 */
 		EClass GROUPING = eINSTANCE.getGrouping();
-
-		/**
-		 * The meta object literal for the '<em><b>Variation Points</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference GROUPING__VARIATION_POINTS = eINSTANCE.getGrouping_VariationPoints();
 
 		/**
 		 * The meta object literal for the '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}' enum.

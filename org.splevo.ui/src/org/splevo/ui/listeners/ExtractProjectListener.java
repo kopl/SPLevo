@@ -55,7 +55,6 @@ public class ExtractProjectListener extends MouseAdapter {
 	 */
 	private BasicSPLevoWorkflowConfiguration buildWorflowConfiguration() {
 		BasicSPLevoWorkflowConfiguration config = new BasicSPLevoWorkflowConfiguration();
-		config.setSplevoProject(splevoProjectEditor.getSplevoProject());
 		config.setSplevoProjectEditor(splevoProjectEditor);
 		return config;
 	}

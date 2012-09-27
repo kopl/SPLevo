@@ -46,7 +46,7 @@ public class GenerateFeatureModelWorkflowDelegate
 				new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
 		compositeJob.setBlackboard(new SPLevoBlackBoard());
 
-		SPLevoProject splevoProject = config.getSplevoProject();
+		SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
 		
 		// load the diff model
 		LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);

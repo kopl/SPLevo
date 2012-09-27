@@ -1,14 +1,10 @@
 package org.splevo.ui.workflow;
 
-import org.splevo.project.SPLevoProject;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 
 import de.uka.ipd.sdq.workflow.AbstractJobConfiguration;
 
 public class BasicSPLevoWorkflowConfiguration extends AbstractJobConfiguration {
-
-	/** The splevo project to process. */
-	private SPLevoProject splevoProject = null;
 	
 	/** The internal reference to the splevo project editor to work with. */
 	private SPLevoProjectEditor splevoProjectEditor = null;
@@ -21,9 +17,6 @@ public class BasicSPLevoWorkflowConfiguration extends AbstractJobConfiguration {
 	 */
 	@Override
 	public String getErrorMessage() {
-		if(getSplevoProject() == null){
-			return "No SPLevo Project configured";
-		} 
 		if(getSplevoProjectEditor() == null){
 			return "No SPLevo Project editor configured";
 		}
@@ -37,20 +30,6 @@ public class BasicSPLevoWorkflowConfiguration extends AbstractJobConfiguration {
 	@Override
 	public void setDefaults() {
 		
-	}
-
-	/**
-	 * @return the splevoProject
-	 */
-	public SPLevoProject getSplevoProject() {
-		return splevoProject;
-	}
-
-	/**
-	 * @param splevoProject the splevoProject to set
-	 */
-	public void setSplevoProject(SPLevoProject splevoProject) {
-		this.splevoProject = splevoProject;
 	}
 
 	/**

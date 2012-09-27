@@ -1,14 +1,13 @@
 package org.splevo.ui.workflow;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.LoadVPMJob;
+import org.splevo.ui.jobs.OpenVPMRefinementBrowserJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
-import org.splevo.ui.jobs.SaveVPMJob;
-import org.splevo.ui.jobs.UpdateUIJob;
 import org.splevo.ui.jobs.VPMAnalysisJob;
-import org.splevo.ui.jobs.VPMApplyRefinementsJob;
 
 import de.uka.ipd.sdq.workflow.Blackboard;
 import de.uka.ipd.sdq.workflow.IJob;
@@ -24,6 +23,9 @@ import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 public class VPMAnalysisWorkflowDelegate
 		extends
 		AbstractWorkbenchDelegate<VPMAnalysisWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
+	
+	/** The logger for this class. */
+    private Logger logger = Logger.getLogger(VPMAnalysisWorkflowDelegate.class);
 
 	/** The configuration of the workflow. */
 	private VPMAnalysisWorkflowConfiguration config = null;
@@ -45,7 +47,7 @@ public class VPMAnalysisWorkflowDelegate
 	protected IJob createWorkflowJob(VPMAnalysisWorkflowConfiguration config) {
 		
 		// initialize the basic elements
-		SPLevoProject splevoProject = config.getSplevoProject();
+		SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
 		OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob =
 				new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
 		compositeJob.setBlackboard(new SPLevoBlackBoard());
@@ -57,7 +59,7 @@ public class VPMAnalysisWorkflowDelegate
 		// trigger the configured refinement analysis
 		ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard> parallelAnalysisJob = new ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard>();
 		if(config.getAnalyses().size() < 1){
-			// TODO: trigger error logging
+			logger.error("No analysis to perform configured.");
 			return null;
 		}
 		for(VPMAnalysisConfiguration analysisConfig : config.getAnalyses()){
@@ -66,22 +68,8 @@ public class VPMAnalysisWorkflowDelegate
 		}
 		compositeJob.add(parallelAnalysisJob);
 		
-		// perform the refinements automatically
-		VPMApplyRefinementsJob vpmApplyRefinementsJob = new VPMApplyRefinementsJob();
-		compositeJob.add(vpmApplyRefinementsJob);
-		
-		// save the latest vpm model
-		String modelNamePrefix = ""+splevoProject.getVpmModelPaths().size();
-		String targetPath = splevoProject.getWorkspace()
-							+ "models/vpms/"
-							+ modelNamePrefix
-							+ "-vpm.vpm";
-		SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
-		compositeJob.add(saveVPMJob);
-		
-		// init the ui update job
-		IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(),"VPM analyzed and refined");
-		compositeJob.add(updateUiJob);
+		IJob openViewerJob = new OpenVPMRefinementBrowserJob(config.getSplevoProjectEditor());
+		compositeJob.add(openViewerJob);
 
 		// return the prepared workflow
 		return compositeJob;

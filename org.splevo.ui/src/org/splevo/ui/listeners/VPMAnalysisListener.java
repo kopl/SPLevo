@@ -69,7 +69,6 @@ public class VPMAnalysisListener extends MouseAdapter {
 	 */
 	private VPMAnalysisWorkflowConfiguration buildWorflowConfiguration() {
 		VPMAnalysisWorkflowConfiguration config = new VPMAnalysisWorkflowConfiguration();
-		config.setSplevoProject(splevoProjectEditor.getSplevoProject());
 		config.setSplevoProjectEditor(splevoProjectEditor);
 		return config;
 	}

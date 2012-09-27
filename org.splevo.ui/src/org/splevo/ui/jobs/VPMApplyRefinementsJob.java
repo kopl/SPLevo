@@ -1,10 +1,8 @@
 package org.splevo.ui.jobs;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.splevo.ui.workflow.VPMAnalysisConfiguration;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.VPMRefinementService;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -42,12 +40,8 @@ public class VPMApplyRefinementsJob extends AbstractBlackboardInteractingJob<SPL
 		}
 		
 		// apply the refinements currently stored in the blackboard
-		List<Refinement> refinementsToPerform = new ArrayList<Refinement>();
-		for(VPMAnalysisConfiguration config : getBlackboard().getRefinements().keySet()){
-			List<Refinement> refinements = getBlackboard().getRefinements().get(config);
-			refinementsToPerform.addAll(refinements);
-		}
-		logger.info("Refinements to be performed: "+refinementsToPerform.size());
+		List<Refinement> refinementsToPerform = getBlackboard().getRefinementsToApply();
+		logger.info("#Refinements to be performed: "+refinementsToPerform.size());
 		VPMRefinementService service = new VPMRefinementService();
 		VariationPointModel newVPM = service.applyRefinements(refinementsToPerform, vpm);
 
