@@ -1,7 +1,7 @@
 package org.splevo.fm.builder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.featuremodel.Feature;
@@ -41,7 +41,7 @@ public class VPM2FMBuilder {
 			Group group = createMandatoryFeatureGroup();
 			vpFeature.getChildren().add(group);
 			
-			List<String> variantIds = new ArrayList<String>();
+			Set<String> variantIds = new HashSet<String>();
 			for(VariationPoint variationPoint: variationPointGroup.getVariationPoints()){
 				for(Variant variant : variationPoint.getVariants()){
 					variantIds.add(variant.getVariantId());
