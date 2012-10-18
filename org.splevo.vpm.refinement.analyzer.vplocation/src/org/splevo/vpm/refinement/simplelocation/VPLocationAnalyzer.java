@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.ASTNode;
-import org.splevo.vpm.refinement.Grouping;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementType;
@@ -57,8 +56,8 @@ public class VPLocationAnalyzer implements VPMRefinementAnalyzer {
 		// and define an optional grouping for them
 		for (ASTNode astNode : vpGroupCandidates.keySet()) {
 			if(vpGroupCandidates.get(astNode).size() > 1){
-				Grouping refinement = RefinementFactory.eINSTANCE.createGrouping();
-				refinement.setType(RefinementType.OPTIONAL);
+				Refinement refinement = RefinementFactory.eINSTANCE.createRefinement();
+				refinement.setType(RefinementType.GROUPING);
 				for (VariationPoint variationPoint : vpGroupCandidates.get(astNode)) {
 					refinement.getVariationPoints().add(variationPoint);
 				}

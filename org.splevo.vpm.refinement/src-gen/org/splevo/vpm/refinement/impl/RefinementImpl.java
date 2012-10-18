@@ -31,7 +31,7 @@ import org.splevo.vpm.variability.VariationPoint;
  *
  * @generated
  */
-public abstract class RefinementImpl extends EObjectImpl implements Refinement {
+public class RefinementImpl extends EObjectImpl implements Refinement {
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -40,7 +40,7 @@ public abstract class RefinementImpl extends EObjectImpl implements Refinement {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final RefinementType TYPE_EDEFAULT = RefinementType.MANDATORY;
+	protected static final RefinementType TYPE_EDEFAULT = RefinementType.MERGE;
 
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.

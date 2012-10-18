@@ -72,20 +72,6 @@ public class RefinementSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case RefinementPackage.MERGE: {
-				Merge merge = (Merge)theEObject;
-				T result = caseMerge(merge);
-				if (result == null) result = caseRefinement(merge);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case RefinementPackage.GROUPING: {
-				Grouping grouping = (Grouping)theEObject;
-				T result = caseGrouping(grouping);
-				if (result == null) result = caseRefinement(grouping);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -102,36 +88,6 @@ public class RefinementSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRefinement(Refinement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Merge</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Merge</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMerge(Merge object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Grouping</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Grouping</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseGrouping(Grouping object) {
 		return null;
 	}
 

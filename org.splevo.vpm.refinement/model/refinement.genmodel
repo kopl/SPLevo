@@ -7,17 +7,12 @@
   <genPackages prefix="Refinement" basePackage="org.splevo.vpm" disposableProviderFactory="true"
       ecorePackage="refinement.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="refinement.ecore#//RefinementType">
-      <genEnumLiterals ecoreEnumLiteral="refinement.ecore#//RefinementType/MANDATORY"/>
-      <genEnumLiterals ecoreEnumLiteral="refinement.ecore#//RefinementType/OPTIONAL"/>
+      <genEnumLiterals ecoreEnumLiteral="refinement.ecore#//RefinementType/MERGE"/>
+      <genEnumLiterals ecoreEnumLiteral="refinement.ecore#//RefinementType/GROUPING"/>
     </genEnums>
     <genClasses image="false" ecoreClass="refinement.ecore#//Refinement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//Refinement/type"/>
-    </genClasses>
-    <genClasses ecoreClass="refinement.ecore#//Merge">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference refinement.ecore#//Merge/variationPoints"/>
-    </genClasses>
-    <genClasses ecoreClass="refinement.ecore#//Grouping">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference refinement.ecore#//Grouping/variationPoints"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference refinement.ecore#//Refinement/variationPoints"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

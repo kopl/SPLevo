@@ -6,8 +6,6 @@ import java.util.List;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.splevo.ui.workflow.VPMAnalysisConfiguration;
-import org.splevo.vpm.refinement.Grouping;
-import org.splevo.vpm.refinement.Merge;
 import org.splevo.vpm.refinement.Refinement;
 
 public class RefinementTreeContentProvider implements ITreeContentProvider {
@@ -40,10 +38,8 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 		if (parentElement instanceof VPMAnalysisConfiguration) {
 			List<Refinement> selectedRefinements = refinements.get((VPMAnalysisConfiguration) parentElement);
 			return selectedRefinements.toArray();
-		} else if (parentElement instanceof Grouping) {
-			return ((Grouping) parentElement).getVariationPoints().toArray();
-		} else if (parentElement instanceof Merge) {
-			return ((Merge) parentElement).getVariationPoints().toArray();
+		} else if (parentElement instanceof Refinement) {
+			return ((Refinement) parentElement).getVariationPoints().toArray();
 	    }
 		return null;
 	}
@@ -57,10 +53,8 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 	public boolean hasChildren(Object element) {
 		if (element instanceof VPMAnalysisConfiguration) {
 			return !refinements.get(element).isEmpty();
-		} else if (element instanceof Grouping) {
-			return !((Grouping) element).getVariationPoints().isEmpty();
-		} else if (element instanceof Merge) {
-			return !((Merge) element).getVariationPoints().isEmpty();
+		} else if (element instanceof Refinement) {
+			return !((Refinement) element).getVariationPoints().isEmpty();
 		}
 		return false;
 	}

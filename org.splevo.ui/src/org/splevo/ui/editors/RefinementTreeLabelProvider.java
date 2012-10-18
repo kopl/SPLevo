@@ -9,10 +9,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.ui.workflow.VPMAnalysisConfiguration;
-import org.splevo.vpm.refinement.Grouping;
-import org.splevo.vpm.refinement.Merge;
-import org.splevo.vpm.refinement.provider.GroupingItemProvider;
-import org.splevo.vpm.refinement.provider.MergeItemProvider;
+import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementType;
+import org.splevo.vpm.refinement.provider.RefinementItemProvider;
 import org.splevo.vpm.refinement.provider.RefinementItemProviderAdapterFactory;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.provider.VariationPointItemProvider;
@@ -28,14 +27,20 @@ public class RefinementTreeLabelProvider extends LabelProvider {
 	    if (element instanceof VPMAnalysisConfiguration) {
 	    	VPMAnalysisConfiguration analysisConfig = (VPMAnalysisConfiguration) element;
 	      return analysisConfig.getAnalyzer().getName();
-	    } else if (element instanceof Grouping) {
+	    } else if (element instanceof Refinement) {
 	    	//TODO optimize with EMF generated itemprovider
-	    	return "Grouping ("+((Grouping) element).getVariationPoints().size()+" VPs)";
-	    } else if (element instanceof Merge) {
-	    	//TODO optimize with EMF generated itemprovider
-//	    	MergeItemProvider itemProvider = new MergeItemProvider(new RefinementItemProviderAdapterFactory());
-//	    	return itemProvider.getText((Merge) element);
-	    	return "Merge ("+((Merge) element).getVariationPoints().size()+" VPs)";
+			// MergeItemProvider itemProvider = new MergeItemProvider(new RefinementItemProviderAdapterFactory());
+			// return itemProvider.getText((Merge) element);
+	    	Refinement refinement = (Refinement) element;
+	    	StringBuilder labelBuilder = new StringBuilder();
+	    	if(refinement.getType() == RefinementType.GROUPING){
+	    		labelBuilder.append("Grouping (");
+	    	} else {
+	    		labelBuilder.append("Merge (");
+	    	}
+	    	labelBuilder.append(((Refinement) element).getVariationPoints().size());
+	    	labelBuilder.append(" VPs)");
+	    	return labelBuilder.toString();
 	    } else if (element instanceof VariationPoint) {
 	    	VariationPointItemProvider itemProvider = new VariationPointItemProvider(new variabilityItemProviderAdapterFactory());
 	    	return itemProvider.getText((VariationPoint) element);
@@ -51,21 +56,14 @@ public class RefinementTreeLabelProvider extends LabelProvider {
 	      return PlatformUI.getWorkbench().getSharedImages()
 	          .getImage(ISharedImages.IMG_OBJ_FOLDER);
 	    
-	    } else if (element instanceof Grouping) {
-	    	if(!imageMapping.containsKey(Grouping.class)){
-	    		GroupingItemProvider itemProvider = new GroupingItemProvider(new RefinementItemProviderAdapterFactory());
+	    } else if (element instanceof Refinement) {
+	    	Refinement refinement = (Refinement) element;
+	    	if(!imageMapping.containsKey(refinement.getType())){
+	    		RefinementItemProvider itemProvider = new RefinementItemProvider(new RefinementItemProviderAdapterFactory());
 		    	ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL((URL) itemProvider.getImage(element));
-		    	imageMapping.put(Grouping.class, imageDescriptor.createImage());
+		    	imageMapping.put(refinement.getType(), imageDescriptor.createImage());
 	    	}
-	    	return imageMapping.get(Grouping.class);
-
-	    } else if (element instanceof Merge) {
-	    	if(!imageMapping.containsKey(Merge.class)){
-	    		MergeItemProvider itemProvider = new MergeItemProvider(new RefinementItemProviderAdapterFactory());
-		    	ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL((URL) itemProvider.getImage(element));
-		    	imageMapping.put(Merge.class, imageDescriptor.createImage());
-	    	}
-	    	return imageMapping.get(Merge.class);
+	    	return imageMapping.get(refinement.getType());
 
 	    } else if (element instanceof VariationPoint) {
 	    	if(!imageMapping.containsKey(VPMAnalysisConfiguration.class)){

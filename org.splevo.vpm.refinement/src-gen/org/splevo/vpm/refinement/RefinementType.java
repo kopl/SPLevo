@@ -19,54 +19,52 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum RefinementType implements Enumerator {
 	/**
-	 * The '<em><b>MANDATORY</b></em>' literal object.
+	 * The '<em><b>MERGE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #MANDATORY_VALUE
+	 * @see #MERGE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	MANDATORY(0, "MANDATORY", "MANDATORY"),
-
-	/**
-	 * The '<em><b>OPTIONAL</b></em>' literal object.
+	MERGE(0, "MERGE", "MERGE"), /**
+	 * The '<em><b>GROUPING</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #OPTIONAL_VALUE
+	 * @see #GROUPING_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	OPTIONAL(1, "OPTIONAL", "OPTIONAL");
+	GROUPING(1, "GROUPING", "GROUPING");
 
 	/**
-	 * The '<em><b>MANDATORY</b></em>' literal value.
+	 * The '<em><b>MERGE</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>MANDATORY</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>MERGE</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #MANDATORY
+	 * @see #MERGE
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int MANDATORY_VALUE = 0;
+	public static final int MERGE_VALUE = 0;
 
 	/**
-	 * The '<em><b>OPTIONAL</b></em>' literal value.
+	 * The '<em><b>GROUPING</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>OPTIONAL</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>GROUPING</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #OPTIONAL
+	 * @see #GROUPING
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int OPTIONAL_VALUE = 1;
+	public static final int GROUPING_VALUE = 1;
 
 	/**
 	 * An array of all the '<em><b>Type</b></em>' enumerators.
@@ -76,8 +74,8 @@ public enum RefinementType implements Enumerator {
 	 */
 	private static final RefinementType[] VALUES_ARRAY =
 		new RefinementType[] {
-			MANDATORY,
-			OPTIONAL,
+			MERGE,
+			GROUPING,
 		};
 
 	/**
@@ -128,8 +126,8 @@ public enum RefinementType implements Enumerator {
 	 */
 	public static RefinementType get(int value) {
 		switch (value) {
-			case MANDATORY_VALUE: return MANDATORY;
-			case OPTIONAL_VALUE: return OPTIONAL;
+			case MERGE_VALUE: return MERGE;
+			case GROUPING_VALUE: return GROUPING;
 		}
 		return null;
 	}

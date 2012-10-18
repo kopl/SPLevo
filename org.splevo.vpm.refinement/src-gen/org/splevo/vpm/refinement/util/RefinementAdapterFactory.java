@@ -72,14 +72,6 @@ public class RefinementAdapterFactory extends AdapterFactoryImpl {
 				return createRefinementAdapter();
 			}
 			@Override
-			public Adapter caseMerge(Merge object) {
-				return createMergeAdapter();
-			}
-			@Override
-			public Adapter caseGrouping(Grouping object) {
-				return createGroupingAdapter();
-			}
-			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -110,34 +102,6 @@ public class RefinementAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRefinementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.splevo.vpm.refinement.Merge <em>Merge</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.splevo.vpm.refinement.Merge
-	 * @generated
-	 */
-	public Adapter createMergeAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.splevo.vpm.refinement.Grouping <em>Grouping</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.splevo.vpm.refinement.Grouping
-	 * @generated
-	 */
-	public Adapter createGroupingAdapter() {
 		return null;
 	}
 

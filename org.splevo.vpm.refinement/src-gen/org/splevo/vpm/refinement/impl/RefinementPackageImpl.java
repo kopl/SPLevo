@@ -7,18 +7,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.splevo.vpm.realization.realizationPackage;
-
-import org.splevo.vpm.refinement.Grouping;
-import org.splevo.vpm.refinement.Merge;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementType;
-
 import org.splevo.vpm.variability.variabilityPackage;
 
 /**
@@ -34,20 +28,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 	 * @generated
 	 */
 	private EClass refinementEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass mergeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass groupingEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -153,24 +133,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getMerge() {
-		return mergeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getGrouping() {
-		return groupingEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EEnum getRefinementType() {
 		return refinementTypeEEnum;
 	}
@@ -207,10 +169,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 		createEAttribute(refinementEClass, REFINEMENT__TYPE);
 		createEReference(refinementEClass, REFINEMENT__VARIATION_POINTS);
 
-		mergeEClass = createEClass(MERGE);
-
-		groupingEClass = createEClass(GROUPING);
-
 		// Create enums
 		refinementTypeEEnum = createEEnum(REFINEMENT_TYPE);
 	}
@@ -246,22 +204,16 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		mergeEClass.getESuperTypes().add(this.getRefinement());
-		groupingEClass.getESuperTypes().add(this.getRefinement());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(refinementEClass, Refinement.class, "Refinement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(refinementEClass, Refinement.class, "Refinement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRefinement_Type(), this.getRefinementType(), "type", "MANDATORY", 1, 1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRefinement_VariationPoints(), thevariabilityPackage.getVariationPoint(), null, "variationPoints", null, 0, -1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(mergeEClass, Merge.class, "Merge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(groupingEClass, Grouping.class, "Grouping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		// Initialize enums and add enum literals
 		initEEnum(refinementTypeEEnum, RefinementType.class, "RefinementType");
-		addEEnumLiteral(refinementTypeEEnum, RefinementType.MANDATORY);
-		addEEnumLiteral(refinementTypeEEnum, RefinementType.OPTIONAL);
+		addEEnumLiteral(refinementTypeEEnum, RefinementType.MERGE);
+		addEEnumLiteral(refinementTypeEEnum, RefinementType.GROUPING);
 
 		// Create resource
 		createResource(eNS_URI);

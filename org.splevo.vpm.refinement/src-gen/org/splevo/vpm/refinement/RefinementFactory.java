@@ -22,22 +22,13 @@ public interface RefinementFactory extends EFactory {
 	RefinementFactory eINSTANCE = org.splevo.vpm.refinement.impl.RefinementFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Merge</em>'.
+	 * Returns a new object of class '<em>Refinement</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Merge</em>'.
+	 * @return a new object of class '<em>Refinement</em>'.
 	 * @generated
 	 */
-	Merge createMerge();
-
-	/**
-	 * Returns a new object of class '<em>Grouping</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Grouping</em>'.
-	 * @generated
-	 */
-	Grouping createGrouping();
+	Refinement createRefinement();
 
 	/**
 	 * Returns the package supported by this factory.

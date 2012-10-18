@@ -49,6 +49,8 @@ public class VPMRefinementService {
 	/**
 	 * Apply a list of refinements to a variation point model.
 	 * 
+	 * TODO Implement refinement application for merge type
+	 * 
 	 * @param refinements
 	 *            The refinements to be applied.
 	 * @param vpm
@@ -59,16 +61,15 @@ public class VPMRefinementService {
 
 		for (Refinement refinement : refinements) {
 
-			if (refinement instanceof Grouping) {
-				Grouping grouping = (Grouping) refinement;
+			if (refinement.getType().equals(RefinementType.GROUPING)) {
 
 				// The group of the first variation point is kept as surviving
 				// group
 				// The variation points of all others are moved to this group
 				// and the other groups are removed.
-				VariationPointGroup survivingGroup = grouping
+				VariationPointGroup survivingGroup = refinement
 						.getVariationPoints().get(0).getGroup();
-				for (VariationPoint vp : grouping.getVariationPoints()) {
+				for (VariationPoint vp : refinement.getVariationPoints()) {
 					if (!vp.getGroup().equals(survivingGroup)) {
 						VariationPointGroup oldGroup = vp.getGroup();
 						vp.setGroup(survivingGroup);

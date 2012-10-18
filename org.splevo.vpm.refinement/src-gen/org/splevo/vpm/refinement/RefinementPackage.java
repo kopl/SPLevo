@@ -94,80 +94,6 @@ public interface RefinementPackage extends EPackage {
 	int REFINEMENT_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link org.splevo.vpm.refinement.impl.MergeImpl <em>Merge</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.splevo.vpm.refinement.impl.MergeImpl
-	 * @see org.splevo.vpm.refinement.impl.RefinementPackageImpl#getMerge()
-	 * @generated
-	 */
-	int MERGE = 1;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MERGE__TYPE = REFINEMENT__TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Variation Points</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MERGE__VARIATION_POINTS = REFINEMENT__VARIATION_POINTS;
-
-	/**
-	 * The number of structural features of the '<em>Merge</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MERGE_FEATURE_COUNT = REFINEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.splevo.vpm.refinement.impl.GroupingImpl <em>Grouping</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.splevo.vpm.refinement.impl.GroupingImpl
-	 * @see org.splevo.vpm.refinement.impl.RefinementPackageImpl#getGrouping()
-	 * @generated
-	 */
-	int GROUPING = 2;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GROUPING__TYPE = REFINEMENT__TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Variation Points</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GROUPING__VARIATION_POINTS = REFINEMENT__VARIATION_POINTS;
-
-	/**
-	 * The number of structural features of the '<em>Grouping</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GROUPING_FEATURE_COUNT = REFINEMENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -175,7 +101,7 @@ public interface RefinementPackage extends EPackage {
 	 * @see org.splevo.vpm.refinement.impl.RefinementPackageImpl#getRefinementType()
 	 * @generated
 	 */
-	int REFINEMENT_TYPE = 3;
+	int REFINEMENT_TYPE = 1;
 
 
 	/**
@@ -209,26 +135,6 @@ public interface RefinementPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRefinement_VariationPoints();
-
-	/**
-	 * Returns the meta object for class '{@link org.splevo.vpm.refinement.Merge <em>Merge</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Merge</em>'.
-	 * @see org.splevo.vpm.refinement.Merge
-	 * @generated
-	 */
-	EClass getMerge();
-
-	/**
-	 * Returns the meta object for class '{@link org.splevo.vpm.refinement.Grouping <em>Grouping</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Grouping</em>'.
-	 * @see org.splevo.vpm.refinement.Grouping
-	 * @generated
-	 */
-	EClass getGrouping();
 
 	/**
 	 * Returns the meta object for enum '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}'.
@@ -287,26 +193,6 @@ public interface RefinementPackage extends EPackage {
 		 * @generated
 		 */
 		EReference REFINEMENT__VARIATION_POINTS = eINSTANCE.getRefinement_VariationPoints();
-
-		/**
-		 * The meta object literal for the '{@link org.splevo.vpm.refinement.impl.MergeImpl <em>Merge</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.splevo.vpm.refinement.impl.MergeImpl
-		 * @see org.splevo.vpm.refinement.impl.RefinementPackageImpl#getMerge()
-		 * @generated
-		 */
-		EClass MERGE = eINSTANCE.getMerge();
-
-		/**
-		 * The meta object literal for the '{@link org.splevo.vpm.refinement.impl.GroupingImpl <em>Grouping</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.splevo.vpm.refinement.impl.GroupingImpl
-		 * @see org.splevo.vpm.refinement.impl.RefinementPackageImpl#getGrouping()
-		 * @generated
-		 */
-		EClass GROUPING = eINSTANCE.getGrouping();
 
 		/**
 		 * The meta object literal for the '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}' enum.

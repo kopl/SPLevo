@@ -24,7 +24,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * </p>
  *
  * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface Refinement extends EObject {

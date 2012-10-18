@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="refinement" nsURI="http://splevo.org/vpm/refinement/1.0" nsPrefix="org.splevo.vpm.refinement">
-  <eClassifiers xsi:type="ecore:EClass" name="Refinement" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Refinement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A refinement identifies a refinement within a variation point model."/>
     </eAnnotations>
@@ -18,10 +18,9 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Merge" eSuperTypes="#//Refinement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Grouping" eSuperTypes="#//Refinement"/>
   <eClassifiers xsi:type="ecore:EEnum" name="RefinementType">
-    <eLiterals name="MANDATORY"/>
-    <eLiterals name="OPTIONAL" value="1"/>
+    <eLiterals name="MERGE"/>
+    <eLiterals name="GROUPING" value="1"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EEnum0"/>
 </ecore:EPackage>

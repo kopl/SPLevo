@@ -57,8 +57,7 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case RefinementPackage.MERGE: return createMerge();
-			case RefinementPackage.GROUPING: return createGrouping();
+			case RefinementPackage.REFINEMENT: return createRefinement();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -99,19 +98,9 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Merge createMerge() {
-		MergeImpl merge = new MergeImpl();
-		return merge;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Grouping createGrouping() {
-		GroupingImpl grouping = new GroupingImpl();
-		return grouping;
+	public Refinement createRefinement() {
+		RefinementImpl refinement = new RefinementImpl();
+		return refinement;
 	}
 
 	/**
