@@ -47,6 +47,9 @@ public class VPLocationAnalyzer implements VPMRefinementAnalyzer {
     /** The configurations of the analyzer. */
     private Map<String, Object> configurations = new HashMap<String, Object>();
     
+    public VPLocationAnalyzer() {
+		this.configurations.put(CONFIG_ID_MERGE_GROUP, RefinementType.GROUPING);
+	}
     /**
      * {@inheritDoc}
 	 * @see org.splevo.vpm.refinement.analyzer.VPMRefinementAnalysis#analyze(org.splevo.vpm.variability.VariationPointModel)
@@ -110,7 +113,7 @@ public class VPLocationAnalyzer implements VPMRefinementAnalyzer {
 	@Override
 	public Map<String, AnalyzerConfigurationType> getAvailableConfigurations() {
 		Map<String, AnalyzerConfigurationType> configs = new HashMap<String, AnalyzerConfigurationType>();
-		configs.put(CONFIG_ID_MERGE_GROUP,AnalyzerConfigurationType.BOOLEAN);
+		configs.put(CONFIG_ID_MERGE_GROUP,AnalyzerConfigurationType.GROUP_MERGE);
 		return configs;
 	}
 

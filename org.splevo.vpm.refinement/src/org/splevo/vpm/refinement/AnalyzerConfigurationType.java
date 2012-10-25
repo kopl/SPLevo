@@ -10,5 +10,6 @@ package org.splevo.vpm.refinement;
 public enum AnalyzerConfigurationType {
 	STRING,
 	BOOLEAN,
-	INT
+	INT,
+	GROUP_MERGE
 }

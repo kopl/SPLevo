@@ -7,13 +7,14 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
@@ -40,6 +41,9 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
 	
 	/** The configured analyzer instances. */
 	private Set<VPMRefinementAnalyzer> analyzers = new HashSet<VPMRefinementAnalyzer>();
+	
+	/** The editing support to manipulate a configuration table cell. */
+	private VPMAnalyzerConfigurationEditingSupport configEditingSupport = null;
 
 	/**
 	 * Create the wizard page to let the user select the analyzes to be
@@ -80,10 +84,10 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
 						if (analyzer == null) {
 							configTableViewer.getTable().setEnabled(false);
 						} else {
-
 							configTableViewer.getTable().setEnabled(true);
 							configTableViewer.setContentProvider(ArrayContentProvider.getInstance());
 							configTableViewer.setInput(analyzer.getAvailableConfigurations().entrySet());
+							configEditingSupport.setAnalyzer(analyzer);
 						}
 					}
 				});
@@ -115,16 +119,16 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
 		TableColumn tblclmnSetting = tableViewerColumnSetting.getColumn();
 		tblclmnSetting.setWidth(129);
 		tblclmnSetting.setText("Setting");
-		tableViewerColumnSetting.setLabelProvider(new ColumnLabelProvider() {
+		tableViewerColumnSetting.setLabelProvider(new CellLabelProvider() {
 			@Override
-			public String getText(Object element) {
-				Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) element;
+			public void update(ViewerCell cell) {
+				Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) cell.getElement();
 				String label = getSelectedAnalyzer().getConfigurationLabels().get(e.getKey());
 				if(label == null){
 					logger.warn("Label not specified for setting "+e.getKey()+" in Analyzer "+getSelectedAnalyzer());
-					return e.getKey();
+					cell.setText(e.getKey());
 				} else {
-					return label;
+					cell.setText(label);
 				}
 			}
 		});
@@ -134,18 +138,20 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
 		TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
 		tblclmnValue.setWidth(187);
 		tblclmnValue.setText("Value");
-		tableViewerColumnValue.setLabelProvider(new ColumnLabelProvider() {
+		tableViewerColumnValue.setLabelProvider(new CellLabelProvider() {
 			@Override
-			public String getText(Object element) {
-				Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) element;
+			public void update(ViewerCell cell) {
+				Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) cell.getElement();
 				Map<String,Object> configurations = getSelectedAnalyzer().getConfigurations();
 				if(configurations.containsKey(e.getKey())){
-					return configurations.get(e.getKey()).toString();
+					cell.setText(configurations.get(e.getKey()).toString());
 				} else {
-					return "";
+					cell.setText("");
 				}
 			}
 		});
+		configEditingSupport = new VPMAnalyzerConfigurationEditingSupport(configTableViewer);
+		tableViewerColumnValue.setEditingSupport(configEditingSupport);
 	}
 
 	/**
