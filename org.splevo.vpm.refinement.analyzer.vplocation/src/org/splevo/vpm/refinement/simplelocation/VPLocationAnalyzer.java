@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.splevo.vpm.refinement.AnalyzerConfigurationType;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementType;
@@ -37,10 +38,17 @@ import org.splevo.vpm.variability.VariationPointModel;
  */
 public class VPLocationAnalyzer implements VPMRefinementAnalyzer {
 	
+	/** The id of the configuration to choose between recommending merges or groupings. */
+	public static final String CONFIG_ID_MERGE_GROUP = "org.splevo.vpm.refinement.simplelocation.groupmerge";
+	
 	/** The logger for this class. */
     private Logger logger = Logger.getLogger(VPLocationAnalyzer.class);
 
-    /* (non-Javadoc)
+    /** The configurations of the analyzer. */
+    private Map<String, Object> configurations = new HashMap<String, Object>();
+    
+    /**
+     * {@inheritDoc}
 	 * @see org.splevo.vpm.refinement.analyzer.VPMRefinementAnalysis#analyze(org.splevo.vpm.variability.VariationPointModel)
 	 */
 	@Override
@@ -94,6 +102,28 @@ public class VPLocationAnalyzer implements VPMRefinementAnalyzer {
 	@Override
 	public String getName() {
 		return "Basic Location VPM Analyzer";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Map<String, AnalyzerConfigurationType> getAvailableConfigurations() {
+		Map<String, AnalyzerConfigurationType> configs = new HashMap<String, AnalyzerConfigurationType>();
+		configs.put(CONFIG_ID_MERGE_GROUP,AnalyzerConfigurationType.BOOLEAN);
+		return configs;
+	}
+
+	@Override
+	public Map<String, Object> getConfigurations() {
+		return this.configurations;
+	}
+
+	@Override
+	public Map<String, String> getConfigurationLabels() {
+		Map<String, String> configs = new HashMap<String, String>();
+		configs.put(CONFIG_ID_MERGE_GROUP,"Group or Merge");
+		return configs;
 	}
 
 }
