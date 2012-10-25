@@ -47,6 +47,9 @@ public class VPLocationAnalyzer implements VPMRefinementAnalyzer {
     /** The configurations of the analyzer. */
     private Map<String, Object> configurations = new HashMap<String, Object>();
     
+    /**
+     * Constructor initializing the analyzer default configuration.
+     */
     public VPLocationAnalyzer() {
 		this.configurations.put(CONFIG_ID_MERGE_GROUP, RefinementType.GROUPING);
 	}
