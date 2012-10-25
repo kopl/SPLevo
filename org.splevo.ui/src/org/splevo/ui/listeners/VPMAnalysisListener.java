@@ -1,5 +1,6 @@
 package org.splevo.ui.listeners;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -19,7 +20,10 @@ import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
  */
 public class VPMAnalysisListener extends MouseAdapter {
 
-	/** The internal reference to the splevo project editor to work with. */
+	/** The logger for this class. */
+    private Logger logger = Logger.getLogger(VPMAnalysisListener.class);
+
+    /** The internal reference to the splevo project editor to work with. */
 	private SPLevoProjectEditor splevoProjectEditor = null;
 
 	/**
@@ -43,8 +47,7 @@ public class VPMAnalysisListener extends MouseAdapter {
 		WizardDialog wizardDialog = new WizardDialog(shell,
 			      									new RefinementProcessConfigurationWizard(config));
 		if (wizardDialog.open() != Window.OK) {
-			MessageDialog.openError(shell, "Variation Point Analyses canceled", 
-									"The configuration of the analysis to perform was cancled.");
+			logger.debug("Variation Point Analyses canceled");
 			return;
 		}
 		

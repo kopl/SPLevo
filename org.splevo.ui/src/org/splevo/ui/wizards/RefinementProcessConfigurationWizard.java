@@ -1,9 +1,8 @@
 package org.splevo.ui.wizards;
 
-import org.eclipse.jface.viewers.ListViewer;
+import java.util.Set;
+
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.widgets.List;
-import org.splevo.ui.workflow.VPMAnalysisConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 
@@ -46,14 +45,8 @@ public class RefinementProcessConfigurationWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		
-		ListViewer analysisListViewer = myAnalysisSelectionPage.getListViewerAnalysis();
-		List labelList = analysisListViewer.getList();
-		for(int key = 0; key < labelList.getItems().length; key++){
-			Object element = analysisListViewer.getElementAt(key);
-			VPMAnalysisConfiguration config = new VPMAnalysisConfiguration();
-			config.setAnalyzer((VPMRefinementAnalyzer) element);
-			configuration.getAnalyses().add(config);
-		}
+		Set<VPMRefinementAnalyzer> analyzers = myAnalysisSelectionPage.getAnalyzers();
+		configuration.getAnalyzers().addAll(analyzers);
 		
 		return configuration.isValid();
 	}

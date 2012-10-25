@@ -8,9 +8,9 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
-import org.splevo.ui.workflow.VPMAnalysisConfiguration;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementType;
+import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 import org.splevo.vpm.refinement.provider.RefinementItemProvider;
 import org.splevo.vpm.refinement.provider.RefinementItemProviderAdapterFactory;
 import org.splevo.vpm.variability.VariationPoint;
@@ -24,9 +24,9 @@ public class RefinementTreeLabelProvider extends LabelProvider {
 	
 	  @Override
 	  public String getText(Object element) {
-	    if (element instanceof VPMAnalysisConfiguration) {
-	    	VPMAnalysisConfiguration analysisConfig = (VPMAnalysisConfiguration) element;
-	      return analysisConfig.getAnalyzer().getName();
+	    if (element instanceof VPMRefinementAnalyzer) {
+	    	VPMRefinementAnalyzer analyzer = (VPMRefinementAnalyzer) element;
+	      return analyzer.getName();
 	    } else if (element instanceof Refinement) {
 	    	//TODO optimize with EMF generated itemprovider
 			// MergeItemProvider itemProvider = new MergeItemProvider(new RefinementItemProviderAdapterFactory());
@@ -51,7 +51,7 @@ public class RefinementTreeLabelProvider extends LabelProvider {
 
 	  @Override
 	  public Image getImage(Object element) {
-	    if (element instanceof VPMAnalysisConfiguration) {
+	    if (element instanceof VPMRefinementAnalyzer) {
 	    	//TODO optimize with EMF generated itemprovider
 	      return PlatformUI.getWorkbench().getSharedImages()
 	          .getImage(ISharedImages.IMG_OBJ_FOLDER);
@@ -66,12 +66,12 @@ public class RefinementTreeLabelProvider extends LabelProvider {
 	    	return imageMapping.get(refinement.getType());
 
 	    } else if (element instanceof VariationPoint) {
-	    	if(!imageMapping.containsKey(VPMAnalysisConfiguration.class)){
+	    	if(!imageMapping.containsKey(VariationPoint.class)){
 		    	VariationPointItemProvider itemProvider = new VariationPointItemProvider(new variabilityItemProviderAdapterFactory());
 		    	ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL((URL) itemProvider.getImage(element));
-		    	imageMapping.put(VPMAnalysisConfiguration.class, imageDescriptor.createImage());
+		    	imageMapping.put(VariationPoint.class, imageDescriptor.createImage());
 	    	}
-	    	return imageMapping.get(VPMAnalysisConfiguration.class);
+	    	return imageMapping.get(VariationPoint.class);
 	    }
     	//TODO optimize with EMF generated itemprovider
 	    return PlatformUI.getWorkbench().getSharedImages()

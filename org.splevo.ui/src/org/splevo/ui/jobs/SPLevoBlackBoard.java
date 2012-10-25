@@ -7,8 +7,8 @@ import java.util.List;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.featuremodel.FeatureModel;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.splevo.ui.workflow.VPMAnalysisConfiguration;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.Blackboard;
@@ -35,7 +35,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 	FeatureModel featureModel = null;
 	
 	/** The map of analyzer - refinements pairs. */
-	HashMap<VPMAnalysisConfiguration, List<Refinement>> analysisResults = new HashMap<VPMAnalysisConfiguration, List<Refinement>>();
+	HashMap<VPMRefinementAnalyzer, List<Refinement>> analysisResults = new HashMap<VPMRefinementAnalyzer, List<Refinement>>();
 
 	/** The refinements to apply to the vpm model. */
 	List<Refinement> refinementsToApply = new ArrayList<Refinement>();
@@ -113,7 +113,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 	/**
 	 * @return the analysis results
 	 */
-	public HashMap<VPMAnalysisConfiguration, List<Refinement>> getAnalysisResults() {
+	public HashMap<VPMRefinementAnalyzer, List<Refinement>> getAnalysisResults() {
 		return analysisResults;
 	}
 

@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.splevo.ui.workflow.VPMAnalysisConfiguration;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 
 public class RefinementTreeContentProvider implements ITreeContentProvider {
 
 	/** The refinements to be performed. */
-	HashMap<VPMAnalysisConfiguration, List<Refinement>> refinements = new HashMap<VPMAnalysisConfiguration, List<Refinement>>();
+	HashMap<VPMRefinementAnalyzer, List<Refinement>> refinements = new HashMap<VPMRefinementAnalyzer, List<Refinement>>();
 
 	@Override
 	public void dispose() {
@@ -20,7 +20,7 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		this.refinements = (HashMap<VPMAnalysisConfiguration, List<Refinement>>) newInput;
+		this.refinements = (HashMap<VPMRefinementAnalyzer, List<Refinement>>) newInput;
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 	 */
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof VPMAnalysisConfiguration) {
-			List<Refinement> selectedRefinements = refinements.get((VPMAnalysisConfiguration) parentElement);
+		if (parentElement instanceof VPMRefinementAnalyzer) {
+			List<Refinement> selectedRefinements = refinements.get((VPMRefinementAnalyzer) parentElement);
 			return selectedRefinements.toArray();
 		} else if (parentElement instanceof Refinement) {
 			return ((Refinement) parentElement).getVariationPoints().toArray();
@@ -51,7 +51,7 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 
 	@Override
 	public boolean hasChildren(Object element) {
-		if (element instanceof VPMAnalysisConfiguration) {
+		if (element instanceof VPMRefinementAnalyzer) {
 			return !refinements.get(element).isEmpty();
 		} else if (element instanceof Refinement) {
 			return !((Refinement) element).getVariationPoints().isEmpty();

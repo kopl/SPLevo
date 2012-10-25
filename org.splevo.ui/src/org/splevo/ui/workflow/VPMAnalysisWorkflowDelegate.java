@@ -8,6 +8,7 @@ import org.splevo.ui.jobs.LoadVPMJob;
 import org.splevo.ui.jobs.OpenVPMRefinementBrowserJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.VPMAnalysisJob;
+import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 
 import de.uka.ipd.sdq.workflow.Blackboard;
 import de.uka.ipd.sdq.workflow.IJob;
@@ -58,12 +59,12 @@ public class VPMAnalysisWorkflowDelegate
 
 		// trigger the configured refinement analysis
 		ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard> parallelAnalysisJob = new ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard>();
-		if(config.getAnalyses().size() < 1){
+		if(config.getAnalyzers().size() < 1){
 			logger.error("No analysis to perform configured.");
 			return null;
 		}
-		for(VPMAnalysisConfiguration analysisConfig : config.getAnalyses()){
-			VPMAnalysisJob vpmAnalysisJob = new VPMAnalysisJob(analysisConfig);
+		for(VPMRefinementAnalyzer analyzerInstance : config.getAnalyzers()){
+			VPMAnalysisJob vpmAnalysisJob = new VPMAnalysisJob(analyzerInstance);
 			parallelAnalysisJob.add(vpmAnalysisJob);
 		}
 		compositeJob.add(parallelAnalysisJob);

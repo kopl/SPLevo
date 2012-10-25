@@ -6,8 +6,8 @@ import java.util.List;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
-import org.splevo.ui.workflow.VPMAnalysisConfiguration;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 
 /**
  * Input object for the refinement browser.
@@ -15,7 +15,7 @@ import org.splevo.vpm.refinement.Refinement;
 public class VPMRefinementBrowserInput implements IEditorInput {
 	
 	/** The refinements to be presented. */
-	private HashMap<VPMAnalysisConfiguration, List<Refinement>> refinements = new HashMap<VPMAnalysisConfiguration, List<Refinement>>();
+	private HashMap<VPMRefinementAnalyzer, List<Refinement>> refinements = new HashMap<VPMRefinementAnalyzer, List<Refinement>>();
 	
 	/** The splevo editor originally trigger the process. */
 	private SPLevoProjectEditor splevoEditor = null;
@@ -24,7 +24,7 @@ public class VPMRefinementBrowserInput implements IEditorInput {
 	 * Constructor requiring a reference to the refinements to present.
 	 * @param refinements The refinements map.
 	 */
-	public VPMRefinementBrowserInput(HashMap<VPMAnalysisConfiguration, List<Refinement>> refinements, SPLevoProjectEditor splevoEditor) {
+	public VPMRefinementBrowserInput(HashMap<VPMRefinementAnalyzer, List<Refinement>> refinements, SPLevoProjectEditor splevoEditor) {
 		this.refinements = refinements;
 		this.splevoEditor = splevoEditor;
 	}
@@ -32,7 +32,7 @@ public class VPMRefinementBrowserInput implements IEditorInput {
 	/**
 	 * @return the refinements
 	 */
-	public HashMap<VPMAnalysisConfiguration, List<Refinement>> getRefinements() {
+	public HashMap<VPMRefinementAnalyzer, List<Refinement>> getRefinements() {
 		return refinements;
 	}
 

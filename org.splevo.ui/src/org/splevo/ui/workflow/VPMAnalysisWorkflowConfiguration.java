@@ -3,6 +3,8 @@ package org.splevo.ui.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
+
 /**
  * A configuration for a VPM analysis work flow to be executed.
  * A workflow contains a set of VPM analyses recommending refinements to be performed. 
@@ -11,13 +13,13 @@ public class VPMAnalysisWorkflowConfiguration extends
 		BasicSPLevoWorkflowConfiguration {
 
 	/** A list of analysis configurations to be executed. */ 
-	private final List<VPMAnalysisConfiguration> analysesConfiguration = new ArrayList<VPMAnalysisConfiguration>();
+	private final List<VPMRefinementAnalyzer> analyzers = new ArrayList<VPMRefinementAnalyzer>();
 
 	/**
-	 * Get the list of analysis configurations to be executed.
-	 * @return the analyses
+	 * Get the list of analyzer instances to be executed.
+	 * @return The analyzer instances to execute.
 	 */
-	public List<VPMAnalysisConfiguration> getAnalyses() {
-		return analysesConfiguration;
+	public List<VPMRefinementAnalyzer> getAnalyzers() {
+		return analyzers;
 	}	
 }

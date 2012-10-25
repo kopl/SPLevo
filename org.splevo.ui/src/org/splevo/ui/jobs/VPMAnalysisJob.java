@@ -3,8 +3,8 @@ package org.splevo.ui.jobs;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.splevo.ui.workflow.VPMAnalysisConfiguration;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 import org.splevo.vpm.refinement.VPMRefinementService;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -20,15 +20,15 @@ import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
 	/** The configuration of the analysis to perform. */
-	private VPMAnalysisConfiguration analysisConfig;
+	private VPMRefinementAnalyzer analyzer;
 	
 	/**
 	 * Constructor to set configuration of the analysis to perform. 
 	 * 
 	 * @param targetPath The configuration of the analysis to perform.
 	 */
-	public VPMAnalysisJob(VPMAnalysisConfiguration analysisConfig) {
-		this.analysisConfig = analysisConfig;
+	public VPMAnalysisJob(VPMRefinementAnalyzer analyzer) {
+		this.analyzer = analyzer;
 	}
 
 	/**
@@ -46,10 +46,10 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
 
 		logger.info("Analyze VPM Model");
 		VPMRefinementService service = new VPMRefinementService();
-		List<Refinement> refinements = service.identifyRefinements(vpm,analysisConfig.getAnalyzer());
+		List<Refinement> refinements = service.identifyRefinements(vpm,analyzer);
 		
 		logger.info("Store the identified refinements in the blackboard");
-		getBlackboard().getAnalysisResults().put(analysisConfig, refinements);
+		getBlackboard().getAnalysisResults().put(analyzer, refinements);
 		
 		// finish run
 		monitor.done();

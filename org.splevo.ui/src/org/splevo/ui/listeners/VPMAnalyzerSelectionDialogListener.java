@@ -3,7 +3,6 @@ package org.splevo.ui.listeners;
 
 import java.util.ArrayList;
 
-import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -18,9 +17,6 @@ import org.splevo.vpm.refinement.VPMRefinementService;
  */
 public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
 	
-	/** The list element to add the selected analyzer to. */
-	private ListViewer listViewerAnalysis = null;
-
 	/** The wizard page to update. */
 	private VPMAnalyzerSelectionPage page = null;
 	
@@ -29,8 +25,7 @@ public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
 	 * 
 	 * @param listAvailableAnalyses
 	 */
-	public VPMAnalyzerSelectionDialogListener(ListViewer listViewerAnalysis, VPMAnalyzerSelectionPage page) {
-		this.listViewerAnalysis = listViewerAnalysis;
+	public VPMAnalyzerSelectionDialogListener(VPMAnalyzerSelectionPage page) {
 		this.page = page;
 	}
 
@@ -56,12 +51,9 @@ public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
 			Object analyzerObject = dialog.getFirstResult();
 			if(analyzerObject != null){
 				VPMRefinementAnalyzer analyzer = (VPMRefinementAnalyzer) analyzerObject;
-				listViewerAnalysis.add(analyzer);
+				page.addAnalyzer(analyzer);
 			}
 		}
-		
-		// update the ui
-		page.update();
 	}
 
 }
