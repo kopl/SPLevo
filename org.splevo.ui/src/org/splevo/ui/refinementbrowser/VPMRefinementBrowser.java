@@ -1,10 +1,9 @@
-package org.splevo.ui.editors;
+package org.splevo.ui.refinementbrowser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -18,8 +17,10 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.EditorPart;
+import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.listeners.ApplyRefinementsAction;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 
 public class VPMRefinementBrowser extends EditorPart {
 
@@ -30,7 +31,7 @@ public class VPMRefinementBrowser extends EditorPart {
 	private VPMRefinementBrowserInput input;
 	
 	/** The checkbox tree viewer to select the refinements to apply. */
-	private CheckboxTreeViewer treeViewer;
+	private TreeViewer treeViewer;
 
 	private FormToolkit toolkit;
 	private Form form;
@@ -70,7 +71,7 @@ public class VPMRefinementBrowser extends EditorPart {
 	 */
 	private void createFormContent(Composite parent) {
 
-		this.treeViewer = new CheckboxTreeViewer(parent,
+		this.treeViewer = new TreeViewer(parent,
 				SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		Tree tree = treeViewer.getTree();
 		tree.setBounds(0, 0, 321, 427);
@@ -100,11 +101,9 @@ public class VPMRefinementBrowser extends EditorPart {
 	 */
 	public List<Refinement> getSelectedRefinements(){
 		List<Refinement> refinements = new ArrayList<Refinement>();
-		Object[] checkedElements = this.treeViewer.getCheckedElements();
-		for (Object object : checkedElements) {
-			if(object instanceof Refinement){
-				refinements.add((Refinement) object);
-			}
+		for(VPMRefinementAnalyzer analyzer : input.getRefinements().keySet()){
+			List<Refinement> refinementsForAnalyzer = input.getRefinements().get(analyzer);
+			refinements.addAll(refinementsForAnalyzer);	
 		}
 		return refinements;
 	}

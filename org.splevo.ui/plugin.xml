@@ -77,7 +77,7 @@
             name="SPLevo Project Editor">
       </editor>
       <editor
-            class="org.splevo.ui.editors.VPMRefinementBrowser"
+            class="org.splevo.ui.refinementbrowser.VPMRefinementBrowser"
             default="false"
             id="org.splevo.ui.editor.VPMRefinementEditor"
             name="VPM Refinement Browser">

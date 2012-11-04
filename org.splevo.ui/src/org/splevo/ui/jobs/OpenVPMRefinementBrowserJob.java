@@ -4,8 +4,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.editors.VPMRefinementBrowser;
-import org.splevo.ui.editors.VPMRefinementBrowserInput;
+import org.splevo.ui.refinementbrowser.VPMRefinementBrowser;
+import org.splevo.ui.refinementbrowser.VPMRefinementBrowserInput;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;

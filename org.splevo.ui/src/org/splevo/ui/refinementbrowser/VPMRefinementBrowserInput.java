@@ -1,4 +1,4 @@
-package org.splevo.ui.editors;
+package org.splevo.ui.refinementbrowser;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
+import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 

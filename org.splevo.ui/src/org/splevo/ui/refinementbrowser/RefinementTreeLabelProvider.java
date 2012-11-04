@@ -1,4 +1,4 @@
-package org.splevo.ui.editors;
+package org.splevo.ui.refinementbrowser;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -13,9 +13,6 @@ import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 import org.splevo.vpm.refinement.provider.RefinementItemProvider;
 import org.splevo.vpm.refinement.provider.RefinementItemProviderAdapterFactory;
-import org.splevo.vpm.variability.VariationPoint;
-import org.splevo.vpm.variability.provider.VariationPointItemProvider;
-import org.splevo.vpm.variability.provider.variabilityItemProviderAdapterFactory;
 
 public class RefinementTreeLabelProvider extends LabelProvider {
 	
@@ -41,9 +38,6 @@ public class RefinementTreeLabelProvider extends LabelProvider {
 	    	labelBuilder.append(((Refinement) element).getVariationPoints().size());
 	    	labelBuilder.append(" VPs)");
 	    	return labelBuilder.toString();
-	    } else if (element instanceof VariationPoint) {
-	    	VariationPointItemProvider itemProvider = new VariationPointItemProvider(new variabilityItemProviderAdapterFactory());
-	    	return itemProvider.getText((VariationPoint) element);
 	    } else {
 	    	throw new RuntimeException("Unknown Refiment Type: "+element.getClass());
 	    }
@@ -64,14 +58,6 @@ public class RefinementTreeLabelProvider extends LabelProvider {
 		    	imageMapping.put(refinement.getType(), imageDescriptor.createImage());
 	    	}
 	    	return imageMapping.get(refinement.getType());
-
-	    } else if (element instanceof VariationPoint) {
-	    	if(!imageMapping.containsKey(VariationPoint.class)){
-		    	VariationPointItemProvider itemProvider = new VariationPointItemProvider(new variabilityItemProviderAdapterFactory());
-		    	ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL((URL) itemProvider.getImage(element));
-		    	imageMapping.put(VariationPoint.class, imageDescriptor.createImage());
-	    	}
-	    	return imageMapping.get(VariationPoint.class);
 	    }
     	//TODO optimize with EMF generated itemprovider
 	    return PlatformUI.getWorkbench().getSharedImages()

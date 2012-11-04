@@ -1,4 +1,4 @@
-package org.splevo.ui.editors;
+package org.splevo.ui.refinementbrowser;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,9 +38,7 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 		if (parentElement instanceof VPMRefinementAnalyzer) {
 			List<Refinement> selectedRefinements = refinements.get((VPMRefinementAnalyzer) parentElement);
 			return selectedRefinements.toArray();
-		} else if (parentElement instanceof Refinement) {
-			return ((Refinement) parentElement).getVariationPoints().toArray();
-	    }
+		}
 		return null;
 	}
 
@@ -53,8 +51,6 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 	public boolean hasChildren(Object element) {
 		if (element instanceof VPMRefinementAnalyzer) {
 			return !refinements.get(element).isEmpty();
-		} else if (element instanceof Refinement) {
-			return !((Refinement) element).getVariationPoints().isEmpty();
 		}
 		return false;
 	}
