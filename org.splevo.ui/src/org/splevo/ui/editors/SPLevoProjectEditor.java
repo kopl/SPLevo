@@ -120,14 +120,6 @@ public class SPLevoProjectEditor extends EditorPart {
 		createProjectSelectionTab();
 		createSourceModelTab();
 		createDiffingModelTab();
-
-		// create message area
-		Composite messageArea = new Composite(parent, SWT.NONE);
-		messageArea.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridData gd_messageArea = new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 3);
-		gd_messageArea.heightHint = 83;
-		gd_messageArea.widthHint = 838;
-		messageArea.setLayoutData(gd_messageArea);
 		
 		
 		initDataBindings();
@@ -327,7 +319,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
 	private void createProcessControlTab() {
 		
-		TabItem tbtmProcessControl = new TabItem(tabFolder, SWT.NONE);
+		TabItem tbtmProcessControl = new TabItem(tabFolder, SWT.NONE,TABINDEX_PROCESS_CONTROL);
 		tbtmProcessControl.setText("Process Control");
 		
 		Composite processControlContainer = new Composite(tabFolder, SWT.NONE);
