@@ -35,7 +35,7 @@ public class VPMRefinementBrowser extends EditorPart {
 	private VPMRefinementBrowserInput input;
 
 	/** The checkbox tree viewer to select the refinements to apply. */
-	private TreeViewer treeViewer;
+	private TreeViewer refinementTreeViewer;
 
 	private FormToolkit toolkit;
 	private Form form;
@@ -67,21 +67,21 @@ public class VPMRefinementBrowser extends EditorPart {
 
 		createFormContent(form.getBody());
 
-		SashForm sashForm = new SashForm(form.getBody(), SWT.BORDER);
+		SashForm sashForm = new SashForm(form.getBody(), SWT.BORDER | SWT.FILL);
 		sashForm.setSashWidth(2);
 		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
 		toolkit.adapt(sashForm);
 		toolkit.paintBordersFor(sashForm);
 
-		this.treeViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL
+		this.refinementTreeViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.BORDER);
-		treeViewer.setContentProvider(new RefinementTreeContentProvider());
-		treeViewer.setLabelProvider(new RefinementTreeLabelProvider());
-		treeViewer.setAutoExpandLevel(2);
-		treeViewer.setInput(input.getRefinements());
+		refinementTreeViewer.setContentProvider(new RefinementTreeContentProvider());
+		refinementTreeViewer.setLabelProvider(new RefinementTreeLabelProvider());
+		refinementTreeViewer.setAutoExpandLevel(2);
+		refinementTreeViewer.setInput(input.getRefinements());
 
 		// Listener to expand the tree
-		treeViewer.addDoubleClickListener(new IDoubleClickListener() {
+		refinementTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				TreeViewer viewer = (TreeViewer) event.getViewer();
@@ -93,15 +93,11 @@ public class VPMRefinementBrowser extends EditorPart {
 			}
 		});
 
-		Composite refinementDetailArea = new Composite(sashForm, SWT.NONE);
-		refinementDetailArea.setBackground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
-		refinementDetailArea.setLayout(new FillLayout(SWT.HORIZONTAL));
-		toolkit.adapt(refinementDetailArea);
-		toolkit.paintBordersFor(refinementDetailArea);
+		RefinementDetailsView detailsView = new RefinementDetailsView(sashForm);
 		
 		sashForm.setWeights(new int[] { 3, 7});
 
-		treeViewer.addSelectionChangedListener(new RefinementSelectionListener(refinementDetailArea, input, toolkit));
+		refinementTreeViewer.addSelectionChangedListener(new RefinementSelectionListener(detailsView, input, toolkit));
 	}
 
 	/**

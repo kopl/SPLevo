@@ -334,67 +334,67 @@ public class SPLevoProjectEditor extends EditorPart {
 		Label activityStart = new Label(processControlContainer, SWT.NONE);
 		activityStart.setAlignment(SWT.CENTER);
 		activityStart.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bullet_green.png"));
-		activityStart.setBounds(10, 105, 30, 30);
+		activityStart.setBounds(20, 66, 30, 30);
 		
 		Label activityFlow0 = new Label(processControlContainer, SWT.NONE);
 		activityFlow0.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
 		activityFlow0.setAlignment(SWT.CENTER);
-		activityFlow0.setBounds(34, 105, 30, 30);
+		activityFlow0.setBounds(44, 66, 30, 30);
 		
 		Button btnSelectSourceProjects = new Button(processControlContainer, SWT.WRAP);
 		btnSelectSourceProjects.addMouseListener(new GotoTabMouseListener(tabFolder,TABINDEX_PROJECT_SELECTION));
-		btnSelectSourceProjects.setBounds(65, 98, 78, 45);
+		btnSelectSourceProjects.setBounds(75, 59, 78, 45);
 		btnSelectSourceProjects.setText("Project Selection");
 		
 		Label activityFlow1 = new Label(processControlContainer, SWT.NONE);
 		activityFlow1.setAlignment(SWT.CENTER);
 		activityFlow1.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
-		activityFlow1.setBounds(149, 105, 30, 30);
+		activityFlow1.setBounds(159, 66, 30, 30);
 		
 		Button btnExtractSourceModels = new Button(processControlContainer, SWT.WRAP);
 		btnExtractSourceModels.addMouseListener(new ExtractProjectListener(this));
-		btnExtractSourceModels.setBounds(185, 98, 78, 45);
+		btnExtractSourceModels.setBounds(195, 59, 78, 45);
 		btnExtractSourceModels.setText("Model Extraction");
 		
 		Label activityFlow3 = new Label(processControlContainer, SWT.NONE);
 		activityFlow3.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
 		activityFlow3.setAlignment(SWT.CENTER);
-		activityFlow3.setBounds(269, 105, 30, 30);
+		activityFlow3.setBounds(279, 66, 30, 30);
 		
 		Button btnDiffing = new Button(processControlContainer, SWT.WRAP);
 		btnDiffing.addMouseListener(new DiffSourceModelListener(this));
-		btnDiffing.setBounds(305, 98, 72, 45);
+		btnDiffing.setBounds(315, 59, 72, 45);
 		btnDiffing.setText("Diffing");
 		
 		Label activityFlow4 = new Label(processControlContainer, SWT.NONE);
 		activityFlow4.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
 		activityFlow4.setAlignment(SWT.CENTER);
-		activityFlow4.setBounds(383, 105, 30, 30);
+		activityFlow4.setBounds(393, 66, 30, 30);
 		
 		Button btnInitVpm = new Button(processControlContainer, SWT.WRAP);
 		btnInitVpm.addMouseListener(new InitVPMListener(this));
-		btnInitVpm.setBounds(419, 98, 72, 45);
+		btnInitVpm.setBounds(429, 59, 72, 45);
 		btnInitVpm.setText("Init VPM");
 		
 		Label activityFlow5 = new Label(processControlContainer, SWT.NONE);
 		activityFlow5.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
 		activityFlow5.setAlignment(SWT.CENTER);
-		activityFlow5.setBounds(497, 105, 30, 30);
+		activityFlow5.setBounds(507, 66, 30, 30);
 		
 		Button btnRefineVPM = new Button(processControlContainer, SWT.WRAP);
 		btnRefineVPM.addMouseListener(new VPMAnalysisListener(this));
 		btnRefineVPM.setText("Analyze VPM");
-		btnRefineVPM.setBounds(529, 98, 72, 45);
+		btnRefineVPM.setBounds(539, 59, 72, 45);
 		
 		Label label = new Label(processControlContainer, SWT.NONE);
 		label.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
 		label.setAlignment(SWT.CENTER);
-		label.setBounds(607, 105, 30, 30);
+		label.setBounds(617, 66, 30, 30);
 		
 		Button btnGenerateFeatureModel = new Button(processControlContainer, SWT.WRAP);
 		btnGenerateFeatureModel.addMouseListener(new GenerateFeatureModelListener(this));
 		btnGenerateFeatureModel.setText("Generate Feature Model");
-		btnGenerateFeatureModel.setBounds(638, 98, 118, 45);
+		btnGenerateFeatureModel.setBounds(648, 59, 118, 45);
 	}
 
 	@Override

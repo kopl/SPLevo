@@ -1,103 +1,151 @@
 package org.splevo.ui.refinementbrowser;
 
+import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.swt.widgets.Menu;
 import org.splevo.vpm.refinement.Refinement;
-
-import swing2swt.layout.BorderLayout;
+import org.splevo.vpm.variability.Variant;
+import org.splevo.vpm.variability.VariationPoint;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 
 public class RefinementDetailsView extends Composite {
 	
+	private TreeViewer variationPointTreeViewer;
 
-	public RefinementDetailsView(Composite parent, int style) {
-		this(parent, style, null);
+	public RefinementDetailsView(Composite parent) {
+		super(parent, SWT.FILL);
+		setLayout(new FillLayout(SWT.HORIZONTAL));
+		
+		variationPointTreeViewer = new TreeViewer(this, SWT.BORDER);
+		variationPointTreeViewer.setLabelProvider(new ViewerLabelProvider());
+		variationPointTreeViewer.setContentProvider(new TreeContentProvider());
+		
+		initContextMenu();
 	}
-	public RefinementDetailsView(Composite parent, int style, Refinement refinement) {
-		super(parent, style);
-	}
-
-	private Table table;
-	private Text txtRefinementType;
 
 	/**
 	 * Create contents of the details page.
+	 * 
 	 * @param parent
 	 */
 	public void createContents(Composite parent) {
 		parent.setEnabled(true);
-		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
-		parent.setLayout(new BorderLayout(0, 0));
+
+	}
+
+	public void showRefinement(Refinement refinement) {
+		variationPointTreeViewer.setInput(refinement);
+	}
+	
+	/**
+	 * The content provider for the tree providing access to
+	 * the variation points and their child elements
+	 */
+	private static class TreeContentProvider implements ITreeContentProvider {
 		
-		Section sectionDetails = toolkit.createSection(parent, Section.CLIENT_INDENT | Section.TWISTIE | Section.TITLE_BAR);
-		sectionDetails.setLayoutData(BorderLayout.NORTH);
-		toolkit.paintBordersFor(sectionDetails);
-		sectionDetails.setText("Refinement Details");
+		private Refinement refinement = null;
 		
-		Composite infoArea = toolkit.createComposite(sectionDetails, SWT.NONE);
-		toolkit.paintBordersFor(infoArea);
-		sectionDetails.setClient(infoArea);
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+			this.refinement = (Refinement) newInput;
+		}
+		public Object[] getElements(Object inputElement) {
+			return refinement.getVariationPoints().toArray();
+		}
+		public Object[] getChildren(Object parentElement) {
+			if(parentElement instanceof Refinement) {
+				return ((Refinement) parentElement).getVariationPoints().toArray();
+			} else if(parentElement instanceof VariationPoint) {
+				return ((VariationPoint) parentElement).getVariants().toArray();
+			} else if(parentElement instanceof Variant) {
+				return ((Variant) parentElement).getSoftwareEntities().toArray();
+			} else {
+				return null;
+			}
+		}
+		public Object getParent(Object element) {
+			return null;
+		}
+		public boolean hasChildren(Object element) {
+			return getChildren(element).length > 0;
+		}
 		
-		Label lblRefinementType = toolkit.createLabel(infoArea, "Refinement Type:", SWT.NONE);
-		lblRefinementType.setBounds(10, 10, 122, 20);
+		public void dispose() {}
+	}
+	
+	/**
+	 * Label Provider for a variation point element.
+	 */
+	private static class ViewerLabelProvider extends LabelProvider {
+		public Image getImage(Object element) {
+			return super.getImage(element);
+		}
 		
-		txtRefinementType = toolkit.createText(infoArea, "", SWT.NONE);
-		txtRefinementType.setEnabled(false);
-		txtRefinementType.setEditable(false);
-		txtRefinementType.setBounds(138, 7, 100, 26);
-		
-		ToolBar toolBar = new ToolBar(sectionDetails, SWT.FLAT | SWT.RIGHT);
-		toolkit.adapt(toolBar);
-		toolkit.paintBordersFor(toolBar);
-		sectionDetails.setTextClient(toolBar);
-		
-		ToolItem tltmNewItem = new ToolItem(toolBar, SWT.NONE);
-		tltmNewItem.setHotImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bin.png"));
-		tltmNewItem.addSelectionListener(new SelectionAdapter() {
+		/**
+		 * Get the text label for a supplied element.
+		 */
+		public String getText(Object element) {
+			if(element instanceof VariationPoint){
+				return "VariationPoint in "+((VariationPoint) element).getSoftwareEntity().getClass().getSimpleName();
+			} else if(element instanceof Variant){
+				return "Variant: "+((Variant) element).getVariantId();
+			} else if(element instanceof ASTNode){
+				ASTNode astNode = (ASTNode) element;
+				return astNode.getClass().getSimpleName()+"("+astNode.getOriginalCompilationUnit().getName()+")";
+			} else {
+				return super.getText(element);
+			}
+		}
+	}
+	
+	private void initContextMenu() {
+		// initalize the context menu
+		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(new IMenuListener() {
+			
 			@Override
-			public void widgetSelected(SelectionEvent e) {
+			public void menuAboutToShow(IMenuManager manager) {
+				Action action = new Action() {
+					public void run() {
+						super.run();
+					}
+				};
+				action.setText("Open Source in Editor");
+				manager.add(action);
 			}
 		});
-		tltmNewItem.setToolTipText("Discard Refinement");
-		tltmNewItem.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bin_closed.png"));
-		//		
-		Section sectionVariationPoints = toolkit.createSection(parent,
-				Section.TWISTIE | Section.TITLE_BAR);
-		sectionVariationPoints.setText("Variation Points");
-		sectionVariationPoints.setExpanded(true);
-		//
-		Composite composite = toolkit.createComposite(sectionVariationPoints, SWT.NONE);
-		toolkit.paintBordersFor(composite);
-		sectionVariationPoints.setClient(composite);
-		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-		
-		TableViewer tableViewer = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
-		table = tableViewer.getTable();
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		toolkit.paintBordersFor(table);
-		
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-		TableColumn tblclmnVariationPoints = tableViewerColumn.getColumn();
-		tblclmnVariationPoints.setWidth(150);
-		tblclmnVariationPoints.setText("Variation Points");
-		
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
-		TableColumn tblclmnLocation = tableViewerColumn_1.getColumn();
-		tblclmnLocation.setWidth(400);
-		tblclmnLocation.setText("Location");
+		Menu menu = menuMgr.createContextMenu(variationPointTreeViewer.getTree());
+		variationPointTreeViewer.getTree().setMenu(menu);
+		getSite().registerContextMenu(menuMgr, variationPointTreeViewer);
+	}
+
+	/**
+	 * Get the active site to work with.
+	 * @return The active site.
+	 */
+	private IWorkbenchPartSite getSite() {
+		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart().getSite();
 	}
 }
