@@ -71,10 +71,11 @@
          point="org.eclipse.ui.editors">
       <editor
             class="org.splevo.ui.editors.SPLevoProjectEditor"
-            extensions=".splevoproject"
+            default="true"
+            extensions="splevoproject"
             icon="icons/splevo.gif"
             id="org.splevo.ui.editors.SPLevoProjectEditor"
-            name="SPLevo Project Editor">
+            name="SPLevo Dashboard">
       </editor>
       <editor
             class="org.splevo.ui.refinementbrowser.VPMRefinementBrowser"
