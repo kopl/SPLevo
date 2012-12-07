@@ -57,8 +57,8 @@ public class SPLevoProjectEditor extends EditorPart {
 
 	public static final String ID = "org.splevo.ui.editors.SPLevoProjectEditor"; //$NON-NLS-1$
 
-	private static final int TABINDEX_PROJECT_INFOS = 0;
-	private static final int TABINDEX_PROCESS_CONTROL = 1;
+	private static final int TABINDEX_PROCESS_CONTROL = 0;
+	private static final int TABINDEX_PROJECT_INFOS = 1;
 	private static final int TABINDEX_PROJECT_SELECTION = 2;
 	private static final int TABINDEX_SOURCE_MODELS = 3;
 	private static final int TABINDEX_DIFFING_MODEL = 4;
@@ -115,8 +115,8 @@ public class SPLevoProjectEditor extends EditorPart {
 		tabFolder.setLayoutData(gd_tabFolder);
 		
 		// create tabs
-		createProjectInfoTab();
 		createProcessControlTab();
+		createProjectInfoTab();
 		createProjectSelectionTab();
 		createSourceModelTab();
 		createDiffingModelTab();
