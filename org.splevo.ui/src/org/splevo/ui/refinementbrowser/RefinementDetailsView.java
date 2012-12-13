@@ -73,6 +73,12 @@ public class RefinementDetailsView extends Composite {
 		public Object[] getElements(Object inputElement) {
 			return refinement.getVariationPoints().toArray();
 		}
+		
+		/**
+		 * Get the children for a provided parent element.
+		 * @param parentElement The parent element.
+		 * @return The list of identified children (empty list if no children exist).
+		 */
 		public Object[] getChildren(Object parentElement) {
 			if(parentElement instanceof Refinement) {
 				return ((Refinement) parentElement).getVariationPoints().toArray();
@@ -81,7 +87,7 @@ public class RefinementDetailsView extends Composite {
 			} else if(parentElement instanceof Variant) {
 				return ((Variant) parentElement).getSoftwareEntities().toArray();
 			} else {
-				return null;
+				return new Object[]{};
 			}
 		}
 		public Object getParent(Object element) {
