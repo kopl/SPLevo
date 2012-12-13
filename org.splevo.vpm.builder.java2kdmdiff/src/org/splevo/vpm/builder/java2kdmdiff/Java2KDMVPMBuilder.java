@@ -1,12 +1,14 @@
 package org.splevo.vpm.builder.java2kdmdiff;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.Model;
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -73,9 +75,8 @@ public class Java2KDMVPMBuilder {
 	 */
 	private VariationPointModel initVPM(DiffModel diffModel) {
 		
-		// assume the diff models have only one root
-		Model leadingModel = (Model) diffModel.getRightRoots().get(0);
-		Model integrationModel = (Model) diffModel.getLeftRoots().get(0);
+		JavaApplication leadingModel = selectJavaAppModel(diffModel.getRightRoots());
+		JavaApplication integrationModel = selectJavaAppModel(diffModel.getLeftRoots());;
 		
 		VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 		vpm.setLeadingModel(leadingModel);
@@ -85,34 +86,43 @@ public class Java2KDMVPMBuilder {
 	}
 
 	/**
+	 * Get a JavaApplication model from a list of model elements.
+	 * 
+	 * @param eObjectList The list to try to find the JavaApplication element in.
+	 * @return The first found JavaApplication or null if none is in the list.
+	 */
+	private JavaApplication selectJavaAppModel(EList<EObject> eObjectList) {
+		for (EObject root : eObjectList) {
+			if(root instanceof JavaApplication){
+				return (JavaApplication) root;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Check that the DiffModel is a valid input.
-	 * This means, that the diffed models must be modisco discovered java models.
+	 * This means, that the diffed models must be modisco discovered java models and
+	 * contain a JavaApplication model
 	 * 
 	 * @param diffModel The diff model to check
 	 * @return true/false depending whether the diff model is valid.
 	 */
 	private boolean checkDiffModelIsValid(DiffModel diffModel) {
 		
-		// check that one left and one right root is available
-		if(diffModel.getLeftRoots().size() != 1){
-			//("There is more than one left root model");
-			return false; 
-		}
-		if(diffModel.getRightRoots().size() != 1){
-			// throw new IllegalArgumentException("There is more than one right root model");
-			return false;
-		}
-
-		if(!(diffModel.getLeftRoots().get(0) instanceof Model)){
-			return false;
-			//throw new IllegalArgumentException("The left root model is not a modisco JavaModel");
-		}
-		if(!(diffModel.getRightRoots().get(0) instanceof Model)){
-			return false;
-			//throw new IllegalArgumentException("The left root model is not a modisco JavaModel");
+		boolean valid = true;
+		
+		if(selectJavaAppModel(diffModel.getLeftRoots()) == null){
+			logger.warn("Diff model invalid: No valid JavaApplication integration root (left) available");
+			valid = false;
 		}
 		
-		return true;
+		if(selectJavaAppModel(diffModel.getRightRoots()) == null){
+			logger.warn("Diff model contains no valid JavaApplication leading root (right) available");
+			valid = false;
+		}
+		
+		return valid;
 	}
 
 }

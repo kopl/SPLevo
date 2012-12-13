@@ -12,6 +12,7 @@ import org.eclipse.emf.compare.match.engine.DefaultMatchScopeProvider;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.compare.util.EMFCompareMap;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.emfcompare.diff.JavaModelDiffEngine;
@@ -47,16 +48,19 @@ public class Java2KDMDiffingService {
 
 		Model integrationJavaModel = integrationModel.getJavaModel();
 		Model leadingJavaModel = leadingModel.getJavaModel();
-
+		
 		// configure the match engine
 		final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
+		//DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationModel, leadingModel);
 		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationJavaModel, leadingJavaModel);
 		matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,matchScopeProvider);
+		matchOptions.put(MatchOptions.OPTION_DISTINCT_METAMODELS,true); // the compared models are assumed to be of the same type
 
 
 		logger.debug("================ MATCHING PHASE  ===============");
 		JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
-		MatchModel matchModel = matchEngine.modelMatch(integrationJavaModel, leadingJavaModel, matchOptions);
+		MatchModel matchModel = matchEngine.modelMatch(integrationModel, leadingModel, matchOptions);
+		//MatchModel matchModel = matchEngine.modelMatch(integrationJavaModel, leadingJavaModel, matchOptions);
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("=== UNMATCHED ELEMENTS ===");

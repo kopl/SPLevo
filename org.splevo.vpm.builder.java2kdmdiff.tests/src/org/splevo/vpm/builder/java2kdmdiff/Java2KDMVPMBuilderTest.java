@@ -1,5 +1,7 @@
 package org.splevo.vpm.builder.java2kdmdiff;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,8 +50,12 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
 		
 		Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
 		VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
+		assertNotNull("No VPM initialized",vpm);
 		
-		logger.debug("Number of variation point groups: "+vpm.getVariationPointGroups().size());
+		logger.warn("Number of variation point groups: "+vpm.getVariationPointGroups().size());
+			
+		assertNotNull("Leading model must not be null",vpm.getLeadingModel());
+		assertNotNull("Integration model must not be null",vpm.getIntegrationModel());
 		
 		ModelUtils.save(vpm, "testresult/gcd-intial.vpm");
 	}

@@ -62,11 +62,11 @@ public class GCDDiffingTest extends AbstractDiffingTest {
 		DiffModel diff = diffingService.doDiff(integrationModel,leadingModel);
 		
 		EList<DiffElement> differences = diff.getDifferences();
-		assertEquals("Wrong number of differences detected",6,differences.size());
 		
 		for (DiffElement diffElement : differences) {
 			logger.debug(diffElement.getKind()+": "+diffElement.getClass().getName());
 		}
+		assertEquals("Wrong number of differences detected",6,differences.size());
 		
 		logger.debug("Found Differences: "+differences.size());
 		
