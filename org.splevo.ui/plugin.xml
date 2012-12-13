@@ -73,7 +73,7 @@
             class="org.splevo.ui.editors.SPLevoProjectEditor"
             default="true"
             extensions="splevoproject"
-            icon="icons/splevo.gif"
+            icon="icons/splevo-project.gif"
             id="org.splevo.ui.editors.SPLevoProjectEditor"
             name="SPLevo Dashboard">
       </editor>
