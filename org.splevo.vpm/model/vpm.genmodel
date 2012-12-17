@@ -2,14 +2,14 @@
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.splevo.vpm/src-gen" editDirectory="/org.splevo.vpm.edit/src-gen"
     editorDirectory="/org.splevo.vpm.editor/src-gen" modelPluginID="org.splevo.vpm"
-    modelName="vpm" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
-    copyrightFields="false" language="" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.genmodel#//featuremodel platform:/plugin/org.eclipse.gmt.modisco.java/model/java.genmodel#//java"
+    modelName="vpm" testsDirectory="/org.splevo.vpm.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" language="" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.genmodel#//featuremodel platform:/plugin/org.eclipse.gmt.modisco.java/model/java.genmodel#//java platform:/plugin/org.eclipse.modisco.java.composition/model/javaApplication.genmodel#//javaapplication platform:/plugin/org.eclipse.gmt.modisco.omg.kdm/model/kdm.genmodel#//kdm platform:/plugin/org.eclipse.modisco.kdm.source.extension/model/kdmSourceExtension.genmodel#//kdm"
     classNamePattern="">
   <foreignModel>vpm.ecore</foreignModel>
   <genPackages prefix="vpm" basePackage="org.splevo" disposableProviderFactory="true"
       ecorePackage="vpm.ecore#/">
-    <nestedGenPackages prefix="variability" disposableProviderFactory="true" fileExtensions="vpm"
-        ecorePackage="vpm.ecore#//variability">
+    <nestedGenPackages prefix="variability" basePackage="org.splevo.vpm" disposableProviderFactory="true"
+        fileExtensions="vpm" ecorePackage="vpm.ecore#//variability">
       <genClasses ecoreClass="vpm.ecore#//variability/VariationPoint">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vpm.ecore#//variability/VariationPoint/variants"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -41,7 +41,8 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//variability/VariationPointGroup/groupId"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="realization" disposableProviderFactory="true" ecorePackage="vpm.ecore#//realization">
+    <nestedGenPackages prefix="realization" basePackage="org.splevo.vpm" disposableProviderFactory="true"
+        ecorePackage="vpm.ecore#//realization">
       <genClasses image="false" ecoreClass="vpm.ecore#//realization/RealizationTechnique"/>
       <genClasses image="false" ecoreClass="vpm.ecore#//realization/DesignTimeRealizationTechnique"/>
       <genClasses image="false" ecoreClass="vpm.ecore#//realization/CompilationTimeRealizationTechnique"/>

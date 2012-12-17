@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.splevo.vpm.variability.tests;
 
@@ -63,7 +59,7 @@ public class variabilityExample {
 		if (args.length == 0) {
 			System.out.println("Enter a list of file paths or URIs that have content like this:");
 			try {
-				Resource resource = resourceSet.createResource(URI.createURI("http:///My.variability"));
+				Resource resource = resourceSet.createResource(URI.createURI("http:///My.vpm"));
 				VariationPoint root = variabilityFactory.eINSTANCE.createVariationPoint();
 				resource.getContents().add(root);
 				resource.save(System.out, null);

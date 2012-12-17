@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.splevo.vpm.variability.tests;
 
@@ -10,24 +6,24 @@ import junit.framework.TestCase;
 
 import junit.textui.TestRunner;
 
-import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.variabilityFactory;
 
 /**
  * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Variation Point</b></em>'.
+ * A test case for the model object '<em><b>Variant</b></em>'.
  * <!-- end-user-doc -->
  * @generated
  */
-public class VariationPointTest extends TestCase {
+public class VariantTest extends TestCase {
 
 	/**
-	 * The fixture for this Variation Point test case.
+	 * The fixture for this Variant test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected VariationPoint fixture = null;
+	protected Variant fixture = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -35,36 +31,36 @@ public class VariationPointTest extends TestCase {
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(VariationPointTest.class);
+		TestRunner.run(VariantTest.class);
 	}
 
 	/**
-	 * Constructs a new Variation Point test case with the given name.
+	 * Constructs a new Variant test case with the given name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public VariationPointTest(String name) {
+	public VariantTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Sets the fixture for this Variation Point test case.
+	 * Sets the fixture for this Variant test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void setFixture(VariationPoint fixture) {
+	protected void setFixture(Variant fixture) {
 		this.fixture = fixture;
 	}
 
 	/**
-	 * Returns the fixture for this Variation Point test case.
+	 * Returns the fixture for this Variant test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected VariationPoint getFixture() {
+	protected Variant getFixture() {
 		return fixture;
 	}
 
@@ -76,7 +72,7 @@ public class VariationPointTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(variabilityFactory.eINSTANCE.createVariationPoint());
+		setFixture(variabilityFactory.eINSTANCE.createVariant());
 	}
 
 	/**
@@ -90,4 +86,4 @@ public class VariationPointTest extends TestCase {
 		setFixture(null);
 	}
 
-} //VariationPointTest
+} //VariantTest
