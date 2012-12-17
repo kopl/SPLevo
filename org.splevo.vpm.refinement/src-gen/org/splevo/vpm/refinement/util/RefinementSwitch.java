@@ -66,9 +66,21 @@ public class RefinementSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case RefinementPackage.REFINEMENT_MODEL: {
+				RefinementModel refinementModel = (RefinementModel)theEObject;
+				T result = caseRefinementModel(refinementModel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case RefinementPackage.REFINEMENT: {
 				Refinement refinement = (Refinement)theEObject;
 				T result = caseRefinement(refinement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RefinementPackage.ANALYZER_CONFIGURATION: {
+				AnalyzerConfiguration analyzerConfiguration = (AnalyzerConfiguration)theEObject;
+				T result = caseAnalyzerConfiguration(analyzerConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -88,6 +100,36 @@ public class RefinementSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRefinement(Refinement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRefinementModel(RefinementModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Analyzer Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Analyzer Configuration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAnalyzerConfiguration(AnalyzerConfiguration object) {
 		return null;
 	}
 

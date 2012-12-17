@@ -12,6 +12,9 @@ import org.eclipse.featuremodel.provider.FeatureModelEditPlugin;
 
 import org.eclipse.gmt.modisco.java.emf.provider.JavaEditPlugin;
 
+import org.eclipse.gmt.modisco.omg.kdm.core.provider.KdmEditPlugin;
+import org.eclipse.modisco.java.composition.javaapplication.provider.JavaApplicationEditPlugin;
+import org.eclipse.modisco.kdm.source.extension.provider.KdmSourceExtensionEditPlugin;
 import org.splevo.vpm.variability.provider.vpmEditPlugin;
 
 /**
@@ -49,6 +52,9 @@ public final class RefinementEditPlugin extends EMFPlugin {
 		     EcoreEditPlugin.INSTANCE,
 		     FeatureModelEditPlugin.INSTANCE,
 		     JavaEditPlugin.INSTANCE,
+		     JavaApplicationEditPlugin.INSTANCE,
+		     KdmEditPlugin.INSTANCE,
+		     KdmSourceExtensionEditPlugin.INSTANCE,
 		     vpmEditPlugin.INSTANCE,
 		   });
 	}

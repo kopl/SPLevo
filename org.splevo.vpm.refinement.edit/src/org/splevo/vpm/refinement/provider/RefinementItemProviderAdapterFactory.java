@@ -72,6 +72,29 @@ public class RefinementItemProviderAdapterFactory extends RefinementAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.splevo.vpm.refinement.RefinementModel} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected RefinementModelItemProvider refinementModelItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.splevo.vpm.refinement.RefinementModel}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createRefinementModelAdapter() {
+		if (refinementModelItemProvider == null) {
+			refinementModelItemProvider = new RefinementModelItemProvider(this);
+		}
+
+		return refinementModelItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.splevo.vpm.refinement.Refinement} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -92,6 +115,29 @@ public class RefinementItemProviderAdapterFactory extends RefinementAdapterFacto
 		}
 
 		return refinementItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.splevo.vpm.refinement.AnalyzerConfiguration} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected AnalyzerConfigurationItemProvider analyzerConfigurationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.splevo.vpm.refinement.AnalyzerConfiguration}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createAnalyzerConfigurationAdapter() {
+		if (analyzerConfigurationItemProvider == null) {
+			analyzerConfigurationItemProvider = new AnalyzerConfigurationItemProvider(this);
+		}
+
+		return analyzerConfigurationItemProvider;
 	}
 
 	/**
@@ -193,7 +239,9 @@ public class RefinementItemProviderAdapterFactory extends RefinementAdapterFacto
 	 * @generated
 	 */
 	public void dispose() {
+		if (refinementModelItemProvider != null) refinementModelItemProvider.dispose();
 		if (refinementItemProvider != null) refinementItemProvider.dispose();
+		if (analyzerConfigurationItemProvider != null) analyzerConfigurationItemProvider.dispose();
 	}
 
 }

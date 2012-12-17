@@ -3,15 +3,15 @@
 package org.splevo.vpm.refinement.impl;
 
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.splevo.vpm.refinement.AnalyzerConfiguration;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementType;
@@ -26,6 +26,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getVariationPoints <em>Variation Points</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getAnalyzer <em>Analyzer</em>}</li>
  * </ul>
  * </p>
  *
@@ -61,6 +62,16 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 	 * @ordered
 	 */
 	protected EList<VariationPoint> variationPoints;
+
+	/**
+	 * The cached value of the '{@link #getAnalyzer() <em>Analyzer</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAnalyzer()
+	 * @generated
+	 * @ordered
+	 */
+	protected AnalyzerConfiguration analyzer;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -119,6 +130,44 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public AnalyzerConfiguration getAnalyzer() {
+		if (analyzer != null && analyzer.eIsProxy()) {
+			InternalEObject oldAnalyzer = (InternalEObject)analyzer;
+			analyzer = (AnalyzerConfiguration)eResolveProxy(oldAnalyzer);
+			if (analyzer != oldAnalyzer) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RefinementPackage.REFINEMENT__ANALYZER, oldAnalyzer, analyzer));
+			}
+		}
+		return analyzer;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AnalyzerConfiguration basicGetAnalyzer() {
+		return analyzer;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAnalyzer(AnalyzerConfiguration newAnalyzer) {
+		AnalyzerConfiguration oldAnalyzer = analyzer;
+		analyzer = newAnalyzer;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RefinementPackage.REFINEMENT__ANALYZER, oldAnalyzer, analyzer));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -126,6 +175,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 				return getType();
 			case RefinementPackage.REFINEMENT__VARIATION_POINTS:
 				return getVariationPoints();
+			case RefinementPackage.REFINEMENT__ANALYZER:
+				if (resolve) return getAnalyzer();
+				return basicGetAnalyzer();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -146,6 +198,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 				getVariationPoints().clear();
 				getVariationPoints().addAll((Collection<? extends VariationPoint>)newValue);
 				return;
+			case RefinementPackage.REFINEMENT__ANALYZER:
+				setAnalyzer((AnalyzerConfiguration)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -164,6 +219,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 			case RefinementPackage.REFINEMENT__VARIATION_POINTS:
 				getVariationPoints().clear();
 				return;
+			case RefinementPackage.REFINEMENT__ANALYZER:
+				setAnalyzer((AnalyzerConfiguration)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -180,6 +238,8 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 				return type != TYPE_EDEFAULT;
 			case RefinementPackage.REFINEMENT__VARIATION_POINTS:
 				return variationPoints != null && !variationPoints.isEmpty();
+			case RefinementPackage.REFINEMENT__ANALYZER:
+				return analyzer != null;
 		}
 		return super.eIsSet(featureID);
 	}

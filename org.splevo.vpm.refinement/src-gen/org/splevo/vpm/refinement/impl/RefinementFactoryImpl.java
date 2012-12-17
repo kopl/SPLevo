@@ -6,12 +6,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.splevo.vpm.refinement.*;
+import org.splevo.vpm.refinement.AnalyzerConfiguration;
+import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementFactory;
+import org.splevo.vpm.refinement.RefinementModel;
+import org.splevo.vpm.refinement.RefinementPackage;
+import org.splevo.vpm.refinement.RefinementType;
 
 /**
  * <!-- begin-user-doc -->
@@ -57,7 +59,9 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case RefinementPackage.REFINEMENT_MODEL: return createRefinementModel();
 			case RefinementPackage.REFINEMENT: return createRefinement();
+			case RefinementPackage.ANALYZER_CONFIGURATION: return createAnalyzerConfiguration();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -101,6 +105,26 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 	public Refinement createRefinement() {
 		RefinementImpl refinement = new RefinementImpl();
 		return refinement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RefinementModel createRefinementModel() {
+		RefinementModelImpl refinementModel = new RefinementModelImpl();
+		return refinementModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AnalyzerConfiguration createAnalyzerConfiguration() {
+		AnalyzerConfigurationImpl analyzerConfiguration = new AnalyzerConfigurationImpl();
+		return analyzerConfiguration;
 	}
 
 	/**

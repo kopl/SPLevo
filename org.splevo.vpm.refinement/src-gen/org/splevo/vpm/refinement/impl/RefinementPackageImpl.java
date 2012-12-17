@@ -9,8 +9,10 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.splevo.vpm.realization.realizationPackage;
+import org.splevo.vpm.refinement.AnalyzerConfiguration;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
+import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.variability.variabilityPackage;
@@ -28,6 +30,20 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 	 * @generated
 	 */
 	private EClass refinementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass refinementModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass analyzerConfigurationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -133,6 +149,69 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getRefinement_Analyzer() {
+		return (EReference)refinementEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRefinementModel() {
+		return refinementModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRefinementModel_Refinements() {
+		return (EReference)refinementModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRefinementModel_AnalyzerConfigurations() {
+		return (EReference)refinementModelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAnalyzerConfiguration() {
+		return analyzerConfigurationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnalyzerConfiguration_AnalyzerID() {
+		return (EAttribute)analyzerConfigurationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnalyzerConfiguration_Settings() {
+		return (EAttribute)analyzerConfigurationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getRefinementType() {
 		return refinementTypeEEnum;
 	}
@@ -165,9 +244,18 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 		isCreated = true;
 
 		// Create classes and their features
+		refinementModelEClass = createEClass(REFINEMENT_MODEL);
+		createEReference(refinementModelEClass, REFINEMENT_MODEL__REFINEMENTS);
+		createEReference(refinementModelEClass, REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS);
+
 		refinementEClass = createEClass(REFINEMENT);
 		createEAttribute(refinementEClass, REFINEMENT__TYPE);
 		createEReference(refinementEClass, REFINEMENT__VARIATION_POINTS);
+		createEReference(refinementEClass, REFINEMENT__ANALYZER);
+
+		analyzerConfigurationEClass = createEClass(ANALYZER_CONFIGURATION);
+		createEAttribute(analyzerConfigurationEClass, ANALYZER_CONFIGURATION__ANALYZER_ID);
+		createEAttribute(analyzerConfigurationEClass, ANALYZER_CONFIGURATION__SETTINGS);
 
 		// Create enums
 		refinementTypeEEnum = createEEnum(REFINEMENT_TYPE);
@@ -206,9 +294,18 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 		// Add supertypes to classes
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(refinementModelEClass, RefinementModel.class, "RefinementModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRefinementModel_Refinements(), this.getRefinement(), null, "refinements", null, 0, -1, RefinementModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRefinementModel_AnalyzerConfigurations(), this.getAnalyzerConfiguration(), null, "analyzerConfigurations", null, 0, -1, RefinementModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(refinementEClass, Refinement.class, "Refinement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRefinement_Type(), this.getRefinementType(), "type", "MANDATORY", 1, 1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRefinement_VariationPoints(), thevariabilityPackage.getVariationPoint(), null, "variationPoints", null, 0, -1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRefinement_Analyzer(), this.getAnalyzerConfiguration(), null, "analyzer", null, 0, 1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(analyzerConfigurationEClass, AnalyzerConfiguration.class, "AnalyzerConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAnalyzerConfiguration_AnalyzerID(), ecorePackage.getEString(), "analyzerID", null, 0, 1, AnalyzerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnalyzerConfiguration_Settings(), ecorePackage.getEString(), "settings", null, 0, 1, AnalyzerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(refinementTypeEEnum, RefinementType.class, "RefinementType");

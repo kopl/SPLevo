@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="refinement" nsURI="http://splevo.org/vpm/refinement/1.0" nsPrefix="org.splevo.vpm.refinement">
+  <eClassifiers xsi:type="ecore:EClass" name="RefinementModel">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A model containing all refinements identified for the variation point model."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" upperBound="-1"
+        eType="#//Refinement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzerConfigurations"
+        upperBound="-1" eType="#//AnalyzerConfiguration" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Refinement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A refinement identifies a refinement within a variation point model."/>
@@ -26,16 +35,6 @@
   <eClassifiers xsi:type="ecore:EEnum" name="RefinementType">
     <eLiterals name="MERGE"/>
     <eLiterals name="GROUPING" value="1"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="EEnum0"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RefinementModel">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A model containing all refinements identified for the variation point model."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" upperBound="-1"
-        eType="#//Refinement" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzerConfigurations"
-        upperBound="-1" eType="#//AnalyzerConfiguration" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AnalyzerConfiguration">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

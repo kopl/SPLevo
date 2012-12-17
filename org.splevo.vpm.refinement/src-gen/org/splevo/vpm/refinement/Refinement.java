@@ -20,6 +20,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getType <em>Type</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getVariationPoints <em>Variation Points</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getAnalyzer <em>Analyzer</em>}</li>
  * </ul>
  * </p>
  *
@@ -71,5 +72,30 @@ public interface Refinement extends EObject {
 	 * @generated
 	 */
 	EList<VariationPoint> getVariationPoints();
+
+	/**
+	 * Returns the value of the '<em><b>Analyzer</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The analyzer that led to this refinement.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Analyzer</em>' reference.
+	 * @see #setAnalyzer(AnalyzerConfiguration)
+	 * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement_Analyzer()
+	 * @model
+	 * @generated
+	 */
+	AnalyzerConfiguration getAnalyzer();
+
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.refinement.Refinement#getAnalyzer <em>Analyzer</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Analyzer</em>' reference.
+	 * @see #getAnalyzer()
+	 * @generated
+	 */
+	void setAnalyzer(AnalyzerConfiguration value);
 
 } // Refinement

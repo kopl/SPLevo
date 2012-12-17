@@ -31,6 +31,24 @@ public interface RefinementFactory extends EFactory {
 	Refinement createRefinement();
 
 	/**
+	 * Returns a new object of class '<em>Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Model</em>'.
+	 * @generated
+	 */
+	RefinementModel createRefinementModel();
+
+	/**
+	 * Returns a new object of class '<em>Analyzer Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Analyzer Configuration</em>'.
+	 * @generated
+	 */
+	AnalyzerConfiguration createAnalyzerConfiguration();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -22,18 +22,16 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.AnalyzerConfiguration;
 import org.splevo.vpm.refinement.RefinementPackage;
-import org.splevo.vpm.refinement.RefinementType;
-import org.splevo.vpm.variability.Variant;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.vpm.refinement.Refinement} object.
+ * This is the item provider adapter for a {@link org.splevo.vpm.refinement.AnalyzerConfiguration} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class RefinementItemProvider
+public class AnalyzerConfigurationItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -47,7 +45,7 @@ public class RefinementItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RefinementItemProvider(AdapterFactory adapterFactory) {
+	public AnalyzerConfigurationItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -62,27 +60,26 @@ public class RefinementItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addTypePropertyDescriptor(object);
-			addVariationPointsPropertyDescriptor(object);
-			addAnalyzerPropertyDescriptor(object);
+			addAnalyzerIDPropertyDescriptor(object);
+			addSettingsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Type feature.
+	 * This adds a property descriptor for the Analyzer ID feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addTypePropertyDescriptor(Object object) {
+	protected void addAnalyzerIDPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Refinement_type_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Refinement_type_feature", "_UI_Refinement_type"),
-				 RefinementPackage.Literals.REFINEMENT__TYPE,
+				 getString("_UI_AnalyzerConfiguration_analyzerID_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AnalyzerConfiguration_analyzerID_feature", "_UI_AnalyzerConfiguration_type"),
+				 RefinementPackage.Literals.ANALYZER_CONFIGURATION__ANALYZER_ID,
 				 true,
 				 false,
 				 false,
@@ -92,47 +89,36 @@ public class RefinementItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Variation Points feature.
+	 * This adds a property descriptor for the Settings feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addVariationPointsPropertyDescriptor(Object object) {
+	protected void addSettingsPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Refinement_variationPoints_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Refinement_variationPoints_feature", "_UI_Refinement_type"),
-				 RefinementPackage.Literals.REFINEMENT__VARIATION_POINTS,
+				 getString("_UI_AnalyzerConfiguration_settings_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AnalyzerConfiguration_settings_feature", "_UI_AnalyzerConfiguration_type"),
+				 RefinementPackage.Literals.ANALYZER_CONFIGURATION__SETTINGS,
 				 true,
 				 false,
-				 true,
-				 null,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Analyzer feature.
+	 * This returns AnalyzerConfiguration.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addAnalyzerPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Refinement_analyzer_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Refinement_analyzer_feature", "_UI_Refinement_type"),
-				 RefinementPackage.Literals.REFINEMENT__ANALYZER,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+	@Override
+	public Object getImage(Object object) {
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/AnalyzerConfiguration"));
 	}
 
 	/**
@@ -143,31 +129,10 @@ public class RefinementItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		RefinementType labelValue = ((Refinement)object).getType();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((AnalyzerConfiguration)object).getAnalyzerID();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Refinement_type") :
-			getString("_UI_Refinement_type") + " " + label;
-	}
-
-	/**
-	 * This returns an icon for the variant element.
-	 * Depending on the leading flag, the icon is changed.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated not
-	 */
-	@Override
-	public Object getImage(Object object) {
-		if(object instanceof Refinement){
-			if(((Refinement) object).getType().equals(RefinementType.GROUPING)){
-				return overlayImage(object, getResourceLocator().getImage("full/obj16/Grouping"));
-			} else {
-				return overlayImage(object, getResourceLocator().getImage("full/obj16/Merge"));
-			}
-		} else {
-			return super.getImage(object);
-		}
+			getString("_UI_AnalyzerConfiguration_type") :
+			getString("_UI_AnalyzerConfiguration_type") + " " + label;
 	}
 
 	/**
@@ -181,8 +146,9 @@ public class RefinementItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Refinement.class)) {
-			case RefinementPackage.REFINEMENT__TYPE:
+		switch (notification.getFeatureID(AnalyzerConfiguration.class)) {
+			case RefinementPackage.ANALYZER_CONFIGURATION__ANALYZER_ID:
+			case RefinementPackage.ANALYZER_CONFIGURATION__SETTINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

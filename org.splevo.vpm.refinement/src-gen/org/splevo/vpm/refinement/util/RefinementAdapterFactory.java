@@ -68,8 +68,16 @@ public class RefinementAdapterFactory extends AdapterFactoryImpl {
 	protected RefinementSwitch<Adapter> modelSwitch =
 		new RefinementSwitch<Adapter>() {
 			@Override
+			public Adapter caseRefinementModel(RefinementModel object) {
+				return createRefinementModelAdapter();
+			}
+			@Override
 			public Adapter caseRefinement(Refinement object) {
 				return createRefinementAdapter();
+			}
+			@Override
+			public Adapter caseAnalyzerConfiguration(AnalyzerConfiguration object) {
+				return createAnalyzerConfigurationAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -102,6 +110,34 @@ public class RefinementAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRefinementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.splevo.vpm.refinement.RefinementModel <em>Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.splevo.vpm.refinement.RefinementModel
+	 * @generated
+	 */
+	public Adapter createRefinementModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.splevo.vpm.refinement.AnalyzerConfiguration <em>Analyzer Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.splevo.vpm.refinement.AnalyzerConfiguration
+	 * @generated
+	 */
+	public Adapter createAnalyzerConfigurationAdapter() {
 		return null;
 	}
 
