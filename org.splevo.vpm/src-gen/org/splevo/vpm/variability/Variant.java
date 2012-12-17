@@ -22,6 +22,7 @@ import org.eclipse.gmt.modisco.java.ASTNode;
  *   <li>{@link org.splevo.vpm.variability.Variant#getSoftwareEntities <em>Software Entities</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getLeading <em>Leading</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getVariantId <em>Variant Id</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.Variant#getVariationPoint <em>Variation Point</em>}</li>
  * </ul>
  * </p>
  *
@@ -123,5 +124,33 @@ public interface Variant extends EObject {
 	 * @generated
 	 */
 	void setVariantId(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Variation Point</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.VariationPoint#getVariants <em>Variants</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Variation Point</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Variation Point</em>' container reference.
+	 * @see #setVariationPoint(VariationPoint)
+	 * @see org.splevo.vpm.variability.variabilityPackage#getVariant_VariationPoint()
+	 * @see org.splevo.vpm.variability.VariationPoint#getVariants
+	 * @model opposite="variants" required="true" transient="false"
+	 * @generated
+	 */
+	VariationPoint getVariationPoint();
+
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.variability.Variant#getVariationPoint <em>Variation Point</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Variation Point</em>' container reference.
+	 * @see #getVariationPoint()
+	 * @generated
+	 */
+	void setVariationPoint(VariationPoint value);
 
 } // Variant

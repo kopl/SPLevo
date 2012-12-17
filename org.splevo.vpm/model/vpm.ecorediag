@@ -231,16 +231,17 @@
   <element xmi:type="ecore:EPackage" href="vpm.ecore#/"/>
   <edges xmi:type="notation:Edge" xmi:id="_wVf7UHmsEeG7BrMXO-CD-g" type="3002" source="_wVDPYHmsEeG7BrMXO-CD-g" target="_wBs1kHmsEeG7BrMXO-CD-g">
     <children xmi:type="notation:Node" xmi:id="_wVpsUHmsEeG7BrMXO-CD-g" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_wVpsUXmsEeG7BrMXO-CD-g" x="2" y="-25"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_wVpsUXmsEeG7BrMXO-CD-g" x="-31" y="26"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_wVpsUnmsEeG7BrMXO-CD-g" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_wVpsU3msEeG7BrMXO-CD-g" x="51" y="-45"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_wVpsU3msEeG7BrMXO-CD-g" x="-8" y="37"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_wVf7UXmsEeG7BrMXO-CD-g" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_wVf7UnmsEeG7BrMXO-CD-g" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="vpm.ecore#//variability/VariationPoint/variants"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_wVf7U3msEeG7BrMXO-CD-g" points="[1, 1, -108, -143]$[91, 121, -18, -23]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KcEc8OLnEeGWUMLVWgVElQ" id="(0.9384615384615385,0.6122448979591837)"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_wVf7U3msEeG7BrMXO-CD-g" points="[6, 6, -55, -26]$[16, 17, -45, -15]$[50, 29, -11, -3]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_NBqh4kiPEeKgyLCL6Say4A" id="(0.9538461538461539,0.40816326530612246)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_NBqh40iPEeKgyLCL6Say4A" id="(0.0990990990990991,0.046511627906976744)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_1orFIHmsEeG7BrMXO-CD-g" type="3003" source="_1oSDkHmsEeG7BrMXO-CD-g" target="_1oVt-HmsEeG7BrMXO-CD-g">
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_1orFIXmsEeG7BrMXO-CD-g" routing="Rectilinear" lineColor="4210752"/>
@@ -288,7 +289,7 @@
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_OdTlLOLkEeGWUMLVWgVElQ" type="3002" source="_FyR88O3gEeGmqP8CRG9yOg" target="_wVDPYHmsEeG7BrMXO-CD-g">
     <children xmi:type="notation:Node" xmi:id="_OdTlMOLkEeGWUMLVWgVElQ" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_OdTlMeLkEeGWUMLVWgVElQ" x="-3" y="-63"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_OdTlMeLkEeGWUMLVWgVElQ" x="-9" y="69"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_OdTlMuLkEeGWUMLVWgVElQ" type="4012">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_OdTlM-LkEeGWUMLVWgVElQ" x="-3" y="-138"/>
@@ -378,5 +379,19 @@
     <element xmi:type="ecore:EReference" href="vpm.ecore#//variability/VariationPointGroup/model"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ChHmM0iNEeKgyLCL6Say4A" points="[-2, -30, 0, 73]$[13, -55, 15, 48]$[-2, -79, 0, 24]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_G8HK0kiNEeKgyLCL6Say4A" id="(0.5,0.5)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_Ir0jAEiPEeKgyLCL6Say4A" type="3002" source="_wBs1kHmsEeG7BrMXO-CD-g" target="_wVDPYHmsEeG7BrMXO-CD-g">
+    <children xmi:type="notation:Node" xmi:id="_Ir0jBEiPEeKgyLCL6Say4A" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ir0jBUiPEeKgyLCL6Say4A" x="-33" y="47"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_Ir0jBkiPEeKgyLCL6Say4A" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ir0jB0iPEeKgyLCL6Say4A" x="-33" y="22"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_Ir0jAUiPEeKgyLCL6Say4A" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_Ir0jAkiPEeKgyLCL6Say4A" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="vpm.ecore#//variability/Variant/variationPoint"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Ir0jA0iPEeKgyLCL6Say4A" points="[-11, -3, 50, 29]$[-45, -15, 16, 17]$[-55, -26, 6, 6]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Ir0jCEiPEeKgyLCL6Say4A" id="(0.0990990990990991,0.046511627906976744)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Ir0jCUiPEeKgyLCL6Say4A" id="(0.9538461538461539,0.40816326530612246)"/>
   </edges>
 </notation:Diagram>

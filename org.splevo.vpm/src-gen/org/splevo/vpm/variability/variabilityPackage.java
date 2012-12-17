@@ -166,13 +166,22 @@ public interface variabilityPackage extends EPackage {
 	int VARIANT__VARIANT_ID = 3;
 
 	/**
+	 * The feature id for the '<em><b>Variation Point</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIANT__VARIATION_POINT = 4;
+
+	/**
 	 * The number of structural features of the '<em>Variant</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VARIANT_FEATURE_COUNT = 4;
+	int VARIANT_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariationPointModelImpl <em>Variation Point Model</em>}' class.
@@ -397,6 +406,17 @@ public interface variabilityPackage extends EPackage {
 	EAttribute getVariant_VariantId();
 
 	/**
+	 * Returns the meta object for the container reference '{@link org.splevo.vpm.variability.Variant#getVariationPoint <em>Variation Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Variation Point</em>'.
+	 * @see org.splevo.vpm.variability.Variant#getVariationPoint()
+	 * @see #getVariant()
+	 * @generated
+	 */
+	EReference getVariant_VariationPoint();
+
+	/**
 	 * Returns the meta object for class '{@link org.splevo.vpm.variability.VariationPointModel <em>Variation Point Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -606,6 +626,14 @@ public interface variabilityPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute VARIANT__VARIANT_ID = eINSTANCE.getVariant_VariantId();
+
+		/**
+		 * The meta object literal for the '<em><b>Variation Point</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIANT__VARIATION_POINT = eINSTANCE.getVariant_VariationPoint();
 
 		/**
 		 * The meta object literal for the '{@link org.splevo.vpm.variability.impl.VariationPointModelImpl <em>Variation Point Model</em>}' class.

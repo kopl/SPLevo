@@ -36,6 +36,7 @@ public interface VariationPoint extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Variants</b></em>' containment reference list.
 	 * The list contents are of type {@link org.splevo.vpm.variability.Variant}.
+	 * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.Variant#getVariationPoint <em>Variation Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Variants</em>' containment reference list isn't clear,
@@ -44,7 +45,8 @@ public interface VariationPoint extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variants</em>' containment reference list.
 	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_Variants()
-	 * @model containment="true"
+	 * @see org.splevo.vpm.variability.Variant#getVariationPoint
+	 * @model opposite="variationPoint" containment="true"
 	 * @generated
 	 */
 	EList<Variant> getVariants();

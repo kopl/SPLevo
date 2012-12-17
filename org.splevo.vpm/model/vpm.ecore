@@ -4,7 +4,7 @@
   <eSubpackages name="variability" nsURI="http://splevo.org/vpm/1.0/variability" nsPrefix="variability">
     <eClassifiers xsi:type="ecore:EClass" name="VariationPoint">
       <eStructuralFeatures xsi:type="ecore:EReference" name="variants" upperBound="-1"
-          eType="#//variability/Variant" containment="true"/>
+          eType="#//variability/Variant" containment="true" eOpposite="#//variability/Variant/variationPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="realizationTechnique"
           eType="#//realization/RealizationTechnique"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
@@ -37,6 +37,8 @@
           <details key="documentation" value="The external configurable and processable identifier of a variant.&#xD;&#xA;This can be used e.g. to identifier a variant within the realization technique, e.g. a value of a configuration parameter.&#xD;&#xA;All variants of variation points in the same variation point group, that contribute to the same alternative of a variable product feature should have the same variant ID."/>
         </eAnnotations>
       </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variationPoint" lowerBound="1"
+          eType="#//variability/VariationPoint" eOpposite="#//variability/VariationPoint/variants"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="VariationPointModel">
       <eStructuralFeatures xsi:type="ecore:EReference" name="realizationTechniques"

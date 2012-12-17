@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -114,7 +115,7 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
 	 */
 	public EList<Variant> getVariants() {
 		if (variants == null) {
-			variants = new EObjectContainmentEList<Variant>(Variant.class, this, variabilityPackage.VARIATION_POINT__VARIANTS);
+			variants = new EObjectContainmentWithInverseEList<Variant>(Variant.class, this, variabilityPackage.VARIATION_POINT__VARIANTS, variabilityPackage.VARIANT__VARIATION_POINT);
 		}
 		return variants;
 	}
@@ -279,9 +280,12 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case variabilityPackage.VARIATION_POINT__VARIANTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVariants()).basicAdd(otherEnd, msgs);
 			case variabilityPackage.VARIATION_POINT__GROUP:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
