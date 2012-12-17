@@ -1,10 +1,9 @@
 package org.splevo.ui.refinementbrowser;
 
+
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.splevo.vpm.refinement.Refinement;
 
@@ -12,6 +11,7 @@ public class RefinementSelectionListener implements ISelectionChangedListener {
 
 	/** The composite to present the Refinement details in. */
 	private RefinementDetailsView refinementDetailView;
+
 
 	/**
 	 * Constructor to set the required references.
@@ -48,5 +48,4 @@ public class RefinementSelectionListener implements ISelectionChangedListener {
 		
 		refinementDetailView.showRefinement(refinement);
 	}
-
 }

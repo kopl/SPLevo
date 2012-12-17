@@ -15,7 +15,7 @@ import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
-import org.splevo.diffing.kdm.KDMUtil;
+import org.splevo.modisco.util.KDMUtil;
 
 public class ImportChangeDiffingTest extends AbstractDiffingTest {
 	

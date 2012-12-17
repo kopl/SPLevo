@@ -1,6 +1,6 @@
 package org.splevo.vpm.refinement;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,12 +10,19 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
+import org.eclipse.modisco.java.composition.javaapplication.queries.GetASTNodeSourceRegion;
 import org.junit.Test;
 import org.splevo.diffing.Java2KDMDiffingService;
-import org.splevo.diffing.kdm.KDMUtil;
+import org.splevo.modisco.util.KDMUtil;
 import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
 import org.splevo.vpm.refinement.simplelocation.VPLocationAnalyzer;
+import org.splevo.modisco.util.SourceConnector;
+import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -54,6 +61,15 @@ public class VPMRefinementServiceTest extends AbstractTest {
 
 		ModelUtils.save(refinedVPM, "testresult/gcd-refined.vpm");
 		
+		for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()){
+			if(vpGroup.getGroupId().equals("gcd")){
+				ASTNode astNode = vpGroup.getVariationPoints().get(0).getSoftwareEntity();
+				
+				SourceConnector sourceConnector = new SourceConnector(refinedVPM.getLeadingModel());
+				JavaNodeSourceRegion sourceRegion = sourceConnector.findSourceRegion(astNode);
+				assertNotNull(sourceRegion);
+			}
+		}
 	}
 
 	/**

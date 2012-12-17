@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.featuremodel.FeatureModelPackage;
 
+import org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage;
 import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 
 import org.splevo.vpm.realization.CompilationTimeRealizationTechnique;
@@ -113,7 +114,7 @@ public class realizationPackageImpl extends EPackageImpl implements realizationP
 
 		// Initialize simple dependencies
 		FeatureModelPackage.eINSTANCE.eClass();
-		JavaPackage.eINSTANCE.eClass();
+		JavaapplicationPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		variabilityPackageImpl thevariabilityPackage = (variabilityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(variabilityPackage.eNS_URI) instanceof variabilityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(variabilityPackage.eNS_URI) : variabilityPackage.eINSTANCE);

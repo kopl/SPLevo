@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.eclipse.gmt.modisco.java.Model;
 
 import org.splevo.vpm.realization.RealizationTechnique;
@@ -62,7 +63,7 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 * @generated
 	 * @ordered
 	 */
-	protected Model leadingModel;
+	protected JavaApplication leadingModel;
 
 	/**
 	 * The cached value of the '{@link #getIntegrationModel() <em>Integration Model</em>}' reference.
@@ -72,7 +73,7 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 * @generated
 	 * @ordered
 	 */
-	protected Model integrationModel;
+	protected JavaApplication integrationModel;
 
 	/**
 	 * The cached value of the '{@link #getVariationPointGroups() <em>Variation Point Groups</em>}' containment reference list.
@@ -120,10 +121,10 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Model getLeadingModel() {
+	public JavaApplication getLeadingModel() {
 		if (leadingModel != null && leadingModel.eIsProxy()) {
 			InternalEObject oldLeadingModel = (InternalEObject)leadingModel;
-			leadingModel = (Model)eResolveProxy(oldLeadingModel);
+			leadingModel = (JavaApplication)eResolveProxy(oldLeadingModel);
 			if (leadingModel != oldLeadingModel) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, variabilityPackage.VARIATION_POINT_MODEL__LEADING_MODEL, oldLeadingModel, leadingModel));
@@ -137,7 +138,7 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Model basicGetLeadingModel() {
+	public JavaApplication basicGetLeadingModel() {
 		return leadingModel;
 	}
 
@@ -146,8 +147,8 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLeadingModel(Model newLeadingModel) {
-		Model oldLeadingModel = leadingModel;
+	public void setLeadingModel(JavaApplication newLeadingModel) {
+		JavaApplication oldLeadingModel = leadingModel;
 		leadingModel = newLeadingModel;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_MODEL__LEADING_MODEL, oldLeadingModel, leadingModel));
@@ -158,10 +159,10 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Model getIntegrationModel() {
+	public JavaApplication getIntegrationModel() {
 		if (integrationModel != null && integrationModel.eIsProxy()) {
 			InternalEObject oldIntegrationModel = (InternalEObject)integrationModel;
-			integrationModel = (Model)eResolveProxy(oldIntegrationModel);
+			integrationModel = (JavaApplication)eResolveProxy(oldIntegrationModel);
 			if (integrationModel != oldIntegrationModel) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, variabilityPackage.VARIATION_POINT_MODEL__INTEGRATION_MODEL, oldIntegrationModel, integrationModel));
@@ -175,7 +176,7 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Model basicGetIntegrationModel() {
+	public JavaApplication basicGetIntegrationModel() {
 		return integrationModel;
 	}
 
@@ -184,8 +185,8 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setIntegrationModel(Model newIntegrationModel) {
-		Model oldIntegrationModel = integrationModel;
+	public void setIntegrationModel(JavaApplication newIntegrationModel) {
+		JavaApplication oldIntegrationModel = integrationModel;
 		integrationModel = newIntegrationModel;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_MODEL__INTEGRATION_MODEL, oldIntegrationModel, integrationModel));
@@ -255,10 +256,10 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 				getRealizationTechniques().addAll((Collection<? extends RealizationTechnique>)newValue);
 				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__LEADING_MODEL:
-				setLeadingModel((Model)newValue);
+				setLeadingModel((JavaApplication)newValue);
 				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__INTEGRATION_MODEL:
-				setIntegrationModel((Model)newValue);
+				setIntegrationModel((JavaApplication)newValue);
 				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
 				getVariationPointGroups().clear();
@@ -280,10 +281,10 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 				getRealizationTechniques().clear();
 				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__LEADING_MODEL:
-				setLeadingModel((Model)null);
+				setLeadingModel((JavaApplication)null);
 				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__INTEGRATION_MODEL:
-				setIntegrationModel((Model)null);
+				setIntegrationModel((JavaApplication)null);
 				return;
 			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
 				getVariationPointGroups().clear();

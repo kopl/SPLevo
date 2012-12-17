@@ -16,7 +16,6 @@ import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.eclipse.modisco.java.composition.javaapplication.util.JavaapplicationSwitch;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
 /**
@@ -70,46 +69,48 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 		return super.isSimilar(obj1, obj2);
 	}
 
-	/**
-	 * Internal switch class to prove element similarity for elements of the
-	 * java application package
-	 * 
-	 */
-	private class SimilaritySwitchComposition extends
-			JavaapplicationSwitch<Boolean> {
-
-		private Logger logger = Logger
-				.getLogger(SimilaritySwitchComposition.class);
-
-		/** The object to compare the switched element with. */
-		private EObject compareElement = null;
-
-		/**
-		 * Constructor requiring the element to compare with.
-		 * 
-		 * @param compareElement
-		 *            The element to check the similarity with.
-		 */
-		public SimilaritySwitchComposition(EObject compareElement) {
-			this.compareElement = compareElement;
-		}
-
-		@Override
-		public Boolean caseJavaApplication(JavaApplication object) {
-
-			Model model1 = object.getJavaModel();
-			Model model2 = ((JavaApplication) compareElement).getJavaModel();
-
-			if (!model1.getName().equals(model2.getName())) {
-				logger.debug("javaApplications not similar because of included java AST model");
-				return Boolean.FALSE;
-			} else {
-				logger.info("Java Models with the same name detected");
-			}
-
-			return super.caseJavaApplication(object);
-		}
-	}
+// TODO: Check necessity of JavaApplication similarity switch
+// it is not clear yet, if we need to check the similarity of two 
+//	/**
+//	 * Internal switch class to prove element similarity for elements of the
+//	 * java application package
+//	 * 
+//	 */
+//	private class SimilaritySwitchComposition extends
+//			JavaapplicationSwitch<Boolean> {
+//
+//		private Logger logger = Logger
+//				.getLogger(SimilaritySwitchComposition.class);
+//
+//		/** The object to compare the switched element with. */
+//		private EObject compareElement = null;
+//
+//		/**
+//		 * Constructor requiring the element to compare with.
+//		 * 
+//		 * @param compareElement
+//		 *            The element to check the similarity with.
+//		 */
+//		public SimilaritySwitchComposition(EObject compareElement) {
+//			this.compareElement = compareElement;
+//		}
+//
+//		@Override
+//		public Boolean caseJavaApplication(JavaApplication object) {
+//
+//			Model model1 = object.getJavaModel();
+//			Model model2 = ((JavaApplication) compareElement).getJavaModel();
+//
+//			if (!model1.getName().equals(model2.getName())) {
+//				logger.debug("javaApplications not similar because of included java AST model");
+//				return Boolean.FALSE;
+//			} else {
+//				logger.info("Java Models with the same name detected");
+//			}
+//
+//			return super.caseJavaApplication(object);
+//		}
+//	}
 
 	/**
 	 * Internal switch class to prove element similarity.
@@ -289,11 +290,21 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 	public MatchModel modelMatch(EObject leftRoot, EObject rightRoot, Map<String, Object> optionMap)
 			throws InterruptedException {
 		
-		Model leftJavaModel = ((JavaApplication) leftRoot).getJavaModel();
-		Model rightJavaModel = ((JavaApplication) rightRoot).getJavaModel();
+		JavaApplication leftJavaApplication = (JavaApplication) leftRoot;
+		JavaApplication rightJavaApplication = (JavaApplication) rightRoot;
+		
+		Model leftJavaModel = leftJavaApplication.getJavaModel();
+		Model rightJavaModel = rightJavaApplication.getJavaModel();
 		MatchModel result = super.modelMatch(leftJavaModel, rightJavaModel, optionMap);
-		result.getLeftRoots().add(leftRoot);
-		result.getRightRoots().add(rightRoot);
+
+		// add the composition models
+		result.getLeftRoots().add(leftJavaApplication);
+		result.getRightRoots().add(rightJavaApplication);
+
+		// add the inventory models
+		result.getLeftRoots().add(leftJavaApplication.getDeploymentModel());
+		result.getRightRoots().add(rightJavaApplication.getDeploymentModel());
+
 		return result;
 	}
 

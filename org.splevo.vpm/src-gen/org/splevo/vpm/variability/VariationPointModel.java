@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.eclipse.gmt.modisco.java.Model;
 
 import org.splevo.vpm.realization.RealizationTechnique;
@@ -55,12 +56,12 @@ public interface VariationPointModel extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Leading Model</em>' reference.
-	 * @see #setLeadingModel(Model)
+	 * @see #setLeadingModel(JavaApplication)
 	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_LeadingModel()
 	 * @model required="true"
 	 * @generated
 	 */
-	Model getLeadingModel();
+	JavaApplication getLeadingModel();
 
 	/**
 	 * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointModel#getLeadingModel <em>Leading Model</em>}' reference.
@@ -70,7 +71,7 @@ public interface VariationPointModel extends EObject {
 	 * @see #getLeadingModel()
 	 * @generated
 	 */
-	void setLeadingModel(Model value);
+	void setLeadingModel(JavaApplication value);
 
 	/**
 	 * Returns the value of the '<em><b>Integration Model</b></em>' reference.
@@ -81,12 +82,12 @@ public interface VariationPointModel extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Integration Model</em>' reference.
-	 * @see #setIntegrationModel(Model)
+	 * @see #setIntegrationModel(JavaApplication)
 	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_IntegrationModel()
 	 * @model required="true"
 	 * @generated
 	 */
-	Model getIntegrationModel();
+	JavaApplication getIntegrationModel();
 
 	/**
 	 * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointModel#getIntegrationModel <em>Integration Model</em>}' reference.
@@ -96,7 +97,7 @@ public interface VariationPointModel extends EObject {
 	 * @see #getIntegrationModel()
 	 * @generated
 	 */
-	void setIntegrationModel(Model value);
+	void setIntegrationModel(JavaApplication value);
 
 	/**
 	 * Returns the value of the '<em><b>Variation Point Groups</b></em>' containment reference list.

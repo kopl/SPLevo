@@ -12,7 +12,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.Java2KDMDiffingService;
-import org.splevo.diffing.kdm.KDMUtil;
+import org.splevo.modisco.util.KDMUtil;
 import org.splevo.project.SPLevoProject;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;

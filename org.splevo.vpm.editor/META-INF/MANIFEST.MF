@@ -14,8 +14,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm.edit;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
- org.eclipse.ui.ide;visibility:=reexport,
- org.eclipse.emf.ecore.edit;visibility:=reexport,
- org.eclipse.featuremodel.metamodel.edit;visibility:=reexport,
- org.eclipse.gmt.modisco.java.edit;visibility:=reexport
+ org.eclipse.ui.ide;visibility:=reexport
 Bundle-ActivationPolicy: lazy

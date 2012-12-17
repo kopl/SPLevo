@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
-import org.splevo.diffing.kdm.KDMUtil;
+import org.splevo.modisco.util.KDMUtil;
 
 public class VariableDeclarationStatementDiffingTest extends AbstractDiffingTest {
 	

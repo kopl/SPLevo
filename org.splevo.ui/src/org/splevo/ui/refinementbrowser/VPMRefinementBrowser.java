@@ -72,11 +72,13 @@ public class VPMRefinementBrowser extends EditorPart {
 		sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
 		toolkit.adapt(sashForm);
 		toolkit.paintBordersFor(sashForm);
-
-		this.refinementTreeViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL | SWT.BORDER);
-		refinementTreeViewer.setContentProvider(new RefinementTreeContentProvider());
-		refinementTreeViewer.setLabelProvider(new RefinementTreeLabelProvider());
+	
+		this.refinementTreeViewer = new TreeViewer(sashForm, SWT.MULTI
+				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		refinementTreeViewer
+				.setContentProvider(new RefinementTreeContentProvider());
+		refinementTreeViewer
+				.setLabelProvider(new RefinementTreeLabelProvider());
 		refinementTreeViewer.setAutoExpandLevel(2);
 		refinementTreeViewer.setInput(input.getRefinements());
 
@@ -94,10 +96,12 @@ public class VPMRefinementBrowser extends EditorPart {
 		});
 
 		RefinementDetailsView detailsView = new RefinementDetailsView(sashForm);
-		
-		sashForm.setWeights(new int[] { 3, 7});
 
-		refinementTreeViewer.addSelectionChangedListener(new RefinementSelectionListener(detailsView, input, toolkit));
+		sashForm.setWeights(new int[] { 3, 7 });
+		RefinementSelectionListener listener = new RefinementSelectionListener(detailsView, input, toolkit);
+		refinementTreeViewer.addSelectionChangedListener(listener);
+
+		
 	}
 
 	/**

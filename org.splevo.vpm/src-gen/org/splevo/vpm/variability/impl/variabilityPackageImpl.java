@@ -14,6 +14,7 @@ import org.eclipse.featuremodel.FeatureModelPackage;
 
 import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 
+import org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage;
 import org.splevo.vpm.realization.impl.realizationPackageImpl;
 
 import org.splevo.vpm.realization.realizationPackage;
@@ -108,7 +109,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 
 		// Initialize simple dependencies
 		FeatureModelPackage.eINSTANCE.eClass();
-		JavaPackage.eINSTANCE.eClass();
+		JavaapplicationPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		realizationPackageImpl therealizationPackage = (realizationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(realizationPackage.eNS_URI) instanceof realizationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(realizationPackage.eNS_URI) : realizationPackage.eINSTANCE);
@@ -381,6 +382,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 		FeatureModelPackage theFeatureModelPackage = (FeatureModelPackage)EPackage.Registry.INSTANCE.getEPackage(FeatureModelPackage.eNS_URI);
 		JavaPackage theJavaPackage = (JavaPackage)EPackage.Registry.INSTANCE.getEPackage(JavaPackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		JavaapplicationPackage theJavaapplicationPackage = (JavaapplicationPackage)EPackage.Registry.INSTANCE.getEPackage(JavaapplicationPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -404,8 +406,8 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 
 		initEClass(variationPointModelEClass, VariationPointModel.class, "VariationPointModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getVariationPointModel_RealizationTechniques(), therealizationPackage.getRealizationTechnique(), null, "realizationTechniques", null, 0, -1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getVariationPointModel_LeadingModel(), theJavaPackage.getModel(), null, "leadingModel", null, 1, 1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getVariationPointModel_IntegrationModel(), theJavaPackage.getModel(), null, "integrationModel", null, 1, 1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVariationPointModel_LeadingModel(), theJavaapplicationPackage.getJavaApplication(), null, "leadingModel", null, 1, 1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVariationPointModel_IntegrationModel(), theJavaapplicationPackage.getJavaApplication(), null, "integrationModel", null, 1, 1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariationPointModel_VariationPointGroups(), this.getVariationPointGroup(), null, "variationPointGroups", null, 0, -1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(variationPointGroupEClass, VariationPointGroup.class, "VariationPointGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

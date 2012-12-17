@@ -12,7 +12,7 @@ import org.eclipse.featuremodel.FeatureModel;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
 import org.splevo.diffing.Java2KDMDiffingService;
-import org.splevo.diffing.kdm.KDMUtil;
+import org.splevo.modisco.util.KDMUtil;
 import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
 import org.splevo.vpm.variability.VariationPointModel;
 

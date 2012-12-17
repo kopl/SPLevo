@@ -161,6 +161,20 @@ import org.eclipse.featuremodel.provider.FeatureModelItemProviderAdapterFactory;
 
 import org.eclipse.gmt.modisco.java.emf.provider.JavaItemProviderAdapterFactory;
 
+import org.eclipse.gmt.modisco.omg.kdm.action.provider.ActionItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.build.provider.BuildItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.code.provider.CodeItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.conceptual.provider.ConceptualItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.core.provider.CoreItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.data.provider.DataItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.event.provider.EventItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.kdm.provider.KdmItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.platform.provider.PlatformItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.source.provider.SourceItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.structure.provider.StructureItemProviderAdapterFactory;
+import org.eclipse.gmt.modisco.omg.kdm.ui.provider.UiItemProviderAdapterFactory;
+import org.eclipse.modisco.java.composition.javaapplication.provider.JavaapplicationItemProviderAdapterFactory;
+import org.eclipse.modisco.kdm.source.extension.provider.ExtensionItemProviderAdapterFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import org.splevo.vpm.realization.provider.realizationItemProviderAdapterFactory;
@@ -703,6 +717,20 @@ public class variabilityEditor
 		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new FeatureModelItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new JavaItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new JavaapplicationItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new CoreItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new KdmItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new SourceItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new CodeItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ActionItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new PlatformItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new BuildItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ConceptualItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new DataItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new EventItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new StructureItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new UiItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ExtensionItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
 		// Create the command stack that will notify this editor as commands are executed.

@@ -117,7 +117,7 @@ public class VPM2FMBuilder {
 		fm.setId(EcoreUtil.generateUUID());
 		fm.setVersion("1.0");
 		Feature rootFeature = FeatureModelFactory.eINSTANCE.createFeature();
-		rootFeature.setName(vpm.getLeadingModel().getName());
+		rootFeature.setName(vpm.getLeadingModel().getJavaModel().getName());
 		rootFeature.setId(EcoreUtil.generateUUID());
 		fm.setRoot(rootFeature);
 		return fm;

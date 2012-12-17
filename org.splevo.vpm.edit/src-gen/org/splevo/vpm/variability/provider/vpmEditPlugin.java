@@ -7,6 +7,9 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 import org.eclipse.featuremodel.provider.FeatureModelEditPlugin;
 import org.eclipse.gmt.modisco.java.emf.provider.JavaEditPlugin;
+import org.eclipse.gmt.modisco.omg.kdm.core.provider.KdmEditPlugin;
+import org.eclipse.modisco.java.composition.javaapplication.provider.JavaApplicationEditPlugin;
+import org.eclipse.modisco.kdm.source.extension.provider.KdmSourceExtensionEditPlugin;
 
 /**
  * This is the central singleton for the vpm edit plugin.
@@ -43,6 +46,9 @@ public final class vpmEditPlugin extends EMFPlugin {
 		     EcoreEditPlugin.INSTANCE,
 		     FeatureModelEditPlugin.INSTANCE,
 		     JavaEditPlugin.INSTANCE,
+		     JavaApplicationEditPlugin.INSTANCE,
+		     KdmEditPlugin.INSTANCE,
+		     KdmSourceExtensionEditPlugin.INSTANCE,
 		   });
 	}
 
