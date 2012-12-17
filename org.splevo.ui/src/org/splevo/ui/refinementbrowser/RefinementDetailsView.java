@@ -2,7 +2,6 @@ package org.splevo.ui.refinementbrowser;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -22,6 +21,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.modisco.util.SourceConnector;
+import org.splevo.ui.jdt.JavaEditorConnector;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -38,7 +38,9 @@ public class RefinementDetailsView extends Composite {
 
 	/**
 	 * Constructor to create the view.
-	 * @param parent The parent ui element to present the view in.
+	 * 
+	 * @param parent
+	 *            The parent ui element to present the view in.
 	 */
 	public RefinementDetailsView(Composite parent) {
 		super(parent, SWT.FILL);
@@ -63,7 +65,9 @@ public class RefinementDetailsView extends Composite {
 
 	/**
 	 * Trigger the presentation of a specific refinement in the view.
-	 * @param refinement The refinement to show.
+	 * 
+	 * @param refinement
+	 *            The refinement to show.
 	 */
 	public void showRefinement(Refinement refinement) {
 		variationPointTreeViewer.setInput(refinement);
@@ -146,61 +150,58 @@ public class RefinementDetailsView extends Composite {
 			}
 		}
 	}
-
+	
+	/**
+	 * initialize the context menu
+	 */
 	private void initContextMenu() {
-		// initalize the context menu
-		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
+
+		MenuManager menuMgr = new MenuManager();
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
+
+				// trigger the action to navigate to the source
+				// location and open the Java Editor at the according location
 				Action action = new Action() {
 
 					public void run() {
 						Object object = (((StructuredSelection) (variationPointTreeViewer
 								.getSelection()))).getFirstElement();
 
-						// TODO fix
 						if (object instanceof EObject) {
 							EObject eObject = (EObject) object;
-							EObject resolved = null;
-							if (eObject.eIsProxy()) {
-								resolved = EcoreUtil.resolve(eObject,eObject.eResource());
-							} else {
-								EcoreUtil.resolveAll(eObject.eResource());
-								resolved = EcoreUtil.resolve(eObject,eObject.eResource());
-							}
+							ASTNode astNode = (ASTNode) eObject;
 
-							// code copied from StrategySourceJava
-							ASTNode astNode = (ASTNode) resolved;
-							Refinement refinement = (Refinement) variationPointTreeViewer.getInput();
-							VariationPointGroup vpg = (VariationPointGroup) refinement.getVariationPoints().get(0).eContainer();
-							VariationPointModel vpm = (VariationPointModel) vpg.eContainer();
-							
-							SourceConnector sourceConnector = new SourceConnector(vpm.getLeadingModel());
-							JavaNodeSourceRegion sourceRegion = sourceConnector.findSourceRegion(astNode);
-							System.err.println("SourceNodeRegion:"+sourceRegion);
-							
-							
-//							astNode.getOriginalCompilationUnit().eResource().getResourceSet().getResources().addAll(vpm.getLeadingModel().eResource().getResourceSet().getResources());
-////							astNode.getOriginalCompilationUnit().eResource().getResourceSet().getResources().addAll(vpm.getIntegrationModel().eResource().getResourceSet().getResources());
-//							GetASTNodeSourceRegion query = new GetASTNodeSourceRegion();
-//							try {
-//								JavaNodeSourceRegion sourceNodeRegion = query.evaluate(astNode, null);
-//								System.err.println("Source Region Could not be accessed (ASTNode: "+astNode+")");
-//								System.err.println("sourceNodeRegion: "+sourceNodeRegion);
-//								
-//								
-////								ICompilationUnit cu = member.getCompilationUnit();
-////								IEditorPart javaEditor = JavaUI.openInEditor(cu);
-////								JavaUI.revealInEditor(javaEditor, (IJavaElement)member);
-//								
-//							} catch (Exception e) {
-//								System.err.println(e.getMessage());
-//							}							
+							Refinement refinement = (Refinement) variationPointTreeViewer
+									.getInput();
+							VariationPointGroup vpg = (VariationPointGroup) refinement
+									.getVariationPoints().get(0).eContainer();
+							VariationPointModel vpm = (VariationPointModel) vpg
+									.eContainer();
+
+							// FIXME: Use variant specific java application
+							// model
+							// At the moment, always the leading model is used
+							// this needs to be specific for the selected note.
+							SourceConnector sourceConnector = new SourceConnector(
+									vpm.getLeadingModel());
+							JavaNodeSourceRegion sourceRegion = sourceConnector
+									.findSourceRegion(astNode);
+							System.err.println("SourceNodeRegion:"
+									+ sourceRegion);
+
+							if (sourceRegion != null) {
+								JavaEditorConnector javaEditorConnector = new JavaEditorConnector();
+								javaEditorConnector.openJavaEditor(
+										sourceRegion, true);
+							} else {
+								logger.warn("No SourceRegion accessible.");
+							}
 						} else {
-							logger.warn("A non eObject has been triggered");
+							logger.warn("A non-eObject has been selected");
 						}
 					}
 				};
@@ -211,7 +212,7 @@ public class RefinementDetailsView extends Composite {
 		Menu menu = menuMgr.createContextMenu(variationPointTreeViewer
 				.getTree());
 		variationPointTreeViewer.getTree().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, variationPointTreeViewer);
+		
 	}
 
 	/**
