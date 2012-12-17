@@ -1,7 +1,6 @@
 package org.splevo.ui.refinementbrowser;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -9,10 +8,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
@@ -20,21 +17,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
-import org.splevo.modisco.util.SourceConnector;
-import org.splevo.ui.jdt.JavaEditorConnector;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
-import org.splevo.vpm.variability.VariationPointGroup;
-import org.splevo.vpm.variability.VariationPointModel;
 
 public class RefinementDetailsView extends Composite {
 
 	/** The logger for this class. */
-	private Logger logger = Logger.getLogger(RefinementDetailsView.class);
+	Logger logger = Logger.getLogger(RefinementDetailsView.class);
 
 	/** The internal tree viewer to present the refined variation points. */
-	private TreeViewer variationPointTreeViewer;
+	TreeViewer variationPointTreeViewer = null;
 
 	/**
 	 * Constructor to create the view.
@@ -150,7 +143,7 @@ public class RefinementDetailsView extends Composite {
 			}
 		}
 	}
-	
+
 	/**
 	 * initialize the context menu
 	 */
@@ -165,54 +158,14 @@ public class RefinementDetailsView extends Composite {
 
 				// trigger the action to navigate to the source
 				// location and open the Java Editor at the according location
-				Action action = new Action() {
-
-					public void run() {
-						Object object = (((StructuredSelection) (variationPointTreeViewer
-								.getSelection()))).getFirstElement();
-
-						if (object instanceof EObject) {
-							EObject eObject = (EObject) object;
-							ASTNode astNode = (ASTNode) eObject;
-
-							Refinement refinement = (Refinement) variationPointTreeViewer
-									.getInput();
-							VariationPointGroup vpg = (VariationPointGroup) refinement
-									.getVariationPoints().get(0).eContainer();
-							VariationPointModel vpm = (VariationPointModel) vpg
-									.eContainer();
-
-							// FIXME: Use variant specific java application
-							// model
-							// At the moment, always the leading model is used
-							// this needs to be specific for the selected note.
-							SourceConnector sourceConnector = new SourceConnector(
-									vpm.getLeadingModel());
-							JavaNodeSourceRegion sourceRegion = sourceConnector
-									.findSourceRegion(astNode);
-							System.err.println("SourceNodeRegion:"
-									+ sourceRegion);
-
-							if (sourceRegion != null) {
-								JavaEditorConnector javaEditorConnector = new JavaEditorConnector();
-								javaEditorConnector.openJavaEditor(
-										sourceRegion, true);
-							} else {
-								logger.warn("No SourceRegion accessible.");
-							}
-						} else {
-							logger.warn("A non-eObject has been selected");
-						}
-					}
-				};
-				action.setText("Open Source in Editor");
+				Action action = new OpenSourceInEditorAction(variationPointTreeViewer);
 				manager.add(action);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(variationPointTreeViewer
 				.getTree());
 		variationPointTreeViewer.getTree().setMenu(menu);
-		
+
 	}
 
 	/**
