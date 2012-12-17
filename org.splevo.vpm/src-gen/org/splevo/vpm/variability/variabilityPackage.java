@@ -259,13 +259,22 @@ public interface variabilityPackage extends EPackage {
 	int VARIATION_POINT_GROUP__GROUP_ID = 1;
 
 	/**
+	 * The feature id for the '<em><b>Model</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIATION_POINT_GROUP__MODEL = 2;
+
+	/**
 	 * The number of structural features of the '<em>Variation Point Group</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VARIATION_POINT_GROUP_FEATURE_COUNT = 2;
+	int VARIATION_POINT_GROUP_FEATURE_COUNT = 3;
 
 
 	/**
@@ -474,6 +483,17 @@ public interface variabilityPackage extends EPackage {
 	EAttribute getVariationPointGroup_GroupId();
 
 	/**
+	 * Returns the meta object for the container reference '{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Model</em>'.
+	 * @see org.splevo.vpm.variability.VariationPointGroup#getModel()
+	 * @see #getVariationPointGroup()
+	 * @generated
+	 */
+	EReference getVariationPointGroup_Model();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -654,6 +674,14 @@ public interface variabilityPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute VARIATION_POINT_GROUP__GROUP_ID = eINSTANCE.getVariationPointGroup_GroupId();
+
+		/**
+		 * The meta object literal for the '<em><b>Model</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIATION_POINT_GROUP__MODEL = eINSTANCE.getVariationPointGroup_Model();
 
 	}
 

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
@@ -199,9 +200,24 @@ public class VariationPointModelImpl extends EObjectImpl implements VariationPoi
 	 */
 	public EList<VariationPointGroup> getVariationPointGroups() {
 		if (variationPointGroups == null) {
-			variationPointGroups = new EObjectContainmentEList<VariationPointGroup>(VariationPointGroup.class, this, variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS);
+			variationPointGroups = new EObjectContainmentWithInverseEList<VariationPointGroup>(VariationPointGroup.class, this, variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS, variabilityPackage.VARIATION_POINT_GROUP__MODEL);
 		}
 		return variationPointGroups;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVariationPointGroups()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**

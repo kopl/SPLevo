@@ -307,6 +307,15 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getVariationPointGroup_Model() {
+		return (EReference)variationPointGroupEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public variabilityFactory getvariabilityFactory() {
 		return (variabilityFactory)getEFactoryInstance();
 	}
@@ -352,6 +361,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 		variationPointGroupEClass = createEClass(VARIATION_POINT_GROUP);
 		createEReference(variationPointGroupEClass, VARIATION_POINT_GROUP__VARIATION_POINTS);
 		createEAttribute(variationPointGroupEClass, VARIATION_POINT_GROUP__GROUP_ID);
+		createEReference(variationPointGroupEClass, VARIATION_POINT_GROUP__MODEL);
 	}
 
 	/**
@@ -408,11 +418,12 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 		initEReference(getVariationPointModel_RealizationTechniques(), therealizationPackage.getRealizationTechnique(), null, "realizationTechniques", null, 0, -1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariationPointModel_LeadingModel(), theJavaapplicationPackage.getJavaApplication(), null, "leadingModel", null, 1, 1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getVariationPointModel_IntegrationModel(), theJavaapplicationPackage.getJavaApplication(), null, "integrationModel", null, 1, 1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getVariationPointModel_VariationPointGroups(), this.getVariationPointGroup(), null, "variationPointGroups", null, 0, -1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVariationPointModel_VariationPointGroups(), this.getVariationPointGroup(), this.getVariationPointGroup_Model(), "variationPointGroups", null, 0, -1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(variationPointGroupEClass, VariationPointGroup.class, "VariationPointGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getVariationPointGroup_VariationPoints(), this.getVariationPoint(), this.getVariationPoint_Group(), "variationPoints", null, 0, -1, VariationPointGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVariationPointGroup_GroupId(), theEcorePackage.getEString(), "groupId", null, 1, 1, VariationPointGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVariationPointGroup_Model(), this.getVariationPointModel(), this.getVariationPointModel_VariationPointGroups(), "model", null, 1, 1, VariationPointGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

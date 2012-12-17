@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getVariationPoints <em>Variation Points</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getGroupId <em>Group Id</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}</li>
  * </ul>
  * </p>
  *
@@ -71,5 +72,33 @@ public interface VariationPointGroup extends EObject {
 	 * @generated
 	 */
 	void setGroupId(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Model</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.VariationPointModel#getVariationPointGroups <em>Variation Point Groups</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Model</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Model</em>' container reference.
+	 * @see #setModel(VariationPointModel)
+	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointGroup_Model()
+	 * @see org.splevo.vpm.variability.VariationPointModel#getVariationPointGroups
+	 * @model opposite="variationPointGroups" required="true" transient="false"
+	 * @generated
+	 */
+	VariationPointModel getModel();
+
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model</em>' container reference.
+	 * @see #getModel()
+	 * @generated
+	 */
+	void setModel(VariationPointModel value);
 
 } // VariationPointGroup
