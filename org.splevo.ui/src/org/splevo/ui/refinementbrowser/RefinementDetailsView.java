@@ -15,8 +15,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.IWorkbenchPartSite;
-import org.eclipse.ui.PlatformUI;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -166,15 +164,5 @@ public class RefinementDetailsView extends Composite {
 				.getTree());
 		variationPointTreeViewer.getTree().setMenu(menu);
 
-	}
-
-	/**
-	 * Get the active site to work with.
-	 * 
-	 * @return The active site.
-	 */
-	private IWorkbenchPartSite getSite() {
-		return PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-				.getPartService().getActivePart().getSite();
 	}
 }

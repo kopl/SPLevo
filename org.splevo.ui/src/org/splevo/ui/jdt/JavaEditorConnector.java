@@ -12,7 +12,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
@@ -34,6 +33,7 @@ public class JavaEditorConnector {
 	 * @param openFileMultipleTimes
 	 *            The true/false flag if a file can be opened multiple times.
 	 */
+	@SuppressWarnings("restriction")
 	public void openJavaEditor(final JavaNodeSourceRegion sourceRegion,
 			final boolean openFileMultipleTimes) {
 
@@ -77,8 +77,8 @@ public class JavaEditorConnector {
 					if (iEditorPart == null) {
 						try {
 							iEditorPart = IDE.openEditor(activePage, inputFile,
-									true);
-						} catch (PartInitException e) {
+									false);
+						} catch (Exception e) {
 							logger.error(e);
 						}
 					}
@@ -87,6 +87,14 @@ public class JavaEditorConnector {
 
 				}
 
+				/**
+				 * Select a specific region in a text editor.
+				 * 
+				 * @param iEditorPart
+				 *            The editor to select the text in.
+				 * @param sourceRegion
+				 *            The source region to mark in the editor.
+				 */
 				public void selectInTextEditor(final IEditorPart iEditorPart,
 						final JavaNodeSourceRegion sourceRegion) {
 					if (iEditorPart != null) {
@@ -108,5 +116,4 @@ public class JavaEditorConnector {
 			});
 		}
 	}
-
 }
