@@ -76,6 +76,6 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 	 */
 	@Override
 	public String getName() {
-		return "Init VPM model Job";
+		return "Save VPM model Job";
 	}
 }
