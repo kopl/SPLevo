@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.splevo.vpm.refinement.presentation.RefinementModelWizardID"
+            name="%_UI_RefinementModelWizard_label"
+            class="org.splevo.vpm.refinement.presentation.RefinementModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/RefinementModelFile.gif">
+         <description>%_UI_RefinementModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.splevo.vpm.refinement.presentation.RefinementEditorID"
+            name="%_UI_RefinementEditor_label"
+            icon="icons/full/obj16/RefinementModelFile.gif"
+            extensions="refinement"
+            class="org.splevo.vpm.refinement.presentation.RefinementEditor"
+            contributorClass="org.splevo.vpm.refinement.presentation.RefinementActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
