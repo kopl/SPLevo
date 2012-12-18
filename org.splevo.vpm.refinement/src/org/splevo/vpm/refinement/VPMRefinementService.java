@@ -31,6 +31,12 @@ public class VPMRefinementService {
 	/**
 	 * Identify the refinements recommended for the variation point model.
 	 * 
+	 * This method can be used to apply a single analyzer. 
+	 * It does not return a complete refinement model, to be more useful 
+	 * when multiple analyzers should be executed in parallel and the results
+	 * should be merged into a variation point model afterwards.
+	 * Such a merge would also require to merge include the analyzer configuration.
+	 * 
 	 * @param vpm
 	 *            The model to be analyzed.
 	 * @param analyzer The analyzer to be executed.

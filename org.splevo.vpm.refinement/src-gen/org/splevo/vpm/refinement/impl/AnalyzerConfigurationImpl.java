@@ -2,6 +2,7 @@
  */
 package org.splevo.vpm.refinement.impl;
 
+import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -45,16 +46,6 @@ public class AnalyzerConfigurationImpl extends EObjectImpl implements AnalyzerCo
 	protected String analyzerID = ANALYZER_ID_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSettings() <em>Settings</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSettings()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String SETTINGS_EDEFAULT = null;
-
-	/**
 	 * The cached value of the '{@link #getSettings() <em>Settings</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -62,7 +53,7 @@ public class AnalyzerConfigurationImpl extends EObjectImpl implements AnalyzerCo
 	 * @generated
 	 * @ordered
 	 */
-	protected String settings = SETTINGS_EDEFAULT;
+	protected Map<String, String> settings;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -109,7 +100,7 @@ public class AnalyzerConfigurationImpl extends EObjectImpl implements AnalyzerCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getSettings() {
+	public Map<String, String> getSettings() {
 		return settings;
 	}
 
@@ -118,8 +109,8 @@ public class AnalyzerConfigurationImpl extends EObjectImpl implements AnalyzerCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSettings(String newSettings) {
-		String oldSettings = settings;
+	public void setSettings(Map<String, String> newSettings) {
+		Map<String, String> oldSettings = settings;
 		settings = newSettings;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, RefinementPackage.ANALYZER_CONFIGURATION__SETTINGS, oldSettings, settings));
@@ -146,6 +137,7 @@ public class AnalyzerConfigurationImpl extends EObjectImpl implements AnalyzerCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -153,7 +145,7 @@ public class AnalyzerConfigurationImpl extends EObjectImpl implements AnalyzerCo
 				setAnalyzerID((String)newValue);
 				return;
 			case RefinementPackage.ANALYZER_CONFIGURATION__SETTINGS:
-				setSettings((String)newValue);
+				setSettings((Map<String, String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -171,7 +163,7 @@ public class AnalyzerConfigurationImpl extends EObjectImpl implements AnalyzerCo
 				setAnalyzerID(ANALYZER_ID_EDEFAULT);
 				return;
 			case RefinementPackage.ANALYZER_CONFIGURATION__SETTINGS:
-				setSettings(SETTINGS_EDEFAULT);
+				setSettings((Map<String, String>)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -188,7 +180,7 @@ public class AnalyzerConfigurationImpl extends EObjectImpl implements AnalyzerCo
 			case RefinementPackage.ANALYZER_CONFIGURATION__ANALYZER_ID:
 				return ANALYZER_ID_EDEFAULT == null ? analyzerID != null : !ANALYZER_ID_EDEFAULT.equals(analyzerID);
 			case RefinementPackage.ANALYZER_CONFIGURATION__SETTINGS:
-				return SETTINGS_EDEFAULT == null ? settings != null : !SETTINGS_EDEFAULT.equals(settings);
+				return settings != null;
 		}
 		return super.eIsSet(featureID);
 	}

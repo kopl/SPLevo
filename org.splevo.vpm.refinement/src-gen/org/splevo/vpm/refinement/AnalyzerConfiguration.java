@@ -2,6 +2,7 @@
  */
 package org.splevo.vpm.refinement;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -59,12 +60,12 @@ public interface AnalyzerConfiguration extends EObject {
 	 * The configured parameters for the analyzer.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Settings</em>' attribute.
-	 * @see #setSettings(String)
+	 * @see #setSettings(Map)
 	 * @see org.splevo.vpm.refinement.RefinementPackage#getAnalyzerConfiguration_Settings()
-	 * @model
+	 * @model transient="true"
 	 * @generated
 	 */
-	String getSettings();
+	Map<String, String> getSettings();
 
 	/**
 	 * Sets the value of the '{@link org.splevo.vpm.refinement.AnalyzerConfiguration#getSettings <em>Settings</em>}' attribute.
@@ -74,6 +75,6 @@ public interface AnalyzerConfiguration extends EObject {
 	 * @see #getSettings()
 	 * @generated
 	 */
-	void setSettings(String value);
+	void setSettings(Map<String, String> value);
 
 } // AnalyzerConfiguration
