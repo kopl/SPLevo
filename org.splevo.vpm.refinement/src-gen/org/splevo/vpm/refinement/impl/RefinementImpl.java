@@ -5,12 +5,14 @@ package org.splevo.vpm.refinement.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.splevo.vpm.refinement.AnalyzerConfiguration;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementPackage;
@@ -62,16 +64,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 	 * @ordered
 	 */
 	protected EList<VariationPoint> variationPoints;
-
-	/**
-	 * The cached value of the '{@link #getAnalyzer() <em>Analyzer</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAnalyzer()
-	 * @generated
-	 * @ordered
-	 */
-	protected AnalyzerConfiguration analyzer;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -131,15 +123,8 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 	 * @generated
 	 */
 	public AnalyzerConfiguration getAnalyzer() {
-		if (analyzer != null && analyzer.eIsProxy()) {
-			InternalEObject oldAnalyzer = (InternalEObject)analyzer;
-			analyzer = (AnalyzerConfiguration)eResolveProxy(oldAnalyzer);
-			if (analyzer != oldAnalyzer) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RefinementPackage.REFINEMENT__ANALYZER, oldAnalyzer, analyzer));
-			}
-		}
-		return analyzer;
+		if (eContainerFeatureID() != RefinementPackage.REFINEMENT__ANALYZER) return null;
+		return (AnalyzerConfiguration)eContainer();
 	}
 
 	/**
@@ -147,8 +132,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AnalyzerConfiguration basicGetAnalyzer() {
-		return analyzer;
+	public NotificationChain basicSetAnalyzer(AnalyzerConfiguration newAnalyzer, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newAnalyzer, RefinementPackage.REFINEMENT__ANALYZER, msgs);
+		return msgs;
 	}
 
 	/**
@@ -157,10 +143,63 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 	 * @generated
 	 */
 	public void setAnalyzer(AnalyzerConfiguration newAnalyzer) {
-		AnalyzerConfiguration oldAnalyzer = analyzer;
-		analyzer = newAnalyzer;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RefinementPackage.REFINEMENT__ANALYZER, oldAnalyzer, analyzer));
+		if (newAnalyzer != eInternalContainer() || (eContainerFeatureID() != RefinementPackage.REFINEMENT__ANALYZER && newAnalyzer != null)) {
+			if (EcoreUtil.isAncestor(this, newAnalyzer))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newAnalyzer != null)
+				msgs = ((InternalEObject)newAnalyzer).eInverseAdd(this, RefinementPackage.ANALYZER_CONFIGURATION__REFINEMENTS, AnalyzerConfiguration.class, msgs);
+			msgs = basicSetAnalyzer(newAnalyzer, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RefinementPackage.REFINEMENT__ANALYZER, newAnalyzer, newAnalyzer));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case RefinementPackage.REFINEMENT__ANALYZER:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetAnalyzer((AnalyzerConfiguration)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case RefinementPackage.REFINEMENT__ANALYZER:
+				return basicSetAnalyzer(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case RefinementPackage.REFINEMENT__ANALYZER:
+				return eInternalContainer().eInverseRemove(this, RefinementPackage.ANALYZER_CONFIGURATION__REFINEMENTS, AnalyzerConfiguration.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -176,8 +215,7 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 			case RefinementPackage.REFINEMENT__VARIATION_POINTS:
 				return getVariationPoints();
 			case RefinementPackage.REFINEMENT__ANALYZER:
-				if (resolve) return getAnalyzer();
-				return basicGetAnalyzer();
+				return getAnalyzer();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -239,7 +277,7 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 			case RefinementPackage.REFINEMENT__VARIATION_POINTS:
 				return variationPoints != null && !variationPoints.isEmpty();
 			case RefinementPackage.REFINEMENT__ANALYZER:
-				return analyzer != null;
+				return getAnalyzer() != null;
 		}
 		return super.eIsSet(featureID);
 	}

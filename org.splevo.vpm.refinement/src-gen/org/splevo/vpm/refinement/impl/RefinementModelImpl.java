@@ -28,7 +28,6 @@ import org.splevo.vpm.refinement.RefinementPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.vpm.refinement.impl.RefinementModelImpl#getRefinements <em>Refinements</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementModelImpl#getAnalyzerConfigurations <em>Analyzer Configurations</em>}</li>
  * </ul>
  * </p>
@@ -36,16 +35,6 @@ import org.splevo.vpm.refinement.RefinementPackage;
  * @generated
  */
 public class RefinementModelImpl extends EObjectImpl implements RefinementModel {
-	/**
-	 * The cached value of the '{@link #getRefinements() <em>Refinements</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefinements()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Refinement> refinements;
-
 	/**
 	 * The cached value of the '{@link #getAnalyzerConfigurations() <em>Analyzer Configurations</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -80,18 +69,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Refinement> getRefinements() {
-		if (refinements == null) {
-			refinements = new EObjectContainmentEList<Refinement>(Refinement.class, this, RefinementPackage.REFINEMENT_MODEL__REFINEMENTS);
-		}
-		return refinements;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<AnalyzerConfiguration> getAnalyzerConfigurations() {
 		if (analyzerConfigurations == null) {
 			analyzerConfigurations = new EObjectContainmentEList<AnalyzerConfiguration>(AnalyzerConfiguration.class, this, RefinementPackage.REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS);
@@ -107,8 +84,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case RefinementPackage.REFINEMENT_MODEL__REFINEMENTS:
-				return ((InternalEList<?>)getRefinements()).basicRemove(otherEnd, msgs);
 			case RefinementPackage.REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS:
 				return ((InternalEList<?>)getAnalyzerConfigurations()).basicRemove(otherEnd, msgs);
 		}
@@ -123,8 +98,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case RefinementPackage.REFINEMENT_MODEL__REFINEMENTS:
-				return getRefinements();
 			case RefinementPackage.REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS:
 				return getAnalyzerConfigurations();
 		}
@@ -140,10 +113,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case RefinementPackage.REFINEMENT_MODEL__REFINEMENTS:
-				getRefinements().clear();
-				getRefinements().addAll((Collection<? extends Refinement>)newValue);
-				return;
 			case RefinementPackage.REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS:
 				getAnalyzerConfigurations().clear();
 				getAnalyzerConfigurations().addAll((Collection<? extends AnalyzerConfiguration>)newValue);
@@ -160,9 +129,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case RefinementPackage.REFINEMENT_MODEL__REFINEMENTS:
-				getRefinements().clear();
-				return;
 			case RefinementPackage.REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS:
 				getAnalyzerConfigurations().clear();
 				return;
@@ -178,8 +144,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case RefinementPackage.REFINEMENT_MODEL__REFINEMENTS:
-				return refinements != null && !refinements.isEmpty();
 			case RefinementPackage.REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS:
 				return analyzerConfigurations != null && !analyzerConfigurations.isEmpty();
 		}

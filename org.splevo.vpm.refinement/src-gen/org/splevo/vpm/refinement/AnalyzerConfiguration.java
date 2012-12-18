@@ -3,6 +3,7 @@
 package org.splevo.vpm.refinement;
 
 import java.util.Map;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.AnalyzerConfiguration#getAnalyzerID <em>Analyzer ID</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.AnalyzerConfiguration#getSettings <em>Settings</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.AnalyzerConfiguration#getRefinements <em>Refinements</em>}</li>
  * </ul>
  * </p>
  *
@@ -76,5 +78,23 @@ public interface AnalyzerConfiguration extends EObject {
 	 * @generated
 	 */
 	void setSettings(Map<String, String> value);
+
+	/**
+	 * Returns the value of the '<em><b>Refinements</b></em>' containment reference list.
+	 * The list contents are of type {@link org.splevo.vpm.refinement.Refinement}.
+	 * It is bidirectional and its opposite is '{@link org.splevo.vpm.refinement.Refinement#getAnalyzer <em>Analyzer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Refinements</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Refinements</em>' containment reference list.
+	 * @see org.splevo.vpm.refinement.RefinementPackage#getAnalyzerConfiguration_Refinements()
+	 * @see org.splevo.vpm.refinement.Refinement#getAnalyzer
+	 * @model opposite="analyzer" containment="true"
+	 * @generated
+	 */
+	EList<Refinement> getRefinements();
 
 } // AnalyzerConfiguration

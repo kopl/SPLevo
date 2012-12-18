@@ -4,9 +4,11 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.jobs.BuildRefinementModelJob;
 import org.splevo.ui.jobs.LoadVPMJob;
 import org.splevo.ui.jobs.OpenVPMRefinementBrowserJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
+import org.splevo.ui.jobs.SaveRefinementModelJob;
 import org.splevo.ui.jobs.VPMAnalysisJob;
 import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 
@@ -69,8 +71,14 @@ public class VPMAnalysisWorkflowDelegate
 		}
 		compositeJob.add(parallelAnalysisJob);
 		
+		BuildRefinementModelJob createRefinementModelJob = new BuildRefinementModelJob();
+		compositeJob.add(createRefinementModelJob);
+		
 		IJob openViewerJob = new OpenVPMRefinementBrowserJob(config.getSplevoProjectEditor());
 		compositeJob.add(openViewerJob);
+		
+		SaveRefinementModelJob saveRefinementModelJob = new SaveRefinementModelJob(splevoProject,null);
+		compositeJob.add(saveRefinementModelJob);
 
 		// return the prepared workflow
 		return compositeJob;

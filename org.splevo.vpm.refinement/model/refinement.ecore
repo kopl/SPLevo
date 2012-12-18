@@ -5,8 +5,6 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A model containing all refinements identified for the variation point model."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" upperBound="-1"
-        eType="#//Refinement" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="analyzerConfigurations"
         upperBound="-1" eType="#//AnalyzerConfiguration" containment="true"/>
   </eClassifiers>
@@ -26,7 +24,8 @@
         <details key="documentation" value="The variation points to be merged."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzer" eType="#//AnalyzerConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzer" lowerBound="1"
+        eType="#//AnalyzerConfiguration" eOpposite="#//AnalyzerConfiguration/refinements">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The analyzer that led to this refinement."/>
       </eAnnotations>
@@ -45,8 +44,7 @@
         <details key="documentation" value="The identifier for the analyzer used."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="settings" transient="true"
-        >
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="settings" transient="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The configured parameters for the analyzer."/>
       </eAnnotations>
@@ -55,5 +53,7 @@
         <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </eGenericType>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" upperBound="-1"
+        eType="#//Refinement" containment="true" eOpposite="#//Refinement/analyzer"/>
   </eClassifiers>
 </ecore:EPackage>

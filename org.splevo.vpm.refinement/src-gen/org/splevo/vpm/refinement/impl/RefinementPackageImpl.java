@@ -168,17 +168,8 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRefinementModel_Refinements() {
-		return (EReference)refinementModelEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getRefinementModel_AnalyzerConfigurations() {
-		return (EReference)refinementModelEClass.getEStructuralFeatures().get(1);
+		return (EReference)refinementModelEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -206,6 +197,15 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 	 */
 	public EAttribute getAnalyzerConfiguration_Settings() {
 		return (EAttribute)analyzerConfigurationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAnalyzerConfiguration_Refinements() {
+		return (EReference)analyzerConfigurationEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -246,7 +246,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
 		// Create classes and their features
 		refinementModelEClass = createEClass(REFINEMENT_MODEL);
-		createEReference(refinementModelEClass, REFINEMENT_MODEL__REFINEMENTS);
 		createEReference(refinementModelEClass, REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS);
 
 		refinementEClass = createEClass(REFINEMENT);
@@ -257,6 +256,7 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 		analyzerConfigurationEClass = createEClass(ANALYZER_CONFIGURATION);
 		createEAttribute(analyzerConfigurationEClass, ANALYZER_CONFIGURATION__ANALYZER_ID);
 		createEAttribute(analyzerConfigurationEClass, ANALYZER_CONFIGURATION__SETTINGS);
+		createEReference(analyzerConfigurationEClass, ANALYZER_CONFIGURATION__REFINEMENTS);
 
 		// Create enums
 		refinementTypeEEnum = createEEnum(REFINEMENT_TYPE);
@@ -296,13 +296,12 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(refinementModelEClass, RefinementModel.class, "RefinementModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRefinementModel_Refinements(), this.getRefinement(), null, "refinements", null, 0, -1, RefinementModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRefinementModel_AnalyzerConfigurations(), this.getAnalyzerConfiguration(), null, "analyzerConfigurations", null, 0, -1, RefinementModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(refinementEClass, Refinement.class, "Refinement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRefinement_Type(), this.getRefinementType(), "type", "MANDATORY", 1, 1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRefinement_VariationPoints(), thevariabilityPackage.getVariationPoint(), null, "variationPoints", null, 0, -1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRefinement_Analyzer(), this.getAnalyzerConfiguration(), null, "analyzer", null, 0, 1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRefinement_Analyzer(), this.getAnalyzerConfiguration(), this.getAnalyzerConfiguration_Refinements(), "analyzer", null, 1, 1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(analyzerConfigurationEClass, AnalyzerConfiguration.class, "AnalyzerConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAnalyzerConfiguration_AnalyzerID(), ecorePackage.getEString(), "analyzerID", null, 0, 1, AnalyzerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -312,6 +311,7 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 		g2 = createEGenericType(ecorePackage.getEString());
 		g1.getETypeArguments().add(g2);
 		initEAttribute(getAnalyzerConfiguration_Settings(), g1, "settings", null, 0, 1, AnalyzerConfiguration.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAnalyzerConfiguration_Refinements(), this.getRefinement(), this.getRefinement_Analyzer(), "refinements", null, 0, -1, AnalyzerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(refinementTypeEEnum, RefinementType.class, "RefinementType");

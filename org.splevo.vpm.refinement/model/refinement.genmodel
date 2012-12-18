@@ -11,7 +11,6 @@
       <genEnumLiterals ecoreEnumLiteral="refinement.ecore#//RefinementType/GROUPING"/>
     </genEnums>
     <genClasses ecoreClass="refinement.ecore#//RefinementModel">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference refinement.ecore#//RefinementModel/refinements"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference refinement.ecore#//RefinementModel/analyzerConfigurations"/>
     </genClasses>
     <genClasses image="false" ecoreClass="refinement.ecore#//Refinement">
@@ -22,6 +21,7 @@
     <genClasses ecoreClass="refinement.ecore#//AnalyzerConfiguration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//AnalyzerConfiguration/analyzerID"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//AnalyzerConfiguration/settings"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference refinement.ecore#//AnalyzerConfiguration/refinements"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

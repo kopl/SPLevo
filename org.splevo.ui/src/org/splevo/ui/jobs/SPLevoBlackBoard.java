@@ -8,6 +8,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.featuremodel.FeatureModel;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -36,7 +37,10 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 	
 	/** The map of analyzer - refinements pairs. */
 	HashMap<VPMRefinementAnalyzer, List<Refinement>> analysisResults = new HashMap<VPMRefinementAnalyzer, List<Refinement>>();
-
+	
+	/** The refinement model representing the analysis results. */
+	RefinementModel refinementModel = null;
+	
 	/** The refinements to apply to the vpm model. */
 	List<Refinement> refinementsToApply = new ArrayList<Refinement>();
 	
@@ -122,6 +126,20 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 	 */
 	public List<Refinement> getRefinementsToApply() {
 		return refinementsToApply;
+	}
+
+	/**
+	 * @return the refinementModel
+	 */
+	public RefinementModel getRefinementModel() {
+		return refinementModel;
+	}
+
+	/**
+	 * @param refinementModel the refinementModel to set
+	 */
+	public void setRefinementModel(RefinementModel refinementModel) {
+		this.refinementModel = refinementModel;
 	}
 	
 }

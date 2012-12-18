@@ -74,25 +74,27 @@ public interface Refinement extends EObject {
 	EList<VariationPoint> getVariationPoints();
 
 	/**
-	 * Returns the value of the '<em><b>Analyzer</b></em>' reference.
+	 * Returns the value of the '<em><b>Analyzer</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.splevo.vpm.refinement.AnalyzerConfiguration#getRefinements <em>Refinements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The analyzer that led to this refinement.
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Analyzer</em>' reference.
+	 * @return the value of the '<em>Analyzer</em>' container reference.
 	 * @see #setAnalyzer(AnalyzerConfiguration)
 	 * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement_Analyzer()
-	 * @model
+	 * @see org.splevo.vpm.refinement.AnalyzerConfiguration#getRefinements
+	 * @model opposite="refinements" required="true" transient="false"
 	 * @generated
 	 */
 	AnalyzerConfiguration getAnalyzer();
 
 	/**
-	 * Sets the value of the '{@link org.splevo.vpm.refinement.Refinement#getAnalyzer <em>Analyzer</em>}' reference.
+	 * Sets the value of the '{@link org.splevo.vpm.refinement.Refinement#getAnalyzer <em>Analyzer</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Analyzer</em>' reference.
+	 * @param value the new value of the '<em>Analyzer</em>' container reference.
 	 * @see #getAnalyzer()
 	 * @generated
 	 */

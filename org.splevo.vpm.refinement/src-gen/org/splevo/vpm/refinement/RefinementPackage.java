@@ -77,22 +77,13 @@ public interface RefinementPackage extends EPackage {
 	int REFINEMENT_MODEL = 0;
 
 	/**
-	 * The feature id for the '<em><b>Refinements</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REFINEMENT_MODEL__REFINEMENTS = 0;
-
-	/**
 	 * The feature id for the '<em><b>Analyzer Configurations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS = 1;
+	int REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS = 0;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -101,7 +92,7 @@ public interface RefinementPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFINEMENT_MODEL_FEATURE_COUNT = 2;
+	int REFINEMENT_MODEL_FEATURE_COUNT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -122,7 +113,7 @@ public interface RefinementPackage extends EPackage {
 	int REFINEMENT__VARIATION_POINTS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Analyzer</b></em>' reference.
+	 * The feature id for the '<em><b>Analyzer</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -168,13 +159,22 @@ public interface RefinementPackage extends EPackage {
 	int ANALYZER_CONFIGURATION__SETTINGS = 1;
 
 	/**
+	 * The feature id for the '<em><b>Refinements</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYZER_CONFIGURATION__REFINEMENTS = 2;
+
+	/**
 	 * The number of structural features of the '<em>Analyzer Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANALYZER_CONFIGURATION_FEATURE_COUNT = 2;
+	int ANALYZER_CONFIGURATION_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}' enum.
@@ -220,10 +220,10 @@ public interface RefinementPackage extends EPackage {
 	EReference getRefinement_VariationPoints();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.splevo.vpm.refinement.Refinement#getAnalyzer <em>Analyzer</em>}'.
+	 * Returns the meta object for the container reference '{@link org.splevo.vpm.refinement.Refinement#getAnalyzer <em>Analyzer</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Analyzer</em>'.
+	 * @return the meta object for the container reference '<em>Analyzer</em>'.
 	 * @see org.splevo.vpm.refinement.Refinement#getAnalyzer()
 	 * @see #getRefinement()
 	 * @generated
@@ -239,17 +239,6 @@ public interface RefinementPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getRefinementModel();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.splevo.vpm.refinement.RefinementModel#getRefinements <em>Refinements</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Refinements</em>'.
-	 * @see org.splevo.vpm.refinement.RefinementModel#getRefinements()
-	 * @see #getRefinementModel()
-	 * @generated
-	 */
-	EReference getRefinementModel_Refinements();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.splevo.vpm.refinement.RefinementModel#getAnalyzerConfigurations <em>Analyzer Configurations</em>}'.
@@ -293,6 +282,17 @@ public interface RefinementPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getAnalyzerConfiguration_Settings();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.splevo.vpm.refinement.AnalyzerConfiguration#getRefinements <em>Refinements</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Refinements</em>'.
+	 * @see org.splevo.vpm.refinement.AnalyzerConfiguration#getRefinements()
+	 * @see #getAnalyzerConfiguration()
+	 * @generated
+	 */
+	EReference getAnalyzerConfiguration_Refinements();
 
 	/**
 	 * Returns the meta object for enum '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}'.
@@ -353,7 +353,7 @@ public interface RefinementPackage extends EPackage {
 		EReference REFINEMENT__VARIATION_POINTS = eINSTANCE.getRefinement_VariationPoints();
 
 		/**
-		 * The meta object literal for the '<em><b>Analyzer</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Analyzer</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -369,14 +369,6 @@ public interface RefinementPackage extends EPackage {
 		 * @generated
 		 */
 		EClass REFINEMENT_MODEL = eINSTANCE.getRefinementModel();
-
-		/**
-		 * The meta object literal for the '<em><b>Refinements</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REFINEMENT_MODEL__REFINEMENTS = eINSTANCE.getRefinementModel_Refinements();
 
 		/**
 		 * The meta object literal for the '<em><b>Analyzer Configurations</b></em>' containment reference list feature.
@@ -411,6 +403,14 @@ public interface RefinementPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ANALYZER_CONFIGURATION__SETTINGS = eINSTANCE.getAnalyzerConfiguration_Settings();
+
+		/**
+		 * The meta object literal for the '<em><b>Refinements</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ANALYZER_CONFIGURATION__REFINEMENTS = eINSTANCE.getAnalyzerConfiguration_Refinements();
 
 		/**
 		 * The meta object literal for the '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}' enum.

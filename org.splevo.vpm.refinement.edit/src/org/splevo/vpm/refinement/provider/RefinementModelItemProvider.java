@@ -77,7 +77,6 @@ public class RefinementModelItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(RefinementPackage.Literals.REFINEMENT_MODEL__REFINEMENTS);
 			childrenFeatures.add(RefinementPackage.Literals.REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS);
 		}
 		return childrenFeatures;
@@ -130,7 +129,6 @@ public class RefinementModelItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(RefinementModel.class)) {
-			case RefinementPackage.REFINEMENT_MODEL__REFINEMENTS:
 			case RefinementPackage.REFINEMENT_MODEL__ANALYZER_CONFIGURATIONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -148,11 +146,6 @@ public class RefinementModelItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(RefinementPackage.Literals.REFINEMENT_MODEL__REFINEMENTS,
-				 RefinementFactory.eINSTANCE.createRefinement()));
 
 		newChildDescriptors.add
 			(createChildParameter

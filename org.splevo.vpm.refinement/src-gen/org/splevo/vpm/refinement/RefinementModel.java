@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.vpm.refinement.RefinementModel#getRefinements <em>Refinements</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.RefinementModel#getAnalyzerConfigurations <em>Analyzer Configurations</em>}</li>
  * </ul>
  * </p>
@@ -28,22 +27,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface RefinementModel extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Refinements</b></em>' containment reference list.
-	 * The list contents are of type {@link org.splevo.vpm.refinement.Refinement}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Refinements</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Refinements</em>' containment reference list.
-	 * @see org.splevo.vpm.refinement.RefinementPackage#getRefinementModel_Refinements()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Refinement> getRefinements();
-
 	/**
 	 * Returns the value of the '<em><b>Analyzer Configurations</b></em>' containment reference list.
 	 * The list contents are of type {@link org.splevo.vpm.refinement.AnalyzerConfiguration}.
