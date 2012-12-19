@@ -14,61 +14,61 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to extract a software model from an eclipse java project save the feature model registered in the blackboard.
+ * Job to extract a software model from an eclipse java project save the feature model registered in
+ * the blackboard.
  */
 public class SaveFeatureModelJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-	/** The path to write the model to. */
-	private String targetPath;
-	
-	/**
-	 * Constructor to set the reference to the splevo project
-	 * and the target path to write the model to. 
-	 * 
-	 * @param targetPath The eclipse workspace relative path to write to.
-	 */
-	public SaveFeatureModelJob(String targetPath) {
-		this.targetPath = targetPath;
-	}
+    /** The path to write the model to. */
+    private String targetPath;
 
-	/**
-	 * Runs the long running operation
-	 * 
-	 * @param monitor
-	 *            the progress monitor
-	 */
-	@Override
-	public void execute(IProgressMonitor monitor) throws JobFailedException,
-			UserCanceledException {
+    /**
+     * Constructor to set the reference to the splevo project and the target path to write the model
+     * to.
+     * 
+     * @param targetPath
+     *            The eclipse workspace relative path to write to.
+     */
+    public SaveFeatureModelJob(String targetPath) {
+        this.targetPath = targetPath;
+    }
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		String basePath = workspace.getRoot().getRawLocation().toOSString();
+    /**
+     * Runs the long running operation
+     * 
+     * @param monitor
+     *            the progress monitor
+     */
+    @Override
+    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-		FeatureModel fm = getBlackboard().getFeatureModel();
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        String basePath = workspace.getRoot().getRawLocation().toOSString();
 
-		logger.info("Save VPM Model");
-		try {
-			String modelPath = basePath + targetPath;			
-			ModelUtils.save(fm, modelPath);
-		} catch (IOException e) {
-			throw new JobFailedException("Failed to save feature model.",e);
-		}
-		
-		// finish run
-		monitor.done();
-	}
+        FeatureModel fm = getBlackboard().getFeatureModel();
 
-	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback possible
-	}
+        logger.info("Save VPM Model");
+        try {
+            String modelPath = basePath + targetPath;
+            ModelUtils.save(fm, modelPath);
+        } catch (IOException e) {
+            throw new JobFailedException("Failed to save feature model.", e);
+        }
 
-	/**
-	 * Get the name of the job. 
-	 */
-	@Override
-	public String getName() {
-		return "Save feature model Job";
-	}
+        // finish run
+        monitor.done();
+    }
+
+    @Override
+    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
+        // no rollback possible
+    }
+
+    /**
+     * Get the name of the job.
+     */
+    @Override
+    public String getName() {
+        return "Save feature model Job";
+    }
 }
