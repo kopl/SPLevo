@@ -28,180 +28,188 @@ import org.splevo.ui.listeners.VPMAnalyzerSelectionDialogListener;
 import org.splevo.vpm.refinement.AnalyzerConfigurationType;
 import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 
+/**
+ * Wizard page to select and configure the vpm analyzers to be executed.
+ * 
+ * @author Benjamin Klatt
+ */
 public class VPMAnalyzerSelectionPage extends WizardPage {
 
-	/** The logger for this class. */
-	private Logger logger = Logger.getLogger(VPMAnalyzerSelectionPage.class);
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(VPMAnalyzerSelectionPage.class);
 
-	/** A list viewer for configured analyzes. */
-	private ListViewer listViewerAnalysis = null;
+    /** A list viewer for configured analyzes. */
+    private ListViewer listViewerAnalysis = null;
 
-	/** A table viewer for the configurations of a selected analyzer. */
-	private TableViewer configTableViewer = null;
-	
-	/** The configured analyzer instances. */
-	private Set<VPMRefinementAnalyzer> analyzers = new HashSet<VPMRefinementAnalyzer>();
-	
-	/** The editing support to manipulate a configuration table cell. */
-	private VPMAnalyzerConfigurationEditingSupport configEditingSupport = null;
+    /** A table viewer for the configurations of a selected analyzer. */
+    private TableViewer configTableViewer = null;
 
-	/**
-	 * Create the wizard page to let the user select the analyzes to be
-	 * performed.
-	 */
-	public VPMAnalyzerSelectionPage() {
-		super("wizardPage");
-		setTitle("Analyzer Selection");
-		setDescription("Select the variation point model analysis to be performed.");
-	}
+    /** The configured analyzer instances. */
+    private Set<VPMRefinementAnalyzer> analyzers = new HashSet<VPMRefinementAnalyzer>();
 
-	/**
-	 * Create contents of the wizard.
-	 * 
-	 * @param parent
-	 */
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.FILL);
+    /** The editing support to manipulate a configuration table cell. */
+    private VPMAnalyzerConfigurationEditingSupport configEditingSupport = null;
 
-		setControl(container);
+    /**
+     * Create the wizard page to let the user select the analyzes to be performed.
+     */
+    public VPMAnalyzerSelectionPage() {
+        super("wizardPage");
+        setTitle("Analyzer Selection");
+        setDescription("Select the variation point model analysis to be performed.");
+    }
 
-		Label lblAvailableAnalayses = new Label(container, SWT.NONE);
-		lblAvailableAnalayses.setBounds(10, 10, 211, 20);
-		lblAvailableAnalayses.setText("Variation Point Analysis");
+    /**
+     * Create contents of the wizard.
+     * 
+     * @param parent The parent ui element this control should be placed in.
+     */
+    public void createControl(Composite parent) {
+        Composite container = new Composite(parent, SWT.FILL);
 
-		listViewerAnalysis = new ListViewer(container, SWT.BORDER | SWT.FILL | SWT.V_SCROLL);
-		listViewerAnalysis.setContentProvider(ArrayContentProvider.getInstance());
-		listViewerAnalysis.setInput(analyzers);
-		listViewerAnalysis.setLabelProvider(new VPMAnalyzerLabelProvider());
-		listViewerAnalysis
-				.addSelectionChangedListener(new ISelectionChangedListener() {
+        setControl(container);
 
-					@Override
-					public void selectionChanged(SelectionChangedEvent event) {
+        Label lblAvailableAnalayses = new Label(container, SWT.NONE);
+        lblAvailableAnalayses.setBounds(10, 10, 211, 20);
+        lblAvailableAnalayses.setText("Variation Point Analysis");
 
-						VPMRefinementAnalyzer analyzer = getSelectedAnalyzer();
+        listViewerAnalysis = new ListViewer(container, SWT.BORDER | SWT.FILL | SWT.V_SCROLL);
+        listViewerAnalysis.setContentProvider(ArrayContentProvider.getInstance());
+        listViewerAnalysis.setInput(analyzers);
+        listViewerAnalysis.setLabelProvider(new VPMAnalyzerLabelProvider());
+        listViewerAnalysis.addSelectionChangedListener(new ISelectionChangedListener() {
 
-						if (analyzer == null) {
-							configTableViewer.getTable().setEnabled(false);
-						} else {
-							configTableViewer.getTable().setEnabled(true);
-							configTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-							configTableViewer.setInput(analyzer.getAvailableConfigurations().entrySet());
-							configEditingSupport.setAnalyzer(analyzer);
-						}
-					}
-				});
-		List list = listViewerAnalysis.getList();
-		list.setBounds(10, 34, 222, 193);
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
 
-		Button btnAdd = new Button(container, SWT.NONE);
-		btnAdd.addMouseListener(new VPMAnalyzerSelectionDialogListener(this));
-		btnAdd.setBounds(237, 36, 90, 30);
-		btnAdd.setText("add");
+                VPMRefinementAnalyzer analyzer = getSelectedAnalyzer();
 
-		Button btnRemove = new Button(container, SWT.NONE);
-		btnRemove.setBounds(237, 72, 90, 30);
-		btnRemove.setText("remove");
+                if (analyzer == null) {
+                    configTableViewer.getTable().setEnabled(false);
+                } else {
+                    configTableViewer.getTable().setEnabled(true);
+                    configTableViewer.setContentProvider(ArrayContentProvider.getInstance());
+                    configTableViewer.setInput(analyzer.getAvailableConfigurations().entrySet());
+                    configEditingSupport.setAnalyzer(analyzer);
+                }
+            }
+        });
+        List list = listViewerAnalysis.getList();
+        list.setBounds(10, 34, 222, 193);
 
-		Label lblConfiguration = new Label(container, SWT.NONE);
-		lblConfiguration.setText("Configuration");
-		lblConfiguration.setBounds(333, 10, 211, 20);
+        Button btnAdd = new Button(container, SWT.NONE);
+        btnAdd.addMouseListener(new VPMAnalyzerSelectionDialogListener(this));
+        btnAdd.setBounds(237, 36, 90, 30);
+        btnAdd.setText("add");
 
-		configTableViewer = new TableViewer(container, SWT.BORDER | SWT.FILL | SWT.FULL_SELECTION);
-		Table table = configTableViewer.getTable();
-		table.setEnabled(false);
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
-		table.setBounds(333, 34, 329, 193);
+        Button btnRemove = new Button(container, SWT.NONE);
+        btnRemove.setBounds(237, 72, 90, 30);
+        btnRemove.setText("remove");
 
-		TableViewerColumn tableViewerColumnSetting = new TableViewerColumn(
-				configTableViewer, SWT.FILL);
-		TableColumn tblclmnSetting = tableViewerColumnSetting.getColumn();
-		tblclmnSetting.setWidth(129);
-		tblclmnSetting.setText("Setting");
-		tableViewerColumnSetting.setLabelProvider(new CellLabelProvider() {
-			@Override
-			public void update(ViewerCell cell) {
-				Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) cell.getElement();
-				String label = getSelectedAnalyzer().getConfigurationLabels().get(e.getKey());
-				if(label == null){
-					logger.warn("Label not specified for setting "+e.getKey()+" in Analyzer "+getSelectedAnalyzer());
-					cell.setText(e.getKey());
-				} else {
-					cell.setText(label);
-				}
-			}
-		});
+        Label lblConfiguration = new Label(container, SWT.NONE);
+        lblConfiguration.setText("Configuration");
+        lblConfiguration.setBounds(333, 10, 211, 20);
 
-		TableViewerColumn tableViewerColumnValue = new TableViewerColumn(
-				configTableViewer, SWT.FILL);
-		TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
-		tblclmnValue.setWidth(187);
-		tblclmnValue.setText("Value");
-		tableViewerColumnValue.setLabelProvider(new CellLabelProvider() {
-			@Override
-			public void update(ViewerCell cell) {
-				Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) cell.getElement();
-				Map<String,Object> configurations = getSelectedAnalyzer().getConfigurations();
-				if(configurations.containsKey(e.getKey())){
-					cell.setText(configurations.get(e.getKey()).toString());
-				} else {
-					cell.setText("");
-				}
-			}
-		});
-		configEditingSupport = new VPMAnalyzerConfigurationEditingSupport(configTableViewer);
-		tableViewerColumnValue.setEditingSupport(configEditingSupport);
-	}
+        configTableViewer = new TableViewer(container, SWT.BORDER | SWT.FILL | SWT.FULL_SELECTION);
+        Table table = configTableViewer.getTable();
+        table.setEnabled(false);
+        table.setLinesVisible(true);
+        table.setHeaderVisible(true);
+        table.setBounds(333, 34, 329, 193);
 
-	/**
-	 * Get the analyzer currently selected in the analyzer list viewer.
-	 * 
-	 * @return Returns the first selected analyzer or null if none is selected.
-	 */
-	private VPMRefinementAnalyzer getSelectedAnalyzer() {
+        TableViewerColumn tableViewerColumnSetting = new TableViewerColumn(configTableViewer, SWT.FILL);
+        TableColumn tblclmnSetting = tableViewerColumnSetting.getColumn();
+        tblclmnSetting.setWidth(129);
+        tblclmnSetting.setText("Setting");
+        tableViewerColumnSetting.setLabelProvider(new CellLabelProvider() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void update(ViewerCell cell) {
+                Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) cell
+                        .getElement();
+                String label = getSelectedAnalyzer().getConfigurationLabels().get(e.getKey());
+                if (label == null) {
+                    logger.warn("Label not specified for setting " + e.getKey() + " in Analyzer "
+                            + getSelectedAnalyzer());
+                    cell.setText(e.getKey());
+                } else {
+                    cell.setText(label);
+                }
+            }
+        });
 
-		VPMRefinementAnalyzer analyzer = null;
+        TableViewerColumn tableViewerColumnValue = new TableViewerColumn(configTableViewer, SWT.FILL);
+        TableColumn tblclmnValue = tableViewerColumnValue.getColumn();
+        tblclmnValue.setWidth(187);
+        tblclmnValue.setText("Value");
+        tableViewerColumnValue.setLabelProvider(new CellLabelProvider() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void update(ViewerCell cell) {
+                Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) cell
+                        .getElement();
+                Map<String, Object> configurations = getSelectedAnalyzer().getConfigurations();
+                if (configurations.containsKey(e.getKey())) {
+                    cell.setText(configurations.get(e.getKey()).toString());
+                } else {
+                    cell.setText("");
+                }
+            }
+        });
+        configEditingSupport = new VPMAnalyzerConfigurationEditingSupport(configTableViewer);
+        tableViewerColumnValue.setEditingSupport(configEditingSupport);
+    }
 
-		if (listViewerAnalysis.getSelection() instanceof StructuredSelection) {
-			Object selection = ((StructuredSelection) listViewerAnalysis
-					.getSelection()).getFirstElement();
-			if (selection != null) {
-				analyzer = (VPMRefinementAnalyzer) selection;
-			}
-		} else {
-			logger.error("Invalid selection type in AnalyzerSelectionPage dialog");
-		}
-		return analyzer;
+    /**
+     * Get the analyzer currently selected in the analyzer list viewer.
+     * 
+     * @return Returns the first selected analyzer or null if none is selected.
+     */
+    private VPMRefinementAnalyzer getSelectedAnalyzer() {
 
-	}
+        VPMRefinementAnalyzer analyzer = null;
 
-	/**
-	 * Check the ui content and update the page status.
-	 */
-	public void update() {
-		if (listViewerAnalysis.getList().getItems().length > 0) {
-			this.setPageComplete(true);
-		} else {
-			this.setPageComplete(false);
-		}
-	}
+        if (listViewerAnalysis.getSelection() instanceof StructuredSelection) {
+            Object selection = ((StructuredSelection) listViewerAnalysis.getSelection()).getFirstElement();
+            if (selection != null) {
+                analyzer = (VPMRefinementAnalyzer) selection;
+            }
+        } else {
+            logger.error("Invalid selection type in AnalyzerSelectionPage dialog");
+        }
+        return analyzer;
 
-	/**
-	 * Add an analyzer to the list of configured analyzers.
-	 * @param analyzer The analyzer instance to be added.
-	 */
-	public void addAnalyzer(VPMRefinementAnalyzer analyzer) {
-		this.analyzers.add(analyzer);
-		listViewerAnalysis.refresh();
-	}
+    }
 
-	/**
-	 * Get the set of configured analyzer instances.
-	 * @return The list of analyzers.
-	 */
-	public Set<VPMRefinementAnalyzer> getAnalyzers() {
-		return analyzers;
-	}
-	
+    /**
+     * Check the ui content and update the page status.
+     */
+    public void update() {
+        if (listViewerAnalysis.getList().getItems().length > 0) {
+            this.setPageComplete(true);
+        } else {
+            this.setPageComplete(false);
+        }
+    }
+
+    /**
+     * Add an analyzer to the list of configured analyzers.
+     * 
+     * @param analyzer
+     *            The analyzer instance to be added.
+     */
+    public void addAnalyzer(VPMRefinementAnalyzer analyzer) {
+        this.analyzers.add(analyzer);
+        listViewerAnalysis.refresh();
+    }
+
+    /**
+     * Get the set of configured analyzer instances.
+     * 
+     * @return The list of analyzers.
+     */
+    public Set<VPMRefinementAnalyzer> getAnalyzers() {
+        return analyzers;
+    }
+
 }
