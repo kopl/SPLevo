@@ -33,5 +33,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
- swing2swt.jar,
- swt-grouplayout.jar
+ lib/opencsv-2.3.jar
