@@ -13,24 +13,24 @@ import org.splevo.vpm.realization.CompilationTimeRealizationTechnique;
 public abstract class CompilationTimeRealizationTechniqueTest extends RealizationTechniqueTest {
 
 	/**
-	 * Constructs a new Compilation Time Realization Technique test case with the given name.
-	 * <!-- begin-user-doc -->
+     * Constructs a new Compilation Time Realization Technique test case with the given name.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public CompilationTimeRealizationTechniqueTest(String name) {
-		super(name);
-	}
+        super(name);
+    }
 
 	/**
-	 * Returns the fixture for this Compilation Time Realization Technique test case.
-	 * <!-- begin-user-doc -->
+     * Returns the fixture for this Compilation Time Realization Technique test case.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected CompilationTimeRealizationTechnique getFixture() {
-		return (CompilationTimeRealizationTechnique)fixture;
-	}
+        return (CompilationTimeRealizationTechnique)fixture;
+    }
 
 } //CompilationTimeRealizationTechniqueTest

@@ -18,22 +18,22 @@ import org.splevo.vpm.realization.realizationPackage;
  */
 public abstract class RuntimeRealizationTechniqueImpl extends RealizationTechniqueImpl implements RuntimeRealizationTechnique {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected RuntimeRealizationTechniqueImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return realizationPackage.Literals.RUNTIME_REALIZATION_TECHNIQUE;
-	}
+        return realizationPackage.Literals.RUNTIME_REALIZATION_TECHNIQUE;
+    }
 
 } //RuntimeRealizationTechniqueImpl

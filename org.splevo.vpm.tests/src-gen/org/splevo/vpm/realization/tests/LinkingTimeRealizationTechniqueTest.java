@@ -13,24 +13,24 @@ import org.splevo.vpm.realization.LinkingTimeRealizationTechnique;
 public abstract class LinkingTimeRealizationTechniqueTest extends RealizationTechniqueTest {
 
 	/**
-	 * Constructs a new Linking Time Realization Technique test case with the given name.
-	 * <!-- begin-user-doc -->
+     * Constructs a new Linking Time Realization Technique test case with the given name.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public LinkingTimeRealizationTechniqueTest(String name) {
-		super(name);
-	}
+        super(name);
+    }
 
 	/**
-	 * Returns the fixture for this Linking Time Realization Technique test case.
-	 * <!-- begin-user-doc -->
+     * Returns the fixture for this Linking Time Realization Technique test case.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected LinkingTimeRealizationTechnique getFixture() {
-		return (LinkingTimeRealizationTechnique)fixture;
-	}
+        return (LinkingTimeRealizationTechnique)fixture;
+    }
 
 } //LinkingTimeRealizationTechniqueTest

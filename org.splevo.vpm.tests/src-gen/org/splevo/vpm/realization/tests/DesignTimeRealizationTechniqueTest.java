@@ -13,24 +13,24 @@ import org.splevo.vpm.realization.DesignTimeRealizationTechnique;
 public abstract class DesignTimeRealizationTechniqueTest extends RealizationTechniqueTest {
 
 	/**
-	 * Constructs a new Design Time Realization Technique test case with the given name.
-	 * <!-- begin-user-doc -->
+     * Constructs a new Design Time Realization Technique test case with the given name.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public DesignTimeRealizationTechniqueTest(String name) {
-		super(name);
-	}
+        super(name);
+    }
 
 	/**
-	 * Returns the fixture for this Design Time Realization Technique test case.
-	 * <!-- begin-user-doc -->
+     * Returns the fixture for this Design Time Realization Technique test case.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected DesignTimeRealizationTechnique getFixture() {
-		return (DesignTimeRealizationTechnique)fixture;
-	}
+        return (DesignTimeRealizationTechnique)fixture;
+    }
 
 } //DesignTimeRealizationTechniqueTest

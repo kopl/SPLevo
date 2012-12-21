@@ -20,22 +20,22 @@ import org.splevo.vpm.realization.realizationPackage;
  */
 public abstract class RealizationTechniqueImpl extends EObjectImpl implements RealizationTechnique {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected RealizationTechniqueImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return realizationPackage.Literals.REALIZATION_TECHNIQUE;
-	}
+        return realizationPackage.Literals.REALIZATION_TECHNIQUE;
+    }
 
 } //RealizationTechniqueImpl

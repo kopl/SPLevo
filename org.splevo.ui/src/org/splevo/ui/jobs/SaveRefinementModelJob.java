@@ -86,13 +86,13 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         String basePath = workspace.getRoot().getRawLocation().toOSString();
         String resultDirectory = basePath + splevoProject.getWorkspace() + "models/analyses-results/";
-        
+
         if (targetPath == null) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             Calendar cal = Calendar.getInstance();
-            targetPath =  dateFormat.format(cal.getTime());
+            targetPath = dateFormat.format(cal.getTime());
         }
-        targetPath =  resultDirectory + targetPath;
+        targetPath = resultDirectory + targetPath;
 
         switch (this.format) {
         case CSV:
@@ -151,7 +151,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
                             }
                         }
 
-                        String[] result = new String[] { analyzerID, type, vp.getSoftwareEntity().toString(),
+                        String[] result = new String[] { analyzerID, type, vp.getEnclosingSoftwareEntity().toString(),
                                 leadingVariant.toString(), integrationVariant.toString() };
                         writer.writeNext(result);
                     }

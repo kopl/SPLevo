@@ -32,89 +32,89 @@ import org.splevo.vpm.realization.RealizationTechnique;
  */
 public interface VariationPointModel extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Realization Techniques</b></em>' containment reference list.
-	 * The list contents are of type {@link org.splevo.vpm.realization.RealizationTechnique}.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Realization Techniques</b></em>' containment reference list.
+     * The list contents are of type {@link org.splevo.vpm.realization.RealizationTechnique}.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Realization Techniques</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Realization Techniques</em>' containment reference list.
-	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_RealizationTechniques()
-	 * @model containment="true"
-	 * @generated
-	 */
+     * @return the value of the '<em>Realization Techniques</em>' containment reference list.
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_RealizationTechniques()
+     * @model containment="true"
+     * @generated
+     */
 	EList<RealizationTechnique> getRealizationTechniques();
 
 	/**
-	 * Returns the value of the '<em><b>Leading Model</b></em>' reference.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Leading Model</b></em>' reference.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Leading Model</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Leading Model</em>' reference.
-	 * @see #setLeadingModel(JavaApplication)
-	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_LeadingModel()
-	 * @model required="true"
-	 * @generated
-	 */
+     * @return the value of the '<em>Leading Model</em>' reference.
+     * @see #setLeadingModel(JavaApplication)
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_LeadingModel()
+     * @model required="true"
+     * @generated
+     */
 	JavaApplication getLeadingModel();
 
 	/**
-	 * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointModel#getLeadingModel <em>Leading Model</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointModel#getLeadingModel <em>Leading Model</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Leading Model</em>' reference.
-	 * @see #getLeadingModel()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Leading Model</em>' reference.
+     * @see #getLeadingModel()
+     * @generated
+     */
 	void setLeadingModel(JavaApplication value);
 
 	/**
-	 * Returns the value of the '<em><b>Integration Model</b></em>' reference.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Integration Model</b></em>' reference.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Integration Model</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Integration Model</em>' reference.
-	 * @see #setIntegrationModel(JavaApplication)
-	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_IntegrationModel()
-	 * @model required="true"
-	 * @generated
-	 */
+     * @return the value of the '<em>Integration Model</em>' reference.
+     * @see #setIntegrationModel(JavaApplication)
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_IntegrationModel()
+     * @model required="true"
+     * @generated
+     */
 	JavaApplication getIntegrationModel();
 
 	/**
-	 * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointModel#getIntegrationModel <em>Integration Model</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointModel#getIntegrationModel <em>Integration Model</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Integration Model</em>' reference.
-	 * @see #getIntegrationModel()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Integration Model</em>' reference.
+     * @see #getIntegrationModel()
+     * @generated
+     */
 	void setIntegrationModel(JavaApplication value);
 
 	/**
-	 * Returns the value of the '<em><b>Variation Point Groups</b></em>' containment reference list.
-	 * The list contents are of type {@link org.splevo.vpm.variability.VariationPointGroup}.
-	 * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}'.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Variation Point Groups</b></em>' containment reference list.
+     * The list contents are of type {@link org.splevo.vpm.variability.VariationPointGroup}.
+     * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Variation Point Groups</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Variation Point Groups</em>' containment reference list.
-	 * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_VariationPointGroups()
-	 * @see org.splevo.vpm.variability.VariationPointGroup#getModel
-	 * @model opposite="model" containment="true"
-	 * @generated
-	 */
+     * @return the value of the '<em>Variation Point Groups</em>' containment reference list.
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_VariationPointGroups()
+     * @see org.splevo.vpm.variability.VariationPointGroup#getModel
+     * @model opposite="model" containment="true"
+     * @generated
+     */
 	EList<VariationPointGroup> getVariationPointGroups();
 
 } // VariationPointModel

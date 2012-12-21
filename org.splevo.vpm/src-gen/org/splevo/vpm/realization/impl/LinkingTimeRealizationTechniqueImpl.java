@@ -18,22 +18,22 @@ import org.splevo.vpm.realization.realizationPackage;
  */
 public abstract class LinkingTimeRealizationTechniqueImpl extends RealizationTechniqueImpl implements LinkingTimeRealizationTechnique {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected LinkingTimeRealizationTechniqueImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return realizationPackage.Literals.LINKING_TIME_REALIZATION_TECHNIQUE;
-	}
+        return realizationPackage.Literals.LINKING_TIME_REALIZATION_TECHNIQUE;
+    }
 
 } //LinkingTimeRealizationTechniqueImpl

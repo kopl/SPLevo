@@ -24,175 +24,175 @@ import org.splevo.vpm.realization.*;
  */
 public class realizationSwitch<T> extends Switch<T> {
 	/**
-	 * The cached model package
-	 * <!-- begin-user-doc -->
+     * The cached model package
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected static realizationPackage modelPackage;
 
 	/**
-	 * Creates an instance of the switch.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the switch.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public realizationSwitch() {
-		if (modelPackage == null) {
-			modelPackage = realizationPackage.eINSTANCE;
-		}
-	}
+        if (modelPackage == null) {
+            modelPackage = realizationPackage.eINSTANCE;
+        }
+    }
 
 	/**
-	 * Checks whether this is a switch for the given package.
-	 * <!-- begin-user-doc -->
+     * Checks whether this is a switch for the given package.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
-	 * @return whether this is a switch for the given package.
-	 * @generated
-	 */
+     * @parameter ePackage the package in question.
+     * @return whether this is a switch for the given package.
+     * @generated
+     */
 	@Override
 	protected boolean isSwitchFor(EPackage ePackage) {
-		return ePackage == modelPackage;
-	}
+        return ePackage == modelPackage;
+    }
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
+     * @return the first non-null result returned by a <code>caseXXX</code> call.
+     * @generated
+     */
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
-		switch (classifierID) {
-			case realizationPackage.REALIZATION_TECHNIQUE: {
-				RealizationTechnique realizationTechnique = (RealizationTechnique)theEObject;
-				T result = caseRealizationTechnique(realizationTechnique);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case realizationPackage.DESIGN_TIME_REALIZATION_TECHNIQUE: {
-				DesignTimeRealizationTechnique designTimeRealizationTechnique = (DesignTimeRealizationTechnique)theEObject;
-				T result = caseDesignTimeRealizationTechnique(designTimeRealizationTechnique);
-				if (result == null) result = caseRealizationTechnique(designTimeRealizationTechnique);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case realizationPackage.COMPILATION_TIME_REALIZATION_TECHNIQUE: {
-				CompilationTimeRealizationTechnique compilationTimeRealizationTechnique = (CompilationTimeRealizationTechnique)theEObject;
-				T result = caseCompilationTimeRealizationTechnique(compilationTimeRealizationTechnique);
-				if (result == null) result = caseRealizationTechnique(compilationTimeRealizationTechnique);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case realizationPackage.LINKING_TIME_REALIZATION_TECHNIQUE: {
-				LinkingTimeRealizationTechnique linkingTimeRealizationTechnique = (LinkingTimeRealizationTechnique)theEObject;
-				T result = caseLinkingTimeRealizationTechnique(linkingTimeRealizationTechnique);
-				if (result == null) result = caseRealizationTechnique(linkingTimeRealizationTechnique);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case realizationPackage.RUNTIME_REALIZATION_TECHNIQUE: {
-				RuntimeRealizationTechnique runtimeRealizationTechnique = (RuntimeRealizationTechnique)theEObject;
-				T result = caseRuntimeRealizationTechnique(runtimeRealizationTechnique);
-				if (result == null) result = caseRealizationTechnique(runtimeRealizationTechnique);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			default: return defaultCase(theEObject);
-		}
-	}
+        switch (classifierID) {
+            case realizationPackage.REALIZATION_TECHNIQUE: {
+                RealizationTechnique realizationTechnique = (RealizationTechnique)theEObject;
+                T result = caseRealizationTechnique(realizationTechnique);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case realizationPackage.DESIGN_TIME_REALIZATION_TECHNIQUE: {
+                DesignTimeRealizationTechnique designTimeRealizationTechnique = (DesignTimeRealizationTechnique)theEObject;
+                T result = caseDesignTimeRealizationTechnique(designTimeRealizationTechnique);
+                if (result == null) result = caseRealizationTechnique(designTimeRealizationTechnique);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case realizationPackage.COMPILATION_TIME_REALIZATION_TECHNIQUE: {
+                CompilationTimeRealizationTechnique compilationTimeRealizationTechnique = (CompilationTimeRealizationTechnique)theEObject;
+                T result = caseCompilationTimeRealizationTechnique(compilationTimeRealizationTechnique);
+                if (result == null) result = caseRealizationTechnique(compilationTimeRealizationTechnique);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case realizationPackage.LINKING_TIME_REALIZATION_TECHNIQUE: {
+                LinkingTimeRealizationTechnique linkingTimeRealizationTechnique = (LinkingTimeRealizationTechnique)theEObject;
+                T result = caseLinkingTimeRealizationTechnique(linkingTimeRealizationTechnique);
+                if (result == null) result = caseRealizationTechnique(linkingTimeRealizationTechnique);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case realizationPackage.RUNTIME_REALIZATION_TECHNIQUE: {
+                RuntimeRealizationTechnique runtimeRealizationTechnique = (RuntimeRealizationTechnique)theEObject;
+                T result = caseRuntimeRealizationTechnique(runtimeRealizationTechnique);
+                if (result == null) result = caseRealizationTechnique(runtimeRealizationTechnique);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            default: return defaultCase(theEObject);
+        }
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Realization Technique</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Realization Technique</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Realization Technique</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Realization Technique</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseRealizationTechnique(RealizationTechnique object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Design Time Realization Technique</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Design Time Realization Technique</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Design Time Realization Technique</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Design Time Realization Technique</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseDesignTimeRealizationTechnique(DesignTimeRealizationTechnique object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Compilation Time Realization Technique</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Compilation Time Realization Technique</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Compilation Time Realization Technique</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Compilation Time Realization Technique</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseCompilationTimeRealizationTechnique(CompilationTimeRealizationTechnique object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Linking Time Realization Technique</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Linking Time Realization Technique</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Linking Time Realization Technique</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Linking Time Realization Technique</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseLinkingTimeRealizationTechnique(LinkingTimeRealizationTechnique object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Runtime Realization Technique</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>Runtime Realization Technique</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Runtime Realization Technique</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Runtime Realization Technique</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
 	public T caseRuntimeRealizationTechnique(RuntimeRealizationTechnique object) {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
+     * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
-	 * @generated
-	 */
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+     * @generated
+     */
 	@Override
 	public T defaultCase(EObject object) {
-		return null;
-	}
+        return null;
+    }
 
 } //realizationSwitch

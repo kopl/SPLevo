@@ -18,22 +18,22 @@ import org.splevo.vpm.realization.realizationPackage;
  */
 public abstract class DesignTimeRealizationTechniqueImpl extends RealizationTechniqueImpl implements DesignTimeRealizationTechnique {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected DesignTimeRealizationTechniqueImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return realizationPackage.Literals.DESIGN_TIME_REALIZATION_TECHNIQUE;
-	}
+        return realizationPackage.Literals.DESIGN_TIME_REALIZATION_TECHNIQUE;
+    }
 
 } //DesignTimeRealizationTechniqueImpl

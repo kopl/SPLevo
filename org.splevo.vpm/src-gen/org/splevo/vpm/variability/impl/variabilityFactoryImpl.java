@@ -20,109 +20,109 @@ import org.splevo.vpm.variability.*;
  */
 public class variabilityFactoryImpl extends EFactoryImpl implements variabilityFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public static variabilityFactory init() {
-		try {
-			variabilityFactory thevariabilityFactory = (variabilityFactory)EPackage.Registry.INSTANCE.getEFactory("http://splevo.org/vpm/1.0/variability"); 
-			if (thevariabilityFactory != null) {
-				return thevariabilityFactory;
-			}
-		}
-		catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new variabilityFactoryImpl();
-	}
+        try {
+            variabilityFactory thevariabilityFactory = (variabilityFactory)EPackage.Registry.INSTANCE.getEFactory("http://splevo.org/vpm/1.0/variability"); 
+            if (thevariabilityFactory != null) {
+                return thevariabilityFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new variabilityFactoryImpl();
+    }
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public variabilityFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case variabilityPackage.VARIATION_POINT: return createVariationPoint();
-			case variabilityPackage.VARIANT: return createVariant();
-			case variabilityPackage.VARIATION_POINT_MODEL: return createVariationPointModel();
-			case variabilityPackage.VARIATION_POINT_GROUP: return createVariationPointGroup();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case variabilityPackage.VARIATION_POINT: return createVariationPoint();
+            case variabilityPackage.VARIANT: return createVariant();
+            case variabilityPackage.VARIATION_POINT_MODEL: return createVariationPointModel();
+            case variabilityPackage.VARIATION_POINT_GROUP: return createVariationPointGroup();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public VariationPoint createVariationPoint() {
-		VariationPointImpl variationPoint = new VariationPointImpl();
-		return variationPoint;
-	}
+        VariationPointImpl variationPoint = new VariationPointImpl();
+        return variationPoint;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Variant createVariant() {
-		VariantImpl variant = new VariantImpl();
-		return variant;
-	}
+        VariantImpl variant = new VariantImpl();
+        return variant;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public VariationPointModel createVariationPointModel() {
-		VariationPointModelImpl variationPointModel = new VariationPointModelImpl();
-		return variationPointModel;
-	}
+        VariationPointModelImpl variationPointModel = new VariationPointModelImpl();
+        return variationPointModel;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public VariationPointGroup createVariationPointGroup() {
-		VariationPointGroupImpl variationPointGroup = new VariationPointGroupImpl();
-		return variationPointGroup;
-	}
+        VariationPointGroupImpl variationPointGroup = new VariationPointGroupImpl();
+        return variationPointGroup;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public variabilityPackage getvariabilityPackage() {
-		return (variabilityPackage)getEPackage();
-	}
+        return (variabilityPackage)getEPackage();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	@Deprecated
 	public static variabilityPackage getPackage() {
-		return variabilityPackage.eINSTANCE;
-	}
+        return variabilityPackage.eINSTANCE;
+    }
 
 } //variabilityFactoryImpl

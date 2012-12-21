@@ -18,22 +18,22 @@ import org.splevo.vpm.realization.realizationPackage;
  */
 public abstract class CompilationTimeRealizationTechniqueImpl extends RealizationTechniqueImpl implements CompilationTimeRealizationTechnique {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected CompilationTimeRealizationTechniqueImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return realizationPackage.Literals.COMPILATION_TIME_REALIZATION_TECHNIQUE;
-	}
+        return realizationPackage.Literals.COMPILATION_TIME_REALIZATION_TECHNIQUE;
+    }
 
 } //CompilationTimeRealizationTechniqueImpl

@@ -42,271 +42,271 @@ import org.splevo.vpm.variability.variabilityPackage;
  */
 public class VariationPointGroupImpl extends EObjectImpl implements VariationPointGroup {
 	/**
-	 * The cached value of the '{@link #getVariationPoints() <em>Variation Points</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getVariationPoints() <em>Variation Points</em>}' containment reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getVariationPoints()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getVariationPoints()
+     * @generated
+     * @ordered
+     */
 	protected EList<VariationPoint> variationPoints;
 
 	/**
-	 * The default value of the '{@link #getGroupId() <em>Group Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * The default value of the '{@link #getGroupId() <em>Group Id</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getGroupId()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getGroupId()
+     * @generated
+     * @ordered
+     */
 	protected static final String GROUP_ID_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getGroupId() <em>Group Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getGroupId() <em>Group Id</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getGroupId()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getGroupId()
+     * @generated
+     * @ordered
+     */
 	protected String groupId = GROUP_ID_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected VariationPointGroupImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return variabilityPackage.Literals.VARIATION_POINT_GROUP;
-	}
+        return variabilityPackage.Literals.VARIATION_POINT_GROUP;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList<VariationPoint> getVariationPoints() {
-		if (variationPoints == null) {
-			variationPoints = new EObjectContainmentWithInverseEList<VariationPoint>(VariationPoint.class, this, variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS, variabilityPackage.VARIATION_POINT__GROUP);
-		}
-		return variationPoints;
-	}
+        if (variationPoints == null) {
+            variationPoints = new EObjectContainmentWithInverseEList<VariationPoint>(VariationPoint.class, this, variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS, variabilityPackage.VARIATION_POINT__GROUP);
+        }
+        return variationPoints;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String getGroupId() {
-		return groupId;
-	}
+        return groupId;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setGroupId(String newGroupId) {
-		String oldGroupId = groupId;
-		groupId = newGroupId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID, oldGroupId, groupId));
-	}
+        String oldGroupId = groupId;
+        groupId = newGroupId;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID, oldGroupId, groupId));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public VariationPointModel getModel() {
-		if (eContainerFeatureID() != variabilityPackage.VARIATION_POINT_GROUP__MODEL) return null;
-		return (VariationPointModel)eContainer();
-	}
+        if (eContainerFeatureID() != variabilityPackage.VARIATION_POINT_GROUP__MODEL) return null;
+        return (VariationPointModel)eContainer();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain basicSetModel(VariationPointModel newModel, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newModel, variabilityPackage.VARIATION_POINT_GROUP__MODEL, msgs);
-		return msgs;
-	}
+        msgs = eBasicSetContainer((InternalEObject)newModel, variabilityPackage.VARIATION_POINT_GROUP__MODEL, msgs);
+        return msgs;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setModel(VariationPointModel newModel) {
-		if (newModel != eInternalContainer() || (eContainerFeatureID() != variabilityPackage.VARIATION_POINT_GROUP__MODEL && newModel != null)) {
-			if (EcoreUtil.isAncestor(this, newModel))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newModel != null)
-				msgs = ((InternalEObject)newModel).eInverseAdd(this, variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS, VariationPointModel.class, msgs);
-			msgs = basicSetModel(newModel, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_GROUP__MODEL, newModel, newModel));
-	}
+        if (newModel != eInternalContainer() || (eContainerFeatureID() != variabilityPackage.VARIATION_POINT_GROUP__MODEL && newModel != null)) {
+            if (EcoreUtil.isAncestor(this, newModel))
+                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+            NotificationChain msgs = null;
+            if (eInternalContainer() != null)
+                msgs = eBasicRemoveFromContainer(msgs);
+            if (newModel != null)
+                msgs = ((InternalEObject)newModel).eInverseAdd(this, variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS, VariationPointModel.class, msgs);
+            msgs = basicSetModel(newModel, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_GROUP__MODEL, newModel, newModel));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVariationPoints()).basicAdd(otherEnd, msgs);
-			case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetModel((VariationPointModel)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
+                return ((InternalEList<InternalEObject>)(InternalEList<?>)getVariationPoints()).basicAdd(otherEnd, msgs);
+            case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetModel((VariationPointModel)otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
-				return ((InternalEList<?>)getVariationPoints()).basicRemove(otherEnd, msgs);
-			case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
-				return basicSetModel(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
+                return ((InternalEList<?>)getVariationPoints()).basicRemove(otherEnd, msgs);
+            case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
+                return basicSetModel(null, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
-				return eInternalContainer().eInverseRemove(this, variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS, VariationPointModel.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
+        switch (eContainerFeatureID()) {
+            case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
+                return eInternalContainer().eInverseRemove(this, variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS, VariationPointModel.class, msgs);
+        }
+        return super.eBasicRemoveFromContainerFeature(msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
-				return getVariationPoints();
-			case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
-				return getGroupId();
-			case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
-				return getModel();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
+                return getVariationPoints();
+            case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
+                return getGroupId();
+            case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
+                return getModel();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
-				getVariationPoints().clear();
-				getVariationPoints().addAll((Collection<? extends VariationPoint>)newValue);
-				return;
-			case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
-				setGroupId((String)newValue);
-				return;
-			case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
-				setModel((VariationPointModel)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
+                getVariationPoints().clear();
+                getVariationPoints().addAll((Collection<? extends VariationPoint>)newValue);
+                return;
+            case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
+                setGroupId((String)newValue);
+                return;
+            case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
+                setModel((VariationPointModel)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
-				getVariationPoints().clear();
-				return;
-			case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
-				setGroupId(GROUP_ID_EDEFAULT);
-				return;
-			case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
-				setModel((VariationPointModel)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
+                getVariationPoints().clear();
+                return;
+            case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
+                setGroupId(GROUP_ID_EDEFAULT);
+                return;
+            case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
+                setModel((VariationPointModel)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
-				return variationPoints != null && !variationPoints.isEmpty();
-			case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
-				return GROUP_ID_EDEFAULT == null ? groupId != null : !GROUP_ID_EDEFAULT.equals(groupId);
-			case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
-				return getModel() != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
+                return variationPoints != null && !variationPoints.isEmpty();
+            case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
+                return GROUP_ID_EDEFAULT == null ? groupId != null : !GROUP_ID_EDEFAULT.equals(groupId);
+            case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
+                return getModel() != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (groupId: ");
-		result.append(groupId);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (groupId: ");
+        result.append(groupId);
+        result.append(')');
+        return result.toString();
+    }
 
 } //VariationPointGroupImpl

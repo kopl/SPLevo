@@ -16,98 +16,98 @@ import org.splevo.vpm.variability.variabilityFactory;
 /**
  * A visitor for diff elements to fill up a variation point mode.
  */
-class Java2KDMDiffVisitor  extends Java2KDMDiffSwitch<VariationPoint>{
-	
-	/**
-	 * Handle import inserts.
-	 * VP references the compilation unit.
-	 * The leading variant references the inserted import declaration.
-	 * 
-	 * @param importInsert The import insert diff element.
-	 * @return The prepared variation point.
-	 */
-	@Override
-	public VariationPoint caseImportInsert(ImportInsert importInsert) {
+class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
-		ImportDeclaration importDeclaration = importInsert.getImportLeft();
-		CompilationUnit parent = importDeclaration.getOriginalCompilationUnit(); 
-		
-		// create the variation point
-		VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-		variationPoint.setSoftwareEntity((ASTNode) parent);
+    /**
+     * Handle import inserts. VP references the compilation unit. The leading variant references the
+     * inserted import declaration.
+     * 
+     * @param importInsert
+     *            The import insert diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseImportInsert(ImportInsert importInsert) {
 
-		// create the variants
-		Variant integrationVariant = null;
-		integrationVariant = variabilityFactory.eINSTANCE.createVariant();
-		integrationVariant.getSoftwareEntities().add(importDeclaration);
-		integrationVariant.setLeading(Boolean.FALSE);
-		integrationVariant.setVariantId("Import "+importDeclaration.getImportedElement().getName());
-		variationPoint.getVariants().add(integrationVariant);
+        ImportDeclaration importDeclaration = importInsert.getImportLeft();
+        CompilationUnit parent = importDeclaration.getOriginalCompilationUnit();
 
-		// return the result
-		return variationPoint;
+        // create the variation point
+        VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
+        variationPoint.setEnclosingSoftwareEntity((ASTNode) parent);
 
-	}
-	
-	/**
-	 * Handle import deletes.
-	 * VP references the compilation unit.
-	 * The leading variant references the deleted import declaration.
-	 * 
-	 * @param importDelete The import delete diff element.
-	 * @return The prepared variation point.
-	 */
-	@Override
-	public VariationPoint caseImportDelete(ImportDelete importDelete) {
+        // create the variants
+        Variant integrationVariant = null;
+        integrationVariant = variabilityFactory.eINSTANCE.createVariant();
+        integrationVariant.getSoftwareEntities().add(importDeclaration);
+        integrationVariant.setLeading(Boolean.FALSE);
+        integrationVariant.setVariantId("Import " + importDeclaration.getImportedElement().getName());
+        variationPoint.getVariants().add(integrationVariant);
 
-		ImportDeclaration importDeclaration = importDelete.getImportRight();
-		CompilationUnit parent = importDeclaration.getOriginalCompilationUnit(); 
-		
-		// create the variation point
-		VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-		variationPoint.setSoftwareEntity((ASTNode) parent);
+        // return the result
+        return variationPoint;
 
-		// create the variants
-		Variant leadingVariant = null;
-		leadingVariant = variabilityFactory.eINSTANCE.createVariant();
-		leadingVariant.getSoftwareEntities().add(importDeclaration);
-		leadingVariant.setLeading(Boolean.TRUE);
-		leadingVariant.setVariantId("Import "+importDeclaration.getImportedElement().getName());
-		variationPoint.getVariants().add(leadingVariant);
+    }
 
-		// return the result
-		return variationPoint;
-	}
-	
-	@Override
-	public VariationPoint caseStatementChange(StatementChange statementChange) {
+    /**
+     * Handle import deletes. VP references the compilation unit. The leading variant references the
+     * deleted import declaration.
+     * 
+     * @param importDelete
+     *            The import delete diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseImportDelete(ImportDelete importDelete) {
 
-		Statement statement = statementChange.getStatementRight();
-		ASTNode parent = (ASTNode) statement.eContainer();
-		
-		// create the variation point
-		VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-		variationPoint.setSoftwareEntity(parent);
+        ImportDeclaration importDeclaration = importDelete.getImportRight();
+        CompilationUnit parent = importDeclaration.getOriginalCompilationUnit();
 
-		// create the leading variant
-		if(!DifferenceKind.DELETION.equals(statementChange.getKind())){
-			Variant leadingVariant = variabilityFactory.eINSTANCE.createVariant();
-			leadingVariant.getSoftwareEntities().add(statementChange.getStatementLeft());
-			leadingVariant.setLeading(Boolean.TRUE);
-			leadingVariant.setVariantId("Statement Right");
-			variationPoint.getVariants().add(leadingVariant);
-		}
-		
-		// create the variant to integrate
-		if(!DifferenceKind.ADDITION.equals(statementChange.getKind())){
-			Variant integrationVariant = variabilityFactory.eINSTANCE.createVariant();
-			integrationVariant.getSoftwareEntities().add(statement);
-			integrationVariant.setLeading(Boolean.FALSE);
-			integrationVariant.setVariantId("Statement Left");
-			variationPoint.getVariants().add(integrationVariant);
-		}
+        // create the variation point
+        VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
+        variationPoint.setEnclosingSoftwareEntity((ASTNode) parent);
 
-		// return the result
-		return variationPoint;
-	}
+        // create the variants
+        Variant leadingVariant = null;
+        leadingVariant = variabilityFactory.eINSTANCE.createVariant();
+        leadingVariant.getSoftwareEntities().add(importDeclaration);
+        leadingVariant.setLeading(Boolean.TRUE);
+        leadingVariant.setVariantId("Import " + importDeclaration.getImportedElement().getName());
+        variationPoint.getVariants().add(leadingVariant);
+
+        // return the result
+        return variationPoint;
+    }
+
+    @Override
+    public VariationPoint caseStatementChange(StatementChange statementChange) {
+
+        Statement statement = statementChange.getStatementRight();
+        ASTNode parent = (ASTNode) statement.eContainer();
+
+        // create the variation point
+        VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
+        variationPoint.setEnclosingSoftwareEntity(parent);
+
+        // create the leading variant
+        if (!DifferenceKind.DELETION.equals(statementChange.getKind())) {
+            Variant leadingVariant = variabilityFactory.eINSTANCE.createVariant();
+            leadingVariant.getSoftwareEntities().add(statementChange.getStatementLeft());
+            leadingVariant.setLeading(Boolean.TRUE);
+            leadingVariant.setVariantId("Statement Right");
+            variationPoint.getVariants().add(leadingVariant);
+        }
+
+        // create the variant to integrate
+        if (!DifferenceKind.ADDITION.equals(statementChange.getKind())) {
+            Variant integrationVariant = variabilityFactory.eINSTANCE.createVariant();
+            integrationVariant.getSoftwareEntities().add(statement);
+            integrationVariant.setLeading(Boolean.FALSE);
+            integrationVariant.setVariantId("Statement Left");
+            variationPoint.getVariants().add(integrationVariant);
+        }
+
+        // return the result
+        return variationPoint;
+    }
 }

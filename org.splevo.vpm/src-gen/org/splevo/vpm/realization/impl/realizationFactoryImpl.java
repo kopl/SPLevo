@@ -20,65 +20,65 @@ import org.splevo.vpm.realization.*;
  */
 public class realizationFactoryImpl extends EFactoryImpl implements realizationFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public static realizationFactory init() {
-		try {
-			realizationFactory therealizationFactory = (realizationFactory)EPackage.Registry.INSTANCE.getEFactory("http://splevo.org/vpm/1.0/realization"); 
-			if (therealizationFactory != null) {
-				return therealizationFactory;
-			}
-		}
-		catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new realizationFactoryImpl();
-	}
+        try {
+            realizationFactory therealizationFactory = (realizationFactory)EPackage.Registry.INSTANCE.getEFactory("http://splevo.org/vpm/1.0/realization"); 
+            if (therealizationFactory != null) {
+                return therealizationFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new realizationFactoryImpl();
+    }
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public realizationFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public realizationPackage getrealizationPackage() {
-		return (realizationPackage)getEPackage();
-	}
+        return (realizationPackage)getEPackage();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	@Deprecated
 	public static realizationPackage getPackage() {
-		return realizationPackage.eINSTANCE;
-	}
+        return realizationPackage.eINSTANCE;
+    }
 
 } //realizationFactoryImpl

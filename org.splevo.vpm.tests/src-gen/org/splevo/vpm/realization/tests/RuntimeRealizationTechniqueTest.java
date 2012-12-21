@@ -13,24 +13,24 @@ import org.splevo.vpm.realization.RuntimeRealizationTechnique;
 public abstract class RuntimeRealizationTechniqueTest extends RealizationTechniqueTest {
 
 	/**
-	 * Constructs a new Runtime Realization Technique test case with the given name.
-	 * <!-- begin-user-doc -->
+     * Constructs a new Runtime Realization Technique test case with the given name.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public RuntimeRealizationTechniqueTest(String name) {
-		super(name);
-	}
+        super(name);
+    }
 
 	/**
-	 * Returns the fixture for this Runtime Realization Technique test case.
-	 * <!-- begin-user-doc -->
+     * Returns the fixture for this Runtime Realization Technique test case.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected RuntimeRealizationTechnique getFixture() {
-		return (RuntimeRealizationTechnique)fixture;
-	}
+        return (RuntimeRealizationTechnique)fixture;
+    }
 
 } //RuntimeRealizationTechniqueTest
