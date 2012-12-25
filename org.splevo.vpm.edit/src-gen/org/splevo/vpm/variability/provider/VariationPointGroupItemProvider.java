@@ -64,6 +64,7 @@ public class VariationPointGroupItemProvider
             super.getPropertyDescriptors(object);
 
             addGroupIdPropertyDescriptor(object);
+            addFeaturePropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -91,6 +92,28 @@ public class VariationPointGroupItemProvider
     }
 
 	/**
+     * This adds a property descriptor for the Feature feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addFeaturePropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_VariationPointGroup_feature_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_VariationPointGroup_feature_feature", "_UI_VariationPointGroup_type"),
+                 variabilityPackage.Literals.VARIATION_POINT_GROUP__FEATURE,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
      * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
      * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
      * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.

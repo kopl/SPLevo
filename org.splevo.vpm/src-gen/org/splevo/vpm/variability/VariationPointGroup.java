@@ -3,8 +3,8 @@
 package org.splevo.vpm.variability;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.featuremodel.Feature;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getVariationPoints <em>Variation Points</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getGroupId <em>Group Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getFeature <em>Feature</em>}</li>
  * </ul>
  * </p>
  *
@@ -100,5 +101,31 @@ public interface VariationPointGroup extends EObject {
      * @generated
      */
 	void setModel(VariationPointModel value);
+
+    /**
+     * Returns the value of the '<em><b>Feature</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Feature</em>' reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Feature</em>' reference.
+     * @see #setFeature(Feature)
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointGroup_Feature()
+     * @model
+     * @generated
+     */
+    Feature getFeature();
+
+    /**
+     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointGroup#getFeature <em>Feature</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Feature</em>' reference.
+     * @see #getFeature()
+     * @generated
+     */
+    void setFeature(Feature value);
 
 } // VariationPointGroup

@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.featuremodel.Feature;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -35,6 +36,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getVariationPoints <em>Variation Points</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getGroupId <em>Group Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getModel <em>Model</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getFeature <em>Feature</em>}</li>
  * </ul>
  * </p>
  *
@@ -72,6 +74,16 @@ public class VariationPointGroupImpl extends EObjectImpl implements VariationPoi
 	protected String groupId = GROUP_ID_EDEFAULT;
 
 	/**
+     * The cached value of the '{@link #getFeature() <em>Feature</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFeature()
+     * @generated
+     * @ordered
+     */
+    protected Feature feature;
+
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -166,6 +178,44 @@ public class VariationPointGroupImpl extends EObjectImpl implements VariationPoi
 
 	/**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Feature getFeature() {
+        if (feature != null && feature.eIsProxy()) {
+            InternalEObject oldFeature = (InternalEObject)feature;
+            feature = (Feature)eResolveProxy(oldFeature);
+            if (feature != oldFeature) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, variabilityPackage.VARIATION_POINT_GROUP__FEATURE, oldFeature, feature));
+            }
+        }
+        return feature;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Feature basicGetFeature() {
+        return feature;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setFeature(Feature newFeature) {
+        Feature oldFeature = feature;
+        feature = newFeature;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_GROUP__FEATURE, oldFeature, feature));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -227,6 +277,9 @@ public class VariationPointGroupImpl extends EObjectImpl implements VariationPoi
                 return getGroupId();
             case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
                 return getModel();
+            case variabilityPackage.VARIATION_POINT_GROUP__FEATURE:
+                if (resolve) return getFeature();
+                return basicGetFeature();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -250,6 +303,9 @@ public class VariationPointGroupImpl extends EObjectImpl implements VariationPoi
             case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
                 setModel((VariationPointModel)newValue);
                 return;
+            case variabilityPackage.VARIATION_POINT_GROUP__FEATURE:
+                setFeature((Feature)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -271,6 +327,9 @@ public class VariationPointGroupImpl extends EObjectImpl implements VariationPoi
             case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
                 setModel((VariationPointModel)null);
                 return;
+            case variabilityPackage.VARIATION_POINT_GROUP__FEATURE:
+                setFeature((Feature)null);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -289,6 +348,8 @@ public class VariationPointGroupImpl extends EObjectImpl implements VariationPoi
                 return GROUP_ID_EDEFAULT == null ? groupId != null : !GROUP_ID_EDEFAULT.equals(groupId);
             case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
                 return getModel() != null;
+            case variabilityPackage.VARIATION_POINT_GROUP__FEATURE:
+                return feature != null;
         }
         return super.eIsSet(featureID);
     }

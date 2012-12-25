@@ -40,7 +40,6 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariants <em>Variants</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getRealizationTechnique <em>Realization Technique</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getEnclosingSoftwareEntity <em>Enclosing Software Entity</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getGroup <em>Group</em>}</li>
  * </ul>
@@ -68,16 +67,6 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
      * @ordered
      */
 	protected RealizationTechnique realizationTechnique;
-
-	/**
-     * The cached value of the '{@link #getFeature() <em>Feature</em>}' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getFeature()
-     * @generated
-     * @ordered
-     */
-	protected Feature feature;
 
 	/**
      * The cached value of the '{@link #getEnclosingSoftwareEntity() <em>Enclosing Software Entity</em>}' reference.
@@ -156,44 +145,6 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
         realizationTechnique = newRealizationTechnique;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__REALIZATION_TECHNIQUE, oldRealizationTechnique, realizationTechnique));
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Feature getFeature() {
-        if (feature != null && feature.eIsProxy()) {
-            InternalEObject oldFeature = (InternalEObject)feature;
-            feature = (Feature)eResolveProxy(oldFeature);
-            if (feature != oldFeature) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, variabilityPackage.VARIATION_POINT__FEATURE, oldFeature, feature));
-            }
-        }
-        return feature;
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Feature basicGetFeature() {
-        return feature;
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setFeature(Feature newFeature) {
-        Feature oldFeature = feature;
-        feature = newFeature;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__FEATURE, oldFeature, feature));
     }
 
 	/**
@@ -337,9 +288,6 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
             case variabilityPackage.VARIATION_POINT__REALIZATION_TECHNIQUE:
                 if (resolve) return getRealizationTechnique();
                 return basicGetRealizationTechnique();
-            case variabilityPackage.VARIATION_POINT__FEATURE:
-                if (resolve) return getFeature();
-                return basicGetFeature();
             case variabilityPackage.VARIATION_POINT__ENCLOSING_SOFTWARE_ENTITY:
                 if (resolve) return getEnclosingSoftwareEntity();
                 return basicGetEnclosingSoftwareEntity();
@@ -365,9 +313,6 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
             case variabilityPackage.VARIATION_POINT__REALIZATION_TECHNIQUE:
                 setRealizationTechnique((RealizationTechnique)newValue);
                 return;
-            case variabilityPackage.VARIATION_POINT__FEATURE:
-                setFeature((Feature)newValue);
-                return;
             case variabilityPackage.VARIATION_POINT__ENCLOSING_SOFTWARE_ENTITY:
                 setEnclosingSoftwareEntity((ASTNode)newValue);
                 return;
@@ -392,9 +337,6 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
             case variabilityPackage.VARIATION_POINT__REALIZATION_TECHNIQUE:
                 setRealizationTechnique((RealizationTechnique)null);
                 return;
-            case variabilityPackage.VARIATION_POINT__FEATURE:
-                setFeature((Feature)null);
-                return;
             case variabilityPackage.VARIATION_POINT__ENCLOSING_SOFTWARE_ENTITY:
                 setEnclosingSoftwareEntity((ASTNode)null);
                 return;
@@ -417,8 +359,6 @@ public class VariationPointImpl extends EObjectImpl implements VariationPoint {
                 return variants != null && !variants.isEmpty();
             case variabilityPackage.VARIATION_POINT__REALIZATION_TECHNIQUE:
                 return realizationTechnique != null;
-            case variabilityPackage.VARIATION_POINT__FEATURE:
-                return feature != null;
             case variabilityPackage.VARIATION_POINT__ENCLOSING_SOFTWARE_ENTITY:
                 return enclosingSoftwareEntity != null;
             case variabilityPackage.VARIATION_POINT__GROUP:

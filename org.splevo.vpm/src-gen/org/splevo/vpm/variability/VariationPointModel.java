@@ -3,12 +3,8 @@
 package org.splevo.vpm.variability;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.eclipse.gmt.modisco.java.Model;
-
 import org.splevo.vpm.realization.RealizationTechnique;
 
 /**

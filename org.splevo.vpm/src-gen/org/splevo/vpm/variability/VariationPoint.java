@@ -3,13 +3,8 @@
 package org.splevo.vpm.variability;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.featuremodel.Feature;
-
 import org.eclipse.gmt.modisco.java.ASTNode;
-
 import org.splevo.vpm.realization.RealizationTechnique;
 
 /**
@@ -22,7 +17,6 @@ import org.splevo.vpm.realization.RealizationTechnique;
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariants <em>Variants</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getRealizationTechnique <em>Realization Technique</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.VariationPoint#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getEnclosingSoftwareEntity <em>Enclosing Software Entity</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getGroup <em>Group</em>}</li>
  * </ul>
@@ -76,32 +70,6 @@ public interface VariationPoint extends EObject {
      * @generated
      */
 	void setRealizationTechnique(RealizationTechnique value);
-
-	/**
-     * Returns the value of the '<em><b>Feature</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Feature</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Feature</em>' reference.
-     * @see #setFeature(Feature)
-     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_Feature()
-     * @model
-     * @generated
-     */
-	Feature getFeature();
-
-	/**
-     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getFeature <em>Feature</em>}' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Feature</em>' reference.
-     * @see #getFeature()
-     * @generated
-     */
-	void setFeature(Feature value);
 
 	/**
      * Returns the value of the '<em><b>Enclosing Software Entity</b></em>' reference.

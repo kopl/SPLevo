@@ -84,22 +84,13 @@ public interface variabilityPackage extends EPackage {
 	int VARIATION_POINT__REALIZATION_TECHNIQUE = 1;
 
 	/**
-     * The feature id for the '<em><b>Feature</b></em>' reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int VARIATION_POINT__FEATURE = 2;
-
-	/**
      * The feature id for the '<em><b>Enclosing Software Entity</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__ENCLOSING_SOFTWARE_ENTITY = 3;
+    int VARIATION_POINT__ENCLOSING_SOFTWARE_ENTITY = 2;
 
     /**
      * The feature id for the '<em><b>Group</b></em>' container reference.
@@ -108,7 +99,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int VARIATION_POINT__GROUP = 4;
+	int VARIATION_POINT__GROUP = 3;
 
 	/**
      * The number of structural features of the '<em>Variation Point</em>' class.
@@ -117,7 +108,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int VARIATION_POINT_FEATURE_COUNT = 5;
+	int VARIATION_POINT_FEATURE_COUNT = 4;
 
 	/**
      * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariantImpl <em>Variant</em>}' class.
@@ -277,13 +268,22 @@ public interface variabilityPackage extends EPackage {
 	int VARIATION_POINT_GROUP__MODEL = 2;
 
 	/**
+     * The feature id for the '<em><b>Feature</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT_GROUP__FEATURE = 3;
+
+    /**
      * The number of structural features of the '<em>Variation Point Group</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int VARIATION_POINT_GROUP_FEATURE_COUNT = 3;
+	int VARIATION_POINT_GROUP_FEATURE_COUNT = 4;
 
 
 	/**
@@ -317,17 +317,6 @@ public interface variabilityPackage extends EPackage {
      * @generated
      */
 	EReference getVariationPoint_RealizationTechnique();
-
-	/**
-     * Returns the meta object for the reference '{@link org.splevo.vpm.variability.VariationPoint#getFeature <em>Feature</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Feature</em>'.
-     * @see org.splevo.vpm.variability.VariationPoint#getFeature()
-     * @see #getVariationPoint()
-     * @generated
-     */
-	EReference getVariationPoint_Feature();
 
 	/**
      * Returns the meta object for the reference '{@link org.splevo.vpm.variability.VariationPoint#getEnclosingSoftwareEntity <em>Enclosing Software Entity</em>}'.
@@ -514,6 +503,17 @@ public interface variabilityPackage extends EPackage {
 	EReference getVariationPointGroup_Model();
 
 	/**
+     * Returns the meta object for the reference '{@link org.splevo.vpm.variability.VariationPointGroup#getFeature <em>Feature</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Feature</em>'.
+     * @see org.splevo.vpm.variability.VariationPointGroup#getFeature()
+     * @see #getVariationPointGroup()
+     * @generated
+     */
+    EReference getVariationPointGroup_Feature();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -560,14 +560,6 @@ public interface variabilityPackage extends EPackage {
          * @generated
          */
 		EReference VARIATION_POINT__REALIZATION_TECHNIQUE = eINSTANCE.getVariationPoint_RealizationTechnique();
-
-		/**
-         * The meta object literal for the '<em><b>Feature</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference VARIATION_POINT__FEATURE = eINSTANCE.getVariationPoint_Feature();
 
 		/**
          * The meta object literal for the '<em><b>Enclosing Software Entity</b></em>' reference feature.
@@ -710,6 +702,14 @@ public interface variabilityPackage extends EPackage {
          * @generated
          */
 		EReference VARIATION_POINT_GROUP__MODEL = eINSTANCE.getVariationPointGroup_Model();
+
+        /**
+         * The meta object literal for the '<em><b>Feature</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference VARIATION_POINT_GROUP__FEATURE = eINSTANCE.getVariationPointGroup_Feature();
 
 	}
 
