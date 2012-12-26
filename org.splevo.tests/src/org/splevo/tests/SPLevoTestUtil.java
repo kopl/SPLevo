@@ -22,11 +22,12 @@ import org.splevo.vpm.variability.VariationPointModel;
 public class SPLevoTestUtil {
 
     /** Source path to the native calculator implementation. */
-    private static final File NATIVE_JAVA2KDMMODEL_FILE = new File("testmodels/implementation/gcd/native/_java2kdm.xmi");
+    private static final File NATIVE_JAVA2KDMMODEL_FILE = new File(
+            "../org.splevo.tests/testmodels/implementation/gcd/native/_java2kdm.xmi");
 
     /** Source path to the jscience based calculator implementation. */
     private static final File JSCIENCE_JAVA2KDMMODEL_FILE = new File(
-            "testmodels/implementation/gcd/jscience/_java2kdm.xmi");
+            "../org.splevo.tests/testmodels/implementation/gcd/jscience/_java2kdm.xmi");
 
     /**
      * Load the vpm model for the common GCD test example.
@@ -37,7 +38,27 @@ public class SPLevoTestUtil {
      * @throws InterruptedException
      *             identifies that the refinement process was interrupted.
      */
-    public VariationPointModel loadGCDVPMModel() throws IOException, InterruptedException {
+    public static VariationPointModel loadGCDVPMModel() throws IOException, InterruptedException {
+
+        DiffModel diffModel = loadGCDDiffModel();
+
+        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
+        VariationPointModel initialVpm = java2KDMVPMBuilder.buildVPM(diffModel);
+
+        return initialVpm;
+    }
+
+    /**
+     * Load the diffing model.
+     * 
+     * @param leadingModel
+     * @param integrationModel
+     * @param ignorePackages
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public static DiffModel loadGCDDiffModel() throws IOException, InterruptedException {
 
         JavaApplication leadingModel = KDMUtil.loadKDMModel(NATIVE_JAVA2KDMMODEL_FILE);
         JavaApplication integrationModel = KDMUtil.loadKDMModel(JSCIENCE_JAVA2KDMMODEL_FILE);
@@ -52,12 +73,9 @@ public class SPLevoTestUtil {
         Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
         diffingService.getIgnorePackages().addAll(ignorePackages);
 
-        DiffModel diffModel = diffingService.doDiff(integrationModel, leadingModel);
+        DiffModel diffModel = diffingService.doDiff(leadingModel, integrationModel);
 
-        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
-        VariationPointModel initialVpm = java2KDMVPMBuilder.buildVPM(diffModel);
-
-        return initialVpm;
+        return diffModel;
     }
 
 }
