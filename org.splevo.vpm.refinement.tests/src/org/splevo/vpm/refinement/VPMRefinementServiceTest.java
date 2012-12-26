@@ -1,6 +1,7 @@
 package org.splevo.vpm.refinement;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,18 +11,15 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
-import org.eclipse.modisco.java.composition.javaapplication.queries.GetASTNodeSourceRegion;
 import org.junit.Test;
 import org.splevo.diffing.Java2KDMDiffingService;
 import org.splevo.modisco.util.KDMUtil;
+import org.splevo.modisco.util.SourceConnector;
 import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
 import org.splevo.vpm.refinement.simplelocation.VPLocationAnalyzer;
-import org.splevo.modisco.util.SourceConnector;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -33,11 +31,11 @@ public class VPMRefinementServiceTest extends AbstractTest {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(VPMRefinementServiceTest.class);
 
-    /** Source path to the native calculator implementation */
+    /** Source path to the native calculator implementation. */
     private static final File NATIVE_JAVA2KDMMODEL_FILE = new File(
             "../org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java2kdm.xmi");
 
-    /** Source path to the jscience based calculator implementation */
+    /** Source path to the jscience based calculator implementation. */
     private static final File JSCIENCE_JAVA2KDMMODEL_FILE = new File(
             "../org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java2kdm.xmi");
 
@@ -45,8 +43,8 @@ public class VPMRefinementServiceTest extends AbstractTest {
      * Test of a basic refinement analysis and application. This test makes use of the basic
      * location based variation point analysis.
      * 
-     * @throws IOException
-     * @throws InterruptedException
+     * @throws IOException identifies that the vpm could not be loaded.
+     * @throws InterruptedException identifies that the refinement process was interrupted.
      */
     @Test
     public void testRefinements() throws IOException, InterruptedException {
@@ -79,12 +77,9 @@ public class VPMRefinementServiceTest extends AbstractTest {
     /**
      * Load the diffing model.
      * 
-     * @param leadingModel
-     * @param integrationModel
-     * @param ignorePackages
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
+     * @return The loaded model.
+     * @throws IOException identifies that the vpm could not be loaded.
+     * @throws InterruptedException identifies that the refinement process was interrupted.
      */
     private VariationPointModel loadVPMModel() throws IOException, InterruptedException {
 
