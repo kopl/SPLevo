@@ -2,84 +2,51 @@ package org.splevo.vpm.builder.java2kdmdiff;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
-import org.splevo.diffing.Java2KDMDiffingService;
-import org.splevo.modisco.util.KDMUtil;
+import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
- * Test case for the Java2KDM based VPM builder 
+ * Test case for the Java2KDM based VPM builder
  * 
- * This test case directly invokes the diffing service to produce the diffing model the builder should use. 
- * It introduces a direct dependency that should be removed later on,  
- * but for now, it improves the development cycles time for changes in the diff engine. 
- *
+ * This test case directly invokes the diffing service to produce the diffing model the builder
+ * should use. It introduces a direct dependency that should be removed later on, but for now, it
+ * improves the development cycles time for changes in the diff engine.
+ * 
  */
 public class Java2KDMVPMBuilderTest extends AbstractTest {
-	
+
+    /** The logger to use for this class. */
     private Logger logger = Logger.getLogger(Java2KDMVPMBuilderTest.class);
 
-	/** Source path to the native calculator implementation */
-	private static final File NATIVE_JAVA2KDMMODEL_FILE = new File("../org.splevo.diffing.tests/testmodels/implementation/gcd/native/_java2kdm.xmi");
-	
-	/** Source path to the jscience based calculator implementation */
-	private static final File JSCIENCE_JAVA2KDMMODEL_FILE = new File("../org.splevo.diffing.tests/testmodels/implementation/gcd/jscience/_java2kdm.xmi");
+   /**
+     * Test building a vpm from a diff model.
+     * 
+     * @throws IOException
+     *             Exception to failed reading the input model.
+     * @throws InterruptedException
+     *             Identifying the test has been interrupted.
+     */
+    @Test
+    public void testBuildVPM() throws IOException, InterruptedException {
 
-	@Test
-	public void testBuildVPM() throws IOException, InterruptedException {
+        DiffModel diffModel = SPLevoTestUtil.loadGCDDiffModel();
 
-		JavaApplication leadingModel = KDMUtil.loadKDMModel(NATIVE_JAVA2KDMMODEL_FILE);
-		JavaApplication integrationModel = KDMUtil.loadKDMModel(JSCIENCE_JAVA2KDMMODEL_FILE);
-		List<String> ignorePackages = new ArrayList<String>();
-		ignorePackages.add("java.lang");
-		ignorePackages.add("java.math");
-		ignorePackages.add("java.io");
-		ignorePackages.add("org.jscience.*");
-		ignorePackages.add("org.jscience.*");
-		ignorePackages.add("javolution.*");
-		DiffModel diffModel = loadDiffModel(leadingModel, integrationModel, ignorePackages);
-		
-		Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
-		VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
-		assertNotNull("No VPM initialized",vpm);
-		
-		logger.warn("Number of variation point groups: "+vpm.getVariationPointGroups().size());
-			
-		assertNotNull("Leading model must not be null",vpm.getLeadingModel());
-		assertNotNull("Integration model must not be null",vpm.getIntegrationModel());
-		
-		ModelUtils.save(vpm, "testresult/gcd-intial.vpm");
-	}
+        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
+        VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
+        assertNotNull("No VPM initialized", vpm);
 
+        logger.warn("Number of variation point groups: " + vpm.getVariationPointGroups().size());
 
-	/**
-	 * Load the diffing model. 
-	 * 
-	 * @param leadingModel
-	 * @param integrationModel
-	 * @param ignorePackages
-	 * @return
-	 * @throws IOException
-	 * @throws InterruptedException
-	 */
-	private DiffModel loadDiffModel(JavaApplication leadingModel, JavaApplication integrationModel, List<String> ignorePackages) throws IOException, InterruptedException {
+        assertNotNull("Leading model must not be null", vpm.getLeadingModel());
+        assertNotNull("Integration model must not be null", vpm.getIntegrationModel());
 
-			
-			Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
-			diffingService.getIgnorePackages().addAll(ignorePackages);
-			
-			DiffModel diffModel = diffingService.doDiff(leadingModel,integrationModel);
-			
-			return diffModel;
-	}
+        ModelUtils.save(vpm, "testresult/gcd-intial.vpm");
+    }
 
 }
