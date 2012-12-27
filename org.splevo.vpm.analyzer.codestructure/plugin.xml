@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="org.splevo.vpm.analyzer.codestructure"
+         name="Code Structure VPM Analyzer"
+         point="org.splevo.vpm.analyzer.analyzer">
+      <analyzer
+            analyzer.class="org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer">
+      </analyzer>
+   </extension>
+
+</plugin>

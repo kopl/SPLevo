@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VPM Analyzer Tests
+Bundle-SymbolicName: org.splevo.vpm.analyzer.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Fragment-Host: org.splevo.vpm.analyzer;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit,
+ org.splevo.tests;bundle-version="1.0.0",
+ org.apache.log4j;bundle-version="1.2.15"
