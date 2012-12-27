@@ -9,6 +9,8 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.Java2KDMDiffingService;
 import org.splevo.modisco.util.KDMUtil;
+import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
+import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -29,6 +31,23 @@ public class SPLevoTestUtil {
     private static final File JSCIENCE_JAVA2KDMMODEL_FILE = new File(
             "../org.splevo.tests/testmodels/implementation/gcd/jscience/_java2kdm.xmi");
 
+    /**
+     * Load the variation point model graph for the GCD example.
+     * 
+     * @return The loaded graph.
+     * @throws IOException
+     *             identifies that the graph could not be loaded.
+     * @throws InterruptedException
+     *             identifies that the refinement process was interrupted.
+     */
+    public static VPMGraph loadGCDVPMGraph() throws IOException, InterruptedException{
+        VariationPointModel vpm = loadGCDVPMModel();
+        
+        DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
+        VPMGraph graph = service.initVPMGraph(vpm);
+        return graph;
+    }
+    
     /**
      * Load the vpm model for the common GCD test example.
      * 

@@ -1,7 +1,7 @@
 package org.splevo.ui.listeners;
 
 import org.eclipse.jface.viewers.LabelProvider;
-import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzer;
 
 /**
  * Label provider for vpm refinement analyzers returning the name of the analyzer.
@@ -15,6 +15,6 @@ public class VPMAnalyzerLabelProvider extends LabelProvider {
 	 */
 	@Override
 	public String getText(Object element) {
-		return ((VPMRefinementAnalyzer) element).getName();
+		return ((VPMAnalyzer) element).getName();
 	}
 }

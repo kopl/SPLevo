@@ -1,17 +1,21 @@
 package org.splevo.ui.refinementbrowser;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.splevo.vpm.refinement.Refinement;
-import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 
+/**
+ * The Content provider for the refinement tree.
+ * @author benjamin
+ *
+ */
 public class RefinementTreeContentProvider implements ITreeContentProvider {
 
 	/** The refinements to be performed. */
-	HashMap<VPMRefinementAnalyzer, List<Refinement>> refinements = new HashMap<VPMRefinementAnalyzer, List<Refinement>>();
+	private List<Refinement> refinements = new ArrayList<Refinement>();
 
 	@Override
 	public void dispose() {
@@ -20,25 +24,28 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		this.refinements = (HashMap<VPMRefinementAnalyzer, List<Refinement>>) newInput;
+		this.refinements = (List<Refinement>) newInput;
 	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		return refinements.keySet().toArray();
+		return refinements.toArray();
 	}
 
 	/**
 	 * Return the child elements of the selected tree node.
 	 * First check the type of the selected element, 
 	 * then return the type specific children.
+	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof VPMRefinementAnalyzer) {
-			List<Refinement> selectedRefinements = refinements.get((VPMRefinementAnalyzer) parentElement);
-			return selectedRefinements.toArray();
-		}
+// TODO: cleanup when ui is tested
+//		if (parentElement instanceof VPMRefinementAnalyzer) {
+//			List<Refinement> selectedRefinements = refinements.get((VPMRefinementAnalyzer) parentElement);
+//			return selectedRefinements.toArray();
+//		}
 		return null;
 	}
 
@@ -49,9 +56,10 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 
 	@Override
 	public boolean hasChildren(Object element) {
-		if (element instanceof VPMRefinementAnalyzer) {
-			return !refinements.get(element).isEmpty();
-		}
+// TODO: cleanup when ui is tested
+//		if (element instanceof VPMRefinementAnalyzer) {
+//			return !refinements.get(element).isEmpty();
+//		}
 		return false;
 	}
 

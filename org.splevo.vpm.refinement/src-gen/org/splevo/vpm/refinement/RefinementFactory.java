@@ -14,47 +14,38 @@ import org.eclipse.emf.ecore.EFactory;
  */
 public interface RefinementFactory extends EFactory {
 	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
+     * The singleton instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	RefinementFactory eINSTANCE = org.splevo.vpm.refinement.impl.RefinementFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Refinement</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns a new object of class '<em>Refinement</em>'.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Refinement</em>'.
-	 * @generated
-	 */
+     * @return a new object of class '<em>Refinement</em>'.
+     * @generated
+     */
 	Refinement createRefinement();
 
 	/**
-	 * Returns a new object of class '<em>Model</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns a new object of class '<em>Model</em>'.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Model</em>'.
-	 * @generated
-	 */
+     * @return a new object of class '<em>Model</em>'.
+     * @generated
+     */
 	RefinementModel createRefinementModel();
 
 	/**
-	 * Returns a new object of class '<em>Analyzer Configuration</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns the package supported by this factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Analyzer Configuration</em>'.
-	 * @generated
-	 */
-	AnalyzerConfiguration createAnalyzerConfiguration();
-
-	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
+     * @return the package supported by this factory.
+     * @generated
+     */
 	RefinementPackage getRefinementPackage();
 
 } //RefinementFactory

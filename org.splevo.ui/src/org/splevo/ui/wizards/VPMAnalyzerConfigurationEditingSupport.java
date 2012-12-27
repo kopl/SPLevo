@@ -8,140 +8,113 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
-import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.splevo.vpm.refinement.AnalyzerConfigurationType;
-import org.splevo.vpm.refinement.RefinementType;
-import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 
 /**
- * Editing support to modify the configuration values within the config table of
- * the analyzer configuration dialog.
+ * Editing support to modify the configuration values within the config table of the analyzer
+ * configuration dialog.
  */
 public class VPMAnalyzerConfigurationEditingSupport extends EditingSupport {
 
-	/** The logger for this class. */
-	private Logger logger = Logger
-			.getLogger(VPMAnalyzerConfigurationEditingSupport.class);
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(VPMAnalyzerConfigurationEditingSupport.class);
 
-	/** The table viewer this editing support is assigned to. */
-	private final TableViewer viewer;
+    /** The table viewer this editing support is assigned to. */
+    private final TableViewer viewer;
 
-	/** The analyzer currently modified. */
-	private VPMRefinementAnalyzer analyzer = null;
+    /** The analyzer currently modified. */
+    private VPMAnalyzer analyzer = null;
 
-	/**
-	 * Constructor setting the reference to the enclosing viewer.
-	 * 
-	 * @param viewer
-	 *            The viewer to place the cell in.
-	 */
-	public VPMAnalyzerConfigurationEditingSupport(TableViewer viewer) {
-		super(viewer);
-		this.viewer = viewer;
-	}
+    /**
+     * Constructor setting the reference to the enclosing viewer.
+     * 
+     * @param viewer
+     *            The viewer to place the cell in.
+     */
+    public VPMAnalyzerConfigurationEditingSupport(TableViewer viewer) {
+        super(viewer);
+        this.viewer = viewer;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.viewers.EditingSupport#getCellEditor(java.lang.Object)
-	 */
-	@Override
-	protected CellEditor getCellEditor(Object element) {
-		@SuppressWarnings("unchecked")
-		Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) element;
-		if (e.getValue() == AnalyzerConfigurationType.BOOLEAN) {
-			return new CheckboxCellEditor(viewer.getTable());
-		} else if (e.getValue() == AnalyzerConfigurationType.GROUP_MERGE) {
-			String[] refinementType = new String[2];
-			refinementType[0] = RefinementType.GROUPING.toString();
-			refinementType[1] = RefinementType.MERGE.toString();
-			return new ComboBoxCellEditor(viewer.getTable(), refinementType);
-		} else {
-			return new TextCellEditor(viewer.getTable());
-		}
-	}
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.eclipse.jface.viewers.EditingSupport#getCellEditor(java.lang.Object)
+     */
+    @Override
+    protected CellEditor getCellEditor(Object element) {
+        @SuppressWarnings("unchecked")
+        Entry<String, VPMAnalyzerConfigurationType> e = (Entry<String, VPMAnalyzerConfigurationType>) element;
+        if (e.getValue() == VPMAnalyzerConfigurationType.BOOLEAN) {
+            return new CheckboxCellEditor(viewer.getTable());
+        } else {
+            return new TextCellEditor(viewer.getTable());
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.viewers.EditingSupport#canEdit(java.lang.Object)
-	 */
-	@Override
-	protected boolean canEdit(Object element) {
-		return true;
-	}
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.eclipse.jface.viewers.EditingSupport#canEdit(java.lang.Object)
+     */
+    @Override
+    protected boolean canEdit(Object element) {
+        return true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.viewers.EditingSupport#getValue(java.lang.Object)
-	 */
-	@Override
-	protected Object getValue(Object element) {
-		@SuppressWarnings("unchecked")
-		Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) element;
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.eclipse.jface.viewers.EditingSupport#getValue(java.lang.Object)
+     */
+    @Override
+    protected Object getValue(Object element) {
+        @SuppressWarnings("unchecked")
+        Entry<String, VPMAnalyzerConfigurationType> e = (Entry<String, VPMAnalyzerConfigurationType>) element;
 
-		if (analyzer == null) {
-			logger.error("No analyzer reference set");
-			return null;
-		}
+        if (analyzer == null) {
+            logger.error("No analyzer reference set");
+            return null;
+        }
 
-		Object value = analyzer.getConfigurations().get(e.getKey());
+        Object value = analyzer.getConfigurations().get(e.getKey());
+        if (value != null) {
+            return value.toString();
+        }
+        
+        return "";
+    }
 
-		if (e.getValue() == AnalyzerConfigurationType.GROUP_MERGE) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    protected void setValue(Object element, Object value) {
+        @SuppressWarnings("unchecked")
+        Entry<String, VPMAnalyzerConfigurationType> e = (Entry<String, VPMAnalyzerConfigurationType>) element;
+        analyzer.getConfigurations().put(e.getKey(), value);
+        viewer.update(element, null);
+    }
 
-			if (value == null || value.equals(RefinementType.GROUPING)) {
-				return 0;
-			} else {
-				return 1;
-			}
+    /**
+     * @return the analyzer
+     */
+    public VPMAnalyzer getAnalyzer() {
+        return analyzer;
+    }
 
-		} else {
-			return "";
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object,
-	 * java.lang.Object)
-	 */
-	@Override
-	protected void setValue(Object element, Object value) {
-		@SuppressWarnings("unchecked")
-		Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) element;
-		if (e.getValue() == AnalyzerConfigurationType.GROUP_MERGE) {
-			if (((Integer) value) == 0) {
-				analyzer.getConfigurations().put(e.getKey(),
-						RefinementType.GROUPING);
-			} else {
-				analyzer.getConfigurations().put(e.getKey(),
-						RefinementType.MERGE);
-			}
-		} else {
-			analyzer.getConfigurations().put(e.getKey(), value);
-		}
-
-		viewer.update(element, null);
-	}
-
-	/**
-	 * @return the analyzer
-	 */
-	public VPMRefinementAnalyzer getAnalyzer() {
-		return analyzer;
-	}
-
-	/**
-	 * @param analyzer
-	 *            the analyzer to set
-	 */
-	public void setAnalyzer(VPMRefinementAnalyzer analyzer) {
-		this.analyzer = analyzer;
-	}
+    /**
+     * @param analyzer
+     *            the analyzer to set
+     */
+    public void setAnalyzer(VPMAnalyzer analyzer) {
+        this.analyzer = analyzer;
+    }
 
 }

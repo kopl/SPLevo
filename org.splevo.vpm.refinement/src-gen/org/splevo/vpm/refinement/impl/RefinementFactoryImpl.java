@@ -8,8 +8,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.splevo.vpm.refinement.*;
-import org.splevo.vpm.refinement.AnalyzerConfiguration;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
@@ -24,148 +22,137 @@ import org.splevo.vpm.refinement.RefinementType;
  */
 public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public static RefinementFactory init() {
-		try {
-			RefinementFactory theRefinementFactory = (RefinementFactory)EPackage.Registry.INSTANCE.getEFactory("http://splevo.org/vpm/refinement/1.0"); 
-			if (theRefinementFactory != null) {
-				return theRefinementFactory;
-			}
-		}
-		catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new RefinementFactoryImpl();
-	}
+        try {
+            RefinementFactory theRefinementFactory = (RefinementFactory)EPackage.Registry.INSTANCE.getEFactory("http://splevo.org/vpm/refinement/1.0"); 
+            if (theRefinementFactory != null) {
+                return theRefinementFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new RefinementFactoryImpl();
+    }
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public RefinementFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case RefinementPackage.REFINEMENT_MODEL: return createRefinementModel();
-			case RefinementPackage.REFINEMENT: return createRefinement();
-			case RefinementPackage.ANALYZER_CONFIGURATION: return createAnalyzerConfiguration();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case RefinementPackage.REFINEMENT_MODEL: return createRefinementModel();
+            case RefinementPackage.REFINEMENT: return createRefinement();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
-		switch (eDataType.getClassifierID()) {
-			case RefinementPackage.REFINEMENT_TYPE:
-				return createRefinementTypeFromString(eDataType, initialValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eDataType.getClassifierID()) {
+            case RefinementPackage.REFINEMENT_TYPE:
+                return createRefinementTypeFromString(eDataType, initialValue);
+            default:
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
-		switch (eDataType.getClassifierID()) {
-			case RefinementPackage.REFINEMENT_TYPE:
-				return convertRefinementTypeToString(eDataType, instanceValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eDataType.getClassifierID()) {
+            case RefinementPackage.REFINEMENT_TYPE:
+                return convertRefinementTypeToString(eDataType, instanceValue);
+            default:
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Refinement createRefinement() {
-		RefinementImpl refinement = new RefinementImpl();
-		return refinement;
-	}
+        RefinementImpl refinement = new RefinementImpl();
+        return refinement;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public RefinementModel createRefinementModel() {
-		RefinementModelImpl refinementModel = new RefinementModelImpl();
-		return refinementModel;
-	}
+        RefinementModelImpl refinementModel = new RefinementModelImpl();
+        return refinementModel;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public AnalyzerConfiguration createAnalyzerConfiguration() {
-		AnalyzerConfigurationImpl analyzerConfiguration = new AnalyzerConfigurationImpl();
-		return analyzerConfiguration;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public RefinementType createRefinementTypeFromString(EDataType eDataType, String initialValue) {
-		RefinementType result = RefinementType.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
+        RefinementType result = RefinementType.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String convertRefinementTypeToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
-	}
+        return instanceValue == null ? null : instanceValue.toString();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public RefinementPackage getRefinementPackage() {
-		return (RefinementPackage)getEPackage();
-	}
+        return (RefinementPackage)getEPackage();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	@Deprecated
 	public static RefinementPackage getPackage() {
-		return RefinementPackage.eINSTANCE;
-	}
+        return RefinementPackage.eINSTANCE;
+    }
 
 } //RefinementFactoryImpl

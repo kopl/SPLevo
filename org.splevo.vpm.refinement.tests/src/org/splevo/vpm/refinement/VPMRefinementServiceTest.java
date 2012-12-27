@@ -4,16 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.junit.Test;
 import org.splevo.modisco.util.SourceConnector;
 import org.splevo.tests.SPLevoTestUtil;
-import org.splevo.vpm.refinement.simplelocation.VPLocationAnalyzer;
+import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -22,32 +22,42 @@ import org.splevo.vpm.variability.VariationPointModel;
  */
 public class VPMRefinementServiceTest extends AbstractTest {
 
-    /** The logger for this class. */
-    private Logger logger = Logger.getLogger(VPMRefinementServiceTest.class);
-
     /**
      * Test of a basic refinement analysis and application. This test makes use of the basic
      * location based variation point analysis.
      * 
-     * @throws IOException identifies that the vpm could not be loaded.
-     * @throws InterruptedException identifies that the refinement process was interrupted.
+     * @throws IOException
+     *             identifies that the vpm could not be loaded.
+     * @throws InterruptedException
+     *             identifies that the refinement process was interrupted.
      */
     @Test
     public void testRefinements() throws IOException, InterruptedException {
 
         VariationPointModel initialVpm = SPLevoTestUtil.loadGCDVPMModel();
-        logger.debug("Number of initial variation point groups: " + initialVpm.getVariationPointGroups().size());
+        assertEquals("wrong number of initial variation point groups", 6, initialVpm.getVariationPointGroups().size());
 
-        VPMRefinementService refinementService = new VPMRefinementService();
-        VPLocationAnalyzer analyzer = new VPLocationAnalyzer();
-        List<Refinement> refinements = refinementService.identifyRefinements(initialVpm, analyzer);
+        List<Refinement> refinements = new ArrayList<Refinement>();
+        Refinement refinement = RefinementFactory.eINSTANCE.createRefinement();
+        refinement.setSource("Manual");
+        refinement.setType(RefinementType.GROUPING);
+        for (VariationPointGroup group : initialVpm.getVariationPointGroups()) {
+            for (VariationPoint vp : group.getVariationPoints()) {
+                if (vp.getEnclosingSoftwareEntity() instanceof Block) {
+                    refinement.getVariationPoints().add(vp);
+                }
+
+            }
+        }
+        refinements.add(refinement);
         assertEquals("wrong number of refinements identified", 1, refinements.size());
 
+        VPMRefinementService refinementService = new VPMRefinementService();
         VariationPointModel refinedVPM = refinementService.applyRefinements(refinements, initialVpm);
-        logger.debug("Number of variation point groups after refinement: "
-                + refinedVPM.getVariationPointGroups().size());
+        assertEquals("wrong number of variation point groups after refinement", 3, refinedVPM.getVariationPointGroups()
+                .size());
 
-        ModelUtils.save(refinedVPM, "testresult/gcd-refined.vpm");
+        // ModelUtils.save(refinedVPM, "testresult/gcd-refined.vpm");
 
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
             if (vpGroup.getGroupId().equals("gcd")) {

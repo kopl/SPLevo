@@ -1,6 +1,5 @@
 package org.splevo.ui.refinementbrowser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -22,11 +21,15 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.listeners.ApplyRefinementsAction;
 import org.splevo.vpm.refinement.Refinement;
-import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
 
+/***
+ * An editor to view and accept, decline or modify the 
+ * variation point model refinement recommendations.
+ * 
+ * @author Benjamin Klatt
+ *
+ */
 public class VPMRefinementBrowser extends EditorPart {
-	public VPMRefinementBrowser() {
-	}
 
 	/** The public id to reference the editor. */
 	public static final String ID = "org.splevo.ui.editor.VPMRefinementEditor"; //$NON-NLS-1$
@@ -37,7 +40,10 @@ public class VPMRefinementBrowser extends EditorPart {
 	/** The checkbox tree viewer to select the refinements to apply. */
 	private TreeViewer refinementTreeViewer;
 
+	/** The form toolkit to manipulate the form. */
 	private FormToolkit toolkit;
+	
+	/** The main form of the editor. */
 	private Form form;
 
 	@Override
@@ -56,6 +62,8 @@ public class VPMRefinementBrowser extends EditorPart {
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize
 	 * it.
+	 * 
+	 * @param parent The parent ui element to create this editor in.
 	 */
 	public void createPartControl(Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
@@ -105,9 +113,9 @@ public class VPMRefinementBrowser extends EditorPart {
 	}
 
 	/**
-	 * Create the form body providing the real content
+	 * Create the form body providing the real content.
 	 * 
-	 * @param parent
+	 * @param parent The parent ui element to create the form in.
 	 */
 	private void createFormContent(Composite parent) {
 		form.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -119,18 +127,23 @@ public class VPMRefinementBrowser extends EditorPart {
 	 * @return The list of refinements activated in the tree view.
 	 */
 	public List<Refinement> getSelectedRefinements() {
-		List<Refinement> refinements = new ArrayList<Refinement>();
-		for (VPMRefinementAnalyzer analyzer : input.getRefinements().keySet()) {
-			List<Refinement> refinementsForAnalyzer = input.getRefinements()
-					.get(analyzer);
-			refinements.addAll(refinementsForAnalyzer);
-		}
-		return refinements;
+		return input.getRefinements();
+	    
+		// TODO: Check refinement selection in the ui (only delete refinement if not to apply?)
+//	    List<Refinement> refinements = new ArrayList<Refinement>();
+//		for (VPMRefinementAnalyzer analyzer : input.getRefinements().keySet()) {
+//			List<Refinement> refinementsForAnalyzer = input.getRefinements()
+//					.get(analyzer);
+//			refinements.addAll(refinementsForAnalyzer);
+//		}
+//		return refinements;
+		
 	}
 
 	/**
 	 * Get the splevo project editor that was originally used to trigger the
 	 * analysis process.
+	 * @return Get the reference to the splevo dashboard editor.
 	 */
 	public SPLevoProjectEditor getSPLevoProjectEditor() {
 		return this.input.getSplevoEditor();
@@ -142,7 +155,7 @@ public class VPMRefinementBrowser extends EditorPart {
 	}
 
 	/**
-	 * Disposes the toolkit
+	 * Disposes the toolkit.
 	 */
 	public void dispose() {
 		toolkit.dispose();

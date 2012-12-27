@@ -1,12 +1,8 @@
 package org.splevo.ui.jobs;
 
-import java.util.List;
-
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.splevo.vpm.refinement.Refinement;
-import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
-import org.splevo.vpm.refinement.VPMRefinementService;
-import org.splevo.vpm.variability.VariationPointModel;
+import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
@@ -14,58 +10,59 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to perform set of configured vpm analysis, 
- * automatically apply the refinements and store the resulting vpm on the blackboard.
+ * Job to perform set of configured vpm analysis, automatically apply the refinements and store the
+ * resulting vpm on the blackboard.
  */
 public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-	/** The configuration of the analysis to perform. */
-	private VPMRefinementAnalyzer analyzer;
-	
-	/**
-	 * Constructor to set configuration of the analysis to perform. 
-	 * 
-	 * @param targetPath The configuration of the analysis to perform.
-	 */
-	public VPMAnalysisJob(VPMRefinementAnalyzer analyzer) {
-		this.analyzer = analyzer;
-	}
+    /** The configuration of the analysis to perform. */
+    private VPMAnalyzer analyzer;
 
-	/**
-	 * Runs the long running operation
-	 * 
-	 * @param monitor
-	 *            the progress monitor
-	 */
-	@Override
-	public void execute(IProgressMonitor monitor) throws JobFailedException,
-			UserCanceledException {
+    /**
+     * Constructor to set configuration of the analysis to perform.
+     * 
+     * @param analyzer
+     *            The configuration of the analysis to perform.
+     */
+    public VPMAnalysisJob(VPMAnalyzer analyzer) {
+        this.analyzer = analyzer;
+    }
 
-		logger.info("Load VPM Model");
-		VariationPointModel vpm = getBlackboard().getVariationPointModel();
+    /**
+     * Runs the long running operation.
+     * 
+     * @param monitor
+     *            the progress monitor
+     * @throws JobFailedException
+     *             Identifies the job could not be executed successfully.
+     * @throws UserCanceledException
+     *             Identifies the user has canceled the job.
+     */
+    @Override
+    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-		logger.info("Analyze VPM Model");
-		VPMRefinementService service = new VPMRefinementService();
-		List<Refinement> refinements = service.identifyRefinements(vpm,analyzer);
-		
-		logger.info("Store the identified refinements in the blackboard");
-		getBlackboard().getAnalysisResults().put(analyzer, refinements);
-		
-		// finish run
-		monitor.done();
-	}
+        logger.info("Load VPM Graph");
+        VPMGraph vpmGraph = getBlackboard().getVpmGraph();
 
-	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback possible
-	}
+        logger.info("Analyze VPM Graph");
+        analyzer.analyze(vpmGraph);
 
-	/**
-	 * Get the name of the job. 
-	 */
-	@Override
-	public String getName() {
-		return "Save feature model Job";
-	}
+        // finish run
+        monitor.done();
+    }
+
+    @Override
+    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
+        // no rollback possible
+    }
+
+    /**
+     * Get the name of the job.
+     * 
+     * @return The name of the job.
+     */
+    @Override
+    public String getName() {
+        return "Save feature model Job";
+    }
 }

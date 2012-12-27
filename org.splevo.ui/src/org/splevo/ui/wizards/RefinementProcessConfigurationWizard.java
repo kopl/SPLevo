@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.eclipse.jface.wizard.Wizard;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
-import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzer;
 
 /**
  * Wizard to let the user configure a vpm analysis run.
@@ -41,11 +41,12 @@ public class RefinementProcessConfigurationWizard extends Wizard {
 	/**
 	 * Handle the click on the finish button, 
 	 * fill the configuration object and check it's validity.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean performFinish() {
 		
-		Set<VPMRefinementAnalyzer> analyzers = myAnalysisSelectionPage.getAnalyzers();
+		Set<VPMAnalyzer> analyzers = myAnalysisSelectionPage.getAnalyzers();
 		configuration.getAnalyzers().addAll(analyzers);
 		
 		return configuration.isValid();

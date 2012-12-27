@@ -11,17 +11,12 @@
       <genEnumLiterals ecoreEnumLiteral="refinement.ecore#//RefinementType/GROUPING"/>
     </genEnums>
     <genClasses ecoreClass="refinement.ecore#//RefinementModel">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference refinement.ecore#//RefinementModel/analyzerConfigurations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference refinement.ecore#//RefinementModel/refinements"/>
     </genClasses>
     <genClasses image="false" ecoreClass="refinement.ecore#//Refinement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//Refinement/type"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference refinement.ecore#//Refinement/variationPoints"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference refinement.ecore#//Refinement/analyzer"/>
-    </genClasses>
-    <genClasses ecoreClass="refinement.ecore#//AnalyzerConfiguration">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//AnalyzerConfiguration/analyzerID"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//AnalyzerConfiguration/settings"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference refinement.ecore#//AnalyzerConfiguration/refinements"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference refinement.ecore#//Refinement/refinementModel"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -12,7 +12,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.util.ModelUtils;
 import org.splevo.project.SPLevoProject;
-import org.splevo.vpm.refinement.AnalyzerConfiguration;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.variability.Variant;
@@ -97,7 +96,6 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
         switch (this.format) {
         case CSV:
             new File(resultDirectory).mkdirs();
-            exportConfigCSV(refModel, targetPath);
             exportResultCSV(refModel, targetPath);
             break;
 
@@ -130,75 +128,28 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
         CSVWriter writer = null;
         try {
             writer = new CSVWriter(new FileWriter(resultFilePath));
-            String[] header = new String[] { "Analyzer", "Type", "VP ASTNode", "Leading AST Node",
+            String[] header = new String[] { "Type", "VP ASTNode", "Leading AST Node",
                     "Integration AST Node" };
             writer.writeNext(header);
-            for (AnalyzerConfiguration analyzer : refModel.getAnalyzerConfigurations()) {
-                String analyzerID = analyzer.getAnalyzerID();
-                for (Refinement refinement : analyzer.getRefinements()) {
-                    String type = refinement.getType().toString();
+            for (Refinement refinement : refModel.getRefinements()) {
+                String type = refinement.getType().toString();
 
-                    for (VariationPoint vp : refinement.getVariationPoints()) {
+                for (VariationPoint vp : refinement.getVariationPoints()) {
 
-                        StringBuilder leadingVariant = new StringBuilder("");
-                        StringBuilder integrationVariant = new StringBuilder("");
+                    StringBuilder leadingVariant = new StringBuilder("");
+                    StringBuilder integrationVariant = new StringBuilder("");
 
-                        for (Variant v : vp.getVariants()) {
-                            if (v.getLeading()) {
-                                leadingVariant.append(v.getSoftwareEntities().toString());
-                            } else {
-                                integrationVariant.append(v.getSoftwareEntities().toString());
-                            }
+                    for (Variant v : vp.getVariants()) {
+                        if (v.getLeading()) {
+                            leadingVariant.append(v.getSoftwareEntities().toString());
+                        } else {
+                            integrationVariant.append(v.getSoftwareEntities().toString());
                         }
-
-                        String[] result = new String[] { analyzerID, type, vp.getEnclosingSoftwareEntity().toString(),
-                                leadingVariant.toString(), integrationVariant.toString() };
-                        writer.writeNext(result);
                     }
-                }
-            }
 
-        } catch (IOException e) {
-            throw new JobFailedException("Failed to write csv export", e);
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    throw new JobFailedException("Failed to save csv file", e);
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Export csv files for the analysis configuration.
-     * 
-     * @param refModel
-     *            The model to export.
-     * @param targetPath
-     *            The path to write to.
-     * @throws JobFailedException
-     *             Failed to write the csv export.
-     */
-    private void exportConfigCSV(RefinementModel refModel, String targetPath) throws JobFailedException {
-        String configFilePath = targetPath + "-config.csv";
-
-        // write the configuration file
-        CSVWriter writer = null;
-        try {
-            writer = new CSVWriter(new FileWriter(configFilePath));
-            String[] header = new String[] { "Analyzer", "Key", "Value" };
-            writer.writeNext(header);
-            for (AnalyzerConfiguration analyzer : refModel.getAnalyzerConfigurations()) {
-                String analyzerID = analyzer.getAnalyzerID();
-                String[] analyzerResults = new String[] { analyzerID, "refinements.count",
-                        "" + analyzer.getRefinements().size() };
-                writer.writeNext(analyzerResults);
-                for (String key : analyzer.getSettings().keySet()) {
-                    String[] setting = new String[] { analyzerID, key, analyzer.getSettings().get(key) };
-                    writer.writeNext(setting);
+                    String[] result = new String[] { type, vp.getEnclosingSoftwareEntity().toString(),
+                            leadingVariant.toString(), integrationVariant.toString() };
+                    writer.writeNext(result);
                 }
             }
 

@@ -4,15 +4,16 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
-import org.splevo.ui.jobs.BuildRefinementModelJob;
+import org.splevo.ui.jobs.DetectRefinementsJob;
+import org.splevo.ui.jobs.InitVPMGraphJob;
 import org.splevo.ui.jobs.LoadVPMJob;
 import org.splevo.ui.jobs.OpenVPMRefinementBrowserJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveRefinementModelJob;
-import org.splevo.ui.jobs.UpdateUIJob;
 import org.splevo.ui.jobs.SaveRefinementModelJob.FORMAT;
+import org.splevo.ui.jobs.UpdateUIJob;
 import org.splevo.ui.jobs.VPMAnalysisJob;
-import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzer;
 
 import de.uka.ipd.sdq.workflow.Blackboard;
 import de.uka.ipd.sdq.workflow.IJob;
@@ -61,6 +62,10 @@ public class VPMAnalysisWorkflowDelegate extends
         // load the latest vpm model
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
         compositeJob.add(loadVPMJob);
+        
+        // build vpm graph
+        InitVPMGraphJob initVPMGraphJob = new InitVPMGraphJob();
+        compositeJob.add(initVPMGraphJob);
 
         // trigger the configured refinement analysis
         ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard> parallelAnalysisJob = new ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard>();
@@ -68,15 +73,16 @@ public class VPMAnalysisWorkflowDelegate extends
             logger.error("No analysis to perform configured.");
             return null;
         }
-        for (VPMRefinementAnalyzer analyzerInstance : config.getAnalyzers()) {
+        for (VPMAnalyzer analyzerInstance : config.getAnalyzers()) {
             VPMAnalysisJob vpmAnalysisJob = new VPMAnalysisJob(analyzerInstance);
             parallelAnalysisJob.add(vpmAnalysisJob);
         }
         compositeJob.add(parallelAnalysisJob);
-
-        BuildRefinementModelJob createRefinementModelJob = new BuildRefinementModelJob();
+        
+        // Derive refinements
+        DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob();
         compositeJob.add(createRefinementModelJob);
-
+        
         IJob openViewerJob = new OpenVPMRefinementBrowserJob(config.getSplevoProjectEditor());
         compositeJob.add(openViewerJob);
 

@@ -21,136 +21,118 @@ import org.splevo.vpm.refinement.*;
  */
 public class RefinementAdapterFactory extends AdapterFactoryImpl {
 	/**
-	 * The cached model package.
-	 * <!-- begin-user-doc -->
+     * The cached model package.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected static RefinementPackage modelPackage;
 
 	/**
-	 * Creates an instance of the adapter factory.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the adapter factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public RefinementAdapterFactory() {
-		if (modelPackage == null) {
-			modelPackage = RefinementPackage.eINSTANCE;
-		}
-	}
+        if (modelPackage == null) {
+            modelPackage = RefinementPackage.eINSTANCE;
+        }
+    }
 
 	/**
-	 * Returns whether this factory is applicable for the type of the object.
-	 * <!-- begin-user-doc -->
+     * Returns whether this factory is applicable for the type of the object.
+     * <!-- begin-user-doc -->
 	 * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
 	 * <!-- end-user-doc -->
-	 * @return whether this factory is applicable for the type of the object.
-	 * @generated
-	 */
+     * @return whether this factory is applicable for the type of the object.
+     * @generated
+     */
 	@Override
 	public boolean isFactoryForType(Object object) {
-		if (object == modelPackage) {
-			return true;
-		}
-		if (object instanceof EObject) {
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
-		}
-		return false;
-	}
+        if (object == modelPackage) {
+            return true;
+        }
+        if (object instanceof EObject) {
+            return ((EObject)object).eClass().getEPackage() == modelPackage;
+        }
+        return false;
+    }
 
 	/**
-	 * The switch that delegates to the <code>createXXX</code> methods.
-	 * <!-- begin-user-doc -->
+     * The switch that delegates to the <code>createXXX</code> methods.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected RefinementSwitch<Adapter> modelSwitch =
 		new RefinementSwitch<Adapter>() {
-			@Override
-			public Adapter caseRefinementModel(RefinementModel object) {
-				return createRefinementModelAdapter();
-			}
-			@Override
-			public Adapter caseRefinement(Refinement object) {
-				return createRefinementAdapter();
-			}
-			@Override
-			public Adapter caseAnalyzerConfiguration(AnalyzerConfiguration object) {
-				return createAnalyzerConfigurationAdapter();
-			}
-			@Override
-			public Adapter defaultCase(EObject object) {
-				return createEObjectAdapter();
-			}
-		};
+            @Override
+            public Adapter caseRefinementModel(RefinementModel object) {
+                return createRefinementModelAdapter();
+            }
+            @Override
+            public Adapter caseRefinement(Refinement object) {
+                return createRefinementAdapter();
+            }
+            @Override
+            public Adapter defaultCase(EObject object) {
+                return createEObjectAdapter();
+            }
+        };
 
 	/**
-	 * Creates an adapter for the <code>target</code>.
-	 * <!-- begin-user-doc -->
+     * Creates an adapter for the <code>target</code>.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param target the object to adapt.
-	 * @return the adapter for the <code>target</code>.
-	 * @generated
-	 */
+     * @param target the object to adapt.
+     * @return the adapter for the <code>target</code>.
+     * @generated
+     */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		return modelSwitch.doSwitch((EObject)target);
-	}
+        return modelSwitch.doSwitch((EObject)target);
+    }
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.splevo.vpm.refinement.Refinement <em>Refinement</em>}'.
-	 * <!-- begin-user-doc -->
+     * Creates a new adapter for an object of class '{@link org.splevo.vpm.refinement.Refinement <em>Refinement</em>}'.
+     * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.splevo.vpm.refinement.Refinement
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see org.splevo.vpm.refinement.Refinement
+     * @generated
+     */
 	public Adapter createRefinementAdapter() {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.splevo.vpm.refinement.RefinementModel <em>Model</em>}'.
-	 * <!-- begin-user-doc -->
+     * Creates a new adapter for an object of class '{@link org.splevo.vpm.refinement.RefinementModel <em>Model</em>}'.
+     * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.splevo.vpm.refinement.RefinementModel
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see org.splevo.vpm.refinement.RefinementModel
+     * @generated
+     */
 	public Adapter createRefinementModelAdapter() {
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.splevo.vpm.refinement.AnalyzerConfiguration <em>Analyzer Configuration</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.splevo.vpm.refinement.AnalyzerConfiguration
-	 * @generated
-	 */
-	public Adapter createAnalyzerConfigurationAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for the default case.
-	 * <!-- begin-user-doc -->
+     * Creates a new adapter for the default case.
+     * <!-- begin-user-doc -->
 	 * This default implementation returns null.
 	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @generated
+     */
 	public Adapter createEObjectAdapter() {
-		return null;
-	}
+        return null;
+    }
 
 } //RefinementAdapterFactory

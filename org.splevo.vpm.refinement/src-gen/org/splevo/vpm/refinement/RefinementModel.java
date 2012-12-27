@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.vpm.refinement.RefinementModel#getAnalyzerConfigurations <em>Analyzer Configurations</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.RefinementModel#getRefinements <em>Refinements</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,19 +28,21 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface RefinementModel extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Analyzer Configurations</b></em>' containment reference list.
-	 * The list contents are of type {@link org.splevo.vpm.refinement.AnalyzerConfiguration}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Analyzer Configurations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Analyzer Configurations</em>' containment reference list.
-	 * @see org.splevo.vpm.refinement.RefinementPackage#getRefinementModel_AnalyzerConfigurations()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<AnalyzerConfiguration> getAnalyzerConfigurations();
+     * Returns the value of the '<em><b>Refinements</b></em>' containment reference list.
+     * The list contents are of type {@link org.splevo.vpm.refinement.Refinement}.
+     * It is bidirectional and its opposite is '{@link org.splevo.vpm.refinement.Refinement#getRefinementModel <em>Refinement Model</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Refinements</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Refinements</em>' containment reference list.
+     * @see org.splevo.vpm.refinement.RefinementPackage#getRefinementModel_Refinements()
+     * @see org.splevo.vpm.refinement.Refinement#getRefinementModel
+     * @model opposite="refinementModel" containment="true"
+     * @generated
+     */
+    EList<Refinement> getRefinements();
 
 } // RefinementModel

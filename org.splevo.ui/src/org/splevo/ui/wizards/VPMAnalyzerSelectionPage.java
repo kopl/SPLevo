@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.splevo.ui.listeners.VPMAnalyzerLabelProvider;
 import org.splevo.ui.listeners.VPMAnalyzerSelectionDialogListener;
-import org.splevo.vpm.refinement.AnalyzerConfigurationType;
-import org.splevo.vpm.refinement.VPMRefinementAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 
 /**
  * Wizard page to select and configure the vpm analyzers to be executed.
@@ -45,7 +45,7 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
     private TableViewer configTableViewer = null;
 
     /** The configured analyzer instances. */
-    private Set<VPMRefinementAnalyzer> analyzers = new HashSet<VPMRefinementAnalyzer>();
+    private Set<VPMAnalyzer> analyzers = new HashSet<VPMAnalyzer>();
 
     /** The editing support to manipulate a configuration table cell. */
     private VPMAnalyzerConfigurationEditingSupport configEditingSupport = null;
@@ -82,7 +82,7 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
 
-                VPMRefinementAnalyzer analyzer = getSelectedAnalyzer();
+                VPMAnalyzer analyzer = getSelectedAnalyzer();
 
                 if (analyzer == null) {
                     configTableViewer.getTable().setEnabled(false);
@@ -125,7 +125,7 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
             @SuppressWarnings("unchecked")
             @Override
             public void update(ViewerCell cell) {
-                Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) cell
+                Entry<String, VPMAnalyzerConfigurationType> e = (Entry<String, VPMAnalyzerConfigurationType>) cell
                         .getElement();
                 String label = getSelectedAnalyzer().getConfigurationLabels().get(e.getKey());
                 if (label == null) {
@@ -146,7 +146,7 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
             @SuppressWarnings("unchecked")
             @Override
             public void update(ViewerCell cell) {
-                Entry<String, AnalyzerConfigurationType> e = (Entry<String, AnalyzerConfigurationType>) cell
+                Entry<String, VPMAnalyzerConfigurationType> e = (Entry<String, VPMAnalyzerConfigurationType>) cell
                         .getElement();
                 Map<String, Object> configurations = getSelectedAnalyzer().getConfigurations();
                 if (configurations.containsKey(e.getKey())) {
@@ -165,14 +165,14 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
      * 
      * @return Returns the first selected analyzer or null if none is selected.
      */
-    private VPMRefinementAnalyzer getSelectedAnalyzer() {
+    private VPMAnalyzer getSelectedAnalyzer() {
 
-        VPMRefinementAnalyzer analyzer = null;
+        VPMAnalyzer analyzer = null;
 
         if (listViewerAnalysis.getSelection() instanceof StructuredSelection) {
             Object selection = ((StructuredSelection) listViewerAnalysis.getSelection()).getFirstElement();
             if (selection != null) {
-                analyzer = (VPMRefinementAnalyzer) selection;
+                analyzer = (VPMAnalyzer) selection;
             }
         } else {
             logger.error("Invalid selection type in AnalyzerSelectionPage dialog");
@@ -198,7 +198,7 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
      * @param analyzer
      *            The analyzer instance to be added.
      */
-    public void addAnalyzer(VPMRefinementAnalyzer analyzer) {
+    public void addAnalyzer(VPMAnalyzer analyzer) {
         this.analyzers.add(analyzer);
         listViewerAnalysis.refresh();
     }
@@ -208,7 +208,7 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
      * 
      * @return The list of analyzers.
      */
-    public Set<VPMRefinementAnalyzer> getAnalyzers() {
+    public Set<VPMAnalyzer> getAnalyzers() {
         return analyzers;
     }
 
