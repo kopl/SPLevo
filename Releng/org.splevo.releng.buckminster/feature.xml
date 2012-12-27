@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.splevo.releng.buckminster"
+      label="SPLevo Buckminster Project"
+      version="1.0.0.qualifier"
+      provider-name="www.splevo.org">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <discovery label="Palladio Workflow Engine" url="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/1.4/"/>
+      <discovery label="Eclipse Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
+      <discovery label="EMFFeatureModel" url="http://download.eclipse.org/modeling/emft/featuremodel/update-site"/>
+   </url>
+
+   <includes
+         id="org.splevo.diffing.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.splevo.extraction.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.splevo.fm.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.splevo.modisco.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.splevo.ui.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.splevo.vpm.analyzer.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.splevo.vpm.builder.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.splevo.vpm.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.splevo.vpm.refinement.feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.splevo.diffing.emfcompare.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.diffing.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.fm.builder.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.util.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.vpm.analyzer.codestructure.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.vpm.analyzer.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.vpm.builder.java2kdmdiff.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.vpm.refinement.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.vpm.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
