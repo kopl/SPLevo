@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
@@ -73,7 +72,7 @@ public class ImportChangeDiffingTest extends AbstractDiffingTest {
         }
         logger.debug("Found Differences: " + differences.size());
 
-        ModelUtils.save(diff, "testresult/importDiffModel.java2kdmdiff");
+        //ModelUtils.save(diff, "testresult/importDiffModel.java2kdmdiff");
     }
 
 }

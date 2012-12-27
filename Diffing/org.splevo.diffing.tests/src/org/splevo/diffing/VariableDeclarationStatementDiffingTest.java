@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
@@ -95,7 +94,7 @@ public class VariableDeclarationStatementDiffingTest extends AbstractDiffingTest
 
         logger.debug("Found Differences: " + differences.size());
 
-        ModelUtils.save(diff, "testresult/variableDeclDiffModel.java2kdmdiff");
+        //ModelUtils.save(diff, "testresult/variableDeclDiffModel.java2kdmdiff");
     }
 
 }
