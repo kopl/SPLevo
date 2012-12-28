@@ -7,12 +7,14 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.DetectRefinementsJob;
 import org.splevo.ui.jobs.InitVPMGraphJob;
 import org.splevo.ui.jobs.LoadVPMJob;
+import org.splevo.ui.jobs.OpenVPMGraphJob;
 import org.splevo.ui.jobs.OpenVPMRefinementBrowserJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveRefinementModelJob;
 import org.splevo.ui.jobs.SaveRefinementModelJob.FORMAT;
 import org.splevo.ui.jobs.UpdateUIJob;
 import org.splevo.ui.jobs.VPMAnalysisJob;
+import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 
 import de.uka.ipd.sdq.workflow.Blackboard;
@@ -45,10 +47,10 @@ public class VPMAnalysisWorkflowDelegate extends
     }
 
     /**
-     * Create the workflow.
+     * Create the work flow.
      * 
      * @param config
-     *            The configuration object for this workflow.
+     *            The configuration object for this work flow.
      * @return The prepared job.
      */
     @Override
@@ -56,19 +58,21 @@ public class VPMAnalysisWorkflowDelegate extends
 
         // initialize the basic elements
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-        OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob = new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
+        OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob = null;
+        compositeJob = new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
         compositeJob.setBlackboard(new SPLevoBlackBoard());
 
         // load the latest vpm model
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
         compositeJob.add(loadVPMJob);
-        
+
         // build vpm graph
         InitVPMGraphJob initVPMGraphJob = new InitVPMGraphJob();
         compositeJob.add(initVPMGraphJob);
 
         // trigger the configured refinement analysis
-        ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard> parallelAnalysisJob = new ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard>();
+        ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard> parallelAnalysisJob = null;
+        parallelAnalysisJob = new ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard>();
         if (config.getAnalyzers().size() < 1) {
             logger.error("No analysis to perform configured.");
             return null;
@@ -78,11 +82,35 @@ public class VPMAnalysisWorkflowDelegate extends
             parallelAnalysisJob.add(vpmAnalysisJob);
         }
         compositeJob.add(parallelAnalysisJob);
-        
+
+        if (config.getPresentation() == ResultPresentation.RELATIONSHIP_GRAPH_ONLY) {
+            OpenVPMGraphJob openVPMGraphJob = new OpenVPMGraphJob();
+            compositeJob.add(openVPMGraphJob);
+        }
+
+        if (config.getPresentation() == ResultPresentation.REFINEMENT_BROWSER) {
+            addRefinementBrowserWorkflow(compositeJob, splevoProject);
+        }
+
+        // return the prepared workflow
+        return compositeJob;
+    }
+
+    /**
+     * Add the jobs of the refinement browser work flow to the composite job.
+     * 
+     * @param compositeJob
+     *            The composite job to add the jobs to.
+     * @param splevoProject
+     *            The splevo project to interact with.
+     */
+    private void addRefinementBrowserWorkflow(OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob,
+            SPLevoProject splevoProject) {
+
         // Derive refinements
         DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob();
         compositeJob.add(createRefinementModelJob);
-        
+
         IJob openViewerJob = new OpenVPMRefinementBrowserJob(config.getSplevoProjectEditor());
         compositeJob.add(openViewerJob);
 
@@ -93,8 +121,6 @@ public class VPMAnalysisWorkflowDelegate extends
         IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), null);
         compositeJob.add(updateUiJob);
 
-        // return the prepared workflow
-        return compositeJob;
     }
 
     @Override

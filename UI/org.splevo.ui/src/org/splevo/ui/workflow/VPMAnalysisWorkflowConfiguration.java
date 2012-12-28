@@ -12,8 +12,11 @@ import org.splevo.vpm.analyzer.VPMAnalyzer;
 public class VPMAnalysisWorkflowConfiguration extends
 		BasicSPLevoWorkflowConfiguration {
 
-	/** A list of analysis configurations to be executed. */ 
+    /** A list of analysis configurations to be executed. */ 
 	private final List<VPMAnalyzer> analyzers = new ArrayList<VPMAnalyzer>();
+	
+	/** The presentation mode for the analysis. */
+	private ResultPresentation presentation = ResultPresentation.REFINEMENT_BROWSER;
 
 	/**
 	 * Get the list of analyzer instances to be executed.
@@ -22,4 +25,36 @@ public class VPMAnalysisWorkflowConfiguration extends
 	public List<VPMAnalyzer> getAnalyzers() {
 		return analyzers;
 	}	
+
+    /**
+     * Get the presentation mode for the analysis.
+     * @return the presentation
+     */
+    public ResultPresentation getPresentation() {
+        return presentation;
+    }
+
+    /**
+     * Get the presentation mode for the analysis.
+     * @param presentation The presentation mode to set.
+     */
+    public void setPresentation(ResultPresentation presentation) {
+        this.presentation = presentation;
+    }
+
+    /**
+     * Enumeration specifying the options to present the 
+     * analysis results.
+     * 
+     * @author Benjamin Klatt
+     *
+     */
+    public enum ResultPresentation {
+        
+        /** Option to open the refinement browser. */
+        REFINEMENT_BROWSER,
+        
+        /** Option to open only the relationship graph. */
+        RELATIONSHIP_GRAPH_ONLY
+    }
 }
