@@ -16,7 +16,6 @@ import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
 import org.splevo.vpm.refinement.Refinement;
-import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -116,25 +115,8 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         List<Refinement> refinements = new ArrayList<Refinement>();
 
         for (DetectionRule rule : detectionRules) {
-            for (Edge edge : vpmGraph.getEachEdge()) {
-                if (rule.match((RelationshipEdge) edge)) {
-                    Refinement refinement = RefinementFactory.eINSTANCE.createRefinement();
-                    refinement.setType(rule.getRefinementType());
-
-                    VariationPoint sourceVP = edge.getSourceNode().getAttribute(VPMGraph.VARIATIONPOINT,
-                            VariationPoint.class);
-                    VariationPoint targetVP = edge.getTargetNode().getAttribute(VPMGraph.VARIATIONPOINT,
-                            VariationPoint.class);
-                    refinement.getVariationPoints().add(sourceVP);
-                    refinement.getVariationPoints().add(targetVP);
-
-                    // TODO: handle analyzer configuration for refinement.
-                    // refinement.setAnalyzer(value);
-                    refinements.add(refinement);
-
-                }
-            }
-
+            List<Refinement> detectedRefinements = rule.detect(vpmGraph);
+            refinements.addAll(detectedRefinements);
         }
 
         return refinements;
