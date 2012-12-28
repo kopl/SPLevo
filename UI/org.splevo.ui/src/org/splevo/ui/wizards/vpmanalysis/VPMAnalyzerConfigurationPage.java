@@ -33,10 +33,10 @@ import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
  * 
  * @author Benjamin Klatt
  */
-public class VPMAnalyzerSelectionPage extends WizardPage {
+public class VPMAnalyzerConfigurationPage extends WizardPage {
 
     /** The logger for this class. */
-    private Logger logger = Logger.getLogger(VPMAnalyzerSelectionPage.class);
+    private Logger logger = Logger.getLogger(VPMAnalyzerConfigurationPage.class);
 
     /** A list viewer for configured analyzes. */
     private ListViewer listViewerAnalysis = null;
@@ -53,10 +53,10 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
     /**
      * Create the wizard page to let the user select the analyzes to be performed.
      */
-    public VPMAnalyzerSelectionPage() {
+    public VPMAnalyzerConfigurationPage() {
         super("wizardPage");
-        setTitle("Analyzer Selection");
-        setDescription("Select the variation point model analysis to be performed.");
+        setTitle("Analyzer Configuration");
+        setDescription("Select and configure the variation point model analyzer to be executed.");
     }
 
     /**
@@ -71,7 +71,7 @@ public class VPMAnalyzerSelectionPage extends WizardPage {
 
         Label lblAvailableAnalayses = new Label(container, SWT.NONE);
         lblAvailableAnalayses.setBounds(10, 10, 211, 20);
-        lblAvailableAnalayses.setText("Variation Point Analysis");
+        lblAvailableAnalayses.setText("Variation Point Model Analysis");
 
         listViewerAnalysis = new ListViewer(container, SWT.BORDER | SWT.FILL | SWT.V_SCROLL);
         listViewerAnalysis.setContentProvider(ArrayContentProvider.getInstance());

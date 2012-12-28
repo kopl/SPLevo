@@ -10,7 +10,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.wizards.vpmanalysis.RefinementProcessConfigurationWizard;
+import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizard;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
 
@@ -45,7 +45,7 @@ public class VPMAnalysisListener extends MouseAdapter {
 		
 		// trigger the wizard to configure the refinement process
 		WizardDialog wizardDialog = new WizardDialog(shell,
-			      									new RefinementProcessConfigurationWizard(config));
+			      									new VPMAnalysisWizard(config));
 		if (wizardDialog.open() != Window.OK) {
 			logger.debug("Variation Point Analyses canceled");
 			return;

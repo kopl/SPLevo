@@ -7,7 +7,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerSelectionPage;
+import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerConfigurationPage;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerService;
@@ -18,7 +18,7 @@ import org.splevo.vpm.analyzer.VPMAnalyzerService;
 public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
 
     /** The wizard page to update. */
-    private VPMAnalyzerSelectionPage page = null;
+    private VPMAnalyzerConfigurationPage page = null;
     
     /** The analyzer service to work with. */
     private VPMAnalyzerService vpmAnalyzerService = new DefaultVPMAnalyzerService();
@@ -28,7 +28,7 @@ public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
      * 
      * @param page The page to open.
      */
-    public VPMAnalyzerSelectionDialogListener(VPMAnalyzerSelectionPage page) {
+    public VPMAnalyzerSelectionDialogListener(VPMAnalyzerConfigurationPage page) {
         this.page = page;
     }
 

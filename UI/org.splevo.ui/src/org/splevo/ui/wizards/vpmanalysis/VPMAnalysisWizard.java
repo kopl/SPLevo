@@ -9,10 +9,10 @@ import org.splevo.vpm.analyzer.VPMAnalyzer;
 /**
  * Wizard to let the user configure a vpm analysis run.
  */
-public class RefinementProcessConfigurationWizard extends Wizard {
+public class VPMAnalysisWizard extends Wizard {
 
 	/** Wizardpage to select the analysis to be performed. */
-	private VPMAnalyzerSelectionPage myAnalysisSelectionPage = null;
+	private VPMAnalyzerConfigurationPage myAnalysisSelectionPage = null;
 
 	/** The configuration object to be filled. */
 	private VPMAnalysisWorkflowConfiguration configuration = null;
@@ -24,17 +24,17 @@ public class RefinementProcessConfigurationWizard extends Wizard {
 	 *            The workflow configuration to be filled on finished and to get
 	 *            required information from.
 	 */
-	public RefinementProcessConfigurationWizard(
+	public VPMAnalysisWizard(
 			VPMAnalysisWorkflowConfiguration configuration) {
 		super();
 		this.configuration = configuration;
-		setWindowTitle("Configure VPM Analyses.");
+		setWindowTitle("Configure VPM Analysis.");
 		setNeedsProgressMonitor(true);
 	}
 
 	@Override
 	public void addPages() {
-		myAnalysisSelectionPage = new VPMAnalyzerSelectionPage();
+		myAnalysisSelectionPage = new VPMAnalyzerConfigurationPage();
 		addPage(myAnalysisSelectionPage);
 	}
 

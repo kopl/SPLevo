@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerSelectionPage;
+import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerConfigurationPage;
 
 /**
  * Action to switch a projects SPLevo project nature on and of.
@@ -23,7 +23,7 @@ import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerSelectionPage;
 public class ToggleNatureAction implements IObjectActionDelegate {
 
     /** The logger for this class. */
-    private Logger logger = Logger.getLogger(VPMAnalyzerSelectionPage.class);
+    private Logger logger = Logger.getLogger(VPMAnalyzerConfigurationPage.class);
 
     /** Reference to the selected element. */
     private ISelection selection;
