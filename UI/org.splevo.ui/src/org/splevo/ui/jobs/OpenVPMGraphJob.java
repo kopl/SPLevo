@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.Viewer.CloseFramePolicy;
-import org.splevo.vpm.analyzer.graph.CustomLabelAttributeProxy;
+import org.splevo.vpm.analyzer.graph.CustomEdgeLabelAttributeProxy;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
@@ -37,7 +37,8 @@ public class OpenVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
                     "No VPM Graph in blackboard"));
         }
 
-        Viewer v = new Viewer(new CustomLabelAttributeProxy(graph, RelationshipEdge.RELATIONSHIP_LABEL));
+        // open the viewer containing the graph 
+        Viewer v = new Viewer(new CustomEdgeLabelAttributeProxy(graph, RelationshipEdge.RELATIONSHIP_LABEL));
         v.enableAutoLayout();
         v.addDefaultView(true);
         v.setCloseFramePolicy(CloseFramePolicy.HIDE_ONLY);
