@@ -98,22 +98,22 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
      * Test method for
      * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#deriveRefinements(org.splevo.vpm.analyzer.graph.VPMGraph, java.util.List)}
      * .
+     * 
+     * @throws InterruptedException
+     *             identifies test has been interrupted.
+     * @throws IOException
+     *             identifies the test graph could not be loaded.
      */
     @Test
-    public void testDeriveRefinements() {
+    public void testDeriveRefinements() throws IOException, InterruptedException {
 
-        VPMGraph graph1 = new VPMGraph("VPMGraph");
-        Node node1A = createNode(graph1, "A");
-        Node node1B = createNode(graph1, "B");
-        Node node1C = createNode(graph1, "C");
-        Node node1D = createNode(graph1, "D");
-
-        RelationshipEdge edge1 = graph1.addEdge("structure.e1", node1A, node1B);
-        edge1.addRelationshipLabel("Structure");
-        edge1.addRelationshipLabel("Flow");
-
-        RelationshipEdge edge2 = graph1.addEdge("flow.e1", node1C, node1D);
-        edge2.addRelationshipLabel("Flow");
+        // init the test graph
+        VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
+        Node node1 = graph.getNode(0);
+        Node node2 = graph.getNode(1);
+        RelationshipEdge edge = graph.addEdge("structure.e1", node1, node2);
+        edge.addRelationshipLabel("Flow");
+        edge.addRelationshipLabel("Structure");
 
         // prepare the detection rule
         List<String> detectionSpecs = new ArrayList<String>();
@@ -123,9 +123,11 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
         List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
         detectionRules.add(rule);
 
+        // trigger the derivce refinement
         DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
-        List<Refinement> refinements = service.deriveRefinements(graph1, detectionRules);
+        List<Refinement> refinements = service.deriveRefinements(graph, detectionRules);
 
+        // check the result
         assertNotNull("Unexpected null value. At least an empty list is expected", refinements);
         assertEquals("Wrong number of refinements", 1, refinements.size());
 
