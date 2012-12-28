@@ -82,48 +82,4 @@ public class VPMGraph extends MultiGraph {
     public VPMGraph(String id) {
         this(id, true, false);
     }
-
-    /**
-     * Overridden display method to execute the display(boolen) method of this class.
-     * {@inheritDoc}
-     */
-    @Override
-    public Viewer display() {
-        return display(true);
-    }
-
-    /**
-     * Overridden display method to first update the ui.labels of all nodes.
-     * {@inheritDoc}
-     */
-    @Override
-    public Viewer display(boolean autoLayout) {
-        setEdgeLabels();
-        return super.display(autoLayout);
-    }
-
-    /**
-     * Set the labels of all edges in the graph to a concatenated string of the relationship label
-     * list.
-     */
-    @SuppressWarnings("unchecked")
-    private void setEdgeLabels() {
-        for (Edge edge : getEdgeSet()) {
-
-            List<String> labels = edge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class);
-            if (labels != null && labels.size() > 0) {
-                StringBuilder builder = new StringBuilder();
-                for (String label : labels) {
-                    if (builder.length() > 0) {
-                        builder.append(",");
-                    }
-                    builder.append(label);
-                }
-                builder.insert(0, "[");
-                builder.append("]");
-
-                edge.setAttribute(VPMGraph.GS_LABEL, builder.toString());
-            }
-        }
-    }
 }
