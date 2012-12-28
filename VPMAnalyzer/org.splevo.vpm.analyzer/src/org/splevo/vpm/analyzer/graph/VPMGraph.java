@@ -3,14 +3,10 @@
  */
 package org.splevo.vpm.analyzer.graph;
 
-import java.util.List;
-
-import org.graphstream.graph.Edge;
 import org.graphstream.graph.EdgeFactory;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractNode;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.graphstream.ui.swingViewer.Viewer;
 
 /**
  * A variation point model representing graph.
