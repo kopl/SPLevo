@@ -10,7 +10,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.wizards.RefinementProcessConfigurationWizard;
+import org.splevo.ui.wizards.vpmanalysis.RefinementProcessConfigurationWizard;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
 

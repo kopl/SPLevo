@@ -1,4 +1,4 @@
-package org.splevo.ui.wizards;
+package org.splevo.ui.wizards.vpmanalysis;
 
 import java.util.Set;
 

@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.splevo.ui.wizards.VPMAnalyzerSelectionPage;
+import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerSelectionPage;
 
 /**
  * Action to switch a projects SPLevo project nature on and of.
