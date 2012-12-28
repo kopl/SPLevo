@@ -13,56 +13,45 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to perform set of configured vpm analysis, 
- * automatically apply the refinements and store the resulting vpm on the blackboard.
+ * Job to read a VPM from the blackboard, 
+ * apply a given list of refinements also accessed through the blackboard
+ * and store the VPM back into the blackboard.
  */
 public class VPMApplyRefinementsJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
+    @Override
+    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-	/**
-	 * Runs the long running operation
-	 * 
-	 * @param monitor
-	 *            the progress monitor
-	 */
-	@Override
-	public void execute(IProgressMonitor monitor) throws JobFailedException,
-			UserCanceledException {
+        logger.info("Load VPM Model");
+        VariationPointModel vpm = getBlackboard().getVariationPointModel();
 
-		logger.info("Load VPM Model");
-		VariationPointModel vpm = getBlackboard().getVariationPointModel();
-		
-		// check if the process was canceled
-		if (monitor.isCanceled()) {
-			monitor.done();
-			logger.info("Workflow cancled.");
-			return;
-		}
-		
-		// apply the refinements currently stored in the blackboard
-		List<Refinement> refinementsToPerform = getBlackboard().getRefinementsToApply();
-		logger.info("#Refinements to be performed: "+refinementsToPerform.size());
-		VPMRefinementService service = new VPMRefinementService();
-		VariationPointModel newVPM = service.applyRefinements(refinementsToPerform, vpm);
+        // check if the process was canceled
+        if (monitor.isCanceled()) {
+            monitor.done();
+            logger.info("Workflow cancled.");
+            return;
+        }
 
-		logger.info("Store VPM model in blackboard");
-		getBlackboard().setVariationPointModel(newVPM);
-		
-		// finish run
-		monitor.done();
-	}
+        // apply the refinements currently stored in the blackboard
+        List<Refinement> refinementsToPerform = getBlackboard().getRefinementsToApply();
+        logger.info("#Refinements to be performed: " + refinementsToPerform.size());
+        VPMRefinementService service = new VPMRefinementService();
+        VariationPointModel newVPM = service.applyRefinements(refinementsToPerform, vpm);
 
-	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback possible
-	}
+        logger.info("Store VPM model in blackboard");
+        getBlackboard().setVariationPointModel(newVPM);
 
-	/**
-	 * Get the name of the job. 
-	 */
-	@Override
-	public String getName() {
-		return "Save feature model Job";
-	}
+        // finish run
+        monitor.done();
+    }
+
+    @Override
+    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
+        // no rollback possible
+    }
+
+    @Override
+    public String getName() {
+        return "Save feature model Job";
+    }
 }

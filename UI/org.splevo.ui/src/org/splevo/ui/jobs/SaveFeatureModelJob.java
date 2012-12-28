@@ -14,8 +14,7 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to extract a software model from an eclipse java project save the feature model registered in
- * the blackboard.
+ * Job to save the feature model stored in the blackboard.
  */
 public class SaveFeatureModelJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
@@ -33,12 +32,6 @@ public class SaveFeatureModelJob extends AbstractBlackboardInteractingJob<SPLevo
         this.targetPath = targetPath;
     }
 
-    /**
-     * Runs the long running operation
-     * 
-     * @param monitor
-     *            the progress monitor
-     */
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
@@ -64,11 +57,8 @@ public class SaveFeatureModelJob extends AbstractBlackboardInteractingJob<SPLevo
         // no rollback possible
     }
 
-    /**
-     * Get the name of the job.
-     */
     @Override
     public String getName() {
-        return "Save feature model Job";
+        return "Save Feature Model Job";
     }
 }

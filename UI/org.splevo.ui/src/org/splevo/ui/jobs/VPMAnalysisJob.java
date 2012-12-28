@@ -10,8 +10,9 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to perform set of configured vpm analysis, automatically apply the refinements and store the
- * resulting vpm on the blackboard.
+ * Job to get the reference to a VPMGraph from the blackboard and
+ * execute a VPMAnalyzer on it. The graph is directly modified (edges added) by 
+ * the analyzer. So no need to actively store it back in the blackboard.
  */
 public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
@@ -28,16 +29,6 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         this.analyzer = analyzer;
     }
 
-    /**
-     * Runs the long running operation.
-     * 
-     * @param monitor
-     *            the progress monitor
-     * @throws JobFailedException
-     *             Identifies the job could not be executed successfully.
-     * @throws UserCanceledException
-     *             Identifies the user has canceled the job.
-     */
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
@@ -56,13 +47,8 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         // no rollback possible
     }
 
-    /**
-     * Get the name of the job.
-     * 
-     * @return The name of the job.
-     */
     @Override
     public String getName() {
-        return "Save feature model Job";
+        return "Analyze VPM Job";
     }
 }

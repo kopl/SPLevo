@@ -11,7 +11,8 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to load a variation point model into the blackboard.
+ * Job to set a list of refinements in the blackboard.
+ * The refinements must be set in the job through the constructor.
  */
 public class SetRefinementsJob extends
 		AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
@@ -29,12 +30,6 @@ public class SetRefinementsJob extends
 		this.refinements = refinements;
 	}
 
-	/**
-	 * Execute the job.
-	 * 
-	 * @param monitor
-	 *            the progress monitor
-	 */
 	@Override
 	public void execute(IProgressMonitor monitor) throws JobFailedException,
 			UserCanceledException {
@@ -52,9 +47,6 @@ public class SetRefinementsJob extends
 		// no rollback possible
 	}
 
-	/**
-	 * Get the name of the job.
-	 */
 	@Override
 	public String getName() {
 		return "Set refinements Job";

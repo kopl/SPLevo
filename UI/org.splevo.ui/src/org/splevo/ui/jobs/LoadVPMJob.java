@@ -56,12 +56,6 @@ public class LoadVPMJob extends
 		this.targetVPMIndex = index;
 	}
 
-	/**
-	 * Execute the job.
-	 * 
-	 * @param monitor
-	 *            the progress monitor
-	 */
 	@Override
 	public void execute(IProgressMonitor monitor) throws JobFailedException,
 			UserCanceledException {
@@ -99,9 +93,6 @@ public class LoadVPMJob extends
 		// no rollback possible
 	}
 
-	/**
-	 * Get the name of the job.
-	 */
 	@Override
 	public String getName() {
 		return "Load VPM model Job";

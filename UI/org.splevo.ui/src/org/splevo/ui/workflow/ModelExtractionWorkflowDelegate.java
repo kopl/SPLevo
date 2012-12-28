@@ -13,63 +13,63 @@ import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
 /**
- * Delegate defining a workflow for the initial extraction of the software models.
- * This includes an update of the user interface to set the paths to the extracted models.
- *
+ * Delegate defining a workflow for the initial extraction of the software models. This includes an
+ * update of the user interface to set the paths to the extracted models.
+ * 
  */
-public class ModelExtractionWorkflowDelegate
-		extends
-		AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
+public class ModelExtractionWorkflowDelegate extends
+        AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
-	/** The configuration of the workflow. */
-	private BasicSPLevoWorkflowConfiguration config = null;
+    /** The configuration of the workflow. */
+    private BasicSPLevoWorkflowConfiguration config = null;
 
-	/**
-	 * Constructor requiring a a workflow configuration.
-	 * 
-	 * @param config
-	 *            The configuration of the workflow.
-	 */
-	public ModelExtractionWorkflowDelegate(BasicSPLevoWorkflowConfiguration config) {
-		this.config = config;
-	}
+    /**
+     * Constructor requiring a a workflow configuration.
+     * 
+     * @param config
+     *            The configuration of the workflow.
+     */
+    public ModelExtractionWorkflowDelegate(BasicSPLevoWorkflowConfiguration config) {
+        this.config = config;
+    }
 
-	/**
-	 * Create the workflow
-	 */
-	@Override
-	protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
-		
-		OrderPreservingCompositeJob compositeJob = new OrderPreservingCompositeJob();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
 
-		// init the parallel extraction
-		ExtractionJob leadingExtractionJob = new ExtractionJob(config.getSplevoProjectEditor().getSplevoProject(), true);
-		ExtractionJob integrationExtractionJob = new ExtractionJob(config.getSplevoProjectEditor().getSplevoProject(), false);
-		ParallelCompositeJob parallelExtractionJob = new ParallelCompositeJob();
-		parallelExtractionJob.add(leadingExtractionJob);
-		parallelExtractionJob.add(integrationExtractionJob);
-		compositeJob.add(parallelExtractionJob);
-		
-		// init the ui update job
-		IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(),"Source Models extracted");
-		compositeJob.add(updateUiJob);
+        OrderPreservingCompositeJob compositeJob = new OrderPreservingCompositeJob();
 
-		// return the prepared workflow
-		return compositeJob;
-	}
+        // init the parallel extraction
+        ExtractionJob leadingExtractionJob = new ExtractionJob(config.getSplevoProjectEditor().getSplevoProject(), true);
+        ExtractionJob integrationExtractionJob = new ExtractionJob(config.getSplevoProjectEditor().getSplevoProject(),
+                false);
+        ParallelCompositeJob parallelExtractionJob = new ParallelCompositeJob();
+        parallelExtractionJob.add(leadingExtractionJob);
+        parallelExtractionJob.add(integrationExtractionJob);
+        compositeJob.add(parallelExtractionJob);
 
-	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
-		// nothing to do here
-	}
+        // init the ui update job
+        IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Source Models extracted");
+        compositeJob.add(updateUiJob);
 
-	@Override
-	protected boolean useSeparateConsoleForEachJobRun() {
-		return false;
-	}
+        // return the prepared workflow
+        return compositeJob;
+    }
 
-	@Override
-	protected BasicSPLevoWorkflowConfiguration getConfiguration() {
-		return this.config;
-	}
+    @Override
+    public void selectionChanged(IAction action, ISelection selection) {
+        // nothing to do here
+    }
+
+    @Override
+    protected boolean useSeparateConsoleForEachJobRun() {
+        return false;
+    }
+
+    @Override
+    protected BasicSPLevoWorkflowConfiguration getConfiguration() {
+        return this.config;
+    }
 }

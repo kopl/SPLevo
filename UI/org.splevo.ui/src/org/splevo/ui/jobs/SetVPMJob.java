@@ -9,7 +9,7 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to load a variation point model into the blackboard.
+ * Job to set a variation point model in the blackboard.
  */
 public class SetVPMJob extends
 		AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
@@ -27,12 +27,6 @@ public class SetVPMJob extends
 		this.vpm = vpm;
 	}
 
-	/**
-	 * Execute the job.
-	 * 
-	 * @param monitor
-	 *            the progress monitor
-	 */
 	@Override
 	public void execute(IProgressMonitor monitor) throws JobFailedException,
 			UserCanceledException {
@@ -50,11 +44,8 @@ public class SetVPMJob extends
 		// no rollback possible
 	}
 
-	/**
-	 * Get the name of the job.
-	 */
 	@Override
 	public String getName() {
-		return "Set vpm Job";
+		return "Set VPM Job";
 	}
 }

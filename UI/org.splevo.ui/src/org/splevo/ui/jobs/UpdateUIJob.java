@@ -11,6 +11,11 @@ import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
+/**
+ * Job to update the UI based on a referenced SPLevoProjectEditor instance.
+ * @author Benjamin Klatt
+ *
+ */
 public class UpdateUIJob extends AbstractJob {
 	
 	/** The internal reference to the splevo project editor to work with. */

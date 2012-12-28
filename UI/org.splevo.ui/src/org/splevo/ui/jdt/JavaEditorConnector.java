@@ -17,6 +17,11 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.splevo.ui.refinementbrowser.RefinementDetailsView;
 
+/**
+ * A connector to open ASTNode elements in the JDT java editor.
+ * @author Benjamin Klatt
+ *
+ */
 public class JavaEditorConnector {
 
 	/** The logger for this class. */

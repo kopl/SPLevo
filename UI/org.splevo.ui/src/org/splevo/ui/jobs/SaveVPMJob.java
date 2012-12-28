@@ -15,67 +15,58 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to extract a software model from an eclipse java project 
+ * Job to save the variation point model currently present in the blackboard.
  */
 public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-	/** The splevo project to store the required data to. */
-	private SPLevoProject splevoProject;
-	
-	/** The path to write the model to. */
-	private String targetPath;
-	
-	/**
-	 * Constructor to set the reference to the splevo project
-	 * and the target path to write the model to. 
-	 * 
-	 * @param splevoProject The project to update.
-	 * @param targetPath The eclipse workspace relative path to write to.
-	 */
-	public SaveVPMJob(SPLevoProject splevoProject, String targetPath) {
-		this.splevoProject = splevoProject;
-		this.targetPath = targetPath;
-	}
+    /** The splevo project to store the required data to. */
+    private SPLevoProject splevoProject;
 
-	/**
-	 * Runs the long running operation
-	 * 
-	 * @param monitor
-	 *            the progress monitor
-	 */
-	@Override
-	public void execute(IProgressMonitor monitor) throws JobFailedException,
-			UserCanceledException {
+    /** The path to write the model to. */
+    private String targetPath;
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		String basePath = workspace.getRoot().getRawLocation().toOSString();
+    /**
+     * Constructor to set the reference to the splevo project and the target path to write the model
+     * to.
+     * 
+     * @param splevoProject
+     *            The project to update.
+     * @param targetPath
+     *            The eclipse workspace relative path to write to.
+     */
+    public SaveVPMJob(SPLevoProject splevoProject, String targetPath) {
+        this.splevoProject = splevoProject;
+        this.targetPath = targetPath;
+    }
 
-		VariationPointModel vpm = getBlackboard().getVariationPointModel();
+    @Override
+    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-		logger.info("Save VPM Model");
-		try {
-			String modelPath = basePath + targetPath;			
-			ModelUtils.save(vpm, modelPath);
-			splevoProject.getVpmModelPaths().add(targetPath);
-		} catch (IOException e) {
-			throw new JobFailedException("Failed to save vpm model.",e);
-		}
-		
-		// finish run
-		monitor.done();
-	}
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        String basePath = workspace.getRoot().getRawLocation().toOSString();
 
-	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback possible
-	}
+        VariationPointModel vpm = getBlackboard().getVariationPointModel();
 
-	/**
-	 * Get the name of the job. 
-	 */
-	@Override
-	public String getName() {
-		return "Save VPM model Job";
-	}
+        logger.info("Save VPM Model");
+        try {
+            String modelPath = basePath + targetPath;
+            ModelUtils.save(vpm, modelPath);
+            splevoProject.getVpmModelPaths().add(targetPath);
+        } catch (IOException e) {
+            throw new JobFailedException("Failed to save vpm model.", e);
+        }
+
+        // finish run
+        monitor.done();
+    }
+
+    @Override
+    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
+        // no rollback possible
+    }
+
+    @Override
+    public String getName() {
+        return "Save VPM model Job";
+    }
 }

@@ -17,78 +17,72 @@ import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
 /**
- * A delegate defining the workflow for 
- * the refinement of the variation point model.
+ * A delegate defining the workflow for the refinement of the variation point model.
  */
-public class VPMRefinementWorkflowDelegate
-		extends
-		AbstractWorkbenchDelegate<VPMRefinementWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
-	
-	/** The configuration of the workflow. */
-	private VPMRefinementWorkflowConfiguration config = null;
+public class VPMRefinementWorkflowDelegate extends
+        AbstractWorkbenchDelegate<VPMRefinementWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
-	/**
-	 * Constructor requiring a basic splevo workflow configuration.
-	 * 
-	 * @param config
-	 *            The configuration of the workflow.
-	 */
-	public VPMRefinementWorkflowDelegate(VPMRefinementWorkflowConfiguration config) {
-		this.config = config;
-	}
+    /** The configuration of the workflow. */
+    private VPMRefinementWorkflowConfiguration config = null;
 
-	/**
-	 * Create the workflow
-	 */
-	@Override
-	protected IJob createWorkflowJob(VPMRefinementWorkflowConfiguration config) {
-		
-		// initialize the basic elements
-		SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-		OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob =
-				new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
-		compositeJob.setBlackboard(new SPLevoBlackBoard());
-				
-		SetVPMJob setVpmJob = new SetVPMJob(config.getVariationPointModel());
-		compositeJob.add(setVpmJob);
-		
-		// set the refinements to perform and variation point model in the blackboard
-		SetRefinementsJob setRefinementsJob = new SetRefinementsJob(config.getRefinements());
-		compositeJob.add(setRefinementsJob);
-		
-		// perform the refinements automatically
-		VPMApplyRefinementsJob vpmApplyRefinementsJob = new VPMApplyRefinementsJob();
-		compositeJob.add(vpmApplyRefinementsJob);
-		
-		// save the latest vpm model
-		String modelNamePrefix = ""+splevoProject.getVpmModelPaths().size();
-		String targetPath = splevoProject.getWorkspace()
-							+ "models/vpms/"
-							+ modelNamePrefix
-							+ "-vpm.vpm";
-		SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
-		compositeJob.add(saveVPMJob);
-		
-		// init the ui update job
-		IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(),"VPM refined");
-		compositeJob.add(updateUiJob);
+    /**
+     * Constructor requiring a basic splevo workflow configuration.
+     * 
+     * @param config
+     *            The configuration of the workflow.
+     */
+    public VPMRefinementWorkflowDelegate(VPMRefinementWorkflowConfiguration config) {
+        this.config = config;
+    }
 
-		// return the prepared workflow
-		return compositeJob;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IJob createWorkflowJob(VPMRefinementWorkflowConfiguration config) {
 
-	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
-		// nothing to do here
-	}
+        // initialize the basic elements
+        SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
+        OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob = new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
+        compositeJob.setBlackboard(new SPLevoBlackBoard());
 
-	@Override
-	protected boolean useSeparateConsoleForEachJobRun() {
-		return false;
-	}
+        SetVPMJob setVpmJob = new SetVPMJob(config.getVariationPointModel());
+        compositeJob.add(setVpmJob);
 
-	@Override
-	protected VPMRefinementWorkflowConfiguration getConfiguration() {
-		return this.config;
-	}
+        // set the refinements to perform and variation point model in the blackboard
+        SetRefinementsJob setRefinementsJob = new SetRefinementsJob(config.getRefinements());
+        compositeJob.add(setRefinementsJob);
+
+        // perform the refinements automatically
+        VPMApplyRefinementsJob vpmApplyRefinementsJob = new VPMApplyRefinementsJob();
+        compositeJob.add(vpmApplyRefinementsJob);
+
+        // save the latest vpm model
+        String modelNamePrefix = "" + splevoProject.getVpmModelPaths().size();
+        String targetPath = splevoProject.getWorkspace() + "models/vpms/" + modelNamePrefix + "-vpm.vpm";
+        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
+        compositeJob.add(saveVPMJob);
+
+        // init the ui update job
+        IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "VPM refined");
+        compositeJob.add(updateUiJob);
+
+        // return the prepared workflow
+        return compositeJob;
+    }
+
+    @Override
+    public void selectionChanged(IAction action, ISelection selection) {
+        // nothing to do here
+    }
+
+    @Override
+    protected boolean useSeparateConsoleForEachJobRun() {
+        return false;
+    }
+
+    @Override
+    protected VPMRefinementWorkflowConfiguration getConfiguration() {
+        return this.config;
+    }
 }

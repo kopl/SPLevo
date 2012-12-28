@@ -21,101 +21,91 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to extract a software model from an eclipse java project 
+ * Job to execute the diffing on the source models provided through the blackboard.
  */
 public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-	/** The splevo project to store the required data to. */
-	private SPLevoProject splevoProject;
-	/**
-	 * LongRunningOperation constructor
-	 * 
-	 * @param indeterminate
-	 *            whether the animation is unknown
-	 */
-	public DiffingJob(SPLevoProject splevoProject) {
-		this.splevoProject = splevoProject;
-	}
+    /** The splevo project to store the required data to. */
+    private final SPLevoProject splevoProject;
 
-	/**
-	 * Runs the long running operation
-	 * 
-	 * @param monitor
-	 *            the progress monitor
-	 */
-	@Override
-	public void execute(IProgressMonitor monitor) throws JobFailedException,
-			UserCanceledException {
+    /**
+     * Constructor for the diffing job.
+     * 
+     * @param splevoProject
+     *            The SPLevo project to interact with.
+     */
+    public DiffingJob(final SPLevoProject splevoProject) {
+        this.splevoProject = splevoProject;
+    }
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		String basePath = workspace.getRoot().getRawLocation().toOSString();
+    @Override
+    public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-		logger.info("Load source models");
-		JavaApplication leadingModel = null;
-		JavaApplication integrationModel = null;
-		try {
-			
-			leadingModel = KDMUtil.loadKDMModel(new File(basePath+splevoProject.getSourceModelPathLeading()));
-			integrationModel = KDMUtil.loadKDMModel(new File(basePath+splevoProject.getSourceModelPathIntegration()));
-		} catch (IOException e) {
-			throw new JobFailedException("Failed to load source models",e);
-		}
-		
-		logger.info("Init diffing service");
-		Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
-		String diffingRuleRaw = splevoProject.getDiffingFilterRules();
-		String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
-		for (String rule : parts) {
-			diffingService.getIgnorePackages().add(rule);
-		}
-		
-		logger.info("Execute diffing");
-		DiffModel diffModel = null;
-		try {
-			diffModel = diffingService.doDiff(integrationModel,leadingModel);
-		} catch (InterruptedException e) {
-			throw new JobFailedException("Failed to process diffing.",e);
-		}
-		
-		// check if the process was canceled
-		if (monitor.isCanceled()) {
-			monitor.done();
-			return;
-		}
+        final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        final String basePath = workspace.getRoot().getRawLocation().toOSString();
 
-		logger.info("Save Diff Model");
-		try {
-			String targetPath = splevoProject.getWorkspace()
-									+ "models/diffmodel/diffModel.java2kdmdiff";
-			
-			ModelUtils.save(diffModel, basePath+targetPath);
-			splevoProject.setDiffingModelPath(targetPath);
-		} catch (IOException e) {
-			throw new JobFailedException("Failed to save diff model.",e);
-		}
-		
-		// refresh workspace
-		try {
-			workspace.getRoot().refreshLocal(IResource.DEPTH_ONE, monitor);
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-		
-		// finish run
-		monitor.done();
-	}
+        this.logger.info("Load source models");
+        JavaApplication leadingModel = null;
+        JavaApplication integrationModel = null;
+        try {
 
-	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback possible
-	}
+            leadingModel = KDMUtil.loadKDMModel(new File(basePath + this.splevoProject.getSourceModelPathLeading()));
+            integrationModel = KDMUtil.loadKDMModel(new File(basePath
+                    + this.splevoProject.getSourceModelPathIntegration()));
+        } catch (final IOException e) {
+            throw new JobFailedException("Failed to load source models", e);
+        }
 
-	/**
-	 * Get the name of the job. 
-	 */
-	@Override
-	public String getName() {
-		return "Diff source models Job";
-	}
+        this.logger.info("Init diffing service");
+        final Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
+        final String diffingRuleRaw = this.splevoProject.getDiffingFilterRules();
+        final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
+        for (final String rule : parts) {
+            diffingService.getIgnorePackages().add(rule);
+        }
+
+        this.logger.info("Execute diffing");
+        DiffModel diffModel = null;
+        try {
+            diffModel = diffingService.doDiff(integrationModel, leadingModel);
+        } catch (final InterruptedException e) {
+            throw new JobFailedException("Failed to process diffing.", e);
+        }
+
+        // check if the process was canceled
+        if (monitor.isCanceled()) {
+            monitor.done();
+            return;
+        }
+
+        this.logger.info("Save Diff Model");
+        try {
+            final String targetPath = this.splevoProject.getWorkspace() + "models/diffmodel/diffModel.java2kdmdiff";
+
+            ModelUtils.save(diffModel, basePath + targetPath);
+            this.splevoProject.setDiffingModelPath(targetPath);
+        } catch (final IOException e) {
+            throw new JobFailedException("Failed to save diff model.", e);
+        }
+
+        // refresh workspace
+        try {
+            workspace.getRoot().refreshLocal(IResource.DEPTH_ONE, monitor);
+        } catch (final CoreException e) {
+            e.printStackTrace();
+        }
+
+        // finish run
+        monitor.done();
+    }
+
+    @Override
+    public void rollback(final IProgressMonitor monitor) throws RollbackFailedException {
+        // no rollback possible
+    }
+
+    @Override
+    public String getName() {
+        return "Diff source models Job";
+    }
 }

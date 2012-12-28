@@ -18,64 +18,53 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to extract a software model from an eclipse java project 
+ * Job to load a diffing model in the blackboard.
  */
 public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-	/** The splevo project to store the required data to. */
-	private SPLevoProject splevoProject;
-	
-	/**
-	 * Constructor to set a reference to the splevoproject.
-	 * 
-	 * @param splevoProject
-	 *            The reference to the splevoproject.
-	 */
-	public LoadDiffingModelJob(SPLevoProject splevoProject) {
-		this.splevoProject = splevoProject;
-	}
+    /** The splevo project to store the required data to. */
+    private SPLevoProject splevoProject;
 
-	/**
-	 * Execute the job.
-	 * 
-	 * @param monitor
-	 *            the progress monitor
-	 */
-	@Override
-	public void execute(IProgressMonitor monitor) throws JobFailedException,
-			UserCanceledException {
+    /**
+     * Constructor to set a reference to the splevoproject.
+     * 
+     * @param splevoProject
+     *            The reference to the splevoproject.
+     */
+    public LoadDiffingModelJob(SPLevoProject splevoProject) {
+        this.splevoProject = splevoProject;
+    }
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		String basePath = workspace.getRoot().getRawLocation().toOSString();
+    @Override
+    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-		logger.info("Load diff models");
-		Java2KDMDiffPackage.eINSTANCE.eClass();
-		File diffModelFile = new File(basePath+splevoProject.getDiffingModelPath());
-		DiffModel diffModel;
-		try {
-			diffModel = (DiffModel) ModelUtils.load(diffModelFile, new ResourceSetImpl());
-		} catch (IOException e) {
-			throw new JobFailedException("Failed to load diff model.",e);
-		}
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        String basePath = workspace.getRoot().getRawLocation().toOSString();
 
-		logger.info("Put diff model on the blackboard");
-		getBlackboard().setDiffModel(diffModel);
-				
-		// finish run
-		monitor.done();
-	}
+        logger.info("Load diff models");
+        Java2KDMDiffPackage.eINSTANCE.eClass();
+        File diffModelFile = new File(basePath + splevoProject.getDiffingModelPath());
+        DiffModel diffModel;
+        try {
+            diffModel = (DiffModel) ModelUtils.load(diffModelFile, new ResourceSetImpl());
+        } catch (IOException e) {
+            throw new JobFailedException("Failed to load diff model.", e);
+        }
 
-	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback possible
-	}
+        logger.info("Put diff model on the blackboard");
+        getBlackboard().setDiffModel(diffModel);
 
-	/**
-	 * Get the name of the job. 
-	 */
-	@Override
-	public String getName() {
-		return "Load diffing model Job";
-	}
+        // finish run
+        monitor.done();
+    }
+
+    @Override
+    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
+        // no rollback possible
+    }
+
+    @Override
+    public String getName() {
+        return "Load diffing model Job";
+    }
 }

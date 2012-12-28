@@ -12,58 +12,57 @@ import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
 /**
- * Delegate defining a workflow for the initial diffing of the software models.
- * This includes an update of the user interface to set the paths to the diffing models.
+ * Delegate defining a workflow for the initial diffing of the software models. This includes an
+ * update of the user interface to set the paths to the diffing models.
  */
-public class DiffingWorkflowDelegate
-		extends
-		AbstractWorkbenchDelegate<DiffingWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
+public class DiffingWorkflowDelegate extends
+        AbstractWorkbenchDelegate<DiffingWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
-	/** The configuration of the workflow. */
-	private DiffingWorkflowConfiguration config = null;
+    /** The configuration of the work flow. */
+    private DiffingWorkflowConfiguration config = null;
 
-	/**
-	 * Constructor requiring a diffing workflow configuration.
-	 * 
-	 * @param config
-	 *            The configuration of the workflow.
-	 */
-	public DiffingWorkflowDelegate(DiffingWorkflowConfiguration config) {
-		this.config = config;
-	}
+    /**
+     * Constructor requiring a diffing work flow configuration.
+     * 
+     * @param config
+     *            The configuration of the work flow.
+     */
+    public DiffingWorkflowDelegate(final DiffingWorkflowConfiguration config) {
+        this.config = config;
+    }
 
-	/**
-	 * Create the workflow
-	 */
-	@Override
-	protected IJob createWorkflowJob(DiffingWorkflowConfiguration config) {
-		
-		OrderPreservingCompositeJob compositeJob = new OrderPreservingCompositeJob();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IJob createWorkflowJob(final DiffingWorkflowConfiguration config) {
 
-		// init the parallel extraction
-		DiffingJob diffingJob = new DiffingJob(config.getSplevoProjectEditor().getSplevoProject());
-		compositeJob.add(diffingJob);
-		
-		// init the ui update job
-		IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(),"Diffing performed");
-		compositeJob.add(updateUiJob);
+        final OrderPreservingCompositeJob compositeJob = new OrderPreservingCompositeJob();
 
-		// return the prepared workflow
-		return compositeJob;
-	}
+        // init the parallel extraction
+        final DiffingJob diffingJob = new DiffingJob(config.getSplevoProjectEditor().getSplevoProject());
+        compositeJob.add(diffingJob);
 
-	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
-		// nothing to do here
-	}
+        // init the ui update job
+        final IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Diffing performed");
+        compositeJob.add(updateUiJob);
 
-	@Override
-	protected boolean useSeparateConsoleForEachJobRun() {
-		return false;
-	}
+        // return the prepared workflow
+        return compositeJob;
+    }
 
-	@Override
-	protected DiffingWorkflowConfiguration getConfiguration() {
-		return this.config;
-	}
+    @Override
+    public void selectionChanged(final IAction action, final ISelection selection) {
+        // nothing to do here
+    }
+
+    @Override
+    protected boolean useSeparateConsoleForEachJobRun() {
+        return false;
+    }
+
+    @Override
+    protected DiffingWorkflowConfiguration getConfiguration() {
+        return this.config;
+    }
 }
