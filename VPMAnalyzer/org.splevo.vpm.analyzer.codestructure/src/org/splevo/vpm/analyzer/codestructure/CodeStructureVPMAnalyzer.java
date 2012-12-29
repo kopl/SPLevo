@@ -17,6 +17,15 @@ import org.splevo.vpm.variability.VariationPoint;
 /**
  * A variation point analyzer identifying variation points located in the same code structure.
  * 
+ * Algorithm:
+ * <ol>
+ * <li>filling an internal structure map Map<ASTNode, List<Node>> [Complexity: O(n)]</li>
+ * <li>Searching the map for entries with more than one node [Complexity: O(n)]</li>
+ * <li>Creating a relationship edge for each of them [Complexity: O(n)]</li>
+ * </ol>
+ * Overall Algorithm Complexity: O(n)
+ * 
+ * 
  * @author Benjamin Klatt
  * 
  */
@@ -82,7 +91,7 @@ public class CodeStructureVPMAnalyzer implements VPMAnalyzer {
                     logger.debug("Edge [" + edgeId + "] already existing.");
                     continue;
                 }
-                
+
                 // build edge
                 RelationshipEdge edge = vpmGraph.addEdge(edgeId, node1, node2);
                 edge.getRelationshipLabels().add(getRelationshipLabel());
