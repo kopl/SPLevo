@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SPLevo Program Dependency VPM Analyzer Tests
+Bundle-SymbolicName: org.splevo.vpm.analyzer.programdependency.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Fragment-Host: org.splevo.vpm.analyzer.programdependency;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit,
+ org.splevo.tests;bundle-version="1.0.0"
