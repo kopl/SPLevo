@@ -1,4 +1,4 @@
-package org.splevo.ui.listeners;
+package org.splevo.ui.wizards.vpmanalysis;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerConfigurationPage;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerService;

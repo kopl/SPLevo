@@ -1,4 +1,4 @@
-package org.splevo.ui.listeners;
+package org.splevo.ui.wizards.vpmanalysis;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.splevo.vpm.analyzer.VPMAnalyzer;

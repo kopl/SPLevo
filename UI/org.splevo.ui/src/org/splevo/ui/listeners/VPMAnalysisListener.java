@@ -15,65 +15,64 @@ import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
 
 /**
- * Mouse adapter to listen for events which trigger the refinement process 
- * of a variation point model.
+ * Mouse adapter to listen for events which trigger the refinement process of a variation point
+ * model.
  */
 public class VPMAnalysisListener extends MouseAdapter {
 
-	/** The logger for this class. */
+    /** The logger for this class. */
     private Logger logger = Logger.getLogger(VPMAnalysisListener.class);
 
-    /** The internal reference to the splevo project editor to work with. */
-	private SPLevoProjectEditor splevoProjectEditor = null;
+    /** The internal reference to the SPLevo project editor to work with. */
+    private SPLevoProjectEditor splevoProjectEditor = null;
 
-	/**
-	 * Constructor requiring the reference to a splevoProject.
-	 * 
-	 * @param splevoProject
-	 *            The references to the project.
-	 */
-	public VPMAnalysisListener(SPLevoProjectEditor splevoProjectEditor) {
-		this.splevoProjectEditor = splevoProjectEditor;
-	}
+    /**
+     * Constructor requiring the reference to a splevoProject.
+     * 
+     * @param splevoProjectEditor
+     *            The references to the splevo project editor.
+     */
+    public VPMAnalysisListener(SPLevoProjectEditor splevoProjectEditor) {
+        this.splevoProjectEditor = splevoProjectEditor;
+    }
 
-	@Override
-	public void mouseUp(MouseEvent e) {
+    @Override
+    public void mouseUp(MouseEvent e) {
 
-		// Initialize the requried data
-		VPMAnalysisWorkflowConfiguration config = buildWorflowConfiguration();
-		Shell shell = e.widget.getDisplay().getShells()[0];
-		
-		// trigger the wizard to configure the refinement process
-		WizardDialog wizardDialog = new WizardDialog(shell,
-			      									new VPMAnalysisWizard(config));
-		if (wizardDialog.open() != Window.OK) {
-			logger.debug("Variation Point Analyses canceled");
-			return;
-		}
-		
-		
-		
-		// validate configuration
-		if(!config.isValid()){
-			MessageDialog.openError(shell, "Invalid Project Configuration", config.getErrorMessage());
-			return;
-		}
+        // Initialize the requried data
+        VPMAnalysisWorkflowConfiguration config = buildWorflowConfiguration();
+        Shell shell = e.widget.getDisplay().getShells()[0];
 
-		// trigger workflow
-		
-		VPMAnalysisWorkflowDelegate workflowDelegate = new VPMAnalysisWorkflowDelegate(config);
-		IAction action = new Action("Refine VPM"){};
-		workflowDelegate.run(action);
-	}
+        // trigger the wizard to configure the refinement process
+        WizardDialog wizardDialog = new WizardDialog(shell, new VPMAnalysisWizard(config));
+        if (wizardDialog.open() != Window.OK) {
+            logger.debug("Variation Point Analyses canceled");
+            return;
+        }
 
-	/**
-	 * Build the configuration for the workflow.
-	 * @return The prepared configuration.
-	 */
-	private VPMAnalysisWorkflowConfiguration buildWorflowConfiguration() {
-		VPMAnalysisWorkflowConfiguration config = new VPMAnalysisWorkflowConfiguration();
-		config.setSplevoProjectEditor(splevoProjectEditor);
-		return config;
-	}
+        // validate configuration
+        if (!config.isValid()) {
+            MessageDialog.openError(shell, "Invalid Project Configuration", config.getErrorMessage());
+            return;
+        }
+
+        // trigger workflow
+
+        VPMAnalysisWorkflowDelegate workflowDelegate = new VPMAnalysisWorkflowDelegate(config);
+        IAction action = new Action("Refine VPM") {
+        };
+        workflowDelegate.run(action);
+    }
+
+    /**
+     * Build the configuration for the workflow.
+     * 
+     * @return The prepared configuration.
+     */
+    private VPMAnalysisWorkflowConfiguration buildWorflowConfiguration() {
+        VPMAnalysisWorkflowConfiguration config = new VPMAnalysisWorkflowConfiguration();
+        config.setSplevoProjectEditor(splevoProjectEditor);
+        return config;
+    }
 
 }

@@ -1,4 +1,4 @@
-package org.splevo.ui.listeners;
+package org.splevo.ui.refinementbrowser;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.splevo.ui.refinementbrowser.VPMRefinementBrowser;
 import org.splevo.ui.workflow.VPMRefinementWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMRefinementWorkflowDelegate;
 import org.splevo.vpm.refinement.Refinement;

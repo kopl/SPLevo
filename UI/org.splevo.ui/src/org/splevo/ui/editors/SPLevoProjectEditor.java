@@ -47,72 +47,111 @@ import org.splevo.project.SPLevoProjectUtil;
 import org.splevo.ui.listeners.DiffSourceModelListener;
 import org.splevo.ui.listeners.ExtractProjectListener;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
-import org.splevo.ui.listeners.GotoTabMouseListener;
 import org.splevo.ui.listeners.InitVPMListener;
-import org.splevo.ui.listeners.MarkDirtyListener;
-import org.splevo.ui.listeners.ProjectDropListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
 
+/**
+ * The SPLevo dash board to control the consolidation process as well as editing the SPLevo project
+ * configuration.
+ * 
+ * @author Benjamin Klatt
+ * 
+ */
 public class SPLevoProjectEditor extends EditorPart {
 
+    /** The id of the editor. */
     public static final String ID = "org.splevo.ui.editors.SPLevoProjectEditor"; //$NON-NLS-1$
 
+    /** The internal index of the process control tab. */
     private static final int TABINDEX_PROCESS_CONTROL = 0;
+
+    /** The internal index of the project info tab. */
     private static final int TABINDEX_PROJECT_INFOS = 1;
+    
+    /** The internal index of the project selection tab. */
     private static final int TABINDEX_PROJECT_SELECTION = 2;
+    
+    /** The internal index of the source model tab. */
     private static final int TABINDEX_SOURCE_MODELS = 3;
+    
+    /** The internal index of the diffing model tab. */
     private static final int TABINDEX_DIFFING_MODEL = 4;
 
     /** The splevo project manipulated in the editor instance. */
     private SPLevoProject splevoProject = null;
 
+    /** The tab folder element of the editor. */
     private TabFolder tabFolder;
+    
+    /** The project selection tab. */
     private TabItem tbtmProjectSelection = null;
-    /** The table viewer for the leading source models the variant should be integrated to */
+    
+    /** The table viewer for the leading source models the variant should be integrated to. */
     private TableViewer viewerLeadingProjects;
+    
+    /** The table column for the leading source models the variant should be integrated to. */
     private TableColumn tblclmnLeadingProjects;
+
+    /** The table viewer for the integration source models to be integrated to the leading one. */
     private TableViewer viewerIntegrationProjects;
+
+    /** The text input for the project name. */
     private Text projectNameInput;
+    
+    /** The text input for the project description. */
     private Text infoInput;
+
+    /** The text input for the project's workspace path. */
     private Text workspaceInput;
 
     /** Flag identifying the dirty state of the editor. */
     private boolean dirtyFlag = false;
 
+    /** The available transfer types for the drag and drop support. */
     private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance() };
+
+    /** The text input for the name of the leading variant. */
     private Text inputVariantNameLeading;
+
+    /** The text input for the name of the variant to be integrated. */
     private Text inputVariantNameIntegration;
+
+    /** The text input for the path to the model of the leading variant. */
     private Text sourceModelLeadingInput;
+
+    /** The text input for the path to the model of the variant to be integrated. */
     private Text sourceModelIntegrationInput;
+
+    /** The text input for the path to the diffing model. */
     private Text diffingModelInput;
+
+    /** The text input field for the packages to filter. */
     private Text diffingPackageFilterInput;
 
+    /**
+     * Default constructor setting the icon in the editor title.
+     */
     public SPLevoProjectEditor() {
         setTitleImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/splevo.gif"));
     }
 
-    /**
-     * Create contents of the editor part.
-     * 
-     * @param parent
-     */
     @Override
     public void createPartControl(Composite parent) {
         parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        GridLayout gl_parent = new GridLayout(1, false);
-        gl_parent.verticalSpacing = 0;
-        gl_parent.marginWidth = 0;
-        gl_parent.marginHeight = 0;
-        gl_parent.horizontalSpacing = 0;
-        parent.setLayout(gl_parent);
+        GridLayout glParent = new GridLayout(1, false);
+        glParent.verticalSpacing = 0;
+        glParent.marginWidth = 0;
+        glParent.marginHeight = 0;
+        glParent.horizontalSpacing = 0;
+        parent.setLayout(glParent);
 
         // init the data tables
         tabFolder = new TabFolder(parent, SWT.NONE);
         tabFolder.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        GridData gd_tabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-        gd_tabFolder.widthHint = 837;
-        gd_tabFolder.heightHint = 353;
-        tabFolder.setLayoutData(gd_tabFolder);
+        GridData gdTabFolder = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+        gdTabFolder.widthHint = 837;
+        gdTabFolder.heightHint = 353;
+        tabFolder.setLayoutData(gdTabFolder);
 
         // create tabs
         createProcessControlTab();
@@ -286,7 +325,7 @@ public class SPLevoProjectEditor extends EditorPart {
     }
 
     /**
-     * Create the tab for project information
+     * Create the tab for project information.
      */
     private void createProjectInfoTab() {
 
@@ -318,6 +357,9 @@ public class SPLevoProjectEditor extends EditorPart {
         workspaceInput.setBounds(113, 180, 307, 26);
     }
 
+    /**
+     * Create the tab for the process control.
+     */
     private void createProcessControlTab() {
 
         TabItem tbtmProcessControl = new TabItem(tabFolder, SWT.NONE, TABINDEX_PROCESS_CONTROL);
@@ -540,6 +582,10 @@ public class SPLevoProjectEditor extends EditorPart {
         markAsDirty();
     }
 
+    /**
+     * initializing the data bindings for the UI.
+     * @return The prepared context to be bound to the ui.
+     */
     protected DataBindingContext initDataBindings() {
         DataBindingContext bindingContext = new DataBindingContext();
 

@@ -23,8 +23,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.splevo.ui.listeners.VPMAnalyzerLabelProvider;
-import org.splevo.ui.listeners.VPMAnalyzerSelectionDialogListener;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 
@@ -180,16 +178,15 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
         return analyzer;
 
     }
-
-    /**
-     * Check the ui content and update the page status.
-     */
-    public void update() {
-        if (listViewerAnalysis.getList().getItems().length > 0) {
-            this.setPageComplete(true);
-        } else {
-            this.setPageComplete(false);
-        }
+    
+    @Override
+    public boolean isPageComplete() {
+        return (listViewerAnalysis.getList().getItems().length > 0);
+    }
+    
+    @Override
+    public boolean canFlipToNextPage() {
+        return isPageComplete();
     }
 
     /**
@@ -201,6 +198,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
     public void addAnalyzer(VPMAnalyzer analyzer) {
         this.analyzers.add(analyzer);
         listViewerAnalysis.refresh();
+        getWizard().getContainer().updateButtons();
     }
 
     /**

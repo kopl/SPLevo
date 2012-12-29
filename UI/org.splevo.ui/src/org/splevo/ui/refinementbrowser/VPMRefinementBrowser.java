@@ -19,7 +19,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.listeners.ApplyRefinementsAction;
 import org.splevo.vpm.refinement.Refinement;
 
 /***

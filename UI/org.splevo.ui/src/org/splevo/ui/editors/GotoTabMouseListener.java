@@ -1,4 +1,4 @@
-package org.splevo.ui.listeners;
+package org.splevo.ui.editors;
 
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -11,6 +11,8 @@ public class GotoTabMouseListener extends MouseAdapter {
 
 	/** The tab folder to manipulate. */
 	private TabFolder tabFolder = null;
+	
+	/** The index of the tab to go to. */
 	private int tabIndex = 0;
 	
 	/**

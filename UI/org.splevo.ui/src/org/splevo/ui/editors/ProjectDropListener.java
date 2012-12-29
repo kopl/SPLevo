@@ -1,4 +1,4 @@
-package org.splevo.ui.listeners;
+package org.splevo.ui.editors;
 
 import java.io.File;
 import java.util.List;
@@ -15,13 +15,16 @@ import org.eclipse.swt.dnd.TransferData;
  */
 public class ProjectDropListener extends ViewerDropAdapter {
 
-    /** The splevo project to access the data in */
+    /** The SPLevo project to access the data in. */
     private List<String> projectListContainer;
 
     /**
      * Constructor to link the listener with the viewer and the dashboard to modify.
-     * @param viewer The viewer to listen to.
-     * @param splEvoDashboardView The dashboard to modify.
+     * 
+     * @param viewer
+     *            The viewer to listen to.
+     * @param projectListContainer
+     *            The names of the projects to add to the viewer.
      */
     public ProjectDropListener(Viewer viewer, List<String> projectListContainer) {
         super(viewer);
@@ -33,19 +36,19 @@ public class ProjectDropListener extends ViewerDropAdapter {
      * Only files ending with java2kdm.xmi are added to the the model list
      */
     public boolean performDrop(Object data) {
-    	
-    	if (data instanceof String[]) {
-    		for (String fqnPath : ((String[]) data)) {
-        		String projectName = new File(fqnPath).getName();
-        		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-        		if(project != null && !projectListContainer.contains(project.getName())){
-        			String name = project.getName();
-        			projectListContainer.add(name);
-        		}
-				
-			}
-		}
-    	
+
+        if (data instanceof String[]) {
+            for (String fqnPath : ((String[]) data)) {
+                String projectName = new File(fqnPath).getName();
+                IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+                if (project != null && !projectListContainer.contains(project.getName())) {
+                    String name = project.getName();
+                    projectListContainer.add(name);
+                }
+
+            }
+        }
+
         getViewer().setInput(projectListContainer);
 
         return true;
