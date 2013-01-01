@@ -56,7 +56,6 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
 
         return graph;
     }
-
     /*
      * (non-Javadoc)
      * 
@@ -105,6 +104,54 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
     /*
      * (non-Javadoc)
      * 
+     * @see org.splevo.vpm.analyzer.VPMAnalyzerService#mergeGraphs(java.util.List)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void mergeGraphEdges(VPMGraph vpmGraph) {
+
+        for (Edge edge : vpmGraph.getEachEdge()) {
+
+            Node sourceNode = edge.getSourceNode();
+            Node targetNode = edge.getTargetNode();
+
+            // enrich the merge edge or create a new one
+            String edgeId = buildEdgeId(sourceNode, targetNode);
+            Edge mergeEdge = vpmGraph.getEdge(edgeId);
+            if (mergeEdge == null) {
+                mergeEdge = vpmGraph.addEdge(edgeId, sourceNode, targetNode);
+                for (String key : edge.getAttributeKeySet()) {
+                    mergeEdge.addAttribute(key, edge.getAttribute(key));
+                }
+            } else {
+                List<String> labels = mergeEdge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class);
+                labels.addAll(edge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class));
+                mergeEdge.setAttribute(RelationshipEdge.RELATIONSHIP_LABEL, labels);
+            }
+
+            // remove the old merged node
+            vpmGraph.removeEdge(edge);
+        }
+
+    }
+
+    /**
+     * Build a simple edge id by using the ids of the connected nodes only.
+     * 
+     * @param node1
+     *            The first node.
+     * @param node2
+     *            The second node.
+     * @return The prepared edge id.
+     */
+    public String buildEdgeId(Node node1, Node node2) {
+        // TODO: Check if StringBuilder provides speedup.
+        return node1.getId() + "#" + node2.getId();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see
      * org.splevo.vpm.analyzer.VPMAnalyzerService#deriveRefinements(org.splevo.vpm.analyzer.graph
      * .VPMGraph, java.util.List)
@@ -124,8 +171,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
     }
 
     /**
-     * Load the vpm analyzer implementations registered for the according
-     * extension point.
+     * Load the vpm analyzer implementations registered for the according extension point.
      * 
      * {@inheritDoc}
      */
@@ -137,22 +183,18 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
             logger.warn("No extension point registry available.");
             return null;
         }
-        IExtensionPoint extensionPoint = registry
-                .getExtensionPoint(VPM_ANALYZER_EXTENSION_POINT_ID);
-        
+        IExtensionPoint extensionPoint = registry.getExtensionPoint(VPM_ANALYZER_EXTENSION_POINT_ID);
+
         if (extensionPoint == null) {
-            logger.warn("No extension point found for the ID "
-                    + VPM_ANALYZER_EXTENSION_POINT_ID);
+            logger.warn("No extension point found for the ID " + VPM_ANALYZER_EXTENSION_POINT_ID);
             return null;
         }
         IExtension[] extensions = extensionPoint.getExtensions();
         for (IExtension extension : extensions) {
-            IConfigurationElement[] configurations = extension
-                    .getConfigurationElements();
+            IConfigurationElement[] configurations = extension.getConfigurationElements();
             for (IConfigurationElement element : configurations) {
                 try {
-                    Object o = element
-                            .createExecutableExtension(EXTENSION_POINT_ATTR_ANALYZER_CLASS);
+                    Object o = element.createExecutableExtension(EXTENSION_POINT_ATTR_ANALYZER_CLASS);
                     if ((o != null) && (o instanceof VPMAnalyzer)) {
                         VPMAnalyzer analyzer = (VPMAnalyzer) o;
                         refinementAnalyser.add(analyzer);

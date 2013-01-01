@@ -17,7 +17,7 @@ import org.eclipse.gmt.modisco.java.SingleVariableAccess;
 import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.graphstream.graph.Node;
-import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
@@ -56,7 +56,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * @author Benjamin Klatt
  * 
  */
-public class ProgramDependencyVPMAnalyzer implements VPMAnalyzer {
+public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(ProgramDependencyVPMAnalyzer.class);
@@ -194,24 +194,6 @@ public class ProgramDependencyVPMAnalyzer implements VPMAnalyzer {
         }
 
         return influencedASTNodes;
-    }
-
-    /**
-     * Build a unique identifier for the undirected edge between the nodes. The edge id is build
-     * from the Relationship label and the nodes ids in ascending order.
-     * 
-     * @param node1
-     *            The first node to connect.
-     * @param node2
-     *            The second node to connect.
-     * @return The prepared edge id.
-     */
-    private String buildEdgeId(Node node1, Node node2) {
-        if (node1.getId().compareTo(node2.getId()) < 0) {
-            return getRelationshipLabel() + "#" + node1.getId() + "#" + node2.getId();
-        } else {
-            return getRelationshipLabel() + "#" + node2.getId() + "#" + node1.getId();
-        }
     }
 
     /**

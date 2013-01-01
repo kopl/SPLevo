@@ -84,5 +84,20 @@
             name="VPM Refinement Browser">
       </editor>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            category="org.splevo.ui"
+            class="org.splevo.ui.views.vpmgraph.VPMGraphView"
+            icon="icons/splevo-project.gif"
+            id="org.splevo.ui.viewer.vpmgraph.VPMGraphViewer"
+            name="VPM Graph Viewer">
+      </view>
+      <category
+            id="org.splevo.ui"
+            name="SPLevo">
+      </category>
+   </extension>
 
 </plugin>

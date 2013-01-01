@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
-import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
@@ -29,7 +29,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * @author Benjamin Klatt
  * 
  */
-public class CodeStructureVPMAnalyzer implements VPMAnalyzer {
+public class CodeStructureVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(CodeStructureVPMAnalyzer.class);
@@ -96,24 +96,6 @@ public class CodeStructureVPMAnalyzer implements VPMAnalyzer {
                 RelationshipEdge edge = vpmGraph.addEdge(edgeId, node1, node2);
                 edge.getRelationshipLabels().add(getRelationshipLabel());
             }
-        }
-    }
-
-    /**
-     * Build a unique identifier for the undirected edge between the nodes. The edge id is build
-     * from the Relationship label and the nodes ids in ascending order.
-     * 
-     * @param node1
-     *            The first node to connect.
-     * @param node2
-     *            The second node to connect.
-     * @return The prepared edge id.
-     */
-    private String buildEdgeId(Node node1, Node node2) {
-        if (node1.getId().compareTo(node2.getId()) < 0) {
-            return getRelationshipLabel() + "#" + node1.getId() + "#" + node2.getId();
-        } else {
-            return getRelationshipLabel() + "#" + node2.getId() + "#" + node1.getId();
         }
     }
 

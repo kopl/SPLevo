@@ -48,9 +48,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
         assertEquals("Wrong number of vertices.", 6, graph.getNodeCount());
 
-    }
-
-    /**
+    }    /**
      * Test method for
      * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#mergeGraphs(java.util.List)}.
      * 
@@ -91,6 +89,36 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
         assertNotNull("Merge did not return any graph", graph);
         assertEquals("Wrong number of merged edges", 2, graph.getEdgeCount());
+
+    }
+
+    /**
+     * Test method for
+     * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#mergeGraphEdges(java.util.List)}.
+     * 
+     * @throws InterruptedException
+     *             identifies test has been interrupted.
+     */
+    @Test
+    public void testMergeGraphEdges() throws InterruptedException {
+
+        VPMGraph graph = new VPMGraph("VPMGraph");
+        Node nodeVP1 = createNode(graph, "VP1");
+        Node nodeVP2 = createNode(graph, "VP2");
+
+        RelationshipEdge edge1 = graph.addEdge("CodeStructure#VP1#VP2", nodeVP1, nodeVP2);
+        edge1.addRelationshipLabel("CodeStructure");
+
+        RelationshipEdge edge2 = graph.addEdge("ProgramDependency#VP1#VP2", nodeVP1, nodeVP2);
+        edge2.addRelationshipLabel("ProgramDependency");
+
+        DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
+        service.mergeGraphEdges(graph);
+
+        assertNotNull("Merged graph is null", graph);
+        assertEquals("Wrong number of merged edges", 1, graph.getEdgeCount());
+        
+        assertEquals("wrong merged edge id", "VP1#VP2", graph.getEdge(0).getId());
 
     }
 

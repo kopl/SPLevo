@@ -3,11 +3,11 @@ package org.splevo.ui.jobs;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.graphstream.ui.swingViewer.Viewer;
-import org.graphstream.ui.swingViewer.Viewer.CloseFramePolicy;
-import org.splevo.vpm.analyzer.graph.CustomEdgeLabelAttributeProxy;
-import org.splevo.vpm.analyzer.graph.RelationshipEdge;
+import org.splevo.ui.views.vpmgraph.VPMGraphView;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
@@ -37,11 +37,17 @@ public class OpenVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
                     "No VPM Graph in blackboard"));
         }
 
-        // open the viewer containing the graph 
-        Viewer v = new Viewer(new CustomEdgeLabelAttributeProxy(graph, RelationshipEdge.RELATIONSHIP_LABEL));
-        v.enableAutoLayout();
-        v.addDefaultView(true);
-        v.setCloseFramePolicy(CloseFramePolicy.HIDE_ONLY);
+        // open the viewer containing the graph
+        IViewPart viewPart;
+        try {
+            viewPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+                    .showView(VPMGraphView.ID, "vpmgraph" + graph.getId(), IWorkbenchPage.VIEW_ACTIVATE);
+        } catch (PartInitException e) {
+            throw new JobFailedException("Unable to open VPM Graph view.", e);
+        }
+
+        VPMGraphView view = (VPMGraphView) viewPart;
+        view.showGraph(graph);
     }
 
     @Override

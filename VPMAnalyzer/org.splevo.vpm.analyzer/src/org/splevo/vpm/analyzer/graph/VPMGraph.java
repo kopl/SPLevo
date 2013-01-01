@@ -3,21 +3,24 @@
  */
 package org.splevo.vpm.analyzer.graph;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.EdgeFactory;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractNode;
-import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.graph.implementations.AdjacencyListGraph;
 
 /**
  * A variation point model representing graph.
  * 
  * This uses a custom edge factory to create RelationShip elements.
  * 
+ * yIf multiple analyzer add edges to this graph in parallel, this will result in multiple edges
+ * between the same node. It might be necessary to merge those edges latter on.
+ * 
  * @author Benjamin Klatt
  * 
  */
-//TODO: Check, if VPMGraph must really be a multi graph
-public class VPMGraph extends MultiGraph {
+public class VPMGraph extends AdjacencyListGraph {
 
     /** The key to store and access the label of a graph node. */
     public static final String GS_LABEL = "ui.label";
@@ -77,5 +80,10 @@ public class VPMGraph extends MultiGraph {
      */
     public VPMGraph(String id) {
         this(id, true, false);
+    }
+
+    @Override
+    public synchronized <T extends Edge> T addEdge(String id, Node node1, Node node2) {
+        return super.addEdge(id, node1, node2);
     }
 }
