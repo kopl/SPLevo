@@ -9,11 +9,13 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
+import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 /**
- * @author benjamin
- *
+ * Test case for the ProgramDependencyVPMAnalyzer.
+ * 
+ * @author Benjamin Klatt
  */
 public class ProgramDependencyVPMAnalyzerTest {
     
@@ -21,16 +23,30 @@ public class ProgramDependencyVPMAnalyzerTest {
     private final ProgramDependencyVPMAnalyzer analyzer = new ProgramDependencyVPMAnalyzer();
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
-     * @throws InterruptedException identifies the test has been interrupted.
-     * @throws IOException Identifies the test input graph could not be read.
+     * Test method for
+     * {@link org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}
+     * .
+     * 
+     * @throws IOException
+     *             Identifies the test input graph could not be read.
+     * @throws InterruptedException
+     *             identifies the test has been interrupted.
      */
     @Test
     public void testAnalyze() throws IOException, InterruptedException {
-        VPMGraph vpmGraph = SPLevoTestUtil.loadGCDVPMGraph();
-        analyzer.analyze(vpmGraph);
         
-        assertEquals("Wrong number of relationship edges", 2, vpmGraph.getEdgeSet().size());
+        VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
+        
+        int originalNodeCount = graph.getNodeCount();
+        int originalEdgeCount = graph.getEdgeCount();
+        
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+        
+        assertNotNull("The analyzer result must not be null",result);
+        assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
+        assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
+
+        assertEquals("Wrong edge descriptor count", 2, result.getEdgeDescriptors().size());
         
     }
 

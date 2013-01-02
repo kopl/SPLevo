@@ -4,6 +4,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -46,8 +48,22 @@ public class OpenVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
             throw new JobFailedException("Unable to open VPM Graph view.", e);
         }
 
-        VPMGraphView view = (VPMGraphView) viewPart;
+        final VPMGraphView view = (VPMGraphView) viewPart;
         view.showGraph(graph);
+
+        PlatformUI.getWorkbench().addWorkbenchListener(new IWorkbenchListener() {
+
+            @Override
+            public boolean preShutdown(IWorkbench workbench, boolean forced) {
+                IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                activePage.hideView(view);
+                return true;
+            }
+
+            @Override
+            public void postShutdown(IWorkbench workbench) {
+            }
+        });
     }
 
     @Override

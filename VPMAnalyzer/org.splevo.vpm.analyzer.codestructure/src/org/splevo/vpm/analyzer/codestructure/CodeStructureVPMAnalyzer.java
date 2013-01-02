@@ -10,7 +10,8 @@ import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
-import org.splevo.vpm.analyzer.graph.RelationshipEdge;
+import org.splevo.vpm.analyzer.VPMAnalyzerResult;
+import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -49,32 +50,37 @@ public class CodeStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      * 
      * @param vpmGraph
      *            The graph to analyze and store the edges in.
+     * @return the VPM analyzer result
      */
     @Override
-    public void analyze(VPMGraph vpmGraph) {
+    public VPMAnalyzerResult analyze(final VPMGraph vpmGraph) {
+
+        VPMAnalyzerResult result = new VPMAnalyzerResult(this);
 
         fillStructureMap(vpmGraph);
         logger.debug("Grouped " + vpmGraph.getNodeCount() + " Nodes into " + structureMap.keySet().size() + " buckets.");
 
         for (ASTNode astNode : structureMap.keySet()) {
             if (structureMap.get(astNode).size() > 1) {
-                buildNodeEdges(vpmGraph, structureMap.get(astNode), astNode);
+                buildNodeEdgeDescriptors(result, structureMap.get(astNode), astNode);
             }
         }
+
+        return result;
 
     }
 
     /**
      * Build node edges in a graph between all nodes provided in the node list.
      * 
-     * @param vpmGraph
-     *            The graph to add the edge to.
+     * @param result
+     *            The vpm analyzer result object.
      * @param nodeList
      *            The list of nodes to connect.
      * @param astNode
      *            The variation points of all nodes are located in.
      */
-    private void buildNodeEdges(VPMGraph vpmGraph, List<Node> nodeList, ASTNode astNode) {
+    private void buildNodeEdgeDescriptors(VPMAnalyzerResult result, List<Node> nodeList, ASTNode astNode) {
 
         // build edges for all pairs of nodes.
         for (Node node1 : nodeList) {
@@ -85,16 +91,10 @@ public class CodeStructureVPMAnalyzer extends AbstractVPMAnalyzer {
                     continue;
                 }
 
-                // skip if code structure relationship already exists
-                String edgeId = buildEdgeId(node1, node2);
-                if (vpmGraph.getEdge(edgeId) != null) {
-                    logger.debug("Edge [" + edgeId + "] already existing.");
-                    continue;
+                VPMEdgeDescriptor descriptor = buildEdgeDescriptor(node1, node2, "");
+                if (descriptor != null) {
+                    result.getEdgeDescriptors().add(descriptor);
                 }
-
-                // build edge
-                RelationshipEdge edge = vpmGraph.addEdge(edgeId, node1, node2);
-                edge.getRelationshipLabels().add(getRelationshipLabel());
             }
         }
     }
@@ -111,38 +111,64 @@ public class CodeStructureVPMAnalyzer extends AbstractVPMAnalyzer {
         for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
             if (vp != null) {
-                if (!structureMap.containsKey(vp.getEnclosingSoftwareEntity())) {
-                    structureMap.put(vp.getEnclosingSoftwareEntity(), new ArrayList<Node>());
+                ASTNode astNode = vp.getEnclosingSoftwareEntity();
+                if (!structureMap.containsKey(astNode)) {
+                    structureMap.put(astNode, new ArrayList<Node>());
                 }
-                structureMap.get(vp.getEnclosingSoftwareEntity()).add(node);
+                structureMap.get(astNode).add(node);
             }
 
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.splevo.vpm.analyzer.VPMAnalyzer#getAvailableConfigurations()
+     */
     @Override
     public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {
         Map<String, VPMAnalyzerConfigurationType> configurations = new HashMap<String, VPMAnalyzerConfigurationType>();
         return configurations;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.splevo.vpm.analyzer.VPMAnalyzer#getConfigurationLabels()
+     */
     @Override
     public Map<String, String> getConfigurationLabels() {
         Map<String, String> configurationLabels = new HashMap<String, String>();
         return configurationLabels;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.splevo.vpm.analyzer.VPMAnalyzer#getConfigurations()
+     */
     @Override
     public Map<String, Object> getConfigurations() {
         Map<String, Object> configurations = new HashMap<String, Object>();
         return configurations;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.splevo.vpm.analyzer.VPMAnalyzer#getName()
+     */
     @Override
     public String getName() {
         return "Code Structure VPM Analyzer";
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.splevo.vpm.analyzer.AbstractVPMAnalyzer#getRelationshipLabel()
+     */
     @Override
     public String getRelationshipLabel() {
         return "CodeStructure";

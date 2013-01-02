@@ -5,6 +5,7 @@ package org.splevo.vpm.analyzer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,8 +15,10 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
+import org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
+import org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer;
 import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
 import org.splevo.vpm.refinement.Refinement;
@@ -48,7 +51,9 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
         assertEquals("Wrong number of vertices.", 6, graph.getNodeCount());
 
-    }    /**
+    }
+
+    /**
      * Test method for
      * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#mergeGraphs(java.util.List)}.
      * 
@@ -117,9 +122,53 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
         assertNotNull("Merged graph is null", graph);
         assertEquals("Wrong number of merged edges", 1, graph.getEdgeCount());
-        
-        assertEquals("wrong merged edge id", "VP1#VP2", graph.getEdge(0).getId());
 
+        assertEquals("wrong merged edge id", "VP1#VP2", graph.getEdge(0).getId());
+    }
+
+    /**
+     * Test method for
+     * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#createGraphEdges(VPMGraph, List)}.
+     * 
+     * @throws InterruptedException
+     *             identifies test has been interrupted.
+     */
+    @Test
+    public void testCreateGraphEdges() throws InterruptedException {
+
+        VPMGraph graph = new VPMGraph("VPMGraph");
+        createNode(graph, "VP1");
+        createNode(graph, "VP2");
+        createNode(graph, "VP3");
+        createNode(graph, "VP4");
+
+        
+        VPMAnalyzerResult resultCS = new VPMAnalyzerResult(new CodeStructureVPMAnalyzer());
+
+        VPMEdgeDescriptor descriptorVP1VP2 = new VPMEdgeDescriptor("CodeStructure", "Method", "VP1", "VP2");
+        resultCS.getEdgeDescriptors().add(descriptorVP1VP2);
+
+        VPMEdgeDescriptor descriptorVP3VP4CS = new VPMEdgeDescriptor("CodeStructure", "Method", "VP3", "VP4");
+        resultCS.getEdgeDescriptors().add(descriptorVP3VP4CS);
+
+        VPMAnalyzerResult resultPD = new VPMAnalyzerResult(new ProgramDependencyVPMAnalyzer());
+
+        VPMEdgeDescriptor descriptorVP3VP4PD = new VPMEdgeDescriptor("ProgramDependency", "Variable", "VP3", "VP4");
+        resultPD.getEdgeDescriptors().add(descriptorVP3VP4PD);
+
+        List<VPMAnalyzerResult> results = new ArrayList<VPMAnalyzerResult>();
+        results.add(resultCS);
+        results.add(resultPD);
+
+        DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
+        service.createGraphEdges(graph, results);
+
+        assertNotNull("Merged graph is null", graph);
+        assertEquals("Wrong number of merged edges", 2, graph.getEdgeCount());
+
+        assertNotNull("Missing Edge VP3#VP4 (Maybe wrong id creation)", graph.getEdge("VP3#VP4"));
+        assertTrue("Unexpected Edge VP4#VP3 (Wrong id creation)", graph.getEdge("VP4#VP3") == null);
+        
     }
 
     /**

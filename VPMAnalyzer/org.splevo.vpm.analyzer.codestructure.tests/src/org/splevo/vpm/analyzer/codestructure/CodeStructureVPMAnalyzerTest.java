@@ -3,16 +3,19 @@
  */
 package org.splevo.vpm.analyzer.codestructure;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
 import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
+import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 /**
- * Test case for the code structure vpm analyzer.
+ * Test case for the CodeStructureVPMAnalyzer.
  * 
  * @author Benjamin Klatt
  *
@@ -29,22 +32,17 @@ public class CodeStructureVPMAnalyzerTest extends AbstractTest {
         VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
         
         int originalNodeCount = graph.getNodeCount();
+        int originalEdgeCount = graph.getEdgeCount();
         
-        CodeStructureVPMAnalyzer analyzer = new CodeStructureVPMAnalyzer();
-        analyzer.analyze(graph);
+        VPMAnalyzer analyzer = new CodeStructureVPMAnalyzer();
+        VPMAnalyzerResult result = analyzer.analyze(graph);
         
-        assertNotNull("The should not be null",graph);
-        assertEquals("The node count should not have been changed.", originalNodeCount, graph.getNodeCount());
-
+        assertNotNull("The analyzer result must not be null",result);
+        assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
+        assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
         
         // TODO: Check import add/delete parent node structure
-        assertEquals("Wrong edge count", 6, graph.getEdgeCount());
-
-//        graph.display();
-//        while (true) {
-//            Thread.sleep(2000);
-//        }
-        
+        assertEquals("Wrong edge descriptor count", 6, result.getEdgeDescriptors().size());
     }
 
     /**
@@ -52,7 +50,7 @@ public class CodeStructureVPMAnalyzerTest extends AbstractTest {
      */
     @Test
     public void testGetName() {
-        CodeStructureVPMAnalyzer anlayzer = new CodeStructureVPMAnalyzer();
+        VPMAnalyzer anlayzer = new CodeStructureVPMAnalyzer();
         assertNotNull("The analyzer name must not be not.",anlayzer.getName());
     }
 
@@ -61,7 +59,7 @@ public class CodeStructureVPMAnalyzerTest extends AbstractTest {
      */
     @Test
     public void testGetRelationshipLabel() {
-        CodeStructureVPMAnalyzer anlayzer = new CodeStructureVPMAnalyzer();
+        VPMAnalyzer anlayzer = new CodeStructureVPMAnalyzer();
         assertNotNull("The analyzer relationship label must not be not.",anlayzer.getRelationshipLabel());
     }
 

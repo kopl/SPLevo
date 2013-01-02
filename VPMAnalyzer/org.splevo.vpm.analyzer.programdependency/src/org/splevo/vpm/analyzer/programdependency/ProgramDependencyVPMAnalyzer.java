@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.splevo.vpm.analyzer.programdependency;
 
 import java.util.ArrayList;
@@ -19,7 +16,8 @@ import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
-import org.splevo.vpm.analyzer.graph.RelationshipEdge;
+import org.splevo.vpm.analyzer.VPMAnalyzerResult;
+import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -76,16 +74,21 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     private Map<ASTNode, VariationPoint> astNodeIndex = null;
 
     /**
+     * {@inheritDoc}
+     * 
      * @see org.splevo.vpm.analyzer.VPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)
      */
     @Override
-    public void analyze(VPMGraph vpmGraph) {
+    public VPMAnalyzerResult analyze(final VPMGraph vpmGraph) {
+
+        VPMAnalyzerResult result = new VPMAnalyzerResult(this);
 
         variationPointIndex = buildVariationPointIndex(vpmGraph);
         astNodeIndex = buildASTNodeIndex(variationPointIndex.keySet());
 
-        analyzeVariableUsages(vpmGraph);
+        analyzeVariableUsages(vpmGraph, result);
 
+        return result;
     }
 
     /**
@@ -100,8 +103,10 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      * 
      * @param vpmGraph
      *            The graph to analyze.
+     * @param result
+     *            the result object to add the edge descriptors to.
      */
-    private void analyzeVariableUsages(VPMGraph vpmGraph) {
+    private void analyzeVariableUsages(VPMGraph vpmGraph, VPMAnalyzerResult result) {
         for (VariationPoint vp : variationPointIndex.keySet()) {
 
             List<ASTNode> astNodes = astNodesOfVariationPoint(vp);
@@ -112,16 +117,10 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                         Node sourceNode = variationPointIndex.get(vp);
                         Node targetNode = variationPointIndex.get(referee);
 
-                        String edgeId = buildEdgeId(sourceNode, targetNode);
-
-                        if (vpmGraph.getEdge(edgeId) != null) {
-                            logger.debug("Edge [" + edgeId + "] already exists.");
-                            continue;
+                        VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, "");
+                        if (descriptor != null) {
+                            result.getEdgeDescriptors().add(descriptor);
                         }
-
-                        // build edge
-                        RelationshipEdge edge = vpmGraph.addEdge(edgeId, sourceNode, targetNode);
-                        edge.getRelationshipLabels().add(getRelationshipLabel());
                     }
                 }
             }
@@ -130,9 +129,11 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     }
 
     /**
-     * Search for variation points referencing AST nodes influenced by a variable declaration statement.
+     * Search for variation points referencing AST nodes influenced by a variable declaration
+     * statement.
      * 
-     * @param varDeclStmnt The variable declaration statement to find references for.
+     * @param varDeclStmnt
+     *            The variable declaration statement to find references for.
      * @return The list of referring variation points.
      */
     private List<VariationPoint> searchForReferences(VariableDeclarationStatement varDeclStmnt) {
@@ -142,12 +143,12 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         List<ASTNode> influencedAstNodes = findInfluencedASTNodes(varDeclStmnt);
 
         for (ASTNode astNode : influencedAstNodes) {
-            if(astNodeIndex.containsKey(astNode)){
+            if (astNodeIndex.containsKey(astNode)) {
                 VariationPoint vp = astNodeIndex.get(astNode);
                 variationPoints.add(vp);
             }
         }
-        
+
         return variationPoints;
     }
 
@@ -221,12 +222,12 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      * @return The prepared variation point index.
      */
     private Map<VariationPoint, Node> buildVariationPointIndex(VPMGraph vpmGraph) {
-        Map<VariationPoint, Node> variationPointIndex = new HashMap<VariationPoint, Node>();
+        Map<VariationPoint, Node> index = new HashMap<VariationPoint, Node>();
         for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
-            variationPointIndex.put(vp, node);
+            index.put(vp, node);
         }
-        return variationPointIndex;
+        return index;
     }
 
     /**
@@ -238,15 +239,15 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     public Map<ASTNode, VariationPoint> buildASTNodeIndex(Collection<VariationPoint> variationPoints) {
 
-        Map<ASTNode, VariationPoint> astNodeIndex = new HashMap<ASTNode, VariationPoint>();
+        Map<ASTNode, VariationPoint> index = new HashMap<ASTNode, VariationPoint>();
 
         for (VariationPoint vp : variationPoints) {
             for (ASTNode astNodes : astNodesOfVariationPoint(vp)) {
-                astNodeIndex.put(astNodes, vp);
+                index.put(astNodes, vp);
             }
         }
 
-        return astNodeIndex;
+        return index;
     }
 
     @Override
@@ -261,9 +262,6 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         return configurationLabels;
     }
 
-    /**
-     * @see org.splevo.vpm.analyzer.VPMAnalyzer#getConfigurations()
-     */
     @Override
     public Map<String, Object> getConfigurations() {
         return configurations;

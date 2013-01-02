@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
@@ -47,6 +48,13 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         int nodeIndex = 0;
         for (VariationPointGroup vpGroup : vpm.getVariationPointGroups()) {
             for (VariationPoint vp : vpGroup.getVariationPoints()) {
+                
+                // At this time, the referenced ASTNode might be a proxy.
+                // To prevent issues in the later processing, it is important
+                // to resolve the proxy here before pushing the variation point 
+                // into the graph node.
+                EcoreUtil.resolveAll(vp);
+                
                 String nodeID = "VP" + (nodeIndex++);
                 Node n = graph.addNode(nodeID);
                 n.addAttribute(VPMGraph.GS_LABEL, nodeID);
@@ -56,6 +64,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
 
         return graph;
     }
+
     /*
      * (non-Javadoc)
      * 
@@ -132,7 +141,33 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
             // remove the old merged node
             vpmGraph.removeEdge(edge);
         }
+    }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public void createGraphEdges(VPMGraph vpmGraph, List<VPMAnalyzerResult> analyzerResults) {
+        for (VPMAnalyzerResult analyzerResult : analyzerResults) {
+
+            for (VPMEdgeDescriptor edgeDescriptor : analyzerResult.getEdgeDescriptors()) {
+
+                String sourceNodeId = edgeDescriptor.getSourceNodeID();
+                String targetNodeId = edgeDescriptor.getTargetNodeID();
+
+                // enrich the merge edge or create a new one
+                String edgeId = buildEdgeId(sourceNodeId, targetNodeId);
+                Edge mergeEdge = vpmGraph.getEdge(edgeId);
+                if (mergeEdge == null) {
+                    mergeEdge = vpmGraph.addEdge(edgeId, sourceNodeId, targetNodeId);
+                    List<String> labels = new ArrayList<String>();
+                    labels.add(edgeDescriptor.getRelationshipLabel());
+                    mergeEdge.setAttribute(RelationshipEdge.RELATIONSHIP_LABEL, labels);
+                } else {
+                    List<String> labels = mergeEdge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class);
+                    labels.add(edgeDescriptor.getRelationshipLabel());
+                    mergeEdge.setAttribute(RelationshipEdge.RELATIONSHIP_LABEL, labels);
+                }
+            }
+        }
     }
 
     /**
@@ -145,16 +180,31 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      * @return The prepared edge id.
      */
     public String buildEdgeId(Node node1, Node node2) {
-        // TODO: Check if StringBuilder provides speedup.
-        return node1.getId() + "#" + node2.getId();
+        return buildEdgeId(node1.getId(), node2.getId());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Build a simple edge id by using the ids of the connected nodes only.
      * 
-     * @see
-     * org.splevo.vpm.analyzer.VPMAnalyzerService#deriveRefinements(org.splevo.vpm.analyzer.graph
-     * .VPMGraph, java.util.List)
+     * The method ensures an alphanumeric ascending order of the node ids.
+     * 
+     * @param node1ID
+     *            The id of the first node.
+     * @param node2ID
+     *            The id of the second node.
+     * @return The prepared edge id.
+     */
+    public String buildEdgeId(String node1ID, String node2ID) {
+        // TODO: Check if StringBuilder provides speedup.
+        if (node1ID.compareTo(node2ID) <= 0) {
+            return node1ID + "#" + node2ID;
+        } else {
+            return node2ID + "#" + node1ID;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public List<Refinement> deriveRefinements(VPMGraph vpmGraph, List<DetectionRule> detectionRules) {

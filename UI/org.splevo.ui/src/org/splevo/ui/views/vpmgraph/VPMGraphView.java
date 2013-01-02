@@ -1,6 +1,7 @@
 package org.splevo.ui.views.vpmgraph;
 
 import java.awt.Frame;
+import java.util.Random;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -10,6 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ViewPart;
+import org.graphstream.ui.layout.springbox.implementations.SpringBox;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.Viewer.CloseFramePolicy;
@@ -67,7 +69,9 @@ public class VPMGraphView extends ViewPart {
                 RelationshipEdge.RELATIONSHIP_LABEL);
         Viewer v = new Viewer(proxy);
         // Viewer v = new Viewer(vpmGraph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        v.enableAutoLayout();
+        
+        SpringBox layout = new SpringBox(false, new Random(0));
+        v.enableAutoLayout(layout);
         v.setCloseFramePolicy(CloseFramePolicy.HIDE_ONLY);
         View view = v.addDefaultView(false);
         frame.add(view);

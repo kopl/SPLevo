@@ -52,7 +52,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
         presentationCombo
                 .setToolTipText("Select how to present the analysis result.\r\nIn case of the \"VPMGraph only\" option, the refinement detection will be skipped.");
         presentationCombo.setBounds(10, 36, 288, 28);
-        presentationCombo.select(0);
+        presentationCombo.select(1);
     }
 
     /**

@@ -7,7 +7,7 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.DetectRefinementsJob;
 import org.splevo.ui.jobs.InitVPMGraphJob;
 import org.splevo.ui.jobs.LoadVPMJob;
-import org.splevo.ui.jobs.MergeVPMGraphJob;
+import org.splevo.ui.jobs.MergeVPMAnalyzerResultsIntoGraphJob;
 import org.splevo.ui.jobs.OpenVPMGraphJob;
 import org.splevo.ui.jobs.OpenVPMRefinementBrowserJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
@@ -84,8 +84,8 @@ public class VPMAnalysisWorkflowDelegate extends
         }
         compositeJob.add(parallelAnalysisJob);
         
-        MergeVPMGraphJob mergeVPMGraphJob = new MergeVPMGraphJob();
-        compositeJob.add(mergeVPMGraphJob);
+        MergeVPMAnalyzerResultsIntoGraphJob mergeVPMAnalyzerResultsJob = new MergeVPMAnalyzerResultsIntoGraphJob();
+        compositeJob.add(mergeVPMAnalyzerResultsJob);
         
         if (config.getPresentation() == ResultPresentation.RELATIONSHIP_GRAPH_ONLY) {
             OpenVPMGraphJob openVPMGraphJob = new OpenVPMGraphJob();

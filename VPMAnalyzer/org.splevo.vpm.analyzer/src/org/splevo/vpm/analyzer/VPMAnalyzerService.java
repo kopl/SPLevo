@@ -73,4 +73,14 @@ public interface VPMAnalyzerService {
      * @return The list of registered analyzers
      */
     public abstract List<VPMAnalyzer> getAvailableAnalyzers();
+
+    /**
+     * Creates the relationship edges for the edge descriptors stored in the VPMAnalyzerResults.
+     * 
+     * @param vpmGraph
+     *            the VPM graph to create the edges in.
+     * @param analyzerResults
+     *            the analyzer results containing the edge descriptors.
+     */
+    public abstract void createGraphEdges(VPMGraph vpmGraph, List<VPMAnalyzerResult> analyzerResults);
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.AbstractTest;
+import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.refinement.Refinement;
@@ -38,7 +39,7 @@ public class BasicDetectionRuleTest extends AbstractTest {
         // prepare the graph with relationship edges
         // for the gcd example.
         VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
-        CodeStructureVPMAnalyzer analyzer = new CodeStructureVPMAnalyzer();
+        VPMAnalyzer analyzer = new CodeStructureVPMAnalyzer();
         analyzer.analyze(graph);
 
         // prepare a simple detection rule

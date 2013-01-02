@@ -2,6 +2,7 @@ package org.splevo.ui.jobs;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
@@ -10,9 +11,9 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to get the reference to a VPMGraph from the blackboard and
- * execute a VPMAnalyzer on it. The graph is directly modified (edges added) by 
- * the analyzer. So no need to actively store it back in the blackboard.
+ * Job to get the reference to a VPMGraph from the blackboard and execute a VPMAnalyzer on it. The
+ * graph is directly modified (edges added) by the analyzer. So no need to actively store it back in
+ * the blackboard.
  */
 public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
@@ -36,7 +37,8 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         VPMGraph vpmGraph = getBlackboard().getVpmGraph();
 
         logger.info("Analyze VPM Graph");
-        analyzer.analyze(vpmGraph);
+        VPMAnalyzerResult analyzerResult = analyzer.analyze(vpmGraph);
+        getBlackboard().getVpmAnalyzerResults().add(analyzerResult);
 
         // finish run
         monitor.done();
