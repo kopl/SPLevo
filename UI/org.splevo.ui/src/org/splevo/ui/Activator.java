@@ -1,5 +1,10 @@
 package org.splevo.ui;
 
+import java.net.URL;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -8,6 +13,9 @@ import org.osgi.framework.BundleContext;
  * The activator class controls the plug-in life cycle.
  */
 public class Activator extends AbstractUIPlugin {
+
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(Activator.class);
 
     /** The plug-in ID. **/
     public static final String PLUGIN_ID = "org.splevo.ui"; //$NON-NLS-1$
@@ -27,6 +35,11 @@ public class Activator extends AbstractUIPlugin {
      * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
      */
     public void start(BundleContext context) throws Exception {
+        // Setup logging
+        URL confURL = getBundle().getEntry("log4j.properties");
+        PropertyConfigurator.configure(FileLocator.toFileURL(confURL).getFile());
+        logger.info("Logging using log4j and configuration " + FileLocator.toFileURL(confURL).getFile());
+
         super.start(context);
         plugin = this;
     }
