@@ -12,7 +12,6 @@ import org.eclipse.emf.compare.match.engine.DefaultMatchScopeProvider;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.compare.util.EMFCompareMap;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.emfcompare.diff.JavaModelDiffEngine;
@@ -21,82 +20,89 @@ import org.splevo.diffing.kdm.JavaModelElementPrinter;
 import org.splevo.diffing.postprocessor.DiffModelPostProcessor;
 
 /**
- * Diffing Service that directly builds up the diffing model instead of using a
- * post processor based on the diffing identified by emf compare.
+ * Diffing Service that directly builds up the diffing model instead of using a post processor based
+ * on the diffing identified by emf compare.
  * 
  * @author Benjamin Klatt
  * 
  */
 public class Java2KDMDiffingService {
-	
-	/** The logger for this class. */
+
+    /** The logger for this class. */
     private Logger logger = Logger.getLogger(Java2KDMDiffingService.class);
 
-	/** Regular expressions defining packages to be ignored. */
-	private List<String> ignorePackages = new ArrayList<String>();
+    /** Regular expressions defining packages to be ignored. */
+    private List<String> ignorePackages = new ArrayList<String>();
 
-	/**
-	 * Perform the diffing process for two modisco JavaApplicationModels.
-	 * 
-	 * @param leadingModel The leading java model
-	 * @param integrationModel The java model to be integrated and compared to the original one.
-	 * @return The difference model.
-	 * @throws InterruptedException Identifying that the match engine has been interrupted.
-	 */
-	public DiffModel doDiff(JavaApplication integrationModel,JavaApplication leadingModel)
-			throws InterruptedException {
+    /**
+     * Perform the diffing process for two modisco JavaApplicationModels.
+     * 
+     * @param leadingModel
+     *            The leading java model
+     * @param integrationModel
+     *            The java model to be integrated and compared to the original one.
+     * @return The difference model.
+     * @throws InterruptedException
+     *             Identifying that the match engine has been interrupted.
+     */
+    public DiffModel doDiff(JavaApplication integrationModel, JavaApplication leadingModel) throws InterruptedException {
 
-		Model integrationJavaModel = integrationModel.getJavaModel();
-		Model leadingJavaModel = leadingModel.getJavaModel();
-		
-		// configure the match engine
-		final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
-		//DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationModel, leadingModel);
-		DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationJavaModel, leadingJavaModel);
-		matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER,matchScopeProvider);
-		matchOptions.put(MatchOptions.OPTION_DISTINCT_METAMODELS,true); // the compared models are assumed to be of the same type
+        Model integrationJavaModel = integrationModel.getJavaModel();
+        Model leadingJavaModel = leadingModel.getJavaModel();
 
+        // configure the match engine
+        final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
+        // DefaultMatchScopeProvider matchScopeProvider = new
+        // DefaultMatchScopeProvider(integrationModel, leadingModel);
+        DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationJavaModel,
+                leadingJavaModel);
+        matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, matchScopeProvider);
+        matchOptions.put(MatchOptions.OPTION_DISTINCT_METAMODELS, true); // the compared models are
+                                                                         // assumed to be of the
+                                                                         // same type
 
-		logger.debug("================ MATCHING PHASE  ===============");
-		JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
-		MatchModel matchModel = matchEngine.modelMatch(integrationModel, leadingModel, matchOptions);
-		//MatchModel matchModel = matchEngine.modelMatch(integrationJavaModel, leadingJavaModel, matchOptions);
+        logger.debug("================ MATCHING PHASE  ===============");
+        JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
+        MatchModel matchModel = matchEngine.modelMatch(integrationModel, leadingModel, matchOptions);
+        // MatchModel matchModel = matchEngine.modelMatch(integrationJavaModel, leadingJavaModel,
+        // matchOptions);
 
-		if(logger.isDebugEnabled()) {
-			logger.debug("=== UNMATCHED ELEMENTS ===");
-			EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
-			JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
-			for (UnmatchElement unmatchedElement : unmatchedElements) {
-				StringBuilder debugMessage = new StringBuilder();
-				debugMessage.append(unmatchedElement.getSide() + "\t");
-				debugMessage.append(unmatchedElement.getElement().getClass().getSimpleName()+ "\t");
-				debugMessage.append(elementPrinter.printElement(unmatchedElement.getElement()));
-				logger.debug(debugMessage.toString());
-			}
-		}
+        if (logger.isDebugEnabled()) {
+            logger.debug("=== UNMATCHED ELEMENTS ===");
+            EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
+            JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
+            for (UnmatchElement unmatchedElement : unmatchedElements) {
+                StringBuilder debugMessage = new StringBuilder();
+                debugMessage.append(unmatchedElement.getSide() + "\t");
+                debugMessage.append(unmatchedElement.getElement().getClass().getSimpleName() + "\t");
+                debugMessage.append(elementPrinter.printElement(unmatchedElement.getElement()));
+                logger.debug(debugMessage.toString());
+            }
+        }
 
-		logger.debug("==================== DIFFING PHASE  ===================");
-		JavaModelDiffEngine javaModelDiffEngine = new JavaModelDiffEngine();
-		javaModelDiffEngine.getIgnorePackages().addAll(this.ignorePackages);
-		DiffModel diffModel = javaModelDiffEngine.doDiff(matchModel,false);
+        logger.debug("==================== DIFFING PHASE  ===================");
+        JavaModelDiffEngine javaModelDiffEngine = new JavaModelDiffEngine();
+        javaModelDiffEngine.getIgnorePackages().addAll(this.ignorePackages);
+        DiffModel diffModel = javaModelDiffEngine.doDiff(matchModel, false);
 
-		 logger.debug("=======================================================");
-		 logger.debug("==================== POST PROCESSING PHASE  ==============");
-		 logger.debug("=======================================================");
-		
-		 DiffModelPostProcessor postProcessor = new DiffModelPostProcessor(javaModelDiffEngine.getMatchManager());
-		 postProcessor.process(diffModel);
+        logger.debug("=======================================================");
+        logger.debug("==================== POST PROCESSING PHASE  ==============");
+        logger.debug("=======================================================");
 
-		return diffModel;
+        DiffModelPostProcessor postProcessor = new DiffModelPostProcessor(javaModelDiffEngine.getMatchManager());
+        postProcessor.process(diffModel);
 
-	}
+        return diffModel;
 
-	/**
-	 * Get the regular expressions defining packages to be ignored.
-	 * @return the ignorePackages
-	 */
-	public List<String> getIgnorePackages() {
-		return ignorePackages;
-	}
+    }
+
+    /**
+     * Get the regular expressions defining packages to be ignored.
+     * 
+     * @return the ignorePackages
+     */
+    public List<String> getIgnorePackages() {
+        return ignorePackages;
+    }
 
 }
