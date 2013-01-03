@@ -67,13 +67,13 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /** The internal index of the project info tab. */
     private static final int TABINDEX_PROJECT_INFOS = 1;
-    
+
     /** The internal index of the project selection tab. */
     private static final int TABINDEX_PROJECT_SELECTION = 2;
-    
+
     /** The internal index of the source model tab. */
     private static final int TABINDEX_SOURCE_MODELS = 3;
-    
+
     /** The internal index of the diffing model tab. */
     private static final int TABINDEX_DIFFING_MODEL = 4;
 
@@ -82,13 +82,13 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /** The tab folder element of the editor. */
     private TabFolder tabFolder;
-    
+
     /** The project selection tab. */
     private TabItem tbtmProjectSelection = null;
-    
+
     /** The table viewer for the leading source models the variant should be integrated to. */
     private TableViewer viewerLeadingProjects;
-    
+
     /** The table column for the leading source models the variant should be integrated to. */
     private TableColumn tblclmnLeadingProjects;
 
@@ -97,7 +97,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /** The text input for the project name. */
     private Text projectNameInput;
-    
+
     /** The text input for the project description. */
     private Text infoInput;
 
@@ -108,7 +108,10 @@ public class SPLevoProjectEditor extends EditorPart {
     private boolean dirtyFlag = false;
 
     /** The available transfer types for the drag and drop support. */
-    private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance() };
+    private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance()};
+
+    /** The supported drag and drop operations. */
+    private int dragNDropOperations = DND.DROP_MOVE;
 
     /** The text input for the name of the leading variant. */
     private Text inputVariantNameLeading;
@@ -251,7 +254,7 @@ public class SPLevoProjectEditor extends EditorPart {
         viewerLeadingProjects.setInput(getSplevoProject().getLeadingProjects());
         ProjectDropListener dropListenerLeadingProjects = new ProjectDropListener(viewerLeadingProjects,
                 splevoProject.getLeadingProjects());
-        viewerLeadingProjects.addDropSupport(DND.DROP_COPY | DND.DROP_MOVE, transferTypes, dropListenerLeadingProjects);
+        viewerLeadingProjects.addDropSupport(dragNDropOperations, transferTypes, dropListenerLeadingProjects);
 
         Table tableLeadingProjects = viewerLeadingProjects.getTable();
         tableLeadingProjects.setHeaderVisible(true);
@@ -269,8 +272,7 @@ public class SPLevoProjectEditor extends EditorPart {
         viewerIntegrationProjects.setInput(getSplevoProject().getIntegrationProjects());
         ProjectDropListener dropListenerIntegrationProjects = new ProjectDropListener(viewerIntegrationProjects,
                 splevoProject.getIntegrationProjects());
-        viewerIntegrationProjects.addDropSupport(DND.DROP_COPY | DND.DROP_MOVE, transferTypes,
-                dropListenerIntegrationProjects);
+        viewerIntegrationProjects.addDropSupport(dragNDropOperations, transferTypes, dropListenerIntegrationProjects);
 
         Table tableIntegrationProjects = viewerIntegrationProjects.getTable();
         tableIntegrationProjects.setHeaderVisible(true);
@@ -584,6 +586,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * initializing the data bindings for the UI.
+     * 
      * @return The prepared context to be bound to the ui.
      */
     protected DataBindingContext initDataBindings() {

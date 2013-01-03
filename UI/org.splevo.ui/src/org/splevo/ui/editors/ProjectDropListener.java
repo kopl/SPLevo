@@ -12,6 +12,7 @@ import org.eclipse.swt.dnd.TransferData;
 /**
  * Realizes the drop mechanism to add projects to the project list.
  * 
+ * @see ProjectDropEvent
  */
 public class ProjectDropListener extends ViewerDropAdapter {
 
@@ -32,9 +33,6 @@ public class ProjectDropListener extends ViewerDropAdapter {
     }
 
     @Override
-    /**
-     * Only files ending with java2kdm.xmi are added to the the model list
-     */
     public boolean performDrop(Object data) {
 
         if (data instanceof String[]) {
@@ -53,11 +51,10 @@ public class ProjectDropListener extends ViewerDropAdapter {
 
         return true;
     }
-
+    
     @Override
     public boolean validateDrop(Object target, int operation, TransferData transferType) {
         return true;
 
     }
-
 }
