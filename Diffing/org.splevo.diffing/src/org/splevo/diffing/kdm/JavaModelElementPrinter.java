@@ -26,7 +26,7 @@ public class JavaModelElementPrinter {
      * 
      * @param eObject
      *            The element to be printed
-     *            @return The string to print this element.
+     * @return The string to print this element.
      */
     public String printElement(EObject eObject) {
         return internalPrinter.doSwitch(eObject);
@@ -65,8 +65,10 @@ public class JavaModelElementPrinter {
 
         @Override
         public String caseTextElement(TextElement object) {
-            if (object.getText() != null) {
+            if (object.getText() != null && object.getText().length() > 20) {
                 return object.getText().substring(0, 20);
+            } else if (object.getText() != null) {
+                return object.getText();
             } else if (object.getComments() != null) {
                 return object.getComments().toString().substring(0, 20);
             } else {
