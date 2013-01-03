@@ -3,6 +3,7 @@ package org.splevo.ui.editors;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -59,6 +60,9 @@ import org.splevo.ui.listeners.VPMAnalysisListener;
  */
 public class SPLevoProjectEditor extends EditorPart {
 
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(SPLevoProjectEditor.class);
+
     /** The id of the editor. */
     public static final String ID = "org.splevo.ui.editors.SPLevoProjectEditor"; //$NON-NLS-1$
 
@@ -108,7 +112,7 @@ public class SPLevoProjectEditor extends EditorPart {
     private boolean dirtyFlag = false;
 
     /** The available transfer types for the drag and drop support. */
-    private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance()};
+    private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance() };
 
     /** The supported drag and drop operations. */
     private int dragNDropOperations = DND.DROP_MOVE;
@@ -576,8 +580,17 @@ public class SPLevoProjectEditor extends EditorPart {
      * Update the user interface.
      */
     public void updateUI() {
-        sourceModelLeadingInput.setText(splevoProject.getSourceModelPathLeading());
-        sourceModelIntegrationInput.setText(splevoProject.getSourceModelPathIntegration());
+
+        if (splevoProject.getSourceModelPathLeading() != null) {
+            sourceModelLeadingInput.setText(splevoProject.getSourceModelPathLeading());
+        } else {
+            logger.warn("Leading source model path is empty.");
+        }
+        if (splevoProject.getSourceModelPathIntegration() != null) {
+            sourceModelIntegrationInput.setText(splevoProject.getSourceModelPathIntegration());
+        } else {
+            logger.warn("Integration source model path is empty.");
+        }
         if (splevoProject.getDiffingModelPath() != null) {
             diffingModelInput.setText(splevoProject.getDiffingModelPath());
         }
