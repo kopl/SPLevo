@@ -61,14 +61,14 @@ public class Java2KDMDiffingService {
                                                                          // assumed to be of the
                                                                          // same type
 
-        logger.debug("================ MATCHING PHASE  ===============");
+        logger.debug("Diffing: MATCHING PHASE");
         JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
         MatchModel matchModel = matchEngine.modelMatch(integrationModel, leadingModel, matchOptions);
         // MatchModel matchModel = matchEngine.modelMatch(integrationJavaModel, leadingJavaModel,
         // matchOptions);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("=== UNMATCHED ELEMENTS ===");
+            logger.debug("Diffing: UNMATCHED ELEMENTS");
             EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
             JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
             for (UnmatchElement unmatchedElement : unmatchedElements) {
@@ -80,14 +80,12 @@ public class Java2KDMDiffingService {
             }
         }
 
-        logger.debug("==================== DIFFING PHASE  ===================");
+        logger.debug("Diffing: MAIN DIFFING PHASE");
         JavaModelDiffEngine javaModelDiffEngine = new JavaModelDiffEngine();
         javaModelDiffEngine.getIgnorePackages().addAll(this.ignorePackages);
         DiffModel diffModel = javaModelDiffEngine.doDiff(matchModel, false);
 
-        logger.debug("=======================================================");
-        logger.debug("==================== POST PROCESSING PHASE  ==============");
-        logger.debug("=======================================================");
+        logger.debug("Diffing: POST PROCESSING PHASE");
 
         DiffModelPostProcessor postProcessor = new DiffModelPostProcessor(javaModelDiffEngine.getMatchManager());
         postProcessor.process(diffModel);
