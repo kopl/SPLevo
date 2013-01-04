@@ -143,15 +143,56 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
                 AbstractTypeDeclaration atd1 = (AbstractTypeDeclaration) importedElement1;
                 AbstractTypeDeclaration atd2 = (AbstractTypeDeclaration) importedElement2;
 
-                if (atd1.getName().equals(atd2.getName())
-                        && atd1.getPackage().getName().equals(atd2.getPackage().getName())) {
-                    return Boolean.TRUE;
-                } else {
-                    return Boolean.FALSE;
-                }
+                return checkAbstractTypeDeclarationSimilarity(atd1, atd2);
+
+            } else {
+                logger.warn("Unhandled import type detected: " + importedElement1);
             }
 
             return null;
+        }
+
+        /**
+         * Check two abstract type declarations if they are similar.
+         * 
+         * It checks: - The name of the types and - a) Their packages - b) Their enclosing type if
+         * they are inner classes instead and packages are null
+         * 
+         * @param type1
+         *            The first type declaration to check.
+         * @param type2
+         *            The second type declaration to check.
+         * @return true/false whether they are similar or not.
+         */
+        private Boolean checkAbstractTypeDeclarationSimilarity(AbstractTypeDeclaration type1,
+                AbstractTypeDeclaration type2) {
+
+            // if the types names are different then they do not match
+            if (type1.getName() != null && !type1.getName().equals(type2.getName())) {
+                return Boolean.FALSE;
+            }
+
+            Package package1 = type1.getPackage();
+            Package package2 = type2.getPackage();
+
+            // if only one containing package is null: FALSE
+            if ((package1 == null && package2 != null) || (package1 != null && package2 == null)) {
+                return Boolean.FALSE;
+
+                // if none is null check the package names
+            } else if (package1 != null && checkPackageSimilarity(package1, package2)) {
+                return Boolean.TRUE;
+
+                // if both packages are null check if both types are inner class of the same
+                // enclosing class
+            } else if (package1 == null && type1.eContainer() instanceof AbstractTypeDeclaration
+                    && type2.eContainer() instanceof AbstractTypeDeclaration) {
+                AbstractTypeDeclaration enclosingAtd1 = (AbstractTypeDeclaration) type1.eContainer();
+                AbstractTypeDeclaration enclosingAtd2 = (AbstractTypeDeclaration) type2.eContainer();
+                return checkAbstractTypeDeclarationSimilarity(enclosingAtd1, enclosingAtd2);
+            }
+
+            return Boolean.FALSE;
         }
 
         @Override
@@ -172,19 +213,23 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
          * @return the check result.
          */
         private Boolean checkPackageSimilarity(Package packageElement, Package referencePackage) {
-            // TODO: Check for further PackageAccess similarity criteria
+
             // similar packages are similar by default.
             if (packageElement == referencePackage) {
                 return true;
 
-                // packages with same name and same parent package name are considered as similar.
-            } else if (packageElement != null
-                    && packageElement.getName() != null
-                    && packageElement.getName() != null
-                    && packageElement.getName().equals(referencePackage.getName())
-                    && (packageElement.getPackage() == referencePackage.getPackage() || packageElement.getPackage()
-                            .getName().equals(referencePackage.getPackage()))) {
-                return true;
+                // packages with same name and same parent packages name are considered as similar.
+            } else if (packageElement != null && packageElement != null) {
+
+                StringBuilder packageBuilder1 = new StringBuilder();
+                JavaModelUtil.buildPackagePath(packageElement, packageBuilder1);
+                StringBuilder packageBuilder2 = new StringBuilder();
+                JavaModelUtil.buildPackagePath(referencePackage, packageBuilder2);
+                if (packageBuilder1.toString().equals(packageBuilder2.toString())) {
+                    return Boolean.TRUE;
+                } else {
+                    return Boolean.FALSE;
+                }
 
             }
 
@@ -224,19 +269,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             AbstractTypeDeclaration type1 = (AbstractTypeDeclaration) object;
             AbstractTypeDeclaration type2 = (AbstractTypeDeclaration) compareElement;
 
-            if (type1.getName() != null && !type1.getName().equals(type2.getName())) {
-                return Boolean.FALSE;
-            } else {
-                StringBuilder packageBuilder1 = new StringBuilder();
-                JavaModelUtil.buildPackagePath(type1.getPackage(), packageBuilder1);
-                StringBuilder packageBuilder2 = new StringBuilder();
-                JavaModelUtil.buildPackagePath(type2.getPackage(), packageBuilder2);
-                if (packageBuilder1.toString().equals(packageBuilder2.toString())) {
-                    return Boolean.TRUE;
-                } else {
-                    return Boolean.FALSE;
-                }
-            }
+            return checkAbstractTypeDeclarationSimilarity(type1, type2);
         }
 
         /**
@@ -315,11 +348,22 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
         }
 
         /**
-         * Return null in the default case to indicate that it has to be further processed by the
-         * standard similarity check.
+         * 
+         * If the object to check and the compare element are identical, true is returned.
+         * Otherwise, null is returned as the default case to indicate that it has to be 
+         * further processed by the standard similarity check.
+         * 
+         * @param object
+         *            the object to check for similarity
+         * @return True in case of object similarity, null otherwise.
          */
         @Override
         public Boolean defaultCase(EObject object) {
+
+            if (object == this.compareElement) {
+                return Boolean.TRUE;
+            }
+
             return null;
         }
 
