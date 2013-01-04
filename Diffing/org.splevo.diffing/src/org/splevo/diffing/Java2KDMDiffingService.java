@@ -52,20 +52,14 @@ public class Java2KDMDiffingService {
 
         // configure the match engine
         final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
-        // DefaultMatchScopeProvider matchScopeProvider = new
-        // DefaultMatchScopeProvider(integrationModel, leadingModel);
         DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationJavaModel,
                 leadingJavaModel);
         matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, matchScopeProvider);
-        matchOptions.put(MatchOptions.OPTION_DISTINCT_METAMODELS, true); // the compared models are
-                                                                         // assumed to be of the
-                                                                         // same type
-
+        matchOptions.put(MatchOptions.OPTION_DISTINCT_METAMODELS, true); 
+        
         logger.debug("Diffing: MATCHING PHASE");
         JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
         MatchModel matchModel = matchEngine.modelMatch(integrationModel, leadingModel, matchOptions);
-        // MatchModel matchModel = matchEngine.modelMatch(integrationJavaModel, leadingJavaModel,
-        // matchOptions);
 
         if (logger.isDebugEnabled()) {
             logger.debug("Diffing: UNMATCHED ELEMENTS");
