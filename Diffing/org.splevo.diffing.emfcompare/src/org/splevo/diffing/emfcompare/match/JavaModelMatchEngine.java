@@ -48,15 +48,6 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             return false;
         }
 
-        // check the similarity for java composition specific elements.
-        // SimilaritySwitchComposition similaritySwitchComposition = new
-        // SimilaritySwitchComposition(
-        // obj2);
-        // Boolean similarComposition = similaritySwitchComposition.doSwitch(obj1);
-        // if (similarComposition != null) {
-        // return similarComposition.booleanValue();
-        // }
-
         // check the similarity for java model specific elements.
         SimilaritySwitch similaritySwitch = new SimilaritySwitch(obj2);
         Boolean similar = similaritySwitch.doSwitch(obj1);
@@ -221,11 +212,9 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
                 // packages with same name and same parent packages name are considered as similar.
             } else if (packageElement != null && packageElement != null) {
 
-                StringBuilder packageBuilder1 = new StringBuilder();
-                JavaModelUtil.buildPackagePath(packageElement, packageBuilder1);
-                StringBuilder packageBuilder2 = new StringBuilder();
-                JavaModelUtil.buildPackagePath(referencePackage, packageBuilder2);
-                if (packageBuilder1.toString().equals(packageBuilder2.toString())) {
+                String packagePath1 = JavaModelUtil.buildPackagePath(packageElement);
+                String packagePath2 = JavaModelUtil.buildPackagePath(referencePackage);
+                if (packagePath1.equals(packagePath2)) {
                     return Boolean.TRUE;
                 } else {
                     return Boolean.FALSE;
@@ -300,11 +289,22 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             // check the methods declaring types
             AbstractTypeDeclaration type1 = method1.getAbstractTypeDeclaration();
             AbstractTypeDeclaration type2 = method2.getAbstractTypeDeclaration();
-            String fqnType1 = JavaModelUtil.buildFullQualifiedName(type1);
-            String fqnType2 = JavaModelUtil.buildFullQualifiedName(type2);
-            if (!fqnType1.equals(fqnType2)) {
-                logger.debug("methodInvocations not similar because of unmatched declaring type " + method1.getName());
+
+            if ((type1 != null && type2 == null) || (type1 == null && type2 != null)) {
+                logger.debug("methodInvocations not similar: only one invokes a method declared in a type: [m1: "
+                        + method1.getName() + " m2: " + method2.getName() + "]");
                 return Boolean.FALSE;
+
+            } else if (type1 != null && type2 != null) {
+                String fqnType1 = JavaModelUtil.buildFullQualifiedName(type1);
+                String fqnType2 = JavaModelUtil.buildFullQualifiedName(type2);
+                if (!fqnType1.equals(fqnType2)) {
+                    logger.debug("methodInvocations not similar because of unmatched declaring type "
+                            + method1.getName());
+                    return Boolean.FALSE;
+                }
+            } else {
+                logger.debug("MethodInvocations without abstract type declaration: [" + method1 + " | " + method2 + "]");
             }
 
             // TODO check if the proactive parameter check is really necessary
@@ -350,8 +350,8 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
         /**
          * 
          * If the object to check and the compare element are identical, true is returned.
-         * Otherwise, null is returned as the default case to indicate that it has to be 
-         * further processed by the standard similarity check.
+         * Otherwise, null is returned as the default case to indicate that it has to be further
+         * processed by the standard similarity check.
          * 
          * @param object
          *            the object to check for similarity
