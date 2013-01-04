@@ -13,6 +13,8 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.gmt.modisco.java.NamedElement;
+import org.eclipse.gmt.modisco.java.Package;
+import org.eclipse.gmt.modisco.java.PackageAccess;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
@@ -150,6 +152,61 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             }
 
             return null;
+        }
+
+        @Override
+        public Boolean casePackage(Package packageElement) {
+
+            Package referencePackage = (Package) compareElement;
+
+            return checkPackageSimilarity(packageElement, referencePackage);
+        }
+
+        /**
+         * Internal method to check two package elements if they are similar.
+         * 
+         * @param packageElement
+         *            the package element
+         * @param referencePackage
+         *            the reference package
+         * @return the check result.
+         */
+        private Boolean checkPackageSimilarity(Package packageElement, Package referencePackage) {
+            // TODO: Check for further PackageAccess similarity criteria
+            // similar packages are similar by default.
+            if (packageElement == referencePackage) {
+                return true;
+
+                // packages with same name and same parent package name are considered as similar.
+            } else if (packageElement != null
+                    && packageElement.getName() != null
+                    && packageElement.getName() != null
+                    && packageElement.getName().equals(referencePackage.getName())
+                    && (packageElement.getPackage() == referencePackage.getPackage() || packageElement.getPackage()
+                            .getName().equals(referencePackage.getPackage()))) {
+                return true;
+
+            }
+
+            return false;
+        }
+
+        // TODO: Check for further PackageAccess similarity criteria
+        @Override
+        public Boolean casePackageAccess(PackageAccess packageAccess) {
+
+            PackageAccess referencePackageAccess = (PackageAccess) compareElement;
+
+            if (packageAccess == referencePackageAccess) {
+                return true;
+            } else if (checkPackageSimilarity(referencePackageAccess.getPackage(), packageAccess.getPackage())
+                    && (packageAccess.getOriginalCompilationUnit() == packageAccess.getOriginalCompilationUnit() || packageAccess
+                            .getOriginalCompilationUnit().getName()
+                            .equals(referencePackageAccess.getOriginalCompilationUnit().getName()))) {
+                return true;
+            }
+
+            return false;
         }
 
         /**
