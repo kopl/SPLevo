@@ -43,11 +43,6 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
     @Override
     protected boolean isSimilar(final EObject obj1, final EObject obj2) throws FactoryException {
 
-        // if the types of the elements is different return false straight away
-        if (!obj1.getClass().equals(obj2.getClass())) {
-            return false;
-        }
-
         // check the similarity for java model specific elements.
         SimilaritySwitch similaritySwitch = new SimilaritySwitch(obj2);
         Boolean similar = similaritySwitch.doSwitch(obj1);
