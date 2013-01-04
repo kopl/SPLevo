@@ -17,6 +17,9 @@ public class JavaModelUtil {
     /** Map to register the package paths for faster lookup. */
     private static Map<Package, String> packagePathMap = new HashMap<Package, String>();
 
+    /** Map to register the package paths for faster lookup. */
+    private static Map<AbstractTypeDeclaration, String> abstractDataTypePathMap = new HashMap<AbstractTypeDeclaration, String>();
+
     /**
      * Build the full qualified name of a declared type.
      * 
@@ -26,11 +29,16 @@ public class JavaModelUtil {
      */
     public static String buildFullQualifiedName(AbstractTypeDeclaration type) {
 
-        // check for null package
-        if (type.getPackage() == null) {
-            return type.getName();
+        if (!abstractDataTypePathMap.containsKey(type)) {
+            // check for null package
+            if (type.getPackage() == null) {
+                abstractDataTypePathMap.put(type, type.getName());
+            } else {
+                abstractDataTypePathMap.put(type, JavaModelUtil.buildPackagePath(type.getPackage()) + PACKAGE_SEPARATOR
+                    + type.getName());
+            }
         }
-        return JavaModelUtil.buildPackagePath(type.getPackage()) + PACKAGE_SEPARATOR + type.getName();
+        return abstractDataTypePathMap.get(type);
     }
 
     /**
