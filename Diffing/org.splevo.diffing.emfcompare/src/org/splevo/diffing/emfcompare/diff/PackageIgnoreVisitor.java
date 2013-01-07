@@ -45,6 +45,18 @@ public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
     @Override
     public Boolean caseClassDeclaration(ClassDeclaration object) {
         String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
+        return checkIgnorePackage(packagePath);
+    }
+
+    /**
+     * Check a package path whether it matches one of the ignore package patterns.
+     * 
+     * @param packagePath
+     *            the package path to check
+     * @return true/false whether it should be ignored or not.
+     */
+    public Boolean checkIgnorePackage(String packagePath) {
+
         for (String regex : ignorePackages) {
             if (packagePath.matches(regex)) {
                 return Boolean.TRUE;
