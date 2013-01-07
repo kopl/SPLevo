@@ -16,7 +16,6 @@ import org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementType;
-import org.splevo.vpm.refinement.VPMRefinementService;
 
 /**
  * Test case for the basic detection rule.
