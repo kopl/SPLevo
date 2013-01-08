@@ -8,14 +8,13 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.engine.DefaultMatchScopeProvider;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.compare.util.EMFCompareMap;
-import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.emfcompare.diff.JavaModelDiffEngine;
 import org.splevo.diffing.emfcompare.match.JavaModelMatchEngine;
+import org.splevo.diffing.emfcompare.match.JavaModelMatchScopeProvider;
 import org.splevo.diffing.kdm.JavaModelElementPrinter;
 import org.splevo.diffing.postprocessor.DiffModelPostProcessor;
 
@@ -47,15 +46,18 @@ public class Java2KDMDiffingService {
      */
     public DiffModel doDiff(JavaApplication integrationModel, JavaApplication leadingModel) throws InterruptedException {
 
-        Model integrationJavaModel = integrationModel.getJavaModel();
-        Model leadingJavaModel = leadingModel.getJavaModel();
 
         // configure the match engine
         final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
-        DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationJavaModel,
-                leadingJavaModel);
+//        Model integrationJavaModel = integrationModel.getJavaModel();
+//        Model leadingJavaModel = leadingModel.getJavaModel();
+//        DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationJavaModel,
+//                leadingJavaModel);
+        JavaModelMatchScopeProvider matchScopeProvider = new JavaModelMatchScopeProvider(ignorePackages);
         matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, matchScopeProvider);
         matchOptions.put(MatchOptions.OPTION_DISTINCT_METAMODELS, true); 
+        matchOptions.put(MatchOptions.OPTION_IGNORE_XMI_ID, true); 
+        matchOptions.put(MatchOptions.OPTION_IGNORE_ID, true); 
         
         logger.debug("Diffing: MATCHING PHASE");
         JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();

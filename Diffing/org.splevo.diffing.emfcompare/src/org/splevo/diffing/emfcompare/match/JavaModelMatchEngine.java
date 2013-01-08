@@ -58,49 +58,6 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
         return super.isSimilar(obj1, obj2);
     }
 
-    // TODO: Check necessity of JavaApplication similarity switch
-    // it is not clear yet, if we need to check the similarity of two
-    // /**
-    // * Internal switch class to prove element similarity for elements of the
-    // * java application package
-    // *
-    // */
-    // private class SimilaritySwitchComposition extends
-    // JavaapplicationSwitch<Boolean> {
-    //
-    // private Logger logger = Logger
-    // .getLogger(SimilaritySwitchComposition.class);
-    //
-    // /** The object to compare the switched element with. */
-    // private EObject compareElement = null;
-    //
-    // /**
-    // * Constructor requiring the element to compare with.
-    // *
-    // * @param compareElement
-    // * The element to check the similarity with.
-    // */
-    // public SimilaritySwitchComposition(EObject compareElement) {
-    // this.compareElement = compareElement;
-    // }
-    //
-    // @Override
-    // public Boolean caseJavaApplication(JavaApplication object) {
-    //
-    // Model model1 = object.getJavaModel();
-    // Model model2 = ((JavaApplication) compareElement).getJavaModel();
-    //
-    // if (!model1.getName().equals(model2.getName())) {
-    // logger.debug("javaApplications not similar because of included java AST model");
-    // return Boolean.FALSE;
-    // } else {
-    // logger.info("Java Models with the same name detected");
-    // }
-    //
-    // return super.caseJavaApplication(object);
-    // }
-    // }
-
     /**
      * Internal switch class to prove element similarity.
      */
