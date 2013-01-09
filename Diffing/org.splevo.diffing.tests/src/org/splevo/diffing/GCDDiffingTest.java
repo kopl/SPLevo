@@ -53,10 +53,7 @@ public class GCDDiffingTest extends AbstractDiffingTest {
         JavaApplication integrationModel = KDMUtil.loadKDMModel(JSCIENCE_JAVA2KDMMODEL_FILE);
 
         Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
-        diffingService.getIgnorePackages().add("java.lang");
-        diffingService.getIgnorePackages().add("java.math");
-        diffingService.getIgnorePackages().add("java.io");
-        diffingService.getIgnorePackages().add("org.jscience.*");
+        diffingService.getIgnorePackages().add("java.*");
         diffingService.getIgnorePackages().add("org.jscience.*");
         diffingService.getIgnorePackages().add("javolution.*");
 

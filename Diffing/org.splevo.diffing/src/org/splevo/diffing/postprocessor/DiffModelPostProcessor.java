@@ -85,7 +85,6 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
         for (DiffElement subDiffElement : subDiffElements) {
             if (filteredElements.contains(subDiffElement)) {
                 postFilterElements.add(subDiffElement);
-                logger.debug("filtered :" + subDiffElement);
             } else {
                 filterEmptySubDiffGroups(subDiffElement.getSubDiffElements(), filteredElements);
             }
