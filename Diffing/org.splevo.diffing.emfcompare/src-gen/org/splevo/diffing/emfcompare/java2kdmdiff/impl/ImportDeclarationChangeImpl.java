@@ -18,22 +18,22 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
  */
 public abstract class ImportDeclarationChangeImpl extends Java2KDMDiffExtensionImpl implements ImportDeclarationChange {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected ImportDeclarationChangeImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return Java2KDMDiffPackage.Literals.IMPORT_DECLARATION_CHANGE;
-	}
+        return Java2KDMDiffPackage.Literals.IMPORT_DECLARATION_CHANGE;
+    }
 
 } //ImportDeclarationChangeImpl

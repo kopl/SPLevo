@@ -56,7 +56,7 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
     public boolean isInScope(Resource resource) {
         return true;
     }
-
+    
     /**
      * Tag elements might be java docs referring a local variable or a return value. But, they could
      * also represent annotations with functional relevance.

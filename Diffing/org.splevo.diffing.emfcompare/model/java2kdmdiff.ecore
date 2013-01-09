@@ -48,4 +48,24 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="importRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassSignatureChange" abstract="true"
+      eSuperTypes="#//Java2KDMDiffExtension"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImplementsInterfaceInsert" eSuperTypes="#//ClassSignatureChange">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implementedInterface" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//InterfaceDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedClass" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ImplementsInterfaceDelete" eSuperTypes="#//ClassSignatureChange">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implementedInterface" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//InterfaceDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedClass" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FieldChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FieldInsert" eSuperTypes="#//FieldChange">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FieldDelete" eSuperTypes="#//FieldChange">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration"/>
+  </eClassifiers>
 </ecore:EPackage>

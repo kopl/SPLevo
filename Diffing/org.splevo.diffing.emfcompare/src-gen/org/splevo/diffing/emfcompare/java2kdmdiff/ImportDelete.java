@@ -26,29 +26,29 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
  */
 public interface ImportDelete extends ImportDeclarationChange {
 	/**
-	 * Returns the value of the '<em><b>Import Right</b></em>' reference.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Import Right</b></em>' reference.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Import Right</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Import Right</em>' reference.
-	 * @see #setImportRight(ImportDeclaration)
-	 * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getImportDelete_ImportRight()
-	 * @model
-	 * @generated
-	 */
+     * @return the value of the '<em>Import Right</em>' reference.
+     * @see #setImportRight(ImportDeclaration)
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getImportDelete_ImportRight()
+     * @model
+     * @generated
+     */
 	ImportDeclaration getImportRight();
 
 	/**
-	 * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getImportRight <em>Import Right</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getImportRight <em>Import Right</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Import Right</em>' reference.
-	 * @see #getImportRight()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Import Right</em>' reference.
+     * @see #getImportRight()
+     * @generated
+     */
 	void setImportRight(ImportDeclaration value);
 
 } // ImportDelete

@@ -34,214 +34,310 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.util.Java2KDMDiffAdapterFactor
  */
 public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable {
 	/**
-	 * This keeps track of the root adapter factory that delegates to this adapter factory.
-	 * <!-- begin-user-doc -->
+     * This keeps track of the root adapter factory that delegates to this adapter factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected ComposedAdapterFactory parentAdapterFactory;
 
 	/**
-	 * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
-	 * <!-- begin-user-doc -->
+     * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
 	/**
-	 * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
-	 * <!-- begin-user-doc -->
+     * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
 	/**
-	 * This constructs an instance.
-	 * <!-- begin-user-doc -->
+     * This constructs an instance.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Java2KDMDiffItemProviderAdapterFactory() {
-		supportedTypes.add(IEditingDomainItemProvider.class);
-		supportedTypes.add(IStructuredItemContentProvider.class);
-		supportedTypes.add(ITreeItemContentProvider.class);
-		supportedTypes.add(IItemLabelProvider.class);
-		supportedTypes.add(IItemPropertySource.class);
-	}
+        supportedTypes.add(IEditingDomainItemProvider.class);
+        supportedTypes.add(IStructuredItemContentProvider.class);
+        supportedTypes.add(ITreeItemContentProvider.class);
+        supportedTypes.add(IItemLabelProvider.class);
+        supportedTypes.add(IItemPropertySource.class);
+    }
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange} instances.
-	 * <!-- begin-user-doc -->
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange} instances.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected StatementChangeItemProvider statementChangeItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange}.
-	 * <!-- begin-user-doc -->
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange}.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Adapter createStatementChangeAdapter() {
-		if (statementChangeItemProvider == null) {
-			statementChangeItemProvider = new StatementChangeItemProvider(this);
-		}
+        if (statementChangeItemProvider == null) {
+            statementChangeItemProvider = new StatementChangeItemProvider(this);
+        }
 
-		return statementChangeItemProvider;
-	}
+        return statementChangeItemProvider;
+    }
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert} instances.
-	 * <!-- begin-user-doc -->
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert} instances.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected ImportInsertItemProvider importInsertItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert}.
-	 * <!-- begin-user-doc -->
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert}.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Adapter createImportInsertAdapter() {
-		if (importInsertItemProvider == null) {
-			importInsertItemProvider = new ImportInsertItemProvider(this);
-		}
+        if (importInsertItemProvider == null) {
+            importInsertItemProvider = new ImportInsertItemProvider(this);
+        }
 
-		return importInsertItemProvider;
-	}
+        return importInsertItemProvider;
+    }
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete} instances.
-	 * <!-- begin-user-doc -->
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete} instances.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected ImportDeleteItemProvider importDeleteItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete}.
-	 * <!-- begin-user-doc -->
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete}.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Adapter createImportDeleteAdapter() {
-		if (importDeleteItemProvider == null) {
-			importDeleteItemProvider = new ImportDeleteItemProvider(this);
-		}
+        if (importDeleteItemProvider == null) {
+            importDeleteItemProvider = new ImportDeleteItemProvider(this);
+        }
 
-		return importDeleteItemProvider;
-	}
+        return importDeleteItemProvider;
+    }
 
 	/**
-	 * This returns the root adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceInsert} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ImplementsInterfaceInsertItemProvider implementsInterfaceInsertItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceInsert}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createImplementsInterfaceInsertAdapter() {
+        if (implementsInterfaceInsertItemProvider == null) {
+            implementsInterfaceInsertItemProvider = new ImplementsInterfaceInsertItemProvider(this);
+        }
+
+        return implementsInterfaceInsertItemProvider;
+    }
+
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ImplementsInterfaceDeleteItemProvider implementsInterfaceDeleteItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createImplementsInterfaceDeleteAdapter() {
+        if (implementsInterfaceDeleteItemProvider == null) {
+            implementsInterfaceDeleteItemProvider = new ImplementsInterfaceDeleteItemProvider(this);
+        }
+
+        return implementsInterfaceDeleteItemProvider;
+    }
+
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected FieldInsertItemProvider fieldInsertItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createFieldInsertAdapter() {
+        if (fieldInsertItemProvider == null) {
+            fieldInsertItemProvider = new FieldInsertItemProvider(this);
+        }
+
+        return fieldInsertItemProvider;
+    }
+
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected FieldDeleteItemProvider fieldDeleteItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createFieldDeleteAdapter() {
+        if (fieldDeleteItemProvider == null) {
+            fieldDeleteItemProvider = new FieldDeleteItemProvider(this);
+        }
+
+        return fieldDeleteItemProvider;
+    }
+
+    /**
+     * This returns the root adapter factory that contains this factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ComposeableAdapterFactory getRootAdapterFactory() {
-		return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
-	}
+        return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
+    }
 
 	/**
-	 * This sets the composed adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
+     * This sets the composed adapter factory that contains this factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
-		this.parentAdapterFactory = parentAdapterFactory;
-	}
+        this.parentAdapterFactory = parentAdapterFactory;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean isFactoryForType(Object type) {
-		return supportedTypes.contains(type) || super.isFactoryForType(type);
-	}
+        return supportedTypes.contains(type) || super.isFactoryForType(type);
+    }
 
 	/**
-	 * This implementation substitutes the factory itself as the key for the adapter.
-	 * <!-- begin-user-doc -->
+     * This implementation substitutes the factory itself as the key for the adapter.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Adapter adapt(Notifier notifier, Object type) {
-		return super.adapt(notifier, this);
-	}
+        return super.adapt(notifier, this);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object adapt(Object object, Object type) {
-		if (isFactoryForType(type)) {
-			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
-				return adapter;
-			}
-		}
+        if (isFactoryForType(type)) {
+            Object adapter = super.adapt(object, type);
+            if (!(type instanceof Class<?>) || (((Class<?>)type).isInstance(adapter))) {
+                return adapter;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 	/**
-	 * This adds a listener.
-	 * <!-- begin-user-doc -->
+     * This adds a listener.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void addListener(INotifyChangedListener notifyChangedListener) {
-		changeNotifier.addListener(notifyChangedListener);
-	}
+        changeNotifier.addListener(notifyChangedListener);
+    }
 
 	/**
-	 * This removes a listener.
-	 * <!-- begin-user-doc -->
+     * This removes a listener.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void removeListener(INotifyChangedListener notifyChangedListener) {
-		changeNotifier.removeListener(notifyChangedListener);
-	}
+        changeNotifier.removeListener(notifyChangedListener);
+    }
 
 	/**
-	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
-	 * <!-- begin-user-doc -->
+     * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void fireNotifyChanged(Notification notification) {
-		changeNotifier.fireNotifyChanged(notification);
+        changeNotifier.fireNotifyChanged(notification);
 
-		if (parentAdapterFactory != null) {
-			parentAdapterFactory.fireNotifyChanged(notification);
-		}
-	}
+        if (parentAdapterFactory != null) {
+            parentAdapterFactory.fireNotifyChanged(notification);
+        }
+    }
 
 	/**
-	 * This disposes all of the item providers created by this factory. 
-	 * <!-- begin-user-doc -->
+     * This disposes all of the item providers created by this factory. 
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void dispose() {
-		if (statementChangeItemProvider != null) statementChangeItemProvider.dispose();
-		if (importInsertItemProvider != null) importInsertItemProvider.dispose();
-		if (importDeleteItemProvider != null) importDeleteItemProvider.dispose();
-	}
+        if (statementChangeItemProvider != null) statementChangeItemProvider.dispose();
+        if (importInsertItemProvider != null) importInsertItemProvider.dispose();
+        if (importDeleteItemProvider != null) importDeleteItemProvider.dispose();
+        if (implementsInterfaceInsertItemProvider != null) implementsInterfaceInsertItemProvider.dispose();
+        if (implementsInterfaceDeleteItemProvider != null) implementsInterfaceDeleteItemProvider.dispose();
+        if (fieldInsertItemProvider != null) fieldInsertItemProvider.dispose();
+        if (fieldDeleteItemProvider != null) fieldDeleteItemProvider.dispose();
+    }
 
 }

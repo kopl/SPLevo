@@ -26,129 +26,129 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
  */
 public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements ImportDelete {
 	/**
-	 * The cached value of the '{@link #getImportRight() <em>Import Right</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getImportRight() <em>Import Right</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getImportRight()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getImportRight()
+     * @generated
+     * @ordered
+     */
 	protected ImportDeclaration importRight;
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected ImportDeleteImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return Java2KDMDiffPackage.Literals.IMPORT_DELETE;
-	}
+        return Java2KDMDiffPackage.Literals.IMPORT_DELETE;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ImportDeclaration getImportRight() {
-		if (importRight != null && importRight.eIsProxy()) {
-			InternalEObject oldImportRight = (InternalEObject)importRight;
-			importRight = (ImportDeclaration)eResolveProxy(oldImportRight);
-			if (importRight != oldImportRight) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT, oldImportRight, importRight));
-			}
-		}
-		return importRight;
-	}
+        if (importRight != null && importRight.eIsProxy()) {
+            InternalEObject oldImportRight = (InternalEObject)importRight;
+            importRight = (ImportDeclaration)eResolveProxy(oldImportRight);
+            if (importRight != oldImportRight) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT, oldImportRight, importRight));
+            }
+        }
+        return importRight;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ImportDeclaration basicGetImportRight() {
-		return importRight;
-	}
+        return importRight;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setImportRight(ImportDeclaration newImportRight) {
-		ImportDeclaration oldImportRight = importRight;
-		importRight = newImportRight;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT, oldImportRight, importRight));
-	}
+        ImportDeclaration oldImportRight = importRight;
+        importRight = newImportRight;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT, oldImportRight, importRight));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
-				if (resolve) return getImportRight();
-				return basicGetImportRight();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
+                if (resolve) return getImportRight();
+                return basicGetImportRight();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
-				setImportRight((ImportDeclaration)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
+                setImportRight((ImportDeclaration)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
-				setImportRight((ImportDeclaration)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
+                setImportRight((ImportDeclaration)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
-				return importRight != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case Java2KDMDiffPackage.IMPORT_DELETE__IMPORT_RIGHT:
+                return importRight != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 	/**
 	 * <!-- begin-user-doc -->
