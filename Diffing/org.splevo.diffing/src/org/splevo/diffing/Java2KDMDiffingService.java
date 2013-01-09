@@ -49,10 +49,6 @@ public class Java2KDMDiffingService {
 
         // configure the match engine
         final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
-//        Model integrationJavaModel = integrationModel.getJavaModel();
-//        Model leadingJavaModel = leadingModel.getJavaModel();
-//        DefaultMatchScopeProvider matchScopeProvider = new DefaultMatchScopeProvider(integrationJavaModel,
-//                leadingJavaModel);
         JavaModelMatchScopeProvider matchScopeProvider = new JavaModelMatchScopeProvider(ignorePackages);
         matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, matchScopeProvider);
         matchOptions.put(MatchOptions.OPTION_DISTINCT_METAMODELS, true); 
