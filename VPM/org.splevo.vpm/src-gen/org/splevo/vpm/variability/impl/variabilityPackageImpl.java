@@ -187,14 +187,14 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 
 	/**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getVariant_Feature() {
+    public EReference getVariant_ChildFeature() {
         return (EReference)variantEClass.getEStructuralFeatures().get(0);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -355,7 +355,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         createEReference(variationPointEClass, VARIATION_POINT__GROUP);
 
         variantEClass = createEClass(VARIANT);
-        createEReference(variantEClass, VARIANT__FEATURE);
+        createEReference(variantEClass, VARIANT__CHILD_FEATURE);
         createEReference(variantEClass, VARIANT__SOFTWARE_ENTITIES);
         createEAttribute(variantEClass, VARIANT__LEADING);
         createEAttribute(variantEClass, VARIANT__VARIANT_ID);
@@ -418,8 +418,8 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEReference(getVariationPoint_Group(), this.getVariationPointGroup(), this.getVariationPointGroup_VariationPoints(), "group", null, 1, 1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(variantEClass, Variant.class, "Variant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getVariant_Feature(), theFeatureModelPackage.getFeature(), null, "feature", null, 0, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getVariant_SoftwareEntities(), theJavaPackage.getASTNode(), null, "softwareEntities", null, 0, -1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVariant_ChildFeature(), theFeatureModelPackage.getFeature(), null, "childFeature", null, 0, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVariant_SoftwareEntities(), theJavaPackage.getASTNode(), null, "softwareEntities", null, 1, -1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getVariant_Leading(), theEcorePackage.getEBooleanObject(), "leading", null, 1, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getVariant_VariantId(), theEcorePackage.getEString(), "variantId", null, 1, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVariant_VariationPoint(), this.getVariationPoint(), this.getVariationPoint_Variants(), "variationPoint", null, 1, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -18,7 +18,7 @@ import org.eclipse.gmt.modisco.java.ASTNode;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.vpm.variability.Variant#getFeature <em>Feature</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.Variant#getChildFeature <em>Child Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getSoftwareEntities <em>Software Entities</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getLeading <em>Leading</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getVariantId <em>Variant Id</em>}</li>
@@ -32,32 +32,32 @@ import org.eclipse.gmt.modisco.java.ASTNode;
  */
 public interface Variant extends EObject {
 	/**
-     * Returns the value of the '<em><b>Feature</b></em>' reference.
+     * Returns the value of the '<em><b>Child Feature</b></em>' reference.
      * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Feature</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Feature</em>' reference.
-     * @see #setFeature(Feature)
-     * @see org.splevo.vpm.variability.variabilityPackage#getVariant_Feature()
+     * <p>
+     * If the meaning of the '<em>Child Feature</em>' reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Child Feature</em>' reference.
+     * @see #setChildFeature(Feature)
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariant_ChildFeature()
      * @model
      * @generated
      */
-	Feature getFeature();
+    Feature getChildFeature();
 
-	/**
-     * Sets the value of the '{@link org.splevo.vpm.variability.Variant#getFeature <em>Feature</em>}' reference.
+    /**
+     * Sets the value of the '{@link org.splevo.vpm.variability.Variant#getChildFeature <em>Child Feature</em>}' reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Feature</em>' reference.
-     * @see #getFeature()
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Child Feature</em>' reference.
+     * @see #getChildFeature()
      * @generated
      */
-	void setFeature(Feature value);
+    void setChildFeature(Feature value);
 
-	/**
+    /**
      * Returns the value of the '<em><b>Software Entities</b></em>' reference list.
      * The list contents are of type {@link org.eclipse.gmt.modisco.java.ASTNode}.
      * <!-- begin-user-doc -->
@@ -68,7 +68,7 @@ public interface Variant extends EObject {
 	 * <!-- end-user-doc -->
      * @return the value of the '<em>Software Entities</em>' reference list.
      * @see org.splevo.vpm.variability.variabilityPackage#getVariant_SoftwareEntities()
-     * @model
+     * @model required="true"
      * @generated
      */
 	EList<ASTNode> getSoftwareEntities();

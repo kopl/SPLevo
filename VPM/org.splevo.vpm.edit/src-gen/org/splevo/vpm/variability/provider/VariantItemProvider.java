@@ -60,7 +60,7 @@ public class VariantItemProvider
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addFeaturePropertyDescriptor(object);
+            addChildFeaturePropertyDescriptor(object);
             addSoftwareEntitiesPropertyDescriptor(object);
             addLeadingPropertyDescriptor(object);
             addVariantIdPropertyDescriptor(object);
@@ -69,19 +69,19 @@ public class VariantItemProvider
     }
 
 	/**
-     * This adds a property descriptor for the Feature feature.
+     * This adds a property descriptor for the Child Feature feature.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected void addFeaturePropertyDescriptor(Object object) {
+    protected void addChildFeaturePropertyDescriptor(Object object) {
         itemPropertyDescriptors.add
             (createItemPropertyDescriptor
                 (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
                  getResourceLocator(),
-                 getString("_UI_Variant_feature_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_Variant_feature_feature", "_UI_Variant_type"),
-                 variabilityPackage.Literals.VARIANT__FEATURE,
+                 getString("_UI_Variant_childFeature_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_Variant_childFeature_feature", "_UI_Variant_type"),
+                 variabilityPackage.Literals.VARIANT__CHILD_FEATURE,
                  true,
                  false,
                  true,
@@ -90,7 +90,7 @@ public class VariantItemProvider
                  null));
     }
 
-	/**
+    /**
      * This adds a property descriptor for the Software Entities feature.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

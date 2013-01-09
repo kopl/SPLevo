@@ -33,7 +33,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getFeature <em>Feature</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getChildFeature <em>Child Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getSoftwareEntities <em>Software Entities</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getLeading <em>Leading</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getVariantId <em>Variant Id</em>}</li>
@@ -45,16 +45,16 @@ import org.splevo.vpm.variability.variabilityPackage;
  */
 public class VariantImpl extends EObjectImpl implements Variant {
 	/**
-     * The cached value of the '{@link #getFeature() <em>Feature</em>}' reference.
+     * The cached value of the '{@link #getChildFeature() <em>Child Feature</em>}' reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getFeature()
+     * <!-- end-user-doc -->
+     * @see #getChildFeature()
      * @generated
      * @ordered
      */
-	protected Feature feature;
+    protected Feature childFeature;
 
-	/**
+    /**
      * The cached value of the '{@link #getSoftwareEntities() <em>Software Entities</em>}' reference list.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -125,43 +125,43 @@ public class VariantImpl extends EObjectImpl implements Variant {
 
 	/**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public Feature getFeature() {
-        if (feature != null && feature.eIsProxy()) {
-            InternalEObject oldFeature = (InternalEObject)feature;
-            feature = (Feature)eResolveProxy(oldFeature);
-            if (feature != oldFeature) {
+    public Feature getChildFeature() {
+        if (childFeature != null && childFeature.eIsProxy()) {
+            InternalEObject oldChildFeature = (InternalEObject)childFeature;
+            childFeature = (Feature)eResolveProxy(oldChildFeature);
+            if (childFeature != oldChildFeature) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, variabilityPackage.VARIANT__FEATURE, oldFeature, feature));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, variabilityPackage.VARIANT__CHILD_FEATURE, oldChildFeature, childFeature));
             }
         }
-        return feature;
+        return childFeature;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public Feature basicGetFeature() {
-        return feature;
+    public Feature basicGetChildFeature() {
+        return childFeature;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setFeature(Feature newFeature) {
-        Feature oldFeature = feature;
-        feature = newFeature;
+    public void setChildFeature(Feature newChildFeature) {
+        Feature oldChildFeature = childFeature;
+        childFeature = newChildFeature;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIANT__FEATURE, oldFeature, feature));
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIANT__CHILD_FEATURE, oldChildFeature, childFeature));
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -308,9 +308,9 @@ public class VariantImpl extends EObjectImpl implements Variant {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case variabilityPackage.VARIANT__FEATURE:
-                if (resolve) return getFeature();
-                return basicGetFeature();
+            case variabilityPackage.VARIANT__CHILD_FEATURE:
+                if (resolve) return getChildFeature();
+                return basicGetChildFeature();
             case variabilityPackage.VARIANT__SOFTWARE_ENTITIES:
                 return getSoftwareEntities();
             case variabilityPackage.VARIANT__LEADING:
@@ -332,8 +332,8 @@ public class VariantImpl extends EObjectImpl implements Variant {
 	@Override
 	public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case variabilityPackage.VARIANT__FEATURE:
-                setFeature((Feature)newValue);
+            case variabilityPackage.VARIANT__CHILD_FEATURE:
+                setChildFeature((Feature)newValue);
                 return;
             case variabilityPackage.VARIANT__SOFTWARE_ENTITIES:
                 getSoftwareEntities().clear();
@@ -360,8 +360,8 @@ public class VariantImpl extends EObjectImpl implements Variant {
 	@Override
 	public void eUnset(int featureID) {
         switch (featureID) {
-            case variabilityPackage.VARIANT__FEATURE:
-                setFeature((Feature)null);
+            case variabilityPackage.VARIANT__CHILD_FEATURE:
+                setChildFeature((Feature)null);
                 return;
             case variabilityPackage.VARIANT__SOFTWARE_ENTITIES:
                 getSoftwareEntities().clear();
@@ -387,8 +387,8 @@ public class VariantImpl extends EObjectImpl implements Variant {
 	@Override
 	public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case variabilityPackage.VARIANT__FEATURE:
-                return feature != null;
+            case variabilityPackage.VARIANT__CHILD_FEATURE:
+                return childFeature != null;
             case variabilityPackage.VARIANT__SOFTWARE_ENTITIES:
                 return softwareEntities != null && !softwareEntities.isEmpty();
             case variabilityPackage.VARIANT__LEADING:

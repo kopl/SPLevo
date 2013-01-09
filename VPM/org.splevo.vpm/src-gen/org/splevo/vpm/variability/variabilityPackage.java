@@ -121,15 +121,15 @@ public interface variabilityPackage extends EPackage {
 	int VARIANT = 1;
 
 	/**
-     * The feature id for the '<em><b>Feature</b></em>' reference.
+     * The feature id for the '<em><b>Child Feature</b></em>' reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int VARIANT__FEATURE = 0;
+    int VARIANT__CHILD_FEATURE = 0;
 
-	/**
+    /**
      * The feature id for the '<em><b>Software Entities</b></em>' reference list.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -351,17 +351,17 @@ public interface variabilityPackage extends EPackage {
 	EClass getVariant();
 
 	/**
-     * Returns the meta object for the reference '{@link org.splevo.vpm.variability.Variant#getFeature <em>Feature</em>}'.
+     * Returns the meta object for the reference '{@link org.splevo.vpm.variability.Variant#getChildFeature <em>Child Feature</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Feature</em>'.
-     * @see org.splevo.vpm.variability.Variant#getFeature()
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Child Feature</em>'.
+     * @see org.splevo.vpm.variability.Variant#getChildFeature()
      * @see #getVariant()
      * @generated
      */
-	EReference getVariant_Feature();
+    EReference getVariant_ChildFeature();
 
-	/**
+    /**
      * Returns the meta object for the reference list '{@link org.splevo.vpm.variability.Variant#getSoftwareEntities <em>Software Entities</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -588,14 +588,14 @@ public interface variabilityPackage extends EPackage {
 		EClass VARIANT = eINSTANCE.getVariant();
 
 		/**
-         * The meta object literal for the '<em><b>Feature</b></em>' reference feature.
+         * The meta object literal for the '<em><b>Child Feature</b></em>' reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference VARIANT__FEATURE = eINSTANCE.getVariant_Feature();
+        EReference VARIANT__CHILD_FEATURE = eINSTANCE.getVariant_ChildFeature();
 
-		/**
+        /**
          * The meta object literal for the '<em><b>Software Entities</b></em>' reference list feature.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
