@@ -2,6 +2,9 @@ package org.splevo.ui.jobs;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -64,13 +67,15 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             diffingService.getIgnorePackages().add(rule);
         }
 
-        this.logger.info("Execute diffing");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
+        this.logger.info("Diffing started at: " + (dateFormat.format(new Date())));
         DiffModel diffModel = null;
         try {
             diffModel = diffingService.doDiff(integrationModel, leadingModel);
         } catch (final InterruptedException e) {
             throw new JobFailedException("Failed to process diffing.", e);
         }
+        this.logger.info("Diffing finished at: " + (dateFormat.format(new Date())));
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
