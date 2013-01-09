@@ -251,13 +251,27 @@ public class SPLevoProjectEditor extends EditorPart {
         lblNewLabel.setBounds(10, 10, 740, 20);
         lblNewLabel.setText("Define the projects to be consolidated");
 
+        Label labelVariantNameLeading = new Label(composite, SWT.NONE);
+        labelVariantNameLeading.setBounds(10, 37, 106, 20);
+        labelVariantNameLeading.setText("Variant Name:");
+
+        Label labelVariantNameIntegration = new Label(composite, SWT.NONE);
+        labelVariantNameIntegration.setText("Variant Name:");
+        labelVariantNameIntegration.setBounds(430, 36, 106, 20);
+
+        inputVariantNameLeading = new Text(composite, SWT.BORDER);
+        inputVariantNameLeading.setBounds(122, 36, 238, 26);
+
+        inputVariantNameIntegration = new Text(composite, SWT.BORDER);
+        inputVariantNameIntegration.setBounds(542, 36, 238, 26);
+
         // / LEADING PROJECT LIST
 
         viewerLeadingProjects = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
         viewerLeadingProjects.setContentProvider(ArrayContentProvider.getInstance());
         viewerLeadingProjects.setInput(getSplevoProject().getLeadingProjects());
         ProjectDropListener dropListenerLeadingProjects = new ProjectDropListener(viewerLeadingProjects,
-                splevoProject.getLeadingProjects());
+                splevoProject.getLeadingProjects(), inputVariantNameLeading);
         viewerLeadingProjects.addDropSupport(dragNDropOperations, transferTypes, dropListenerLeadingProjects);
 
         Table tableLeadingProjects = viewerLeadingProjects.getTable();
@@ -275,7 +289,7 @@ public class SPLevoProjectEditor extends EditorPart {
         viewerIntegrationProjects.setContentProvider(ArrayContentProvider.getInstance());
         viewerIntegrationProjects.setInput(getSplevoProject().getIntegrationProjects());
         ProjectDropListener dropListenerIntegrationProjects = new ProjectDropListener(viewerIntegrationProjects,
-                splevoProject.getIntegrationProjects());
+                splevoProject.getIntegrationProjects(), inputVariantNameIntegration);
         viewerIntegrationProjects.addDropSupport(dragNDropOperations, transferTypes, dropListenerIntegrationProjects);
 
         Table tableIntegrationProjects = viewerIntegrationProjects.getTable();
@@ -312,20 +326,6 @@ public class SPLevoProjectEditor extends EditorPart {
             }
         });
         btnClearList.setBounds(786, 63, 30, 30);
-
-        Label labelVariantNameLeading = new Label(composite, SWT.NONE);
-        labelVariantNameLeading.setBounds(10, 37, 106, 20);
-        labelVariantNameLeading.setText("Variant Name:");
-
-        Label labelVariantNameIntegration = new Label(composite, SWT.NONE);
-        labelVariantNameIntegration.setText("Variant Name:");
-        labelVariantNameIntegration.setBounds(430, 36, 106, 20);
-
-        inputVariantNameLeading = new Text(composite, SWT.BORDER);
-        inputVariantNameLeading.setBounds(122, 36, 238, 26);
-
-        inputVariantNameIntegration = new Text(composite, SWT.BORDER);
-        inputVariantNameIntegration.setBounds(542, 36, 238, 26);
 
         composite.setTabList(new Control[] { tableLeadingProjects, tableIntegrationProjects });
     }
