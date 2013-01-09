@@ -69,7 +69,7 @@ public class VPMGraphView extends ViewPart {
                 RelationshipEdge.RELATIONSHIP_LABEL);
         Viewer v = new Viewer(proxy);
         // Viewer v = new Viewer(vpmGraph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        
+
         SpringBox layout = new SpringBox(false, new Random(0));
         v.enableAutoLayout(layout);
         v.setCloseFramePolicy(CloseFramePolicy.HIDE_ONLY);
@@ -88,10 +88,8 @@ public class VPMGraphView extends ViewPart {
      */
     @Override
     public void createPartControl(Composite parent) {
-        Composite container = new Composite(parent, SWT.FILL);
 
-        Composite composite = new Composite(container, SWT.EMBEDDED);
-        composite.setBounds(0, 0, 500, 400);
+        Composite composite = new Composite(parent, SWT.EMBEDDED);
         formToolkit.adapt(composite);
         formToolkit.paintBordersFor(composite);
         frame = SWT_AWT.new_Frame(composite);
