@@ -42,7 +42,6 @@ public class JavaModelAttributesCheck extends AttributesCheck {
 
         // ignore CompilationUnit.originalFilePath
         if ("originalFilePath".equals(attribute.getName())) {
-            logger.debug("originalFilePath attribute ignored");
             if (CompilationUnit.class.getCanonicalName().equals(attribute.getEContainingClass().getInstanceTypeName())) {
                 return true;
             }
