@@ -93,12 +93,18 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             return true;
         }
 
-        // *******************************************************
-        // Ignore references from elements in ignored packages
-        // This is done after the reference name based filtering
-        // because it requires more resources than simply checking
-        // the reference name
-        // ********************************************************
+        /* ***********************************************************
+         * Ignore references from elements in ignored packages
+         * This is done after the reference name based filtering
+         * because it requires more resources than simply checking
+         * the reference name
+         * 
+         * We cannot simply ignore all type references because
+         * a replaced import in a class will occur only as a changed
+         * type reference of the TypeAccess in the ImportDeclaration.
+         * The ImportDeclaration itself will not change from a 
+         * model perspective.
+         ************************************************************* */
         if ("type".equals(reference.getName())) {
             Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
             if (Boolean.TRUE.equals(ignore)) {
