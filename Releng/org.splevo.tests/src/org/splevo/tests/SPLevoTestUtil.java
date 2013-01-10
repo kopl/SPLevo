@@ -24,12 +24,20 @@ import org.splevo.vpm.variability.VariationPointModel;
 public class SPLevoTestUtil {
 
     /** Source path to the native calculator implementation. */
-    private static final File NATIVE_JAVA2KDMMODEL_FILE = new File(
+    public static final File NATIVE_JAVA2KDMMODEL_FILE = new File(
             "../org.splevo.tests/testmodels/implementation/gcd/native/_java2kdm.xmi");
 
     /** Source path to the jscience based calculator implementation. */
-    private static final File JSCIENCE_JAVA2KDMMODEL_FILE = new File(
+    public static final File JSCIENCE_JAVA2KDMMODEL_FILE = new File(
             "../org.splevo.tests/testmodels/implementation/gcd/jscience/_java2kdm.xmi");
+
+    /** Source path to the class without an interface. */
+    public static final File INTERFACE_IMPLEMENT_TEST_FILE_1 = new File(
+            "../org.splevo.tests/testmodels/implementation/interface.import.test/basic/basic_java2kdm.xmi");
+
+    /** Source path to the class implementing the java.io.Serializable interface. */
+    public static final File INTERFACE_IMPLEMENT_TEST_FILE_2 = new File(
+            "../org.splevo.tests/testmodels/implementation/interface.import.test/serializable/serializable_java2kdm.xmi");
 
     /**
      * Load the variation point model graph for the GCD example.
@@ -88,6 +96,31 @@ public class SPLevoTestUtil {
         ignorePackages.add("org.jscience.*");
         ignorePackages.add("org.jscience.*");
         ignorePackages.add("javolution.*");
+
+        Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
+        diffingService.getIgnorePackages().addAll(ignorePackages);
+
+        DiffModel diffModel = diffingService.doDiff(leadingModel, integrationModel);
+
+        return diffModel;
+    }
+
+    /**
+     * Load the diffing model.
+     * 
+     * @param leadingModel
+     * @param integrationModel
+     * @param ignorePackages
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public static DiffModel loadInterfaceImplementsDiffModel() throws IOException, InterruptedException {
+
+        JavaApplication leadingModel = KDMUtil.loadKDMModel(INTERFACE_IMPLEMENT_TEST_FILE_1);
+        JavaApplication integrationModel = KDMUtil.loadKDMModel(INTERFACE_IMPLEMENT_TEST_FILE_2);
+        List<String> ignorePackages = new ArrayList<String>();
+        ignorePackages.add("java.*");
 
         Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
         diffingService.getIgnorePackages().addAll(ignorePackages);

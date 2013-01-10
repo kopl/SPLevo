@@ -32,11 +32,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * A java model specific reference check to interpret model references which can be ignored.
  */
+@SuppressWarnings("restriction")
 public class JavaModelReferenceCheck extends ReferencesCheck {
 
-    /** The packages to be ignored. */
-    private List<String> ignorePackages = new ArrayList<String>();
-
+    /** The package ignore visitor instance to be used. */
+    private PackageIgnoreVisitor packageIgnoreVisitor = null;
+    
     /**
      * Constructor requiring a match manager to access required match objects.
      * 
@@ -47,12 +48,12 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
      */
     public JavaModelReferenceCheck(IMatchManager manager, List<String> ignorePackages) {
         super(manager);
-        this.ignorePackages = ignorePackages;
+        packageIgnoreVisitor = new PackageIgnoreVisitor(ignorePackages);
     }
 
     /**
      * Check if a reference should be ignored. This method is an overloaded version of the
-     * shouldBeIgnored(EReference) to also interprete the referencing element.
+     * shouldBeIgnored(EReference) to also interpret the referencing element.
      * 
      * @param reference
      *            The reference to check.
@@ -62,9 +63,16 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
      */
     protected boolean shouldBeIgnored(EReference reference, EObject referencingElement) {
 
-        // ignore CompilationUnit.originalFilePath
+        // if a class is used in an import or by another type access
+        // this is represented by a bi-directional reference.
+        // this bi-derectional reference should be ignored for the "usagesIn.." side 
+        // TODO: check if all should be ignored or only those from ignore packages
         if ("usagesInTypeAccess".equals(reference.getName())) {
-            PackageIgnoreVisitor packageIgnoreVisitor = new PackageIgnoreVisitor(ignorePackages);
+            Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
+            if (Boolean.TRUE.equals(ignore)) {
+                return true;
+            }
+        } else if ("usagesInImports".equals(reference.getName())) {
             Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
             if (Boolean.TRUE.equals(ignore)) {
                 return true;

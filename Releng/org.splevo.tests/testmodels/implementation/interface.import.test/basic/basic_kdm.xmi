@@ -14,6 +14,7 @@
               <inventoryElement xsi:type="source:Directory" name="interfaceimport" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.interfacetest.a\bin\org\splevo\testcode\interfaceimport">
                 <inventoryElement xsi:type="source:Directory" name="a" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.interfacetest.a\bin\org\splevo\testcode\interfaceimport\a">
                   <inventoryElement xsi:type="source:BinaryFile" name="ClassA.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.interfacetest.a\bin\org\splevo\testcode\interfaceimport\a\ClassA.class"/>
+                  <inventoryElement xsi:type="source:BinaryFile" name="ClassB.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.interfacetest.a\bin\org\splevo\testcode\interfaceimport\a\ClassB.class"/>
                 </inventoryElement>
               </inventoryElement>
             </inventoryElement>
@@ -27,6 +28,7 @@
               <inventoryElement xsi:type="source:Directory" name="interfaceimport" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.interfacetest.a\src\org\splevo\testcode\interfaceimport">
                 <inventoryElement xsi:type="source:Directory" name="a" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.interfacetest.a\src\org\splevo\testcode\interfaceimport\a">
                   <inventoryElement xsi:type="source:SourceFile" name="ClassA.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.interfacetest.a\src\org\splevo\testcode\interfaceimport\a\ClassA.java"/>
+                  <inventoryElement xsi:type="source:SourceFile" name="ClassB.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.interfacetest.a\src\org\splevo\testcode\interfaceimport\a\ClassB.java"/>
                 </inventoryElement>
               </inventoryElement>
             </inventoryElement>

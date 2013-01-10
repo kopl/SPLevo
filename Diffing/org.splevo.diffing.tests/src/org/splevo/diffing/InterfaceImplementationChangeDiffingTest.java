@@ -3,7 +3,6 @@ package org.splevo.diffing;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
@@ -20,6 +19,7 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
 import org.splevo.modisco.util.KDMUtil;
+import org.splevo.tests.SPLevoTestUtil;
 
 /**
  * Test the diffing of a class with a new implements interface signature.
@@ -34,14 +34,6 @@ public class InterfaceImplementationChangeDiffingTest extends AbstractDiffingTes
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(InterfaceImplementationChangeDiffingTest.class);
 
-    /** Source path to the class without an interface. */
-    private static final File IMPORT_TEST_FILE_1 = new File(
-            "testmodels/implementation/interface.import.test/basic/basic_java2kdm.xmi");
-
-    /** Source path to the class implementing the java.io.Serializable interface. */
-    private static final File IMPORT_TEST_FILE_2 = new File(
-            "testmodels/implementation/interface.import.test/serializable/serializable_java2kdm.xmi");
-
     /**
      * Test method for
      * {@link org.splevo.diffing.EMFCompareDiffingService#getDiff(org.eclipse.modisco.java.composition.javaapplication.JavaApplication, org.eclipse.modisco.java.composition.javaapplication.JavaApplication)}
@@ -55,8 +47,8 @@ public class InterfaceImplementationChangeDiffingTest extends AbstractDiffingTes
      */
     @Test
     public void testInserts() throws IOException, InterruptedException {
-        JavaApplication leadingModel = KDMUtil.loadKDMModel(IMPORT_TEST_FILE_1);
-        JavaApplication integrationModel = KDMUtil.loadKDMModel(IMPORT_TEST_FILE_2);
+        JavaApplication leadingModel = KDMUtil.loadKDMModel(SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_FILE_1);
+        JavaApplication integrationModel = KDMUtil.loadKDMModel(SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_FILE_2);
 
         Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
         diffingService.getIgnorePackages().add("java.*");
@@ -102,9 +94,9 @@ public class InterfaceImplementationChangeDiffingTest extends AbstractDiffingTes
      *             identifies the diffing has been externally interrupted.
      */
     @Test
-    public void testDelets() throws IOException, InterruptedException {
-        JavaApplication leadingModel = KDMUtil.loadKDMModel(IMPORT_TEST_FILE_2);
-        JavaApplication integrationModel = KDMUtil.loadKDMModel(IMPORT_TEST_FILE_1);
+    public void testDeletes() throws IOException, InterruptedException {
+        JavaApplication leadingModel = KDMUtil.loadKDMModel(SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_FILE_2);
+        JavaApplication integrationModel = KDMUtil.loadKDMModel(SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_FILE_1);
 
         Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
         diffingService.getIgnorePackages().add("java.*");

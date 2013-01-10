@@ -20,6 +20,7 @@ import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
+import org.eclipse.gmt.modisco.java.Javadoc;
 import org.eclipse.gmt.modisco.java.LineComment;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.TypeAccess;
@@ -265,7 +266,8 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
      * 
      * Conditions to simply TRUE to remove this change in case of
      * <ul>
-     * <li>a reference to a changed line comment</li>
+     * <li>an added reference to a line comment</li>
+     * <li>an added reference to a java doc comment</li>
      * </ul>
      * 
      * @param object
@@ -277,6 +279,8 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
 
         if (object.getLeftTarget() instanceof LineComment) {
             return Boolean.TRUE;
+        } else if (object.getLeftTarget() instanceof Javadoc) {
+            return Boolean.TRUE;
         }
 
         return super.caseReferenceChangeLeftTarget(object);
@@ -286,6 +290,8 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
     public Boolean caseReferenceChangeRightTarget(ReferenceChangeRightTarget object) {
 
         if (object.getRightTarget() instanceof LineComment) {
+            return Boolean.TRUE;
+        } else if (object.getRightTarget() instanceof Javadoc) {
             return Boolean.TRUE;
         }
 
