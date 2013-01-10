@@ -80,6 +80,14 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             return true;
         }
 
+        // ************************************
+        // ignore references to comments while
+        // changes to comments are ignored at all
+        // ************************************
+        if ("commentList".equals(reference.getName())) {
+            return true;
+        }
+
         return super.shouldBeIgnored(reference);
     }
 

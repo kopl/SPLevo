@@ -261,41 +261,4 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
         return Boolean.FALSE;
     }
 
-    /**
-     * Filter references with changed targets in the left model.
-     * 
-     * Conditions to simply TRUE to remove this change in case of
-     * <ul>
-     * <li>an added reference to a line comment</li>
-     * <li>an added reference to a java doc comment</li>
-     * </ul>
-     * 
-     * @param object
-     *            the object
-     * @return the boolean
-     */
-    @Override
-    public Boolean caseReferenceChangeLeftTarget(ReferenceChangeLeftTarget object) {
-
-        if (object.getLeftTarget() instanceof LineComment) {
-            return Boolean.TRUE;
-        } else if (object.getLeftTarget() instanceof Javadoc) {
-            return Boolean.TRUE;
-        }
-
-        return super.caseReferenceChangeLeftTarget(object);
-    }
-
-    @Override
-    public Boolean caseReferenceChangeRightTarget(ReferenceChangeRightTarget object) {
-
-        if (object.getRightTarget() instanceof LineComment) {
-            return Boolean.TRUE;
-        } else if (object.getRightTarget() instanceof Javadoc) {
-            return Boolean.TRUE;
-        }
-
-        return super.caseReferenceChangeRightTarget(object);
-    }
-
 }
