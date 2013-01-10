@@ -7,9 +7,12 @@ import org.eclipse.emf.compare.match.engine.IMatchScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+import org.eclipse.gmt.modisco.java.BodyDeclaration;
+import org.eclipse.gmt.modisco.java.ConstructorDeclaration;
 import org.eclipse.gmt.modisco.java.Javadoc;
 import org.eclipse.gmt.modisco.java.LineComment;
 import org.eclipse.gmt.modisco.java.Package;
+import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
@@ -56,7 +59,7 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
     public boolean isInScope(Resource resource) {
         return true;
     }
-    
+
     /**
      * Tag elements might be java docs referring a local variable or a return value. But, they could
      * also represent annotations with functional relevance.
@@ -76,8 +79,8 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
      * Check if JavaDoc should be included in the scope.
      * 
      * 
-     * TODO: Improve JavaDoc filtering: Failed tests if all JavaDoc elements are filtered 
-     * JavaDoc contains TagElements contains fragments contains SingleVariableAccess
+     * TODO: Improve JavaDoc filtering: Failed tests if all JavaDoc elements are filtered JavaDoc
+     * contains TagElements contains fragments contains SingleVariableAccess
      * 
      * @param object
      *            the object
@@ -103,19 +106,44 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
         return true;
     }
 
+    /**
+     * SingleVariableDeclarations in source elements located in the ignorePackage list are not in
+     * scope.
+     * 
+     * @param object
+     *            the object
+     * @return the boolean
+     */
+    @Override
+    public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration object) {
+
+        if (object.eContainer() instanceof BodyDeclaration) {
+            BodyDeclaration bodyDeclaration = (BodyDeclaration) object.eContainer();
+
+            if (bodyDeclaration.getAbstractTypeDeclaration() != null) {
+                String fullQualifiedName = JavaModelUtil.buildFullQualifiedName(bodyDeclaration
+                        .getAbstractTypeDeclaration());
+                return !ignorePackage(fullQualifiedName);
+            }
+        }
+
+        return super.caseSingleVariableDeclaration(object);
+    }
+
     @Override
     public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration object) {
         return true;
-//        String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
-//        return !ignorePackage(packagePath);
+        // String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
+        // return !ignorePackage(packagePath);
     }
 
     @Override
     public Boolean casePackage(Package object) {
-        // TODO Check why tests fail when package and abstract type declaration filters are activated 
+        // TODO Check why tests fail when package and abstract type declaration filters are
+        // activated
         return true;
-//        String packagePath = JavaModelUtil.buildPackagePath(object);
-//        return !ignorePackage(packagePath);
+        // String packagePath = JavaModelUtil.buildPackagePath(object);
+        // return !ignorePackage(packagePath);
     }
 
     /**
