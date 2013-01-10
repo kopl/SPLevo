@@ -50,7 +50,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         super(manager);
         packageIgnoreVisitor = new PackageIgnoreVisitor(ignorePackages);
     }
-
+    
     /**
      * Check if a reference should be ignored. This method is an overloaded version of the
      * shouldBeIgnored(EReference) to also interpret the referencing element.
@@ -68,7 +68,6 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         // if a class is used in an import or by another type access
         // this is represented by a bi-directional reference.
         // this bi-derectional reference should be ignored for the "usagesIn.." side
-        // TODO: check if all should be ignored or only those from ignore packages
         // ************************************
         if ("usagesInTypeAccess".equals(reference.getName())) {
             return true;
