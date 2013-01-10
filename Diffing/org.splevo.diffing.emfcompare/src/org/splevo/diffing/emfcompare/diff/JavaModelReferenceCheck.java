@@ -105,7 +105,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
          * The ImportDeclaration itself will not change from a 
          * model perspective.
          ************************************************************* */
-        if ("type".equals(reference.getName())) {
+        if ("type".equals(reference.getName()) || "bodyDeclarations".equals(reference.getName())) {
             Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
             if (Boolean.TRUE.equals(ignore)) {
                 return true;

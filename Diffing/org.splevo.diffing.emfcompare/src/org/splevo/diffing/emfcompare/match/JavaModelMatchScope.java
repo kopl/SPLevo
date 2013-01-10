@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.BodyDeclaration;
-import org.eclipse.gmt.modisco.java.ConstructorDeclaration;
 import org.eclipse.gmt.modisco.java.Javadoc;
 import org.eclipse.gmt.modisco.java.LineComment;
 import org.eclipse.gmt.modisco.java.Package;
@@ -133,8 +132,9 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
     @Override
     public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration object) {
         return true;
-        // String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
-        // return !ignorePackage(packagePath);
+//         String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
+//         boolean result = !ignorePackage(packagePath);
+//         return result;
     }
 
     @Override
@@ -142,8 +142,8 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
         // TODO Check why tests fail when package and abstract type declaration filters are
         // activated
         return true;
-        // String packagePath = JavaModelUtil.buildPackagePath(object);
-        // return !ignorePackage(packagePath);
+//         String packagePath = JavaModelUtil.buildPackagePath(object);
+//         return !ignorePackage(packagePath);
     }
 
     /**
