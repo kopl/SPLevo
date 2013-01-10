@@ -79,12 +79,24 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         } else if ("usages".equals(reference.getName())) {
             return true;
         }
-
+        
         // ************************************
         // ignore references to comments while
         // changes to comments are ignored at all
         // ************************************
         if ("commentList".equals(reference.getName())) {
+            return true;
+        }
+
+        
+        // *******************************************************
+        // Ignore references from elements in ignored packages
+        // This is done after the reference name based filtering
+        // because it requires more resources than simply checking 
+        // the reference name
+        // ********************************************************
+        Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
+        if (Boolean.TRUE.equals(ignore)) {
             return true;
         }
 
