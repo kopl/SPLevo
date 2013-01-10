@@ -80,7 +80,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             return true;
         } else if ("usages".equals(reference.getName())) {
             return true;
-        } else if ("bodyDeclarations".equals(reference.getName())) {
+        } else if ("usagesInDocComments".equals(reference.getName())) {
             return true;
         }
         
