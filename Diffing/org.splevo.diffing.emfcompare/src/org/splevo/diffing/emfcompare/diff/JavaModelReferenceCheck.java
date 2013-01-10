@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public class JavaModelReferenceCheck extends ReferencesCheck {
 
     /** The package ignore visitor instance to be used. */
+    @SuppressWarnings("unused")
     private PackageIgnoreVisitor packageIgnoreVisitor = null;
 
     /**
