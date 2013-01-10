@@ -51,7 +51,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         super(manager);
         packageIgnoreVisitor = new PackageIgnoreVisitor(ignorePackages);
     }
-    
+
     /**
      * Check if a reference should be ignored. This method is an overloaded version of the
      * shouldBeIgnored(EReference) to also interpret the referencing element.
@@ -76,10 +76,12 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             return true;
         } else if ("usagesInPackageAccess".equals(reference.getName())) {
             return true;
+        } else if ("usageInVariableAccess".equals(reference.getName())) {
+            return true;
         } else if ("usages".equals(reference.getName())) {
             return true;
         }
-        
+
         // ************************************
         // ignore references to comments while
         // changes to comments are ignored at all
@@ -88,16 +90,17 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             return true;
         }
 
-        
         // *******************************************************
         // Ignore references from elements in ignored packages
         // This is done after the reference name based filtering
-        // because it requires more resources than simply checking 
+        // because it requires more resources than simply checking
         // the reference name
         // ********************************************************
-        Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
-        if (Boolean.TRUE.equals(ignore)) {
-            return true;
+        if ("type".equals(reference.getName())) {
+            Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
+            if (Boolean.TRUE.equals(ignore)) {
+                return true;
+            }
         }
 
         return super.shouldBeIgnored(reference);
