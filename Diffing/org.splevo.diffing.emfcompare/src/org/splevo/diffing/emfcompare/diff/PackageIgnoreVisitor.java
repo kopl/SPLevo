@@ -3,9 +3,10 @@ package org.splevo.diffing.emfcompare.diff;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.ArrayType;
-import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PrimitiveType;
@@ -21,6 +22,9 @@ import org.splevo.diffing.emfcompare.util.JavaModelUtil;
  * 
  */
 public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
+
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(PackageIgnoreVisitor.class);
 
     /** The packages to be ignored. */
     private List<String> ignorePackages = new ArrayList<String>();
@@ -38,14 +42,29 @@ public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
     /**
      * Check a class declaration whether it is located in one of the packages to ignore.
      * 
+     * Distinguishes between real classes contained in packages and
+     * inner classes contained in other classes.
+     * 
      * @param object
      *            The class declaration to check.
      * @return the boolean
      */
     @Override
-    public Boolean caseClassDeclaration(ClassDeclaration object) {
-        String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
-        return checkIgnorePackage(packagePath);
+    public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration object) {
+
+        // Handle first level classes which are included in a package
+        if (object.getPackage() != null) {
+            String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
+            return checkIgnorePackage(packagePath);
+        }
+
+        // Handle inner classes which are contained in parent class
+        if (object.eContainer() != null) {
+            return this.doSwitch(object.eContainer());
+        } else {
+            logger.error("Unhandled type of AbstractTypeDeclaration to handle " + object);
+            return null;
+        }
     }
 
     /**
@@ -105,6 +124,7 @@ public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
     /**
      * Type parameters are always ignored because they are relative to the local code construct and
      * do not have any important change except of code beautifying 
+     * 
      * TODO might need to be configurable if code beautifying should be considered.
      * 
      * @param object

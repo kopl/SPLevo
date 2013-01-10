@@ -256,8 +256,6 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
                 String fqnType1 = JavaModelUtil.buildFullQualifiedName(type1);
                 String fqnType2 = JavaModelUtil.buildFullQualifiedName(type2);
                 if (!fqnType1.equals(fqnType2)) {
-                    logger.debug("methodInvocations not similar because of unmatched declaring type "
-                            + method1.getName());
                     return Boolean.FALSE;
                 }
             } else {

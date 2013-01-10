@@ -3,6 +3,7 @@ package org.splevo.diffing.emfcompare.match;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.match.engine.IMatchScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,6 +16,7 @@ import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
+import org.splevo.diffing.emfcompare.diff.PackageIgnoreVisitor;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
 /**
@@ -26,6 +28,9 @@ import org.splevo.diffing.emfcompare.util.JavaModelUtil;
  * 
  */
 public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchScope {
+
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(JavaModelMatchScope.class);
 
     /** Regular expressions defining packages to be ignored. */
     private List<String> ignorePackages = new ArrayList<String>();
@@ -132,9 +137,9 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
     @Override
     public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration object) {
         return true;
-//         String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
-//         boolean result = !ignorePackage(packagePath);
-//         return result;
+        // String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
+        // boolean result = !ignorePackage(packagePath);
+        // return result;
     }
 
     @Override
@@ -142,8 +147,8 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
         // TODO Check why tests fail when package and abstract type declaration filters are
         // activated
         return true;
-//         String packagePath = JavaModelUtil.buildPackagePath(object);
-//         return !ignorePackage(packagePath);
+        // String packagePath = JavaModelUtil.buildPackagePath(object);
+        // return !ignorePackage(packagePath);
     }
 
     /**

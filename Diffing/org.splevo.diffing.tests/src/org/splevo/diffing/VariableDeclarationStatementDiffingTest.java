@@ -67,8 +67,7 @@ public class VariableDeclarationStatementDiffingTest extends AbstractDiffingTest
         JavaApplication integrationModel = KDMUtil.loadKDMModel(VARDECL_TEST_FILE_2);
 
         Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
-        diffingService.getIgnorePackages().add("java.lang");
-        diffingService.getIgnorePackages().add("java.math");
+        diffingService.getIgnorePackages().add("java.*");
 
         DiffModel diff = diffingService.doDiff(integrationModel, leadingModel);
 

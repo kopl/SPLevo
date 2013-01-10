@@ -59,18 +59,18 @@ public class Java2KDMDiffingService {
         JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
         MatchModel matchModel = matchEngine.modelMatch(integrationModel, leadingModel, matchOptions);
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Diffing: UNMATCHED ELEMENTS");
-            EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
-            JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
-            for (UnmatchElement unmatchedElement : unmatchedElements) {
-                StringBuilder debugMessage = new StringBuilder();
-                debugMessage.append(unmatchedElement.getSide() + "\t");
-                debugMessage.append(unmatchedElement.getElement().getClass().getSimpleName() + "\t");
-                debugMessage.append(elementPrinter.printElement(unmatchedElement.getElement()));
-                logger.debug(debugMessage.toString());
-            }
-        }
+//        if (logger.isDebugEnabled()) {
+//            logger.debug("Diffing: UNMATCHED ELEMENTS");
+//            EList<UnmatchElement> unmatchedElements = matchModel.getUnmatchedElements();
+//            JavaModelElementPrinter elementPrinter = new JavaModelElementPrinter();
+//            for (UnmatchElement unmatchedElement : unmatchedElements) {
+//                StringBuilder debugMessage = new StringBuilder();
+//                debugMessage.append(unmatchedElement.getSide() + "\t");
+//                debugMessage.append(unmatchedElement.getElement().getClass().getSimpleName() + "\t");
+//                debugMessage.append(elementPrinter.printElement(unmatchedElement.getElement()));
+//                logger.debug(debugMessage.toString());
+//            }
+//        }
 
         logger.debug("Diffing: MAIN DIFFING PHASE");
         JavaModelDiffEngine javaModelDiffEngine = new JavaModelDiffEngine();

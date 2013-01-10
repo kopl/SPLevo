@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
@@ -35,8 +36,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 @SuppressWarnings("restriction")
 public class JavaModelReferenceCheck extends ReferencesCheck {
 
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(JavaModelReferenceCheck.class);
+
     /** The package ignore visitor instance to be used. */
-    @SuppressWarnings("unused")
     private PackageIgnoreVisitor packageIgnoreVisitor = null;
 
     /**
@@ -83,7 +86,6 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         } else if ("usagesInDocComments".equals(reference.getName())) {
             return true;
         }
-        
 
         // ************************************
         // ignore references to comments while
@@ -94,18 +96,22 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         }
 
         /* ***********************************************************
-         * Ignore references from elements in ignored packages
-         * This is done after the reference name based filtering
-         * because it requires more resources than simply checking
-         * the reference name
+         * Ignore references from elements in ignored packages This is done after the reference name
+         * based filtering because it requires more resources than simply checking the reference
+         * name
          * 
-         * We cannot simply ignore all type references because
-         * a replaced import in a class will occur only as a changed
-         * type reference of the TypeAccess in the ImportDeclaration.
-         * The ImportDeclaration itself will not change from a 
-         * model perspective.
-         ************************************************************* */
-        if ("type".equals(reference.getName()) || "bodyDeclarations".equals(reference.getName())) {
+         * We cannot simply ignore all type references because a replaced import in a class will
+         * occur only as a changed type reference of the TypeAccess in the ImportDeclaration. The
+         * ImportDeclaration itself will not change from a model perspective.
+         * ************************************************************
+         */
+        if ("type".equals(reference.getName())) {
+            Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
+            if (Boolean.TRUE.equals(ignore)) {
+                return true;
+            }
+        }
+        if ("bodyDeclarations".equals(reference.getName())) {
             Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
             if (Boolean.TRUE.equals(ignore)) {
                 return true;
@@ -146,11 +152,20 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         while (it.hasNext()) {
             final EReference next = it.next();
             try {
+                
+                // submit the addtional referencing element to the shouldBeIgnored method
                 if (!shouldBeIgnored(next, mapping.getLeftElement())) {
                     checkReferenceUpdates(root, mapping, next);
-                } else if (next.isContainment() && next.isOrdered()) {
-                    checkContainmentReferenceOrderChange(root, mapping, next);
                 }
+                
+                /*
+                 *  if a reference should be ignored, really ignore it
+                 *  and also ignore the order of it's elements
+                 *  
+                 *  } else if (next.isContainment() && next.isOrdered()) {
+                 *      checkContainmentReferenceOrderChange(root, mapping, next);
+                 *  }
+                 */
             } catch (IllegalStateException e) {
                 e.printStackTrace();
                 throw e;
