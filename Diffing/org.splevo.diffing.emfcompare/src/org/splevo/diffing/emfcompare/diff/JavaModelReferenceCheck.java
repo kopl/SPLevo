@@ -37,7 +37,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
 
     /** The package ignore visitor instance to be used. */
     private PackageIgnoreVisitor packageIgnoreVisitor = null;
-    
+
     /**
      * Constructor requiring a match manager to access required match objects.
      * 
@@ -63,20 +63,21 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
      */
     protected boolean shouldBeIgnored(EReference reference, EObject referencingElement) {
 
+        // ************************************
+        // Ignore Backlinks in bi-directional references
         // if a class is used in an import or by another type access
         // this is represented by a bi-directional reference.
-        // this bi-derectional reference should be ignored for the "usagesIn.." side 
+        // this bi-derectional reference should be ignored for the "usagesIn.." side
         // TODO: check if all should be ignored or only those from ignore packages
+        // ************************************
         if ("usagesInTypeAccess".equals(reference.getName())) {
-            Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
-            if (Boolean.TRUE.equals(ignore)) {
-                return true;
-            }
+            return true;
         } else if ("usagesInImports".equals(reference.getName())) {
-            Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElement);
-            if (Boolean.TRUE.equals(ignore)) {
-                return true;
-            }
+            return true;
+        } else if ("usagesInPackageAccess".equals(reference.getName())) {
+            return true;
+        } else if ("usages".equals(reference.getName())) {
+            return true;
         }
 
         return super.shouldBeIgnored(reference);
