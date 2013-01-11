@@ -20,6 +20,7 @@ import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PackageAccess;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
+import org.eclipse.gmt.modisco.java.UnresolvedMethodDeclaration;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
@@ -142,6 +143,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 
             }
 
+            logger.warn("MethodDeclaration in unknown container: " + object.getName());
             return super.caseMethodDeclaration(object);
         }
 
@@ -383,7 +385,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             } else {
                 logger.debug("MethodInvocations without abstract type declaration: [" + method1 + " | " + method2 + "]");
             }
-
+            
             // TODO check if the proactive parameter check is really necessary
             // or of this is done by emf compare by default
 

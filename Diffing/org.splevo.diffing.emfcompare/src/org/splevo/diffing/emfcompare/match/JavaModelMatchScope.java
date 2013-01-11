@@ -11,6 +11,7 @@ import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.BodyDeclaration;
 import org.eclipse.gmt.modisco.java.Javadoc;
 import org.eclipse.gmt.modisco.java.LineComment;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.TagElement;
@@ -107,6 +108,19 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
     @Override
     public Boolean defaultCase(EObject object) {
         return true;
+    }
+
+    @Override
+    public Boolean caseMethodDeclaration(MethodDeclaration object) {
+
+        if (object.getAbstractTypeDeclaration() != null) {
+            if (object.getAbstractTypeDeclaration().getPackage() != null) {
+                String packagePath = JavaModelUtil.buildPackagePath(object.getAbstractTypeDeclaration().getPackage());
+                return !ignorePackage(packagePath);
+            }
+        }
+
+        return super.caseMethodDeclaration(object);
     }
 
     /**
