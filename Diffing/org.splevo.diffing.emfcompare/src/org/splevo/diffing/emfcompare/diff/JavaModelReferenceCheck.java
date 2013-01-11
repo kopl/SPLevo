@@ -85,6 +85,8 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             return true;
         } else if ("usagesInDocComments".equals(reference.getName())) {
             return true;
+        } else if ("redefinitions".equals(reference.getName())) {
+            return true;
         }
 
         // ************************************

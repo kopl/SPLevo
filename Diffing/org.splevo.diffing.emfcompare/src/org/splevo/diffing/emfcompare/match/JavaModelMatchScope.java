@@ -16,7 +16,6 @@ import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
-import org.splevo.diffing.emfcompare.diff.PackageIgnoreVisitor;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
 /**
@@ -147,8 +146,6 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
         // TODO Check why tests fail when package and abstract type declaration filters are
         // activated
         return true;
-        // String packagePath = JavaModelUtil.buildPackagePath(object);
-        // return !ignorePackage(packagePath);
     }
 
     /**

@@ -9,7 +9,11 @@ import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+import org.eclipse.gmt.modisco.java.AnonymousClassDeclaration;
+import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
+import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.gmt.modisco.java.NamedElement;
@@ -42,7 +46,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
      */
     @Override
     protected boolean isSimilar(final EObject obj1, final EObject obj2) throws FactoryException {
-        
+
         // if the types of the elements is different return false straight away
         if (!obj1.getClass().equals(obj2.getClass())) {
             return false;
@@ -92,12 +96,53 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
                 AbstractTypeDeclaration atd2 = (AbstractTypeDeclaration) importedElement2;
 
                 return checkAbstractTypeDeclarationSimilarity(atd1, atd2);
+            }
+
+            if (importedElement1 instanceof Package && importedElement2 instanceof Package) {
+
+                Package atd1 = (Package) importedElement1;
+                Package atd2 = (Package) importedElement2;
+
+                return checkPackageSimilarity(atd1, atd2);
 
             } else {
                 logger.warn("Unhandled import type detected: " + importedElement1);
             }
 
             return null;
+        }
+
+        @Override
+        public Boolean caseMethodDeclaration(MethodDeclaration object) {
+
+            MethodDeclaration compareMethod = (MethodDeclaration) compareElement;
+
+            // if methods have different names they are not similar.
+            if (!object.getName().equals(compareMethod.getName())) {
+                return false;
+            }
+
+            /* **************************************
+             * methods as members of regular classes
+             */
+            if (object.getAbstractTypeDeclaration() != null) {
+                AbstractTypeDeclaration type1 = object.getAbstractTypeDeclaration();
+                AbstractTypeDeclaration type2 = compareMethod.getAbstractTypeDeclaration();
+                return checkAbstractTypeDeclarationSimilarity(type1, type2);
+            }
+
+            /* **************************************
+             * methods as members of anonymous classes
+             */
+            if (object.getAnonymousClassDeclarationOwner() != null) {
+
+                AnonymousClassDeclaration type1 = object.getAnonymousClassDeclarationOwner();
+                AnonymousClassDeclaration type2 = compareMethod.getAnonymousClassDeclarationOwner();
+                return checkAnonymousClassDeclarationSimilarity(type1, type2);
+
+            }
+
+            return super.caseMethodDeclaration(object);
         }
 
         /**
@@ -141,6 +186,83 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             }
 
             return Boolean.FALSE;
+        }
+
+        /**
+         * Check anonymous class declaration similarity.
+         * 
+         * @param type1
+         *            the type1
+         * @param type2
+         *            the type2
+         * @return the boolean
+         */
+        private Boolean checkAnonymousClassDeclarationSimilarity(AnonymousClassDeclaration type1,
+                AnonymousClassDeclaration type2) {
+
+            // if both types null: they are similar
+            if (type1 == null && type2 == null) {
+                return true;
+            }
+
+            // if only one is null: they are different
+            if ((type1 == null && type2 != null) || (type1 != null && type2 == null)) {
+                return false;
+            }
+
+            // if the parent class is again an anonymous one: recursively check this one
+            if (type1.eContainer() instanceof AnonymousClassDeclaration) {
+                return checkAnonymousClassDeclarationSimilarity((AnonymousClassDeclaration) type1.eContainer(),
+                        (AnonymousClassDeclaration) type2.eContainer());
+            }
+
+            // if parent class are regular classes, return their similarity
+            if (type1.eContainer() instanceof AbstractTypeDeclaration) {
+                AbstractTypeDeclaration atd1 = (AbstractTypeDeclaration) type1.eContainer();
+                AbstractTypeDeclaration atd2 = (AbstractTypeDeclaration) type2.eContainer();
+
+                return checkAbstractTypeDeclarationSimilarity(atd1, atd2);
+            }
+
+            // if container is a class instance creation
+            if (type1.eContainer() instanceof ClassInstanceCreation) {
+                ClassInstanceCreation cic1 = (ClassInstanceCreation) type1.eContainer();
+                ClassInstanceCreation cic2 = (ClassInstanceCreation) type2.eContainer();
+
+                if (cic1.getOriginalCompilationUnit() != null && cic1.getOriginalCompilationUnit().getPackage() != null) {
+
+                    SimilaritySwitch switsch = new SimilaritySwitch(cic2.getOriginalCompilationUnit().getPackage());
+                    return switsch.doSwitch(cic1.getOriginalCompilationUnit().getPackage());
+                }
+
+                if (cic1.eContainer() instanceof AbstractTypeDeclaration) {
+                    return checkAbstractTypeDeclarationSimilarity((AbstractTypeDeclaration) cic1.eContainer(),
+                            (AbstractTypeDeclaration) cic2.eContainer());
+                }
+
+                logger.warn("Unknown container of ClassInstanceCreation: [" + cic1 + "] contained in ["
+                        + cic1.eContainer() + "]");
+
+            }
+
+            logger.warn("Unknown anonymous class declaration container: [" + type1 + "] contained in ["
+                    + type1.eContainer() + "]");
+
+            return null;
+        }
+
+        @Override
+        public Boolean caseCompilationUnit(CompilationUnit object) {
+
+            CompilationUnit compareCompUnit = (CompilationUnit) compareElement;
+
+            // The compilation unit name must be the same.
+            if (!object.getName().equals(compareCompUnit.getName())) {
+                return false;
+            }
+
+            // TODO Auto-generated method stub
+            return super.caseCompilationUnit(object);
         }
 
         @Override
