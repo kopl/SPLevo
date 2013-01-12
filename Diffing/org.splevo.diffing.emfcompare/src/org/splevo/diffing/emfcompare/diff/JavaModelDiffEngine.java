@@ -12,6 +12,8 @@ import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
 import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.CompilationUnit;
+import org.eclipse.gmt.modisco.java.ParameterizedType;
 
 /**
  * A diff engine specific to the modisco java application model.
@@ -32,7 +34,7 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
      */
     @Override
     protected AttributesCheck getAttributesChecker() {
-        return new JavaModelAttributesCheck(getMatchManager());
+        return new JavaModelAttributesCheck(getMatchManager(), ignorePackages);
     }
 
     /**
@@ -61,6 +63,9 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 
         // filter due to package restrictions
         unmatched = filterIgnoredPackages(unmatched);
+
+        // filter unmatched elements to ignore
+        unmatched = filterIgnoreElements(unmatched);
 
         // initialize the processors and filters
         UnmatchedElementProcessor ueProcessor = new UnmatchedElementProcessor();
@@ -95,6 +100,34 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 
         // Process the elements that were not handled by type specific diff's yet.
         super.processUnmatchedElements(diffGroup, filteredUnmatched);
+    }
+
+    /**
+     * Filter unmatched elements which are not relevant for the source model diffing.
+     * 
+     * @param unmatched
+     *            The list of elements to filter.
+     * @return The filtered list.
+     */
+    private List<UnmatchElement> filterIgnoreElements(List<UnmatchElement> unmatched) {
+
+        List<UnmatchElement> unmatchedFiltered = new ArrayList<UnmatchElement>(unmatched.size());
+
+        for (UnmatchElement unmatchElement : unmatched) {
+
+            // filter parameterized types
+            if (unmatchElement.getElement() instanceof ParameterizedType) {
+                continue;
+            }
+            
+            // filter compilation units
+            if (unmatchElement.getElement() instanceof CompilationUnit) {
+                continue;
+            }
+        
+            unmatchedFiltered.add(unmatchElement);
+        }
+        return unmatchedFiltered;
     }
 
     /**
