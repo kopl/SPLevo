@@ -11,7 +11,6 @@ import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.BodyDeclaration;
 import org.eclipse.gmt.modisco.java.Javadoc;
 import org.eclipse.gmt.modisco.java.LineComment;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.TagElement;
@@ -123,29 +122,29 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
 //        return super.caseMethodDeclaration(object);
 //    }
 
-    /**
-     * SingleVariableDeclarations in source elements located in the ignorePackage list are not in
-     * scope.
-     * 
-     * @param object
-     *            the object
-     * @return the boolean
-     */
-    @Override
-    public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration object) {
-
-        if (object.eContainer() instanceof BodyDeclaration) {
-            BodyDeclaration bodyDeclaration = (BodyDeclaration) object.eContainer();
-
-            if (bodyDeclaration.getAbstractTypeDeclaration() != null) {
-                String fullQualifiedName = JavaModelUtil.buildFullQualifiedName(bodyDeclaration
-                        .getAbstractTypeDeclaration());
-                return !ignorePackage(fullQualifiedName);
-            }
-        }
-
-        return super.caseSingleVariableDeclaration(object);
-    }
+//    /**
+//     * SingleVariableDeclarations in source elements located in the ignorePackage list are not in
+//     * scope.
+//     * 
+//     * @param object
+//     *            the object
+//     * @return the boolean
+//     */
+//    @Override
+//    public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration object) {
+//
+//        if (object.eContainer() instanceof BodyDeclaration) {
+//            BodyDeclaration bodyDeclaration = (BodyDeclaration) object.eContainer();
+//
+//            if (bodyDeclaration.getAbstractTypeDeclaration() != null) {
+//                String fullQualifiedName = JavaModelUtil.buildFullQualifiedName(bodyDeclaration
+//                        .getAbstractTypeDeclaration());
+//                return !ignorePackage(fullQualifiedName);
+//            }
+//        }
+//
+//        return super.caseSingleVariableDeclaration(object);
+//    }
 
     @Override
     public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration object) {
