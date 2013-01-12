@@ -20,7 +20,6 @@ import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PackageAccess;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
-import org.eclipse.gmt.modisco.java.UnresolvedMethodDeclaration;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
@@ -32,6 +31,10 @@ import org.splevo.diffing.emfcompare.util.JavaModelUtil;
  * For example, an import statement references a type access which references a type. If the import
  * is changed, the type is changed but not the type access. As a result the generic match engine
  * returns those import statements as similar.
+ * 
+ * The match engine checks similarity according to the element type. It does not take into account
+ * any scope limitations. It is necessary to match even elements outside the scope to not
+ * successfully match the target elements of references.
  * 
  * {@inheritDoc}
  * 
@@ -370,6 +373,8 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             // check the methods declaring types
             AbstractTypeDeclaration type1 = method1.getAbstractTypeDeclaration();
             AbstractTypeDeclaration type2 = method2.getAbstractTypeDeclaration();
+            AnonymousClassDeclaration acd1 = method1.getAnonymousClassDeclarationOwner();
+            AnonymousClassDeclaration acd2 = method2.getAnonymousClassDeclarationOwner();
 
             if ((type1 != null && type2 == null) || (type1 == null && type2 != null)) {
                 logger.debug("methodInvocations not similar: only one invokes a method declared in a type: [m1: "
@@ -382,10 +387,21 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
                 if (!fqnType1.equals(fqnType2)) {
                     return Boolean.FALSE;
                 }
+            } else if ((acd1 != null && acd2 == null) || (acd1 == null && acd2 != null)) {
+                logger.debug("methodInvocations not similar: only one invokes a method declared in a type: [m1: "
+                        + method1.getName() + " m2: " + method2.getName() + "]");
+                return Boolean.FALSE;
+
+            } else if (acd1 != null && acd2 != null) {
+                String fqnAcd1 = JavaModelUtil.buildFullQualifiedName(acd1);
+                String fqnAcd2 = JavaModelUtil.buildFullQualifiedName(acd2);
+                if ((fqnAcd1 == null && fqnAcd2 != null) || (fqnAcd1 != null && !fqnAcd1.equals(fqnAcd2))) {
+                    return Boolean.FALSE;
+                }
             } else {
-                logger.debug("MethodInvocations without abstract type declaration: [" + method1 + " | " + method2 + "]");
+                logger.warn("Unknown method declaration container: [" + method1 + "|" + method1.eContainer() + "]");
             }
-            
+
             // TODO check if the proactive parameter check is really necessary
             // or of this is done by emf compare by default
 
@@ -409,7 +425,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
                 }
             }
 
-            return null;
+            return Boolean.TRUE;
         }
 
         @Override

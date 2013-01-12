@@ -706,6 +706,11 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             final EObject matchAdded = getMatchManager().getMatchedEObject(addedValue);
             if (matchAdded != null && matchAdded != deletedValue) {
                 createDiff = true;
+                
+            // ****************************************************    
+            // TODO Insert similarity check for method declaration 
+            // ****************************************************
+                
             } else if (getMatchManager().getMatchedEObject(deletedValue) != null) {
                 // the deleted object has a match. At this point it can only be distinct from the
                 // added

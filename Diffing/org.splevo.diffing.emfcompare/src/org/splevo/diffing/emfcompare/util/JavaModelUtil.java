@@ -3,13 +3,18 @@ package org.splevo.diffing.emfcompare.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+import org.eclipse.gmt.modisco.java.AnonymousClassDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 
 /**
  * Utilities to work with the modisco java model.
  */
 public class JavaModelUtil {
+
+    /** The logger for this class. */
+    private static Logger logger = Logger.getLogger(JavaModelUtil.class);
 
     /** The separator for packages. */
     private static final String PACKAGE_SEPARATOR = ".";
@@ -35,10 +40,37 @@ public class JavaModelUtil {
                 abstractDataTypePathMap.put(type, type.getName());
             } else {
                 abstractDataTypePathMap.put(type, JavaModelUtil.buildPackagePath(type.getPackage()) + PACKAGE_SEPARATOR
-                    + type.getName());
+                        + type.getName());
             }
         }
         return abstractDataTypePathMap.get(type);
+    }
+
+    /**
+     * Build the full qualified name of a declared type.
+     * 
+     * @param type
+     *            The type to get the fqn for.
+     * @return The fqn according to package.package.typename
+     */
+    public static String buildFullQualifiedName(AnonymousClassDeclaration type) {
+
+        if (type == null) {
+            return null;
+        }
+
+        if (type.eContainer() != null) {
+            if (type.eContainer() instanceof AbstractTypeDeclaration) {
+                return buildFullQualifiedName((AbstractTypeDeclaration) type.eContainer()) + "$" + type;
+            } else if (type.eContainer() instanceof AnonymousClassDeclaration) {
+                return buildFullQualifiedName((AnonymousClassDeclaration) type.eContainer()) + "$" + type;
+            } else {
+                logger.warn("Unknown AnonymousClassDeclaration container " + type.eContainer());
+            }
+        }
+
+        return null;
+
     }
 
     /**

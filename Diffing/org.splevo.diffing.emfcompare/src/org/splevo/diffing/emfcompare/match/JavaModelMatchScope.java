@@ -110,18 +110,18 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
         return true;
     }
 
-    @Override
-    public Boolean caseMethodDeclaration(MethodDeclaration object) {
-
-        if (object.getAbstractTypeDeclaration() != null) {
-            if (object.getAbstractTypeDeclaration().getPackage() != null) {
-                String packagePath = JavaModelUtil.buildPackagePath(object.getAbstractTypeDeclaration().getPackage());
-                return !ignorePackage(packagePath);
-            }
-        }
-
-        return super.caseMethodDeclaration(object);
-    }
+//    @Override
+//    public Boolean caseMethodDeclaration(MethodDeclaration object) {
+//
+//        if (object.getAbstractTypeDeclaration() != null) {
+//            if (object.getAbstractTypeDeclaration().getPackage() != null) {
+//                String packagePath = JavaModelUtil.buildPackagePath(object.getAbstractTypeDeclaration().getPackage());
+//                return !ignorePackage(packagePath);
+//            }
+//        }
+//
+//        return super.caseMethodDeclaration(object);
+//    }
 
     /**
      * SingleVariableDeclarations in source elements located in the ignorePackage list are not in
