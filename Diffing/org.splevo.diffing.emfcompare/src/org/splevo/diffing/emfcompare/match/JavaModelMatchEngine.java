@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.AnonymousClassDeclaration;
+import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
@@ -19,7 +20,11 @@ import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PackageAccess;
+import org.eclipse.gmt.modisco.java.ParameterizedType;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
+import org.eclipse.gmt.modisco.java.Type;
+import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.eclipse.gmt.modisco.java.UnresolvedTypeDeclaration;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
@@ -327,6 +332,39 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             return false;
         }
 
+        @Override
+        public Boolean caseTypeAccess(TypeAccess object) {
+
+            TypeAccess typeAccess1 = object;
+            TypeAccess typeAccess2 = (TypeAccess) compareElement;
+
+            // check the similarity of the accessed type
+            Type type1 = typeAccess1.getType();
+            Type type2 = typeAccess2.getType();
+            if (!type1.getClass().equals(type2.getClass())) {
+                return Boolean.FALSE;
+            }
+            if (type1.getName() == null) {
+                if (type2.getName() != null) {
+                    return false;
+                }
+            } else if (!type1.getName().equals(type2.getName())) {
+                return false;
+            }
+
+            // check the accessing type
+            if (!typeAccess1.eContainer().getClass().equals(typeAccess2.eContainer().getClass())) {
+                return Boolean.FALSE;
+            }
+            SimilaritySwitch similaritySwitchContainer = new SimilaritySwitch(typeAccess1.eContainer());
+            Boolean similarContainer = similaritySwitchContainer.doSwitch(typeAccess2.eContainer());
+            if (similarContainer == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+
+            return Boolean.TRUE;
+        }
+
         /**
          * Check the similarity of an abstract type declaration.
          * 
@@ -339,10 +377,45 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
          */
         @Override
         public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration object) {
-            AbstractTypeDeclaration type1 = (AbstractTypeDeclaration) object;
+            AbstractTypeDeclaration type1 = object;
             AbstractTypeDeclaration type2 = (AbstractTypeDeclaration) compareElement;
 
             return checkAbstractTypeDeclarationSimilarity(type1, type2);
+        }
+
+        @Override
+        public Boolean caseParameterizedType(ParameterizedType object) {
+
+            ParameterizedType type1 = object;
+            ParameterizedType type2 = (ParameterizedType) compareElement;
+
+            // check that the names are equal
+            if (!type1.getName().equals(type2.getName())) {
+                return Boolean.FALSE;
+            }
+
+            // check that the type has the same number of arguments
+            if (type1.getTypeArguments().size() != type2.getTypeArguments().size()) {
+                return Boolean.FALSE;
+            }
+
+            // for each argument of type1, check it's equal to the corresponding
+            // one in the second type.
+            // type arguments must be ordered.
+            for (int i = 0; i < type1.getTypeArguments().size(); i++) {
+                Type accessedType1 = type1.getTypeArguments().get(i).getType();
+                Type accessedType2 = type2.getTypeArguments().get(i).getType();
+
+                if (accessedType1.getName() == null) {
+                    if (accessedType2.getName() != null) {
+                        return false;
+                    }
+                } else if (!accessedType1.getName().equals(accessedType2.getName())) {
+                    return false;
+                }
+            }
+
+            return Boolean.TRUE;
         }
 
         /**
@@ -430,16 +503,20 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 
         @Override
         public Boolean caseModel(Model object) {
+            return Boolean.TRUE;
+        }
 
-            Model model1 = object;
-            Model model2 = (Model) compareElement;
+        @Override
+        public Boolean caseUnresolvedTypeDeclaration(UnresolvedTypeDeclaration object) {
 
-            if (!model1.getName().equals(model2.getName())) {
-                return Boolean.FALSE;
-            } else {
-                logger.info("Java Models with the same name detected");
+            UnresolvedTypeDeclaration type1 = object;
+            UnresolvedTypeDeclaration type2 = (UnresolvedTypeDeclaration) compareElement;
+
+            if (type1.getName().equals(type2.getName())) {
+                return true;
             }
-            return super.caseModel(object);
+
+            return false;
         }
 
         /**
@@ -456,6 +533,8 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
         public Boolean defaultCase(EObject object) {
 
             if (object == this.compareElement) {
+                return Boolean.TRUE;
+            } else if (object != null && object.equals(compareElement)) {
                 return Boolean.TRUE;
             }
 
