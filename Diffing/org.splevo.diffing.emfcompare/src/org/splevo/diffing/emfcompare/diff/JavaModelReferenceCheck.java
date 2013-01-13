@@ -30,11 +30,9 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.SingleVariableAccess;
-import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.eclipse.gmt.modisco.java.VariableDeclaration;
-import org.eclipse.gmt.modisco.java.emf.impl.ImportDeclarationImpl;
 import org.splevo.diffing.emfcompare.similarity.SimilarityChecker;
 import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 

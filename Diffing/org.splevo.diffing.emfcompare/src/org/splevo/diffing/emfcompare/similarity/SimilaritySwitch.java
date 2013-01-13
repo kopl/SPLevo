@@ -11,6 +11,8 @@ import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
+import org.eclipse.gmt.modisco.java.Model;
+import org.eclipse.gmt.modisco.java.Modifier;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PackageAccess;
@@ -84,6 +86,34 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return null;
     }
 
+    @Override
+    public Boolean caseModifier(Modifier object) {
+
+        Modifier modifier1 = object;
+        Modifier modifier2 = (Modifier) compareElement;
+
+        // check visibility modifier
+        if (modifier1.getVisibility() != null) {
+            if (modifier2.getVisibility() == modifier1.getVisibility()) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        }
+
+        // check inheritance modifier
+        if (modifier1.getInheritance() != null) {
+            if (modifier2.getInheritance() == modifier1.getInheritance()) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        }
+
+        logger.warn("Unknown Modifier type: " + modifier1);
+        return Boolean.FALSE;
+    }
+
     /**
      * ArrayTypes are assumed to be similar if they represent an array of the same type.
      * 
@@ -155,7 +185,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             return Boolean.TRUE;
         }
     }
-    
+
     @Override
     public Boolean caseAbstractMethodDeclaration(AbstractMethodDeclaration object) {
 
@@ -184,6 +214,19 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             AnonymousClassDeclaration type2 = compareMethod.getAnonymousClassDeclarationOwner();
             return checkAnonymousClassDeclarationSimilarity(type1, type2);
 
+        }
+
+        /* **************************************
+         * methods directly contained in the model with the same name are assumed to be similar
+         */
+        if (object.eContainer() instanceof Model) {
+            if (compareMethod.eContainer() instanceof Model) {
+                return Boolean.TRUE;
+            } else {
+                logger.warn("Methods with the same name contained in different containers: "
+                        + compareMethod.eContainer().getClass().getSimpleName());
+                return Boolean.FALSE;
+            }
         }
 
         logger.warn("MethodDeclaration in unknown container: " + object.getName() + " : "
