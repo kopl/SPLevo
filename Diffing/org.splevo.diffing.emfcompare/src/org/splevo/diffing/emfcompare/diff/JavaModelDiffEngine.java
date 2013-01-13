@@ -14,6 +14,7 @@ import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ParameterizedType;
+import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 
 /**
  * A diff engine specific to the modisco java application model.
@@ -28,10 +29,9 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
     
     /** Identifier for elements which are not relevant. */
     private UnmatchedElementFilter ueFilter = null;
-
-    /** The packages to be ignored. */
-    private List<String> ignorePackages = new ArrayList<String>();
     
+    private PackageIgnoreChecker packageIgnoreChecker = null;
+
     /**
      * Constructor requiring to set the relevant references.
      * 
@@ -39,8 +39,8 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
      */
     public JavaModelDiffEngine(List<String> ignorePackages) {
         super();
-        this.ignorePackages.addAll(ignorePackages);
-        ueFilter = new UnmatchedElementFilter(ignorePackages);
+        this.packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
+        ueFilter = new UnmatchedElementFilter(packageIgnoreChecker);
         ueProcessor = new UnmatchedElementProcessor();
     }
 
@@ -52,7 +52,7 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
      */
     @Override
     protected AttributesCheck getAttributesChecker() {
-        return new JavaModelAttributesCheck(getMatchManager(), ignorePackages);
+        return new JavaModelAttributesCheck(getMatchManager(), packageIgnoreChecker);
     }
 
     /**
@@ -63,7 +63,7 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
      */
     @Override
     protected ReferencesCheck getReferencesChecker() {
-        return new JavaModelReferenceCheck(getMatchManager(), ignorePackages);
+        return new JavaModelReferenceCheck(getMatchManager(), packageIgnoreChecker);
     }
 
     /**
@@ -157,23 +157,13 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
         List<UnmatchElement> unmatchedFiltered = new ArrayList<UnmatchElement>(unmatched.size());
 
         // filter type declarations located in a package to be ignored
-        PackageIgnoreVisitor packageIgnoreVisitor = new PackageIgnoreVisitor(ignorePackages);
         for (UnmatchElement unmatchElement : unmatched) {
-            Boolean ignore = packageIgnoreVisitor.doSwitch(unmatchElement.getElement());
+            Boolean ignore = packageIgnoreChecker.isInIgnorePackage(unmatchElement.getElement());
             if (ignore == Boolean.FALSE) {
                 unmatchedFiltered.add(unmatchElement);
             }
         }
         return unmatchedFiltered;
-    }
-
-    /**
-     * Get the list of packages to ignored any differences in.
-     * 
-     * @return The list of regular expressions describing the packages to ignore.
-     */
-    public List<String> getIgnorePackages() {
-        return ignorePackages;
     }
 
     /**

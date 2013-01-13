@@ -25,6 +25,7 @@ import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
+import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 
 /**
  * An attribute checker specific to the java model to define if a specific attribute should be
@@ -44,12 +45,13 @@ public class JavaModelAttributesCheck extends AttributesCheck {
      * 
      * @param manager
      *            The match manager to use.
-     * @param ignorePackages
-     *            the ignore packages
+     * 
+     * @param packageIgnoreChecker
+     *            The checker to prove for packages to ignore.
      */
-    public JavaModelAttributesCheck(IMatchManager manager, List<String> ignorePackages) {
+    public JavaModelAttributesCheck(IMatchManager manager, PackageIgnoreChecker packageIgnoreChecker) {
         super(manager);
-        ignoreAttributeSwitch = new IgnoreAttributeSwitch(ignorePackages);
+        ignoreAttributeSwitch = new IgnoreAttributeSwitch(packageIgnoreChecker);
     }
 
     /**
@@ -123,43 +125,55 @@ public class JavaModelAttributesCheck extends AttributesCheck {
      */
     private class IgnoreAttributeSwitch extends JavaSwitch<Boolean> {
 
-        /** Regular expressions defining packages to be ignored. */
-        private List<String> ignorePackages = new ArrayList<String>();
+        /** The checker to identify elements in packages to ignore. */
+        private PackageIgnoreChecker packageIgnoreChecker = null;
 
         /**
          * Instantiates a new ignore attribute switch with the packages to ignore as parameter.
          * 
-         * @param ignorePackages
-         *            the ignore packages
+         * @param packageIgnoreChecker
+         *            The checker to identify elements in packages to ignore.
          */
-        public IgnoreAttributeSwitch(List<String> ignorePackages) {
-            this.ignorePackages = ignorePackages;
+        public IgnoreAttributeSwitch(PackageIgnoreChecker packageIgnoreChecker) {
+            this.packageIgnoreChecker = packageIgnoreChecker;
         }
 
         @Override
         public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration object) {
 
-            // check the containing compilation unit
-            if (object.getPackage() != null) {
-                Package packageElement = object.getPackage();
-                String packagePath = JavaModelUtil.buildPackagePath(packageElement);
-                Boolean result = ignorePackage(packagePath);
+            Boolean result = packageIgnoreChecker.isInIgnorePackage(object);
+            if (result != null) {
                 return result;
-            } else {
-                return doSwitch(object.eContainer());
             }
+            return super.caseAbstractTypeDeclaration(object);
+
+            // // check the containing compilation unit
+            // if (object.getPackage() != null) {
+            // Package packageElement = object.getPackage();
+            // String packagePath = JavaModelUtil.buildPackagePath(packageElement);
+            // Boolean result = ignorePackage(packagePath);
+            // return result;
+            // } else {
+            // return doSwitch(object.eContainer());
+            // }
         }
-        
+
         @Override
         public Boolean caseCompilationUnit(CompilationUnit object) {
-            if (object.getPackage() != null) {
-                Package packageElement = object.getPackage();
-                String packagePath = JavaModelUtil.buildPackagePath(packageElement);
-                Boolean result = ignorePackage(packagePath);
+
+            Boolean result = packageIgnoreChecker.isInIgnorePackage(object);
+            if (result != null) {
                 return result;
-            } else {
-                logger.warn("Compilation unit without package: " + object.getName());
             }
+
+            // if (object.getPackage() != null) {
+            // Package packageElement = object.getPackage();
+            // String packagePath = JavaModelUtil.buildPackagePath(packageElement);
+            // Boolean result = ignorePackage(packagePath);
+            // return result;
+            // } else {
+            // logger.warn("Compilation unit without package: " + object.getName());
+            // }
             return super.caseCompilationUnit(object);
         }
 
@@ -190,26 +204,26 @@ public class JavaModelAttributesCheck extends AttributesCheck {
 
         @Override
         public Boolean defaultCase(EObject object) {
-            //logger.debug("unhandled attribute container: " + object);
+            // logger.debug("unhandled attribute container: " + object);
             return super.defaultCase(object);
         }
 
-        /**
-         * Check a package path whether it matches one of the ignore package patterns.
-         * 
-         * @param packagePath
-         *            the package path to check
-         * @return true/false whether it should be ignored or not.
-         */
-        public Boolean ignorePackage(String packagePath) {
-
-            for (String regex : ignorePackages) {
-                if (packagePath.matches(regex)) {
-                    return Boolean.TRUE;
-                }
-            }
-            return Boolean.FALSE;
-        }
+        // /**
+        // * Check a package path whether it matches one of the ignore package patterns.
+        // *
+        // * @param packagePath
+        // * the package path to check
+        // * @return true/false whether it should be ignored or not.
+        // */
+        // public Boolean ignorePackage(String packagePath) {
+        //
+        // for (String regex : ignorePackages) {
+        // if (packagePath.matches(regex)) {
+        // return Boolean.TRUE;
+        // }
+        // }
+        // return Boolean.FALSE;
+        // }
 
     }
 

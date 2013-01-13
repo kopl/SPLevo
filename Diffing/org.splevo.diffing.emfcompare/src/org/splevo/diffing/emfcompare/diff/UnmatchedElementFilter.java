@@ -1,8 +1,5 @@
 package org.splevo.diffing.emfcompare.diff;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
@@ -12,14 +9,15 @@ import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
+import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 
 /**
  * Filter to check if an UnmatchElement should be filtered or not.
  */
 public class UnmatchedElementFilter {
 
-    /** The packages to be ignored. */
-    private List<String> ignorePackages = new ArrayList<String>();
+    /** The package ignore checker to use. */
+    private PackageIgnoreChecker packageIgnoreChecker = null; 
     
     /** The element switch to work with. */
     private FilterSwitch filterSwitch = new FilterSwitch();
@@ -27,12 +25,12 @@ public class UnmatchedElementFilter {
     /**
      * Filter requiring the packages to ignore to be set.
      * 
-     * @param ignorePackages
-     *            The list of regular expressions of packages to ignore.
+     * @param packageIgnoreChecker
+     *            The checker to prove for packages to ignore.
      */
-    public UnmatchedElementFilter(List<String> ignorePackages) {
+    public UnmatchedElementFilter(PackageIgnoreChecker packageIgnoreChecker) {
         super();
-        this.ignorePackages.addAll(ignorePackages);
+        this.packageIgnoreChecker = packageIgnoreChecker;
     }
 
     /**
@@ -70,12 +68,13 @@ public class UnmatchedElementFilter {
         @Override
         public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration object) {
 
+            // TODO Optimize to directly push the eContainer to the package ignore checker
+            
             if (object.eContainer() instanceof ConstructorDeclaration) {
                 ConstructorDeclaration constructor = (ConstructorDeclaration) object.eContainer();
                 if (constructor.eContainer() instanceof ClassDeclaration) {
                     ClassDeclaration classDeclaration = (ClassDeclaration) constructor.eContainer();
-                    PackageIgnoreVisitor visitor = new PackageIgnoreVisitor(ignorePackages);
-                    Boolean result = visitor.doSwitch(classDeclaration);
+                    Boolean result = packageIgnoreChecker.isInIgnorePackage(classDeclaration);
                     if (result != null) {
                         return result;
                     }
@@ -86,16 +85,14 @@ public class UnmatchedElementFilter {
                 MethodDeclaration method = (MethodDeclaration) object.eContainer();
                 if (method.eContainer() instanceof ClassDeclaration) {
                     ClassDeclaration classDeclaration = (ClassDeclaration) method.eContainer();
-                    PackageIgnoreVisitor visitor = new PackageIgnoreVisitor(ignorePackages);
-                    Boolean result = visitor.doSwitch(classDeclaration);
+                    Boolean result = packageIgnoreChecker.isInIgnorePackage(classDeclaration);
                     if (result != null) {
                         return result;
                     }
                 }
                 if (method.eContainer() instanceof InterfaceDeclaration) {
                     InterfaceDeclaration classDeclaration = (InterfaceDeclaration) method.eContainer();
-                    PackageIgnoreVisitor visitor = new PackageIgnoreVisitor(ignorePackages);
-                    Boolean result = visitor.doSwitch(classDeclaration);
+                    Boolean result = packageIgnoreChecker.isInIgnorePackage(classDeclaration);
                     if (result != null) {
                         return result;
                     }

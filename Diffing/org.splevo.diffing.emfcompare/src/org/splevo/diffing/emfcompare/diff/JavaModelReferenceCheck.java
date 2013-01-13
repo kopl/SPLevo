@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
@@ -23,9 +22,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.gmt.modisco.java.ParameterizedType;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 
 /**
  * A java model specific reference check to interpret model references which can be ignored.
@@ -38,23 +37,21 @@ import org.eclipse.gmt.modisco.java.TypeAccess;
 @SuppressWarnings("restriction")
 public class JavaModelReferenceCheck extends ReferencesCheck {
 
-    /** The logger for this class. */
-    private Logger logger = Logger.getLogger(JavaModelReferenceCheck.class);
-
     /** The package ignore visitor instance to be used. */
-    private PackageIgnoreVisitor packageIgnoreVisitor = null;
+    private PackageIgnoreChecker packageIgnoreVisitor = null;
 
     /**
      * Constructor requiring a match manager to access required match objects.
      * 
      * @param manager
      *            The match manager to use.
-     * @param ignorePackages
-     *            The list of patterns to filter our packages that should be ignored.
+     * 
+     * @param packageIgnoreChecker
+     *            The checker to prove for packages to ignore.
      */
-    public JavaModelReferenceCheck(IMatchManager manager, List<String> ignorePackages) {
+    public JavaModelReferenceCheck(IMatchManager manager, PackageIgnoreChecker packageIgnoreChecker) {
         super(manager);
-        packageIgnoreVisitor = new PackageIgnoreVisitor(ignorePackages);
+        this.packageIgnoreVisitor = packageIgnoreChecker;
     }
 
     /**
@@ -129,13 +126,13 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
                 }
             }
 
-            Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElementLeft);
+            Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
             if (Boolean.TRUE.equals(ignore)) {
                 return true;
             }
         }
         if ("bodyDeclarations".equals(reference.getName())) {
-            Boolean ignore = packageIgnoreVisitor.doSwitch(referencingElementLeft);
+            Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
             if (Boolean.TRUE.equals(ignore)) {
                 return true;
             }

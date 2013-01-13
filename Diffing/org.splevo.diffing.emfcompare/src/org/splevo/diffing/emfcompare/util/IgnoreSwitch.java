@@ -1,4 +1,4 @@
-package org.splevo.diffing.emfcompare.diff;
+package org.splevo.diffing.emfcompare.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,38 +12,33 @@ import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PrimitiveType;
 import org.eclipse.gmt.modisco.java.TypeParameter;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
-import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
 /**
- * A visitor to check a java model element if it is located in a package that should be ignored.
- * 
- * The visitor is based on a EMF generated switch of the java model to improve the performance of
- * the EObject analysis.
- * 
+ * Internal class to switch between the different element types and check if they should be ignored.
  */
-public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
+public class IgnoreSwitch extends JavaSwitch<Boolean> {
 
     /** The logger for this class. */
-    private Logger logger = Logger.getLogger(PackageIgnoreVisitor.class);
+    private Logger logger = Logger.getLogger(IgnoreSwitch.class);
 
     /** The packages to be ignored. */
     private List<String> ignorePackages = new ArrayList<String>();
 
     /**
-     * Constructor requires to set the list of packages to be ignored.
+     * Instantiates a new ignore switch.
      * 
      * @param ignorePackages
-     *            The list of packages to be ignored. Regular expressions are excepted.
+     *            the packages to ignore
      */
-    public PackageIgnoreVisitor(List<String> ignorePackages) {
+    public IgnoreSwitch(List<String> ignorePackages) {
         this.ignorePackages.addAll(ignorePackages);
     }
 
     /**
      * Check a class declaration whether it is located in one of the packages to ignore.
      * 
-     * Distinguishes between real classes contained in packages and
-     * inner classes contained in other classes.
+     * Distinguishes between real classes contained in packages and inner classes contained in other
+     * classes.
      * 
      * @param object
      *            The class declaration to check.
@@ -123,7 +118,7 @@ public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
 
     /**
      * Type parameters are always ignored because they are relative to the local code construct and
-     * do not have any important change except of code beautifying 
+     * do not have any important change except of code beautifying
      * 
      * TODO might need to be configurable if code beautifying should be considered.
      * 
@@ -175,5 +170,4 @@ public class PackageIgnoreVisitor extends JavaSwitch<Boolean> {
     public Boolean defaultCase(EObject object) {
         return Boolean.FALSE;
     }
-
 }
