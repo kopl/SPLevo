@@ -23,8 +23,26 @@ import org.eclipse.gmt.modisco.java.ParameterizedType;
  */
 public class JavaModelDiffEngine extends GenericDiffEngine {
 
+    /** The unmatched element processor to build more semantical diff elements. */
+    private UnmatchedElementProcessor ueProcessor = null;
+    
+    /** Identifier for elements which are not relevant. */
+    private UnmatchedElementFilter ueFilter = null;
+
     /** The packages to be ignored. */
     private List<String> ignorePackages = new ArrayList<String>();
+    
+    /**
+     * Constructor requiring to set the relevant references.
+     * 
+     * @param ignorePackages The packages to ignore.
+     */
+    public JavaModelDiffEngine(List<String> ignorePackages) {
+        super();
+        this.ignorePackages.addAll(ignorePackages);
+        ueFilter = new UnmatchedElementFilter(ignorePackages);
+        ueProcessor = new UnmatchedElementProcessor();
+    }
 
     /**
      * Get the java model specific attributes checker. The JavaModelAttributesCheck class is
@@ -66,10 +84,6 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 
         // filter unmatched elements to ignore
         unmatched = filterIgnoreElements(unmatched);
-
-        // initialize the processors and filters
-        UnmatchedElementProcessor ueProcessor = new UnmatchedElementProcessor();
-        UnmatchedElementFilter ueFilter = new UnmatchedElementFilter();
 
         // analyze unmatched elements to create specific diff types.
         List<UnmatchElement> filteredUnmatched = new ArrayList<UnmatchElement>();
