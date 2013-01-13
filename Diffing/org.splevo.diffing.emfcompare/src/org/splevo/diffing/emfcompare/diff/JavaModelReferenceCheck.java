@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gmt.modisco.java.ImportDeclaration;
+import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.splevo.diffing.emfcompare.similarity.SimilarityChecker;
@@ -141,6 +143,32 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             }
         }
         if ("bodyDeclarations".equals(reference.getName())) {
+            Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
+            if (Boolean.TRUE.equals(ignore)) {
+                return true;
+            }
+        }
+        if ("importedElement".equals(reference.getName())) {
+
+            // better check of similarity of referenced type
+            if (referencingElementLeft instanceof ImportDeclaration && referencingElementRight instanceof ImportDeclaration) {
+
+                ImportDeclaration importDeclaration1 = (ImportDeclaration) referencingElementLeft;
+                ImportDeclaration importDeclaration2 = (ImportDeclaration) referencingElementRight;
+                
+                NamedElement importedElement1 = importDeclaration1.getImportedElement();
+                NamedElement importedElement2 = importDeclaration2.getImportedElement();
+                
+
+                Boolean result = similarityChecker.isSimilar(importedElement1, importedElement2);
+                if (result != null) {
+                    return result.booleanValue();
+                } else {
+                    logger.warn("importedElement reference target not supported in similarity check: "
+                            + importedElement1.getClass().getSimpleName());
+                }
+            }
+
             Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
             if (Boolean.TRUE.equals(ignore)) {
                 return true;
