@@ -2,6 +2,7 @@ package org.splevo.diffing.emfcompare.diff;
 
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.Comment;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
@@ -52,6 +53,14 @@ public class UnmatchedElementFilter {
          */
         @Override
         public Boolean caseTextElement(TextElement object) {
+            return Boolean.TRUE;
+        }
+        
+        /**
+         * Decide to always filter comment elements. {@inheritDoc}
+         */
+        @Override
+        public Boolean caseComment(Comment object) {
             return Boolean.TRUE;
         }
         
