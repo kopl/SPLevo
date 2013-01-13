@@ -46,12 +46,12 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
         final IWorkspace workspace = ResourcesPlugin.getWorkspace();
         final String basePath = workspace.getRoot().getRawLocation().toOSString();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
 
         this.logger.info("Load source models");
         JavaApplication leadingModel = null;
         JavaApplication integrationModel = null;
         try {
-
             leadingModel = KDMUtil.loadKDMModel(new File(basePath + this.splevoProject.getSourceModelPathLeading()));
             integrationModel = KDMUtil.loadKDMModel(new File(basePath
                     + this.splevoProject.getSourceModelPathIntegration()));
@@ -67,7 +67,6 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             diffingService.getIgnorePackages().add(rule);
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
         this.logger.info("Diffing started at: " + (dateFormat.format(new Date())));
         DiffModel diffModel = null;
         try {
@@ -76,6 +75,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             throw new JobFailedException("Failed to process diffing.", e);
         }
         this.logger.info("Diffing finished at: " + (dateFormat.format(new Date())));
+        this.logger.info("Number of differences: " + diffModel.getDifferences().size());
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
