@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.Type;
@@ -142,6 +144,40 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
                 return true;
             }
         }
+        // types referenced in a compilation unit
+        if ("types".equals(reference.getName())) {
+            // better check of similarity of referenced type
+            if (referencingElementLeft instanceof CompilationUnit && referencingElementRight instanceof CompilationUnit) {
+
+                CompilationUnit compilationUnit1 = (CompilationUnit) referencingElementLeft;
+                CompilationUnit compilationUnit2 = (CompilationUnit) referencingElementRight;
+
+                List<AbstractTypeDeclaration> types1 = compilationUnit1.getTypes();
+                List<AbstractTypeDeclaration> types2 = compilationUnit2.getTypes();
+
+                // check that the same number of types is included in the compilation unit
+                if (types1.size() != types2.size()) {
+                    return false;
+                }
+
+                // check that the same types are in the compilation unit
+                // this currently assumes an unchanged order of types.
+                // This assumption might be to strong.
+                for (int i = 0; i < types1.size(); i++) {
+                    Boolean result = similarityChecker.isSimilar(types1.get(i), types2.get(i));
+                    if (result != null && result == Boolean.FALSE) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
+            if (Boolean.TRUE.equals(ignore)) {
+                return true;
+            }
+        }
         if ("bodyDeclarations".equals(reference.getName())) {
             Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
             if (Boolean.TRUE.equals(ignore)) {
@@ -151,14 +187,14 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         if ("importedElement".equals(reference.getName())) {
 
             // better check of similarity of referenced type
-            if (referencingElementLeft instanceof ImportDeclaration && referencingElementRight instanceof ImportDeclaration) {
+            if (referencingElementLeft instanceof ImportDeclaration
+                    && referencingElementRight instanceof ImportDeclaration) {
 
                 ImportDeclaration importDeclaration1 = (ImportDeclaration) referencingElementLeft;
                 ImportDeclaration importDeclaration2 = (ImportDeclaration) referencingElementRight;
-                
+
                 NamedElement importedElement1 = importDeclaration1.getImportedElement();
                 NamedElement importedElement2 = importDeclaration2.getImportedElement();
-                
 
                 Boolean result = similarityChecker.isSimilar(importedElement1, importedElement2);
                 if (result != null) {
