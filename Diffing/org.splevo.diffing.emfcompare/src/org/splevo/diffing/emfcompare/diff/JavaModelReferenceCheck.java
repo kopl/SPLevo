@@ -9,7 +9,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
 import org.eclipse.emf.compare.diff.engine.check.ReferencesCheck;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
 import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeLeftTarget;
@@ -130,13 +129,10 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
                 Boolean result = similarityChecker.isSimilar(type1, type2);
                 if (result != null) {
                     return result.booleanValue();
+                } else {
+                    logger.warn("type reference to type not supported in similarity check: "
+                            + type1.getClass().getSimpleName());
                 }
-
-                // if there is one differing type access the parameterized types are not the
-                // same
-                // if (type1.getName().equals(type2.getName())) {
-                // return true;
-                // }
             }
 
             Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
@@ -246,6 +242,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
      *             Thrown if we cannot fetch <code>reference</code>'s values for either the left or
      *             the right element.
      */
+    @SuppressWarnings("deprecation")
     private void createNonConflictingReferencesUpdate(DiffGroup root, EReference reference, EObject leftElement,
             EObject rightElement) throws FactoryException {
         final List<Object> leftElementObjReferences = convertFeatureMapList(EFactory.eGetAsList(leftElement,

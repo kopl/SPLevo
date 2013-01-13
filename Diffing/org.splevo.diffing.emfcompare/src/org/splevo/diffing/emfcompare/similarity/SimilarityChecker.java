@@ -44,11 +44,6 @@ public class SimilarityChecker {
         // check type specific similarity
         SimilaritySwitch similaritySwitch = new SimilaritySwitch(element2);
         Boolean similar = similaritySwitch.doSwitch(element1);
-
-        if (similar == null) {
-            logger.warn("Similarity check not implemented for: " + element1.getClass().getSimpleName());
-        }
-
         return similar;
 
     }

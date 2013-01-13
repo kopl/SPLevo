@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.AnonymousClassDeclaration;
+import org.eclipse.gmt.modisco.java.ArrayType;
 import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
@@ -20,6 +21,7 @@ import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.eclipse.gmt.modisco.java.TypeParameter;
 import org.eclipse.gmt.modisco.java.UnresolvedTypeDeclaration;
+import org.eclipse.gmt.modisco.java.WildCardType;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
@@ -75,6 +77,49 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return null;
     }
 
+    /**
+     * ArrayTypes are assumed to be similar if they represent an array of the same type.
+     * 
+     * @param arrayType
+     *            The array type to compare
+     * @return the boolean True/false/null whether it's similar or not or not decidable
+     */
+    @Override
+    public Boolean caseArrayType(ArrayType arrayType) {
+
+        ArrayType arrayType1 = arrayType;
+        ArrayType arrayType2 = (ArrayType) compareElement;
+
+        return similarityChecker
+                .isSimilar(arrayType1.getElementType().getType(), arrayType2.getElementType().getType());
+    }
+
+    /**
+     * WildCard types are assumed to be similar if their bound type is similar.
+     * 
+     * @param wildCardType
+     *            The wild card type to compare
+     * @return the boolean True/false/null whether it's similar or not or not decidable
+     */
+    @Override
+    public Boolean caseWildCardType(WildCardType wildCardType) {
+        WildCardType wildCardType1 = wildCardType;
+        WildCardType wildCardType2 = (WildCardType) compareElement;
+
+        // check that either both or none of the bounds should be null
+        if (wildCardType1.getBound() == null) {
+            if (wildCardType2.getBound() == null) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        } else if (wildCardType2 == null) {
+            return Boolean.FALSE;
+        }
+
+        return similarityChecker.isSimilar(wildCardType1.getBound().getType(), wildCardType2.getBound().getType());
+    }
+
     @Override
     public Boolean caseMethodDeclaration(MethodDeclaration object) {
 
@@ -105,7 +150,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         }
 
-        logger.warn("MethodDeclaration in unknown container: " + object.getName());
+        logger.warn("MethodDeclaration in unknown container: " + object.getName() + " : "
+                + object.eContainer().getClass().getSimpleName());
         return super.caseMethodDeclaration(object);
     }
 

@@ -1,6 +1,5 @@
 package org.splevo.diffing.emfcompare.diff;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,10 +20,8 @@ import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.Javadoc;
 import org.eclipse.gmt.modisco.java.Model;
-import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
-import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 
 /**

@@ -30,6 +30,7 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
     /** Identifier for elements which are not relevant. */
     private UnmatchedElementFilter ueFilter = null;
     
+    /** The package ignore checker to be used. */
     private PackageIgnoreChecker packageIgnoreChecker = null;
 
     /**
