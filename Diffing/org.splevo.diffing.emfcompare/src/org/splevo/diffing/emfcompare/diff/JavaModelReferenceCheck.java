@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.splevo.diffing.emfcompare.similarity.SimilarityChecker;
 import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 
 /**
@@ -37,8 +39,14 @@ import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 @SuppressWarnings("restriction")
 public class JavaModelReferenceCheck extends ReferencesCheck {
 
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(JavaModelReferenceCheck.class);
+
     /** The package ignore visitor instance to be used. */
     private PackageIgnoreChecker packageIgnoreVisitor = null;
+
+    /** The similarity checker. */
+    private SimilarityChecker similarityChecker = new SimilarityChecker();
 
     /**
      * Constructor requiring a match manager to access required match objects.
@@ -119,11 +127,16 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
                 Type type1 = typeAccess1.getType();
                 Type type2 = typeAccess2.getType();
 
+                Boolean result = similarityChecker.isSimilar(type1, type2);
+                if (result != null) {
+                    return result.booleanValue();
+                }
+
                 // if there is one differing type access the parameterized types are not the
                 // same
-                if (type1.getName().equals(type2.getName())) {
-                    return true;
-                }
+                // if (type1.getName().equals(type2.getName())) {
+                // return true;
+                // }
             }
 
             Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
