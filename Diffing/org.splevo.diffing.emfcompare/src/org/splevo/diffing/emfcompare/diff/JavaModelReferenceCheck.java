@@ -127,7 +127,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         if ("commentList".equals(reference.getName())) {
             return true;
         }
-        if ("comment".equals(reference.getName())) {
+        if ("comments".equals(reference.getName())) {
             return true;
         }
 
@@ -178,8 +178,6 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
                 return result.booleanValue();
             }
         }
-
-        //logger.warn("Unhandled reference type " + reference.getName());
 
         // filter references of elements located in ignore packages
         Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
