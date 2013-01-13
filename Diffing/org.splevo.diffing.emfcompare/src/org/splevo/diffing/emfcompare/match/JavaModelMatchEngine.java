@@ -502,11 +502,6 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
         }
 
         @Override
-        public Boolean caseModel(Model object) {
-            return Boolean.TRUE;
-        }
-
-        @Override
         public Boolean caseUnresolvedTypeDeclaration(UnresolvedTypeDeclaration object) {
 
             UnresolvedTypeDeclaration type1 = object;
@@ -517,28 +512,6 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             }
 
             return false;
-        }
-
-        /**
-         * 
-         * If the object to check and the compare element are identical, true is returned.
-         * Otherwise, null is returned as the default case to indicate that it has to be further
-         * processed by the standard similarity check.
-         * 
-         * @param object
-         *            the object to check for similarity
-         * @return True in case of object similarity, null otherwise.
-         */
-        @Override
-        public Boolean defaultCase(EObject object) {
-
-            if (object == this.compareElement) {
-                return Boolean.TRUE;
-            } else if (object != null && object.equals(compareElement)) {
-                return Boolean.TRUE;
-            }
-
-            return null;
         }
 
     }
