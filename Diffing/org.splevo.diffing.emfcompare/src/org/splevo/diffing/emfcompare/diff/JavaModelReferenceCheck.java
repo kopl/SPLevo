@@ -119,9 +119,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
 
                 TypeAccess typeAccess1 = (TypeAccess) referencingElementLeft;
                 TypeAccess typeAccess2 = (TypeAccess) referencingElementRight;
-
                 Type type1 = typeAccess1.getType();
-
                 Type type2 = typeAccess2.getType();
 
                 // if there is one differing type access the parameterized types are not the
