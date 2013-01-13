@@ -2,10 +2,6 @@ package org.splevo.diffing.emfcompare.diff;
 
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.ClassDeclaration;
-import org.eclipse.gmt.modisco.java.ConstructorDeclaration;
-import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
@@ -61,45 +57,19 @@ public class UnmatchedElementFilter {
         }
 
         @Override
-        public Boolean defaultCase(EObject object) {
-            return Boolean.FALSE;
-        }
-
-        @Override
         public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration object) {
 
-            // TODO Optimize to directly push the eContainer to the package ignore checker
-            
-            if (object.eContainer() instanceof ConstructorDeclaration) {
-                ConstructorDeclaration constructor = (ConstructorDeclaration) object.eContainer();
-                if (constructor.eContainer() instanceof ClassDeclaration) {
-                    ClassDeclaration classDeclaration = (ClassDeclaration) constructor.eContainer();
-                    Boolean result = packageIgnoreChecker.isInIgnorePackage(classDeclaration);
-                    if (result != null) {
-                        return result;
-                    }
-                }
-            }
-            
-            if (object.eContainer() instanceof MethodDeclaration) {
-                MethodDeclaration method = (MethodDeclaration) object.eContainer();
-                if (method.eContainer() instanceof ClassDeclaration) {
-                    ClassDeclaration classDeclaration = (ClassDeclaration) method.eContainer();
-                    Boolean result = packageIgnoreChecker.isInIgnorePackage(classDeclaration);
-                    if (result != null) {
-                        return result;
-                    }
-                }
-                if (method.eContainer() instanceof InterfaceDeclaration) {
-                    InterfaceDeclaration classDeclaration = (InterfaceDeclaration) method.eContainer();
-                    Boolean result = packageIgnoreChecker.isInIgnorePackage(classDeclaration);
-                    if (result != null) {
-                        return result;
-                    }
-                }
+            Boolean result = packageIgnoreChecker.isInIgnorePackage(object.eContainer());
+            if (result != null) {
+                return result;
             }
 
             return super.caseSingleVariableDeclaration(object);
+        }
+
+        @Override
+        public Boolean defaultCase(EObject object) {
+            return Boolean.FALSE;
         }
 
     }

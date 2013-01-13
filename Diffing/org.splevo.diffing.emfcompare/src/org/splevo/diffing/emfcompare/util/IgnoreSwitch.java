@@ -7,7 +7,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.ArrayType;
+import org.eclipse.gmt.modisco.java.ConstructorDeclaration;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PrimitiveType;
 import org.eclipse.gmt.modisco.java.TypeParameter;
@@ -61,22 +63,15 @@ public class IgnoreSwitch extends JavaSwitch<Boolean> {
             return null;
         }
     }
-
-    /**
-     * Check a package path whether it matches one of the ignore package patterns.
-     * 
-     * @param packagePath
-     *            the package path to check
-     * @return true/false whether it should be ignored or not.
-     */
-    public Boolean checkIgnorePackage(String packagePath) {
-
-        for (String regex : ignorePackages) {
-            if (packagePath.matches(regex)) {
-                return Boolean.TRUE;
-            }
-        }
-        return Boolean.FALSE;
+    
+    @Override
+    public Boolean caseConstructorDeclaration(ConstructorDeclaration object) {
+        return doSwitch(object.eContainer());
+    }
+    
+    @Override
+    public Boolean caseMethodDeclaration(MethodDeclaration object) {
+        return doSwitch(object.eContainer());
     }
 
     /**
@@ -168,6 +163,23 @@ public class IgnoreSwitch extends JavaSwitch<Boolean> {
      */
     @Override
     public Boolean defaultCase(EObject object) {
+        return Boolean.FALSE;
+    }
+    
+    /**
+     * Check a package path whether it matches one of the ignore package patterns.
+     * 
+     * @param packagePath
+     *            the package path to check
+     * @return true/false whether it should be ignored or not.
+     */
+    public Boolean checkIgnorePackage(String packagePath) {
+
+        for (String regex : ignorePackages) {
+            if (packagePath.matches(regex)) {
+                return Boolean.TRUE;
+            }
+        }
         return Boolean.FALSE;
     }
 }
