@@ -6,7 +6,6 @@ import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.AnonymousClassDeclaration;
 import org.eclipse.gmt.modisco.java.ArrayType;
-import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
@@ -128,9 +127,9 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     @Override
-    public Boolean caseMethodDeclaration(MethodDeclaration object) {
+    public Boolean caseAbstractMethodDeclaration(AbstractMethodDeclaration object) {
 
-        MethodDeclaration compareMethod = (MethodDeclaration) compareElement;
+        AbstractMethodDeclaration compareMethod = (AbstractMethodDeclaration) compareElement;
 
         // if methods have different names they are not similar.
         if (!object.getName().equals(compareMethod.getName())) {
@@ -159,7 +158,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         logger.warn("MethodDeclaration in unknown container: " + object.getName() + " : "
                 + object.eContainer().getClass().getSimpleName());
-        return super.caseMethodDeclaration(object);
+        return super.caseAbstractMethodDeclaration(object);
     }
 
     /**

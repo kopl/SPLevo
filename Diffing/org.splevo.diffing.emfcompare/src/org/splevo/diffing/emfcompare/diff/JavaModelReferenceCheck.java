@@ -22,9 +22,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
+import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
@@ -210,6 +213,54 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
                 return true;
             }
         }
+        if ("method".equals(reference.getName())) {
+
+            // check for reference in MethodInvocation
+            if (referencingElementLeft instanceof MethodInvocation
+                    && referencingElementRight instanceof MethodInvocation) {
+
+                MethodInvocation methodInvocation1 = (MethodInvocation) referencingElementLeft;
+                MethodInvocation methodInvocation2 = (MethodInvocation) referencingElementRight;
+
+                AbstractMethodDeclaration method1 = methodInvocation1.getMethod();
+                AbstractMethodDeclaration method2 = methodInvocation2.getMethod();
+
+                Boolean result = similarityChecker.isSimilar(method1, method2);
+                if (result != null) {
+                    return result.booleanValue();
+                } else {
+                    logger.warn("method reference target not supported in similarity check: "
+                            + method1.getClass().getSimpleName());
+                }
+            }
+
+            // check for reference in ClassInstanceCreation
+            if (referencingElementLeft instanceof ClassInstanceCreation
+                    && referencingElementRight instanceof ClassInstanceCreation) {
+
+                ClassInstanceCreation classInstanceCreation1 = (ClassInstanceCreation) referencingElementLeft;
+                ClassInstanceCreation classInstanceCreation2 = (ClassInstanceCreation) referencingElementRight;
+
+                AbstractMethodDeclaration method1 = classInstanceCreation1.getMethod();
+                AbstractMethodDeclaration method2 = classInstanceCreation2.getMethod();
+
+                Boolean result = similarityChecker.isSimilar(method1, method2);
+                if (result != null) {
+                    return result.booleanValue();
+                } else {
+                    logger.warn("method reference target not supported in similarity check: "
+                            + method1.getClass().getSimpleName());
+                }
+            }
+
+            Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
+            if (Boolean.TRUE.equals(ignore)) {
+                return true;
+            }
+        }
+        
+        // TODO check reference "method" when included in method invocation -> when same method is called
+        // TODO check reference "method" when included in class instance creation -> when same method is called
 
         return super.shouldBeIgnored(reference);
     }
