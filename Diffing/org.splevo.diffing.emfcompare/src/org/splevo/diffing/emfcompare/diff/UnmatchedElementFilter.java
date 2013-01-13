@@ -2,7 +2,6 @@ package org.splevo.diffing.emfcompare.diff;
 
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
@@ -55,20 +54,14 @@ public class UnmatchedElementFilter {
         public Boolean caseTextElement(TextElement object) {
             return Boolean.TRUE;
         }
-
-        @Override
-        public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration object) {
-
-            Boolean result = packageIgnoreChecker.isInIgnorePackage(object.eContainer());
-            if (result != null) {
-                return result;
-            }
-
-            return super.caseSingleVariableDeclaration(object);
-        }
+        
 
         @Override
         public Boolean defaultCase(EObject object) {
+            Boolean result = packageIgnoreChecker.isInIgnorePackage(object);
+            if (result != null) {
+                return result;
+            }
             return Boolean.FALSE;
         }
 

@@ -8,11 +8,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.ArrayType;
 import org.eclipse.gmt.modisco.java.ConstructorDeclaration;
+import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PrimitiveType;
+import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.eclipse.gmt.modisco.java.TypeParameter;
+import org.eclipse.gmt.modisco.java.VariableDeclaration;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 
 /**
@@ -73,7 +76,22 @@ public class IgnoreSwitch extends JavaSwitch<Boolean> {
     public Boolean caseMethodDeclaration(MethodDeclaration object) {
         return doSwitch(object.eContainer());
     }
-
+    
+    @Override
+    public Boolean caseTypeAccess(TypeAccess object) {
+        return doSwitch(object.eContainer());
+    }
+    
+    @Override
+    public Boolean caseFieldDeclaration(FieldDeclaration object) {
+        return doSwitch(object.eContainer());
+    }
+    
+    @Override
+    public Boolean caseVariableDeclaration(VariableDeclaration object) {
+        return doSwitch(object.eContainer());
+    }
+    
     /**
      * Check an interface declaration whether it is located in one of the packages to ignore.
      * 
