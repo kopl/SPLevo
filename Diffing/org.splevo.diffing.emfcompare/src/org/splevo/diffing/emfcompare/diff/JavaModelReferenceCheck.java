@@ -29,8 +29,10 @@ import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.NamedElement;
+import org.eclipse.gmt.modisco.java.SingleVariableAccess;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.eclipse.gmt.modisco.java.VariableDeclaration;
 import org.splevo.diffing.emfcompare.similarity.SimilarityChecker;
 import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 
@@ -124,61 +126,16 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
          * ************************************************************
          */
         if ("type".equals(reference.getName())) {
-
-            // better check of similarity of referenced type
-            if (referencingElementLeft instanceof TypeAccess && referencingElementRight instanceof TypeAccess) {
-
-                TypeAccess typeAccess1 = (TypeAccess) referencingElementLeft;
-                TypeAccess typeAccess2 = (TypeAccess) referencingElementRight;
-                Type type1 = typeAccess1.getType();
-                Type type2 = typeAccess2.getType();
-
-                Boolean result = similarityChecker.isSimilar(type1, type2);
-                if (result != null) {
-                    return result.booleanValue();
-                } else {
-                    logger.warn("type reference to type not supported in similarity check: "
-                            + type1.getClass().getSimpleName());
-                }
-            }
-
-            Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
-            if (Boolean.TRUE.equals(ignore)) {
-                return true;
+            Boolean result = checkTypeReference(referencingElementLeft, referencingElementRight);
+            if (result != null) {
+                return result.booleanValue();
             }
         }
         // types referenced in a compilation unit
         if ("types".equals(reference.getName())) {
-            // better check of similarity of referenced type
-            if (referencingElementLeft instanceof CompilationUnit && referencingElementRight instanceof CompilationUnit) {
-
-                CompilationUnit compilationUnit1 = (CompilationUnit) referencingElementLeft;
-                CompilationUnit compilationUnit2 = (CompilationUnit) referencingElementRight;
-
-                List<AbstractTypeDeclaration> types1 = compilationUnit1.getTypes();
-                List<AbstractTypeDeclaration> types2 = compilationUnit2.getTypes();
-
-                // check that the same number of types is included in the compilation unit
-                if (types1.size() != types2.size()) {
-                    return false;
-                }
-
-                // check that the same types are in the compilation unit
-                // this currently assumes an unchanged order of types.
-                // This assumption might be to strong.
-                for (int i = 0; i < types1.size(); i++) {
-                    Boolean result = similarityChecker.isSimilar(types1.get(i), types2.get(i));
-                    if (result != null && result == Boolean.FALSE) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
-            if (Boolean.TRUE.equals(ignore)) {
-                return true;
+            Boolean result = checkTypesReference(referencingElementLeft, referencingElementRight);
+            if (result != null) {
+                return result.booleanValue();
             }
         }
         if ("bodyDeclarations".equals(reference.getName())) {
@@ -188,81 +145,215 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             }
         }
         if ("importedElement".equals(reference.getName())) {
-
-            // better check of similarity of referenced type
-            if (referencingElementLeft instanceof ImportDeclaration
-                    && referencingElementRight instanceof ImportDeclaration) {
-
-                ImportDeclaration importDeclaration1 = (ImportDeclaration) referencingElementLeft;
-                ImportDeclaration importDeclaration2 = (ImportDeclaration) referencingElementRight;
-
-                NamedElement importedElement1 = importDeclaration1.getImportedElement();
-                NamedElement importedElement2 = importDeclaration2.getImportedElement();
-
-                Boolean result = similarityChecker.isSimilar(importedElement1, importedElement2);
-                if (result != null) {
-                    return result.booleanValue();
-                } else {
-                    logger.warn("importedElement reference target not supported in similarity check: "
-                            + importedElement1.getClass().getSimpleName());
-                }
-            }
-
-            Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
-            if (Boolean.TRUE.equals(ignore)) {
-                return true;
+            Boolean result = checkImportedElementReference(referencingElementLeft, referencingElementRight);
+            if (result != null) {
+                return result.booleanValue();
             }
         }
         if ("method".equals(reference.getName())) {
-
-            // check for reference in MethodInvocation
-            if (referencingElementLeft instanceof MethodInvocation
-                    && referencingElementRight instanceof MethodInvocation) {
-
-                MethodInvocation methodInvocation1 = (MethodInvocation) referencingElementLeft;
-                MethodInvocation methodInvocation2 = (MethodInvocation) referencingElementRight;
-
-                AbstractMethodDeclaration method1 = methodInvocation1.getMethod();
-                AbstractMethodDeclaration method2 = methodInvocation2.getMethod();
-
-                Boolean result = similarityChecker.isSimilar(method1, method2);
-                if (result != null) {
-                    return result.booleanValue();
-                } else {
-                    logger.warn("method reference target not supported in similarity check: "
-                            + method1.getClass().getSimpleName());
-                }
-            }
-
-            // check for reference in ClassInstanceCreation
-            if (referencingElementLeft instanceof ClassInstanceCreation
-                    && referencingElementRight instanceof ClassInstanceCreation) {
-
-                ClassInstanceCreation classInstanceCreation1 = (ClassInstanceCreation) referencingElementLeft;
-                ClassInstanceCreation classInstanceCreation2 = (ClassInstanceCreation) referencingElementRight;
-
-                AbstractMethodDeclaration method1 = classInstanceCreation1.getMethod();
-                AbstractMethodDeclaration method2 = classInstanceCreation2.getMethod();
-
-                Boolean result = similarityChecker.isSimilar(method1, method2);
-                if (result != null) {
-                    return result.booleanValue();
-                } else {
-                    logger.warn("method reference target not supported in similarity check: "
-                            + method1.getClass().getSimpleName());
-                }
-            }
-
-            Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
-            if (Boolean.TRUE.equals(ignore)) {
-                return true;
+            Boolean result = checkMethodReference(referencingElementLeft, referencingElementRight);
+            if (result != null) {
+                return result.booleanValue();
             }
         }
-        
-        // TODO check reference "method" when included in method invocation -> when same method is called
-        // TODO check reference "method" when included in class instance creation -> when same method is called
+        if ("variable".equals(reference.getName())) {
+            Boolean result = checkVariableReference(referencingElementLeft, referencingElementRight);
+            if (result != null) {
+                return result.booleanValue();
+            }
+        }
+
+        //logger.warn("Unhandled reference type " + reference.getName());
+
+        // filter references of elements located in ignore packages
+        Boolean ignore = packageIgnoreVisitor.isInIgnorePackage(referencingElementLeft);
+        if (Boolean.TRUE.equals(ignore)) {
+            return true;
+        }
 
         return super.shouldBeIgnored(reference);
+    }
+
+    /**
+     * Check type reference for similarity.
+     * 
+     * @param referencingElementLeft
+     *            the left referencing element
+     * @param referencingElementRight
+     *            the right referencing element
+     * @return true / false or null if it could not be decided
+     */
+    private Boolean checkTypeReference(EObject referencingElementLeft, EObject referencingElementRight) {
+
+        // better check of similarity of referenced type
+        if (referencingElementLeft instanceof TypeAccess && referencingElementRight instanceof TypeAccess) {
+
+            TypeAccess typeAccess1 = (TypeAccess) referencingElementLeft;
+            TypeAccess typeAccess2 = (TypeAccess) referencingElementRight;
+            Type type1 = typeAccess1.getType();
+            Type type2 = typeAccess2.getType();
+
+            Boolean result = similarityChecker.isSimilar(type1, type2);
+            if (result != null) {
+                return result.booleanValue();
+            } else {
+                logger.warn("type reference to type not supported in similarity check: "
+                        + type1.getClass().getSimpleName());
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Check type reference for similarity.
+     * 
+     * @param referencingElementLeft
+     *            the left referencing element
+     * @param referencingElementRight
+     *            the right referencing element
+     * @return true / false or null if it could not be decided
+     */
+    private Boolean checkTypesReference(EObject referencingElementLeft, EObject referencingElementRight) {
+
+        // better check of similarity of referenced type
+        if (referencingElementLeft instanceof CompilationUnit && referencingElementRight instanceof CompilationUnit) {
+
+            CompilationUnit compilationUnit1 = (CompilationUnit) referencingElementLeft;
+            CompilationUnit compilationUnit2 = (CompilationUnit) referencingElementRight;
+
+            List<AbstractTypeDeclaration> types1 = compilationUnit1.getTypes();
+            List<AbstractTypeDeclaration> types2 = compilationUnit2.getTypes();
+
+            // check that the same number of types is included in the compilation unit
+            if (types1.size() != types2.size()) {
+                return false;
+            }
+
+            // check that the same types are in the compilation unit
+            // this currently assumes an unchanged order of types.
+            // This assumption might be to strong.
+            for (int i = 0; i < types1.size(); i++) {
+                Boolean result = similarityChecker.isSimilar(types1.get(i), types2.get(i));
+                if (result != null && result == Boolean.FALSE) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        return null;
+    }
+
+    /**
+     * Check imported element reference for similarity.
+     * 
+     * @param referencingElementLeft
+     *            the left referencing element
+     * @param referencingElementRight
+     *            the right referencing element
+     * @return true / false or null if it could not be decided
+     */
+    private Boolean checkImportedElementReference(EObject referencingElementLeft, EObject referencingElementRight) {
+
+        // better check of similarity of referenced type
+        if (referencingElementLeft instanceof ImportDeclaration && referencingElementRight instanceof ImportDeclaration) {
+
+            ImportDeclaration importDeclaration1 = (ImportDeclaration) referencingElementLeft;
+            ImportDeclaration importDeclaration2 = (ImportDeclaration) referencingElementRight;
+
+            NamedElement importedElement1 = importDeclaration1.getImportedElement();
+            NamedElement importedElement2 = importDeclaration2.getImportedElement();
+
+            Boolean result = similarityChecker.isSimilar(importedElement1, importedElement2);
+            if (result != null) {
+                return result.booleanValue();
+            } else {
+                logger.warn("importedElement reference target not supported in similarity check: "
+                        + importedElement1.getClass().getSimpleName());
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Check imported element reference for similarity.
+     * 
+     * @param referencingElementLeft
+     *            the left referencing element
+     * @param referencingElementRight
+     *            the right referencing element
+     * @return true / false or null if it could not be decided
+     */
+    private Boolean checkVariableReference(EObject referencingElementLeft, EObject referencingElementRight) {
+
+        // better check of similarity of referenced type
+        if (referencingElementLeft instanceof SingleVariableAccess
+                && referencingElementRight instanceof SingleVariableAccess) {
+
+            SingleVariableAccess singleVariableAccess1 = (SingleVariableAccess) referencingElementLeft;
+            SingleVariableAccess singleVariableAccess2 = (SingleVariableAccess) referencingElementRight;
+
+            VariableDeclaration variableDeclaration1 = singleVariableAccess1.getVariable();
+            VariableDeclaration variableDeclaration2 = singleVariableAccess2.getVariable();
+
+            Boolean result = similarityChecker.isSimilar(variableDeclaration1, variableDeclaration2);
+            if (result != null) {
+                return result.booleanValue();
+            } else {
+                logger.warn("importedElement reference target not supported in similarity check: "
+                        + variableDeclaration1.getClass().getSimpleName());
+            }
+        }
+        logger.warn("variable reference of unsupported element: " + referencingElementLeft.getClass().getSimpleName());
+        return null;
+    }
+
+    /**
+     * Check method reference for similarity.
+     * 
+     * @param referencingElementLeft
+     *            the left referencing element
+     * @param referencingElementRight
+     *            the right referencing element
+     * @return true / false or null if it could not be decided
+     */
+    private Boolean checkMethodReference(EObject referencingElementLeft, EObject referencingElementRight) {
+
+        // check for reference in MethodInvocation
+        if (referencingElementLeft instanceof MethodInvocation && referencingElementRight instanceof MethodInvocation) {
+
+            MethodInvocation methodInvocation1 = (MethodInvocation) referencingElementLeft;
+            MethodInvocation methodInvocation2 = (MethodInvocation) referencingElementRight;
+
+            AbstractMethodDeclaration method1 = methodInvocation1.getMethod();
+            AbstractMethodDeclaration method2 = methodInvocation2.getMethod();
+
+            Boolean result = similarityChecker.isSimilar(method1, method2);
+            if (result != null) {
+                return result.booleanValue();
+            }
+        }
+
+        // check for reference in ClassInstanceCreation
+        if (referencingElementLeft instanceof ClassInstanceCreation
+                && referencingElementRight instanceof ClassInstanceCreation) {
+
+            ClassInstanceCreation classInstanceCreation1 = (ClassInstanceCreation) referencingElementLeft;
+            ClassInstanceCreation classInstanceCreation2 = (ClassInstanceCreation) referencingElementRight;
+
+            AbstractMethodDeclaration method1 = classInstanceCreation1.getMethod();
+            AbstractMethodDeclaration method2 = classInstanceCreation2.getMethod();
+
+            Boolean result = similarityChecker.isSimilar(method1, method2);
+            if (result != null) {
+                return result.booleanValue();
+            } else {
+                logger.warn("method reference target not supported in similarity check: "
+                        + method1.getClass().getSimpleName());
+            }
+        }
+
+        return null;
     }
 
     /* ************************************************************************************ */

@@ -21,6 +21,7 @@ import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.eclipse.gmt.modisco.java.TypeParameter;
 import org.eclipse.gmt.modisco.java.UnresolvedTypeDeclaration;
+import org.eclipse.gmt.modisco.java.VariableDeclaration;
 import org.eclipse.gmt.modisco.java.WildCardType;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
@@ -124,6 +125,35 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         return similarityChecker.isSimilar(wildCardType1.getBound().getType(), wildCardType2.getBound().getType());
+    }
+
+    /**
+     * Variables are assumed to be similar when they have the same names and are located in the same
+     * container.
+     * 
+     * @param object
+     *            the variable declaration to compare
+     * @return true / false wether it is similar to the compare element.
+     */
+    @Override
+    public Boolean caseVariableDeclaration(VariableDeclaration object) {
+
+        VariableDeclaration variableDeclaration1 = object;
+        VariableDeclaration variableDeclaration2 = (VariableDeclaration) compareElement;
+
+        // check the variables name equality
+        if (!variableDeclaration1.getName().equals(variableDeclaration2.getName())) {
+            return Boolean.FALSE;
+        }
+
+        // check variable declaration container
+        Boolean similarity = similarityChecker.isSimilar(variableDeclaration1.eContainer(),
+                variableDeclaration2.eContainer());
+        if (similarity != null) {
+            return similarity;
+        } else {
+            return Boolean.TRUE;
+        }
     }
 
     @Override
