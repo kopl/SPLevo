@@ -30,9 +30,11 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.SingleVariableAccess;
+import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.eclipse.gmt.modisco.java.VariableDeclaration;
+import org.eclipse.gmt.modisco.java.emf.impl.ImportDeclarationImpl;
 import org.splevo.diffing.emfcompare.similarity.SimilarityChecker;
 import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 
@@ -103,7 +105,18 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             return true;
         } else if ("usagesInDocComments".equals(reference.getName())) {
             return true;
-        } else if ("redefinitions".equals(reference.getName())) {
+        } 
+        
+        if ("originalCompilationUnit".equals(reference.getName())) {
+            return true;
+        } 
+        
+        
+                
+        // the redifinition relationship is not of interest
+        // because only the new defined element itself is detected
+        // the reference itself has not to be detected separately
+        if ("redefinitions".equals(reference.getName())) {
             return true;
         }
 
@@ -112,6 +125,9 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         // changes to comments are ignored at all
         // ************************************
         if ("commentList".equals(reference.getName())) {
+            return true;
+        }
+        if ("comment".equals(reference.getName())) {
             return true;
         }
 
@@ -299,12 +315,8 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             Boolean result = similarityChecker.isSimilar(variableDeclaration1, variableDeclaration2);
             if (result != null) {
                 return result.booleanValue();
-            } else {
-                logger.warn("importedElement reference target not supported in similarity check: "
-                        + variableDeclaration1.getClass().getSimpleName());
             }
         }
-        logger.warn("variable reference of unsupported element: " + referencingElementLeft.getClass().getSimpleName());
         return null;
     }
 

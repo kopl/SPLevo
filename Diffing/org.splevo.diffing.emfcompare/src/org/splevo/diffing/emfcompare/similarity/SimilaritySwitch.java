@@ -155,7 +155,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             return Boolean.TRUE;
         }
     }
-
+    
     @Override
     public Boolean caseAbstractMethodDeclaration(AbstractMethodDeclaration object) {
 
@@ -303,11 +303,10 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         // The compilation unit name must be the same.
         if (!object.getName().equals(compareCompUnit.getName())) {
-            return false;
+            return Boolean.FALSE;
         }
 
-        // TODO Auto-generated method stub
-        return super.caseCompilationUnit(object);
+        return Boolean.TRUE;
     }
 
     @Override
