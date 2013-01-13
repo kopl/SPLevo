@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.AnonymousClassDeclaration;
+import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
 import org.eclipse.gmt.modisco.java.Package;
 
 /**
@@ -64,9 +65,9 @@ public class JavaModelUtil {
                 return buildFullQualifiedName((AbstractTypeDeclaration) type.eContainer()) + "$" + type;
             } else if (type.eContainer() instanceof AnonymousClassDeclaration) {
                 return buildFullQualifiedName((AnonymousClassDeclaration) type.eContainer()) + "$" + type;
-            } else {
-                logger.warn("Unknown AnonymousClassDeclaration container " + type.eContainer());
             }
+            // TODO handle AnonymousClassDeclaration containers which are not supported yet 
+            // (e.g. ClassInstanceCreation)
         }
 
         return null;

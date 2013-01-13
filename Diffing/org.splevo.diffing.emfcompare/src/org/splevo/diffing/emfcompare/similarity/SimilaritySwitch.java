@@ -69,11 +69,17 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             Package atd2 = (Package) importedElement2;
 
             return checkPackageSimilarity(atd1, atd2);
-
-        } else {
-            logger.warn("Unhandled import type detected: " + importedElement1);
         }
 
+        if (importedElement1 instanceof MethodDeclaration && importedElement2 instanceof MethodDeclaration) {
+
+            MethodDeclaration method1 = (MethodDeclaration) importedElement1;
+            MethodDeclaration method2 = (MethodDeclaration) importedElement2;
+
+            return similarityChecker.isSimilar(method1, method2);
+        }
+
+        logger.warn("Unhandled import type detected: " + importedElement1);
         return null;
     }
 
