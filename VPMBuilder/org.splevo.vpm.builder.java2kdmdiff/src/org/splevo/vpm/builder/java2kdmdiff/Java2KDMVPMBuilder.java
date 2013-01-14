@@ -64,8 +64,6 @@ public class Java2KDMVPMBuilder {
                 group.setGroupId(groupID);
                 group.getVariationPoints().add(vp);
                 vpm.getVariationPointGroups().add(group);
-            } else {
-                logger.info("null VariationPoint created");
             }
         }
 

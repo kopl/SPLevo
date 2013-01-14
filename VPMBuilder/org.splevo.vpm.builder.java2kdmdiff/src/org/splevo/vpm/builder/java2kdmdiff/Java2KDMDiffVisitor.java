@@ -1,6 +1,8 @@
 package org.splevo.vpm.builder.java2kdmdiff;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
@@ -17,6 +19,9 @@ import org.splevo.vpm.variability.variabilityFactory;
  * A visitor for diff elements to fill up a variation point mode.
  */
 class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
+
+    /** The logger used by this class. */
+    private Logger logger = Logger.getLogger(Java2KDMDiffVisitor.class);
 
     /**
      * Handle import inserts. VP references the compilation unit. The leading variant references the
@@ -109,5 +114,11 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
         // return the result
         return variationPoint;
+    }
+
+    @Override
+    public VariationPoint defaultCase(EObject object) {
+        logger.warn("Unhandled DiffType: " + object.getClass());
+        return null;
     }
 }
