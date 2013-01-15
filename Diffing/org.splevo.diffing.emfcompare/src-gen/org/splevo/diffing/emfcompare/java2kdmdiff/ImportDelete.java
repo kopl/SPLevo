@@ -2,6 +2,7 @@
  */
 package org.splevo.diffing.emfcompare.java2kdmdiff;
 
+import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 
 /**
@@ -10,13 +11,14 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * An import that was deleted and is only present in the left model.
+ * An import that was deleted and is only present in the right model.
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
  *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getImportRight <em>Import Right</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getLeftContainer <em>Left Container</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,5 +52,30 @@ public interface ImportDelete extends ImportDeclarationChange {
      * @generated
      */
 	void setImportRight(ImportDeclaration value);
+
+    /**
+     * Returns the value of the '<em><b>Left Container</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * The container in the chaned model that no longer contains the import. (according to emf compares "leftParent" terminology)
+     * <!-- end-model-doc -->
+     * @return the value of the '<em>Left Container</em>' reference.
+     * @see #setLeftContainer(CompilationUnit)
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getImportDelete_LeftContainer()
+     * @model
+     * @generated
+     */
+    CompilationUnit getLeftContainer();
+
+    /**
+     * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getLeftContainer <em>Left Container</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Left Container</em>' reference.
+     * @see #getLeftContainer()
+     * @generated
+     */
+    void setLeftContainer(CompilationUnit value);
 
 } // ImportDelete

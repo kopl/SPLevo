@@ -584,13 +584,22 @@ public interface Java2KDMDiffPackage extends EPackage {
 	int IMPORT_DELETE__IMPORT_RIGHT = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 0;
 
 	/**
+     * The feature id for the '<em><b>Left Container</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPORT_DELETE__LEFT_CONTAINER = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 1;
+
+    /**
      * The number of structural features of the '<em>Import Delete</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int IMPORT_DELETE_FEATURE_COUNT = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 1;
+	int IMPORT_DELETE_FEATURE_COUNT = IMPORT_DECLARATION_CHANGE_FEATURE_COUNT + 2;
 
 
 	/**
@@ -1343,6 +1352,17 @@ public interface Java2KDMDiffPackage extends EPackage {
 	EReference getImportDelete_ImportRight();
 
 	/**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getLeftContainer <em>Left Container</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Left Container</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete#getLeftContainer()
+     * @see #getImportDelete()
+     * @generated
+     */
+    EReference getImportDelete_LeftContainer();
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange <em>Class Signature Change</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1571,6 +1591,14 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
 		EReference IMPORT_DELETE__IMPORT_RIGHT = eINSTANCE.getImportDelete_ImportRight();
+
+        /**
+         * The meta object literal for the '<em><b>Left Container</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference IMPORT_DELETE__LEFT_CONTAINER = eINSTANCE.getImportDelete_LeftContainer();
 
         /**
          * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassSignatureChangeImpl <em>Class Signature Change</em>}' class.

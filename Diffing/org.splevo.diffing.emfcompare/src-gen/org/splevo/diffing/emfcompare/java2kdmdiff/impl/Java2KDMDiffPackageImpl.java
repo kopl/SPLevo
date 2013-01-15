@@ -257,6 +257,15 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getImportDelete_LeftContainer() {
+        return (EReference)importDeleteEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getClassSignatureChange() {
         return classSignatureChangeEClass;
     }
@@ -401,6 +410,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
         importDeleteEClass = createEClass(IMPORT_DELETE);
         createEReference(importDeleteEClass, IMPORT_DELETE__IMPORT_RIGHT);
+        createEReference(importDeleteEClass, IMPORT_DELETE__LEFT_CONTAINER);
 
         classSignatureChangeEClass = createEClass(CLASS_SIGNATURE_CHANGE);
 
@@ -480,6 +490,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
         initEClass(importDeleteEClass, ImportDelete.class, "ImportDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getImportDelete_ImportRight(), theJavaPackage.getImportDeclaration(), null, "importRight", null, 0, 1, ImportDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getImportDelete_LeftContainer(), theJavaPackage.getCompilationUnit(), null, "leftContainer", null, 0, 1, ImportDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(classSignatureChangeEClass, ClassSignatureChange.class, "ClassSignatureChange", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -527,7 +538,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
            source, 
            new String[] {
              "name", "ImportDeclarationChange"
-           });		
+           });			
     }
 
 } //Java2KDMDiffPackageImpl

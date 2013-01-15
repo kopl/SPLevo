@@ -42,7 +42,6 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
         super();
         this.packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
         ueFilter = new UnmatchedElementFilter(packageIgnoreChecker);
-        ueProcessor = new UnmatchedElementProcessor();
     }
 
     /**
@@ -85,6 +84,9 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 
         // filter unmatched elements to ignore
         unmatched = filterIgnoreElements(unmatched);
+        
+        // init the unmatched element processor
+        ueProcessor = new UnmatchedElementProcessor(getMatchManager());
 
         // analyze unmatched elements to create specific diff types.
         List<UnmatchElement> filteredUnmatched = new ArrayList<UnmatchElement>();

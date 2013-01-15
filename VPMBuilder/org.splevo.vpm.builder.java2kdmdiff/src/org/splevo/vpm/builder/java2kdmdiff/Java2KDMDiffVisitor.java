@@ -66,7 +66,8 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     public VariationPoint caseImportDelete(ImportDelete importDelete) {
 
         ImportDeclaration importDeclaration = importDelete.getImportRight();
-        CompilationUnit parent = importDeclaration.getOriginalCompilationUnit();
+        //CompilationUnit parent = importDeclaration.getOriginalCompilationUnit();
+        CompilationUnit parent = importDelete.getLeftContainer();
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();

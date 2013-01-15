@@ -65,7 +65,7 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
             throws InterruptedException {
         
         // TODO Improve Algorithm to check search list. use model specifics instead of simple search window
-        optionMap.put(MatchOptions.OPTION_SEARCH_WINDOW, 200);
+       optionMap.put(MatchOptions.OPTION_SEARCH_WINDOW, 300);
 
         JavaApplication leftJavaApplication = (JavaApplication) leftRoot;
         JavaApplication rightJavaApplication = (JavaApplication) rightRoot;
