@@ -56,7 +56,7 @@ public class BasicDetectionRuleTest extends AbstractTest {
         DetectionRule detectionRule = new BasicDetectionRule(edgeLabels, RefinementType.MERGE);
 
         List<Refinement> refinements = detectionRule.detect(graph);
-        assertEquals("Wrong number of refinements detected", 1, refinements.size());
+        assertEquals("Wrong number of refinements detected", 2, refinements.size());
 
     }
 }
