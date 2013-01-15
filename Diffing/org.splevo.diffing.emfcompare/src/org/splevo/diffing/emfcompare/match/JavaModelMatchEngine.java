@@ -3,6 +3,7 @@ package org.splevo.diffing.emfcompare.match;
 import java.util.Map;
 
 import org.eclipse.emf.compare.FactoryException;
+import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.engine.GenericMatchEngine;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.ecore.EObject;
@@ -28,7 +29,7 @@ import org.splevo.diffing.emfcompare.similarity.SimilarityChecker;
  * 
  */
 public class JavaModelMatchEngine extends GenericMatchEngine {
-    
+
     /** The checker to use to prove element similarity. */
     private SimilarityChecker similarityChecker = new SimilarityChecker();
 
@@ -62,6 +63,9 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
      */
     public MatchModel modelMatch(EObject leftRoot, EObject rightRoot, Map<String, Object> optionMap)
             throws InterruptedException {
+        
+        // TODO Improve Algorithm to check search list. use model specifics instead of simple search window
+        optionMap.put(MatchOptions.OPTION_SEARCH_WINDOW, 200);
 
         JavaApplication leftJavaApplication = (JavaApplication) leftRoot;
         JavaApplication rightJavaApplication = (JavaApplication) rightRoot;
