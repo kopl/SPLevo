@@ -46,7 +46,7 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
         assertNotNull("Leading model must not be null", vpm.getLeadingModel());
         assertNotNull("Integration model must not be null", vpm.getIntegrationModel());
 
-        ModelUtils.save(vpm, "testresult/gcd-intial.vpm");
+        //ModelUtils.save(vpm, "testresult/gcd-intial.vpm");
     }
 
 }
