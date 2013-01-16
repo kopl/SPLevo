@@ -22,6 +22,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.NamedElement;
 
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.variabilityFactory;
@@ -157,11 +159,21 @@ public class VariationPointItemProvider
      * This returns the label text for the adapted class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
 	@Override
 	public String getText(Object object) {
-        return getString("_UI_VariationPoint_type");
+	    StringBuilder label = new StringBuilder();
+	    label.append(getString("_UI_VariationPoint_type"));
+	    
+	    VariationPoint vp = (VariationPoint) object;
+	    ASTNode astNode = vp.getEnclosingSoftwareEntity();
+	    if(astNode != null && astNode instanceof NamedElement){
+	        label.append(" in ");
+	        label.append(((NamedElement) astNode).getName());
+	    }
+	    
+        return label.toString();
     }
 
 	/**

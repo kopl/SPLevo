@@ -1,6 +1,7 @@
 package org.splevo.ui.refinementbrowser;
 
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -127,8 +128,9 @@ public class RefinementDetailsView extends Composite {
         @Override
         public String getText(Object element) {
             if (element instanceof VariationPoint) {
-                return "VariationPoint in "
-                        + ((VariationPoint) element).getEnclosingSoftwareEntity().getClass().getSimpleName();
+
+                return buildVariationPointLabel((VariationPoint) element);
+
             } else if (element instanceof Variant) {
                 return "Variant: " + ((Variant) element).getVariantId();
             } else if (element instanceof ASTNode) {
@@ -137,6 +139,28 @@ public class RefinementDetailsView extends Composite {
             } else {
                 return super.getText(element);
             }
+        }
+
+        /**
+         * Builds the variation point label.
+         * 
+         * @param variationPoint
+         *            the element
+         * @return the string
+         */
+        private String buildVariationPointLabel(VariationPoint variationPoint) {
+
+            StringBuilder label = new StringBuilder();
+            label.append("VariationPoint in ");
+
+            ASTNode astNode = variationPoint.getEnclosingSoftwareEntity();
+            if (astNode != null && astNode instanceof NamedElement) {
+                label.append(((NamedElement) astNode).getName());
+            } else {
+                label.append(astNode.getClass().getSimpleName());
+            }
+
+            return label.toString();
         }
     }
 

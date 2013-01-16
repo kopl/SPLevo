@@ -181,11 +181,8 @@ public class VariantItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Boolean labelValue = ((Variant)object).getLeading();
-		String label = labelValue == null ? null : labelValue.toString();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Variant_type") :
-			getString("_UI_Variant_type") + " (Leading:" + label+")";
+	    Variant variant = (Variant)object;
+	    return getString("_UI_Variant_type") + " (" + variant.getVariantId() + ")";
 	}
 
 	/**
