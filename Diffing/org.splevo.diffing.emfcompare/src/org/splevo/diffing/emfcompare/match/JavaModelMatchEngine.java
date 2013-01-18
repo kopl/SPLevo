@@ -4,7 +4,9 @@ import java.util.Map;
 
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.match.MatchOptions;
+import org.eclipse.emf.compare.match.engine.AbstractSimilarityChecker;
 import org.eclipse.emf.compare.match.engine.GenericMatchEngine;
+import org.eclipse.emf.compare.match.engine.internal.GenericMatchEngineToCheckerBridge;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.Model;
@@ -84,23 +86,25 @@ public class JavaModelMatchEngine extends GenericMatchEngine {
 
         return result;
     }
+    
+    @Override
+    @SuppressWarnings("deprecation")
+    protected AbstractSimilarityChecker prepareChecker() {
+        AbstractSimilarityChecker checker = null;
+        GenericMatchEngineToCheckerBridge bridge = new GenericMatchEngineToCheckerBridge() {
 
-    // /**
-    // *
-    // * Build up the internal contents to include in the matching process.
-    // * Original method has been overridden to not only consider containment references
-    // * but also references to the JavaModel which are not containment references of the
-    // * MoDisco java composition model.
-    // *
-    // */
-    // @Override
-    // protected List<EObject> getScopeInternalContents(EObject eObject,
-    // IMatchScope scope) {
-    // if(eObject instanceof JavaApplication){
-    // return super.getScopeInternalContents(((JavaApplication)eObject).getJavaModel(), scope);
-    // } else {
-    // return super.getScopeInternalContents(eObject, scope);
-    // }
-    // }
+            @Override
+            public double nameSimilarity(EObject obj1, EObject obj2) {
+                return JavaModelMatchEngine.this.nameSimilarity(obj1, obj2);
+            }
+
+            @Override
+            public double contentSimilarity(EObject obj1, EObject obj2) throws FactoryException {
+                return JavaModelMatchEngine.this.contentSimilarity(obj1, obj2);
+            }
+        };
+        checker = new JavaModelSimilarityChecker(filter, bridge);
+        return checker;
+    }
 
 }
