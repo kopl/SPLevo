@@ -22,7 +22,7 @@ import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
  * @model
  * @generated
  */
-public interface ImplementsInterfaceDelete extends ClassSignatureChange {
+public interface ImplementsInterfaceDelete extends ClassChange {
     /**
      * Returns the value of the '<em><b>Implemented Interface</b></em>' reference.
      * <!-- begin-user-doc -->

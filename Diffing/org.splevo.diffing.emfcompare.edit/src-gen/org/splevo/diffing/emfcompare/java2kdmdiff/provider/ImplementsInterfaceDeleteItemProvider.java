@@ -27,7 +27,7 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
  * @generated
  */
 public class ImplementsInterfaceDeleteItemProvider
-    extends ClassSignatureChangeItemProvider
+    extends ClassChangeItemProvider
     implements
         IEditingDomainItemProvider,
         IStructuredItemContentProvider,

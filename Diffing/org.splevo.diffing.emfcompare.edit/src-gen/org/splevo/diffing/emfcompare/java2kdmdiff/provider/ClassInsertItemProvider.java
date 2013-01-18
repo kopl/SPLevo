@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -16,16 +17,17 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 
-import org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange} object.
+ * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ClassSignatureChangeItemProvider
-    extends Java2KDMDiffExtensionItemProvider
+public class ClassInsertItemProvider
+    extends ClassChangeItemProvider
     implements
         IEditingDomainItemProvider,
         IStructuredItemContentProvider,
@@ -38,7 +40,7 @@ public class ClassSignatureChangeItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public ClassSignatureChangeItemProvider(AdapterFactory adapterFactory) {
+    public ClassInsertItemProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
@@ -53,20 +55,60 @@ public class ClassSignatureChangeItemProvider
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
+            addClassLeftPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
+    }
+
+    /**
+     * This adds a property descriptor for the Class Left feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addClassLeftPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ClassInsert_classLeft_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ClassInsert_classLeft_feature", "_UI_ClassInsert_type"),
+                 Java2KDMDiffPackage.Literals.CLASS_INSERT__CLASS_LEFT,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
+     * This returns ClassInsert.gif.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Object getImage(Object object) {
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/ClassInsert"));
     }
 
     /**
      * This returns the label text for the adapted class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     @Override
     public String getText(Object object) {
-        ClassSignatureChange classSignatureChange = (ClassSignatureChange)object;
-        return getString("_UI_ClassSignatureChange_type") + " " + classSignatureChange.isIsCollapsed();
+        ClassInsert classInsert = (ClassInsert)object;
+        
+        String className = null;
+        if(classInsert.getClassLeft() != null){
+            className = classInsert.getClassLeft().getName();
+        }
+        
+        return getString("_UI_ClassInsert_type") + " " + className;
     }
 
     /**

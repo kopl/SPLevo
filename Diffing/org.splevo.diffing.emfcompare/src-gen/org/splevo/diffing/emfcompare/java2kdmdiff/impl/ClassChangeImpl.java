@@ -4,25 +4,25 @@ package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ClassChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Class Signature Change</b></em>'.
+ * An implementation of the model object '<em><b>Class Change</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public abstract class ClassSignatureChangeImpl extends Java2KDMDiffExtensionImpl implements ClassSignatureChange {
+public abstract class ClassChangeImpl extends Java2KDMDiffExtensionImpl implements ClassChange {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected ClassSignatureChangeImpl() {
+    protected ClassChangeImpl() {
         super();
     }
 
@@ -33,7 +33,7 @@ public abstract class ClassSignatureChangeImpl extends Java2KDMDiffExtensionImpl
      */
     @Override
     protected EClass eStaticClass() {
-        return Java2KDMDiffPackage.Literals.CLASS_SIGNATURE_CHANGE;
+        return Java2KDMDiffPackage.Literals.CLASS_CHANGE;
     }
 
-} //ClassSignatureChangeImpl
+} //ClassChangeImpl

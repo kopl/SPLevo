@@ -97,12 +97,18 @@ public class FieldDeleteItemProvider
      * This returns the label text for the adapted class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     @Override
     public String getText(Object object) {
         FieldDelete fieldDelete = (FieldDelete)object;
-        return getString("_UI_FieldDelete_type") + " " + fieldDelete.isIsCollapsed();
+        
+        String fieldName = null;
+        if(fieldDelete.getFieldRight() != null){
+            fieldName = fieldDelete.getFieldRight().getName();
+        }
+        
+        return getString("_UI_FieldDelete_type") + " " + fieldName;
     }
 
     /**

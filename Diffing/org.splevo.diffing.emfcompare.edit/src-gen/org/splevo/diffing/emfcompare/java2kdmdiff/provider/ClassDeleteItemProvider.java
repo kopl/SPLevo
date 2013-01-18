@@ -16,19 +16,18 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 
-import org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert} object.
+ * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class FieldInsertItemProvider
-    extends FieldChangeItemProvider
+public class ClassDeleteItemProvider
+    extends ClassChangeItemProvider
     implements
         IEditingDomainItemProvider,
         IStructuredItemContentProvider,
@@ -41,7 +40,7 @@ public class FieldInsertItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public FieldInsertItemProvider(AdapterFactory adapterFactory) {
+    public ClassDeleteItemProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
@@ -56,25 +55,26 @@ public class FieldInsertItemProvider
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addFieldLeftPropertyDescriptor(object);
+            addClassRightPropertyDescriptor(object);
+            addLeftContainerPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Field Left feature.
+     * This adds a property descriptor for the Class Right feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addFieldLeftPropertyDescriptor(Object object) {
+    protected void addClassRightPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add
             (createItemPropertyDescriptor
                 (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
                  getResourceLocator(),
-                 getString("_UI_FieldInsert_fieldLeft_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_FieldInsert_fieldLeft_feature", "_UI_FieldInsert_type"),
-                 Java2KDMDiffPackage.Literals.FIELD_INSERT__FIELD_LEFT,
+                 getString("_UI_ClassDelete_classRight_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ClassDelete_classRight_feature", "_UI_ClassDelete_type"),
+                 Java2KDMDiffPackage.Literals.CLASS_DELETE__CLASS_RIGHT,
                  true,
                  false,
                  true,
@@ -84,45 +84,54 @@ public class FieldInsertItemProvider
     }
 
     /**
-     * This returns FieldInsert.gif.
+     * This adds a property descriptor for the Left Container feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addLeftContainerPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_ClassDelete_leftContainer_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_ClassDelete_leftContainer_feature", "_UI_ClassDelete_type"),
+                 Java2KDMDiffPackage.Literals.CLASS_DELETE__LEFT_CONTAINER,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
+     * This returns ClassDelete.gif.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/FieldInsert"));
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/ClassDelete"));
     }
 
     /**
      * This returns the label text for the adapted class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
     @Override
     public String getText(Object object) {
-        FieldInsert fieldInsert = (FieldInsert)object;
+        ClassDelete classDelete = (ClassDelete)object;
         
-        StringBuilder nameBuilder = new StringBuilder();
-        if(fieldInsert.getFieldLeft() != null){
-            
-            if(fieldInsert.getFieldLeft().getName() != null){
-                nameBuilder.append(fieldInsert.getFieldLeft().getName());
-            }
-            if(fieldInsert.getFieldLeft().getFragments().size() > 0){
-                for(VariableDeclarationFragment fragment : fieldInsert.getFieldLeft().getFragments()){
-                    
-                    if(nameBuilder.length() > 0){
-                        nameBuilder.append(", ");
-                    }
-                    nameBuilder.append(fragment.getName());
-                }
-            }
+        String className = null;
+        if(classDelete.getClassRight() != null){
+            className = classDelete.getClassRight().getName();
         }
         
-        
-        return getString("_UI_FieldInsert_type") + " " + nameBuilder.toString();
+        return getString("_UI_ClassDelete_type") + " " + className;
     }
 
     /**

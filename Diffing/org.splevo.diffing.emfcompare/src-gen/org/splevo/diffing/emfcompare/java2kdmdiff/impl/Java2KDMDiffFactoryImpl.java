@@ -63,6 +63,8 @@ public class Java2KDMDiffFactoryImpl extends EFactoryImpl implements Java2KDMDif
             case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_DELETE: return createImplementsInterfaceDelete();
             case Java2KDMDiffPackage.FIELD_INSERT: return createFieldInsert();
             case Java2KDMDiffPackage.FIELD_DELETE: return createFieldDelete();
+            case Java2KDMDiffPackage.CLASS_INSERT: return createClassInsert();
+            case Java2KDMDiffPackage.CLASS_DELETE: return createClassDelete();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -136,6 +138,26 @@ public class Java2KDMDiffFactoryImpl extends EFactoryImpl implements Java2KDMDif
     public FieldDelete createFieldDelete() {
         FieldDeleteImpl fieldDelete = new FieldDeleteImpl();
         return fieldDelete;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ClassInsert createClassInsert() {
+        ClassInsertImpl classInsert = new ClassInsertImpl();
+        return classInsert;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ClassDelete createClassDelete() {
+        ClassDeleteImpl classDelete = new ClassDeleteImpl();
+        return classDelete;
     }
 
     /**

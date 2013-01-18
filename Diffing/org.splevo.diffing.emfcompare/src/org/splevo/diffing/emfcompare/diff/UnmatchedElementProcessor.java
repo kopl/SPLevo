@@ -5,9 +5,13 @@ import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.match.metamodel.Side;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
+import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
@@ -73,8 +77,11 @@ public class UnmatchedElementProcessor {
         /**
          * Process an unmatched element which is about an import declaration.
          * 
-         * Builds one of the alternatives: - For a right match: it builds an ImportInsert - For a
-         * left match: it builds an ImportDelete
+         * Builds one of the alternatives:
+         * <ul>
+         *  <li>For a right match: it builds an ImportInsert</li>
+         *  <li>For a left match: it builds an ImportDelete</li>
+         * </ul>
          * 
          * @param element
          *            The ImportDeclaration to handle the switch case for.
@@ -97,6 +104,40 @@ public class UnmatchedElementProcessor {
                     importDelete.setLeftContainer((CompilationUnit) leftContainer);
                 }
                 return importDelete;
+            }
+        }
+        
+        
+        /**
+         * Process an unmatched element which is about a class declaration.
+         * 
+         * Builds one of the alternatives: 
+         * <ul>
+         *  <li>For a right match: it builds a ClassInsert</li>
+         *  <li>For a left match: it builds an ClassDelete</li>
+         *  </ul>
+         * 
+         * @param classDeclaration
+         *            The ClassDeclaration to handle the switch case for.
+         * @return The DiffElement derived from the import declaration.
+         */
+        @Override
+        public DiffElement caseClassDeclaration(ClassDeclaration classDeclaration) {
+
+            if (unmatchElement.getSide() == Side.LEFT) {
+                // add classInsert
+                final ClassInsert classInsert = Java2KDMDiffFactory.eINSTANCE.createClassInsert();
+                classInsert.setClassLeft(classDeclaration);
+                return classInsert;
+            } else {
+                // add ImportDelete
+                final ClassDelete classDelete = Java2KDMDiffFactory.eINSTANCE.createClassDelete();
+                classDelete.setClassRight(classDeclaration);
+                EObject leftContainer = matchManager.getMatchedEObject(classDeclaration.getPackage());
+                if (leftContainer != null) {
+                    classDelete.setLeftContainer((Package) leftContainer);
+                }
+                return classDelete;
             }
         }
 

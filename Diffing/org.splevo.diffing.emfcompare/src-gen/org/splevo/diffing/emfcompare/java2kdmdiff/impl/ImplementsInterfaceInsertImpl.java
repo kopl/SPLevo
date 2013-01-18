@@ -29,7 +29,7 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
  *
  * @generated
  */
-public class ImplementsInterfaceInsertImpl extends ClassSignatureChangeImpl implements ImplementsInterfaceInsert {
+public class ImplementsInterfaceInsertImpl extends ClassChangeImpl implements ImplementsInterfaceInsert {
     /**
      * The cached value of the '{@link #getImplementedInterface() <em>Implemented Interface</em>}' reference.
      * <!-- begin-user-doc -->

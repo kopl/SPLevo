@@ -92,8 +92,8 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
                 return createImportDeleteAdapter();
             }
             @Override
-            public Adapter caseClassSignatureChange(ClassSignatureChange object) {
-                return createClassSignatureChangeAdapter();
+            public Adapter caseClassChange(ClassChange object) {
+                return createClassChangeAdapter();
             }
             @Override
             public Adapter caseImplementsInterfaceInsert(ImplementsInterfaceInsert object) {
@@ -114,6 +114,14 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseFieldDelete(FieldDelete object) {
                 return createFieldDeleteAdapter();
+            }
+            @Override
+            public Adapter caseClassInsert(ClassInsert object) {
+                return createClassInsertAdapter();
+            }
+            @Override
+            public Adapter caseClassDelete(ClassDelete object) {
+                return createClassDeleteAdapter();
             }
             @Override
             public Adapter caseAbstractDiffExtension(AbstractDiffExtension object) {
@@ -214,16 +222,16 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
     }
 
 	/**
-     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange <em>Class Signature Change</em>}'.
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassChange <em>Class Change</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassChange
      * @generated
      */
-    public Adapter createClassSignatureChangeAdapter() {
+    public Adapter createClassChangeAdapter() {
         return null;
     }
 
@@ -294,6 +302,34 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createFieldDeleteAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert <em>Class Insert</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert
+     * @generated
+     */
+    public Adapter createClassInsertAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete <em>Class Delete</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete
+     * @generated
+     */
+    public Adapter createClassDeleteAdapter() {
         return null;
     }
 

@@ -603,14 +603,14 @@ public interface Java2KDMDiffPackage extends EPackage {
 
 
 	/**
-     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassSignatureChangeImpl <em>Class Signature Change</em>}' class.
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassChangeImpl <em>Class Change</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassSignatureChangeImpl
-     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getClassSignatureChange()
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassChangeImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getClassChange()
      * @generated
      */
-    int CLASS_SIGNATURE_CHANGE = 5;
+    int CLASS_CHANGE = 5;
 
     /**
      * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
@@ -619,7 +619,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE__HIDE_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__HIDE_ELEMENTS;
+    int CLASS_CHANGE__HIDE_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__HIDE_ELEMENTS;
 
     /**
      * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
@@ -628,7 +628,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE__IS_COLLAPSED = JAVA2_KDM_DIFF_EXTENSION__IS_COLLAPSED;
+    int CLASS_CHANGE__IS_COLLAPSED = JAVA2_KDM_DIFF_EXTENSION__IS_COLLAPSED;
 
     /**
      * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
@@ -637,7 +637,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE__SUB_DIFF_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__SUB_DIFF_ELEMENTS;
+    int CLASS_CHANGE__SUB_DIFF_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__SUB_DIFF_ELEMENTS;
 
     /**
      * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
@@ -646,7 +646,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE__IS_HIDDEN_BY = JAVA2_KDM_DIFF_EXTENSION__IS_HIDDEN_BY;
+    int CLASS_CHANGE__IS_HIDDEN_BY = JAVA2_KDM_DIFF_EXTENSION__IS_HIDDEN_BY;
 
     /**
      * The feature id for the '<em><b>Conflicting</b></em>' attribute.
@@ -655,7 +655,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE__CONFLICTING = JAVA2_KDM_DIFF_EXTENSION__CONFLICTING;
+    int CLASS_CHANGE__CONFLICTING = JAVA2_KDM_DIFF_EXTENSION__CONFLICTING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -664,7 +664,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE__KIND = JAVA2_KDM_DIFF_EXTENSION__KIND;
+    int CLASS_CHANGE__KIND = JAVA2_KDM_DIFF_EXTENSION__KIND;
 
     /**
      * The feature id for the '<em><b>Remote</b></em>' attribute.
@@ -673,7 +673,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE__REMOTE = JAVA2_KDM_DIFF_EXTENSION__REMOTE;
+    int CLASS_CHANGE__REMOTE = JAVA2_KDM_DIFF_EXTENSION__REMOTE;
 
     /**
      * The feature id for the '<em><b>Requires</b></em>' reference list.
@@ -682,7 +682,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE__REQUIRES = JAVA2_KDM_DIFF_EXTENSION__REQUIRES;
+    int CLASS_CHANGE__REQUIRES = JAVA2_KDM_DIFF_EXTENSION__REQUIRES;
 
     /**
      * The feature id for the '<em><b>Required By</b></em>' reference list.
@@ -691,16 +691,16 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE__REQUIRED_BY = JAVA2_KDM_DIFF_EXTENSION__REQUIRED_BY;
+    int CLASS_CHANGE__REQUIRED_BY = JAVA2_KDM_DIFF_EXTENSION__REQUIRED_BY;
 
     /**
-     * The number of structural features of the '<em>Class Signature Change</em>' class.
+     * The number of structural features of the '<em>Class Change</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int CLASS_SIGNATURE_CHANGE_FEATURE_COUNT = JAVA2_KDM_DIFF_EXTENSION_FEATURE_COUNT + 0;
+    int CLASS_CHANGE_FEATURE_COUNT = JAVA2_KDM_DIFF_EXTENSION_FEATURE_COUNT + 0;
 
     /**
      * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImplementsInterfaceInsertImpl <em>Implements Interface Insert</em>}' class.
@@ -719,7 +719,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__HIDE_ELEMENTS = CLASS_SIGNATURE_CHANGE__HIDE_ELEMENTS;
+    int IMPLEMENTS_INTERFACE_INSERT__HIDE_ELEMENTS = CLASS_CHANGE__HIDE_ELEMENTS;
 
     /**
      * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
@@ -728,7 +728,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__IS_COLLAPSED = CLASS_SIGNATURE_CHANGE__IS_COLLAPSED;
+    int IMPLEMENTS_INTERFACE_INSERT__IS_COLLAPSED = CLASS_CHANGE__IS_COLLAPSED;
 
     /**
      * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
@@ -737,7 +737,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__SUB_DIFF_ELEMENTS = CLASS_SIGNATURE_CHANGE__SUB_DIFF_ELEMENTS;
+    int IMPLEMENTS_INTERFACE_INSERT__SUB_DIFF_ELEMENTS = CLASS_CHANGE__SUB_DIFF_ELEMENTS;
 
     /**
      * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
@@ -746,7 +746,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__IS_HIDDEN_BY = CLASS_SIGNATURE_CHANGE__IS_HIDDEN_BY;
+    int IMPLEMENTS_INTERFACE_INSERT__IS_HIDDEN_BY = CLASS_CHANGE__IS_HIDDEN_BY;
 
     /**
      * The feature id for the '<em><b>Conflicting</b></em>' attribute.
@@ -755,7 +755,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__CONFLICTING = CLASS_SIGNATURE_CHANGE__CONFLICTING;
+    int IMPLEMENTS_INTERFACE_INSERT__CONFLICTING = CLASS_CHANGE__CONFLICTING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -764,7 +764,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__KIND = CLASS_SIGNATURE_CHANGE__KIND;
+    int IMPLEMENTS_INTERFACE_INSERT__KIND = CLASS_CHANGE__KIND;
 
     /**
      * The feature id for the '<em><b>Remote</b></em>' attribute.
@@ -773,7 +773,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__REMOTE = CLASS_SIGNATURE_CHANGE__REMOTE;
+    int IMPLEMENTS_INTERFACE_INSERT__REMOTE = CLASS_CHANGE__REMOTE;
 
     /**
      * The feature id for the '<em><b>Requires</b></em>' reference list.
@@ -782,7 +782,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__REQUIRES = CLASS_SIGNATURE_CHANGE__REQUIRES;
+    int IMPLEMENTS_INTERFACE_INSERT__REQUIRES = CLASS_CHANGE__REQUIRES;
 
     /**
      * The feature id for the '<em><b>Required By</b></em>' reference list.
@@ -791,7 +791,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__REQUIRED_BY = CLASS_SIGNATURE_CHANGE__REQUIRED_BY;
+    int IMPLEMENTS_INTERFACE_INSERT__REQUIRED_BY = CLASS_CHANGE__REQUIRED_BY;
 
     /**
      * The feature id for the '<em><b>Implemented Interface</b></em>' reference.
@@ -800,7 +800,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE = CLASS_SIGNATURE_CHANGE_FEATURE_COUNT + 0;
+    int IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE = CLASS_CHANGE_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Changed Class</b></em>' reference.
@@ -809,7 +809,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS = CLASS_SIGNATURE_CHANGE_FEATURE_COUNT + 1;
+    int IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS = CLASS_CHANGE_FEATURE_COUNT + 1;
 
     /**
      * The number of structural features of the '<em>Implements Interface Insert</em>' class.
@@ -818,7 +818,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_INSERT_FEATURE_COUNT = CLASS_SIGNATURE_CHANGE_FEATURE_COUNT + 2;
+    int IMPLEMENTS_INTERFACE_INSERT_FEATURE_COUNT = CLASS_CHANGE_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImplementsInterfaceDeleteImpl <em>Implements Interface Delete</em>}' class.
@@ -837,7 +837,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__HIDE_ELEMENTS = CLASS_SIGNATURE_CHANGE__HIDE_ELEMENTS;
+    int IMPLEMENTS_INTERFACE_DELETE__HIDE_ELEMENTS = CLASS_CHANGE__HIDE_ELEMENTS;
 
     /**
      * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
@@ -846,7 +846,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__IS_COLLAPSED = CLASS_SIGNATURE_CHANGE__IS_COLLAPSED;
+    int IMPLEMENTS_INTERFACE_DELETE__IS_COLLAPSED = CLASS_CHANGE__IS_COLLAPSED;
 
     /**
      * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
@@ -855,7 +855,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__SUB_DIFF_ELEMENTS = CLASS_SIGNATURE_CHANGE__SUB_DIFF_ELEMENTS;
+    int IMPLEMENTS_INTERFACE_DELETE__SUB_DIFF_ELEMENTS = CLASS_CHANGE__SUB_DIFF_ELEMENTS;
 
     /**
      * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
@@ -864,7 +864,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__IS_HIDDEN_BY = CLASS_SIGNATURE_CHANGE__IS_HIDDEN_BY;
+    int IMPLEMENTS_INTERFACE_DELETE__IS_HIDDEN_BY = CLASS_CHANGE__IS_HIDDEN_BY;
 
     /**
      * The feature id for the '<em><b>Conflicting</b></em>' attribute.
@@ -873,7 +873,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__CONFLICTING = CLASS_SIGNATURE_CHANGE__CONFLICTING;
+    int IMPLEMENTS_INTERFACE_DELETE__CONFLICTING = CLASS_CHANGE__CONFLICTING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -882,7 +882,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__KIND = CLASS_SIGNATURE_CHANGE__KIND;
+    int IMPLEMENTS_INTERFACE_DELETE__KIND = CLASS_CHANGE__KIND;
 
     /**
      * The feature id for the '<em><b>Remote</b></em>' attribute.
@@ -891,7 +891,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__REMOTE = CLASS_SIGNATURE_CHANGE__REMOTE;
+    int IMPLEMENTS_INTERFACE_DELETE__REMOTE = CLASS_CHANGE__REMOTE;
 
     /**
      * The feature id for the '<em><b>Requires</b></em>' reference list.
@@ -900,7 +900,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__REQUIRES = CLASS_SIGNATURE_CHANGE__REQUIRES;
+    int IMPLEMENTS_INTERFACE_DELETE__REQUIRES = CLASS_CHANGE__REQUIRES;
 
     /**
      * The feature id for the '<em><b>Required By</b></em>' reference list.
@@ -909,7 +909,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__REQUIRED_BY = CLASS_SIGNATURE_CHANGE__REQUIRED_BY;
+    int IMPLEMENTS_INTERFACE_DELETE__REQUIRED_BY = CLASS_CHANGE__REQUIRED_BY;
 
     /**
      * The feature id for the '<em><b>Implemented Interface</b></em>' reference.
@@ -918,7 +918,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__IMPLEMENTED_INTERFACE = CLASS_SIGNATURE_CHANGE_FEATURE_COUNT + 0;
+    int IMPLEMENTS_INTERFACE_DELETE__IMPLEMENTED_INTERFACE = CLASS_CHANGE_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Changed Class</b></em>' reference.
@@ -927,7 +927,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE__CHANGED_CLASS = CLASS_SIGNATURE_CHANGE_FEATURE_COUNT + 1;
+    int IMPLEMENTS_INTERFACE_DELETE__CHANGED_CLASS = CLASS_CHANGE_FEATURE_COUNT + 1;
 
     /**
      * The number of structural features of the '<em>Implements Interface Delete</em>' class.
@@ -936,7 +936,7 @@ public interface Java2KDMDiffPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int IMPLEMENTS_INTERFACE_DELETE_FEATURE_COUNT = CLASS_SIGNATURE_CHANGE_FEATURE_COUNT + 2;
+    int IMPLEMENTS_INTERFACE_DELETE_FEATURE_COUNT = CLASS_CHANGE_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldChangeImpl <em>Field Change</em>}' class.
@@ -1258,6 +1258,234 @@ public interface Java2KDMDiffPackage extends EPackage {
 
 
     /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassInsertImpl <em>Class Insert</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassInsertImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getClassInsert()
+     * @generated
+     */
+    int CLASS_INSERT = 11;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__HIDE_ELEMENTS = CLASS_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__IS_COLLAPSED = CLASS_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__SUB_DIFF_ELEMENTS = CLASS_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__IS_HIDDEN_BY = CLASS_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__CONFLICTING = CLASS_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__KIND = CLASS_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__REMOTE = CLASS_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__REQUIRES = CLASS_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__REQUIRED_BY = CLASS_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Class Left</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT__CLASS_LEFT = CLASS_CHANGE_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Class Insert</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_INSERT_FEATURE_COUNT = CLASS_CHANGE_FEATURE_COUNT + 1;
+
+    /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassDeleteImpl <em>Class Delete</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassDeleteImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getClassDelete()
+     * @generated
+     */
+    int CLASS_DELETE = 12;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__HIDE_ELEMENTS = CLASS_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__IS_COLLAPSED = CLASS_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__SUB_DIFF_ELEMENTS = CLASS_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__IS_HIDDEN_BY = CLASS_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__CONFLICTING = CLASS_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__KIND = CLASS_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__REMOTE = CLASS_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__REQUIRES = CLASS_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__REQUIRED_BY = CLASS_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Class Right</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__CLASS_RIGHT = CLASS_CHANGE_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Left Container</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE__LEFT_CONTAINER = CLASS_CHANGE_FEATURE_COUNT + 1;
+
+    /**
+     * The number of structural features of the '<em>Class Delete</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CLASS_DELETE_FEATURE_COUNT = CLASS_CHANGE_FEATURE_COUNT + 2;
+
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension <em>Extension</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1363,14 +1591,14 @@ public interface Java2KDMDiffPackage extends EPackage {
     EReference getImportDelete_LeftContainer();
 
     /**
-     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange <em>Class Signature Change</em>}'.
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassChange <em>Class Change</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Class Signature Change</em>'.
-     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange
+     * @return the meta object for class '<em>Class Change</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassChange
      * @generated
      */
-    EClass getClassSignatureChange();
+    EClass getClassChange();
 
     /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceInsert <em>Implements Interface Insert</em>}'.
@@ -1489,6 +1717,59 @@ public interface Java2KDMDiffPackage extends EPackage {
     EReference getFieldDelete_FieldRight();
 
     /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert <em>Class Insert</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Class Insert</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert
+     * @generated
+     */
+    EClass getClassInsert();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert#getClassLeft <em>Class Left</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Class Left</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert#getClassLeft()
+     * @see #getClassInsert()
+     * @generated
+     */
+    EReference getClassInsert_ClassLeft();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete <em>Class Delete</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Class Delete</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete
+     * @generated
+     */
+    EClass getClassDelete();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete#getClassRight <em>Class Right</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Class Right</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete#getClassRight()
+     * @see #getClassDelete()
+     * @generated
+     */
+    EReference getClassDelete_ClassRight();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete#getLeftContainer <em>Left Container</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Left Container</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete#getLeftContainer()
+     * @see #getClassDelete()
+     * @generated
+     */
+    EReference getClassDelete_LeftContainer();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1601,14 +1882,14 @@ public interface Java2KDMDiffPackage extends EPackage {
         EReference IMPORT_DELETE__LEFT_CONTAINER = eINSTANCE.getImportDelete_LeftContainer();
 
         /**
-         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassSignatureChangeImpl <em>Class Signature Change</em>}' class.
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassChangeImpl <em>Class Change</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassSignatureChangeImpl
-         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getClassSignatureChange()
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassChangeImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getClassChange()
          * @generated
          */
-        EClass CLASS_SIGNATURE_CHANGE = eINSTANCE.getClassSignatureChange();
+        EClass CLASS_CHANGE = eINSTANCE.getClassChange();
 
         /**
          * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImplementsInterfaceInsertImpl <em>Implements Interface Insert</em>}' class.
@@ -1707,6 +1988,50 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
         EReference FIELD_DELETE__FIELD_RIGHT = eINSTANCE.getFieldDelete_FieldRight();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassInsertImpl <em>Class Insert</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassInsertImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getClassInsert()
+         * @generated
+         */
+        EClass CLASS_INSERT = eINSTANCE.getClassInsert();
+
+        /**
+         * The meta object literal for the '<em><b>Class Left</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CLASS_INSERT__CLASS_LEFT = eINSTANCE.getClassInsert_ClassLeft();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassDeleteImpl <em>Class Delete</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassDeleteImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getClassDelete()
+         * @generated
+         */
+        EClass CLASS_DELETE = eINSTANCE.getClassDelete();
+
+        /**
+         * The meta object literal for the '<em><b>Class Right</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CLASS_DELETE__CLASS_RIGHT = eINSTANCE.getClassDelete_ClassRight();
+
+        /**
+         * The meta object literal for the '<em><b>Left Container</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CLASS_DELETE__LEFT_CONTAINER = eINSTANCE.getClassDelete_LeftContainer();
 
 	}
 

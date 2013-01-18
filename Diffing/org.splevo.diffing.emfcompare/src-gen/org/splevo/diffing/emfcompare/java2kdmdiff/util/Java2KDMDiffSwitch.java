@@ -116,19 +116,19 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case Java2KDMDiffPackage.CLASS_SIGNATURE_CHANGE: {
-                ClassSignatureChange classSignatureChange = (ClassSignatureChange)theEObject;
-                T result = caseClassSignatureChange(classSignatureChange);
-                if (result == null) result = caseJava2KDMDiffExtension(classSignatureChange);
-                if (result == null) result = caseAbstractDiffExtension(classSignatureChange);
-                if (result == null) result = caseDiffElement(classSignatureChange);
+            case Java2KDMDiffPackage.CLASS_CHANGE: {
+                ClassChange classChange = (ClassChange)theEObject;
+                T result = caseClassChange(classChange);
+                if (result == null) result = caseJava2KDMDiffExtension(classChange);
+                if (result == null) result = caseAbstractDiffExtension(classChange);
+                if (result == null) result = caseDiffElement(classChange);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT: {
                 ImplementsInterfaceInsert implementsInterfaceInsert = (ImplementsInterfaceInsert)theEObject;
                 T result = caseImplementsInterfaceInsert(implementsInterfaceInsert);
-                if (result == null) result = caseClassSignatureChange(implementsInterfaceInsert);
+                if (result == null) result = caseClassChange(implementsInterfaceInsert);
                 if (result == null) result = caseJava2KDMDiffExtension(implementsInterfaceInsert);
                 if (result == null) result = caseAbstractDiffExtension(implementsInterfaceInsert);
                 if (result == null) result = caseDiffElement(implementsInterfaceInsert);
@@ -138,7 +138,7 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
             case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_DELETE: {
                 ImplementsInterfaceDelete implementsInterfaceDelete = (ImplementsInterfaceDelete)theEObject;
                 T result = caseImplementsInterfaceDelete(implementsInterfaceDelete);
-                if (result == null) result = caseClassSignatureChange(implementsInterfaceDelete);
+                if (result == null) result = caseClassChange(implementsInterfaceDelete);
                 if (result == null) result = caseJava2KDMDiffExtension(implementsInterfaceDelete);
                 if (result == null) result = caseAbstractDiffExtension(implementsInterfaceDelete);
                 if (result == null) result = caseDiffElement(implementsInterfaceDelete);
@@ -171,6 +171,26 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
                 if (result == null) result = caseJava2KDMDiffExtension(fieldDelete);
                 if (result == null) result = caseAbstractDiffExtension(fieldDelete);
                 if (result == null) result = caseDiffElement(fieldDelete);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case Java2KDMDiffPackage.CLASS_INSERT: {
+                ClassInsert classInsert = (ClassInsert)theEObject;
+                T result = caseClassInsert(classInsert);
+                if (result == null) result = caseClassChange(classInsert);
+                if (result == null) result = caseJava2KDMDiffExtension(classInsert);
+                if (result == null) result = caseAbstractDiffExtension(classInsert);
+                if (result == null) result = caseDiffElement(classInsert);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case Java2KDMDiffPackage.CLASS_DELETE: {
+                ClassDelete classDelete = (ClassDelete)theEObject;
+                T result = caseClassDelete(classDelete);
+                if (result == null) result = caseClassChange(classDelete);
+                if (result == null) result = caseJava2KDMDiffExtension(classDelete);
+                if (result == null) result = caseAbstractDiffExtension(classDelete);
+                if (result == null) result = caseDiffElement(classDelete);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -254,17 +274,17 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
     }
 
 	/**
-     * Returns the result of interpreting the object as an instance of '<em>Class Signature Change</em>'.
+     * Returns the result of interpreting the object as an instance of '<em>Class Change</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Class Signature Change</em>'.
+     * @return the result of interpreting the object as an instance of '<em>Class Change</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public T caseClassSignatureChange(ClassSignatureChange object) {
+    public T caseClassChange(ClassChange object) {
         return null;
     }
 
@@ -340,6 +360,36 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseFieldDelete(FieldDelete object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Class Insert</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Class Insert</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseClassInsert(ClassInsert object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Class Delete</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Class Delete</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseClassDelete(ClassDelete object) {
         return null;
     }
 

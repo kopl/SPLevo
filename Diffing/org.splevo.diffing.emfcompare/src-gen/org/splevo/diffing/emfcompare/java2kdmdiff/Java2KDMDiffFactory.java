@@ -85,6 +85,24 @@ public interface Java2KDMDiffFactory extends EFactory {
     FieldDelete createFieldDelete();
 
     /**
+     * Returns a new object of class '<em>Class Insert</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Class Insert</em>'.
+     * @generated
+     */
+    ClassInsert createClassInsert();
+
+    /**
+     * Returns a new object of class '<em>Class Delete</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Class Delete</em>'.
+     * @generated
+     */
+    ClassDelete createClassDelete();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

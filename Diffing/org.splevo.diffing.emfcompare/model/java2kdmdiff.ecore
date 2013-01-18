@@ -53,15 +53,14 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ClassSignatureChange" abstract="true"
-      eSuperTypes="#//Java2KDMDiffExtension"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ImplementsInterfaceInsert" eSuperTypes="#//ClassSignatureChange">
+  <eClassifiers xsi:type="ecore:EClass" name="ClassChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImplementsInterfaceInsert" eSuperTypes="#//ClassChange">
     <eStructuralFeatures xsi:type="ecore:EReference" name="implementedInterface" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//InterfaceDeclaration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedClass" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ImplementsInterfaceDelete" eSuperTypes="#//ClassSignatureChange">
+  <eClassifiers xsi:type="ecore:EClass" name="ImplementsInterfaceDelete" eSuperTypes="#//ClassChange">
     <eStructuralFeatures xsi:type="ecore:EReference" name="implementedInterface" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//InterfaceDeclaration"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedClass" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration"/>
@@ -72,5 +71,27 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FieldDelete" eSuperTypes="#//FieldChange">
     <eStructuralFeatures xsi:type="ecore:EReference" name="fieldRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassInsert" eSuperTypes="#//ClassChange">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classLeft" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The added class declaration."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassDelete" eSuperTypes="#//ClassChange">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classRight" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The deleted class declaration."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The package in the current model that no longer contains the deleted class."/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>

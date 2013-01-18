@@ -233,6 +233,52 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ClassInsertItemProvider classInsertItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createClassInsertAdapter() {
+        if (classInsertItemProvider == null) {
+            classInsertItemProvider = new ClassInsertItemProvider(this);
+        }
+
+        return classInsertItemProvider;
+    }
+
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ClassDeleteItemProvider classDeleteItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createClassDeleteAdapter() {
+        if (classDeleteItemProvider == null) {
+            classDeleteItemProvider = new ClassDeleteItemProvider(this);
+        }
+
+        return classDeleteItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -338,6 +384,8 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
         if (implementsInterfaceDeleteItemProvider != null) implementsInterfaceDeleteItemProvider.dispose();
         if (fieldInsertItemProvider != null) fieldInsertItemProvider.dispose();
         if (fieldDeleteItemProvider != null) fieldDeleteItemProvider.dispose();
+        if (classInsertItemProvider != null) classInsertItemProvider.dispose();
+        if (classDeleteItemProvider != null) classDeleteItemProvider.dispose();
     }
 
 }
