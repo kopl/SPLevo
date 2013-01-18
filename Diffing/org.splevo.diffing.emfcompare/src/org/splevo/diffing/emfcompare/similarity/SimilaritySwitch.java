@@ -1,5 +1,7 @@
 package org.splevo.diffing.emfcompare.similarity;
 
+import java.io.ObjectInputStream.GetField;
+
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
@@ -8,22 +10,30 @@ import org.eclipse.gmt.modisco.java.AnonymousClassDeclaration;
 import org.eclipse.gmt.modisco.java.ArrayType;
 import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
+import org.eclipse.gmt.modisco.java.Expression;
+import org.eclipse.gmt.modisco.java.ExpressionStatement;
+import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.gmt.modisco.java.Modifier;
 import org.eclipse.gmt.modisco.java.NamedElement;
+import org.eclipse.gmt.modisco.java.NullLiteral;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PackageAccess;
 import org.eclipse.gmt.modisco.java.ParameterizedType;
 import org.eclipse.gmt.modisco.java.PrimitiveType;
+import org.eclipse.gmt.modisco.java.SingleVariableAccess;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.eclipse.gmt.modisco.java.TypeParameter;
 import org.eclipse.gmt.modisco.java.UnresolvedTypeDeclaration;
 import org.eclipse.gmt.modisco.java.VariableDeclaration;
+import org.eclipse.gmt.modisco.java.VariableDeclarationExpression;
+import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
+import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.gmt.modisco.java.WildCardType;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.splevo.diffing.emfcompare.util.JavaModelUtil;
@@ -50,6 +60,23 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
      */
     public SimilaritySwitch(EObject compareElement) {
         this.compareElement = compareElement;
+    }
+
+    @Override
+    public Boolean caseExpressionStatement(ExpressionStatement expressionStatement1) {
+
+        ExpressionStatement expressionStatement2 = (ExpressionStatement) compareElement;
+
+        Expression expression1 = expressionStatement1.getExpression();
+        Expression expression2 = expressionStatement2.getExpression();
+
+        
+        Boolean expressionSimilarity = similarityChecker.isSimilar(expression1, expression2);
+        if (expressionSimilarity != null && expressionSimilarity == Boolean.FALSE) {
+            return expressionSimilarity;
+        }
+
+        return Boolean.TRUE;
     }
 
     @Override
@@ -209,10 +236,12 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
          * methods as members of anonymous classes
          */
         if (object.getAnonymousClassDeclarationOwner() != null) {
-
             AnonymousClassDeclaration type1 = object.getAnonymousClassDeclarationOwner();
             AnonymousClassDeclaration type2 = compareMethod.getAnonymousClassDeclarationOwner();
-            return checkAnonymousClassDeclarationSimilarity(type1, type2);
+            Boolean result = checkAnonymousClassDeclarationSimilarity(type1, type2);
+            if (result != null) {
+                return result;
+            }
 
         }
 
@@ -247,6 +276,16 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
      * @return true/false whether they are similar or not.
      */
     private Boolean checkAbstractTypeDeclarationSimilarity(AbstractTypeDeclaration type1, AbstractTypeDeclaration type2) {
+
+        // if both types null: they are similar
+        if (type1 == null && type2 == null) {
+            return Boolean.TRUE;
+        }
+
+        // if only one is null: they are different
+        if ((type1 == null && type2 != null) || (type1 != null && type2 == null)) {
+            return Boolean.FALSE;
+        }
 
         // if the types names are different then they do not match
         if (type1.getName() != null && !type1.getName().equals(type2.getName())) {
@@ -354,10 +393,13 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
     @Override
     public Boolean casePackage(Package packageElement) {
-
         Package referencePackage = (Package) compareElement;
-
         return checkPackageSimilarity(packageElement, referencePackage);
+    }
+
+    @Override
+    public Boolean defaultCase(EObject object) {
+        return null;
     }
 
     /**
@@ -409,6 +451,67 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return false;
     }
 
+    /**
+     * Check SingleVariableDeclarations similarity. They are assumed to be similar if they have the
+     * same variable name and are located in the same container.
+     * 
+     * @param varDeclaration1
+     *            The variable declaration to compare.
+     * @return the boolean True/false whether they are similar ot null if it could not be decided.
+     */
+    @Override
+    public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration varDeclaration1) {
+
+        SingleVariableDeclaration varDeclaration2 = (SingleVariableDeclaration) compareElement;
+
+        // Check name similarity
+        if (varDeclaration1.getName() != null && !varDeclaration1.getName().equals(varDeclaration2.getName())) {
+            return Boolean.FALSE;
+        }
+
+        // check container similarity
+        Boolean containerSimilarity = similarityChecker.isSimilar(varDeclaration1.eContainer(),
+                varDeclaration2.eContainer());
+        if (containerSimilarity != null) {
+            return containerSimilarity;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean caseVariableDeclarationStatement(VariableDeclarationStatement varDeclStatement1) {
+
+        VariableDeclarationStatement varDeclStatement2 = (VariableDeclarationStatement) compareElement;
+
+        // check fragment count
+        if (varDeclStatement1.getFragments().size() != varDeclStatement2.getFragments().size()) {
+            return Boolean.FALSE;
+        }
+
+        // check container similarity
+        Boolean containerSimilarity = similarityChecker.isSimilar(varDeclStatement1.eContainer(),
+                varDeclStatement2.eContainer());
+        if (containerSimilarity != null) {
+            return containerSimilarity;
+        }
+
+        // check declared fragments
+        for (int i = 0; i < varDeclStatement1.getFragments().size(); i++) {
+            VariableDeclarationFragment frag1 = varDeclStatement1.getFragments().get(i);
+            VariableDeclarationFragment frag2 = varDeclStatement2.getFragments().get(i);
+            if (frag1.getName() != null && !frag1.getName().equals(frag2.getName())) {
+                return Boolean.FALSE;
+            } else if (frag1.getName() == null && frag2.getName() != null) {
+                return Boolean.FALSE;
+            }
+        }
+
+        // TODO: Check VariableDeclarationStatement position in container
+
+        return Boolean.TRUE;
+    }
+
     @Override
     public Boolean caseTypeAccess(TypeAccess object) {
 
@@ -444,6 +547,71 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         // }
         //
         // return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean caseVariableDeclarationFragment(VariableDeclarationFragment varDeclFrag) {
+
+        VariableDeclarationFragment varDeclFrag2 = (VariableDeclarationFragment) compareElement;
+
+        // name check
+        if (varDeclFrag.getName() != null && !varDeclFrag.getName().equals(varDeclFrag2.getName())) {
+            return Boolean.FALSE;
+        }
+
+        // container check
+        Boolean containerSimilarity = similarityChecker.isSimilar(varDeclFrag.eContainer(), varDeclFrag2.eContainer());
+        if (containerSimilarity != null) {
+            return containerSimilarity;
+        }
+
+        logger.warn("variable declaration fragment container not supported: " + varDeclFrag.eContainer());
+
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean caseVariableDeclarationExpression(VariableDeclarationExpression variableDeclarationExpression1) {
+
+        VariableDeclarationExpression variableDeclarationExpression2 = (VariableDeclarationExpression) compareElement;
+
+        if (variableDeclarationExpression1.getFragments().size() != variableDeclarationExpression2.getFragments()
+                .size()) {
+            return Boolean.FALSE;
+        }
+
+        for (int i = 0; i < variableDeclarationExpression1.getFragments().size(); i++) {
+            VariableDeclarationFragment varDeclFrag1 = variableDeclarationExpression1.getFragments().get(i);
+            VariableDeclarationFragment varDeclFrag2 = variableDeclarationExpression2.getFragments().get(i);
+
+            if (varDeclFrag1.getName() != null && !varDeclFrag1.getName().equals(varDeclFrag2.getName())) {
+                return Boolean.FALSE;
+            } else if (varDeclFrag1.getName() == null && varDeclFrag2.getName() != null) {
+                return Boolean.FALSE;
+            }
+        }
+
+        // TODO check namespace (container)
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean caseFieldDeclaration(FieldDeclaration fieldDecl) {
+
+        FieldDeclaration fieldDecl2 = (FieldDeclaration) compareElement;
+
+        // name check
+        if (fieldDecl.getName() != null && !fieldDecl.getName().equals(fieldDecl2.getName())) {
+            return Boolean.FALSE;
+        }
+
+        // container check
+        Boolean containerSimilarity = similarityChecker.isSimilar(fieldDecl.eContainer(), fieldDecl2.eContainer());
+        if (containerSimilarity != null) {
+            return containerSimilarity;
+        }
+
+        return Boolean.TRUE;
     }
 
     /**
@@ -596,6 +764,41 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
                 return Boolean.FALSE;
             }
         }
+
+        // TODO check the variable access
+        for (int i = 0; i < methodInvocation.getArguments().size(); i++) {
+            Expression methodArgument1 = methodInvocation.getArguments().get(i);
+            Expression methodArgument2 = methodInvocation2.getArguments().get(i);
+
+            Boolean argumentSimilarity = similarityChecker.isSimilar(methodArgument1, methodArgument2);
+            if (argumentSimilarity != null && argumentSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+        }
+
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean caseNullLiteral(NullLiteral object) {
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean caseSingleVariableAccess(SingleVariableAccess singleVatriableAccess1) {
+
+        SingleVariableAccess singleVatriableAccess2 = (SingleVariableAccess) compareElement;
+
+        String name1 = singleVatriableAccess1.getVariable().getName();
+        String name2 = singleVatriableAccess2.getVariable().getName();
+
+        if (name1 != null && !name1.equals(name2)) {
+            return Boolean.FALSE;
+        } else if (name1 == null && name2 != null) {
+            return Boolean.FALSE;
+        }
+
+        // TODO check variable declaration namespace (container)
 
         return Boolean.TRUE;
     }
