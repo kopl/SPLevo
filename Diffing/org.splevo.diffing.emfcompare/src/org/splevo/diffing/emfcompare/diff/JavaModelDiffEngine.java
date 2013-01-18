@@ -10,10 +10,13 @@ import org.eclipse.emf.compare.diff.engine.check.ReferencesCheck;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
 import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
+import org.eclipse.emf.compare.match.metamodel.Match2Elements;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ParameterizedType;
+import org.splevo.diffing.emfcompare.similarity.SimilarityChecker;
 import org.splevo.diffing.emfcompare.util.PackageIgnoreChecker;
 
 /**
@@ -26,17 +29,21 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 
     /** The unmatched element processor to build more semantical diff elements. */
     private UnmatchedElementProcessor ueProcessor = null;
-    
+
     /** Identifier for elements which are not relevant. */
     private UnmatchedElementFilter ueFilter = null;
-    
+
     /** The package ignore checker to be used. */
     private PackageIgnoreChecker packageIgnoreChecker = null;
+
+    /** Similarity checker to use for the move operations. */
+    private SimilarityChecker similarityChecker = new SimilarityChecker();
 
     /**
      * Constructor requiring to set the relevant references.
      * 
-     * @param ignorePackages The packages to ignore.
+     * @param ignorePackages
+     *            The packages to ignore.
      */
     public JavaModelDiffEngine(List<String> ignorePackages) {
         super();
@@ -66,6 +73,25 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
         return new JavaModelReferenceCheck(getMatchManager(), packageIgnoreChecker);
     }
 
+    @Override
+    protected void checkMoves(DiffGroup root, Match2Elements matchElement) {
+        final EObject left = matchElement.getLeftElement();
+        final EObject right = matchElement.getRightElement();
+
+        if (left instanceof EGenericType || right instanceof EGenericType) {
+            return;
+        }
+
+        Boolean containerSimilarity = similarityChecker.isSimilar(left.eContainer(), right.eContainer());
+        if (containerSimilarity == Boolean.TRUE) {
+            return;
+        }
+
+        // if the custom similarity check did not match use the default super behaviour
+        // based on the match manager
+        super.checkMoves(root, matchElement);
+    }
+
     /**
      * Process the unmatched elements.
      * 
@@ -84,7 +110,7 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
 
         // filter unmatched elements to ignore
         unmatched = filterIgnoreElements(unmatched);
-        
+
         // init the unmatched element processor
         ueProcessor = new UnmatchedElementProcessor(getMatchManager());
 
@@ -136,12 +162,12 @@ public class JavaModelDiffEngine extends GenericDiffEngine {
             if (unmatchElement.getElement() instanceof ParameterizedType) {
                 continue;
             }
-            
+
             // filter compilation units
             if (unmatchElement.getElement() instanceof CompilationUnit) {
                 continue;
             }
-        
+
             unmatchedFiltered.add(unmatchElement);
         }
         return unmatchedFiltered;
