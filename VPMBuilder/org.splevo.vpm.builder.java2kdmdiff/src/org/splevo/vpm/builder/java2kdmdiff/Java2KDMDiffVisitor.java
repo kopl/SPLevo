@@ -4,9 +4,12 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
+import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.Statement;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
@@ -52,6 +55,36 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
         // return the result
         return variationPoint;
 
+    }
+    
+    /**
+     * Handle class inserts. VP references the package. The leading variant references the
+     * inserted import declaration.
+     * 
+     * @param classInsert
+     *            The class insert diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseClassInsert(ClassInsert classInsert) {
+
+        ClassDeclaration classDeclaration = classInsert.getClassLeft();
+        Package parent = classDeclaration.getPackage();
+
+        // create the variation point
+        VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
+        variationPoint.setEnclosingSoftwareEntity((ASTNode) parent);
+
+        // create the variants
+        Variant integrationVariant = null;
+        integrationVariant = variabilityFactory.eINSTANCE.createVariant();
+        integrationVariant.getSoftwareEntities().add(classDeclaration);
+        integrationVariant.setLeading(Boolean.FALSE);
+        integrationVariant.setVariantId("Class " + classDeclaration.getName());
+        variationPoint.getVariants().add(integrationVariant);
+
+        // return the result
+        return variationPoint;
     }
 
     /**
