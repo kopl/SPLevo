@@ -26,6 +26,25 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /** The logger used by this class. */
     private Logger logger = Logger.getLogger(Java2KDMDiffVisitor.class);
 
+    /** The id to set for leading variants. */
+    private String variantIDLeading = null;
+
+    /** The id to set for integration variants. */
+    private String variantIDIntegration = null;
+
+    /**
+     * Constructor to set the variant ids.
+     * 
+     * @param variantIDLeading
+     *            The id for the leading variants.
+     * @param variantIDIntegration
+     *            The id for the integration variants.
+     */
+    public Java2KDMDiffVisitor(String variantIDLeading, String variantIDIntegration) {
+        this.variantIDIntegration = variantIDIntegration;
+        this.variantIDLeading = variantIDLeading;
+    }
+
     /**
      * Handle import inserts. VP references the compilation unit. The leading variant references the
      * inserted import declaration.
@@ -49,7 +68,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
         integrationVariant = variabilityFactory.eINSTANCE.createVariant();
         integrationVariant.getSoftwareEntities().add(importDeclaration);
         integrationVariant.setLeading(Boolean.FALSE);
-        integrationVariant.setVariantId("Import " + importDeclaration.getImportedElement().getName());
+        integrationVariant.setVariantId(variantIDIntegration);
         variationPoint.getVariants().add(integrationVariant);
 
         // return the result
@@ -80,7 +99,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
         integrationVariant = variabilityFactory.eINSTANCE.createVariant();
         integrationVariant.getSoftwareEntities().add(classDeclaration);
         integrationVariant.setLeading(Boolean.FALSE);
-        integrationVariant.setVariantId("Class " + classDeclaration.getName());
+        integrationVariant.setVariantId(variantIDIntegration);
         variationPoint.getVariants().add(integrationVariant);
 
         // return the result
@@ -111,7 +130,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
         leadingVariant = variabilityFactory.eINSTANCE.createVariant();
         leadingVariant.getSoftwareEntities().add(importDeclaration);
         leadingVariant.setLeading(Boolean.TRUE);
-        leadingVariant.setVariantId("Import " + importDeclaration.getImportedElement().getName());
+        leadingVariant.setVariantId(variantIDLeading);
         variationPoint.getVariants().add(leadingVariant);
 
         // return the result
@@ -133,7 +152,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
             Variant leadingVariant = variabilityFactory.eINSTANCE.createVariant();
             leadingVariant.getSoftwareEntities().add(statementChange.getStatementLeft());
             leadingVariant.setLeading(Boolean.TRUE);
-            leadingVariant.setVariantId("Statement Right");
+            leadingVariant.setVariantId(variantIDLeading);
             variationPoint.getVariants().add(leadingVariant);
         }
 
@@ -142,7 +161,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
             Variant integrationVariant = variabilityFactory.eINSTANCE.createVariant();
             integrationVariant.getSoftwareEntities().add(statement);
             integrationVariant.setLeading(Boolean.FALSE);
-            integrationVariant.setVariantId("Statement Left");
+            integrationVariant.setVariantId(variantIDIntegration);
             variationPoint.getVariants().add(integrationVariant);
         }
 

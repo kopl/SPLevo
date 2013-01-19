@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -24,7 +23,7 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
     /** The logger to use for this class. */
     private Logger logger = Logger.getLogger(Java2KDMVPMBuilderTest.class);
 
-   /**
+    /**
      * Test building a vpm from a diff model.
      * 
      * @throws IOException
@@ -37,7 +36,7 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
 
         DiffModel diffModel = SPLevoTestUtil.loadGCDDiffModel();
 
-        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
+        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder("LEADING", "INTEGRATION");
         VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
         assertNotNull("No VPM initialized", vpm);
 
@@ -46,7 +45,7 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
         assertNotNull("Leading model must not be null", vpm.getLeadingModel());
         assertNotNull("Integration model must not be null", vpm.getIntegrationModel());
 
-        //ModelUtils.save(vpm, "testresult/gcd-intial.vpm");
+        // ModelUtils.save(vpm, "testresult/gcd-intial.vpm");
     }
 
 }

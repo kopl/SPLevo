@@ -54,7 +54,7 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         }
 
         logger.info("Build initival vpm model");
-        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
+        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder(splevoProject.getVariantNameLeading(), splevoProject.getVariantNameIntegration());
         VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
 
         // check if the process was canceled

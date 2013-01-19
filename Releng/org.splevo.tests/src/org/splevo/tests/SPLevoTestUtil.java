@@ -48,14 +48,14 @@ public class SPLevoTestUtil {
      * @throws InterruptedException
      *             identifies that the refinement process was interrupted.
      */
-    public static VPMGraph loadGCDVPMGraph() throws IOException, InterruptedException{
+    public static VPMGraph loadGCDVPMGraph() throws IOException, InterruptedException {
         VariationPointModel vpm = loadGCDVPMModel();
-        
+
         DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
         VPMGraph graph = service.initVPMGraph(vpm);
         return graph;
     }
-    
+
     /**
      * Load the vpm model for the common GCD test example.
      * 
@@ -69,7 +69,7 @@ public class SPLevoTestUtil {
 
         DiffModel diffModel = loadGCDDiffModel();
 
-        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
+        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder("LEADING", "INTEGRATION");
         VariationPointModel initialVpm = java2KDMVPMBuilder.buildVPM(diffModel);
 
         return initialVpm;

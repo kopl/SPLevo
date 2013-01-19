@@ -25,6 +25,25 @@ public class Java2KDMVPMBuilder {
     /** The logger used by this class. */
     private Logger logger = Logger.getLogger(Java2KDMVPMBuilder.class);
 
+    /** The id to set for leading variants. */
+    private String variantIDLeading = null;
+
+    /** The id to set for integration variants. */
+    private String variantIDIntegration = null;
+
+    /**
+     * Constructor to set the variant ids.
+     * 
+     * @param variantIDLeading
+     *            The id for the leading variants.
+     * @param variantIDIntegration
+     *            The id for the integration variants.
+     */
+    public Java2KDMVPMBuilder(String variantIDLeading, String variantIDIntegration) {
+        this.variantIDIntegration = variantIDIntegration;
+        this.variantIDLeading = variantIDLeading;
+    }
+
     /**
      * Build a new VariationPointModel based on a DiffModel.
      * 
@@ -46,7 +65,7 @@ public class Java2KDMVPMBuilder {
         VariationPointModel vpm = initVPM(diffModel);
 
         // visit the difference tree
-        Java2KDMDiffVisitor java2KDMDiffVisitor = new Java2KDMDiffVisitor();
+        Java2KDMDiffVisitor java2KDMDiffVisitor = new Java2KDMDiffVisitor(variantIDLeading, variantIDIntegration);
         for (DiffElement diffElement : diffModel.getDifferences()) {
             VariationPoint vp = java2KDMDiffVisitor.doSwitch(diffElement);
             if (vp != null) {
