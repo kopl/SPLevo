@@ -103,14 +103,12 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             return true;
         } else if ("usagesInDocComments".equals(reference.getName())) {
             return true;
-        } 
-        
+        }
+
         if ("originalCompilationUnit".equals(reference.getName())) {
             return true;
-        } 
-        
-        
-                
+        }
+
         // the redifinition relationship is not of interest
         // because only the new defined element itself is detected
         // the reference itself has not to be detected separately
@@ -396,7 +394,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             final EReference next = it.next();
             try {
 
-                // submit the addtional referencing element to the shouldBeIgnored method
+                // submit the additional referencing element to the shouldBeIgnored method
                 if (!shouldBeIgnored(next, mapping)) {
                     checkReferenceUpdates(root, mapping, next);
                 }
