@@ -7,6 +7,10 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.EObject;
@@ -22,6 +26,7 @@ import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -38,7 +43,10 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wb.swt.ResourceManager;
@@ -444,6 +452,69 @@ public class SPLevoProjectEditor extends EditorPart {
         btnGenerateFeatureModel.addMouseListener(new GenerateFeatureModelListener(this));
         btnGenerateFeatureModel.setText("Generate Feature Model");
         btnGenerateFeatureModel.setBounds(648, 59, 118, 45);
+
+        Button buttonOpenDiff = new Button(processControlContainer, SWT.NONE);
+        buttonOpenDiff.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
+        buttonOpenDiff.setBounds(341, 110, 26, 30);
+        buttonOpenDiff.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseUp(MouseEvent e) {
+                if (splevoProject.getDiffingModelPath() != null && splevoProject.getDiffingModelPath().length() > 0) {
+                    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+                    String basePath = workspace.getRoot().getRawLocation().toOSString();
+                    File fileToOpen = new File(basePath + File.separator + splevoProject.getDiffingModelPath());
+                    IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
+                    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+
+                    try {
+                        IDE.openEditorOnFileStore(page, fileStore);
+                    } catch (PartInitException pie) {
+                        logger.error("failed to open diff file.");
+                    }
+                }
+            }
+
+            @Override
+            public void mouseDown(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseDoubleClick(MouseEvent e) {
+            }
+        });
+
+        Button buttonOpenVPM = new Button(processControlContainer, SWT.NONE);
+        buttonOpenVPM.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
+        buttonOpenVPM.setBounds(451, 110, 26, 30);
+        buttonOpenVPM.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseUp(MouseEvent e) {
+                if (splevoProject.getVpmModelPaths().size() > 0) {
+                    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+                    String basePath = workspace.getRoot().getRawLocation().toOSString();
+                    File fileToOpen = new File(basePath + File.separator
+                            + splevoProject.getVpmModelPaths().get(splevoProject.getVpmModelPaths().size() - 1));
+                    IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
+                    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+
+                    try {
+                        IDE.openEditorOnFileStore(page, fileStore);
+                    } catch (PartInitException pie) {
+                        logger.error("failed to open diff file.");
+                    }
+                }
+            }
+
+            @Override
+            public void mouseDown(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseDoubleClick(MouseEvent e) {
+            }
+        });
     }
 
     @Override
