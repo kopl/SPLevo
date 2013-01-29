@@ -39,6 +39,9 @@ public class VPMGraphView extends ViewPart {
     /** The root pane to draw content on. */
     private Frame frame = null;
 
+    /** Action to filter nodes without any relationships from the graph. */
+    private FilterSingleNodeAction filterSingleNodesAction;
+
     /** The default constructor. */
     public VPMGraphView() {
     }
@@ -103,7 +106,7 @@ public class VPMGraphView extends ViewPart {
      * Create the actions.
      */
     private void createActions() {
-        // Create the actions
+        filterSingleNodesAction = new FilterSingleNodeAction(this);
     }
 
     /**
@@ -111,11 +114,13 @@ public class VPMGraphView extends ViewPart {
      */
     private void initializeToolBar() {
         IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
+        toolbarManager.add(filterSingleNodesAction);
     }
 
     /**
      * Initialize the menu.
      */
+    @SuppressWarnings("unused")
     private void initializeMenu() {
         IMenuManager menuManager = getViewSite().getActionBars().getMenuManager();
     }
@@ -123,5 +128,14 @@ public class VPMGraphView extends ViewPart {
     @Override
     public void setFocus() {
         // Set the focus
+    }
+
+    /**
+     * Gets the graph to present.
+     * 
+     * @return the vpmGraph
+     */
+    public VPMGraph getVpmGraph() {
+        return vpmGraph;
     }
 }
