@@ -15,7 +15,12 @@ import org.graphstream.graph.Node;
  */
 class FilterSingleNodeAction extends Action {
 
-    /** The vpm graph to manipulate. */
+    /** 
+     * The vpm graph to manipulate. 
+     * It is necessary to work with the view and always request the 
+     * current instance of the graph because this might change during runtime.
+     * Otherwise, the action might not manipulate the right graph instance. 
+     */
     private VPMGraphView vpmGraphView;
 
     /** The attribute id to hide a node in the view. */
