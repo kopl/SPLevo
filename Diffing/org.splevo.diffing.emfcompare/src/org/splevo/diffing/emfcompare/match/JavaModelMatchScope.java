@@ -21,7 +21,8 @@ import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 /**
  * A match scope difining which elements should be included in the java model diffing.
  * 
- * TODO: Make text element ignoring configurable TODO: Add package filter to match scope
+ * TODO: Make text element ignoring configurable<br>
+ * TODO: Add package filter to match scope
  * 
  * @author Benjamin Klatt
  * 
@@ -109,42 +110,43 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
         return true;
     }
 
-//    @Override
-//    public Boolean caseMethodDeclaration(MethodDeclaration object) {
-//
-//        if (object.getAbstractTypeDeclaration() != null) {
-//            if (object.getAbstractTypeDeclaration().getPackage() != null) {
-//                String packagePath = JavaModelUtil.buildPackagePath(object.getAbstractTypeDeclaration().getPackage());
-//                return !ignorePackage(packagePath);
-//            }
-//        }
-//
-//        return super.caseMethodDeclaration(object);
-//    }
+    // @Override
+    // public Boolean caseMethodDeclaration(MethodDeclaration object) {
+    //
+    // if (object.getAbstractTypeDeclaration() != null) {
+    // if (object.getAbstractTypeDeclaration().getPackage() != null) {
+    // String packagePath =
+    // JavaModelUtil.buildPackagePath(object.getAbstractTypeDeclaration().getPackage());
+    // return !ignorePackage(packagePath);
+    // }
+    // }
+    //
+    // return super.caseMethodDeclaration(object);
+    // }
 
-//    /**
-//     * SingleVariableDeclarations in source elements located in the ignorePackage list are not in
-//     * scope.
-//     * 
-//     * @param object
-//     *            the object
-//     * @return the boolean
-//     */
-//    @Override
-//    public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration object) {
-//
-//        if (object.eContainer() instanceof BodyDeclaration) {
-//            BodyDeclaration bodyDeclaration = (BodyDeclaration) object.eContainer();
-//
-//            if (bodyDeclaration.getAbstractTypeDeclaration() != null) {
-//                String fullQualifiedName = JavaModelUtil.buildFullQualifiedName(bodyDeclaration
-//                        .getAbstractTypeDeclaration());
-//                return !ignorePackage(fullQualifiedName);
-//            }
-//        }
-//
-//        return super.caseSingleVariableDeclaration(object);
-//    }
+    // /**
+    // * SingleVariableDeclarations in source elements located in the ignorePackage list are not in
+    // * scope.
+    // *
+    // * @param object
+    // * the object
+    // * @return the boolean
+    // */
+    // @Override
+    // public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration object) {
+    //
+    // if (object.eContainer() instanceof BodyDeclaration) {
+    // BodyDeclaration bodyDeclaration = (BodyDeclaration) object.eContainer();
+    //
+    // if (bodyDeclaration.getAbstractTypeDeclaration() != null) {
+    // String fullQualifiedName = JavaModelUtil.buildFullQualifiedName(bodyDeclaration
+    // .getAbstractTypeDeclaration());
+    // return !ignorePackage(fullQualifiedName);
+    // }
+    // }
+    //
+    // return super.caseSingleVariableDeclaration(object);
+    // }
 
     @Override
     public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration object) {
