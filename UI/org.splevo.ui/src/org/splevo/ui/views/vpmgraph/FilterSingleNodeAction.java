@@ -1,6 +1,8 @@
 package org.splevo.ui.views.vpmgraph;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.wb.swt.ResourceManager;
 import org.graphstream.graph.Node;
 import org.splevo.ui.Activator;
@@ -16,9 +18,11 @@ import org.splevo.ui.Activator;
  */
 class FilterSingleNodeAction extends Action {
 
-    private static final String ICON_INACTIVE = "icons/inactive/filter-empty-nodes.png";
-
+    /** Path to icon to use for the action. */
     private static final String ICON_ACTIVE = "icons/active/filter-empty-nodes.png";
+
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(FilterSingleNodeAction.class);
 
     /**
      * The vpm graph to manipulate. It is necessary to work with the view and always request the
@@ -37,28 +41,30 @@ class FilterSingleNodeAction extends Action {
      *            The graph to manipulate
      */
     public FilterSingleNodeAction(VPMGraphView vpmGraphView) {
-        super("Filter Single Nodes Action");
+        super("Filter Single Nodes Action", IAction.AS_CHECK_BOX);
         this.vpmGraphView = vpmGraphView;
         setToolTipText("Show single nodes without relationships");
         setImageDescriptor(ResourceManager.getPluginImageDescriptor(Activator.PLUGIN_ID, ICON_ACTIVE));
+        setChecked(false);
     }
 
     @Override
     public void run() {
-        toggleIcon();
-        toggleNodes(isChecked());
+
+        if (this.vpmGraphView.getVpmGraph() == null) {
+            logger.warn("No VPMGraph present in VPMGraph view.");
+            return;
+        }
+        toggleNodes();
     }
 
     /**
      * Toggle the nodes ui.hide attribute. Add or remove the attribute depending on the provided
      * parameter.
-     * 
-     * @param checked
-     *            The parameter to decide about the attribute add/remove.
      */
-    private void toggleNodes(boolean checked) {
+    private void toggleNodes() {
 
-        if (checked) {
+        if (isChecked()) {
             for (Node currentNode : this.vpmGraphView.getVpmGraph().getNodeSet()) {
                 if (currentNode.getDegree() == 0) {
                     currentNode.addAttribute(NODE_ATTRIBUTE_HIDE);
@@ -70,19 +76,6 @@ class FilterSingleNodeAction extends Action {
                     currentNode.removeAttribute(NODE_ATTRIBUTE_HIDE);
                 }
             }
-        }
-    }
-
-    /**
-     * Toggle the action icon depending on it's checked status.
-     */
-    private void toggleIcon() {
-        if (isChecked()) {
-            setChecked(false);
-            setImageDescriptor(ResourceManager.getPluginImageDescriptor(Activator.PLUGIN_ID, ICON_ACTIVE));
-        } else {
-            setChecked(true);
-            setImageDescriptor(ResourceManager.getPluginImageDescriptor(Activator.PLUGIN_ID, ICON_INACTIVE));
         }
     }
 }
