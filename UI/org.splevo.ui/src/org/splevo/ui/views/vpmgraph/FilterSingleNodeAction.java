@@ -3,6 +3,7 @@ package org.splevo.ui.views.vpmgraph;
 import org.eclipse.jface.action.Action;
 import org.eclipse.wb.swt.ResourceManager;
 import org.graphstream.graph.Node;
+import org.splevo.ui.Activator;
 
 /**
  * Action to filter the single nodes without any relationships from a graph.
@@ -15,11 +16,14 @@ import org.graphstream.graph.Node;
  */
 class FilterSingleNodeAction extends Action {
 
-    /** 
-     * The vpm graph to manipulate. 
-     * It is necessary to work with the view and always request the 
-     * current instance of the graph because this might change during runtime.
-     * Otherwise, the action might not manipulate the right graph instance. 
+    private static final String ICON_INACTIVE = "icons/inactive/filter-empty-nodes.png";
+
+    private static final String ICON_ACTIVE = "icons/active/filter-empty-nodes.png";
+
+    /**
+     * The vpm graph to manipulate. It is necessary to work with the view and always request the
+     * current instance of the graph because this might change during runtime. Otherwise, the action
+     * might not manipulate the right graph instance.
      */
     private VPMGraphView vpmGraphView;
 
@@ -35,9 +39,8 @@ class FilterSingleNodeAction extends Action {
     public FilterSingleNodeAction(VPMGraphView vpmGraphView) {
         super("Filter Single Nodes Action");
         this.vpmGraphView = vpmGraphView;
-        setToolTipText("Filter single nodes without relationships");
-        setImageDescriptor(ResourceManager.getPluginImageDescriptor("org.splevo.ui",
-                "icons/inactive/filter-empty-nodes.png"));
+        setToolTipText("Show single nodes without relationships");
+        setImageDescriptor(ResourceManager.getPluginImageDescriptor(Activator.PLUGIN_ID, ICON_ACTIVE));
     }
 
     @Override
@@ -76,12 +79,10 @@ class FilterSingleNodeAction extends Action {
     private void toggleIcon() {
         if (isChecked()) {
             setChecked(false);
-            setImageDescriptor(ResourceManager.getPluginImageDescriptor("org.splevo.ui",
-                    "icons/inactive/filter-empty-nodes.png"));
+            setImageDescriptor(ResourceManager.getPluginImageDescriptor(Activator.PLUGIN_ID, ICON_ACTIVE));
         } else {
             setChecked(true);
-            setImageDescriptor(ResourceManager.getPluginImageDescriptor("org.splevo.ui",
-                    "icons/active/filter-empty-nodes.png"));
+            setImageDescriptor(ResourceManager.getPluginImageDescriptor(Activator.PLUGIN_ID, ICON_INACTIVE));
         }
     }
 }
