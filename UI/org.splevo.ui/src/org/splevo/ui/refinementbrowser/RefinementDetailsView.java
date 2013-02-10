@@ -3,6 +3,7 @@ package org.splevo.ui.refinementbrowser;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.ReturnStatement;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
@@ -142,28 +143,25 @@ public class RefinementDetailsView extends Composite {
             // variable declaration optimized label
             if (element instanceof VariableDeclarationStatement) {
                 VariableDeclarationStatement statement = (VariableDeclarationStatement) element;
-                return "Variable Declaration Statement: " + statement.getFragments().get(0).getName() + " ("
-                        + statement.getOriginalCompilationUnit().getName() + ")";
+                return "Variable Declaration Statement: " + statement.getFragments().get(0).getName();
             }
 
             // return statement
             if (element instanceof ReturnStatement) {
-                ReturnStatement statement = (ReturnStatement) element;
-                return "Return Statement (" + statement.getOriginalCompilationUnit().getName() + ")";
+                return "Return Statement";
 
             }
 
             // import declaration
             if (element instanceof ImportDeclaration) {
                 ImportDeclaration importDecl = (ImportDeclaration) element;
-                return "Import: " + importDecl.getImportedElement().getName() + " ("
-                        + importDecl.getOriginalCompilationUnit().getName() + ")";
+                return "Import: " + importDecl.getImportedElement().getName();
             }
 
             // generic ast node
             if (element instanceof ASTNode) {
                 ASTNode astNode = (ASTNode) element;
-                return astNode.getClass().getSimpleName() + "(" + astNode.getOriginalCompilationUnit().getName() + ")";
+                return astNode.getClass().getSimpleName();
             }
 
             // default label
@@ -185,7 +183,12 @@ public class RefinementDetailsView extends Composite {
             ASTNode astNode = variationPoint.getEnclosingSoftwareEntity();
             if (astNode != null) {
 
-                if (astNode instanceof NamedElement) {
+                if (astNode instanceof Block && astNode.eContainer() instanceof MethodDeclaration) {
+
+                    MethodDeclaration method = (MethodDeclaration) astNode.eContainer();
+                    label.append(method.getName() + "()");
+
+                } else if (astNode instanceof NamedElement) {
                     label.append(((NamedElement) astNode).getName());
                 } else {
                     label.append(astNode.getClass().getSimpleName());
