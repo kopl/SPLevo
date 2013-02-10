@@ -1,7 +1,11 @@
 package org.splevo.ui.refinementbrowser;
 
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.Block;
+import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.NamedElement;
+import org.eclipse.gmt.modisco.java.ReturnStatement;
+import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -128,17 +132,42 @@ public class RefinementDetailsView extends Composite {
         @Override
         public String getText(Object element) {
             if (element instanceof VariationPoint) {
-
                 return buildVariationPointLabel((VariationPoint) element);
+            }
 
-            } else if (element instanceof Variant) {
+            if (element instanceof Variant) {
                 return "Variant: " + ((Variant) element).getVariantId();
-            } else if (element instanceof ASTNode) {
+            }
+
+            // variable declaration optimized label
+            if (element instanceof VariableDeclarationStatement) {
+                VariableDeclarationStatement statement = (VariableDeclarationStatement) element;
+                return "Variable Declaration Statement: " + statement.getFragments().get(0).getName() + " ("
+                        + statement.getOriginalCompilationUnit().getName() + ")";
+            }
+
+            // return statement
+            if (element instanceof ReturnStatement) {
+                ReturnStatement statement = (ReturnStatement) element;
+                return "Return Statement (" + statement.getOriginalCompilationUnit().getName() + ")";
+
+            }
+
+            // import declaration
+            if (element instanceof ImportDeclaration) {
+                ImportDeclaration importDecl = (ImportDeclaration) element;
+                return "Import: " + importDecl.getImportedElement().getName() + " ("
+                        + importDecl.getOriginalCompilationUnit().getName() + ")";
+            }
+
+            // generic ast node
+            if (element instanceof ASTNode) {
                 ASTNode astNode = (ASTNode) element;
                 return astNode.getClass().getSimpleName() + "(" + astNode.getOriginalCompilationUnit().getName() + ")";
-            } else {
-                return super.getText(element);
             }
+
+            // default label
+            return super.getText(element);
         }
 
         /**
@@ -154,12 +183,15 @@ public class RefinementDetailsView extends Composite {
             label.append("VariationPoint in ");
 
             ASTNode astNode = variationPoint.getEnclosingSoftwareEntity();
-            if (astNode != null && astNode instanceof NamedElement) {
-                label.append(((NamedElement) astNode).getName());
-            } else {
-                label.append(astNode.getClass().getSimpleName());
-            }
+            if (astNode != null) {
 
+                if (astNode instanceof NamedElement) {
+                    label.append(((NamedElement) astNode).getName());
+                } else {
+                    label.append(astNode.getClass().getSimpleName());
+                }
+
+            }
             return label.toString();
         }
     }
