@@ -15,7 +15,6 @@ import org.graphstream.ui.layout.springbox.implementations.SpringBox;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.Viewer.CloseFramePolicy;
-import org.splevo.vpm.analyzer.graph.CustomEdgeLabelAttributeProxy;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 

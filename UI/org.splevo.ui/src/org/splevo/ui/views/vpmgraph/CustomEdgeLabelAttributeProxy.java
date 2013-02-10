@@ -1,4 +1,4 @@
-package org.splevo.vpm.analyzer.graph;
+package org.splevo.ui.views.vpmgraph;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.stream.thread.ThreadProxyPipe;
