@@ -40,6 +40,9 @@ public class VPMGraphView extends ViewPart {
 
     /** Action to filter nodes without any relationships from the graph. */
     private FilterSingleNodeAction filterSingleNodesAction;
+    
+    /** Action to hide the edge labels. */
+    private HideEdgeLabelAction hideEdgeLabelAction;
 
     /** The default constructor. */
     public VPMGraphView() {
@@ -106,14 +109,16 @@ public class VPMGraphView extends ViewPart {
      */
     private void createActions() {
         filterSingleNodesAction = new FilterSingleNodeAction(this);
+        hideEdgeLabelAction = new HideEdgeLabelAction(this);
     }
 
     /**
-     * Initialize the toolbar.
+     * Initialize the tool bar.
      */
     private void initializeToolBar() {
         IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
         toolbarManager.add(filterSingleNodesAction);
+        toolbarManager.add(hideEdgeLabelAction);
     }
 
     /**
