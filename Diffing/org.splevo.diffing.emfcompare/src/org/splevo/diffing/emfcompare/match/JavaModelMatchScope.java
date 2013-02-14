@@ -8,28 +8,29 @@ import org.eclipse.emf.compare.match.engine.IMatchScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
-import org.eclipse.gmt.modisco.java.BodyDeclaration;
+import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.Javadoc;
 import org.eclipse.gmt.modisco.java.LineComment;
 import org.eclipse.gmt.modisco.java.Package;
-import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
-import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
 /**
  * A match scope difining which elements should be included in the java model diffing.
  * 
  * TODO: Make text element ignoring configurable<br>
- * TODO: Add package filter to match scope
  * 
  * @author Benjamin Klatt
  * 
  */
 public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchScope {
 
+    /** The name of the package info files to ignore. */
+    private static final String PACKAGE_INFO_FILENAME = "package-info.java";
+
     /** The logger for this class. */
+    @SuppressWarnings("unused")
     private Logger logger = Logger.getLogger(JavaModelMatchScope.class);
 
     /** Regular expressions defining packages to be ignored. */
@@ -103,6 +104,18 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
     @Override
     public Boolean caseTextElement(TextElement object) {
         return false;
+    }
+
+    /**
+     * Ignore package-info java files. They are not relevant for the functional differencing.
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean caseCompilationUnit(CompilationUnit compUnit) {
+        if (PACKAGE_INFO_FILENAME.equals(compUnit.getName())) {
+            return false;
+        }
+        return super.caseCompilationUnit(compUnit);
     }
 
     @Override
