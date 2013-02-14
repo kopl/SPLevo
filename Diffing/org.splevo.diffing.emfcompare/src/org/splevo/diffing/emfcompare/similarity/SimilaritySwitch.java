@@ -1,7 +1,5 @@
 package org.splevo.diffing.emfcompare.similarity;
 
-import java.io.ObjectInputStream.GetField;
-
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
@@ -70,7 +68,6 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         Expression expression1 = expressionStatement1.getExpression();
         Expression expression2 = expressionStatement2.getExpression();
 
-        
         Boolean expressionSimilarity = similarityChecker.isSimilar(expression1, expression2);
         if (expressionSimilarity != null && expressionSimilarity == Boolean.FALSE) {
             return expressionSimilarity;
@@ -356,19 +353,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             ClassInstanceCreation cic1 = (ClassInstanceCreation) type1.eContainer();
             ClassInstanceCreation cic2 = (ClassInstanceCreation) type2.eContainer();
 
-            if (cic1.getOriginalCompilationUnit() != null && cic1.getOriginalCompilationUnit().getPackage() != null) {
-
-                SimilaritySwitch switsch = new SimilaritySwitch(cic2.getOriginalCompilationUnit().getPackage());
-                return switsch.doSwitch(cic1.getOriginalCompilationUnit().getPackage());
-            }
-
-            if (cic1.eContainer() instanceof AbstractTypeDeclaration) {
-                return checkAbstractTypeDeclarationSimilarity((AbstractTypeDeclaration) cic1.eContainer(),
-                        (AbstractTypeDeclaration) cic2.eContainer());
-            }
-
-            logger.warn("Unknown container of ClassInstanceCreation: [" + cic1 + "] contained in [" + cic1.eContainer()
-                    + "]");
+            return similarityChecker.isSimilar(cic1, cic2);
 
         }
 
@@ -376,6 +361,55 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
                 + type1.eContainer() + "]");
 
         return null;
+    }
+
+    @Override
+    public Boolean caseClassInstanceCreation(ClassInstanceCreation cic1) {
+
+        ClassInstanceCreation cic2 = (ClassInstanceCreation) compareElement;
+
+        // check the class instance types
+        Boolean typeSimilarity = similarityChecker.isSimilar(cic1.getType().getType(), cic2.getType().getType());
+        if (typeSimilarity != null && typeSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        // check number of type arguments
+        if (cic1.getArguments().size() != cic2.getArguments().size()) {
+            return Boolean.FALSE;
+        }
+
+        // check the argument similarity
+        for (int i = 0; i < cic1.getArguments().size(); i++) {
+            Boolean argumentSimilarity = similarityChecker.isSimilar(cic1.getArguments().get(i), cic2.getArguments()
+                    .get(i));
+            if (Boolean.FALSE.equals(argumentSimilarity)) {
+                return Boolean.FALSE;
+            }
+        }
+
+        // check the class instance compilation units
+        Boolean cuSimilarity = similarityChecker.isSimilar(cic1.getOriginalCompilationUnit(),
+                cic2.getOriginalCompilationUnit());
+        if (cuSimilarity != null && cuSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        // **************************
+        // Check Container similarity
+        // **************************
+
+        // Abstract type declaration container
+        if (cic1.eContainer() instanceof AbstractTypeDeclaration) {
+            return checkAbstractTypeDeclarationSimilarity((AbstractTypeDeclaration) cic1.eContainer(),
+                    (AbstractTypeDeclaration) cic2.eContainer());
+        }
+
+        // logger.warn("Unknown container of ClassInstanceCreation: [" + cic1 + "] contained in [" +
+        // cic1.eContainer()
+        // + "]");
+
+        return Boolean.TRUE;
     }
 
     @Override
@@ -596,17 +630,36 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     @Override
-    public Boolean caseFieldDeclaration(FieldDeclaration fieldDecl) {
+    public Boolean caseFieldDeclaration(FieldDeclaration fDecl) {
 
-        FieldDeclaration fieldDecl2 = (FieldDeclaration) compareElement;
+        FieldDeclaration fDecl2 = (FieldDeclaration) compareElement;
 
-        // name check
-        if (fieldDecl.getName() != null && !fieldDecl.getName().equals(fieldDecl2.getName())) {
+        // fragment check
+        if (fDecl.getFragments().size() != fDecl2.getFragments().size()) {
+            return Boolean.FALSE;
+        }
+        for (int i = 0; i < fDecl.getFragments().size(); i++) {
+            VariableDeclarationFragment fragment1 = fDecl.getFragments().get(i);
+            VariableDeclarationFragment fragment2 = fDecl2.getFragments().get(i);
+            if (!fragment1.getName().equals(fragment2.getName())) {
+                return Boolean.FALSE;
+            }
+        }
+
+        // type check
+        if (fDecl.getType() != null && fDecl2.getType() != null) {
+            Boolean typeSimilarity = similarityChecker.isSimilar(fDecl.getType().getType(), fDecl2.getType()
+                    .getType());
+            if (typeSimilarity != null && typeSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+        } else if ((fDecl.getType() != null && fDecl2.getType() == null)
+                || (fDecl.getType() == null && fDecl2.getType() != null)) {
             return Boolean.FALSE;
         }
 
         // container check
-        Boolean containerSimilarity = similarityChecker.isSimilar(fieldDecl.eContainer(), fieldDecl2.eContainer());
+        Boolean containerSimilarity = similarityChecker.isSimilar(fDecl.eContainer(), fDecl2.eContainer());
         if (containerSimilarity != null) {
             return containerSimilarity;
         }
