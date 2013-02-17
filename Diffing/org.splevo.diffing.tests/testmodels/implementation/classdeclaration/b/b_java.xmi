@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ASCII"?>
+<java:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" name="org.splevo.tests.classdeclaration.b">
+  <ownedElements name="org">
+    <ownedPackages name="splevo">
+      <ownedPackages name="tests">
+        <ownedPackages name="fielddeclaration">
+          <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.0" name="AddedClassDeclaration">
+            <modifier visibility="public"/>
+            <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="doSth">
+              <modifier visibility="public"/>
+              <body originalCompilationUnit="//@compilationUnits.0"/>
+              <returnType type="//@orphanTypes.5"/>
+            </bodyDeclarations>
+          </ownedElements>
+        </ownedPackages>
+      </ownedPackages>
+    </ownedPackages>
+  </ownedElements>
+  <orphanTypes xsi:type="java:PrimitiveTypeInt" name="int"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeLong" name="long"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeFloat" name="float"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeDouble" name="double"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeBoolean" name="boolean"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeVoid" name="void" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@returnType"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeChar" name="char"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
+  <compilationUnits name="AddedClassDeclaration.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\AddedClassDeclaration.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+  <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\package-info.java" commentList="//@compilationUnits.1/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
+    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; * Class declaration diffing test code.&#xA; * @author Benjamin Klatt&#xA; */&#xA;" prefixOfParent="true"/>
+  </compilationUnits>
+</java:Model>
