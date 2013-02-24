@@ -129,7 +129,26 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
                 PackageDelete packageDelete = (PackageDelete) diffElement;
                 Package packageDeclaration = packageDelete.getPackageRight();
                 assertEquals("Wrong package detected as deleted", "newpackage", packageDeclaration.getName());
-                assertEquals("wrong number of diffs contained in package", 1, packageDelete.getSubDiffElements().size());
+                assertEquals("wrong number of diffs contained in package", 2, packageDelete.getSubDiffElements().size());
+                
+                // check the content of the sub package
+             // analyse the sub diff elements of the package insert
+                for (DiffElement subDiff : packageDelete.getSubDiffElements()) {
+                    if (subDiff instanceof PackageDelete) {
+                        PackageDelete subPackageDelete = (PackageDelete) subDiff;
+                        Package subPackageDeclaration = subPackageDelete.getPackageRight();
+                        assertEquals("Wrong sub-package detected as inserted", "sub", subPackageDeclaration.getName());
+                        assertEquals("Wrong number of diffs contained in sub-package", 1, subPackageDelete.getSubDiffElements().size());
+            
+                        assertTrue("Sub diff element ist not class delete", (subPackageDelete.getSubDiffElements().get(0) instanceof ClassDelete));
+                        
+                        
+                    } else if (subDiff instanceof ClassDeclaration) {
+                        ClassDeclaration subClassDeclaration = (ClassDeclaration) subDiff;
+                        assertEquals("Wrong class detected as inserted", "NewSubPackageClass", subClassDeclaration.getName());
+                    }
+                }
+                
                 
             } else {
                 fail("No other diff elements than class and package delete should have been detected.");

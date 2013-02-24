@@ -142,24 +142,10 @@ public class UnmatchedElementProcessor {
 
         @Override
         public DiffElement casePackage(Package packageElement) {
-            logger.debug("Unmatched Package (" + unmatchElement.getSide() + "): " + packageElement.getName());
-
             if (unmatchElement.getSide() == Side.LEFT) {
-
                 return createPackageInsert(packageElement);
-
             } else {
-                final PackageDelete packageDelete = Java2KDMDiffFactory.eINSTANCE.createPackageDelete();
-                packageDelete.setPackageRight(packageElement);
-                EObject leftContainer = matchManager.getMatchedEObject(packageElement.getPackage());
-                if (leftContainer != null) {
-                    packageDelete.setLeftContainer((Package) leftContainer);
-                }
-
-                Collection<DiffElement> subDiffElements = buildSubDiffElements(packageDelete);
-                packageDelete.getSubDiffElements().addAll(subDiffElements);
-
-                return packageDelete;
+                return createPackageDelete(packageElement);
             }
         }
 
@@ -195,7 +181,7 @@ public class UnmatchedElementProcessor {
         }
 
         /**
-         * Build the sub diff elements for a package insert.
+         * Build the sub diff elements for a package delete.
          * 
          * @param packageDelete
          *            The package delete referencing the deleted package.
@@ -211,9 +197,13 @@ public class UnmatchedElementProcessor {
                     ClassDelete classDelete = createClassDelete((ClassDeclaration) typeDeclaration);
                     subDiffs.add(classDelete);
                 } else {
-                    // TODO Support sub packages and enumerations
+                    // TODO Support enumerations
                     logger.warn("unsupported package owned element: " + typeDeclaration.toString());
                 }
+            }
+
+            for (Package subPackage : packageElement.getOwnedPackages()) {
+                subDiffs.add(createPackageDelete(subPackage));
             }
 
             return subDiffs;
@@ -234,6 +224,26 @@ public class UnmatchedElementProcessor {
             packageInsert.getSubDiffElements().addAll(subDiffElements);
 
             return packageInsert;
+        }
+
+        /**
+         * Factory method to create a diff element for a deleted package.
+         * 
+         * @param packageElement The deleted package element.
+         * @return The prepared package delete.
+         */
+        private PackageDelete createPackageDelete(Package packageElement) {
+            PackageDelete packageDelete = Java2KDMDiffFactory.eINSTANCE.createPackageDelete();
+            packageDelete.setPackageRight(packageElement);
+            EObject leftContainer = matchManager.getMatchedEObject(packageElement.getPackage());
+            if (leftContainer != null) {
+                packageDelete.setLeftContainer((Package) leftContainer);
+            }
+
+            Collection<DiffElement> subDiffElements = buildSubDiffElements(packageDelete);
+            packageDelete.getSubDiffElements().addAll(subDiffElements);
+
+            return packageDelete;
         }
 
         /**
