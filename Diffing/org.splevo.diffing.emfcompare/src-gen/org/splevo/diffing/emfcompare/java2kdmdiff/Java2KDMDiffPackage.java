@@ -1486,6 +1486,334 @@ public interface Java2KDMDiffPackage extends EPackage {
 
 
     /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageChangeImpl <em>Package Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageChangeImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getPackageChange()
+     * @generated
+     */
+    int PACKAGE_CHANGE = 13;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE__HIDE_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE__IS_COLLAPSED = JAVA2_KDM_DIFF_EXTENSION__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE__SUB_DIFF_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE__IS_HIDDEN_BY = JAVA2_KDM_DIFF_EXTENSION__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE__CONFLICTING = JAVA2_KDM_DIFF_EXTENSION__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE__KIND = JAVA2_KDM_DIFF_EXTENSION__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE__REMOTE = JAVA2_KDM_DIFF_EXTENSION__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE__REQUIRES = JAVA2_KDM_DIFF_EXTENSION__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE__REQUIRED_BY = JAVA2_KDM_DIFF_EXTENSION__REQUIRED_BY;
+
+    /**
+     * The number of structural features of the '<em>Package Change</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_CHANGE_FEATURE_COUNT = JAVA2_KDM_DIFF_EXTENSION_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageInsertImpl <em>Package Insert</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageInsertImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getPackageInsert()
+     * @generated
+     */
+    int PACKAGE_INSERT = 14;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__HIDE_ELEMENTS = PACKAGE_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__IS_COLLAPSED = PACKAGE_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__SUB_DIFF_ELEMENTS = PACKAGE_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__IS_HIDDEN_BY = PACKAGE_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__CONFLICTING = PACKAGE_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__KIND = PACKAGE_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__REMOTE = PACKAGE_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__REQUIRES = PACKAGE_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__REQUIRED_BY = PACKAGE_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Package Left</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT__PACKAGE_LEFT = PACKAGE_CHANGE_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Package Insert</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_INSERT_FEATURE_COUNT = PACKAGE_CHANGE_FEATURE_COUNT + 1;
+
+    /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageDeleteImpl <em>Package Delete</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageDeleteImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getPackageDelete()
+     * @generated
+     */
+    int PACKAGE_DELETE = 15;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__HIDE_ELEMENTS = PACKAGE_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__IS_COLLAPSED = PACKAGE_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__SUB_DIFF_ELEMENTS = PACKAGE_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__IS_HIDDEN_BY = PACKAGE_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__CONFLICTING = PACKAGE_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__KIND = PACKAGE_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__REMOTE = PACKAGE_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__REQUIRES = PACKAGE_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__REQUIRED_BY = PACKAGE_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Package Right</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__PACKAGE_RIGHT = PACKAGE_CHANGE_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Left Container</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE__LEFT_CONTAINER = PACKAGE_CHANGE_FEATURE_COUNT + 1;
+
+    /**
+     * The number of structural features of the '<em>Package Delete</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PACKAGE_DELETE_FEATURE_COUNT = PACKAGE_CHANGE_FEATURE_COUNT + 2;
+
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension <em>Extension</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1770,6 +2098,69 @@ public interface Java2KDMDiffPackage extends EPackage {
     EReference getClassDelete_LeftContainer();
 
     /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageChange <em>Package Change</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Package Change</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.PackageChange
+     * @generated
+     */
+    EClass getPackageChange();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert <em>Package Insert</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Package Insert</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert
+     * @generated
+     */
+    EClass getPackageInsert();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert#getPackageLeft <em>Package Left</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Package Left</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert#getPackageLeft()
+     * @see #getPackageInsert()
+     * @generated
+     */
+    EReference getPackageInsert_PackageLeft();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete <em>Package Delete</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Package Delete</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete
+     * @generated
+     */
+    EClass getPackageDelete();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete#getPackageRight <em>Package Right</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Package Right</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete#getPackageRight()
+     * @see #getPackageDelete()
+     * @generated
+     */
+    EReference getPackageDelete_PackageRight();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete#getLeftContainer <em>Left Container</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Left Container</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete#getLeftContainer()
+     * @see #getPackageDelete()
+     * @generated
+     */
+    EReference getPackageDelete_LeftContainer();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2032,6 +2423,60 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
         EReference CLASS_DELETE__LEFT_CONTAINER = eINSTANCE.getClassDelete_LeftContainer();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageChangeImpl <em>Package Change</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageChangeImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getPackageChange()
+         * @generated
+         */
+        EClass PACKAGE_CHANGE = eINSTANCE.getPackageChange();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageInsertImpl <em>Package Insert</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageInsertImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getPackageInsert()
+         * @generated
+         */
+        EClass PACKAGE_INSERT = eINSTANCE.getPackageInsert();
+
+        /**
+         * The meta object literal for the '<em><b>Package Left</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PACKAGE_INSERT__PACKAGE_LEFT = eINSTANCE.getPackageInsert_PackageLeft();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageDeleteImpl <em>Package Delete</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageDeleteImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getPackageDelete()
+         * @generated
+         */
+        EClass PACKAGE_DELETE = eINSTANCE.getPackageDelete();
+
+        /**
+         * The meta object literal for the '<em><b>Package Right</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PACKAGE_DELETE__PACKAGE_RIGHT = eINSTANCE.getPackageDelete_PackageRight();
+
+        /**
+         * The meta object literal for the '<em><b>Left Container</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference PACKAGE_DELETE__LEFT_CONTAINER = eINSTANCE.getPackageDelete_LeftContainer();
 
 	}
 

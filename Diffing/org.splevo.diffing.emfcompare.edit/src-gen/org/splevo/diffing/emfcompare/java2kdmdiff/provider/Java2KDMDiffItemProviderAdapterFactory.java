@@ -279,6 +279,52 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected PackageInsertItemProvider packageInsertItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createPackageInsertAdapter() {
+        if (packageInsertItemProvider == null) {
+            packageInsertItemProvider = new PackageInsertItemProvider(this);
+        }
+
+        return packageInsertItemProvider;
+    }
+
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected PackageDeleteItemProvider packageDeleteItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createPackageDeleteAdapter() {
+        if (packageDeleteItemProvider == null) {
+            packageDeleteItemProvider = new PackageDeleteItemProvider(this);
+        }
+
+        return packageDeleteItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -386,6 +432,8 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
         if (fieldDeleteItemProvider != null) fieldDeleteItemProvider.dispose();
         if (classInsertItemProvider != null) classInsertItemProvider.dispose();
         if (classDeleteItemProvider != null) classDeleteItemProvider.dispose();
+        if (packageInsertItemProvider != null) packageInsertItemProvider.dispose();
+        if (packageDeleteItemProvider != null) packageDeleteItemProvider.dispose();
     }
 
 }

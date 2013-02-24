@@ -12,6 +12,16 @@
               <returnType type="//@orphanTypes.5"/>
             </bodyDeclarations>
           </ownedElements>
+          <ownedPackages name="newpackage">
+            <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.3" name="NewPackageClass">
+              <modifier visibility="public"/>
+            </ownedElements>
+            <ownedPackages name="sub">
+              <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.4" name="NewSubPackageClass">
+                <modifier visibility="public"/>
+              </ownedElements>
+            </ownedPackages>
+          </ownedPackages>
         </ownedPackages>
       </ownedPackages>
     </ownedPackages>
@@ -27,6 +37,14 @@
   <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
   <compilationUnits name="AddedClassDeclaration.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\AddedClassDeclaration.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
   <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\package-info.java" commentList="//@compilationUnits.1/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
-    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; * Class declaration diffing test code.&#xA; * @author Benjamin Klatt&#xA; */&#xA;" prefixOfParent="true"/>
+    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; * Class declaration diffing test code.&#xA; * @author Benjamin Klatt&#xA; */&#xA;" enclosedByParent="true"/>
+  </compilationUnits>
+  <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage\package-info.java" commentList="//@compilationUnits.2/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
+    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.2" content="/** &#xA; * An added package.&#xA; */&#xA;" enclosedByParent="true"/>
+  </compilationUnits>
+  <compilationUnits name="NewPackageClass.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage\NewPackageClass.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+  <compilationUnits name="NewSubPackageClass.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage\sub\NewSubPackageClass.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+  <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage\sub\package-info.java" commentList="//@compilationUnits.5/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
+    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.5" content="/** &#xA; * An added sub package.&#xA; */&#xA;" enclosedByParent="true"/>
   </compilationUnits>
 </java:Model>

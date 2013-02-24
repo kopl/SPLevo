@@ -10,7 +10,7 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A change representing a new import which is only present in the right model.
+ * A change representing a new import which is only present in the left model.
  * <!-- end-model-doc -->
  *
  * <p>

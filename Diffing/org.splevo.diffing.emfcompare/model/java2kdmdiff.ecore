@@ -38,7 +38,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImportInsert" eSuperTypes="#//ImportDeclarationChange">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A change representing a new import which is only present in the right model."/>
+      <details key="documentation" value="A change representing a new import which is only present in the left model."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="importLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
   </eClassifiers>
@@ -87,10 +87,39 @@
         <details key="documentation" value="The deleted class declaration."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The package in the current model that no longer contains the deleted class."/>
+        <details key="documentation" value="The package in the current model that no longer contains the deleted class.&#xD;&#xA;It might be null if the deleted class is conainted in a package that was deleted, too."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PackageChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A changed package declaration."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PackageInsert" eSuperTypes="#//PackageChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A package that was inserted and is only present in the left model."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packageLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The package inserted to the software."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PackageDelete" eSuperTypes="#//PackageChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A package that was deleted and is only present in the right model."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packageRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The package removed from the software."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The parent package in the current model that no longer contains the deleted package.&#xD;&#xA;It might be null if the deleted package is conainted in a parent package that was deleted, too."/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

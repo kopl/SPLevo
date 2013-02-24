@@ -14,5 +14,5 @@
     <node href="../b_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body"/>
   </children>
   <unit href="../b_java.xmi#//@compilationUnits.0"/>
-  <parent href="Package2Directory_java2kdm.xmi#/"/>
+  <parent href="Package2Directory_java2kdm.xmi#/0"/>
 </javaapplication:Java2File>

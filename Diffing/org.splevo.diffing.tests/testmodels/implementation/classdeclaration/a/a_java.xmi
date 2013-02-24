@@ -17,6 +17,6 @@
   <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
   <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
   <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.a\src\org\splevo\tests\fielddeclaration\package-info.java" commentList="//@compilationUnits.0/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
-    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.0" content="/** &#xA; * Class declaration diffing test code.&#xA; * @author Benjamin Klatt&#xA; */&#xA;" prefixOfParent="true"/>
+    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.0" content="/** &#xA; * Class declaration diffing test code.&#xA; * @author Benjamin Klatt&#xA; */&#xA;" enclosedByParent="true"/>
   </compilationUnits>
 </java:Model>

@@ -15,17 +15,17 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete} object.
+ * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ClassDeleteItemProvider
-    extends ClassChangeItemProvider
+public class PackageDeleteItemProvider
+    extends PackageChangeItemProvider
     implements
         IEditingDomainItemProvider,
         IStructuredItemContentProvider,
@@ -38,7 +38,7 @@ public class ClassDeleteItemProvider
      * <!-- end-user-doc -->
      * @generated
      */
-    public ClassDeleteItemProvider(AdapterFactory adapterFactory) {
+    public PackageDeleteItemProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
@@ -53,26 +53,26 @@ public class ClassDeleteItemProvider
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addClassRightPropertyDescriptor(object);
+            addPackageRightPropertyDescriptor(object);
             addLeftContainerPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Class Right feature.
+     * This adds a property descriptor for the Package Right feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addClassRightPropertyDescriptor(Object object) {
+    protected void addPackageRightPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add
             (createItemPropertyDescriptor
                 (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
                  getResourceLocator(),
-                 getString("_UI_ClassDelete_classRight_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_ClassDelete_classRight_feature", "_UI_ClassDelete_type"),
-                 Java2KDMDiffPackage.Literals.CLASS_DELETE__CLASS_RIGHT,
+                 getString("_UI_PackageDelete_packageRight_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_PackageDelete_packageRight_feature", "_UI_PackageDelete_type"),
+                 Java2KDMDiffPackage.Literals.PACKAGE_DELETE__PACKAGE_RIGHT,
                  true,
                  false,
                  true,
@@ -92,9 +92,9 @@ public class ClassDeleteItemProvider
             (createItemPropertyDescriptor
                 (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
                  getResourceLocator(),
-                 getString("_UI_ClassDelete_leftContainer_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_ClassDelete_leftContainer_feature", "_UI_ClassDelete_type"),
-                 Java2KDMDiffPackage.Literals.CLASS_DELETE__LEFT_CONTAINER,
+                 getString("_UI_PackageDelete_leftContainer_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_PackageDelete_leftContainer_feature", "_UI_PackageDelete_type"),
+                 Java2KDMDiffPackage.Literals.PACKAGE_DELETE__LEFT_CONTAINER,
                  true,
                  false,
                  true,
@@ -104,33 +104,34 @@ public class ClassDeleteItemProvider
     }
 
     /**
-     * This returns ClassDelete.gif.
+     * This returns PackageDelete.gif.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/ClassDelete"));
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/PackageDelete"));
     }
 
     /**
      * This returns the label text for the adapted class.
      * <!-- begin-user-doc -->
-     * Customized to include the name of the deleted class.
+     * Customized to include the name of the deleted package.
      * <!-- end-user-doc -->
      * @generated not
      */
     @Override
     public String getText(Object object) {
-        ClassDelete classDelete = (ClassDelete)object;
+        PackageDelete packageDelete = (PackageDelete)object;
         
-        String className = null;
-        if(classDelete.getClass() != null){
-            className = classDelete.getClass().getName();
+        String packageName = null;
+        if(packageDelete.getPackageRight() != null){
+            packageName = packageDelete.getPackageRight().getName();
         }
         
-        return getString("_UI_ClassDelete_type") + " " + className;
+        return getString("_UI_PackageInsert_type") + " " + packageName;
+        
     }
 
     /**

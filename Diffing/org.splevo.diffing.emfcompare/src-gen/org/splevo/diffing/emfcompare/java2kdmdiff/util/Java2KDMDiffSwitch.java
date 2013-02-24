@@ -194,6 +194,35 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case Java2KDMDiffPackage.PACKAGE_CHANGE: {
+                PackageChange packageChange = (PackageChange)theEObject;
+                T result = casePackageChange(packageChange);
+                if (result == null) result = caseJava2KDMDiffExtension(packageChange);
+                if (result == null) result = caseAbstractDiffExtension(packageChange);
+                if (result == null) result = caseDiffElement(packageChange);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case Java2KDMDiffPackage.PACKAGE_INSERT: {
+                PackageInsert packageInsert = (PackageInsert)theEObject;
+                T result = casePackageInsert(packageInsert);
+                if (result == null) result = casePackageChange(packageInsert);
+                if (result == null) result = caseJava2KDMDiffExtension(packageInsert);
+                if (result == null) result = caseAbstractDiffExtension(packageInsert);
+                if (result == null) result = caseDiffElement(packageInsert);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case Java2KDMDiffPackage.PACKAGE_DELETE: {
+                PackageDelete packageDelete = (PackageDelete)theEObject;
+                T result = casePackageDelete(packageDelete);
+                if (result == null) result = casePackageChange(packageDelete);
+                if (result == null) result = caseJava2KDMDiffExtension(packageDelete);
+                if (result == null) result = caseAbstractDiffExtension(packageDelete);
+                if (result == null) result = caseDiffElement(packageDelete);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -390,6 +419,51 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseClassDelete(ClassDelete object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Package Change</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Package Change</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T casePackageChange(PackageChange object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Package Insert</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Package Insert</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T casePackageInsert(PackageInsert object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Package Delete</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Package Delete</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T casePackageDelete(PackageDelete object) {
         return null;
     }
 

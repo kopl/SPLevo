@@ -13,6 +13,14 @@
             <inventoryElement xsi:type="source:Directory" name="tests" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests">
               <inventoryElement xsi:type="source:Directory" name="fielddeclaration" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests\fielddeclaration">
                 <inventoryElement xsi:type="source:BinaryFile" name="AddedClassDeclaration.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests\fielddeclaration\AddedClassDeclaration.class"/>
+                <inventoryElement xsi:type="source:Directory" name="newpackage" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests\fielddeclaration\newpackage">
+                  <inventoryElement xsi:type="source:BinaryFile" name="NewPackageClass.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests\fielddeclaration\newpackage\NewPackageClass.class"/>
+                  <inventoryElement xsi:type="source:BinaryFile" name="package-info.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests\fielddeclaration\newpackage\package-info.class"/>
+                  <inventoryElement xsi:type="source:Directory" name="sub" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests\fielddeclaration\newpackage\sub">
+                    <inventoryElement xsi:type="source:BinaryFile" name="NewSubPackageClass.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests\fielddeclaration\newpackage\sub\NewSubPackageClass.class"/>
+                    <inventoryElement xsi:type="source:BinaryFile" name="package-info.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests\fielddeclaration\newpackage\sub\package-info.class"/>
+                  </inventoryElement>
+                </inventoryElement>
                 <inventoryElement xsi:type="source:BinaryFile" name="package-info.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\bin\org\splevo\tests\fielddeclaration\package-info.class"/>
               </inventoryElement>
             </inventoryElement>
@@ -25,6 +33,14 @@
             <inventoryElement xsi:type="source:Directory" name="tests" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests">
               <inventoryElement xsi:type="source:Directory" name="fielddeclaration" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration">
                 <inventoryElement xsi:type="source:SourceFile" name="AddedClassDeclaration.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\AddedClassDeclaration.java"/>
+                <inventoryElement xsi:type="source:Directory" name="newpackage" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage">
+                  <inventoryElement xsi:type="source:SourceFile" name="NewPackageClass.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage\NewPackageClass.java"/>
+                  <inventoryElement xsi:type="source:SourceFile" name="package-info.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage\package-info.java"/>
+                  <inventoryElement xsi:type="source:Directory" name="sub" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage\sub">
+                    <inventoryElement xsi:type="source:SourceFile" name="NewSubPackageClass.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage\sub\NewSubPackageClass.java"/>
+                    <inventoryElement xsi:type="source:SourceFile" name="package-info.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\newpackage\sub\package-info.java"/>
+                  </inventoryElement>
+                </inventoryElement>
                 <inventoryElement xsi:type="source:SourceFile" name="package-info.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.b\src\org\splevo\tests\fielddeclaration\package-info.java"/>
               </inventoryElement>
             </inventoryElement>
