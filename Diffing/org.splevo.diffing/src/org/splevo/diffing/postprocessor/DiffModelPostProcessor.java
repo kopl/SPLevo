@@ -12,20 +12,15 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeLeftTarget;
 import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeRightTarget;
-import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeLeftTarget;
-import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeRightTarget;
 import org.eclipse.emf.compare.diff.metamodel.util.DiffSwitch;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
-import org.eclipse.gmt.modisco.java.Javadoc;
-import org.eclipse.gmt.modisco.java.LineComment;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete;
-import org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
@@ -161,19 +156,7 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
     public Boolean caseModelElementChangeLeftTarget(ModelElementChangeLeftTarget object) {
 
         if (object.getKind() == DifferenceKind.ADDITION) {
-            if ((object.getLeftElement() instanceof FieldDeclaration)) {
-
-                FieldInsert fieldInsert = Java2KDMDiffFactory.eINSTANCE.createFieldInsert();
-                fieldInsert.setFieldLeft((FieldDeclaration) object.getLeftElement());
-
-                // add the statement change to the parent container
-                if (object.eContainer() instanceof DiffGroup) {
-                    DiffGroup parentGroup = (DiffGroup) object.eContainer();
-                    parentGroup.getSubDiffElements().add(fieldInsert);
-                }
-
-                return Boolean.TRUE;
-            } else if ((object.getLeftElement() instanceof TypeAccess)
+            if ((object.getLeftElement() instanceof TypeAccess)
                     && object.getLeftElement().eContainer() instanceof ClassDeclaration
                     && ((TypeAccess) object.getLeftElement()).getType() instanceof InterfaceDeclaration) {
 

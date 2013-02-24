@@ -13,11 +13,14 @@ import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
+import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
@@ -153,6 +156,15 @@ public class UnmatchedElementProcessor {
         }
 
         @Override
+        public DiffElement caseFieldDeclaration(FieldDeclaration fieldDeclaration) {
+            if (unmatchElement.getSide() == Side.LEFT) {
+                return createFieldInsert(fieldDeclaration);
+            } else {
+                return createFieldDelete(fieldDeclaration);
+            }
+        }
+
+        @Override
         public DiffElement caseAbstractMethodDeclaration(AbstractMethodDeclaration methodDeclaration) {
             if (unmatchElement.getSide() == Side.LEFT) {
                 return createMethodInsert(methodDeclaration);
@@ -171,7 +183,7 @@ public class UnmatchedElementProcessor {
         private Collection<DiffElement> buildSubDiffElements(PackageInsert packageInsert) {
 
             logger.debug("buildSubDiffElements: " + packageInsert.getPackageLeft().getName());
-            
+
             ArrayList<DiffElement> subDiffs = new ArrayList<DiffElement>();
 
             Package packageElement = packageInsert.getPackageLeft();
@@ -241,7 +253,8 @@ public class UnmatchedElementProcessor {
         /**
          * Factory method to create a diff element for a deleted package.
          * 
-         * @param packageElement The deleted package element.
+         * @param packageElement
+         *            The deleted package element.
          * @return The prepared package delete.
          */
         private PackageDelete createPackageDelete(Package packageElement) {
@@ -290,7 +303,9 @@ public class UnmatchedElementProcessor {
 
         /**
          * Factory method to create a method insert diff element.
-         * @param methodDeclaration The inserted method declaration.
+         * 
+         * @param methodDeclaration
+         *            The inserted method declaration.
          * @return The created method insert element.
          */
         private MethodInsert createMethodInsert(AbstractMethodDeclaration methodDeclaration) {
@@ -301,13 +316,41 @@ public class UnmatchedElementProcessor {
 
         /**
          * Factory method to create a method delete diff element.
-         * @param methodDeclaration The deleted method declaration.
+         * 
+         * @param methodDeclaration
+         *            The deleted method declaration.
          * @return The created method delete element.
          */
         private MethodDelete createMethodDelete(AbstractMethodDeclaration methodDeclaration) {
             MethodDelete methodDelete = Java2KDMDiffFactory.eINSTANCE.createMethodDelete();
             methodDelete.setMethodRight(methodDeclaration);
             return methodDelete;
+        }
+
+        /**
+         * Factory method to create a field insert diff element.
+         * 
+         * @param fieldDeclaration
+         *            The inserted field declaration.
+         * @return The created field insert element.
+         */
+        private FieldInsert createFieldInsert(FieldDeclaration fieldDeclaration) {
+            FieldInsert fieldInsert = Java2KDMDiffFactory.eINSTANCE.createFieldInsert();
+            fieldInsert.setFieldLeft(fieldDeclaration);
+            return fieldInsert;
+        }
+
+        /**
+         * Factory method to create a field delete diff element.
+         * 
+         * @param fieldDeclaration
+         *            The deleted field declaration.
+         * @return The created field delete element.
+         */
+        private FieldDelete createFieldDelete(FieldDeclaration fieldDeclaration) {
+            FieldDelete fieldDelete = Java2KDMDiffFactory.eINSTANCE.createFieldDelete();
+            fieldDelete.setFieldRight(fieldDeclaration);
+            return fieldDelete;
         }
 
     }
