@@ -197,19 +197,7 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
     public Boolean caseModelElementChangeRightTarget(ModelElementChangeRightTarget object) {
 
         if (object.getKind() == DifferenceKind.DELETION) {
-            if ((object.getRightElement() instanceof FieldDeclaration)) {
-
-                FieldDelete fieldDelete = Java2KDMDiffFactory.eINSTANCE.createFieldDelete();
-                fieldDelete.setFieldRight((FieldDeclaration) object.getRightElement());
-
-                // add the statement change to the parent container
-                if (object.eContainer() instanceof DiffGroup) {
-                    DiffGroup parentGroup = (DiffGroup) object.eContainer();
-                    parentGroup.getSubDiffElements().add(fieldDelete);
-                }
-
-                return Boolean.TRUE;
-            } else if ((object.getRightElement() instanceof TypeAccess)
+            if ((object.getRightElement() instanceof TypeAccess)
                     && object.getRightElement().eContainer() instanceof ClassDeclaration
                     && ((TypeAccess) object.getRightElement()).getType() instanceof InterfaceDeclaration) {
 
