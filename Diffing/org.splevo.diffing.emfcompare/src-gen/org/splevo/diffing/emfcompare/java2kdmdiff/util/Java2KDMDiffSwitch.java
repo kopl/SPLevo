@@ -223,6 +223,35 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case Java2KDMDiffPackage.METHOD_CHANGE: {
+                MethodChange methodChange = (MethodChange)theEObject;
+                T result = caseMethodChange(methodChange);
+                if (result == null) result = caseJava2KDMDiffExtension(methodChange);
+                if (result == null) result = caseAbstractDiffExtension(methodChange);
+                if (result == null) result = caseDiffElement(methodChange);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case Java2KDMDiffPackage.METHOD_INSERT: {
+                MethodInsert methodInsert = (MethodInsert)theEObject;
+                T result = caseMethodInsert(methodInsert);
+                if (result == null) result = caseMethodChange(methodInsert);
+                if (result == null) result = caseJava2KDMDiffExtension(methodInsert);
+                if (result == null) result = caseAbstractDiffExtension(methodInsert);
+                if (result == null) result = caseDiffElement(methodInsert);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case Java2KDMDiffPackage.METHOD_DELETE: {
+                MethodDelete methodDelete = (MethodDelete)theEObject;
+                T result = caseMethodDelete(methodDelete);
+                if (result == null) result = caseMethodChange(methodDelete);
+                if (result == null) result = caseJava2KDMDiffExtension(methodDelete);
+                if (result == null) result = caseAbstractDiffExtension(methodDelete);
+                if (result == null) result = caseDiffElement(methodDelete);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -464,6 +493,51 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
      * @generated
      */
     public T casePackageDelete(PackageDelete object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Method Change</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Method Change</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseMethodChange(MethodChange object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Method Insert</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Method Insert</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseMethodInsert(MethodInsert object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Method Delete</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Method Delete</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseMethodDelete(MethodDelete object) {
         return null;
     }
 

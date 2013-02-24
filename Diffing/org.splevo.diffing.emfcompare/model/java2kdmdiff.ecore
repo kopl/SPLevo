@@ -123,4 +123,11 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodInsert" eSuperTypes="#//MethodChange">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//AbstractMethodDeclaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodDelete" eSuperTypes="#//MethodChange">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//AbstractMethodDeclaration"/>
+  </eClassifiers>
 </ecore:EPackage>

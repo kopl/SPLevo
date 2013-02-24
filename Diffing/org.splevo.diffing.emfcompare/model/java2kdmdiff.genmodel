@@ -50,6 +50,14 @@
     </genClasses>
     <genClasses ecoreClass="java2kdmdiff.ecore#//PackageDelete">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//PackageDelete/packageRight"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//PackageDelete/leftContainer"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="java2kdmdiff.ecore#//MethodChange"/>
+    <genClasses ecoreClass="java2kdmdiff.ecore#//MethodInsert">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//MethodInsert/methodLeft"/>
+    </genClasses>
+    <genClasses ecoreClass="java2kdmdiff.ecore#//MethodDelete">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//MethodDelete/methodRight"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

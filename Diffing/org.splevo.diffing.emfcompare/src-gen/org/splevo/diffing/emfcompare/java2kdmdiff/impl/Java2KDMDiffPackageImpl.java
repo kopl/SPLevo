@@ -23,6 +23,9 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.diffing.emfcompare.java2kdmdiff.MethodChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert;
@@ -146,6 +149,27 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
      * @generated
      */
     private EClass packageDeleteEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass methodChangeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass methodInsertEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass methodDeleteEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -511,6 +535,51 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getMethodChange() {
+        return methodChangeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getMethodInsert() {
+        return methodInsertEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getMethodInsert_MethodLeft() {
+        return (EReference)methodInsertEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getMethodDelete() {
+        return methodDeleteEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getMethodDelete_MethodRight() {
+        return (EReference)methodDeleteEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -585,6 +654,14 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
         packageDeleteEClass = createEClass(PACKAGE_DELETE);
         createEReference(packageDeleteEClass, PACKAGE_DELETE__PACKAGE_RIGHT);
         createEReference(packageDeleteEClass, PACKAGE_DELETE__LEFT_CONTAINER);
+
+        methodChangeEClass = createEClass(METHOD_CHANGE);
+
+        methodInsertEClass = createEClass(METHOD_INSERT);
+        createEReference(methodInsertEClass, METHOD_INSERT__METHOD_LEFT);
+
+        methodDeleteEClass = createEClass(METHOD_DELETE);
+        createEReference(methodDeleteEClass, METHOD_DELETE__METHOD_RIGHT);
     }
 
 	/**
@@ -636,6 +713,9 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
         packageChangeEClass.getESuperTypes().add(this.getJava2KDMDiffExtension());
         packageInsertEClass.getESuperTypes().add(this.getPackageChange());
         packageDeleteEClass.getESuperTypes().add(this.getPackageChange());
+        methodChangeEClass.getESuperTypes().add(this.getJava2KDMDiffExtension());
+        methodInsertEClass.getESuperTypes().add(this.getMethodChange());
+        methodDeleteEClass.getESuperTypes().add(this.getMethodChange());
 
         // Initialize classes and features; add operations and parameters
         initEClass(java2KDMDiffExtensionEClass, Java2KDMDiffExtension.class, "Java2KDMDiffExtension", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -676,7 +756,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
         initEClass(classDeleteEClass, ClassDelete.class, "ClassDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getClassDelete_ClassRight(), theJavaPackage.getClassDeclaration(), null, "classRight", null, 1, 1, ClassDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getClassDelete_LeftContainer(), theJavaPackage.getPackage(), null, "leftContainer", null, 1, 1, ClassDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getClassDelete_LeftContainer(), theJavaPackage.getPackage(), null, "leftContainer", null, 0, 1, ClassDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(packageChangeEClass, PackageChange.class, "PackageChange", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -685,7 +765,15 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
         initEClass(packageDeleteEClass, PackageDelete.class, "PackageDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getPackageDelete_PackageRight(), theJavaPackage.getPackage(), null, "packageRight", null, 0, 1, PackageDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getPackageDelete_LeftContainer(), theJavaPackage.getPackage(), null, "leftContainer", null, 1, 1, PackageDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getPackageDelete_LeftContainer(), theJavaPackage.getPackage(), null, "leftContainer", null, 0, 1, PackageDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(methodChangeEClass, MethodChange.class, "MethodChange", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+        initEClass(methodInsertEClass, MethodInsert.class, "MethodInsert", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getMethodInsert_MethodLeft(), theJavaPackage.getAbstractMethodDeclaration(), null, "methodLeft", null, 0, 1, MethodInsert.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(methodDeleteEClass, MethodDelete.class, "MethodDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getMethodDelete_MethodRight(), theJavaPackage.getAbstractMethodDeclaration(), null, "methodRight", null, 0, 1, MethodDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);
@@ -715,7 +803,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
            source, 
            new String[] {
              "name", "ImportDeclarationChange"
-           });											
+           });												
     }
 
 } //Java2KDMDiffPackageImpl

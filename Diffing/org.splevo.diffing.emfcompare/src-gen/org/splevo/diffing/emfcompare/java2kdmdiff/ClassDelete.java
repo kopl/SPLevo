@@ -53,11 +53,12 @@ public interface ClassDelete extends ClassChange {
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * The package in the current model that no longer contains the deleted class.
+     * It might be null if the deleted class is conainted in a package that was deleted, too.
      * <!-- end-model-doc -->
      * @return the value of the '<em>Left Container</em>' reference.
      * @see #setLeftContainer(org.eclipse.gmt.modisco.java.Package)
      * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getClassDelete_LeftContainer()
-     * @model required="true"
+     * @model
      * @generated
      */
     org.eclipse.gmt.modisco.java.Package getLeftContainer();

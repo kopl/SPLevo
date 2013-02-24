@@ -9,6 +9,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.match.metamodel.Side;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
@@ -20,6 +21,8 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
+import org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert;
 
@@ -149,6 +152,15 @@ public class UnmatchedElementProcessor {
             }
         }
 
+        @Override
+        public DiffElement caseAbstractMethodDeclaration(AbstractMethodDeclaration methodDeclaration) {
+            if (unmatchElement.getSide() == Side.LEFT) {
+                return createMethodInsert(methodDeclaration);
+            } else {
+                return createMethodDelete(methodDeclaration);
+            }
+        }
+
         /**
          * Build the sub diff elements for a package insert.
          * 
@@ -274,6 +286,28 @@ public class UnmatchedElementProcessor {
                 classDelete.setLeftContainer((Package) leftContainer);
             }
             return classDelete;
+        }
+
+        /**
+         * Factory method to create a method insert diff element.
+         * @param methodDeclaration The inserted method declaration.
+         * @return The created method insert element.
+         */
+        private MethodInsert createMethodInsert(AbstractMethodDeclaration methodDeclaration) {
+            MethodInsert methodInsert = Java2KDMDiffFactory.eINSTANCE.createMethodInsert();
+            methodInsert.setMethodLeft(methodDeclaration);
+            return methodInsert;
+        }
+
+        /**
+         * Factory method to create a method delete diff element.
+         * @param methodDeclaration The deleted method declaration.
+         * @return The created method delete element.
+         */
+        private MethodDelete createMethodDelete(AbstractMethodDeclaration methodDeclaration) {
+            MethodDelete methodDelete = Java2KDMDiffFactory.eINSTANCE.createMethodDelete();
+            methodDelete.setMethodRight(methodDeclaration);
+            return methodDelete;
         }
 
     }

@@ -1814,6 +1814,325 @@ public interface Java2KDMDiffPackage extends EPackage {
 
 
     /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodChangeImpl <em>Method Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodChangeImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getMethodChange()
+     * @generated
+     */
+    int METHOD_CHANGE = 16;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE__HIDE_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE__IS_COLLAPSED = JAVA2_KDM_DIFF_EXTENSION__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE__SUB_DIFF_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE__IS_HIDDEN_BY = JAVA2_KDM_DIFF_EXTENSION__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE__CONFLICTING = JAVA2_KDM_DIFF_EXTENSION__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE__KIND = JAVA2_KDM_DIFF_EXTENSION__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE__REMOTE = JAVA2_KDM_DIFF_EXTENSION__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE__REQUIRES = JAVA2_KDM_DIFF_EXTENSION__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE__REQUIRED_BY = JAVA2_KDM_DIFF_EXTENSION__REQUIRED_BY;
+
+    /**
+     * The number of structural features of the '<em>Method Change</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_CHANGE_FEATURE_COUNT = JAVA2_KDM_DIFF_EXTENSION_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodInsertImpl <em>Method Insert</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodInsertImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getMethodInsert()
+     * @generated
+     */
+    int METHOD_INSERT = 17;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__HIDE_ELEMENTS = METHOD_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__IS_COLLAPSED = METHOD_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__SUB_DIFF_ELEMENTS = METHOD_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__IS_HIDDEN_BY = METHOD_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__CONFLICTING = METHOD_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__KIND = METHOD_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__REMOTE = METHOD_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__REQUIRES = METHOD_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__REQUIRED_BY = METHOD_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Method Left</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT__METHOD_LEFT = METHOD_CHANGE_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Method Insert</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_INSERT_FEATURE_COUNT = METHOD_CHANGE_FEATURE_COUNT + 1;
+
+    /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodDeleteImpl <em>Method Delete</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodDeleteImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getMethodDelete()
+     * @generated
+     */
+    int METHOD_DELETE = 18;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__HIDE_ELEMENTS = METHOD_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__IS_COLLAPSED = METHOD_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__SUB_DIFF_ELEMENTS = METHOD_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__IS_HIDDEN_BY = METHOD_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__CONFLICTING = METHOD_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__KIND = METHOD_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__REMOTE = METHOD_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__REQUIRES = METHOD_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__REQUIRED_BY = METHOD_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Method Right</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__METHOD_RIGHT = METHOD_CHANGE_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Method Delete</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE_FEATURE_COUNT = METHOD_CHANGE_FEATURE_COUNT + 1;
+
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension <em>Extension</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2161,6 +2480,58 @@ public interface Java2KDMDiffPackage extends EPackage {
     EReference getPackageDelete_LeftContainer();
 
     /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodChange <em>Method Change</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Method Change</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.MethodChange
+     * @generated
+     */
+    EClass getMethodChange();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert <em>Method Insert</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Method Insert</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert
+     * @generated
+     */
+    EClass getMethodInsert();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert#getMethodLeft <em>Method Left</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Method Left</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert#getMethodLeft()
+     * @see #getMethodInsert()
+     * @generated
+     */
+    EReference getMethodInsert_MethodLeft();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete <em>Method Delete</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Method Delete</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete
+     * @generated
+     */
+    EClass getMethodDelete();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete#getMethodRight <em>Method Right</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Method Right</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete#getMethodRight()
+     * @see #getMethodDelete()
+     * @generated
+     */
+    EReference getMethodDelete_MethodRight();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2477,6 +2848,52 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
         EReference PACKAGE_DELETE__LEFT_CONTAINER = eINSTANCE.getPackageDelete_LeftContainer();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodChangeImpl <em>Method Change</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodChangeImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getMethodChange()
+         * @generated
+         */
+        EClass METHOD_CHANGE = eINSTANCE.getMethodChange();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodInsertImpl <em>Method Insert</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodInsertImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getMethodInsert()
+         * @generated
+         */
+        EClass METHOD_INSERT = eINSTANCE.getMethodInsert();
+
+        /**
+         * The meta object literal for the '<em><b>Method Left</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference METHOD_INSERT__METHOD_LEFT = eINSTANCE.getMethodInsert_MethodLeft();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodDeleteImpl <em>Method Delete</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodDeleteImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getMethodDelete()
+         * @generated
+         */
+        EClass METHOD_DELETE = eINSTANCE.getMethodDelete();
+
+        /**
+         * The meta object literal for the '<em><b>Method Right</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference METHOD_DELETE__METHOD_RIGHT = eINSTANCE.getMethodDelete_MethodRight();
 
 	}
 

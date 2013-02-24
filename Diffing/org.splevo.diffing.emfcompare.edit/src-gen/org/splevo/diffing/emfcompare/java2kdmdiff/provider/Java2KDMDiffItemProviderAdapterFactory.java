@@ -325,6 +325,52 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected MethodInsertItemProvider methodInsertItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createMethodInsertAdapter() {
+        if (methodInsertItemProvider == null) {
+            methodInsertItemProvider = new MethodInsertItemProvider(this);
+        }
+
+        return methodInsertItemProvider;
+    }
+
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected MethodDeleteItemProvider methodDeleteItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createMethodDeleteAdapter() {
+        if (methodDeleteItemProvider == null) {
+            methodDeleteItemProvider = new MethodDeleteItemProvider(this);
+        }
+
+        return methodDeleteItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -434,6 +480,8 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
         if (classDeleteItemProvider != null) classDeleteItemProvider.dispose();
         if (packageInsertItemProvider != null) packageInsertItemProvider.dispose();
         if (packageDeleteItemProvider != null) packageDeleteItemProvider.dispose();
+        if (methodInsertItemProvider != null) methodInsertItemProvider.dispose();
+        if (methodDeleteItemProvider != null) methodDeleteItemProvider.dispose();
     }
 
 }

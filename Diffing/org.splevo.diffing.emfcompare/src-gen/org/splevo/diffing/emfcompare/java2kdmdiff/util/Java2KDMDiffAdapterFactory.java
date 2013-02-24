@@ -136,6 +136,18 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
                 return createPackageDeleteAdapter();
             }
             @Override
+            public Adapter caseMethodChange(MethodChange object) {
+                return createMethodChangeAdapter();
+            }
+            @Override
+            public Adapter caseMethodInsert(MethodInsert object) {
+                return createMethodInsertAdapter();
+            }
+            @Override
+            public Adapter caseMethodDelete(MethodDelete object) {
+                return createMethodDeleteAdapter();
+            }
+            @Override
             public Adapter caseAbstractDiffExtension(AbstractDiffExtension object) {
                 return createAbstractDiffExtensionAdapter();
             }
@@ -384,6 +396,48 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createPackageDeleteAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodChange <em>Method Change</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.MethodChange
+     * @generated
+     */
+    public Adapter createMethodChangeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert <em>Method Insert</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert
+     * @generated
+     */
+    public Adapter createMethodInsertAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete <em>Method Delete</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete
+     * @generated
+     */
+    public Adapter createMethodDeleteAdapter() {
         return null;
     }
 
