@@ -18,5 +18,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
  org.eclipse.gmt.modisco.java;visibility:=reexport,
  org.eclipse.gmt.modisco.java.edit;visibility:=reexport,
- org.eclipse.emf.compare.match;visibility:=reexport
+ org.eclipse.emf.compare.match;visibility:=reexport,
+ org.apache.log4j;bundle-version="1.2.15"
 Bundle-ActivationPolicy: lazy

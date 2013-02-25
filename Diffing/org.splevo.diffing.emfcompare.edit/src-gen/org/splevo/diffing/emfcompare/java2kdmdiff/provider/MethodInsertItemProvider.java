@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
+import org.splevo.diffing.emfcompare.edit.images.ImageUtil;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert;
 
@@ -92,21 +92,11 @@ public class MethodInsertItemProvider
     @Override
     public Object getImage(Object object) {
         MethodInsert methodInsert = (MethodInsert)object;
-        AbstractMethodDeclaration method = methodInsert.getMethodLeft();
-        if(method != null && method.getModifier() != null){
-            switch (method.getModifier().getVisibility()) {
-            case PUBLIC:
-                return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodInsert_public"));
-            case PRIVATE:
-                return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodInsert_private"));
-            case PROTECTED:
-                return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodInsert_protected"));
-            case NONE:
-            default:
-                return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodInsert_package"));
-            }
+        if (methodInsert.getMethodLeft() != null) {
+            return ImageUtil.getASTInsertIcon(methodInsert.getMethodLeft(), this);
+        } else {
+            return ImageUtil.composeInsertIcon(this, ImageUtil.ICON_METHOD);
         }
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodInsert_package"));
     }
 
     /**

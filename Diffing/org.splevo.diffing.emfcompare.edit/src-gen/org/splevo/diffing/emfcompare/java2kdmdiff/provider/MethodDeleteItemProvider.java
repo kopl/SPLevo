@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
+import org.splevo.diffing.emfcompare.edit.images.ImageUtil;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete;
 
@@ -91,22 +91,12 @@ public class MethodDeleteItemProvider
      */
     @Override
     public Object getImage(Object object) {
-        MethodDelete methodInsert = (MethodDelete)object;
-        AbstractMethodDeclaration method = methodInsert.getMethodRight();
-        if(method != null && method.getModifier() != null){
-            switch (method.getModifier().getVisibility()) {
-            case PUBLIC:
-                return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodDelete_public"));
-            case PRIVATE:
-                return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodDelete_private"));
-            case PROTECTED:
-                return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodDelete_protected"));
-            case NONE:
-            default:
-                return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodDelete_package"));
-            }
+        MethodDelete methodDelete = (MethodDelete)object;
+        if (methodDelete.getMethodRight() != null) {
+            return ImageUtil.getASTDeleteIcon(methodDelete.getMethodRight(), this);
+        } else {
+            return ImageUtil.composeDeleteIcon(this, ImageUtil.ICON_METHOD);
         }
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/MethodDelete_package"));
     }
 
     /**

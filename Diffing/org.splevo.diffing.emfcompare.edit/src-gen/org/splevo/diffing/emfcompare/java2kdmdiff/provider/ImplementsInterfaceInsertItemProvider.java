@@ -17,6 +17,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 
+import org.splevo.diffing.emfcompare.edit.images.ImageUtil;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
@@ -108,12 +109,13 @@ public class ImplementsInterfaceInsertItemProvider
     /**
      * This returns ImplementsInterfaceInsert.gif.
      * <!-- begin-user-doc -->
+     * Customized to provide type specific insert icon.
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/ImplementsInterfaceInsert"));
+        return ImageUtil.composeInsertIcon(this, ImageUtil.ICON_INTERFACE);
     }
 
     /**

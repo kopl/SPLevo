@@ -371,6 +371,52 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected StatementInsertItemProvider statementInsertItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createStatementInsertAdapter() {
+        if (statementInsertItemProvider == null) {
+            statementInsertItemProvider = new StatementInsertItemProvider(this);
+        }
+
+        return statementInsertItemProvider;
+    }
+
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected StatementDeleteItemProvider statementDeleteItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createStatementDeleteAdapter() {
+        if (statementDeleteItemProvider == null) {
+            statementDeleteItemProvider = new StatementDeleteItemProvider(this);
+        }
+
+        return statementDeleteItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -482,6 +528,8 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
         if (packageDeleteItemProvider != null) packageDeleteItemProvider.dispose();
         if (methodInsertItemProvider != null) methodInsertItemProvider.dispose();
         if (methodDeleteItemProvider != null) methodDeleteItemProvider.dispose();
+        if (statementInsertItemProvider != null) statementInsertItemProvider.dispose();
+        if (statementDeleteItemProvider != null) statementDeleteItemProvider.dispose();
     }
 
 }

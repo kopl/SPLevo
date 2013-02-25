@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -16,7 +15,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
+import org.splevo.diffing.emfcompare.edit.images.ImageUtil;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
@@ -85,12 +84,18 @@ public class ClassInsertItemProvider
     /**
      * This returns ClassInsert.gif.
      * <!-- begin-user-doc -->
+     * Customized to provide a type specific insert icon.
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/ClassInsert"));
+        ClassInsert classInsert = (ClassInsert)object;
+        if(classInsert.getClassLeft() != null){
+            return ImageUtil.getASTInsertIcon(classInsert.getClassLeft(), this);
+        } else {
+            return ImageUtil.composeInsertIcon(this, ImageUtil.ICON_CLASS);
+        }
     }
 
     /**

@@ -15,6 +15,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.splevo.diffing.emfcompare.edit.images.ImageUtil;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete;
 
@@ -106,12 +107,18 @@ public class PackageDeleteItemProvider
     /**
      * This returns PackageDelete.gif.
      * <!-- begin-user-doc -->
+     * Customized to provide a type specific delete icon.
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/PackageDelete"));
+        PackageDelete packageDelete = (PackageDelete)object;
+        if (packageDelete.getPackageRight() != null) {
+            return ImageUtil.getASTDeleteIcon(packageDelete.getPackageRight(), this);
+        } else {
+            return ImageUtil.composeDeleteIcon(this, ImageUtil.ICON_PACKAGE);
+        }
     }
 
     /**

@@ -15,6 +15,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.splevo.diffing.emfcompare.edit.images.ImageUtil;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
@@ -106,12 +107,18 @@ public class ClassDeleteItemProvider
     /**
      * This returns ClassDelete.gif.
      * <!-- begin-user-doc -->
+     * Customized to provide a type specific delete icon.
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/ClassDelete"));
+        ClassDelete classDelete = (ClassDelete)object;
+        if(classDelete.getClassRight() != null){
+            return ImageUtil.getASTDeleteIcon(classDelete.getClassRight(), this);
+        } else {
+            return ImageUtil.composeDeleteIcon(this, ImageUtil.ICON_CLASS);
+        }
     }
 
     /**
@@ -126,8 +133,8 @@ public class ClassDeleteItemProvider
         ClassDelete classDelete = (ClassDelete)object;
         
         String className = null;
-        if(classDelete.getClass() != null){
-            className = classDelete.getClass().getName();
+        if(classDelete.getClassRight() != null){
+            className = classDelete.getClassRight().getName();
         }
         
         return getString("_UI_ClassDelete_type") + " " + className;

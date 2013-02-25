@@ -15,6 +15,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.splevo.diffing.emfcompare.edit.images.ImageUtil;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert;
 
@@ -83,12 +84,18 @@ public class PackageInsertItemProvider
     /**
      * This returns PackageInsert.gif.
      * <!-- begin-user-doc -->
+     * Customized to provide a type specific insert icon.
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/PackageInsert"));
+        PackageInsert packageInsert = (PackageInsert)object;
+        if (packageInsert.getPackageLeft() != null) {
+            return ImageUtil.getASTInsertIcon(packageInsert.getPackageLeft(), this);
+        } else {
+            return ImageUtil.composeInsertIcon(this, ImageUtil.ICON_PACKAGE);
+        }
     }
 
     /**

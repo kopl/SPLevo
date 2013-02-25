@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -16,7 +15,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
+import org.splevo.diffing.emfcompare.edit.images.ImageUtil;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
@@ -108,12 +107,18 @@ public class ImportDeleteItemProvider
     /**
      * This returns ImportDelete.gif.
      * <!-- begin-user-doc -->
+     * Customized to provide type specific delete icon.
 	 * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
 	@Override
 	public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/ImportDelete"));
+	    ImportDelete importDelete = (ImportDelete)object;
+	    if(importDelete.getImportRight() != null){
+	        return ImageUtil.getASTDeleteIcon(importDelete.getImportRight(), this);
+	    } else {
+	        return ImageUtil.composeDeleteIcon(this, ImageUtil.ICON_IMPORT);
+	    }
     }
 
 	/**
