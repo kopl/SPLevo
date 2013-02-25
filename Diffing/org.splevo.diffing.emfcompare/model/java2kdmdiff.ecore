@@ -130,4 +130,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="MethodDelete" eSuperTypes="#//MethodChange">
     <eStructuralFeatures xsi:type="ecore:EReference" name="methodRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//AbstractMethodDeclaration"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementInsert" eSuperTypes="#//StatementChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StatementDelete" eSuperTypes="#//StatementChange"/>
 </ecore:EPackage>

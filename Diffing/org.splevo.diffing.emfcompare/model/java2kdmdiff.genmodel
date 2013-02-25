@@ -59,5 +59,7 @@
     <genClasses ecoreClass="java2kdmdiff.ecore#//MethodDelete">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//MethodDelete/methodRight"/>
     </genClasses>
+    <genClasses ecoreClass="java2kdmdiff.ecore#//StatementInsert"/>
+    <genClasses ecoreClass="java2kdmdiff.ecore#//StatementDelete"/>
   </genPackages>
 </genmodel:GenModel>

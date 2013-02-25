@@ -252,6 +252,26 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case Java2KDMDiffPackage.STATEMENT_INSERT: {
+                StatementInsert statementInsert = (StatementInsert)theEObject;
+                T result = caseStatementInsert(statementInsert);
+                if (result == null) result = caseStatementChange(statementInsert);
+                if (result == null) result = caseJava2KDMDiffExtension(statementInsert);
+                if (result == null) result = caseAbstractDiffExtension(statementInsert);
+                if (result == null) result = caseDiffElement(statementInsert);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case Java2KDMDiffPackage.STATEMENT_DELETE: {
+                StatementDelete statementDelete = (StatementDelete)theEObject;
+                T result = caseStatementDelete(statementDelete);
+                if (result == null) result = caseStatementChange(statementDelete);
+                if (result == null) result = caseJava2KDMDiffExtension(statementDelete);
+                if (result == null) result = caseAbstractDiffExtension(statementDelete);
+                if (result == null) result = caseDiffElement(statementDelete);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -538,6 +558,36 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseMethodDelete(MethodDelete object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Statement Insert</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Statement Insert</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseStatementInsert(StatementInsert object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Statement Delete</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Statement Delete</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseStatementDelete(StatementDelete object) {
         return null;
     }
 

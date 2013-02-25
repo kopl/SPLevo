@@ -148,6 +148,14 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
                 return createMethodDeleteAdapter();
             }
             @Override
+            public Adapter caseStatementInsert(StatementInsert object) {
+                return createStatementInsertAdapter();
+            }
+            @Override
+            public Adapter caseStatementDelete(StatementDelete object) {
+                return createStatementDeleteAdapter();
+            }
+            @Override
             public Adapter caseAbstractDiffExtension(AbstractDiffExtension object) {
                 return createAbstractDiffExtensionAdapter();
             }
@@ -438,6 +446,34 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createMethodDeleteAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert <em>Statement Insert</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert
+     * @generated
+     */
+    public Adapter createStatementInsertAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete <em>Statement Delete</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete
+     * @generated
+     */
+    public Adapter createStatementDeleteAdapter() {
         return null;
     }
 

@@ -11,11 +11,13 @@ import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
+import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
@@ -28,6 +30,8 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert;
 
 /**
  * A processor to handle unmatched elements according to their type of element.
@@ -170,6 +174,24 @@ public class UnmatchedElementProcessor {
                 return createMethodInsert(methodDeclaration);
             } else {
                 return createMethodDelete(methodDeclaration);
+            }
+        }
+        
+        /** 
+         * Block case introduced to skip caseStatement for block elements.
+         * {@inheritDoc}
+         */
+        @Override
+        public DiffElement caseBlock(Block object) {
+            return null;
+        }
+        
+        @Override
+        public DiffElement caseStatement(Statement statment) {
+            if (unmatchElement.getSide() == Side.LEFT) {
+                return createStatementInsert(statment);
+            } else {
+                return createStatementDelete(statment);
             }
         }
 
@@ -351,6 +373,30 @@ public class UnmatchedElementProcessor {
             FieldDelete fieldDelete = Java2KDMDiffFactory.eINSTANCE.createFieldDelete();
             fieldDelete.setFieldRight(fieldDeclaration);
             return fieldDelete;
+        }
+
+        /**
+         * Factory method to create a statement insert diff element.
+         * @param statement The statement that has been inserted.
+         * @return The created statement insert element.
+         */
+        private StatementInsert createStatementInsert(Statement statement) {
+            StatementInsert statementInsert = Java2KDMDiffFactory.eINSTANCE.createStatementInsert();
+            statementInsert.setStatementLeft(statement);
+            return statementInsert;
+        }
+
+        /**
+         * Factory method to create a statement delete diff element.
+         * 
+         * @param statement
+         *            The deleted statement.
+         * @return The created statement delete element.
+         */
+        private StatementDelete createStatementDelete(Statement statement) {
+            StatementDelete statementDelete = Java2KDMDiffFactory.eINSTANCE.createStatementDelete();
+            statementDelete.setStatementRight(statement);
+            return statementDelete;
         }
 
     }

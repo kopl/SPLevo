@@ -30,6 +30,8 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.PackageChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete;
+import org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert;
 
 /**
  * <!-- begin-user-doc -->
@@ -170,6 +172,20 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
      * @generated
      */
     private EClass methodDeleteEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass statementInsertEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass statementDeleteEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -580,6 +596,24 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getStatementInsert() {
+        return statementInsertEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getStatementDelete() {
+        return statementDeleteEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -662,6 +696,10 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
         methodDeleteEClass = createEClass(METHOD_DELETE);
         createEReference(methodDeleteEClass, METHOD_DELETE__METHOD_RIGHT);
+
+        statementInsertEClass = createEClass(STATEMENT_INSERT);
+
+        statementDeleteEClass = createEClass(STATEMENT_DELETE);
     }
 
 	/**
@@ -716,6 +754,8 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
         methodChangeEClass.getESuperTypes().add(this.getJava2KDMDiffExtension());
         methodInsertEClass.getESuperTypes().add(this.getMethodChange());
         methodDeleteEClass.getESuperTypes().add(this.getMethodChange());
+        statementInsertEClass.getESuperTypes().add(this.getStatementChange());
+        statementDeleteEClass.getESuperTypes().add(this.getStatementChange());
 
         // Initialize classes and features; add operations and parameters
         initEClass(java2KDMDiffExtensionEClass, Java2KDMDiffExtension.class, "Java2KDMDiffExtension", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -774,6 +814,10 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
         initEClass(methodDeleteEClass, MethodDelete.class, "MethodDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getMethodDelete_MethodRight(), theJavaPackage.getAbstractMethodDeclaration(), null, "methodRight", null, 0, 1, MethodDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(statementInsertEClass, StatementInsert.class, "StatementInsert", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+        initEClass(statementDeleteEClass, StatementDelete.class, "StatementDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
         // Create resource
         createResource(eNS_URI);

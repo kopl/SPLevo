@@ -139,6 +139,24 @@ public interface Java2KDMDiffFactory extends EFactory {
     MethodDelete createMethodDelete();
 
     /**
+     * Returns a new object of class '<em>Statement Insert</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Statement Insert</em>'.
+     * @generated
+     */
+    StatementInsert createStatementInsert();
+
+    /**
+     * Returns a new object of class '<em>Statement Delete</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Statement Delete</em>'.
+     * @generated
+     */
+    StatementDelete createStatementDelete();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

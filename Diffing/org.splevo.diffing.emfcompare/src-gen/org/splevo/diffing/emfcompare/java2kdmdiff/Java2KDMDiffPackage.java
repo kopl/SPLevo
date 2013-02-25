@@ -2133,6 +2133,243 @@ public interface Java2KDMDiffPackage extends EPackage {
 
 
     /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementInsertImpl <em>Statement Insert</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementInsertImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getStatementInsert()
+     * @generated
+     */
+    int STATEMENT_INSERT = 19;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__HIDE_ELEMENTS = STATEMENT_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__IS_COLLAPSED = STATEMENT_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__SUB_DIFF_ELEMENTS = STATEMENT_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__IS_HIDDEN_BY = STATEMENT_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__CONFLICTING = STATEMENT_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__KIND = STATEMENT_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__REMOTE = STATEMENT_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__REQUIRES = STATEMENT_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__REQUIRED_BY = STATEMENT_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Statement Right</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__STATEMENT_RIGHT = STATEMENT_CHANGE__STATEMENT_RIGHT;
+
+    /**
+     * The feature id for the '<em><b>Statement Left</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT__STATEMENT_LEFT = STATEMENT_CHANGE__STATEMENT_LEFT;
+
+    /**
+     * The number of structural features of the '<em>Statement Insert</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_INSERT_FEATURE_COUNT = STATEMENT_CHANGE_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementDeleteImpl <em>Statement Delete</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementDeleteImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getStatementDelete()
+     * @generated
+     */
+    int STATEMENT_DELETE = 20;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__HIDE_ELEMENTS = STATEMENT_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__IS_COLLAPSED = STATEMENT_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__SUB_DIFF_ELEMENTS = STATEMENT_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__IS_HIDDEN_BY = STATEMENT_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__CONFLICTING = STATEMENT_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__KIND = STATEMENT_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__REMOTE = STATEMENT_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__REQUIRES = STATEMENT_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__REQUIRED_BY = STATEMENT_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Statement Right</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__STATEMENT_RIGHT = STATEMENT_CHANGE__STATEMENT_RIGHT;
+
+    /**
+     * The feature id for the '<em><b>Statement Left</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__STATEMENT_LEFT = STATEMENT_CHANGE__STATEMENT_LEFT;
+
+    /**
+     * The number of structural features of the '<em>Statement Delete</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE_FEATURE_COUNT = STATEMENT_CHANGE_FEATURE_COUNT + 0;
+
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension <em>Extension</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2532,6 +2769,26 @@ public interface Java2KDMDiffPackage extends EPackage {
     EReference getMethodDelete_MethodRight();
 
     /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert <em>Statement Insert</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Statement Insert</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert
+     * @generated
+     */
+    EClass getStatementInsert();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete <em>Statement Delete</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Statement Delete</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete
+     * @generated
+     */
+    EClass getStatementDelete();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2894,6 +3151,26 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
         EReference METHOD_DELETE__METHOD_RIGHT = eINSTANCE.getMethodDelete_MethodRight();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementInsertImpl <em>Statement Insert</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementInsertImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getStatementInsert()
+         * @generated
+         */
+        EClass STATEMENT_INSERT = eINSTANCE.getStatementInsert();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementDeleteImpl <em>Statement Delete</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementDeleteImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getStatementDelete()
+         * @generated
+         */
+        EClass STATEMENT_DELETE = eINSTANCE.getStatementDelete();
 
 	}
 
