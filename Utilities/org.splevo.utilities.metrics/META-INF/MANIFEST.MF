@@ -12,3 +12,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  swing2swt.jar
+Export-Package: org.splevo.utilities.metrics,
+ org.splevo.utilities.metrics.calculator,
+ org.splevo.utilities.metrics.calculator.impl,
+ org.splevo.utilities.metrics.commonloc,
+ org.splevo.utilities.metrics.ui
