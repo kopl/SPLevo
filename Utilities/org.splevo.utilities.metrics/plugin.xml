@@ -10,5 +10,9 @@
             id="org.splevo.utilities.MetricsView"
             name="SPLevo Common Metrics View">
       </view>
+      <category
+            id="org.splevo.ui"
+            name="SPLevo">
+      </category>
    </extension>
 </plugin>
