@@ -4,6 +4,7 @@
    <extension
          point="org.eclipse.ui.views">
       <view
+            allowMultiple="true"
             category="org.splevo.ui"
             class="org.splevo.utilities.metrics.ui.MetricsView"
             icon="icons/splevo-project.gif"
