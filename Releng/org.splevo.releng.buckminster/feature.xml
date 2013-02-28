@@ -59,6 +59,10 @@
          id="org.splevo.vpm.refinement.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.splevo.utilities.feature"
+         version="0.0.0"/>
+
    <plugin
          id="org.splevo.diffing.emfcompare.tests"
          download-size="0"
