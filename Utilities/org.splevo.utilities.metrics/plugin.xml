@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.splevo.ui"
+            class="org.splevo.utilities.metrics.ui.MetricsView"
+            icon="icons/splevo-project.gif"
+            id="org.splevo.utilities.MetricsView"
+            name="SPLevo Common Metrics View">
+      </view>
+   </extension>
+</plugin>

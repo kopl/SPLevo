@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SPLevo Metrics Utilities
+Bundle-SymbolicName: org.splevo.utilities.metrics;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.splevo.utilities.metrics.Activator
+Bundle-Vendor: www.splevo.org
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources;bundle-version="3.8.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ swing2swt.jar
