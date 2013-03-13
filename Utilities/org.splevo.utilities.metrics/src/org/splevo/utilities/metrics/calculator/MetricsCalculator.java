@@ -24,10 +24,10 @@ public interface MetricsCalculator {
      * 
      * @param item
      *            The item to analyze.
-     * @return The metrics for this item.
-     * @throws MetricCalculationException identifies a failes metric calculation.
+     * @return The metrics for this item. Or null if no metric could be calculated.
+     * @throws MetricCalculationException identifies a failed metric calculation.
      */
-    public MetricItem calculateSingleMetric(Object item) throws MetricCalculationException;
+    public MetricResultItem calculateSingleMetric(Object item) throws MetricCalculationException;
 
     /**
      * Calculate a full metrics result set for a list of items to analyze.

@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.splevo.utilities.metrics.calculator.MetricCalculationException;
-import org.splevo.utilities.metrics.calculator.MetricItem;
+import org.splevo.utilities.metrics.calculator.MetricResultItem;
 import org.splevo.utilities.metrics.calculator.MetricsCalculator;
 import org.splevo.utilities.metrics.calculator.MetricsResultSet;
 import org.splevo.utilities.metrics.calculator.impl.MetricItemImpl;
@@ -35,7 +35,7 @@ public class CommonLOCMetricCalculator implements MetricsCalculator {
     }
 
     @Override
-    public MetricItem calculateSingleMetric(Object item) throws MetricCalculationException {
+    public MetricResultItem calculateSingleMetric(Object item) throws MetricCalculationException {
         if (item instanceof IFile) {
             IFile fileItem = (IFile) item;
 
@@ -79,11 +79,12 @@ public class CommonLOCMetricCalculator implements MetricsCalculator {
     public MetricsResultSet calculateMetrics(List<Object> items) throws MetricCalculationException {
 
         MetricsResultSet resultSet = new MetricsResultSetImpl();
+        resultSet.setId("File Metrics");
 
         // calculate the individual metrics
         for (Object item : items) {
             if (isSupported(item)) {
-                MetricItem metricItem = calculateSingleMetric(item);
+                MetricResultItem metricItem = calculateSingleMetric(item);
                 resultSet.getMetrics().add(metricItem);
             }
         }
@@ -91,7 +92,7 @@ public class CommonLOCMetricCalculator implements MetricsCalculator {
         // calculate the total metrics
         int counterTotal = 0;
         int counterTotalNonEmpty = 0;
-        for (MetricItem metricItem : resultSet.getMetrics()) {
+        for (MetricResultItem metricItem : resultSet.getMetrics()) {
             counterTotal += Integer.valueOf(metricItem.getMetrics().get(METRIC_LINES_TOTAL).toString());
             counterTotalNonEmpty += Integer.valueOf(metricItem.getMetrics().get(METRIC_LINES_NON_EMPTY).toString());
         }

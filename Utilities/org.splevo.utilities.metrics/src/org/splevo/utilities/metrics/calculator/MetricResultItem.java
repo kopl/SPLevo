@@ -7,7 +7,7 @@ import java.util.Map;
  * @author Benjamin Klatt
  *
  */
-public interface MetricItem {
+public interface MetricResultItem {
 
     /**
      * Get a string representation of the item.

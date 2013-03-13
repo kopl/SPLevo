@@ -6,7 +6,7 @@ package org.splevo.utilities.metrics.calculator.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.splevo.utilities.metrics.calculator.MetricItem;
+import org.splevo.utilities.metrics.calculator.MetricResultItem;
 
 /**
  * A metric item to store the calculated metric values for an item.
@@ -14,7 +14,7 @@ import org.splevo.utilities.metrics.calculator.MetricItem;
  * @author Benjamin Klatt
  * 
  */
-public class MetricItemImpl implements MetricItem {
+public class MetricItemImpl implements MetricResultItem {
 
     /** The name of the analyzed item. */
     private String itemName = null;
@@ -47,7 +47,7 @@ public class MetricItemImpl implements MetricItem {
     /**
      * {@inheritDoc}
      * 
-     * @see org.splevo.utilities.metrics.calculator.MetricItem#getItemName()
+     * @see org.splevo.utilities.metrics.calculator.MetricResultItem#getItemName()
      */
     @Override
     public String getItemName() {
@@ -57,7 +57,7 @@ public class MetricItemImpl implements MetricItem {
     /**
      * {@inheritDoc}
      * 
-     * @see org.splevo.utilities.metrics.calculator.MetricItem#getMetrics()
+     * @see org.splevo.utilities.metrics.calculator.MetricResultItem#getMetrics()
      */
     @Override
     public Map<String, Object> getMetrics() {

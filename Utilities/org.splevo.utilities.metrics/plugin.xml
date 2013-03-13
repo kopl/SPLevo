@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+   <extension-point id="calculator" name="Metrics Calculator" schema="schema/org.splevo.metrics.calculator.exsd"/>
    <extension
          point="org.eclipse.ui.views">
       <view
@@ -15,5 +16,14 @@
             id="org.splevo.ui"
             name="SPLevo">
       </category>
+   </extension>
+   <extension
+         point="org.splevo.utilities.metrics.calculator">
+      <calculator
+            calculator.class="org.splevo.utilities.metrics.commonloc.CommonLOCMetricCalculator">
+      </calculator>
+      <calculator
+            calculator.class="org.splevo.utilities.metrics.qvto.QVToMetricCalculator">
+      </calculator>
    </extension>
 </plugin>

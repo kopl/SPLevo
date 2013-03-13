@@ -1,7 +1,7 @@
 package org.splevo.utilities.metrics.ui;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.splevo.utilities.metrics.calculator.MetricItem;
+import org.splevo.utilities.metrics.calculator.MetricResultItem;
 
 /**
  * Label provider to present the value of a specific metric.
@@ -26,7 +26,7 @@ public class MetricLabelProvider extends ColumnLabelProvider {
 
     @Override
     public String getText(Object element) {
-        MetricItem metricItem = (MetricItem) element;
+        MetricResultItem metricItem = (MetricResultItem) element;
         if (metricItem.getMetrics().containsKey(metricKey)) {
             return metricItem.getMetrics().get(metricKey).toString();
         }
