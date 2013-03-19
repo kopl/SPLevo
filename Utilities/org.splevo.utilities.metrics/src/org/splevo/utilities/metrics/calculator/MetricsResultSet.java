@@ -2,6 +2,7 @@ package org.splevo.utilities.metrics.calculator;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A result object of a metrics calculation.
@@ -19,26 +20,18 @@ public interface MetricsResultSet {
     String getId();
 
     /**
-     * Sets the id.
+     * Get a set of the available metrics in the result set.
      * 
-     * @param id
-     *            The new id of the result set
+     * @return The set of metric identifiers.
      */
-    void setId(String id);
-
-    /**
-     * Get a list of the available metrics in the result set.
-     * 
-     * @return The list of metric identifiers.
-     */
-    List<String> getAvailableMetrics();
+    Set<String> getAvailableMetrics();
 
     /**
      * Get the metrics per analyzed item.
      * 
      * @return The list of metric items.
      */
-    List<MetricResultItem> getMetrics();
+    List<MetricResultItem> getMetricResultItems();
 
     /**
      * Get the metrics for the total analyzed item set.

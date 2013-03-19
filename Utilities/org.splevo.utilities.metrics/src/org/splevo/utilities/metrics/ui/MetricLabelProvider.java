@@ -26,9 +26,9 @@ public class MetricLabelProvider extends ColumnLabelProvider {
 
     @Override
     public String getText(Object element) {
-        MetricResultItem metricItem = (MetricResultItem) element;
-        if (metricItem.getMetrics().containsKey(metricKey)) {
-            return metricItem.getMetrics().get(metricKey).toString();
+        MetricResultItem metricResultItem = (MetricResultItem) element;
+        if (metricResultItem.containsKey(metricKey)) {
+            return metricResultItem.get(metricKey).toString();
         }
 
         return "";

@@ -1,13 +1,14 @@
 package org.splevo.utilities.metrics.calculator;
 
+import java.net.URI;
 import java.util.Map;
 
 /**
  * The metrics for a single analyzed item.
  * @author Benjamin Klatt
- *
+ * 
  */
-public interface MetricResultItem {
+public interface MetricResultItem extends Map<String, Object> {
 
     /**
      * Get a string representation of the item.
@@ -16,10 +17,8 @@ public interface MetricResultItem {
     String getItemName();
     
     /**
-     * Get a map of the calculated maps.
-     * The key of the map represents the key of the metric.
-     * The value is the calculated metric value.
-     * @return The metrics map.
+     * Get the URI of the item.
+     * @return The item uri.
      */
-    Map<String, Object> getMetrics();
+    URI getItemURI();
 }

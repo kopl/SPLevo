@@ -11,25 +11,6 @@ import java.util.List;
 public interface MetricsCalculator {
 
     /**
-     * Return if an item can be analyzed by the calculator.
-     * 
-     * @param item
-     *            The item to check.
-     * @return True/false if it can be analyzed or not.
-     */
-    public boolean isSupported(Object item);
-
-    /**
-     * Calculate the metric for this item.
-     * 
-     * @param item
-     *            The item to analyze.
-     * @return The metrics for this item. Or null if no metric could be calculated.
-     * @throws MetricCalculationException identifies a failed metric calculation.
-     */
-    public MetricResultItem calculateSingleMetric(Object item) throws MetricCalculationException;
-
-    /**
      * Calculate a full metrics result set for a list of items to analyze.
      * 
      * @param items
@@ -39,4 +20,10 @@ public interface MetricsCalculator {
      *             identifies that the metric can not be calculated successfully.
      */
     public MetricsResultSet calculateMetrics(List<Object> items) throws MetricCalculationException;
+    
+    /**
+     * Get the identifier of the calculator.
+     * @return The id string.
+     */
+    public String getId();
 }

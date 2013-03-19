@@ -200,7 +200,7 @@ public class MetricsView extends ViewPart implements ISelectionListener {
         
         for (MetricsCalculator metricsCalculator : calculators) {
             MetricsResultSet resultSet = metricsCalculator.calculateMetrics(selectedItems);
-            if (resultSet.getMetrics().size() > 0 || resultSet.getTotalMetrics().size() > 0) {
+            if (resultSet.getMetricResultItems().size() > 0 || resultSet.getTotalMetrics().size() > 0) {
                 results.add(resultSet);
             }
         }
@@ -278,17 +278,15 @@ public class MetricsView extends ViewPart implements ISelectionListener {
             metricsOutput.append("    ===\n");
             metricsOutput.append("==============================\n");
 
-            for (MetricResultItem metricItem : metricsResultSet.getMetrics()) {
+            for (MetricResultItem metricItem : metricsResultSet.getMetricResultItems()) {
 
                 metricsOutput.append(metricItem.getItemName());
 
-                Map<String, Object> metrics = metricItem.getMetrics();
-
-                for (String key : metrics.keySet()) {
+                for (String key : metricItem.keySet()) {
                     metricsOutput.append("\t");
                     metricsOutput.append(key);
                     metricsOutput.append("\t");
-                    metricsOutput.append(metrics.get(key).toString());
+                    metricsOutput.append(metricItem.get(key).toString());
                 }
                 metricsOutput.append("\n");
             }
@@ -413,7 +411,7 @@ public class MetricsView extends ViewPart implements ISelectionListener {
             column.setWidth(200);
             viewerColumn.setLabelProvider(new MetricLabelProvider(metricKey));
         }
-        detailTableViewer.setInput(resultSet.getMetrics());
+        detailTableViewer.setInput(resultSet.getMetricResultItems());
         detailTableViewer.refresh();
 
         totalTableViewer.setInput(resultSet.getTotalMetrics().entrySet());

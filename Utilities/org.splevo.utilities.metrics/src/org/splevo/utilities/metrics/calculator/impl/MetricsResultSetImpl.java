@@ -2,8 +2,10 @@ package org.splevo.utilities.metrics.calculator.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.splevo.utilities.metrics.calculator.MetricResultItem;
 import org.splevo.utilities.metrics.calculator.MetricsResultSet;
@@ -16,46 +18,58 @@ import org.splevo.utilities.metrics.calculator.MetricsResultSet;
  */
 public class MetricsResultSetImpl implements MetricsResultSet {
 
-    /** The list of available metrics as keys. */
-    private List<String> availableMetrics = new ArrayList<String>();
-
     /** The stored metrics. */
-    private List<MetricResultItem> metrics = new ArrayList<MetricResultItem>();
+    private ArrayList<MetricResultItem> metricResultItems = new ArrayList<MetricResultItem>();
+    
+    /** The list of available metrics. */
+    private Set<String> availableMetrics = new HashSet<String>();
 
     /** The map of calculated total metrics. */
     private Map<String, Object> totalMetrics = new HashMap<String, Object>();
-    
+
     /** The id of the resultset. */
     private String id = null;
 
     /**
-     * Add an available metric.
+     * Constructor requiring to set the result set id.
      * 
-     * @param metricKey
-     *            The key identifying this metric.
+     * @param id
+     *            The id of the result set.
      */
-    public void addAvailableMetric(String metricKey) {
-        availableMetrics.add(metricKey);
+    public MetricsResultSetImpl(String id) {
+        this.id = id;
     }
 
     /**
-     * Add a metric item to the result.
+     * Add a metric result item to the result set.
+     * This method should be used by a calculator to add a calculated result.
      * 
      * @param item
      *            The result to add.
      */
-    public void addMetric(MetricResultItem item) {
-        metrics.add(item);
+    public void addMetricResultItem(MetricResultItem item) {
+        metricResultItems.add(item);
+    }
+    
+    /**
+     * Add the id of an available metric.
+     * This should be used by the calculator to add the information
+     * that he has calculated a specific metric.
+     * 
+     * @param metricId The id of the calculated metric.
+     */
+    public void addAvailableMetric(String metricId) {
+        this.availableMetrics.add(metricId);
     }
 
     @Override
-    public List<String> getAvailableMetrics() {
+    public Set<String> getAvailableMetrics() {
         return availableMetrics;
     }
 
     @Override
-    public List<MetricResultItem> getMetrics() {
-        return this.metrics;
+    public List<MetricResultItem> getMetricResultItems() {
+        return this.metricResultItems;
     }
 
     @Override
@@ -63,18 +77,8 @@ public class MetricsResultSetImpl implements MetricsResultSet {
         return this.totalMetrics;
     }
 
-    /**
-     * @return the id
-     */
+    @Override
     public String getId() {
         return id;
     }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
 }

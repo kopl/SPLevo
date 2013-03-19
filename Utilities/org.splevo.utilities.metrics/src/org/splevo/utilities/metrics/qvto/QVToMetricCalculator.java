@@ -10,7 +10,7 @@ import org.splevo.utilities.metrics.calculator.MetricCalculationException;
 import org.splevo.utilities.metrics.calculator.MetricResultItem;
 import org.splevo.utilities.metrics.calculator.MetricsCalculator;
 import org.splevo.utilities.metrics.calculator.MetricsResultSet;
-import org.splevo.utilities.metrics.calculator.impl.MetricItemImpl;
+import org.splevo.utilities.metrics.calculator.impl.MetricResultItemImpl;
 import org.splevo.utilities.metrics.calculator.impl.MetricsResultSetImpl;
 
 /**
@@ -33,7 +33,13 @@ public class QVToMetricCalculator implements MetricsCalculator {
     /** Metric key for the number of queries. */
     public static final String METRIC_QUERIES = "Queries";
 
-    @Override
+    /**
+     * Return if an item can be analyzed by the calculator.
+     * 
+     * @param item
+     *            The item to check.
+     * @return True/false if it can be analyzed or not.
+     */
     public boolean isSupported(Object item) {
         if (item instanceof IFile) {
             if (((IFile) item).getName().endsWith(QVTO_FILE_EXTENSION)) {
@@ -43,67 +49,70 @@ public class QVToMetricCalculator implements MetricsCalculator {
         return false;
     }
 
-    @Override
-    public MetricResultItem calculateSingleMetric(Object item) throws MetricCalculationException {
-        if (item instanceof IFile) {
-            IFile fileItem = (IFile) item;
-            if (!fileItem.getName().endsWith(QVTO_FILE_EXTENSION)) {
-                return null;
-            }
+    /**
+     * Calculate the metric for this item.
+     * 
+     * @param fileItem
+     *            The file item to analyze.
+     * @return The metrics for this item. Or null if no metric could be calculated.
+     * @throws MetricCalculationException
+     *             identifies a failed metric calculation.
+     */
+    public MetricResultItem calculateSingleMetric(IFile fileItem) throws MetricCalculationException {
 
-            MetricItemImpl metricItem = new MetricItemImpl(fileItem.getName());
+        MetricResultItemImpl metricItem = new MetricResultItemImpl(fileItem.getName(), fileItem.getLocationURI());
 
-            int counterHelpers = 0;
-            int counterQueries = 0;
-            int counterMappings = 0;
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new InputStreamReader(fileItem.getContents()));
+        int counterHelpers = 0;
+        int counterQueries = 0;
+        int counterMappings = 0;
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(fileItem.getContents()));
 
-                while (reader.ready()) {
-                    String line = reader.readLine().trim();
-                    if (line.startsWith("helper")) {
-                        counterHelpers++;
-                    } else if (line.startsWith("mapping")) {
-                        counterMappings++;
-                    } else if (line.startsWith("query")) {
-                        counterQueries++;
-                    }
-                }
-            } catch (Exception e) {
-                throw new MetricCalculationException("Failed to load qvto script to analyze", e);
-            } finally {
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        // no action required.
-                        e = null;
-                    }
+            while (reader.ready()) {
+                String line = reader.readLine().trim();
+                if (line.startsWith("helper")) {
+                    counterHelpers++;
+                } else if (line.startsWith("mapping")) {
+                    counterMappings++;
+                } else if (line.startsWith("query")) {
+                    counterQueries++;
                 }
             }
-
-            metricItem.setMetric(METRIC_MAPPINGS, counterMappings);
-            metricItem.setMetric(METRIC_QUERIES, counterQueries);
-            metricItem.setMetric(METRIC_HELPERS, counterHelpers);
-
-            return metricItem;
+        } catch (Exception e) {
+            throw new MetricCalculationException("Failed to load qvto script to analyze", e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    // no action required.
+                    e = null;
+                }
+            }
         }
-        return null;
+
+        metricItem.put(METRIC_MAPPINGS, counterMappings);
+        metricItem.put(METRIC_QUERIES, counterQueries);
+        metricItem.put(METRIC_HELPERS, counterHelpers);
+
+        return metricItem;
     }
 
     @Override
     public MetricsResultSet calculateMetrics(List<Object> items) throws MetricCalculationException {
 
-        MetricsResultSet resultSet = new MetricsResultSetImpl();
-        resultSet.setId("QVTo Metrics");
+        MetricsResultSet resultSet = new MetricsResultSetImpl("QVTo Metrics");
 
         // calculate the individual metrics
         for (Object item : items) {
-            if (isSupported(item)) {
-                MetricResultItem metricItem = calculateSingleMetric(item);
-                if (metricItem != null) {
-                    resultSet.getMetrics().add(metricItem);
+            if (item instanceof IFile) {
+                IFile fileItem = (IFile) item;
+                if (!fileItem.getName().endsWith(QVTO_FILE_EXTENSION)) {
+                    MetricResultItem metricItem = calculateSingleMetric(fileItem);
+                    if (metricItem != null) {
+                        resultSet.getMetricResultItems().add(metricItem);
+                    }
                 }
             }
         }
@@ -112,10 +121,10 @@ public class QVToMetricCalculator implements MetricsCalculator {
         int counterTotalMappings = 0;
         int counterTotalQueries = 0;
         int counterTotalHelpers = 0;
-        for (MetricResultItem metricItem : resultSet.getMetrics()) {
-            counterTotalMappings += Integer.valueOf(metricItem.getMetrics().get(METRIC_MAPPINGS).toString());
-            counterTotalQueries += Integer.valueOf(metricItem.getMetrics().get(METRIC_QUERIES).toString());
-            counterTotalHelpers += Integer.valueOf(metricItem.getMetrics().get(METRIC_HELPERS).toString());
+        for (MetricResultItem metricItem : resultSet.getMetricResultItems()) {
+            counterTotalMappings += Integer.valueOf(metricItem.get(METRIC_MAPPINGS).toString());
+            counterTotalQueries += Integer.valueOf(metricItem.get(METRIC_QUERIES).toString());
+            counterTotalHelpers += Integer.valueOf(metricItem.get(METRIC_HELPERS).toString());
         }
         resultSet.getTotalMetrics().put(METRIC_MAPPINGS, counterTotalMappings);
         resultSet.getTotalMetrics().put(METRIC_QUERIES, counterTotalQueries);
@@ -127,6 +136,11 @@ public class QVToMetricCalculator implements MetricsCalculator {
         resultSet.getAvailableMetrics().add(METRIC_HELPERS);
 
         return resultSet;
+    }
+
+    @Override
+    public String getId() {
+        return "QVT-O Metric Calculator";
     }
 
 }
