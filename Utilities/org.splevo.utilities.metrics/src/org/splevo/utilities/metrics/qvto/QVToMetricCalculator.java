@@ -102,16 +102,16 @@ public class QVToMetricCalculator implements MetricsCalculator {
     @Override
     public MetricsResultSet calculateMetrics(List<Object> items) throws MetricCalculationException {
 
-        MetricsResultSet resultSet = new MetricsResultSetImpl("QVTo Metrics");
+        MetricsResultSetImpl resultSet = new MetricsResultSetImpl("QVTo Metrics");
 
         // calculate the individual metrics
         for (Object item : items) {
             if (item instanceof IFile) {
                 IFile fileItem = (IFile) item;
-                if (!fileItem.getName().endsWith(QVTO_FILE_EXTENSION)) {
+                if (fileItem.getName().endsWith(QVTO_FILE_EXTENSION)) {
                     MetricResultItem metricItem = calculateSingleMetric(fileItem);
                     if (metricItem != null) {
-                        resultSet.getMetricResultItems().add(metricItem);
+                        resultSet.addMetricResultItem(metricItem);
                     }
                 }
             }
@@ -131,9 +131,9 @@ public class QVToMetricCalculator implements MetricsCalculator {
         resultSet.getTotalMetrics().put(METRIC_HELPERS, counterTotalHelpers);
 
         // set the available metrics
-        resultSet.getAvailableMetrics().add(METRIC_MAPPINGS);
-        resultSet.getAvailableMetrics().add(METRIC_QUERIES);
-        resultSet.getAvailableMetrics().add(METRIC_HELPERS);
+        resultSet.addAvailableMetric(METRIC_MAPPINGS);
+        resultSet.addAvailableMetric(METRIC_QUERIES);
+        resultSet.addAvailableMetric(METRIC_HELPERS);
 
         return resultSet;
     }

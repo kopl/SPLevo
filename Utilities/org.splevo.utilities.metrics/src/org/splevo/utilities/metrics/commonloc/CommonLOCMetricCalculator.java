@@ -30,7 +30,7 @@ public class CommonLOCMetricCalculator implements MetricsCalculator {
     @Override
     public MetricsResultSet calculateMetrics(List<Object> items) throws MetricCalculationException {
 
-        MetricsResultSet resultSet = new MetricsResultSetImpl("File Metrics");
+        MetricsResultSetImpl resultSet = new MetricsResultSetImpl("File Metrics");
 
         // calculate the individual metrics
         for (Object item : items) {
@@ -51,8 +51,8 @@ public class CommonLOCMetricCalculator implements MetricsCalculator {
         resultSet.getTotalMetrics().put(METRIC_LINES_NON_EMPTY, counterTotalNonEmpty);
 
         // set the available metrics
-        resultSet.getAvailableMetrics().add(METRIC_LINES_TOTAL);
-        resultSet.getAvailableMetrics().add(METRIC_LINES_NON_EMPTY);
+        resultSet.addAvailableMetric(METRIC_LINES_TOTAL);
+        resultSet.addAvailableMetric(METRIC_LINES_NON_EMPTY);
 
         return resultSet;
     }

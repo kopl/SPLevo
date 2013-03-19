@@ -35,6 +35,7 @@ public class MetricResultItemImpl extends HashMap<String, Object> implements Met
      */
     public MetricResultItemImpl(String itemName, URI itemUri) {
         this.itemUri = itemUri;
+        this.itemName = itemName;
     }
 
     @Override
