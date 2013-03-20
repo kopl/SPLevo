@@ -440,6 +440,29 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected EnumDeclarationChangeItemProvider enumDeclarationChangeItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createEnumDeclarationChangeAdapter() {
+        if (enumDeclarationChangeItemProvider == null) {
+            enumDeclarationChangeItemProvider = new EnumDeclarationChangeItemProvider(this);
+        }
+
+        return enumDeclarationChangeItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -554,6 +577,7 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
         if (statementInsertItemProvider != null) statementInsertItemProvider.dispose();
         if (statementDeleteItemProvider != null) statementDeleteItemProvider.dispose();
         if (fieldDeclarationChangeItemProvider != null) fieldDeclarationChangeItemProvider.dispose();
+        if (enumDeclarationChangeItemProvider != null) enumDeclarationChangeItemProvider.dispose();
     }
 
 }

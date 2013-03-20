@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
+import org.eclipse.emf.compare.diff.engine.IMatchManager.MatchSide;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
@@ -16,10 +17,12 @@ import org.eclipse.emf.compare.diff.metamodel.util.DiffSwitch;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
+import org.eclipse.gmt.modisco.java.EnumDeclaration;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceInsert;
@@ -117,17 +120,45 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
         if (diffGroup.getRightParent() == null) {
             return Boolean.FALSE;
         }
-        
+
+        // handle changed enum declarations
+        if (diffGroup.getRightParent() instanceof EnumDeclaration) {
+            diffGroup.getKind();
+
+            // Get left and right parent enumerations
+            // The rightParent of the diff group might link to the left model in case of only added sub elements.
+            // In this case switch the orientations
+            EnumDeclaration enumDeclarationRight = null;
+            EnumDeclaration enumDeclarationLeft = null;
+            EObject leftMatch = matchManager.getMatchedEObject(diffGroup.getRightParent(), MatchSide.LEFT);
+            if (leftMatch != null) {
+                enumDeclarationRight = (EnumDeclaration) diffGroup.getRightParent();
+                enumDeclarationLeft = (EnumDeclaration) leftMatch;
+            } else {
+                enumDeclarationRight = (EnumDeclaration) matchManager.getMatchedEObject(diffGroup.getRightParent(),
+                        MatchSide.RIGHT);
+                enumDeclarationLeft = (EnumDeclaration) diffGroup.getRightParent();
+            }
+
+            EnumDeclarationChange enumChange = Java2KDMDiffFactory.eINSTANCE.createEnumDeclarationChange();
+            enumChange.setEnumRight(enumDeclarationRight);
+            enumChange.setEnumLeft(enumDeclarationLeft);
+            enumChange.getSubDiffElements().addAll(diffGroup.getSubDiffElements());
+
+            return addToParentGroup(diffGroup, enumChange);
+        }
+
         // handle changed field declarations
         if (diffGroup.getRightParent() instanceof FieldDeclaration) {
             FieldDeclaration fieldDeclarationRight = (FieldDeclaration) diffGroup.getRightParent();
-            FieldDeclaration fieldDeclarationLeft = (FieldDeclaration) matchManager.getMatchedEObject(fieldDeclarationRight);
-            
+            FieldDeclaration fieldDeclarationLeft = (FieldDeclaration) matchManager
+                    .getMatchedEObject(fieldDeclarationRight);
+
             FieldDeclarationChange fieldChange = Java2KDMDiffFactory.eINSTANCE.createFieldDeclarationChange();
             fieldChange.setFieldRight(fieldDeclarationRight);
             fieldChange.setFieldLeft(fieldDeclarationLeft);
             fieldChange.getSubDiffElements().addAll(diffGroup.getSubDiffElements());
-            
+
             return addToParentGroup(diffGroup, fieldChange);
         }
 
@@ -150,8 +181,10 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
     /**
      * Add the statement change to the parent container.
      * 
-     * @param diffElement The diffing element to get the diffing group to add the element to.
-     * @param newDiffElement The new diffing element to add to the parent group.
+     * @param diffElement
+     *            The diffing element to get the diffing group to add the element to.
+     * @param newDiffElement
+     *            The new diffing element to add to the parent group.
      * @return True or false if the add was successful.
      */
     private Boolean addToParentGroup(DiffElement diffElement, DiffElement newDiffElement) {

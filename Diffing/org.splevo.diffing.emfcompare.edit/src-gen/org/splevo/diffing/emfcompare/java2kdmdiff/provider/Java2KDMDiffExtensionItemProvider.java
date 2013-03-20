@@ -369,6 +369,11 @@ public class Java2KDMDiffExtensionItemProvider
         newChildDescriptors.add
             (createChildParameter
                 (DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
+                 Java2KDMDiffFactory.eINSTANCE.createEnumDeclarationChange()));
+
+        newChildDescriptors.add
+            (createChildParameter
+                (DiffPackage.Literals.DIFF_ELEMENT__SUB_DIFF_ELEMENTS,
                  DiffFactory.eINSTANCE.createConflictingDiffElement()));
 
         newChildDescriptors.add

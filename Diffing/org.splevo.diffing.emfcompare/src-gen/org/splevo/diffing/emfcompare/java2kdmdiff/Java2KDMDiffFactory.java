@@ -166,6 +166,15 @@ public interface Java2KDMDiffFactory extends EFactory {
     FieldDeclarationChange createFieldDeclarationChange();
 
     /**
+     * Returns a new object of class '<em>Enum Declaration Change</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Enum Declaration Change</em>'.
+     * @generated
+     */
+    EnumDeclarationChange createEnumDeclarationChange();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

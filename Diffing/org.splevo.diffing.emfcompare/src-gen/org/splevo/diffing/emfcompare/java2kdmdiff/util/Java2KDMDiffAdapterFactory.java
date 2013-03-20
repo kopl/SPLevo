@@ -160,6 +160,14 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
                 return createFieldDeclarationChangeAdapter();
             }
             @Override
+            public Adapter caseEnumChange(EnumChange object) {
+                return createEnumChangeAdapter();
+            }
+            @Override
+            public Adapter caseEnumDeclarationChange(EnumDeclarationChange object) {
+                return createEnumDeclarationChangeAdapter();
+            }
+            @Override
             public Adapter caseAbstractDiffExtension(AbstractDiffExtension object) {
                 return createAbstractDiffExtensionAdapter();
             }
@@ -492,6 +500,34 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createFieldDeclarationChangeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.EnumChange <em>Enum Change</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.EnumChange
+     * @generated
+     */
+    public Adapter createEnumChangeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange <em>Enum Declaration Change</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange
+     * @generated
+     */
+    public Adapter createEnumDeclarationChangeAdapter() {
         return null;
     }
 

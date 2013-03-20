@@ -282,6 +282,25 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case Java2KDMDiffPackage.ENUM_CHANGE: {
+                EnumChange enumChange = (EnumChange)theEObject;
+                T result = caseEnumChange(enumChange);
+                if (result == null) result = caseJava2KDMDiffExtension(enumChange);
+                if (result == null) result = caseAbstractDiffExtension(enumChange);
+                if (result == null) result = caseDiffElement(enumChange);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case Java2KDMDiffPackage.ENUM_DECLARATION_CHANGE: {
+                EnumDeclarationChange enumDeclarationChange = (EnumDeclarationChange)theEObject;
+                T result = caseEnumDeclarationChange(enumDeclarationChange);
+                if (result == null) result = caseEnumChange(enumDeclarationChange);
+                if (result == null) result = caseJava2KDMDiffExtension(enumDeclarationChange);
+                if (result == null) result = caseAbstractDiffExtension(enumDeclarationChange);
+                if (result == null) result = caseDiffElement(enumDeclarationChange);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -613,6 +632,36 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseFieldDeclarationChange(FieldDeclarationChange object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Enum Change</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Enum Change</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseEnumChange(EnumChange object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Enum Declaration Change</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Enum Declaration Change</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseEnumDeclarationChange(EnumDeclarationChange object) {
         return null;
     }
 

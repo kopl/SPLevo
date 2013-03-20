@@ -3,7 +3,20 @@
   <ownedElements name="org">
     <ownedPackages name="splevo">
       <ownedPackages name="tests">
-        <ownedPackages name="fielddeclaration"/>
+        <ownedPackages name="fielddeclaration">
+          <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.0" name="EnumClass">
+            <modifier visibility="public"/>
+            <bodyDeclarations xsi:type="java:EnumDeclaration" originalCompilationUnit="//@compilationUnits.0" name="EnumChange">
+              <modifier visibility="public"/>
+              <enumConstants originalCompilationUnit="//@compilationUnits.0" name="A">
+                <modifier/>
+              </enumConstants>
+              <enumConstants originalCompilationUnit="//@compilationUnits.0" name="B">
+                <modifier/>
+              </enumConstants>
+            </bodyDeclarations>
+          </ownedElements>
+        </ownedPackages>
       </ownedPackages>
     </ownedPackages>
   </ownedElements>
@@ -16,7 +29,8 @@
   <orphanTypes xsi:type="java:PrimitiveTypeChar" name="char"/>
   <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
   <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
-  <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.a\src\org\splevo\tests\fielddeclaration\package-info.java" commentList="//@compilationUnits.0/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
-    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.0" content="/** &#xA; * Class declaration diffing test code.&#xA; * @author Benjamin Klatt&#xA; */&#xA;" enclosedByParent="true"/>
+  <compilationUnits name="EnumClass.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.a\src\org\splevo\tests\fielddeclaration\EnumClass.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+  <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.classdeclaration.a\src\org\splevo\tests\fielddeclaration\package-info.java" commentList="//@compilationUnits.1/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
+    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; * Class declaration diffing test code.&#xA; * @author Benjamin Klatt&#xA; */&#xA;" enclosedByParent="true"/>
   </compilationUnits>
 </java:Model>

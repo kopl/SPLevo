@@ -65,5 +65,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//FieldDeclarationChange/fieldLeft"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//FieldDeclarationChange/fieldRight"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="java2kdmdiff.ecore#//EnumChange"/>
+    <genClasses ecoreClass="java2kdmdiff.ecore#//EnumDeclarationChange">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//EnumDeclarationChange/enumLeft"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//EnumDeclarationChange/enumRight"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -11,6 +11,8 @@ import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.EnumChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange;
@@ -194,6 +196,20 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
      * @generated
      */
     private EClass fieldDeclarationChangeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass enumChangeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass enumDeclarationChangeEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -649,6 +665,42 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getEnumChange() {
+        return enumChangeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getEnumDeclarationChange() {
+        return enumDeclarationChangeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getEnumDeclarationChange_EnumLeft() {
+        return (EReference)enumDeclarationChangeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getEnumDeclarationChange_EnumRight() {
+        return (EReference)enumDeclarationChangeEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -739,6 +791,12 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
         fieldDeclarationChangeEClass = createEClass(FIELD_DECLARATION_CHANGE);
         createEReference(fieldDeclarationChangeEClass, FIELD_DECLARATION_CHANGE__FIELD_LEFT);
         createEReference(fieldDeclarationChangeEClass, FIELD_DECLARATION_CHANGE__FIELD_RIGHT);
+
+        enumChangeEClass = createEClass(ENUM_CHANGE);
+
+        enumDeclarationChangeEClass = createEClass(ENUM_DECLARATION_CHANGE);
+        createEReference(enumDeclarationChangeEClass, ENUM_DECLARATION_CHANGE__ENUM_LEFT);
+        createEReference(enumDeclarationChangeEClass, ENUM_DECLARATION_CHANGE__ENUM_RIGHT);
     }
 
 	/**
@@ -796,6 +854,8 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
         statementInsertEClass.getESuperTypes().add(this.getStatementChange());
         statementDeleteEClass.getESuperTypes().add(this.getStatementChange());
         fieldDeclarationChangeEClass.getESuperTypes().add(this.getFieldChange());
+        enumChangeEClass.getESuperTypes().add(this.getJava2KDMDiffExtension());
+        enumDeclarationChangeEClass.getESuperTypes().add(this.getEnumChange());
 
         // Initialize classes and features; add operations and parameters
         initEClass(java2KDMDiffExtensionEClass, Java2KDMDiffExtension.class, "Java2KDMDiffExtension", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -863,6 +923,12 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
         initEReference(getFieldDeclarationChange_FieldLeft(), theJavaPackage.getFieldDeclaration(), null, "fieldLeft", null, 0, 1, FieldDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getFieldDeclarationChange_FieldRight(), theJavaPackage.getFieldDeclaration(), null, "fieldRight", null, 0, 1, FieldDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+        initEClass(enumChangeEClass, EnumChange.class, "EnumChange", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+        initEClass(enumDeclarationChangeEClass, EnumDeclarationChange.class, "EnumDeclarationChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getEnumDeclarationChange_EnumLeft(), theJavaPackage.getEnumDeclaration(), null, "enumLeft", null, 0, 1, EnumDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEnumDeclarationChange_EnumRight(), theJavaPackage.getEnumDeclaration(), null, "enumRight", null, 0, 1, EnumDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
         // Create resource
         createResource(eNS_URI);
 
@@ -891,7 +957,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
            source, 
            new String[] {
              "name", "ImportDeclarationChange"
-           });																	
+           });																				
     }
 
 } //Java2KDMDiffPackageImpl

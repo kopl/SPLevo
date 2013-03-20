@@ -2489,6 +2489,225 @@ public interface Java2KDMDiffPackage extends EPackage {
 
 
     /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.EnumChangeImpl <em>Enum Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.EnumChangeImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getEnumChange()
+     * @generated
+     */
+    int ENUM_CHANGE = 22;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE__HIDE_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE__IS_COLLAPSED = JAVA2_KDM_DIFF_EXTENSION__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE__SUB_DIFF_ELEMENTS = JAVA2_KDM_DIFF_EXTENSION__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE__IS_HIDDEN_BY = JAVA2_KDM_DIFF_EXTENSION__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE__CONFLICTING = JAVA2_KDM_DIFF_EXTENSION__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE__KIND = JAVA2_KDM_DIFF_EXTENSION__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE__REMOTE = JAVA2_KDM_DIFF_EXTENSION__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE__REQUIRES = JAVA2_KDM_DIFF_EXTENSION__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE__REQUIRED_BY = JAVA2_KDM_DIFF_EXTENSION__REQUIRED_BY;
+
+    /**
+     * The number of structural features of the '<em>Enum Change</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_CHANGE_FEATURE_COUNT = JAVA2_KDM_DIFF_EXTENSION_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.EnumDeclarationChangeImpl <em>Enum Declaration Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.EnumDeclarationChangeImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getEnumDeclarationChange()
+     * @generated
+     */
+    int ENUM_DECLARATION_CHANGE = 23;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__HIDE_ELEMENTS = ENUM_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__IS_COLLAPSED = ENUM_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__SUB_DIFF_ELEMENTS = ENUM_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__IS_HIDDEN_BY = ENUM_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__CONFLICTING = ENUM_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__KIND = ENUM_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__REMOTE = ENUM_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__REQUIRES = ENUM_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__REQUIRED_BY = ENUM_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Enum Left</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__ENUM_LEFT = ENUM_CHANGE_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Enum Right</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE__ENUM_RIGHT = ENUM_CHANGE_FEATURE_COUNT + 1;
+
+    /**
+     * The number of structural features of the '<em>Enum Declaration Change</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ENUM_DECLARATION_CHANGE_FEATURE_COUNT = ENUM_CHANGE_FEATURE_COUNT + 2;
+
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension <em>Extension</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2940,6 +3159,48 @@ public interface Java2KDMDiffPackage extends EPackage {
     EReference getFieldDeclarationChange_FieldRight();
 
     /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.EnumChange <em>Enum Change</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Enum Change</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.EnumChange
+     * @generated
+     */
+    EClass getEnumChange();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange <em>Enum Declaration Change</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Enum Declaration Change</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange
+     * @generated
+     */
+    EClass getEnumDeclarationChange();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange#getEnumLeft <em>Enum Left</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Enum Left</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange#getEnumLeft()
+     * @see #getEnumDeclarationChange()
+     * @generated
+     */
+    EReference getEnumDeclarationChange_EnumLeft();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange#getEnumRight <em>Enum Right</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Enum Right</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange#getEnumRight()
+     * @see #getEnumDeclarationChange()
+     * @generated
+     */
+    EReference getEnumDeclarationChange_EnumRight();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3348,6 +3609,42 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
         EReference FIELD_DECLARATION_CHANGE__FIELD_RIGHT = eINSTANCE.getFieldDeclarationChange_FieldRight();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.EnumChangeImpl <em>Enum Change</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.EnumChangeImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getEnumChange()
+         * @generated
+         */
+        EClass ENUM_CHANGE = eINSTANCE.getEnumChange();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.EnumDeclarationChangeImpl <em>Enum Declaration Change</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.EnumDeclarationChangeImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getEnumDeclarationChange()
+         * @generated
+         */
+        EClass ENUM_DECLARATION_CHANGE = eINSTANCE.getEnumDeclarationChange();
+
+        /**
+         * The meta object literal for the '<em><b>Enum Left</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ENUM_DECLARATION_CHANGE__ENUM_LEFT = eINSTANCE.getEnumDeclarationChange_EnumLeft();
+
+        /**
+         * The meta object literal for the '<em><b>Enum Right</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference ENUM_DECLARATION_CHANGE__ENUM_RIGHT = eINSTANCE.getEnumDeclarationChange_EnumRight();
 
 	}
 

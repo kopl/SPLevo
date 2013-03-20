@@ -12,11 +12,13 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
+import org.eclipse.gmt.modisco.java.EnumDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert;
 import org.splevo.modisco.util.KDMUtil;
@@ -56,7 +58,7 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
 
         EList<DiffElement> differences = diff.getDifferences();
         logger.debug("Found Differences: " + differences.size());
-        assertEquals("Wrong number of differences detected", 2, differences.size());
+        assertEquals("Wrong number of differences detected", 3, differences.size());
 
         for (DiffElement diffElement : differences) {
             
@@ -65,6 +67,11 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
                 ClassDeclaration classDecl = classInsert.getClassLeft();
                 assertEquals("Wrong class detected as top level insert diff", "AddedClassDeclaration", classDecl.getName());
             
+            } else if (diffElement instanceof EnumDeclarationChange) {
+                EnumDeclarationChange enumChange = ((EnumDeclarationChange) diffElement);
+                EnumDeclaration enumLeft = enumChange.getEnumLeft();
+                assertEquals("Wrong enum detected as changed", "EnumChange", enumLeft.getName());
+                assertEquals("Wrong number of constants in enum", 3, enumLeft.getEnumConstants().size());
             
             } else if (diffElement instanceof PackageInsert) {
                 PackageInsert packageInsert = (PackageInsert) diffElement;
@@ -118,13 +125,20 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
 
         EList<DiffElement> differences = diff.getDifferences();
         logger.debug("Found Differences: " + differences.size());
-        assertEquals("Wrong number of differences detected", 2, differences.size());
+        assertEquals("Wrong number of differences detected", 3, differences.size());
 
         for (DiffElement diffElement : differences) {
             if (diffElement instanceof ClassDelete) {
                 ClassDelete classDelete = ((ClassDelete) diffElement);
                 ClassDeclaration classDecl = classDelete.getClassRight();
                 assertEquals("Wrong class detected as top level insert diff", "AddedClassDeclaration", classDecl.getName());
+            
+            } else if (diffElement instanceof EnumDeclarationChange) {
+                EnumDeclarationChange enumChange = ((EnumDeclarationChange) diffElement);
+                EnumDeclaration enumLeft = enumChange.getEnumLeft();
+                assertEquals("Wrong enum detected as changed", "EnumChange", enumLeft.getName());
+                assertEquals("Wrong number of constants in enum", 2, enumLeft.getEnumConstants().size());
+            
             } else if (diffElement instanceof PackageDelete) {
                 PackageDelete packageDelete = (PackageDelete) diffElement;
                 Package packageDeclaration = packageDelete.getPackageRight();

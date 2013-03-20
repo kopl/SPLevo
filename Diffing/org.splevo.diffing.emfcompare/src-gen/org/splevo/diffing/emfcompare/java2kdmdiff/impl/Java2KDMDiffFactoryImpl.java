@@ -72,6 +72,7 @@ public class Java2KDMDiffFactoryImpl extends EFactoryImpl implements Java2KDMDif
             case Java2KDMDiffPackage.STATEMENT_INSERT: return createStatementInsert();
             case Java2KDMDiffPackage.STATEMENT_DELETE: return createStatementDelete();
             case Java2KDMDiffPackage.FIELD_DECLARATION_CHANGE: return createFieldDeclarationChange();
+            case Java2KDMDiffPackage.ENUM_DECLARATION_CHANGE: return createEnumDeclarationChange();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -235,6 +236,16 @@ public class Java2KDMDiffFactoryImpl extends EFactoryImpl implements Java2KDMDif
     public FieldDeclarationChange createFieldDeclarationChange() {
         FieldDeclarationChangeImpl fieldDeclarationChange = new FieldDeclarationChangeImpl();
         return fieldDeclarationChange;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EnumDeclarationChange createEnumDeclarationChange() {
+        EnumDeclarationChangeImpl enumDeclarationChange = new EnumDeclarationChangeImpl();
+        return enumDeclarationChange;
     }
 
     /**
