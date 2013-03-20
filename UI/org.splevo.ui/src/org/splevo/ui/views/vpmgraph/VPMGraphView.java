@@ -40,7 +40,7 @@ public class VPMGraphView extends ViewPart {
 
     /** Action to filter nodes without any relationships from the graph. */
     private FilterSingleNodeAction filterSingleNodesAction;
-    
+
     /** Action to hide the edge labels. */
     private HideEdgeLabelAction hideEdgeLabelAction;
 
@@ -65,6 +65,10 @@ public class VPMGraphView extends ViewPart {
      *            The graph to show.
      */
     private void createGraphViewer(VPMGraph graph) {
+        
+        // setting to enable an improved graph renderer
+        // java.lang.System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+        
         this.vpmGraph = graph;
 
         setTitleToolTip("Graph: " + graph.getId());
@@ -73,16 +77,16 @@ public class VPMGraphView extends ViewPart {
         CustomEdgeLabelAttributeProxy proxy = new CustomEdgeLabelAttributeProxy(vpmGraph,
                 RelationshipEdge.RELATIONSHIP_LABEL);
         Viewer v = new Viewer(proxy);
-        // Viewer v = new Viewer(vpmGraph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 
         SpringBox layout = new SpringBox(false, new Random(0));
         v.enableAutoLayout(layout);
         v.setCloseFramePolicy(CloseFramePolicy.HIDE_ONLY);
         View view = v.addDefaultView(false);
+        view.setFocusTraversalKeysEnabled(true);
+        
         frame.add(view);
 
         setFocus();
-
     }
 
     /**
