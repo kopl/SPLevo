@@ -417,4 +417,11 @@ public class MetricsView extends ViewPart implements ISelectionListener {
         totalTableViewer.setInput(resultSet.getTotalMetrics().entrySet());
         totalTableViewer.refresh();
     }
+    
+    @Override
+    public void dispose() {
+        ISelectionService selectionService = getSite().getWorkbenchWindow().getSelectionService();
+        selectionService.removeSelectionListener(this);
+        super.dispose();
+    }
 }
