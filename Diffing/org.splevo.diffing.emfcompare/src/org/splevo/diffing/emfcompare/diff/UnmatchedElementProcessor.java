@@ -204,8 +204,6 @@ public class UnmatchedElementProcessor {
          */
         private Collection<DiffElement> buildSubDiffElements(PackageInsert packageInsert) {
 
-            logger.debug("buildSubDiffElements: " + packageInsert.getPackageLeft().getName());
-
             ArrayList<DiffElement> subDiffs = new ArrayList<DiffElement>();
 
             Package packageElement = packageInsert.getPackageLeft();
