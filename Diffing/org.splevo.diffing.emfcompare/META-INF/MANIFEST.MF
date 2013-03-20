@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.splevo.diffing.emfcompare
 Bundle-SymbolicName: org.splevo.diffing.emfcompare;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.splevo.diffing.emfcompare.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
