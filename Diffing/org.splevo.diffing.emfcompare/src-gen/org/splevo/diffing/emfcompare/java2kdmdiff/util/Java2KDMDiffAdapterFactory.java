@@ -156,6 +156,10 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
                 return createStatementDeleteAdapter();
             }
             @Override
+            public Adapter caseFieldDeclarationChange(FieldDeclarationChange object) {
+                return createFieldDeclarationChangeAdapter();
+            }
+            @Override
             public Adapter caseAbstractDiffExtension(AbstractDiffExtension object) {
                 return createAbstractDiffExtensionAdapter();
             }
@@ -474,6 +478,20 @@ public class Java2KDMDiffAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createStatementDeleteAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange <em>Field Declaration Change</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange
+     * @generated
+     */
+    public Adapter createFieldDeclarationChangeAdapter() {
         return null;
     }
 

@@ -417,6 +417,29 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected FieldDeclarationChangeItemProvider fieldDeclarationChangeItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createFieldDeclarationChangeAdapter() {
+        if (fieldDeclarationChangeItemProvider == null) {
+            fieldDeclarationChangeItemProvider = new FieldDeclarationChangeItemProvider(this);
+        }
+
+        return fieldDeclarationChangeItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -530,6 +553,7 @@ public class Java2KDMDiffItemProviderAdapterFactory extends Java2KDMDiffAdapterF
         if (methodDeleteItemProvider != null) methodDeleteItemProvider.dispose();
         if (statementInsertItemProvider != null) statementInsertItemProvider.dispose();
         if (statementDeleteItemProvider != null) statementDeleteItemProvider.dispose();
+        if (fieldDeclarationChangeItemProvider != null) fieldDeclarationChangeItemProvider.dispose();
     }
 
 }

@@ -12,6 +12,7 @@
           <inventoryElement xsi:type="source:Directory" name="splevo" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\bin\org\splevo">
             <inventoryElement xsi:type="source:Directory" name="tests" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\bin\org\splevo\tests">
               <inventoryElement xsi:type="source:Directory" name="fielddeclaration" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\bin\org\splevo\tests\fielddeclaration">
+                <inventoryElement xsi:type="source:BinaryFile" name="ArrayFieldDeclarationChange.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\bin\org\splevo\tests\fielddeclaration\ArrayFieldDeclarationChange.class"/>
                 <inventoryElement xsi:type="source:BinaryFile" name="NewInTheMiddle.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\bin\org\splevo\tests\fielddeclaration\NewInTheMiddle.class"/>
                 <inventoryElement xsi:type="source:BinaryFile" name="package-info.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\bin\org\splevo\tests\fielddeclaration\package-info.class"/>
                 <inventoryElement xsi:type="source:BinaryFile" name="RemovedFromTheMiddle.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\bin\org\splevo\tests\fielddeclaration\RemovedFromTheMiddle.class"/>
@@ -25,6 +26,7 @@
           <inventoryElement xsi:type="source:Directory" name="splevo" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo">
             <inventoryElement xsi:type="source:Directory" name="tests" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests">
               <inventoryElement xsi:type="source:Directory" name="fielddeclaration" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration">
+                <inventoryElement xsi:type="source:SourceFile" name="ArrayFieldDeclarationChange.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\ArrayFieldDeclarationChange.java"/>
                 <inventoryElement xsi:type="source:SourceFile" name="NewInTheMiddle.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\NewInTheMiddle.java"/>
                 <inventoryElement xsi:type="source:SourceFile" name="package-info.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\package-info.java"/>
                 <inventoryElement xsi:type="source:SourceFile" name="RemovedFromTheMiddle.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\RemovedFromTheMiddle.java"/>

@@ -263,8 +263,11 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     /**
      * Check two abstract type declarations if they are similar.
      * 
-     * It checks: - The name of the types and - a) Their packages - b) Their enclosing type if they
-     * are inner classes instead and packages are null
+     * It checks: 
+     * - if one is null
+     * - name similarity
+     * - package similarity
+     * - enclosing type similarity if packages are null and types are inner classes
      * 
      * @param type1
      *            The first type declaration to check.
@@ -296,7 +299,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         if ((package1 == null && package2 != null) || (package1 != null && package2 == null)) {
             return Boolean.FALSE;
 
-            // if none is null check the package names
+        // if none is null check the package names
         } else if (package1 != null && checkPackageSimilarity(package1, package2)) {
             return Boolean.TRUE;
 
@@ -434,37 +437,6 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     @Override
     public Boolean defaultCase(EObject object) {
         return null;
-    }
-
-    /**
-     * Internal method to check two package elements if they are similar.
-     * 
-     * @param packageElement
-     *            the package element
-     * @param referencePackage
-     *            the reference package
-     * @return the check result.
-     */
-    private Boolean checkPackageSimilarity(Package packageElement, Package referencePackage) {
-
-        // similar packages are similar by default.
-        if (packageElement == referencePackage) {
-            return true;
-
-            // packages with same name and same parent packages name are considered as similar.
-        } else if (packageElement != null && referencePackage != null) {
-
-            String packagePath1 = JavaModelUtil.buildPackagePath(packageElement);
-            String packagePath2 = JavaModelUtil.buildPackagePath(referencePackage);
-            if (packagePath1.equals(packagePath2)) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-
-        }
-
-        return false;
     }
 
     // TODO: Check for further PackageAccess similarity criteria
@@ -832,6 +804,10 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return Boolean.TRUE;
     }
 
+    /**
+     * Null literals are always assumed to be similar.
+     * {@inheritDoc}
+     */
     @Override
     public Boolean caseNullLiteral(NullLiteral object) {
         return Boolean.TRUE;
@@ -861,9 +837,46 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         UnresolvedTypeDeclaration type1 = object;
         UnresolvedTypeDeclaration type2 = (UnresolvedTypeDeclaration) compareElement;
-
+        
         if (type1.getName().equals(type2.getName())) {
+            return Boolean.TRUE;
+        }
+        
+        // TODO Add package similarity check
+
+        return Boolean.FALSE;
+    }
+
+    /**
+     * ICheck two package elements for similarity.
+     * 
+     * Check
+     * - package name
+     * - package path
+     * 
+     * @param packageElement
+     *            the package element
+     * @param referencePackage
+     *            the reference package
+     * @return the check result.
+     */
+    private Boolean checkPackageSimilarity(Package packageElement, Package referencePackage) {
+
+        // similar packages are similar by default.
+        if (packageElement == referencePackage) {
             return true;
+
+            // packages with same name and same parent packages name are considered as similar.
+        } else if (packageElement != null && referencePackage != null) {
+
+            String packagePath1 = JavaModelUtil.buildPackagePath(packageElement);
+            String packagePath2 = JavaModelUtil.buildPackagePath(referencePackage);
+            if (packagePath1.equals(packagePath2)) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+
         }
 
         return false;

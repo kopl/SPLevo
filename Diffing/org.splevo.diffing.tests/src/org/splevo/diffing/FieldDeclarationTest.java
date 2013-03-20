@@ -10,9 +10,12 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.gmt.modisco.java.ArrayCreation;
+import org.eclipse.gmt.modisco.java.ArrayInitializer;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
+import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert;
 import org.splevo.modisco.util.KDMUtil;
@@ -51,7 +54,7 @@ public class FieldDeclarationTest extends AbstractDiffingTest {
         DiffModel diff = diffingService.doDiff(integrationModel, leadingModel);
 
         EList<DiffElement> differences = diff.getDifferences();
-        assertEquals("Wrong number of differences detected", 2, differences.size());
+        assertEquals("Wrong number of differences detected", 3, differences.size());
 
         for (DiffElement diffElement : differences) {
             if (diffElement instanceof FieldInsert) {
@@ -59,15 +62,24 @@ public class FieldDeclarationTest extends AbstractDiffingTest {
                 FieldDeclaration field = fieldInsert.getFieldLeft();
                 assertEquals("Wrong number of declared fragments", 1, field.getFragments().size());
                 assertEquals("Wrong variable detected", "newField", field.getFragments().get(0).getName());
-                
+
             } else if (diffElement instanceof FieldDelete) {
                 FieldDelete fieldInsert = ((FieldDelete) diffElement);
                 FieldDeclaration field = fieldInsert.getFieldRight();
                 assertEquals("Wrong number of declared fragments", 1, field.getFragments().size());
                 assertEquals("Wrong variable detected", "removeField", field.getFragments().get(0).getName());
-                
+
+            } else if (diffElement instanceof FieldDeclarationChange) {
+                FieldDeclarationChange fieldChange = (FieldDeclarationChange) diffElement;
+                FieldDeclaration fieldLeft = fieldChange.getFieldLeft();
+                assertEquals("Wrong number of declared fragments", 1, fieldLeft.getFragments().size());
+                assertEquals("Wrong variable detected", "newValueArray", fieldLeft.getFragments().get(0).getName());
+                ArrayCreation arrayCreationleft = (ArrayCreation) fieldLeft.getFragments().get(0).getInitializer();
+                ArrayInitializer initializerLeft = arrayCreationleft.getInitializer();
+                assertEquals("Wrong number of initialized array values", 3, initializerLeft.getExpressions().size());
+
             } else {
-                fail("No other diff elements than FieldInsert should have been detected.");
+                fail("No other diff elements than FieldInsert should have been detected. (" + diffElement + ")");
             }
             logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
         }

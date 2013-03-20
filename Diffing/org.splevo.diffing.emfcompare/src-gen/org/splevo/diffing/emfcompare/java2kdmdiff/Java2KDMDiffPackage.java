@@ -2370,6 +2370,125 @@ public interface Java2KDMDiffPackage extends EPackage {
 
 
     /**
+     * The meta object id for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldDeclarationChangeImpl <em>Field Declaration Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldDeclarationChangeImpl
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getFieldDeclarationChange()
+     * @generated
+     */
+    int FIELD_DECLARATION_CHANGE = 21;
+
+    /**
+     * The feature id for the '<em><b>Hide Elements</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__HIDE_ELEMENTS = FIELD_CHANGE__HIDE_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Collapsed</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__IS_COLLAPSED = FIELD_CHANGE__IS_COLLAPSED;
+
+    /**
+     * The feature id for the '<em><b>Sub Diff Elements</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__SUB_DIFF_ELEMENTS = FIELD_CHANGE__SUB_DIFF_ELEMENTS;
+
+    /**
+     * The feature id for the '<em><b>Is Hidden By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__IS_HIDDEN_BY = FIELD_CHANGE__IS_HIDDEN_BY;
+
+    /**
+     * The feature id for the '<em><b>Conflicting</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__CONFLICTING = FIELD_CHANGE__CONFLICTING;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__KIND = FIELD_CHANGE__KIND;
+
+    /**
+     * The feature id for the '<em><b>Remote</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__REMOTE = FIELD_CHANGE__REMOTE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__REQUIRES = FIELD_CHANGE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__REQUIRED_BY = FIELD_CHANGE__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Field Left</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__FIELD_LEFT = FIELD_CHANGE_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Field Right</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE__FIELD_RIGHT = FIELD_CHANGE_FEATURE_COUNT + 1;
+
+    /**
+     * The number of structural features of the '<em>Field Declaration Change</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DECLARATION_CHANGE_FEATURE_COUNT = FIELD_CHANGE_FEATURE_COUNT + 2;
+
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffExtension <em>Extension</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2789,6 +2908,38 @@ public interface Java2KDMDiffPackage extends EPackage {
     EClass getStatementDelete();
 
     /**
+     * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange <em>Field Declaration Change</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Field Declaration Change</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange
+     * @generated
+     */
+    EClass getFieldDeclarationChange();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange#getFieldLeft <em>Field Left</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Field Left</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange#getFieldLeft()
+     * @see #getFieldDeclarationChange()
+     * @generated
+     */
+    EReference getFieldDeclarationChange_FieldLeft();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange#getFieldRight <em>Field Right</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Field Right</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange#getFieldRight()
+     * @see #getFieldDeclarationChange()
+     * @generated
+     */
+    EReference getFieldDeclarationChange_FieldRight();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3171,6 +3322,32 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
         EClass STATEMENT_DELETE = eINSTANCE.getStatementDelete();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldDeclarationChangeImpl <em>Field Declaration Change</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldDeclarationChangeImpl
+         * @see org.splevo.diffing.emfcompare.java2kdmdiff.impl.Java2KDMDiffPackageImpl#getFieldDeclarationChange()
+         * @generated
+         */
+        EClass FIELD_DECLARATION_CHANGE = eINSTANCE.getFieldDeclarationChange();
+
+        /**
+         * The meta object literal for the '<em><b>Field Left</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference FIELD_DECLARATION_CHANGE__FIELD_LEFT = eINSTANCE.getFieldDeclarationChange_FieldLeft();
+
+        /**
+         * The meta object literal for the '<em><b>Field Right</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference FIELD_DECLARATION_CHANGE__FIELD_RIGHT = eINSTANCE.getFieldDeclarationChange_FieldRight();
 
 	}
 

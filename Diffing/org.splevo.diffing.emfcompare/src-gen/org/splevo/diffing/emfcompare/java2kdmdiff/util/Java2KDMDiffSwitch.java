@@ -272,6 +272,16 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case Java2KDMDiffPackage.FIELD_DECLARATION_CHANGE: {
+                FieldDeclarationChange fieldDeclarationChange = (FieldDeclarationChange)theEObject;
+                T result = caseFieldDeclarationChange(fieldDeclarationChange);
+                if (result == null) result = caseFieldChange(fieldDeclarationChange);
+                if (result == null) result = caseJava2KDMDiffExtension(fieldDeclarationChange);
+                if (result == null) result = caseAbstractDiffExtension(fieldDeclarationChange);
+                if (result == null) result = caseDiffElement(fieldDeclarationChange);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -588,6 +598,21 @@ public class Java2KDMDiffSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseStatementDelete(StatementDelete object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Field Declaration Change</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Field Declaration Change</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseFieldDeclarationChange(FieldDeclarationChange object) {
         return null;
     }
 

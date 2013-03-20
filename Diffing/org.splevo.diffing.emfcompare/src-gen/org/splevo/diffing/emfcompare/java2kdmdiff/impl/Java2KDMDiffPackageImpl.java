@@ -13,6 +13,7 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassSignatureChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete;
@@ -186,6 +187,13 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
      * @generated
      */
     private EClass statementDeleteEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass fieldDeclarationChangeEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -614,6 +622,33 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
     /**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getFieldDeclarationChange() {
+        return fieldDeclarationChangeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getFieldDeclarationChange_FieldLeft() {
+        return (EReference)fieldDeclarationChangeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getFieldDeclarationChange_FieldRight() {
+        return (EReference)fieldDeclarationChangeEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -700,6 +735,10 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
         statementInsertEClass = createEClass(STATEMENT_INSERT);
 
         statementDeleteEClass = createEClass(STATEMENT_DELETE);
+
+        fieldDeclarationChangeEClass = createEClass(FIELD_DECLARATION_CHANGE);
+        createEReference(fieldDeclarationChangeEClass, FIELD_DECLARATION_CHANGE__FIELD_LEFT);
+        createEReference(fieldDeclarationChangeEClass, FIELD_DECLARATION_CHANGE__FIELD_RIGHT);
     }
 
 	/**
@@ -756,6 +795,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
         methodDeleteEClass.getESuperTypes().add(this.getMethodChange());
         statementInsertEClass.getESuperTypes().add(this.getStatementChange());
         statementDeleteEClass.getESuperTypes().add(this.getStatementChange());
+        fieldDeclarationChangeEClass.getESuperTypes().add(this.getFieldChange());
 
         // Initialize classes and features; add operations and parameters
         initEClass(java2KDMDiffExtensionEClass, Java2KDMDiffExtension.class, "Java2KDMDiffExtension", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -819,6 +859,10 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
         initEClass(statementDeleteEClass, StatementDelete.class, "StatementDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+        initEClass(fieldDeclarationChangeEClass, FieldDeclarationChange.class, "FieldDeclarationChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getFieldDeclarationChange_FieldLeft(), theJavaPackage.getFieldDeclaration(), null, "fieldLeft", null, 0, 1, FieldDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getFieldDeclarationChange_FieldRight(), theJavaPackage.getFieldDeclaration(), null, "fieldRight", null, 0, 1, FieldDeclarationChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
         // Create resource
         createResource(eNS_URI);
 
@@ -847,7 +891,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
            source, 
            new String[] {
              "name", "ImportDeclarationChange"
-           });												
+           });																	
     }
 
 } //Java2KDMDiffPackageImpl

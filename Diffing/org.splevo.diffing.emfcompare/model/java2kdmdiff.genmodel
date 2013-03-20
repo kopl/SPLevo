@@ -61,5 +61,9 @@
     </genClasses>
     <genClasses ecoreClass="java2kdmdiff.ecore#//StatementInsert"/>
     <genClasses ecoreClass="java2kdmdiff.ecore#//StatementDelete"/>
+    <genClasses ecoreClass="java2kdmdiff.ecore#//FieldDeclarationChange">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//FieldDeclarationChange/fieldLeft"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//FieldDeclarationChange/fieldRight"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

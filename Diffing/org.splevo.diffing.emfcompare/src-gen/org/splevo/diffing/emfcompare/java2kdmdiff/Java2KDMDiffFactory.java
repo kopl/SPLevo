@@ -157,6 +157,15 @@ public interface Java2KDMDiffFactory extends EFactory {
     StatementDelete createStatementDelete();
 
     /**
+     * Returns a new object of class '<em>Field Declaration Change</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Field Declaration Change</em>'.
+     * @generated
+     */
+    FieldDeclarationChange createFieldDeclarationChange();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

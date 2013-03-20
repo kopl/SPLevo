@@ -67,10 +67,18 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FieldChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension"/>
   <eClassifiers xsi:type="ecore:EClass" name="FieldInsert" eSuperTypes="#//FieldChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The new field declaration that has been added."/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FieldDelete" eSuperTypes="#//FieldChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The original field declaration that has been removed."/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClassInsert" eSuperTypes="#//ClassChange">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classLeft" lowerBound="1"
@@ -132,4 +140,19 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StatementInsert" eSuperTypes="#//StatementChange"/>
   <eClassifiers xsi:type="ecore:EClass" name="StatementDelete" eSuperTypes="#//StatementChange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FieldDeclarationChange" eSuperTypes="#//FieldChange">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A change identifying a modified field declaration."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The new version of  the field."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The original version of the field."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
 </ecore:EPackage>

@@ -29,6 +29,9 @@ public interface FieldInsert extends FieldChange {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * The new field declaration that has been added.
+     * <!-- end-model-doc -->
      * @return the value of the '<em>Field Left</em>' reference.
      * @see #setFieldLeft(FieldDeclaration)
      * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getFieldInsert_FieldLeft()

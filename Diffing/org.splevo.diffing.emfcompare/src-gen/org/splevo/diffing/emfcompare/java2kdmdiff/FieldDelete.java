@@ -29,6 +29,9 @@ public interface FieldDelete extends FieldChange {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * The original field declaration that has been removed.
+     * <!-- end-model-doc -->
      * @return the value of the '<em>Field Right</em>' reference.
      * @see #setFieldRight(FieldDeclaration)
      * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getFieldDelete_FieldRight()

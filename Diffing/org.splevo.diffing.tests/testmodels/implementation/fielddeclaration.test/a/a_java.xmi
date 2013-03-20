@@ -48,35 +48,51 @@
               </fragments>
             </bodyDeclarations>
           </ownedElements>
-          <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.1" name="NewInTheMiddle">
-            <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; * Class with new field declaration surrounded by two unchanged ones.&#xA; */&#xA;" prefixOfParent="true">
-              <tags originalCompilationUnit="//@compilationUnits.1">
-                <fragments xsi:type="java:TextElement" originalCompilationUnit="//@compilationUnits.1" text="Class with new field declaration surrounded by two unchanged ones."/>
+          <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.1" name="ArrayFieldDeclarationChange">
+            <modifier visibility="public"/>
+            <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.1">
+              <modifier visibility="public"/>
+              <type type="//@orphanTypes.9"/>
+              <fragments originalCompilationUnit="//@compilationUnits.1" name="newValueArray">
+                <initializer xsi:type="java:ArrayCreation" originalCompilationUnit="//@compilationUnits.1">
+                  <initializer originalCompilationUnit="//@compilationUnits.1">
+                    <expressions xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.1" escapedValue="&quot;value1&quot;"/>
+                    <expressions xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.1" escapedValue="&quot;value2&quot;"/>
+                  </initializer>
+                  <type type="//@orphanTypes.9"/>
+                </initializer>
+              </fragments>
+            </bodyDeclarations>
+          </ownedElements>
+          <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.2" name="NewInTheMiddle">
+            <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.2" content="/** &#xA; * Class with new field declaration surrounded by two unchanged ones.&#xA; */&#xA;" prefixOfParent="true">
+              <tags originalCompilationUnit="//@compilationUnits.2">
+                <fragments xsi:type="java:TextElement" originalCompilationUnit="//@compilationUnits.2" text="Class with new field declaration surrounded by two unchanged ones."/>
               </tags>
             </comments>
             <modifier visibility="public"/>
-            <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.1">
-              <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; * Field not to change. &#xA; */&#xA;" prefixOfParent="true">
-                <tags originalCompilationUnit="//@compilationUnits.1">
-                  <fragments xsi:type="java:TextElement" originalCompilationUnit="//@compilationUnits.1" text="Field not to change. "/>
+            <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.2">
+              <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.2" content="/** &#xA; * Field not to change. &#xA; */&#xA;" prefixOfParent="true">
+                <tags originalCompilationUnit="//@compilationUnits.2">
+                  <fragments xsi:type="java:TextElement" originalCompilationUnit="//@compilationUnits.2" text="Field not to change. "/>
                 </tags>
               </comments>
               <modifier visibility="private"/>
               <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
-              <fragments originalCompilationUnit="//@compilationUnits.1" name="similar1">
-                <initializer xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.1" escapedValue="&quot;similar1&quot;"/>
+              <fragments originalCompilationUnit="//@compilationUnits.2" name="similar1">
+                <initializer xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.2" escapedValue="&quot;similar1&quot;"/>
               </fragments>
             </bodyDeclarations>
-            <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.1">
-              <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; * Field not to change. &#xA; */&#xA;" prefixOfParent="true">
-                <tags originalCompilationUnit="//@compilationUnits.1">
-                  <fragments xsi:type="java:TextElement" originalCompilationUnit="//@compilationUnits.1" text="Field not to change. "/>
+            <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.2">
+              <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.2" content="/** &#xA; * Field not to change. &#xA; */&#xA;" prefixOfParent="true">
+                <tags originalCompilationUnit="//@compilationUnits.2">
+                  <fragments xsi:type="java:TextElement" originalCompilationUnit="//@compilationUnits.2" text="Field not to change. "/>
                 </tags>
               </comments>
               <modifier visibility="private"/>
               <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
-              <fragments originalCompilationUnit="//@compilationUnits.1" name="similar2">
-                <initializer xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.1" escapedValue="&quot;similar2&quot;"/>
+              <fragments originalCompilationUnit="//@compilationUnits.2" name="similar2">
+                <initializer xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.2" escapedValue="&quot;similar2&quot;"/>
               </fragments>
             </bodyDeclarations>
           </ownedElements>
@@ -86,7 +102,7 @@
   </ownedElements>
   <ownedElements name="java" proxy="true">
     <ownedPackages name="lang" proxy="true">
-      <ownedElements xsi:type="java:ClassDeclaration" name="String" proxy="true" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.1/@type">
+      <ownedElements xsi:type="java:ClassDeclaration" name="String" proxy="true" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@type">
         <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.0"/>
         <superInterfaces type="//@ownedElements.1/@ownedPackages.0/@ownedElements.1"/>
         <superInterfaces type="//@ownedElements.1/@ownedPackages.0/@ownedElements.2"/>
@@ -95,6 +111,7 @@
         <typeParameters name="T" proxy="true"/>
       </ownedElements>
       <ownedElements xsi:type="java:InterfaceDeclaration" name="CharSequence" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.2"/>
+      <ownedElements xsi:type="java:ClassDeclaration" name="Object" proxy="true" usagesInTypeAccess="//@orphanTypes.9/@elementType"/>
     </ownedPackages>
     <ownedPackages name="io" proxy="true">
       <ownedElements xsi:type="java:InterfaceDeclaration" name="Serializable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.0"/>
@@ -109,9 +126,13 @@
   <orphanTypes xsi:type="java:PrimitiveTypeChar" name="char"/>
   <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
   <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
+  <orphanTypes xsi:type="java:ArrayType" name="java.lang.Object[]" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@fragments.0/@initializer/@type" dimensions="1">
+    <elementType type="//@ownedElements.1/@ownedPackages.0/@ownedElements.3"/>
+  </orphanTypes>
   <compilationUnits name="RemovedFromTheMiddle.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\RemovedFromTheMiddle.java" commentList="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@comments.0 //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@comments.0 //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@comments.0 //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
-  <compilationUnits name="NewInTheMiddle.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\NewInTheMiddle.java" commentList="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@comments.0 //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@comments.0 //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.1/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1"/>
-  <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\package-info.java" commentList="//@compilationUnits.2/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
-    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.2" content="/** &#xA; * Test classes to test the diffing of Fielddeclarations&#xA; */&#xA;" enclosedByParent="true"/>
+  <compilationUnits name="ArrayFieldDeclarationChange.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\ArrayFieldDeclarationChange.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1"/>
+  <compilationUnits name="NewInTheMiddle.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\NewInTheMiddle.java" commentList="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@comments.0 //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0 //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2"/>
+  <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.fielddeclaration.a\src\org\splevo\tests\fielddeclaration\package-info.java" commentList="//@compilationUnits.3/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
+    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.3" content="/** &#xA; * Test classes to test the diffing of Fielddeclarations&#xA; */&#xA;" enclosedByParent="true"/>
   </compilationUnits>
 </java:Model>

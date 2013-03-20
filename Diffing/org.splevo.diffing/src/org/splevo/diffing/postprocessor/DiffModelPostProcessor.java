@@ -16,9 +16,11 @@ import org.eclipse.emf.compare.diff.metamodel.util.DiffSwitch;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
+import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffFactory;
@@ -99,12 +101,14 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
     /**
      * Process the diff group elements.
      * 
+     * If it is about a field declaration, convert it to a FieldDeclarationChange.
+     * 
      * If it is about a statement element which is not a block convert it to a
      * StatementChangeElement.
      * 
      * @param diffGroup
-     *            the diff group
-     * @return the boolean
+     *            The diff group under study.
+     * @return Flag if the diff group has been converted or not.
      */
     @Override
     public Boolean caseDiffGroup(DiffGroup diffGroup) {
@@ -112,6 +116,19 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
         // no specific handling if switching the root.
         if (diffGroup.getRightParent() == null) {
             return Boolean.FALSE;
+        }
+        
+        // handle changed field declarations
+        if (diffGroup.getRightParent() instanceof FieldDeclaration) {
+            FieldDeclaration fieldDeclarationRight = (FieldDeclaration) diffGroup.getRightParent();
+            FieldDeclaration fieldDeclarationLeft = (FieldDeclaration) matchManager.getMatchedEObject(fieldDeclarationRight);
+            
+            FieldDeclarationChange fieldChange = Java2KDMDiffFactory.eINSTANCE.createFieldDeclarationChange();
+            fieldChange.setFieldRight(fieldDeclarationRight);
+            fieldChange.setFieldLeft(fieldDeclarationLeft);
+            fieldChange.getSubDiffElements().addAll(diffGroup.getSubDiffElements());
+            
+            return addToParentGroup(diffGroup, fieldChange);
         }
 
         if (diffGroup.getRightParent() instanceof Statement) {
@@ -123,17 +140,29 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
                         .setStatementLeft((Statement) matchManager.getMatchedEObject(diffGroup.getRightParent()));
                 statementChange.getSubDiffElements().addAll(diffGroup.getSubDiffElements());
 
-                // add the statement change to the parent container
-                if (diffGroup.eContainer() instanceof DiffGroup) {
-                    DiffGroup parentGroup = (DiffGroup) diffGroup.eContainer();
-                    parentGroup.getSubDiffElements().add(statementChange);
-                }
-
-                return Boolean.TRUE;
+                return addToParentGroup(diffGroup, statementChange);
             }
         }
 
         return Boolean.FALSE;
+    }
+
+    /**
+     * Add the statement change to the parent container.
+     * 
+     * @param diffElement The diffing element to get the diffing group to add the element to.
+     * @param newDiffElement The new diffing element to add to the parent group.
+     * @return True or false if the add was successful.
+     */
+    private Boolean addToParentGroup(DiffElement diffElement, DiffElement newDiffElement) {
+        if (diffElement.eContainer() instanceof DiffGroup) {
+            DiffGroup parentGroup = (DiffGroup) diffElement.eContainer();
+            parentGroup.getSubDiffElements().add(newDiffElement);
+
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
     /**
