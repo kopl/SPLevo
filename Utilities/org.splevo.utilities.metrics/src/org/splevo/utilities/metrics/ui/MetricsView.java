@@ -34,8 +34,6 @@ import org.splevo.utilities.metrics.calculator.MetricCalculationException;
 import org.splevo.utilities.metrics.calculator.MetricResultItem;
 import org.splevo.utilities.metrics.calculator.MetricsCalculator;
 import org.splevo.utilities.metrics.calculator.MetricsResultSet;
-import org.splevo.utilities.metrics.commonloc.CommonLOCMetricCalculator;
-import org.splevo.utilities.metrics.qvto.QVToMetricCalculator;
 
 /**
  * The view to present metric results for the elements currently selected in the workbench.
