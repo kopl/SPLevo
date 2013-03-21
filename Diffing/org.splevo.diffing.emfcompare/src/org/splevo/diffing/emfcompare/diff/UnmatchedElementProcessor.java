@@ -176,18 +176,18 @@ public class UnmatchedElementProcessor {
                 return createMethodDelete(methodDeclaration);
             }
         }
-        
-        /** 
-         * Block case introduced to skip caseStatement for block elements.
-         * {@inheritDoc}
+
+        /**
+         * Block case introduced to skip caseStatement for block elements. {@inheritDoc}
          */
         @Override
         public DiffElement caseBlock(Block object) {
             return null;
         }
-        
+
         @Override
         public DiffElement caseStatement(Statement statment) {
+
             if (unmatchElement.getSide() == Side.LEFT) {
                 return createStatementInsert(statment);
             } else {
@@ -375,7 +375,9 @@ public class UnmatchedElementProcessor {
 
         /**
          * Factory method to create a statement insert diff element.
-         * @param statement The statement that has been inserted.
+         * 
+         * @param statement
+         *            The statement that has been inserted.
          * @return The created statement insert element.
          */
         private StatementInsert createStatementInsert(Statement statement) {

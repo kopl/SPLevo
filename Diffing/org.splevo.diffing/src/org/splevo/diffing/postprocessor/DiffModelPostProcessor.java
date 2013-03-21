@@ -3,6 +3,7 @@ package org.splevo.diffing.postprocessor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
@@ -16,12 +17,19 @@ import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeRightTarget;
 import org.eclipse.emf.compare.diff.metamodel.util.DiffSwitch;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.Block;
+import org.eclipse.gmt.modisco.java.CatchClause;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
+import org.eclipse.gmt.modisco.java.DoStatement;
+import org.eclipse.gmt.modisco.java.EnhancedForStatement;
 import org.eclipse.gmt.modisco.java.EnumDeclaration;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
+import org.eclipse.gmt.modisco.java.ForStatement;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
 import org.eclipse.gmt.modisco.java.Statement;
+import org.eclipse.gmt.modisco.java.SwitchStatement;
+import org.eclipse.gmt.modisco.java.TryStatement;
 import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.eclipse.gmt.modisco.java.WhileStatement;
 import org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete;
@@ -36,6 +44,9 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
  * 
  */
 public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
+
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(DiffModelPostProcessor.class);
 
     /** The match manager. */
     private IMatchManager matchManager = null;
@@ -123,10 +134,10 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
 
         // handle changed enum declarations
         if (diffGroup.getRightParent() instanceof EnumDeclaration) {
-            diffGroup.getKind();
 
             // Get left and right parent enumerations
-            // The rightParent of the diff group might link to the left model in case of only added sub elements.
+            // The rightParent of the diff group might link to the left model in case of only added
+            // sub elements.
             // In this case switch the orientations
             EnumDeclaration enumDeclarationRight = null;
             EnumDeclaration enumDeclarationLeft = null;
@@ -163,12 +174,26 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
         }
 
         if (diffGroup.getRightParent() instanceof Statement) {
-            if (!(diffGroup.getRightParent() instanceof Block)) {
+            if (!(diffGroup.getRightParent() instanceof Block)
+                    // && !(diffGroup.getRightParent() instanceof IfStatement)
+                    && !(diffGroup.getRightParent() instanceof ForStatement)
+                    && !(diffGroup.getRightParent() instanceof TryStatement)
+                    && !(diffGroup.getRightParent() instanceof CatchClause)
+                    && !(diffGroup.getRightParent() instanceof WhileStatement)
+                    && !(diffGroup.getRightParent() instanceof SwitchStatement)
+                    && !(diffGroup.getRightParent() instanceof DoStatement)
+                    && !(diffGroup.getRightParent() instanceof EnhancedForStatement)) {
+
+                EObject leftMatch = matchManager.getMatchedEObject(diffGroup.getRightParent(), MatchSide.LEFT);
+                if (leftMatch == null) {
+                    logger.error("left match is null for " + diffGroup.getRightParent());
+                }
 
                 StatementChange statementChange = Java2KDMDiffFactory.eINSTANCE.createStatementChange();
-                statementChange.setStatementRight((Statement) diffGroup.getRightParent());
-                statementChange
-                        .setStatementLeft((Statement) matchManager.getMatchedEObject(diffGroup.getRightParent()));
+                Statement statementRight = (Statement) diffGroup.getRightParent();
+                statementChange.setStatementRight(statementRight);
+                Statement statementLeft = (Statement) leftMatch;
+                statementChange.setStatementLeft(statementLeft);
                 statementChange.getSubDiffElements().addAll(diffGroup.getSubDiffElements());
 
                 return addToParentGroup(diffGroup, statementChange);

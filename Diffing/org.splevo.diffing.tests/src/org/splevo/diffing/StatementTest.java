@@ -11,6 +11,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.gmt.modisco.java.ExpressionStatement;
+import org.eclipse.gmt.modisco.java.IfStatement;
+import org.eclipse.gmt.modisco.java.ReturnStatement;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
@@ -53,13 +56,20 @@ public class StatementTest extends AbstractDiffingTest {
         DiffModel diff = diffingService.doDiff(integrationModel, leadingModel);
 
         EList<DiffElement> differences = diff.getDifferences();
-        assertEquals("Wrong number of differences detected", 1, differences.size());
+        assertEquals("Wrong number of differences detected", 3, differences.size());
 
         for (DiffElement diffElement : differences) {
             if (diffElement instanceof StatementInsert) {
                 StatementInsert statementInsert = ((StatementInsert) diffElement);
                 Statement statement = statementInsert.getStatementLeft();
                 assertNotNull("The inserted statement should not be null.", statement);
+
+                // check the statements should be either if or expression statements
+                if (!(statement instanceof IfStatement 
+                        || statement instanceof ReturnStatement 
+                        || statement instanceof ExpressionStatement)) {
+                    fail("Unexpected statement type detected." + statement);
+                }
 
             } else {
                 fail("No other diff elements than StatementInsert should have been detected.");

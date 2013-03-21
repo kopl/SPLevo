@@ -14,6 +14,7 @@
               <inventoryElement xsi:type="source:Directory" name="statements" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\bin\org\splevo\tests\statements">
                 <inventoryElement xsi:type="source:BinaryFile" name="ClassStatementInsert.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\bin\org\splevo\tests\statements\ClassStatementInsert.class"/>
                 <inventoryElement xsi:type="source:BinaryFile" name="package-info.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\bin\org\splevo\tests\statements\package-info.class"/>
+                <inventoryElement xsi:type="source:BinaryFile" name="ReturnStatementChanges.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\bin\org\splevo\tests\statements\ReturnStatementChanges.class"/>
               </inventoryElement>
             </inventoryElement>
           </inventoryElement>
@@ -26,6 +27,7 @@
               <inventoryElement xsi:type="source:Directory" name="statements" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\src\org\splevo\tests\statements">
                 <inventoryElement xsi:type="source:SourceFile" name="ClassStatementInsert.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\src\org\splevo\tests\statements\ClassStatementInsert.java"/>
                 <inventoryElement xsi:type="source:SourceFile" name="package-info.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\src\org\splevo\tests\statements\package-info.java"/>
+                <inventoryElement xsi:type="source:SourceFile" name="ReturnStatementChanges.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\src\org\splevo\tests\statements\ReturnStatementChanges.java"/>
               </inventoryElement>
             </inventoryElement>
           </inventoryElement>

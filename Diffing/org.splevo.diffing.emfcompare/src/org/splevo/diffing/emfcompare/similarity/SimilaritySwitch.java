@@ -415,13 +415,23 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return Boolean.TRUE;
     }
 
+    /**
+     * Check the similarity of two CompilationUnits.
+     * Similarity is checked by
+     * <ul>
+     *  <li>Comparing their names</li>
+     * </ul>
+     * 
+     * @param compUnit The compilation unit to compare with the compareElement.
+     * @return True/False whether they are similar or not.
+     */
     @Override
-    public Boolean caseCompilationUnit(CompilationUnit object) {
+    public Boolean caseCompilationUnit(CompilationUnit compUnit) {
 
         CompilationUnit compareCompUnit = (CompilationUnit) compareElement;
 
         // The compilation unit name must be the same.
-        if (!object.getName().equals(compareCompUnit.getName())) {
+        if (!compUnit.getName().equals(compareCompUnit.getName())) {
             return Boolean.FALSE;
         }
 
