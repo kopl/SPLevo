@@ -12,6 +12,7 @@
           <inventoryElement xsi:type="source:Directory" name="splevo" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.methoddeclaration.a\bin\org\splevo">
             <inventoryElement xsi:type="source:Directory" name="tests" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.methoddeclaration.a\bin\org\splevo\tests">
               <inventoryElement xsi:type="source:Directory" name="methoddeclaration" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.methoddeclaration.a\bin\org\splevo\tests\methoddeclaration">
+                <inventoryElement xsi:type="source:BinaryFile" name="ClassA$1.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.methoddeclaration.a\bin\org\splevo\tests\methoddeclaration\ClassA$1.class"/>
                 <inventoryElement xsi:type="source:BinaryFile" name="ClassA.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.methoddeclaration.a\bin\org\splevo\tests\methoddeclaration\ClassA.class"/>
                 <inventoryElement xsi:type="source:BinaryFile" name="package-info.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.methoddeclaration.a\bin\org\splevo\tests\methoddeclaration\package-info.class"/>
               </inventoryElement>

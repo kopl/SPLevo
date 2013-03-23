@@ -46,6 +46,8 @@ public class MethodDeclarationTest extends AbstractDiffingTest {
 
         Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
         diffingService.getIgnorePackages().add("java");
+        diffingService.getIgnorePackages().add("java.lang");
+        diffingService.getIgnorePackages().add("java.io");
 
         DiffModel diff = diffingService.doDiff(integrationModel, leadingModel);
 
