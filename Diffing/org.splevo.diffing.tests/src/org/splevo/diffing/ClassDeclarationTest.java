@@ -84,10 +84,11 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
                     if (subDiff instanceof PackageInsert) {
                         PackageInsert subPackageInsert = (PackageInsert) subDiff;
                         Package subPackageDeclaration = subPackageInsert.getPackageLeft();
+                        EList<DiffElement> subPackDiffElements = subPackageInsert.getSubDiffElements();
                         assertEquals("Wrong sub-package detected as inserted", "sub", subPackageDeclaration.getName());
-                        assertEquals("Wrong number of diffs contained in sub-package", 1, subPackageInsert.getSubDiffElements().size());
+                        assertEquals("Wrong number of diffs contained in sub-package", 1, subPackDiffElements.size());
             
-                        assertTrue("Sub diff element ist not class insert", (subPackageInsert.getSubDiffElements().get(0) instanceof ClassInsert));
+                        assertTrue("Sub diff element ist not class insert", (subPackDiffElements.get(0) instanceof ClassInsert));
                         
                         
                     } else if (subDiff instanceof ClassDeclaration) {
