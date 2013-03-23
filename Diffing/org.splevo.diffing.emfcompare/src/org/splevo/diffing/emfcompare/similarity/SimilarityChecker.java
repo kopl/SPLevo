@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 public class SimilarityChecker {
 
     /** The logger for this class. */
+    @SuppressWarnings("unused")
     private Logger logger = Logger.getLogger(SimilarityChecker.class);
 
     /**

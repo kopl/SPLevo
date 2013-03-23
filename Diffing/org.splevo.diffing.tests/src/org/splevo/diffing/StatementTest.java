@@ -17,6 +17,7 @@ import org.eclipse.gmt.modisco.java.ReturnStatement;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
+import org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert;
 import org.splevo.modisco.util.KDMUtil;
 
@@ -56,7 +57,7 @@ public class StatementTest extends AbstractDiffingTest {
         DiffModel diff = diffingService.doDiff(integrationModel, leadingModel);
 
         EList<DiffElement> differences = diff.getDifferences();
-        assertEquals("Wrong number of differences detected", 3, differences.size());
+        assertEquals("Wrong number of differences detected", 6, differences.size());
 
         for (DiffElement diffElement : differences) {
             if (diffElement instanceof StatementInsert) {
@@ -64,15 +65,24 @@ public class StatementTest extends AbstractDiffingTest {
                 Statement statement = statementInsert.getStatementLeft();
                 assertNotNull("The inserted statement should not be null.", statement);
 
-                // check the statements should be either if or expression statements
+                // check the statements should be either if, return or expression statements
                 if (!(statement instanceof IfStatement 
                         || statement instanceof ReturnStatement 
                         || statement instanceof ExpressionStatement)) {
                     fail("Unexpected statement type detected." + statement);
                 }
 
+            } else if (diffElement instanceof StatementDelete) {
+                StatementDelete statementInsert = ((StatementDelete) diffElement);
+                Statement statement = statementInsert.getStatementRight();
+                assertNotNull("The deleted statement should not be null.", statement);
+
+                if (!(statement instanceof IfStatement)) {
+                    fail("Unexpected statement type detected." + statement);
+                }
+
             } else {
-                fail("No other diff elements than StatementInsert should have been detected.");
+                fail("No other diff elements than StatementInsert and Delete should have been detected.:" + diffElement);
             }
             logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
         }

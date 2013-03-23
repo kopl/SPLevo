@@ -5,27 +5,48 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.AnonymousClassDeclaration;
+import org.eclipse.gmt.modisco.java.ArrayAccess;
+import org.eclipse.gmt.modisco.java.ArrayCreation;
+import org.eclipse.gmt.modisco.java.ArrayLengthAccess;
 import org.eclipse.gmt.modisco.java.ArrayType;
+import org.eclipse.gmt.modisco.java.Assignment;
+import org.eclipse.gmt.modisco.java.BooleanLiteral;
+import org.eclipse.gmt.modisco.java.CastExpression;
+import org.eclipse.gmt.modisco.java.CharacterLiteral;
 import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
+import org.eclipse.gmt.modisco.java.ConditionalExpression;
 import org.eclipse.gmt.modisco.java.Expression;
 import org.eclipse.gmt.modisco.java.ExpressionStatement;
+import org.eclipse.gmt.modisco.java.FieldAccess;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
+import org.eclipse.gmt.modisco.java.IfStatement;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
+import org.eclipse.gmt.modisco.java.InfixExpression;
+import org.eclipse.gmt.modisco.java.InstanceofExpression;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.gmt.modisco.java.Modifier;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.NullLiteral;
+import org.eclipse.gmt.modisco.java.NumberLiteral;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.PackageAccess;
 import org.eclipse.gmt.modisco.java.ParameterizedType;
+import org.eclipse.gmt.modisco.java.ParenthesizedExpression;
+import org.eclipse.gmt.modisco.java.PostfixExpression;
+import org.eclipse.gmt.modisco.java.PrefixExpression;
 import org.eclipse.gmt.modisco.java.PrimitiveType;
 import org.eclipse.gmt.modisco.java.SingleVariableAccess;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
+import org.eclipse.gmt.modisco.java.StringLiteral;
+import org.eclipse.gmt.modisco.java.SuperConstructorInvocation;
+import org.eclipse.gmt.modisco.java.SuperMethodInvocation;
+import org.eclipse.gmt.modisco.java.ThisExpression;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.eclipse.gmt.modisco.java.TypeLiteral;
 import org.eclipse.gmt.modisco.java.TypeParameter;
 import org.eclipse.gmt.modisco.java.UnresolvedTypeDeclaration;
 import org.eclipse.gmt.modisco.java.VariableDeclaration;
@@ -210,31 +231,66 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
     }
 
+    /**
+     * Check abstract method declaration similarity. Similarity is checked by
+     * <ul>
+     * <li>name</li>
+     * <li>parameter list size</li>
+     * <li>parameter types</li>
+     * <li>name</li>
+     * <li>container for
+     * <ul>
+     * <li>AbstractTypeDeclaration</li>
+     * <li>AnonymousClassDeclaration</li>
+     * <li>Model</li>
+     * </ul>
+     * </li>
+     * </ul>
+     * 
+     * @param method1
+     *            The abstract method declaration to compare with the compare element.
+     * @return True/False if the abstract method declarations are similar or not.
+     */
     @Override
-    public Boolean caseAbstractMethodDeclaration(AbstractMethodDeclaration object) {
+    public Boolean caseAbstractMethodDeclaration(AbstractMethodDeclaration method1) {
 
-        AbstractMethodDeclaration compareMethod = (AbstractMethodDeclaration) compareElement;
+        AbstractMethodDeclaration method2 = (AbstractMethodDeclaration) compareElement;
 
         // if methods have different names they are not similar.
-        if (!object.getName().equals(compareMethod.getName())) {
+        if (!method1.getName().equals(method2.getName())) {
             return false;
+        }
+
+        if (method1.getParameters().size() != method2.getParameters().size()) {
+            return Boolean.FALSE;
+        }
+
+        for (int i = 0; i < method1.getParameters().size(); i++) {
+            SingleVariableDeclaration var1 = method1.getParameters().get(i);
+            SingleVariableDeclaration var2 = method2.getParameters().get(i);
+            Type type1 = var1.getType().getType();
+            Type type2 = var2.getType().getType();
+            Boolean tS = similarityChecker.isSimilar(type1, type2);
+            if (tS != null && tS == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
         }
 
         /* **************************************
          * methods as members of regular classes
          */
-        if (object.getAbstractTypeDeclaration() != null) {
-            AbstractTypeDeclaration type1 = object.getAbstractTypeDeclaration();
-            AbstractTypeDeclaration type2 = compareMethod.getAbstractTypeDeclaration();
+        if (method1.getAbstractTypeDeclaration() != null) {
+            AbstractTypeDeclaration type1 = method1.getAbstractTypeDeclaration();
+            AbstractTypeDeclaration type2 = method2.getAbstractTypeDeclaration();
             return checkAbstractTypeDeclarationSimilarity(type1, type2);
         }
 
         /* **************************************
          * methods as members of anonymous classes
          */
-        if (object.getAnonymousClassDeclarationOwner() != null) {
-            AnonymousClassDeclaration type1 = object.getAnonymousClassDeclarationOwner();
-            AnonymousClassDeclaration type2 = compareMethod.getAnonymousClassDeclarationOwner();
+        if (method1.getAnonymousClassDeclarationOwner() != null) {
+            AnonymousClassDeclaration type1 = method1.getAnonymousClassDeclarationOwner();
+            AnonymousClassDeclaration type2 = method2.getAnonymousClassDeclarationOwner();
             Boolean result = checkAnonymousClassDeclarationSimilarity(type1, type2);
             if (result != null) {
                 return result;
@@ -245,29 +301,26 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         /* **************************************
          * methods directly contained in the model with the same name are assumed to be similar
          */
-        if (object.eContainer() instanceof Model) {
-            if (compareMethod.eContainer() instanceof Model) {
+        if (method1.eContainer() instanceof Model) {
+            if (method2.eContainer() instanceof Model) {
                 return Boolean.TRUE;
             } else {
                 logger.warn("Methods with the same name contained in different containers: "
-                        + compareMethod.eContainer().getClass().getSimpleName());
+                        + method2.eContainer().getClass().getSimpleName());
                 return Boolean.FALSE;
             }
         }
 
-        logger.warn("MethodDeclaration in unknown container: " + object.getName() + " : "
-                + object.eContainer().getClass().getSimpleName());
-        return super.caseAbstractMethodDeclaration(object);
+        logger.warn("MethodDeclaration in unknown container: " + method1.getName() + " : "
+                + method1.eContainer().getClass().getSimpleName());
+        return super.caseAbstractMethodDeclaration(method1);
     }
 
     /**
      * Check two abstract type declarations if they are similar.
      * 
-     * It checks: 
-     * - if one is null
-     * - name similarity
-     * - package similarity
-     * - enclosing type similarity if packages are null and types are inner classes
+     * It checks: - if one is null - name similarity - package similarity - enclosing type
+     * similarity if packages are null and types are inner classes
      * 
      * @param type1
      *            The first type declaration to check.
@@ -299,7 +352,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         if ((package1 == null && package2 != null) || (package1 != null && package2 == null)) {
             return Boolean.FALSE;
 
-        // if none is null check the package names
+            // if none is null check the package names
         } else if (package1 != null && checkPackageSimilarity(package1, package2)) {
             return Boolean.TRUE;
 
@@ -416,13 +469,13 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * Check the similarity of two CompilationUnits.
-     * Similarity is checked by
+     * Check the similarity of two CompilationUnits. Similarity is checked by
      * <ul>
-     *  <li>Comparing their names</li>
+     * <li>Comparing their names</li>
      * </ul>
      * 
-     * @param compUnit The compilation unit to compare with the compareElement.
+     * @param compUnit
+     *            The compilation unit to compare with the compareElement.
      * @return True/False whether they are similar or not.
      */
     @Override
@@ -528,6 +581,327 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return Boolean.TRUE;
     }
 
+    /**
+     * Check if two if statements are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>similarity of the expressions</li>
+     * </ul>
+     * 
+     * @param ifStatement1
+     *            The statement to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean caseIfStatement(IfStatement ifStatement1) {
+
+        IfStatement ifStatement2 = (IfStatement) compareElement;
+
+        Expression expression1 = ifStatement1.getExpression();
+        Expression expression2 = ifStatement2.getExpression();
+        Boolean expressionSimilarity = similarityChecker.isSimilar(expression1, expression2);
+        if (expressionSimilarity != null && expressionSimilarity == Boolean.FALSE) {
+            return expressionSimilarity;
+        }
+
+        return super.caseIfStatement(ifStatement1);
+    }
+
+    /**
+     * Check infix expression similarity. Similarity is checked by
+     * <ul>
+     * <li>similarity of the operator</li>
+     * <li>similarity of the left operand</li>
+     * <li>similarity of the right operand</li>
+     * </ul>
+     * 
+     * Not supported: Extended Operands.
+     * 
+     * @param exp1
+     *            The infix expression to compare with the compare element.
+     * @return True/False if the infix expressions are similar or not.
+     */
+    @Override
+    public Boolean caseInfixExpression(InfixExpression exp1) {
+
+        InfixExpression exp2 = (InfixExpression) compareElement;
+
+        if (exp1.getOperator().compareTo(exp2.getOperator()) != 0) {
+            return Boolean.FALSE;
+        }
+
+        Boolean leftOpSimilarity = similarityChecker.isSimilar(exp2.getLeftOperand(), exp1.getLeftOperand());
+        if (leftOpSimilarity != Boolean.TRUE) {
+            return Boolean.FALSE;
+        }
+
+        Boolean rightOpSimilarity = similarityChecker.isSimilar(exp2.getRightOperand(), exp1.getRightOperand());
+        if (rightOpSimilarity != Boolean.TRUE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check instance of expression similarity. Similarity is checked by
+     * <ul>
+     * <li>similarity of the left operand</li>
+     * <li>similarity of the right operand</li>
+     * </ul>
+     * 
+     * @param exp1
+     *            The instance of expression to compare with the compare element.
+     * @return True/False if the instance of expressions are similar or not.
+     */
+    @Override
+    public Boolean caseInstanceofExpression(InstanceofExpression exp1) {
+        InstanceofExpression exp2 = (InstanceofExpression) compareElement;
+
+        Boolean leftOpSimilarity = similarityChecker.isSimilar(exp2.getLeftOperand(), exp1.getLeftOperand());
+        if (leftOpSimilarity != Boolean.TRUE) {
+            return Boolean.FALSE;
+        }
+
+        Boolean rightOpSimilarity = similarityChecker.isSimilar(exp2.getRightOperand(), exp1.getRightOperand());
+        if (rightOpSimilarity != Boolean.TRUE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check assignment expression similarity. Similarity is checked by
+     * <ul>
+     * <li>similarity of the operator</li>
+     * <li>similarity of the left hand side</li>
+     * <li>similarity of the right hand side</li>
+     * </ul>
+     * 
+     * @param ass1
+     *            The assignment expression to compare with the compare element.
+     * @return True/False if the assignment expressions are similar or not.
+     */
+    @Override
+    public Boolean caseAssignment(Assignment ass1) {
+
+        Assignment ass2 = (Assignment) compareElement;
+
+        if (ass1.getOperator().compareTo(ass1.getOperator()) != 0) {
+            return Boolean.FALSE;
+        }
+
+        Boolean leftSimilarity = similarityChecker.isSimilar(ass1.getLeftHandSide(), ass2.getLeftHandSide());
+        if (leftSimilarity != Boolean.TRUE) {
+            return Boolean.FALSE;
+        }
+
+        Boolean rightSimilarity = similarityChecker.isSimilar(ass1.getRightHandSide(), ass2.getRightHandSide());
+        if (rightSimilarity != Boolean.TRUE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check parenthesized expression similarity.
+     * 
+     * Similarity is checked by
+     * <ul>
+     * <li>similarity of the inner expression</li>
+     * </ul>
+     * 
+     * @param exp1
+     *            The parenthesized expression to compare with the compare element.
+     * @return True/False if the parenthesized expressions are similar or not.
+     */
+    @Override
+    public Boolean caseParenthesizedExpression(ParenthesizedExpression exp1) {
+        ParenthesizedExpression exp2 = (ParenthesizedExpression) compareElement;
+        return similarityChecker.isSimilar(exp1.getExpression(), exp2.getExpression());
+    }
+
+    /**
+     * Check number literal similarity. Similarity is checked by
+     * <ul>
+     * <li>similarity of token value</li>
+     * </ul>
+     * 
+     * @param literal1
+     *            The number literal to compare with the compare element.
+     * @return True/False if the number literals are similar or not.
+     */
+    @Override
+    public Boolean caseNumberLiteral(NumberLiteral literal1) {
+        NumberLiteral literal2 = (NumberLiteral) compareElement;
+        return literal1.getTokenValue().equals(literal2.getTokenValue());
+    }
+
+    /**
+     * Check character literal similarity. Similarity is checked by
+     * <ul>
+     * <li>similarity of escaped value</li>
+     * </ul>
+     * 
+     * @param literal1
+     *            The character literal to compare with the compare element.
+     * @return True/False if the character literals are similar or not.
+     */
+    @Override
+    public Boolean caseCharacterLiteral(CharacterLiteral literal1) {
+        CharacterLiteral literal2 = (CharacterLiteral) compareElement;
+        return literal1.getEscapedValue().equals(literal2.getEscapedValue());
+    }
+
+    /**
+     * Check string literal similarity. Similarity is checked by
+     * <ul>
+     * <li>similarity of escaped value</li>
+     * </ul>
+     * 
+     * @param literal1
+     *            The string literal to compare with the compare element.
+     * @return True/False if the string literals are similar or not.
+     */
+    @Override
+    public Boolean caseStringLiteral(StringLiteral literal1) {
+        StringLiteral literal2 = (StringLiteral) compareElement;
+        return literal1.getEscapedValue().equals(literal2.getEscapedValue());
+    }
+
+    /**
+     * Check type literal similarity. Similarity is checked by
+     * <ul>
+     * <li>similarity of the boolean value</li>
+     * </ul>
+     * 
+     * @param literal1
+     *            The type literal to compare with the compare element.
+     * @return True/False if the type literals are similar or not.
+     */
+    @Override
+    public Boolean caseTypeLiteral(TypeLiteral literal1) {
+        TypeLiteral literal2 = (TypeLiteral) compareElement;
+        Boolean typeSimilarity = similarityChecker.isSimilar(literal1.getType(), literal2.getType());
+        if (typeSimilarity == null && typeSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check boolean literal similarity. Similarity is checked by
+     * <ul>
+     * <li>similarity of the boolean value</li>
+     * </ul>
+     * 
+     * @param literal1
+     *            The boolean literal to compare with the compare element.
+     * @return True/False if the boolean literals are similar or not.
+     */
+    @Override
+    public Boolean caseBooleanLiteral(BooleanLiteral literal1) {
+        BooleanLiteral literal2 = (BooleanLiteral) compareElement;
+        return literal1.isValue() == literal2.isValue();
+    }
+
+    /**
+     * Check cast expression similarity. Similarity is checked by
+     * <ul>
+     * <li>similarity of the type to case to</li>
+     * <li>similarity of the expression that is casted</li>
+     * </ul>
+     * 
+     * @param exp1
+     *            The cast expression to compare with the compare element.
+     * @return True/False if the cast expressions are similar or not.
+     */
+    @Override
+    public Boolean caseCastExpression(CastExpression exp1) {
+        CastExpression exp2 = (CastExpression) compareElement;
+        Type type1 = exp1.getType().getType();
+        Type type2 = exp2.getType().getType();
+
+        Boolean typeSimilarity = similarityChecker.isSimilar(type1, type2);
+        if (typeSimilarity) {
+            return typeSimilarity;
+        }
+
+        return similarityChecker.isSimilar(exp1.getExpression(), exp2.getExpression());
+
+    }
+
+    // @Override
+    // public Boolean caseExpression(Expression object) {
+    // //logger.warn("unsupported expression type: " + object.getClass().getSimpleName() + " | " +
+    // object);
+    // return null;
+    // }
+
+    /**
+     * Check field access similarity. Similarity is checked by
+     * <ul>
+     * <li>field variable name</li>
+     * </ul>
+     * 
+     * @param access1
+     *            The field access to compare with the compare element.
+     * @return True/False if the field accesses are similar or not.
+     */
+    @Override
+    public Boolean caseFieldAccess(FieldAccess access1) {
+        FieldAccess access2 = (FieldAccess) compareElement;
+
+        SingleVariableAccess var1 = access1.getField();
+        SingleVariableAccess var2 = access2.getField();
+
+        return similarityChecker.isSimilar(var1, var2);
+    }
+
+    /**
+     * Check single variable access similarity. Similarity is checked by
+     * <ul>
+     * <li>variable name</li>
+     * </ul>
+     * 
+     * @param varAccess1
+     *            The single variable access to compare with the compare element.
+     * @return True/False if the single variable accesses are similar or not.
+     */
+    @Override
+    public Boolean caseSingleVariableAccess(SingleVariableAccess varAccess1) {
+
+        SingleVariableAccess varAccess2 = (SingleVariableAccess) compareElement;
+
+        String name1 = varAccess1.getVariable().getName();
+        String name2 = varAccess2.getVariable().getName();
+
+        if (name1 != null && !name1.equals(name2)) {
+            return Boolean.FALSE;
+        } else if (name1 == null && name2 != null) {
+            return Boolean.FALSE;
+        }
+
+        // TODO check variable declaration namespace (container)
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check type access similarity.
+     * 
+     * Similarity is checked by
+     * <ul>
+     * <li>name of the accessed type</li>
+     * </ul>
+     * 
+     * @param object
+     *            The type access to compare with the compare element.
+     * @return True/False if the type accesses are similar or not.
+     */
     @Override
     public Boolean caseTypeAccess(TypeAccess object) {
 
@@ -549,7 +923,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         // check the container
-        return similarityChecker.isSimilar(typeAccess1.eContainer(), typeAccess2.eContainer());
+        // return similarityChecker.isSimilar(typeAccess1.eContainer(), typeAccess2.eContainer());
 
         // check the accessing type
         // if (!typeAccess1.eContainer().getClass().equals(typeAccess2.eContainer().getClass())) {
@@ -562,7 +936,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         // return Boolean.FALSE;
         // }
         //
-        // return Boolean.TRUE;
+        return Boolean.TRUE;
     }
 
     @Override
@@ -630,8 +1004,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         // type check
         if (fDecl.getType() != null && fDecl2.getType() != null) {
-            Boolean typeSimilarity = similarityChecker.isSimilar(fDecl.getType().getType(), fDecl2.getType()
-                    .getType());
+            Boolean typeSimilarity = similarityChecker.isSimilar(fDecl.getType().getType(), fDecl2.getType().getType());
             if (typeSimilarity != null && typeSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
             }
@@ -721,6 +1094,192 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
+     * Check if two array length accesses are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>similarity of the accessed arrays</li>
+     * </ul>
+     * 
+     * @param access1
+     *            The array length access to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean caseArrayLengthAccess(ArrayLengthAccess access1) {
+        ArrayLengthAccess access2 = (ArrayLengthAccess) compareElement;
+
+        return similarityChecker.isSimilar(access1.getArray(), access2.getArray());
+    }
+
+    /**
+     * Check if two array accesses are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>accessed array</li>
+     * <li>accessed index</li>
+     * </ul>
+     * 
+     * @param access1
+     *            The statement to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean caseArrayAccess(ArrayAccess access1) {
+
+        ArrayAccess access2 = (ArrayAccess) compareElement;
+
+        Boolean arraySimilarity = similarityChecker.isSimilar(access1.getArray(), access2.getArray());
+        if (arraySimilarity != null && arraySimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        Boolean indexSimilarity = similarityChecker.isSimilar(access1.getIndex(), access2.getIndex());
+        if (indexSimilarity != null && indexSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check if two array creation expressions are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>array type</li>
+     * </ul>
+     * 
+     * @param ac1
+     *            The array creation expression to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean caseArrayCreation(ArrayCreation ac1) {
+        ArrayCreation ac2 = (ArrayCreation) compareElement;
+
+        TypeAccess ta1 = ac1.getType();
+        TypeAccess ta2 = ac2.getType();
+
+        return similarityChecker.isSimilar(ta1, ta2);
+    }
+
+    /**
+     * Check if two conditional expressions are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>condition expression</li>
+     * <li>then expression</li>
+     * <li>else expression</li>
+     * </ul>
+     * 
+     * @param exp1
+     *            The conditional expression to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean caseConditionalExpression(ConditionalExpression exp1) {
+        ConditionalExpression exp2 = (ConditionalExpression) compareElement;
+
+        Boolean expSimilarity = similarityChecker.isSimilar(exp1.getExpression(), exp2.getExpression());
+        if (expSimilarity != null && expSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        Boolean expElseSimilarity = similarityChecker.isSimilar(exp1.getElseExpression(), exp2.getElseExpression());
+        if (expElseSimilarity != null && expElseSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        Boolean expThenSimilarity = similarityChecker.isSimilar(exp1.getThenExpression(), exp2.getThenExpression());
+        if (expThenSimilarity != null && expThenSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * This expressions are always assumed to be true.
+     * 
+     * Note: The type referenced by "this" might differ. But this is not checked at the moment.
+     * 
+     * @param thisExp
+     *            The this expression to compare with the compare element.
+     * @return True as a this expression is always assumed to be the same.
+     */
+    @Override
+    public Boolean caseThisExpression(ThisExpression thisExp) {
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check if two prefix expressions are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>the prefix operand</li>
+     * <li>the prefixed expression</li>
+     * </ul>
+     * 
+     * @param exp1
+     *            The prefix expression to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean casePrefixExpression(PrefixExpression exp1) {
+
+        PrefixExpression exp2 = (PrefixExpression) compareElement;
+
+        if (exp1.getOperator().compareTo(exp2.getOperator()) != 0) {
+            return Boolean.FALSE;
+        }
+
+        Expression prefixExp1 = exp1.getOperand();
+        Expression prefixExp2 = exp1.getOperand();
+        Boolean operandSimilarity = similarityChecker.isSimilar(prefixExp1, prefixExp2);
+        if (operandSimilarity != null && operandSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+    
+    /**
+     * Check if two postfix expressions are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>the postfix operand</li>
+     * <li>the postfixed expression</li>
+     * </ul>
+     * 
+     * @param exp1
+     *            The postfix expression to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean casePostfixExpression(PostfixExpression exp1) {
+
+        PostfixExpression exp2 = (PostfixExpression) compareElement;
+
+        if (exp1.getOperator().compareTo(exp2.getOperator()) != 0) {
+            return Boolean.FALSE;
+        }
+
+        Expression prefixExp1 = exp1.getOperand();
+        Expression prefixExp2 = exp1.getOperand();
+        Boolean operandSimilarity = similarityChecker.isSimilar(prefixExp1, prefixExp2);
+        if (operandSimilarity != null && operandSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
      * Check if two method invocations are similar. This checks
      * <ul>
      * <li>the method name</li>
@@ -741,63 +1300,10 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         // check the methods names
         AbstractMethodDeclaration method1 = methodInvocation.getMethod();
         AbstractMethodDeclaration method2 = methodInvocation2.getMethod();
-        if (!method1.getName().equals(method2.getName())) {
+
+        Boolean methodSimilarity = similarityChecker.isSimilar(method1, method2);
+        if (methodSimilarity != null && methodSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
-        }
-
-        // check the methods declaring types
-        AbstractTypeDeclaration type1 = method1.getAbstractTypeDeclaration();
-        AbstractTypeDeclaration type2 = method2.getAbstractTypeDeclaration();
-        AnonymousClassDeclaration acd1 = method1.getAnonymousClassDeclarationOwner();
-        AnonymousClassDeclaration acd2 = method2.getAnonymousClassDeclarationOwner();
-
-        if ((type1 != null && type2 == null) || (type1 == null && type2 != null)) {
-            logger.debug("methodInvocations not similar: only one invokes a method declared in a type: [m1: "
-                    + method1.getName() + " m2: " + method2.getName() + "]");
-            return Boolean.FALSE;
-
-        } else if (type1 != null && type2 != null) {
-            String fqnType1 = JavaModelUtil.buildFullQualifiedName(type1);
-            String fqnType2 = JavaModelUtil.buildFullQualifiedName(type2);
-            if (!fqnType1.equals(fqnType2)) {
-                return Boolean.FALSE;
-            }
-        } else if ((acd1 != null && acd2 == null) || (acd1 == null && acd2 != null)) {
-            logger.debug("methodInvocations not similar: only one invokes a method declared in a type: [m1: "
-                    + method1.getName() + " m2: " + method2.getName() + "]");
-            return Boolean.FALSE;
-
-        } else if (acd1 != null && acd2 != null) {
-            String fqnAcd1 = JavaModelUtil.buildFullQualifiedName(acd1);
-            String fqnAcd2 = JavaModelUtil.buildFullQualifiedName(acd2);
-            if ((fqnAcd1 == null && fqnAcd2 != null) || (fqnAcd1 != null && !fqnAcd1.equals(fqnAcd2))) {
-                return Boolean.FALSE;
-            }
-        } else {
-            logger.warn("Unknown method declaration container: [" + method1 + "|" + method1.eContainer() + "]");
-        }
-
-        // TODO check if the proactive parameter check is really necessary
-        // or of this is done by emf compare by default
-
-        // check parameter count
-        if (method1.getParameters().size() != method2.getParameters().size()) {
-            logger.debug("methodInvocations not similar because of different parameter counts ");
-            return Boolean.FALSE;
-        }
-
-        // check parameter types
-        // TODO check not only the type names but also the type packages
-        for (int i = 0; i < method1.getParameters().size(); i++) {
-            SingleVariableDeclaration varDecl1 = method1.getParameters().get(i);
-            SingleVariableDeclaration varDecl2 = method1.getParameters().get(i);
-
-            String var1TypeName = varDecl1.getType().getType().getName();
-            String var2TypeName = varDecl2.getType().getType().getName();
-            if (!var1TypeName.equals(var2TypeName)) {
-                logger.debug("methodInvocations not similar because of different parameter types ");
-                return Boolean.FALSE;
-            }
         }
 
         // TODO check the variable access
@@ -811,34 +1317,89 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             }
         }
 
+        Expression exp1 = methodInvocation.getExpression();
+        Expression exp2 = methodInvocation2.getExpression();
+        Boolean expSimilarity = similarityChecker.isSimilar(exp1, exp2);
+        if (expSimilarity != null && expSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
         return Boolean.TRUE;
     }
 
     /**
-     * Null literals are always assumed to be similar.
-     * {@inheritDoc}
+     * Check super constructor invocation similarity. Similarity is checked by
+     * <ul>
+     * <li>length of the argument list</li>
+     * <li>pairwise argument similarity</li>
+     * </ul>
+     * 
+     * @param sci1
+     *            The super constructor invocation to compare with the compare element.
+     * @return True/False if the super constructor invocations are similar or not.
      */
     @Override
-    public Boolean caseNullLiteral(NullLiteral object) {
-        return Boolean.TRUE;
-    }
+    public Boolean caseSuperConstructorInvocation(SuperConstructorInvocation sci1) {
 
-    @Override
-    public Boolean caseSingleVariableAccess(SingleVariableAccess singleVatriableAccess1) {
+        SuperConstructorInvocation sci2 = (SuperConstructorInvocation) compareElement;
 
-        SingleVariableAccess singleVatriableAccess2 = (SingleVariableAccess) compareElement;
-
-        String name1 = singleVatriableAccess1.getVariable().getName();
-        String name2 = singleVatriableAccess2.getVariable().getName();
-
-        if (name1 != null && !name1.equals(name2)) {
-            return Boolean.FALSE;
-        } else if (name1 == null && name2 != null) {
+        if (sci1.getArguments().size() != sci2.getArguments().size()) {
             return Boolean.FALSE;
         }
 
-        // TODO check variable declaration namespace (container)
+        for (int i = 0; i < sci1.getArguments().size(); i++) {
+            Boolean argSimilarity = similarityChecker.isSimilar(sci1.getArguments().get(i), sci2.getArguments().get(i));
+            if (argSimilarity != null && argSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+        }
 
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check super method invocation similarity. Similarity is checked by
+     * <ul>
+     * <li>invoked method similarity</li>
+     * <li>length of the argument list</li>
+     * <li>pairwise argument similarity</li>
+     * </ul>
+     * 
+     * @param smi1
+     *            The super method invocation to compare with the compare element.
+     * @return True/False if the super method invocations are similar or not.
+     */
+    @Override
+    public Boolean caseSuperMethodInvocation(SuperMethodInvocation smi1) {
+
+        SuperMethodInvocation smi2 = (SuperMethodInvocation) compareElement;
+
+        AbstractMethodDeclaration md1 = smi1.getMethod();
+        AbstractMethodDeclaration md2 = smi2.getMethod();
+        Boolean methodSimilarity = similarityChecker.isSimilar(md1, md2);
+        if (methodSimilarity != null && methodSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        if (smi1.getArguments().size() != smi2.getArguments().size()) {
+            return Boolean.FALSE;
+        }
+
+        for (int i = 0; i < smi1.getArguments().size(); i++) {
+            Boolean argSimilarity = similarityChecker.isSimilar(smi1.getArguments().get(i), smi2.getArguments().get(i));
+            if (argSimilarity != null && argSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Null literals are always assumed to be similar. {@inheritDoc}
+     */
+    @Override
+    public Boolean caseNullLiteral(NullLiteral object) {
         return Boolean.TRUE;
     }
 
@@ -847,11 +1408,11 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         UnresolvedTypeDeclaration type1 = object;
         UnresolvedTypeDeclaration type2 = (UnresolvedTypeDeclaration) compareElement;
-        
+
         if (type1.getName().equals(type2.getName())) {
             return Boolean.TRUE;
         }
-        
+
         // TODO Add package similarity check
 
         return Boolean.FALSE;
@@ -860,9 +1421,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     /**
      * ICheck two package elements for similarity.
      * 
-     * Check
-     * - package name
-     * - package path
+     * Check - package name - package path
      * 
      * @param packageElement
      *            the package element

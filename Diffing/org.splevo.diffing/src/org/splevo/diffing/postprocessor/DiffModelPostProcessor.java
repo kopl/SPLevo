@@ -24,6 +24,7 @@ import org.eclipse.gmt.modisco.java.EnhancedForStatement;
 import org.eclipse.gmt.modisco.java.EnumDeclaration;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.ForStatement;
+import org.eclipse.gmt.modisco.java.IfStatement;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.SwitchStatement;
@@ -175,7 +176,7 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
 
         if (diffGroup.getRightParent() instanceof Statement) {
             if (!(diffGroup.getRightParent() instanceof Block)
-                    // && !(diffGroup.getRightParent() instanceof IfStatement)
+                    && !(diffGroup.getRightParent() instanceof IfStatement)
                     && !(diffGroup.getRightParent() instanceof ForStatement)
                     && !(diffGroup.getRightParent() instanceof TryStatement)
                     && !(diffGroup.getRightParent() instanceof CatchClause)
