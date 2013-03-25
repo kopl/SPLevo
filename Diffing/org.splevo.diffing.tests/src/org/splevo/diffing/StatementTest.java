@@ -57,7 +57,7 @@ public class StatementTest extends AbstractDiffingTest {
         DiffModel diff = diffingService.doDiff(integrationModel, leadingModel);
 
         EList<DiffElement> differences = diff.getDifferences();
-        assertEquals("Wrong number of differences detected", 6, differences.size());
+        assertEquals("Wrong number of differences detected", 8, differences.size());
 
         for (DiffElement diffElement : differences) {
             if (diffElement instanceof StatementInsert) {
