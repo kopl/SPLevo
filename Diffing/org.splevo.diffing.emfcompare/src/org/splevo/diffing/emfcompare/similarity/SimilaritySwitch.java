@@ -1,6 +1,7 @@
 package org.splevo.diffing.emfcompare.similarity;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
@@ -59,6 +60,12 @@ import org.splevo.diffing.emfcompare.util.JavaModelUtil;
 
 /**
  * Internal switch class to prove element similarity.
+ * 
+ * The similarity case methods do not need to check for null values. It is assumed that the calling
+ * class does a null value check for the elements to compare in advanced, such as done by the
+ * SimilarityChecker class.
+ * 
+ * 
  */
 public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
@@ -81,6 +88,17 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         this.compareElement = compareElement;
     }
 
+    /**
+     * Check expression statement similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>similarity statements expressions</li>
+     * </ul>
+     * 
+     * @param expressionStatement1
+     *            The expression statement to compare with the compare element.
+     * @return True/False if the expression statements are similar or not.
+     */
     @Override
     public Boolean caseExpressionStatement(ExpressionStatement expressionStatement1) {
 
@@ -97,10 +115,28 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return Boolean.TRUE;
     }
 
+    /**
+     * Check import declaration similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>similarity of the imported element.<br>
+     * This is one of:
+     * <ul>
+     * <li>Type similarity</li>
+     * <li>Package similarity</li>
+     * <li>Method similarity</li>
+     * </ul>
+     * </li>
+     * </ul>
+     * 
+     * @param importStatement
+     *            The import statement to compare with the compare element.
+     * @return True/False if the import statements are similar or not.
+     */
     @Override
-    public Boolean caseImportDeclaration(ImportDeclaration object) {
+    public Boolean caseImportDeclaration(ImportDeclaration importStatement) {
 
-        NamedElement importedElement1 = object.getImportedElement();
+        NamedElement importedElement1 = importStatement.getImportedElement();
         NamedElement importedElement2 = ((ImportDeclaration) compareElement).getImportedElement();
 
         if (importedElement1 instanceof AbstractTypeDeclaration && importedElement2 instanceof AbstractTypeDeclaration) {
@@ -108,7 +144,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             AbstractTypeDeclaration atd1 = (AbstractTypeDeclaration) importedElement1;
             AbstractTypeDeclaration atd2 = (AbstractTypeDeclaration) importedElement2;
 
-            return checkAbstractTypeDeclarationSimilarity(atd1, atd2);
+            return similarityChecker.isSimilar(atd1, atd2);
         }
 
         if (importedElement1 instanceof Package && importedElement2 instanceof Package) {
@@ -131,10 +167,21 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return null;
     }
 
+    /**
+     * Check modifier similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>visibility modifier similarity</li>
+     * <li>inheritance modifier similarity</li>
+     * </ul>
+     * 
+     * @param modifier1
+     *            The modifier to compare with the compare element.
+     * @return True/False if the modifiers are similar or not.
+     */
     @Override
-    public Boolean caseModifier(Modifier object) {
+    public Boolean caseModifier(Modifier modifier1) {
 
-        Modifier modifier1 = object;
         Modifier modifier2 = (Modifier) compareElement;
 
         // check visibility modifier
@@ -160,11 +207,15 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * ArrayTypes are assumed to be similar if they represent an array of the same type.
+     * Check array type similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>type of array elements</li>
+     * </ul>
      * 
      * @param arrayType
-     *            The array type to compare
-     * @return the boolean True/false/null whether it's similar or not or not decidable
+     *            The array type to compare with the compare element.
+     * @return True/False if the array types are similar or not.
      */
     @Override
     public Boolean caseArrayType(ArrayType arrayType) {
@@ -177,43 +228,44 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * WildCard types are assumed to be similar if their bound type is similar.
+     * Check wild card type similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>wild card name</li>
+     * <li>wild card bound similarity</li>
+     * </ul>
      * 
-     * @param wildCardType
-     *            The wild card type to compare
-     * @return the boolean True/false/null whether it's similar or not or not decidable
+     * @param wildCardType1
+     *            The array type to compare with the compare element.
+     * @return True/False if the array types are similar or not.
      */
     @Override
-    public Boolean caseWildCardType(WildCardType wildCardType) {
-        WildCardType wildCardType1 = wildCardType;
+    public Boolean caseWildCardType(WildCardType wildCardType1) {
+
         WildCardType wildCardType2 = (WildCardType) compareElement;
 
-        // check that either both or none of the bounds should be null
-        if (wildCardType1.getBound() == null) {
-            if (wildCardType2.getBound() == null) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-        } else if (wildCardType2 == null) {
+        if (wildCardType1.getName() != null && !wildCardType1.getName().equals(wildCardType2.getName())) {
             return Boolean.FALSE;
         }
 
-        return similarityChecker.isSimilar(wildCardType1.getBound().getType(), wildCardType2.getBound().getType());
+        return similarityChecker.isSimilar(wildCardType1.getBound(), wildCardType2.getBound());
     }
 
     /**
-     * Variables are assumed to be similar when they have the same names and are located in the same
-     * container.
+     * Check variable declaration similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>variable name</li>
+     * <li>variable container (name space)</li>
+     * </ul>
      * 
-     * @param object
-     *            the variable declaration to compare
-     * @return true / false wether it is similar to the compare element.
+     * @param variableDeclaration1
+     *            The variable declaration to compare with the compare element.
+     * @return True/False if the variable declarations are similar or not.
      */
     @Override
-    public Boolean caseVariableDeclaration(VariableDeclaration object) {
+    public Boolean caseVariableDeclaration(VariableDeclaration variableDeclaration1) {
 
-        VariableDeclaration variableDeclaration1 = object;
         VariableDeclaration variableDeclaration2 = (VariableDeclaration) compareElement;
 
         // check the variables name equality
@@ -282,7 +334,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         if (method1.getAbstractTypeDeclaration() != null) {
             AbstractTypeDeclaration type1 = method1.getAbstractTypeDeclaration();
             AbstractTypeDeclaration type2 = method2.getAbstractTypeDeclaration();
-            return checkAbstractTypeDeclarationSimilarity(type1, type2);
+            return similarityChecker.isSimilar(type1, type2);
         }
 
         /* **************************************
@@ -317,108 +369,19 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * Check two abstract type declarations if they are similar.
+     * Check class instance creation similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>instance type similarity</li>
+     * <li>number of constructor arguments</li>
+     * <li>types of constructor arguments</li>
+     * <li>container of the class instance creation</li>
+     * </ul>
      * 
-     * It checks: - if one is null - name similarity - package similarity - enclosing type
-     * similarity if packages are null and types are inner classes
-     * 
-     * @param type1
-     *            The first type declaration to check.
-     * @param type2
-     *            The second type declaration to check.
-     * @return true/false whether they are similar or not.
+     * @param cic1
+     *            The class instance creation to compare with the compare element.
+     * @return True/False if the class instance creations are similar or not.
      */
-    private Boolean checkAbstractTypeDeclarationSimilarity(AbstractTypeDeclaration type1, AbstractTypeDeclaration type2) {
-
-        // if both types null: they are similar
-        if (type1 == null && type2 == null) {
-            return Boolean.TRUE;
-        }
-
-        // if only one is null: they are different
-        if ((type1 == null && type2 != null) || (type1 != null && type2 == null)) {
-            return Boolean.FALSE;
-        }
-
-        // if the types names are different then they do not match
-        if (type1.getName() != null && !type1.getName().equals(type2.getName())) {
-            return Boolean.FALSE;
-        }
-
-        Package package1 = type1.getPackage();
-        Package package2 = type2.getPackage();
-
-        // if only one containing package is null: FALSE
-        if ((package1 == null && package2 != null) || (package1 != null && package2 == null)) {
-            return Boolean.FALSE;
-
-            // if none is null check the package names
-        } else if (package1 != null && checkPackageSimilarity(package1, package2)) {
-            return Boolean.TRUE;
-
-            // if both packages are null check if both types are inner class of the same
-            // enclosing class
-        } else if (package1 == null && type1.eContainer() instanceof AbstractTypeDeclaration
-                && type2.eContainer() instanceof AbstractTypeDeclaration) {
-            AbstractTypeDeclaration enclosingAtd1 = (AbstractTypeDeclaration) type1.eContainer();
-            AbstractTypeDeclaration enclosingAtd2 = (AbstractTypeDeclaration) type2.eContainer();
-            return checkAbstractTypeDeclarationSimilarity(enclosingAtd1, enclosingAtd2);
-        }
-
-        return Boolean.FALSE;
-    }
-
-    /**
-     * Check anonymous class declaration similarity.
-     * 
-     * @param type1
-     *            the type1
-     * @param type2
-     *            the type2
-     * @return the boolean
-     */
-    private Boolean checkAnonymousClassDeclarationSimilarity(AnonymousClassDeclaration type1,
-            AnonymousClassDeclaration type2) {
-
-        // if both types null: they are similar
-        if (type1 == null && type2 == null) {
-            return true;
-        }
-
-        // if only one is null: they are different
-        if ((type1 == null && type2 != null) || (type1 != null && type2 == null)) {
-            return false;
-        }
-
-        // if the parent class is again an anonymous one: recursively check this one
-        if (type1.eContainer() instanceof AnonymousClassDeclaration) {
-            return checkAnonymousClassDeclarationSimilarity((AnonymousClassDeclaration) type1.eContainer(),
-                    (AnonymousClassDeclaration) type2.eContainer());
-        }
-
-        // if parent class are regular classes, return their similarity
-        if (type1.eContainer() instanceof AbstractTypeDeclaration) {
-            AbstractTypeDeclaration atd1 = (AbstractTypeDeclaration) type1.eContainer();
-            AbstractTypeDeclaration atd2 = (AbstractTypeDeclaration) type2.eContainer();
-
-            return checkAbstractTypeDeclarationSimilarity(atd1, atd2);
-        }
-
-        // if container is a class instance creation
-        if (type1.eContainer() instanceof ClassInstanceCreation) {
-            ClassInstanceCreation cic1 = (ClassInstanceCreation) type1.eContainer();
-            ClassInstanceCreation cic2 = (ClassInstanceCreation) type2.eContainer();
-
-            return similarityChecker.isSimilar(cic1, cic2);
-
-        }
-
-        logger.warn("Unknown anonymous class declaration container: [" + type1 + "] contained in ["
-                + type1.eContainer() + "]");
-
-        return null;
-    }
-
     @Override
     public Boolean caseClassInstanceCreation(ClassInstanceCreation cic1) {
 
@@ -431,45 +394,36 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         // check number of type arguments
-        if (cic1.getArguments().size() != cic2.getArguments().size()) {
+        EList<Expression> cic1Args = cic1.getArguments();
+        EList<Expression> cic2Args = cic2.getArguments();
+        if (cic1Args.size() != cic2Args.size()) {
             return Boolean.FALSE;
         }
 
         // check the argument similarity
-        for (int i = 0; i < cic1.getArguments().size(); i++) {
-            Boolean argumentSimilarity = similarityChecker.isSimilar(cic1.getArguments().get(i), cic2.getArguments()
-                    .get(i));
+        for (int i = 0; i < cic1Args.size(); i++) {
+            Boolean argumentSimilarity = similarityChecker.isSimilar(cic1Args.get(i), cic2Args.get(i));
             if (Boolean.FALSE.equals(argumentSimilarity)) {
                 return Boolean.FALSE;
             }
         }
 
-        // check the class instance compilation units
-        Boolean cuSimilarity = similarityChecker.isSimilar(cic1.getOriginalCompilationUnit(),
-                cic2.getOriginalCompilationUnit());
-        if (cuSimilarity != null && cuSimilarity == Boolean.FALSE) {
-            return Boolean.FALSE;
-        }
-
-        // **************************
-        // Check Container similarity
-        // **************************
-
-        // Abstract type declaration container
+        // container similarity
         if (cic1.eContainer() instanceof AbstractTypeDeclaration) {
-            return checkAbstractTypeDeclarationSimilarity((AbstractTypeDeclaration) cic1.eContainer(),
-                    (AbstractTypeDeclaration) cic2.eContainer());
+            AbstractTypeDeclaration type1 = (AbstractTypeDeclaration) cic1.eContainer();
+            AbstractTypeDeclaration type2 = (AbstractTypeDeclaration) cic2.eContainer();
+            Boolean containerSimilarity = similarityChecker.isSimilar(type1, type2);
+            if (containerSimilarity != null && containerSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
         }
-
-        // logger.warn("Unknown container of ClassInstanceCreation: [" + cic1 + "] contained in [" +
-        // cic1.eContainer()
-        // + "]");
 
         return Boolean.TRUE;
     }
 
     /**
-     * Check the similarity of two CompilationUnits. Similarity is checked by
+     * Check the similarity of two CompilationUnits.<br>
+     * Similarity is checked by
      * <ul>
      * <li>Comparing their names</li>
      * </ul>
@@ -491,42 +445,78 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return Boolean.TRUE;
     }
 
+    /**
+     * Check package similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>full qualifies package path</li>
+     * </ul>
+     * 
+     * @param packageElement
+     *            The package to compare with the compare element.
+     * @return True/False if the packages are similar or not.
+     */
     @Override
     public Boolean casePackage(Package packageElement) {
         Package referencePackage = (Package) compareElement;
         return checkPackageSimilarity(packageElement, referencePackage);
     }
 
+    /**
+     * The default case for not explicitly handled elements always returns null to identify the open
+     * decision.
+     * 
+     * @param object
+     *            The object to compare with the compare element.
+     * @return null
+     */
     @Override
     public Boolean defaultCase(EObject object) {
         return null;
     }
 
-    // TODO: Check for further PackageAccess similarity criteria
+    /**
+     * Check package access similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>accessed package similarity</li>
+     * <li>compilation unit (location) similarity</li>
+     * </ul>
+     * 
+     * @param packageAccess1
+     *            The package access to compare with the compare element.
+     * @return True/False if the package accesses are similar or not.
+     */
     @Override
-    public Boolean casePackageAccess(PackageAccess packageAccess) {
+    public Boolean casePackageAccess(PackageAccess packageAccess1) {
 
-        PackageAccess referencePackageAccess = (PackageAccess) compareElement;
+        PackageAccess packageAccess2 = (PackageAccess) compareElement;
 
-        if (packageAccess == referencePackageAccess) {
-            return true;
-        } else if (checkPackageSimilarity(referencePackageAccess.getPackage(), packageAccess.getPackage())
-                && (packageAccess.getOriginalCompilationUnit() == packageAccess.getOriginalCompilationUnit() || packageAccess
-                        .getOriginalCompilationUnit().getName()
-                        .equals(referencePackageAccess.getOriginalCompilationUnit().getName()))) {
-            return true;
+        Boolean packageSimilarity = checkPackageSimilarity(packageAccess2.getPackage(), packageAccess1.getPackage());
+        if (packageSimilarity != null && packageSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
         }
 
-        return false;
+        Boolean compUnitSimilarity = similarityChecker.isSimilar(packageAccess1.getOriginalCompilationUnit(),
+                packageAccess2.getOriginalCompilationUnit());
+        if (compUnitSimilarity != null && packageSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
     }
 
     /**
-     * Check SingleVariableDeclarations similarity. They are assumed to be similar if they have the
-     * same variable name and are located in the same container.
+     * Check single variable declaration similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>variable name</li>
+     * <li>variable container (name space)</li>
+     * </ul>
      * 
      * @param varDeclaration1
-     *            The variable declaration to compare.
-     * @return the boolean True/false whether they are similar ot null if it could not be decided.
+     *            The single variable declaration to compare with the compare element.
+     * @return True/False if the single variable declarations are similar or not.
      */
     @Override
     public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration varDeclaration1) {
@@ -541,8 +531,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         // check container similarity
         Boolean containerSimilarity = similarityChecker.isSimilar(varDeclaration1.eContainer(),
                 varDeclaration2.eContainer());
-        if (containerSimilarity != null) {
-            return containerSimilarity;
+        if (containerSimilarity != null && containerSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
         }
 
         return Boolean.TRUE;
@@ -834,13 +824,6 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
     }
 
-    // @Override
-    // public Boolean caseExpression(Expression object) {
-    // //logger.warn("unsupported expression type: " + object.getClass().getSimpleName() + " | " +
-    // object);
-    // return null;
-    // }
-
     /**
      * Check field access similarity. Similarity is checked by
      * <ul>
@@ -864,7 +847,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     /**
      * Check single variable access similarity. Similarity is checked by
      * <ul>
-     * <li>variable name</li>
+     * <li>accessed variable declaration</li>
      * </ul>
      * 
      * @param varAccess1
@@ -876,16 +859,12 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         SingleVariableAccess varAccess2 = (SingleVariableAccess) compareElement;
 
-        String name1 = varAccess1.getVariable().getName();
-        String name2 = varAccess2.getVariable().getName();
-
-        if (name1 != null && !name1.equals(name2)) {
-            return Boolean.FALSE;
-        } else if (name1 == null && name2 != null) {
+        VariableDeclaration decl1 = varAccess1.getVariable();
+        VariableDeclaration decl2 = varAccess2.getVariable();
+        Boolean varDeclSimilarity = similarityChecker.isSimilar(decl1, decl2);
+        if (varDeclSimilarity != null && varDeclSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
-
-        // TODO check variable declaration namespace (container)
 
         return Boolean.TRUE;
     }
@@ -898,14 +877,13 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
      * <li>name of the accessed type</li>
      * </ul>
      * 
-     * @param object
+     * @param typeAccess1
      *            The type access to compare with the compare element.
      * @return True/False if the type accesses are similar or not.
      */
     @Override
-    public Boolean caseTypeAccess(TypeAccess object) {
+    public Boolean caseTypeAccess(TypeAccess typeAccess1) {
 
-        TypeAccess typeAccess1 = object;
         TypeAccess typeAccess2 = (TypeAccess) compareElement;
 
         // check the similarity of the accessed type
@@ -922,23 +900,21 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             return Boolean.FALSE;
         }
 
-        // check the container
-        // return similarityChecker.isSimilar(typeAccess1.eContainer(), typeAccess2.eContainer());
-
-        // check the accessing type
-        // if (!typeAccess1.eContainer().getClass().equals(typeAccess2.eContainer().getClass())) {
-        // return Boolean.FALSE;
-        // }
-        // SimilaritySwitch similaritySwitchContainer = new
-        // SimilaritySwitch(typeAccess1.eContainer());
-        // Boolean similarContainer = similaritySwitchContainer.doSwitch(typeAccess2.eContainer());
-        // if (similarContainer == Boolean.FALSE) {
-        // return Boolean.FALSE;
-        // }
-        //
         return Boolean.TRUE;
     }
 
+    /**
+     * Check variable declaration fragment similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>variable name</li>
+     * <li>declaration container</li>
+     * </ul>
+     * 
+     * @param varDeclFrag
+     *            The variable declaration fragment to compare with the compare element.
+     * @return True/False if the variable declaration fragments are similar or not.
+     */
     @Override
     public Boolean caseVariableDeclarationFragment(VariableDeclarationFragment varDeclFrag) {
 
@@ -960,19 +936,30 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return Boolean.TRUE;
     }
 
+    /**
+     * Check variable declaration expression similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>number of contained variable declaration fragments</li>
+     * <li>declaration container</li>
+     * </ul>
+     * 
+     * @param varDeclExp1
+     *            The variable declaration expression to compare with the compare element.
+     * @return True/False if the variable declaration expressions are similar or not.
+     */
     @Override
-    public Boolean caseVariableDeclarationExpression(VariableDeclarationExpression variableDeclarationExpression1) {
+    public Boolean caseVariableDeclarationExpression(VariableDeclarationExpression varDeclExp1) {
 
-        VariableDeclarationExpression variableDeclarationExpression2 = (VariableDeclarationExpression) compareElement;
+        VariableDeclarationExpression varDeclExp2 = (VariableDeclarationExpression) compareElement;
 
-        if (variableDeclarationExpression1.getFragments().size() != variableDeclarationExpression2.getFragments()
-                .size()) {
+        if (varDeclExp1.getFragments().size() != varDeclExp2.getFragments().size()) {
             return Boolean.FALSE;
         }
 
-        for (int i = 0; i < variableDeclarationExpression1.getFragments().size(); i++) {
-            VariableDeclarationFragment varDeclFrag1 = variableDeclarationExpression1.getFragments().get(i);
-            VariableDeclarationFragment varDeclFrag2 = variableDeclarationExpression2.getFragments().get(i);
+        for (int i = 0; i < varDeclExp1.getFragments().size(); i++) {
+            VariableDeclarationFragment varDeclFrag1 = varDeclExp1.getFragments().get(i);
+            VariableDeclarationFragment varDeclFrag2 = varDeclExp2.getFragments().get(i);
 
             if (varDeclFrag1.getName() != null && !varDeclFrag1.getName().equals(varDeclFrag2.getName())) {
                 return Boolean.FALSE;
@@ -981,10 +968,23 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             }
         }
 
-        // TODO check namespace (container)
         return Boolean.TRUE;
     }
 
+    /**
+     * Check field declaration similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>number of fragments</li>
+     * <li>fragment names</li>
+     * <li>declared type</li>
+     * <li>Container (name space)</li>
+     * </ul>
+     * 
+     * @param fDecl
+     *            The field declaration to compare with the compare element.
+     * @return True/False if the field declaration are similar or not.
+     */
     @Override
     public Boolean caseFieldDeclaration(FieldDeclaration fDecl) {
 
@@ -1002,7 +1002,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             }
         }
 
-        // type check
+        // type check similarity
+        // first check type access availability to prevent null pointer exceptions
         if (fDecl.getType() != null && fDecl2.getType() != null) {
             Boolean typeSimilarity = similarityChecker.isSimilar(fDecl.getType().getType(), fDecl2.getType().getType());
             if (typeSimilarity != null && typeSimilarity == Boolean.FALSE) {
@@ -1023,27 +1024,67 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * Check the similarity of an abstract type declaration.
+     * Check abstract type declaration similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>name</li>
+     * <li>package</li>
+     * <li>Container (in case of inner classes)</li>
+     * </ul>
      * 
-     * They should only match if they are in the same package and have the same name This might be
-     * further enhanced in the future by comparing their contained fields, methods, etc.
-     * 
-     * @param object
-     *            The type declaration to check.
-     * @return true/false whether the element match or not.
+     * @param type1
+     *            The type declaration to compare with the compare element.
+     * @return True/False if the type declarations are similar or not.
      */
     @Override
-    public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration object) {
-        AbstractTypeDeclaration type1 = object;
+    public Boolean caseAbstractTypeDeclaration(AbstractTypeDeclaration type1) {
         AbstractTypeDeclaration type2 = (AbstractTypeDeclaration) compareElement;
 
-        return checkAbstractTypeDeclarationSimilarity(type1, type2);
+        // if the types names are different then they do not match
+        if (type1.getName() != null && !type1.getName().equals(type2.getName())) {
+            return Boolean.FALSE;
+        }
+
+        Package package1 = type1.getPackage();
+        Package package2 = type2.getPackage();
+
+        // if only one containing package is null: FALSE
+        if ((package1 == null && package2 != null) || (package1 != null && package2 == null)) {
+            return Boolean.FALSE;
+
+            // if none is null check the package names
+        } else if (package1 != null && checkPackageSimilarity(package1, package2)) {
+            return Boolean.TRUE;
+
+            // if both packages are null check if both types are
+            // inner class of the same enclosing class
+        } else if (package1 == null && type1.eContainer() instanceof AbstractTypeDeclaration
+                && type2.eContainer() instanceof AbstractTypeDeclaration) {
+            AbstractTypeDeclaration enclosingAtd1 = (AbstractTypeDeclaration) type1.eContainer();
+            AbstractTypeDeclaration enclosingAtd2 = (AbstractTypeDeclaration) type2.eContainer();
+            return similarityChecker.isSimilar(enclosingAtd1, enclosingAtd2);
+        }
+
+        return Boolean.FALSE;
     }
 
+    /**
+     * Check parameterized type similarity.<br>
+     * 
+     * Similarity is checked by
+     * <ul>
+     * <li>name</li>
+     * <li>length of the argument list</li>
+     * <li>pairwise argument type similarity</li>
+     * </ul>
+     * 
+     * @param type1
+     *            The parameterized type to compare with the compare element.
+     * @return True/False if the parameterized types are similar or not.
+     */
     @Override
-    public Boolean caseParameterizedType(ParameterizedType object) {
+    public Boolean caseParameterizedType(ParameterizedType type1) {
 
-        ParameterizedType type1 = object;
         ParameterizedType type2 = (ParameterizedType) compareElement;
 
         // check that the names are equal
@@ -1075,21 +1116,39 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return Boolean.TRUE;
     }
 
+    /**
+     * Check primitive type similarity.<br>
+     * 
+     * Similarity is checked by
+     * <ul>
+     * <li>name</li>
+     * </ul>
+     * 
+     * @param type1
+     *            The parameterized type to compare with the compare element.
+     * @return True/False if the parameterized types are similar or not.
+     */
     @Override
-    public Boolean casePrimitiveType(PrimitiveType object) {
+    public Boolean casePrimitiveType(PrimitiveType type1) {
+        PrimitiveType type2 = (PrimitiveType) compareElement;
+        if (type1.getName() != null && !type1.getName().equals(type2.getName())) {
+            return Boolean.FALSE;
+        }
         return Boolean.TRUE;
     }
 
     /**
-     * Type parameters are always considered as similar. They might defer because of their type
+     * Check type parameter similarity.<br>
+     * 
+     * Type parameters are always considered as similar. They might differ because of their type
      * restriction (e.g. List<T extends ...>) but this is ignored for now.
      * 
-     * @param object
-     *            the object to check the similarity for.
-     * @return TRUE
+     * @param param1
+     *            The type parameter to compare with the compare element.
+     * @return True/False if the type parameter are similar or not.
      */
     @Override
-    public Boolean caseTypeParameter(TypeParameter object) {
+    public Boolean caseTypeParameter(TypeParameter param1) {
         return Boolean.TRUE;
     }
 
@@ -1246,7 +1305,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         return Boolean.TRUE;
     }
-    
+
     /**
      * Check if two postfix expressions are similar.
      * 
@@ -1280,7 +1339,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * Check if two method invocations are similar. This checks
+     * Check if two method invocations are similar.<br>
+     * This checks
      * <ul>
      * <li>the method name</li>
      * <li>the method declaring type</li>
@@ -1328,7 +1388,9 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * Check super constructor invocation similarity. Similarity is checked by
+     * Check super constructor invocation similarity.<br>
+     * 
+     * Similarity is checked by
      * <ul>
      * <li>length of the argument list</li>
      * <li>pairwise argument similarity</li>
@@ -1358,7 +1420,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * Check super method invocation similarity. Similarity is checked by
+     * Check super method invocation similarity.<br>
+     * Similarity is checked by
      * <ul>
      * <li>invoked method similarity</li>
      * <li>length of the argument list</li>
@@ -1396,17 +1459,33 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * Null literals are always assumed to be similar. {@inheritDoc}
+     * Check null literal similarity.<br>
+     * 
+     * Null literals are always assumed to be similar.
+     * 
+     * @param literal
+     *            The null literal to compare with the compare element.
+     * @return True As null always means null.
      */
     @Override
-    public Boolean caseNullLiteral(NullLiteral object) {
+    public Boolean caseNullLiteral(NullLiteral literal) {
         return Boolean.TRUE;
     }
 
+    /**
+     * Check unresolved type declaration similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>name</li>
+     * </ul>
+     * 
+     * @param type1
+     *            The unresolved type declaration to compare with the compare element.
+     * @return True/False if the unresolved type declarations are similar or not.
+     */
     @Override
-    public Boolean caseUnresolvedTypeDeclaration(UnresolvedTypeDeclaration object) {
+    public Boolean caseUnresolvedTypeDeclaration(UnresolvedTypeDeclaration type1) {
 
-        UnresolvedTypeDeclaration type1 = object;
         UnresolvedTypeDeclaration type2 = (UnresolvedTypeDeclaration) compareElement;
 
         if (type1.getName().equals(type2.getName())) {
@@ -1416,6 +1495,60 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         // TODO Add package similarity check
 
         return Boolean.FALSE;
+    }
+
+    /**
+     * Check anonymous type declaration similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>name</li>
+     * </ul>
+     * 
+     * @param type1
+     *            The first anonymous type declaration to compare.
+     * @param type2
+     *            The second anonymous type declaration to compare.
+     * @return True/False if the anonymous type declarations are similar or not.
+     */
+    private Boolean checkAnonymousClassDeclarationSimilarity(AnonymousClassDeclaration type1,
+            AnonymousClassDeclaration type2) {
+
+        // if both types null: they are similar
+        if (type1 == null && type2 == null) {
+            return true;
+        }
+
+        // if only one is null: they are different
+        if ((type1 == null && type2 != null) || (type1 != null && type2 == null)) {
+            return false;
+        }
+
+        // if the parent class is again an anonymous one: recursively check this one
+        if (type1.eContainer() instanceof AnonymousClassDeclaration) {
+            return checkAnonymousClassDeclarationSimilarity((AnonymousClassDeclaration) type1.eContainer(),
+                    (AnonymousClassDeclaration) type2.eContainer());
+        }
+
+        // if parent class are regular classes, return their similarity
+        if (type1.eContainer() instanceof AbstractTypeDeclaration) {
+            AbstractTypeDeclaration atd1 = (AbstractTypeDeclaration) type1.eContainer();
+            AbstractTypeDeclaration atd2 = (AbstractTypeDeclaration) type2.eContainer();
+            similarityChecker.isSimilar(atd1, atd2);
+        }
+
+        // if container is a class instance creation
+        if (type1.eContainer() instanceof ClassInstanceCreation) {
+            ClassInstanceCreation cic1 = (ClassInstanceCreation) type1.eContainer();
+            ClassInstanceCreation cic2 = (ClassInstanceCreation) type2.eContainer();
+
+            return similarityChecker.isSimilar(cic1, cic2);
+
+        }
+
+        logger.warn("Unknown anonymous class declaration container: [" + type1 + "] contained in ["
+                + type1.eContainer() + "]");
+
+        return null;
     }
 
     /**

@@ -27,6 +27,10 @@ public class SimilarityChecker {
     public Boolean isSimilar(final EObject element1, final EObject element2) {
 
         // check that either both or none of them is null
+        if (element1 == element2) {
+            return Boolean.TRUE;
+        }
+
         if (element1 == null) {
             if (element2 == null) {
                 return Boolean.TRUE;
