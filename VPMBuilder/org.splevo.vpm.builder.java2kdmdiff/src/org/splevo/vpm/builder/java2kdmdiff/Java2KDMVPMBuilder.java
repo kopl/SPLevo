@@ -5,8 +5,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
+import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -73,13 +75,7 @@ public class Java2KDMVPMBuilder {
 
                 // set the group id to the class of the software entity
                 // except it is a block surrounded by a method
-                String groupID = vp.getEnclosingSoftwareEntity().getClass().getSimpleName();
-                if (vp.getEnclosingSoftwareEntity() instanceof Block) {
-                    EObject parent = ((Block) vp.getEnclosingSoftwareEntity()).eContainer();
-                    if (parent instanceof MethodDeclaration) {
-                        groupID = ((MethodDeclaration) parent).getName();
-                    }
-                }
+                String groupID = buildGroupID(vp.getEnclosingSoftwareEntity());
                 group.setGroupId(groupID);
                 group.getVariationPoints().add(vp);
                 vpm.getVariationPointGroups().add(group);
@@ -90,6 +86,40 @@ public class Java2KDMVPMBuilder {
 
         return vpm;
 
+    }
+
+    /**
+     * Get the id for variation point group based on the ASTNode specifying the variability
+     * location.
+     * 
+     * @param node
+     *            The AST node containing the variability.
+     * @return The derived group id.
+     */
+    private String buildGroupID(ASTNode node) {
+        String groupID = null;
+        
+        // get the containing elements name in case of a block
+        if (node instanceof Block) {
+            EObject parent = node.eContainer();
+            if (parent instanceof MethodDeclaration) {
+                groupID = ((MethodDeclaration) parent).getName() + "()";
+            } else if (node instanceof NamedElement) {
+                groupID = ((NamedElement) node).getName();
+            }
+            
+        }
+        
+        // use the name of named elements
+        if (node instanceof NamedElement) {
+            groupID = ((NamedElement) node).getName();
+        }
+
+        // use the meta class name as fall back
+        if (groupID == null) {
+            groupID = node.getClass().getSimpleName();
+        }
+        return groupID;
     }
 
     /**
