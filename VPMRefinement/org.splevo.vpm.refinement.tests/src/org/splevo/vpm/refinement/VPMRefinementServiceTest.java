@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Block;
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.junit.Test;
 import org.splevo.modisco.util.SourceConnector;
@@ -35,6 +36,7 @@ public class VPMRefinementServiceTest extends AbstractTest {
     public void testRefinements() throws IOException, InterruptedException {
 
         VariationPointModel initialVpm = SPLevoTestUtil.loadGCDVPMModel();
+        
         assertEquals("wrong number of initial variation point groups", 6, initialVpm.getVariationPointGroups().size());
 
         List<Refinement> refinements = new ArrayList<Refinement>();
@@ -62,8 +64,8 @@ public class VPMRefinementServiceTest extends AbstractTest {
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
             if (vpGroup.getGroupId().equals("gcd")) {
                 ASTNode astNode = vpGroup.getVariationPoints().get(0).getEnclosingSoftwareEntity();
-
-                SourceConnector sourceConnector = new SourceConnector(refinedVPM.getLeadingModel());
+                JavaApplication model = refinedVPM.getLeadingModel();
+                SourceConnector sourceConnector = new SourceConnector(model);
                 JavaNodeSourceRegion sourceRegion = sourceConnector.findSourceRegion(astNode);
                 assertNotNull(sourceRegion);
             }

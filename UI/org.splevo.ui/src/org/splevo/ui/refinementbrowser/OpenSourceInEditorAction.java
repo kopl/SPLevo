@@ -59,7 +59,7 @@ public final class OpenSourceInEditorAction extends Action {
             VariationPointModel vpm = variant.getVariationPoint().getGroup().getModel();
 
             JavaApplication javaApplication = null;
-            if (!variant.getLeading()) {
+            if (variant.getLeading()) {
                 javaApplication = vpm.getLeadingModel();
             } else {
                 javaApplication = vpm.getIntegrationModel();
