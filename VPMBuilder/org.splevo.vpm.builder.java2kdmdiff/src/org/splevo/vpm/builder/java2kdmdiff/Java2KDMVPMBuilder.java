@@ -14,11 +14,11 @@ import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityFactory;
 
 /**
- * A builder to generate a Variation Point Model (VPM) based on a java2kdm  
- * diff-model, i.e. an extended EMF Compare diff-model.
+ * A builder to generate a Variation Point Model (VPM) based on a java2kdm diff-model, i.e. an
+ * extended EMF Compare diff-model.
  * 
  * @author benjamin
- *
+ * 
  */
 public class Java2KDMVPMBuilder {
 
@@ -83,6 +83,8 @@ public class Java2KDMVPMBuilder {
                 group.setGroupId(groupID);
                 group.getVariationPoints().add(vp);
                 vpm.getVariationPointGroups().add(group);
+            } else {
+                logger.warn("null VariationPoint created: " + diffElement);
             }
         }
 
