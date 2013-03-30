@@ -11,16 +11,23 @@ import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.variability.VariationPointModel;
 
+/**
+ * Test to verify the functionality of the builder deriving a 
+ * feature model from a variation point model.
+ * @author benjamin
+ *
+ */
 public class VPM2FMBuilderTest extends AbstractTest {
 
 	/** The logger for this test class. */
+    @SuppressWarnings("unused")
     private Logger logger = Logger.getLogger(VPM2FMBuilderTest.class);
 
 	/**
 	 * Basic test to create a vpm and derive a feature model.
 	 * 
-	 * @throws IOException
-	 * @throws InterruptedException
+	 * @throws IOException Failed to read the variation point model.
+	 * @throws InterruptedException User interrupted the test.
 	 */
 	@Test
 	public void testBuildFeatureModel() throws IOException, InterruptedException {
