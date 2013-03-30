@@ -12,7 +12,6 @@ Export-Package: org.splevo.vpm.realization.tests,
 Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.featuremodel.metamodel;visibility:=reexport,
  org.eclipse.gmt.modisco.omg.kdm;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.junit;visibility:=reexport
