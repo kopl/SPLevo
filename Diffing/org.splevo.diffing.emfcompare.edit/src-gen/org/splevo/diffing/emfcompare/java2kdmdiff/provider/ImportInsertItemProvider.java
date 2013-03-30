@@ -92,7 +92,7 @@ public class ImportInsertItemProvider
 	public Object getImage(Object object) {
 	    ImportInsert importInsert = (ImportInsert)object;
 	    if(importInsert.getImportLeft() != null){
-	        return ImageUtil.getASTDeleteIcon(importInsert.getImportLeft(), this);
+	        return ImageUtil.getASTInsertIcon(importInsert.getImportLeft(), this);
 	    } else {
 	        return ImageUtil.composeInsertIcon(this, ImageUtil.ICON_IMPORT);
 	    }

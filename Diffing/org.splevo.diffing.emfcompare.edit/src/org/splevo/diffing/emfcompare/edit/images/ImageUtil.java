@@ -27,6 +27,9 @@ public class ImageUtil {
     /** The relative path to the delete overlay icon. */
     private static final String OVERLAY_ICON_DELETE = "overlays/delete";
     
+    /** The relative path to the change overlay icon. */
+    private static final String OVERLAY_ICON_CHANGE = "overlays/change";
+    
     /** The relative path to the default icon. */
     public static final String ICON_DEFAULT = "ast/default";
     
@@ -38,6 +41,9 @@ public class ImageUtil {
     
     /** The relative path to the default class icon. */
     public static final String ICON_CLASS = "ast_modisco/class/class";
+    
+    /** The relative path to the default enum icon. */
+    public static final String ICON_ENUM = "ast_modisco/enum";
     
     /** The relative path to the default interface icon. */
     public static final String ICON_INTERFACE = "ast_modisco/interfaces/interface";
@@ -113,6 +119,19 @@ public class ImageUtil {
 
 
     /**
+     * Get an icon for a provided ast node overlaid as change icon.
+     * 
+     * @param astNode The ast node to get the icon for.
+     * @param itemProvider The item provider to access the resources.
+     * @return The prepared change icon.
+     */
+    public static Object getASTChangeIcon(ASTNode astNode, AbstractDiffExtensionItemProvider itemProvider) {
+        Object baseImage = getASTIcon(astNode, itemProvider);
+        return ImageUtil.composeImage(baseImage, itemProvider, OVERLAY_ICON_CHANGE);
+    }
+
+
+    /**
      * Compose an insert icon from a provided base icon.
      * 
      * @param itemProvider The item provider to access the resources.
@@ -135,6 +154,19 @@ public class ImageUtil {
     public static Object composeDeleteIcon(AbstractDiffExtensionItemProvider itemProvider, String iconPath) {
         Object baseIcon = itemProvider.getResourceLocator().getImage(iconPath);
         return ImageUtil.composeImage(baseIcon, itemProvider, OVERLAY_ICON_DELETE);
+    }
+
+
+    /**
+     * Compose a change icon from a provided base icon.
+     * 
+     * @param itemProvider The item provider to access the resources.
+     * @param iconPath The relative path to the base icon.
+     * @return The prepared insert icon.
+     */
+    public static Object composeChangeIcon(AbstractDiffExtensionItemProvider itemProvider, String iconPath) {
+        Object baseIcon = itemProvider.getResourceLocator().getImage(iconPath);
+        return ImageUtil.composeImage(baseIcon, itemProvider, OVERLAY_ICON_CHANGE);
     }
     
 }
