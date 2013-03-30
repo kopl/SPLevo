@@ -2,6 +2,7 @@
  */
 package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
+import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 import org.eclipse.emf.ecore.EClass;
 
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldChange;

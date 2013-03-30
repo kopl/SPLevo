@@ -11,6 +11,7 @@ import org.eclipse.gmt.modisco.java.ArrayCreation;
 import org.eclipse.gmt.modisco.java.ArrayLengthAccess;
 import org.eclipse.gmt.modisco.java.ArrayType;
 import org.eclipse.gmt.modisco.java.Assignment;
+import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.BooleanLiteral;
 import org.eclipse.gmt.modisco.java.CastExpression;
 import org.eclipse.gmt.modisco.java.CharacterLiteral;
@@ -463,19 +464,6 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * The default case for not explicitly handled elements always returns null to identify the open
-     * decision.
-     * 
-     * @param object
-     *            The object to compare with the compare element.
-     * @return null
-     */
-    @Override
-    public Boolean defaultCase(EObject object) {
-        return null;
-    }
-
-    /**
      * Check package access similarity.<br>
      * Similarity is checked by
      * <ul>
@@ -551,8 +539,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         // check container similarity
         Boolean containerSimilarity = similarityChecker.isSimilar(varDeclStatement1.eContainer(),
                 varDeclStatement2.eContainer());
-        if (containerSimilarity != null) {
-            return containerSimilarity;
+        if (containerSimilarity != null && containerSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
         }
 
         // check declared fragments
@@ -1495,6 +1483,43 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         // TODO Add package similarity check
 
         return Boolean.FALSE;
+    }
+
+    /**
+     * Check block similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>container similarity</li>
+     * </ul>
+     * 
+     * @param block
+     *            The block to compare with the compare element.
+     * @return True/False if the blocks are similar or not.
+     */
+    @Override
+    public Boolean caseBlock(Block block) {
+        Boolean parentSimilarity = similarityChecker.isSimilar(block.eContainer(),
+                ((Block) compareElement).eContainer());
+        return parentSimilarity;
+    }
+
+    @Override
+    public Boolean caseModel(Model object) {
+        return Boolean.TRUE;
+    }
+
+    /**
+     * The default case for not explicitly handled elements always returns null to identify the open
+     * decision.
+     * 
+     * @param object
+     *            The object to compare with the compare element.
+     * @return null
+     */
+    @Override
+    public Boolean defaultCase(EObject object) {
+        logger.warn("Unsupported element type: " + object.getClass());
+        return null;
     }
 
     /**

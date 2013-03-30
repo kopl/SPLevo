@@ -3,6 +3,7 @@
 package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -56,6 +57,18 @@ public class ClassDeleteImpl extends ClassChangeImpl implements ClassDelete {
      */
     protected ClassDeleteImpl() {
         super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * The difference kind of a class delete is always DifferenceKind.DELETION.
+     * <!-- end-user-doc -->
+     * {@inheritDoc}
+     * @generated NOT
+     */
+    @Override
+    public DifferenceKind getKind() {
+        return DifferenceKind.DELETION;
     }
 
     /**

@@ -2,6 +2,7 @@
  */
 package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
+import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 import org.eclipse.emf.ecore.EClass;
 
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
@@ -34,6 +35,18 @@ public class StatementDeleteImpl extends StatementChangeImpl implements Statemen
     @Override
     protected EClass eStaticClass() {
         return Java2KDMDiffPackage.Literals.STATEMENT_DELETE;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * The difference kind of a statement delete is always DifferenceKind.DELETION.
+     * <!-- end-user-doc -->
+     * {@inheritDoc}
+     * @generated NOT
+     */
+    @Override
+    public DifferenceKind getKind() {
+        return DifferenceKind.DELETION;
     }
 
 } //StatementDeleteImpl

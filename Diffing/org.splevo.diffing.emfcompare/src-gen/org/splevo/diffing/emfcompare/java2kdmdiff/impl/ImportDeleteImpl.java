@@ -210,15 +210,16 @@ public class ImportDeleteImpl extends ImportDeclarationChangeImpl implements Imp
         return super.eIsSet(featureID);
     }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * The difference kind of an import delete is always DifferenceKind.DELETION
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public DifferenceKind getKind() {
-		return DifferenceKind.DELETION;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * The difference kind of an import delete is always DifferenceKind.DELETION.
+     * <!-- end-user-doc -->
+     * {@inheritDoc}
+     * @generated NOT
+     */
+    @Override
+    public DifferenceKind getKind() {
+        return DifferenceKind.DELETION;
+    }
 
 } //ImportDeleteImpl

@@ -3,6 +3,7 @@
 package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -152,6 +153,18 @@ public class MethodDeleteImpl extends MethodChangeImpl implements MethodDelete {
                 return methodRight != null;
         }
         return super.eIsSet(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * The difference kind of a method delete is always DifferenceKind.DELETION.
+     * <!-- end-user-doc -->
+     * {@inheritDoc}
+     * @generated NOT
+     */
+    @Override
+    public DifferenceKind getKind() {
+        return DifferenceKind.DELETION;
     }
 
 } //MethodDeleteImpl

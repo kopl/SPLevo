@@ -3,6 +3,7 @@
 package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -150,6 +151,18 @@ public class PackageInsertImpl extends PackageChangeImpl implements PackageInser
                 return packageLeft != null;
         }
         return super.eIsSet(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * The difference kind of a package insert is always DifferenceKind.ADDITION.
+     * <!-- end-user-doc -->
+     * {@inheritDoc}
+     * @generated NOT
+     */
+    @Override
+    public DifferenceKind getKind() {
+        return DifferenceKind.ADDITION;
     }
 
 } //PackageInsertImpl

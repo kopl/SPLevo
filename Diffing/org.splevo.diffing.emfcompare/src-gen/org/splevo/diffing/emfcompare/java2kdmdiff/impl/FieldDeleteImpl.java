@@ -3,6 +3,7 @@
 package org.splevo.diffing.emfcompare.java2kdmdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -45,6 +46,18 @@ public class FieldDeleteImpl extends FieldChangeImpl implements FieldDelete {
      */
     protected FieldDeleteImpl() {
         super();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * The difference kind of a field delete is always DifferenceKind.DELETION.
+     * <!-- end-user-doc -->
+     * {@inheritDoc}
+     * @generated NOT
+     */
+    @Override
+    public DifferenceKind getKind() {
+        return DifferenceKind.DELETION;
     }
 
     /**

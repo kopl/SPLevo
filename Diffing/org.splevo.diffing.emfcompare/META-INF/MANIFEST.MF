@@ -22,4 +22,5 @@ Export-Package: org.splevo.diffing.emfcompare.diff,
  org.splevo.diffing.emfcompare.java2kdmdiff,
  org.splevo.diffing.emfcompare.java2kdmdiff.util,
  org.splevo.diffing.emfcompare.match,
+ org.splevo.diffing.emfcompare.similarity,
  org.splevo.diffing.emfcompare.util
