@@ -94,6 +94,24 @@
               <body originalCompilationUnit="//@compilationUnits.1"/>
               <returnType type="//@orphanTypes.5"/>
             </bodyDeclarations>
+            <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.1" name="returnWithExpression">
+              <modifier visibility="public"/>
+              <body originalCompilationUnit="//@compilationUnits.1">
+                <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.1">
+                  <expression xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.1" escapedValue="&quot;Hello&quot;"/>
+                </statements>
+              </body>
+              <returnType type="//@ownedElements.1/@ownedPackages.0/@ownedElements.8"/>
+            </bodyDeclarations>
+            <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.1" name="returnWithExpressionEqual">
+              <modifier visibility="public"/>
+              <body originalCompilationUnit="//@compilationUnits.1">
+                <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.1">
+                  <expression xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.1" escapedValue="&quot;Good Morning&quot;"/>
+                </statements>
+              </body>
+              <returnType type="//@ownedElements.1/@ownedPackages.0/@ownedElements.8"/>
+            </bodyDeclarations>
           </ownedElements>
           <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.3" name="IfStatements">
             <modifier visibility="public"/>
@@ -432,16 +450,78 @@
               <returnType type="//@orphanTypes.5"/>
             </bodyDeclarations>
           </ownedElements>
-          <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.5" name="VariableDeclarationStatements">
+          <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.5" name="TryCatch">
             <modifier visibility="public"/>
-            <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.5" name="doSth">
+            <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.5" name="similarTryCatch">
               <modifier visibility="public"/>
               <body originalCompilationUnit="//@compilationUnits.5">
-                <statements xsi:type="java:VariableDeclarationStatement" originalCompilationUnit="//@compilationUnits.5">
+                <statements xsi:type="java:TryStatement" originalCompilationUnit="//@compilationUnits.5">
+                  <body originalCompilationUnit="//@compilationUnits.5">
+                    <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.5">
+                      <expression xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.5" escapedValue="&quot;hello&quot;"/>
+                    </statements>
+                  </body>
+                  <catchClauses originalCompilationUnit="//@compilationUnits.5">
+                    <exception originalCompilationUnit="//@compilationUnits.5" name="e">
+                      <modifier/>
+                      <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.13"/>
+                    </exception>
+                    <body originalCompilationUnit="//@compilationUnits.5">
+                      <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.5">
+                        <expression xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.5" escapedValue="&quot;e&quot;"/>
+                      </statements>
+                    </body>
+                  </catchClauses>
+                  <catchClauses originalCompilationUnit="//@compilationUnits.5">
+                    <exception originalCompilationUnit="//@compilationUnits.5" name="iea">
+                      <modifier/>
+                      <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.14"/>
+                    </exception>
+                    <body originalCompilationUnit="//@compilationUnits.5">
+                      <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.5">
+                        <expression xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.5" escapedValue="&quot;iea&quot;"/>
+                      </statements>
+                    </body>
+                  </catchClauses>
+                </statements>
+              </body>
+              <returnType type="//@ownedElements.1/@ownedPackages.0/@ownedElements.8"/>
+            </bodyDeclarations>
+            <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.5" name="changedTryCatch">
+              <modifier visibility="public"/>
+              <body originalCompilationUnit="//@compilationUnits.5">
+                <statements xsi:type="java:TryStatement" originalCompilationUnit="//@compilationUnits.5">
+                  <body originalCompilationUnit="//@compilationUnits.5">
+                    <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.5">
+                      <expression xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.5" escapedValue="&quot;hello&quot;"/>
+                    </statements>
+                  </body>
+                  <catchClauses originalCompilationUnit="//@compilationUnits.5">
+                    <exception originalCompilationUnit="//@compilationUnits.5" name="iea">
+                      <modifier/>
+                      <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.14"/>
+                    </exception>
+                    <body originalCompilationUnit="//@compilationUnits.5">
+                      <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.5">
+                        <expression xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.5" escapedValue="&quot;iea&quot;"/>
+                      </statements>
+                    </body>
+                  </catchClauses>
+                </statements>
+              </body>
+              <returnType type="//@ownedElements.1/@ownedPackages.0/@ownedElements.8"/>
+            </bodyDeclarations>
+          </ownedElements>
+          <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.6" name="VariableDeclarationStatements">
+            <modifier visibility="public"/>
+            <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.6" name="doSth">
+              <modifier visibility="public"/>
+              <body originalCompilationUnit="//@compilationUnits.6">
+                <statements xsi:type="java:VariableDeclarationStatement" originalCompilationUnit="//@compilationUnits.6">
                   <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.8"/>
-                  <fragments originalCompilationUnit="//@compilationUnits.5" name="var1"/>
-                  <fragments originalCompilationUnit="//@compilationUnits.5" name="var2">
-                    <initializer xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.5" escapedValue="&quot;Hello&quot;"/>
+                  <fragments originalCompilationUnit="//@compilationUnits.6" name="var1"/>
+                  <fragments originalCompilationUnit="//@compilationUnits.6" name="var2">
+                    <initializer xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.6" escapedValue="&quot;Hello&quot;"/>
                   </fragments>
                   <modifier/>
                 </statements>
@@ -503,7 +583,7 @@
         <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.5"/>
         <superInterfaces type="//@ownedElements.1/@ownedPackages.0/@ownedElements.5"/>
       </ownedElements>
-      <ownedElements xsi:type="java:ClassDeclaration" name="String" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.1/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression/@rightOperand/@type //@orphanTypes.9/@typeArguments.0 //@orphanTypes.10/@typeArguments.0 //@ownedElements.1/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.4/@parameters.0/@type //@orphanTypes.11/@elementType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.0/@type //@ownedElements.1/@ownedPackages.0/@ownedElements.8/@bodyDeclarations.2/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@type">
+      <ownedElements xsi:type="java:ClassDeclaration" name="String" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.1/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.2/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.3/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression/@rightOperand/@type //@orphanTypes.9/@typeArguments.0 //@orphanTypes.10/@typeArguments.0 //@ownedElements.1/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.4/@parameters.0/@type //@orphanTypes.11/@elementType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.0/@type //@ownedElements.1/@ownedPackages.0/@ownedElements.8/@bodyDeclarations.2/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@type">
         <bodyDeclarations xsi:type="java:MethodDeclaration" name="length" proxy="true" usages="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@expression/@leftOperand"/>
         <bodyDeclarations xsi:type="java:MethodDeclaration" name="toCharArray" proxy="true" usages="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@expression/@rightOperand/@array"/>
         <bodyDeclarations xsi:type="java:MethodDeclaration" name="equalsIgnoreCase" proxy="true" usages="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@leftOperand">
@@ -521,6 +601,15 @@
       </ownedElements>
       <ownedElements xsi:type="java:InterfaceDeclaration" name="Cloneable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.2/@ownedElements.1/@superInterfaces.2"/>
       <ownedElements xsi:type="java:AnnotationTypeDeclaration" name="SuppressWarnings" proxy="true" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.0/@annotations.0/@type"/>
+      <ownedElements xsi:type="java:ClassDeclaration" name="RuntimeException" proxy="true" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@exception/@type">
+        <superClass type="//@ownedElements.1/@ownedPackages.0/@ownedElements.14"/>
+      </ownedElements>
+      <ownedElements xsi:type="java:ClassDeclaration" name="Exception" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.13/@superClass //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@exception/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@exception/@type">
+        <superClass type="//@ownedElements.1/@ownedPackages.0/@ownedElements.15"/>
+      </ownedElements>
+      <ownedElements xsi:type="java:ClassDeclaration" name="Throwable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.14/@superClass">
+        <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.5"/>
+      </ownedElements>
     </ownedPackages>
     <ownedPackages name="io" proxy="true">
       <ownedElements xsi:type="java:ClassDeclaration" name="PrintStream" proxy="true">
@@ -558,7 +647,7 @@
       </ownedElements>
       <ownedElements xsi:type="java:InterfaceDeclaration" name="Closeable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.1/@ownedElements.2/@superInterfaces.0 //@ownedElements.1/@ownedPackages.1/@ownedElements.0/@superInterfaces.1"/>
       <ownedElements xsi:type="java:InterfaceDeclaration" name="Flushable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.1/@ownedElements.2/@superInterfaces.1"/>
-      <ownedElements xsi:type="java:InterfaceDeclaration" name="Serializable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.4/@superInterfaces.0 //@ownedElements.1/@ownedPackages.0/@ownedElements.7/@superInterfaces.0 //@ownedElements.1/@ownedPackages.0/@ownedElements.8/@superInterfaces.0 //@ownedElements.1/@ownedPackages.2/@ownedElements.1/@superInterfaces.3"/>
+      <ownedElements xsi:type="java:InterfaceDeclaration" name="Serializable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.4/@superInterfaces.0 //@ownedElements.1/@ownedPackages.0/@ownedElements.7/@superInterfaces.0 //@ownedElements.1/@ownedPackages.0/@ownedElements.8/@superInterfaces.0 //@ownedElements.1/@ownedPackages.2/@ownedElements.1/@superInterfaces.3 //@ownedElements.1/@ownedPackages.0/@ownedElements.15/@superInterfaces.0"/>
     </ownedPackages>
     <ownedPackages name="util" proxy="true">
       <ownedElements xsi:type="java:InterfaceDeclaration" name="Iterator" proxy="true" usagesInImports="//@compilationUnits.3/@imports.0" usagesInTypeAccess="//@orphanTypes.10/@type">
@@ -610,7 +699,7 @@
   <orphanTypes xsi:type="java:PrimitiveTypeFloat" name="float"/>
   <orphanTypes xsi:type="java:PrimitiveTypeDouble" name="double" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0/@parameters.0/@type"/>
   <orphanTypes xsi:type="java:PrimitiveTypeBoolean" name="boolean" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.2/@type //@ownedElements.1/@ownedPackages.1/@ownedElements.0/@bodyDeclarations.3/@parameters.0/@type"/>
-  <orphanTypes xsi:type="java:PrimitiveTypeVoid" name="void" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@returnType"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeVoid" name="void" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@returnType"/>
   <orphanTypes xsi:type="java:PrimitiveTypeChar" name="char"/>
   <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
   <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
@@ -641,5 +730,6 @@
     <imports originalCompilationUnit="//@compilationUnits.3" importedElement="//@ownedElements.1/@ownedPackages.2/@ownedElements.1"/>
   </compilationUnits>
   <compilationUnits name="ArrayAccesses.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\src\org\splevo\tests\statements\ArrayAccesses.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3"/>
-  <compilationUnits name="VariableDeclarationStatements.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\src\org\splevo\tests\statements\VariableDeclarationStatements.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4"/>
+  <compilationUnits name="TryCatch.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\src\org\splevo\tests\statements\TryCatch.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4"/>
+  <compilationUnits name="VariableDeclarationStatements.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.statements.a\src\org\splevo\tests\statements\VariableDeclarationStatements.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5"/>
 </java:Model>

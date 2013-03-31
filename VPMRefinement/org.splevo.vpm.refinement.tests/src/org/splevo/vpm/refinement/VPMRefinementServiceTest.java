@@ -22,6 +22,16 @@ import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * Test the vpm refinement service.
+ * 
+ * Initial VPM is loaded during test setup. 
+ * VPM describes changes in the GCD Example Version 1.0:
+ * - ImportInsert: LargeInteger
+ * - ImportDelete: BigInteger
+ * - StatementChange: integerValue1
+ * - StatementChange: integerValue2
+ * - StatementChange: gcd
+ * - StatementInsert: return gcd.toString() // LargeInteger.toString();
+ * - StatementDelete: return gcd.toString() // BigInteger.toString();
  */
 public class VPMRefinementServiceTest extends AbstractTest {
 
@@ -36,7 +46,7 @@ public class VPMRefinementServiceTest extends AbstractTest {
         } catch (Exception e) {
             fail("Failed to load initial variation point model");
         }
-        assertEquals("wrong number of initial variation point groups", 6, initialVpm.getVariationPointGroups().size());
+        assertEquals("wrong number of initial variation point groups", 7, initialVpm.getVariationPointGroups().size());
     }
 
     /**

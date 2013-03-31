@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.gmt.modisco.java.CatchClause;
 import org.eclipse.gmt.modisco.java.ExpressionStatement;
 import org.eclipse.gmt.modisco.java.IfStatement;
 import org.eclipse.gmt.modisco.java.ReturnStatement;
@@ -58,7 +59,7 @@ public class StatementTest extends AbstractDiffingTest {
         DiffModel diff = diffingService.doDiff(integrationModel, leadingModel);
 
         EList<DiffElement> differences = diff.getDifferences();
-        assertEquals("Wrong number of differences detected", 10, differences.size());
+        assertEquals("Wrong number of differences detected", 14, differences.size());
 
         for (DiffElement diffElement : differences) {
             if (diffElement instanceof StatementInsert) {
@@ -70,7 +71,8 @@ public class StatementTest extends AbstractDiffingTest {
                 if (!(statement instanceof IfStatement 
                         || statement instanceof ReturnStatement 
                         || statement instanceof ExpressionStatement
-                        || statement instanceof VariableDeclarationStatement)) {
+                        || statement instanceof VariableDeclarationStatement
+                        || statement instanceof CatchClause)) {
                     fail("Unexpected statement type detected." + statement);
                 }
 
@@ -80,7 +82,9 @@ public class StatementTest extends AbstractDiffingTest {
                 assertNotNull("The deleted statement should not be null.", statement);
 
                 if (!(statement instanceof IfStatement
-                        || statement instanceof VariableDeclarationStatement)) {
+                        || statement instanceof VariableDeclarationStatement
+                        || statement instanceof ReturnStatement
+                        || statement instanceof CatchClause)) {
                     fail("Unexpected statement type detected." + statement);
                 }
 

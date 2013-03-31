@@ -49,7 +49,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
         assertNotNull("VPMGraph not allowed to be null.", graph);
 
-        assertEquals("Wrong number of vertices.", 6, graph.getNodeCount());
+        assertEquals("Wrong number of vertices.", 7, graph.getNodeCount());
 
     }
 
