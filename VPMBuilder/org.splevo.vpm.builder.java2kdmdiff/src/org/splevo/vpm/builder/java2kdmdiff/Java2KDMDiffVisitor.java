@@ -15,10 +15,13 @@ import org.eclipse.gmt.modisco.java.Statement;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange;
+import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ImportInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert;
+import org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete;
@@ -138,6 +141,62 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
         CompilationUnit parent = importDelete.getLeftContainer();
         
         return createVariationPointDelete(importDeclaration, parent);
+    }
+    
+    /**
+     * Handle package deletes.<br>
+     * VP references the parent package.<br>
+     * The leading variant references the deleted package declaration.
+     * 
+     * @param packageDelete
+     *            The package delete diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint casePackageDelete(PackageDelete packageDelete) {
+        
+        Package packageDeclaration = packageDelete.getPackageRight();
+        Package parent = packageDelete.getLeftContainer();
+        
+        return createVariationPointDelete(packageDeclaration, parent);
+    }
+    
+    /**
+     * Handle field deletes.<br>
+     * VP references the containing type which can be either an 
+     * AbstractTypeDeclaration or an AnonymousTypeDeclaration according 
+     * to field declaration element's container definition.<br>
+     * The leading variant references the deleted field declaration.
+     * 
+     * @param fieldDelete
+     *            The field delete diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseFieldDelete(FieldDelete fieldDelete) {
+        
+        FieldDeclaration fieldDeclaration = fieldDelete.getFieldRight();
+        ASTNode parent = fieldDelete.getLeftContainer();
+        
+        return createVariationPointDelete(fieldDeclaration, parent);
+    }
+    
+    /**
+     * Handle method deletes.<br>
+     * VP references the containing type.<br>
+     * The leading variant references the deleted method declaration.
+     * 
+     * @param methodDelete
+     *            The method delete diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseMethodDelete(MethodDelete methodDelete) {
+        
+        AbstractMethodDeclaration methodDeclaration = methodDelete.getMethodRight();
+        ASTNode parent = methodDelete.getLeftContainer();
+        
+        return createVariationPointDelete(methodDeclaration, parent);
     }
 
     /**
