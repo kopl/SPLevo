@@ -2132,13 +2132,22 @@ public interface Java2KDMDiffPackage extends EPackage {
     int METHOD_DELETE__METHOD_RIGHT = METHOD_CHANGE_FEATURE_COUNT + 0;
 
     /**
+     * The feature id for the '<em><b>Left Container</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int METHOD_DELETE__LEFT_CONTAINER = METHOD_CHANGE_FEATURE_COUNT + 1;
+
+    /**
      * The number of structural features of the '<em>Method Delete</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int METHOD_DELETE_FEATURE_COUNT = METHOD_CHANGE_FEATURE_COUNT + 1;
+    int METHOD_DELETE_FEATURE_COUNT = METHOD_CHANGE_FEATURE_COUNT + 2;
 
 
     /**
@@ -3127,6 +3136,17 @@ public interface Java2KDMDiffPackage extends EPackage {
     EReference getMethodDelete_MethodRight();
 
     /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete#getLeftContainer <em>Left Container</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Left Container</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.MethodDelete#getLeftContainer()
+     * @see #getMethodDelete()
+     * @generated
+     */
+    EReference getMethodDelete_LeftContainer();
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert <em>Statement Insert</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3591,6 +3611,14 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
         EReference METHOD_DELETE__METHOD_RIGHT = eINSTANCE.getMethodDelete_MethodRight();
+
+        /**
+         * The meta object literal for the '<em><b>Left Container</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference METHOD_DELETE__LEFT_CONTAINER = eINSTANCE.getMethodDelete_LeftContainer();
 
         /**
          * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementInsertImpl <em>Statement Insert</em>}' class.

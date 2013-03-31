@@ -1235,4 +1235,18 @@
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_iRxHk5nSEeKVHvvcMXyQXg" points="[-5, 35, 37, -270]$[-38, 270, 4, -35]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_iRzj0JnSEeKVHvvcMXyQXg" id="(0.780952380952381,0.2653061224489796)"/>
   </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_c0AzgJnUEeKVHvvcMXyQXg" type="3002" source="_Kn4YUH5LEeKvn5NIMjxD_Q" target="_Yt8n8JnSEeKVHvvcMXyQXg">
+    <children xmi:type="notation:Node" xmi:id="_c0BakJnUEeKVHvvcMXyQXg" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_c0BakZnUEeKVHvvcMXyQXg" x="-60" y="19"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_c0BakpnUEeKVHvvcMXyQXg" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_c0Bak5nUEeKVHvvcMXyQXg" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_c0AzgZnUEeKVHvvcMXyQXg" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_c0AzgpnUEeKVHvvcMXyQXg" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="java2kdmdiff.ecore#//MethodDelete/leftContainer"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_c0Azg5nUEeKVHvvcMXyQXg" points="[0, 38, 419, -249]$[0, 279, 419, -8]$[-382, 279, 37, -8]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_c0FE8JnUEeKVHvvcMXyQXg" id="(0.8153846153846154,0.20408163265306123)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_c0FE8ZnUEeKVHvvcMXyQXg" id="(0.6372549019607843,0.20833333333333334)"/>
+  </edges>
 </notation:Diagram>

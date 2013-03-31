@@ -344,6 +344,13 @@ public class UnmatchedElementProcessor {
         private MethodDelete createMethodDelete(AbstractMethodDeclaration methodDeclaration) {
             MethodDelete methodDelete = Java2KDMDiffFactory.eINSTANCE.createMethodDelete();
             methodDelete.setMethodRight(methodDeclaration);
+            if (methodDeclaration.getAbstractTypeDeclaration() != null) {
+                methodDelete.setLeftContainer(methodDeclaration.getAbstractTypeDeclaration());
+            } else if (methodDeclaration.getAnonymousClassDeclarationOwner() != null) {
+                methodDelete.setLeftContainer(methodDeclaration.getAnonymousClassDeclarationOwner());
+            } else {
+                logger.warn("Missing left container for field declaration (" + methodDeclaration + ")");
+            }
             return methodDelete;
         }
 

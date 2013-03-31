@@ -55,6 +55,7 @@ public class MethodDeleteItemProvider
             super.getPropertyDescriptors(object);
 
             addMethodRightPropertyDescriptor(object);
+            addLeftContainerPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -73,6 +74,28 @@ public class MethodDeleteItemProvider
                  getString("_UI_MethodDelete_methodRight_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_MethodDelete_methodRight_feature", "_UI_MethodDelete_type"),
                  Java2KDMDiffPackage.Literals.METHOD_DELETE__METHOD_RIGHT,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
+     * This adds a property descriptor for the Left Container feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addLeftContainerPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_MethodDelete_leftContainer_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_MethodDelete_leftContainer_feature", "_UI_MethodDelete_type"),
+                 Java2KDMDiffPackage.Literals.METHOD_DELETE__LEFT_CONTAINER,
                  true,
                  false,
                  true,
