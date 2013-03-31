@@ -39,7 +39,7 @@ public class VPM2FMBuilderTest extends AbstractTest {
 
 		assertNotNull("No Feature Model Created", fm);
         assertNotNull("No root feature created", fm.getRoot());
-        assertEquals("Wrong number of top level features", 6, fm.getRoot().getChildren().size());
+        assertEquals("Wrong number of top level features", 7, fm.getRoot().getChildren().size());
 		
 		//ModelUtils.save(fm, "testresult/gcdFeatureModel.featuremodel");
 	}
