@@ -5,17 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.compare.util.EMFCompareMap;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.diffing.emfcompare.diff.JavaModelDiffEngine;
 import org.splevo.diffing.emfcompare.match.JavaModelMatchEngine;
 import org.splevo.diffing.emfcompare.match.JavaModelMatchScopeProvider;
-import org.splevo.diffing.kdm.JavaModelElementPrinter;
 import org.splevo.diffing.postprocessor.DiffModelPostProcessor;
 
 /**
