@@ -79,6 +79,11 @@
         <details key="documentation" value="The original field declaration that has been removed."/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ASTNode">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The container of the deleted element in the old model.&#xD;&#xA;This can be either an AbstractTypeDeclaration or an AnonymousClassDeclaration. &#xD;&#xA;Their most specific common super class is the ASTNode, so this is referenced here."/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClassInsert" eSuperTypes="#//ClassChange">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classLeft" lowerBound="1"

@@ -370,6 +370,13 @@ public class UnmatchedElementProcessor {
         private FieldDelete createFieldDelete(FieldDeclaration fieldDeclaration) {
             FieldDelete fieldDelete = Java2KDMDiffFactory.eINSTANCE.createFieldDelete();
             fieldDelete.setFieldRight(fieldDeclaration);
+            if (fieldDeclaration.getAbstractTypeDeclaration() != null) {
+                fieldDelete.setLeftContainer(fieldDeclaration.getAbstractTypeDeclaration());
+            } else if (fieldDeclaration.getAnonymousClassDeclarationOwner() != null) {
+                fieldDelete.setLeftContainer(fieldDeclaration.getAnonymousClassDeclarationOwner());
+            } else {
+                logger.warn("Missing left container for field declaration (" + fieldDeclaration + ")");
+            }
             return fieldDelete;
         }
 

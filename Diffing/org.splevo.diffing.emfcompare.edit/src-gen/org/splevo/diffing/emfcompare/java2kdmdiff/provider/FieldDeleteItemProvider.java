@@ -55,6 +55,7 @@ public class FieldDeleteItemProvider
             super.getPropertyDescriptors(object);
 
             addFieldRightPropertyDescriptor(object);
+            addLeftContainerPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -73,6 +74,28 @@ public class FieldDeleteItemProvider
                  getString("_UI_FieldDelete_fieldRight_feature"),
                  getString("_UI_PropertyDescriptor_description", "_UI_FieldDelete_fieldRight_feature", "_UI_FieldDelete_type"),
                  Java2KDMDiffPackage.Literals.FIELD_DELETE__FIELD_RIGHT,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
+     * This adds a property descriptor for the Left Container feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addLeftContainerPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_FieldDelete_leftContainer_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_FieldDelete_leftContainer_feature", "_UI_FieldDelete_type"),
+                 Java2KDMDiffPackage.Literals.FIELD_DELETE__LEFT_CONTAINER,
                  true,
                  false,
                  true,

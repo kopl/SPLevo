@@ -1248,13 +1248,22 @@ public interface Java2KDMDiffPackage extends EPackage {
     int FIELD_DELETE__FIELD_RIGHT = FIELD_CHANGE_FEATURE_COUNT + 0;
 
     /**
+     * The feature id for the '<em><b>Left Container</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FIELD_DELETE__LEFT_CONTAINER = FIELD_CHANGE_FEATURE_COUNT + 1;
+
+    /**
      * The number of structural features of the '<em>Field Delete</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int FIELD_DELETE_FEATURE_COUNT = FIELD_CHANGE_FEATURE_COUNT + 1;
+    int FIELD_DELETE_FEATURE_COUNT = FIELD_CHANGE_FEATURE_COUNT + 2;
 
 
     /**
@@ -2939,6 +2948,17 @@ public interface Java2KDMDiffPackage extends EPackage {
     EReference getFieldDelete_FieldRight();
 
     /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete#getLeftContainer <em>Left Container</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Left Container</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete#getLeftContainer()
+     * @see #getFieldDelete()
+     * @generated
+     */
+    EReference getFieldDelete_LeftContainer();
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert <em>Class Insert</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3419,6 +3439,14 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
         EReference FIELD_DELETE__FIELD_RIGHT = eINSTANCE.getFieldDelete_FieldRight();
+
+        /**
+         * The meta object literal for the '<em><b>Left Container</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference FIELD_DELETE__LEFT_CONTAINER = eINSTANCE.getFieldDelete_LeftContainer();
 
         /**
          * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ClassInsertImpl <em>Class Insert</em>}' class.

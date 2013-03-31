@@ -2,6 +2,7 @@
  */
 package org.splevo.diffing.emfcompare.java2kdmdiff;
 
+import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 
 /**
@@ -13,6 +14,7 @@ import org.eclipse.gmt.modisco.java.FieldDeclaration;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete#getFieldRight <em>Field Right</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete#getLeftContainer <em>Left Container</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,5 +51,32 @@ public interface FieldDelete extends FieldChange {
      * @generated
      */
     void setFieldRight(FieldDeclaration value);
+
+    /**
+     * Returns the value of the '<em><b>Left Container</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * The container of the deleted element in the old model.
+     * This can be either an AbstractTypeDeclaration or an AnonymousClassDeclaration. 
+     * Their most specific common super class is the ASTNode, so this is referenced here.
+     * <!-- end-model-doc -->
+     * @return the value of the '<em>Left Container</em>' reference.
+     * @see #setLeftContainer(ASTNode)
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getFieldDelete_LeftContainer()
+     * @model
+     * @generated
+     */
+    ASTNode getLeftContainer();
+
+    /**
+     * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete#getLeftContainer <em>Left Container</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Left Container</em>' reference.
+     * @see #getLeftContainer()
+     * @generated
+     */
+    void setLeftContainer(ASTNode value);
 
 } // FieldDelete

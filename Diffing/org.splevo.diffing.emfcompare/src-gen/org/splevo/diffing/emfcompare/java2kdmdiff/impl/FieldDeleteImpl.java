@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDelete;
@@ -23,6 +24,7 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldDeleteImpl#getFieldRight <em>Field Right</em>}</li>
+ *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldDeleteImpl#getLeftContainer <em>Left Container</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,6 +40,16 @@ public class FieldDeleteImpl extends FieldChangeImpl implements FieldDelete {
      * @ordered
      */
     protected FieldDeclaration fieldRight;
+
+    /**
+     * The cached value of the '{@link #getLeftContainer() <em>Left Container</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLeftContainer()
+     * @generated
+     * @ordered
+     */
+    protected ASTNode leftContainer;
 
     /**
      * <!-- begin-user-doc -->
@@ -113,12 +125,53 @@ public class FieldDeleteImpl extends FieldChangeImpl implements FieldDelete {
      * <!-- end-user-doc -->
      * @generated
      */
+    public ASTNode getLeftContainer() {
+        if (leftContainer != null && leftContainer.eIsProxy()) {
+            InternalEObject oldLeftContainer = (InternalEObject)leftContainer;
+            leftContainer = (ASTNode)eResolveProxy(oldLeftContainer);
+            if (leftContainer != oldLeftContainer) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.FIELD_DELETE__LEFT_CONTAINER, oldLeftContainer, leftContainer));
+            }
+        }
+        return leftContainer;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ASTNode basicGetLeftContainer() {
+        return leftContainer;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setLeftContainer(ASTNode newLeftContainer) {
+        ASTNode oldLeftContainer = leftContainer;
+        leftContainer = newLeftContainer;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.FIELD_DELETE__LEFT_CONTAINER, oldLeftContainer, leftContainer));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case Java2KDMDiffPackage.FIELD_DELETE__FIELD_RIGHT:
                 if (resolve) return getFieldRight();
                 return basicGetFieldRight();
+            case Java2KDMDiffPackage.FIELD_DELETE__LEFT_CONTAINER:
+                if (resolve) return getLeftContainer();
+                return basicGetLeftContainer();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -133,6 +186,9 @@ public class FieldDeleteImpl extends FieldChangeImpl implements FieldDelete {
         switch (featureID) {
             case Java2KDMDiffPackage.FIELD_DELETE__FIELD_RIGHT:
                 setFieldRight((FieldDeclaration)newValue);
+                return;
+            case Java2KDMDiffPackage.FIELD_DELETE__LEFT_CONTAINER:
+                setLeftContainer((ASTNode)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -149,6 +205,9 @@ public class FieldDeleteImpl extends FieldChangeImpl implements FieldDelete {
             case Java2KDMDiffPackage.FIELD_DELETE__FIELD_RIGHT:
                 setFieldRight((FieldDeclaration)null);
                 return;
+            case Java2KDMDiffPackage.FIELD_DELETE__LEFT_CONTAINER:
+                setLeftContainer((ASTNode)null);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -163,6 +222,8 @@ public class FieldDeleteImpl extends FieldChangeImpl implements FieldDelete {
         switch (featureID) {
             case Java2KDMDiffPackage.FIELD_DELETE__FIELD_RIGHT:
                 return fieldRight != null;
+            case Java2KDMDiffPackage.FIELD_DELETE__LEFT_CONTAINER:
+                return leftContainer != null;
         }
         return super.eIsSet(featureID);
     }

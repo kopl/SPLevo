@@ -36,6 +36,7 @@
     </genClasses>
     <genClasses ecoreClass="java2kdmdiff.ecore#//FieldDelete">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//FieldDelete/fieldRight"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//FieldDelete/leftContainer"/>
     </genClasses>
     <genClasses ecoreClass="java2kdmdiff.ecore#//ClassInsert">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference java2kdmdiff.ecore#//ClassInsert/classLeft"/>

@@ -479,6 +479,15 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getFieldDelete_LeftContainer() {
+        return (EReference)fieldDeleteEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getClassInsert() {
         return classInsertEClass;
     }
@@ -759,6 +768,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
         fieldDeleteEClass = createEClass(FIELD_DELETE);
         createEReference(fieldDeleteEClass, FIELD_DELETE__FIELD_RIGHT);
+        createEReference(fieldDeleteEClass, FIELD_DELETE__LEFT_CONTAINER);
 
         classInsertEClass = createEClass(CLASS_INSERT);
         createEReference(classInsertEClass, CLASS_INSERT__CLASS_LEFT);
@@ -890,6 +900,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
 
         initEClass(fieldDeleteEClass, FieldDelete.class, "FieldDelete", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getFieldDelete_FieldRight(), theJavaPackage.getFieldDeclaration(), null, "fieldRight", null, 0, 1, FieldDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getFieldDelete_LeftContainer(), theJavaPackage.getASTNode(), null, "leftContainer", null, 0, 1, FieldDelete.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(classInsertEClass, ClassInsert.class, "ClassInsert", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getClassInsert_ClassLeft(), theJavaPackage.getClassDeclaration(), null, "classLeft", null, 1, 1, ClassInsert.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -957,7 +968,7 @@ public class Java2KDMDiffPackageImpl extends EPackageImpl implements Java2KDMDif
            source, 
            new String[] {
              "name", "ImportDeclarationChange"
-           });																				
+           });																					
     }
 
 } //Java2KDMDiffPackageImpl
