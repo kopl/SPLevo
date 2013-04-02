@@ -12,6 +12,7 @@ import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.Statement;
+import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.ClassInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.EnumDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange;
@@ -159,6 +160,24 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
         Package parent = packageDelete.getLeftContainer();
         
         return createVariationPointDelete(packageDeclaration, parent);
+    }
+    
+    /**
+     * Handle class deletes.<br>
+     * VP references the parent package.<br>
+     * The leading variant references the deleted class declaration.
+     * 
+     * @param classDelete
+     *            The class delete diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseClassDelete(ClassDelete classDelete) {
+        
+        ClassDeclaration classDeclaration = classDelete.getClassRight();
+        Package parent = classDelete.getLeftContainer();
+        
+        return createVariationPointDelete(classDeclaration, parent);
     }
     
     /**
