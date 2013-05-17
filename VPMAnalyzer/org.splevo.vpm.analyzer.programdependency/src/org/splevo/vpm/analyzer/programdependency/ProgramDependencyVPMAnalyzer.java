@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
+import org.eclipse.gmt.modisco.java.ReturnStatement;
 import org.eclipse.gmt.modisco.java.SingleVariableAccess;
 import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
@@ -183,7 +184,10 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                         } else {
                             logger.warn("Not yet handled variable declaration container: " + varDeclContainer);
                         }
-
+                    } else if (methodContainer instanceof ReturnStatement) {
+                        ReturnStatement returnStatement = (ReturnStatement) methodContainer;
+                        influencedASTNodes.add(returnStatement);
+                        
                     } else {
                         logger.warn("Not yet handled method invocation container: " + methodContainer);
                     }
