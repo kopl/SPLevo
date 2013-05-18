@@ -15,7 +15,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
-import org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer;
+import org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer;
@@ -143,7 +143,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
         createNode(graph, "VP4");
 
         
-        VPMAnalyzerResult resultCS = new VPMAnalyzerResult(new CodeStructureVPMAnalyzer());
+        VPMAnalyzerResult resultCS = new VPMAnalyzerResult(new CodeLocationVPMAnalyzer());
 
         VPMEdgeDescriptor descriptorVP1VP2 = new VPMEdgeDescriptor("CodeStructure", "Method", "VP1", "VP2");
         resultCS.getEdgeDescriptors().add(descriptorVP1VP2);
