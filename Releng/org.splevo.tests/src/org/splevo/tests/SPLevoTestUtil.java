@@ -94,7 +94,6 @@ public class SPLevoTestUtil {
         ignorePackages.add("java.math");
         ignorePackages.add("java.io");
         ignorePackages.add("org.jscience.*");
-        ignorePackages.add("org.jscience.*");
         ignorePackages.add("javolution.*");
 
         Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
