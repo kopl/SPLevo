@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.splevo.vpm.analyzer.codestructure;
+package org.splevo.vpm.analyzer.codelocation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
+import org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 /**
@@ -20,10 +21,10 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
  * @author Benjamin Klatt
  *
  */
-public class CodeStructureVPMAnalyzerTest extends AbstractTest {
+public class CodeLocationVPMAnalyzerTest extends AbstractTest {
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
+     * Test method for {@link org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
      * @throws InterruptedException identifies the test was interrupted.
      * @throws IOException Identifies the initial vpm graph could not be loaded.
      */
@@ -34,7 +35,7 @@ public class CodeStructureVPMAnalyzerTest extends AbstractTest {
         int originalNodeCount = graph.getNodeCount();
         int originalEdgeCount = graph.getEdgeCount();
         
-        VPMAnalyzer analyzer = new CodeStructureVPMAnalyzer();
+        VPMAnalyzer analyzer = new CodeLocationVPMAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
         
         assertNotNull("The analyzer result must not be null",result);
@@ -46,20 +47,20 @@ public class CodeStructureVPMAnalyzerTest extends AbstractTest {
     }
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer#getName()}.
+     * Test method for {@link org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer#getName()}.
      */
     @Test
     public void testGetName() {
-        VPMAnalyzer anlayzer = new CodeStructureVPMAnalyzer();
+        VPMAnalyzer anlayzer = new CodeLocationVPMAnalyzer();
         assertNotNull("The analyzer name must not be not.",anlayzer.getName());
     }
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer#getRelationshipLabel()}.
+     * Test method for {@link org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer#getRelationshipLabel()}.
      */
     @Test
     public void testGetRelationshipLabel() {
-        VPMAnalyzer anlayzer = new CodeStructureVPMAnalyzer();
+        VPMAnalyzer anlayzer = new CodeLocationVPMAnalyzer();
         assertNotNull("The analyzer relationship label must not be not.",anlayzer.getRelationshipLabel());
     }
 

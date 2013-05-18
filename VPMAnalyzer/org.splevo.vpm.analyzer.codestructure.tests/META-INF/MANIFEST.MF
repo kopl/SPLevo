@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Code Structure VPM Analyzer Tests
-Bundle-SymbolicName: org.splevo.vpm.analyzer.codestructure.tests
+Bundle-Name: Code Location VPM Analyzer Tests
+Bundle-SymbolicName: org.splevo.vpm.analyzer.codelocation.tests
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: org.splevo.vpm.analyzer.codestructure;bundle-version="1.0.0"
+Fragment-Host: org.splevo.vpm.analyzer.codelocation;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit,
  org.splevo.tests;bundle-version="1.0.0"

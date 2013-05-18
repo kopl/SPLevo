@@ -49,7 +49,7 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
         // init default detection rules
         // TODO: make the detection rules configurable by the user
         List<String> edgeLabels = new ArrayList<String>();
-        edgeLabels.add("CodeStructure");
+        edgeLabels.add("CodeLocation");
         DetectionRule detectionRule = new BasicDetectionRule(edgeLabels, RefinementType.MERGE);
 
         List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();

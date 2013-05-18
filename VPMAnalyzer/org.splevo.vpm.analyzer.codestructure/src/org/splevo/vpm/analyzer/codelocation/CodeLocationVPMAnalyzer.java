@@ -1,4 +1,4 @@
-package org.splevo.vpm.analyzer.codestructure;
+package org.splevo.vpm.analyzer.codelocation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,10 +30,13 @@ import org.splevo.vpm.variability.VariationPoint;
  * @author Benjamin Klatt
  * 
  */
-public class CodeStructureVPMAnalyzer extends AbstractVPMAnalyzer {
+public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
+
+    /** The relationship label of the analyzer. */
+    private static final String RELATIONSHIP_LABEL_CODE_LOCATION = "CodeLocation";
 
     /** The logger for this class. */
-    private Logger logger = Logger.getLogger(CodeStructureVPMAnalyzer.class);
+    private Logger logger = Logger.getLogger(CodeLocationVPMAnalyzer.class);
 
     /** An internal map to group nodes with variation points in the same ASTNode. */
     private Map<ASTNode, List<Node>> structureMap = new HashMap<ASTNode, List<Node>>();
@@ -161,7 +164,7 @@ public class CodeStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     @Override
     public String getName() {
-        return "Code Structure VPM Analyzer";
+        return "Code Location VPM Analyzer";
     }
 
     /*
@@ -171,7 +174,7 @@ public class CodeStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     @Override
     public String getRelationshipLabel() {
-        return "CodeStructure";
+        return RELATIONSHIP_LABEL_CODE_LOCATION;
     }
 
 }

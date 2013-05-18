@@ -6,7 +6,7 @@
          name="Code Structure VPM Analyzer"
          point="org.splevo.vpm.analyzer.analyzer">
       <analyzer
-            analyzer.class="org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer">
+            analyzer.class="org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer">
       </analyzer>
    </extension>
 
