@@ -5,7 +5,7 @@
          id="id1"
          point="org.splevo.vpm.analyzer.analyzer">
       <analyzer
-            analyzer.class="org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer">
+            analyzer.class="org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer">
       </analyzer>
    </extension>
 

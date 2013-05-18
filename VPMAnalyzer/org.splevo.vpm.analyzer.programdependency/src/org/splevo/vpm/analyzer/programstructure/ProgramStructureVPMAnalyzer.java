@@ -1,4 +1,4 @@
-package org.splevo.vpm.analyzer.programdependency;
+package org.splevo.vpm.analyzer.programstructure;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,10 +55,13 @@ import org.splevo.vpm.variability.VariationPoint;
  * @author Benjamin Klatt
  * 
  */
-public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
+public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
+
+    /** The relationship label of the analyzer. */
+    private static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramStructure";
 
     /** The logger for this class. */
-    private Logger logger = Logger.getLogger(ProgramDependencyVPMAnalyzer.class);
+    private Logger logger = Logger.getLogger(ProgramStructureVPMAnalyzer.class);
 
     /** The internal configurations map. */
     private Map<String, Object> configurations = new HashMap<String, Object>();
@@ -273,12 +276,12 @@ public class ProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
     @Override
     public String getName() {
-        return "Program Dependency VPM Analyzer";
+        return "Program Structure VPM Analyzer";
     }
 
     @Override
     public String getRelationshipLabel() {
-        return "ProgramDependency";
+        return RELATIONSHIP_LABEL_PROGRAM_STRUCTURE;
     }
 
 }

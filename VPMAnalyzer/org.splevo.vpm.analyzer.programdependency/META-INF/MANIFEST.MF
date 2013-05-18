@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SPLevo VPM Program Dependency Analyzer
-Bundle-SymbolicName: org.splevo.vpm.analyzer.programdependency;singleton:=true
+Bundle-SymbolicName: org.splevo.vpm.analyzer.programstructure;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: www.splevo.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.splevo.vpm.analyzer;bundle-version="1.0.0",
  org.apache.log4j;bundle-version="1.2.15"
-Export-Package: org.splevo.vpm.analyzer.programdependency
+Export-Package: org.splevo.vpm.analyzer.programstructure
