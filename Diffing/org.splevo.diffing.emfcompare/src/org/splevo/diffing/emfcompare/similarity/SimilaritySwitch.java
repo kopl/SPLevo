@@ -1447,7 +1447,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             return Boolean.FALSE;
         }
         Boolean parentSimilarity = similarityChecker.isSimilar(initializer1.eContainer(),
-                ((Block) compareElement).eContainer());
+                compareElement.eContainer());
         return parentSimilarity;
     }
 
