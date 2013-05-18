@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.splevo.vpm.analyzer.programdependency;
+package org.splevo.vpm.analyzer.programstructure;
 
 import static org.junit.Assert.*;
 
@@ -11,20 +11,21 @@ import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
+import org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer;
 
 /**
  * Test case for the ProgramDependencyVPMAnalyzer.
  * 
  * @author Benjamin Klatt
  */
-public class ProgramDependencyVPMAnalyzerTest {
+public class ProgramStructureVPMAnalyzerTest {
     
     /** An instance of the analyzer for general tests. */
-    private final ProgramDependencyVPMAnalyzer analyzer = new ProgramDependencyVPMAnalyzer();
+    private final ProgramStructureVPMAnalyzer analyzer = new ProgramStructureVPMAnalyzer();
 
     /**
      * Test method for
-     * {@link org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}
+     * {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}
      * .
      * 
      * @throws IOException
@@ -51,7 +52,7 @@ public class ProgramDependencyVPMAnalyzerTest {
     }
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer#getAvailableConfigurations()}.
+     * Test method for {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#getAvailableConfigurations()}.
      */
     @Test
     public void testGetAvailableConfigurations() {
@@ -59,7 +60,7 @@ public class ProgramDependencyVPMAnalyzerTest {
     }
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer#getConfigurationLabels()}.
+     * Test method for {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#getConfigurationLabels()}.
      */
     @Test
     public void testGetConfigurationLabels() {
@@ -67,7 +68,7 @@ public class ProgramDependencyVPMAnalyzerTest {
     }
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer#getConfigurations()}.
+     * Test method for {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#getConfigurations()}.
      */
     @Test
     public void testGetConfigurations() {
@@ -75,7 +76,7 @@ public class ProgramDependencyVPMAnalyzerTest {
     }
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer#getName()}.
+     * Test method for {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#getName()}.
      */
     @Test
     public void testGetName() {
@@ -84,7 +85,7 @@ public class ProgramDependencyVPMAnalyzerTest {
     }
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer#getRelationshipLabel()}.
+     * Test method for {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#getRelationshipLabel()}.
      */
     @Test
     public void testGetRelationshipLabel() {
