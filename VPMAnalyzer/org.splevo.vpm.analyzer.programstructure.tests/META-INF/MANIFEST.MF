@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SPLevo Program Dependency VPM Analyzer Tests
+Bundle-Name: SPLevo Program Structure VPM Analyzer Tests
 Bundle-SymbolicName: org.splevo.vpm.analyzer.programstructure.tests
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: www.splevo.org
