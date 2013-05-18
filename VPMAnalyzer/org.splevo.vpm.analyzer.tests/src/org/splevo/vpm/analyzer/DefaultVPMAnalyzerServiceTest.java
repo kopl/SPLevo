@@ -18,7 +18,7 @@ import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.codestructure.CodeStructureVPMAnalyzer;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
-import org.splevo.vpm.analyzer.programdependency.ProgramDependencyVPMAnalyzer;
+import org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer;
 import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
 import org.splevo.vpm.refinement.Refinement;
@@ -151,7 +151,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
         VPMEdgeDescriptor descriptorVP3VP4CS = new VPMEdgeDescriptor("CodeStructure", "Method", "VP3", "VP4");
         resultCS.getEdgeDescriptors().add(descriptorVP3VP4CS);
 
-        VPMAnalyzerResult resultPD = new VPMAnalyzerResult(new ProgramDependencyVPMAnalyzer());
+        VPMAnalyzerResult resultPD = new VPMAnalyzerResult(new ProgramStructureVPMAnalyzer());
 
         VPMEdgeDescriptor descriptorVP3VP4PD = new VPMEdgeDescriptor("ProgramDependency", "Variable", "VP3", "VP4");
         resultPD.getEdgeDescriptors().add(descriptorVP3VP4PD);
