@@ -46,7 +46,7 @@ public class ProgramDependencyVPMAnalyzerTest {
         assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
         assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
 
-        assertEquals("Wrong edge descriptor count", 2, result.getEdgeDescriptors().size());
+        assertEquals("Wrong edge descriptor count", 4, result.getEdgeDescriptors().size());
         
     }
 
