@@ -24,6 +24,9 @@ import org.splevo.vpm.variability.variabilityFactory;
  */
 public class Java2KDMVPMBuilder {
 
+    /** Group id identifying variation points located under the AST model root. */
+    public static final String GROUP_ID_TOPLEVEL = "TOPLEVEL";
+
     /** The logger used by this class. */
     private Logger logger = Logger.getLogger(Java2KDMVPMBuilder.class);
 
@@ -98,7 +101,14 @@ public class Java2KDMVPMBuilder {
      */
     private String buildGroupID(ASTNode node) {
         String groupID = null;
-        
+
+        // handle empty nodes. This might be the case if a varying element
+        // is located directly on the model root such as a compilation unit or
+        // a top level package
+        if (node == null) {
+            return GROUP_ID_TOPLEVEL;
+        }
+
         // get the containing elements name in case of a block
         if (node instanceof Block) {
             EObject parent = node.eContainer();
@@ -107,9 +117,9 @@ public class Java2KDMVPMBuilder {
             } else if (node instanceof NamedElement) {
                 groupID = ((NamedElement) node).getName();
             }
-            
+
         }
-        
+
         // use the name of named elements
         if (node instanceof NamedElement) {
             groupID = ((NamedElement) node).getName();
