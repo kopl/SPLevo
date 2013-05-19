@@ -32,11 +32,10 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(DefaultVPMAnalyzerService.class);
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.splevo.vpm.analyzer.VPMAnalyzerService#initVPMGraph(org.splevo.vpm.variability.
      * VariationPointModel)
+     * {@inheritDoc}
      */
     @Override
     public VPMGraph initVPMGraph(VariationPointModel vpm) {
@@ -110,10 +109,9 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         return graph;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.splevo.vpm.analyzer.VPMAnalyzerService#mergeGraphs(java.util.List)
+     * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -195,7 +193,6 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      * @return The prepared edge id.
      */
     public String buildEdgeId(String node1ID, String node2ID) {
-        // TODO: Check if StringBuilder provides speedup.
         if (node1ID.compareTo(node2ID) <= 0) {
             return node1ID + "#" + node2ID;
         } else {

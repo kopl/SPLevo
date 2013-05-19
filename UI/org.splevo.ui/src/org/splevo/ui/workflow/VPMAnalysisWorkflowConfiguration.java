@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.refinement.DetectionRule;
 
 /**
  * A configuration for a VPM analysis work flow to be executed.
@@ -17,6 +18,9 @@ public class VPMAnalysisWorkflowConfiguration extends
 	
 	/** The presentation mode for the analysis. */
 	private ResultPresentation presentation = ResultPresentation.REFINEMENT_BROWSER;
+
+    /** The detection rules to be applied. */
+    private List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
 
 	/**
 	 * Get the list of analyzer instances to be executed.
@@ -40,6 +44,22 @@ public class VPMAnalysisWorkflowConfiguration extends
      */
     public void setPresentation(ResultPresentation presentation) {
         this.presentation = presentation;
+    }
+
+    /**
+     * Get the detection rules that should be applied to identify refinements.
+     * @return the detectionRules to be applied
+     */
+    public List<DetectionRule> getDetectionRules() {
+        return detectionRules;
+    }
+
+    /**
+     * Set the detection rules that should be applied to identify refinements.
+     * @param detectionRules the detectionRules to set
+     */
+    public void setDetectionRules(List<DetectionRule> detectionRules) {
+        this.detectionRules = detectionRules;
     }
 
     /**

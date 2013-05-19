@@ -87,12 +87,11 @@ public class VPMAnalysisWorkflowDelegate extends
         MergeVPMAnalyzerResultsIntoGraphJob mergeVPMAnalyzerResultsJob = new MergeVPMAnalyzerResultsIntoGraphJob();
         compositeJob.add(mergeVPMAnalyzerResultsJob);
         
+        // decide about the workflow to be exectured
         if (config.getPresentation() == ResultPresentation.RELATIONSHIP_GRAPH_ONLY) {
             OpenVPMGraphJob openVPMGraphJob = new OpenVPMGraphJob();
             compositeJob.add(openVPMGraphJob);
-        }
-
-        if (config.getPresentation() == ResultPresentation.REFINEMENT_BROWSER) {
+        } else if (config.getPresentation() == ResultPresentation.REFINEMENT_BROWSER) {
             addRefinementBrowserWorkflow(compositeJob, splevoProject);
         }
 
@@ -111,8 +110,7 @@ public class VPMAnalysisWorkflowDelegate extends
     private void addRefinementBrowserWorkflow(OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob,
             SPLevoProject splevoProject) {
 
-        // Derive refinements
-        DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob();
+        DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob(config.getDetectionRules());
         compositeJob.add(createRefinementModelJob);
 
         IJob openViewerJob = new OpenVPMRefinementBrowserJob(config.getSplevoProjectEditor());

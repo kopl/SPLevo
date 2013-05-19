@@ -1,17 +1,14 @@
 package org.splevo.ui.jobs;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.VPMAnalyzerService;
-import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
-import org.splevo.vpm.refinement.RefinementType;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
@@ -27,10 +24,15 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
     /** The variation point analyzer service to work with. */
     private VPMAnalyzerService vpmAnalyzerService = new DefaultVPMAnalyzerService();
 
+    /** The detection rules to be applied. */
+    private List<DetectionRule> detectionRules;
+    
     /**
      * Default constructor for the job.
+     * @param detectionRules The detection rules to apply in the job.
      */
-    public DetectRefinementsJob() {
+    public DetectRefinementsJob(List<DetectionRule> detectionRules) {
+        this.detectionRules = detectionRules;
     }
 
     /**
@@ -45,15 +47,6 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
      */
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
-
-        // init default detection rules
-        // TODO: make the detection rules configurable by the user
-        List<String> edgeLabels = new ArrayList<String>();
-        edgeLabels.add("CodeLocation");
-        DetectionRule detectionRule = new BasicDetectionRule(edgeLabels, RefinementType.MERGE);
-
-        List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
-        detectionRules.add(detectionRule);
 
         List<Refinement> refinements = vpmAnalyzerService.deriveRefinements(getBlackboard().getVpmGraph(),
                 detectionRules);

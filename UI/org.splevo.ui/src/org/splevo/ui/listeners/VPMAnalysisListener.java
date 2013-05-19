@@ -1,5 +1,8 @@
 package org.splevo.ui.listeners;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -13,6 +16,9 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizard;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
+import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
+import org.splevo.vpm.analyzer.refinement.DetectionRule;
+import org.splevo.vpm.refinement.RefinementType;
 
 /**
  * Mouse adapter to listen for events which trigger the refinement process of a variation point
@@ -72,6 +78,17 @@ public class VPMAnalysisListener extends MouseAdapter {
     private VPMAnalysisWorkflowConfiguration buildWorflowConfiguration() {
         VPMAnalysisWorkflowConfiguration config = new VPMAnalysisWorkflowConfiguration();
         config.setSplevoProjectEditor(splevoProjectEditor);
+        
+        // build the detection rules
+        List<String> edgeLabels = new ArrayList<String>();
+        edgeLabels.add("CodeLocation");
+        DetectionRule detectionRule = new BasicDetectionRule(edgeLabels, RefinementType.MERGE);
+
+        List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
+        detectionRules.add(detectionRule);
+        
+        config.setDetectionRules(detectionRules);
+        
         return config;
     }
 

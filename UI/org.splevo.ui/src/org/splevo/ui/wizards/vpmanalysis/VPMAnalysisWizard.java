@@ -40,7 +40,7 @@ public class VPMAnalysisWizard extends Wizard {
         analyzerPage = new VPMAnalyzerConfigurationPage();
         addPage(analyzerPage);
 
-        resultHandlingPage = new ResultHandlingConfigurationPage();
+        resultHandlingPage = new ResultHandlingConfigurationPage(this.configuration);
         resultHandlingPage.setPreviousPage(analyzerPage);
         addPage(resultHandlingPage);
 
@@ -58,6 +58,8 @@ public class VPMAnalysisWizard extends Wizard {
 		
 		ResultPresentation resultPresentation = resultHandlingPage.getResultPresentation();
 		configuration.setPresentation(resultPresentation);
+		
+		configuration.setDetectionRules(resultHandlingPage.getDetectionRules());
 		
 		return configuration.isValid();
 	}
