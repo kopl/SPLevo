@@ -264,7 +264,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     public VariationPoint caseStatementDelete(StatementDelete statementDelete) {
         
         Statement statement = statementDelete.getStatementRight();
-        ASTNode parent = (ASTNode) statement.eContainer();
+        ASTNode parent = statementDelete.getLeftContainer();
         
         return createVariationPointDelete(statement, parent);
     }

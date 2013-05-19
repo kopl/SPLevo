@@ -54,9 +54,7 @@ public interface MethodDelete extends MethodChange {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
-     * The container of the deleted element in the old model.
-     * This can be either an AbstractTypeDeclaration or an AnonymousClassDeclaration. 
-     * Their most specific common super class is the ASTNode, so this is referenced here.
+     * The container in the changed model that no longer contains the method. (according to emf compares "leftParent" terminology)
      * <!-- end-model-doc -->
      * @return the value of the '<em>Left Container</em>' reference.
      * @see #setLeftContainer(ASTNode)

@@ -8,12 +8,14 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
@@ -55,8 +57,31 @@ public class StatementDeleteItemProvider
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
+            addLeftContainerPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
+    }
+
+    /**
+     * This adds a property descriptor for the Left Container feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addLeftContainerPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_StatementDelete_leftContainer_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_StatementDelete_leftContainer_feature", "_UI_StatementDelete_type"),
+                 Java2KDMDiffPackage.Literals.STATEMENT_DELETE__LEFT_CONTAINER,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
     }
 
     /**

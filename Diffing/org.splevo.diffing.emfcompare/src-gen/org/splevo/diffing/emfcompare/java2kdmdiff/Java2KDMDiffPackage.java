@@ -2378,13 +2378,22 @@ public interface Java2KDMDiffPackage extends EPackage {
     int STATEMENT_DELETE__STATEMENT_LEFT = STATEMENT_CHANGE__STATEMENT_LEFT;
 
     /**
+     * The feature id for the '<em><b>Left Container</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STATEMENT_DELETE__LEFT_CONTAINER = STATEMENT_CHANGE_FEATURE_COUNT + 0;
+
+    /**
      * The number of structural features of the '<em>Statement Delete</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int STATEMENT_DELETE_FEATURE_COUNT = STATEMENT_CHANGE_FEATURE_COUNT + 0;
+    int STATEMENT_DELETE_FEATURE_COUNT = STATEMENT_CHANGE_FEATURE_COUNT + 1;
 
 
     /**
@@ -3167,6 +3176,17 @@ public interface Java2KDMDiffPackage extends EPackage {
     EClass getStatementDelete();
 
     /**
+     * Returns the meta object for the reference '{@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete#getLeftContainer <em>Left Container</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Left Container</em>'.
+     * @see org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete#getLeftContainer()
+     * @see #getStatementDelete()
+     * @generated
+     */
+    EReference getStatementDelete_LeftContainer();
+
+    /**
      * Returns the meta object for class '{@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange <em>Field Declaration Change</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3639,6 +3659,14 @@ public interface Java2KDMDiffPackage extends EPackage {
          * @generated
          */
         EClass STATEMENT_DELETE = eINSTANCE.getStatementDelete();
+
+        /**
+         * The meta object literal for the '<em><b>Left Container</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference STATEMENT_DELETE__LEFT_CONTAINER = eINSTANCE.getStatementDelete_LeftContainer();
 
         /**
          * The meta object literal for the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldDeclarationChangeImpl <em>Field Declaration Change</em>}' class.

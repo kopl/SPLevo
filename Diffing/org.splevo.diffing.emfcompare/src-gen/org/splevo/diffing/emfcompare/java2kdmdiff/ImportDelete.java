@@ -58,7 +58,7 @@ public interface ImportDelete extends ImportDeclarationChange {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
-     * The container in the chaned model that no longer contains the import. (according to emf compares "leftParent" terminology)
+     * The container in the changed model that no longer contains the import. (according to emf compares "leftParent" terminology)
      * <!-- end-model-doc -->
      * @return the value of the '<em>Left Container</em>' reference.
      * @see #setLeftContainer(CompilationUnit)

@@ -6,8 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.IfStatement;
+import org.eclipse.gmt.modisco.java.MethodDeclaration;
+import org.eclipse.gmt.modisco.java.NamedElement;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
@@ -115,12 +119,18 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
         for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
             if (vp != null) {
-                ASTNode astNode = vp.getEnclosingSoftwareEntity();
 
+                ASTNode astNode = vp.getEnclosingSoftwareEntity();
                 astNode = chooseEnclosingNode(astNode);
 
                 if (!structureMap.containsKey(astNode)) {
                     structureMap.put(astNode, new ArrayList<Node>());
+                }
+
+                // temporary test logging
+                if (astNode instanceof NamedElement) {
+                    logger.debug("CODE MAP: " + astNode.hashCode() + "|" + ((NamedElement) astNode).getName() + "\t|\t"
+                            + node.getId() + "\t" + EcoreUtil.getIdentification(astNode));
                 }
                 structureMap.get(astNode).add(node);
             }
@@ -142,7 +152,7 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     private ASTNode chooseEnclosingNode(ASTNode astNode) {
 
-        if (astNode instanceof IfStatement) {
+        if (astNode instanceof Block || astNode instanceof IfStatement) {
             return chooseEnclosingNode((ASTNode) astNode.eContainer());
         }
 

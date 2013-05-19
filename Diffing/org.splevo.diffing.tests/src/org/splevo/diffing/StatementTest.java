@@ -68,25 +68,23 @@ public class StatementTest extends AbstractDiffingTest {
                 assertNotNull("The inserted statement should not be null.", statement);
 
                 // check the statements should be either if, return or expression statements
-                if (!(statement instanceof IfStatement 
-                        || statement instanceof ReturnStatement 
+                if (!(statement instanceof IfStatement || statement instanceof ReturnStatement
                         || statement instanceof ExpressionStatement
-                        || statement instanceof VariableDeclarationStatement
-                        || statement instanceof CatchClause)) {
+                        || statement instanceof VariableDeclarationStatement || statement instanceof CatchClause)) {
                     fail("Unexpected statement type detected." + statement);
                 }
 
             } else if (diffElement instanceof StatementDelete) {
-                StatementDelete statementInsert = ((StatementDelete) diffElement);
-                Statement statement = statementInsert.getStatementRight();
+                StatementDelete statementDelete = ((StatementDelete) diffElement);
+                Statement statement = statementDelete.getStatementRight();
                 assertNotNull("The deleted statement should not be null.", statement);
 
-                if (!(statement instanceof IfStatement
-                        || statement instanceof VariableDeclarationStatement
-                        || statement instanceof ReturnStatement
-                        || statement instanceof CatchClause)) {
+                if (!(statement instanceof IfStatement || statement instanceof VariableDeclarationStatement
+                        || statement instanceof ReturnStatement || statement instanceof CatchClause)) {
                     fail("Unexpected statement type detected." + statement);
                 }
+
+                assertNotNull("Left container not set.", statementDelete.getLeftContainer());
 
             } else {
                 fail("No other diff elements than StatementInsert and Delete should have been detected.:" + diffElement);

@@ -9,6 +9,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.match.metamodel.Side;
 import org.eclipse.emf.compare.match.metamodel.UnmatchElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.Block;
@@ -344,12 +345,23 @@ public class UnmatchedElementProcessor {
         private MethodDelete createMethodDelete(AbstractMethodDeclaration methodDeclaration) {
             MethodDelete methodDelete = Java2KDMDiffFactory.eINSTANCE.createMethodDelete();
             methodDelete.setMethodRight(methodDeclaration);
+
             if (methodDeclaration.getAbstractTypeDeclaration() != null) {
-                methodDelete.setLeftContainer(methodDeclaration.getAbstractTypeDeclaration());
+                EObject leftContainer = matchManager.getMatchedEObject(methodDeclaration.getAbstractTypeDeclaration());
+                if (leftContainer != null) {
+                    methodDelete.setLeftContainer((ASTNode) leftContainer);
+                }
+
             } else if (methodDeclaration.getAnonymousClassDeclarationOwner() != null) {
-                methodDelete.setLeftContainer(methodDeclaration.getAnonymousClassDeclarationOwner());
-            } else {
-                logger.warn("Missing left container for field declaration (" + methodDeclaration + ")");
+                EObject leftContainer = matchManager.getMatchedEObject(methodDeclaration
+                        .getAnonymousClassDeclarationOwner());
+                if (leftContainer != null) {
+                    methodDelete.setLeftContainer((ASTNode) leftContainer);
+                }
+
+            }
+            if (methodDelete.getLeftContainer() == null) {
+                logger.warn("Missing left container for method declaration delete (" + methodDeclaration + ")");
             }
             return methodDelete;
         }
@@ -378,10 +390,21 @@ public class UnmatchedElementProcessor {
             FieldDelete fieldDelete = Java2KDMDiffFactory.eINSTANCE.createFieldDelete();
             fieldDelete.setFieldRight(fieldDeclaration);
             if (fieldDeclaration.getAbstractTypeDeclaration() != null) {
-                fieldDelete.setLeftContainer(fieldDeclaration.getAbstractTypeDeclaration());
+                EObject leftContainer = matchManager.getMatchedEObject(fieldDeclaration.getAbstractTypeDeclaration());
+                if (leftContainer != null) {
+                    fieldDelete.setLeftContainer((ASTNode) leftContainer);
+                }
+
             } else if (fieldDeclaration.getAnonymousClassDeclarationOwner() != null) {
-                fieldDelete.setLeftContainer(fieldDeclaration.getAnonymousClassDeclarationOwner());
-            } else {
+                EObject leftContainer = matchManager.getMatchedEObject(fieldDeclaration
+                        .getAnonymousClassDeclarationOwner());
+                if (leftContainer != null) {
+                    fieldDelete.setLeftContainer((ASTNode) leftContainer);
+                }
+
+            }
+
+            if (fieldDelete.getLeftContainer() == null) {
                 logger.warn("Missing left container for field declaration (" + fieldDeclaration + ")");
             }
             return fieldDelete;
@@ -410,6 +433,11 @@ public class UnmatchedElementProcessor {
         private StatementDelete createStatementDelete(Statement statement) {
             StatementDelete statementDelete = Java2KDMDiffFactory.eINSTANCE.createStatementDelete();
             statementDelete.setStatementRight(statement);
+
+            EObject leftContainer = matchManager.getMatchedEObject(statement.eContainer());
+            if (leftContainer != null) {
+                statementDelete.setLeftContainer((ASTNode) leftContainer);
+            }
             return statementDelete;
         }
 
