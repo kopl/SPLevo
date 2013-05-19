@@ -126,11 +126,6 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
                     structureMap.put(astNode, new ArrayList<Node>());
                 }
 
-                // temporary test logging
-                if (astNode instanceof NamedElement) {
-                    logger.debug("CODE MAP: " + astNode.hashCode() + "|" + ((NamedElement) astNode).getName() + "\t|\t"
-                            + node.getId() + "\t" + EcoreUtil.getIdentification(astNode));
-                }
                 structureMap.get(astNode).add(node);
             }
 
