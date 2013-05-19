@@ -3,6 +3,7 @@ package org.splevo.ui.wizards.vpmanalysis;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.wizard.WizardPage;
@@ -119,9 +120,9 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
         String completeText = detectionRulesText.getText();
         for (String line : completeText.split("\n")) {
-            String[] chunks = line.split("|");
+            String[] chunks = line.split(Pattern.quote("|"));
             List<String> labels = Arrays.asList(chunks[0].split(","));
-            DetectionRule rule = new BasicDetectionRule(labels, RefinementType.get(chunks[1]));
+            DetectionRule rule = new BasicDetectionRule(labels, RefinementType.get(chunks[1].trim()));
             rules.add(rule);
         }
 
