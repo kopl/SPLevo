@@ -6,11 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.IfStatement;
-import org.eclipse.gmt.modisco.java.NamedElement;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
