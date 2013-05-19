@@ -1,5 +1,9 @@
 package org.splevo.ui.jobs;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
@@ -37,7 +41,10 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         VPMGraph vpmGraph = getBlackboard().getVpmGraph();
 
         logger.info("Analyze VPM Graph");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
+        this.logger.info("VPM Analysis (" + analyzer.getName() + ") started at: " + (dateFormat.format(new Date())));
         VPMAnalyzerResult analyzerResult = analyzer.analyze(vpmGraph);
+        this.logger.info("VPM Analysis (" + analyzer.getName() + ") finished at: " + (dateFormat.format(new Date())));
         getBlackboard().getVpmAnalyzerResults().add(analyzerResult);
 
         // finish run
