@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.IfStatement;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
@@ -33,7 +34,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /** The relationship label of the analyzer. */
-    private static final String RELATIONSHIP_LABEL_CODE_LOCATION = "CodeLocation";
+    public static final String RELATIONSHIP_LABEL_CODE_LOCATION = "CodeLocation";
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(CodeLocationVPMAnalyzer.class);
@@ -115,6 +116,9 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
             if (vp != null) {
                 ASTNode astNode = vp.getEnclosingSoftwareEntity();
+
+                astNode = chooseEnclosingNode(astNode);
+
                 if (!structureMap.containsKey(astNode)) {
                     structureMap.put(astNode, new ArrayList<Node>());
                 }
@@ -122,6 +126,27 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
             }
 
         }
+    }
+
+    /**
+     * Choose the ast node to use as code location.
+     * 
+     * This method handles special ast node types as code location:
+     * <ul>
+     * <li>ifStatement: Traverse parent notes until the first enclosing non-ifstatement is reached.</li>
+     * </ul>
+     * 
+     * @param astNode
+     *            The parent ast node to choose the real enclosing node for.
+     * @return The identified enclosing AST node.
+     */
+    private ASTNode chooseEnclosingNode(ASTNode astNode) {
+
+        if (astNode instanceof IfStatement) {
+            return chooseEnclosingNode((ASTNode) astNode.eContainer());
+        }
+
+        return astNode;
     }
 
     /*

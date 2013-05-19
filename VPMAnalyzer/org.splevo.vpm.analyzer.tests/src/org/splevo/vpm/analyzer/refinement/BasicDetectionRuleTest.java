@@ -52,7 +52,7 @@ public class BasicDetectionRuleTest extends AbstractTest {
         
         // prepare a simple detection rule
         List<String> edgeLabels = new ArrayList<String>();
-        edgeLabels.add("CodeStructure");
+        edgeLabels.add(CodeLocationVPMAnalyzer.RELATIONSHIP_LABEL_CODE_LOCATION);
         DetectionRule detectionRule = new BasicDetectionRule(edgeLabels, RefinementType.MERGE);
 
         List<Refinement> refinements = detectionRule.detect(graph);
