@@ -58,7 +58,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /** The relationship label of the analyzer. */
-    private static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramStructure";
+    public static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramStructure";
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(ProgramStructureVPMAnalyzer.class);
