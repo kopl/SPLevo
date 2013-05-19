@@ -43,7 +43,7 @@ public class CodeLocationVPMAnalyzerTest extends AbstractTest {
         assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
         
         // TODO: Check import add/delete parent node structure
-        assertEquals("Wrong edge descriptor count", 7, result.getEdgeDescriptors().size());
+        assertEquals("Wrong edge descriptor count", 11, result.getEdgeDescriptors().size());
     }
 
     /**
