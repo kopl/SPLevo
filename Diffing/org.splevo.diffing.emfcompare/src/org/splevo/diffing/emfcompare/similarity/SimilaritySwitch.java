@@ -1029,12 +1029,12 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         // container check
-        Boolean containerSimilarity = similarityChecker.isSimilar(varDeclFrag.eContainer(), varDeclFrag2.eContainer());
+        Boolean containerSimilarity = similarityChecker.isSimilar(varDeclFrag.getVariablesContainer(), varDeclFrag2.getVariablesContainer());
         if (containerSimilarity != null) {
             return containerSimilarity;
         }
 
-        logger.warn("variable declaration fragment container not supported: " + varDeclFrag.eContainer());
+        logger.warn("variable declaration fragment container not supported: " + varDeclFrag.getVariablesContainer());
 
         return Boolean.TRUE;
     }
