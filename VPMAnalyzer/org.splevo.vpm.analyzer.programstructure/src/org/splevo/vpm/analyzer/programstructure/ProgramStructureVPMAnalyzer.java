@@ -1,31 +1,24 @@
 package org.splevo.vpm.analyzer.programstructure;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.MethodInvocation;
-import org.eclipse.gmt.modisco.java.ReturnStatement;
-import org.eclipse.gmt.modisco.java.SingleVariableAccess;
-import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
-import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
-import org.splevo.vpm.variability.Variant;
+import org.splevo.vpm.analyzer.programstructure.index.VariationPointIndex;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * Program Dependency Analyzer analyzing the dependency graph and the included variation points,
- * respectively the ASTodes referenced by the Variation Points.
+ * respectively the ASTnodes referenced by the Variation Points.
  * 
  * The analyzer uses different strategies to find dependent elements.
  * 
@@ -66,16 +59,18 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The internal configurations map. */
     private Map<String, Object> configurations = new HashMap<String, Object>();
 
-    /**
-     * Internal map to simplify working with variation points and to reference back to nodes
-     * afterwards.
-     */
-    private Map<VariationPoint, Node> variationPointIndex = null;
+    /** The index of variation points and AST nodes. **/
+    private VariationPointIndex variationPointIndex = null;
+
+    /** Switch to get the referrer for an ast node. */
+    private ReferringASTNodeSwitch referringASTNodeSwitch = new ReferringASTNodeSwitch();
 
     /**
-     * Internal index to simplify the lookup of variation points for an AST nodes.
+     * Constructor initializing the variation point analyzer.
      */
-    private Map<ASTNode, VariationPoint> astNodeIndex = null;
+    public ProgramStructureVPMAnalyzer() {
+        variationPointIndex = new VariationPointIndex();
+    }
 
     /**
      * {@inheritDoc}
@@ -84,15 +79,15 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     @Override
     public VPMAnalyzerResult analyze(final VPMGraph vpmGraph) {
-
-        VPMAnalyzerResult result = new VPMAnalyzerResult(this);
-
-        variationPointIndex = buildVariationPointIndex(vpmGraph);
-        astNodeIndex = buildASTNodeIndex(variationPointIndex.keySet());
-
-        analyzeVariableUsages(vpmGraph, result);
-
-        return result;
+        logger.info("index variation point nodes");
+        try {
+            variationPointIndex.index(vpmGraph);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        logger.info("start analysis");
+        return analyzeVPs();
     }
 
     /**
@@ -105,157 +100,114 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      * TODO: Enhance dependency handling Currently, a very simplified handling of all software
      * entities referenced by a variant and all variants in a variation point is used.
      * 
-     * @param vpmGraph
-     *            The graph to analyze.
-     * @param result
-     *            the result object to add the edge descriptors to.
+     * @return The result of the analysis.
      */
-    private void analyzeVariableUsages(VPMGraph vpmGraph, VPMAnalyzerResult result) {
-        for (VariationPoint vp : variationPointIndex.keySet()) {
+    private VPMAnalyzerResult analyzeVPs() {
+        VPMAnalyzerResult result = new VPMAnalyzerResult(this);
 
-            List<ASTNode> astNodes = astNodesOfVariationPoint(vp);
+        for (VariationPoint vp : variationPointIndex.getVariationPoints()) {
+
+            List<ASTNode> astNodes = variationPointIndex.getVariantSoftwareEntities(vp);
             for (ASTNode astNode : astNodes) {
-                if (astNode instanceof VariableDeclarationStatement) {
-                    List<VariationPoint> referencingVPs = searchForReferences((VariableDeclarationStatement) astNode);
-                    for (VariationPoint referee : referencingVPs) {
-                        Node sourceNode = variationPointIndex.get(vp);
-                        Node targetNode = variationPointIndex.get(referee);
+                List<VariationPoint> relatedVPs = findRelatedVariationPoints(astNode);
+                for (VariationPoint referee : relatedVPs) {
+                    Node sourceNode = variationPointIndex.getGraphNode(vp);
+                    Node targetNode = variationPointIndex.getGraphNode(referee);
 
-                        VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, "");
-                        if (descriptor != null) {
-                            result.getEdgeDescriptors().add(descriptor);
-                        }
+                    VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, astNode.getClass()
+                            .getSimpleName());
+                    if (descriptor != null) {
+                        result.getEdgeDescriptors().add(descriptor);
                     }
                 }
             }
-
         }
+
+        return result;
     }
 
     /**
      * Search for variation points referencing AST nodes influenced by a variable declaration
      * statement.
      * 
-     * @param varDeclStmnt
-     *            The variable declaration statement to find references for.
+     * @param astNode
+     *            The AST node to find references for.
      * @return The list of referring variation points.
      */
-    private List<VariationPoint> searchForReferences(VariableDeclarationStatement varDeclStmnt) {
+    private List<VariationPoint> findRelatedVariationPoints(ASTNode astNode) {
 
         List<VariationPoint> variationPoints = new ArrayList<VariationPoint>();
 
-        List<ASTNode> influencedAstNodes = findInfluencedASTNodes(varDeclStmnt);
+        List<ASTNode> referringASTNodes = referringASTNodeSwitch.doSwitch(astNode);
 
-        for (ASTNode astNode : influencedAstNodes) {
-            if (astNodeIndex.containsKey(astNode)) {
-                VariationPoint vp = astNodeIndex.get(astNode);
-                variationPoints.add(vp);
+        for (ASTNode referringASTNode : referringASTNodes) {
+            VariationPoint relatedVariationPoint = variationPointIndex.getEnclosingVariationPoint(referringASTNode);
+            if (relatedVariationPoint != null) {
+                variationPoints.add(relatedVariationPoint);
             }
         }
 
         return variationPoints;
     }
 
-    /**
-     * Find all relevant ASTNodes influenced by a variable declaration statement.
-     * 
-     * A forward slice to find all influenced elements.
-     * 
-     * @param variableDeclarationStatement
-     *            The statement to find influenced elements for.
-     * @return The detected ast nodes.
-     */
-    public List<ASTNode> findInfluencedASTNodes(VariableDeclarationStatement variableDeclarationStatement) {
-
-        List<ASTNode> influencedASTNodes = new ArrayList<ASTNode>();
-
-        for (VariableDeclarationFragment fragment : variableDeclarationStatement.getFragments()) {
-
-            for (SingleVariableAccess variableAccess : fragment.getUsageInVariableAccess()) {
-                EObject variableAccessContainer = variableAccess.eContainer();
-                if (variableAccessContainer instanceof MethodInvocation) {
-
-                    MethodInvocation methodInvocation = (MethodInvocation) variableAccessContainer;
-                    EObject methodContainer = methodInvocation.eContainer();
-                    if (methodContainer instanceof VariableDeclarationFragment) {
-                        VariableDeclarationFragment methodVariableDecl = (VariableDeclarationFragment) methodContainer;
-                        EObject varDeclContainer = methodVariableDecl.eContainer();
-                        if (varDeclContainer instanceof VariableDeclarationStatement) {
-                            VariableDeclarationStatement influencedVarDeclStatement = (VariableDeclarationStatement) varDeclContainer;
-                            influencedASTNodes.add(influencedVarDeclStatement);
-
-                        } else {
-                            logger.warn("Not yet handled variable declaration container: " + varDeclContainer);
-                        }
-                    } else if (methodContainer instanceof ReturnStatement) {
-                        ReturnStatement returnStatement = (ReturnStatement) methodContainer;
-                        influencedASTNodes.add(returnStatement);
-                        
-                    } else {
-                        logger.warn("Not yet handled method invocation container: " + methodContainer);
-                    }
-
-                } else {
-                    logger.warn("Not yet handled variable access container: " + variableAccessContainer);
-                }
-            }
-        }
-
-        return influencedASTNodes;
-    }
-
-    /**
-     * Gather all ASTNodes referenced by any variant of the variation point.
-     * 
-     * @param vp
-     *            The variation point to get the ASTNodes for.
-     * @return A list of all referenced ASTNodes.
-     */
-    private List<ASTNode> astNodesOfVariationPoint(VariationPoint vp) {
-        List<ASTNode> astNodes = new ArrayList<ASTNode>();
-
-        for (Variant v : vp.getVariants()) {
-            astNodes.addAll(v.getSoftwareEntities());
-        }
-
-        return astNodes;
-    }
-
-    /**
-     * Build a variation point index to simplify node lookup afterwards.
-     * 
-     * @param vpmGraph
-     *            The graph to fill the index from.
-     * @return The prepared variation point index.
-     */
-    private Map<VariationPoint, Node> buildVariationPointIndex(VPMGraph vpmGraph) {
-        Map<VariationPoint, Node> index = new HashMap<VariationPoint, Node>();
-        for (Node node : vpmGraph.getNodeSet()) {
-            VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
-            index.put(vp, node);
-        }
-        return index;
-    }
-
-    /**
-     * Build an AST node index to simplify the variation point for AST node lookup.
-     * 
-     * @param variationPoints
-     *            The variation point collection to build the AST node index for.
-     * @return The prepared AST node index.
-     */
-    public Map<ASTNode, VariationPoint> buildASTNodeIndex(Collection<VariationPoint> variationPoints) {
-
-        Map<ASTNode, VariationPoint> index = new HashMap<ASTNode, VariationPoint>();
-
-        for (VariationPoint vp : variationPoints) {
-            for (ASTNode astNodes : astNodesOfVariationPoint(vp)) {
-                index.put(astNodes, vp);
-            }
-        }
-
-        return index;
-    }
+    // /**
+    // * Get's the next reasonable parent element of an expression, a variation point might exist
+    // for.
+    // *
+    // * @param expression
+    // * The expression to handle.
+    // * @return the enclosing AST node.
+    // */
+    // private ASTNode getEnclosingASTNode(Expression expression) {
+    // EObject expContainer = expression.eContainer();
+    // if (expContainer instanceof Statement) {
+    // return (Statement) expContainer;
+    //
+    // } else if (expContainer instanceof Expression) {
+    // return getEnclosingASTNode((Expression) expContainer);
+    //
+    // } else {
+    // logger.warn("Not yet handled expression container: " + expContainer);
+    // }
+    // return null;
+    // }
+    //
+    // /**
+    // * Get the influenced ASTNode for a method invocation element. An influenced ASTNode is always
+    // * an element, that potentially is referenced by a variant of a variation point. For example,
+    // * expressions or literals could never be referenced and for that are not returned by the
+    // * method.
+    // *
+    // * The method might recursively invoke itself or other methods to process container elements
+    // to
+    // * get to the closes referrable element.
+    // *
+    // * @param methodInvocation
+    // * The method invocation to get a reasonable influenced ASTNode for.
+    // * @return The closest influenced and reasonable ASTNode
+    // */
+    // private ASTNode getReferringASTNode(MethodInvocation methodInvocation) {
+    // EObject methodInvocationContainer = methodInvocation.eContainer();
+    // if (methodInvocationContainer instanceof VariableDeclarationFragment) {
+    // VariableDeclarationFragment methodVariableDecl = (VariableDeclarationFragment)
+    // methodInvocationContainer;
+    // EObject varDeclContainer = methodVariableDecl.eContainer();
+    // if (varDeclContainer instanceof VariableDeclarationStatement) {
+    // return (VariableDeclarationStatement) varDeclContainer;
+    // } else {
+    // logger.warn("Not yet handled variable declaration container: " + varDeclContainer);
+    // }
+    // } else if (methodInvocationContainer instanceof Statement) {
+    // return (Statement) methodInvocationContainer;
+    //
+    // } else if (methodInvocationContainer instanceof MethodInvocation) {
+    // return getReferringASTNode((MethodInvocation) methodInvocationContainer);
+    //
+    // } else {
+    // logger.warn("Not yet handled method invocation container: " + methodInvocationContainer);
+    // }
+    // return null;
+    // }
 
     @Override
     public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {

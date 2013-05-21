@@ -7,9 +7,12 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.splevo.tests.AbstractTest;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
+import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer;
 
@@ -18,7 +21,10 @@ import org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer;
  * 
  * @author Benjamin Klatt
  */
-public class ProgramStructureVPMAnalyzerTest {
+public class ProgramStructureVPMAnalyzerTest extends AbstractTest {
+
+    /** The logger for this class. */
+    private Logger logger = Logger.getLogger(ProgramStructureVPMAnalyzerTest.class);
     
     /** An instance of the analyzer for general tests. */
     private final ProgramStructureVPMAnalyzer analyzer = new ProgramStructureVPMAnalyzer();
@@ -47,7 +53,11 @@ public class ProgramStructureVPMAnalyzerTest {
         assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
         assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
 
-        assertEquals("Wrong edge descriptor count", 4, result.getEdgeDescriptors().size());
+        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
+            logger.debug("ProgramStructure edge: "+edgeDescriptor.getRelationshipSubLabel());
+        }
+        
+        assertEquals("Wrong edge descriptor count", 10, result.getEdgeDescriptors().size());
         
     }
 

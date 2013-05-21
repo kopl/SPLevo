@@ -45,6 +45,7 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         this.logger.info("VPM Analysis (" + analyzer.getName() + ") started at: " + (dateFormat.format(new Date())));
         VPMAnalyzerResult analyzerResult = analyzer.analyze(vpmGraph);
         this.logger.info("VPM Analysis (" + analyzer.getName() + ") finished at: " + (dateFormat.format(new Date())));
+        this.logger.info("VPM Analysis (" + analyzer.getName() + ") relationships detected: " + analyzerResult.getEdgeDescriptors().size());
         getBlackboard().getVpmAnalyzerResults().add(analyzerResult);
 
         // finish run

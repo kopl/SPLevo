@@ -76,7 +76,7 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
             edgeRegistry.add(edgeRegistryID);
 
             // build edge descriptor
-            descriptor = new VPMEdgeDescriptor(getRelationshipLabel(), "", node1.getId(), node2.getId());
+            descriptor = new VPMEdgeDescriptor(getRelationshipLabel(), relationshipSubLabel, node1.getId(), node2.getId());
         }
 
         return descriptor;

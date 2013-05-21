@@ -80,12 +80,15 @@ public class VPMAnalysisListener extends MouseAdapter {
         config.setSplevoProjectEditor(splevoProjectEditor);
         
         // build the detection rules
+        List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
+
         List<String> edgeLabels = new ArrayList<String>();
         edgeLabels.add("CodeLocation");
-        DetectionRule detectionRule = new BasicDetectionRule(edgeLabels, RefinementType.MERGE);
-
-        List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
-        detectionRules.add(detectionRule);
+        detectionRules.add(new BasicDetectionRule(edgeLabels, RefinementType.MERGE));
+        
+        List<String> edgeLabelsStructure = new ArrayList<String>();
+        edgeLabelsStructure.add("ProgramStructure");
+        detectionRules.add(new BasicDetectionRule(edgeLabelsStructure, RefinementType.MERGE));
         
         config.setDetectionRules(detectionRules);
         
