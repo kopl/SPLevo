@@ -122,7 +122,7 @@ public class VPMAnalysisWorkflowDelegate extends
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         String basePath = workspace.getRoot().getRawLocation().toOSString();
         String logDirectory = basePath + config.getSplevoProjectEditor().getSplevoProject().getWorkspace();
-        DateFormat logDateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss");
+        DateFormat logDateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
         String logFile = logDirectory + "logs/vpm-analysis-" + (logDateFormat.format(new Date())) + ".csv";
         
         FileAppender fa = new FileAppender();
@@ -130,8 +130,9 @@ public class VPMAnalysisWorkflowDelegate extends
         fa.setFile(logFile);
         fa.setLayout(new PatternLayout("%m%n"));
         fa.setThreshold(Level.DEBUG);
-        fa.setAppend(true);
+        fa.setAppend(false);
         fa.activateOptions();
+        Logger.getLogger(VPMAnalyzer.LOG_CATEGORY).removeAllAppenders();
         Logger.getLogger(VPMAnalyzer.LOG_CATEGORY).addAppender(fa);
         
         // insert header row
