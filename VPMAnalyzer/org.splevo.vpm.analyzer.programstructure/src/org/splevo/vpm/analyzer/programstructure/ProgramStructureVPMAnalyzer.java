@@ -109,7 +109,7 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
 
             List<ASTNode> astNodes = variationPointIndex.getVariantSoftwareEntities(vp);
             for (ASTNode astNode : astNodes) {
-                List<VariationPoint> relatedVPs = findRelatedVariationPoints(astNode);
+                List<VariationPoint> relatedVPs = findRelatedVariationPoints(vp, astNode);
                 for (VariationPoint referee : relatedVPs) {
                     Node sourceNode = variationPointIndex.getGraphNode(vp);
                     Node targetNode = variationPointIndex.getGraphNode(referee);
@@ -130,11 +130,13 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      * Search for variation points referencing AST nodes influenced by a variable declaration
      * statement.
      * 
+     * @param originVP
+     *            The variation point to find relationships for.
      * @param astNode
      *            The AST node to find references for.
      * @return The list of referring variation points.
      */
-    private List<VariationPoint> findRelatedVariationPoints(ASTNode astNode) {
+    private List<VariationPoint> findRelatedVariationPoints(VariationPoint originVP, ASTNode astNode) {
 
         List<VariationPoint> variationPoints = new ArrayList<VariationPoint>();
 
@@ -144,6 +146,9 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
             VariationPoint relatedVariationPoint = variationPointIndex.getEnclosingVariationPoint(referringASTNode);
             if (relatedVariationPoint != null) {
                 variationPoints.add(relatedVariationPoint);
+                logAnalysisInfo(variationPointIndex.getGraphNode(originVP).getId(),
+                        variationPointIndex.getGraphNode(relatedVariationPoint).getId(), astNode.getClass()
+                                .getSimpleName(), referringASTNode.getClass().getSimpleName());
             }
         }
 

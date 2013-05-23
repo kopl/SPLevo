@@ -12,6 +12,12 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
  */
 public interface VPMAnalyzer {
 
+    /** Identifier for the vpm analysis log category. */
+    String LOG_CATEGORY = "org.splevo.vpm.analyzer.analysislog";
+    
+    /** The character to use for separating several logging fields. */
+    String LOG_SEPARATOR = ",";
+
     /**
      * Analyze a variation point model graph for relationships between the variation points and add
      * edges for the those identified.

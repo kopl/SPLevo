@@ -1,6 +1,15 @@
 package org.splevo.ui.workflow;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
@@ -78,6 +87,10 @@ public class VPMAnalysisWorkflowDelegate extends
             logger.error("No analysis to perform configured.");
             return null;
         }
+
+        logger.info("Intialize Analysis Log");
+        initializeAnalysisLog();
+        
         for (VPMAnalyzer analyzerInstance : config.getAnalyzers()) {
             VPMAnalysisJob vpmAnalysisJob = new VPMAnalysisJob(analyzerInstance);
             parallelAnalysisJob.add(vpmAnalysisJob);
@@ -97,6 +110,33 @@ public class VPMAnalysisWorkflowDelegate extends
 
         // return the prepared workflow
         return compositeJob;
+    }
+
+    /**
+     * Initialize the log4j logging infrastructure for the analysis run.
+     */
+    private void initializeAnalysisLog() {
+        
+        // build the path of the log file 
+        // inside a log directory of the analysis workflow
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        String basePath = workspace.getRoot().getRawLocation().toOSString();
+        String logDirectory = basePath + config.getSplevoProjectEditor().getSplevoProject().getWorkspace();
+        DateFormat logDateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss");
+        String logFile = logDirectory + "logs/vpm-analysis-" + (logDateFormat.format(new Date())) + ".csv";
+        
+        FileAppender fa = new FileAppender();
+        fa.setName("VPM Analysis Logger");
+        fa.setFile(logFile);
+        fa.setLayout(new PatternLayout("%m%n"));
+        fa.setThreshold(Level.DEBUG);
+        fa.setAppend(true);
+        fa.activateOptions();
+        Logger.getLogger(VPMAnalyzer.LOG_CATEGORY).addAppender(fa);
+        
+        // insert header row
+        Logger.getLogger(VPMAnalyzer.LOG_CATEGORY).info("Analyzer,VP1, VP2, SourceInfo, TargetInfo, Remark");
+        
     }
 
     /**

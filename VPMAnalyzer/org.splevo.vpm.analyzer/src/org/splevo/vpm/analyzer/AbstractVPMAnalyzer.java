@@ -3,6 +3,7 @@ package org.splevo.vpm.analyzer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.graphstream.graph.Node;
 
 /**
@@ -18,6 +19,57 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
 
     /** Internal list to cache which edges have already been created. */
     protected List<String> edgeRegistry = new ArrayList<String>();
+
+    /** The logger to store any log analysis information to. */
+    private Logger analysisLogger = Logger.getLogger(VPMAnalyzer.LOG_CATEGORY);
+
+    /**
+     * Log information during the analysis for later evaluation.
+     * An empty relationship info is added.
+     * 
+     * @param vp1ID
+     *            An identifier for the first variation point of the relation.
+     * @param vp2ID
+     *            An identifier for the second variation point of the relation.
+     * @param sourceInfo
+     *            An info about the source of the relationship.
+     * @param targetInfo
+     *            An info about the target of the relationship.
+     */
+    protected void logAnalysisInfo(String vp1ID, String vp2ID, String sourceInfo, String targetInfo) {
+        logAnalysisInfo(vp1ID, vp2ID, sourceInfo, targetInfo, "");
+    }
+
+    /**
+     * Log some information during the analysis for later evaluation.
+     * 
+     * @param vp1ID
+     *            An identifier for the first variation point of the relation.
+     * @param vp2ID
+     *            An identifier for the second variation point of the relation.
+     * @param sourceInfo
+     *            An info about the source of the relationship.
+     * @param targetInfo
+     *            An info about the target of the relationship.
+     * @param remark
+     *            An info field to store additional information about the relationship.
+     */
+    protected void logAnalysisInfo(String vp1ID, String vp2ID, String sourceInfo, String targetInfo,
+            String remark) {
+        StringBuilder logMessage = new StringBuilder();
+        logMessage.append(getRelationshipLabel());
+        logMessage.append(LOG_SEPARATOR);
+        logMessage.append(vp1ID);
+        logMessage.append(LOG_SEPARATOR);
+        logMessage.append(vp2ID);
+        logMessage.append(LOG_SEPARATOR);
+        logMessage.append(sourceInfo);
+        logMessage.append(LOG_SEPARATOR);
+        logMessage.append(targetInfo);
+        logMessage.append(LOG_SEPARATOR);
+        logMessage.append(remark);
+        analysisLogger.info(logMessage.toString());
+    }
 
     /**
      * Build a unique internal identifier for the undirected edge between the nodes. This is done
@@ -76,7 +128,8 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
             edgeRegistry.add(edgeRegistryID);
 
             // build edge descriptor
-            descriptor = new VPMEdgeDescriptor(getRelationshipLabel(), relationshipSubLabel, node1.getId(), node2.getId());
+            descriptor = new VPMEdgeDescriptor(getRelationshipLabel(), relationshipSubLabel, node1.getId(),
+                    node2.getId());
         }
 
         return descriptor;
