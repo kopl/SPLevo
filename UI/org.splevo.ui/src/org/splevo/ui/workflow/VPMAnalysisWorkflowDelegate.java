@@ -13,6 +13,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.jobs.CloseAnalysisTraceLogAppenderJob;
 import org.splevo.ui.jobs.DetectRefinementsJob;
 import org.splevo.ui.jobs.InitVPMGraphJob;
 import org.splevo.ui.jobs.LoadVPMJob;
@@ -90,16 +91,16 @@ public class VPMAnalysisWorkflowDelegate extends
 
         logger.info("Intialize Analysis Log");
         initializeAnalysisLog();
-        
+
         for (VPMAnalyzer analyzerInstance : config.getAnalyzers()) {
             VPMAnalysisJob vpmAnalysisJob = new VPMAnalysisJob(analyzerInstance);
             parallelAnalysisJob.add(vpmAnalysisJob);
         }
         compositeJob.add(parallelAnalysisJob);
-        
+
         MergeVPMAnalyzerResultsIntoGraphJob mergeVPMAnalyzerResultsJob = new MergeVPMAnalyzerResultsIntoGraphJob();
         compositeJob.add(mergeVPMAnalyzerResultsJob);
-        
+
         // decide about the workflow to be exectured
         if (config.getPresentation() == ResultPresentation.RELATIONSHIP_GRAPH_ONLY) {
             OpenVPMGraphJob openVPMGraphJob = new OpenVPMGraphJob();
@@ -107,6 +108,9 @@ public class VPMAnalysisWorkflowDelegate extends
         } else if (config.getPresentation() == ResultPresentation.REFINEMENT_BROWSER) {
             addRefinementBrowserWorkflow(compositeJob, splevoProject);
         }
+
+        // clean up appender when workflow is done
+        compositeJob.add(new CloseAnalysisTraceLogAppenderJob());
 
         // return the prepared workflow
         return compositeJob;
@@ -116,17 +120,17 @@ public class VPMAnalysisWorkflowDelegate extends
      * Initialize the log4j logging infrastructure for the analysis run.
      */
     private void initializeAnalysisLog() {
-        
-        // build the path of the log file 
+
+        // build the path of the log file
         // inside a log directory of the analysis workflow
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         String basePath = workspace.getRoot().getRawLocation().toOSString();
         String logDirectory = basePath + config.getSplevoProjectEditor().getSplevoProject().getWorkspace();
         DateFormat logDateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
         String logFile = logDirectory + "logs/vpm-analysis-" + (logDateFormat.format(new Date())) + ".csv";
-        
+
         FileAppender fa = new FileAppender();
-        fa.setName("VPM Analysis Logger");
+        fa.setName(CloseAnalysisTraceLogAppenderJob.LOG_APPENDER_NAME);
         fa.setFile(logFile);
         fa.setLayout(new PatternLayout("%m%n"));
         fa.setThreshold(Level.DEBUG);
@@ -134,10 +138,10 @@ public class VPMAnalysisWorkflowDelegate extends
         fa.activateOptions();
         Logger.getLogger(VPMAnalyzer.LOG_CATEGORY).removeAllAppenders();
         Logger.getLogger(VPMAnalyzer.LOG_CATEGORY).addAppender(fa);
-        
+
         // insert header row
         Logger.getLogger(VPMAnalyzer.LOG_CATEGORY).info("Analyzer,VP1, VP2, SourceInfo, TargetInfo, Remark");
-        
+
     }
 
     /**
