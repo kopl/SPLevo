@@ -3,24 +3,30 @@ package org.splevo.vpm.analyzer.semantic;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
+import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.graphstream.graph.Node;
+import org.splevo.modisco.util.SourceConnector;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.VariationPoint;
 
+/**
+ * TODO: Write a description of the semantic analyzer.
+ * 
+ * @author Daniel Kojic
+ *
+ */
 public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	
 	/** The logger for this class. */
     private Logger logger = Logger.getLogger(SemanticVPMAnalyzer.class);
-	
-	/** The relationship label of the analyzer. */
-    public static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
 
-    /** The relationship label of the analyzer. */
-    public static final String DISPLAYED_NAME = "Semantic VPM Analyzer";
+	private IndexASTNodeSwitch indexASTNodeSwitch;
     
 	@Override
 	public VPMAnalyzerResult analyze(VPMGraph vpmGraph) {
@@ -59,12 +65,12 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 
 	@Override
 	public String getName() {
-		return DISPLAYED_NAME;
+		return Constants.DISPLAYED_NAME;
 	}
 
 	@Override
 	public String getRelationshipLabel() {
-		return RELATIONSHIP_LABEL_SEMANTIC;
+		return Constants.RELATIONSHIP_LABEL_SEMANTIC;
 	}
 
 	/**
@@ -73,17 +79,23 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	 * @param vpmGraph The {@link VPMGraph} containing the information to be indexed. 
 	 */
 	private void fillIndex(VPMGraph vpmGraph){
-		// TODO Auto-generated method stub
+		// Get the indexer instance.
+		
+		// Iterate through the graph.
 		for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
             if (vp != null) {
-                ASTNode astNode = vp.getEnclosingSoftwareEntity();
-                // TODO: find out how to extract code.
+            	ASTNode astNode = vp.getEnclosingSoftwareEntity();
+            	
+            	if(astNode != null){
+            		indexASTNodeSwitch = new IndexASTNodeSwitch();
+            		indexASTNodeSwitch.doSwitch(astNode);
+            	}            	
             }
 
         }
 	}
-	
+
 	/**
 	 * Finds semantic relationships between the variation points.
 	 * 

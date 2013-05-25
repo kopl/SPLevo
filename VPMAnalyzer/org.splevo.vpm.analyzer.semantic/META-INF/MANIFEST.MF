@@ -4,5 +4,9 @@ Bundle-Name: Semantic
 Bundle-SymbolicName: org.splevo.vpm.analyzer.semantic;singleton:=true
 Bundle-Version: 1.0.0.0
 Require-Bundle: org.splevo.vpm.analyzer;bundle-version="1.0.0",
- org.apache.log4j;bundle-version="1.2.15"
+ org.apache.log4j;bundle-version="1.2.15",
+ org.splevo.modisco.util;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: dependencies/lucene-core-4.2.1.jar,
+ .,
+ dependencies/lucene-misc-4.2.1.jar
