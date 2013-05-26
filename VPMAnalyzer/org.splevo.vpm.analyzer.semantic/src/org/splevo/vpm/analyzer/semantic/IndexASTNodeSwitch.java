@@ -30,17 +30,24 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(IndexASTNodeSwitch.class);
     
-    /** Add the data to this indexer´s index. */
-	private Indexer indexer;
+	private StringBuilder sb;
 
     public IndexASTNodeSwitch(){
-    	indexer = Indexer.getInstance();
+    	clear();
+    }
+    
+    public void clear(){
+    	sb = new StringBuilder();
+    }
+    
+    public String getContent(){
+    	return sb.toString();
     }
 
     @Override
     public List<ASTNode> caseImportDeclaration(ImportDeclaration importDeclaration) {
     	String content = importDeclaration.getImportedElement().getName();
-    	System.out.println("IMPORT: " + content);
+    	sb.append(content + " ");
     	return new ArrayList<ASTNode>();
     }
 
@@ -48,7 +55,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement) {
     	EList<VariableDeclarationFragment> fragments = variableDeclarationStatement.getFragments();
     	for (VariableDeclarationFragment fragment : fragments) {
-			System.out.println("VARIABLE: " + fragment.getName());
+    		sb.append(fragment.getName() + " ");
 		}
     	return new ArrayList<ASTNode>();
     }
@@ -56,28 +63,28 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     @Override
     public List<ASTNode> caseFieldDeclaration(FieldDeclaration fieldDeclaration) {
     	String content = fieldDeclaration.getName();
-    	System.out.println("FIELD: " + content);
+    	sb.append(content + " ");
     	return new ArrayList<ASTNode>();
     }
     
     @Override
     public List<ASTNode> caseClassDeclaration(ClassDeclaration decl) {
     	String content = decl.getName();
-    	System.out.println("CLASS: " + content);
+    	sb.append(content + " ");
     	return new ArrayList<ASTNode>();
     }
     
     @Override
     public List<ASTNode> caseMethodDeclaration(MethodDeclaration decl) {
     	String content = decl.getName();
-    	System.out.println("METHOD: " + content);
+    	sb.append(content + " ");
     	return new ArrayList<ASTNode>();
     }
     
     @Override
     public List<ASTNode> caseEnumDeclaration(EnumDeclaration decl) {
     	String content = decl.getName();
-    	System.out.println("ENUM: " + content);
+    	sb.append(content + " ");
     	return new ArrayList<ASTNode>();
     }
 
@@ -90,21 +97,21 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     @Override
     public List<ASTNode> casePackage(Package packageNode) {
     	String content = packageNode.getName();
-    	System.out.println("PACKAGE: " + content);
+    	sb.append(content + " ");
     	return new ArrayList<ASTNode>();
     }
     
     @Override
     public List<ASTNode> caseExpressionStatement(ExpressionStatement stmt) {
     	String content = stmt.getExpression().getOriginalCompilationUnit().getName();
-    	System.out.println("EXPRESSION: " + content);
+    	sb.append(content + " ");
         return new ArrayList<ASTNode>();
     }
 
     @Override
     public List<ASTNode> caseReturnStatement(ReturnStatement returnStatement) {
     	String content = returnStatement.getExpression().getOriginalCompilationUnit().getName();
-    	System.out.println("RETURN: " + content);
+    	sb.append(content + " ");
         return new ArrayList<ASTNode>();
     }
 

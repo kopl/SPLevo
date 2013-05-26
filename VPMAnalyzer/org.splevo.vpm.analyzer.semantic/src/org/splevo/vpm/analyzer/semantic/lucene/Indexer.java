@@ -1,4 +1,4 @@
-package org.splevo.vpm.analyzer.semantic;
+package org.splevo.vpm.analyzer.semantic.lucene;
 
 import java.io.IOException;
 
@@ -7,13 +7,15 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.FieldInfo.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
+import org.splevo.vpm.analyzer.semantic.Constants;
 
 /**
  * This class handles the indexing. It creates one single main index. The class provides
@@ -39,6 +41,18 @@ public class Indexer {
 	
 	/** Singleton instance. */
 	private static Indexer instance;
+	
+    /** Indexed, tokenized, stored. */
+    private static final FieldType TYPE_STORED = new FieldType();
+
+    static {
+        TYPE_STORED.setIndexed(true);
+        TYPE_STORED.setTokenized(true);
+        TYPE_STORED.setStored(true);
+        TYPE_STORED.setStoreTermVectors(true);
+        TYPE_STORED.setStoreTermVectorPositions(true);
+        TYPE_STORED.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
+    }
 	
 	/**
 	 *  Private constructor to prevent this	class from being
@@ -75,8 +89,8 @@ public class Indexer {
 		try {
 			IndexWriter indexWriter = new IndexWriter(directory, config);
 			Document doc = new Document();
-			doc.add(new StringField(Constants.VARIATIONPOINT_INDEX_ID, variationPointId, Field.Store.NO));
-			doc.add(new StringField(Constants.CONTENT_INDEX_ID, content, Field.Store.YES));
+			doc.add(new Field(Constants.VARIATIONPOINT_INDEX_ID, variationPointId, TYPE_STORED));
+			doc.add(new Field(Constants.CONTENT_INDEX_ID, content, TYPE_STORED));
 			indexWriter.addDocument(doc);
 			indexWriter.close();
 		} catch (IOException e) {
@@ -95,4 +109,21 @@ public class Indexer {
 		}
 		directory = new RAMDirectory();
 	}
+	
+	public void printIndexContents(){
+		try {
+			DirectoryReader reader = getIndexReader();
+			for (int i = 0; i < reader.maxDoc(); i++) {
+				Document doc;
+
+				doc = reader.document(i);
+				String cont = doc.get(Constants.CONTENT_INDEX_ID);
+				if (cont.length() != 0)
+					System.out.println(cont);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

@@ -9,4 +9,6 @@ Require-Bundle: org.splevo.vpm.analyzer;bundle-version="1.0.0",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: dependencies/lucene-core-4.2.1.jar,
  .,
- dependencies/lucene-misc-4.2.1.jar
+ dependencies/lucene-misc-4.2.1.jar,
+ dependencies/lucene-analyzers-common-4.2.1.jar,
+ dependencies/commons-math3-3.2.jar

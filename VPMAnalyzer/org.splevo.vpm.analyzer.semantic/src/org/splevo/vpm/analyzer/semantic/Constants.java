@@ -12,6 +12,6 @@ public final class Constants {
 
     /** The relationship label of the analyzer. */
     public static final String DISPLAYED_NAME = "Semantic VPM Analyzer";
-    
-    public static final int MAX_NUMBER_TERMS_SEARCHED = 3;
+
+	public static final String MINIMUM_SIMILARITY_CONFIG = "MINSIM";
 }
