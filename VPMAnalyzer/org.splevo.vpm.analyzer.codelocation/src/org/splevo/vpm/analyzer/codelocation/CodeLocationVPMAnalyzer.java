@@ -11,7 +11,6 @@ import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.IfStatement;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
-import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
@@ -149,17 +148,6 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
         }
 
         return astNode;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.splevo.vpm.analyzer.VPMAnalyzer#getAvailableConfigurations()
-     */
-    @Override
-    public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {
-        Map<String, VPMAnalyzerConfigurationType> configurations = new HashMap<String, VPMAnalyzerConfigurationType>();
-        return configurations;
     }
 
     /*

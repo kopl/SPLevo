@@ -1,7 +1,9 @@
 package org.splevo.vpm.analyzer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.graphstream.graph.Node;
@@ -69,6 +71,15 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
         logMessage.append(LOG_SEPARATOR);
         logMessage.append(remark);
         analysisLogger.info(logMessage.toString());
+    }
+
+    /**
+     * Default implementation returning an empty configuration map.
+     * @return An emty configuration map.
+     */
+    @Override
+    public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {
+        return new HashMap<String, VPMAnalyzerConfigurationType>();
     }
 
     /**
