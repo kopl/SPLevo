@@ -8,6 +8,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -17,6 +18,8 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -60,7 +63,8 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
     /**
      * Create contents of the wizard.
      * 
-     * @param parent The parent ui element this control should be placed in.
+     * @param parent
+     *            The parent ui element this control should be placed in.
      */
     public void createControl(Composite parent) {
         Composite container = new Composite(parent, SWT.FILL);
@@ -101,6 +105,24 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
         btnAdd.setText("add");
 
         Button btnRemove = new Button(container, SWT.NONE);
+        btnRemove.addMouseListener(new MouseAdapter() {
+            
+            /**
+             * Remove the selected VP analyzer when the button is clicked.
+             * 
+             * @param e The event triggered the mouse adapter
+             */
+            @Override
+            public void mouseUp(MouseEvent e) {
+                ISelection selection = listViewerAnalysis.getSelection();
+                if (selection instanceof StructuredSelection) {
+                    VPMAnalyzer analyzer = (VPMAnalyzer) ((StructuredSelection) selection).getFirstElement();
+                    removeAnalyzer(analyzer);
+                } else {
+                    logger.warn("Unsupported selection for remove action");
+                }
+            }
+        });
         btnRemove.setBounds(237, 72, 90, 30);
         btnRemove.setText("remove");
 
@@ -178,12 +200,12 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
         return analyzer;
 
     }
-    
+
     @Override
     public boolean isPageComplete() {
         return (listViewerAnalysis.getList().getItems().length > 0);
     }
-    
+
     @Override
     public boolean canFlipToNextPage() {
         return isPageComplete();
@@ -197,6 +219,18 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
      */
     public void addAnalyzer(VPMAnalyzer analyzer) {
         this.analyzers.add(analyzer);
+        listViewerAnalysis.refresh();
+        getWizard().getContainer().updateButtons();
+    }
+
+    /**
+     * Remove an analyzer from the list of configured analyzers.
+     * 
+     * @param analyzer
+     *            The analyzer to be removed.
+     */
+    public void removeAnalyzer(VPMAnalyzer analyzer) {
+        this.analyzers.remove(analyzer);
         listViewerAnalysis.refresh();
         getWizard().getContainer().updateButtons();
     }
