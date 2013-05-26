@@ -46,12 +46,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	}
 
 	@Override
-	public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Map<String, String> getConfigurationLabels() {
 		// TODO Auto-generated method stub
 		return null;
