@@ -65,7 +65,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	}
 
 	@Override
-<<<<<<< .mine
 	public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {
 		Map<String, VPMAnalyzerConfigurationType> availableConfigurations = new HashMap<String, VPMAnalyzerConfigurationType>();
 		availableConfigurations.put(Constants.MINIMUM_SIMILARITY_CONFIG, VPMAnalyzerConfigurationType.STRING);
@@ -73,8 +72,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	}
 
 	@Override
-=======
->>>>>>> .r18803
 	public Map<String, String> getConfigurationLabels() {
 		Map<String, String> configurationLabels = new HashMap<String, String>();
 		configurationLabels.put(Constants.MINIMUM_SIMILARITY_CONFIG, "Minimal Similarity");
