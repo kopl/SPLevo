@@ -21,6 +21,7 @@ import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 
 /**
+ * This switch extracts the text contents from the given nodes.
  * 
  * @author Daniel Kojic
  * 
@@ -30,16 +31,21 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(IndexASTNodeSwitch.class);
     
+	/** This {@link StringBuilder} is used to store the content. */
 	private StringBuilder sb;
 
     public IndexASTNodeSwitch(){
     	clear();
     }
     
+    /** Clears the text content. */
     public void clear(){
     	sb = new StringBuilder();
     }
     
+    /**
+     * @return The text content collected from nodes since the last clear() call.
+     */
     public String getContent(){
     	return sb.toString();
     }

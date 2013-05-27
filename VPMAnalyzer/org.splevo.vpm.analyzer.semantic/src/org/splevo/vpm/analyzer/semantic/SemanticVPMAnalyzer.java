@@ -11,10 +11,10 @@ import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
-import org.splevo.vpm.analyzer.semantic.lucene.CosineSimilarityAnalyzer;
-import org.splevo.vpm.analyzer.semantic.lucene.IRelationshipAnalyzer;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
+import org.splevo.vpm.analyzer.semantic.lucene.analyzer.CosineSimilarityAnalyzer;
+import org.splevo.vpm.analyzer.semantic.lucene.analyzer.IRelationshipAnalyzer;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**

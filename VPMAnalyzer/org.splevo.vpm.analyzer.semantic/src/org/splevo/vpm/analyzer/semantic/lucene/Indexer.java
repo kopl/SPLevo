@@ -16,6 +16,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.splevo.vpm.analyzer.semantic.Constants;
+import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * This class handles the indexing. It creates one single main index. The class provides
@@ -46,6 +47,7 @@ public class Indexer {
     private static final FieldType TYPE_STORED = new FieldType();
 
     static {
+    	// Setup of fields beeing indexed. Store TermVectors for later analysis.
         TYPE_STORED.setIndexed(true);
         TYPE_STORED.setTokenized(true);
         TYPE_STORED.setStored(true);
@@ -70,7 +72,6 @@ public class Indexer {
 	/**
 	 * Gets the singleton instance.
 	 * @return The singleton instance.
-	 * @throws IOException Throws an {@link IOException} if there are problems opening the index.
 	 */
 	public static Indexer getInstance() {
 		// Return singleton, create new if not existing.
@@ -79,18 +80,24 @@ public class Indexer {
 	
 	/**
 	 * @return A {@link DirectoryReader} to search the main index.
-	 * @throws IOException
+	 * @throws IOException Throws an {@link IOException} if there are problems opening the index.
 	 */
 	public DirectoryReader getIndexReader() throws IOException {
 		return DirectoryReader.open(directory);
 	}
 	
+	/**
+	 * Adds content to the main index.
+	 * 
+	 * @param variationPointId The ID of the {@link VariationPoint} to be linked with its content.
+	 * @param content The text content of the {@link VariationPoint}.
+	 */
 	public void addToIndex(String variationPointId, String content){
 		try {
 			IndexWriter indexWriter = new IndexWriter(directory, config);
 			Document doc = new Document();
-			doc.add(new Field(Constants.VARIATIONPOINT_INDEX_ID, variationPointId, TYPE_STORED));
-			doc.add(new Field(Constants.CONTENT_INDEX_ID, content, TYPE_STORED));
+			doc.add(new Field(Constants.Index_VARIATIONPOINT, variationPointId, TYPE_STORED));
+			doc.add(new Field(Constants.INDEX_CONTENT, content, TYPE_STORED));
 			indexWriter.addDocument(doc);
 			indexWriter.close();
 		} catch (IOException e) {
@@ -109,7 +116,10 @@ public class Indexer {
 		}
 		directory = new RAMDirectory();
 	}
-	
+		
+	/**
+	 * Just for testing purposes.
+	 */
 	public void printIndexContents(){
 		try {
 			DirectoryReader reader = getIndexReader();
@@ -117,7 +127,7 @@ public class Indexer {
 				Document doc;
 
 				doc = reader.document(i);
-				String cont = doc.get(Constants.CONTENT_INDEX_ID);
+				String cont = doc.get(Constants.INDEX_CONTENT);
 				if (cont.length() != 0)
 					System.out.println(cont);
 			}
