@@ -16,6 +16,7 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.ReturnStatement;
+import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
@@ -68,8 +69,10 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 
     @Override
     public List<ASTNode> caseFieldDeclaration(FieldDeclaration fieldDeclaration) {
-    	String content = fieldDeclaration.getName();
-    	sb.append(content + " ");
+    	EList<VariableDeclarationFragment> fragments = fieldDeclaration.getFragments();
+    	for (VariableDeclarationFragment fragment : fragments) {
+    		sb.append(fragment.getName() + " ");
+		}
     	return new ArrayList<ASTNode>();
     }
     
@@ -82,8 +85,15 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     
     @Override
     public List<ASTNode> caseMethodDeclaration(MethodDeclaration decl) {
-    	String content = decl.getName();
-    	sb.append(content + " ");
+    	// Method name
+    	sb.append(decl.getName() + " ");
+    	
+    	// Parameter names
+    	EList<SingleVariableDeclaration> parameters = decl.getParameters();
+    	for (SingleVariableDeclaration parameter : parameters) {
+			sb.append(parameter.getName() + " ");
+		}
+    	
     	return new ArrayList<ASTNode>();
     }
     
@@ -102,28 +112,38 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 
     @Override
     public List<ASTNode> casePackage(Package packageNode) {
-    	String content = packageNode.getName();
-    	sb.append(content + " ");
+    	sb.append(packageNode.getName() + " ");
     	return new ArrayList<ASTNode>();
     }
     
     @Override
     public List<ASTNode> caseExpressionStatement(ExpressionStatement stmt) {
-    	String content = stmt.getExpression().getOriginalCompilationUnit().getName();
-    	sb.append(content + " ");
+    	// Nothing to be indexed, yet.
         return new ArrayList<ASTNode>();
     }
 
     @Override
     public List<ASTNode> caseReturnStatement(ReturnStatement returnStatement) {
-    	String content = returnStatement.getExpression().getOriginalCompilationUnit().getName();
-    	sb.append(content + " ");
+    	// Nothing to be indexed, yet.
         return new ArrayList<ASTNode>();
     }
 
     @Override
     public List<ASTNode> defaultCase(EObject object) {
+    	//print(object);
     	logger.error("Invalid ASTNode found. (" + object.toString() + ")");
         return new ArrayList<ASTNode>();
     }
+
+//	private void print(EObject object) {
+//		Resource resource = new ResourceImpl();
+//		resource.getContents().add(EcoreUtil.copy(object));
+//		try {
+//			System.out.println("##################################");
+//			resource.save(System.out, null);
+//			System.out.println("##################################");
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//	}
 }
