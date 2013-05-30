@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -59,12 +59,12 @@ public class Indexer {
 	/**
 	 *  Private constructor to prevent this	class from being
 	 *  instantiated multiple times.
-	 *  The default analyzer will be the StandardAnalyzer.
+	 *  The default analyzer will be the {@link WhitespaceAnalyzer}.
 	 * @throws IOException Throws an {@link IOException} if there are problems opening the index.
 	 */
 	private Indexer() {
 		// Set default values.
-		analyzer = new StandardAnalyzer(Version.LUCENE_42);
+		analyzer = new WhitespaceAnalyzer(Version.LUCENE_42);
 		directory = new RAMDirectory();
 		config = new IndexWriterConfig(Version.LUCENE_42, analyzer);
 	}
@@ -106,15 +106,13 @@ public class Indexer {
 	}
 	
 	/**
-	 * Deletes the main index with all the content and opens a new, empty index.
+	 * Deletes all contents from the main index.
+	 * @throws IOException 
 	 */
-	public void clearIndex(){
-		try {
-			directory.close();
-		} catch (IOException e) {
-			logger.error("Cannot close Index. Check for open filehandles.");
-		}
-		directory = new RAMDirectory();
+	public void clearIndex() throws IOException{
+		IndexWriter indexWriter = new IndexWriter(directory, config);
+		indexWriter.deleteAll();
+		indexWriter.close();
 	}
 		
 	/**

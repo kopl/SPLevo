@@ -83,6 +83,7 @@ public class Searcher {
 		        String docId2 = doc2.get(Constants.Index_VARIATIONPOINT);
 		        
 		        double similarity = analyzer.calculateSimilarity(reader, i, q);
+		        //System.out.println("++++++++++++++++++++++++++++++++++" + similarity);
 		        if(Double.isNaN(similarity)){
 		        	continue;
 		        }

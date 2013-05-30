@@ -1,9 +1,12 @@
 package org.splevo.vpm.analyzer.semantic;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
@@ -31,14 +34,14 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
     /** The internal configurations map. */
     private Map<String, Object> configurations = new HashMap<String, Object>();
     
-	/** The {@link Map} that links the ids to their {@link VariationPoint}s. */
+	/** The {@link Map} that links the IDs to their {@link VariationPoint}s. */
 	private Map<String, VariationPoint> vpIndex;
 		
 	/** The {@link Map} that links the {@link VariationPoint}s to their {@link Node}s. */
 	private Map<String, Node> nodeIndex;
     
 	private Indexer indexer;
-	
+		
 	public SemanticVPMAnalyzer(){
 		indexer = Indexer.getInstance();
 	}
@@ -51,16 +54,19 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 		
 		logger.info("Filling index...");
 		fillIndex(vpmGraph);
-		indexer.printIndexContents();
-		//fillTestIndex();
+		//indexer.printIndexContents();
 		logger.info("Indexing done.");
 		
 		logger.info("Analyzing...");
 		findRelationships(result);
 		logger.info("Analysis done.");
 		
-		Indexer.getInstance().clearIndex();
-
+		try {
+			Indexer.getInstance().clearIndex();
+		} catch (IOException e) {
+			logger.error("Failure while trying to empty main index.");
+		}
+		
 		return result;
 	}
 
@@ -101,26 +107,54 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	private void fillIndex(VPMGraph vpmGraph){
 		vpIndex = new HashMap<String, VariationPoint>();
 		nodeIndex = new HashMap<String, Node>();
-		IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch();
 		int idCounter = 0;
 		
 		// Iterate through the graph.
 		for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
-            
-            if (vp != null) {
-            	ASTNode astNode = vp.getEnclosingSoftwareEntity();
-            	if(astNode != null){        		
-            		indexASTNodeSwitch.doSwitch(astNode);
-            		String id = "VP" + idCounter++;            
-                    vpIndex.put(id, vp);
-                    nodeIndex.put(id, node);
-                    indexer.addToIndex(id, indexASTNodeSwitch.getContent());
-            	}
+            String id = "VP" + idCounter;
+            try{
+            	//indexText();
+            	indexStructurally(id, node, vp);
+            	idCounter++;
+                vpIndex.put(id, vp);
+                nodeIndex.put(id, node);
+            } catch (IllegalArgumentException e){
+            	continue;
             }
-            
-            indexASTNodeSwitch.clear();
         }
+	}
+
+//	private void indexText(String id, Node node, VariationPoint vp) {
+//		VariationPointModel vpm = vp.getGroup().getModel();
+//		SourceConnector leadingSourceConnector = new SourceConnector(vpm.getLeadingModel());
+//		SourceConnector integrationSourceConnector = new SourceConnector(vpm.getIntegrationModel());
+//		ASTNode astNode = vp.getEnclosingSoftwareEntity();
+//		if(astNode != null){
+//			JavaNodeSourceRegion sourceRegion = leadingSourceConnector.findSourceRegion(astNode);
+//			// TODO
+//		}
+//	}
+
+	private void indexStructurally(String id, Node node, VariationPoint vp) {
+		if(id == null || node == null || vp == null){
+			throw new IllegalArgumentException();
+		}
+		
+		IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch();
+		ASTNode astNode = vp.getEnclosingSoftwareEntity();
+		if(astNode != null){ 
+			TreeIterator<EObject> allContents = astNode.eAllContents();
+			while(allContents.hasNext()){
+				EObject next = allContents.next();
+				indexASTNodeSwitch.doSwitch(next);
+			}
+			indexer.addToIndex(id, indexASTNodeSwitch.getContent());
+		} else {
+			throw new IllegalArgumentException();
+		}
+		
+		indexASTNodeSwitch.clear();
 	}
 	
 	/**
@@ -145,12 +179,11 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 			Node sourceNode = nodeIndex.get(key);
 			Node targetNode = nodeIndex.get(value);
 			
-			// TODO: label
-			VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, "SemanticRelationship");
-            if (descriptor != null) {
+			String label = vpIndex.get(value).getEnclosingSoftwareEntity().getClass().getSimpleName();
+			VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, label);
+            if (descriptor != null){
                 result.getEdgeDescriptors().add(descriptor);
             }
-		}
-		
+		}	
 	}
 }

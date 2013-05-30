@@ -22,7 +22,7 @@ import org.splevo.vpm.analyzer.semantic.Constants;
  * This class analyzer calculates the Cosine Similarity.
  * See <a href="http://en.wikipedia.org/wiki/Cosine_similarity" />
  * 
- * @author Daniel
+ * @author Daniel Kojic
  *
  */
 public class CosineSimilarityAnalyzer implements IRelationshipAnalyzer {
