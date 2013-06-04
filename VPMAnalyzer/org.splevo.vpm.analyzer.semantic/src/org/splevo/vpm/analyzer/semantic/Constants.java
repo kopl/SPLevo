@@ -1,7 +1,7 @@
 package org.splevo.vpm.analyzer.semantic;
 
 /**
- * This class contains all constant values to ease the access. 
+ * This class contains all constant values for the semantic analyzer to ease the access. 
  * 
  * @author Daniel Kojic
  *
@@ -24,4 +24,7 @@ public final class Constants {
 
 	/** The configuration label for the include comments configuration. */
 	public static final String CONFIG_INCLUDE_COMMENTS_LABEL = "INCLUDE_COMMENTS";
+
+	/** The default value for the min. cosine similarity. */
+	public static final double DEFAULT_MIN_SIMILARITY = 0.8d;
 }

@@ -175,7 +175,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 		try{
 			similarity= Double.parseDouble((String)configurations.get(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL));
 		} catch(Exception e) {
-			similarity = 0.5d;
+			similarity = Constants.DEFAULT_MIN_SIMILARITY;
 		}
 		IRelationshipAnalyzer analyzer = new CosineSimilarityAnalyzer();
 		
