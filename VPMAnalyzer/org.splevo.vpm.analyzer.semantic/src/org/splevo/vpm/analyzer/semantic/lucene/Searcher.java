@@ -67,7 +67,7 @@ public class Searcher {
 				logger.error("Failure while reading the first document.");
 				continue;
 			}
-		    String docId1 = doc1.get(Constants.Index_VARIATIONPOINT);
+		    String docId1 = doc1.get(Constants.INDEX_VARIATIONPOINT);
 		    
 		    for (int q=0; q<reader.maxDoc(); q++) {
 		    	if(i == q){
@@ -80,7 +80,7 @@ public class Searcher {
 					logger.error("Failure while reading the second document.");
 					continue;
 				}
-		        String docId2 = doc2.get(Constants.Index_VARIATIONPOINT);
+		        String docId2 = doc2.get(Constants.INDEX_VARIATIONPOINT);
 		        
 		        double similarity = analyzer.calculateSimilarity(reader, i, q);
 		        //System.out.println("++++++++++++++++++++++++++++++++++" + similarity);

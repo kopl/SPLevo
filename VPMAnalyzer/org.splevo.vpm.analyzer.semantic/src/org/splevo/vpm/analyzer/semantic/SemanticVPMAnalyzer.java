@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
@@ -54,7 +55,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 		
 		logger.info("Filling index...");
 		fillIndex(vpmGraph);
-		//indexer.printIndexContents();
 		logger.info("Indexing done.");
 		
 		logger.info("Analyzing...");
@@ -73,14 +73,16 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	@Override
 	public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {
 		Map<String, VPMAnalyzerConfigurationType> availableConfigurations = new HashMap<String, VPMAnalyzerConfigurationType>();
-		availableConfigurations.put(Constants.MINIMUM_SIMILARITY_CONFIG, VPMAnalyzerConfigurationType.STRING);
+		availableConfigurations.put(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL, VPMAnalyzerConfigurationType.STRING);
+		availableConfigurations.put(Constants.CONFIG_INCLUDE_COMMENTS_LABEL, VPMAnalyzerConfigurationType.BOOLEAN);
         return availableConfigurations;
 	}
 
 	@Override
 	public Map<String, String> getConfigurationLabels() {
 		Map<String, String> configurationLabels = new HashMap<String, String>();
-		configurationLabels.put(Constants.MINIMUM_SIMILARITY_CONFIG, "Minimal Similarity");
+		configurationLabels.put(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL, "Minimal Similarity");
+		configurationLabels.put(Constants.CONFIG_INCLUDE_COMMENTS_LABEL, "Include Comments");
         return configurationLabels;
 	}
 
@@ -108,53 +110,59 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 		vpIndex = new HashMap<String, VariationPoint>();
 		nodeIndex = new HashMap<String, Node>();
 		int idCounter = 0;
+		boolean indexComments = Boolean.getBoolean((String)configurations.get(Constants.CONFIG_INCLUDE_COMMENTS_LABEL));
 		
 		// Iterate through the graph.
 		for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
             String id = "VP" + idCounter;
-            try{
-            	//indexText();
-            	indexStructurally(id, node, vp);
-            	idCounter++;
+            if(indexStructurally(id, node, vp, indexComments)){
+        		idCounter++;
                 vpIndex.put(id, vp);
                 nodeIndex.put(id, node);
-            } catch (IllegalArgumentException e){
-            	continue;
-            }
+        	}
         }
 	}
 
-//	private void indexText(String id, Node node, VariationPoint vp) {
-//		VariationPointModel vpm = vp.getGroup().getModel();
-//		SourceConnector leadingSourceConnector = new SourceConnector(vpm.getLeadingModel());
-//		SourceConnector integrationSourceConnector = new SourceConnector(vpm.getIntegrationModel());
-//		ASTNode astNode = vp.getEnclosingSoftwareEntity();
-//		if(astNode != null){
-//			JavaNodeSourceRegion sourceRegion = leadingSourceConnector.findSourceRegion(astNode);
-//			// TODO
-//		}
-//	}
-
-	private void indexStructurally(String id, Node node, VariationPoint vp) {
+	private boolean indexStructurally(String id, Node node, VariationPoint vp, boolean indexComments) {
 		if(id == null || node == null || vp == null){
 			throw new IllegalArgumentException();
 		}
 		
+		boolean result = false;
 		IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch();
 		ASTNode astNode = vp.getEnclosingSoftwareEntity();
-		if(astNode != null){ 
-			TreeIterator<EObject> allContents = astNode.eAllContents();
-			while(allContents.hasNext()){
-				EObject next = allContents.next();
+		if (astNode == null) {
+			return false;
+		}
+					
+		TreeIterator<EObject> allContents = EcoreUtil.getAllContents(astNode.eContents());
+		while (allContents.hasNext()) {
+			EObject next = allContents.next();
+			try {
 				indexASTNodeSwitch.doSwitch(next);
+			} catch (Throwable e) {
+				// TODO: WHY IS THIS?
+				return false;
 			}
-			indexer.addToIndex(id, indexASTNodeSwitch.getContent());
-		} else {
-			throw new IllegalArgumentException();
+			
 		}
 		
+		String content = indexASTNodeSwitch.getContent();
+		String comment = indexASTNodeSwitch.getComments();
 		indexASTNodeSwitch.clear();
+		
+		if(comment.length() > 0 && indexComments){
+			indexer.addCommentToIndex(id, comment);
+			result = true;
+		}
+		
+		if(content.length() > 0) {
+			indexer.addCodeToIndex(id, content);
+			result = true;
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -165,7 +173,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	private void findRelationships(VPMAnalyzerResult result) {
 		Double similarity;
 		try{
-			similarity= Double.parseDouble((String)configurations.get(Constants.MINIMUM_SIMILARITY_CONFIG));
+			similarity= Double.parseDouble((String)configurations.get(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL));
 		} catch(Exception e) {
 			similarity = 0.5d;
 		}

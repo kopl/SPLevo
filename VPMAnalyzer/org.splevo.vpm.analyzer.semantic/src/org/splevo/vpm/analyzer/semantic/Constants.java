@@ -8,7 +8,7 @@ package org.splevo.vpm.analyzer.semantic;
  */
 public final class Constants {
 	/** The field name the Variation Point ID is stored in the index. */
-	public static final String Index_VARIATIONPOINT = "VP";
+	public static final String INDEX_VARIATIONPOINT = "VP";
 
 	/** The field name the content ID is stored in the index. */
 	public static final String INDEX_CONTENT = "CONTENT";
@@ -20,5 +20,8 @@ public final class Constants {
     public static final String DISPLAYED_NAME = "Semantic VPM Analyzer";
 
 	/** The configuration label for the cosine minimum similarity configuration. */
-	public static final String MINIMUM_SIMILARITY_CONFIG = "MINSIM";
+	public static final String CONFIG_MINIMUM_SIMILARITY_LABEL = "MINSIM";
+
+	/** The configuration label for the include comments configuration. */
+	public static final String CONFIG_INCLUDE_COMMENTS_LABEL = "INCLUDE_COMMENTS";
 }
