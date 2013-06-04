@@ -8,7 +8,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -114,13 +113,8 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
              */
             @Override
             public void mouseUp(MouseEvent e) {
-                ISelection selection = listViewerAnalysis.getSelection();
-                if (selection instanceof StructuredSelection) {
-                    VPMAnalyzer analyzer = (VPMAnalyzer) ((StructuredSelection) selection).getFirstElement();
-                    removeAnalyzer(analyzer);
-                } else {
-                    logger.warn("Unsupported selection for remove action");
-                }
+                VPMAnalyzer analyzer = getSelectedAnalyzer();
+                removeAnalyzer(analyzer);
             }
         });
         btnRemove.setBounds(237, 72, 90, 30);
