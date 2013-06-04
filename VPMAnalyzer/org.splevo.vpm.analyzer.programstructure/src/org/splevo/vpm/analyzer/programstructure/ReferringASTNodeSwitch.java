@@ -29,7 +29,8 @@ import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 /**
  * A model element switch providing the logic to lookup referring AST nodes for each AST node type.
  * 
- * TODO: Check for statements manipulating the same variable -> might be part of the data flow analyzer?!?
+ * TODO: Check for statements manipulating the same variable -> might be part of the data flow
+ * analyzer?!?
  * 
  * @author Benjamin Klatt
  * 
@@ -64,10 +65,14 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
                     if (importDeclaration.getOriginalCompilationUnit().equals(
                             accessingNode.getOriginalCompilationUnit())) {
                         referringASTNodes.add(accessingNode);
+                    
+                    } else if (accessingNode.getOriginalCompilationUnit() == null) {
+                        logger.warn("[ImportDeclaration] TypeAccess container has no compilation unit: "
+                                + typeAccessContainer);
                     }
 
                 } else {
-                    logger.warn("[ImportDeclaration] TypeAccess container is not an ASRNode " + typeAccessContainer);
+                    logger.warn("[ImportDeclaration] TypeAccess container is not an ASTNode " + typeAccessContainer);
                 }
             }
         } else {
@@ -107,11 +112,10 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
         }
         return referringASTNodes;
     }
-    
+
     /**
-     * Add all usages in imports and type accesses, more precisely their eContainers,
-     * to the list of referring AST nodes.
-     *  {@inheritDoc}
+     * Add all usages in imports and type accesses, more precisely their eContainers, to the list of
+     * referring AST nodes. {@inheritDoc}
      */
     @Override
     public List<ASTNode> caseClassDeclaration(ClassDeclaration decl) {
@@ -126,17 +130,21 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
         }
         return referringASTNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseMethodDeclaration(MethodDeclaration decl) {
         List<ASTNode> referringASTNodes = new ArrayList<ASTNode>();
         referringASTNodes.addAll(decl.getUsagesInImports());
         for (AbstractMethodInvocation invocation : decl.getUsages()) {
-            referringASTNodes.add(invocation);
+            if (invocation.eContainer() instanceof ASTNode) {
+                referringASTNodes.add((ASTNode) invocation.eContainer());
+            } else {
+                logger.warn("Unsupported type of method invocation container: " + invocation.eContainer());
+            }
         }
         return referringASTNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseEnumDeclaration(EnumDeclaration decl) {
         List<ASTNode> referringASTNodes = new ArrayList<ASTNode>();
@@ -165,9 +173,8 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     }
 
     /**
-     * Add all usages in imports and package access, more precisely their eContainers,
-     * to the list of referring AST nodes.
-     *  {@inheritDoc}
+     * Add all usages in imports and package access, more precisely their eContainers, to the list
+     * of referring AST nodes. {@inheritDoc}
      */
     @Override
     public List<ASTNode> casePackage(Package packageNode) {
@@ -182,7 +189,7 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
         }
         return referringASTNodes;
     }
-    
+
     /**
      * A return statement is referenced by none other element.
      * 

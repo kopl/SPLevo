@@ -50,6 +50,12 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
 
+    /** Label of the configuration to consider the full sub AST for the referred VP. */
+    private static final String CONFIG_LABEL_FULL_REFERRED_TREE = "Check Full Referred AST";
+
+    /** ID of the configuration to consider the full sub AST for the referred VP. */
+    private static final String CONFIG_ID_FULL_REFERRED_TREE = "programStructureVPMAnalyzer.fullReferredTree";
+
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramStructure";
 
@@ -97,7 +103,7 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      * This has to work on the variant level to really analyze the variable declaration statement
      * and not the enclosing block.
      * 
-     * TODO: Enhance dependency handling Currently, a very simplified handling of all software
+     * TODO: Enhance dependency handling. Currently, a very simplified handling of all software
      * entities referenced by a variant and all variants in a variation point is used.
      * 
      * @return The result of the analysis.
@@ -130,25 +136,34 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      * Search for variation points referencing AST nodes influenced by a variable declaration
      * statement.
      * 
-     * @param originVP
+     * @param referredVP
      *            The variation point to find relationships for.
-     * @param astNode
+     * @param referredAstNode
      *            The AST node to find references for.
      * @return The list of referring variation points.
      */
-    private List<VariationPoint> findRelatedVariationPoints(VariationPoint originVP, ASTNode astNode) {
+    private List<VariationPoint> findRelatedVariationPoints(VariationPoint referredVP, ASTNode referredAstNode) {
 
         List<VariationPoint> variationPoints = new ArrayList<VariationPoint>();
 
-        List<ASTNode> referringASTNodes = referringASTNodeSwitch.doSwitch(astNode);
+        List<ASTNode> referringASTNodes = referringASTNodeSwitch.doSwitch(referredAstNode);
 
         for (ASTNode referringASTNode : referringASTNodes) {
             VariationPoint relatedVariationPoint = variationPointIndex.getEnclosingVariationPoint(referringASTNode);
             if (relatedVariationPoint != null) {
                 variationPoints.add(relatedVariationPoint);
-                logAnalysisInfo(variationPointIndex.getGraphNode(originVP).getId(),
-                        variationPointIndex.getGraphNode(relatedVariationPoint).getId(), astNode.getClass()
-                                .getSimpleName(), referringASTNode.getClass().getSimpleName());
+
+                String vp1ID = variationPointIndex.getGraphNode(referredVP).getId();
+                String vp2ID = variationPointIndex.getGraphNode(relatedVariationPoint).getId();
+                String sourceInfo = referredAstNode.getClass().getSimpleName();
+                if (referredAstNode.getOriginalCompilationUnit() != null) {
+                    sourceInfo += " (" + referredAstNode.getOriginalCompilationUnit().getName() + ")";
+                }
+                String targetInfo = referringASTNode.getClass().getSimpleName();
+                if (referringASTNode.getOriginalCompilationUnit() != null) {
+                    targetInfo += " (" + referringASTNode.getOriginalCompilationUnit().getName() + ")";
+                }
+                logAnalysisInfo(vp1ID, vp2ID, sourceInfo, targetInfo);
             }
         }
 
@@ -217,12 +232,14 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {
         Map<String, VPMAnalyzerConfigurationType> availableConfigurations = new HashMap<String, VPMAnalyzerConfigurationType>();
+        availableConfigurations.put(CONFIG_ID_FULL_REFERRED_TREE, VPMAnalyzerConfigurationType.STRING);
         return availableConfigurations;
     }
 
     @Override
     public Map<String, String> getConfigurationLabels() {
         Map<String, String> configurationLabels = new HashMap<String, String>();
+        configurationLabels.put(CONFIG_ID_FULL_REFERRED_TREE, CONFIG_LABEL_FULL_REFERRED_TREE);
         return configurationLabels;
     }
 
