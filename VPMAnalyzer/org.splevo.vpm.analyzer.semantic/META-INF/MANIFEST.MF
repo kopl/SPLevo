@@ -1,14 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Semantic
+Bundle-Name: SPLevo VPM Semantic Relationship Analyzer
 Bundle-SymbolicName: org.splevo.vpm.analyzer.semantic;singleton:=true
-Bundle-Version: 1.0.0.0
+Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.splevo.vpm.analyzer;bundle-version="1.0.0",
  org.apache.log4j;bundle-version="1.2.15",
- org.splevo.modisco.util;bundle-version="1.0.0"
+ org.splevo.modisco.util;bundle-version="1.0.0",
+ org.lucene;bundle-version="1.0.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: dependencies/lucene-core-4.2.1.jar,
- .,
- dependencies/lucene-misc-4.2.1.jar,
- dependencies/lucene-analyzers-common-4.2.1.jar,
- dependencies/commons-math3-3.2.jar
+Bundle-Vendor: www.splevo.org

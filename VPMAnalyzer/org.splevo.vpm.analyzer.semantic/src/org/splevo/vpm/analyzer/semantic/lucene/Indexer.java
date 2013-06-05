@@ -1,8 +1,6 @@
 package org.splevo.vpm.analyzer.semantic.lucene;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
