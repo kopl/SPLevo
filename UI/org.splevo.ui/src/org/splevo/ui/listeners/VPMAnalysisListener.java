@@ -90,6 +90,10 @@ public class VPMAnalysisListener extends MouseAdapter {
         edgeLabelsStructure.add("ProgramStructure");
         detectionRules.add(new BasicDetectionRule(edgeLabelsStructure, RefinementType.MERGE));
         
+        List<String> edgeLabelsSemantic = new ArrayList<String>();
+        edgeLabelsSemantic.add("Semantic");
+        detectionRules.add(new BasicDetectionRule(edgeLabelsSemantic, RefinementType.MERGE));
+        
         config.setDetectionRules(detectionRules);
         
         return config;
