@@ -59,8 +59,8 @@ public class Indexer {
         TYPE_STORED.setTokenized(true);
         TYPE_STORED.setStored(true);
         TYPE_STORED.setStoreTermVectors(true);
-        TYPE_STORED.setStoreTermVectorPositions(true);
-        TYPE_STORED.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
+        //TYPE_STORED.setStoreTermVectorPositions(true);
+        TYPE_STORED.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 	
 	/**
@@ -131,8 +131,10 @@ public class Indexer {
 			logger.error("Invalid content or id. Empty String not allowed.");
 		}
 		
+		IndexWriter indexWriter = null;
+		
 		try {
-			IndexWriter indexWriter = new IndexWriter(directory, indexConfiguration);
+			indexWriter = new IndexWriter(directory, indexConfiguration);
 			Document doc = new Document();
 			doc.add(new Field(Constants.INDEX_VARIATIONPOINT, variationPointId, TYPE_STORED));
 			doc.add(new Field(Constants.INDEX_CONTENT, content, TYPE_STORED));

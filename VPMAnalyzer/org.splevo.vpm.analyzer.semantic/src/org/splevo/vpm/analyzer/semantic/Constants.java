@@ -26,5 +26,5 @@ public final class Constants {
 	public static final String CONFIG_INCLUDE_COMMENTS_LABEL = "INCLUDE_COMMENTS";
 
 	/** The default value for the min. cosine similarity. */
-	public static final double DEFAULT_MIN_SIMILARITY = 0.8d;
+	public static final double DEFAULT_MIN_SIMILARITY = 0.7d;
 }

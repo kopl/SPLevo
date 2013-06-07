@@ -3,8 +3,10 @@ package org.splevo.vpm.analyzer.semantic;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.IndexWriter;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -49,6 +51,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	
 	@Override
 	public VPMAnalyzerResult analyze(VPMGraph vpmGraph) {
+		if(vpmGraph == null){
+			throw new IllegalArgumentException();
+		}
 		
 		// Container for the result.
 		VPMAnalyzerResult result = new VPMAnalyzerResult(this);
@@ -58,9 +63,13 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 		logger.info("Indexing done.");
 		
 		logger.info("Analyzing...");
-		findRelationships(result);
-		logger.info("Analysis done.");
-		
+		try {
+			findRelationships(result);
+			logger.info("Analysis done.");
+		} catch (IOException e) {
+			logger.error("Cannot read Index. Close all open IndexWriters first.");
+		}
+						
 		try {
 			Indexer.getInstance().clearIndex();
 		} catch (IOException e) {
@@ -107,6 +116,10 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	 * @param vpmGraph The {@link VPMGraph} containing the information to be indexed. 
 	 */
 	private void fillIndex(VPMGraph vpmGraph){
+		if(vpmGraph == null){
+			throw new IllegalArgumentException();
+		}
+		
 		vpIndex = new HashMap<String, VariationPoint>();
 		nodeIndex = new HashMap<String, Node>();
 		int idCounter = 0;
@@ -169,8 +182,13 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 	 * Finds semantic relationships between the variation points.
 	 * 
 	 * @param result Contains all relationships found.
+	 * @throws IOException Throws an {@link IOException} when there is already an open {@link IndexWriter}.
 	 */
-	private void findRelationships(VPMAnalyzerResult result) {
+	private void findRelationships(VPMAnalyzerResult result) throws IOException {
+		if(result == null){
+			throw new IllegalArgumentException();
+		}
+		
 		Double similarity;
 		try{
 			similarity= Double.parseDouble((String)configurations.get(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL));
@@ -179,19 +197,24 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer{
 		}
 		IRelationshipAnalyzer analyzer = new CosineSimilarityAnalyzer();
 		
-		Map<String, String> similars = Searcher.getInstance().findSemanticRelationships(analyzer, similarity);
+		Map<String, Set<String>> similars = Searcher.getInstance().findSemanticRelationships(analyzer, similarity);
 		
 		for (String key : similars.keySet()) {
-			String value = similars.get(key);
+			Set<String> values = similars.get(key);
 			
-			Node sourceNode = nodeIndex.get(key);
-			Node targetNode = nodeIndex.get(value);
-			
-			String label = vpIndex.get(value).getEnclosingSoftwareEntity().getClass().getSimpleName();
-			VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, label);
-            if (descriptor != null){
-                result.getEdgeDescriptors().add(descriptor);
-            }
+			for (String value : values) {
+				Node sourceNode = nodeIndex.get(key);
+				Node targetNode = nodeIndex.get(value);
+				
+				String label = vpIndex.get(value).getEnclosingSoftwareEntity().getClass().getSimpleName();
+				if(label.length()==0){
+					label = "semantic";
+				}
+				VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, label);
+	            if (descriptor != null){
+	                result.getEdgeDescriptors().add(descriptor);
+	            }
+			}
 		}	
 	}
 }
