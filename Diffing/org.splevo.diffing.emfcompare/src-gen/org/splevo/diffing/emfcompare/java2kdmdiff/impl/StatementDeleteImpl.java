@@ -13,23 +13,23 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Statement Delete</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Statement Delete</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementDeleteImpl#getLeftContainer <em>Left Container</em>}</li>
+ * <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.StatementDeleteImpl#getLeftContainer
+ * <em>Left Container</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class StatementDeleteImpl extends StatementChangeImpl implements StatementDelete {
     /**
-     * The cached value of the '{@link #getLeftContainer() <em>Left Container</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The cached value of the '{@link #getLeftContainer() <em>Left Container</em>}' reference. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getLeftContainer()
      * @generated
      * @ordered
@@ -37,8 +37,8 @@ public class StatementDeleteImpl extends StatementChangeImpl implements Statemen
     protected ASTNode leftContainer;
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected StatementDeleteImpl() {
@@ -46,8 +46,8 @@ public class StatementDeleteImpl extends StatementChangeImpl implements Statemen
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -56,25 +56,26 @@ public class StatementDeleteImpl extends StatementChangeImpl implements Statemen
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ASTNode getLeftContainer() {
         if (leftContainer != null && leftContainer.eIsProxy()) {
-            InternalEObject oldLeftContainer = (InternalEObject)leftContainer;
-            leftContainer = (ASTNode)eResolveProxy(oldLeftContainer);
+            InternalEObject oldLeftContainer = (InternalEObject) leftContainer;
+            leftContainer = (ASTNode) eResolveProxy(oldLeftContainer);
             if (leftContainer != oldLeftContainer) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER, oldLeftContainer, leftContainer));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+                            Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER, oldLeftContainer, leftContainer));
             }
         }
         return leftContainer;
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ASTNode basicGetLeftContainer() {
@@ -82,81 +83,82 @@ public class StatementDeleteImpl extends StatementChangeImpl implements Statemen
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setLeftContainer(ASTNode newLeftContainer) {
         ASTNode oldLeftContainer = leftContainer;
         leftContainer = newLeftContainer;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER, oldLeftContainer, leftContainer));
+            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER,
+                    oldLeftContainer, leftContainer));
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER:
-                if (resolve) return getLeftContainer();
-                return basicGetLeftContainer();
+        case Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER:
+            if (resolve)
+                return getLeftContainer();
+            return basicGetLeftContainer();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER:
-                setLeftContainer((ASTNode)newValue);
-                return;
+        case Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER:
+            setLeftContainer((ASTNode) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER:
-                setLeftContainer((ASTNode)null);
-                return;
+        case Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER:
+            setLeftContainer((ASTNode) null);
+            return;
         }
         super.eUnset(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER:
-                return leftContainer != null;
+        case Java2KDMDiffPackage.STATEMENT_DELETE__LEFT_CONTAINER:
+            return leftContainer != null;
         }
         return super.eIsSet(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * The difference kind of a statement delete is always DifferenceKind.DELETION.
-     * <!-- end-user-doc -->
-     * {@inheritDoc}
+     * <!-- begin-user-doc --> The difference kind of a statement delete is always
+     * DifferenceKind.DELETION. <!-- end-user-doc --> {@inheritDoc}
+     * 
      * @generated NOT
      */
     @Override
@@ -164,4 +166,4 @@ public class StatementDeleteImpl extends StatementChangeImpl implements Statemen
         return DifferenceKind.DELETION;
     }
 
-} //StatementDeleteImpl
+} // StatementDeleteImpl

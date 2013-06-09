@@ -9,18 +9,17 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementInsert;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Statement Insert</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Statement Insert</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public class StatementInsertImpl extends StatementChangeImpl implements StatementInsert {
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected StatementInsertImpl() {
@@ -28,8 +27,8 @@ public class StatementInsertImpl extends StatementChangeImpl implements Statemen
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -38,10 +37,9 @@ public class StatementInsertImpl extends StatementChangeImpl implements Statemen
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * The difference kind of a statement insert is always DifferenceKind.ADDITION.
-     * <!-- end-user-doc -->
-     * {@inheritDoc}
+     * <!-- begin-user-doc --> The difference kind of a statement insert is always
+     * DifferenceKind.ADDITION. <!-- end-user-doc --> {@inheritDoc}
+     * 
      * @generated NOT
      */
     @Override
@@ -49,4 +47,4 @@ public class StatementInsertImpl extends StatementChangeImpl implements Statemen
         return DifferenceKind.ADDITION;
     }
 
-} //StatementInsertImpl
+} // StatementInsertImpl

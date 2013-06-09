@@ -8,18 +8,17 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.EnumChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Enum Change</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Enum Change</b></em>'. <!--
+ * end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public abstract class EnumChangeImpl extends Java2KDMDiffExtensionImpl implements EnumChange {
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected EnumChangeImpl() {
@@ -27,8 +26,8 @@ public abstract class EnumChangeImpl extends Java2KDMDiffExtensionImpl implement
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -36,4 +35,4 @@ public abstract class EnumChangeImpl extends Java2KDMDiffExtensionImpl implement
         return Java2KDMDiffPackage.Literals.ENUM_CHANGE;
     }
 
-} //EnumChangeImpl
+} // EnumChangeImpl

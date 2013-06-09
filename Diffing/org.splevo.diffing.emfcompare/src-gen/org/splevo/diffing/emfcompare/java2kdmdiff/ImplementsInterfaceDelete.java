@@ -6,31 +6,34 @@ import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Implements Interface Delete</b></em>'.
- * <!-- end-user-doc -->
- *
+ * <!-- begin-user-doc --> A representation of the model object '
+ * <em><b>Implements Interface Delete</b></em>'. <!-- end-user-doc -->
+ * 
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete#getImplementedInterface <em>Implemented Interface</em>}</li>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete#getChangedClass <em>Changed Class</em>}</li>
+ * <li>
+ * {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete#getImplementedInterface
+ * <em>Implemented Interface</em>}</li>
+ * <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete#getChangedClass
+ * <em>Changed Class</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getImplementsInterfaceDelete()
  * @model
  * @generated
  */
 public interface ImplementsInterfaceDelete extends ClassChange {
     /**
-     * Returns the value of the '<em><b>Implemented Interface</b></em>' reference.
-     * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Implemented Interface</b></em>' reference. <!--
+     * begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Implemented Interface</em>' reference isn't clear,
-     * there really should be more of a description here...
+     * If the meaning of the '<em>Implemented Interface</em>' reference isn't clear, there really
+     * should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     * 
      * @return the value of the '<em>Implemented Interface</em>' reference.
      * @see #setImplementedInterface(InterfaceDeclaration)
      * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getImplementsInterfaceDelete_ImplementedInterface()
@@ -40,23 +43,25 @@ public interface ImplementsInterfaceDelete extends ClassChange {
     InterfaceDeclaration getImplementedInterface();
 
     /**
-     * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete#getImplementedInterface <em>Implemented Interface</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Implemented Interface</em>' reference.
+     * Sets the value of the '
+     * {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete#getImplementedInterface
+     * <em>Implemented Interface</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Implemented Interface</em>' reference.
      * @see #getImplementedInterface()
      * @generated
      */
     void setImplementedInterface(InterfaceDeclaration value);
 
     /**
-     * Returns the value of the '<em><b>Changed Class</b></em>' reference.
-     * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Changed Class</b></em>' reference. <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Changed Class</em>' reference isn't clear,
-     * there really should be more of a description here...
+     * If the meaning of the '<em>Changed Class</em>' reference isn't clear, there really should be
+     * more of a description here...
      * </p>
      * <!-- end-user-doc -->
+     * 
      * @return the value of the '<em>Changed Class</em>' reference.
      * @see #setChangedClass(ClassDeclaration)
      * @see org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage#getImplementsInterfaceDelete_ChangedClass()
@@ -66,10 +71,12 @@ public interface ImplementsInterfaceDelete extends ClassChange {
     ClassDeclaration getChangedClass();
 
     /**
-     * Sets the value of the '{@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete#getChangedClass <em>Changed Class</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Changed Class</em>' reference.
+     * Sets the value of the '
+     * {@link org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceDelete#getChangedClass
+     * <em>Changed Class</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @param value
+     *            the new value of the '<em>Changed Class</em>' reference.
      * @see #getChangedClass()
      * @generated
      */

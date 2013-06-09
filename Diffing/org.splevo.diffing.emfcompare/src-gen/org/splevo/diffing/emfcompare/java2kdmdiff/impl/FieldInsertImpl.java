@@ -16,23 +16,23 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Field Insert</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Field Insert</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldInsertImpl#getFieldLeft <em>Field Left</em>}</li>
+ * <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.FieldInsertImpl#getFieldLeft <em>Field
+ * Left</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class FieldInsertImpl extends FieldChangeImpl implements FieldInsert {
     /**
-     * The cached value of the '{@link #getFieldLeft() <em>Field Left</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The cached value of the '{@link #getFieldLeft() <em>Field Left</em>}' reference. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getFieldLeft()
      * @generated
      * @ordered
@@ -40,8 +40,8 @@ public class FieldInsertImpl extends FieldChangeImpl implements FieldInsert {
     protected FieldDeclaration fieldLeft;
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected FieldInsertImpl() {
@@ -49,8 +49,8 @@ public class FieldInsertImpl extends FieldChangeImpl implements FieldInsert {
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -59,25 +59,26 @@ public class FieldInsertImpl extends FieldChangeImpl implements FieldInsert {
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public FieldDeclaration getFieldLeft() {
         if (fieldLeft != null && fieldLeft.eIsProxy()) {
-            InternalEObject oldFieldLeft = (InternalEObject)fieldLeft;
-            fieldLeft = (FieldDeclaration)eResolveProxy(oldFieldLeft);
+            InternalEObject oldFieldLeft = (InternalEObject) fieldLeft;
+            fieldLeft = (FieldDeclaration) eResolveProxy(oldFieldLeft);
             if (fieldLeft != oldFieldLeft) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT, oldFieldLeft, fieldLeft));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+                            Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT, oldFieldLeft, fieldLeft));
             }
         }
         return fieldLeft;
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public FieldDeclaration basicGetFieldLeft() {
@@ -85,81 +86,82 @@ public class FieldInsertImpl extends FieldChangeImpl implements FieldInsert {
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setFieldLeft(FieldDeclaration newFieldLeft) {
         FieldDeclaration oldFieldLeft = fieldLeft;
         fieldLeft = newFieldLeft;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT, oldFieldLeft, fieldLeft));
+            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT,
+                    oldFieldLeft, fieldLeft));
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT:
-                if (resolve) return getFieldLeft();
-                return basicGetFieldLeft();
+        case Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT:
+            if (resolve)
+                return getFieldLeft();
+            return basicGetFieldLeft();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT:
-                setFieldLeft((FieldDeclaration)newValue);
-                return;
+        case Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT:
+            setFieldLeft((FieldDeclaration) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT:
-                setFieldLeft((FieldDeclaration)null);
-                return;
+        case Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT:
+            setFieldLeft((FieldDeclaration) null);
+            return;
         }
         super.eUnset(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT:
-                return fieldLeft != null;
+        case Java2KDMDiffPackage.FIELD_INSERT__FIELD_LEFT:
+            return fieldLeft != null;
         }
         return super.eIsSet(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * The difference kind of a field insert is always DifferenceKind.ADDITION.
-     * <!-- end-user-doc -->
-     * {@inheritDoc}
+     * <!-- begin-user-doc --> The difference kind of a field insert is always
+     * DifferenceKind.ADDITION. <!-- end-user-doc --> {@inheritDoc}
+     * 
      * @generated NOT
      */
     @Override
@@ -167,4 +169,4 @@ public class FieldInsertImpl extends FieldChangeImpl implements FieldInsert {
         return DifferenceKind.ADDITION;
     }
 
-} //FieldInsertImpl
+} // FieldInsertImpl

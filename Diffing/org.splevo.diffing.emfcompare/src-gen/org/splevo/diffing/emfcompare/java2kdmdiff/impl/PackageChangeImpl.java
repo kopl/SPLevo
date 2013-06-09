@@ -8,18 +8,17 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageChange;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Package Change</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Package Change</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public abstract class PackageChangeImpl extends Java2KDMDiffExtensionImpl implements PackageChange {
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected PackageChangeImpl() {
@@ -27,8 +26,8 @@ public abstract class PackageChangeImpl extends Java2KDMDiffExtensionImpl implem
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -36,4 +35,4 @@ public abstract class PackageChangeImpl extends Java2KDMDiffExtensionImpl implem
         return Java2KDMDiffPackage.Literals.PACKAGE_CHANGE;
     }
 
-} //PackageChangeImpl
+} // PackageChangeImpl

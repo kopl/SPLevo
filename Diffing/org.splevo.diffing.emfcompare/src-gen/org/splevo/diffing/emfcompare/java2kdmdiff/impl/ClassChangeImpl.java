@@ -8,18 +8,17 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.ClassChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Class Change</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Class Change</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public abstract class ClassChangeImpl extends Java2KDMDiffExtensionImpl implements ClassChange {
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected ClassChangeImpl() {
@@ -27,8 +26,8 @@ public abstract class ClassChangeImpl extends Java2KDMDiffExtensionImpl implemen
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -36,4 +35,4 @@ public abstract class ClassChangeImpl extends Java2KDMDiffExtensionImpl implemen
         return Java2KDMDiffPackage.Literals.CLASS_CHANGE;
     }
 
-} //ClassChangeImpl
+} // ClassChangeImpl

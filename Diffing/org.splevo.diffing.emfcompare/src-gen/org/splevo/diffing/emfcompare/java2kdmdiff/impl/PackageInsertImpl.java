@@ -14,23 +14,23 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Package Insert</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Package Insert</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageInsertImpl#getPackageLeft <em>Package Left</em>}</li>
+ * <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.PackageInsertImpl#getPackageLeft <em>
+ * Package Left</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class PackageInsertImpl extends PackageChangeImpl implements PackageInsert {
     /**
-     * The cached value of the '{@link #getPackageLeft() <em>Package Left</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The cached value of the '{@link #getPackageLeft() <em>Package Left</em>}' reference. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getPackageLeft()
      * @generated
      * @ordered
@@ -38,8 +38,8 @@ public class PackageInsertImpl extends PackageChangeImpl implements PackageInser
     protected org.eclipse.gmt.modisco.java.Package packageLeft;
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected PackageInsertImpl() {
@@ -47,8 +47,8 @@ public class PackageInsertImpl extends PackageChangeImpl implements PackageInser
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -57,25 +57,26 @@ public class PackageInsertImpl extends PackageChangeImpl implements PackageInser
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public org.eclipse.gmt.modisco.java.Package getPackageLeft() {
         if (packageLeft != null && packageLeft.eIsProxy()) {
-            InternalEObject oldPackageLeft = (InternalEObject)packageLeft;
-            packageLeft = (org.eclipse.gmt.modisco.java.Package)eResolveProxy(oldPackageLeft);
+            InternalEObject oldPackageLeft = (InternalEObject) packageLeft;
+            packageLeft = (org.eclipse.gmt.modisco.java.Package) eResolveProxy(oldPackageLeft);
             if (packageLeft != oldPackageLeft) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT, oldPackageLeft, packageLeft));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+                            Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT, oldPackageLeft, packageLeft));
             }
         }
         return packageLeft;
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public org.eclipse.gmt.modisco.java.Package basicGetPackageLeft() {
@@ -83,81 +84,82 @@ public class PackageInsertImpl extends PackageChangeImpl implements PackageInser
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setPackageLeft(org.eclipse.gmt.modisco.java.Package newPackageLeft) {
         org.eclipse.gmt.modisco.java.Package oldPackageLeft = packageLeft;
         packageLeft = newPackageLeft;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT, oldPackageLeft, packageLeft));
+            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT,
+                    oldPackageLeft, packageLeft));
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT:
-                if (resolve) return getPackageLeft();
-                return basicGetPackageLeft();
+        case Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT:
+            if (resolve)
+                return getPackageLeft();
+            return basicGetPackageLeft();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT:
-                setPackageLeft((org.eclipse.gmt.modisco.java.Package)newValue);
-                return;
+        case Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT:
+            setPackageLeft((org.eclipse.gmt.modisco.java.Package) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT:
-                setPackageLeft((org.eclipse.gmt.modisco.java.Package)null);
-                return;
+        case Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT:
+            setPackageLeft((org.eclipse.gmt.modisco.java.Package) null);
+            return;
         }
         super.eUnset(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT:
-                return packageLeft != null;
+        case Java2KDMDiffPackage.PACKAGE_INSERT__PACKAGE_LEFT:
+            return packageLeft != null;
         }
         return super.eIsSet(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * The difference kind of a package insert is always DifferenceKind.ADDITION.
-     * <!-- end-user-doc -->
-     * {@inheritDoc}
+     * <!-- begin-user-doc --> The difference kind of a package insert is always
+     * DifferenceKind.ADDITION. <!-- end-user-doc --> {@inheritDoc}
+     * 
      * @generated NOT
      */
     @Override
@@ -165,4 +167,4 @@ public class PackageInsertImpl extends PackageChangeImpl implements PackageInser
         return DifferenceKind.ADDITION;
     }
 
-} //PackageInsertImpl
+} // PackageInsertImpl

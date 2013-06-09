@@ -2,7 +2,6 @@
  */
 package org.splevo.diffing.emfcompare.java2kdmdiff.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -20,23 +19,18 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert} object.
- * <!-- begin-user-doc -->
+ * This is the item provider adapter for a
+ * {@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageInsert} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
-public class PackageInsertItemProvider
-    extends PackageChangeItemProvider
-    implements
-        IEditingDomainItemProvider,
-        IStructuredItemContentProvider,
-        ITreeItemContentProvider,
-        IItemLabelProvider,
-        IItemPropertySource {
+public class PackageInsertItemProvider extends PackageChangeItemProvider implements IEditingDomainItemProvider,
+        IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     public PackageInsertItemProvider(AdapterFactory adapterFactory) {
@@ -44,9 +38,9 @@ public class PackageInsertItemProvider
     }
 
     /**
-     * This returns the property descriptors for the adapted class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -60,37 +54,31 @@ public class PackageInsertItemProvider
     }
 
     /**
-     * This adds a property descriptor for the Package Left feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds a property descriptor for the Package Left feature. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     protected void addPackageLeftPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_PackageInsert_packageLeft_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_PackageInsert_packageLeft_feature", "_UI_PackageInsert_type"),
-                 Java2KDMDiffPackage.Literals.PACKAGE_INSERT__PACKAGE_LEFT,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_PackageInsert_packageLeft_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_PackageInsert_packageLeft_feature",
+                        "_UI_PackageInsert_type"), Java2KDMDiffPackage.Literals.PACKAGE_INSERT__PACKAGE_LEFT, true,
+                false, true, null, null, null));
     }
 
     /**
-     * This returns PackageInsert.gif.
-     * <!-- begin-user-doc -->
-     * Customized to provide a type specific insert icon.
-     * <!-- end-user-doc -->
+     * This returns PackageInsert.gif. <!-- begin-user-doc --> Customized to provide a type specific
+     * insert icon. 
+     * {@inheritDoc} <!-- end-user-doc -->
+     * 
      * @generated not
      */
     @Override
     public Object getImage(Object object) {
-        PackageInsert packageInsert = (PackageInsert)object;
+        PackageInsert packageInsert = (PackageInsert) object;
         if (packageInsert.getPackageLeft() != null) {
             return ImageUtil.getASTInsertIcon(packageInsert.getPackageLeft(), this);
         } else {
@@ -99,29 +87,29 @@ public class PackageInsertItemProvider
     }
 
     /**
-     * This returns the label text for the adapted class.
-     * <!-- begin-user-doc -->
-     * Customized to include the name of the inserted package.
-     * <!-- end-user-doc -->
+     * This returns the label text for the adapted class. <!-- begin-user-doc --> Customized to
+     * include the name of the inserted package. 
+     * {@inheritDoc} <!-- end-user-doc -->
+     * 
      * @generated not
      */
     @Override
     public String getText(Object object) {
-        PackageInsert packageInsert = (PackageInsert)object;
-        
+        PackageInsert packageInsert = (PackageInsert) object;
+
         String packageName = null;
-        if(packageInsert.getPackageLeft() != null){
+        if (packageInsert.getPackageLeft() != null) {
             packageName = packageInsert.getPackageLeft().getName();
         }
-        
+
         return getString("_UI_PackageInsert_type") + " " + packageName;
     }
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
+     * . <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -131,10 +119,9 @@ public class PackageInsertItemProvider
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-     * that can be created under this object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
+     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override

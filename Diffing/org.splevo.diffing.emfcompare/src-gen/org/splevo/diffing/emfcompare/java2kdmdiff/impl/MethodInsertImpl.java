@@ -16,23 +16,23 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.MethodInsert;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Method Insert</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Method Insert</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodInsertImpl#getMethodLeft <em>Method Left</em>}</li>
+ * <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.MethodInsertImpl#getMethodLeft <em>
+ * Method Left</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class MethodInsertImpl extends MethodChangeImpl implements MethodInsert {
     /**
-     * The cached value of the '{@link #getMethodLeft() <em>Method Left</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The cached value of the '{@link #getMethodLeft() <em>Method Left</em>}' reference. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getMethodLeft()
      * @generated
      * @ordered
@@ -40,8 +40,8 @@ public class MethodInsertImpl extends MethodChangeImpl implements MethodInsert {
     protected AbstractMethodDeclaration methodLeft;
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected MethodInsertImpl() {
@@ -49,8 +49,8 @@ public class MethodInsertImpl extends MethodChangeImpl implements MethodInsert {
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -59,25 +59,26 @@ public class MethodInsertImpl extends MethodChangeImpl implements MethodInsert {
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public AbstractMethodDeclaration getMethodLeft() {
         if (methodLeft != null && methodLeft.eIsProxy()) {
-            InternalEObject oldMethodLeft = (InternalEObject)methodLeft;
-            methodLeft = (AbstractMethodDeclaration)eResolveProxy(oldMethodLeft);
+            InternalEObject oldMethodLeft = (InternalEObject) methodLeft;
+            methodLeft = (AbstractMethodDeclaration) eResolveProxy(oldMethodLeft);
             if (methodLeft != oldMethodLeft) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT, oldMethodLeft, methodLeft));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+                            Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT, oldMethodLeft, methodLeft));
             }
         }
         return methodLeft;
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public AbstractMethodDeclaration basicGetMethodLeft() {
@@ -85,81 +86,82 @@ public class MethodInsertImpl extends MethodChangeImpl implements MethodInsert {
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setMethodLeft(AbstractMethodDeclaration newMethodLeft) {
         AbstractMethodDeclaration oldMethodLeft = methodLeft;
         methodLeft = newMethodLeft;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT, oldMethodLeft, methodLeft));
+            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT,
+                    oldMethodLeft, methodLeft));
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT:
-                if (resolve) return getMethodLeft();
-                return basicGetMethodLeft();
+        case Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT:
+            if (resolve)
+                return getMethodLeft();
+            return basicGetMethodLeft();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT:
-                setMethodLeft((AbstractMethodDeclaration)newValue);
-                return;
+        case Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT:
+            setMethodLeft((AbstractMethodDeclaration) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT:
-                setMethodLeft((AbstractMethodDeclaration)null);
-                return;
+        case Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT:
+            setMethodLeft((AbstractMethodDeclaration) null);
+            return;
         }
         super.eUnset(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT:
-                return methodLeft != null;
+        case Java2KDMDiffPackage.METHOD_INSERT__METHOD_LEFT:
+            return methodLeft != null;
         }
         return super.eIsSet(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * The difference kind of a method insert is always DifferenceKind.ADDITION.
-     * <!-- end-user-doc -->
-     * {@inheritDoc}
+     * <!-- begin-user-doc --> The difference kind of a method insert is always
+     * DifferenceKind.ADDITION. <!-- end-user-doc --> {@inheritDoc}
+     * 
      * @generated NOT
      */
     @Override
@@ -167,4 +169,4 @@ public class MethodInsertImpl extends MethodChangeImpl implements MethodInsert {
         return DifferenceKind.ADDITION;
     }
 
-} //MethodInsertImpl
+} // MethodInsertImpl

@@ -8,32 +8,31 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.ImportDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Import Declaration Change</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Import Declaration Change</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public abstract class ImportDeclarationChangeImpl extends Java2KDMDiffExtensionImpl implements ImportDeclarationChange {
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	protected ImportDeclarationChangeImpl() {
+    protected ImportDeclarationChangeImpl() {
         super();
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	protected EClass eStaticClass() {
+    @Override
+    protected EClass eStaticClass() {
         return Java2KDMDiffPackage.Literals.IMPORT_DECLARATION_CHANGE;
     }
 
-} //ImportDeclarationChangeImpl
+} // ImportDeclarationChangeImpl

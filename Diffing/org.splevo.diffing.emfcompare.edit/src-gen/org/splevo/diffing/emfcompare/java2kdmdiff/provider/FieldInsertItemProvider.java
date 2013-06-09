@@ -20,17 +20,18 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert} object.
- * <!-- begin-user-doc -->
+ * This is the item provider adapter for a
+ * {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldInsert} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class FieldInsertItemProvider extends FieldChangeItemProvider implements IEditingDomainItemProvider,
         IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier.
-     * <!-- begin-user-doc --> <!--
+     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     public FieldInsertItemProvider(AdapterFactory adapterFactory) {
@@ -38,9 +39,9 @@ public class FieldInsertItemProvider extends FieldChangeItemProvider implements 
     }
 
     /**
-     * This returns the property descriptors for the adapted class.
-     * <!-- begin-user-doc --> <!--
+     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -54,30 +55,26 @@ public class FieldInsertItemProvider extends FieldChangeItemProvider implements 
     }
 
     /**
-     * This adds a property descriptor for the Field Left feature.
-     * <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Field Left feature. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     * 
      * @generated
      */
     protected void addFieldLeftPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_FieldInsert_fieldLeft_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_FieldInsert_fieldLeft_feature", "_UI_FieldInsert_type"),
-                 Java2KDMDiffPackage.Literals.FIELD_INSERT__FIELD_LEFT,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_FieldInsert_fieldLeft_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_FieldInsert_fieldLeft_feature",
+                        "_UI_FieldInsert_type"), Java2KDMDiffPackage.Literals.FIELD_INSERT__FIELD_LEFT, true, false,
+                true, null, null, null));
     }
 
     /**
      * This returns FieldInsert.gif. <!-- begin-user-doc --> Customized to provide type specific
-     * insert icon. <!-- end-user-doc -->
+     * insert icon.  
+     * {@inheritDoc}
+     * <!-- end-user-doc -->
      * 
      * @generated not
      */
@@ -92,7 +89,10 @@ public class FieldInsertItemProvider extends FieldChangeItemProvider implements 
     }
 
     /**
-     * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc
+     * This returns the label text for the adapted class. <!-- begin-user-doc -->
+     * Customized to provide a type specific label. 
+     * {@inheritDoc}
+     *  <!-- end-user-doc
      * -->
      * 
      * @generated not
@@ -123,8 +123,9 @@ public class FieldInsertItemProvider extends FieldChangeItemProvider implements 
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
+     * . <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -134,9 +135,9 @@ public class FieldInsertItemProvider extends FieldChangeItemProvider implements 
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-     * that can be created under this object.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
+     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override

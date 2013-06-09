@@ -17,24 +17,27 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.ImplementsInterfaceInsert;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Implements Interface Insert</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Implements Interface Insert</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImplementsInterfaceInsertImpl#getImplementedInterface <em>Implemented Interface</em>}</li>
- *   <li>{@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImplementsInterfaceInsertImpl#getChangedClass <em>Changed Class</em>}</li>
+ * <li>
+ * {@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImplementsInterfaceInsertImpl#getImplementedInterface
+ * <em>Implemented Interface</em>}</li>
+ * <li>
+ * {@link org.splevo.diffing.emfcompare.java2kdmdiff.impl.ImplementsInterfaceInsertImpl#getChangedClass
+ * <em>Changed Class</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class ImplementsInterfaceInsertImpl extends ClassChangeImpl implements ImplementsInterfaceInsert {
     /**
-     * The cached value of the '{@link #getImplementedInterface() <em>Implemented Interface</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The cached value of the '{@link #getImplementedInterface() <em>Implemented Interface</em>}'
+     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getImplementedInterface()
      * @generated
      * @ordered
@@ -42,9 +45,9 @@ public class ImplementsInterfaceInsertImpl extends ClassChangeImpl implements Im
     protected InterfaceDeclaration implementedInterface;
 
     /**
-     * The cached value of the '{@link #getChangedClass() <em>Changed Class</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * The cached value of the '{@link #getChangedClass() <em>Changed Class</em>}' reference. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @see #getChangedClass()
      * @generated
      * @ordered
@@ -52,8 +55,8 @@ public class ImplementsInterfaceInsertImpl extends ClassChangeImpl implements Im
     protected ClassDeclaration changedClass;
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected ImplementsInterfaceInsertImpl() {
@@ -61,8 +64,8 @@ public class ImplementsInterfaceInsertImpl extends ClassChangeImpl implements Im
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -71,25 +74,27 @@ public class ImplementsInterfaceInsertImpl extends ClassChangeImpl implements Im
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public InterfaceDeclaration getImplementedInterface() {
         if (implementedInterface != null && implementedInterface.eIsProxy()) {
-            InternalEObject oldImplementedInterface = (InternalEObject)implementedInterface;
-            implementedInterface = (InterfaceDeclaration)eResolveProxy(oldImplementedInterface);
+            InternalEObject oldImplementedInterface = (InternalEObject) implementedInterface;
+            implementedInterface = (InterfaceDeclaration) eResolveProxy(oldImplementedInterface);
             if (implementedInterface != oldImplementedInterface) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE, oldImplementedInterface, implementedInterface));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+                            Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE,
+                            oldImplementedInterface, implementedInterface));
             }
         }
         return implementedInterface;
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public InterfaceDeclaration basicGetImplementedInterface() {
@@ -97,37 +102,41 @@ public class ImplementsInterfaceInsertImpl extends ClassChangeImpl implements Im
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setImplementedInterface(InterfaceDeclaration newImplementedInterface) {
         InterfaceDeclaration oldImplementedInterface = implementedInterface;
         implementedInterface = newImplementedInterface;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE, oldImplementedInterface, implementedInterface));
+            eNotify(new ENotificationImpl(this, Notification.SET,
+                    Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE, oldImplementedInterface,
+                    implementedInterface));
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ClassDeclaration getChangedClass() {
         if (changedClass != null && changedClass.eIsProxy()) {
-            InternalEObject oldChangedClass = (InternalEObject)changedClass;
-            changedClass = (ClassDeclaration)eResolveProxy(oldChangedClass);
+            InternalEObject oldChangedClass = (InternalEObject) changedClass;
+            changedClass = (ClassDeclaration) eResolveProxy(oldChangedClass);
             if (changedClass != oldChangedClass) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS, oldChangedClass, changedClass));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+                            Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS, oldChangedClass,
+                            changedClass));
             }
         }
         return changedClass;
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public ClassDeclaration basicGetChangedClass() {
@@ -135,92 +144,94 @@ public class ImplementsInterfaceInsertImpl extends ClassChangeImpl implements Im
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     public void setChangedClass(ClassDeclaration newChangedClass) {
         ClassDeclaration oldChangedClass = changedClass;
         changedClass = newChangedClass;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS, oldChangedClass, changedClass));
+            eNotify(new ENotificationImpl(this, Notification.SET,
+                    Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS, oldChangedClass, changedClass));
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE:
-                if (resolve) return getImplementedInterface();
-                return basicGetImplementedInterface();
-            case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS:
-                if (resolve) return getChangedClass();
-                return basicGetChangedClass();
+        case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE:
+            if (resolve)
+                return getImplementedInterface();
+            return basicGetImplementedInterface();
+        case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS:
+            if (resolve)
+                return getChangedClass();
+            return basicGetChangedClass();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE:
-                setImplementedInterface((InterfaceDeclaration)newValue);
-                return;
-            case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS:
-                setChangedClass((ClassDeclaration)newValue);
-                return;
+        case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE:
+            setImplementedInterface((InterfaceDeclaration) newValue);
+            return;
+        case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS:
+            setChangedClass((ClassDeclaration) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE:
-                setImplementedInterface((InterfaceDeclaration)null);
-                return;
-            case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS:
-                setChangedClass((ClassDeclaration)null);
-                return;
+        case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE:
+            setImplementedInterface((InterfaceDeclaration) null);
+            return;
+        case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS:
+            setChangedClass((ClassDeclaration) null);
+            return;
         }
         super.eUnset(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE:
-                return implementedInterface != null;
-            case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS:
-                return changedClass != null;
+        case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__IMPLEMENTED_INTERFACE:
+            return implementedInterface != null;
+        case Java2KDMDiffPackage.IMPLEMENTS_INTERFACE_INSERT__CHANGED_CLASS:
+            return changedClass != null;
         }
         return super.eIsSet(featureID);
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * The difference kind of an implements interface insert is always DifferenceKind.ADDITION.
-     * <!-- end-user-doc -->
-     * {@inheritDoc}
+     * <!-- begin-user-doc --> The difference kind of an implements interface insert is always
+     * DifferenceKind.ADDITION. <!-- end-user-doc --> {@inheritDoc}
+     * 
      * @generated NOT
      */
     @Override
@@ -228,4 +239,4 @@ public class ImplementsInterfaceInsertImpl extends ClassChangeImpl implements Im
         return DifferenceKind.ADDITION;
     }
 
-} //ImplementsInterfaceInsertImpl
+} // ImplementsInterfaceInsertImpl

@@ -9,18 +9,17 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.FieldChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Field Change</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Field Change</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public abstract class FieldChangeImpl extends Java2KDMDiffExtensionImpl implements FieldChange {
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected FieldChangeImpl() {
@@ -28,8 +27,8 @@ public abstract class FieldChangeImpl extends Java2KDMDiffExtensionImpl implemen
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -37,4 +36,4 @@ public abstract class FieldChangeImpl extends Java2KDMDiffExtensionImpl implemen
         return Java2KDMDiffPackage.Literals.FIELD_CHANGE;
     }
 
-} //FieldChangeImpl
+} // FieldChangeImpl

@@ -2,7 +2,6 @@
  */
 package org.splevo.diffing.emfcompare.java2kdmdiff.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -20,23 +19,18 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete} object.
- * <!-- begin-user-doc -->
+ * This is the item provider adapter for a
+ * {@link org.splevo.diffing.emfcompare.java2kdmdiff.PackageDelete} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
-public class PackageDeleteItemProvider
-    extends PackageChangeItemProvider
-    implements
-        IEditingDomainItemProvider,
-        IStructuredItemContentProvider,
-        ITreeItemContentProvider,
-        IItemLabelProvider,
-        IItemPropertySource {
+public class PackageDeleteItemProvider extends PackageChangeItemProvider implements IEditingDomainItemProvider,
+        IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     public PackageDeleteItemProvider(AdapterFactory adapterFactory) {
@@ -44,9 +38,9 @@ public class PackageDeleteItemProvider
     }
 
     /**
-     * This returns the property descriptors for the adapted class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -61,59 +55,47 @@ public class PackageDeleteItemProvider
     }
 
     /**
-     * This adds a property descriptor for the Package Right feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds a property descriptor for the Package Right feature. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     protected void addPackageRightPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_PackageDelete_packageRight_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_PackageDelete_packageRight_feature", "_UI_PackageDelete_type"),
-                 Java2KDMDiffPackage.Literals.PACKAGE_DELETE__PACKAGE_RIGHT,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_PackageDelete_packageRight_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_PackageDelete_packageRight_feature",
+                        "_UI_PackageDelete_type"), Java2KDMDiffPackage.Literals.PACKAGE_DELETE__PACKAGE_RIGHT, true,
+                false, true, null, null, null));
     }
 
     /**
-     * This adds a property descriptor for the Left Container feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds a property descriptor for the Left Container feature. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     protected void addLeftContainerPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_PackageDelete_leftContainer_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_PackageDelete_leftContainer_feature", "_UI_PackageDelete_type"),
-                 Java2KDMDiffPackage.Literals.PACKAGE_DELETE__LEFT_CONTAINER,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_PackageDelete_leftContainer_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_PackageDelete_leftContainer_feature",
+                        "_UI_PackageDelete_type"), Java2KDMDiffPackage.Literals.PACKAGE_DELETE__LEFT_CONTAINER, true,
+                false, true, null, null, null));
     }
 
     /**
-     * This returns PackageDelete.gif.
-     * <!-- begin-user-doc -->
-     * Customized to provide a type specific delete icon.
-     * <!-- end-user-doc -->
+     * This returns PackageDelete.gif. <!-- begin-user-doc --> Customized to provide a type specific
+     * delete icon. 
+     * {@inheritDoc} <!-- end-user-doc -->
+     * 
      * @generated not
      */
     @Override
     public Object getImage(Object object) {
-        PackageDelete packageDelete = (PackageDelete)object;
+        PackageDelete packageDelete = (PackageDelete) object;
         if (packageDelete.getPackageRight() != null) {
             return ImageUtil.getASTDeleteIcon(packageDelete.getPackageRight(), this);
         } else {
@@ -122,30 +104,30 @@ public class PackageDeleteItemProvider
     }
 
     /**
-     * This returns the label text for the adapted class.
-     * <!-- begin-user-doc -->
-     * Customized to include the name of the deleted package.
-     * <!-- end-user-doc -->
+     * This returns the label text for the adapted class. <!-- begin-user-doc --> Customized to
+     * include the name of the deleted package. 
+     * {@inheritDoc} <!-- end-user-doc -->
+     * 
      * @generated not
      */
     @Override
     public String getText(Object object) {
-        PackageDelete packageDelete = (PackageDelete)object;
-        
+        PackageDelete packageDelete = (PackageDelete) object;
+
         String packageName = null;
-        if(packageDelete.getPackageRight() != null){
+        if (packageDelete.getPackageRight() != null) {
             packageName = packageDelete.getPackageRight().getName();
         }
-        
+
         return getString("_UI_PackageInsert_type") + " " + packageName;
-        
+
     }
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
+     * . <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -155,10 +137,9 @@ public class PackageDeleteItemProvider
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-     * that can be created under this object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
+     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override

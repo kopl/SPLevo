@@ -2,7 +2,6 @@
  */
 package org.splevo.diffing.emfcompare.java2kdmdiff.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -20,23 +19,18 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete} object.
- * <!-- begin-user-doc -->
+ * This is the item provider adapter for a
+ * {@link org.splevo.diffing.emfcompare.java2kdmdiff.ClassDelete} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
-public class ClassDeleteItemProvider
-    extends ClassChangeItemProvider
-    implements
-        IEditingDomainItemProvider,
-        IStructuredItemContentProvider,
-        ITreeItemContentProvider,
-        IItemLabelProvider,
-        IItemPropertySource {
+public class ClassDeleteItemProvider extends ClassChangeItemProvider implements IEditingDomainItemProvider,
+        IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     public ClassDeleteItemProvider(AdapterFactory adapterFactory) {
@@ -44,9 +38,9 @@ public class ClassDeleteItemProvider
     }
 
     /**
-     * This returns the property descriptors for the adapted class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -61,60 +55,50 @@ public class ClassDeleteItemProvider
     }
 
     /**
-     * This adds a property descriptor for the Class Right feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds a property descriptor for the Class Right feature. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     protected void addClassRightPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_ClassDelete_classRight_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_ClassDelete_classRight_feature", "_UI_ClassDelete_type"),
-                 Java2KDMDiffPackage.Literals.CLASS_DELETE__CLASS_RIGHT,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_ClassDelete_classRight_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_ClassDelete_classRight_feature",
+                        "_UI_ClassDelete_type"), Java2KDMDiffPackage.Literals.CLASS_DELETE__CLASS_RIGHT, true, false,
+                true, null, null, null));
     }
 
     /**
-     * This adds a property descriptor for the Left Container feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds a property descriptor for the Left Container feature. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     protected void addLeftContainerPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_ClassDelete_leftContainer_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_ClassDelete_leftContainer_feature", "_UI_ClassDelete_type"),
-                 Java2KDMDiffPackage.Literals.CLASS_DELETE__LEFT_CONTAINER,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_ClassDelete_leftContainer_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_ClassDelete_leftContainer_feature",
+                        "_UI_ClassDelete_type"), Java2KDMDiffPackage.Literals.CLASS_DELETE__LEFT_CONTAINER, true,
+                false, true, null, null, null));
     }
 
     /**
-     * This returns ClassDelete.gif.
-     * <!-- begin-user-doc -->
-     * Customized to provide a type specific delete icon.
+     * This returns ClassDelete.gif. 
+     * <!-- begin-user-doc --> 
+     * Customized to provide a type specific delete icon. 
+     * {@inheritDoc}
      * <!-- end-user-doc -->
+     * 
      * @generated not
      */
     @Override
     public Object getImage(Object object) {
-        ClassDelete classDelete = (ClassDelete)object;
-        if(classDelete.getClassRight() != null){
+        ClassDelete classDelete = (ClassDelete) object;
+        if (classDelete.getClassRight() != null) {
             return ImageUtil.getASTDeleteIcon(classDelete.getClassRight(), this);
         } else {
             return ImageUtil.composeDeleteIcon(this, ImageUtil.ICON_CLASS);
@@ -122,29 +106,31 @@ public class ClassDeleteItemProvider
     }
 
     /**
-     * This returns the label text for the adapted class.
-     * <!-- begin-user-doc -->
-     * Customized to include the name of the deleted class.
+     * This returns the label text for the adapted class. 
+     * <!-- begin-user-doc --> 
+     * Customized to include the name of the deleted class.  
+     * {@inheritDoc}
      * <!-- end-user-doc -->
+     * 
      * @generated not
      */
     @Override
     public String getText(Object object) {
-        ClassDelete classDelete = (ClassDelete)object;
-        
+        ClassDelete classDelete = (ClassDelete) object;
+
         String className = null;
-        if(classDelete.getClassRight() != null){
+        if (classDelete.getClassRight() != null) {
             className = classDelete.getClassRight().getName();
         }
-        
+
         return getString("_UI_ClassDelete_type") + " " + className;
     }
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
+     * . <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -154,10 +140,9 @@ public class ClassDeleteItemProvider
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-     * that can be created under this object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
+     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override

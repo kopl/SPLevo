@@ -2,7 +2,6 @@
  */
 package org.splevo.diffing.emfcompare.java2kdmdiff.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -22,23 +21,18 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange;
 import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange} object.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
+ * This is the item provider adapter for a
+ * {@link org.splevo.diffing.emfcompare.java2kdmdiff.FieldDeclarationChange} object. <!--
+ * begin-user-doc --> <!-- end-user-doc -->
+ * 
  * @generated
  */
-public class FieldDeclarationChangeItemProvider
-    extends FieldChangeItemProvider
-    implements
-        IEditingDomainItemProvider,
-        IStructuredItemContentProvider,
-        ITreeItemContentProvider,
-        IItemLabelProvider,
-        IItemPropertySource {
+public class FieldDeclarationChangeItemProvider extends FieldChangeItemProvider implements IEditingDomainItemProvider,
+        IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     public FieldDeclarationChangeItemProvider(AdapterFactory adapterFactory) {
@@ -46,9 +40,9 @@ public class FieldDeclarationChangeItemProvider
     }
 
     /**
-     * This returns the property descriptors for the adapted class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -63,53 +57,44 @@ public class FieldDeclarationChangeItemProvider
     }
 
     /**
-     * This adds a property descriptor for the Field Left feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds a property descriptor for the Field Left feature. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     protected void addFieldLeftPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_FieldDeclarationChange_fieldLeft_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_FieldDeclarationChange_fieldLeft_feature", "_UI_FieldDeclarationChange_type"),
-                 Java2KDMDiffPackage.Literals.FIELD_DECLARATION_CHANGE__FIELD_LEFT,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
+        itemPropertyDescriptors
+                .add(createItemPropertyDescriptor(
+                        ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                        getResourceLocator(),
+                        getString("_UI_FieldDeclarationChange_fieldLeft_feature"),
+                        getString("_UI_PropertyDescriptor_description", "_UI_FieldDeclarationChange_fieldLeft_feature",
+                                "_UI_FieldDeclarationChange_type"),
+                        Java2KDMDiffPackage.Literals.FIELD_DECLARATION_CHANGE__FIELD_LEFT, true, false, true, null,
+                        null, null));
     }
 
     /**
-     * This adds a property descriptor for the Field Right feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds a property descriptor for the Field Right feature. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     protected void addFieldRightPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_FieldDeclarationChange_fieldRight_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_FieldDeclarationChange_fieldRight_feature", "_UI_FieldDeclarationChange_type"),
-                 Java2KDMDiffPackage.Literals.FIELD_DECLARATION_CHANGE__FIELD_RIGHT,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
+        itemPropertyDescriptors
+                .add(createItemPropertyDescriptor(
+                        ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                        getResourceLocator(),
+                        getString("_UI_FieldDeclarationChange_fieldRight_feature"),
+                        getString("_UI_PropertyDescriptor_description",
+                                "_UI_FieldDeclarationChange_fieldRight_feature", "_UI_FieldDeclarationChange_type"),
+                        Java2KDMDiffPackage.Literals.FIELD_DECLARATION_CHANGE__FIELD_RIGHT, true, false, true, null,
+                        null, null));
     }
 
     /**
-     * This returns FieldDeclarationChange.gif.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This returns FieldDeclarationChange.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -118,14 +103,17 @@ public class FieldDeclarationChangeItemProvider
     }
 
     /**
-     * This returns the label text for the adapted class.
-     * <!-- begin-user-doc -->
+     * This returns the label text for the adapted class. 
+     * <!-- begin-user-doc --> 
+     *  Generate a field specific label taking the fields name into account.
+     * {@inheritDoc}
      * <!-- end-user-doc -->
+     * 
      * @generated not
      */
     @Override
     public String getText(Object object) {
-        FieldDeclarationChange fieldDeclarationChange = (FieldDeclarationChange)object;
+        FieldDeclarationChange fieldDeclarationChange = (FieldDeclarationChange) object;
 
         StringBuilder nameBuilder = new StringBuilder();
         if (fieldDeclarationChange.getFieldLeft() != null) {
@@ -149,9 +137,9 @@ public class FieldDeclarationChangeItemProvider
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
+     * . <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -161,10 +149,9 @@ public class FieldDeclarationChangeItemProvider
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-     * that can be created under this object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
+     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override

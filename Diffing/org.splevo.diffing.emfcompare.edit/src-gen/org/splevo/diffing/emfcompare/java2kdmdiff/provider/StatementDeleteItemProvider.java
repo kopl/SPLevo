@@ -2,7 +2,6 @@
  */
 package org.splevo.diffing.emfcompare.java2kdmdiff.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -23,23 +22,18 @@ import org.splevo.diffing.emfcompare.edit.images.ImageUtil;
 import org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete} object.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
+ * This is the item provider adapter for a
+ * {@link org.splevo.diffing.emfcompare.java2kdmdiff.StatementDelete} object. <!-- begin-user-doc
+ * --> <!-- end-user-doc -->
+ * 
  * @generated
  */
-public class StatementDeleteItemProvider
-    extends StatementChangeItemProvider
-    implements
-        IEditingDomainItemProvider,
-        IStructuredItemContentProvider,
-        ITreeItemContentProvider,
-        IItemLabelProvider,
-        IItemPropertySource {
+public class StatementDeleteItemProvider extends StatementChangeItemProvider implements IEditingDomainItemProvider,
+        IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     public StatementDeleteItemProvider(AdapterFactory adapterFactory) {
@@ -47,9 +41,9 @@ public class StatementDeleteItemProvider
     }
 
     /**
-     * This returns the property descriptors for the adapted class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -63,37 +57,31 @@ public class StatementDeleteItemProvider
     }
 
     /**
-     * This adds a property descriptor for the Left Container feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds a property descriptor for the Left Container feature. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
      * @generated
      */
     protected void addLeftContainerPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_StatementDelete_leftContainer_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_StatementDelete_leftContainer_feature", "_UI_StatementDelete_type"),
-                 Java2KDMDiffPackage.Literals.STATEMENT_DELETE__LEFT_CONTAINER,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_StatementDelete_leftContainer_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_StatementDelete_leftContainer_feature",
+                        "_UI_StatementDelete_type"), Java2KDMDiffPackage.Literals.STATEMENT_DELETE__LEFT_CONTAINER,
+                true, false, true, null, null, null));
     }
 
     /**
-     * This returns StatementDelete.gif.
-     * <!-- begin-user-doc -->
-     * Customized to provide type specific delete icon.
-     * <!-- end-user-doc -->
+     * This returns StatementDelete.gif. <!-- begin-user-doc --> Customized to provide type specific
+     * delete icon. 
+     * {@inheritDoc} <!-- end-user-doc -->
+     * 
      * @generated not
      */
     @Override
     public Object getImage(Object object) {
-        StatementDelete statementDelete = (StatementDelete)object;
+        StatementDelete statementDelete = (StatementDelete) object;
         if (statementDelete.getStatementRight() != null) {
             return ImageUtil.getASTDeleteIcon(statementDelete.getStatementRight(), this);
         } else {
@@ -102,16 +90,16 @@ public class StatementDeleteItemProvider
     }
 
     /**
-     * This returns the label text for the adapted class.
-     * <!-- begin-user-doc -->
-     * Customized label method to provide 
-     * more intuitive information about the statement inserted.
-     * <!-- end-user-doc -->
+     * This returns the label text for the adapted class. <!-- begin-user-doc --> Customized label
+     * method to provide more intuitive information about the statement inserted. 
+     * {@inheritDoc} <!-- end-user-doc
+     * -->
+     * 
      * @generated not
      */
     @Override
     public String getText(Object object) {
-        StatementDelete statementDelete = (StatementDelete)object;
+        StatementDelete statementDelete = (StatementDelete) object;
         Statement statement = statementDelete.getStatementRight();
         if (statement instanceof VariableDeclarationStatement) {
             VariableDeclarationStatement varDeclStatement = (VariableDeclarationStatement) statement;
@@ -128,9 +116,9 @@ public class StatementDeleteItemProvider
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
+     * . <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -140,10 +128,9 @@ public class StatementDeleteItemProvider
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-     * that can be created under this object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
+     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override

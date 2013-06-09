@@ -8,18 +8,17 @@ import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.diffing.emfcompare.java2kdmdiff.MethodChange;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Method Change</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Method Change</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
- *
+ * 
  * @generated
  */
 public abstract class MethodChangeImpl extends Java2KDMDiffExtensionImpl implements MethodChange {
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     protected MethodChangeImpl() {
@@ -27,8 +26,8 @@ public abstract class MethodChangeImpl extends Java2KDMDiffExtensionImpl impleme
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
     @Override
@@ -36,4 +35,4 @@ public abstract class MethodChangeImpl extends Java2KDMDiffExtensionImpl impleme
         return Java2KDMDiffPackage.Literals.METHOD_CHANGE;
     }
 
-} //MethodChangeImpl
+} // MethodChangeImpl
