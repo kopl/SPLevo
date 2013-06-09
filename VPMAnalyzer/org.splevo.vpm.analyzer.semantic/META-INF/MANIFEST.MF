@@ -12,3 +12,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Bundle-Vendor: www.splevo.org
+Export-Package: org.splevo.vpm.analyzer.semantic
