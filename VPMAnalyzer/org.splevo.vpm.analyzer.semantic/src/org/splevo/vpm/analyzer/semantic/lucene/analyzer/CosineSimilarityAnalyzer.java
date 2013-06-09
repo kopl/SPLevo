@@ -32,10 +32,16 @@ public class CosineSimilarityAnalyzer implements IRelationshipAnalyzer {
 
 	/** This set contains all Terms. */
 	private final Set<String> terms = new HashSet<String>();
+	
+	/** This vector represents the Term frequencies of the first document. */
     private RealVector v1;
+    
+	/** This vector represents the Term frequencies of the second document. */
     private RealVector v2;
-    
-    
+        
+	/* (non-Javadoc)
+	 * @see org.splevo.vpm.analyzer.semantic.lucene.analyzer.IRelationshipAnalyzer#calculateSimilarity(org.apache.lucene.index.DirectoryReader, int, int)
+	 */
 	@Override
 	public double calculateSimilarity(DirectoryReader reader, int docID1, int docID2) {
 		// Get the Term frequencies from the documents.
@@ -50,7 +56,9 @@ public class CosineSimilarityAnalyzer implements IRelationshipAnalyzer {
 	}
 	
 	/**
-	 * @return The cosine similarity between the Vectors v1 and v2.
+	 * Calculates the cosine similarity between v1 and v2.
+	 * 
+	 * @return The cosine similarity.
 	 */
 	private double getCosineSimilarity() {
         return (v1.dotProduct(v2)) / (v1.getNorm() * v2.getNorm());

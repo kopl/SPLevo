@@ -6,7 +6,7 @@ import org.apache.lucene.index.DirectoryReader;
 /**
  * To allow adding new evaluation methods easily, this class has been created.
  * 
- * @author Daniel
+ * @author Daniel Kojic
  *
  */
 public interface IRelationshipAnalyzer {

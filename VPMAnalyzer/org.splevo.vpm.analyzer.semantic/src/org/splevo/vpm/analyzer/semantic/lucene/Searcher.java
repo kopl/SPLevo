@@ -1,7 +1,6 @@
 package org.splevo.vpm.analyzer.semantic.lucene;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +13,7 @@ import org.splevo.vpm.analyzer.semantic.lucene.analyzer.IRelationshipAnalyzer;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * This class is responsible for search-related tasks for the main index.
+ * Use this class to find dependencies between documents of the main index.
  * 
  * @author Daniel Kojic
  *
@@ -22,42 +21,22 @@ import org.splevo.vpm.variability.VariationPoint;
 public class Searcher {
 	
 	/** The logger for this class. */
-    private Logger logger = Logger.getLogger(Indexer.class);
-    
-    /** The Directory reader for the main index. */
-	private DirectoryReader reader;
-	
-	/** Singleton instance. */
-	private static Searcher instance;
-
-	/**
-	 *  Private constructor to prevent this	class from being
-	 *  instantiated multiple times.
-	 */
-	private Searcher(){
-	}
+    private static Logger logger = Logger.getLogger(Searcher.class);
 	
 	/**
-	 * Gets the singleton instance.
-	 * @return The singleton instance.
-	 */
-	public static Searcher getInstance() {
-		// Return singleton, create new if not existing.
-		return instance == null ? instance = new Searcher() : instance;
-	}
-	
-	/**
-	 * Finds relationships between documents.
+	 * Searches the index (the one hold by the Indexer singleton) to
+	 * find relationships between the Cartesian product of all documents.
 	 * 
 	 * @param analyzer The analyzer to be used to calculate the metric.
 	 * @param minSimilarity The minimum similarity. Links below this value are not part of the result.
 	 * @return A {@link Map} containing the {@link VariationPoint} IDs having a relationship.
 	 * @throws IOException Throws an exception if there is already an open writer to the index.
 	 */
-	public Map<String, Set<String>> findSemanticRelationships(IRelationshipAnalyzer analyzer, double minSimilarity) throws IOException{
-		// Open reader
-		reader = Indexer.getInstance().getIndexReader();
+	public static Map<String, Set<String>> findSemanticRelationships(IRelationshipAnalyzer analyzer, double minSimilarity) throws IOException{
+		// Open the Directory reader for the main index.
+		DirectoryReader reader = Indexer.getInstance().getIndexReader();
 		
+		// Store found relationships in this StructuredMap.
 		StructuredMap results = new StructuredMap();
 		
 		for (int i=0; i<reader.maxDoc(); i++) {			
@@ -84,7 +63,7 @@ public class Searcher {
 		        String docId2 = doc2.get(Constants.INDEX_VARIATIONPOINT);
 		        
 		        double similarity = analyzer.calculateSimilarity(reader, i, q);
-		        //System.out.println("++++++++++++++++++++++++++++++++++" + similarity);
+
 		        if(Double.isNaN(similarity)){
 		        	continue;
 		        }
@@ -93,6 +72,8 @@ public class Searcher {
 		        }
 		    }
 		}
+		
+		// Close reader and return results.
 		reader.close();
 		return results.getAllLinks();
 	}

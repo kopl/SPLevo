@@ -24,7 +24,6 @@ import org.eclipse.gmt.modisco.java.Comment;
 import org.eclipse.gmt.modisco.java.ConstructorDeclaration;
 import org.eclipse.gmt.modisco.java.EnumConstantDeclaration;
 import org.eclipse.gmt.modisco.java.EnumDeclaration;
-import org.eclipse.gmt.modisco.java.ExpressionStatement;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.Initializer;
 import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
@@ -84,15 +83,14 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(IndexASTNodeSwitch.class);
     
-	/** This {@link StringBuilder} is used to store the code. */
+	/** This {@link StringBuilder} is used to store the code fragments. */
 	private StringBuilder contents;
 
-	/** This {@link StringBuilder} is used to store the comment. */
+	/** This {@link StringBuilder} is used to store the comments and annotations. */
 	private StringBuilder comments;
 	
     public IndexASTNodeSwitch(){
-    	contents = new StringBuilder();
-    	comments = new StringBuilder();
+    	clear();
     }
     
     /** Clears the text content. */
@@ -101,10 +99,20 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     	comments = new StringBuilder();
     }
     
+    /**
+     * Adds Text to the contents {@link StringBuilder}.
+     * 
+     * @param content 
+     */
     private void addContent(String content){
     	contents.append(content + " \n");  	
     }
     
+    /**
+     * Adds Text to the comments {@link StringBuilder}.
+     * 
+     * @param content 
+     */
     private void addComment(String comment){    	
     	comments.append(comment + " \n");
     }
@@ -137,398 +145,398 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	@Override
 	public List<ASTNode> casePackage(Package object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePackage(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseNamedElement(NamedElement object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseNamedElement(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedItem(UnresolvedItem object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedItem(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseComment(Comment object) {
 		addComment(object.getContent());
-		return new ArrayList<ASTNode>(); // return super.caseComment(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseBlockComment(BlockComment object) {
 		addComment(object.getContent());
-		return new ArrayList<ASTNode>(); // return super.caseBlockComment(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseJavadoc(Javadoc object) {
 		addComment(object.getContent());
-		return new ArrayList<ASTNode>(); // return super.caseJavadoc(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseLineComment(LineComment object) {
 		addComment(object.getContent());
-		return new ArrayList<ASTNode>(); // return super.caseLineComment(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseManifestAttribute(ManifestAttribute object) {
 		addContent(object.getKey());
 		addContent(object.getValue());
-		return new ArrayList<ASTNode>(); // return super.caseManifestAttribute(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseManifestEntry(ManifestEntry object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseManifestEntry(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseMethodRefParameter(MethodRefParameter object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseMethodRefParameter(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseTagElement(TagElement object) {
 		addContent(object.getTagName());
-		return new ArrayList<ASTNode>(); // return super.caseTagElement(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseTextElement(TextElement object) {
 		addComment(object.getText());
-		return new ArrayList<ASTNode>(); // return super.caseTextElement(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseAbstractTypeDeclaration(
 			AbstractTypeDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseAbstractTypeDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseAnnotationTypeDeclaration(
 			AnnotationTypeDeclaration object) {
 		addComment(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseAnnotationTypeDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseArrayType(ArrayType object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseArrayType(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseClassDeclaration(ClassDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseClassDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseEnumDeclaration(EnumDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseEnumDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseInterfaceDeclaration(InterfaceDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseInterfaceDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseParameterizedType(ParameterizedType object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseParameterizedType(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveType(PrimitiveType object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveType(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveTypeBoolean(PrimitiveTypeBoolean object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveTypeBoolean(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveTypeByte(PrimitiveTypeByte object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveTypeByte(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveTypeChar(PrimitiveTypeChar object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveTypeChar(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveTypeDouble(PrimitiveTypeDouble object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveTypeDouble(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveTypeShort(PrimitiveTypeShort object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveTypeShort(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveTypeFloat(PrimitiveTypeFloat object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveTypeFloat(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveTypeInt(PrimitiveTypeInt object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveTypeInt(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveTypeLong(PrimitiveTypeLong object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveTypeLong(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> casePrimitiveTypeVoid(PrimitiveTypeVoid object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.casePrimitiveTypeVoid(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseType(Type object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseType(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseTypeDeclaration(TypeDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseTypeDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseTypeParameter(TypeParameter object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseTypeParameter(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedAnnotationDeclaration(
 			UnresolvedAnnotationDeclaration object) {
 		addComment(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedAnnotationDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedClassDeclaration(
 			UnresolvedClassDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedClassDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedEnumDeclaration(
 			UnresolvedEnumDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedEnumDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedInterfaceDeclaration(
 			UnresolvedInterfaceDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedInterfaceDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedType(UnresolvedType object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedType(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedTypeDeclaration(
 			UnresolvedTypeDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedTypeDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseWildCardType(WildCardType object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseWildCardType(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseAbstractMethodDeclaration(
 			AbstractMethodDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseAbstractMethodDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseAnnotationMemberValuePair(
 			AnnotationMemberValuePair object) {
 		addComment(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseAnnotationMemberValuePair(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseAnnotationTypeMemberDeclaration(
 			AnnotationTypeMemberDeclaration object) {
 		addComment(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseAnnotationTypeMemberDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseBodyDeclaration(BodyDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseBodyDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseConstructorDeclaration(
 			ConstructorDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseConstructorDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseEnumConstantDeclaration(
 			EnumConstantDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseEnumConstantDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseFieldDeclaration(FieldDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseFieldDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseInitializer(Initializer object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseInitializer(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseMethodDeclaration(MethodDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseMethodDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseSingleVariableDeclaration(
 			SingleVariableDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseSingleVariableDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedAnnotationTypeMemberDeclaration(
 			UnresolvedAnnotationTypeMemberDeclaration object) {
 		addComment(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedAnnotationTypeMemberDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedMethodDeclaration(
 			UnresolvedMethodDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedMethodDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedVariableDeclarationFragment(
 			UnresolvedVariableDeclarationFragment object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedVariableDeclarationFragment(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedSingleVariableDeclaration(
 			UnresolvedSingleVariableDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedSingleVariableDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseVariableDeclaration(VariableDeclaration object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseVariableDeclaration(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseVariableDeclarationFragment(
 			VariableDeclarationFragment object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseVariableDeclarationFragment(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseArchive(Archive object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseArchive(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseCharacterLiteral(CharacterLiteral object) {
 		addContent('|' + object.getEscapedValue() + '|');
-		return new ArrayList<ASTNode>(); // return super.caseCharacterLiteral(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseClassFile(ClassFile object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseClassFile(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseNumberLiteral(NumberLiteral object) {
 		addContent(object.getTokenValue());
-		return new ArrayList<ASTNode>(); // return super.caseNumberLiteral(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseStringLiteral(StringLiteral object) {
 		addContent(object.getEscapedValue());
-		return new ArrayList<ASTNode>(); // return super.caseStringLiteral(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseLabeledStatement(LabeledStatement object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseLabeledStatement(object);
+		return new ArrayList<ASTNode>();
 	}
 
 	@Override
 	public List<ASTNode> caseUnresolvedLabeledStatement(
 			UnresolvedLabeledStatement object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>(); // return super.caseUnresolvedLabeledStatement(object);
+		return new ArrayList<ASTNode>();
 	}
 	
 	@Override
 	public List<ASTNode> defaultCase(EObject object) {
-		//logger.warn("Unrecognized ASTNode: " + object.toString());
-		return new ArrayList<ASTNode>(); // return super.defaultCase(object);
+		logger.warn("Unrecognized ASTNode: " + object.toString());
+		return new ArrayList<ASTNode>();
 	}
 }
