@@ -47,6 +47,46 @@
                menubarPath="additions">
          </action>
       </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.splevo.ui.openVariationPointLocation"
+            nameFilter="*"
+            objectClass="org.splevo.vpm.variability.VariationPoint">
+         <action
+               class="org.splevo.ui.actions.OpenVariationPointLocationAction"
+               enablesFor="1"
+               icon="icons/jcu_obj.gif"
+               id="org.splevo.ui.openVariationPointLocationAction"
+               label="Open VP Source Code Location"
+               menubarPath="splevo"
+               tooltip="Open the source code location of the Variation Point in the Java code editor.">
+         </action>
+         <menu
+               icon="icons/splevo-project.gif"
+               id="org.splevo.ui"
+               label="SPLevo Menu"
+               path="splevo">
+            <groupMarker
+                  name="SPLevo">
+            </groupMarker>
+            <separator
+                  name="org.splevo.ui">
+            </separator>
+         </menu>
+      </objectContribution>
+      <objectContribution
+            adaptable="true"
+            id="org.splevo.ui.openVariantLocation"
+            nameFilter="*"
+            objectClass="org.splevo.vpm.variability.Variant">
+         <action
+               class="org.splevo.ui.actions.OpenVariantLocationAction"
+               enablesFor="1"
+               id="org.splevo.ui.openVariantLocationAction"
+               label="Open Variant Code Locations"
+               menubarPath="splevo">
+         </action>
+      </objectContribution>
    </extension>
    <extension
          id="xmlProblem"

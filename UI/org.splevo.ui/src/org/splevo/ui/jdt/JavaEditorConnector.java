@@ -6,7 +6,9 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.modisco.java.composition.javaapplication.Java2File;
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -15,6 +17,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.splevo.modisco.util.SourceConnector;
 import org.splevo.ui.refinementbrowser.RefinementDetailsView;
 
 /**
@@ -26,6 +29,23 @@ public class JavaEditorConnector {
 
 	/** The logger for this class. */
 	private Logger logger = Logger.getLogger(RefinementDetailsView.class);
+
+    /**
+     * Open the java editor for a specific source location.
+     * 
+     * @param locationNode The AST node identifying the location to open.
+     * @param javaApplication The java application model to access the inventory.
+     */
+    public void openEditor(ASTNode locationNode, JavaApplication javaApplication) {
+        SourceConnector sourceConnector = new SourceConnector(javaApplication);
+        JavaNodeSourceRegion sourceRegion = sourceConnector.findSourceRegion(locationNode);
+
+        if (sourceRegion != null) {
+            openJavaEditor(sourceRegion, true);
+        } else {
+            logger.warn("No SourceRegion accessible.");
+        }
+    }
 
 	/**
 	 * Open a source region in an editor. The flag can control if the same file

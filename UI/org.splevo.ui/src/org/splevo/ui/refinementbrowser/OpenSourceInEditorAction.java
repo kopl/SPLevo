@@ -6,9 +6,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.eclipse.swt.widgets.TreeItem;
-import org.splevo.modisco.util.SourceConnector;
 import org.splevo.ui.Activator;
 import org.splevo.ui.jdt.JavaEditorConnector;
 import org.splevo.vpm.variability.Variant;
@@ -28,6 +26,9 @@ public final class OpenSourceInEditorAction extends Action {
 
     /** The tree viewer to access the selected items. */
     private TreeViewer treeViewer = null;
+    
+    /** The connector to the java editor. */
+    private JavaEditorConnector javaEditorConnector = new JavaEditorConnector(); 
 
     /**
      * Constructor requiring a reference to the tree viewer containing the refinement details.
@@ -64,16 +65,9 @@ public final class OpenSourceInEditorAction extends Action {
             } else {
                 javaApplication = vpm.getIntegrationModel();
             }
-
-            SourceConnector sourceConnector = new SourceConnector(javaApplication);
-            JavaNodeSourceRegion sourceRegion = sourceConnector.findSourceRegion(astNode);
-
-            if (sourceRegion != null) {
-                JavaEditorConnector javaEditorConnector = new JavaEditorConnector();
-                javaEditorConnector.openJavaEditor(sourceRegion, true);
-            } else {
-                logger.warn("No SourceRegion accessible.");
-            }
+            
+            javaEditorConnector.openEditor(astNode, javaApplication);
+            
         } else {
             logger.warn("A non-eObject has been selected");
         }
