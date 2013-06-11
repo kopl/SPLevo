@@ -9,9 +9,10 @@ import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
-import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
+import org.splevo.vpm.analyzer.config.BooleanChoiceConfigDefintion;
+import org.splevo.vpm.analyzer.config.ConfigDefinition;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.programstructure.index.VariationPointIndex;
 import org.splevo.vpm.variability.VariationPoint;
@@ -75,6 +76,7 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      * Constructor initializing the variation point analyzer.
      */
     public ProgramStructureVPMAnalyzer() {
+        setDefaultConfigurations();
         variationPointIndex = new VariationPointIndex();
     }
 
@@ -170,69 +172,10 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
         return variationPoints;
     }
 
-    // /**
-    // * Get's the next reasonable parent element of an expression, a variation point might exist
-    // for.
-    // *
-    // * @param expression
-    // * The expression to handle.
-    // * @return the enclosing AST node.
-    // */
-    // private ASTNode getEnclosingASTNode(Expression expression) {
-    // EObject expContainer = expression.eContainer();
-    // if (expContainer instanceof Statement) {
-    // return (Statement) expContainer;
-    //
-    // } else if (expContainer instanceof Expression) {
-    // return getEnclosingASTNode((Expression) expContainer);
-    //
-    // } else {
-    // logger.warn("Not yet handled expression container: " + expContainer);
-    // }
-    // return null;
-    // }
-    //
-    // /**
-    // * Get the influenced ASTNode for a method invocation element. An influenced ASTNode is always
-    // * an element, that potentially is referenced by a variant of a variation point. For example,
-    // * expressions or literals could never be referenced and for that are not returned by the
-    // * method.
-    // *
-    // * The method might recursively invoke itself or other methods to process container elements
-    // to
-    // * get to the closes referrable element.
-    // *
-    // * @param methodInvocation
-    // * The method invocation to get a reasonable influenced ASTNode for.
-    // * @return The closest influenced and reasonable ASTNode
-    // */
-    // private ASTNode getReferringASTNode(MethodInvocation methodInvocation) {
-    // EObject methodInvocationContainer = methodInvocation.eContainer();
-    // if (methodInvocationContainer instanceof VariableDeclarationFragment) {
-    // VariableDeclarationFragment methodVariableDecl = (VariableDeclarationFragment)
-    // methodInvocationContainer;
-    // EObject varDeclContainer = methodVariableDecl.eContainer();
-    // if (varDeclContainer instanceof VariableDeclarationStatement) {
-    // return (VariableDeclarationStatement) varDeclContainer;
-    // } else {
-    // logger.warn("Not yet handled variable declaration container: " + varDeclContainer);
-    // }
-    // } else if (methodInvocationContainer instanceof Statement) {
-    // return (Statement) methodInvocationContainer;
-    //
-    // } else if (methodInvocationContainer instanceof MethodInvocation) {
-    // return getReferringASTNode((MethodInvocation) methodInvocationContainer);
-    //
-    // } else {
-    // logger.warn("Not yet handled method invocation container: " + methodInvocationContainer);
-    // }
-    // return null;
-    // }
-
     @Override
-    public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {
-        Map<String, VPMAnalyzerConfigurationType> availableConfigurations = new HashMap<String, VPMAnalyzerConfigurationType>();
-        availableConfigurations.put(CONFIG_ID_FULL_REFERRED_TREE, VPMAnalyzerConfigurationType.STRING);
+    public Map<String, ConfigDefinition> getAvailableConfigurations() {
+        Map<String, ConfigDefinition> availableConfigurations = new HashMap<String, ConfigDefinition>();
+        availableConfigurations.put(CONFIG_ID_FULL_REFERRED_TREE, new BooleanChoiceConfigDefintion());
         return availableConfigurations;
     }
 

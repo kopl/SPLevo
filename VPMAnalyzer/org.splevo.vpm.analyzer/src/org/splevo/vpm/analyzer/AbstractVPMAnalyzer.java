@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.graphstream.graph.Node;
+import org.splevo.vpm.analyzer.config.ConfigDefinition;
 
 /**
  * An abstract variation point model analyzer providing some common infrastructure.
@@ -26,8 +27,8 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
     private Logger analysisLogger = Logger.getLogger(VPMAnalyzer.LOG_CATEGORY);
 
     /**
-     * Log information during the analysis for later evaluation.
-     * An empty relationship info is added.
+     * Log information during the analysis for later evaluation. An empty relationship info is
+     * added.
      * 
      * @param vp1ID
      *            An identifier for the first variation point of the relation.
@@ -40,6 +41,24 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
      */
     protected void logAnalysisInfo(String vp1ID, String vp2ID, String sourceInfo, String targetInfo) {
         logAnalysisInfo(vp1ID, vp2ID, sourceInfo, targetInfo, "");
+    }
+
+    /**
+     * Sets the default configuration in the analyzer.
+     * First, any existing configurations are removed, 
+     * next, the default values of the config definitions are set. 
+     * 
+     */
+    public void setDefaultConfigurations() {
+        
+        this.getConfigurations().clear();
+        
+        for (String confId : getAvailableConfigurations().keySet()) {
+            ConfigDefinition confDef = getAvailableConfigurations().get(confId);
+            if (confDef.getDefaultValue() != null) {
+                this.getConfigurations().put(confId, confDef.getDefaultValue());
+            }
+        }
     }
 
     /**
@@ -56,8 +75,7 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
      * @param remark
      *            An info field to store additional information about the relationship.
      */
-    protected void logAnalysisInfo(String vp1ID, String vp2ID, String sourceInfo, String targetInfo,
-            String remark) {
+    protected void logAnalysisInfo(String vp1ID, String vp2ID, String sourceInfo, String targetInfo, String remark) {
         StringBuilder logMessage = new StringBuilder();
         logMessage.append(getRelationshipLabel());
         logMessage.append(LOG_SEPARATOR);
@@ -75,11 +93,12 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
 
     /**
      * Default implementation returning an empty configuration map.
+     * 
      * @return An emty configuration map.
      */
     @Override
-    public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations() {
-        return new HashMap<String, VPMAnalyzerConfigurationType>();
+    public Map<String, ConfigDefinition> getAvailableConfigurations() {
+        return new HashMap<String, ConfigDefinition>();
     }
 
     /**

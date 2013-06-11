@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
-import org.splevo.vpm.analyzer.VPMAnalyzerConfigurationType;
+import org.splevo.vpm.analyzer.config.ConfigDefinition;
 
 /**
  * Wizard page to select and configure the vpm analyzers to be executed.
@@ -105,11 +105,12 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 
         Button btnRemove = new Button(container, SWT.NONE);
         btnRemove.addMouseListener(new MouseAdapter() {
-            
+
             /**
              * Remove the selected VP analyzer when the button is clicked.
              * 
-             * @param e The event triggered the mouse adapter
+             * @param e
+             *            The event triggered the mouse adapter
              */
             @Override
             public void mouseUp(MouseEvent e) {
@@ -139,8 +140,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
             @SuppressWarnings("unchecked")
             @Override
             public void update(ViewerCell cell) {
-                Entry<String, VPMAnalyzerConfigurationType> e = (Entry<String, VPMAnalyzerConfigurationType>) cell
-                        .getElement();
+                Entry<String, ConfigDefinition> e = (Entry<String, ConfigDefinition>) cell.getElement();
                 String label = getSelectedAnalyzer().getConfigurationLabels().get(e.getKey());
                 if (label == null) {
                     logger.warn("Label not specified for setting " + e.getKey() + " in Analyzer "
@@ -160,11 +160,12 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
             @SuppressWarnings("unchecked")
             @Override
             public void update(ViewerCell cell) {
-                Entry<String, VPMAnalyzerConfigurationType> e = (Entry<String, VPMAnalyzerConfigurationType>) cell
-                        .getElement();
+                Entry<String, ConfigDefinition> e = (Entry<String, ConfigDefinition>) cell.getElement();
                 Map<String, Object> configurations = getSelectedAnalyzer().getConfigurations();
-                if (configurations.containsKey(e.getKey())) {
+                if (configurations.containsKey(e.getKey()) && configurations.get(e.getKey()) != null) {
                     cell.setText(configurations.get(e.getKey()).toString());
+                } else if (e.getValue().getDefaultValue() != null) {
+                    cell.setText(e.getValue().getDefaultValue().toString());
                 } else {
                     cell.setText("");
                 }

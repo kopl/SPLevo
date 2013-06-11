@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <interface id="1" language="java" name="org.splevo.vpm.analyzer.VPMAnalyzer" project="org.splevo.vpm.analyzer" 
     file="/org.splevo.vpm.analyzer/src/org/splevo/vpm/analyzer/VPMAnalyzer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="301" y="111"/>    
+    <position height="-1" width="-1" x="216" y="111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -13,7 +13,7 @@
   <class id="2" language="java" name="org.splevo.vpm.analyzer.AbstractVPMAnalyzer" project="org.splevo.vpm.analyzer" 
     file="/org.splevo.vpm.analyzer/src/org/splevo/vpm/analyzer/AbstractVPMAnalyzer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="298" y="395"/>    
+    <position height="-1" width="-1" x="213" y="395"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -23,7 +23,7 @@
   <class id="3" language="java" name="org.splevo.vpm.analyzer.VPMAnalyzerResult" project="org.splevo.vpm.analyzer" 
     file="/org.splevo.vpm.analyzer/src/org/splevo/vpm/analyzer/VPMAnalyzerResult.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="788" y="108"/>    
+    <position height="-1" width="-1" x="907" y="111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false"/>      
@@ -33,17 +33,24 @@
   <class id="4" language="java" name="org.splevo.vpm.analyzer.VPMEdgeDescriptor" project="org.splevo.vpm.analyzer" 
     file="/org.splevo.vpm.analyzer/src/org/splevo/vpm/analyzer/VPMEdgeDescriptor.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="785" y="366"/>    
+    <position height="-1" width="-1" x="904" y="369"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <realization id="5">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="1"/>  
-  </realization>  
+  <interface id="5" language="java" name="org.splevo.vpm.analyzer.config.ConfigDefinition" 
+    project="org.splevo.vpm.analyzer" 
+    file="/org.splevo.vpm.analyzer/src/org/splevo/vpm/analyzer/config/ConfigDefinition.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="590" y="188"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
   <association id="6">    
     <end type="SOURCE" refId="3" navigable="false">      
       <attribute id="7" name="edgeDescriptors"/>      
@@ -52,14 +59,22 @@
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="9">    
+  <dependency id="9">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <association id="10">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="10" name="vpmAnalyzer"/>      
-      <multiplicity id="11" minimum="0" maximum="1"/>    
+      <attribute id="11" name="vpmAnalyzer"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <realization id="13">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true"/>    

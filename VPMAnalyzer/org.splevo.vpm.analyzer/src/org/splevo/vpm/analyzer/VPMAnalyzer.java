@@ -2,6 +2,7 @@ package org.splevo.vpm.analyzer;
 
 import java.util.Map;
 
+import org.splevo.vpm.analyzer.config.ConfigDefinition;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 /**
@@ -37,7 +38,7 @@ public interface VPMAnalyzer {
      * 
      * @return A map with the setting IDs and their according data type for each available setting.
      */
-    public Map<String, VPMAnalyzerConfigurationType> getAvailableConfigurations();
+    public Map<String, ConfigDefinition> getAvailableConfigurations();
 
     /**
      * Get the labels to display for the available configuration settings.
