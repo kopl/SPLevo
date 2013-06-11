@@ -32,6 +32,25 @@ public class CosineSimilarityAnalyzer extends AbstractRelationshipAnalyzer {
 
 	/** This set contains all Terms. */
 	private final Set<String> terms = new HashSet<String>();	
+	
+	/** The minimum cosine similarity. */
+	private double minCosineSimilarity;
+	
+	/**
+	 * The default constructor for this class. Uses the default cosine similarity.
+	 */
+	public CosineSimilarityAnalyzer() {
+		this.minCosineSimilarity = Constants.DEFAULT_MIN_COSINE_SIMILARITY;
+	}
+	
+	/**
+	 * Uses the specified similarity as minimum value.
+	 * 
+	 * @param minSimilarity The minimum similarity.
+	 */	
+	public CosineSimilarityAnalyzer(double minSimilarity) {
+		this.minCosineSimilarity = minSimilarity;
+	}
 
     /**
      * Extracts the frequencies of all {@link Term}s in the specified {@link Document}.
@@ -81,7 +100,7 @@ public class CosineSimilarityAnalyzer extends AbstractRelationshipAnalyzer {
     }
 
 	@Override
-	public StructuredMap findSimilarEntries(DirectoryReader reader, double minSimilarity) {
+	public StructuredMap findSimilarEntries(DirectoryReader reader) {
 		StructuredMap result = new StructuredMap();
 		for (int i = 0; i < reader.maxDoc(); i++) {			
 		    Document doc1;
@@ -122,7 +141,7 @@ public class CosineSimilarityAnalyzer extends AbstractRelationshipAnalyzer {
 		        	logger.warn("Invalid similarity calculated.");
 		        	continue;
 		        }
-		        if (similarity >= minSimilarity) {
+		        if (similarity >= minCosineSimilarity) {
 		        	result.addLink(docId1, docId2);		        	
 		        }
 		    }

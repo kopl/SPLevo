@@ -31,7 +31,7 @@ public final class Constants {
 	public static final String CONFIG_INCLUDE_COMMENTS_LABEL = "INCLUDE_COMMENTS";
 
 	/** The default value for the minimum cosine similarity. */
-	public static final double DEFAULT_MIN_SIMILARITY = 0.7d;
+	public static final double DEFAULT_MIN_COSINE_SIMILARITY = 0.85d;
 	
 	/** This {@link Analyzer} is used to store code fragments. */
 	public static final Analyzer CODE_ANALYZER = new LuceneCodeAnalyzer();

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.IndexWriter;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -16,12 +17,10 @@ import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.config.BooleanChoiceConfigDefintion;
 import org.splevo.vpm.analyzer.config.ConfigDefinition;
-import org.splevo.vpm.analyzer.config.StringConfigDefinition;
+import org.splevo.vpm.analyzer.config.DoubleConfigDefinition;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.AbstractRelationshipAnalyzer;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.TestAnalyzer;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -62,6 +61,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      * The default constructor for this class.
      */
     public SemanticVPMAnalyzer() {
+    	setDefaultConfigurations();
         indexer = Indexer.getInstance();
     }
 
@@ -106,8 +106,8 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public Map<String, ConfigDefinition> getAvailableConfigurations() {
         Map<String, ConfigDefinition> availableConfigurations = new HashMap<String, ConfigDefinition>();
-        availableConfigurations.put(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL, new StringConfigDefinition());
-        availableConfigurations.put(Constants.CONFIG_INCLUDE_COMMENTS_LABEL, new BooleanChoiceConfigDefintion());
+        availableConfigurations.put(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL, new DoubleConfigDefinition(Constants.DEFAULT_MIN_COSINE_SIMILARITY));
+        availableConfigurations.put(Constants.CONFIG_INCLUDE_COMMENTS_LABEL, new BooleanChoiceConfigDefintion(false));
         return availableConfigurations;
     }
 
@@ -173,8 +173,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         int idCounter = 0;
 
         // Get the configuration that determines if the comments should be indexed as well.
-        boolean indexComments = Boolean
-                .getBoolean((String) configurations.get(Constants.CONFIG_INCLUDE_COMMENTS_LABEL));
+        boolean indexComments = (Boolean) configurations.get(Constants.CONFIG_INCLUDE_COMMENTS_LABEL);
 
         // Iterate through the graph.
         for (Node node : vpmGraph.getNodeSet()) {
@@ -261,14 +260,14 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         if (result == null) {
             throw new IllegalArgumentException();
         }
-
+        
+        // Get the minimum cosine similarity.
         Double similarity = getMinimumSimilarity();
-
-        AbstractRelationshipAnalyzer analyzer = new TestAnalyzer();
-
-        // Use the searcher to search for semantic relationships
-        // with the given minimum similarity.
-        StructuredMap similars = Searcher.findSemanticRelationships(analyzer, similarity);
+        
+        // Use the searcher to search for semantic relationships.
+        Searcher searcher = new Searcher();
+        searcher.setMinCosineSimilarity(similarity);
+        StructuredMap similars = searcher.findSemanticRelationships();
 
         // Iterate through the VariationPoint pairs and add them to the result.
         for (String key : similars.getAllLinks().keySet()) {
@@ -299,9 +298,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     private Double getMinimumSimilarity() {
         Double similarity;
         try {
-            similarity = Double.parseDouble((String) configurations.get(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL));
+            similarity = (Double) configurations.get(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL);
         } catch (Exception e) {
-            similarity = Constants.DEFAULT_MIN_SIMILARITY;
+            similarity = Constants.DEFAULT_MIN_COSINE_SIMILARITY;
         }
         return similarity;
     }

@@ -19,7 +19,7 @@ import org.splevo.vpm.analyzer.semantic.StructuredMap;
 public class TestAnalyzer extends AbstractRelationshipAnalyzer{
 
 	@Override
-	public StructuredMap findSimilarEntries(DirectoryReader reader, double minSimilarity) {
+	public StructuredMap findSimilarEntries(DirectoryReader reader) {
 		StructuredMap result = new StructuredMap();
 		try {
 			// Get max doc count
