@@ -1,11 +1,17 @@
 package org.splevo.vpm.analyzer.semantic;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This container stores links between textual IDs.
+ * Every stored ID can be connected to several different IDs.
+ * 
+ * @author Daniel Kojic
+ *
+ */
 public class StructuredMap {
 	
 	/** This {@link Set} stores all IDs this {@link StructuredMap} contains. */
@@ -14,7 +20,10 @@ public class StructuredMap {
 	/** This {@link Map} stores the relationships of the given String(key) in a {@link Set} (value). */
 	private Map<String, Set<String>> links;
 	
-	public StructuredMap(){
+	/**
+	 * This constructor initializes the container objects.
+	 */
+	public StructuredMap() {
 		allIds = new HashSet<String>();
 		links = new HashMap<String, Set<String>>();
 	}
@@ -25,19 +34,19 @@ public class StructuredMap {
 	 * @param id1 The first ID.
 	 * @param id2 The second ID.
 	 */
-	public void addLink(String id1, String id2){
+	public void addLink(String id1, String id2) {
 		allIds.add(id1);
 		allIds.add(id2);
 		
 		// Sort the IDs ascending.
-		if(id1.compareTo(id2) > 0){
+		if (id1.compareTo(id2) > 0) {
 			String tmp = id1;
 			id1 = id2;
 			id2 = tmp;
 		}
 		
 		// Create a new Set if not yet existing.
-		if(!links.containsKey(id1)){
+		if (!links.containsKey(id1)) {
 			links.put(id1, new HashSet<String>());
 		}
 		
@@ -48,7 +57,7 @@ public class StructuredMap {
 	/**
 	 * Delete all content this {@link StructuredMap} stores.
 	 */
-	public void clear(){
+	public void clear() {
 		allIds.clear();
 		links.clear();
 	}
@@ -58,7 +67,7 @@ public class StructuredMap {
 	 * 
 	 * @return All IDs.
 	 */
-	public String[] getAllIds(){
+	public String[] getAllIds() {
 		return allIds.toArray(new String[0]);
 	}
 	
@@ -69,7 +78,7 @@ public class StructuredMap {
 	 * 
 	 * @return A {@link Map} containing the relationships.
 	 */
-	public Map<String, Set<String>> getAllLinks(){
+	public Map<String, Set<String>> getAllLinks() {
 		return links;
 	}
 }

@@ -1,9 +1,9 @@
 package org.splevo.vpm.analyzer.semantic;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.util.Version;
+import org.splevo.vpm.analyzer.semantic.lucene.LuceneCodeAnalyzer;
 
 /**
  * This class contains all constant values for the semantic analyzer to ease the access. 
@@ -34,8 +34,17 @@ public final class Constants {
 	public static final double DEFAULT_MIN_SIMILARITY = 0.7d;
 	
 	/** This {@link Analyzer} is used to store code fragments. */
-	public static final Analyzer CONTENT_ANALYZER = new WhitespaceAnalyzer(Version.LUCENE_42);
+	public static final Analyzer CODE_ANALYZER = new LuceneCodeAnalyzer();
 	
 	/** This {@link Analyzer} is used to store comments and annotations. */
-	public static final Analyzer COMMENT_ANALYZER = new StandardAnalyzer(Version.LUCENE_42);
+	public static final Analyzer COMMENT_ANALYZER = new StandardAnalyzer(Version.LUCENE_43);
+	
+	/** The stop-word list for the analyzers. */
+	public static final String[] DEFAULT_STOP_WORDS = new String[]{
+		"get", 
+		"set", 
+		"default", 
+		"configure", 
+		"clear"
+		};
 }

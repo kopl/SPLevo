@@ -15,6 +15,12 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 
 
+/**
+ * Unit-Tests for the SemanticVPNAnalyzer class.
+ * 
+ * @author Daniel Kojic
+ *
+ */
 public class SemanticVPMAnalyzerTest extends AbstractTest {
     
     /**
@@ -28,7 +34,7 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
         
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
-        assertNotNull("The analyzer result must not be null",result);
+        assertNotNull("The analyzer result must not be null", result);
     }
  
     /**
@@ -60,11 +66,11 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
         
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
-        assertNotNull("The analyzer result must not be null",result);
+        assertNotNull("The analyzer result must not be null", result);
         
         // verify results
         int numResults = result.getEdgeDescriptors().size();
-        assertTrue("Result should contain 1 link but contains " + numResults, result.getEdgeDescriptors().size()==1);
+        assertTrue("Result should contain 1 link but contains " + numResults, result.getEdgeDescriptors().size() == 1);
         String sourceNodeID = result.getEdgeDescriptors().get(0).getSourceNodeID();
         String targetNodeID = result.getEdgeDescriptors().get(0).getTargetNodeID();
         
@@ -87,16 +93,16 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
         
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
-        assertNotNull("The analyzer result must not be null",result);
+        assertNotNull("The analyzer result must not be null", result);
         
         // verify results
         int numResults = result.getEdgeDescriptors().size();
-        assertTrue("Result should contain 1 link but contains " + numResults, result.getEdgeDescriptors().size()==1);
+        assertTrue("Result should contain 1 link but contains " + numResults, result.getEdgeDescriptors().size() == 1);
         String sourceNodeID = result.getEdgeDescriptors().get(0).getSourceNodeID();
         String targetNodeID = result.getEdgeDescriptors().get(0).getTargetNodeID();
         
-        assertTrue("Expected Nodename: node0 but was "+sourceNodeID, sourceNodeID.equals("node0"));
-        assertTrue("Expected Nodename: node1 but was "+targetNodeID, targetNodeID.equals("node1"));
+        assertTrue("Expected Nodename: node0 but was " + sourceNodeID, sourceNodeID.equals("node0"));
+        assertTrue("Expected Nodename: node1 but was " + targetNodeID, targetNodeID.equals("node1"));
     }
     
     /**
@@ -147,16 +153,22 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     }
     
     
+    /**
+     * Clear the Index before testing.
+     */
     @Before
-    public void cleanEnvBefore(){
+    public void cleanEnvBefore() {
     	try {
 			Indexer.getInstance().clearIndex();
 		} catch (IOException e) {
+			return;
 		}
     }
     
     /**
      * Creates a primitive {@link VPMGraph} for testing purposes.
+     * 
+     * @param content The text to be added to the {@link VPMGraph}.
      * 
      * @return A dummy {@link VPMGraph}.
      */

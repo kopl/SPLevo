@@ -9,6 +9,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FieldInfo.IndexOptions;
+import org.apache.lucene.index.FilterAtomicReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -31,7 +32,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * @author Daniel Kojic
  * 
  */
-public class Indexer {
+public final class Indexer {
 	
 	/** The logger for this class. */
     private Logger logger = Logger.getLogger(Indexer.class);
@@ -70,20 +71,18 @@ public class Indexer {
 	
 	/**
 	 *  Private constructor to prevent this	class from being instantiated multiple times.
-	 *  
-	 * @throws IOException Throws an {@link IOException} if there are problems opening the index.
 	 */
 	private Indexer() {
 		// Define the Analyzers.
-		contentAnalyzer = Constants.CONTENT_ANALYZER;
+		contentAnalyzer = Constants.CODE_ANALYZER;
 		commentAnalyzer = Constants.COMMENT_ANALYZER;
 		
 		// Use RAMDirectory to use an in-memory index. 
 		directory = new RAMDirectory();
 		
 		// Derive the configurations from the Analyzers.
-		contentConfig = new IndexWriterConfig(Version.LUCENE_42, contentAnalyzer);
-		commentConfig = new IndexWriterConfig(Version.LUCENE_42, commentAnalyzer);
+		contentConfig = new IndexWriterConfig(Version.LUCENE_43, contentAnalyzer);
+		commentConfig = new IndexWriterConfig(Version.LUCENE_43, commentAnalyzer);
 	}
 	
 	/**
@@ -92,7 +91,11 @@ public class Indexer {
 	 */
 	public static Indexer getInstance() {
 		// Return singleton, create new if not existing.
-		return instance == null ? instance = new Indexer() : instance;
+		if (instance == null) {
+			instance = new Indexer();
+		}
+		
+		return instance;
 	}
 	
 	/**
@@ -109,13 +112,14 @@ public class Indexer {
 	 * 
 	 * @param variationPointId The contents id.
 	 * @param content The content to be indexed.
+	 * @return True if something was indexed; False otherwise.
 	 */
-	public void addCodeToIndex(String variationPointId, String content){
-		if(variationPointId == null || content == null){
+	public boolean addCodeToIndex(String variationPointId, String content) {
+		if (variationPointId == null || content == null) {
 			throw new IllegalArgumentException();
 		}
 		
-		addToIndex(variationPointId, content, contentConfig);
+		return addToIndex(variationPointId, content, contentConfig);
 	}
 
 	/**
@@ -123,14 +127,15 @@ public class Indexer {
 	 * This Method is specialized to store comments.
 	 * 
 	 * @param variationPointId The contents id.
-	 * @param content The content to be indexed.
+	 * @param comment The content to be indexed.
+ 	 * @return True if something was indexed; False otherwise.
 	 */
-	public void addCommentToIndex(String variationPointId, String comment){
-		if(variationPointId == null || comment == null){
+	public boolean addCommentToIndex(String variationPointId, String comment) {
+		if (variationPointId == null || comment == null) {
 			throw new IllegalArgumentException();
 		}
 		
-		addToIndex(variationPointId, comment, commentConfig);
+		return addToIndex(variationPointId, comment, commentConfig);
 	}
 	
 	/**
@@ -138,22 +143,27 @@ public class Indexer {
 	 * 
 	 * @param variationPointId The ID of the {@link VariationPoint} to be linked with its content.
 	 * @param content The text content of the {@link VariationPoint}.
-	 * @param indexConfiguration The {@link IndexWriterConfig} the {@link IndexWriter} gets initialized with. 
+	 * @param indexConfiguration The {@link IndexWriterConfig} the {@link IndexWriter} gets initialized with.
+	 * @return True if something was indexed; False otherwise.
 	 */
-	private void addToIndex(String variationPointId, String content, IndexWriterConfig indexConfiguration){
-		if(variationPointId == null || content == null || indexConfiguration == null){
+	private boolean addToIndex(String variationPointId, String content, IndexWriterConfig indexConfiguration) {
+		if (variationPointId == null || content == null || indexConfiguration == null) {
 			throw new IllegalArgumentException();
 		}
 		
-		if(content.length() == 0 || variationPointId.length() == 0){
+		if (content.length() == 0 || variationPointId.length() == 0) {
 			logger.error("Invalid content or id. Empty String not allowed.");
+			return false;
 		}
 		
 		try {
 			addDocument(variationPointId, content, indexConfiguration);
 		} catch (IOException e) {
 			logger.error("Error while adding data to Index.");
-		}		
+			return false;
+		}	
+		
+		return true;
 	}
 
 	/**
@@ -162,9 +172,9 @@ public class Indexer {
 	 * @param variationPointId The ID to be stored.
 	 * @param content The text to be added to the index.
 	 * @param indexConfiguration The {@link IndexWriterConfig} that is used to open the {@link IndexWriter}.
+	 * @throws IOException If the index cannot be opened or there are problems adding the document to the index.
 	 */
-	private void addDocument(String variationPointId, String content,
-			IndexWriterConfig indexConfiguration) throws IOException {
+	private void addDocument(String variationPointId, String content, IndexWriterConfig indexConfiguration) throws IOException {
 		IndexWriter indexWriter = new IndexWriter(directory, indexConfiguration);
 		Document doc = new Document();
 		doc.add(new Field(Constants.INDEX_VARIATIONPOINT, variationPointId, TYPE_STORED));
@@ -177,7 +187,7 @@ public class Indexer {
 	 * Deletes all contents from the main index.
 	 * @throws IOException 
 	 */
-	public void clearIndex() throws IOException{
+	public void clearIndex() throws IOException {
 		IndexWriter indexWriter = new IndexWriter(directory, contentConfig);
 		indexWriter.deleteAll();
 		indexWriter.close();

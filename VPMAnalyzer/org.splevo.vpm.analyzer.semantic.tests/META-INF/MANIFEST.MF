@@ -6,4 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.splevo.vpm.analyzer.semantic;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit,
- org.splevo.tests;bundle-version="1.0.0"
+ org.splevo.tests;bundle-version="1.0.0",
+ org.mockito;visibility:=reexport

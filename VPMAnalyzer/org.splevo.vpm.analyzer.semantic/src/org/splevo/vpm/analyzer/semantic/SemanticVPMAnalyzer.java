@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.index.IndexWriter;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -21,8 +20,8 @@ import org.splevo.vpm.analyzer.config.StringConfigDefinition;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.CosineSimilarityAnalyzer;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.IRelationshipAnalyzer;
+import org.splevo.vpm.analyzer.semantic.lucene.analyzer.AbstractRelationshipAnalyzer;
+import org.splevo.vpm.analyzer.semantic.lucene.analyzer.TestAnalyzer;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -59,6 +58,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The indexer instance. */
     private Indexer indexer;
 
+    /**
+     * The default constructor for this class.
+     */
     public SemanticVPMAnalyzer() {
         indexer = Indexer.getInstance();
     }
@@ -223,7 +225,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             EObject next = allContents.next();
 
             // Use the IndexASTNodeSwitch to extract the relevant content.
-            IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch();
+            IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch(indexComments);
             try {
                 indexASTNodeSwitch.doSwitch(next);
             } catch (Throwable e) {
@@ -231,21 +233,17 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
                 logger.error("TODO: Why does IndexASTNodeSSwitch throw exception?");
             }
 
-            // Store the found text.
-            String content = indexASTNodeSwitch.getContent();
-            String comment = indexASTNodeSwitch.getComments();
-
             // Add comments if configured and not empty.
-            if (comment.length() > 0 && indexComments) {
+            if (indexComments) {
+            	String comment = indexASTNodeSwitch.getComments();
                 indexer.addCommentToIndex(id, comment);
                 result = true;
             }
 
             // Add content if not empty.
-            if (content.length() > 0) {
-                indexer.addCodeToIndex(id, content);
-                result = true;
-            }
+            String content = indexASTNodeSwitch.getContent();
+            indexer.addCodeToIndex(id, content);
+            result = true;
         }
 
         return result;
@@ -266,15 +264,15 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
         Double similarity = getMinimumSimilarity();
 
-        IRelationshipAnalyzer analyzer = new CosineSimilarityAnalyzer();
+        AbstractRelationshipAnalyzer analyzer = new TestAnalyzer();
 
         // Use the searcher to search for semantic relationships
         // with the given minimum similarity.
-        Map<String, Set<String>> similars = Searcher.findSemanticRelationships(analyzer, similarity);
+        StructuredMap similars = Searcher.findSemanticRelationships(analyzer, similarity);
 
         // Iterate through the VariationPoint pairs and add them to the result.
-        for (String key : similars.keySet()) {
-            Set<String> values = similars.get(key);
+        for (String key : similars.getAllLinks().keySet()) {
+            Set<String> values = similars.getAllLinks().get(key);
 
             for (String value : values) {
                 Node sourceNode = nodeIndex.get(key);
