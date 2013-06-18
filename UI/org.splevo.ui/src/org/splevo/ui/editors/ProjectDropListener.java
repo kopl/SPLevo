@@ -1,10 +1,15 @@
 package org.splevo.ui.editors;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.TransferData;
@@ -40,29 +45,90 @@ public class ProjectDropListener extends ViewerDropAdapter {
         this.inputVariantName = inputVariantName;
     }
 
-    @Override
-    public boolean performDrop(Object data) {
+	@Override
+	public boolean performDrop(Object selection) {
 
-        if (data instanceof String[]) {
-            for (String fqnPath : ((String[]) data)) {
-                String projectName = new File(fqnPath).getName();
-                IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-                if (project != null) {
-                    String name = project.getName();
-                    if (!projectListContainer.contains(project.getName())) {
-                        projectListContainer.add(name);
-                    }
-                    if (inputVariantName.getText() == null || inputVariantName.getText().equals("")) {
-                        inputVariantName.setText(name);
-                    }
-                }
-            }
-        }
+		List<IJavaProject> javaProjects = getJavaProjectsFromSelection(selection);
+		
+		if (javaProjects.size() > 0) {
+			addProjectsToTheListContainer(javaProjects);
+			getViewer().setInput(projectListContainer);
+			return true;
+		}
 
-        getViewer().setInput(projectListContainer);
+		//TODO get the shell
+		MessageDialog.openWarning(null, "Cannot be added to list.",
+				"Only Java Projects can be added to the list.");
 
-        return true;
-    }
+		return false;
+	}
+
+	/**
+	 * Add Java projects to the list container.
+	 * @param javaProjects the Java Projects
+	 */
+	private void addProjectsToTheListContainer(List<IJavaProject> javaProjects) {
+		for (IJavaProject javaProject : javaProjects) {
+			addProjectToListAndSetVariantName(javaProject.getElementName());
+		}
+	}
+
+	/**
+	 * Get the java projects from a selection.
+	 * @param selectionObject the selection object
+	 * @return  the java projects from a selection
+	 */
+	private List<IJavaProject> getJavaProjectsFromSelection(Object selectionObject) {
+		
+		List<IJavaProject> javaProjects = new ArrayList<IJavaProject>();
+		
+		if (selectionObject instanceof TreeSelection) {
+			addJavaProjectsFromSelectionToList(javaProjects, (TreeSelection) selectionObject);
+		}
+		
+		return javaProjects;
+	}
+
+	/**
+	 * Add Java Projects from the selection to the list.
+	 * @param javaProjects the list of projects to that the projects from the selection are added
+	 * @param selection the selection
+	 */
+	
+	private void addJavaProjectsFromSelectionToList(
+			List<IJavaProject> javaProjects, TreeSelection selection) {
+		for (Object selectedElement : selection.toList()) {
+			if (selectedElement instanceof IJavaProject) {
+				IJavaProject project = (IJavaProject) selectedElement;
+				javaProjects.add(project);
+			}
+			if (selectedElement instanceof IProject) {
+				IProject project = (IProject) selectedElement;
+				try {
+					IProjectNature nature = project.getNature(JavaCore.NATURE_ID);
+					if (nature != null && nature instanceof IJavaProject) {
+						javaProjects.add((IJavaProject) nature);
+					}
+				} catch (CoreException e) {
+				}
+			}
+		}
+	}
+
+    /**
+     * Adds the name of the project to the list (if not already contained) and
+     * if sets the variant name (if not already set).
+     * @param name the name of the project
+     */
+	private void addProjectToListAndSetVariantName(String name) {
+		if (!projectListContainer.contains(name)) {
+			projectListContainer.add(name);
+		}
+		if (inputVariantName.getText() == null
+				|| inputVariantName.getText().equals("")) {
+			inputVariantName.setText(name);
+		}
+	}
 
     @Override
     public boolean validateDrop(Object target, int operation, TransferData transferType) {

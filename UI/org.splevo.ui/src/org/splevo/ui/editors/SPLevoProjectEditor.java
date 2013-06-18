@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -120,7 +121,7 @@ public class SPLevoProjectEditor extends EditorPart {
     private boolean dirtyFlag = false;
 
     /** The available transfer types for the drag and drop support. */
-    private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance() };
+    private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance(), LocalSelectionTransfer.getTransfer() };
 
     /** The supported drag and drop operations. */
     private int dragNDropOperations = DND.DROP_MOVE;
