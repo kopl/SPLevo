@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.index.IndexWriter;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -24,17 +23,20 @@ import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- ***** What it does.*********************************************** The semantic relationship
- * VPMAnalazer analyzer is able to find semantic relationships between several
- * {@link VariationPoint}s. To sort out low similarities the analyzer offers a configuration to
- * specify a minimum similarity between the VPs.
+ ***** What it does.*********************************************** 
+ * The semantic relationship VPMAnalazer analyzer is able to find 
+ * semantic relationships between several {@link VariationPoint}s. 
+ * To sort out low similarities the analyzer offers a configuration 
+ * to specify a minimum similarity between the VPs.
  * 
- ***** How does that work?***************************************** As a first step, the analyzer
- * extracts all relevant content from a VPMGraph and stores that within a Lucene index. Through
- * storing additional informations about the indexed text, Lucene provides the ability to extract
- * vectors from given index content. By calculating the cosine similarity for all possible links
- * (cross product of all VPs), semantic dependencies will be found. Those results can be displayed
- * within the VPMGraph or the Refinement Browser.
+ ***** How does that work?***************************************** 
+ * As a first step, the analyzer extracts all relevant content from 
+ * a VPMGraph and stores that within a Lucene index. Through storing 
+ * additional informations about the indexed text, Lucene provides the 
+ * ability to extract vectors from given index content. By calculating 
+ * the cosine similarity for all possible links (cross product of all 
+ * VPs), semantic dependencies will be found. Those results can be 
+ * displayed within the VPMGraph or the Refinement Browser.
  ***************************************************************** 
  * 
  * @author Daniel Kojic
@@ -74,12 +76,17 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         // Container for the result.
         VPMAnalyzerResult result = new VPMAnalyzerResult(this);
 
-        // Fill the index.
+        // Fill the index.################################################################
         logger.info("Filling index...");
-        fillIndex(vpmGraph);
+        try {
+        	fillIndex(vpmGraph);
+		} catch (Exception e) {
+			logger.error("Cannot write Index. Close all open IndexWriters first.");
+		}
+        
         logger.info("Indexing done.");
 
-        // Find relationships.
+        // Find relationships.############################################################
         logger.info("Analyzing...");
         try {
             findRelationships(result);
@@ -88,7 +95,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             logger.error("Cannot read Index. Close all open IndexWriters first.");
         }
 
-        // Clean up the content of the indexer.
+        // CLEAN-UP.######################################################################
         try {
             Indexer.getInstance().clearIndex();
         } catch (IOException e) {
@@ -106,8 +113,10 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public Map<String, ConfigDefinition> getAvailableConfigurations() {
         Map<String, ConfigDefinition> availableConfigurations = new HashMap<String, ConfigDefinition>();
-        availableConfigurations.put(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL, new DoubleConfigDefinition(Constants.DEFAULT_MIN_COSINE_SIMILARITY));
+//        availableConfigurations.put(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL, new DoubleConfigDefinition(Constants.DEFAULT_MIN_COSINE_SIMILARITY));
         availableConfigurations.put(Constants.CONFIG_INCLUDE_COMMENTS_LABEL, new BooleanChoiceConfigDefintion(false));
+        availableConfigurations.put(Constants.CONFIG_USE_RARE_FINDER_LABEL, new BooleanChoiceConfigDefintion(true));
+        availableConfigurations.put(Constants.CONFIG_USE_OVERALL_SIMILARITY_FINDER_LABEL, new BooleanChoiceConfigDefintion(true));
         return availableConfigurations;
     }
 
@@ -119,8 +128,10 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public Map<String, String> getConfigurationLabels() {
         Map<String, String> configurationLabels = new HashMap<String, String>();
-        configurationLabels.put(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL, "Minimal Similarity");
-        configurationLabels.put(Constants.CONFIG_INCLUDE_COMMENTS_LABEL, "Include Comments");
+//        configurationLabels.put(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL, Constants.CONFIG_MINIMUM_SIMILARITY_LABEL);
+        configurationLabels.put(Constants.CONFIG_INCLUDE_COMMENTS_LABEL, Constants.CONFIG_INCLUDE_COMMENTS_LABEL);
+        configurationLabels.put(Constants.CONFIG_USE_RARE_FINDER_LABEL, Constants.CONFIG_USE_RARE_FINDER_LABEL);
+        configurationLabels.put(Constants.CONFIG_USE_OVERALL_SIMILARITY_FINDER_LABEL, Constants.CONFIG_USE_OVERALL_SIMILARITY_FINDER_LABEL);
         return configurationLabels;
     }
 
@@ -219,32 +230,46 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
         // Iterate through all child elements.
         TreeIterator<EObject> allContents = EcoreUtil.getAllContents(astNode.eContents());
+        
+        IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch(indexComments);
 
         while (allContents.hasNext()) {
             EObject next = allContents.next();
 
-            // Use the IndexASTNodeSwitch to extract the relevant content.
-            IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch(indexComments);
             try {
                 indexASTNodeSwitch.doSwitch(next);
             } catch (Throwable e) {
-                // TODO: WHY IS THIS?
-                logger.error("TODO: Why does IndexASTNodeSSwitch throw exception?");
+            	// TODO: Switches superclass throws exception.
+                //logger.error("TODO: Why does IndexASTNodeSSwitch throw exception?");
             }
+        }
 
-            // Add comments if configured and not empty.
-            if (indexComments) {
-            	String comment = indexASTNodeSwitch.getComments();
-                indexer.addCommentToIndex(id, comment);
-                result = true;
-            }
-
-            // Add content if not empty.
-            String content = indexASTNodeSwitch.getContent();
-            indexer.addCodeToIndex(id, content);
+        // Add comments if configured and not empty.
+        if (indexComments) {
+        	String comment = indexASTNodeSwitch.getComments();
+            try {
+				indexer.addCommentToIndex(id, comment);
+			} catch (IOException e) {
+				logger.error("Cannot add comment to index. Close all open writers first.", e);
+				return false;
+			}
             result = true;
         }
 
+        // Add content if not empty.
+        String content = indexASTNodeSwitch.getContent();
+        try {
+			boolean somethingAdded = indexer.addCodeToIndex(id, content);
+			if (!somethingAdded) {
+				return false;
+			} else {
+				result = true;
+			}
+		} catch (IOException e) {
+			logger.error("Cannot add comment to index. Close all open writers first.", e);
+			return false;
+		}
+        
         return result;
     }
 
@@ -261,13 +286,11 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             throw new IllegalArgumentException();
         }
         
-        // Get the minimum cosine similarity.
-        Double similarity = getMinimumSimilarity();
+        boolean useRareFinder = (Boolean) configurations.get(Constants.CONFIG_USE_RARE_FINDER_LABEL);
+        boolean useOverallSimFinder = (Boolean) configurations.get(Constants.CONFIG_USE_OVERALL_SIMILARITY_FINDER_LABEL);
         
         // Use the searcher to search for semantic relationships.
-        Searcher searcher = new Searcher();
-        searcher.setMinCosineSimilarity(similarity);
-        StructuredMap similars = searcher.findSemanticRelationships();
+        StructuredMap similars = Searcher.findSemanticRelationships(useRareFinder, useOverallSimFinder);
 
         // Iterate through the VariationPoint pairs and add them to the result.
         for (String key : similars.getAllLinks().keySet()) {
@@ -287,21 +310,5 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
                 }
             }
         }
-    }
-
-    /**
-     * Gets the similarity. Use the configuration if specified, otherwise use the default value
-     * stored in the Constants class.
-     * 
-     * @return The minimum similarity value.
-     */
-    private Double getMinimumSimilarity() {
-        Double similarity;
-        try {
-            similarity = (Double) configurations.get(Constants.CONFIG_MINIMUM_SIMILARITY_LABEL);
-        } catch (Exception e) {
-            similarity = Constants.DEFAULT_MIN_COSINE_SIMILARITY;
-        }
-        return similarity;
     }
 }

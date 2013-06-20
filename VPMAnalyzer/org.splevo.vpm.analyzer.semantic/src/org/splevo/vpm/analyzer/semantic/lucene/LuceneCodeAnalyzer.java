@@ -25,7 +25,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
 	    TokenStream stopFilter = new StopFilter(Version.LUCENE_43, source, getStopWords());
 	    Map<String, String> args = new HashMap<String, String>();
 	    args.put("generateWordParts", "1"); 
-	    args.put("generateNumberParts", "1"); 
+	    args.put("generateNumberParts", "0"); 
 	    args.put("catenateWords", "0"); 
 	    args.put("catenateNumbers", "0"); 
 	    args.put("catenateAll", "0"); 

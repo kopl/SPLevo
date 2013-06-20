@@ -1,9 +1,12 @@
 package org.splevo.vpm.analyzer.semantic;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.log4j.Logger;
 
 /**
  * This container stores links between textual IDs.
@@ -14,11 +17,19 @@ import java.util.Set;
  */
 public class StructuredMap {
 	
+//	/** The logger for this class. */
+//    private Logger logger = Logger.getLogger(StructuredMap.class);
+	
 	/** This {@link Set} stores all IDs this {@link StructuredMap} contains. */
 	private Set<String> allIds;
 
 	/** This {@link Map} stores the relationships of the given String(key) in a {@link Set} (value). */
 	private Map<String, Set<String>> links;
+	
+//	public enum MergeStrategy{
+//		AND,
+//		OR
+//	}
 	
 	/**
 	 * This constructor initializes the container objects.
@@ -99,4 +110,54 @@ public class StructuredMap {
 	public Map<String, Set<String>> getAllLinks() {
 		return links;
 	}
+	
+//	public static StructuredMap Merge(StructuredMap map1, StructuredMap map2, MergeStrategy strategy){
+//		if(map1 == null || map2 == null || strategy == null){
+//			throw new IllegalArgumentException();
+//		}
+//		
+//		switch (strategy) {
+//		case AND:
+//			return andMerge(map1, map2);
+//		case OR:
+//			return orMerge(map1, map2);
+//
+//		default:
+//			throw new IllegalArgumentException();
+//		}
+//	}
+//
+//	private static StructuredMap orMerge(StructuredMap map1, StructuredMap map2) {
+//		if(map1 == null || map2 == null){
+//			throw new IllegalArgumentException();
+//		}
+//		
+//		StructuredMap result = new StructuredMap();
+//		for (String relationshipId : map1.getAllLinks().keySet()) {
+//			result.addLinks(relationshipId, map1.getAllLinks().get(relationshipId));
+//		}
+//		
+//		for (String relationshipId : map2.getAllLinks().keySet()) {
+//			result.addLinks(relationshipId, map2.getAllLinks().get(relationshipId));
+//		}
+//		
+//		return result;
+//	}
+//
+//	private static StructuredMap andMerge(StructuredMap map1, StructuredMap map2) {
+//		if(map1 == null || map2 == null){
+//			throw new IllegalArgumentException();
+//		}
+//		// TODO
+//		StructuredMap result = new StructuredMap();
+//		for (String relationshipId : map1.getAllLinks().keySet()) {
+//			result.addLinks(relationshipId, map1.getAllLinks().get(relationshipId));
+//		}
+//		
+//		for (String relationshipId : map2.getAllLinks().keySet()) {
+//			result.addLinks(relationshipId, map2.getAllLinks().get(relationshipId));
+//		}
+//		
+//		return result;
+//	}
 }

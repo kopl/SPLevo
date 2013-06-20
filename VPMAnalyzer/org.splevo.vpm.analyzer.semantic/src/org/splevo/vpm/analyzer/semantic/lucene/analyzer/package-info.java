@@ -1,8 +1,8 @@
 /**
- * This package contains all analyzers to evaluate lucene documents.
- * Analyzers have to implement {@link org.splevo.vpm.analyzer.semantic.lucene.analyzer.AbstractRelationshipAnalyzer}.
+ * This package contains all finders to evaluate Lucene documents.
+ * Finders have to implement {@link org.splevo.vpm.analyzer.semantic.lucene.analyzer.AbstractRelationshipFinder}.
  * 
- * @author Daniel
+ * @author Daniel Kojic
  *
  */
 package org.splevo.vpm.analyzer.semantic.lucene.analyzer;

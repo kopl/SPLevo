@@ -6,33 +6,27 @@ import java.util.List;
 import org.apache.lucene.index.DirectoryReader;
 import org.splevo.vpm.analyzer.semantic.StructuredMap;
 
-public class AnalysisExecutor {
+public class FinderExecutor {
 	
-	private List<AbstractRelationshipAnalyzer> analyzers;
-	private DirectoryReader reader;
+	private List<AbstractRelationshipFinder> finders;
 	
-	public AnalysisExecutor(DirectoryReader reader){
-		if(reader == null) {
-			throw new IllegalArgumentException();
-		}
-		
-		this.reader = reader;
-		analyzers = new LinkedList<AbstractRelationshipAnalyzer>();
+	public FinderExecutor(){		
+		finders = new LinkedList<AbstractRelationshipFinder>();
 	}
 	
-	public void addAnalyzer(AbstractRelationshipAnalyzer analyzer){
-		if(analyzer == null) {
+	public void addAnalyzer(AbstractRelationshipFinder finder){
+		if(finder == null) {
 			throw new IllegalArgumentException();
 		}
 		
-		analyzers.add(analyzer);
+		finders.add(finder);
 	}
 	
 	public StructuredMap executeAnalysis(){
 		StructuredMap result = new StructuredMap();
 		
-		for (AbstractRelationshipAnalyzer analyzer : analyzers) {
-			StructuredMap tmpResult = analyzer.findSimilarEntries(reader);
+		for (AbstractRelationshipFinder analyzer : finders) {
+			StructuredMap tmpResult = analyzer.findSimilarEntries();
 			merge(result, tmpResult);
 		}
 		

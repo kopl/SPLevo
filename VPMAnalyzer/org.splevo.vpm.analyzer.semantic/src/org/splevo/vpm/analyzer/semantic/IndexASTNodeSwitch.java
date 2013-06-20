@@ -96,6 +96,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
      * @param indexComments Determines weather comments should be indexed or not.
      */
     public IndexASTNodeSwitch(boolean indexComments) {
+    	super();
     	this.indexComments = indexComments;
     	contents = new StringBuilder();
     	
@@ -110,7 +111,10 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
      * @param content 
      */
     private void addContent(String content) {
-    	contents.append(content + " \n");  	
+    	if (content == null) {
+    		throw new IllegalArgumentException();
+    	}
+    	contents.append(content + " ");  	
     }
     
     /**
@@ -122,8 +126,11 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     	if (comment == null) {
     		throw new IllegalArgumentException();
     	}
+    	if (!indexComments) {
+    		throw new IllegalStateException("Cannot get comments of this switch. Comments were disabled by constructor parameter.");
+    	}
     	
-    	comments.append(comment + " \n");
+    	comments.append(comment + " ");
     }
     
     /**

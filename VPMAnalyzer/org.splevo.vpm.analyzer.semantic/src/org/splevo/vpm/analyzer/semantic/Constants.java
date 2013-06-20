@@ -39,12 +39,26 @@ public final class Constants {
 	/** This {@link Analyzer} is used to store comments and annotations. */
 	public static final Analyzer COMMENT_ANALYZER = new StandardAnalyzer(Version.LUCENE_43);
 	
+	/** Search for terms with a maximum frequency in the document.  */
+	public static final float RAREFINDER_DEFAULT_PERCENTAGE = 0.3f;
+	
 	/** The stop-word list for the analyzers. */
 	public static final String[] DEFAULT_STOP_WORDS = new String[]{
 		"get", 
 		"set", 
 		"default", 
 		"configure", 
-		"clear"
+		"clear",
+		"integer",
+		"float",
+		"double",
+		"string",
+		"value"
 		};
+
+	/** The configuration label for the USE_RARE_FINDER configuration. */
+	public static final String CONFIG_USE_RARE_FINDER_LABEL = "Use Rare-Finder";
+
+	/** The configuration label for the USE_OVERALL_SIMILARITY_FINDER configuration. */
+	public static final String CONFIG_USE_OVERALL_SIMILARITY_FINDER_LABEL = "Use Overall-Similarity-Finder";
 }

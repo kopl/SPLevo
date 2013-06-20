@@ -1,11 +1,12 @@
 package org.splevo.vpm.analyzer.semantic.lucene;
 
 import java.io.IOException;
+
 import org.apache.lucene.index.DirectoryReader;
-import org.splevo.vpm.analyzer.semantic.Constants;
 import org.splevo.vpm.analyzer.semantic.StructuredMap;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.AnalysisExecutor;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.CosineSimilarityAnalyzer;
+import org.splevo.vpm.analyzer.semantic.lucene.analyzer.FinderExecutor;
+import org.splevo.vpm.analyzer.semantic.lucene.analyzer.OverallSimilarityFinder;
+import org.splevo.vpm.analyzer.semantic.lucene.analyzer.RareTermFinder;
 
 /**
  * Use this class to find dependencies between documents of the main index.
@@ -15,44 +16,39 @@ import org.splevo.vpm.analyzer.semantic.lucene.analyzer.CosineSimilarityAnalyzer
  */
 public class Searcher {
 	
-	/** The minimum cosine similarity. */
-	private double minCosineSimilarity;
-	
-	/**
-	 * The default constructor of this class. Initializes the search configurations.
-	 */
-	public Searcher() {
-		minCosineSimilarity = Constants.DEFAULT_MIN_COSINE_SIMILARITY;
-	}
-	
 	/**
 	 * Searches the index (the one hold by the Indexer singleton) to
 	 * find relationships between the Cartesian product of all documents.
 	 * 
+	 * @param useRareTermFinder Determines weather to use RareTermFinder or not.
+	 * @param useOverallSimilarityFinder Determines weather to use OverallSimilarityFinder or not.
 	 * @return A {@link Map} containing the {@link VariationPoint} IDs having a relationship.
 	 * @throws IOException Throws an exception if there is already an open writer to the index.
 	 */
-	public StructuredMap findSemanticRelationships() throws IOException {
+	public static StructuredMap findSemanticRelationships(boolean useRareTermFinder, 
+			boolean useOverallSimilarityFinder) throws IOException {
+		if (!useRareTermFinder && !useOverallSimilarityFinder) {
+			throw new IllegalStateException();
+		}
+		
 		// Open the Directory reader for the main index.
 		DirectoryReader reader = Indexer.getInstance().getIndexReader();
 		
 		// This class executes the analysis.
-		AnalysisExecutor analysisExecutor = new AnalysisExecutor(reader);
+		FinderExecutor analysisExecutor = new FinderExecutor();
 		
 		// Add wanted analysis options here:
-		analysisExecutor.addAnalyzer(new CosineSimilarityAnalyzer(minCosineSimilarity));
-		//analysisExecutor.addAnalyzer(new TestAnalyzer());
+		if (useRareTermFinder) {
+			analysisExecutor.addAnalyzer(new RareTermFinder(reader));
+		}
 		
+		if (useOverallSimilarityFinder) {
+			analysisExecutor.addAnalyzer(new OverallSimilarityFinder(reader));
+		}
+				
 		// Store found relationships in this StructuredMap.
-		return analysisExecutor.executeAnalysis();
-	}
-	
-	/**
-	 * Setter for the minimum cosine similarity.
-	 * 
-	 * @param sim The similarity.
-	 */
-	public void setMinCosineSimilarity(double sim) {
-		this.minCosineSimilarity = sim;
+		StructuredMap result = analysisExecutor.executeAnalysis();
+		reader.close();
+		return result;
 	}
 }
