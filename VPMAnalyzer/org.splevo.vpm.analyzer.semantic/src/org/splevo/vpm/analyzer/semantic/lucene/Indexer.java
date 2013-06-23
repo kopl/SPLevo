@@ -46,15 +46,15 @@ public final class Indexer {
 	/** Singleton instance. */
 	private static Indexer instance;
 	
-    /** Indexed, tokenized, stored. */
+    /** Specifies how to store the code fragments in the index. */
     private static final FieldType TYPE_STORED_CONTENT = new FieldType();
 
-    /** Indexed, tokenized, stored. */
+    /** Specifies how to store the comment fragments in the index. */
     private static final FieldType TYPE_STORED_ID = new FieldType();
     
-    // Define the Field-Type the text gets added to the index.
-    // To allow term exrtaction, DOCS_AND_FREQS has to be stored
-    // in the index.
+    /** Define the Field-Type the text gets added to the index.
+     * To allow term extraction, DOCS_AND_FREQS has to be stored
+     * in the index. */
     static {
     	TYPE_STORED_CONTENT.setIndexed(true);
         TYPE_STORED_CONTENT.setTokenized(true);
@@ -63,7 +63,7 @@ public final class Indexer {
         TYPE_STORED_CONTENT.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
     
-    // Define the Field-Type the IDs get added to the index.
+    /** Define the Field-Type the IDs get added to the index. */
     static {
     	TYPE_STORED_ID.setIndexed(false);
     	TYPE_STORED_ID.setTokenized(false);
@@ -76,21 +76,20 @@ public final class Indexer {
 	 *  Private constructor to prevent this	class from being instantiated multiple times.
 	 */
 	private Indexer() {
-		contentConfig = new IndexWriterConfig(Version.LUCENE_43, Constants.CODE_ANALYZER);
+		contentConfig = new IndexWriterConfig(Version.LUCENE_43, new LuceneCodeAnalyzer(Constants.DEFAULT_STOP_WORDS));
 		commentConfig = new IndexWriterConfig(Version.LUCENE_43, Constants.COMMENT_ANALYZER);		
 		
 		// Use RAMDirectory to use an in-memory index. 
 		directory = new RAMDirectory();
-//		try {
-//			File file = new File(Constants.INDEX_DIRECTORY);
-//			if(!file.exists())
-//				file.mkdir();
-//			directory = FSDirectory.open(file);
-//			clearIndex();
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+	}
+	
+	/**
+	 * Sets the stop-words that should be used by the {@link LuceneCodeAnalyzer}.
+	 * 
+	 * @param stopWords The stop-words.
+	 */
+	public void setStopWords(String[] stopWords) {
+		this.contentConfig = new IndexWriterConfig(Version.LUCENE_43, new LuceneCodeAnalyzer(stopWords));
 	}
 	
 	/**
@@ -191,9 +190,12 @@ public final class Indexer {
 	 * @throws IOException If the index cannot be opened or there are problems adding the document to the index.
 	 */
 	private void addDocument(String variationPointId, String content, boolean isComment) throws IOException {
+		// Create the document with two fields: the content and its ID.
 		Document doc = new Document();
 		doc.add(new Field(Constants.INDEX_VARIATIONPOINT, variationPointId, TYPE_STORED_ID));
 		doc.add(new Field(Constants.INDEX_CONTENT, content, TYPE_STORED_CONTENT));
+		
+		// Add the document to the index through a new IndexWriter.
 		IndexWriter indexWriter = new IndexWriter(directory, isComment ? commentConfig : contentConfig);
 		indexWriter.addDocument(doc);
 		indexWriter.close();

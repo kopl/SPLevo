@@ -3,7 +3,6 @@ package org.splevo.vpm.analyzer.semantic;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.util.Version;
-import org.splevo.vpm.analyzer.semantic.lucene.LuceneCodeAnalyzer;
 
 /**
  * This class contains all constant values for the semantic analyzer to ease the access. 
@@ -12,36 +11,62 @@ import org.splevo.vpm.analyzer.semantic.lucene.LuceneCodeAnalyzer;
  *
  */
 public final class Constants {
-	/** The field name the Variation Point ID is stored in the Lucene index. */
-	public static final String INDEX_VARIATIONPOINT = "VP";
-
-	/** The field name the content ID is stored in the Lucene index. */
-	public static final String INDEX_CONTENT = "CONTENT";
-	
+	// SPLEVO relevant labels######################################################
 	/** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
 
     /** The displayed name of the analyzer. */
     public static final String DISPLAYED_NAME = "Semantic VPM Analyzer";
 
+    
+    // Index relevant variables####################################################	
+	/** The field name the Variation Point ID is stored in the Lucene index. */
+	public static final String INDEX_VARIATIONPOINT = "VP";
+
+	/** The field name the content ID is stored in the Lucene index. */
+	public static final String INDEX_CONTENT = "CONTENT";
+	
+	
+	// Configuration labels########################################################
 	/** The configuration label for the cosine minimum similarity configuration. */
-	public static final String CONFIG_MINIMUM_SIMILARITY_LABEL = "MINSIM";
+	public static final String CONFIG_LABEL_MINIMUM_SIMILARITY = "Minimum Similarity";
+
+	/** The configuration label for the RARE_TERM_FINDER_MAX_PERCENTAGE configuration. */
+	public static final String CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE = "Rare-Terms Max. Percentage";
 
 	/** The configuration label for the include comments configuration. */
-	public static final String CONFIG_INCLUDE_COMMENTS_LABEL = "INCLUDE_COMMENTS";
+	public static final String CONFIG_LABEL_INCLUDE_COMMENTS = "Include comments?";
+	
+	/** The configuration label for the USE_RARE_FINDER configuration. */
+	public static final String CONFIG_LABEL_USE_RARE_FINDER = "Use Rare-Finder?";
 
-	/** The default value for the minimum cosine similarity. */
-	public static final double DEFAULT_MIN_COSINE_SIMILARITY = 0.85d;
+	/** The configuration label for the USE_OVERALL_SIMILARITY_FINDER configuration. */
+	public static final String CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER = "Use Overall-Similarity-Finder?";
 	
-	/** This {@link Analyzer} is used to store code fragments. */
-	public static final Analyzer CODE_ANALYZER = new LuceneCodeAnalyzer();
+	/** The configuration label for the STOPWORD configuration. */
+	public static final String CONFIG_LABEL_STOP_WORDS = "Stop-Words";
 	
+	
+	// Default configuration values#################################################
+	/** The default configuration for the minimum OVERALL_SIMILARITY configuration. */
+	public static final double CONFIG_DEFAULT_OVERALL_MINIMUM_SIMILARITY = 0.7d;
+
+	/** The default configuration for the RARE_TERM_MAX_PERCENTAGE configuration. */
+	public static final double CONFIG_DEFAULT_RARE_TERM_MAX_PERCENTAGE = 0.3d;
+	
+	/** The default configuration for the include comments configuration. */
+	public static final boolean CONFIG_DEFAULT_INCLUDE_COMMENTS = false;
+	
+	/** The default configuration for the USE_RARE_FINDER configuration. */
+	public static final boolean CONFIG_DEFAULT_USE_RARE_FINDER = true;
+	
+	/** The default configuration for the USE_OVERALL_SIMILARITY_FINDER configuration. */
+	public static final boolean CONFIG_DEFAULT_USE_OVERALL_SIMILARITY_FINDER = true;
+	
+	// Analyze configurations########################################################
 	/** This {@link Analyzer} is used to store comments and annotations. */
 	public static final Analyzer COMMENT_ANALYZER = new StandardAnalyzer(Version.LUCENE_43);
-	
-	/** Search for terms with a maximum frequency in the document.  */
-	public static final float RAREFINDER_DEFAULT_PERCENTAGE = 0.3f;
-	
+
 	/** The stop-word list for the analyzers. */
 	public static final String[] DEFAULT_STOP_WORDS = new String[]{
 		"get", 
@@ -55,10 +80,4 @@ public final class Constants {
 		"string",
 		"value"
 		};
-
-	/** The configuration label for the USE_RARE_FINDER configuration. */
-	public static final String CONFIG_USE_RARE_FINDER_LABEL = "Use Rare-Finder";
-
-	/** The configuration label for the USE_OVERALL_SIMILARITY_FINDER configuration. */
-	public static final String CONFIG_USE_OVERALL_SIMILARITY_FINDER_LABEL = "Use Overall-Similarity-Finder";
 }

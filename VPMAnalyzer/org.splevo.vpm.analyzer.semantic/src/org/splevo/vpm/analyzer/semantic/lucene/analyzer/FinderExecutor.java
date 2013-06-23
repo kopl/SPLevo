@@ -3,50 +3,75 @@ package org.splevo.vpm.analyzer.semantic.lucene.analyzer;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.lucene.index.DirectoryReader;
 import org.splevo.vpm.analyzer.semantic.StructuredMap;
 
+/**
+ * This class provides the ability to execute multiple {@link AbstractRelationshipFinder}.
+ * 
+ * @author Daniel Kojic
+ *
+ */
 public class FinderExecutor {
 	
+	/** A {@link List} containign all {@link AbstractRelationshipFinder}s. */
 	private List<AbstractRelationshipFinder> finders;
 	
-	public FinderExecutor(){		
+	/**
+	 * Initialization.
+	 */
+	public FinderExecutor() {
 		finders = new LinkedList<AbstractRelationshipFinder>();
 	}
 	
-	public void addAnalyzer(AbstractRelationshipFinder finder){
-		if(finder == null) {
+	/**
+	 * @param finder Adds a {@link AbstractRelationshipFinder} to the executor.
+	 */
+	public void addAnalyzer(AbstractRelationshipFinder finder) {
+		if (finder == null) {
 			throw new IllegalArgumentException();
 		}
 		
 		finders.add(finder);
 	}
 	
-	public StructuredMap executeAnalysis(){
+	/**
+	 * Executes the search for all given {@link AbstractRelationshipFinder}.
+	 * 
+	 * @return A {@link StructuredMap} containing the found matches.
+	 */
+	public StructuredMap executeAnalysis() {
 		StructuredMap result = new StructuredMap();
 		
 		for (AbstractRelationshipFinder analyzer : finders) {
 			StructuredMap tmpResult = analyzer.findSimilarEntries();
-			merge(result, tmpResult);
+			result = merge(result, tmpResult);
 		}
 		
 		return result;
 	}
 
 	/**
-	 * Adds the content of the second container to the first.
+	 * Merges the content of two containers.
 	 * 
-	 * @param mainContainer The first container.
-	 * @param toBeAdded The second container.
+	 * @param m1 The first container.
+	 * @param m2 The second container.
+	 * @return A {@link StructuredMap} containing all links given by the argument maps.
 	 */
-	private void merge(StructuredMap mainContainer, StructuredMap toBeAdded) {
-		if(mainContainer == null || toBeAdded == null) {
+	private StructuredMap merge(StructuredMap m1, StructuredMap m2) {
+		if (m1 == null || m2 == null) {
 			throw new IllegalArgumentException();
 		}
 		
-		for (String key : toBeAdded.getAllLinks().keySet()) {
-			mainContainer.addLinks(key, toBeAdded.getAllLinks().get(key));
+		StructuredMap result = new StructuredMap();
+			
+		for (String key : m1.getAllLinks().keySet()) {
+			result.addLinks(key, m1.getAllLinks().get(key));
 		}
+		
+		for (String key : m2.getAllLinks().keySet()) {
+			result.addLinks(key, m2.getAllLinks().get(key));
+		}
+		
+		return result;
 	}
-
 }

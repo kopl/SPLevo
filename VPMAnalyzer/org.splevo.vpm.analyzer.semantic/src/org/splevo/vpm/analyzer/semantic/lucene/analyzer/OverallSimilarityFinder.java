@@ -11,13 +11,16 @@ import org.apache.lucene.search.TermQuery;
 import org.splevo.vpm.analyzer.semantic.Constants;
 
 /**
- * This class analyzer calculates the Cosine Similarity.
- * See <a href="http://en.wikipedia.org/wiki/Cosine_similarity" />
+ * This Finder matches documents with a specified minimum percentage of
+ * equal terms.
  * 
  * @author Daniel Kojic
  *
  */
 public class OverallSimilarityFinder extends AbstractBooleanQueryFinder {
+
+	/** The minimum similarity. */
+	private double minSimilarity;
 
 	/**
 	 * The default constructor.
@@ -28,16 +31,34 @@ public class OverallSimilarityFinder extends AbstractBooleanQueryFinder {
 		super(reader);
 	}
 
+	/**
+	 * Initializations. Queries the content of the
+	 * given {@link DirectoryReader}. Documents having
+	 * the specified minimum similarity are a match.
+	 * 
+	 * @param reader The reader to be used by the Finder.
+	 * @param minSimilarity The minimum similarity.
+	 */
+	public OverallSimilarityFinder(DirectoryReader reader, double minSimilarity) {
+		super(reader);
+		this.minSimilarity = minSimilarity;
+	}
+
 	@Override
 	protected Query buildQuery(Map<String, Integer> termFrequencies) {
 		BooleanQuery finalQuery = new BooleanQuery();
+		
+		// Add a TermQuery for each term in the document.
 		for (String key : termFrequencies.keySet()) {
 			Term t = new Term(Constants.INDEX_CONTENT, key);
 			TermQuery termQuery = new TermQuery(t);
 			finalQuery.add(termQuery, Occur.SHOULD);
 		}
-		int numTerms = (int) (((float) termFrequencies.keySet().size() * 0.7f) + 0.5f);
+		
+		// Set the minimal percentage of terms that a similar document should have.
+		int numTerms = (int) (((float) termFrequencies.keySet().size() * minSimilarity) + 0.5f);
 		finalQuery.setMinimumNumberShouldMatch(numTerms);
+		
 		return finalQuery;
 	}
 }

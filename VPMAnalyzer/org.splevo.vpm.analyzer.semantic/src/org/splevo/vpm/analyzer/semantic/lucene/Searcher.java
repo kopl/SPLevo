@@ -22,11 +22,13 @@ public class Searcher {
 	 * 
 	 * @param useRareTermFinder Determines weather to use RareTermFinder or not.
 	 * @param useOverallSimilarityFinder Determines weather to use OverallSimilarityFinder or not.
+	 * @param maxPercentage 
+	 * @param minSimilarity 
 	 * @return A {@link Map} containing the {@link VariationPoint} IDs having a relationship.
 	 * @throws IOException Throws an exception if there is already an open writer to the index.
 	 */
 	public static StructuredMap findSemanticRelationships(boolean useRareTermFinder, 
-			boolean useOverallSimilarityFinder) throws IOException {
+			boolean useOverallSimilarityFinder, double minSimilarity, double maxPercentage) throws IOException {
 		if (!useRareTermFinder && !useOverallSimilarityFinder) {
 			throw new IllegalStateException();
 		}
@@ -37,18 +39,21 @@ public class Searcher {
 		// This class executes the analysis.
 		FinderExecutor analysisExecutor = new FinderExecutor();
 		
-		// Add wanted analysis options here:
+		// Add finders here:
 		if (useRareTermFinder) {
-			analysisExecutor.addAnalyzer(new RareTermFinder(reader));
+			analysisExecutor.addAnalyzer(new RareTermFinder(reader, maxPercentage));
 		}
 		
 		if (useOverallSimilarityFinder) {
-			analysisExecutor.addAnalyzer(new OverallSimilarityFinder(reader));
+			analysisExecutor.addAnalyzer(new OverallSimilarityFinder(reader, minSimilarity));
 		}
 				
 		// Store found relationships in this StructuredMap.
 		StructuredMap result = analysisExecutor.executeAnalysis();
+		
+		// Close reader.
 		reader.close();
+		
 		return result;
 	}
 }

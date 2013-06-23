@@ -12,18 +12,40 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.splevo.vpm.analyzer.semantic.Constants;
 
+/**
+ * This {@link AbstractRelationshipFinder} uses rare terms in a
+ * document and searches for different documents having the same term.
+ * 
+ * @author Daniel Kojic
+ *
+ */
 public class RareTermFinder extends AbstractBooleanQueryFinder {
 
-	private float maxPercentage;
+	/** The maximum share of a term in a document to be part of the search. */
+	private double maxPercentage;
 
-	public RareTermFinder(DirectoryReader reader, float maxPercentage) {
+	
+	/**
+	 * Initializations. Queries the content of the
+	 * given {@link DirectoryReader}. 
+	 * 
+	 * @param reader The {@link DirectoryReader}.
+	 * @param maxPercentage The maximum term percentage.
+	 */
+	public RareTermFinder(DirectoryReader reader, double maxPercentage) {
 		super(reader);
 		this.maxPercentage = maxPercentage;
 	}
 
+	/**
+	 * Initializations. Queries the content of the
+	 * given {@link DirectoryReader}.
+	 * 
+	 * @param reader The {@link DirectoryReader}.
+	 */
 	public RareTermFinder(DirectoryReader reader) {
 		super(reader);
-		this.maxPercentage = Constants.RAREFINDER_DEFAULT_PERCENTAGE;
+		this.maxPercentage = Constants.CONFIG_DEFAULT_OVERALL_MINIMUM_SIMILARITY;
 	}
 
 	@Override
@@ -32,7 +54,7 @@ public class RareTermFinder extends AbstractBooleanQueryFinder {
 		Integer min = Collections.min(termFrequencies.values());
 		int sum = getSum(termFrequencies.values());
 		for (String key : termFrequencies.keySet()) {
-			float percentageShare = (float)termFrequencies.get(key)/(float)sum;
+			float percentageShare = (float) termFrequencies.get(key) / (float) sum;
 			if (termFrequencies.get(key) == min || percentageShare < this.maxPercentage) {
 				Term t = new Term(Constants.INDEX_CONTENT, key);
 				TermQuery termQuery = new TermQuery(t);
@@ -43,11 +65,19 @@ public class RareTermFinder extends AbstractBooleanQueryFinder {
 		return finalQuery;
 	}
 
+	/**
+	 * Calculates the sum of all integers in the given {@link Collection}.
+	 * 
+	 * @param values The {@link Collection} containing the integers.
+	 * @return The sum.
+	 */
 	private int getSum(Collection<Integer> values) {
 		int sum = 0;
+		
 		for (Integer integer : values) {
 			sum += integer;
 		}
+		
 		return sum;
 	}
 

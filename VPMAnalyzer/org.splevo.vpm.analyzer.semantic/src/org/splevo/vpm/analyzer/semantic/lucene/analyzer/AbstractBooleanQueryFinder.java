@@ -16,8 +16,21 @@ import org.apache.lucene.util.BytesRef;
 import org.splevo.vpm.analyzer.semantic.Constants;
 import org.splevo.vpm.analyzer.semantic.StructuredMap;
 
-public abstract class AbstractBooleanQueryFinder extends AbstractRelationshipFinder{
+/**
+ * This is a special {@link AbstractRelationshipFinder} that allows similarity measurement
+ * by querying the index.
+ * 
+ * @author Daniel Kojic
+ *
+ */
+public abstract class AbstractBooleanQueryFinder extends AbstractRelationshipFinder {
 	
+	/**
+	 * Initializations. Queries the content of the
+	 * given {@link DirectoryReader}.
+	 * 
+	 * @param reader The {@link DirectoryReader}.
+	 */
 	public AbstractBooleanQueryFinder(DirectoryReader reader) {
 		super(reader);
 	}
@@ -69,6 +82,13 @@ public abstract class AbstractBooleanQueryFinder extends AbstractRelationshipFin
 		return result;
 	}  
 
+	/**
+	 * This Method builds the {@link Query} the Finder uses to
+	 * search similarities.
+	 * 
+	 * @param termFrequencies A {@link Map} that contains all terms and their frequencies.
+	 * @return The {@link Query}.
+	 */
 	protected abstract Query buildQuery(Map<String, Integer> termFrequencies);
 
 }
