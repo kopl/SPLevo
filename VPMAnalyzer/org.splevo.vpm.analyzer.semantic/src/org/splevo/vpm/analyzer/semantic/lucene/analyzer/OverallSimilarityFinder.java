@@ -8,7 +8,6 @@ import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
-import org.splevo.vpm.analyzer.semantic.Constants;
 
 /**
  * This Finder matches documents with a specified minimum percentage of
@@ -26,9 +25,10 @@ public class OverallSimilarityFinder extends AbstractBooleanQueryFinder {
 	 * The default constructor.
 	 * 
 	 * @param reader The reader to be used by the Finder.
+	 * @param matchComments Indicates whether to include comments for analysis or not.
 	 */
-	public OverallSimilarityFinder(DirectoryReader reader) {
-		super(reader);
+	public OverallSimilarityFinder(DirectoryReader reader, boolean matchComments) {
+		super(reader, matchComments);
 	}
 
 	/**
@@ -37,20 +37,22 @@ public class OverallSimilarityFinder extends AbstractBooleanQueryFinder {
 	 * the specified minimum similarity are a match.
 	 * 
 	 * @param reader The reader to be used by the Finder.
+	 * @param matchComments Indicates whether to include comments for analysis or not.
 	 * @param minSimilarity The minimum similarity.
 	 */
-	public OverallSimilarityFinder(DirectoryReader reader, double minSimilarity) {
-		super(reader);
+	public OverallSimilarityFinder(DirectoryReader reader, boolean matchComments, double minSimilarity) {
+		super(reader, matchComments);
 		this.minSimilarity = minSimilarity;
 	}
 
 	@Override
-	protected Query buildQuery(Map<String, Integer> termFrequencies) {
+	protected Query buildQuery(String fieldName, Map<String, Integer> termFrequencies) {
+		BooleanQuery.setMaxClauseCount(Integer.MAX_VALUE);
 		BooleanQuery finalQuery = new BooleanQuery();
 		
 		// Add a TermQuery for each term in the document.
 		for (String key : termFrequencies.keySet()) {
-			Term t = new Term(Constants.INDEX_CONTENT, key);
+			Term t = new Term(fieldName, key);
 			TermQuery termQuery = new TermQuery(t);
 			finalQuery.add(termQuery, Occur.SHOULD);
 		}

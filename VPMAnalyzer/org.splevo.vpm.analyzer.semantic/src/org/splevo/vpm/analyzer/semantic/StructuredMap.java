@@ -23,12 +23,15 @@ public class StructuredMap {
 	/** This {@link Map} stores the relationships of the given String(key) in a {@link Set} (value). */
 	private Map<String, Set<String>> links;
 	
+	private Map<String, String> explanations;
+	
 	/**
 	 * This constructor initializes the container objects.
 	 */
 	public StructuredMap() {
 		allIds = new HashSet<String>();
 		links = new HashMap<String, Set<String>>();
+		explanations = new HashMap<String, String>();
 	}
 	
 	/**
@@ -55,7 +58,7 @@ public class StructuredMap {
 	 * @param id1 The first ID.
 	 * @param id2 The second ID.
 	 */
-	public void addLink(String id1, String id2) {
+	public void addLink(String id1, String id2, String explanation) {
 		if (id1 == null || id2 == null) {
 			throw new IllegalArgumentException();
 		}
@@ -77,8 +80,30 @@ public class StructuredMap {
 		
 		// Add the relationship.
 		links.get(id1).add(id2);
+		
+		addExplaination(id1, id2, explanation);
 	}
 	
+	private void addExplaination(String id1, String id2, String explanation) {
+		if (id1.compareTo(id2) > 0) {
+			String tmp = id1;
+			id1 = id2;
+			id2 = tmp;
+		}
+		
+		this.explanations.put(id1 + " " + id2, explanation);
+	}
+	
+	public String getExplanation(String id1, String id2){
+		if (id1.compareTo(id2) > 0) {
+			String tmp = id1;
+			id1 = id2;
+			id2 = tmp;
+		}
+		
+		return this.explanations.get(id1 + " " + id2);
+	}
+
 	/**
 	 * Delete all content this {@link StructuredMap} stores.
 	 */

@@ -30,10 +30,11 @@ public class RareTermFinder extends AbstractBooleanQueryFinder {
 	 * given {@link DirectoryReader}. 
 	 * 
 	 * @param reader The {@link DirectoryReader}.
+	 * @param matchComments Indicates whether to include comments for analysis or not.
 	 * @param maxPercentage The maximum term percentage.
 	 */
-	public RareTermFinder(DirectoryReader reader, double maxPercentage) {
-		super(reader);
+	public RareTermFinder(DirectoryReader reader, boolean matchComments, double maxPercentage) {
+		super(reader, matchComments);
 		this.maxPercentage = maxPercentage;
 	}
 
@@ -42,25 +43,32 @@ public class RareTermFinder extends AbstractBooleanQueryFinder {
 	 * given {@link DirectoryReader}.
 	 * 
 	 * @param reader The {@link DirectoryReader}.
+	 * @param matchComments Indicates whether to include comments for analysis or not.
 	 */
-	public RareTermFinder(DirectoryReader reader) {
-		super(reader);
+	public RareTermFinder(DirectoryReader reader, boolean matchComments) {
+		super(reader, matchComments);
 		this.maxPercentage = Constants.CONFIG_DEFAULT_OVERALL_MINIMUM_SIMILARITY;
 	}
 
 	@Override
-	protected Query buildQuery(Map<String, Integer> termFrequencies) {
+	protected Query buildQuery(String fieldName, Map<String, Integer> termFrequencies) {
+		BooleanQuery.setMaxClauseCount(Integer.MAX_VALUE);
 		BooleanQuery finalQuery = new BooleanQuery();
 		Integer min = Collections.min(termFrequencies.values());
 		int sum = getSum(termFrequencies.values());
+		
 		for (String key : termFrequencies.keySet()) {
 			float percentageShare = (float) termFrequencies.get(key) / (float) sum;
 			if (termFrequencies.get(key) == min || percentageShare < this.maxPercentage) {
-				Term t = new Term(Constants.INDEX_CONTENT, key);
+				Term t = new Term(fieldName, key);
 				TermQuery termQuery = new TermQuery(t);
-				finalQuery.add(termQuery, Occur.MUST);
+				finalQuery.add(termQuery, Occur.SHOULD);
 			}
 		}
+		
+		// Set the minimal percentage of terms that a similar document should have.
+		int numTerms = (int) (((float) termFrequencies.keySet().size() * 0.75f) + 0.5f);
+		finalQuery.setMinimumNumberShouldMatch(numTerms);
 		
 		return finalQuery;
 	}

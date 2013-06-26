@@ -15,8 +15,10 @@ import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.config.BooleanChoiceConfigDefintion;
+import org.splevo.vpm.analyzer.config.BooleanConfigDefinition;
 import org.splevo.vpm.analyzer.config.ConfigDefinition;
 import org.splevo.vpm.analyzer.config.DoubleConfigDefinition;
+import org.splevo.vpm.analyzer.config.IntegerConfigDefinition;
 import org.splevo.vpm.analyzer.config.StringConfigDefinition;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
@@ -83,8 +85,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         	fillIndex(vpmGraph);
         	logger.info("Indexing done.");
 		} catch (Exception e) {
-			logger.error("Cannot write Index. Close all open IndexWriters first.");
+			logger.error("Cannot write Index. Close all open IndexWriters first.", e);
 		}
+        indexer.printIndexContents();
 
         // Find relationships.############################################################
         try {
@@ -92,15 +95,15 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             findRelationships(result);
             logger.info("Analysis done.");
         } catch (IOException e) {
-            logger.error("Cannot read Index. Close all open IndexWriters first.");
+            logger.error("Cannot read Index. Close all open IndexWriters first.", e);
         }
 
         // CLEAN-UP.######################################################################
         try {
             Indexer.getInstance().clearIndex();
-            logger.error("Clean-Up done.");
+            logger.info("Clean-Up done.");
         } catch (IOException e) {
-            logger.error("Failure while trying to empty main index.");
+            logger.error("Failure while trying to empty main index.", e);
         }
 
         return result;
@@ -126,6 +129,12 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         		new DoubleConfigDefinition(Constants.CONFIG_DEFAULT_RARE_TERM_MAX_PERCENTAGE));
         availableConfigurations.put(Constants.CONFIG_LABEL_STOP_WORDS, 
         		new StringConfigDefinition());
+        availableConfigurations.put(Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER, 
+        		new BooleanConfigDefinition(Constants.CONFIG_DEFAULT_TOP_N_TERM_FINDER));
+        availableConfigurations.put(Constants.CONFIG_LABEL_LEAST_DOC_FREQ, 
+        		new DoubleConfigDefinition(Constants.CONFIG_DEFAULT_LEAST_DOC_FREQ));
+        availableConfigurations.put(Constants.CONFIG_LABEL_N, 
+        		new IntegerConfigDefinition(Constants.CONFIG_DEFAULT_N));
         return availableConfigurations;
     }
 
@@ -149,6 +158,12 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         		Constants.CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE);
         configurationLabels.put(Constants.CONFIG_LABEL_STOP_WORDS, 
         		Constants.CONFIG_LABEL_STOP_WORDS);
+        configurationLabels.put(Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER, 
+        		Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER);
+        configurationLabels.put(Constants.CONFIG_LABEL_LEAST_DOC_FREQ, 
+        		Constants.CONFIG_LABEL_LEAST_DOC_FREQ);
+        configurationLabels.put(Constants.CONFIG_LABEL_N, 
+        		Constants.CONFIG_LABEL_N);
         return configurationLabels;
     }
 
@@ -211,7 +226,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
             String id = "VP" + idCounter;
-
             // Index the given VariationPoints content.
             // Updates the counter and the maps if something was indexed.
             if (indexNode(id, node, vp, indexComments)) {
@@ -261,33 +275,25 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
                 indexASTNodeSwitch.doSwitch(next);
             } catch (Throwable e) {
             	// TODO: Switches superclass throws exception.
-                logger.error("TODO: Why does IndexASTNodeSSwitch throw exception?");
+                logger.error("TODO: Why does IndexASTNodeSSwitch throw exception?", e);
             }
         }
-
-        // Add comments if configured and not empty.
-        if (indexComments) {
-        	String comment = indexASTNodeSwitch.getComments();
-            try {
-				indexer.addCommentToIndex(id, comment);
-			} catch (IOException e) {
-				logger.error("Cannot add comment to index. Close all open writers first.", e);
-				return false;
-			}
-            result = true;
-        }
-
-        // Add content if not empty.
+        
+        // Add content and comment.
         String content = indexASTNodeSwitch.getContent();
         try {
-			boolean somethingAdded = indexer.addCodeToIndex(id, content);
-			if (!somethingAdded) {
-				return false;
-			} else {
-				result = true;
+        	boolean somethingAdded = false;
+        	
+        	if (indexComments) {
+        		String comment = indexASTNodeSwitch.getComments();
+        		somethingAdded = indexer.addToIndex(id, content, comment);
+        	} else {
+        		somethingAdded = indexer.addToIndex(id, content, null);
 			}
+			
+			result = somethingAdded;
 		} catch (IOException e) {
-			logger.error("Cannot add comment to index. Close all open writers first.", e);
+			logger.error("Cannot add to index. Close all open writers first.", e);
 			return false;
 		}
         
@@ -307,13 +313,26 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             throw new IllegalArgumentException();
         }
         
+        // Get the configurations
+        boolean includeComments = (Boolean) configurations.get(Constants.CONFIG_LABEL_INCLUDE_COMMENTS);
         boolean useRareFinder = (Boolean) configurations.get(Constants.CONFIG_LABEL_USE_RARE_FINDER);
         boolean useOverallSimFinder = (Boolean) configurations.get(Constants.CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER);
+        boolean useTopNTermFinder = (Boolean) configurations.get(Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER);
         Double minSimilarity = (Double) configurations.get(Constants.CONFIG_LABEL_MINIMUM_SIMILARITY);
         Double maxPercentage = (Double) configurations.get(Constants.CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE);
+        Double leastDocFreq = (Double) configurations.get(Constants.CONFIG_LABEL_LEAST_DOC_FREQ);
+        Integer n = (Integer) configurations.get(Constants.CONFIG_LABEL_N);
         
         // Use the searcher to search for semantic relationships.
-        StructuredMap similars = Searcher.findSemanticRelationships(useRareFinder, useOverallSimFinder, minSimilarity, maxPercentage);
+        StructuredMap similars = Searcher.findSemanticRelationships(
+        		includeComments, 
+        		useRareFinder, 
+        		useOverallSimFinder, 
+        		useTopNTermFinder, 
+        		minSimilarity, 
+        		maxPercentage, 
+        		leastDocFreq, 
+        		n);
 
         // Iterate through the VariationPoint pairs and add them to the result.
         for (String key : similars.getAllLinks().keySet()) {
@@ -322,12 +341,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             for (String value : values) {
                 Node sourceNode = nodeIndex.get(key);
                 Node targetNode = nodeIndex.get(value);
-
-                String label = vpIndex.get(value).getEnclosingSoftwareEntity().getClass().getSimpleName();
-                if (label.length() == 0) {
-                    label = "semantic";
-                }
-                VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, label);
+                String explanation = similars.getExplanation(key, value);
+                
+                VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, explanation);
                 if (descriptor != null) {
                     result.getEdgeDescriptors().add(descriptor);
                 }

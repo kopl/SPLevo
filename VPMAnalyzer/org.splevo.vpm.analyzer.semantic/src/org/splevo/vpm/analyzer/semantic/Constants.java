@@ -23,8 +23,11 @@ public final class Constants {
 	/** The field name the Variation Point ID is stored in the Lucene index. */
 	public static final String INDEX_VARIATIONPOINT = "VP";
 
-	/** The field name the content ID is stored in the Lucene index. */
+	/** The field name the content is stored in the Lucene index. */
 	public static final String INDEX_CONTENT = "CONTENT";
+	
+	/** The field name the comments are stored in the Lucene index. */
+	public static final String INDEX_COMMENT = "COMMENT";
 	
 	
 	// Configuration labels########################################################
@@ -35,16 +38,25 @@ public final class Constants {
 	public static final String CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE = "Rare-Terms Max. Percentage";
 
 	/** The configuration label for the include comments configuration. */
-	public static final String CONFIG_LABEL_INCLUDE_COMMENTS = "Include comments?";
+	public static final String CONFIG_LABEL_INCLUDE_COMMENTS = "Include comments";
 	
 	/** The configuration label for the USE_RARE_FINDER configuration. */
-	public static final String CONFIG_LABEL_USE_RARE_FINDER = "Use Rare-Finder?";
+	public static final String CONFIG_LABEL_USE_RARE_FINDER = "Use Rare-Finder";
 
 	/** The configuration label for the USE_OVERALL_SIMILARITY_FINDER configuration. */
-	public static final String CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER = "Use Overall-Similarity-Finder?";
+	public static final String CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER = "Use Overall-Similarity-Finder";
+	
+	/** The default configuration for the USE_TOP_N_TERM_FINDER configuration. */	
+	public static final String CONFIG_LABEL_USE_TOP_N_TERM_FINDER = "Use Top-N-Search";
 	
 	/** The configuration label for the STOPWORD configuration. */
 	public static final String CONFIG_LABEL_STOP_WORDS = "Stop-Words";
+	
+	/** The configuration label for the N configuration. */
+	public static final String CONFIG_LABEL_N = "N";
+
+	/** The configuration label for the LEAST_DOC_FREQ configuration. */
+	public static final String CONFIG_LABEL_LEAST_DOC_FREQ = "Least Doc. Frequency";
 	
 	
 	// Default configuration values#################################################
@@ -59,9 +71,18 @@ public final class Constants {
 	
 	/** The default configuration for the USE_RARE_FINDER configuration. */
 	public static final boolean CONFIG_DEFAULT_USE_RARE_FINDER = true;
+
+	/** The default configuration for the TOP_N_TERM_FINDER configuration. */
+	public static final boolean CONFIG_DEFAULT_TOP_N_TERM_FINDER = true;
 	
 	/** The default configuration for the USE_OVERALL_SIMILARITY_FINDER configuration. */
 	public static final boolean CONFIG_DEFAULT_USE_OVERALL_SIMILARITY_FINDER = true;
+
+	/** The default configuration for the LEAST_DOC_FREQ configuration. */
+	public static final double CONFIG_DEFAULT_LEAST_DOC_FREQ = 0.2d;
+	
+	/** The default configuration for the N configuration. */
+	public static final int CONFIG_DEFAULT_N = 10;
 	
 	// Analyze configurations########################################################
 	/** This {@link Analyzer} is used to store comments and annotations. */
@@ -70,14 +91,19 @@ public final class Constants {
 	/** The stop-word list for the analyzers. */
 	public static final String[] DEFAULT_STOP_WORDS = new String[]{
 		"get", 
-		"set", 
+		"set",
+		"new",
+		"case",
+		"remove",
+		"class",
+		"type",
+		"create",
+		"arg",
 		"default", 
 		"configure", 
 		"clear",
-		"integer",
-		"float",
-		"double",
-		"string",
-		"value"
+		"value",
+		"misc",
+		"fig"
 		};
 }

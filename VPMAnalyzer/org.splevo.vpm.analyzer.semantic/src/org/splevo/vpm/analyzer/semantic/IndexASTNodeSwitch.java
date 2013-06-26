@@ -49,7 +49,6 @@ import org.eclipse.gmt.modisco.java.PrimitiveTypeShort;
 import org.eclipse.gmt.modisco.java.PrimitiveTypeVoid;
 import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.StringLiteral;
-import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeDeclaration;
@@ -111,10 +110,9 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
      * @param content 
      */
     private void addContent(String content) {
-    	if (content == null) {
-    		throw new IllegalArgumentException();
+    	if (content != null && content.length() > 2) {
+    		contents.append(content + " "); 
     	}
-    	contents.append(content + " ");  	
     }
     
     /**
@@ -123,14 +121,14 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
      * @param comment The comment to be added. 
      */
     private void addComment(String comment) {
-    	if (comment == null) {
-    		throw new IllegalArgumentException();
-    	}
     	if (!indexComments) {
-    		throw new IllegalStateException("Cannot get comments of this switch. Comments were disabled by constructor parameter.");
+    		throw new IllegalStateException(
+    				"Cannot get comments of this switch. Comments were disabled by constructor parameter.");
     	}
     	
-    	comments.append(comment + " ");
+    	if (comment != null && comment.length() > 2) {
+    		comments.append(comment + " ");
+    	}
     }
     
     /**
@@ -250,15 +248,6 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	@Override
 	public List<ASTNode> caseMethodRefParameter(MethodRefParameter object) {
 		addContent(object.getName());
-		return new ArrayList<ASTNode>();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.gmt.modisco.java.emf.util.JavaSwitch#caseTagElement(org.eclipse.gmt.modisco.java.TagElement)
-	 */
-	@Override
-	public List<ASTNode> caseTagElement(TagElement object) {
-		addContent(object.getTagName());
 		return new ArrayList<ASTNode>();
 	}
 

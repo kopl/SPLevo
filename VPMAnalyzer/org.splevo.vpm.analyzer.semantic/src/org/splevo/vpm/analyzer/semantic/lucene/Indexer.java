@@ -1,8 +1,11 @@
 package org.splevo.vpm.analyzer.semantic.lucene;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -14,6 +17,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.splevo.vpm.analyzer.semantic.Constants;
+import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * This class handles the indexing. It creates one single main index.
@@ -34,11 +38,8 @@ public final class Indexer {
 	/** The logger for this class. */
     private Logger logger = Logger.getLogger(Indexer.class);
 	
-    /** The writer configuration for code fragments. */
-	private IndexWriterConfig contentConfig;
-	
-    /** The writer configuration for comment fragments. */
-	private IndexWriterConfig commentConfig;
+    /** The writer configuration. */
+	private IndexWriterConfig config;
 	
 	/** The {@link Directory} for the index. */
 	private Directory directory;
@@ -58,7 +59,7 @@ public final class Indexer {
     static {
     	TYPE_STORED_CONTENT.setIndexed(true);
         TYPE_STORED_CONTENT.setTokenized(true);
-        TYPE_STORED_CONTENT.setStored(false);
+        TYPE_STORED_CONTENT.setStored(true);
         TYPE_STORED_CONTENT.setStoreTermVectors(true);
         TYPE_STORED_CONTENT.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
@@ -76,8 +77,8 @@ public final class Indexer {
 	 *  Private constructor to prevent this	class from being instantiated multiple times.
 	 */
 	private Indexer() {
-		contentConfig = new IndexWriterConfig(Version.LUCENE_43, new LuceneCodeAnalyzer(Constants.DEFAULT_STOP_WORDS));
-		commentConfig = new IndexWriterConfig(Version.LUCENE_43, Constants.COMMENT_ANALYZER);		
+		this.config = new IndexWriterConfig(Version.LUCENE_43, 
+				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS));	
 		
 		// Use RAMDirectory to use an in-memory index. 
 		directory = new RAMDirectory();
@@ -89,7 +90,8 @@ public final class Indexer {
 	 * @param stopWords The stop-words.
 	 */
 	public void setStopWords(String[] stopWords) {
-		this.contentConfig = new IndexWriterConfig(Version.LUCENE_43, new LuceneCodeAnalyzer(stopWords));
+		this.config = new IndexWriterConfig(Version.LUCENE_43, 
+				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS));
 	}
 	
 	/**
@@ -114,71 +116,30 @@ public final class Indexer {
 	}
 	
 	/**
-	 * This method adds the given text to the index. 
-	 * This Method is specialized to store code fragments.
-	 * 
-	 * @param variationPointId The contents id.
-	 * @param content The content to be indexed.
-	 * @return True if something was indexed; False otherwise.
-	 * @throws IOException 
-	 */
-	public boolean addCodeToIndex(String variationPointId, String content) throws IOException {
-		if (variationPointId == null || content == null) {
-			throw new IllegalArgumentException();
-		}
-		
-		return addToIndex(variationPointId, content, false);
-	}
-
-	/**
-	 * This method adds the given text to the index. 
-	 * This Method is specialized to store comments.
-	 * 
-	 * @param variationPointId The contents id.
-	 * @param comment The content to be indexed.
- 	 * @return True if something was indexed; False otherwise.
-	 * @throws IOException 
-	 */
-	public boolean addCommentToIndex(String variationPointId, String comment) throws IOException {
-		if (variationPointId == null || comment == null) {
-			throw new IllegalArgumentException();
-		}
-		
-		return addToIndex(variationPointId, comment, true);
-	}
-	
-	/**
 	 * Adds content to the main index.
 	 * 
 	 * @param variationPointId The ID of the {@link VariationPoint} to be linked with its content.
 	 * @param content The text content of the {@link VariationPoint}.
-	 * @param isComment Determines weather the content is a comment or code.
+	 * @param comments The text comments of the {@link VariationPoint}.
 	 * @return True if something was indexed; False otherwise.
 	 * @throws IOException 
 	 */
-	private boolean addToIndex(String variationPointId, String content, boolean isComment) throws IOException {
-		if (variationPointId == null || content == null) {
+	public boolean addToIndex(String variationPointId, String content, String comments) throws IOException {
+		if (variationPointId == null || variationPointId.length() == 0 || (content == null && comments == null)) {
 			throw new IllegalArgumentException();
 		}
 		
-		if (variationPointId.length() == 0) {
-			logger.error("Invalid id. Empty String not allowed.");
-			return false;
-		}
-
-		if (content.length() <= 2) {
-			// Only index text with length greater than 2.
-			return false;
-		}
+		if ((content != null && content.length() > 0) || (comments != null && comments.length() > 0)) {
+			try {
+				addDocument(variationPointId, content, comments);
+				return true;
+			} catch (IOException e) {
+				logger.error("Error while adding the document to the index.", e);
+				return false;
+			}
+		}		
 		
-		try {
-			addDocument(variationPointId, content, isComment);
-		} catch (IOException e) {
-			logger.error("Error while adding data to Index.");
-			return false;
-		}	
-		
-		return true;
+		return false;
 	}
 
 	/**
@@ -186,17 +147,31 @@ public final class Indexer {
 	 * 
 	 * @param variationPointId The ID to be stored.
 	 * @param content The text to be added to the index.
-	 * @param isComment Determines weather the content is a comment or code.
+	 * @param comments The text comments of the {@link VariationPoint}.
 	 * @throws IOException If the index cannot be opened or there are problems adding the document to the index.
 	 */
-	private void addDocument(String variationPointId, String content, boolean isComment) throws IOException {
+	private void addDocument(String variationPointId, String content, String comments) throws IOException {
+		if (variationPointId == null || (content == null && comments == null)) {
+			throw new IllegalArgumentException();
+		}
+		
 		// Create the document with two fields: the content and its ID.
 		Document doc = new Document();
 		doc.add(new Field(Constants.INDEX_VARIATIONPOINT, variationPointId, TYPE_STORED_ID));
-		doc.add(new Field(Constants.INDEX_CONTENT, content, TYPE_STORED_CONTENT));
+		
+		if (content != null && content.length() > 0) {
+			doc.add(new Field(Constants.INDEX_CONTENT, content, TYPE_STORED_CONTENT));
+		} 
+		if (comments != null && comments.length() > 0) {
+			doc.add(new Field(Constants.INDEX_COMMENT, comments, TYPE_STORED_CONTENT));
+		}
+		
+		if (doc.getFields().size() < 2) {
+			return;
+		}
 		
 		// Add the document to the index through a new IndexWriter.
-		IndexWriter indexWriter = new IndexWriter(directory, isComment ? commentConfig : contentConfig);
+		IndexWriter indexWriter = new IndexWriter(directory, config);
 		indexWriter.addDocument(doc);
 		indexWriter.close();
 	}
@@ -206,8 +181,39 @@ public final class Indexer {
 	 * @throws IOException 
 	 */
 	public void clearIndex() throws IOException {
-		IndexWriter writer = new IndexWriter(directory, contentConfig);
+		IndexWriter writer = new IndexWriter(directory, config);
 		writer.deleteAll();
 		writer.close();
+	}
+	
+	/**
+	 * Just for testing purposes.
+	 */
+	public void printIndexContents(){
+		try {
+			File file = new File("C:\\Users\\Daniel\\Desktop\\log.txt");
+			file.createNewFile();
+			PrintWriter out = new PrintWriter(file);
+			
+			DirectoryReader reader = getIndexReader();
+			for (int i = 0; i < reader.maxDoc(); i++) {
+				Document doc;
+
+				doc = reader.document(i);
+				String id = doc.get(Constants.INDEX_VARIATIONPOINT);
+				String cont = doc.get(Constants.INDEX_CONTENT);
+				String com = doc.get(Constants.INDEX_COMMENT);
+				if (id != null && cont != null){
+					out.println("##########" + id + "##########");
+					if(cont != null)
+						out.println("Content: " + cont);
+					if(com != null)
+						out.println("Comment: " + com);
+				}
+			}
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

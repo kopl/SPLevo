@@ -1,0 +1,36 @@
+package org.splevo.vpm.analyzer.semantic.lucene;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.util.Version;
+import org.splevo.vpm.analyzer.semantic.Constants;
+
+/**
+ * Use this class to get a Analyzer Wrapper.
+ * 
+ * @author Daniel Kojic
+ *
+ */
+public class CustomPerFieldAnalyzerWrapper {
+	
+	/**
+	 * This method retrieves a wrapper that handles all index fields with a specific {@link Analyzer}.
+	 * 
+	 * @param stopWords The stop-word list to be used by the {@link LuceneCodeAnalyzer}.
+	 * @return A {@link AnalyzerWrapper}.
+	 */
+	public static PerFieldAnalyzerWrapper getWrapper(String[] stopWords) {
+		Map<String, Analyzer> analyzerPerField = new HashMap<String, Analyzer>();
+		analyzerPerField.put(Constants.INDEX_CONTENT, new LuceneCodeAnalyzer(
+				stopWords));
+		analyzerPerField.put(Constants.INDEX_COMMENT, new StandardAnalyzer(
+				Version.LUCENE_43));
+
+		PerFieldAnalyzerWrapper aWrapper = new PerFieldAnalyzerWrapper(new LuceneCodeAnalyzer(stopWords), analyzerPerField);
+		return aWrapper;
+	}
+}
