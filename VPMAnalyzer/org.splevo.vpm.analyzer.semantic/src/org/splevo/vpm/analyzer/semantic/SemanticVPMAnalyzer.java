@@ -1,6 +1,7 @@
 package org.splevo.vpm.analyzer.semantic;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -29,17 +30,16 @@ import org.splevo.vpm.variability.VariationPoint;
  ***** What it does.*********************************************** 
  * The semantic relationship VPMAnalazer analyzer is able to find 
  * semantic relationships between several {@link VariationPoint}s. 
- * To sort out low similarities the analyzer offers a configuration 
- * to specify a minimum similarity between the VPs.
+ * Several configurations allow a customized search, just as needed.
  * 
  ***** How does that work?***************************************** 
  * As a first step, the analyzer extracts all relevant content from 
  * a VPMGraph and stores that within a Lucene index. Through storing 
  * additional informations about the indexed text, Lucene provides the 
- * ability to extract vectors from given index content. By calculating 
- * the cosine similarity for all possible links (cross product of all 
- * VPs), semantic dependencies will be found. Those results can be 
- * displayed within the VPMGraph or the Refinement Browser.
+ * ability to extract vectors from given index content. The Analyzer
+ * uses several Finders to search for semantic dependencies. Those 
+ * results can be displayed within the VPMGraph or the Refinement 
+ * Browser.
  ***************************************************************** 
  * 
  * @author Daniel Kojic
@@ -128,7 +128,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         availableConfigurations.put(Constants.CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE, 
         		new DoubleConfigDefinition(Constants.CONFIG_DEFAULT_RARE_TERM_MAX_PERCENTAGE));
         availableConfigurations.put(Constants.CONFIG_LABEL_STOP_WORDS, 
-        		new StringConfigDefinition());
+        		new StringConfigDefinition(Arrays.deepToString(Constants.DEFAULT_STOP_WORDS).replace(", ", " ").replace("[", "").replace("]", "")));
         availableConfigurations.put(Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER, 
         		new BooleanConfigDefinition(Constants.CONFIG_DEFAULT_TOP_N_TERM_FINDER));
         availableConfigurations.put(Constants.CONFIG_LABEL_LEAST_DOC_FREQ, 
@@ -343,7 +343,11 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
                 Node targetNode = nodeIndex.get(value);
                 String explanation = similars.getExplanation(key, value);
                 
-                VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, explanation);
+                if (explanation == null) {
+                	explanation = Constants.RELATIONSHIP_LABEL_SEMANTIC;
+                }
+                
+                	VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, explanation);
                 if (descriptor != null) {
                     result.getEdgeDescriptors().add(descriptor);
                 }

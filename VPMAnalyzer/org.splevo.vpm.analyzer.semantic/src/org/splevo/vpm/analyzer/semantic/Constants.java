@@ -84,7 +84,7 @@ public final class Constants {
 	/** The default configuration for the N configuration. */
 	public static final int CONFIG_DEFAULT_N = 10;
 	
-	// Analyze configurations########################################################
+	// Analyzer configurations#######################################################
 	/** This {@link Analyzer} is used to store comments and annotations. */
 	public static final Analyzer COMMENT_ANALYZER = new StandardAnalyzer(Version.LUCENE_43);
 

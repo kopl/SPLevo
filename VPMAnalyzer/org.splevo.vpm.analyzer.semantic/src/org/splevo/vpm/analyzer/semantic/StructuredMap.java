@@ -23,6 +23,7 @@ public class StructuredMap {
 	/** This {@link Map} stores the relationships of the given String(key) in a {@link Set} (value). */
 	private Map<String, Set<String>> links;
 	
+	/** This {@link Map} contains the IDs of the related nodes as keys and a explanation as value. */
 	private Map<String, String> explanations;
 	
 	/**
@@ -53,10 +54,12 @@ public class StructuredMap {
 	}
 	
 	/**
-	 * Add a relationship between the specified IDs.
+	 * Add a relationship between the specified IDs and stores an explanation
+	 * that describes the relationship.
 	 * 
 	 * @param id1 The first ID.
 	 * @param id2 The second ID.
+	 * @param explanation The explanation.
 	 */
 	public void addLink(String id1, String id2, String explanation) {
 		if (id1 == null || id2 == null) {
@@ -84,6 +87,13 @@ public class StructuredMap {
 		addExplaination(id1, id2, explanation);
 	}
 	
+	/**
+	 * Adds the given explanation to the given link.
+	 * 
+	 * @param id1 The ID of the first node.
+	 * @param id2 The ID of the second node.
+	 * @param explanation The explanation.
+	 */
 	private void addExplaination(String id1, String id2, String explanation) {
 		if (id1.compareTo(id2) > 0) {
 			String tmp = id1;
@@ -94,7 +104,14 @@ public class StructuredMap {
 		this.explanations.put(id1 + " " + id2, explanation);
 	}
 	
-	public String getExplanation(String id1, String id2){
+	/**
+	 * Gets the explanation of the given nodes.
+	 * 
+	 * @param id1 The id of the first node.
+	 * @param id2 The ID of the second node.
+	 * @return The explanation. Null if none existing or invalid IDs.
+	 */
+	public String getExplanation(String id1, String id2) {
 		if (id1.compareTo(id2) > 0) {
 			String tmp = id1;
 			id1 = id2;
@@ -110,6 +127,7 @@ public class StructuredMap {
 	public void clear() {
 		allIds.clear();
 		links.clear();
+		explanations.clear();
 	}
 	
 	/**

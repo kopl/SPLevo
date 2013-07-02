@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import org.apache.lucene.index.DirectoryReader;
 import org.splevo.vpm.analyzer.semantic.StructuredMap;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.FinderExecutor;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.OverallSimilarityFinder;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.RareTermFinder;
-import org.splevo.vpm.analyzer.semantic.lucene.analyzer.TopNTermFinder;
+import org.splevo.vpm.analyzer.semantic.lucene.finder.FinderExecutor;
+import org.splevo.vpm.analyzer.semantic.lucene.finder.OverallSimilarityFinder;
+import org.splevo.vpm.analyzer.semantic.lucene.finder.RareTermFinder;
+import org.splevo.vpm.analyzer.semantic.lucene.finder.TopNTermFinder;
 
 /**
  * Use this class to find dependencies between documents of the main index.

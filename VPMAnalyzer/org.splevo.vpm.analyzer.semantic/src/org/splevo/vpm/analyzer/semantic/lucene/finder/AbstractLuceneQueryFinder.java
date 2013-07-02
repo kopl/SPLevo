@@ -1,4 +1,4 @@
-package org.splevo.vpm.analyzer.semantic.lucene.analyzer;
+package org.splevo.vpm.analyzer.semantic.lucene.finder;
 
 import java.io.IOException;
 import java.util.Map;
@@ -20,7 +20,7 @@ import org.splevo.vpm.analyzer.semantic.StructuredMap;
  * @author Daniel Kojic
  *
  */
-public abstract class AbstractBooleanQueryFinder extends AbstractRelationshipFinder {
+public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFinder {
 	
 	/**
 	 * Initializations. Queries the content of the
@@ -29,12 +29,12 @@ public abstract class AbstractBooleanQueryFinder extends AbstractRelationshipFin
 	 * @param reader The {@link DirectoryReader}.
 	 * @param matchComments Indicates whether to include comments for analysis or not.
 	 */
-	public AbstractBooleanQueryFinder(DirectoryReader reader, boolean matchComments) {
+	public AbstractLuceneQueryFinder(DirectoryReader reader, boolean matchComments) {
 		super(reader, matchComments);
 	}
 
 	/** The logger for this class. */
-    private Logger logger = Logger.getLogger(AbstractBooleanQueryFinder.class);
+    private Logger logger = Logger.getLogger(AbstractLuceneQueryFinder.class);
     
 	@Override
 	public StructuredMap findSimilarEntries() {
@@ -88,7 +88,7 @@ public abstract class AbstractBooleanQueryFinder extends AbstractRelationshipFin
 			String id1 = doc.get(Constants.INDEX_VARIATIONPOINT);
 			String id2 = indexSearcher.doc(hits[q].doc).get(Constants.INDEX_VARIATIONPOINT);
 			// TODO: add reasonable explanation
-			result.addLink(id1, id2, "Query matched Docs.");
+			result.addLink(id1, id2, null);
 		}
 	}
 

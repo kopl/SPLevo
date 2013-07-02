@@ -1,4 +1,4 @@
-package org.splevo.vpm.analyzer.semantic.lucene.analyzer;
+package org.splevo.vpm.analyzer.semantic.lucene.finder;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import org.splevo.vpm.analyzer.semantic.Constants;
  * @author Daniel Kojic
  *
  */
-public class RareTermFinder extends AbstractBooleanQueryFinder {
+public class RareTermFinder extends AbstractLuceneQueryFinder {
 
 	/** The maximum share of a term in a document to be part of the search. */
 	private double maxPercentage;

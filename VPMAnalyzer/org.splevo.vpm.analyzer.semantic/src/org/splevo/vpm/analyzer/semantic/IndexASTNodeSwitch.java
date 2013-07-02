@@ -86,9 +86,6 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	/** This {@link StringBuilder} is used to store the comments and annotations. */
 	private StringBuilder comments;
 	
-	/** Determines weather comments should be indexed or not. */
-	private boolean indexComments;
-	
     /**
      * Initializes needed members.
      * 
@@ -96,7 +93,6 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
      */
     public IndexASTNodeSwitch(boolean indexComments) {
     	super();
-    	this.indexComments = indexComments;
     	contents = new StringBuilder();
     	
     	if (indexComments) {
@@ -121,11 +117,6 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
      * @param comment The comment to be added. 
      */
     private void addComment(String comment) {
-    	if (!indexComments) {
-    		throw new IllegalStateException(
-    				"Cannot get comments of this switch. Comments were disabled by constructor parameter.");
-    	}
-    	
     	if (comment != null && comment.length() > 2) {
     		comments.append(comment + " ");
     	}
@@ -142,11 +133,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
      * @return The text comments collected from nodes since the last clear() call.
      */
     public String getComments() {
-    	if (!indexComments) {
-    		throw new IllegalStateException("Cannot get comments of this switch. Comments were disabled by constructor parameter.");
-    	}
-    	
-    	return comments.toString();
+    	return comments == null ? "" : comments.toString();
     }
     
     /**

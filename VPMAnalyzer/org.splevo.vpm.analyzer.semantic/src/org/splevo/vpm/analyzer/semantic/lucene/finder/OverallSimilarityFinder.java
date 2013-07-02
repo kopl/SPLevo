@@ -1,4 +1,4 @@
-package org.splevo.vpm.analyzer.semantic.lucene.analyzer;
+package org.splevo.vpm.analyzer.semantic.lucene.finder;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import org.apache.lucene.search.TermQuery;
  * @author Daniel Kojic
  *
  */
-public class OverallSimilarityFinder extends AbstractBooleanQueryFinder {
+public class OverallSimilarityFinder extends AbstractLuceneQueryFinder {
 
 	/** The minimum similarity. */
 	private double minSimilarity;

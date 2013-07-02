@@ -1,9 +1,8 @@
-package org.splevo.vpm.analyzer.semantic.lucene.analyzer;
+package org.splevo.vpm.analyzer.semantic.lucene.finder;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
@@ -53,7 +52,6 @@ public abstract class AbstractRelationshipFinder {
      * 
      * @param docId The ID of the {@link Document} to extract the {@link Term}s from.
      * @param fieldName The name of the field to extract frequencies from.
-     * @param terms Contains all terms of the given document.
      * @return A {@link Map} containing the terms as the key and the related frequencies as {@link Integer} value.
      */
     protected Map<String, Integer> getTermFrequencies(int docId, String fieldName) {

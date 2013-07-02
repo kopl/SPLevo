@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -17,7 +16,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.splevo.vpm.analyzer.semantic.Constants;
-import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * This class handles the indexing. It creates one single main index.

@@ -1,4 +1,4 @@
-package org.splevo.vpm.analyzer.semantic.lucene.analyzer;
+package org.splevo.vpm.analyzer.semantic.lucene.finder;
 
 import java.util.LinkedList;
 import java.util.List;
