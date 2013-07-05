@@ -3,6 +3,8 @@ package org.splevo.ui.jobs;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.graphstream.algorithm.ConnectedComponents;
+import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMAnalyzerService;
@@ -52,8 +54,34 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
         }
         analyzerService.createGraphEdges(vpmGraph, analyzerResults);
 
+        logStatistics(vpmGraph);
+        
         // finish run
         monitor.done();
+    }
+
+    /**
+     * Log the statistics for a variation point graph.
+     * 
+     * @param vpmGraph
+     *            The vpm graph to log the statics for.
+     */
+    private void logStatistics(VPMGraph vpmGraph) {
+        // number of subgraphs
+        ConnectedComponents cc = new ConnectedComponents();
+        cc.init(vpmGraph);
+        this.logger.info("VPM Analysis Result: #Subgraphs: " + cc.getConnectedComponentsCount());
+
+        this.logger.info("VPM Analysis Result: #Edges: " + vpmGraph.getEdgeCount());
+
+        // number of nodes without relationships
+        int singleNodeCounter = 0;
+        for (Node node : vpmGraph.getNodeSet()) {
+            if (node.getDegree() == 0) {
+                singleNodeCounter++;
+            }
+        }
+        this.logger.info("VPM Analysis Result: #SingleNodes " + singleNodeCounter + " of " + vpmGraph.getNodeCount());
     }
 
     @Override

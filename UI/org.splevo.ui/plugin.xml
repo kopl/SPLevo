@@ -3,12 +3,6 @@
 <plugin>
 
    <extension
-         point="org.eclipse.help.contexts">
-      <contexts
-            file="contexts.xml">
-      </contexts>
-   </extension>
-   <extension
          id="org.splevo.ui.splevobuilder"
          name="SPLevo Project Builder"
          point="org.eclipse.core.resources.builders">
