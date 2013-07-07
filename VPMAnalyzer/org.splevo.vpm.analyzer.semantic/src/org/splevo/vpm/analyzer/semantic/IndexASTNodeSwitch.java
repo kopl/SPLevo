@@ -117,7 +117,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
      * @param comment The comment to be added. 
      */
     private void addComment(String comment) {
-    	if (comment != null && comment.length() > 2) {
+    	if (comment != null && comment.length() > 2 && comments != null) {
     		comments.append(comment + " ");
     	}
     }
@@ -243,7 +243,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	 */
 	@Override
 	public List<ASTNode> caseTextElement(TextElement object) {
-		addComment(object.getText());
+		addContent(object.getText());
 		return new ArrayList<ASTNode>();
 	}
 
@@ -435,7 +435,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	@Override
 	public List<ASTNode> caseUnresolvedAnnotationDeclaration(
 			UnresolvedAnnotationDeclaration object) {
-		addComment(object.getName());
+		addContent(object.getName());
 		return new ArrayList<ASTNode>();
 	}
 
@@ -513,7 +513,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	@Override
 	public List<ASTNode> caseAnnotationMemberValuePair(
 			AnnotationMemberValuePair object) {
-		addComment(object.getName());
+		addContent(object.getName());
 		return new ArrayList<ASTNode>();
 	}
 
@@ -523,7 +523,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	@Override
 	public List<ASTNode> caseAnnotationTypeMemberDeclaration(
 			AnnotationTypeMemberDeclaration object) {
-		addComment(object.getName());
+		addContent(object.getName());
 		return new ArrayList<ASTNode>();
 	}
 
@@ -599,7 +599,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	@Override
 	public List<ASTNode> caseUnresolvedAnnotationTypeMemberDeclaration(
 			UnresolvedAnnotationTypeMemberDeclaration object) {
-		addComment(object.getName());
+		addContent(object.getName());
 		return new ArrayList<ASTNode>();
 	}
 

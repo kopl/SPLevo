@@ -47,13 +47,21 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 				Document doc = indexSearcher.doc(i);
 				
 				if (doc.getField(Constants.INDEX_CONTENT) != null) {
-					ScoreDoc[] contentHits = searchSimDocs(indexSearcher, i, doc, Constants.INDEX_CONTENT);
-					addHitsToStructuredMap(indexSearcher, result, contentHits, doc);
+					Map<String, Integer> contentFrequencies = getTermFrequencies(i, Constants.INDEX_CONTENT);
+					Query contentQuery = buildQuery(Constants.INDEX_CONTENT, contentFrequencies);
+					int maxDoc = reader.maxDoc();
+					ScoreDoc[] contentHits = executeQuery(indexSearcher, maxDoc, contentQuery);
+					String explanation = getExplanation();
+					addHitsToStructuredMap(indexSearcher, result, contentHits, doc, explanation);
 				}				
 				
 				if (matchComments && doc.getField(Constants.INDEX_COMMENT) != null) {
-					ScoreDoc[] commentHits = searchSimDocs(indexSearcher, i, doc, Constants.INDEX_COMMENT);
-					addHitsToStructuredMap(indexSearcher, result, commentHits, doc);
+					Map<String, Integer> commentFrequencies = getTermFrequencies(i, Constants.INDEX_COMMENT);
+					Query commentQuery = buildQuery(Constants.INDEX_COMMENT, commentFrequencies);
+					int maxDoc = reader.maxDoc();
+					ScoreDoc[] commentHits = executeQuery(indexSearcher, maxDoc, commentQuery);
+					String explanation = getExplanation();					
+					addHitsToStructuredMap(indexSearcher, result, commentHits, doc, explanation);
 				}				
 			}
 		} catch (IOException e) {
@@ -61,7 +69,7 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 		}
 		return result;
 	}
-	
+
 	/**
 	 * This Method builds the {@link Query} the Finder uses to
 	 * search similarities.
@@ -71,6 +79,13 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 	 * @return The {@link Query}.
 	 */
 	protected abstract Query buildQuery(String fieldName, Map<String, Integer> termFrequencies);
+	
+	/**
+	 * Gets a explanation for the found results.
+	 * 
+	 * @return The text explanation.
+	 */
+	protected abstract String getExplanation();
 
 	/**
 	 * Adds given {@link ScoreDoc} to a {@link StructuredMap}.
@@ -79,38 +94,20 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 	 * @param result The {@link StructuredMap} to add the results to.
 	 * @param hits The query hits to be added to the {@link StructuredMap}.
 	 * @param doc The relevant document.
+	 * @param explanation An explanation that explains the existence of the relationships.
 	 * @throws IOException If document doesn't exist in the given {@link IndexSearcher}.
 	 */
 	private void addHitsToStructuredMap(IndexSearcher indexSearcher,
-			StructuredMap result, ScoreDoc[] hits, Document doc)
+			StructuredMap result, ScoreDoc[] hits, Document doc, String explanation)
 			throws IOException {
 		for (int q = 0; q < hits.length; q++) {					
 			String id1 = doc.get(Constants.INDEX_VARIATIONPOINT);
 			String id2 = indexSearcher.doc(hits[q].doc).get(Constants.INDEX_VARIATIONPOINT);
-			// TODO: add reasonable explanation
-			result.addLink(id1, id2, null);
+
+			result.addLink(id1, id2, explanation);
 		}
 	}
-
-	/**
-	 * Searches for documents having similar fields.
-	 * 
-	 * @param indexSearcher The {@link IndexSearcher}.
-	 * @param documentID The document id.
-	 * @param document The {@link Document}.
-	 * @param fieldName The field's name.
-	 * @return The result of the query.
-	 * @throws IOException If there were errors while executing the query.
-	 */
-	private ScoreDoc[] searchSimDocs(IndexSearcher indexSearcher,
-			int documentID, Document document, String fieldName) throws IOException {
-		int maxDoc = reader.maxDoc();
-		Map<String, Integer> contentFrequencies = getTermFrequencies(documentID, fieldName);
-		Query contentQuery = buildQuery(fieldName, contentFrequencies);
-		ScoreDoc[] contentHits = executeQuery(indexSearcher, maxDoc, contentQuery);
-		return contentHits;
-	}
-
+	
 	/**
 	 * Executes a query.
 	 * 

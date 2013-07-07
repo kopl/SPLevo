@@ -23,6 +23,9 @@ public class RareTermFinder extends AbstractLuceneQueryFinder {
 
 	/** The maximum share of a term in a document to be part of the search. */
 	private double maxPercentage;
+	
+	/** Stores a String representation of the rare terms. */
+	private StringBuilder termsFound;
 
 	
 	/**
@@ -36,6 +39,7 @@ public class RareTermFinder extends AbstractLuceneQueryFinder {
 	public RareTermFinder(DirectoryReader reader, boolean matchComments, double maxPercentage) {
 		super(reader, matchComments);
 		this.maxPercentage = maxPercentage;
+		this.termsFound = new StringBuilder();
 	}
 
 	/**
@@ -48,6 +52,7 @@ public class RareTermFinder extends AbstractLuceneQueryFinder {
 	public RareTermFinder(DirectoryReader reader, boolean matchComments) {
 		super(reader, matchComments);
 		this.maxPercentage = Constants.CONFIG_DEFAULT_OVERALL_MINIMUM_SIMILARITY;
+		this.termsFound = new StringBuilder();
 	}
 
 	@Override
@@ -56,10 +61,11 @@ public class RareTermFinder extends AbstractLuceneQueryFinder {
 		BooleanQuery finalQuery = new BooleanQuery();
 		Integer min = Collections.min(termFrequencies.values());
 		int sum = getSum(termFrequencies.values());
-		
+		termsFound = new StringBuilder();
 		for (String key : termFrequencies.keySet()) {
 			float percentageShare = (float) termFrequencies.get(key) / (float) sum;
 			if (termFrequencies.get(key) == min || percentageShare < this.maxPercentage) {
+				termsFound.append(key + " ");
 				Term t = new Term(fieldName, key);
 				TermQuery termQuery = new TermQuery(t);
 				finalQuery.add(termQuery, Occur.SHOULD);
@@ -87,6 +93,11 @@ public class RareTermFinder extends AbstractLuceneQueryFinder {
 		}
 		
 		return sum;
+	}
+
+	@Override
+	protected String getExplanation() {
+		return "Rare Terms: " + termsFound.toString();
 	}
 
 }

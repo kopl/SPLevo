@@ -1,8 +1,6 @@
 package org.splevo.vpm.analyzer.semantic.lucene;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -50,6 +48,9 @@ public final class Indexer {
 
     /** Specifies how to store the comment fragments in the index. */
     private static final FieldType TYPE_STORED_ID = new FieldType();
+
+    /** Specifies whether to split on case-change or not. */
+    private boolean splitCamelCase;
     
     /** Define the Field-Type the text gets added to the index.
      * To allow term extraction, DOCS_AND_FREQS has to be stored
@@ -75,8 +76,9 @@ public final class Indexer {
 	 *  Private constructor to prevent this	class from being instantiated multiple times.
 	 */
 	private Indexer() {
+		this.splitCamelCase = true;
 		this.config = new IndexWriterConfig(Version.LUCENE_43, 
-				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS));	
+				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS, splitCamelCase));	
 		
 		// Use RAMDirectory to use an in-memory index. 
 		directory = new RAMDirectory();
@@ -89,7 +91,18 @@ public final class Indexer {
 	 */
 	public void setStopWords(String[] stopWords) {
 		this.config = new IndexWriterConfig(Version.LUCENE_43, 
-				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS));
+				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS, splitCamelCase));
+	}
+	
+	/**
+	 * Sets the option whether to split text on case-change or not.
+	 * 
+	 * @param splitCamelCase True to split on case-change; False otherwise.
+	 */
+	public void splitCamelCase(boolean splitCamelCase) {
+		this.splitCamelCase = splitCamelCase;
+		this.config = new IndexWriterConfig(Version.LUCENE_43, 
+				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS, splitCamelCase));
 	}
 	
 	/**
@@ -182,36 +195,5 @@ public final class Indexer {
 		IndexWriter writer = new IndexWriter(directory, config);
 		writer.deleteAll();
 		writer.close();
-	}
-	
-	/**
-	 * Just for testing purposes.
-	 */
-	public void printIndexContents(){
-		try {
-			File file = new File("C:\\Users\\Daniel\\Desktop\\log.txt");
-			file.createNewFile();
-			PrintWriter out = new PrintWriter(file);
-			
-			DirectoryReader reader = getIndexReader();
-			for (int i = 0; i < reader.maxDoc(); i++) {
-				Document doc;
-
-				doc = reader.document(i);
-				String id = doc.get(Constants.INDEX_VARIATIONPOINT);
-				String cont = doc.get(Constants.INDEX_CONTENT);
-				String com = doc.get(Constants.INDEX_COMMENT);
-				if (id != null && cont != null){
-					out.println("##########" + id + "##########");
-					if(cont != null)
-						out.println("Content: " + cont);
-					if(com != null)
-						out.println("Comment: " + com);
-				}
-			}
-			out.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

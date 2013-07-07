@@ -57,6 +57,9 @@ public final class Constants {
 
 	/** The configuration label for the LEAST_DOC_FREQ configuration. */
 	public static final String CONFIG_LABEL_LEAST_DOC_FREQ = "Least Doc. Frequency";
+
+	/** The configuration label for the SPLIT_CAMEL_CASE configuration. */
+	public static final String CONFIG_LABEL_SPLIT_CAMEL_CASE = "Split camel-case words";
 	
 	
 	// Default configuration values#################################################
@@ -83,6 +86,9 @@ public final class Constants {
 	
 	/** The default configuration for the N configuration. */
 	public static final int CONFIG_DEFAULT_N = 10;
+
+	/** The default configuration for the SPLIT_CAMEL_CASE configuration. */
+	public static final boolean CONFIG_DEFAULT_SPLIT_CAMEL_CASE = true;
 	
 	// Analyzer configurations#######################################################
 	/** This {@link Analyzer} is used to store comments and annotations. */

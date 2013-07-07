@@ -14,9 +14,6 @@ import java.util.Set;
  */
 public class StructuredMap {
 	
-//	/** The logger for this class. */
-//    private Logger logger = Logger.getLogger(StructuredMap.class);
-	
 	/** This {@link Set} stores all IDs this {@link StructuredMap} contains. */
 	private Set<String> allIds;
 
@@ -24,15 +21,33 @@ public class StructuredMap {
 	private Map<String, Set<String>> links;
 	
 	/** This {@link Map} contains the IDs of the related nodes as keys and a explanation as value. */
-	private Map<String, String> explanations;
+	private Map<String, Set<String>> explanations;
 	
+	/**
+	 * Gets the explanations.
+	 * 
+	 * @return A {@link Map} containing the IDs for the explanations in the form "id1 id2" and their explanations.
+	 */
+	public Map<String, Set<String>> getExplanations() {
+		return explanations;
+	}
+
+	/**
+	 * Sets explanations.
+	 * 
+	 * @param explanations The {@link Map} containing the IDs for the explanations in the form "id1 id2" and their explanations.
+	 */
+	public void setExplanations(Map<String, Set<String>> explanations) {
+		this.explanations = explanations;
+	}
+
 	/**
 	 * This constructor initializes the container objects.
 	 */
 	public StructuredMap() {
 		allIds = new HashSet<String>();
 		links = new HashMap<String, Set<String>>();
-		explanations = new HashMap<String, String>();
+		explanations = new HashMap<String, Set<String>>();
 	}
 	
 	/**
@@ -100,8 +115,14 @@ public class StructuredMap {
 			id1 = id2;
 			id2 = tmp;
 		}
+		String mapID = id1 + " " + id2;
 		
-		this.explanations.put(id1 + " " + id2, explanation);
+		if (explanations.get(mapID) == null) {
+			explanations.put(mapID, new HashSet<String>());
+		}
+		
+		Set<String> explanationList = this.explanations.get(mapID);
+		explanationList.add("Reason: " + explanation);
 	}
 	
 	/**
@@ -118,7 +139,19 @@ public class StructuredMap {
 			id2 = tmp;
 		}
 		
-		return this.explanations.get(id1 + " " + id2);
+		String mapID = id1 + " " + id2;
+		
+		Set<String> resultList = this.explanations.get(mapID);
+		if (resultList == null) {
+			return null;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		for (String item : resultList) {
+			sb.append(item + "\n");
+		}
+		
+		return sb.toString();
 	}
 
 	/**

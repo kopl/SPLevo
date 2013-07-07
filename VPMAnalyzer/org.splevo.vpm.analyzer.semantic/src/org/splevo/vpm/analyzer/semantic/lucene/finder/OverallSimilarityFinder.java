@@ -63,4 +63,9 @@ public class OverallSimilarityFinder extends AbstractLuceneQueryFinder {
 		
 		return finalQuery;
 	}
+
+	@Override
+	protected String getExplanation() {
+		return "Overall Similarity higher than " + minSimilarity * 100.d + "%.";
+	}
 }

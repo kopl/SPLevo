@@ -185,7 +185,7 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 		for (int i = 0; i < clusterArray.length; i++) {
 			for (int q = 0; q < clusterArray.length; q++) {
 				if (i != q) {
-					result.addLink(clusterArray[i], clusterArray[q], "TopN-Search: " + term);
+					result.addLink(clusterArray[i], clusterArray[q], "Contains TopN-Term: " + term);
 				}				
 			}
 		}

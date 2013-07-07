@@ -1,7 +1,10 @@
 package org.splevo.vpm.analyzer.semantic.lucene.finder;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.splevo.vpm.analyzer.semantic.StructuredMap;
 
@@ -71,6 +74,18 @@ public class FinderExecutor {
 		for (String key : m2.getAllLinks().keySet()) {
 			result.addLinks(key, m2.getAllLinks().get(key));
 		}
+		
+		Map<String, Set<String>> m1Exp = m1.getExplanations();
+		Map<String, Set<String>> m2Exp = m2.getExplanations();
+		
+		for (String key : m2Exp.keySet()) {
+			if (m1Exp.get(key) == null) {
+				m1Exp.put(key, new HashSet<String>());
+			}
+			m1Exp.get(key).addAll(m2Exp.get(key));
+		}
+		
+		result.setExplanations(m1Exp);
 		
 		return result;
 	}

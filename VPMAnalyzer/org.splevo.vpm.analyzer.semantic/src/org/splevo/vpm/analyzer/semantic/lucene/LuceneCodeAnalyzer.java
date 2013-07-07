@@ -31,14 +31,19 @@ public class LuceneCodeAnalyzer extends Analyzer {
 	
 	/** The stop words. */
 	private CharArraySet stopWords;
+	
+	/** Specifies whether to split on case-change or not. */
+	private boolean splitCamelCase;
 
 	/**
 	 * Initializes the Analyzer. Filters the given stop words.
 	 * 
 	 * @param stopWords The stop-words.
+	 * @param splitCamelCase Specifies whether to split on case-change or not.
 	 */
-	public LuceneCodeAnalyzer(String[] stopWords) {
+	public LuceneCodeAnalyzer(String[] stopWords, boolean splitCamelCase) {
 		this.stopWords = transformToCharArray(stopWords);
+		this.splitCamelCase = splitCamelCase;
 	}
 
 	@Override
@@ -50,7 +55,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
 	    args.put("catenateWords", "0"); 
 	    args.put("catenateNumbers", "0"); 
 	    args.put("catenateAll", "0"); 
-	    args.put("splitOnCaseChange", "1"); 
+	    args.put("splitOnCaseChange", splitCamelCase ? "1" : "0"); 
 	    WordDelimiterFilter filter = new WordDelimiterFilterFactory(args).create(source);
 	    TokenStream stopFilter = new StopFilter(Version.LUCENE_43, filter, stopWords);
 	    TokenStream lowerFilter = new LowerCaseFilter(Version.LUCENE_43, stopFilter);
