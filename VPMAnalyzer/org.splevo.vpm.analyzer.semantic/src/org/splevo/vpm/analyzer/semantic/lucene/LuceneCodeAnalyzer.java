@@ -13,6 +13,7 @@ import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.miscellaneous.LengthFilter;
 import org.apache.lucene.analysis.miscellaneous.WordDelimiterFilter;
 import org.apache.lucene.analysis.miscellaneous.WordDelimiterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.util.Version;
 
@@ -60,7 +61,8 @@ public class LuceneCodeAnalyzer extends Analyzer {
 	    TokenStream stopFilter = new StopFilter(Version.LUCENE_43, filter, stopWords);
 	    TokenStream lowerFilter = new LowerCaseFilter(Version.LUCENE_43, stopFilter);
 	    TokenStream lengthFilter = new LengthFilter(true, lowerFilter, 3, Integer.MAX_VALUE);
-	    return new TokenStreamComponents(source, lengthFilter);
+	    TokenStream standardFilter = new StandardFilter(Version.LUCENE_43, lengthFilter);
+	    return new TokenStreamComponents(source, standardFilter);
 	}
 	
 	/**
