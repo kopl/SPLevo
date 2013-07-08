@@ -42,7 +42,7 @@ public class Searcher {
 			double leastDocFreq,
 			int n
 			) throws IOException {
-		if (!useRareTermFinder && !useOverallSimilarityFinder) {
+		if (!useRareTermFinder && !useOverallSimilarityFinder && !useTopNFinder) {
 			throw new IllegalStateException();
 		}
 		

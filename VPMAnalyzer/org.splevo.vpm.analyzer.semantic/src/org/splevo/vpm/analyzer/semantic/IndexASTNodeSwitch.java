@@ -66,7 +66,6 @@ import org.eclipse.gmt.modisco.java.UnresolvedType;
 import org.eclipse.gmt.modisco.java.UnresolvedTypeDeclaration;
 import org.eclipse.gmt.modisco.java.UnresolvedVariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.VariableDeclaration;
-import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.WildCardType;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 
@@ -243,7 +242,7 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	 */
 	@Override
 	public List<ASTNode> caseTextElement(TextElement object) {
-		addContent(object.getText());
+		addComment(object.getText());
 		return new ArrayList<ASTNode>();
 	}
 
@@ -638,16 +637,6 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 	 */
 	@Override
 	public List<ASTNode> caseVariableDeclaration(VariableDeclaration object) {
-		addContent(object.getName());
-		return new ArrayList<ASTNode>();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.gmt.modisco.java.emf.util.JavaSwitch#caseVariableDeclarationFragment(org.eclipse.gmt.modisco.java.VariableDeclarationFragment)
-	 */
-	@Override
-	public List<ASTNode> caseVariableDeclarationFragment(
-			VariableDeclarationFragment object) {
 		addContent(object.getName());
 		return new ArrayList<ASTNode>();
 	}

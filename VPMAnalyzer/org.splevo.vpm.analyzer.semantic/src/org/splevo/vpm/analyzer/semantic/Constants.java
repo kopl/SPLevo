@@ -110,6 +110,11 @@ public final class Constants {
 		"clear",
 		"value",
 		"misc",
-		"fig"
+		"fig",
+		"panel",
+		"list",
+		"element",
+		"label",
+		"the"
 		};
 }

@@ -57,10 +57,10 @@ public class LuceneCodeAnalyzer extends Analyzer {
 	    args.put("catenateNumbers", "0"); 
 	    args.put("catenateAll", "0"); 
 	    args.put("splitOnCaseChange", splitCamelCase ? "1" : "0"); 
-	    WordDelimiterFilter filter = new WordDelimiterFilterFactory(args).create(source);
-	    TokenStream stopFilter = new StopFilter(Version.LUCENE_43, filter, stopWords);
-	    TokenStream lowerFilter = new LowerCaseFilter(Version.LUCENE_43, stopFilter);
-	    TokenStream lengthFilter = new LengthFilter(true, lowerFilter, 3, Integer.MAX_VALUE);
+	    WordDelimiterFilter wordDelimiterFilter = new WordDelimiterFilterFactory(args).create(source);
+	    TokenStream lowerFilter = new LowerCaseFilter(Version.LUCENE_43, wordDelimiterFilter);
+	    TokenStream stopFilter = new StopFilter(Version.LUCENE_43, lowerFilter, stopWords);
+	    TokenStream lengthFilter = new LengthFilter(true, stopFilter, 3, Integer.MAX_VALUE);
 	    TokenStream standardFilter = new StandardFilter(Version.LUCENE_43, lengthFilter);
 	    return new TokenStreamComponents(source, standardFilter);
 	}

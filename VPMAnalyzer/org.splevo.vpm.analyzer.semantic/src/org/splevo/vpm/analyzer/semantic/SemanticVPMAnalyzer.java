@@ -86,7 +86,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 		} catch (Exception e) {
 			logger.error("Cannot write Index. Close all open IndexWriters first.", e);
 		}
-//        indexer.printIndexContents();
 
         // Find relationships.############################################################
         try {
@@ -220,11 +219,11 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
         // Get the user-configurations.
         boolean indexComments = (Boolean) configurations.get(Constants.CONFIG_LABEL_INCLUDE_COMMENTS);
-        boolean splitCamelCase = (Boolean) configurations.get(Constants.CONFIG_LABEL_SPLIT_CAMEL_CASE);        
+        boolean splitCamelCase = (Boolean) configurations.get(Constants.CONFIG_LABEL_SPLIT_CAMEL_CASE); 
+        String stopWords = (String) configurations.get(Constants.CONFIG_LABEL_STOP_WORDS);
         
         this.indexer.splitCamelCase(splitCamelCase);
-        
-        String stopWords = (String) configurations.get(Constants.CONFIG_LABEL_STOP_WORDS);
+                
         if (stopWords != null && stopWords.length() > 0) {
         	this.indexer.setStopWords(stopWords.split(" "));
         }
@@ -262,9 +261,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             throw new IllegalArgumentException();
         }
 
-        // The result to be returned
-        boolean result = false;
-
         ASTNode astNode = vp.getEnclosingSoftwareEntity();
         if (astNode == null) {
             return false;
@@ -288,23 +284,16 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         
         // Add content and comment.
         String content = indexASTNodeSwitch.getContent();
-        try {
-        	boolean somethingAdded = false;
-        	
-        	if (indexComments) {
-        		String comment = indexASTNodeSwitch.getComments();
-        		somethingAdded = this.indexer.addToIndex(id, content, comment);
-        	} else {
-        		somethingAdded = this.indexer.addToIndex(id, content, null);
-			}
-			
-			result = somethingAdded;
-		} catch (IOException e) {
-			logger.error("Cannot add to index. Close all open writers first.", e);
-			return false;
+    	boolean somethingAdded = false;
+    	
+    	if (indexComments) {
+    		String comment = indexASTNodeSwitch.getComments();
+    		somethingAdded = this.indexer.addToIndex(id, content, comment);
+    	} else {
+    		somethingAdded = this.indexer.addToIndex(id, content, null);
 		}
-        
-        return result;
+		
+		return somethingAdded;
     }
 
     /**

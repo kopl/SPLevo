@@ -57,8 +57,12 @@ public class OverallSimilarityFinder extends AbstractLuceneQueryFinder {
 			finalQuery.add(termQuery, Occur.SHOULD);
 		}
 		
-		// Set the minimal percentage of terms that a similar document should have.
+		// Set the minimal number of terms that a similar document should have.
 		int numTerms = (int) (((float) termFrequencies.keySet().size() * minSimilarity) + 0.5f);
+		if (numTerms == 0) {
+			numTerms = 1;
+		}
+		
 		finalQuery.setMinimumNumberShouldMatch(numTerms);
 		
 		return finalQuery;

@@ -51,6 +51,9 @@ public final class Indexer {
 
     /** Specifies whether to split on case-change or not. */
     private boolean splitCamelCase;
+
+    /** Contains the stop-words to be filtered out. */
+	private String[] stopWords;
     
     /** Define the Field-Type the text gets added to the index.
      * To allow term extraction, DOCS_AND_FREQS has to be stored
@@ -77,8 +80,9 @@ public final class Indexer {
 	 */
 	private Indexer() {
 		this.splitCamelCase = true;
+		this.stopWords = Constants.DEFAULT_STOP_WORDS;
 		this.config = new IndexWriterConfig(Version.LUCENE_43, 
-				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS, splitCamelCase));	
+				CustomPerFieldAnalyzerWrapper.getWrapper(this.stopWords, splitCamelCase));	
 		
 		// Use RAMDirectory to use an in-memory index. 
 		directory = new RAMDirectory();
@@ -90,8 +94,9 @@ public final class Indexer {
 	 * @param stopWords The stop-words.
 	 */
 	public void setStopWords(String[] stopWords) {
+		this.stopWords = stopWords;
 		this.config = new IndexWriterConfig(Version.LUCENE_43, 
-				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS, splitCamelCase));
+				CustomPerFieldAnalyzerWrapper.getWrapper(this.stopWords, splitCamelCase));
 	}
 	
 	/**
@@ -102,7 +107,7 @@ public final class Indexer {
 	public void splitCamelCase(boolean splitCamelCase) {
 		this.splitCamelCase = splitCamelCase;
 		this.config = new IndexWriterConfig(Version.LUCENE_43, 
-				CustomPerFieldAnalyzerWrapper.getWrapper(Constants.DEFAULT_STOP_WORDS, splitCamelCase));
+				CustomPerFieldAnalyzerWrapper.getWrapper(this.stopWords, splitCamelCase));
 	}
 	
 	/**
@@ -133,9 +138,8 @@ public final class Indexer {
 	 * @param content The text content of the {@link VariationPoint}.
 	 * @param comments The text comments of the {@link VariationPoint}.
 	 * @return True if something was indexed; False otherwise.
-	 * @throws IOException 
 	 */
-	public boolean addToIndex(String variationPointId, String content, String comments) throws IOException {
+	public boolean addToIndex(String variationPointId, String content, String comments) {
 		if (variationPointId == null || variationPointId.length() == 0 || (content == null && comments == null)) {
 			throw new IllegalArgumentException();
 		}
