@@ -1,111 +1,129 @@
 package org.splevo.vpm.analyzer.semantic;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
-import org.graphstream.graph.Node;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 
 
 /**
- * Unit-Tests for the SemanticVPNAnalyzer class.
+ * Unit-Tests for the {@link SemanticVPMAnalyzer} class.
  * 
  * @author Daniel Kojic
  *
  */
 public class SemanticVPMAnalyzerTest extends AbstractTest {
-    
+  
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programstructure.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
-     */
-    @Test
-    public void testIfAnalyzeReturnsNull() {
-    	ArrayList<String> contents = new ArrayList<String>();
-    	contents.add("test");
-    	VPMGraph graph = getVPMGraph(contents);
-        
-    	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
-        VPMAnalyzerResult result = analyzer.analyze(graph);
-        assertNotNull("The analyzer result must not be null", result);
-    }
- 
-    /**
-     * Test method for {@link org.splevo.vpm.analyzer.programstructure.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
+     * Test method for 
+     * {@link org.splevo.vpm.analyzer.programstructure.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
      */
     @Test
     public void testIfAnalyzeThrowsIllegalArgumentException() {
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
     	try {
     		analyzer.analyze(null);
-    		assertTrue(false);
+    		assertTrue("Analyze should throw IllegalArgumentException for null argument.", false);
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 		}
     }
     
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programstructure.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
+     * Test method for 
+     * {@link org.splevo.vpm.analyzer.semantic.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
+     * @throws InterruptedException  Thrown if there were errors while reading graph.
+     * @throws IOException Thrown if there were errors while reading graph.
      */
     @Test
-    public void testIfAnalyzeFindsSimpleLink() {
-    	ArrayList<String> contents = new ArrayList<String>();
-    	contents.add("var1 var2 var3");
-    	contents.add("var1 var2 var3");
-    	contents.add("this is an example");
-    	contents.add("dummy text");
-
-    	VPMGraph graph = getVPMGraph(contents);
-        
+    public void testAnalyzeOverallSim() throws IOException, InterruptedException {
+    	// Initialization
+    	VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
-        VPMAnalyzerResult result = analyzer.analyze(graph);
-        assertNotNull("The analyzer result must not be null", result);
-        
-        // verify results
-        int numResults = result.getEdgeDescriptors().size();
-        assertTrue("Result should contain 1 link but contains " + numResults, result.getEdgeDescriptors().size() == 1);
-        String sourceNodeID = result.getEdgeDescriptors().get(0).getSourceNodeID();
-        String targetNodeID = result.getEdgeDescriptors().get(0).getTargetNodeID();
-        
-        assertTrue("Wrong source node.", sourceNodeID.equals("node0"));
-        assertTrue("Wrong target node.", targetNodeID.equals("node1"));
+    	int originalNodeCount = graph.getNodeCount();
+        int originalEdgeCount = graph.getEdgeCount();
+    	Map<String, Object> availableConfigurations = analyzer.getConfigurations();
+    	
+    	setConfig(availableConfigurations, "", false, false, true, false, 1.d, 0.3d, 0.3d, 5);
+    	
+    	// Execution
+    	VPMAnalyzerResult results = analyzer.analyze(graph);
+    	
+    	// Verification
+    	assertNotNull("The analyzer result must not be null", results);
+    	int size = results.getEdgeDescriptors().size();
+        assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
+        assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
+        assertEquals("Failure in Overall-Sim.-Search: Edge count of 10 expected but was " + size + ".", 10, size);
     }
-    
+
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programstructure.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
+     * Test method for 
+     * {@link org.splevo.vpm.analyzer.semantic.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
+     * @throws InterruptedException  Thrown if there were errors while reading graph.
+     * @throws IOException Thrown if there were errors while reading graph.
      */
     @Test
-    public void testIfAnalyzeFindsHardLink() {
-    	ArrayList<String> contents = new ArrayList<String>();
-    	contents.add("calc method tmp vec calc calc var");
-    	contents.add("tmp null who method calc calc");
-    	contents.add("this is an example");
-    	contents.add("dummy text");
-
-    	VPMGraph graph = getVPMGraph(contents);
-        
+    public void testAnalyzeRareTerm() throws IOException, InterruptedException {
+    	// Initialization
+    	VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
-        VPMAnalyzerResult result = analyzer.analyze(graph);
-        assertNotNull("The analyzer result must not be null", result);
-        
-        // verify results
-        int numResults = result.getEdgeDescriptors().size();
-        assertTrue("Result should contain 1 link but contains " + numResults, result.getEdgeDescriptors().size() == 1);
-        String sourceNodeID = result.getEdgeDescriptors().get(0).getSourceNodeID();
-        String targetNodeID = result.getEdgeDescriptors().get(0).getTargetNodeID();
-        
-        assertTrue("Expected Nodename: node0 but was " + sourceNodeID, sourceNodeID.equals("node0"));
-        assertTrue("Expected Nodename: node1 but was " + targetNodeID, targetNodeID.equals("node1"));
+    	int originalNodeCount = graph.getNodeCount();
+    	int originalEdgeCount = graph.getEdgeCount();
+    	Map<String, Object> availableConfigurations = analyzer.getConfigurations();
+    	
+    	setConfig(availableConfigurations, "", false, true, false, false, 1.d, 0.21d, 0.3d, 5);
+    	
+    	// Execution
+    	VPMAnalyzerResult results = analyzer.analyze(graph);
+    	
+    	// Verification
+    	assertNotNull("The analyzer result must not be null", results);
+    	int size = results.getEdgeDescriptors().size();
+    	assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
+    	assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
+    	assertEquals("Failure in Rare-Term-Search: Edge count of 10 expected but was " + size + ".", 10, size);
     }
-    
+
     /**
+     * Test method for 
+     * {@link org.splevo.vpm.analyzer.semantic.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
+     * @throws InterruptedException  Thrown if there were errors while reading graph.
+     * @throws IOException Thrown if there were errors while reading graph.
+     */
+    @Test
+    public void testAnalyzeTopNTerm() throws IOException, InterruptedException {
+    	// Initialization
+    	VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
+    	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
+    	int originalNodeCount = graph.getNodeCount();
+    	int originalEdgeCount = graph.getEdgeCount();
+    	Map<String, Object> availableConfigurations = analyzer.getConfigurations();
+    	
+    	setConfig(availableConfigurations, "", false, false, false, true, 1.d, 0.21d, 1.d, 1);
+    	
+    	// Execution
+    	VPMAnalyzerResult results = analyzer.analyze(graph);
+    	
+    	// Verification
+    	assertNotNull("The analyzer result must not be null", results);
+    	int size = results.getEdgeDescriptors().size();
+    	assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
+    	assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
+    	assertEquals("Failure in Top-N-Term-Search: Edge count of 10 expected but was " + size + ".", 10, size);
+    }
+
+	/**
      * Test method for {@link org.splevo.vpm.analyzer.programstructure.SemanticVPMAnalyzer#getAvailableConfigurations()}.
      */
     @Test
@@ -164,20 +182,71 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
 			return;
 		}
     }
+
+    /**
+     * Clear the Index before testing.
+     */
+    @After
+    public void cleanEnvAfter() {
+    	try {
+    		Indexer.getInstance().clearIndex();
+    	} catch (IOException e) {
+    		return;
+    	}
+    }
     
     /**
-     * Creates a primitive {@link VPMGraph} for testing purposes.
+     * Helper method to set configuration.
      * 
-     * @param content The text to be added to the {@link VPMGraph}.
-     * 
-     * @return A dummy {@link VPMGraph}.
+     * @param config The config map.
+     * @param stopWords The Stop-Words.
+     * @param matchComments Configuration.
+     * @param useRareTermFinder Configuration.
+     * @param useOverallSimilarityFinder Configuration.
+     * @param useTopNFinder Configuration.
+     * @param minSimilarity Configuration.
+     * @param maxPercentage Configuration.
+     * @param leastDocFreq Configuration.
+     * @param n Configuration.
      */
-    private VPMGraph getVPMGraph(List<String> content) {
-		VPMGraph graph = new VPMGraph("01", false, true);
-		for (int i = 0; i < content.size(); i++) {
-			Node node = graph.addNode("node" + i);
-			node.addAttribute(VPMGraph.VARIATIONPOINT, new TestVariationPointImpl(content.get(i)));
+    private void setConfig(Map<String, Object> config, 
+    		String stopWords,
+    		boolean matchComments, 
+			boolean useRareTermFinder, 
+			boolean useOverallSimilarityFinder, 
+			boolean useTopNFinder, 
+			double minSimilarity, 
+			double maxPercentage,
+			double leastDocFreq,
+			int n) {
+		for (String key : config.keySet()) {
+			if (key.equals(Constants.CONFIG_LABEL_STOP_WORDS)) {
+				config.put(key, stopWords);
+			}
+			if (key.equals(Constants.CONFIG_LABEL_INCLUDE_COMMENTS)) {
+				config.put(key, matchComments);
+			}
+			if (key.equals(Constants.CONFIG_LABEL_LEAST_DOC_FREQ)) {
+				config.put(key, leastDocFreq);
+			}
+			if (key.equals(Constants.CONFIG_LABEL_MINIMUM_SIMILARITY)) {
+				config.put(key, minSimilarity);
+			}
+			if (key.equals(Constants.CONFIG_LABEL_N)) {
+				config.put(key, n);
+			}
+			if (key.equals(Constants.CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE)) {
+				config.put(key, maxPercentage);
+			}
+			if (key.equals(Constants.CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER)) {
+				config.put(key, useOverallSimilarityFinder);
+			}
+			if (key.equals(Constants.CONFIG_LABEL_USE_RARE_FINDER)) {
+				config.put(key, useRareTermFinder);
+			}
+			if (key.equals(Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER)) {
+				config.put(key, useTopNFinder);
+			}
 		}
-		return graph;
 	}
 }

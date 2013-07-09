@@ -2,7 +2,6 @@ package org.splevo.vpm.analyzer.semantic.lucene;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -30,9 +29,6 @@ import org.splevo.vpm.analyzer.semantic.Constants;
  * 
  */
 public final class Indexer {
-	
-	/** The logger for this class. */
-    private Logger logger = Logger.getLogger(Indexer.class);
 	
     /** The writer configuration. */
 	private IndexWriterConfig config;
@@ -137,24 +133,16 @@ public final class Indexer {
 	 * @param variationPointId The ID of the {@link VariationPoint} to be linked with its content.
 	 * @param content The text content of the {@link VariationPoint}.
 	 * @param comments The text comments of the {@link VariationPoint}.
-	 * @return True if something was indexed; False otherwise.
+	 * @throws IOException Thrown if the document couldn't be added to index.
 	 */
-	public boolean addToIndex(String variationPointId, String content, String comments) {
+	public void addToIndex(String variationPointId, String content, String comments) throws IOException {
 		if (variationPointId == null || variationPointId.length() == 0 || (content == null && comments == null)) {
 			throw new IllegalArgumentException();
 		}
 		
 		if ((content != null && content.length() > 0) || (comments != null && comments.length() > 0)) {
-			try {
-				addDocument(variationPointId, content, comments);
-				return true;
-			} catch (IOException e) {
-				logger.error("Error while adding the document to the index.", e);
-				return false;
-			}
-		}		
-		
-		return false;
+			addDocument(variationPointId, content, comments);
+		}
 	}
 
 	/**
@@ -199,5 +187,7 @@ public final class Indexer {
 		IndexWriter writer = new IndexWriter(directory, config);
 		writer.deleteAll();
 		writer.close();
+		directory.close();
+		directory = new RAMDirectory();
 	}
 }

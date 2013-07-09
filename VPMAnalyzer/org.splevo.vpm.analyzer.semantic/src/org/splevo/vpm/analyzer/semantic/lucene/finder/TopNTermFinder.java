@@ -70,6 +70,10 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 			addDocFreqToOverallFreq(fieldName, termFrequencies, docFrequencies);
 		}
 		
+		if (termFrequencies.size() == 0) {
+			return new HashSet<String>();
+		}
+		
 		int minFreq = calculateMinFreq(termFrequencies);
 		
 		HashSet<String> result = new HashSet<String>();
@@ -120,6 +124,10 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 	 * @return The frequency of the n-th term.
 	 */
 	private int calculateMinFreq(Map<String, Integer> termFrequencies) {
+		if (termFrequencies.size() == 0) {
+			throw new IllegalArgumentException();
+		}
+		
 		ArrayList<Integer> list = new ArrayList<Integer>(termFrequencies.values());
 		Collections.sort(list);
 		int minFreq;
@@ -137,6 +145,11 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 		IndexSearcher indexSearcher = new IndexSearcher(reader);
 		StructuredMap result = new StructuredMap();
 		Set<String> terms = getTopTerms(Constants.INDEX_CONTENT);
+		
+		if (terms.size() == 0) {
+			return result;
+		}
+		
 		executeTopNSearch(indexSearcher, Constants.INDEX_CONTENT, result, terms);
 		
 		if (matchComments) {

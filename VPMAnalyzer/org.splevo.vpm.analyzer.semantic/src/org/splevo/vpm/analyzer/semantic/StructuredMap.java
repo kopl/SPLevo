@@ -61,6 +61,10 @@ public class StructuredMap {
 			throw new IllegalArgumentException();
 		}
 		
+		if (ids.contains(id)) {
+			ids.remove(id);
+		}
+		
 		allIds.add(id);
 		for (String s : ids) {
 			allIds.add(s);
@@ -79,6 +83,10 @@ public class StructuredMap {
 	public void addLink(String id1, String id2, String explanation) {
 		if (id1 == null || id2 == null) {
 			throw new IllegalArgumentException();
+		}
+		
+		if (id1.equals(id2)) {
+			return;
 		}
 		
 		allIds.add(id1);
@@ -115,6 +123,11 @@ public class StructuredMap {
 			id1 = id2;
 			id2 = tmp;
 		}
+		
+		if (id1.equals(id2)) {
+			return;
+		}
+		
 		String mapID = id1 + " " + id2;
 		
 		if (explanations.get(mapID) == null) {
@@ -122,7 +135,7 @@ public class StructuredMap {
 		}
 		
 		Set<String> explanationList = this.explanations.get(mapID);
-		explanationList.add("Reason: " + explanation);
+		explanationList.add(explanation);
 	}
 	
 	/**
@@ -181,5 +194,42 @@ public class StructuredMap {
 	 */
 	public Map<String, Set<String>> getAllLinks() {
 		return links;
+	}
+	
+	/**
+	 * Merges the content of two {@link StructuredMap}s.
+	 * 
+	 * @param m1 The first container.
+	 * @param m2 The second container.
+	 * @return A {@link StructuredMap} containing all links given by the argument maps.
+	 */
+	 public static StructuredMap merge(StructuredMap m1, StructuredMap m2) {
+		if (m1 == null || m2 == null) {
+			throw new IllegalArgumentException();
+		}
+		
+		StructuredMap result = new StructuredMap();
+			
+		for (String key : m1.getAllLinks().keySet()) {
+			result.addLinks(key, m1.getAllLinks().get(key));
+		}
+		
+		for (String key : m2.getAllLinks().keySet()) {
+			result.addLinks(key, m2.getAllLinks().get(key));
+		}
+		
+		Map<String, Set<String>> m1Exp = m1.getExplanations();
+		Map<String, Set<String>> m2Exp = m2.getExplanations();
+		
+		for (String key : m2Exp.keySet()) {
+			if (m1Exp.get(key) == null) {
+				m1Exp.put(key, new HashSet<String>());
+			}
+			m1Exp.get(key).addAll(m2Exp.get(key));
+		}
+		
+		result.setExplanations(m1Exp);
+		
+		return result;
 	}
 }

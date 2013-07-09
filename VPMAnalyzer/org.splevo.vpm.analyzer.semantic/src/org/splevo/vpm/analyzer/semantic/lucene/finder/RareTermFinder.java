@@ -72,10 +72,6 @@ public class RareTermFinder extends AbstractLuceneQueryFinder {
 			}
 		}
 		
-		// Set the minimal percentage of terms that a similar document should have.
-		int numTerms = (int) (((float) termFrequencies.keySet().size() * 0.75f) + 0.5f);
-		finalQuery.setMinimumNumberShouldMatch(numTerms);
-		
 		return finalQuery;
 	}
 

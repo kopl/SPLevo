@@ -1,12 +1,16 @@
 package org.splevo.vpm.analyzer.semantic;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexWriter;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -23,6 +27,7 @@ import org.splevo.vpm.analyzer.config.StringConfigDefinition;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
+import org.splevo.vpm.analyzer.semantic.lucene.finder.RareTermFinder;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -51,12 +56,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /** The internal configurations map. */
     private Map<String, Object> configurations = new HashMap<String, Object>();
-
-    /** The {@link Map} that links the IDs to their {@link VariationPoint}s. */
-    private Map<String, VariationPoint> vpIndex;
-
-    /** The {@link Map} that links the {@link VariationPoint}s to their {@link Node}s. */
-    private Map<String, Node> nodeIndex;
 
     /** The indexer instance. */
     private Indexer indexer;
@@ -90,7 +89,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         // Find relationships.############################################################
         try {
         	logger.info("Analyzing...");
-            findRelationships(result);
+            findRelationships(vpmGraph, result);
             logger.info("Analysis done.");
         } catch (IOException e) {
             logger.error("Cannot read Index. Close all open IndexWriters first.", e);
@@ -210,13 +209,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             throw new IllegalArgumentException();
         }
 
-        // Use Maps to save the mapping of the IDs to the VPs and the Nodes.
-        vpIndex = new HashMap<String, VariationPoint>();
-        nodeIndex = new HashMap<String, Node>();
-
-        // This counter is used to create the IDs.
-        int idCounter = 0;
-
         // Get the user-configurations.
         boolean indexComments = (Boolean) configurations.get(Constants.CONFIG_LABEL_INCLUDE_COMMENTS);
         boolean splitCamelCase = (Boolean) configurations.get(Constants.CONFIG_LABEL_SPLIT_CAMEL_CASE); 
@@ -224,21 +216,18 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         
         this.indexer.splitCamelCase(splitCamelCase);
                 
-        if (stopWords != null && stopWords.length() > 0) {
-        	this.indexer.setStopWords(stopWords.split(" "));
+        if (stopWords != null) {
+        	if (stopWords.length() > 0) {
+        		this.indexer.setStopWords(stopWords.split(" "));
+        	} else {
+        		this.indexer.setStopWords(new String[0]);
+			}
         }
         
         // Iterate through the graph.
         for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
-            String id = "VP" + idCounter;
-            /* Index the given VariationPoints content and 
-            Updates the counter and the maps if something was indexed. */
-            if (indexNode(id, node, vp, indexComments)) {
-                idCounter++;
-                vpIndex.put(id, vp);
-                nodeIndex.put(id, node);
-            }
+            indexNode(node.getId(), node, vp, indexComments);
         }
     }
 
@@ -254,16 +243,15 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      *            The corresponding {@link VariationPoint}.
      * @param indexComments
      *            Determines if comments should be indexed or ignored.
-     * @return True if something was added to the index; False otherwise.
      */
-    private boolean indexNode(String id, Node node, VariationPoint vp, boolean indexComments) {
+    private void indexNode(String id, Node node, VariationPoint vp, boolean indexComments) {
         if (id == null || node == null || vp == null) {
             throw new IllegalArgumentException();
         }
 
         ASTNode astNode = vp.getEnclosingSoftwareEntity();
         if (astNode == null) {
-            return false;
+            throw new IllegalStateException();
         }
 
         // Iterate through all child elements.
@@ -273,38 +261,35 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
         while (allContents.hasNext()) {
             EObject next = allContents.next();
-
-            try {
-                indexASTNodeSwitch.doSwitch(next);
-            } catch (Throwable e) {
-            	// TODO: Switches superclass throws exception.
-                logger.error("TODO: Why does IndexASTNodeSSwitch throw exception?", e);
-            }
+            indexASTNodeSwitch.doSwitch(next);
         }
         
         // Add content and comment.
         String content = indexASTNodeSwitch.getContent();
-    	boolean somethingAdded = false;
     	
-    	if (indexComments) {
-    		String comment = indexASTNodeSwitch.getComments();
-    		somethingAdded = this.indexer.addToIndex(id, content, comment);
-    	} else {
-    		somethingAdded = this.indexer.addToIndex(id, content, null);
+        try {
+        	if (indexComments) {
+        		String comment = indexASTNodeSwitch.getComments();
+        		this.indexer.addToIndex(id, content, comment);
+        	} else {
+        		this.indexer.addToIndex(id, content, null);
+    		}
+		} catch (IOException e) {
+			logger.error("Failure while adding node to index.", e);
 		}
-		
-		return somethingAdded;
+    	
     }
 
     /**
      * Finds semantic relationships between the variation points.
      * 
+     * @param graph The {@link VPMGraph} to extract the IDs of the result nodes from.
      * @param result
      *            Contains all relationships found.
      * @throws IOException
      *             Throws an {@link IOException} when there is already an open {@link IndexWriter}.
      */
-    private void findRelationships(VPMAnalyzerResult result) throws IOException {
+    private void findRelationships(VPMGraph graph, VPMAnalyzerResult result) throws IOException {
         if (result == null) {
             throw new IllegalArgumentException();
         }
@@ -335,12 +320,12 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             Set<String> values = similars.getAllLinks().get(key);
 
             for (String value : values) {
-                Node sourceNode = nodeIndex.get(key);
-                Node targetNode = nodeIndex.get(value);
+                Node sourceNode = graph.getNode(key);
+                Node targetNode = graph.getNode(value);
                 String explanation = similars.getExplanation(key, value);
                 
                 if (explanation != null) {
-                	logger.info("Semantic Link: " + sourceNode.getId() + "<-->" + targetNode.getId() + "\n" + explanation);
+                	logger.info("Semantic Link: " + sourceNode.getId() + "<-->" + targetNode.getId() + "\n" + "Reason: " + explanation);
                 } else {
                 	explanation = Constants.RELATIONSHIP_LABEL_SEMANTIC;
 				}

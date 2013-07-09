@@ -49,6 +49,7 @@ public abstract class AbstractRelationshipFinder {
 	
 	/**
      * Extracts the frequencies of all {@link Term}s in the specified {@link Document}.
+     * Uses the member reader.
      * 
      * @param docId The ID of the {@link Document} to extract the {@link Term}s from.
      * @param fieldName The name of the field to extract frequencies from.
