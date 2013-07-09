@@ -135,7 +135,7 @@ public class StructuredMap {
 		}
 		
 		Set<String> explanationList = this.explanations.get(mapID);
-		explanationList.add(explanation);
+		explanationList.add("Reason: " + explanation);
 	}
 	
 	/**

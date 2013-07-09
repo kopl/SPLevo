@@ -104,11 +104,11 @@ public class StructuredMapTest extends AbstractTest {
 		String explanation65 = testObject.getExplanation("5", "6");
 		
 		// Verification
-		assertTrue("Wrong explanation returned.", "12a\n12b\n".equals(explanation12) || "12b\n12a\n".equals(explanation12));
-		assertEquals("Wrong explanation returned.", "23\n", explanation23);
-		assertEquals("Wrong explanation returned.", "34\n", explanation34);
-		assertEquals("Wrong explanation returned.", "45\n", explanation45);
-		assertEquals("Wrong explanation returned.", "65\n", explanation65);
+		assertTrue("Wrong explanation returned.", explanation12.contains("12a") && explanation12.contains("12b"));
+		assertTrue("Wrong explanation returned.", explanation23.contains("23"));
+		assertTrue("Wrong explanation returned.", explanation34.contains("34"));
+		assertTrue("Wrong explanation returned.", explanation45.contains("45"));
+		assertTrue("Wrong explanation returned.", explanation65.contains("65"));
 	}
 	
 	/**

@@ -1,16 +1,12 @@
 package org.splevo.vpm.analyzer.semantic;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexWriter;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -27,7 +23,6 @@ import org.splevo.vpm.analyzer.config.StringConfigDefinition;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
-import org.splevo.vpm.analyzer.semantic.lucene.finder.RareTermFinder;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -325,7 +320,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
                 String explanation = similars.getExplanation(key, value);
                 
                 if (explanation != null) {
-                	logger.info("Semantic Link: " + sourceNode.getId() + "<-->" + targetNode.getId() + "\n" + "Reason: " + explanation);
+                	logger.info("Semantic Link: " + sourceNode.getId() + "<-->" + targetNode.getId() + "\n" + explanation);
                 } else {
                 	explanation = Constants.RELATIONSHIP_LABEL_SEMANTIC;
 				}
