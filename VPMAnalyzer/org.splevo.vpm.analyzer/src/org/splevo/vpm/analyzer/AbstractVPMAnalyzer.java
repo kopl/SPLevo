@@ -87,7 +87,9 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
         logMessage.append(LOG_SEPARATOR);
         logMessage.append(targetInfo);
         logMessage.append(LOG_SEPARATOR);
+        logMessage.append('"');
         logMessage.append(remark);
+        logMessage.append('"');
         analysisLogger.info(logMessage.toString());
     }
 
