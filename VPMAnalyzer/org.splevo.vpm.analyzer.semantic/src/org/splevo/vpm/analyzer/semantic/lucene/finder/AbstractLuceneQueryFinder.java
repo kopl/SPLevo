@@ -1,11 +1,19 @@
 package org.splevo.vpm.analyzer.semantic.lucene.finder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -52,7 +60,7 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 					int maxDoc = reader.maxDoc();
 					ScoreDoc[] contentHits = executeQuery(indexSearcher, maxDoc, contentQuery);
 					String explanation = getExplanation();
-					addHitsToStructuredMap(indexSearcher, result, contentHits, doc, explanation);
+					addHitsToStructuredMap(indexSearcher, result, contentHits, doc, explanation, contentQuery);
 				}				
 				
 				if (matchComments && doc.getField(Constants.INDEX_COMMENT) != null) {
@@ -61,7 +69,7 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 					int maxDoc = reader.maxDoc();
 					ScoreDoc[] commentHits = executeQuery(indexSearcher, maxDoc, commentQuery);
 					String explanation = getExplanation();					
-					addHitsToStructuredMap(indexSearcher, result, commentHits, doc, explanation);
+					addHitsToStructuredMap(indexSearcher, result, commentHits, doc, explanation, commentQuery);
 				}				
 			}
 		} catch (IOException e) {
@@ -95,18 +103,47 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 	 * @param hits The query hits to be added to the {@link StructuredMap}.
 	 * @param doc The relevant document.
 	 * @param explanation An explanation that explains the existence of the relationships.
+	 * @param query The query that was searched for.
 	 * @throws IOException If document doesn't exist in the given {@link IndexSearcher}.
 	 */
 	private void addHitsToStructuredMap(IndexSearcher indexSearcher,
-			StructuredMap result, ScoreDoc[] hits, Document doc, String explanation)
+			StructuredMap result, ScoreDoc[] hits, Document doc, String explanation, Query query)
 			throws IOException {
 		for (int q = 0; q < hits.length; q++) {					
 			String id1 = doc.get(Constants.INDEX_VARIATIONPOINT);
-			String id2 = indexSearcher.doc(hits[q].doc).get(Constants.INDEX_VARIATIONPOINT);
+			Document document = indexSearcher.doc(hits[q].doc);
+			String id2 = document.get(Constants.INDEX_VARIATIONPOINT);
 
+			Set<String> sharedTerms = determineSharedTerms(query, document);
+			explanation = "Shared terms: " + sharedTerms;
 			result.addLink(id1, id2, explanation);
 		}
 	}
+
+    /**
+     * Determine the terms shared by the related variation points
+     * by looking up all terms included in the search query AND a found
+     * document.
+     * 
+     * @param query The searched query.
+     * @param document A specific document found by the query.
+     * @return The {@link Set} of terms shared between the query and the document.
+     */
+    private Set<String> determineSharedTerms(Query query, Document document) {
+        Set<String> sharedTerms = new TreeSet<String>();
+        Set<Term> terms = new HashSet<Term>();
+        query.extractTerms(terms);
+        for (IndexableField field : document.getFields()) {
+            if (field.stringValue() != null) {
+                for (Term term : terms) {
+                    if (field.stringValue().indexOf(term.text()) != -1) {
+                        sharedTerms.add(term.text());
+                    }
+                }
+            }
+        }
+        return sharedTerms;
+    }
 	
 	/**
 	 * Executes a query.
