@@ -161,7 +161,7 @@ public class StructuredMap {
 		
 		StringBuilder sb = new StringBuilder();
 		for (String item : resultList) {
-			sb.append(item + "\n");
+			sb.append(item + "|");
 		}
 		
 		return sb.toString();
