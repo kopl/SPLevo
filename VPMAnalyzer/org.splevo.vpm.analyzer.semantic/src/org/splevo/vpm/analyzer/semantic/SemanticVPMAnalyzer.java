@@ -319,11 +319,11 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
                 Node targetNode = graph.getNode(value);
                 String explanation = similars.getExplanation(key, value);
                 
-                if (explanation != null) {
-                	logger.info("Semantic Link: " + sourceNode.getId() + "<-->" + targetNode.getId() + "\n" + explanation);
-                } else {
+                if (explanation == null) {
                 	explanation = Constants.RELATIONSHIP_LABEL_SEMANTIC;
 				}
+                
+                logAnalysisInfo(sourceNode.getId(), targetNode.getId(), "", "", explanation);
                 
                 VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, explanation);
                 if (descriptor != null) {
