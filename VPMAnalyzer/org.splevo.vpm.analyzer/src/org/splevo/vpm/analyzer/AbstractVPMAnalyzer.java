@@ -152,12 +152,9 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
 
         VPMEdgeDescriptor descriptor = null;
 
-        // skip if code structure relationship already exists
         String edgeRegistryID = buildEdgeRegistryID(node1, node2);
         if (!edgeRegistry.contains(edgeRegistryID)) {
             edgeRegistry.add(edgeRegistryID);
-
-            // build edge descriptor
             descriptor = new VPMEdgeDescriptor(getRelationshipLabel(), relationshipSubLabel, node1.getId(),
                     node2.getId());
         }
