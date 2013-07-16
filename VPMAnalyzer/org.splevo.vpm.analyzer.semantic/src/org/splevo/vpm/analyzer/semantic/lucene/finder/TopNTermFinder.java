@@ -17,8 +17,8 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopScoreDocCollector;
-import org.splevo.vpm.analyzer.semantic.Constants;
-import org.splevo.vpm.analyzer.semantic.StructuredMap;
+import org.splevo.vpm.analyzer.semantic.VPLinkContainer;
+import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 
 /**
  * In the first step the finder collects all terms of the index and their frequencies.
@@ -141,20 +141,20 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 	}
 
 	@Override
-	public StructuredMap findSimilarEntries() {
+	public VPLinkContainer findSimilarEntries() {
 		IndexSearcher indexSearcher = new IndexSearcher(reader);
-		StructuredMap result = new StructuredMap();
-		Set<String> terms = getTopTerms(Constants.INDEX_CONTENT);
+		VPLinkContainer result = new VPLinkContainer();
+		Set<String> terms = getTopTerms(Indexer.INDEX_CONTENT);
 		
 		if (terms.size() == 0) {
 			return result;
 		}
 		
-		executeTopNSearch(indexSearcher, Constants.INDEX_CONTENT, result, terms);
+		executeTopNSearch(indexSearcher, Indexer.INDEX_CONTENT, result, terms);
 		
 		if (matchComments) {
-			Set<String> commentTerms = getTopTerms(Constants.INDEX_COMMENT);
-			executeTopNSearch(indexSearcher, Constants.INDEX_COMMENT, result, commentTerms);
+			Set<String> commentTerms = getTopTerms(Indexer.INDEX_COMMENT);
+			executeTopNSearch(indexSearcher, Indexer.INDEX_COMMENT, result, commentTerms);
 		}
 		return result;		
 	}
@@ -165,18 +165,18 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 	 * 
 	 * @param indexSearcher The {@link IndexSearcher} to search the index with.
 	 * @param fieldName The name of the index-field to be considered while searching.
-	 * @param result The {@link StructuredMap} to add the results to.
+	 * @param result The {@link VPLinkContainer} to add the results to.
 	 * @param topTerms The {@link Set} containing the top-n-terms.
 	 */
 	private void executeTopNSearch(IndexSearcher indexSearcher, String fieldName,
-			StructuredMap result, Set<String> topTerms) {
+			VPLinkContainer result, Set<String> topTerms) {
 		for (String term : topTerms) {
 			try {
 				Term t = new Term(fieldName, term);
 				ScoreDoc[] scoreDocs = executeQuery(t, indexSearcher);
 				Set<String> cluster = new HashSet<String>();
 				for (ScoreDoc scoreDoc : scoreDocs) {
-					cluster.add(indexSearcher.doc(scoreDoc.doc).get(Constants.INDEX_VARIATIONPOINT));
+					cluster.add(indexSearcher.doc(scoreDoc.doc).get(Indexer.INDEX_VARIATIONPOINT));
 				}
 				addClusterToMap(result, cluster, term);
 			} catch (IOException e) {
@@ -187,13 +187,13 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 
 
 	/**
-	 * Adds a {@link Set} of VP ids to a given {@link StructuredMap}.
+	 * Adds a {@link Set} of VP ids to a given {@link VPLinkContainer}.
 	 * 
-	 * @param result The result {@link StructuredMap}.
+	 * @param result The result {@link VPLinkContainer}.
 	 * @param cluster The {@link Set} containing the IDs.
 	 * @param term The term that made up the cluster. Used for explanation.
 	 */
-	private void addClusterToMap(StructuredMap result, Set<String> cluster, String term) {
+	private void addClusterToMap(VPLinkContainer result, Set<String> cluster, String term) {
 		String[] clusterArray = cluster.toArray(new String[0]);
 		for (int i = 0; i < clusterArray.length; i++) {
 			for (int q = 0; q < clusterArray.length; q++) {

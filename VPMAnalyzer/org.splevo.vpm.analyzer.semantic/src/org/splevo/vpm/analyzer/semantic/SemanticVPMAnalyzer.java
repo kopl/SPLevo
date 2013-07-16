@@ -3,6 +3,7 @@ package org.splevo.vpm.analyzer.semantic;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ import org.splevo.vpm.analyzer.config.IntegerConfigDefinition;
 import org.splevo.vpm.analyzer.config.StringConfigDefinition;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
+import org.splevo.vpm.analyzer.semantic.lucene.RelationShipSearchConfiguration;
 import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -45,7 +47,13 @@ import org.splevo.vpm.variability.VariationPoint;
  * 
  */
 public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
+	
+	/** The relationship label of the analyzer. */
+    private static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
 
+    /** The displayed name of the analyzer. */
+    private static final String DISPLAYED_NAME = "Semantic VPM Analyzer";
+    
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(SemanticVPMAnalyzer.class);
 
@@ -68,9 +76,8 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         if (vpmGraph == null) {
             throw new IllegalArgumentException();
         }
-
-        // Container for the result.
-        VPMAnalyzerResult result = new VPMAnalyzerResult(this);
+        
+        VPMAnalyzerResult result = null;
 
         // Fill the index.################################################################
         try {
@@ -81,10 +88,11 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 			logger.error("Cannot write Index. Close all open IndexWriters first.", e);
 		}
 
-        // Find relationships.############################################################
+		// Find relationships.############################################################
         try {
         	logger.info("Analyzing...");
-            findRelationships(vpmGraph, result);
+            VPLinkContainer similars = findRelationships(vpmGraph);
+            result = addSimilarsToAnalyzerResultSet(vpmGraph, similars);
             logger.info("Analysis done.");
         } catch (IOException e) {
             logger.error("Cannot read Index. Close all open IndexWriters first.", e);
@@ -97,7 +105,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         } catch (IOException e) {
             logger.error("Failure while trying to empty main index.", e);
         }
-
+        
         return result;
     }
 
@@ -108,27 +116,33 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     @Override
     public Map<String, ConfigDefinition> getAvailableConfigurations() {
-        Map<String, ConfigDefinition> availableConfigurations = new HashMap<String, ConfigDefinition>();
-        availableConfigurations.put(Constants.CONFIG_LABEL_INCLUDE_COMMENTS, 
-        		new BooleanChoiceConfigDefintion(Constants.CONFIG_DEFAULT_INCLUDE_COMMENTS));
-        availableConfigurations.put(Constants.CONFIG_LABEL_USE_RARE_FINDER, 
-        		new BooleanChoiceConfigDefintion(Constants.CONFIG_DEFAULT_USE_RARE_FINDER));
-        availableConfigurations.put(Constants.CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER, 
-        		new BooleanChoiceConfigDefintion(Constants.CONFIG_DEFAULT_USE_OVERALL_SIMILARITY_FINDER));
-        availableConfigurations.put(Constants.CONFIG_LABEL_MINIMUM_SIMILARITY, 
-        		new DoubleConfigDefinition(Constants.CONFIG_DEFAULT_OVERALL_MINIMUM_SIMILARITY));
-        availableConfigurations.put(Constants.CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE, 
-        		new DoubleConfigDefinition(Constants.CONFIG_DEFAULT_RARE_TERM_MAX_PERCENTAGE));
-        availableConfigurations.put(Constants.CONFIG_LABEL_STOP_WORDS, 
-        		new StringConfigDefinition(Arrays.deepToString(Constants.DEFAULT_STOP_WORDS).replace(", ", " ").replace("[", "").replace("]", "")));
-        availableConfigurations.put(Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER, 
-        		new BooleanChoiceConfigDefintion(Constants.CONFIG_DEFAULT_TOP_N_TERM_FINDER));
-        availableConfigurations.put(Constants.CONFIG_LABEL_LEAST_DOC_FREQ, 
-        		new DoubleConfigDefinition(Constants.CONFIG_DEFAULT_LEAST_DOC_FREQ));
-        availableConfigurations.put(Constants.CONFIG_LABEL_N, 
-        		new IntegerConfigDefinition(Constants.CONFIG_DEFAULT_N));
-        availableConfigurations.put(Constants.CONFIG_LABEL_SPLIT_CAMEL_CASE, 
-        		new BooleanChoiceConfigDefintion(Constants.CONFIG_DEFAULT_SPLIT_CAMEL_CASE));
+        Map<String, ConfigDefinition> availableConfigurations = new LinkedHashMap<String, ConfigDefinition>();
+        
+        availableConfigurations.put(ConfigDefaults.LABEL_INCLUDE_COMMENTS, 
+        		new BooleanChoiceConfigDefintion(ConfigDefaults.DEFAULT_INCLUDE_COMMENTS));
+        availableConfigurations.put(ConfigDefaults.LABEL_STOP_WORDS, 
+        		new StringConfigDefinition(
+        				Arrays.deepToString(ConfigDefaults.DEFAULT_STOP_WORDS).replace(", ", " ").replace("[", "").replace("]", "")));
+        availableConfigurations.put(ConfigDefaults.LABEL_SPLIT_CAMEL_CASE, 
+        		new BooleanChoiceConfigDefintion(ConfigDefaults.DEFAULT_SPLIT_CAMEL_CASE));
+        
+        availableConfigurations.put(ConfigDefaults.LABEL_USE_OVERALL_SIMILARITY_FINDER, 
+        		new BooleanChoiceConfigDefintion(ConfigDefaults.DEFAULT_USE_OVERALL_SIMILARITY_FINDER));
+        availableConfigurations.put(ConfigDefaults.LABEL_MINIMUM_SIMILARITY, 
+        		new DoubleConfigDefinition(ConfigDefaults.DEFAULT_OVERALL_MINIMUM_SIMILARITY));
+        
+        availableConfigurations.put(ConfigDefaults.LABEL_USE_RARE_FINDER, 
+        		new BooleanChoiceConfigDefintion(ConfigDefaults.DEFAULT_USE_RARE_FINDER));
+        availableConfigurations.put(ConfigDefaults.LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE, 
+        		new DoubleConfigDefinition(ConfigDefaults.DEFAULT_RARE_TERM_MAX_PERCENTAGE));
+        
+        availableConfigurations.put(ConfigDefaults.LABEL_USE_TOP_N_TERM_FINDER, 
+        		new BooleanChoiceConfigDefintion(ConfigDefaults.DEFAULT_TOP_N_TERM_FINDER));        
+        availableConfigurations.put(ConfigDefaults.LABEL_LEAST_DOC_FREQ, 
+        		new DoubleConfigDefinition(ConfigDefaults.DEFAULT_LEAST_DOC_FREQ));
+        availableConfigurations.put(ConfigDefaults.LABEL_N, 
+        		new IntegerConfigDefinition(ConfigDefaults.DEFAULT_N));
+
         return availableConfigurations;
     }
 
@@ -139,27 +153,31 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     @Override
     public Map<String, String> getConfigurationLabels() {
-        Map<String, String> configurationLabels = new HashMap<String, String>();
-        configurationLabels.put(Constants.CONFIG_LABEL_INCLUDE_COMMENTS, 
-        		Constants.CONFIG_LABEL_INCLUDE_COMMENTS);
-        configurationLabels.put(Constants.CONFIG_LABEL_USE_RARE_FINDER, 
-        		Constants.CONFIG_LABEL_USE_RARE_FINDER);
-        configurationLabels.put(Constants.CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER, 
-        		Constants.CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER);
-        configurationLabels.put(Constants.CONFIG_LABEL_MINIMUM_SIMILARITY, 
-        		Constants.CONFIG_LABEL_MINIMUM_SIMILARITY);
-        configurationLabels.put(Constants.CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE, 
-        		Constants.CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE);
-        configurationLabels.put(Constants.CONFIG_LABEL_STOP_WORDS, 
-        		Constants.CONFIG_LABEL_STOP_WORDS);
-        configurationLabels.put(Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER, 
-        		Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER);
-        configurationLabels.put(Constants.CONFIG_LABEL_LEAST_DOC_FREQ, 
-        		Constants.CONFIG_LABEL_LEAST_DOC_FREQ);
-        configurationLabels.put(Constants.CONFIG_LABEL_N, 
-        		Constants.CONFIG_LABEL_N);
-        configurationLabels.put(Constants.CONFIG_LABEL_SPLIT_CAMEL_CASE, 
-        		Constants.CONFIG_LABEL_SPLIT_CAMEL_CASE);
+        Map<String, String> configurationLabels = new LinkedHashMap<String, String>();
+        configurationLabels.put(ConfigDefaults.LABEL_INCLUDE_COMMENTS, 
+        		ConfigDefaults.LABEL_INCLUDE_COMMENTS);
+        configurationLabels.put(ConfigDefaults.LABEL_STOP_WORDS, 
+        		ConfigDefaults.LABEL_STOP_WORDS);
+        configurationLabels.put(ConfigDefaults.LABEL_SPLIT_CAMEL_CASE, 
+        		ConfigDefaults.LABEL_SPLIT_CAMEL_CASE);
+        
+        configurationLabels.put(ConfigDefaults.LABEL_USE_OVERALL_SIMILARITY_FINDER, 
+        		ConfigDefaults.LABEL_USE_OVERALL_SIMILARITY_FINDER);
+        configurationLabels.put(ConfigDefaults.LABEL_MINIMUM_SIMILARITY, 
+        		ConfigDefaults.LABEL_MINIMUM_SIMILARITY);
+        
+        configurationLabels.put(ConfigDefaults.LABEL_USE_RARE_FINDER, 
+        		ConfigDefaults.LABEL_USE_RARE_FINDER);
+        configurationLabels.put(ConfigDefaults.LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE, 
+        		ConfigDefaults.LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE);
+        
+        configurationLabels.put(ConfigDefaults.LABEL_USE_TOP_N_TERM_FINDER, 
+        		ConfigDefaults.LABEL_USE_TOP_N_TERM_FINDER);
+        configurationLabels.put(ConfigDefaults.LABEL_LEAST_DOC_FREQ, 
+        		ConfigDefaults.LABEL_LEAST_DOC_FREQ);
+        configurationLabels.put(ConfigDefaults.LABEL_N, 
+        		ConfigDefaults.LABEL_N);
+        
         return configurationLabels;
     }
 
@@ -180,7 +198,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     @Override
     public String getName() {
-        return Constants.DISPLAYED_NAME;
+        return DISPLAYED_NAME;
     }
 
     /*
@@ -190,7 +208,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     @Override
     public String getRelationshipLabel() {
-        return Constants.RELATIONSHIP_LABEL_SEMANTIC;
+        return RELATIONSHIP_LABEL_SEMANTIC;
     }
 
     /**
@@ -205,9 +223,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         }
 
         // Get the user-configurations.
-        boolean indexComments = (Boolean) configurations.get(Constants.CONFIG_LABEL_INCLUDE_COMMENTS);
-        boolean splitCamelCase = (Boolean) configurations.get(Constants.CONFIG_LABEL_SPLIT_CAMEL_CASE); 
-        String stopWords = (String) configurations.get(Constants.CONFIG_LABEL_STOP_WORDS);
+        boolean indexComments = (Boolean) configurations.get(ConfigDefaults.LABEL_INCLUDE_COMMENTS);
+        boolean splitCamelCase = (Boolean) configurations.get(ConfigDefaults.LABEL_SPLIT_CAMEL_CASE); 
+        String stopWords = (String) configurations.get(ConfigDefaults.LABEL_STOP_WORDS);
         
         this.indexer.splitCamelCase(splitCamelCase);
                 
@@ -251,24 +269,19 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
         // Iterate through all child elements.
         TreeIterator<EObject> allContents = EcoreUtil.getAllContents(astNode.eContents());
-        
         IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch(indexComments);
-
         while (allContents.hasNext()) {
             EObject next = allContents.next();
             indexASTNodeSwitch.doSwitch(next);
         }
         
-        // Add content and comment.
+        // Get content and comment from switch.
         String content = indexASTNodeSwitch.getContent();
+        String comment = indexASTNodeSwitch.getComments();
     	
+        // Add to index.
         try {
-        	if (indexComments) {
-        		String comment = indexASTNodeSwitch.getComments();
-        		this.indexer.addToIndex(id, content, comment);
-        	} else {
-        		this.indexer.addToIndex(id, content, null);
-    		}
+        	this.indexer.addToIndex(id, content, comment);
 		} catch (IOException e) {
 			logger.error("Failure while adding node to index.", e);
 		}
@@ -279,57 +292,68 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      * Finds semantic relationships between the variation points.
      * 
      * @param graph The {@link VPMGraph} to extract the IDs of the result nodes from.
-     * @param result
-     *            Contains all relationships found.
+     * @return A {@link VPLinkContainer} containing the search results.
      * @throws IOException
      *             Throws an {@link IOException} when there is already an open {@link IndexWriter}.
      */
-    private void findRelationships(VPMGraph graph, VPMAnalyzerResult result) throws IOException {
-        if (result == null) {
+    private VPLinkContainer findRelationships(VPMGraph graph) throws IOException {
+        if (graph == null) {
             throw new IllegalArgumentException();
         }
         
         // Get the configurations
-        boolean includeComments = (Boolean) configurations.get(Constants.CONFIG_LABEL_INCLUDE_COMMENTS);
-        boolean useRareFinder = (Boolean) configurations.get(Constants.CONFIG_LABEL_USE_RARE_FINDER);
-        boolean useOverallSimFinder = (Boolean) configurations.get(Constants.CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER);
-        boolean useTopNTermFinder = (Boolean) configurations.get(Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER);
-        Double minSimilarity = (Double) configurations.get(Constants.CONFIG_LABEL_MINIMUM_SIMILARITY);
-        Double maxPercentage = (Double) configurations.get(Constants.CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE);
-        Double leastDocFreq = (Double) configurations.get(Constants.CONFIG_LABEL_LEAST_DOC_FREQ);
-        Integer n = (Integer) configurations.get(Constants.CONFIG_LABEL_N);
+        boolean includeComments = (Boolean) configurations.get(ConfigDefaults.LABEL_INCLUDE_COMMENTS);
+        boolean useRareFinder = (Boolean) configurations.get(ConfigDefaults.LABEL_USE_RARE_FINDER);
+        boolean useOverallSimFinder = (Boolean) configurations.get(ConfigDefaults.LABEL_USE_OVERALL_SIMILARITY_FINDER);
+        boolean useTopNTermFinder = (Boolean) configurations.get(ConfigDefaults.LABEL_USE_TOP_N_TERM_FINDER);
+        Double minSimilarity = (Double) configurations.get(ConfigDefaults.LABEL_MINIMUM_SIMILARITY);
+        Double maxPercentage = (Double) configurations.get(ConfigDefaults.LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE);
+        Double leastDocFreq = (Double) configurations.get(ConfigDefaults.LABEL_LEAST_DOC_FREQ);
+        Integer n = (Integer) configurations.get(ConfigDefaults.LABEL_N);
+        
+        // Setup the config object.
+        RelationShipSearchConfiguration searchConfig = new RelationShipSearchConfiguration();
+        searchConfig.useComments(includeComments);
+        searchConfig.configureOverallFinder(useOverallSimFinder, minSimilarity);
+        searchConfig.configureRareTermFinder(useRareFinder, maxPercentage);
+        searchConfig.configureTopNFinder(useTopNTermFinder, leastDocFreq, n);
         
         // Use the searcher to search for semantic relationships.
-        StructuredMap similars = Searcher.findSemanticRelationships(
-        		includeComments, 
-        		useRareFinder, 
-        		useOverallSimFinder, 
-        		useTopNTermFinder, 
-        		minSimilarity, 
-        		maxPercentage, 
-        		leastDocFreq, 
-        		n);
+        return Searcher.findSemanticRelationships(searchConfig);
+    }
 
-        // Iterate through the VariationPoint pairs and add them to the result.
-        for (String key : similars.getAllLinks().keySet()) {
+	/**
+	 * Transforms the links from the {@link VPLinkContainer} to {@link VPMAnalyzerResult}. 
+	 * 
+	 * @param graph The related graph.
+	 * @param similars The search results.
+	 * @return A {@link VPMAnalyzerResult} containing the edge descriptors.
+	 */
+	private VPMAnalyzerResult addSimilarsToAnalyzerResultSet(VPMGraph graph,
+			VPLinkContainer similars) {
+        VPMAnalyzerResult result = new VPMAnalyzerResult(this);
+		for (String key : similars.getAllLinks().keySet()) {
             Set<String> values = similars.getAllLinks().get(key);
 
             for (String value : values) {
                 Node sourceNode = graph.getNode(key);
                 Node targetNode = graph.getNode(value);
-                String explanation = similars.getExplanation(key, value);
+                String[] explanations = similars.getExplanations(key, value);
                 
-                if (explanation == null) {
-                	explanation = Constants.RELATIONSHIP_LABEL_SEMANTIC;
+                if (explanations == null) {
+                	explanations = new String[]{RELATIONSHIP_LABEL_SEMANTIC};
 				}
                 
-                logAnalysisInfo(sourceNode.getId(), targetNode.getId(), "", "", explanation);
+                for (String explanation : explanations) {
+                	logAnalysisInfo(sourceNode.getId(), targetNode.getId(), "", "", explanation);
+				}                
                 
-                VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, explanation);
+                VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, Arrays.deepToString(explanations));
                 if (descriptor != null) {
                     result.getEdgeDescriptors().add(descriptor);
                 }
             }
         }
-    }
+		return result;
+	}
 }

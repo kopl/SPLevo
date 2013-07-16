@@ -9,7 +9,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
-import org.splevo.vpm.analyzer.semantic.StructuredMap;
+import org.splevo.vpm.analyzer.semantic.VPLinkContainer;
 
 /**
  * To allow adding new evaluation methods easily, this class has been created.
@@ -43,9 +43,9 @@ public abstract class AbstractRelationshipFinder {
 	/**
 	 * Calculated the similarity between all nodes from the {@link DirectoryReader}'s index.
 	 * 
-	 * @return A {@link StructuredMap} storing all found relationships.
+	 * @return A {@link VPLinkContainer} storing all found relationships.
 	 */
-	public abstract StructuredMap findSimilarEntries();
+	public abstract VPLinkContainer findSimilarEntries();
 	
 	/**
      * Extracts the frequencies of all {@link Term}s in the specified {@link Document}.

@@ -3,7 +3,7 @@ package org.splevo.vpm.analyzer.semantic.lucene.finder;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.splevo.vpm.analyzer.semantic.StructuredMap;
+import org.splevo.vpm.analyzer.semantic.VPLinkContainer;
 
 /**
  * This class provides the ability to execute multiple {@link AbstractRelationshipFinder}.
@@ -37,14 +37,14 @@ public class FinderExecutor {
 	/**
 	 * Executes the search for all given {@link AbstractRelationshipFinder}.
 	 * 
-	 * @return A {@link StructuredMap} containing the found matches.
+	 * @return A {@link VPLinkContainer} containing the found matches.
 	 */
-	public StructuredMap executeAnalysis() {
-		StructuredMap result = new StructuredMap();
+	public VPLinkContainer executeAnalysis() {
+		VPLinkContainer result = new VPLinkContainer();
 		
 		for (AbstractRelationshipFinder analyzer : finders) {
-			StructuredMap tmpResult = analyzer.findSimilarEntries();
-			result = StructuredMap.merge(result, tmpResult);
+			VPLinkContainer tmpResult = analyzer.findSimilarEntries();
+			result = VPLinkContainer.merge(result, tmpResult);
 		}
 		
 		return result;

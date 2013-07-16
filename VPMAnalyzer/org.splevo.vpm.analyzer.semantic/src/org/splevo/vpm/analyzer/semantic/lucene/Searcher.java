@@ -3,7 +3,7 @@ package org.splevo.vpm.analyzer.semantic.lucene;
 import java.io.IOException;
 
 import org.apache.lucene.index.DirectoryReader;
-import org.splevo.vpm.analyzer.semantic.StructuredMap;
+import org.splevo.vpm.analyzer.semantic.VPLinkContainer;
 import org.splevo.vpm.analyzer.semantic.lucene.finder.FinderExecutor;
 import org.splevo.vpm.analyzer.semantic.lucene.finder.OverallSimilarityFinder;
 import org.splevo.vpm.analyzer.semantic.lucene.finder.RareTermFinder;
@@ -21,28 +21,14 @@ public class Searcher {
 	 * Searches the index (the one hold by the Indexer singleton) to
 	 * find relationships between the Cartesian product of all documents.
 	 * 
-	 * @param matchComments Indicates whether to include comments for analysis or not.
-	 * @param useRareTermFinder Determines weather to use RareTermFinder or not.
-	 * @param useOverallSimilarityFinder Determines weather to use OverallSimilarityFinder or not.
-	 * @param useTopNFinder Determines weather to use TopNTermFinder or not.
-	 * @param maxPercentage The max. share of terms for the Rare-Finder.
-	 * @param minSimilarity The minimum overall similarity.
-	 * @param leastDocFreq The minimum document frequency share.
-	 * @param n Specifies the max. number of terms to search for.
+	 * @param searchConfig The search configurations.
 	 * @return A {@link Map} containing the {@link VariationPoint} IDs having a relationship.
 	 * @throws IOException Throws an exception if there is already an open writer to the index.
 	 */
-	public static StructuredMap findSemanticRelationships(
-			boolean matchComments, 
-			boolean useRareTermFinder, 
-			boolean useOverallSimilarityFinder, 
-			boolean useTopNFinder, 
-			double minSimilarity, 
-			double maxPercentage,
-			double leastDocFreq,
-			int n
-			) throws IOException {
-		if (!useRareTermFinder && !useOverallSimilarityFinder && !useTopNFinder) {
+	public static VPLinkContainer findSemanticRelationships(RelationShipSearchConfiguration searchConfig) throws IOException {
+		if (!searchConfig.isUseOverallSimilarityFinder() 
+				&& 	!searchConfig.isUseRareTermFinder() 
+				&&  !searchConfig.isUseTopNFinder()) {
 			throw new IllegalStateException();
 		}
 		
@@ -53,20 +39,23 @@ public class Searcher {
 		FinderExecutor analysisExecutor = new FinderExecutor();
 		
 		// Add finders here:
-		if (useRareTermFinder) {
-			analysisExecutor.addAnalyzer(new RareTermFinder(reader, matchComments, maxPercentage));
+		if (searchConfig.isUseRareTermFinder()) {
+			analysisExecutor.addAnalyzer(new RareTermFinder(reader, searchConfig.isMatchComments(), 
+					searchConfig.getMaxPercentage()));
 		}
 		
-		if (useOverallSimilarityFinder) {
-			analysisExecutor.addAnalyzer(new OverallSimilarityFinder(reader, matchComments, minSimilarity));
+		if (searchConfig.isUseOverallSimilarityFinder()) {
+			analysisExecutor.addAnalyzer(new OverallSimilarityFinder(reader, searchConfig.isMatchComments(), 
+					searchConfig.getMinSimilarity()));
 		}
 
-		if (useTopNFinder) {
-			analysisExecutor.addAnalyzer(new TopNTermFinder(reader, matchComments, leastDocFreq, n));
+		if (searchConfig.isUseTopNFinder()) {
+			analysisExecutor.addAnalyzer(new TopNTermFinder(reader, searchConfig.isMatchComments(), 
+					searchConfig.getLeastDocFreq(), searchConfig.getN()));
 		}		
 		
 		// Store found relationships in this StructuredMap.
-		StructuredMap result = analysisExecutor.executeAnalysis();
+		VPLinkContainer result = analysisExecutor.executeAnalysis();
 		
 		// Close reader.
 		reader.close();

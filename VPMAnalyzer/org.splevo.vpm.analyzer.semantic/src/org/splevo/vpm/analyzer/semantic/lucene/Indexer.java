@@ -12,7 +12,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
-import org.splevo.vpm.analyzer.semantic.Constants;
+import org.splevo.vpm.analyzer.semantic.ConfigDefaults;
 
 /**
  * This class handles the indexing. It creates one single main index.
@@ -29,6 +29,15 @@ import org.splevo.vpm.analyzer.semantic.Constants;
  * 
  */
 public final class Indexer {
+	
+	/** The field name the Variation Point ID is stored in the Lucene index. */
+	public static final String INDEX_VARIATIONPOINT = "VP";
+
+	/** The field name the content is stored in the Lucene index. */
+	public static final String INDEX_CONTENT = "CONTENT";
+	
+	/** The field name the comments are stored in the Lucene index. */
+	public static final String INDEX_COMMENT = "COMMENT";
 	
     /** The writer configuration. */
 	private IndexWriterConfig config;
@@ -76,7 +85,7 @@ public final class Indexer {
 	 */
 	private Indexer() {
 		this.splitCamelCase = true;
-		this.stopWords = Constants.DEFAULT_STOP_WORDS;
+		this.stopWords = ConfigDefaults.DEFAULT_STOP_WORDS;
 		this.config = new IndexWriterConfig(Version.LUCENE_43, 
 				CustomPerFieldAnalyzerWrapper.getWrapper(this.stopWords, splitCamelCase));	
 		
@@ -160,13 +169,13 @@ public final class Indexer {
 		
 		// Create the document with two fields: the content and its ID.
 		Document doc = new Document();
-		doc.add(new Field(Constants.INDEX_VARIATIONPOINT, variationPointId, TYPE_STORED_ID));
+		doc.add(new Field(INDEX_VARIATIONPOINT, variationPointId, TYPE_STORED_ID));
 		
 		if (content != null && content.length() > 0) {
-			doc.add(new Field(Constants.INDEX_CONTENT, content, TYPE_STORED_CONTENT));
+			doc.add(new Field(INDEX_CONTENT, content, TYPE_STORED_CONTENT));
 		} 
 		if (comments != null && comments.length() > 0) {
-			doc.add(new Field(Constants.INDEX_COMMENT, comments, TYPE_STORED_CONTENT));
+			doc.add(new Field(INDEX_COMMENT, comments, TYPE_STORED_CONTENT));
 		}
 		
 		if (doc.getFields().size() < 2) {

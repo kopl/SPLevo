@@ -220,31 +220,31 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
 			double leastDocFreq,
 			int n) {
 		for (String key : config.keySet()) {
-			if (key.equals(Constants.CONFIG_LABEL_STOP_WORDS)) {
+			if (key.equals(ConfigDefaults.LABEL_STOP_WORDS)) {
 				config.put(key, stopWords);
 			}
-			if (key.equals(Constants.CONFIG_LABEL_INCLUDE_COMMENTS)) {
+			if (key.equals(ConfigDefaults.LABEL_INCLUDE_COMMENTS)) {
 				config.put(key, matchComments);
 			}
-			if (key.equals(Constants.CONFIG_LABEL_LEAST_DOC_FREQ)) {
+			if (key.equals(ConfigDefaults.LABEL_LEAST_DOC_FREQ)) {
 				config.put(key, leastDocFreq);
 			}
-			if (key.equals(Constants.CONFIG_LABEL_MINIMUM_SIMILARITY)) {
+			if (key.equals(ConfigDefaults.LABEL_MINIMUM_SIMILARITY)) {
 				config.put(key, minSimilarity);
 			}
-			if (key.equals(Constants.CONFIG_LABEL_N)) {
+			if (key.equals(ConfigDefaults.LABEL_N)) {
 				config.put(key, n);
 			}
-			if (key.equals(Constants.CONFIG_LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE)) {
+			if (key.equals(ConfigDefaults.LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE)) {
 				config.put(key, maxPercentage);
 			}
-			if (key.equals(Constants.CONFIG_LABEL_USE_OVERALL_SIMILARITY_FINDER)) {
+			if (key.equals(ConfigDefaults.LABEL_USE_OVERALL_SIMILARITY_FINDER)) {
 				config.put(key, useOverallSimilarityFinder);
 			}
-			if (key.equals(Constants.CONFIG_LABEL_USE_RARE_FINDER)) {
+			if (key.equals(ConfigDefaults.LABEL_USE_RARE_FINDER)) {
 				config.put(key, useRareTermFinder);
 			}
-			if (key.equals(Constants.CONFIG_LABEL_USE_TOP_N_TERM_FINDER)) {
+			if (key.equals(ConfigDefaults.LABEL_USE_TOP_N_TERM_FINDER)) {
 				config.put(key, useTopNFinder);
 			}
 		}

@@ -10,7 +10,7 @@ import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
-import org.splevo.vpm.analyzer.semantic.Constants;
+import org.splevo.vpm.analyzer.semantic.ConfigDefaults;
 
 /**
  * This {@link AbstractRelationshipFinder} uses rare terms in a
@@ -51,7 +51,7 @@ public class RareTermFinder extends AbstractLuceneQueryFinder {
 	 */
 	public RareTermFinder(DirectoryReader reader, boolean matchComments) {
 		super(reader, matchComments);
-		this.maxPercentage = Constants.CONFIG_DEFAULT_OVERALL_MINIMUM_SIMILARITY;
+		this.maxPercentage = ConfigDefaults.DEFAULT_OVERALL_MINIMUM_SIMILARITY;
 		this.termsFound = new StringBuilder();
 	}
 

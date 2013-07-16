@@ -122,22 +122,29 @@ public class IndexASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     }
     
     /**
-     * @return The text content collected from nodes since the last clear() call.
+     * Gets the non-comment text.
+     * 
+     * @return The content text.
      */
     public String getContent() {
     	return contents.toString();
     }
     
     /**
-     * @return The text comments collected from nodes since the last clear() call.
+     * Gets the comments.
+     * 
+     * @return The text comments.
      */
     public String getComments() {
-    	return comments == null ? "" : comments.toString();
+    	if (comments == null) {
+    		return null;
+    	} else {
+			return comments.toString();
+		}
     }
     
-    /**
-     * Do switch method enhanced to globally remove all null values.
-     * {@inheritDoc}
+    /* (non-Javadoc)
+     * @see org.eclipse.emf.ecore.util.Switch#doSwitch(org.eclipse.emf.ecore.EClass, org.eclipse.emf.ecore.EObject)
      */
     @Override
     protected List<ASTNode> doSwitch(EClass eClass, EObject eObject) {
