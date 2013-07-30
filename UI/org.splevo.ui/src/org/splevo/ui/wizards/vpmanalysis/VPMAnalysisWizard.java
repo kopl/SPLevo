@@ -1,6 +1,6 @@
 package org.splevo.ui.wizards.vpmanalysis;
 
-import java.util.Set;
+import java.util.List;
 
 import org.eclipse.jface.wizard.Wizard;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
@@ -53,7 +53,7 @@ public class VPMAnalysisWizard extends Wizard {
     @Override
 	public boolean performFinish() {
 		
-		Set<VPMAnalyzer> analyzers = analyzerPage.getAnalyzers();
+		List<VPMAnalyzer> analyzers = analyzerPage.getAnalyzers();
 		configuration.getAnalyzers().addAll(analyzers);
 		
 		ResultPresentation resultPresentation = resultHandlingPage.getResultPresentation();
