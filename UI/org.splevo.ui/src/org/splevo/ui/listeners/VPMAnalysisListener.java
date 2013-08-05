@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizard;
@@ -50,7 +55,25 @@ public class VPMAnalysisListener extends MouseAdapter {
         Shell shell = e.widget.getDisplay().getShells()[0];
 
         // trigger the wizard to configure the refinement process
-        WizardDialog wizardDialog = new WizardDialog(shell, new VPMAnalysisWizard(config));
+        WizardDialog wizardDialog = new WizardDialog(shell, new VPMAnalysisWizard(config)){
+        	@Override
+            protected Control createDialogArea(Composite parent) {
+                Control ctrl = super.createDialogArea(parent);
+                getProgressMonitor();
+                return ctrl;
+            }
+            
+            @Override
+            protected IProgressMonitor getProgressMonitor() {
+                ProgressMonitorPart monitor = (ProgressMonitorPart) super.getProgressMonitor();
+                GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+                gridData.heightHint = 0;
+                monitor.setLayoutData(gridData);
+                monitor.setVisible(false);
+                return monitor;
+            }
+        };
+        
         if (wizardDialog.open() != Window.OK) {
             logger.debug("Variation Point Analyses canceled");
             return;

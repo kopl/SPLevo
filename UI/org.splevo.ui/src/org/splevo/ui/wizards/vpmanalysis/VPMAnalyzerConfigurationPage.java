@@ -141,16 +141,15 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 		fd_grpConfigurations.bottom = new FormAttachment(100);
 		grpConfigurations.setLayoutData(fd_grpConfigurations);
 			
-		scrolledComposite = new ScrolledComposite(grpConfigurations, SWT.SHADOW_IN | SWT.V_SCROLL | SWT.H_SCROLL);
+		scrolledComposite = new ScrolledComposite(grpConfigurations, SWT.SHADOW_IN | SWT.V_SCROLL);
 		configComp = new Composite(scrolledComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout(2, false);
-		gridLayout.verticalSpacing = 10;
+		gridLayout.verticalSpacing = 20;
 		configComp.setLayout(gridLayout);
 		updateConfig();
 		
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
-		scrolledComposite.setAlwaysShowScrollBars(true);
 		scrolledComposite.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
 				Rectangle r = ((ScrolledComposite)e.widget).getClientArea();

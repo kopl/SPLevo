@@ -32,14 +32,14 @@ public class VPMAnalysisWizard extends Wizard {
         super();
         this.configuration = configuration;
         setWindowTitle("Configure VPM Analysis.");
-        setNeedsProgressMonitor(true);
+        setNeedsProgressMonitor(false);
     }
 
     @Override
     public void addPages() {
         analyzerPage = new VPMAnalyzerConfigurationPage();
         addPage(analyzerPage);
-
+        
         resultHandlingPage = new ResultHandlingConfigurationPage(this.configuration);
         resultHandlingPage.setPreviousPage(analyzerPage);
         addPage(resultHandlingPage);
