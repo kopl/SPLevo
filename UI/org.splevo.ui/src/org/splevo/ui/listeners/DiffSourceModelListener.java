@@ -46,6 +46,9 @@ public class DiffSourceModelListener extends MouseAdapter {
         IAction action = new Action("Diffing") {
         };
         workflowDelegate.run(action);
+        
+        splevoProjectEditor.enableButtonsAfterDiffing();
+        
     }
 
     /**

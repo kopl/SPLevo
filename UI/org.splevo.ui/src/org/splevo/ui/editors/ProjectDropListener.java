@@ -13,6 +13,7 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.TransferData;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -29,8 +30,12 @@ public class ProjectDropListener extends ViewerDropAdapter {
     /** The input field for the variant name. */
     private Text inputVariantName;
 
+    /** The SPLevo Project Editor. */
+	private SPLevoProjectEditor spLevoProjectEditor;
+
     /**
      * Constructor to link the listener with the viewer and the dashboard to modify.
+     * @param spLevoProjectEditor 
      * 
      * @param viewer
      *            The viewer to listen to.
@@ -39,8 +44,9 @@ public class ProjectDropListener extends ViewerDropAdapter {
      * @param inputVariantName
      *            The input for the variant name to be filled if empty before.
      */
-    public ProjectDropListener(Viewer viewer, List<String> projectListContainer, Text inputVariantName) {
+    public ProjectDropListener(SPLevoProjectEditor spLevoProjectEditor, Viewer viewer, List<String> projectListContainer, Text inputVariantName) {
         super(viewer);
+		this.spLevoProjectEditor = spLevoProjectEditor;
         this.projectListContainer = projectListContainer;
         this.inputVariantName = inputVariantName;
     }
@@ -53,13 +59,13 @@ public class ProjectDropListener extends ViewerDropAdapter {
 		if (javaProjects.size() > 0) {
 			addProjectsToTheListContainer(javaProjects);
 			getViewer().setInput(projectListContainer);
+			spLevoProjectEditor.updateUI();
 			return true;
 		}
 
-		//TODO get the shell
-		MessageDialog.openWarning(null, "Cannot be added to list.",
+		Shell shell = spLevoProjectEditor.getEditorSite().getShell();
+		MessageDialog.openWarning(shell, "Cannot be added to list.",
 				"Only Java Projects can be added to the list.");
-
 		return false;
 	}
 
@@ -97,22 +103,34 @@ public class ProjectDropListener extends ViewerDropAdapter {
 	
 	private void addJavaProjectsFromSelectionToList(
 			List<IJavaProject> javaProjects, TreeSelection selection) {
+		
 		for (Object selectedElement : selection.toList()) {
+		
 			if (selectedElement instanceof IJavaProject) {
 				IJavaProject project = (IJavaProject) selectedElement;
 				javaProjects.add(project);
 			}
+			
 			if (selectedElement instanceof IProject) {
 				IProject project = (IProject) selectedElement;
 				try {
 					IProjectNature nature = project.getNature(JavaCore.NATURE_ID);
-					if (nature != null && nature instanceof IJavaProject) {
+					if (isNatureNotNullAndInstanceOfIJavaProject(nature)) {
 						javaProjects.add((IJavaProject) nature);
 					}
-				} catch (CoreException e) {
-				}
+				} catch (CoreException e) {}
 			}
 		}
+	}
+
+
+	/**
+	 * Returns if the nature is not null and instance of IJavaProject.
+	 * @param nature the nature of a project
+	 * @return whether the nature is not null and instance of IJavaProject.
+	 */
+	private boolean isNatureNotNullAndInstanceOfIJavaProject(IProjectNature nature) {
+		return nature != null && nature instanceof IJavaProject;
 	}
 
     /**

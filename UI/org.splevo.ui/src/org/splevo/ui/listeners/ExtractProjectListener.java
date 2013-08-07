@@ -32,7 +32,7 @@ public class ExtractProjectListener extends MouseAdapter {
     public void mouseUp(MouseEvent e) {
 
         // build the job configuration
-        BasicSPLevoWorkflowConfiguration config = buildWorflowConfiguration();
+        BasicSPLevoWorkflowConfiguration config = buildWorkflowConfiguration();
 
         // validate configuration
         if (!config.isValid()) {
@@ -46,6 +46,9 @@ public class ExtractProjectListener extends MouseAdapter {
         IAction action = new Action("Extract") {
         };
         workflowDelegate.run(action);
+        
+        splevoProjectEditor.enableButtonsAfterExtraction();
+        
     }
 
     /**
@@ -53,7 +56,7 @@ public class ExtractProjectListener extends MouseAdapter {
      * 
      * @return The prepared configuration.
      */
-    private BasicSPLevoWorkflowConfiguration buildWorflowConfiguration() {
+    private BasicSPLevoWorkflowConfiguration buildWorkflowConfiguration() {
         BasicSPLevoWorkflowConfiguration config = new BasicSPLevoWorkflowConfiguration();
         config.setSplevoProjectEditor(splevoProjectEditor);
         return config;

@@ -2,6 +2,9 @@ package org.splevo.ui.editors;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -144,6 +147,61 @@ public class SPLevoProjectEditor extends EditorPart {
     /** The text input field for the packages to filter. */
     private Text diffingPackageFilterInput;
 
+    /** Button Project Selection. */
+	private Button btnSelectSourceProjects;
+
+	/** Button Extract source models . */
+	private Button btnExtractSourceModels;
+
+	/** Button Diffing. */
+	private Button btnDiffing;
+
+	/** Button Init VPM. */
+	private Button btnInitVpm;
+
+	/** Button Analyze VPM. */
+	private Button btnRefineVPM;
+
+	/** Button Generate feature model. */
+	private Button btnGenerateFeatureModel;
+
+	/** Button Open Diff. */
+	private Button btnOpenDiff;
+
+	/** Button Open VPM. */
+	private Button btnOpenVPM;
+
+	/** Enables buttons after clicking model extraction.*/
+	public void enableButtonsAfterExtraction() {
+		btnDiffing.setEnabled(true);
+	}
+	
+	/** Enables buttons after clicking diffing.*/
+	public void enableButtonsAfterDiffing() {
+		enableButtonsAfterExtraction();
+        btnInitVpm.setEnabled(true);
+        btnOpenDiff.setEnabled(true);
+	}
+	
+	/** Enables buttons after clicking Init VPM .*/
+	public void enableButtonsAfterInitVPM() {
+		enableButtonsAfterDiffing();
+		btnOpenVPM.setEnabled(true);
+		btnRefineVPM.setEnabled(true);
+	}
+	
+	/** Enables buttons after clicking Analyze VPM*/
+	public void enableButtonsAfterAnalyzeVPM() {
+		enableButtonsAfterInitVPM();
+		btnGenerateFeatureModel.setEnabled(true);		
+	}
+	
+	
+
+
+
+	
+
     /**
      * Default constructor setting the icon in the editor title.
      */
@@ -177,6 +235,8 @@ public class SPLevoProjectEditor extends EditorPart {
         createDiffingModelTab();
 
         initDataBindings();
+        
+        enableButtonsIfInformationAvailable();
 
     }
 
@@ -279,7 +339,7 @@ public class SPLevoProjectEditor extends EditorPart {
         viewerLeadingProjects = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
         viewerLeadingProjects.setContentProvider(ArrayContentProvider.getInstance());
         viewerLeadingProjects.setInput(getSplevoProject().getLeadingProjects());
-        ProjectDropListener dropListenerLeadingProjects = new ProjectDropListener(viewerLeadingProjects,
+        ProjectDropListener dropListenerLeadingProjects = new ProjectDropListener(this, viewerLeadingProjects,
                 splevoProject.getLeadingProjects(), inputVariantNameLeading);
         viewerLeadingProjects.addDropSupport(dragNDropOperations, transferTypes, dropListenerLeadingProjects);
 
@@ -297,7 +357,7 @@ public class SPLevoProjectEditor extends EditorPart {
         viewerIntegrationProjects = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
         viewerIntegrationProjects.setContentProvider(ArrayContentProvider.getInstance());
         viewerIntegrationProjects.setInput(getSplevoProject().getIntegrationProjects());
-        ProjectDropListener dropListenerIntegrationProjects = new ProjectDropListener(viewerIntegrationProjects,
+        ProjectDropListener dropListenerIntegrationProjects = new ProjectDropListener(this, viewerIntegrationProjects,
                 splevoProject.getIntegrationProjects(), inputVariantNameIntegration);
         viewerIntegrationProjects.addDropSupport(dragNDropOperations, transferTypes, dropListenerIntegrationProjects);
 
@@ -399,7 +459,7 @@ public class SPLevoProjectEditor extends EditorPart {
         activityFlow0.setAlignment(SWT.CENTER);
         activityFlow0.setBounds(44, 66, 30, 30);
 
-        Button btnSelectSourceProjects = new Button(processControlContainer, SWT.WRAP);
+        btnSelectSourceProjects = new Button(processControlContainer, SWT.WRAP);
         btnSelectSourceProjects.addMouseListener(new GotoTabMouseListener(tabFolder, TABINDEX_PROJECT_SELECTION));
         btnSelectSourceProjects.setBounds(75, 59, 78, 45);
         btnSelectSourceProjects.setText("Project Selection");
@@ -409,7 +469,7 @@ public class SPLevoProjectEditor extends EditorPart {
         activityFlow1.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
         activityFlow1.setBounds(159, 66, 30, 30);
 
-        Button btnExtractSourceModels = new Button(processControlContainer, SWT.WRAP);
+        btnExtractSourceModels = new Button(processControlContainer, SWT.WRAP);
         btnExtractSourceModels.addMouseListener(new ExtractProjectListener(this));
         btnExtractSourceModels.setBounds(195, 59, 78, 45);
         btnExtractSourceModels.setText("Model Extraction");
@@ -419,7 +479,7 @@ public class SPLevoProjectEditor extends EditorPart {
         activityFlow3.setAlignment(SWT.CENTER);
         activityFlow3.setBounds(279, 66, 30, 30);
 
-        Button btnDiffing = new Button(processControlContainer, SWT.WRAP);
+        btnDiffing = new Button(processControlContainer, SWT.WRAP);
         btnDiffing.addMouseListener(new DiffSourceModelListener(this));
         btnDiffing.setBounds(315, 59, 72, 45);
         btnDiffing.setText("Diffing");
@@ -429,7 +489,7 @@ public class SPLevoProjectEditor extends EditorPart {
         activityFlow4.setAlignment(SWT.CENTER);
         activityFlow4.setBounds(393, 66, 30, 30);
 
-        Button btnInitVpm = new Button(processControlContainer, SWT.WRAP);
+        btnInitVpm = new Button(processControlContainer, SWT.WRAP);
         btnInitVpm.addMouseListener(new InitVPMListener(this));
         btnInitVpm.setBounds(429, 59, 72, 45);
         btnInitVpm.setText("Init VPM");
@@ -439,7 +499,7 @@ public class SPLevoProjectEditor extends EditorPart {
         activityFlow5.setAlignment(SWT.CENTER);
         activityFlow5.setBounds(507, 66, 30, 30);
 
-        Button btnRefineVPM = new Button(processControlContainer, SWT.WRAP);
+        btnRefineVPM = new Button(processControlContainer, SWT.WRAP);
         btnRefineVPM.addMouseListener(new VPMAnalysisListener(this));
         btnRefineVPM.setText("Analyze VPM");
         btnRefineVPM.setBounds(539, 59, 72, 45);
@@ -449,15 +509,15 @@ public class SPLevoProjectEditor extends EditorPart {
         label.setAlignment(SWT.CENTER);
         label.setBounds(617, 66, 30, 30);
 
-        Button btnGenerateFeatureModel = new Button(processControlContainer, SWT.WRAP);
+        btnGenerateFeatureModel = new Button(processControlContainer, SWT.WRAP);
         btnGenerateFeatureModel.addMouseListener(new GenerateFeatureModelListener(this));
         btnGenerateFeatureModel.setText("Generate Feature Model");
         btnGenerateFeatureModel.setBounds(648, 59, 118, 45);
 
-        Button buttonOpenDiff = new Button(processControlContainer, SWT.NONE);
-        buttonOpenDiff.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
-        buttonOpenDiff.setBounds(341, 110, 26, 30);
-        buttonOpenDiff.addMouseListener(new MouseListener() {
+        btnOpenDiff = new Button(processControlContainer, SWT.NONE);
+        btnOpenDiff.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
+        btnOpenDiff.setBounds(341, 110, 26, 30);
+        btnOpenDiff.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseUp(MouseEvent e) {
@@ -485,10 +545,10 @@ public class SPLevoProjectEditor extends EditorPart {
             }
         });
 
-        Button buttonOpenVPM = new Button(processControlContainer, SWT.NONE);
-        buttonOpenVPM.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
-        buttonOpenVPM.setBounds(451, 110, 26, 30);
-        buttonOpenVPM.addMouseListener(new MouseListener() {
+        btnOpenVPM = new Button(processControlContainer, SWT.NONE);
+        btnOpenVPM.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
+        btnOpenVPM.setBounds(451, 110, 26, 30);
+        btnOpenVPM.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseUp(MouseEvent e) {
@@ -631,6 +691,7 @@ public class SPLevoProjectEditor extends EditorPart {
     public void markAsDirty() {
         dirtyFlag = true;
         firePropertyChange(IEditorPart.PROP_DIRTY);
+        enableButtonsIfInformationAvailable();
     }
 
     /**
@@ -658,18 +719,68 @@ public class SPLevoProjectEditor extends EditorPart {
         } else {
             logger.warn("Leading source model path is empty.");
         }
+        
         if (splevoProject.getSourceModelPathIntegration() != null) {
             sourceModelIntegrationInput.setText(splevoProject.getSourceModelPathIntegration());
         } else {
             logger.warn("Integration source model path is empty.");
         }
+        
         if (splevoProject.getDiffingModelPath() != null) {
             diffingModelInput.setText(splevoProject.getDiffingModelPath());
         }
+        
         markAsDirty();
+        
+        enableButtonsIfInformationAvailable();
+        
     }
 
     /**
+     * Enable Buttons if the information for the action is available.
+     */
+    private void enableButtonsIfInformationAvailable() {
+    	disableAllButtonsExceptProjectSelection();
+   	
+		if (bothInputModelsHaveMoreThanOneProject()) {
+			btnExtractSourceModels.setEnabled(true);
+		} else {
+			return;
+		}
+    	
+    	//TODO burkha hier weitere Sachen prüfen
+    	
+	}
+
+    /**
+     * Checks if both input models have more than one project.
+     * @return true, if both input models have more than one project, else false
+     */
+	private boolean bothInputModelsHaveMoreThanOneProject() {
+		return splevoProject.getLeadingProjects().size() > 0
+				&& splevoProject.getIntegrationProjects().size() > 0;
+	}
+
+    /**
+     * Disable all buttons except the Project Selection button.
+     */
+	private void disableAllButtonsExceptProjectSelection() {
+		List<Button> buttons = new ArrayList<Button>();
+		
+		buttons.add(btnExtractSourceModels);
+		buttons.add(btnDiffing);
+		buttons.add(btnOpenDiff);
+		buttons.add(btnGenerateFeatureModel);
+		buttons.add(btnInitVpm);
+		buttons.add(btnRefineVPM);
+		buttons.add(btnOpenVPM);
+		
+		for (Button button : buttons) {
+			button.setEnabled(false);
+		}
+	}
+
+	/**
      * initializing the data bindings for the UI.
      * 
      * @return The prepared context to be bound to the ui.
@@ -751,4 +862,8 @@ public class SPLevoProjectEditor extends EditorPart {
         //
         return bindingContext;
     }
+
+
+
+
 }

@@ -91,6 +91,8 @@ public class VPMAnalysisListener extends MouseAdapter {
         IAction action = new Action("Refine VPM") {
         };
         workflowDelegate.run(action);
+        
+        splevoProjectEditor.enableButtonsAfterAnalyzeVPM();
     }
 
     /**
