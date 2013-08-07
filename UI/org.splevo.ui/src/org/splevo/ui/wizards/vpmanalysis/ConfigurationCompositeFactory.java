@@ -11,7 +11,10 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.LineAttributes;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -34,25 +37,34 @@ public class ConfigurationCompositeFactory {
 		Map<String, ConfigDefinition> availableConfigurations = analyzer.getAvailableConfigurations();
 		Map<String, Object> configurations = analyzer.getConfigurations();
 		Map<String, String> configurationLabels = analyzer.getConfigurationLabels();
-		for (String key : availableConfigurations.keySet()) {
-			ConfigDefinition configDef = availableConfigurations.get(key);
-			String label = configurationLabels.get(key);
+		String[] keys = availableConfigurations.keySet().toArray(new String[0]);
+		for (int i = 0; i < keys.length; i++) {
+			ConfigDefinition configDef = availableConfigurations.get(keys[i]);
+			String label = configurationLabels.get(keys[i]);
 			if (configDef instanceof ChoiceConfigDefintion) {
-				createComboBoxComposite(parent, key, label, (ChoiceConfigDefintion)configDef, configurations);
+				createComboBoxComposite(parent, keys[i], label, (ChoiceConfigDefintion)configDef, configurations);
 			} else if (configDef instanceof IntegerConfigDefinition) {
-				createIntegerFieldComposite(parent, key, label, (IntegerConfigDefinition) configDef, configurations);	
+				createIntegerFieldComposite(parent, keys[i], label, (IntegerConfigDefinition) configDef, configurations);	
 			} else if (configDef instanceof DoubleConfigDefinition) {
-				createDoubleFieldComposite(parent, key, label, (DoubleConfigDefinition) configDef, configurations);	
+				createDoubleFieldComposite(parent, keys[i], label, (DoubleConfigDefinition) configDef, configurations);	
 			} else {
-				createTextFieldComposite(parent, key, label, configDef, configurations);								
+				createTextFieldComposite(parent, keys[i], label, configDef, configurations);								
+			}
+			if(i != (keys.length - 1)) {
+				insertSeparationLine(parent);				
 			}
 		}
+	}
+
+	private void insertSeparationLine(Composite parent) {
+		Label separatorLine = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		separatorLine.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 	}
 
 	private void createDoubleFieldComposite(Composite parent, final String key,
 			String label, final DoubleConfigDefinition configDef,
 			final Map<String, Object> configurations) {
-		new Label(parent, SWT.NONE).setText(label);
+		addLabel(parent, label);
 		final Spinner spinner = new Spinner(parent, SWT.NONE);
 		Double value = (Double) configurations.get(key);
 		spinner.setIncrement(1);
@@ -76,7 +88,7 @@ public class ConfigurationCompositeFactory {
 	private void createIntegerFieldComposite(Composite parent, final String key,
 			String label, final IntegerConfigDefinition configDef,
 			final Map<String, Object> configurations) {
-		new Label(parent, SWT.NONE).setText(label);
+		addLabel(parent, label);
 		final Spinner spinner = new Spinner(parent, SWT.NONE);
 		Integer value = (Integer) configurations.get(key);
 		spinner.setIncrement(1);
@@ -95,10 +107,10 @@ public class ConfigurationCompositeFactory {
 		});
 	}
 
-	private static void createTextFieldComposite(Composite parent, final String key, final String label,
+	private void createTextFieldComposite(Composite parent, final String key, final String label,
 			final ConfigDefinition configDef,
 			final Map<String, Object> configurations) {
-		new Label(parent, SWT.NONE).setText(label);
+		addLabel(parent, label);
 		final StyledText text = new StyledText(parent, SWT.V_SCROLL);
 		text.setLeftMargin(2);
 		text.setRightMargin(2);
@@ -130,10 +142,10 @@ public class ConfigurationCompositeFactory {
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	private static void createComboBoxComposite(Composite parent, final String key, final String label,
+	private void createComboBoxComposite(Composite parent, final String key, final String label,
 			final ChoiceConfigDefintion configDef,
 			final Map<String, Object> configurations) {		
-		new Label(parent, SWT.NONE).setText(label);
+		addLabel(parent, label);
 		List<String> labels = new LinkedList<String>();
         for (final Object value : configDef.getAvailableValues().values()) {
             labels.add(value.toString());
@@ -152,8 +164,15 @@ public class ConfigurationCompositeFactory {
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
+				// Ignore
 			}
 		});
+	}
+	
+	private void addLabel(Composite parent, String text) {
+		Label label = new Label(parent, SWT.WRAP);
+		label.setText(text);
+		Point size = label.computeSize(140, SWT.DEFAULT);
+		label.setLayoutData(new GridData(size.x, size.y));
 	}
 }

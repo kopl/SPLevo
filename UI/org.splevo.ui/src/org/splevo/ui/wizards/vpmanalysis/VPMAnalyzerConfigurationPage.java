@@ -58,6 +58,8 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 
 	private ScrolledComposite scrolledComposite;
 
+	private Button rmvBtn;
+
     /**
      * Create the wizard page to let the user select the analyzes to be performed.
      */
@@ -108,8 +110,9 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
     	addBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/plus.png"));
     	addBtn.addMouseListener(new VPMAnalyzerSelectionDialogListener(this));
     	addBtn.setLayoutData(gridData);
-    	Button rmvBtn = new Button(grpAnalyzers, SWT.PUSH);
+    	rmvBtn = new Button(grpAnalyzers, SWT.PUSH);
 		rmvBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/cross.png"));
+		rmvBtn.setEnabled(false);
 		rmvBtn.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -144,7 +147,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 		scrolledComposite = new ScrolledComposite(grpConfigurations, SWT.SHADOW_IN | SWT.V_SCROLL);
 		configComp = new Composite(scrolledComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout(2, false);
-		gridLayout.verticalSpacing = 20;
+		gridLayout.verticalSpacing = 10;
 		configComp.setLayout(gridLayout);
 		updateConfig();
 		
@@ -225,6 +228,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 	private void update() {
 		listViewerAnalysis.refresh();
 		updateConfig();
+		rmvBtn.setEnabled(selectedAnalyzer != null);
     	getWizard().getContainer().updateButtons();
     }
 
