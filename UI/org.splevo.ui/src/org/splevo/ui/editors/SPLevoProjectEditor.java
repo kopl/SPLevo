@@ -3,7 +3,6 @@ package org.splevo.ui.editors;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -124,7 +123,8 @@ public class SPLevoProjectEditor extends EditorPart {
     private boolean dirtyFlag = false;
 
     /** The available transfer types for the drag and drop support. */
-    private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance(), LocalSelectionTransfer.getTransfer() };
+    private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance(),
+            LocalSelectionTransfer.getTransfer() };
 
     /** The supported drag and drop operations. */
     private int dragNDropOperations = DND.DROP_MOVE;
@@ -148,59 +148,54 @@ public class SPLevoProjectEditor extends EditorPart {
     private Text diffingPackageFilterInput;
 
     /** Button Project Selection. */
-	private Button btnSelectSourceProjects;
+    private Button btnSelectSourceProjects;
 
-	/** Button Extract source models . */
-	private Button btnExtractSourceModels;
+    /** Button Extract source models . */
+    private Button btnExtractSourceModels;
 
-	/** Button Diffing. */
-	private Button btnDiffing;
+    /** Button Diffing. */
+    private Button btnDiffing;
 
-	/** Button Init VPM. */
-	private Button btnInitVpm;
+    /** Button Init VPM. */
+    private Button btnInitVpm;
 
-	/** Button Analyze VPM. */
-	private Button btnRefineVPM;
+    /** Button Analyze VPM. */
+    private Button btnRefineVPM;
 
-	/** Button Generate feature model. */
-	private Button btnGenerateFeatureModel;
+    /** Button Generate feature model. */
+    private Button btnGenerateFeatureModel;
 
-	/** Button Open Diff. */
-	private Button btnOpenDiff;
+    /** Button Open Diff. */
+    private Button btnOpenDiff;
 
-	/** Button Open VPM. */
-	private Button btnOpenVPM;
+    /** Button Open VPM. */
+    private Button btnOpenVPM;
 
-	/** Enables buttons after clicking model extraction.*/
-	public void enableButtonsAfterExtraction() {
-		btnDiffing.setEnabled(true);
-	}
-	
-	/** Enables buttons after clicking diffing.*/
-	public void enableButtonsAfterDiffing() {
-		enableButtonsAfterExtraction();
+    /** Enables buttons after clicking model extraction. */
+    public void enableButtonsAfterExtraction() {
+        btnDiffing.setEnabled(true);
+    }
+
+    /** Enables buttons after clicking diffing. */
+    public void enableButtonsAfterDiffing() {
+        enableButtonsAfterExtraction();
         btnInitVpm.setEnabled(true);
         btnOpenDiff.setEnabled(true);
-	}
-	
-	/** Enables buttons after clicking Init VPM .*/
-	public void enableButtonsAfterInitVPM() {
-		enableButtonsAfterDiffing();
-		btnOpenVPM.setEnabled(true);
-		btnRefineVPM.setEnabled(true);
-	}
-	
-	/** Enables buttons after clicking Analyze VPM*/
-	public void enableButtonsAfterAnalyzeVPM() {
-		enableButtonsAfterInitVPM();
-		btnGenerateFeatureModel.setEnabled(true);		
-	}
-	
-	
+    }
 
+    /** Enables buttons after clicking Init VPM . */
+    public void enableButtonsAfterInitVPM() {
+        enableButtonsAfterDiffing();
+        btnOpenVPM.setEnabled(true);
+        btnRefineVPM.setEnabled(true);
+        btnGenerateFeatureModel.setEnabled(true);
+    }
 
-
-	
+    /** Enables buttons after clicking Analyze VPM. */
+    public void enableButtonsAfterAnalyzeVPM() {
+        enableButtonsAfterInitVPM();
+        btnGenerateFeatureModel.setEnabled(true);
+    }
 
     /**
      * Default constructor setting the icon in the editor title.
@@ -235,7 +230,7 @@ public class SPLevoProjectEditor extends EditorPart {
         createDiffingModelTab();
 
         initDataBindings();
-        
+
         enableButtonsIfInformationAvailable();
 
     }
@@ -522,8 +517,7 @@ public class SPLevoProjectEditor extends EditorPart {
             @Override
             public void mouseUp(MouseEvent e) {
                 if (splevoProject.getDiffingModelPath() != null && splevoProject.getDiffingModelPath().length() > 0) {
-                    IWorkspace workspace = ResourcesPlugin.getWorkspace();
-                    String basePath = workspace.getRoot().getRawLocation().toOSString();
+                    String basePath = getAbsoluteWorkspacePath();
                     File fileToOpen = new File(basePath + File.separator + splevoProject.getDiffingModelPath());
                     IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
                     IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -553,8 +547,7 @@ public class SPLevoProjectEditor extends EditorPart {
             @Override
             public void mouseUp(MouseEvent e) {
                 if (splevoProject.getVpmModelPaths().size() > 0) {
-                    IWorkspace workspace = ResourcesPlugin.getWorkspace();
-                    String basePath = workspace.getRoot().getRawLocation().toOSString();
+                    String basePath = getAbsoluteWorkspacePath();
                     File fileToOpen = new File(basePath + File.separator
                             + splevoProject.getVpmModelPaths().get(splevoProject.getVpmModelPaths().size() - 1));
                     IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
@@ -719,68 +712,130 @@ public class SPLevoProjectEditor extends EditorPart {
         } else {
             logger.warn("Leading source model path is empty.");
         }
-        
+
         if (splevoProject.getSourceModelPathIntegration() != null) {
             sourceModelIntegrationInput.setText(splevoProject.getSourceModelPathIntegration());
         } else {
             logger.warn("Integration source model path is empty.");
         }
-        
+
         if (splevoProject.getDiffingModelPath() != null) {
             diffingModelInput.setText(splevoProject.getDiffingModelPath());
         }
-        
+
         markAsDirty();
-        
+
         enableButtonsIfInformationAvailable();
-        
+
     }
 
     /**
      * Enable Buttons if the information for the action is available.
      */
     private void enableButtonsIfInformationAvailable() {
-    	disableAllButtonsExceptProjectSelection();
-   	
-		if (bothInputModelsHaveMoreThanOneProject()) {
-			btnExtractSourceModels.setEnabled(true);
-		} else {
-			return;
-		}
-    	
-    	//TODO burkha hier weitere Sachen prüfen
-    	
-	}
+        disableAllButtonsExceptProjectSelection();
+
+        if (projectsSelected()) {
+            btnExtractSourceModels.setEnabled(true);
+        } else {
+            return;
+        }
+
+        if (sourceModelsExtracted()) {
+            enableButtonsAfterExtraction();
+        } else {
+            return;
+        }
+
+        if (diffModelAvailable()) {
+            enableButtonsAfterDiffing();
+        } else {
+            return;
+        }
+
+        if (vpmAvailable()) {
+            enableButtonsAfterInitVPM();
+        } else {
+            return;
+        }
+    }
+
+    /**
+     * Check if at least one variation point model is set and can be accessed.
+     * 
+     * @return True if an accessible vpm exists.
+     */
+    private boolean vpmAvailable() {
+        String basePath = getAbsoluteWorkspacePath();
+        return splevoProject.getVpmModelPaths().size() > 0
+                && new File(basePath + splevoProject.getVpmModelPaths().get(0)).canRead();
+    }
+
+    /**
+     * Check if a diff model is set in the project file and if it can be read.
+     * 
+     * @return true if the diff model is available.
+     */
+    private boolean diffModelAvailable() {
+        String basePath = getAbsoluteWorkspacePath();
+        return splevoProject.getDiffingModelPath() != null
+                && new File(basePath + splevoProject.getDiffingModelPath()).canRead();
+    }
+
+    /**
+     * Determine the absolute OS specific path of the workspace.
+     * 
+     * @return The absolute path.
+     */
+    private String getAbsoluteWorkspacePath() {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        String basePath = workspace.getRoot().getRawLocation().toOSString();
+        return basePath;
+    }
+
+    /**
+     * Check if source models have been extracted previously based on the project file content.
+     * 
+     * @return True if both models are available.
+     */
+    private boolean sourceModelsExtracted() {
+        String basePath = getAbsoluteWorkspacePath();
+
+        return splevoProject.getSourceModelPathIntegration() != null
+                && new File(basePath + splevoProject.getSourceModelPathIntegration()).canRead()
+                && splevoProject.getSourceModelPathLeading() != null
+                && new File(basePath + splevoProject.getSourceModelPathLeading()).canRead();
+    }
 
     /**
      * Checks if both input models have more than one project.
+     * 
      * @return true, if both input models have more than one project, else false
      */
-	private boolean bothInputModelsHaveMoreThanOneProject() {
-		return splevoProject.getLeadingProjects().size() > 0
-				&& splevoProject.getIntegrationProjects().size() > 0;
-	}
+    private boolean projectsSelected() {
+        return splevoProject.getLeadingProjects().size() > 0 && splevoProject.getIntegrationProjects().size() > 0;
+    }
 
     /**
      * Disable all buttons except the Project Selection button.
      */
-	private void disableAllButtonsExceptProjectSelection() {
-		List<Button> buttons = new ArrayList<Button>();
-		
-		buttons.add(btnExtractSourceModels);
-		buttons.add(btnDiffing);
-		buttons.add(btnOpenDiff);
-		buttons.add(btnGenerateFeatureModel);
-		buttons.add(btnInitVpm);
-		buttons.add(btnRefineVPM);
-		buttons.add(btnOpenVPM);
-		
-		for (Button button : buttons) {
-			button.setEnabled(false);
-		}
-	}
+    private void disableAllButtonsExceptProjectSelection() {
+        List<Button> buttons = new ArrayList<Button>();
 
-	/**
+        buttons.add(btnExtractSourceModels);
+        buttons.add(btnDiffing);
+        buttons.add(btnOpenDiff);
+        buttons.add(btnGenerateFeatureModel);
+        buttons.add(btnInitVpm);
+        buttons.add(btnRefineVPM);
+        buttons.add(btnOpenVPM);
+
+        for (Button button : buttons) {
+            button.setEnabled(false);
+        }
+    }
+
+    /**
      * initializing the data bindings for the UI.
      * 
      * @return The prepared context to be bound to the ui.
@@ -862,8 +917,5 @@ public class SPLevoProjectEditor extends EditorPart {
         //
         return bindingContext;
     }
-
-
-
 
 }
