@@ -1,5 +1,8 @@
 package org.splevo.ui.jobs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -52,32 +55,40 @@ public class ExtractionJob extends AbstractJob {
     public IStatus run(IProgressMonitor monitor) {
         monitor.beginTask("Software Model Extraction", 100);
 
-        String projectName = null;
+        List<String> projectNames = null;
         String variantName = null;
         if (processLeading) {
-            projectName = splevoProject.getLeadingProjects().get(0);
+            projectNames = splevoProject.getLeadingProjects();
             variantName = splevoProject.getVariantNameLeading();
         } else {
-            projectName = splevoProject.getIntegrationProjects().get(0);
+            projectNames = splevoProject.getIntegrationProjects();
             variantName = splevoProject.getVariantNameIntegration();
         }
 
-        IJavaProject javaProject = null;
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IProject project = workspace.getRoot().getProject(projectName);
+        IJavaProject mainProject = null;
         try {
-            if (project.hasNature(JavaCore.NATURE_ID)) {
-                javaProject = JavaCore.create(project);
-            }
-        } catch (CoreException e) {
+            mainProject = getJavaProject(projectNames.get(0));
+        } catch (CoreException ce) {
             return Status.CANCEL_STATUS;
+        }
+
+        List<IJavaProject> additionalProjects = new ArrayList<IJavaProject>();
+        List<String> additionalProjectNames = new ArrayList<String>();
+        for (int i = 1; i < projectNames.size(); i++) {
+            try {
+                additionalProjects.add(getJavaProject(projectNames.get(i)));
+                additionalProjectNames.add(projectNames.get(i));
+            } catch (CoreException e) {
+                return Status.CANCEL_STATUS;
+            }
         }
 
         // prepare the target path
         URI targetURI = buildTargetURI(variantName);
-        if (logger.isInfoEnabled()) {
-            logger.info("Extraction target: " + targetURI);
-        }
+
+        logger.info("Extraction target: " + targetURI);
+        logger.info("Main Project: " + mainProject.getElementName());
+        logger.info("Additional Projects: " + additionalProjectNames);
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
@@ -88,7 +99,7 @@ public class ExtractionJob extends AbstractJob {
         ExtractionService extractionService = new ExtractionService();
         try {
             monitor.subTask("Extract Model for project: " + variantName);
-            extractionService.extractProject(javaProject, monitor, targetURI);
+            extractionService.extractProject(mainProject, additionalProjects, monitor, targetURI);
         } catch (Exception e) {
             e.printStackTrace();
             return Status.CANCEL_STATUS;
@@ -113,6 +124,25 @@ public class ExtractionJob extends AbstractJob {
     }
 
     /**
+     * Get the JavaProject for a specific project name.
+     * 
+     * @param projectName
+     *            The name to search for.
+     * @return The Identified project if a java one is found. Null otherwise.
+     * @throws CoreException
+     *             Identifies that the project's nature could not be checked.
+     */
+    private IJavaProject getJavaProject(String projectName) throws CoreException {
+        IJavaProject javaProject = null;
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IProject project = workspace.getRoot().getProject(projectName);
+        if (project.hasNature(JavaCore.NATURE_ID)) {
+            javaProject = JavaCore.create(project);
+        }
+        return javaProject;
+    }
+
+    /**
      * Build the target uri for the model extraction.
      * 
      * @param variantName
@@ -129,7 +159,8 @@ public class ExtractionJob extends AbstractJob {
     /**
      * Build the base path for the target models.
      * 
-     * @param splevoProject The SPLevo project to interact with.
+     * @param splevoProject
+     *            The SPLevo project to interact with.
      * @return The base path to store the extracted models at.
      */
     private String getBasePath(SPLevoProject splevoProject) {
