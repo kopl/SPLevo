@@ -1,7 +1,11 @@
 package org.splevo.ui.views.vpmgraph;
 
+import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.Panel;
 import java.util.Random;
+
+import javax.swing.JRootPane;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -65,10 +69,11 @@ public class VPMGraphView extends ViewPart {
      *            The graph to show.
      */
     private void createGraphViewer(VPMGraph graph) {
-        
+
         // setting to enable an improved graph renderer
-        // java.lang.System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-        
+        // java.lang.System.setProperty("org.graphstream.ui.renderer",
+        // "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+
         this.vpmGraph = graph;
 
         setTitleToolTip("Graph: " + graph.getId());
@@ -83,8 +88,20 @@ public class VPMGraphView extends ViewPart {
         v.setCloseFramePolicy(CloseFramePolicy.HIDE_ONLY);
         View view = v.addDefaultView(false);
         view.setFocusTraversalKeysEnabled(true);
-        
-        frame.add(view);
+
+        Panel panel = new Panel(new BorderLayout()) {
+            public void update(java.awt.Graphics g) {
+                /* Do not erase the background */
+                paint(g);
+            }
+        };
+        JRootPane root = new JRootPane();
+        panel.add(root);
+
+        root.getContentPane().add(view);
+
+        frame.add(panel);
+        frame.setVisible(true);
 
         setFocus();
     }
@@ -98,7 +115,7 @@ public class VPMGraphView extends ViewPart {
     @Override
     public void createPartControl(Composite parent) {
 
-        Composite composite = new Composite(parent, SWT.EMBEDDED);
+        Composite composite = new Composite(parent, SWT.NO_BACKGROUND | SWT.EMBEDDED);
         formToolkit.adapt(composite);
         formToolkit.paintBordersFor(composite);
         frame = SWT_AWT.new_Frame(composite);
