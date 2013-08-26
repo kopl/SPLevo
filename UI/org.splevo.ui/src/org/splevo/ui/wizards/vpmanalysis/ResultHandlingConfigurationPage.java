@@ -1,21 +1,42 @@
 package org.splevo.ui.wizards.vpmanalysis;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Map;
+import java.util.Set;
 
-import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.ResourceManager;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
+import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer;
+import org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer;
 import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
+import org.splevo.vpm.analyzer.semantic.SemanticVPMAnalyzer;
 import org.splevo.vpm.refinement.RefinementType;
 
 /**
@@ -26,135 +47,422 @@ import org.splevo.vpm.refinement.RefinementType;
  */
 public class ResultHandlingConfigurationPage extends WizardPage {
 
-    /** The options for the result presentation dialog. */
-    private static final String[] RESULT_PRESENTATION_OPTIONS = new String[] { "Refinement Browser", "VPMGraph Only" };
+	/**
+	 * The chosen presentation for the results.
+	 */
+	private ResultPresentation resultPresentation;
 
-    /** The combo box for the result presentation options. */
-    private Combo presentationCombo = null;
+	/**
+	 * Stores the ID's {@link String} labels.
+	 */
+	private Map<Integer, Set<String>> labelsToGroupID;
 
-    /** The text input to configure one detection rule per line. */
-    private Text detectionRulesText;
-    
-    /** The default configuration to initialize the page. */
-    private VPMAnalysisWorkflowConfiguration defaultConfiguration;
+	/**
+	 * Stores the ID's {@link RefinementType}s.
+	 */
+	private Map<Integer, RefinementType> refinementTypeToGroupID;
 
-    /**
-     * Create the wizard.
-     * @param defaultConfiguration The default configuration to initialize the page.
-     */
-    public ResultHandlingConfigurationPage(VPMAnalysisWorkflowConfiguration defaultConfiguration) {
-        super("ResultHandlingConfiguration");
-        setTitle("Analysis Result Handling");
-        setDescription("Configure how you would like to handle the analysis result.");
-        this.defaultConfiguration = defaultConfiguration;
-    }
+	/**
+	 * A list that has all {@link VPMAnalyzer}s. Used for group creation.
+	 */
+	private VPMAnalyzer[] analyzers = { new SemanticVPMAnalyzer(),
+			new CodeLocationVPMAnalyzer(), new ProgramStructureVPMAnalyzer() };
 
-    /**
-     * Create contents of the wizard.
-     * 
-     * @param parent
-     *            The parent ui element to place this one into.
-     */
-    public void createControl(Composite parent) {
-        Composite container = new Composite(parent, SWT.NULL);
+	/**
+	 * The detection rule label.
+	 */
+	private Label detectionRuleLabel;
 
-        setControl(container);
+	/**
+	 * This component manages the groups.
+	 */
+	private Group groupListGroup;
 
-        Label lblResultPresentation = new Label(container, SWT.NONE);
-        lblResultPresentation.setBounds(10, 10, 135, 20);
-        lblResultPresentation.setText("Result Presentation:");
+	/**
+	 * The {@link Group} that has the components to manage groups.
+	 */
+	private Group groupDetailGroup;
 
-        ComboViewer comboViewer = new ComboViewer(container, SWT.NONE);
-        presentationCombo = comboViewer.getCombo();
-        presentationCombo.setItems(RESULT_PRESENTATION_OPTIONS);
-        presentationCombo
-                .setToolTipText("Select how to present the analysis result.\r\nIn case of the \"VPMGraph only\" option, the refinement detection will be skipped.");
-        presentationCombo.setBounds(145, 7, 288, 28);
-        presentationCombo.select(1);
+	/**
+	 * The table that stores all groups.
+	 */
+	private ListViewer listViewerAnalysis;
 
-        Label lblDetectionRules = new Label(container, SWT.NONE);
-        lblDetectionRules.setBounds(10, 36, 130, 20);
-        lblDetectionRules.setText("Detection Rules:");
+	/**
+	 * The button that removes groups.
+	 */
+	private Button rmvBtn;
 
-        detectionRulesText = new Text(container, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
-        detectionRulesText.setBounds(10, 62, 552, 65);
-        detectionRulesText.setText(buildDetectionRuleText(defaultConfiguration.getDetectionRules()));
+	/**
+	 * This {@link Composite} manages group details.
+	 */
+	private Composite detailComp;
 
-        Label lblRuleInfo = new Label(container, SWT.NONE);
-        lblRuleInfo.setBounds(10, 133, 552, 94);
-        lblRuleInfo
-                .setText("Rules are only applied for the option \"Refinement Browser\". \r\nAdd one rule per line in the format \"Label1,Label2|Operation\" \r\nlabels = relationship label\r\noperation = \"MERGE\" or \"GROUP\"");
-    }
+	/**
+	 * Create the wizard and initialize members.
+	 * 
+	 * @param defaultConfiguration
+	 *            The default configuration to initialize the page.
+	 */
+	public ResultHandlingConfigurationPage(
+			VPMAnalysisWorkflowConfiguration defaultConfiguration) {
+		super("ResultHandlingConfiguration");
+		setTitle("Analysis Result Handling");
+		setDescription("Configure how you would like to handle the analysis result.");
+		
+		this.resultPresentation = ResultPresentation.RELATIONSHIP_GRAPH_ONLY;
+		this.labelsToGroupID = new HashMap<Integer, Set<String>>();
+		this.refinementTypeToGroupID = new HashMap<Integer, RefinementType>();
 
-    /**
-     * Get the result presentation configured on the wizard page.
-     * 
-     * @return The result presentation option.
-     */
-    public ResultPresentation getResultPresentation() {
-        int selected = presentationCombo.getSelectionIndex();
+		for (DetectionRule rule : defaultConfiguration.getDetectionRules()) {
+			int id = findNextFreeID();
+			this.labelsToGroupID.put(id, new HashSet<String>(rule.getEdgeLabels()));
+			this.refinementTypeToGroupID.put(id, rule.getRefinementType());
+		}
+		this.resultPresentation = defaultConfiguration.getPresentation();
+	}
 
-        ResultPresentation presentation = null;
+	/**
+	 * Create contents of the wizard.
+	 * 
+	 * @param parent
+	 *            The parent ui element to place this one into.
+	 */
+	public void createControl(Composite parent) {
+		Composite container = new Composite(parent, SWT.NULL);
+		container.setLayout(new FormLayout());
+		setControl(container);
 
-        switch (selected) {
-        case 0:
-            presentation = ResultPresentation.REFINEMENT_BROWSER;
-            break;
+		Group resultPresentationGrp = generateResultPresentationGroup(container);
 
-        case 1:
-        default:
-            presentation = ResultPresentation.RELATIONSHIP_GRAPH_ONLY;
-            break;
-        }
+		generateGroupComponents(container, resultPresentationGrp);
 
-        return presentation;
-    }
+		enableRulesDetection(false);
+	}
 
-    /**
-     * Get the detection rules configured by the user.
-     * 
-     * @return The list of prepared detection rules.
-     */
-    public List<DetectionRule> getDetectionRules() {
-        List<DetectionRule> rules = new ArrayList<DetectionRule>();
+	/**
+	 * Generates the components that handle (create and add) the groups.
+	 * 
+	 * @param parent
+	 *            The parent composite.
+	 * @param presentationGroup
+	 *            Places the components below this component.
+	 */
+	private void generateGroupComponents(Composite parent,
+			Group presentationGroup) {
+		detectionRuleLabel = new Label(parent, SWT.NONE);
+		FormData labelFD = new FormData();
+		labelFD.top = new FormAttachment(presentationGroup, 20);
+		labelFD.left = new FormAttachment(0);
+		labelFD.right = new FormAttachment(100);
+		labelFD.height = detectionRuleLabel.computeSize(SWT.DEFAULT,
+				SWT.DEFAULT).y;
+		detectionRuleLabel.setLayoutData(labelFD);
+		detectionRuleLabel.setText("Detection Rules");
 
-        String completeText = detectionRulesText.getText();
-        for (String line : completeText.split("\n")) {
-            String[] chunks = line.split(Pattern.quote("|"));
-            List<String> labels = Arrays.asList(chunks[0].split(","));
-            DetectionRule rule = new BasicDetectionRule(labels, RefinementType.get(chunks[1].trim()));
-            rules.add(rule);
-        }
+		groupListGroup = new Group(parent, SWT.NONE);
+		GridLayout gridLayout = new GridLayout(2, true);
+		groupListGroup.setLayout(gridLayout);
+		groupListGroup.setText("Groups");
+		FormData groupFD = new FormData();
+		groupFD.top = new FormAttachment(detectionRuleLabel, 10);
+		groupFD.bottom = new FormAttachment(100);
+		groupFD.left = new FormAttachment(0);
+		groupFD.right = new FormAttachment(30);
+		groupListGroup.setLayoutData(groupFD);
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = SWT.CENTER;
+		listViewerAnalysis = new ListViewer(groupListGroup, SWT.BORDER
+				| SWT.V_SCROLL | SWT.H_SCROLL);
+		listViewerAnalysis.setContentProvider(ArrayContentProvider
+				.getInstance());
+		listViewerAnalysis.setInput(labelsToGroupID.keySet());
+		listViewerAnalysis.setLabelProvider(new RefinementTypeLabelProvider(
+				labelsToGroupID, refinementTypeToGroupID));
+		listViewerAnalysis.getList().setLayoutData(
+				new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		listViewerAnalysis
+				.addSelectionChangedListener(new ISelectionChangedListener() {
 
-        return rules;
-    }
+					@Override
+					public void selectionChanged(SelectionChangedEvent event) {
+						removeDetailComponents();
+						detailComp.pack();
+						Integer selectedID = getSelectedID();
+						if (selectedID == null) {
+							rmvBtn.setEnabled(false);
+						} else {
+							rmvBtn.setEnabled(true);
+							buildDetailComponents(selectedID);
+						}
+						detailComp.pack();
+					}
+				});
+		Button addBtn = new Button(groupListGroup, SWT.PUSH);
+		addBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui",
+				"icons/plus.png"));
+		addBtn.setLayoutData(gridData);
+		addBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
+				Set<String> labels = new LinkedHashSet<String>();
+				for (VPMAnalyzer analyzer : analyzers) {
+					labels.add(analyzer.getRelationshipLabel());
+				}
+				int id = findNextFreeID();
+				labelsToGroupID.put(id, labels);
+				refinementTypeToGroupID.put(id, RefinementType.MERGE);
+				listViewerAnalysis.refresh();
+			}
+		});
+		rmvBtn = new Button(groupListGroup, SWT.PUSH);
+		rmvBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui",
+				"icons/cross.png"));
+		rmvBtn.setEnabled(false);
+		rmvBtn.setLayoutData(gridData);
+		rmvBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
+				Integer selectedID = getSelectedID();
+				labelsToGroupID.remove(selectedID);
+				refinementTypeToGroupID.remove(selectedID);
+				listViewerAnalysis.refresh();
+				removeDetailComponents();
+				detailComp.pack();
+			}
+		});
 
-    /** 
-     * Convert a list of detection rules into textual representation.
-     * 
-     * @param detectionRules The list of detection rules.
-     * @return The textual representation of the detection rules.
-     */
-    private String buildDetectionRuleText(List<DetectionRule> detectionRules) {
+		groupDetailGroup = new Group(parent, SWT.NONE);
+		groupDetailGroup.setText("Details");
+		FormData groupDetailFD = new FormData();
+		groupDetailFD.top = new FormAttachment(detectionRuleLabel, 10);
+		groupDetailFD.bottom = new FormAttachment(100);
+		groupDetailFD.left = new FormAttachment(groupListGroup, 5);
+		groupDetailFD.right = new FormAttachment(100);
+		groupDetailGroup.setLayoutData(groupDetailFD);
+		detailComp = new Composite(groupDetailGroup, SWT.NONE);
+		groupDetailGroup.setLayout(new RowLayout());
+		detailComp.setLayout(gridLayout);
+	}
 
-        StringBuilder configBuffer = new StringBuilder();
+	/**
+	 * Generates a group that allows the user to choose between several
+	 * result presentation options.
+	 * 
+	 * @param parent The parent container.
+	 * @return The Group.
+	 */
+	private Group generateResultPresentationGroup(Composite parent) {
+		Label analysisLabel = new Label(parent, SWT.NONE);
+		analysisLabel.setText("Analysis Presentation");
+		Group resultPresentationGrp = new Group(parent, SWT.NONE);
+		resultPresentationGrp
+				.setText("Choose the view for the analysis results");
+		resultPresentationGrp.setLayout(new RowLayout(SWT.HORIZONTAL));
+		FormData resultPresentationFD = new FormData();
+		resultPresentationFD.top = new FormAttachment(analysisLabel, 10);
+		resultPresentationFD.left = new FormAttachment(0);
+		resultPresentationFD.right = new FormAttachment(100);
+		resultPresentationGrp.setLayoutData(resultPresentationFD);
+		Button vpmGraphBtn = new Button(resultPresentationGrp, SWT.RADIO);
+		vpmGraphBtn.setText("VPM Graph");
+		vpmGraphBtn
+				.setToolTipText("Show VPM Graph only. Refinement detection will be skipped.");
+		vpmGraphBtn.setSelection(true);
+		vpmGraphBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
+				resultPresentation = ResultPresentation.RELATIONSHIP_GRAPH_ONLY;
+				enableRulesDetection(false);
+			}
+		});
+		Button refBrowserBtn = new Button(resultPresentationGrp, SWT.RADIO);
+		refBrowserBtn.setText("Refinement Browser");
+		refBrowserBtn
+				.setToolTipText("Show analysis results in the refinement browser.");
+		refBrowserBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
+				resultPresentation = ResultPresentation.REFINEMENT_BROWSER;
+				enableRulesDetection(true);
+			}
+		});
+		resultPresentationFD.height = resultPresentationGrp.computeSize(
+				SWT.DEFAULT, SWT.DEFAULT).y - 15;
+		return resultPresentationGrp;
+	}
 
-        for (DetectionRule rule : detectionRules) {
-            boolean first = true;
-            for (String label : rule.getEdgeLabels()) {
-                if (!first) {
-                    configBuffer.append(",");
-                }
-                configBuffer.append(label);
-                first = false;
-            }
+	/**
+	 * Disposes all children of the detailComp composite.
+	 */
+	protected void removeDetailComponents() {
+		for (Control control : detailComp.getChildren()) {
+			control.dispose();
+		}
+	}
 
-            configBuffer.append("|");
-            configBuffer.append(rule.getRefinementType().toString());
-            configBuffer.append("\n");
-        }
-        
-        return configBuffer.toString();
+	/**
+	 * Builds the components that display the group's details.
+	 * 
+	 * @param id
+	 *            The group's id.
+	 */
+	private void buildDetailComponents(final Integer id) {
+		Label organizeLabel = new Label(detailComp, SWT.NONE);
+		organizeLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true, 2, 1));
+		organizeLabel.setText("How should the labels be organized?");
+		Button mergeBtn = new Button(detailComp, SWT.RADIO);
+		mergeBtn.setText("Merge");
+		mergeBtn.setToolTipText("Merges labels with the specified label.");
+		mergeBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
+				refinementTypeToGroupID.put(id, RefinementType.MERGE);
+				listViewerAnalysis.refresh();
+			}
+		});
+		Button groupBtn = new Button(detailComp, SWT.RADIO);
+		groupBtn.setText("Group");
+		groupBtn.setToolTipText("Creates groups of labels with the same name.");
+		groupBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
+				refinementTypeToGroupID.put(id, RefinementType.GROUPING);
+				listViewerAnalysis.refresh();
+			}
+		});
+		if (refinementTypeToGroupID.get(id).equals(RefinementType.MERGE)) {
+			mergeBtn.setSelection(true);
+		} else {
+			groupBtn.setSelection(true);
+		}
+		Label labelsLabel = new Label(detailComp, SWT.NONE);
+		labelsLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
+				2, 1));
+		labelsLabel
+				.setText("Choose the labels the rule should be applied for:");
+		for (final VPMAnalyzer analyzer : analyzers) {
+			Button checkBtn = new Button(detailComp, SWT.CHECK);
+			checkBtn.setText(analyzer.getRelationshipLabel());
+			if (labelsToGroupID.get(id).contains(
+					analyzer.getRelationshipLabel())) {
+				checkBtn.setSelection(true);
+			}
+			checkBtn.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					super.widgetSelected(e);
+					if (((Button) (e.widget)).getSelection()) {
+						labelsToGroupID.get(id).add(
+								analyzer.getRelationshipLabel());
+					} else {
+						labelsToGroupID.get(id).remove(
+								analyzer.getRelationshipLabel());
+					}
+					listViewerAnalysis.refresh();
+				}
+			});
+		}
+	}
 
-    }
+	/**
+	 * Get the result presentation configured on the wizard page.
+	 * 
+	 * @return The result presentation option.
+	 */
+	public ResultPresentation getResultPresentation() {
+		return this.resultPresentation;
+	}
+
+	/**
+	 * Get the detection rules configured by the user.
+	 * 
+	 * @return The list of prepared detection rules.
+	 */
+	public List<DetectionRule> getDetectionRules() {
+		LinkedList<DetectionRule> result = new LinkedList<DetectionRule>();
+		for (Integer id : labelsToGroupID.keySet()) {
+			BasicDetectionRule basicDetectionRule = new BasicDetectionRule(
+					new LinkedList<String>(labelsToGroupID.get(id)),
+					refinementTypeToGroupID.get(id));
+			result.add(basicDetectionRule);
+		}
+		return result;
+	}
+
+	/**
+	 * Enables or disables the components that are responsible for the group
+	 * handling.
+	 * 
+	 * @param enabled
+	 *            Determines whether to enable or disable the components.
+	 */
+	private void enableRulesDetection(boolean enabled) {
+		recursiveSetEnabled(groupListGroup, enabled);
+		recursiveSetEnabled(groupDetailGroup, enabled);
+		detectionRuleLabel.setEnabled(enabled);
+	}
+
+	/**
+	 * Recursively enables or disables the given Control and all it's children.
+	 * 
+	 * @param ctrl
+	 *            The control to be en/disabled.
+	 * @param enabled
+	 *            Determines whether to enable / disable the control.
+	 */
+	private void recursiveSetEnabled(Control ctrl, boolean enabled) {
+		if (ctrl instanceof Composite) {
+			Composite comp = (Composite) ctrl;
+			for (Control c : comp.getChildren()) {
+				recursiveSetEnabled(c, enabled);
+			}
+		} else {
+			if (ctrl != rmvBtn || !enabled) {
+				ctrl.setEnabled(enabled);
+			}
+		}
+	}
+
+	/**
+	 * Checks the keys from the refinementTypeToGroupID and returns the lowest
+	 * number that is not part of the set.
+	 * 
+	 * @return The number.
+	 */
+	private int findNextFreeID() {
+		for (int i = 0; i < Integer.MAX_VALUE; i++) {
+			if (!refinementTypeToGroupID.keySet().contains(i)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Gets the ID that is currently selected in the listViewerAnalysis.
+	 * 
+	 * @return The ID.
+	 */
+	private Integer getSelectedID() {
+
+		Integer id = null;
+
+		if (listViewerAnalysis.getSelection() instanceof StructuredSelection) {
+			Object selection = ((StructuredSelection) listViewerAnalysis
+					.getSelection()).getFirstElement();
+			if (selection != null) {
+				id = (Integer) selection;
+			}
+		}
+		return id;
+
+	}
 }
