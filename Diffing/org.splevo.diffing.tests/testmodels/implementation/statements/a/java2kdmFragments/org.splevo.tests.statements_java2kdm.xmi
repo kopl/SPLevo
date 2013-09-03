@@ -14,11 +14,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="109" endLine="16" endPosition="381">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="130" endLine="7" endPosition="164">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@expression"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="130" endLine="7" endPosition="140">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@expression/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="130" endLine="7" endPosition="164">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="130" endLine="7" endPosition="165">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0"/>
@@ -41,14 +41,14 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="161" endLine="7" endPosition="162">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@expression/@arguments.0/@arguments.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="185" endLine="9" endPosition="191">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1/@expression/@expression/@qualifier"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="185" endLine="9" endPosition="219">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="185" endLine="9" endPosition="218">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="185" endLine="9" endPosition="191">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1/@expression/@expression/@qualifier"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="185" endLine="9" endPosition="195">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1/@expression/@expression"/>
@@ -71,11 +71,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="239" endLine="11" endPosition="246">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.2/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="239" endLine="11" endPosition="256">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.2"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="239" endLine="11" endPosition="246">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.2/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="239" endLine="11" endPosition="256">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.2"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="247" endLine="11" endPosition="255">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.2/@fragments.0"/>
@@ -83,11 +83,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="251" endLine="11" endPosition="255">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.2/@fragments.0/@initializer"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="266" endLine="12" endPosition="267">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.3/@expression/@leftHandSide"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="266" endLine="12" endPosition="296">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.3/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="266" endLine="12" endPosition="267">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.3/@expression/@leftHandSide"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="266" endLine="12" endPosition="297">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.3"/>
@@ -116,23 +116,23 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="14" startPosition="325" endLine="14" endPosition="326">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.4/@fragments.0/@initializer"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="337" endLine="15" endPosition="340">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5/@type"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="337" endLine="15" endPosition="374">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="337" endLine="15" endPosition="340">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5/@type"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="341" endLine="15" endPosition="373">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5/@fragments.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="345" endLine="15" endPosition="365">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5/@fragments.0/@initializer/@leftOperand"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="345" endLine="15" endPosition="373">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5/@fragments.0/@initializer"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="345" endLine="15" endPosition="352">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5/@fragments.0/@initializer/@leftOperand/@expression"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="345" endLine="15" endPosition="373">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5/@fragments.0/@initializer"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="345" endLine="15" endPosition="365">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5/@fragments.0/@initializer/@leftOperand"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="361" endLine="15" endPosition="364">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.5/@fragments.0/@initializer/@leftOperand/@arguments.0"/>
@@ -167,11 +167,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="20" startPosition="449" endLine="20" endPosition="450">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.0/@fragments.1"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="471" endLine="22" endPosition="477">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="471" endLine="22" endPosition="476">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="471" endLine="22" endPosition="477">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="471" endLine="22" endPosition="472">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1/@expression/@leftHandSide"/>
@@ -179,23 +179,23 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="475" endLine="22" endPosition="476">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1/@expression/@rightHandSide"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="487" endLine="23" endPosition="493">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.2"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="487" endLine="23" endPosition="492">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.2/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="487" endLine="23" endPosition="488">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.2/@expression/@leftHandSide"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="487" endLine="23" endPosition="492">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.2/@expression"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="487" endLine="23" endPosition="493">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.2"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="491" endLine="23" endPosition="492">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.2/@expression/@rightHandSide"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="503" endLine="24" endPosition="510">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.3"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="503" endLine="24" endPosition="509">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.3/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="503" endLine="24" endPosition="510">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.3"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="503" endLine="24" endPosition="504">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.3/@expression/@leftHandSide"/>
@@ -220,11 +220,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="103" endLine="5" endPosition="109">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@parameters.0/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="103" endLine="5" endPosition="109">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@parameters.0/@type"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="103" endLine="5" endPosition="111">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@parameters.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="103" endLine="5" endPosition="109">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@parameters.0/@type"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="112" endLine="8" endPosition="147">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body"/>
@@ -300,11 +300,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="166" endLine="8" endPosition="172">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.0/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="166" endLine="8" endPosition="172">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.0/@type"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="166" endLine="8" endPosition="174">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="166" endLine="8" endPosition="172">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.0/@type"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="176" endLine="13" endPosition="263">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body"/>
@@ -312,14 +312,14 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="189" endLine="12" endPosition="256">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0"/>
     </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="193" endLine="10" endPosition="207">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@expression"/>
+    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="193" endLine="10" endPosition="203">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@expression/@leftOperand"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="193" endLine="10" endPosition="194">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@expression/@leftOperand/@expression"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="193" endLine="10" endPosition="207">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="206" endLine="10" endPosition="207">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@expression/@rightOperand"/>
@@ -327,17 +327,17 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="209" endLine="12" endPosition="256">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@thenStatement"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="224" endLine="11" endPosition="245">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="224" endLine="11" endPosition="244">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="224" endLine="11" endPosition="230">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0/@expression/@expression/@qualifier"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="224" endLine="11" endPosition="244">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0/@expression"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="224" endLine="11" endPosition="234">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0/@expression/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="224" endLine="11" endPosition="245">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="231" endLine="11" endPosition="234">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0/@expression/@expression"/>
@@ -351,11 +351,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="315" endLine="15" endPosition="321">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@parameters.0/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="315" endLine="15" endPosition="323">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@parameters.0"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="315" endLine="15" endPosition="321">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@parameters.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="315" endLine="15" endPosition="323">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@parameters.0"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="325" endLine="24" endPosition="467">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@body"/>
@@ -363,11 +363,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="338" endLine="19" endPosition="393">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@body/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="342" endLine="17" endPosition="358">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@body/@statements.0/@expression"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="342" endLine="17" endPosition="350">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@body/@statements.0/@expression/@leftOperand"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="342" endLine="17" endPosition="358">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@body/@statements.0/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="354" endLine="17" endPosition="358">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.1/@body/@statements.0/@expression/@rightOperand"/>
@@ -405,11 +405,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="26" startPosition="521" endLine="26" endPosition="527">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@parameters.0/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="26" startPosition="521" endLine="26" endPosition="527">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@parameters.0/@type"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="26" startPosition="521" endLine="26" endPosition="529">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@parameters.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="26" startPosition="521" endLine="26" endPosition="527">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@parameters.0/@type"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="26" startPosition="531" endLine="57" endPosition="1241">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body"/>
@@ -483,8 +483,8 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="32" startPosition="682" endLine="34" endPosition="730">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@body"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="697" endLine="33" endPosition="718">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@body/@statements.0/@expression"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="697" endLine="33" endPosition="707">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@body/@statements.0/@expression/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="697" endLine="33" endPosition="703">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@body/@statements.0/@expression/@expression/@qualifier"/>
@@ -492,8 +492,8 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="697" endLine="33" endPosition="719">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@body/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="697" endLine="33" endPosition="707">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@body/@statements.0/@expression/@expression"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="697" endLine="33" endPosition="718">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@body/@statements.0/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="704" endLine="33" endPosition="707">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@body/@statements.0/@expression/@expression"/>
@@ -501,11 +501,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="716" endLine="33" endPosition="717">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.1/@body/@statements.0/@expression/@arguments.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="36" startPosition="742" endLine="36" endPosition="764">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.2"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="36" startPosition="742" endLine="36" endPosition="749">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.2/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="36" startPosition="742" endLine="36" endPosition="764">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.2"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="36" startPosition="750" endLine="36" endPosition="763">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.2/@fragments.0"/>
@@ -531,11 +531,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="38" startPosition="802" endLine="38" endPosition="829">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.3/@thenStatement/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="38" startPosition="802" endLine="38" endPosition="808">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.3/@thenStatement/@statements.0/@expression/@expression/@qualifier"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="38" startPosition="802" endLine="38" endPosition="828">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.3/@thenStatement/@statements.0/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="38" startPosition="802" endLine="38" endPosition="808">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.3/@thenStatement/@statements.0/@expression/@expression/@qualifier"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="38" startPosition="809" endLine="38" endPosition="812">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.3/@thenStatement/@statements.0/@expression/@expression"/>
@@ -543,11 +543,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="38" startPosition="821" endLine="38" endPosition="827">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.3/@thenStatement/@statements.0/@expression/@arguments.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="41" startPosition="852" endLine="41" endPosition="864">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.4"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="41" startPosition="852" endLine="41" endPosition="855">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.4/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="41" startPosition="852" endLine="41" endPosition="864">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.4"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="41" startPosition="856" endLine="41" endPosition="863">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.4/@fragments.0"/>
@@ -558,11 +558,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="42" startPosition="874" endLine="44" endPosition="922">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.5"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="42" startPosition="878" endLine="42" endPosition="881">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.5/@expression/@leftOperand"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="42" startPosition="878" endLine="42" endPosition="887">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.5/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="42" startPosition="878" endLine="42" endPosition="881">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.5/@expression/@leftOperand"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="42" startPosition="885" endLine="42" endPosition="887">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.5/@expression/@rightOperand"/>
@@ -603,17 +603,20 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1005" endLine="52" endPosition="1053">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1009" endLine="50" endPosition="1037">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1009" endLine="50" endPosition="1021">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression/@leftOperand"/>
     </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1009" endLine="50" endPosition="1037">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression"/>
+    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1013" endLine="50" endPosition="1019">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression/@leftOperand/@type"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1013" endLine="50" endPosition="1019">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression/@leftOperand/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1025" endLine="50" endPosition="1031">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression/@rightOperand/@type"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1025" endLine="50" endPosition="1037">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression/@rightOperand"/>
@@ -621,17 +624,14 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1025" endLine="50" endPosition="1031">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression/@rightOperand/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1025" endLine="50" endPosition="1031">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@expression/@rightOperand/@type"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="50" startPosition="1039" endLine="52" endPosition="1053">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.7/@thenStatement"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="54" startPosition="1065" endLine="54" endPosition="1083">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.8/@type"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="54" startPosition="1065" endLine="54" endPosition="1127">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.8"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="54" startPosition="1065" endLine="54" endPosition="1083">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.8/@type"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="54" startPosition="1084" endLine="54" endPosition="1126">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.8/@fragments.0"/>
@@ -642,23 +642,23 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="54" startPosition="1106" endLine="54" endPosition="1124">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.8/@fragments.0/@initializer/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="55" startPosition="1137" endLine="55" endPosition="1157">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.9"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="55" startPosition="1137" endLine="55" endPosition="1153">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.9/@type"/>
     </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="55" startPosition="1137" endLine="55" endPosition="1157">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.9"/>
+    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="55" startPosition="1154" endLine="55" endPosition="1156">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.9/@fragments.0"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="56" startPosition="1167" endLine="56" endPosition="1169">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.10/@expression/@leftHandSide"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="56" startPosition="1167" endLine="56" endPosition="1233">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.10/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="56" startPosition="1167" endLine="56" endPosition="1234">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.10"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="56" startPosition="1167" endLine="56" endPosition="1169">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.10/@expression/@leftHandSide"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="56" startPosition="1172" endLine="56" endPosition="1233">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.2/@body/@statements.10/@expression/@rightHandSide"/>
@@ -714,9 +714,6 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="60" startPosition="1298" endLine="62" endPosition="1348">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@thenStatement"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="61" startPosition="1313" endLine="61" endPosition="1319">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@thenStatement/@statements.0/@expression/@expression/@qualifier"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="61" startPosition="1313" endLine="61" endPosition="1337">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@thenStatement/@statements.0"/>
     </children>
@@ -725,6 +722,9 @@
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="61" startPosition="1313" endLine="61" endPosition="1336">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@thenStatement/@statements.0/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="61" startPosition="1313" endLine="61" endPosition="1319">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@thenStatement/@statements.0/@expression/@expression/@qualifier"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="61" startPosition="1320" endLine="61" endPosition="1323">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@thenStatement/@statements.0/@expression/@expression"/>
@@ -735,11 +735,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="62" startPosition="1354" endLine="64" endPosition="1416">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="62" startPosition="1358" endLine="62" endPosition="1359">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@expression/@leftOperand"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="62" startPosition="1358" endLine="62" endPosition="1364">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="62" startPosition="1358" endLine="62" endPosition="1359">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@expression/@leftOperand"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="62" startPosition="1363" endLine="62" endPosition="1364">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@expression/@rightOperand"/>
@@ -747,17 +747,17 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="62" startPosition="1366" endLine="64" endPosition="1416">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@thenStatement"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="63" startPosition="1381" endLine="63" endPosition="1404">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@thenStatement/@statements.0/@expression"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="63" startPosition="1381" endLine="63" endPosition="1405">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@thenStatement/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="63" startPosition="1381" endLine="63" endPosition="1387">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@thenStatement/@statements.0/@expression/@expression/@qualifier"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="63" startPosition="1381" endLine="63" endPosition="1404">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@thenStatement/@statements.0/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="63" startPosition="1381" endLine="63" endPosition="1391">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@thenStatement/@statements.0/@expression/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="63" startPosition="1381" endLine="63" endPosition="1387">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@thenStatement/@statements.0/@expression/@expression/@qualifier"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="63" startPosition="1388" endLine="63" endPosition="1391">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.3/@body/@statements.0/@elseStatement/@thenStatement/@statements.0/@expression/@expression"/>
@@ -779,11 +779,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="90" endLine="5" endPosition="94">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@returnType"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="100" endLine="5" endPosition="113">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@parameters.0"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="100" endLine="5" endPosition="108">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@parameters.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="100" endLine="5" endPosition="113">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@parameters.0"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="115" endLine="18" endPosition="491">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body"/>
@@ -848,17 +848,17 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="253" endLine="13" endPosition="396">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="257" endLine="10" endPosition="264">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@leftOperand/@expression"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="257" endLine="10" endPosition="261">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@leftOperand/@expression/@array"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="257" endLine="11" endPosition="336">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="257" endLine="10" endPosition="261">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@leftOperand/@expression/@array"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="257" endLine="10" endPosition="291">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@leftOperand"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="257" endLine="10" endPosition="264">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@leftOperand/@expression"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="262" endLine="10" endPosition="263">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@leftOperand/@expression/@index"/>
@@ -866,29 +866,26 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="282" endLine="10" endPosition="290">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@leftOperand/@arguments.0"/>
     </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="317" endLine="11" endPosition="318">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@rightOperand/@leftOperand/@leftOperand"/>
+    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="317" endLine="11" endPosition="322">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@rightOperand/@leftOperand"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="317" endLine="11" endPosition="336">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@rightOperand"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="317" endLine="11" endPosition="318">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@rightOperand/@leftOperand/@leftOperand"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="321" endLine="11" endPosition="322">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@rightOperand/@leftOperand/@rightOperand"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="325" endLine="11" endPosition="336">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@rightOperand/@rightOperand"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="325" endLine="11" endPosition="329">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@rightOperand/@rightOperand/@array"/>
     </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="325" endLine="11" endPosition="336">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@expression/@rightOperand/@rightOperand"/>
+    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="338" endLine="13" endPosition="396">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="357" endLine="12" endPosition="368">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement/@statements.0/@expression/@leftHandSide"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="357" endLine="12" endPosition="380">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement/@statements.0/@expression"/>
@@ -896,11 +893,14 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="357" endLine="12" endPosition="381">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="371" endLine="12" endPosition="380">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement/@statements.0/@expression/@rightHandSide"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="357" endLine="12" endPosition="368">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement/@statements.0/@expression/@leftHandSide"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="371" endLine="12" endPosition="375">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement/@statements.0/@expression/@rightHandSide/@array"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="371" endLine="12" endPosition="380">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement/@statements.0/@expression/@rightHandSide"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="376" endLine="12" endPosition="379">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement/@statements.0/@expression/@rightHandSide/@index"/>
@@ -908,11 +908,11 @@
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="378" endLine="12" endPosition="379">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.1/@body/@statements.0/@thenStatement/@statements.0/@expression/@rightHandSide/@index/@operand"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="427" endLine="16" endPosition="474">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.2"/>
-    </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="427" endLine="16" endPosition="435">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.2/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="427" endLine="16" endPosition="474">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.2"/>
     </children>
     <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="436" endLine="16" endPosition="473">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.3/@bodyDeclarations.0/@body/@statements.2/@fragments.0"/>
@@ -937,156 +937,287 @@
   </javaapplication:Java2File>
   <javaapplication:Java2File>
     <file href="../a_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.4/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.5"/>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="40" endLine="23" endPosition="460">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="40" endLine="5" endPosition="110">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@comments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="40" endLine="28" endPosition="707">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="71" endLine="13" endPosition="289">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="4" startPosition="48" endLine="4" endPosition="105">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@comments.0/@tags.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="4" startPosition="48" endLine="4" endPosition="105">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@comments.0/@tags.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="150" endLine="10" endPosition="238">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="78" endLine="5" endPosition="84">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="164" endLine="8" endPosition="168">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@returnType"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="78" endLine="5" endPosition="84">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@returnType"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="102" endLine="13" endPosition="289">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="183" endLine="10" endPosition="238">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="113" endLine="12" endPosition="282">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="194" endLine="9" endPosition="231">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="116" endLine="8" endPosition="157">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@body"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="200" endLine="9" endPosition="230">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@expression"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="131" endLine="7" endPosition="146">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@body/@statements.0"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="204" endLine="9" endPosition="228">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@expression/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="138" endLine="7" endPosition="145">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@body/@statements.0/@expression"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="204" endLine="9" endPosition="228">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@expression/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="158" endLine="10" endPosition="221">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="165" endLine="8" endPosition="183">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@exception"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="165" endLine="8" endPosition="181">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@exception/@type"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="165" endLine="8" endPosition="181">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@exception/@type"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="184" endLine="10" endPosition="221">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@body"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="199" endLine="9" endPosition="210">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@body/@statements.0"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="206" endLine="9" endPosition="209">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@body/@statements.0/@expression"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="222" endLine="12" endPosition="282">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="229" endLine="10" endPosition="238">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@exception/@type"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="229" endLine="10" endPosition="242">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@exception"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="229" endLine="10" endPosition="238">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@exception/@type"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="243" endLine="12" endPosition="282">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@body"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="258" endLine="11" endPosition="271">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@body/@statements.0"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="265" endLine="11" endPosition="270">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@body/@statements.0/@expression"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="297" endLine="21" endPosition="451">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="250" endLine="14" endPosition="358">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="304" endLine="15" endPosition="310">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="264" endLine="12" endPosition="268">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@returnType"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="304" endLine="15" endPosition="310">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@returnType"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="328" endLine="21" endPosition="451">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="296" endLine="14" endPosition="358">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="339" endLine="20" endPosition="444">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="13" startPosition="307" endLine="13" endPosition="351">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="342" endLine="18" endPosition="383">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@body"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="13" startPosition="313" endLine="13" endPosition="350">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@expression"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="357" endLine="17" endPosition="372">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@body/@statements.0"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="13" startPosition="317" endLine="13" endPosition="341">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@expression/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="364" endLine="17" endPosition="371">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@body/@statements.0/@expression"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="13" startPosition="317" endLine="13" endPosition="341">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@expression/@type"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="384" endLine="20" endPosition="444">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="13" startPosition="342" endLine="13" endPosition="349">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@expression/@arguments.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="391" endLine="18" endPosition="400">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@exception/@type"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="370" endLine="18" endPosition="458">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.2"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="391" endLine="18" endPosition="404">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@exception"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="384" endLine="16" endPosition="388">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.2/@returnType"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="391" endLine="18" endPosition="400">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@exception/@type"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="403" endLine="18" endPosition="458">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.2/@body"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="405" endLine="20" endPosition="444">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@body"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="414" endLine="17" endPosition="451">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.2/@body/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="420" endLine="19" endPosition="433">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@body/@statements.0"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="420" endLine="17" endPosition="450">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.2/@body/@statements.0/@expression"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="427" endLine="19" endPosition="432">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@body/@statements.0/@expression"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="424" endLine="17" endPosition="448">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.2/@body/@statements.0/@expression/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="424" endLine="17" endPosition="448">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.2/@body/@statements.0/@expression/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="20" startPosition="470" endLine="22" endPosition="578">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.3"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="20" startPosition="484" endLine="20" endPosition="488">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.3/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="20" startPosition="516" endLine="22" endPosition="578">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.3/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="527" endLine="21" endPosition="571">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.3/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="533" endLine="21" endPosition="570">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.3/@body/@statements.0/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="537" endLine="21" endPosition="561">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.3/@body/@statements.0/@expression/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="537" endLine="21" endPosition="561">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.3/@body/@statements.0/@expression/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="562" endLine="21" endPosition="569">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.3/@body/@statements.0/@expression/@arguments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="590" endLine="26" endPosition="698">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.4"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="604" endLine="24" endPosition="608">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.4/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="636" endLine="26" endPosition="698">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.4/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="647" endLine="25" endPosition="691">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.4/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="653" endLine="25" endPosition="690">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.4/@body/@statements.0/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="657" endLine="25" endPosition="681">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.4/@body/@statements.0/@expression/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="657" endLine="25" endPosition="681">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.4/@body/@statements.0/@expression/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="682" endLine="25" endPosition="689">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.4/@bodyDeclarations.4/@body/@statements.0/@expression/@arguments.0"/>
     </children>
     <unit href="../a_java.xmi#//@compilationUnits.5"/>
     <parent href="Package2Directory_java2kdm.xmi#/"/>
   </javaapplication:Java2File>
   <javaapplication:Java2File>
     <file href="../a_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.4/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.6"/>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="40" endLine="9" endPosition="166">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="40" endLine="23" endPosition="460">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="92" endLine="7" endPosition="157">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="71" endLine="13" endPosition="289">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="99" endLine="5" endPosition="103">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="78" endLine="5" endPosition="84">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@returnType"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="111" endLine="7" endPosition="157">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="78" endLine="5" endPosition="84">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="102" endLine="13" endPosition="289">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="122" endLine="6" endPosition="128">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@type"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="122" endLine="6" endPosition="128">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@type"/>
-    </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="122" endLine="6" endPosition="150">
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="113" endLine="12" endPosition="282">
       <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="129" endLine="6" endPosition="133">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@fragments.0"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="116" endLine="8" endPosition="157">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@body"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="135" endLine="6" endPosition="149">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@fragments.1"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="131" endLine="7" endPosition="146">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@body/@statements.0"/>
     </children>
-    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="142" endLine="6" endPosition="149">
-      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@fragments.1/@initializer"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="138" endLine="7" endPosition="145">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@body/@statements.0/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="158" endLine="10" endPosition="221">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="165" endLine="8" endPosition="183">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@exception"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="165" endLine="8" endPosition="181">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@exception/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="165" endLine="8" endPosition="181">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@exception/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="184" endLine="10" endPosition="221">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="199" endLine="9" endPosition="210">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="206" endLine="9" endPosition="209">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.0/@body/@statements.0/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="222" endLine="12" endPosition="282">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="229" endLine="10" endPosition="242">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@exception"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="229" endLine="10" endPosition="238">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@exception/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="229" endLine="10" endPosition="238">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@exception/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="243" endLine="12" endPosition="282">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="258" endLine="11" endPosition="271">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="265" endLine="11" endPosition="270">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.0/@body/@statements.0/@catchClauses.1/@body/@statements.0/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="297" endLine="21" endPosition="451">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="304" endLine="15" endPosition="310">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="304" endLine="15" endPosition="310">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="328" endLine="21" endPosition="451">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="339" endLine="20" endPosition="444">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="342" endLine="18" endPosition="383">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="357" endLine="17" endPosition="372">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="364" endLine="17" endPosition="371">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@body/@statements.0/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="384" endLine="20" endPosition="444">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="391" endLine="18" endPosition="400">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@exception/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="391" endLine="18" endPosition="400">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@exception/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="391" endLine="18" endPosition="404">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@exception"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="405" endLine="20" endPosition="444">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="420" endLine="19" endPosition="433">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="427" endLine="19" endPosition="432">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.5/@bodyDeclarations.1/@body/@statements.0/@catchClauses.0/@body/@statements.0/@expression"/>
     </children>
     <unit href="../a_java.xmi#//@compilationUnits.6"/>
+    <parent href="Package2Directory_java2kdm.xmi#/"/>
+  </javaapplication:Java2File>
+  <javaapplication:Java2File>
+    <file href="../a_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.4/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.7"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="40" endLine="9" endPosition="166">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="92" endLine="7" endPosition="157">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="99" endLine="5" endPosition="103">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="111" endLine="7" endPosition="157">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="122" endLine="6" endPosition="128">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0/@body/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="122" endLine="6" endPosition="150">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="122" endLine="6" endPosition="128">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0/@body/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="129" endLine="6" endPosition="133">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0/@body/@statements.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="135" endLine="6" endPosition="149">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0/@body/@statements.0/@fragments.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="142" endLine="6" endPosition="149">
+      <node href="../a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.6/@bodyDeclarations.0/@body/@statements.0/@fragments.1/@initializer"/>
+    </children>
+    <unit href="../a_java.xmi#//@compilationUnits.7"/>
     <parent href="Package2Directory_java2kdm.xmi#/"/>
   </javaapplication:Java2File>
 </xmi:XMI>
