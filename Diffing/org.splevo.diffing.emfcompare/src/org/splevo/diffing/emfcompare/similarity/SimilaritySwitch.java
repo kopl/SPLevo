@@ -54,6 +54,7 @@ import org.eclipse.gmt.modisco.java.SuperConstructorInvocation;
 import org.eclipse.gmt.modisco.java.SuperMethodInvocation;
 import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.ThisExpression;
+import org.eclipse.gmt.modisco.java.ThrowStatement;
 import org.eclipse.gmt.modisco.java.TryStatement;
 import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
@@ -143,6 +144,27 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         Expression exp1 = returnStatement1.getExpression();
         Expression exp2 = returnStatement2.getExpression();
+
+        return similarityChecker.isSimilar(exp1, exp2);
+    }
+    
+    /**
+     * Check throw statement similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>expressions similarity</li>
+     * </ul>
+     * 
+     * @param throwStatement1
+     *            The throw statement to compare with the compare element.
+     * @return True/False if the throw statements are similar or not.
+     */
+    @Override
+    public Boolean caseThrowStatement(ThrowStatement throwStatement1) {
+        ThrowStatement throwStatement2 = (ThrowStatement) compareElement;
+        
+        Expression exp1 = throwStatement1.getExpression();
+        Expression exp2 = throwStatement2.getExpression();
 
         return similarityChecker.isSimilar(exp1, exp2);
     }
