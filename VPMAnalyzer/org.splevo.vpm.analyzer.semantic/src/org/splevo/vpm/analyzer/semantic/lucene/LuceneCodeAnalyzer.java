@@ -17,8 +17,6 @@ import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.util.Version;
 
-import scala.actors.threadpool.Arrays;
-
 /**
  * This class is a custom Lucene-Analyzer. Tokenization is done by the
  * WhitespaceTokenizer. Stopwords which are specified in the Constants 
@@ -73,7 +71,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
 	 * @return The {@link CharArraySet} containing the stop-words.
 	 */
 	private CharArraySet transformToCharArray(String[] stopWords) {
-		CharArraySet charArraySet = new CharArraySet(Version.LUCENE_43, Arrays.asList(stopWords), true);
+		CharArraySet charArraySet = new CharArraySet(Version.LUCENE_43, java.util.Arrays.asList(stopWords), true);
 		return charArraySet;
 	}
 }
