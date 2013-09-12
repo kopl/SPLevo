@@ -31,7 +31,7 @@ import org.eclipse.gmt.modisco.java.ASTNode;
  * @generated
  */
 public interface Variant extends EObject {
-	/**
+    /**
      * Returns the value of the '<em><b>Child Feature</b></em>' reference.
      * <!-- begin-user-doc -->
      * <p>
@@ -61,22 +61,22 @@ public interface Variant extends EObject {
      * Returns the value of the '<em><b>Software Entities</b></em>' reference list.
      * The list contents are of type {@link org.eclipse.gmt.modisco.java.ASTNode}.
      * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Software Entities</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Software Entities</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
      * @return the value of the '<em>Software Entities</em>' reference list.
      * @see org.splevo.vpm.variability.variabilityPackage#getVariant_SoftwareEntities()
      * @model required="true"
      * @generated
      */
-	EList<ASTNode> getSoftwareEntities();
+    EList<ASTNode> getSoftwareEntities();
 
-	/**
+    /**
      * Returns the value of the '<em><b>Leading</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * Flag identifying if the variant is one of the leading variantes.
      * <!-- end-model-doc -->
@@ -86,22 +86,22 @@ public interface Variant extends EObject {
      * @model required="true"
      * @generated
      */
-	Boolean getLeading();
+    Boolean getLeading();
 
-	/**
+    /**
      * Sets the value of the '{@link org.splevo.vpm.variability.Variant#getLeading <em>Leading</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @param value the new value of the '<em>Leading</em>' attribute.
      * @see #getLeading()
      * @generated
      */
-	void setLeading(Boolean value);
+    void setLeading(Boolean value);
 
-	/**
+    /**
      * Returns the value of the '<em><b>Variant Id</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * The external configurable and processable identifier of a variant.
      * This can be used e.g. to identifier a variant within the realization technique, e.g. a value of a configuration parameter.
@@ -113,27 +113,27 @@ public interface Variant extends EObject {
      * @model required="true"
      * @generated
      */
-	String getVariantId();
+    String getVariantId();
 
-	/**
+    /**
      * Sets the value of the '{@link org.splevo.vpm.variability.Variant#getVariantId <em>Variant Id</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @param value the new value of the '<em>Variant Id</em>' attribute.
      * @see #getVariantId()
      * @generated
      */
-	void setVariantId(String value);
+    void setVariantId(String value);
 
-	/**
+    /**
      * Returns the value of the '<em><b>Variation Point</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.VariationPoint#getVariants <em>Variants</em>}'.
      * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variation Point</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Variation Point</em>' container reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
      * @return the value of the '<em>Variation Point</em>' container reference.
      * @see #setVariationPoint(VariationPoint)
      * @see org.splevo.vpm.variability.variabilityPackage#getVariant_VariationPoint()
@@ -141,16 +141,16 @@ public interface Variant extends EObject {
      * @model opposite="variants" required="true" transient="false"
      * @generated
      */
-	VariationPoint getVariationPoint();
+    VariationPoint getVariationPoint();
 
-	/**
+    /**
      * Sets the value of the '{@link org.splevo.vpm.variability.Variant#getVariationPoint <em>Variation Point</em>}' container reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @param value the new value of the '<em>Variation Point</em>' container reference.
      * @see #getVariationPoint()
      * @generated
      */
-	void setVariationPoint(VariationPoint value);
+    void setVariationPoint(VariationPoint value);
 
 } // Variant

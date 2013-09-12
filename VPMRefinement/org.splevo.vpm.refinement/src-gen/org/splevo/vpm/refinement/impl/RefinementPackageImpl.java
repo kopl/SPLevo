@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.splevo.vpm.realization.realizationPackage;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
@@ -92,7 +91,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
         // Initialize simple dependencies
         variabilityPackage.eINSTANCE.eClass();
-        realizationPackage.eINSTANCE.eClass();
 
         // Create package meta-data objects
         theRefinementPackage.createPackageContents();

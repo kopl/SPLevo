@@ -64,32 +64,9 @@ public class VariationPointItemProvider
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addRealizationTechniquePropertyDescriptor(object);
             addEnclosingSoftwareEntityPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
-    }
-
-	/**
-     * This adds a property descriptor for the Realization Technique feature.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	protected void addRealizationTechniquePropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_VariationPoint_realizationTechnique_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_realizationTechnique_feature", "_UI_VariationPoint_type"),
-                 variabilityPackage.Literals.VARIATION_POINT__REALIZATION_TECHNIQUE,
-                 true,
-                 false,
-                 true,
-                 null,
-                 null,
-                 null));
     }
 
 	/**

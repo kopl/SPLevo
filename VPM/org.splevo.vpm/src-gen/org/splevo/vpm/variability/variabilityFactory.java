@@ -13,57 +13,57 @@ import org.eclipse.emf.ecore.EFactory;
  * @generated
  */
 public interface variabilityFactory extends EFactory {
-	/**
+    /**
      * The singleton instance of the factory.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	variabilityFactory eINSTANCE = org.splevo.vpm.variability.impl.variabilityFactoryImpl.init();
+    variabilityFactory eINSTANCE = org.splevo.vpm.variability.impl.variabilityFactoryImpl.init();
 
-	/**
+    /**
      * Returns a new object of class '<em>Variation Point</em>'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return a new object of class '<em>Variation Point</em>'.
      * @generated
      */
-	VariationPoint createVariationPoint();
+    VariationPoint createVariationPoint();
 
-	/**
+    /**
      * Returns a new object of class '<em>Variant</em>'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return a new object of class '<em>Variant</em>'.
      * @generated
      */
-	Variant createVariant();
+    Variant createVariant();
 
-	/**
+    /**
      * Returns a new object of class '<em>Variation Point Model</em>'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return a new object of class '<em>Variation Point Model</em>'.
      * @generated
      */
-	VariationPointModel createVariationPointModel();
+    VariationPointModel createVariationPointModel();
 
-	/**
+    /**
      * Returns a new object of class '<em>Variation Point Group</em>'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return a new object of class '<em>Variation Point Group</em>'.
      * @generated
      */
-	VariationPointGroup createVariationPointGroup();
+    VariationPointGroup createVariationPointGroup();
 
-	/**
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @return the package supported by this factory.
      * @generated
      */
-	variabilityPackage getvariabilityPackage();
+    variabilityPackage getvariabilityPackage();
 
 } //variabilityFactory

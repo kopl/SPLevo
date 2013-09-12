@@ -1,5 +1,3 @@
-/**
- */
 package org.splevo.vpm.variability;
 
 import org.eclipse.emf.common.util.EList;
@@ -31,12 +29,12 @@ import org.eclipse.featuremodel.Feature;
  * @generated
  */
 public interface VariationPointGroup extends EObject {
-	/**
+    /**
      * Returns the value of the '<em><b>Variation Points</b></em>' containment reference list.
      * The list contents are of type {@link org.splevo.vpm.variability.VariationPoint}.
      * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.VariationPoint#getGroup <em>Group</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * The variation points which are members of the variation point group.
      * <!-- end-model-doc -->
@@ -46,12 +44,12 @@ public interface VariationPointGroup extends EObject {
      * @model opposite="group" containment="true"
      * @generated
      */
-	EList<VariationPoint> getVariationPoints();
+    EList<VariationPoint> getVariationPoints();
 
-	/**
+    /**
      * Returns the value of the '<em><b>Group Id</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * The identifier for the group. 
      * It represents an external, configurable identifier for the group which can be used also for the realization (e.g. as name of a configuration parameter)
@@ -62,27 +60,27 @@ public interface VariationPointGroup extends EObject {
      * @model required="true"
      * @generated
      */
-	String getGroupId();
+    String getGroupId();
 
-	/**
+    /**
      * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointGroup#getGroupId <em>Group Id</em>}' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @param value the new value of the '<em>Group Id</em>' attribute.
      * @see #getGroupId()
      * @generated
      */
-	void setGroupId(String value);
+    void setGroupId(String value);
 
-	/**
+    /**
      * Returns the value of the '<em><b>Model</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link org.splevo.vpm.variability.VariationPointModel#getVariationPointGroups <em>Variation Point Groups</em>}'.
      * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Model</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Model</em>' container reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
      * @return the value of the '<em>Model</em>' container reference.
      * @see #setModel(VariationPointModel)
      * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointGroup_Model()
@@ -90,17 +88,17 @@ public interface VariationPointGroup extends EObject {
      * @model opposite="variationPointGroups" required="true" transient="false"
      * @generated
      */
-	VariationPointModel getModel();
+    VariationPointModel getModel();
 
-	/**
+    /**
      * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}' container reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @param value the new value of the '<em>Model</em>' container reference.
      * @see #getModel()
      * @generated
      */
-	void setModel(VariationPointModel value);
+    void setModel(VariationPointModel value);
 
     /**
      * Returns the value of the '<em><b>Feature</b></em>' reference.

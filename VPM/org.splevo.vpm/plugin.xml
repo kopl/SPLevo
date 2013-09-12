@@ -12,22 +12,8 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://splevo.org/vpm/1.0"
-            class="org.splevo.vpm.vpmPackage"
-            genModel="model/vpm.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
             uri="http://splevo.org/vpm/1.0/variability"
             class="org.splevo.vpm.variability.variabilityPackage"
-            genModel="model/vpm.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://splevo.org/vpm/1.0/realization"
-            class="org.splevo.vpm.realization.realizationPackage"
             genModel="model/vpm.genmodel"/>
    </extension>
 
