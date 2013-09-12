@@ -110,7 +110,6 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 		setTitle("Analysis Result Handling");
 		setDescription("Configure how you would like to handle the analysis result.");
 		
-		this.resultPresentation = ResultPresentation.RELATIONSHIP_GRAPH_ONLY;
 		this.labelsToGroupID = new HashMap<Integer, Set<String>>();
 		this.refinementTypeToGroupID = new HashMap<Integer, RefinementType>();
 
@@ -137,7 +136,8 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 		generateGroupComponents(container, resultPresentationGrp);
 
-		enableRulesDetection(false);
+		boolean isRefinementBrowser = this.resultPresentation == ResultPresentation.REFINEMENT_BROWSER;
+		enableRulesDetection(isRefinementBrowser);
 	}
 
 	/**
@@ -270,7 +270,8 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 		vpmGraphBtn.setText("VPM Graph");
 		vpmGraphBtn
 				.setToolTipText("Show VPM Graph only. Refinement detection will be skipped.");
-		vpmGraphBtn.setSelection(true);
+		boolean isVPMGraphActivated = resultPresentation == resultPresentation.RELATIONSHIP_GRAPH_ONLY;
+		vpmGraphBtn.setSelection(isVPMGraphActivated);
 		vpmGraphBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -293,6 +294,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 		});
 		resultPresentationFD.height = resultPresentationGrp.computeSize(
 				SWT.DEFAULT, SWT.DEFAULT).y - 15;
+		refBrowserBtn.setSelection(!isVPMGraphActivated);
 		return resultPresentationGrp;
 	}
 

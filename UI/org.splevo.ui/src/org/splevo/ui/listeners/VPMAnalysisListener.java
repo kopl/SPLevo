@@ -21,6 +21,7 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizard;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
+import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
 import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
 import org.splevo.vpm.refinement.RefinementType;
@@ -103,6 +104,9 @@ public class VPMAnalysisListener extends MouseAdapter {
     private VPMAnalysisWorkflowConfiguration buildWorflowConfiguration() {
         VPMAnalysisWorkflowConfiguration config = new VPMAnalysisWorkflowConfiguration();
         config.setSplevoProjectEditor(splevoProjectEditor);
+        
+        // Set default presentation mode
+        config.setPresentation(ResultPresentation.RELATIONSHIP_GRAPH_ONLY);
         
         // build the detection rules
         List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
