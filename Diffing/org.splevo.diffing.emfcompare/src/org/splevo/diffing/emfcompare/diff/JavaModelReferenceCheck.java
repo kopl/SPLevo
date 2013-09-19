@@ -1,6 +1,7 @@
 package org.splevo.diffing.emfcompare.diff;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -91,21 +92,14 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         // this is represented by a bi-directional reference.
         // this bi-derectional reference should be ignored for the "usagesIn.." side
         // ************************************
-        if ("usagesInTypeAccess".equals(reference.getName())) {
-            return true;
-        } else if ("usagesInImports".equals(reference.getName())) {
-            return true;
-        } else if ("usagesInPackageAccess".equals(reference.getName())) {
-            return true;
-        } else if ("usageInVariableAccess".equals(reference.getName())) {
-            return true;
-        } else if ("usages".equals(reference.getName())) {
-            return true;
-        } else if ("usagesInDocComments".equals(reference.getName())) {
-            return true;
-        }
-
-        if ("originalCompilationUnit".equals(reference.getName())) {
+        String[] backLinkNames = {  "usagesInTypeAccess",
+                                    "usagesInImports",
+                                    "usagesInPackageAccess",
+                                    "usageInVariableAccess",
+                                    "usages",
+                                    "usagesInDocComments",
+                                    "originalCompilationUnit"};
+        if (Arrays.asList(backLinkNames).contains(reference.getName())) {
             return true;
         }
 
