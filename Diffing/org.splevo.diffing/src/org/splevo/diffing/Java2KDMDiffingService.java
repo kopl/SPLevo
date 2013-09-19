@@ -24,7 +24,6 @@ import org.splevo.diffing.postprocessor.DiffModelPostProcessor;
  */
 public class Java2KDMDiffingService {
 
-    /** The logger for this class. */
     private Logger logger = Logger.getLogger(Java2KDMDiffingService.class);
 
     /** Regular expressions defining packages to be ignored. */
@@ -43,14 +42,7 @@ public class Java2KDMDiffingService {
      */
     public DiffModel doDiff(JavaApplication integrationModel, JavaApplication leadingModel) throws InterruptedException {
 
-
-        // configure the match engine
-        final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
-        JavaModelMatchScopeProvider matchScopeProvider = new JavaModelMatchScopeProvider(ignorePackages);
-        matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, matchScopeProvider);
-        matchOptions.put(MatchOptions.OPTION_DISTINCT_METAMODELS, true); 
-        matchOptions.put(MatchOptions.OPTION_IGNORE_XMI_ID, true); 
-        matchOptions.put(MatchOptions.OPTION_IGNORE_ID, true); 
+        final Map<String, Object> matchOptions = buildMatchOptions(); 
         
         logger.debug("Diffing: MATCHING PHASE");
         JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
@@ -67,6 +59,20 @@ public class Java2KDMDiffingService {
 
         return diffModel;
 
+    }
+
+    /**
+     * Build old match options for.
+     * @return The prepared match options.
+     */
+    private Map<String, Object> buildMatchOptions() {
+        final Map<String, Object> matchOptions = new EMFCompareMap<String, Object>();
+        JavaModelMatchScopeProvider matchScopeProvider = new JavaModelMatchScopeProvider(ignorePackages);
+        matchOptions.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, matchScopeProvider);
+        matchOptions.put(MatchOptions.OPTION_DISTINCT_METAMODELS, true); 
+        matchOptions.put(MatchOptions.OPTION_IGNORE_XMI_ID, true); 
+        matchOptions.put(MatchOptions.OPTION_IGNORE_ID, true);
+        return matchOptions;
     }
 
     /**
