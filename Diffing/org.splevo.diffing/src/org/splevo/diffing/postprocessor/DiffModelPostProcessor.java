@@ -175,15 +175,7 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
         }
 
         if (diffGroup.getRightParent() instanceof Statement) {
-            if (!(diffGroup.getRightParent() instanceof Block)
-                    && !(diffGroup.getRightParent() instanceof IfStatement)
-                    && !(diffGroup.getRightParent() instanceof ForStatement)
-                    && !(diffGroup.getRightParent() instanceof TryStatement)
-                    && !(diffGroup.getRightParent() instanceof CatchClause)
-                    && !(diffGroup.getRightParent() instanceof WhileStatement)
-                    && !(diffGroup.getRightParent() instanceof SwitchStatement)
-                    && !(diffGroup.getRightParent() instanceof DoStatement)
-                    && !(diffGroup.getRightParent() instanceof EnhancedForStatement)) {
+            if (isNotEnclosingStatement((Statement) diffGroup.getRightParent())) {
 
                 EObject leftMatch = matchManager.getMatchedEObject(diffGroup.getRightParent(), MatchSide.LEFT);
                 if (leftMatch == null) {
@@ -202,6 +194,33 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
         }
 
         return Boolean.FALSE;
+    }
+
+    /**
+     * The inverted isEnclosingStatement(Statement statement).
+     * 
+     * @param statement
+     *            The statement to check.
+     * @return false/true if it's an enclosing statement or not.
+     */
+    private boolean isNotEnclosingStatement(Statement statement) {
+        return !isEnclosingStatement(statement);
+    }
+
+    /**
+     * Check if a statement is of a type that encapsulates multiple other statements.
+     * 
+     * @param statement
+     *            The statement to check.
+     * @return true/false if it's an enclosing statement or not.
+     */
+    private boolean isEnclosingStatement(Statement statement) {
+
+        return (statement instanceof Block) || (statement instanceof IfStatement)
+                || (statement instanceof ForStatement) || (statement instanceof TryStatement)
+                || (statement instanceof CatchClause) || (statement instanceof WhileStatement)
+                || (statement instanceof SwitchStatement) || (statement instanceof DoStatement)
+                || (statement instanceof EnhancedForStatement);
     }
 
     /**
