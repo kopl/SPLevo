@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SPLevo Software Extraction Java (MoDisco)
+Bundle-SymbolicName: org.splevo.extraction.java.modisco;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.modisco.java.composition;bundle-version="0.10.1";visibility:=reexport,
+ org.eclipse.modisco.kdm.source.extension;bundle-version="0.10.1",
+ org.eclipse.modisco.infra.discovery.core;bundle-version="0.10.1",
+ org.eclipse.jdt;bundle-version="3.8.0",
+ org.eclipse.jdt.core;bundle-version="3.8.1",
+ org.splevo.modisco.java.composition.discoverer;bundle-version="0.12.0",
+ org.eclipse.modisco.java.discoverer;bundle-version="0.10.2",
+ org.splevo.extraction;bundle-version="1.0.0",
+ org.apache.log4j;bundle-version="1.2.15",
+ org.eclipse.core.resources;bundle-version="3.8.1"
+Export-Package: org.splevo.extraction.java.modisco
