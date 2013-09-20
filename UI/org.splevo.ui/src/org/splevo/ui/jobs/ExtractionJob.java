@@ -3,17 +3,13 @@ package org.splevo.ui.jobs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
+import org.splevo.extraction.DefaultExtractionService;
 import org.splevo.extraction.ExtractionService;
+import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.project.SPLevoProject;
 
 import de.uka.ipd.sdq.workflow.AbstractJob;
@@ -25,6 +21,9 @@ import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
  * Job to extract a software model from an eclipse java project.
  */
 public class ExtractionJob extends AbstractJob {
+
+    /** The currently hard coded id of the extractor to execute. */
+    private static final String SOFTWARE_EXTRACTOR_ID = "MoDiscoSoftwareModelExtractor";
 
     /** The splevo project to store the required data to. */
     private SPLevoProject splevoProject;
@@ -65,30 +64,15 @@ public class ExtractionJob extends AbstractJob {
             variantName = splevoProject.getVariantNameIntegration();
         }
 
-        IJavaProject mainProject = null;
-        try {
-            mainProject = getJavaProject(projectNames.get(0));
-        } catch (CoreException ce) {
-            return Status.CANCEL_STATUS;
-        }
-
-        List<IJavaProject> additionalProjects = new ArrayList<IJavaProject>();
-        List<String> additionalProjectNames = new ArrayList<String>();
-        for (int i = 1; i < projectNames.size(); i++) {
-            try {
-                additionalProjects.add(getJavaProject(projectNames.get(i)));
-                additionalProjectNames.add(projectNames.get(i));
-            } catch (CoreException e) {
-                return Status.CANCEL_STATUS;
-            }
-        }
-
         // prepare the target path
         URI targetURI = buildTargetURI(variantName);
+        List<URI> projectURIs = buildProjectURIs(projectNames);
 
         logger.info("Extraction target: " + targetURI);
-        logger.info("Main Project: " + mainProject.getElementName());
-        logger.info("Additional Projects: " + additionalProjectNames);
+        logger.info("Main Project: " + projectNames.get(0));
+        if (projectNames.size() > 1) {
+            logger.info("Additional Projects: " + projectNames.subList(1, projectNames.size() - 1));
+        }
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
@@ -96,11 +80,11 @@ public class ExtractionJob extends AbstractJob {
         }
 
         // extract model
-        ExtractionService extractionService = new ExtractionService();
+        ExtractionService extractionService = new DefaultExtractionService();
         try {
             monitor.subTask("Extract Model for project: " + variantName);
-            extractionService.extractProject(mainProject, additionalProjects, monitor, targetURI);
-        } catch (Exception e) {
+            extractionService.extractSoftwareModel(SOFTWARE_EXTRACTOR_ID, projectURIs, monitor, targetURI);
+        } catch (SoftwareModelExtractionException e) {
             e.printStackTrace();
             return Status.CANCEL_STATUS;
         }
@@ -124,22 +108,20 @@ public class ExtractionJob extends AbstractJob {
     }
 
     /**
-     * Get the JavaProject for a specific project name.
+     * Build the URIs for a list of projects identified by their names.
      * 
-     * @param projectName
-     *            The name to search for.
-     * @return The Identified project if a java one is found. Null otherwise.
-     * @throws CoreException
-     *             Identifies that the project's nature could not be checked.
+     * @param projectNames
+     *            The project names.
+     * @return The list of URIs identifying the projects.
      */
-    private IJavaProject getJavaProject(String projectName) throws CoreException {
-        IJavaProject javaProject = null;
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IProject project = workspace.getRoot().getProject(projectName);
-        if (project.hasNature(JavaCore.NATURE_ID)) {
-            javaProject = JavaCore.create(project);
+    private List<URI> buildProjectURIs(List<String> projectNames) {
+        List<URI> projectURIs = new ArrayList<URI>();
+        for (String projectName : projectNames) {
+            String basePath = getBasePath(splevoProject);
+            URI projectURI = URI.createURI(basePath + projectName);
+            projectURIs.add(projectURI);
         }
-        return javaProject;
+        return projectURIs;
     }
 
     /**
@@ -151,7 +133,7 @@ public class ExtractionJob extends AbstractJob {
      */
     private URI buildTargetURI(String variantName) {
         String basePath = getBasePath(splevoProject);
-        String targetPath = basePath + variantName + "/" + variantName + "_java2kdm.xmi";
+        String targetPath = basePath + variantName;
         URI targetURI = URI.createURI(targetPath);
         return targetURI;
     }
