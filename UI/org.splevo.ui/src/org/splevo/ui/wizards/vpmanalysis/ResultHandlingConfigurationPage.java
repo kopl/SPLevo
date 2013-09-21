@@ -270,7 +270,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 		vpmGraphBtn.setText("VPM Graph");
 		vpmGraphBtn
 				.setToolTipText("Show VPM Graph only. Refinement detection will be skipped.");
-		boolean isVPMGraphActivated = resultPresentation == resultPresentation.RELATIONSHIP_GRAPH_ONLY;
+		boolean isVPMGraphActivated = resultPresentation == ResultPresentation.RELATIONSHIP_GRAPH_ONLY;
 		vpmGraphBtn.setSelection(isVPMGraphActivated);
 		vpmGraphBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
