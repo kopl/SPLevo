@@ -93,7 +93,7 @@ public class VPMAnalysisListener extends MouseAdapter {
         };
         workflowDelegate.run(action);
         
-        splevoProjectEditor.enableButtonsAfterAnalyzeVPM();
+        splevoProjectEditor.enableButtonsIfInformationAvailable();
     }
 
     /**

@@ -64,7 +64,7 @@ public class InitVPMListener extends MouseAdapter {
         };
         workflowDelegate.run(action);
         
-        splevoProjectEditor.enableButtonsAfterInitVPM();
+        splevoProjectEditor.enableButtonsIfInformationAvailable();
 
     }
 

@@ -171,32 +171,6 @@ public class SPLevoProjectEditor extends EditorPart {
     /** Button Open VPM. */
     private Button btnOpenVPM;
 
-    /** Enables buttons after clicking model extraction. */
-    public void enableButtonsAfterExtraction() {
-        btnDiffing.setEnabled(true);
-    }
-
-    /** Enables buttons after clicking diffing. */
-    public void enableButtonsAfterDiffing() {
-        enableButtonsAfterExtraction();
-        btnInitVpm.setEnabled(true);
-        btnOpenDiff.setEnabled(true);
-    }
-
-    /** Enables buttons after clicking Init VPM . */
-    public void enableButtonsAfterInitVPM() {
-        enableButtonsAfterDiffing();
-        btnOpenVPM.setEnabled(true);
-        btnRefineVPM.setEnabled(true);
-        btnGenerateFeatureModel.setEnabled(true);
-    }
-
-    /** Enables buttons after clicking Analyze VPM. */
-    public void enableButtonsAfterAnalyzeVPM() {
-        enableButtonsAfterInitVPM();
-        btnGenerateFeatureModel.setEnabled(true);
-    }
-
     /**
      * Default constructor setting the icon in the editor title.
      */
@@ -732,7 +706,7 @@ public class SPLevoProjectEditor extends EditorPart {
     /**
      * Enable Buttons if the information for the action is available.
      */
-    private void enableButtonsIfInformationAvailable() {
+    public void enableButtonsIfInformationAvailable() {
         disableAllButtonsExceptProjectSelection();
 
         if (projectsSelected()) {
@@ -742,19 +716,22 @@ public class SPLevoProjectEditor extends EditorPart {
         }
 
         if (sourceModelsExtracted()) {
-            enableButtonsAfterExtraction();
+        	btnDiffing.setEnabled(true);
         } else {
             return;
         }
 
         if (diffModelAvailable()) {
-            enableButtonsAfterDiffing();
+            btnInitVpm.setEnabled(true);
+            btnOpenDiff.setEnabled(true);
         } else {
             return;
         }
 
         if (vpmAvailable()) {
-            enableButtonsAfterInitVPM();
+            btnOpenVPM.setEnabled(true);
+            btnRefineVPM.setEnabled(true);
+            btnGenerateFeatureModel.setEnabled(true);
         } else {
             return;
         }

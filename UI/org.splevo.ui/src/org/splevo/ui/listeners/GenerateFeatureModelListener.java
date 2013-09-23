@@ -55,7 +55,7 @@ public class GenerateFeatureModelListener extends MouseAdapter {
         };
         workflowDelegate.run(action);
 
-        splevoProjectEditor.enableButtonsAfterAnalyzeVPM();
+        splevoProjectEditor.enableButtonsIfInformationAvailable();
     }
 
     /**

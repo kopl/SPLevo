@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
+import org.splevo.project.SPLevoProject;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.workflow.DiffingWorkflowConfiguration;
 import org.splevo.ui.workflow.DiffingWorkflowDelegate;
@@ -33,13 +34,30 @@ public class DiffSourceModelListener extends MouseAdapter {
 
         // build the job configuration
         DiffingWorkflowConfiguration config = buildWorflowConfiguration();
+        Shell shell = e.widget.getDisplay().getShells()[0];
 
         // validate configuration
         if (!config.isValid()) {
-            Shell shell = e.widget.getDisplay().getShells()[0];
             MessageDialog.openError(shell, "Invalid Project Configuration", config.getErrorMessage());
             return;
         }
+
+		SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
+        
+		// Check preexisting results
+		if (splevoProject.getVpmModelPaths().size() > 0) {
+			
+			boolean proceed = MessageDialog.openConfirm(shell,
+					"Override existing Data",
+					"There is existing data from previous processings.\n"
+							+ "This data will be deleted if you proceed.\n"
+							+ "Proceed anyway?");
+			if (!proceed) {
+				return;
+			} else {
+				resetDownstramData(splevoProject);
+			}
+		}
 
         // trigger workflow
         DiffingWorkflowDelegate workflowDelegate = new DiffingWorkflowDelegate(config);
@@ -47,9 +65,19 @@ public class DiffSourceModelListener extends MouseAdapter {
         };
         workflowDelegate.run(action);
         
-        splevoProjectEditor.enableButtonsAfterDiffing();
+        splevoProjectEditor.enableButtonsIfInformationAvailable();
         
     }
+
+	/**
+	 * Reset the data of all downstream processes.
+	 * 
+	 * @param splevoProject
+	 *            The project to access the relevant information.
+	 */
+	private void resetDownstramData(SPLevoProject splevoProject) {
+		splevoProject.getVpmModelPaths().clear();
+	}
 
     /**
      * Build the configuration for the workflow.
