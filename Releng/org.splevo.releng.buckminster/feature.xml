@@ -63,6 +63,10 @@
          id="org.splevo.utilities.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.splevo.modisco.support.feature"
+         version="0.0.0"/>
+
    <plugin
          id="org.splevo.fm.builder.tests"
          download-size="0"
@@ -142,7 +146,15 @@
          unpack="false"/>
 
    <plugin
-         id="org.splevo.diffing.java.modisco.tests"
+         id="org.splevo.modisco.java.diffing.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.java.extraction.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"
