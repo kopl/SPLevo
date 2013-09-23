@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SPLevo Software Extraction Java (MoDisco)
-Bundle-SymbolicName: org.splevo.extraction.java.modisco;singleton:=true
+Bundle-SymbolicName: org.splevo.modisco.java.extraction;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: www.splevo.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

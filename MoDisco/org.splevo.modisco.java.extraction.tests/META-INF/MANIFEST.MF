@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
-Bundle-SymbolicName: org.splevo.extraction.java.modisco.tests
+Bundle-SymbolicName: org.splevo.modisco.java.extraction.tests
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: org.splevo.extraction.java.modisco;bundle-version="1.0.0"
+Fragment-Host: org.splevo.modisco.java.extraction;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit,
  org.eclipse.core.resources;bundle-version="3.8.1",

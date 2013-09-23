@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.splevo.modisco.feature"
-      label="SPLevo MoDisco Add-on Package"
+      label="MoDisco Technology Cartridge"
       version="1.0.0.qualifier"
       provider-name="www.splevo.org">
 
    <description url="http://www.splevo.org">
-      A feature providing additional EMF edit and editor plugins for MoDisco as well as utilities to handle those models.
+      MoDisco technology cartridge providing extraction, diffing and analysis capabilities based on the MoDisco infrastructure and software models.
    </description>
 
    <copyright url="http://www.splevo.org">
-      The plugins contained in this features are add ons to the MoDisco project.
-      MoDisco itself is provided by the MoDisco Eclipse project.
+      The plugins contained in this features are add ons to the MoDisco
+project.
+MoDisco itself is provided by the MoDisco Eclipse project.
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
@@ -214,49 +215,42 @@ litigation.
    </license>
 
    <plugin
-         id="org.eclipse.gmt.modisco.java.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gmt.modisco.omg.kdm.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gmt.modisco.omg.kdm.editor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.modisco.java.composition.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.modisco.java.composition.editor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.modisco.kdm.source.extension.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.splevo.modisco.java.composition.discoverer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.java.diffing"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.java.diffing.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.java.diffing.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.java.extraction"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.util"
          download-size="0"
          install-size="0"
          version="0.0.0"

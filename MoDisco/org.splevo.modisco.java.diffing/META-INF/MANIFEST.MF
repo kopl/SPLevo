@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: MoDisco-specific Java Diffing
-Bundle-SymbolicName: org.splevo.diffing.java.modisco;singleton:=true
+Bundle-SymbolicName: org.splevo.modisco.java.diffing;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

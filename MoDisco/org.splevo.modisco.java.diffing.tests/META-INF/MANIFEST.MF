@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
-Bundle-SymbolicName: org.splevo.diffing.java.modisco.tests
+Bundle-SymbolicName: org.splevo.modisco.java.diffing.tests
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: org.splevo.diffing.java.modisco;bundle-version="1.0.0"
+Fragment-Host: org.splevo.modisco.java.diffing;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit;bundle-version="4.8.2",
  org.eclipse.emf.ecore.xmi;bundle-version="2.7.0",
