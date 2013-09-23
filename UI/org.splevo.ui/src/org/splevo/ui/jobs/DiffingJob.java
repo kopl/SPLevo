@@ -2,9 +2,14 @@ package org.splevo.ui.jobs;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -13,12 +18,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.splevo.diffing.Java2KDMDiffingService;
-import org.splevo.modisco.util.KDMUtil;
+import org.splevo.diffing.DefaultDiffingService;
+import org.splevo.diffing.DiffingException;
+import org.splevo.diffing.DiffingService;
+import org.splevo.diffing.JavaDiffer;
 import org.splevo.project.SPLevoProject;
-
-import com.google.common.io.PatternFilenameFilter;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
@@ -26,106 +30,131 @@ import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
 import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
 
 /**
- * Job to execute the diffing on the source models provided through the blackboard.
+ * Job to execute the diffing on the source models provided through the
+ * blackboard.
  */
-public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
+public class DiffingJob extends
+		AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-    /** The splevo project to store the required data to. */
-    private final SPLevoProject splevoProject;
+	private final SPLevoProject splevoProject;
+	private DateFormat dateFormat = new SimpleDateFormat(
+			"yyyy.MM.dd hh:mm:ss:S");
 
-    /**
-     * Constructor for the diffing job.
-     * 
-     * @param splevoProject
-     *            The SPLevo project to interact with.
-     */
-    public DiffingJob(final SPLevoProject splevoProject) {
-        this.splevoProject = splevoProject;
-    }
+	/**
+	 * Constructor for the diffing job.
+	 * 
+	 * @param splevoProject
+	 *            The SPLevo project to process the diffing for.
+	 */
+	public DiffingJob(final SPLevoProject splevoProject) {
+		this.splevoProject = splevoProject;
+	}
 
-    @Override
-    public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+	@Override
+	public void execute(final IProgressMonitor monitor)
+			throws JobFailedException, UserCanceledException {
 
-        final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        final String basePath = workspace.getRoot().getRawLocation().toOSString();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
+		final String basePath = getWorkspacePath();
 
-        this.logger.info("Load source models");
-        JavaApplication leadingModel = null;
-        JavaApplication integrationModel = null;
-        try {
-            File leadingModelFile = findRootModelFileInDirectory(basePath + splevoProject.getSourceModelPathLeading());
-            leadingModel = KDMUtil.loadKDMModel(leadingModelFile);
-            File integrationModelFile = findRootModelFileInDirectory(basePath + splevoProject.getSourceModelPathIntegration());
-            integrationModel = KDMUtil.loadKDMModel(integrationModelFile);
-        } catch (final IOException e) {
-            throw new JobFailedException("Failed to load source models", e);
-        }
+		logger.info("Init diffing service");
 
-        logger.info("Init diffing service");
-        final Java2KDMDiffingService diffingService = new Java2KDMDiffingService();
-        final String diffingRuleRaw = this.splevoProject.getDiffingFilterRules();
-        final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
-        for (final String rule : parts) {
-            diffingService.getIgnorePackages().add(rule);
-        }
+		Map<String, Object> options = buildDiffingOptions();
+		URI leadingModelDir = new File(basePath
+				+ splevoProject.getSourceModelPathLeading()).toURI();
+		URI integrationModelDir = new File(basePath
+				+ splevoProject.getSourceModelPathIntegration()).toURI();
 
-        logger.info("Diffing started at: " + (dateFormat.format(new Date())));
-        DiffModel diffModel = null;
-        try {
-            diffModel = diffingService.doDiff(integrationModel, leadingModel);
-        } catch (final InterruptedException e) {
-            throw new JobFailedException("Failed to process diffing.", e);
-        }
-        logger.info("Diffing finished at: " + (dateFormat.format(new Date())));
-        logger.info("Number of differences: " + diffModel.getDifferences().size());
+		logger.info("Diffing started at: " + (dateFormat.format(new Date())));
+		DiffModel diffModel = null;
+		try {
+			final DiffingService diffingService = new DefaultDiffingService();
+			diffModel = diffingService.diffSoftwareModels(leadingModelDir,
+					integrationModelDir, options);
+		} catch (final DiffingException e) {
+			throw new JobFailedException("Failed to process diffing.", e);
+		}
+		logger.info("Diffing finished at: " + (dateFormat.format(new Date())));
+		logger.info("Number of differences: "
+				+ diffModel.getDifferences().size());
 
-        // check if the process was canceled
-        if (monitor.isCanceled()) {
-            monitor.done();
-            return;
-        }
+		// check if the process was canceled
+		if (monitor.isCanceled()) {
+			monitor.done();
+			return;
+		}
 
-        logger.info("Save Diff Model");
-        try {
-            final String targetPath = this.splevoProject.getWorkspace() + "models/diffmodel/diffModel.java2kdmdiff";
+		logger.info("Save Diff Model");
+		try {
+			// TODO Do not save a KDM specific diff model.
+			final String targetPath = this.splevoProject.getWorkspace()
+					+ "models/diffmodel/diffModel.java2kdmdiff";
 
-            ModelUtils.save(diffModel, basePath + targetPath);
-            this.splevoProject.setDiffingModelPath(targetPath);
-        } catch (final IOException e) {
-            throw new JobFailedException("Failed to save diff model.", e);
-        }
+			ModelUtils.save(diffModel, basePath + targetPath);
+			this.splevoProject.setDiffingModelPath(targetPath);
+		} catch (final IOException e) {
+			throw new JobFailedException("Failed to save diff model.", e);
+		}
 
-        // refresh workspace
-        try {
-            workspace.getRoot().refreshLocal(IResource.DEPTH_ONE, monitor);
-        } catch (final CoreException e) {
-            e.printStackTrace();
-        }
+		refreshWorkspace(monitor);
+		monitor.done();
+	}
 
-        // finish run
-        monitor.done();
-    }
+	/**
+	 * Get the path to the workspace.
+	 * 
+	 * @return The uri pointing to the workspace root.
+	 */
+	private String getWorkspacePath() {
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final String basePath = workspace.getRoot().getRawLocation()
+				.toOSString();
+		return basePath;
+	}
 
-    /**
-     * Find the MoDisco root model file within a directory.
-     * @param basePath The path of the directory to search in.
-     * @return The detected File.
-     */
-    private File findRootModelFileInDirectory(final String basePath) {
-        File leadingModelDirectory = new File(basePath);
-        String[] rootFiles = leadingModelDirectory.list(new PatternFilenameFilter(".*java2kdm\\.xmi"));
-        File moDiscoRootFile = new File(leadingModelDirectory.getAbsolutePath() + File.separator + rootFiles[0]);
-        return moDiscoRootFile;
-    }
+	/**
+	 * Refresh the workspace so the UI will present all new generated files to
+	 * the user.
+	 * 
+	 * @param monitor
+	 *            The process monitor to report the progress to.
+	 */
+	private void refreshWorkspace(final IProgressMonitor monitor) {
+		try {
+			ResourcesPlugin.getWorkspace().getRoot()
+					.refreshLocal(IResource.DEPTH_ONE, monitor);
+		} catch (final CoreException e) {
+			logger.error("Failed to refresh Workspace", e);
+		}
+	}
 
-    @Override
-    public void rollback(final IProgressMonitor monitor) throws RollbackFailedException {
-        // no rollback possible
-    }
+	/**
+	 * Build the map of differ configurations from the settings in the splevo
+	 * project.
+	 * 
+	 * @return The prepared diffings for the differs.
+	 */
+	private Map<String, Object> buildDiffingOptions() {
+		List<String> ignorePackages = new ArrayList<String>();
+		final String diffingRuleRaw = this.splevoProject
+				.getDiffingFilterRules();
+		final String[] parts = diffingRuleRaw.split(System
+				.getProperty("line.separator"));
+		for (final String rule : parts) {
+			ignorePackages.add(rule);
+		}
+		Map<String, Object> diffingOptions = new HashMap<String, Object>();
+		diffingOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
+		return diffingOptions;
+	}
 
-    @Override
-    public String getName() {
-        return "Diff source models Job";
-    }
+	@Override
+	public void rollback(final IProgressMonitor monitor)
+			throws RollbackFailedException {
+		// no rollback required
+	}
+
+	@Override
+	public String getName() {
+		return "Diff source models Job";
+	}
 }

@@ -2,8 +2,6 @@ package org.splevo.vpm.builder.java2kdmdiff;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.junit.Test;
@@ -26,13 +24,11 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
     /**
      * Test building a vpm from a diff model.
      * 
-     * @throws IOException
-     *             Exception to failed reading the input model.
-     * @throws InterruptedException
-     *             Identifying the test has been interrupted.
+     * @throws Exception
+     *             Error loading the test diff model.
      */
     @Test
-    public void testBuildVPM() throws IOException, InterruptedException {
+    public void testBuildVPM() throws Exception {
 
         DiffModel diffModel = SPLevoTestUtil.loadGCDDiffModel();
 

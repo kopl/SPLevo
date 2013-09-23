@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.splevo.diffing.differ" name="Software Model Differ" schema="schema/org.splevo.diffing.differ.exsd"/>
+
+</plugin>

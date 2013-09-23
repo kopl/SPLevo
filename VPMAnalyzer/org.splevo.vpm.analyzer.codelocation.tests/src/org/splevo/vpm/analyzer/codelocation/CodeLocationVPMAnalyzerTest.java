@@ -29,7 +29,7 @@ public class CodeLocationVPMAnalyzerTest extends AbstractTest {
      * @throws IOException Identifies the initial vpm graph could not be loaded.
      */
     @Test
-    public void testAnalyze() throws IOException, InterruptedException {
+    public void testAnalyze() throws Exception {
         VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
         
         int originalNodeCount = graph.getNodeCount();

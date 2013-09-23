@@ -3,8 +3,6 @@ package org.splevo.fm.builder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
 import org.eclipse.featuremodel.FeatureModel;
 import org.junit.Test;
@@ -26,11 +24,10 @@ public class VPM2FMBuilderTest extends AbstractTest {
 	/**
 	 * Basic test to create a vpm and derive a feature model.
 	 * 
-	 * @throws IOException Failed to read the variation point model.
-	 * @throws InterruptedException User interrupted the test.
+	 * @throws Exception Failed to read the variation point model.
 	 */
 	@Test
-	public void testBuildFeatureModel() throws IOException, InterruptedException {
+	public void testBuildFeatureModel() throws Exception {
 		
 		VariationPointModel vpm = SPLevoTestUtil.loadGCDVPMModel();
 		

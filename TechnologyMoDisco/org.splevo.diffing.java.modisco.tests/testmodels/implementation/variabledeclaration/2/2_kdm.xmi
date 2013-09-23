@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ASCII"?>
+<kdm:Segment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:kdm="http://www.eclipse.org/MoDisco/kdm/kdm" xmlns:source="http://www.eclipse.org/MoDisco/kdm/source">
+  <model xsi:type="source:InventoryModel" name="org.splevo.diffing.tests.variablestmt2">
+    <inventoryElement xsi:type="source:Project" name="org.splevo.diffing.tests.variablestmt2">
+      <inventoryElement xsi:type="source:Configuration" name=".classpath" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\.classpath"/>
+      <inventoryElement xsi:type="source:Configuration" name=".project" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\.project"/>
+      <inventoryElement xsi:type="source:Directory" name=".settings" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\.settings">
+        <inventoryElement xsi:type="source:Configuration" name="org.eclipse.jdt.core.prefs" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\.settings\org.eclipse.jdt.core.prefs"/>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:Directory" name="bin" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\bin">
+        <inventoryElement xsi:type="source:Directory" name="org" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\bin\org">
+          <inventoryElement xsi:type="source:Directory" name="test" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\bin\org\test">
+            <inventoryElement xsi:type="source:BinaryFile" name="A.class" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\bin\org\test\A.class"/>
+          </inventoryElement>
+        </inventoryElement>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:Directory" name="src" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\src">
+        <inventoryElement xsi:type="source:Directory" name="org" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\src\org">
+          <inventoryElement xsi:type="source:Directory" name="test" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\src\org\test">
+            <inventoryElement xsi:type="source:SourceFile" name="A.java" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.variablestmt2\src\org\test\A.java"/>
+          </inventoryElement>
+        </inventoryElement>
+      </inventoryElement>
+    </inventoryElement>
+  </model>
+</kdm:Segment>

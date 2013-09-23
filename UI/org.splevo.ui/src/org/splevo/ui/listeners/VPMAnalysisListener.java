@@ -56,7 +56,7 @@ public class VPMAnalysisListener extends MouseAdapter {
         Shell shell = e.widget.getDisplay().getShells()[0];
 
         // trigger the wizard to configure the refinement process
-        WizardDialog wizardDialog = new WizardDialog(shell, new VPMAnalysisWizard(config)){
+        WizardDialog wizardDialog = new WizardDialog(shell, new VPMAnalysisWizard(config)) {
         	@Override
             protected Control createDialogArea(Composite parent) {
                 Control ctrl = super.createDialogArea(parent);

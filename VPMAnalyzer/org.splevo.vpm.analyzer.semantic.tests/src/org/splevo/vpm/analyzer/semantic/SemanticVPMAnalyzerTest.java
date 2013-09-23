@@ -42,11 +42,10 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     /**
      * Test method for 
      * {@link org.splevo.vpm.analyzer.semantic.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
-     * @throws InterruptedException  Thrown if there were errors while reading graph.
-     * @throws IOException Thrown if there were errors while reading graph.
+     * @throws Exception Thrown if there was an error while reading graph.
      */
     @Test
-    public void testAnalyzeOverallSim() throws IOException, InterruptedException {
+    public void testAnalyzeOverallSim() throws Exception {
     	// Initialization
     	VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
@@ -70,11 +69,10 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     /**
      * Test method for 
      * {@link org.splevo.vpm.analyzer.semantic.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
-     * @throws InterruptedException  Thrown if there were errors while reading graph.
-     * @throws IOException Thrown if there were errors while reading graph.
+     * @throws Exception Thrown if there was an error while reading graph.
      */
     @Test
-    public void testAnalyzeRareTerm() throws IOException, InterruptedException {
+    public void testAnalyzeRareTerm() throws Exception {
     	// Initialization
     	VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
@@ -98,11 +96,10 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     /**
      * Test method for 
      * {@link org.splevo.vpm.analyzer.semantic.SemanticVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}.
-     * @throws InterruptedException  Thrown if there were errors while reading graph.
-     * @throws IOException Thrown if there were errors while reading graph.
+     * @throws Exception Thrown if there was an error while reading graph.
      */
     @Test
-    public void testAnalyzeTopNTerm() throws IOException, InterruptedException {
+    public void testAnalyzeTopNTerm() throws Exception {
     	// Initialization
     	VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();

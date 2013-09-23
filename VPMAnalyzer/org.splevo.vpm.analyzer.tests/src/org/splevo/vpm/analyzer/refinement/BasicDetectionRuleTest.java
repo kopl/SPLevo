@@ -2,7 +2,6 @@ package org.splevo.vpm.analyzer.refinement;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +29,11 @@ public class BasicDetectionRuleTest extends AbstractTest {
      * {@link org.splevo.vpm.analyzer.refinement.BasicDetectionRule#detect(org.splevo.vpm.analyzer.graph.VPMGraph)}
      * .
      * 
-     * @throws InterruptedException
-     *             Identifies the test has been stopped.
-     * @throws IOException
+     * @throws Exception
      *             Identifies the test failed to load the test model.
      */
     @Test
-    public void testDetect() throws IOException, InterruptedException {
+    public void testDetect() throws Exception {
 
         // prepare the graph with relationship edges
         // for the gcd example.

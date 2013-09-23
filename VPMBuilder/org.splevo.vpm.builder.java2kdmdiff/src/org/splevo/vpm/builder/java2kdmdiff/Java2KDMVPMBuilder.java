@@ -10,6 +10,7 @@ import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+import org.splevo.diffing.java.modisco.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -18,8 +19,6 @@ import org.splevo.vpm.variability.variabilityFactory;
 /**
  * A builder to generate a Variation Point Model (VPM) based on a java2kdm diff-model, i.e. an
  * extended EMF Compare diff-model.
- * 
- * @author benjamin
  * 
  */
 public class Java2KDMVPMBuilder {
@@ -45,6 +44,10 @@ public class Java2KDMVPMBuilder {
      *            The id for the integration variants.
      */
     public Java2KDMVPMBuilder(String variantIDLeading, String variantIDIntegration) {
+
+    	// Make sure the meta model is loaded.
+        Java2KDMDiffPackage.eINSTANCE.eClass();
+        
         this.variantIDIntegration = variantIDIntegration;
         this.variantIDLeading = variantIDLeading;
     }
@@ -63,7 +66,7 @@ public class Java2KDMVPMBuilder {
      */
     public VariationPointModel buildVPM(DiffModel diffModel) {
 
-        if (!checkDiffModelIsValid(diffModel)) {
+        if (!diffModelIsValid(diffModel)) {
             return null;
         }
 
@@ -175,7 +178,7 @@ public class Java2KDMVPMBuilder {
      *            The diff model to check
      * @return true/false depending whether the diff model is valid.
      */
-    private boolean checkDiffModelIsValid(DiffModel diffModel) {
+    private boolean diffModelIsValid(DiffModel diffModel) {
 
         boolean valid = true;
 

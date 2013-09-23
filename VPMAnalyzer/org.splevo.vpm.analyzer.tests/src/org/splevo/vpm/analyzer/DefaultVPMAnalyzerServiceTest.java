@@ -7,7 +7,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +35,11 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
     /**
      * Test initializing the VPMGraph for the vpm model initialized for the GCD example.
      * 
-     * @throws InterruptedException
-     *             identifies test has been interrupted.
-     * @throws IOException
+     * @throws Exception
      *             identifies test input could not be read.
      */
     @Test
-    public void testInitVPMGraph() throws IOException, InterruptedException {
+    public void testInitVPMGraph() throws Exception {
         DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
         VariationPointModel vpm = SPLevoTestUtil.loadGCDVPMModel();
         Graph graph = service.initVPMGraph(vpm);
@@ -176,13 +173,11 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
      * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#deriveRefinements(org.splevo.vpm.analyzer.graph.VPMGraph, java.util.List)}
      * .
      * 
-     * @throws InterruptedException
-     *             identifies test has been interrupted.
-     * @throws IOException
+     * @throws Exception
      *             identifies the test graph could not be loaded.
      */
     @Test
-    public void testDeriveRefinements() throws IOException, InterruptedException {
+    public void testDeriveRefinements() throws Exception {
 
         // init the test graph
         VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();

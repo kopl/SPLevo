@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.diffing.DefaultDiffingService;
 import org.splevo.project.SPLevoProject;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
@@ -41,8 +41,11 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         String basePath = workspace.getRoot().getRawLocation().toOSString();
 
+        // trigger loading the diff extensions.
+        DefaultDiffingService diffingService = new DefaultDiffingService();
+        diffingService.getDiffers();
+        
         logger.info("Load diff models");
-        Java2KDMDiffPackage.eINSTANCE.eClass();
         File diffModelFile = new File(basePath + splevoProject.getDiffingModelPath());
         DiffModel diffModel;
         try {

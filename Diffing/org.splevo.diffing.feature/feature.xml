@@ -215,25 +215,4 @@ litigation.
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="org.splevo.diffing.emfcompare"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.splevo.diffing.emfcompare.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.splevo.diffing.emfcompare.editor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 </feature>

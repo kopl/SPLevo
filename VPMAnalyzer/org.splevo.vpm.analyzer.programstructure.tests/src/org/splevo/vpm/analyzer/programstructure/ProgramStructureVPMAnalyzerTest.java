@@ -40,7 +40,7 @@ public class ProgramStructureVPMAnalyzerTest extends AbstractTest {
      *             identifies the test has been interrupted.
      */
     @Test
-    public void testAnalyze() throws IOException, InterruptedException {
+    public void testAnalyze() throws Exception {
         
         VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
         

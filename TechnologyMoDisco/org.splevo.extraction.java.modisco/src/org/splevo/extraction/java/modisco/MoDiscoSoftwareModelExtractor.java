@@ -103,12 +103,13 @@ public class MoDiscoSoftwareModelExtractor implements SoftwareModelExtractor {
         DiscoverKDMSourceAndJavaModelFromJavaProject discoverer = new DiscoverKDMSourceAndJavaModelFromJavaProject();
         discoverer.setSerializeTarget(true);
         discoverer.setTargetURI(targetURI);
-        discoverer.discoverElement(mainProject, monitor);
         ElementsToAnalyze elementsToAnalyze = new ElementsToAnalyze(mainProject);
         for (IJavaProject additionalProject : additionalProjects) {
             elementsToAnalyze.addElementToDiscover(additionalProject);
         }
         discoverer.setElementsToAnalyze(elementsToAnalyze);
+
+        discoverer.discoverElement(mainProject, monitor);
 
         Resource javaApplicationModel = discoverer.getTargetModel();
         return javaApplicationModel.getResourceSet();

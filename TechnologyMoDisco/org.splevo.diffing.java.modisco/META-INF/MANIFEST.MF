@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.splevo.diffing.emfcompare
-Bundle-SymbolicName: org.splevo.diffing.emfcompare;singleton:=true
+Bundle-Name: MoDisco-specific Java Diffing
+Bundle-SymbolicName: org.splevo.diffing.java.modisco;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -15,12 +15,19 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.modisco.kdm.source.extension,
  org.eclipse.modisco.kdm.source.extension.ui,
  org.eclipse.emf.ecore.xmi,
- org.apache.log4j
-Bundle-ActivationPolicy: lazy
+ org.apache.log4j,
+ org.splevo.diffing;bundle-version="1.0.0",
+ org.splevo.modisco.util;bundle-version="1.0.0",
+ com.google.guava;bundle-version="10.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.splevo.diffing.emfcompare.diff,
- org.splevo.diffing.emfcompare.java2kdmdiff,
- org.splevo.diffing.emfcompare.java2kdmdiff.util,
- org.splevo.diffing.emfcompare.match,
- org.splevo.diffing.emfcompare.similarity,
- org.splevo.diffing.emfcompare.util
+Export-Package: org.splevo.diffing.java.modisco,
+ org.splevo.diffing.java.modisco.diff,
+ org.splevo.diffing.java.modisco.java2kdmdiff,
+ org.splevo.diffing.java.modisco.java2kdmdiff.impl,
+ org.splevo.diffing.java.modisco.java2kdmdiff.util,
+ org.splevo.diffing.java.modisco.match,
+ org.splevo.diffing.java.modisco.postprocessor,
+ org.splevo.diffing.java.modisco.similarity,
+ org.splevo.diffing.java.modisco.util
+Bundle-Activator: org.splevo.diffing.java.modisco.Activator
+Bundle-ActivationPolicy: lazy

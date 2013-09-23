@@ -3,6 +3,7 @@ package org.splevo.ui.editors;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
@@ -23,6 +24,8 @@ import org.eclipse.swt.widgets.Text;
  * @see ProjectDropEvent
  */
 public class ProjectDropListener extends ViewerDropAdapter {
+	
+	private Logger logger = Logger.getLogger(ProjectDropListener.class);
 
     /** The SPLevo project to access the data in. */
     private List<String> projectListContainer;
@@ -118,7 +121,9 @@ public class ProjectDropListener extends ViewerDropAdapter {
 					if (isNatureNotNullAndInstanceOfIJavaProject(nature)) {
 						javaProjects.add((IJavaProject) nature);
 					}
-				} catch (CoreException e) {}
+				} catch (CoreException e) {
+					logger.warn("Project could not be converted into a JavaProject so drop failed.");
+				}
 			}
 		}
 	}

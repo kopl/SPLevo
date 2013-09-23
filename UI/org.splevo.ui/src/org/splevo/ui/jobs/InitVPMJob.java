@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.splevo.diffing.emfcompare.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -44,7 +43,6 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         String basePath = workspace.getRoot().getRawLocation().toOSString();
 
         logger.info("Load diff models");
-        Java2KDMDiffPackage.eINSTANCE.eClass();
         File diffModelFile = new File(basePath + splevoProject.getDiffingModelPath());
         DiffModel diffModel;
         try {

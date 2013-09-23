@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ASCII"?>
+<kdm:Segment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:kdm="http://www.eclipse.org/MoDisco/kdm/kdm" xmlns:source="http://www.eclipse.org/MoDisco/kdm/source">
+  <model xsi:type="source:InventoryModel" name="org.splevo.diffing.tests.code">
+    <inventoryElement xsi:type="source:Project" name="org.splevo.diffing.tests.code">
+      <inventoryElement xsi:type="source:Configuration" name=".classpath" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\.classpath"/>
+      <inventoryElement xsi:type="source:Configuration" name=".project" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\.project"/>
+      <inventoryElement xsi:type="source:Directory" name=".settings" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\.settings">
+        <inventoryElement xsi:type="source:Configuration" name="org.eclipse.jdt.core.prefs" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\.settings\org.eclipse.jdt.core.prefs"/>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:Directory" name="bin" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\bin">
+        <inventoryElement xsi:type="source:Directory" name="packageA" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\bin\packageA">
+          <inventoryElement xsi:type="source:BinaryFile" name="ImportDiffing.class" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\bin\packageA\ImportDiffing.class"/>
+        </inventoryElement>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:Directory" name="src" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\src">
+        <inventoryElement xsi:type="source:Directory" name="packageA" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\src\packageA">
+          <inventoryElement xsi:type="source:SourceFile" name="ImportDiffing.java" path="D:\Projekte\phd\Development\eclipse-juno\workspace\org.splevo.diffing.tests.code\src\packageA\ImportDiffing.java"/>
+        </inventoryElement>
+      </inventoryElement>
+    </inventoryElement>
+  </model>
+</kdm:Segment>
