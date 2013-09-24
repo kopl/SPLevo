@@ -19,7 +19,8 @@ public interface ProjectFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	ProjectFactory eINSTANCE = org.splevo.project.impl.ProjectFactoryImpl.init();
+	ProjectFactory eINSTANCE = org.splevo.project.impl.ProjectFactoryImpl
+			.init();
 
 	/**
 	 * Returns a new object of class '<em>SP Levo Project</em>'.

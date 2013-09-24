@@ -51,6 +51,10 @@
         <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/diffingFilterRules"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_bI3wof3yEeGA7MerUKfPKg"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_V3A4UCRREeOeMpkN59zJoQ" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/extractorIds"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_V3A4USRREeOeMpkN59zJoQ"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_6JMgkuhmEeGE_bESYdztFA"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_6JMgk-hmEeGE_bESYdztFA"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_6JMglOhmEeGE_bESYdztFA"/>

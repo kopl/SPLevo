@@ -19,11 +19,11 @@ import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
  * update of the user interface to set the paths to the extracted models.
  * 
  */
-public class ModelExtractionWorkflowDelegate extends
-        AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
+public class ExtractionWorkflowDelegate extends
+        AbstractWorkbenchDelegate<ExtractionWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
     /** The configuration of the workflow. */
-    private BasicSPLevoWorkflowConfiguration config = null;
+    private ExtractionWorkflowConfiguration config = null;
 
     /**
      * Constructor requiring a a workflow configuration.
@@ -31,7 +31,7 @@ public class ModelExtractionWorkflowDelegate extends
      * @param config
      *            The configuration of the workflow.
      */
-    public ModelExtractionWorkflowDelegate(BasicSPLevoWorkflowConfiguration config) {
+    public ExtractionWorkflowDelegate(ExtractionWorkflowConfiguration config) {
         this.config = config;
     }
 
@@ -39,14 +39,16 @@ public class ModelExtractionWorkflowDelegate extends
      * {@inheritDoc}
      */
     @Override
-    protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
+    protected IJob createWorkflowJob(ExtractionWorkflowConfiguration config) {
 
         OrderPreservingCompositeJob compositeJob = new OrderPreservingCompositeJob();
 
         // create the parallel extraction
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-        ExtractionJob leadingExtractionJob = new ExtractionJob(splevoProject, true);
-        ExtractionJob integrationExtractionJob = new ExtractionJob(splevoProject, false);
+        String extractorId = splevoProject.getExtractorIds().get(0);
+        
+        ExtractionJob leadingExtractionJob = new ExtractionJob(extractorId, splevoProject, true);
+        ExtractionJob integrationExtractionJob = new ExtractionJob(extractorId, splevoProject, false);
 
         ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard> compositeExtractionJob = new ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard>();
         compositeExtractionJob.add(leadingExtractionJob);
@@ -72,7 +74,7 @@ public class ModelExtractionWorkflowDelegate extends
     }
 
     @Override
-    protected BasicSPLevoWorkflowConfiguration getConfiguration() {
+    protected ExtractionWorkflowConfiguration getConfiguration() {
         return this.config;
     }
 }

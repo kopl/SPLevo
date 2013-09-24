@@ -13,16 +13,20 @@ import de.uka.ipd.sdq.workflow.AbstractJobConfiguration;
  */
 public class BasicSPLevoWorkflowConfiguration extends AbstractJobConfiguration {
 
-    /** The internal reference to the splevo project editor to work with. */
+    public static final String ERROR_MSG_EDITOR_MISSING = "No SPLevo Project editor configured";
+    
+	/** The internal reference to the splevo project editor to work with. */
     private SPLevoProjectEditor splevoProjectEditor = null;
 
     /**
-     * This configuration is always valid. {@inheritDoc}
+     * Check the configuration and return a message in case of an error.
+     *  
+     * {@inheritDoc}
      */
     @Override
     public String getErrorMessage() {
         if (getSplevoProjectEditor() == null) {
-            return "No SPLevo Project editor configured";
+            return ERROR_MSG_EDITOR_MISSING;
         }
         return null;
     }

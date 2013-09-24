@@ -54,7 +54,7 @@ public class ProjectAdapterFactory extends AdapterFactoryImpl {
 			return true;
 		}
 		if (object instanceof EObject) {
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
+			return ((EObject) object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
 	}
@@ -65,17 +65,17 @@ public class ProjectAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ProjectSwitch<Adapter> modelSwitch =
-		new ProjectSwitch<Adapter>() {
-			@Override
-			public Adapter caseSPLevoProject(SPLevoProject object) {
-				return createSPLevoProjectAdapter();
-			}
-			@Override
-			public Adapter defaultCase(EObject object) {
-				return createEObjectAdapter();
-			}
-		};
+	protected ProjectSwitch<Adapter> modelSwitch = new ProjectSwitch<Adapter>() {
+		@Override
+		public Adapter caseSPLevoProject(SPLevoProject object) {
+			return createSPLevoProjectAdapter();
+		}
+
+		@Override
+		public Adapter defaultCase(EObject object) {
+			return createEObjectAdapter();
+		}
+	};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -87,9 +87,8 @@ public class ProjectAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		return modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject) target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.splevo.project.SPLevoProject <em>SP Levo Project</em>}'.

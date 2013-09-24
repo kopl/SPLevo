@@ -8,8 +8,8 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.workflow.BasicSPLevoWorkflowConfiguration;
-import org.splevo.ui.workflow.ModelExtractionWorkflowDelegate;
+import org.splevo.ui.workflow.ExtractionWorkflowConfiguration;
+import org.splevo.ui.workflow.ExtractionWorkflowDelegate;
 
 /**
  * Mouse adapter to listen for events which trigger the extraction of the source
@@ -34,7 +34,7 @@ public class ExtractProjectListener extends MouseAdapter {
 	public void mouseUp(MouseEvent e) {
 
 		// build the job configuration
-		BasicSPLevoWorkflowConfiguration config = buildWorkflowConfiguration();
+		ExtractionWorkflowConfiguration config = buildWorkflowConfiguration();
 		Shell shell = e.widget.getDisplay().getShells()[0];
 
 		// validate configuration
@@ -46,7 +46,7 @@ public class ExtractProjectListener extends MouseAdapter {
 
 		SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
 
-		// Check preexisting results
+		// Check pre-existing results
 		if (splevoProject.getDiffingModelPath() != null
 				|| splevoProject.getVpmModelPaths().size() > 0) {
 			
@@ -63,7 +63,7 @@ public class ExtractProjectListener extends MouseAdapter {
 		}
 
 		// trigger workflow
-		ModelExtractionWorkflowDelegate workflowDelegate = new ModelExtractionWorkflowDelegate(
+		ExtractionWorkflowDelegate workflowDelegate = new ExtractionWorkflowDelegate(
 				config);
 			IAction action = new Action("Extract") {
 		};
@@ -89,8 +89,8 @@ public class ExtractProjectListener extends MouseAdapter {
 	 * 
 	 * @return The prepared configuration.
 	 */
-	private BasicSPLevoWorkflowConfiguration buildWorkflowConfiguration() {
-		BasicSPLevoWorkflowConfiguration config = new BasicSPLevoWorkflowConfiguration();
+	private ExtractionWorkflowConfiguration buildWorkflowConfiguration() {
+		ExtractionWorkflowConfiguration config = new ExtractionWorkflowConfiguration();
 		config.setSplevoProjectEditor(splevoProjectEditor);
 		return config;
 	}

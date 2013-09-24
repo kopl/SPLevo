@@ -37,6 +37,7 @@ import org.splevo.project.SPLevoProject;
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDiffingModelPath <em>Diffing Model Path</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getVpmModelPaths <em>Vpm Model Paths</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDiffingFilterRules <em>Diffing Filter Rules</em>}</li>
+ *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getExtractorIds <em>Extractor Ids</em>}</li>
  * </ul>
  * </p>
  *
@@ -254,6 +255,16 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	protected String diffingFilterRules = DIFFING_FILTER_RULES_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getExtractorIds() <em>Extractor Ids</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExtractorIds()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> extractorIds;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -290,7 +301,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ProjectPackage.SP_LEVO_PROJECT__NAME, oldName, name));
 	}
 
 	/**
@@ -311,7 +323,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		String oldDescription = description;
 		description = newDescription;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION, oldDescription, description));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION,
+					oldDescription, description));
 	}
 
 	/**
@@ -332,7 +346,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		String oldSourceModelPathLeading = sourceModelPathLeading;
 		sourceModelPathLeading = newSourceModelPathLeading;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING, oldSourceModelPathLeading, sourceModelPathLeading));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING,
+					oldSourceModelPathLeading, sourceModelPathLeading));
 	}
 
 	/**
@@ -349,11 +365,16 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSourceModelPathIntegration(String newSourceModelPathIntegration) {
+	public void setSourceModelPathIntegration(
+			String newSourceModelPathIntegration) {
 		String oldSourceModelPathIntegration = sourceModelPathIntegration;
 		sourceModelPathIntegration = newSourceModelPathIntegration;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION, oldSourceModelPathIntegration, sourceModelPathIntegration));
+			eNotify(new ENotificationImpl(
+					this,
+					Notification.SET,
+					ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION,
+					oldSourceModelPathIntegration, sourceModelPathIntegration));
 	}
 
 	/**
@@ -363,7 +384,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	 */
 	public EList<String> getLeadingProjects() {
 		if (leadingProjects == null) {
-			leadingProjects = new EDataTypeUniqueEList<String>(String.class, this, ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS);
+			leadingProjects = new EDataTypeUniqueEList<String>(String.class,
+					this, ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS);
 		}
 		return leadingProjects;
 	}
@@ -375,7 +397,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	 */
 	public EList<String> getIntegrationProjects() {
 		if (integrationProjects == null) {
-			integrationProjects = new EDataTypeUniqueEList<String>(String.class, this, ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS);
+			integrationProjects = new EDataTypeUniqueEList<String>(
+					String.class, this,
+					ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS);
 		}
 		return integrationProjects;
 	}
@@ -398,7 +422,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		String oldWorkspace = workspace;
 		workspace = newWorkspace;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__WORKSPACE, oldWorkspace, workspace));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ProjectPackage.SP_LEVO_PROJECT__WORKSPACE, oldWorkspace,
+					workspace));
 	}
 
 	/**
@@ -419,7 +445,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		String oldVariantNameLeading = variantNameLeading;
 		variantNameLeading = newVariantNameLeading;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING, oldVariantNameLeading, variantNameLeading));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING,
+					oldVariantNameLeading, variantNameLeading));
 	}
 
 	/**
@@ -440,7 +468,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		String oldVariantNameIntegration = variantNameIntegration;
 		variantNameIntegration = newVariantNameIntegration;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION, oldVariantNameIntegration, variantNameIntegration));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION,
+					oldVariantNameIntegration, variantNameIntegration));
 	}
 
 	/**
@@ -461,7 +491,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		String oldDiffingModelPath = diffingModelPath;
 		diffingModelPath = newDiffingModelPath;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH, oldDiffingModelPath, diffingModelPath));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH,
+					oldDiffingModelPath, diffingModelPath));
 	}
 
 	/**
@@ -471,7 +503,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	 */
 	public EList<String> getVpmModelPaths() {
 		if (vpmModelPaths == null) {
-			vpmModelPaths = new EDataTypeUniqueEList<String>(String.class, this, ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS);
+			vpmModelPaths = new EDataTypeUniqueEList<String>(String.class,
+					this, ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS);
 		}
 		return vpmModelPaths;
 	}
@@ -494,7 +527,22 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		String oldDiffingFilterRules = diffingFilterRules;
 		diffingFilterRules = newDiffingFilterRules;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES, oldDiffingFilterRules, diffingFilterRules));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES,
+					oldDiffingFilterRules, diffingFilterRules));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<String> getExtractorIds() {
+		if (extractorIds == null) {
+			extractorIds = new EDataTypeUniqueEList<String>(String.class, this,
+					ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS);
+		}
+		return extractorIds;
 	}
 
 	/**
@@ -505,30 +553,32 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ProjectPackage.SP_LEVO_PROJECT__NAME:
-				return getName();
-			case ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION:
-				return getDescription();
-			case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING:
-				return getSourceModelPathLeading();
-			case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION:
-				return getSourceModelPathIntegration();
-			case ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS:
-				return getLeadingProjects();
-			case ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS:
-				return getIntegrationProjects();
-			case ProjectPackage.SP_LEVO_PROJECT__WORKSPACE:
-				return getWorkspace();
-			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
-				return getVariantNameLeading();
-			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
-				return getVariantNameIntegration();
-			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
-				return getDiffingModelPath();
-			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
-				return getVpmModelPaths();
-			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
-				return getDiffingFilterRules();
+		case ProjectPackage.SP_LEVO_PROJECT__NAME:
+			return getName();
+		case ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION:
+			return getDescription();
+		case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING:
+			return getSourceModelPathLeading();
+		case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION:
+			return getSourceModelPathIntegration();
+		case ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS:
+			return getLeadingProjects();
+		case ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS:
+			return getIntegrationProjects();
+		case ProjectPackage.SP_LEVO_PROJECT__WORKSPACE:
+			return getWorkspace();
+		case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
+			return getVariantNameLeading();
+		case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
+			return getVariantNameIntegration();
+		case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
+			return getDiffingModelPath();
+		case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
+			return getVpmModelPaths();
+		case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
+			return getDiffingFilterRules();
+		case ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS:
+			return getExtractorIds();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -542,45 +592,51 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ProjectPackage.SP_LEVO_PROJECT__NAME:
-				setName((String)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION:
-				setDescription((String)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING:
-				setSourceModelPathLeading((String)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION:
-				setSourceModelPathIntegration((String)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS:
-				getLeadingProjects().clear();
-				getLeadingProjects().addAll((Collection<? extends String>)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS:
-				getIntegrationProjects().clear();
-				getIntegrationProjects().addAll((Collection<? extends String>)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__WORKSPACE:
-				setWorkspace((String)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
-				setVariantNameLeading((String)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
-				setVariantNameIntegration((String)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
-				setDiffingModelPath((String)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
-				getVpmModelPaths().clear();
-				getVpmModelPaths().addAll((Collection<? extends String>)newValue);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
-				setDiffingFilterRules((String)newValue);
-				return;
+		case ProjectPackage.SP_LEVO_PROJECT__NAME:
+			setName((String) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION:
+			setDescription((String) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING:
+			setSourceModelPathLeading((String) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION:
+			setSourceModelPathIntegration((String) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS:
+			getLeadingProjects().clear();
+			getLeadingProjects()
+					.addAll((Collection<? extends String>) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS:
+			getIntegrationProjects().clear();
+			getIntegrationProjects().addAll(
+					(Collection<? extends String>) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__WORKSPACE:
+			setWorkspace((String) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
+			setVariantNameLeading((String) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
+			setVariantNameIntegration((String) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
+			setDiffingModelPath((String) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
+			getVpmModelPaths().clear();
+			getVpmModelPaths().addAll((Collection<? extends String>) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
+			setDiffingFilterRules((String) newValue);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS:
+			getExtractorIds().clear();
+			getExtractorIds().addAll((Collection<? extends String>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -593,42 +649,45 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ProjectPackage.SP_LEVO_PROJECT__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING:
-				setSourceModelPathLeading(SOURCE_MODEL_PATH_LEADING_EDEFAULT);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION:
-				setSourceModelPathIntegration(SOURCE_MODEL_PATH_INTEGRATION_EDEFAULT);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS:
-				getLeadingProjects().clear();
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS:
-				getIntegrationProjects().clear();
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__WORKSPACE:
-				setWorkspace(WORKSPACE_EDEFAULT);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
-				setVariantNameLeading(VARIANT_NAME_LEADING_EDEFAULT);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
-				setVariantNameIntegration(VARIANT_NAME_INTEGRATION_EDEFAULT);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
-				setDiffingModelPath(DIFFING_MODEL_PATH_EDEFAULT);
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
-				getVpmModelPaths().clear();
-				return;
-			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
-				setDiffingFilterRules(DIFFING_FILTER_RULES_EDEFAULT);
-				return;
+		case ProjectPackage.SP_LEVO_PROJECT__NAME:
+			setName(NAME_EDEFAULT);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION:
+			setDescription(DESCRIPTION_EDEFAULT);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING:
+			setSourceModelPathLeading(SOURCE_MODEL_PATH_LEADING_EDEFAULT);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION:
+			setSourceModelPathIntegration(SOURCE_MODEL_PATH_INTEGRATION_EDEFAULT);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS:
+			getLeadingProjects().clear();
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS:
+			getIntegrationProjects().clear();
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__WORKSPACE:
+			setWorkspace(WORKSPACE_EDEFAULT);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
+			setVariantNameLeading(VARIANT_NAME_LEADING_EDEFAULT);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
+			setVariantNameIntegration(VARIANT_NAME_INTEGRATION_EDEFAULT);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
+			setDiffingModelPath(DIFFING_MODEL_PATH_EDEFAULT);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
+			getVpmModelPaths().clear();
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
+			setDiffingFilterRules(DIFFING_FILTER_RULES_EDEFAULT);
+			return;
+		case ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS:
+			getExtractorIds().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -641,30 +700,45 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ProjectPackage.SP_LEVO_PROJECT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING:
-				return SOURCE_MODEL_PATH_LEADING_EDEFAULT == null ? sourceModelPathLeading != null : !SOURCE_MODEL_PATH_LEADING_EDEFAULT.equals(sourceModelPathLeading);
-			case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION:
-				return SOURCE_MODEL_PATH_INTEGRATION_EDEFAULT == null ? sourceModelPathIntegration != null : !SOURCE_MODEL_PATH_INTEGRATION_EDEFAULT.equals(sourceModelPathIntegration);
-			case ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS:
-				return leadingProjects != null && !leadingProjects.isEmpty();
-			case ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS:
-				return integrationProjects != null && !integrationProjects.isEmpty();
-			case ProjectPackage.SP_LEVO_PROJECT__WORKSPACE:
-				return WORKSPACE_EDEFAULT == null ? workspace != null : !WORKSPACE_EDEFAULT.equals(workspace);
-			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
-				return VARIANT_NAME_LEADING_EDEFAULT == null ? variantNameLeading != null : !VARIANT_NAME_LEADING_EDEFAULT.equals(variantNameLeading);
-			case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
-				return VARIANT_NAME_INTEGRATION_EDEFAULT == null ? variantNameIntegration != null : !VARIANT_NAME_INTEGRATION_EDEFAULT.equals(variantNameIntegration);
-			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
-				return DIFFING_MODEL_PATH_EDEFAULT == null ? diffingModelPath != null : !DIFFING_MODEL_PATH_EDEFAULT.equals(diffingModelPath);
-			case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
-				return vpmModelPaths != null && !vpmModelPaths.isEmpty();
-			case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
-				return DIFFING_FILTER_RULES_EDEFAULT == null ? diffingFilterRules != null : !DIFFING_FILTER_RULES_EDEFAULT.equals(diffingFilterRules);
+		case ProjectPackage.SP_LEVO_PROJECT__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
+					.equals(name);
+		case ProjectPackage.SP_LEVO_PROJECT__DESCRIPTION:
+			return DESCRIPTION_EDEFAULT == null ? description != null
+					: !DESCRIPTION_EDEFAULT.equals(description);
+		case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING:
+			return SOURCE_MODEL_PATH_LEADING_EDEFAULT == null ? sourceModelPathLeading != null
+					: !SOURCE_MODEL_PATH_LEADING_EDEFAULT
+							.equals(sourceModelPathLeading);
+		case ProjectPackage.SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION:
+			return SOURCE_MODEL_PATH_INTEGRATION_EDEFAULT == null ? sourceModelPathIntegration != null
+					: !SOURCE_MODEL_PATH_INTEGRATION_EDEFAULT
+							.equals(sourceModelPathIntegration);
+		case ProjectPackage.SP_LEVO_PROJECT__LEADING_PROJECTS:
+			return leadingProjects != null && !leadingProjects.isEmpty();
+		case ProjectPackage.SP_LEVO_PROJECT__INTEGRATION_PROJECTS:
+			return integrationProjects != null
+					&& !integrationProjects.isEmpty();
+		case ProjectPackage.SP_LEVO_PROJECT__WORKSPACE:
+			return WORKSPACE_EDEFAULT == null ? workspace != null
+					: !WORKSPACE_EDEFAULT.equals(workspace);
+		case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
+			return VARIANT_NAME_LEADING_EDEFAULT == null ? variantNameLeading != null
+					: !VARIANT_NAME_LEADING_EDEFAULT.equals(variantNameLeading);
+		case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
+			return VARIANT_NAME_INTEGRATION_EDEFAULT == null ? variantNameIntegration != null
+					: !VARIANT_NAME_INTEGRATION_EDEFAULT
+							.equals(variantNameIntegration);
+		case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
+			return DIFFING_MODEL_PATH_EDEFAULT == null ? diffingModelPath != null
+					: !DIFFING_MODEL_PATH_EDEFAULT.equals(diffingModelPath);
+		case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
+			return vpmModelPaths != null && !vpmModelPaths.isEmpty();
+		case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
+			return DIFFING_FILTER_RULES_EDEFAULT == null ? diffingFilterRules != null
+					: !DIFFING_FILTER_RULES_EDEFAULT.equals(diffingFilterRules);
+		case ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS:
+			return extractorIds != null && !extractorIds.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -676,7 +750,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
@@ -703,6 +778,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 		result.append(vpmModelPaths);
 		result.append(", diffingFilterRules: ");
 		result.append(diffingFilterRules);
+		result.append(", extractorIds: ");
+		result.append(extractorIds);
 		result.append(')');
 		return result.toString();
 	}

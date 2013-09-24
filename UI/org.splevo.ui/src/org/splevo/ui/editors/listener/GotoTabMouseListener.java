@@ -1,4 +1,4 @@
-package org.splevo.ui.editors;
+package org.splevo.ui.editors.listener;
 
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;

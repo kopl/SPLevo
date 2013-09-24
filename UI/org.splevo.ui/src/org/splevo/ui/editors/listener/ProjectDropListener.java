@@ -1,4 +1,4 @@
-package org.splevo.ui.editors;
+package org.splevo.ui.editors.listener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.splevo.ui.editors.SPLevoProjectEditor;
 
 /**
  * Realizes the drop mechanism to add projects to the project list. If the variant name is empty, it

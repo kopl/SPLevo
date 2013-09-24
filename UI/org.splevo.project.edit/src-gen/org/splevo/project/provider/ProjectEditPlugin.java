@@ -36,9 +36,7 @@ public final class ProjectEditPlugin extends EMFPlugin {
 	 * @generated
 	 */
 	public ProjectEditPlugin() {
-		super
-		  (new ResourceLocator [] {
-		   });
+		super(new ResourceLocator[] {});
 	}
 
 	/**

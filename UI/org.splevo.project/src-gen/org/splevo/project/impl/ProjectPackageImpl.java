@@ -65,10 +65,14 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public static ProjectPackage init() {
-		if (isInited) return (ProjectPackage)EPackage.Registry.INSTANCE.getEPackage(ProjectPackage.eNS_URI);
+		if (isInited)
+			return (ProjectPackage) EPackage.Registry.INSTANCE
+					.getEPackage(ProjectPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ProjectPackageImpl theProjectPackage = (ProjectPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ProjectPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ProjectPackageImpl());
+		ProjectPackageImpl theProjectPackage = (ProjectPackageImpl) (EPackage.Registry.INSTANCE
+				.get(eNS_URI) instanceof ProjectPackageImpl ? EPackage.Registry.INSTANCE
+				.get(eNS_URI) : new ProjectPackageImpl());
 
 		isInited = true;
 
@@ -81,9 +85,9 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 		// Mark meta-data to indicate it can't be changed
 		theProjectPackage.freeze();
 
-  
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(ProjectPackage.eNS_URI, theProjectPackage);
+		EPackage.Registry.INSTANCE.put(ProjectPackage.eNS_URI,
+				theProjectPackage);
 		return theProjectPackage;
 	}
 
@@ -102,7 +106,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_Name() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -111,7 +115,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_Description() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -120,7 +124,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_SourceModelPathLeading() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -129,7 +133,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_SourceModelPathIntegration() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(3);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -138,7 +142,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_LeadingProjects() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(4);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -147,7 +151,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_IntegrationProjects() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(5);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -156,7 +160,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_Workspace() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(6);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -165,7 +169,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_VariantNameLeading() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(7);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -174,7 +178,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_VariantNameIntegration() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(8);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -183,7 +187,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_DiffingModelPath() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(9);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -192,7 +196,8 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_VpmModelPaths() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(10);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures()
+				.get(10);
 	}
 
 	/**
@@ -201,7 +206,18 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public EAttribute getSPLevoProject_DiffingFilterRules() {
-		return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(11);
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures()
+				.get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSPLevoProject_ExtractorIds() {
+		return (EAttribute) spLevoProjectEClass.getEStructuralFeatures()
+				.get(12);
 	}
 
 	/**
@@ -210,7 +226,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public ProjectFactory getProjectFactory() {
-		return (ProjectFactory)getEFactoryInstance();
+		return (ProjectFactory) getEFactoryInstance();
 	}
 
 	/**
@@ -228,23 +244,32 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) return;
+		if (isCreated)
+			return;
 		isCreated = true;
 
 		// Create classes and their features
 		spLevoProjectEClass = createEClass(SP_LEVO_PROJECT);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__NAME);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DESCRIPTION);
-		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING);
-		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION);
+		createEAttribute(spLevoProjectEClass,
+				SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING);
+		createEAttribute(spLevoProjectEClass,
+				SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__LEADING_PROJECTS);
-		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__INTEGRATION_PROJECTS);
+		createEAttribute(spLevoProjectEClass,
+				SP_LEVO_PROJECT__INTEGRATION_PROJECTS);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__WORKSPACE);
-		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VARIANT_NAME_LEADING);
-		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION);
-		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_MODEL_PATH);
+		createEAttribute(spLevoProjectEClass,
+				SP_LEVO_PROJECT__VARIANT_NAME_LEADING);
+		createEAttribute(spLevoProjectEClass,
+				SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION);
+		createEAttribute(spLevoProjectEClass,
+				SP_LEVO_PROJECT__DIFFING_MODEL_PATH);
 		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VPM_MODEL_PATHS);
-		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_FILTER_RULES);
+		createEAttribute(spLevoProjectEClass,
+				SP_LEVO_PROJECT__DIFFING_FILTER_RULES);
+		createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__EXTRACTOR_IDS);
 	}
 
 	/**
@@ -262,7 +287,8 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) return;
+		if (isInitialized)
+			return;
 		isInitialized = true;
 
 		// Initialize package
@@ -277,19 +303,71 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 		// Add supertypes to classes
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(spLevoProjectEClass, SPLevoProject.class, "SPLevoProject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSPLevoProject_Name(), ecorePackage.getEString(), "name", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_Description(), ecorePackage.getEString(), "description", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_SourceModelPathLeading(), ecorePackage.getEString(), "sourceModelPathLeading", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_SourceModelPathIntegration(), ecorePackage.getEString(), "sourceModelPathIntegration", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_LeadingProjects(), ecorePackage.getEString(), "leadingProjects", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_IntegrationProjects(), ecorePackage.getEString(), "integrationProjects", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_Workspace(), ecorePackage.getEString(), "workspace", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_VariantNameLeading(), ecorePackage.getEString(), "variantNameLeading", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_VariantNameIntegration(), ecorePackage.getEString(), "variantNameIntegration", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_DiffingModelPath(), ecorePackage.getEString(), "diffingModelPath", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_VpmModelPaths(), ecorePackage.getEString(), "vpmModelPaths", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSPLevoProject_DiffingFilterRules(), ecorePackage.getEString(), "diffingFilterRules", "", 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(spLevoProjectEClass, SPLevoProject.class, "SPLevoProject",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSPLevoProject_Name(), ecorePackage.getEString(),
+				"name", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSPLevoProject_Description(),
+				ecorePackage.getEString(), "description", null, 0, 1,
+				SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_SourceModelPathLeading(),
+				ecorePackage.getEString(), "sourceModelPathLeading", null, 1,
+				1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_SourceModelPathIntegration(),
+				ecorePackage.getEString(), "sourceModelPathIntegration", null,
+				1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_LeadingProjects(),
+				ecorePackage.getEString(), "leadingProjects", null, 0, -1,
+				SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_IntegrationProjects(),
+				ecorePackage.getEString(), "integrationProjects", null, 0, -1,
+				SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_Workspace(), ecorePackage.getEString(),
+				"workspace", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSPLevoProject_VariantNameLeading(),
+				ecorePackage.getEString(), "variantNameLeading", null, 1, 1,
+				SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_VariantNameIntegration(),
+				ecorePackage.getEString(), "variantNameIntegration", null, 1,
+				1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_DiffingModelPath(),
+				ecorePackage.getEString(), "diffingModelPath", null, 0, 1,
+				SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_VpmModelPaths(),
+				ecorePackage.getEString(), "vpmModelPaths", null, 0, -1,
+				SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_DiffingFilterRules(),
+				ecorePackage.getEString(), "diffingFilterRules", "", 1, 1,
+				SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSPLevoProject_ExtractorIds(),
+				ecorePackage.getEString(), "extractorIds", null, 1, -1,
+				SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

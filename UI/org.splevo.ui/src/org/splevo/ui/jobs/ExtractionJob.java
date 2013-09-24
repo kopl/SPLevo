@@ -22,26 +22,28 @@ import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
  */
 public class ExtractionJob extends AbstractJob {
 
-    /** The currently hard coded id of the extractor to execute. */
-    private static final String SOFTWARE_EXTRACTOR_ID = "MoDiscoSoftwareModelExtractor";
-
     /** The splevo project to store the required data to. */
     private SPLevoProject splevoProject;
 
     /** Flag whether the leading or the integration project should be extracted. */
     private boolean processLeading;
+    
+    /** The internal id of the extractor to be executed. */
+    private String extractorId;
 
     /**
      * Constructor to create an extraction job with the required references.
      * 
+     * @param extractorId The identifier of the extractor to be executed.
      * @param splevoProject
      *            The splevo project to get and store required information
      * @param processLeading
      *            True/false wether this job is responsible for the leading implementation.
      */
-    public ExtractionJob(SPLevoProject splevoProject, boolean processLeading) {
+    public ExtractionJob(String extractorId, SPLevoProject splevoProject, boolean processLeading) {
         this.splevoProject = splevoProject;
         this.processLeading = processLeading;
+        this.extractorId = extractorId;
     }
 
     /**
@@ -83,7 +85,7 @@ public class ExtractionJob extends AbstractJob {
         ExtractionService extractionService = new DefaultExtractionService();
         try {
             monitor.subTask("Extract Model for project: " + variantName);
-            extractionService.extractSoftwareModel(SOFTWARE_EXTRACTOR_ID, projectURIs, monitor, targetURI);
+            extractionService.extractSoftwareModel(extractorId, projectURIs, monitor, targetURI);
         } catch (SoftwareModelExtractionException e) {
             e.printStackTrace();
             return Status.CANCEL_STATUS;

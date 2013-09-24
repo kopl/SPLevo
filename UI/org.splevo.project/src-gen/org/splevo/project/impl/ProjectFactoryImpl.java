@@ -27,12 +27,12 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory {
 	 */
 	public static ProjectFactory init() {
 		try {
-			ProjectFactory theProjectFactory = (ProjectFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.splevo.project/1.0"); 
+			ProjectFactory theProjectFactory = (ProjectFactory) EPackage.Registry.INSTANCE
+					.getEFactory("http://org.splevo.project/1.0");
 			if (theProjectFactory != null) {
 				return theProjectFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new ProjectFactoryImpl();
@@ -56,9 +56,11 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ProjectPackage.SP_LEVO_PROJECT: return createSPLevoProject();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		case ProjectPackage.SP_LEVO_PROJECT:
+			return createSPLevoProject();
+		default:
+			throw new IllegalArgumentException("The class '" + eClass.getName()
+					+ "' is not a valid classifier");
 		}
 	}
 
@@ -78,7 +80,7 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory {
 	 * @generated
 	 */
 	public ProjectPackage getProjectPackage() {
-		return (ProjectPackage)getEPackage();
+		return (ProjectPackage) getEPackage();
 	}
 
 	/**

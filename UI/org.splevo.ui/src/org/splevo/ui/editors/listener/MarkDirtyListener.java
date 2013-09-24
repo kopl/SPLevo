@@ -1,9 +1,10 @@
-package org.splevo.ui.editors;
+package org.splevo.ui.editors.listener;
 
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import org.splevo.ui.editors.SPLevoProjectEditor;
 
 /**
  * Change listener which marks the editor as dirty for each occurred event.

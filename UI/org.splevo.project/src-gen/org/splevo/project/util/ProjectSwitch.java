@@ -66,13 +66,15 @@ public class ProjectSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ProjectPackage.SP_LEVO_PROJECT: {
-				SPLevoProject spLevoProject = (SPLevoProject)theEObject;
-				T result = caseSPLevoProject(spLevoProject);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			default: return defaultCase(theEObject);
+		case ProjectPackage.SP_LEVO_PROJECT: {
+			SPLevoProject spLevoProject = (SPLevoProject) theEObject;
+			T result = caseSPLevoProject(spLevoProject);
+			if (result == null)
+				result = defaultCase(theEObject);
+			return result;
+		}
+		default:
+			return defaultCase(theEObject);
 		}
 	}
 

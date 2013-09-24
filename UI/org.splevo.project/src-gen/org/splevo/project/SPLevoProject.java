@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.splevo.project.SPLevoProject#getDiffingModelPath <em>Diffing Model Path</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getVpmModelPaths <em>Vpm Model Paths</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDiffingFilterRules <em>Diffing Filter Rules</em>}</li>
+ *   <li>{@link org.splevo.project.SPLevoProject#getExtractorIds <em>Extractor Ids</em>}</li>
  * </ul>
  * </p>
  *
@@ -307,5 +308,20 @@ public interface SPLevoProject extends EObject {
 	 * @generated
 	 */
 	void setDiffingFilterRules(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Extractor Ids</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The internal ids of the configured software model extractors to be used.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Extractor Ids</em>' attribute list.
+	 * @see org.splevo.project.ProjectPackage#getSPLevoProject_ExtractorIds()
+	 * @model required="true"
+	 * @generated
+	 */
+	EList<String> getExtractorIds();
 
 } // SPLevoProject

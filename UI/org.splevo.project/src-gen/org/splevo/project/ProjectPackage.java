@@ -52,7 +52,8 @@ public interface ProjectPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	ProjectPackage eINSTANCE = org.splevo.project.impl.ProjectPackageImpl.init();
+	ProjectPackage eINSTANCE = org.splevo.project.impl.ProjectPackageImpl
+			.init();
 
 	/**
 	 * The meta object id for the '{@link org.splevo.project.impl.SPLevoProjectImpl <em>SP Levo Project</em>}' class.
@@ -173,14 +174,22 @@ public interface ProjectPackage extends EPackage {
 	int SP_LEVO_PROJECT__DIFFING_FILTER_RULES = 11;
 
 	/**
+	 * The feature id for the '<em><b>Extractor Ids</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SP_LEVO_PROJECT__EXTRACTOR_IDS = 12;
+
+	/**
 	 * The number of structural features of the '<em>SP Levo Project</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SP_LEVO_PROJECT_FEATURE_COUNT = 12;
-
+	int SP_LEVO_PROJECT_FEATURE_COUNT = 13;
 
 	/**
 	 * Returns the meta object for class '{@link org.splevo.project.SPLevoProject <em>SP Levo Project</em>}'.
@@ -325,6 +334,17 @@ public interface ProjectPackage extends EPackage {
 	EAttribute getSPLevoProject_DiffingFilterRules();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.splevo.project.SPLevoProject#getExtractorIds <em>Extractor Ids</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Extractor Ids</em>'.
+	 * @see org.splevo.project.SPLevoProject#getExtractorIds()
+	 * @see #getSPLevoProject()
+	 * @generated
+	 */
+	EAttribute getSPLevoProject_ExtractorIds();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -370,7 +390,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__DESCRIPTION = eINSTANCE.getSPLevoProject_Description();
+		EAttribute SP_LEVO_PROJECT__DESCRIPTION = eINSTANCE
+				.getSPLevoProject_Description();
 
 		/**
 		 * The meta object literal for the '<em><b>Source Model Path Leading</b></em>' attribute feature.
@@ -378,7 +399,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING = eINSTANCE.getSPLevoProject_SourceModelPathLeading();
+		EAttribute SP_LEVO_PROJECT__SOURCE_MODEL_PATH_LEADING = eINSTANCE
+				.getSPLevoProject_SourceModelPathLeading();
 
 		/**
 		 * The meta object literal for the '<em><b>Source Model Path Integration</b></em>' attribute feature.
@@ -386,7 +408,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION = eINSTANCE.getSPLevoProject_SourceModelPathIntegration();
+		EAttribute SP_LEVO_PROJECT__SOURCE_MODEL_PATH_INTEGRATION = eINSTANCE
+				.getSPLevoProject_SourceModelPathIntegration();
 
 		/**
 		 * The meta object literal for the '<em><b>Leading Projects</b></em>' attribute list feature.
@@ -394,7 +417,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__LEADING_PROJECTS = eINSTANCE.getSPLevoProject_LeadingProjects();
+		EAttribute SP_LEVO_PROJECT__LEADING_PROJECTS = eINSTANCE
+				.getSPLevoProject_LeadingProjects();
 
 		/**
 		 * The meta object literal for the '<em><b>Integration Projects</b></em>' attribute list feature.
@@ -402,7 +426,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__INTEGRATION_PROJECTS = eINSTANCE.getSPLevoProject_IntegrationProjects();
+		EAttribute SP_LEVO_PROJECT__INTEGRATION_PROJECTS = eINSTANCE
+				.getSPLevoProject_IntegrationProjects();
 
 		/**
 		 * The meta object literal for the '<em><b>Workspace</b></em>' attribute feature.
@@ -410,7 +435,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__WORKSPACE = eINSTANCE.getSPLevoProject_Workspace();
+		EAttribute SP_LEVO_PROJECT__WORKSPACE = eINSTANCE
+				.getSPLevoProject_Workspace();
 
 		/**
 		 * The meta object literal for the '<em><b>Variant Name Leading</b></em>' attribute feature.
@@ -418,7 +444,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__VARIANT_NAME_LEADING = eINSTANCE.getSPLevoProject_VariantNameLeading();
+		EAttribute SP_LEVO_PROJECT__VARIANT_NAME_LEADING = eINSTANCE
+				.getSPLevoProject_VariantNameLeading();
 
 		/**
 		 * The meta object literal for the '<em><b>Variant Name Integration</b></em>' attribute feature.
@@ -426,7 +453,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION = eINSTANCE.getSPLevoProject_VariantNameIntegration();
+		EAttribute SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION = eINSTANCE
+				.getSPLevoProject_VariantNameIntegration();
 
 		/**
 		 * The meta object literal for the '<em><b>Diffing Model Path</b></em>' attribute feature.
@@ -434,7 +462,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__DIFFING_MODEL_PATH = eINSTANCE.getSPLevoProject_DiffingModelPath();
+		EAttribute SP_LEVO_PROJECT__DIFFING_MODEL_PATH = eINSTANCE
+				.getSPLevoProject_DiffingModelPath();
 
 		/**
 		 * The meta object literal for the '<em><b>Vpm Model Paths</b></em>' attribute list feature.
@@ -442,7 +471,8 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__VPM_MODEL_PATHS = eINSTANCE.getSPLevoProject_VpmModelPaths();
+		EAttribute SP_LEVO_PROJECT__VPM_MODEL_PATHS = eINSTANCE
+				.getSPLevoProject_VpmModelPaths();
 
 		/**
 		 * The meta object literal for the '<em><b>Diffing Filter Rules</b></em>' attribute feature.
@@ -450,7 +480,17 @@ public interface ProjectPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SP_LEVO_PROJECT__DIFFING_FILTER_RULES = eINSTANCE.getSPLevoProject_DiffingFilterRules();
+		EAttribute SP_LEVO_PROJECT__DIFFING_FILTER_RULES = eINSTANCE
+				.getSPLevoProject_DiffingFilterRules();
+
+		/**
+		 * The meta object literal for the '<em><b>Extractor Ids</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SP_LEVO_PROJECT__EXTRACTOR_IDS = eINSTANCE
+				.getSPLevoProject_ExtractorIds();
 
 	}
 
