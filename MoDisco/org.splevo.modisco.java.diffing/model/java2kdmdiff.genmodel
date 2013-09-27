@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.splevo.diffing.java.modisco/src-gen" editDirectory="/org.splevo.diffing.java.modisco.edit/src-gen"
-    editorDirectory="/org.splevo.diffing.java.modisco.editor/src-gen" modelPluginID="org.splevo.diffing.java.modisco"
-    modelName="Java2KDMDiff" codeFormatting="true" testsDirectory="/org.splevo.diffing.emfcompare.tests/src-gen"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.splevo.modisco.java.diffing/src-gen" editDirectory="/org.splevo.modisco.java.diffing.edit/src-gen"
+    editorDirectory="/org.splevo.modisco.java.diffing.editor/src-gen" modelPluginID="org.splevo.modisco.java.diffing"
+    templateDirectory="" modelName="Java2KDMDiff" modelPluginClass="" editPluginClass="org.splevo.modisco.java.diffing.java2kdmdiff.provider.Java2KDMDiffEditPlugin"
+    editorPluginClass="org.splevo.modisco.java.diffing.java2kdmdiff.presentation.Java2KDMDiffEditorPlugin"
+    codeFormatting="true" testsDirectory="/org.splevo.modisco.java.diffing.tests/src-gen"
+    testSuiteClass="org.splevo.modisco.java.diffing.java2kdmdiff.tests.Java2KDMDiffAllTests"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    editPluginID="org.splevo.diffing.java.modisco.edit" editorPluginID="org.splevo.diffing.java.modisco.editor"
+    editPluginID="org.splevo.modisco.java.diffing.edit" editorPluginID="org.splevo.modisco.java.diffing.editor"
     language="" usedGenPackages="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.genmodel#//diff platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.gmt.modisco.java/model/java.genmodel#//java platform:/plugin/org.eclipse.emf.compare.match/model/match.genmodel#//match">
   <foreignModel>java2kdmdiff.ecore</foreignModel>
-  <genPackages prefix="Java2KDMDiff" basePackage="org.splevo.diffing.java.modisco"
+  <genPackages prefix="Java2KDMDiff" basePackage="org.splevo.modisco.java.diffing"
       resource="XML" disposableProviderFactory="true" ecorePackage="java2kdmdiff.ecore#/">
     <genClasses image="false" ecoreClass="java2kdmdiff.ecore#//Java2KDMDiffExtension"/>
     <genClasses ecoreClass="java2kdmdiff.ecore#//StatementChange">

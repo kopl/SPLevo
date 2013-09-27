@@ -15,9 +15,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffModelWizardID"
+            id="org.splevo.modisco.java.diffing.java2kdmdiff.presentation.Java2KDMDiffModelWizardID"
             name="%_UI_Java2KDMDiffModelWizard_label"
-            class="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffModelWizard"
+            class="org.splevo.modisco.java.diffing.java2kdmdiff.presentation.Java2KDMDiffModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/Java2KDMDiffModelFile.gif">
          <description>%_UI_Java2KDMDiffModelWizard_description</description>
@@ -27,12 +27,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffEditorID"
+            id="org.splevo.modisco.java.diffing.java2kdmdiff.presentation.Java2KDMDiffEditorID"
             name="%_UI_Java2KDMDiffEditor_label"
             icon="icons/full/obj16/Java2KDMDiffModelFile.gif"
             extensions="Java2KDMDiff"
-            class="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffEditor"
-            contributorClass="org.splevo.diffing.emfcompare.java2kdmdiff.presentation.Java2KDMDiffActionBarContributor">
+            class="org.splevo.modisco.java.diffing.java2kdmdiff.presentation.Java2KDMDiffEditor"
+            contributorClass="org.splevo.modisco.java.diffing.java2kdmdiff.presentation.Java2KDMDiffActionBarContributor">
       </editor>
    </extension>
 

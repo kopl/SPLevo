@@ -20,14 +20,14 @@ Require-Bundle: org.eclipse.ui,
  org.splevo.modisco.util;bundle-version="1.0.0",
  com.google.guava;bundle-version="10.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.splevo.diffing.java.modisco,
- org.splevo.diffing.java.modisco.diff,
- org.splevo.diffing.java.modisco.java2kdmdiff,
- org.splevo.diffing.java.modisco.java2kdmdiff.impl,
- org.splevo.diffing.java.modisco.java2kdmdiff.util,
- org.splevo.diffing.java.modisco.match,
- org.splevo.diffing.java.modisco.postprocessor,
- org.splevo.diffing.java.modisco.similarity,
- org.splevo.diffing.java.modisco.util
-Bundle-Activator: org.splevo.diffing.java.modisco.Activator
+Export-Package: org.splevo.modisco.java.diffing,
+ org.splevo.modisco.java.diffing.diff,
+ org.splevo.modisco.java.diffing.match,
+ org.splevo.modisco.java.diffing.postprocessor,
+ org.splevo.modisco.java.diffing.similarity,
+ org.splevo.modisco.java.diffing.util,
+ org.splevo.modisco.java.diffing.java2kdmdiff,
+ org.splevo.modisco.java.diffing.java2kdmdiff.impl,
+ org.splevo.modisco.java.diffing.java2kdmdiff.util
+Bundle-Activator: org.splevo.modisco.java.diffing.Activator
 Bundle-ActivationPolicy: lazy

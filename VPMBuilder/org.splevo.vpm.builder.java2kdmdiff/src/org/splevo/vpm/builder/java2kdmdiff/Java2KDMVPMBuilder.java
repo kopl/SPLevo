@@ -10,7 +10,7 @@ import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.splevo.diffing.java.modisco.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;

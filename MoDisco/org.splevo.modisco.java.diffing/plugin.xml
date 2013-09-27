@@ -5,7 +5,7 @@
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
-            class="org.splevo.diffing.emfcompare.kdm2javadiff.KDM2JavaDiffPackage"
+            class="org.splevo.modisco.java.diffing.kdm2javadiff.KDM2JavaDiffPackage"
             genModel="model/kdm2javadiff.genmodel"
             uri="http://www.eclipse.org/emf/compare/diff/kdm2java/1.0">
       </package>
@@ -13,7 +13,7 @@
    <extension
          point="org.eclipse.emf.compare.diff.engine">
       <diffengine
-            engineClass="org.splevo.diffing.java.modisco.diff.KdmDiffEngine"
+            engineClass="org.splevo.modisco.java.diffing.diff.KdmDiffEngine"
             fileExtension="xmi"
             label="KDM Diff Engine"
             priority="high">
@@ -22,7 +22,7 @@
    <extension
          point="org.eclipse.emf.compare.match.engine">
       <matchengine
-            engineClass="org.splevo.diffing.java.modisco.match.JavaModelMatchEngine"
+            engineClass="org.splevo.modisco.java.diffing.match.JavaModelMatchEngine"
             fileExtension="xmi"
             label="KDM Match Engine"
             priority="high">
@@ -31,7 +31,7 @@
    <extension
          point="org.splevo.diffing.differ">
       <differ
-            differ.class="org.splevo.diffing.java.modisco.Java2KDMDiffer">
+            differ.class="org.splevo.modisco.java.diffing.Java2KDMDiffer">
       </differ>
    </extension>
 
