@@ -50,7 +50,7 @@ public class GCDDiffingTest extends AbstractDiffingTest {
         for (DiffElement diffElement : differences) {
             logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
         }
-        assertEquals("Wrong number of differences detected", 8, differences.size());
+        assertEquals("Wrong number of differences detected", 12, differences.size());
 
         logger.debug("Found Differences: " + differences.size());
     }
