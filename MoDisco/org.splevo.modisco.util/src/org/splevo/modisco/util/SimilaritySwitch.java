@@ -1890,7 +1890,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             // packages with same name and same parent packages name are considered as similar.
         } else if (packageElement != null && referencePackage != null) {
 
-            String packagePath1 = JavaModelUtil.buildPackagePath(packageElement);
+        	String packagePath1 = JavaModelUtil.buildPackagePath(packageElement);
             String packagePath2 = JavaModelUtil.buildPackagePath(referencePackage);
             if (packagePath1.equals(packagePath2)) {
                 return Boolean.TRUE;
