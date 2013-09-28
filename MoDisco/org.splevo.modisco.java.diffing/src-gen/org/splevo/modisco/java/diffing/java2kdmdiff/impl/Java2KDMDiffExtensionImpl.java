@@ -6,53 +6,75 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.compare.diff.metamodel.AbstractDiffExtension;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
 import org.eclipse.emf.compare.diff.metamodel.DifferenceKind;
-
 import org.eclipse.emf.compare.diff.metamodel.impl.AbstractDiffExtensionImpl;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
+import org.splevo.modisco.java.diffing.java2kdmdiff.ClassDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ClassInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.FieldDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.FieldInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImplementsInterfaceDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImplementsInterfaceInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImportDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImportInsert;
 import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffExtension;
 import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.modisco.java.diffing.java2kdmdiff.MethodDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.MethodInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.PackageDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.PackageInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.StatementChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.StatementDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.StatementInsert;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Extension</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Extension</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getSubDiffElements <em>Sub Diff Elements</em>}</li>
- *   <li>{@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getIsHiddenBy <em>Is Hidden By</em>}</li>
- *   <li>{@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#isConflicting <em>Conflicting</em>}</li>
- *   <li>{@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getKind <em>Kind</em>}</li>
- *   <li>{@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#isRemote <em>Remote</em>}</li>
- *   <li>{@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getRequires <em>Requires</em>}</li>
- *   <li>{@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getRequiredBy <em>Required By</em>}</li>
+ * <li>
+ * {@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getSubDiffElements
+ * <em>Sub Diff Elements</em>}</li>
+ * <li>
+ * {@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getIsHiddenBy
+ * <em>Is Hidden By</em>}</li>
+ * <li>
+ * {@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#isConflicting
+ * <em>Conflicting</em>}</li>
+ * <li>
+ * {@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getKind
+ * <em>Kind</em>}</li>
+ * <li>
+ * {@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#isRemote
+ * <em>Remote</em>}</li>
+ * <li>
+ * {@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getRequires
+ * <em>Requires</em>}</li>
+ * <li>
+ * {@link org.splevo.modisco.java.diffing.java2kdmdiff.impl.Java2KDMDiffExtensionImpl#getRequiredBy
+ * <em>Required By</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public abstract class Java2KDMDiffExtensionImpl extends
 		AbstractDiffExtensionImpl implements Java2KDMDiffExtension {
 	/**
-	 * The cached value of the '{@link #getSubDiffElements() <em>Sub Diff Elements</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSubDiffElements()
+	 * <em>Sub Diff Elements</em>}' containment reference list. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSubDiffElements()
 	 * @generated
 	 * @ordered
@@ -60,9 +82,9 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	protected EList<DiffElement> subDiffElements;
 
 	/**
-	 * The cached value of the '{@link #getIsHiddenBy() <em>Is Hidden By</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getIsHiddenBy() <em>Is Hidden By</em>}'
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getIsHiddenBy()
 	 * @generated
 	 * @ordered
@@ -70,9 +92,9 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	protected EList<AbstractDiffExtension> isHiddenBy;
 
 	/**
-	 * The default value of the '{@link #isConflicting() <em>Conflicting</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #isConflicting() <em>Conflicting</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isConflicting()
 	 * @generated
 	 * @ordered
@@ -80,9 +102,9 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	protected static final boolean CONFLICTING_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isConflicting() <em>Conflicting</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #isConflicting() <em>Conflicting</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isConflicting()
 	 * @generated
 	 * @ordered
@@ -91,8 +113,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 
 	/**
 	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getKind()
 	 * @generated
 	 * @ordered
@@ -101,8 +123,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 
 	/**
 	 * The cached value of the '{@link #getKind() <em>Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getKind()
 	 * @generated
 	 * @ordered
@@ -111,8 +133,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 
 	/**
 	 * The default value of the '{@link #isRemote() <em>Remote</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isRemote()
 	 * @generated
 	 * @ordered
@@ -121,8 +143,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 
 	/**
 	 * The cached value of the '{@link #isRemote() <em>Remote</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isRemote()
 	 * @generated
 	 * @ordered
@@ -130,9 +152,9 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	protected boolean remote = REMOTE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRequires() <em>Requires</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getRequires() <em>Requires</em>}'
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRequires()
 	 * @generated
 	 * @ordered
@@ -140,9 +162,9 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	protected EList<DiffElement> requires;
 
 	/**
-	 * The cached value of the '{@link #getRequiredBy() <em>Required By</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getRequiredBy() <em>Required By</em>}'
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRequiredBy()
 	 * @generated
 	 * @ordered
@@ -150,17 +172,18 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	protected EList<DiffElement> requiredBy;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected Java2KDMDiffExtensionImpl() {
 		super();
+
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->. <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -169,8 +192,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<DiffElement> getSubDiffElements() {
@@ -184,8 +207,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<AbstractDiffExtension> getIsHiddenBy() {
@@ -199,8 +222,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isConflicting() {
@@ -208,17 +231,40 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
+	 * <!-- begin-user-doc --> Adapted to determine the difference kind from the
+	 * concrete type of diff element. {@inheritDoc} <!-- end-user-doc -->
+	 * 
+	 * @generated not
 	 */
 	public DifferenceKind getKind() {
+		if (this instanceof StatementDelete 
+				|| this instanceof ClassDelete
+				|| this instanceof FieldDelete
+				|| this instanceof ImportDelete
+				|| this instanceof ImplementsInterfaceDelete
+				|| this instanceof MethodDelete
+				|| this instanceof PackageDelete
+				) {
+			kind = DifferenceKind.DELETION;
+		} else if (this instanceof StatementInsert 
+					|| this instanceof ClassInsert
+					|| this instanceof FieldInsert
+					|| this instanceof ImportInsert
+					|| this instanceof ImplementsInterfaceInsert
+					|| this instanceof MethodInsert
+					|| this instanceof PackageInsert
+					) {
+				kind = DifferenceKind.ADDITION;
+		} else if (this instanceof StatementChange
+				) {
+			kind = DifferenceKind.CHANGE;
+		}
 		return kind;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isRemote() {
@@ -226,8 +272,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setRemote(boolean newRemote) {
@@ -240,8 +286,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<DiffElement> getRequires() {
@@ -255,8 +301,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<DiffElement> getRequiredBy() {
@@ -270,8 +316,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -293,8 +339,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -318,8 +364,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -344,8 +390,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -379,8 +425,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -406,8 +452,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -432,8 +478,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -462,8 +508,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -492,8 +538,8 @@ public abstract class Java2KDMDiffExtensionImpl extends
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -512,4 +558,4 @@ public abstract class Java2KDMDiffExtensionImpl extends
 		return result.toString();
 	}
 
-} //Java2KDMDiffExtensionImpl
+} // Java2KDMDiffExtensionImpl
