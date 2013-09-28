@@ -29,13 +29,16 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
     /** The name of the package info files to ignore. */
     private static final String PACKAGE_INFO_FILENAME = "package-info.java";
 
+    private static final boolean CONSIDER_COMMENTS = false;
+    
     /** The logger for this class. */
     @SuppressWarnings("unused")
     private Logger logger = Logger.getLogger(JavaModelMatchScope.class);
 
     /** Regular expressions defining packages to be ignored. */
     private List<String> ignorePackages = new ArrayList<String>();
-
+    
+    
     /**
      * Constructor requiring to specify the packages to ignore.
      * 
@@ -76,7 +79,7 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
      */
     @Override
     public Boolean caseTagElement(TagElement object) {
-        return true;
+        return CONSIDER_COMMENTS;
     }
 
     /**
@@ -92,17 +95,17 @@ public class JavaModelMatchScope extends JavaSwitch<Boolean> implements IMatchSc
      */
     @Override
     public Boolean caseJavadoc(Javadoc object) {
-        return true;
+        return CONSIDER_COMMENTS;
     }
 
     @Override
     public Boolean caseLineComment(LineComment object) {
-        return false;
+        return CONSIDER_COMMENTS;
     }
 
     @Override
     public Boolean caseTextElement(TextElement object) {
-        return false;
+        return CONSIDER_COMMENTS;
     }
 
     /**
