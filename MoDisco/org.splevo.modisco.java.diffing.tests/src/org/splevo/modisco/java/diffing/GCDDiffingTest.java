@@ -27,11 +27,11 @@ public class GCDDiffingTest extends AbstractDiffingTest {
 
     /** Source path to the native calculator implementation. */
     private static final File NATIVE_JAVA2KDMMODEL_DIR = new File(
-            "../org.splevo.tests/testmodels/implementation/gcd/native");
+            "testmodels/implementation/calculator/native");
 
     /** Source path to the jscience based calculator implementation. */
     private static final File JSCIENCE_JAVA2KDMMODEL_DIR = new File(
-            "../org.splevo.tests/testmodels/implementation/gcd/jscience");
+            "testmodels/implementation/calculator/jscience");
 
     /**
 	 * Test method for the greates common devisor (GCD) example.
@@ -50,7 +50,7 @@ public class GCDDiffingTest extends AbstractDiffingTest {
         for (DiffElement diffElement : differences) {
             logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
         }
-        assertEquals("Wrong number of differences detected", 7, differences.size());
+        assertEquals("Wrong number of differences detected", 8, differences.size());
 
         logger.debug("Found Differences: " + differences.size());
     }

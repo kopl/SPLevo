@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaapplication="http://www.eclipse.org/MoDisco/Java/Composition/0.1.incubation/javaApplication">
+  <javaapplication:Java2File>
+    <file href="../modisco_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.6/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.1"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="43" endLine="3" endPosition="96">
+      <node href="../modisco_java.xmi#//@compilationUnits.0/@imports.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="100" endLine="29" endPosition="743">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="100" endLine="13" endPosition="331">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@comments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="108" endLine="6" endPosition="154">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@comments.0/@tags.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="108" endLine="9" endPosition="290">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@comments.0/@tags.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="159" endLine="7" endPosition="183">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@comments.0/@tags.0/@fragments.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="188" endLine="8" endPosition="237">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@comments.0/@tags.0/@fragments.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="9" startPosition="242" endLine="9" endPosition="290">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@comments.0/@tags.0/@fragments.3"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="300" endLine="11" endPosition="322">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@comments.0/@tags.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="307" endLine="11" endPosition="322">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@comments.0/@tags.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="367" endLine="20" endPosition="541">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@comments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="367" endLine="27" endPosition="738">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="376" endLine="17" endPosition="436">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@comments.0/@tags.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="376" endLine="17" endPosition="436">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@comments.0/@tags.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="442" endLine="18" endPosition="494">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@comments.0/@tags.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="449" endLine="18" endPosition="455">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@comments.0/@tags.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="455" endLine="18" endPosition="494">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@comments.0/@tags.1/@fragments.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="494" endLine="22" endPosition="498">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="500" endLine="19" endPosition="535">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@comments.0/@tags.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="507" endLine="19" endPosition="535">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@comments.0/@tags.2/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="551" endLine="21" endPosition="557">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="551" endLine="21" endPosition="557">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="563" endLine="21" endPosition="576">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@parameters.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="563" endLine="21" endPosition="569">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@parameters.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="563" endLine="21" endPosition="569">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@parameters.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="577" endLine="27" endPosition="738">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="586" endLine="23" endPosition="599">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="586" endLine="23" endPosition="651">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="586" endLine="23" endPosition="599">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="600" endLine="23" endPosition="650">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="621" endLine="23" endPosition="650">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="621" endLine="23" endPosition="634">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="643" endLine="23" endPosition="649">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@arguments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="655" endLine="24" endPosition="668">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="655" endLine="24" endPosition="668">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="655" endLine="24" endPosition="702">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="669" endLine="24" endPosition="701">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="676" endLine="24" endPosition="694">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="676" endLine="24" endPosition="701">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="26" startPosition="710" endLine="26" endPosition="733">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="26" startPosition="717" endLine="26" endPosition="721">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.2/@expression/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="26" startPosition="717" endLine="26" endPosition="732">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body/@statements.2/@expression"/>
+    </children>
+    <unit href="../modisco_java.xmi#//@compilationUnits.0"/>
+    <parent href="Package2Directory_java2kdm.xmi#/"/>
+  </javaapplication:Java2File>
+  <javaapplication:Java2File>
+    <file href="../modisco_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.6/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.2"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="43" endLine="8" endPosition="136">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@comments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="43" endLine="36" endPosition="837">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="4" startPosition="51" endLine="4" endPosition="95">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@comments.0/@tags.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="4" startPosition="51" endLine="4" endPosition="95">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@comments.0/@tags.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="105" endLine="6" endPosition="127">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@comments.0/@tags.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="112" endLine="6" endPosition="127">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@comments.0/@tags.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="172" endLine="15" endPosition="287">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@comments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="11" startPosition="172" endLine="35" endPosition="834">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="181" endLine="12" endPosition="211">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@comments.0/@tags.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="12" startPosition="181" endLine="12" endPosition="211">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@comments.0/@tags.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="14" startPosition="223" endLine="14" endPosition="281">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@comments.0/@tags.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="14" startPosition="230" endLine="14" endPosition="234">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@comments.0/@tags.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="14" startPosition="234" endLine="14" endPosition="281">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@comments.0/@tags.1/@fragments.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="304" endLine="16" endPosition="308">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="314" endLine="16" endPosition="322">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@parameters.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="314" endLine="16" endPosition="327">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@parameters.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="329" endLine="35" endPosition="834">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="338" endLine="34" endPosition="830">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="341" endLine="18" endPosition="377">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="341" endLine="18" endPosition="345">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@leftOperand/@leftOperand/@array"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="341" endLine="18" endPosition="356">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@leftOperand"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="341" endLine="18" endPosition="352">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@leftOperand/@leftOperand"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="355" endLine="18" endPosition="356">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@leftOperand/@rightOperand"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="360" endLine="18" endPosition="364">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@rightOperand/@leftOperand/@array"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="360" endLine="18" endPosition="367">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@rightOperand/@leftOperand"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="360" endLine="18" endPosition="377">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@rightOperand"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="365" endLine="18" endPosition="366">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@rightOperand/@leftOperand/@index"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="371" endLine="18" endPosition="377">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@expression/@rightOperand/@rightOperand"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="378" endLine="26" endPosition="551">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="384" endLine="19" endPosition="407">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="384" endLine="19" endPosition="390">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="384" endLine="19" endPosition="390">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="391" endLine="19" endPosition="406">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="399" endLine="19" endPosition="406">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.0/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="415" endLine="21" endPosition="429">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="415" endLine="21" endPosition="429">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="415" endLine="21" endPosition="464">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="430" endLine="21" endPosition="463">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="443" endLine="21" endPosition="463">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.1/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="447" endLine="21" endPosition="461">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.1/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="447" endLine="21" endPosition="461">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.1/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="469" endLine="22" endPosition="506">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="469" endLine="22" endPosition="475">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.2/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="469" endLine="22" endPosition="475">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.2/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="476" endLine="22" endPosition="505">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.2/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="483" endLine="22" endPosition="493">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.2/@fragments.0/@initializer/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="483" endLine="22" endPosition="505">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.2/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="22" startPosition="499" endLine="22" endPosition="504">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.2/@fragments.0/@initializer/@arguments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="516" endLine="24" endPosition="522">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.3/@expression/@expression/@qualifier"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="516" endLine="24" endPosition="540">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.3/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="516" endLine="24" endPosition="526">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.3/@expression/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="516" endLine="24" endPosition="541">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.3"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="523" endLine="24" endPosition="526">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.3/@expression/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="535" endLine="24" endPosition="539">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@thenStatement/@statements.3/@expression/@arguments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="26" startPosition="557" endLine="34" endPosition="830">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="27" startPosition="563" endLine="27" endPosition="569">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="27" startPosition="563" endLine="27" endPosition="622">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="27" startPosition="563" endLine="27" endPosition="569">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="27" startPosition="570" endLine="27" endPosition="621">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="27" startPosition="579" endLine="27" endPosition="621">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.0/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="28" startPosition="628" endLine="28" endPosition="634">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="28" startPosition="628" endLine="28" endPosition="634">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="28" startPosition="628" endLine="28" endPosition="687">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="28" startPosition="635" endLine="28" endPosition="686">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="28" startPosition="644" endLine="28" endPosition="686">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.1/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="30" startPosition="695" endLine="30" endPosition="708">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.2/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="30" startPosition="695" endLine="30" endPosition="708">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.2/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="30" startPosition="695" endLine="30" endPosition="742">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="30" startPosition="709" endLine="30" endPosition="741">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.2/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="30" startPosition="722" endLine="30" endPosition="741">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.2/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="30" startPosition="726" endLine="30" endPosition="739">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.2/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="30" startPosition="726" endLine="30" endPosition="739">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.2/@fragments.0/@initializer/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="31" startPosition="747" endLine="31" endPosition="753">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.3/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="31" startPosition="747" endLine="31" endPosition="791">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.3"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="31" startPosition="747" endLine="31" endPosition="753">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.3/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="31" startPosition="754" endLine="31" endPosition="790">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.3/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="31" startPosition="760" endLine="31" endPosition="770">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.3/@fragments.0/@initializer/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="31" startPosition="760" endLine="31" endPosition="790">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.3/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="31" startPosition="775" endLine="31" endPosition="781">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.3/@fragments.0/@initializer/@arguments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="31" startPosition="783" endLine="31" endPosition="789">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.3/@fragments.0/@initializer/@arguments.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="801" endLine="33" endPosition="825">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.4"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="801" endLine="33" endPosition="807">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.4/@expression/@expression/@qualifier"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="801" endLine="33" endPosition="811">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.4/@expression/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="801" endLine="33" endPosition="824">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.4/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="808" endLine="33" endPosition="811">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.4/@expression/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="33" startPosition="820" endLine="33" endPosition="823">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.1/@bodyDeclarations.0/@body/@statements.0/@elseStatement/@statements.4/@expression/@arguments.0"/>
+    </children>
+    <unit href="../modisco_java.xmi#//@compilationUnits.1"/>
+    <parent href="Package2Directory_java2kdm.xmi#/"/>
+  </javaapplication:Java2File>
+  <javaapplication:Java2File>
+    <file href="../modisco_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.6/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0"/>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="3" startPosition="43" endLine="3" endPosition="95">
+      <node href="../modisco_java.xmi#//@compilationUnits.2/@imports.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="99" endLine="12" endPosition="301">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@comments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="5" startPosition="99" endLine="29" endPosition="813">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="107" endLine="6" endPosition="154">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@comments.0/@tags.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="6" startPosition="107" endLine="8" endPosition="260">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@comments.0/@tags.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="7" startPosition="159" endLine="7" endPosition="207">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@comments.0/@tags.0/@fragments.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="8" startPosition="212" endLine="8" endPosition="260">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@comments.0/@tags.0/@fragments.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="270" endLine="10" endPosition="292">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@comments.0/@tags.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="10" startPosition="277" endLine="10" endPosition="292">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@comments.0/@tags.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="336" endLine="20" endPosition="540">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="15" startPosition="336" endLine="28" endPosition="810">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="345" endLine="16" endPosition="416">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0/@tags.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="16" startPosition="345" endLine="16" endPosition="416">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0/@tags.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="422" endLine="17" endPosition="468">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0/@tags.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="429" endLine="17" endPosition="435">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0/@tags.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="17" startPosition="435" endLine="17" endPosition="468">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0/@tags.1/@fragments.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="474" endLine="18" endPosition="521">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0/@tags.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="481" endLine="18" endPosition="487">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0/@tags.2/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="18" startPosition="487" endLine="18" endPosition="521">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0/@tags.2/@fragments.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="19" startPosition="527" endLine="19" endPosition="534">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@comments.0/@tags.3"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="550" endLine="21" endPosition="556">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="550" endLine="21" endPosition="556">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@returnType"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="561" endLine="21" endPosition="567">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="561" endLine="21" endPosition="567">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="561" endLine="21" endPosition="574">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="576" endLine="21" endPosition="582">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="576" endLine="21" endPosition="582">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="576" endLine="21" endPosition="589">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@parameters.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="21" startPosition="590" endLine="28" endPosition="810">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="599" endLine="23" endPosition="657">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="599" endLine="23" endPosition="611">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="599" endLine="23" endPosition="611">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="612" endLine="23" endPosition="656">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="628" endLine="23" endPosition="640">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="628" endLine="23" endPosition="656">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="23" startPosition="649" endLine="23" endPosition="655">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.0/@fragments.0/@initializer/@arguments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="661" endLine="24" endPosition="719">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.1"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="661" endLine="24" endPosition="673">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="661" endLine="24" endPosition="673">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.1/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="674" endLine="24" endPosition="718">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.1/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="690" endLine="24" endPosition="702">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="690" endLine="24" endPosition="718">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="24" startPosition="711" endLine="24" endPosition="717">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.1/@fragments.0/@initializer/@arguments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="723" endLine="25" endPosition="735">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.2/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="723" endLine="25" endPosition="735">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.2/@type"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="723" endLine="25" endPosition="775">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.2"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="736" endLine="25" endPosition="774">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.2/@fragments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="742" endLine="25" endPosition="774">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.2/@fragments.0/@initializer"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="742" endLine="25" endPosition="755">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.2/@fragments.0/@initializer/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="25" startPosition="760" endLine="25" endPosition="773">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.2/@fragments.0/@initializer/@arguments.0"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="27" startPosition="783" endLine="27" endPosition="805">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.3"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="27" startPosition="790" endLine="27" endPosition="804">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.3/@expression"/>
+    </children>
+    <children xsi:type="javaapplication:JavaNodeSourceRegion" startLine="27" startPosition="790" endLine="27" endPosition="793">
+      <node href="../modisco_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.2/@bodyDeclarations.0/@body/@statements.3/@expression/@expression"/>
+    </children>
+    <unit href="../modisco_java.xmi#//@compilationUnits.2"/>
+    <parent href="Package2Directory_java2kdm.xmi#/"/>
+  </javaapplication:Java2File>
+</xmi:XMI>
