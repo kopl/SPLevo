@@ -11,12 +11,15 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.gmt.modisco.java.CatchClause;
+import org.eclipse.gmt.modisco.java.EnhancedForStatement;
 import org.eclipse.gmt.modisco.java.ExpressionStatement;
+import org.eclipse.gmt.modisco.java.ForStatement;
 import org.eclipse.gmt.modisco.java.IfStatement;
 import org.eclipse.gmt.modisco.java.ReturnStatement;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.ThrowStatement;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
+import org.eclipse.gmt.modisco.java.WhileStatement;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
 import org.splevo.modisco.java.diffing.java2kdmdiff.StatementDelete;
@@ -49,7 +52,11 @@ public class StatementTest extends AbstractDiffingTest {
 				diffOptions);
 
         EList<DiffElement> differences = diff.getDifferences();
-        assertEquals("Wrong number of differences detected", 20, differences.size());
+        for (DiffElement diffElement : differences) {
+        	logger.debug(diffElement.getClass().getSimpleName());
+			
+		}
+        assertEquals("Wrong number of differences detected", 26, differences.size());
 
         for (DiffElement diffElement : differences) {
             if (diffElement instanceof StatementInsert) {
@@ -62,7 +69,10 @@ public class StatementTest extends AbstractDiffingTest {
                         || statement instanceof ExpressionStatement
                         || statement instanceof VariableDeclarationStatement 
                         || statement instanceof CatchClause
-                        || statement instanceof ThrowStatement)) {
+                        || statement instanceof ThrowStatement
+                        || statement instanceof ForStatement
+                        || statement instanceof EnhancedForStatement
+                        || statement instanceof WhileStatement)) {
                     fail("Unexpected statement type detected." + statement);
                 }
 
@@ -74,7 +84,10 @@ public class StatementTest extends AbstractDiffingTest {
                 if (!(statement instanceof IfStatement || statement instanceof VariableDeclarationStatement
                         || statement instanceof ReturnStatement 
                         || statement instanceof CatchClause
-                        || statement instanceof ThrowStatement)) {
+                        || statement instanceof ThrowStatement
+                        || statement instanceof ForStatement
+                        || statement instanceof EnhancedForStatement
+                        || statement instanceof WhileStatement)) {
                     fail("Unexpected statement type detected." + statement);
                 }
 

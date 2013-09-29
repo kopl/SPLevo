@@ -22,6 +22,7 @@ import org.eclipse.gmt.modisco.java.CharacterLiteral;
 import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ConditionalExpression;
+import org.eclipse.gmt.modisco.java.EnhancedForStatement;
 import org.eclipse.gmt.modisco.java.Expression;
 import org.eclipse.gmt.modisco.java.ExpressionStatement;
 import org.eclipse.gmt.modisco.java.FieldAccess;
@@ -52,6 +53,9 @@ import org.eclipse.gmt.modisco.java.SingleVariableDeclaration;
 import org.eclipse.gmt.modisco.java.StringLiteral;
 import org.eclipse.gmt.modisco.java.SuperConstructorInvocation;
 import org.eclipse.gmt.modisco.java.SuperMethodInvocation;
+import org.eclipse.gmt.modisco.java.SwitchCase;
+import org.eclipse.gmt.modisco.java.SwitchStatement;
+import org.eclipse.gmt.modisco.java.SynchronizedStatement;
 import org.eclipse.gmt.modisco.java.TagElement;
 import org.eclipse.gmt.modisco.java.ThisExpression;
 import org.eclipse.gmt.modisco.java.ThrowStatement;
@@ -60,11 +64,14 @@ import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.eclipse.gmt.modisco.java.TypeLiteral;
 import org.eclipse.gmt.modisco.java.TypeParameter;
+import org.eclipse.gmt.modisco.java.UnresolvedItem;
+import org.eclipse.gmt.modisco.java.UnresolvedItemAccess;
 import org.eclipse.gmt.modisco.java.UnresolvedTypeDeclaration;
 import org.eclipse.gmt.modisco.java.VariableDeclaration;
 import org.eclipse.gmt.modisco.java.VariableDeclarationExpression;
 import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
+import org.eclipse.gmt.modisco.java.WhileStatement;
 import org.eclipse.gmt.modisco.java.WildCardType;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 
@@ -148,6 +155,28 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
     
     /**
+     * Check synchronized statement similarity.<br>
+     * Similarity is checked by
+     * <ul>
+     * <li>expression similarity</li>
+     * </ul>
+     * 
+     * @param stmt1
+     *            The synchronized statement to compare with the compare element.
+     * @return True/False if the synchronized statements are similar or not.
+     */
+    @Override
+    public Boolean caseSynchronizedStatement(SynchronizedStatement stmt1) {
+
+        SynchronizedStatement stmt2 = (SynchronizedStatement) compareElement;
+
+        Expression exp1 = stmt1.getExpression();
+        Expression exp2 = stmt2.getExpression();
+
+        return similarityChecker.isSimilar(exp1, exp2);
+    }
+
+    /**
      * Check throw statement similarity.<br>
      * Similarity is checked by
      * <ul>
@@ -161,7 +190,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     @Override
     public Boolean caseThrowStatement(ThrowStatement throwStatement1) {
         ThrowStatement throwStatement2 = (ThrowStatement) compareElement;
-        
+
         Expression exp1 = throwStatement1.getExpression();
         Expression exp2 = throwStatement2.getExpression();
 
@@ -641,6 +670,36 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         return Boolean.TRUE;
     }
+    
+    @Override
+    public Boolean caseSwitchStatement(SwitchStatement switch1) {
+
+        SwitchStatement switch2 = (SwitchStatement) compareElement;
+
+        Expression expression1 = switch1.getExpression();
+        Expression expression2 = switch2.getExpression();
+        Boolean expressionSimilarity = similarityChecker.isSimilar(expression1, expression2);
+        if (expressionSimilarity == Boolean.FALSE) {
+            return expressionSimilarity;
+        }
+
+        return Boolean.TRUE;
+    }
+    
+    @Override
+    public Boolean caseSwitchCase(SwitchCase case1) {
+
+        SwitchCase case2 = (SwitchCase) compareElement;
+
+        Expression expression1 = case1.getExpression();
+        Expression expression2 = case2.getExpression();
+        Boolean expressionSimilarity = similarityChecker.isSimilar(expression1, expression2);
+        if (expressionSimilarity == Boolean.FALSE) {
+            return expressionSimilarity;
+        }
+
+        return Boolean.TRUE;
+    }
 
     /**
      * Check if two for statements are similar.
@@ -658,25 +717,84 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
      * container for statement similarity. The contained statements are checked in a separate step
      * of the compare process if the enclosing for statement matches.
      * 
+     * @param stmt1
+     *            The statement to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean caseForStatement(ForStatement stmt1) {
+
+        ForStatement stmt2 = (ForStatement) compareElement;
+
+        if (stmt1.getInitializers().size() != stmt2.getInitializers().size()) {
+            return Boolean.FALSE;
+        }
+
+        if (stmt1.getUpdaters().size() != stmt2.getUpdaters().size()) {
+            return Boolean.FALSE;
+        }
+
+        Boolean expressionSimilarity = similarityChecker.isSimilar(stmt1.getExpression(), stmt2.getExpression());
+        if (expressionSimilarity != null && expressionSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check if two enhanced for statements are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>expression similarity</li>
+     * </ul>
+     * 
+     * The body is not checked as part of the for statement check because this is only about the
+     * container enhanced for statement similarity. The contained statements are checked in a
+     * separate step of the compare process if the enclosing for statement matches.
+     * 
      * @param forStatement1
      *            The statement to compare with the compare element.
      * @return True/False whether they are similar or not.
      */
     @Override
-    public Boolean caseForStatement(ForStatement forStatement1) {
+    public Boolean caseEnhancedForStatement(EnhancedForStatement forStatement1) {
 
-        ForStatement forStatement2 = (ForStatement) compareElement;
-
-        if (forStatement1.getInitializers().size() != forStatement2.getInitializers().size()) {
-            return Boolean.FALSE;
-        }
-
-        if (forStatement1.getUpdaters().size() != forStatement2.getUpdaters().size()) {
-            return Boolean.FALSE;
-        }
+        EnhancedForStatement forStatement2 = (EnhancedForStatement) compareElement;
 
         Boolean expressionSimilarity = similarityChecker.isSimilar(forStatement1.getExpression(),
                 forStatement2.getExpression());
+        if (expressionSimilarity != null && expressionSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check if two while statements are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>expression similarity</li>
+     * </ul>
+     * 
+     * The body is not checked as part of the while statement check because this is only about the
+     * container enhanced for statement similarity. The contained statements are checked in a
+     * separate step of the compare process if the enclosing for statement matches.
+     * 
+     * @param statement1
+     *            The statement to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean caseWhileStatement(WhileStatement statement1) {
+
+        WhileStatement statement2 = (WhileStatement) compareElement;
+
+        Boolean expressionSimilarity = similarityChecker.isSimilar(statement1.getExpression(),
+                statement2.getExpression());
         if (expressionSimilarity != null && expressionSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
@@ -1050,7 +1168,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         // container check
-        Boolean containerSimilarity = similarityChecker.isSimilar(varDeclFrag.getVariablesContainer(), varDeclFrag2.getVariablesContainer());
+        Boolean containerSimilarity = similarityChecker.isSimilar(varDeclFrag.getVariablesContainer(),
+                varDeclFrag2.getVariablesContainer());
         if (containerSimilarity != null) {
             return containerSimilarity;
         }
@@ -1127,7 +1246,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         // type check similarity
-        // first check type access availability to prevent null pointer exceptions
+        // first check type access availability to prevent null pointer
+        // exceptions
         if (fDecl.getType() != null && fDecl2.getType() != null) {
             Boolean typeSimilarity = similarityChecker.isSimilar(fDecl.getType().getType(), fDecl2.getType().getType());
             if (typeSimilarity != null && typeSimilarity == Boolean.FALSE) {
@@ -1745,6 +1865,33 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         return Boolean.FALSE;
     }
 
+    @Override
+    public Boolean caseUnresolvedItem(UnresolvedItem item1) {
+
+        UnresolvedItem item2 = (UnresolvedItem) compareElement;
+
+        if (item1.getName().equals(item2.getName())) {
+            return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public Boolean caseUnresolvedItemAccess(UnresolvedItemAccess access1) {
+
+        UnresolvedItemAccess access2 = (UnresolvedItemAccess) compareElement;
+
+        Boolean itemSimilarity = similarityChecker.isSimilar(access1.getElement(), access2.getElement());
+        if (itemSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        // TODO: Check if qualifier should be checked as well
+        
+        return Boolean.TRUE;
+    };
+
     /**
      * Check block similarity.<br>
      * Similarity is checked by
@@ -1842,7 +1989,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             return false;
         }
 
-        // if the parent class is again an anonymous one: recursively check this one
+        // if the parent class is again an anonymous one: recursively check this
+        // one
         if (type1.eContainer() instanceof AnonymousClassDeclaration) {
             return checkAnonymousClassDeclarationSimilarity((AnonymousClassDeclaration) type1.eContainer(),
                     (AnonymousClassDeclaration) type2.eContainer());
@@ -1887,10 +2035,11 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         if (packageElement == referencePackage) {
             return true;
 
-            // packages with same name and same parent packages name are considered as similar.
+            // packages with same name and same parent packages name are
+            // considered as similar.
         } else if (packageElement != null && referencePackage != null) {
 
-        	String packagePath1 = JavaModelUtil.buildPackagePath(packageElement);
+            String packagePath1 = JavaModelUtil.buildPackagePath(packageElement);
             String packagePath2 = JavaModelUtil.buildPackagePath(referencePackage);
             if (packagePath1.equals(packagePath2)) {
                 return Boolean.TRUE;

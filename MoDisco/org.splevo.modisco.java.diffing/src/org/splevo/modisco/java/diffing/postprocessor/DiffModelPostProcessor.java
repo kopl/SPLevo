@@ -22,6 +22,7 @@ import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.DoStatement;
 import org.eclipse.gmt.modisco.java.EnhancedForStatement;
 import org.eclipse.gmt.modisco.java.EnumDeclaration;
+import org.eclipse.gmt.modisco.java.Expression;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.ForStatement;
 import org.eclipse.gmt.modisco.java.IfStatement;
@@ -29,7 +30,9 @@ import org.eclipse.gmt.modisco.java.InterfaceDeclaration;
 import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.SwitchStatement;
 import org.eclipse.gmt.modisco.java.TryStatement;
+import org.eclipse.gmt.modisco.java.Type;
 import org.eclipse.gmt.modisco.java.TypeAccess;
+import org.eclipse.gmt.modisco.java.VariableDeclarationFragment;
 import org.eclipse.gmt.modisco.java.WhileStatement;
 import org.splevo.modisco.java.diffing.java2kdmdiff.EnumDeclarationChange;
 import org.splevo.modisco.java.diffing.java2kdmdiff.FieldDeclarationChange;
@@ -37,6 +40,9 @@ import org.splevo.modisco.java.diffing.java2kdmdiff.ImplementsInterfaceDelete;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ImplementsInterfaceInsert;
 import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffFactory;
 import org.splevo.modisco.java.diffing.java2kdmdiff.StatementChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.StatementDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.StatementInsert;
+import org.splevo.modisco.java.diffing.util.DiffElementFactory;
 
 /**
  * A post processor to analyze a diff model to identify specific changes.
@@ -137,7 +143,8 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
         if (diffGroup.getRightParent() instanceof EnumDeclaration) {
 
             // Get left and right parent enumerations
-            // The rightParent of the diff group might link to the left model in case of only added
+            // The rightParent of the diff group might link to the left model in
+            // case of only added
             // sub elements.
             // In this case switch the orientations
             EnumDeclaration enumDeclarationRight = null;
@@ -174,6 +181,7 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
             return addToParentGroup(diffGroup, fieldChange);
         }
 
+        // handle statement statements
         if (diffGroup.getRightParent() instanceof Statement) {
             if (isNotEnclosingStatement((Statement) diffGroup.getRightParent())) {
 
@@ -253,35 +261,26 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
      * <li>a reference to a changed line comment</li>
      * </ul>
      * 
-     * @param object
+     * @param diffElement
      *            the model change to analyze
      * @return True/False whether the element has been replaced or not.
      */
     @Override
-    public Boolean caseModelElementChangeLeftTarget(ModelElementChangeLeftTarget object) {
+    public Boolean caseModelElementChangeLeftTarget(ModelElementChangeLeftTarget diffElement) {
 
-        if (object.getKind() == DifferenceKind.ADDITION) {
-            if ((object.getLeftElement() instanceof TypeAccess)
-                    && object.getLeftElement().eContainer() instanceof ClassDeclaration
-                    && ((TypeAccess) object.getLeftElement()).getType() instanceof InterfaceDeclaration) {
+        if (diffElement.getKind() == DifferenceKind.ADDITION) {
 
-                ImplementsInterfaceInsert implementsInterfaceInsert = Java2KDMDiffFactory.eINSTANCE
-                        .createImplementsInterfaceInsert();
-                implementsInterfaceInsert.setImplementedInterface((InterfaceDeclaration) ((TypeAccess) object
-                        .getLeftElement()).getType());
-                implementsInterfaceInsert.setChangedClass((ClassDeclaration) object.getLeftElement().eContainer());
-
-                // add the statement change to the parent container
-                if (object.eContainer() instanceof DiffGroup) {
-                    DiffGroup parentGroup = (DiffGroup) object.eContainer();
-                    parentGroup.getSubDiffElements().add(implementsInterfaceInsert);
-                }
-
+            if (handleImplementsInterfaceInsert(diffElement)) {
                 return Boolean.TRUE;
             }
+
+            if (handleForStatementExpression(diffElement)) {
+                return Boolean.TRUE;
+            }
+
         }
 
-        return super.caseModelElementChangeLeftTarget(object);
+        return super.caseModelElementChangeLeftTarget(diffElement);
     }
 
     /**
@@ -294,35 +293,173 @@ public class DiffModelPostProcessor extends DiffSwitch<Boolean> {
      * <li>a reference to a changed line comment</li>
      * </ul>
      * 
-     * @param object
+     * @param diffElement
      *            the model change to analyze
      * @return True/False whether the element has been replaced or not.
      */
     @Override
-    public Boolean caseModelElementChangeRightTarget(ModelElementChangeRightTarget object) {
+    public Boolean caseModelElementChangeRightTarget(ModelElementChangeRightTarget diffElement) {
 
-        if (object.getKind() == DifferenceKind.DELETION) {
-            if ((object.getRightElement() instanceof TypeAccess)
-                    && object.getRightElement().eContainer() instanceof ClassDeclaration
-                    && ((TypeAccess) object.getRightElement()).getType() instanceof InterfaceDeclaration) {
+        if (diffElement.getKind() == DifferenceKind.DELETION) {
 
-                ImplementsInterfaceDelete implementsInterfaceDelete = Java2KDMDiffFactory.eINSTANCE
-                        .createImplementsInterfaceDelete();
-                implementsInterfaceDelete.setImplementedInterface((InterfaceDeclaration) ((TypeAccess) object
-                        .getRightElement()).getType());
-                implementsInterfaceDelete.setChangedClass((ClassDeclaration) object.getRightElement().eContainer());
+            if (handleImplementsInterfaceDelete(diffElement)) {
+                return Boolean.TRUE;
+            }
 
-                // add the statement change to the parent container
-                if (object.eContainer() instanceof DiffGroup) {
-                    DiffGroup parentGroup = (DiffGroup) object.eContainer();
-                    parentGroup.getSubDiffElements().add(implementsInterfaceDelete);
-                }
-
+            if (handleForStatementExpression(diffElement)) {
                 return Boolean.TRUE;
             }
         }
 
-        return super.caseModelElementChangeRightTarget(object);
+        return super.caseModelElementChangeRightTarget(diffElement);
+    }
+
+    /**
+     * Check if the deletion diff is about the expression of a for statement 
+     * and create an according diff element if this is the case.
+     * for(int i = 0; i < a; i++);
+     * 
+     * TODO check for general VariableDeclarationHandling
+     * This method might not be used from a for loop perspective but
+     * to handle all blocks that enclose a VariableDeclarationHandling within an expression
+     * 
+     * @param diffElement
+     *            The element to proof.
+     * @return True if the change is a implements interface deletion. False otherwise.
+     */
+    private boolean handleForStatementExpression(ModelElementChangeLeftTarget diffElement) {
+
+        EObject rightParent = diffElement.getRightParent();
+        if (!(rightParent instanceof VariableDeclarationFragment)) {
+            return false;
+        }
+
+        EObject expression = rightParent.eContainer();
+        if (!(expression instanceof Expression)) {
+            return false;
+        }
+
+        EObject statement = expression.eContainer();
+        if (!(statement instanceof ForStatement)) {
+            return false;
+        }
+
+        StatementInsert insert = DiffElementFactory.createStatementInsert((ForStatement) statement);
+        addToParentDiffGroup(diffElement, insert);
+
+        return true;
+    }
+
+    /**
+     * Check if the deletion diff is about the expression of a for statement 
+     * and create an according diff element if this is the case.
+     * for(int i = 0; i < a; i++);
+     * 
+     * TODO check for general VariableDeclarationHandling
+     * This method might not be used from a for loop perspective but
+     * to handle all blocks that enclose a VariableDeclarationHandling within an expression
+     * 
+     * @param diffElement
+     *            The element to proof.
+     * @return True if the change is a implements interface deletion. False otherwise.
+     */
+    private boolean handleForStatementExpression(ModelElementChangeRightTarget diffElement) {
+
+        EObject leftParent = diffElement.getLeftParent();
+        if (!(leftParent instanceof VariableDeclarationFragment)) {
+            return false;
+        }
+
+        EObject expression = leftParent.eContainer();
+        if (!(expression instanceof Expression)) {
+            return false;
+        }
+
+        EObject statement = expression.eContainer();
+        if (!(statement instanceof ForStatement)) {
+            return false;
+        }
+
+        StatementDelete delete = DiffElementFactory.createStatementDelete((ForStatement) statement, matchManager);
+        addToParentDiffGroup(diffElement, delete);
+
+        return true;
+    }
+
+    /**
+     * Proof if the change is about an "implements interface" deletion and create an according diff
+     * element if this is the case.
+     * 
+     * @param diffElement
+     *            The raw change element to proof.
+     * @return True if the change is a implements interface deletion. False otherwise.
+     */
+    private boolean handleImplementsInterfaceDelete(ModelElementChangeRightTarget diffElement) {
+
+        if (!(diffElement.getRightElement() instanceof TypeAccess)) {
+            return false;
+        }
+
+        TypeAccess rightElement = (TypeAccess) diffElement.getRightElement();
+        Type type = rightElement.getType();
+        EObject eContainer = rightElement.eContainer();
+
+        if (!(eContainer instanceof ClassDeclaration) || !(type instanceof InterfaceDeclaration)) {
+            return false;
+        }
+
+        ImplementsInterfaceDelete delete = Java2KDMDiffFactory.eINSTANCE.createImplementsInterfaceDelete();
+        delete.setImplementedInterface((InterfaceDeclaration) type);
+        delete.setChangedClass((ClassDeclaration) eContainer);
+
+        addToParentDiffGroup(diffElement, delete);
+        return true;
+
+    }
+
+    /**
+     * Proof if the change is about an "implements interface" deletion and create an according diff
+     * element if this is the case.
+     * 
+     * @param diffElement
+     *            The raw change element to proof.
+     * @return True if the change is a implements interface deletion. False otherwise.
+     */
+    private boolean handleImplementsInterfaceInsert(ModelElementChangeLeftTarget diffElement) {
+
+        if (!(diffElement.getLeftElement() instanceof TypeAccess)) {
+            return false;
+        }
+
+        TypeAccess leftElement = (TypeAccess) diffElement.getLeftElement();
+        Type type = leftElement.getType();
+        EObject eContainer = leftElement.eContainer();
+
+        if (!(eContainer instanceof ClassDeclaration) || !(type instanceof InterfaceDeclaration)) {
+            return false;
+        }
+
+        ImplementsInterfaceInsert insert = Java2KDMDiffFactory.eINSTANCE.createImplementsInterfaceInsert();
+        insert.setImplementedInterface((InterfaceDeclaration) type);
+        insert.setChangedClass((ClassDeclaration) eContainer);
+
+        addToParentDiffGroup(diffElement, insert);
+        return true;
+    }
+
+    /**
+     * Add a new diff element to the parent diff group.
+     * 
+     * @param originalElement
+     *            The original diff element to get the parent from
+     * @param newElement
+     *            The new diff element to add.
+     */
+    private void addToParentDiffGroup(DiffElement originalElement, DiffElement newElement) {
+        if (originalElement.eContainer() instanceof DiffGroup) {
+            DiffGroup parentGroup = (DiffGroup) originalElement.eContainer();
+            parentGroup.getSubDiffElements().add(newElement);
+        }
     }
 
     /**
