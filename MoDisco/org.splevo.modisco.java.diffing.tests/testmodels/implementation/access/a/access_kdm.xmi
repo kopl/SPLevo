@@ -15,9 +15,8 @@
                 <inventoryElement xsi:type="source:Directory" name="diffing" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\bin\org\splevo\modisco\java\diffing">
                   <inventoryElement xsi:type="source:Directory" name="tests" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\bin\org\splevo\modisco\java\diffing\tests">
                     <inventoryElement xsi:type="source:Directory" name="access" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\bin\org\splevo\modisco\java\diffing\tests\access">
+                      <inventoryElement xsi:type="source:BinaryFile" name="ExternalTypeAccess.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\bin\org\splevo\modisco\java\diffing\tests\access\ExternalTypeAccess.class"/>
                       <inventoryElement xsi:type="source:BinaryFile" name="package-info.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\bin\org\splevo\modisco\java\diffing\tests\access\package-info.class"/>
-                      <inventoryElement xsi:type="source:BinaryFile" name="TypeParameter$EventAndListeners.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\bin\org\splevo\modisco\java\diffing\tests\access\TypeParameter$EventAndListeners.class"/>
-                      <inventoryElement xsi:type="source:BinaryFile" name="TypeParameter.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\bin\org\splevo\modisco\java\diffing\tests\access\TypeParameter.class"/>
                     </inventoryElement>
                   </inventoryElement>
                 </inventoryElement>
@@ -34,8 +33,8 @@
                 <inventoryElement xsi:type="source:Directory" name="diffing" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing">
                   <inventoryElement xsi:type="source:Directory" name="tests" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing\tests">
                     <inventoryElement xsi:type="source:Directory" name="access" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing\tests\access">
+                      <inventoryElement xsi:type="source:SourceFile" name="ExternalTypeAccess.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing\tests\access\ExternalTypeAccess.java"/>
                       <inventoryElement xsi:type="source:SourceFile" name="package-info.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing\tests\access\package-info.java"/>
-                      <inventoryElement xsi:type="source:SourceFile" name="TypeParameter.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing\tests\access\TypeParameter.java"/>
                     </inventoryElement>
                   </inventoryElement>
                 </inventoryElement>

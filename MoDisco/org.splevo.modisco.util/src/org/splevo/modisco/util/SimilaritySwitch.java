@@ -153,7 +153,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         return similarityChecker.isSimilar(exp1, exp2);
     }
-    
+
     /**
      * Check synchronized statement similarity.<br>
      * Similarity is checked by
@@ -670,7 +670,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         return Boolean.TRUE;
     }
-    
+
     @Override
     public Boolean caseSwitchStatement(SwitchStatement switch1) {
 
@@ -685,7 +685,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         return Boolean.TRUE;
     }
-    
+
     @Override
     public Boolean caseSwitchCase(SwitchCase case1) {
 
@@ -1119,6 +1119,9 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
      * <li>name of the accessed type</li>
      * </ul>
      * 
+     * The qualifier attribute of the TypeAccess is ignored because this is more a syntactical
+     * aspect. The import aspect of the comparison is the similarity of the accessed type.
+     * 
      * @param typeAccess1
      *            The type access to compare with the compare element.
      * @return True/False if the type accesses are similar or not.
@@ -1131,14 +1134,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         // check the similarity of the accessed type
         Type type1 = typeAccess1.getType();
         Type type2 = typeAccess2.getType();
-        if (!type1.getClass().equals(type2.getClass())) {
-            return Boolean.FALSE;
-        }
-        if (type1.getName() == null) {
-            if (type2.getName() != null) {
-                return Boolean.FALSE;
-            }
-        } else if (!type1.getName().equals(type2.getName())) {
+        Boolean typeSimilarity = similarityChecker.isSimilar(type1, type2);
+        if (typeSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1224,22 +1221,24 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
      * <li>Container (name space)</li>
      * </ul>
      * 
-     * @param fDecl
+     * @param fDecl1
      *            The field declaration to compare with the compare element.
      * @return True/False if the field declaration are similar or not.
      */
     @Override
-    public Boolean caseFieldDeclaration(FieldDeclaration fDecl) {
+    public Boolean caseFieldDeclaration(FieldDeclaration fDecl1) {
 
         FieldDeclaration fDecl2 = (FieldDeclaration) compareElement;
 
         // fragment check
-        if (fDecl.getFragments().size() != fDecl2.getFragments().size()) {
+        EList<VariableDeclarationFragment> fragments1 = fDecl1.getFragments();
+        EList<VariableDeclarationFragment> fragments2 = fDecl2.getFragments();
+        if (fragments1.size() != fragments2.size()) {
             return Boolean.FALSE;
         }
-        for (int i = 0; i < fDecl.getFragments().size(); i++) {
-            VariableDeclarationFragment fragment1 = fDecl.getFragments().get(i);
-            VariableDeclarationFragment fragment2 = fDecl2.getFragments().get(i);
+        for (int i = 0; i < fragments1.size(); i++) {
+            VariableDeclarationFragment fragment1 = fragments1.get(i);
+            VariableDeclarationFragment fragment2 = fragments2.get(i);
             if (!fragment1.getName().equals(fragment2.getName())) {
                 return Boolean.FALSE;
             }
@@ -1248,18 +1247,15 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         // type check similarity
         // first check type access availability to prevent null pointer
         // exceptions
-        if (fDecl.getType() != null && fDecl2.getType() != null) {
-            Boolean typeSimilarity = similarityChecker.isSimilar(fDecl.getType().getType(), fDecl2.getType().getType());
-            if (typeSimilarity != null && typeSimilarity == Boolean.FALSE) {
-                return Boolean.FALSE;
-            }
-        } else if ((fDecl.getType() != null && fDecl2.getType() == null)
-                || (fDecl.getType() == null && fDecl2.getType() != null)) {
+        TypeAccess access1 = fDecl1.getType();
+        TypeAccess access2 = fDecl2.getType();
+        Boolean similarity = similarityChecker.isSimilar(access1, access2);
+        if (similarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
         // container check
-        Boolean containerSimilarity = similarityChecker.isSimilar(fDecl.eContainer(), fDecl2.eContainer());
+        Boolean containerSimilarity = similarityChecker.isSimilar(fDecl1.eContainer(), fDecl2.eContainer());
         if (containerSimilarity != null) {
             return containerSimilarity;
         }
@@ -1888,7 +1884,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         // TODO: Check if qualifier should be checked as well
-        
+
         return Boolean.TRUE;
     };
 

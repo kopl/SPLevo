@@ -7,70 +7,67 @@
           <ownedPackages name="diffing">
             <ownedPackages name="tests">
               <ownedPackages name="access">
-                <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.1" name="TypeParameter">
+                <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.0" name="ExternalTypeAccess">
                   <modifier visibility="public"/>
-                  <bodyDeclarations xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.1" name="EventAndListeners" usagesInTypeAccess="//@orphanTypes.9/@typeArguments.0 //@orphanTypes.10/@typeArguments.0">
-                    <modifier/>
-                    <bodyDeclarations xsi:type="java:ConstructorDeclaration" originalCompilationUnit="//@compilationUnits.1" name="EventAndListeners">
-                      <modifier visibility="public"/>
-                      <body originalCompilationUnit="//@compilationUnits.1"/>
-                      <parameters originalCompilationUnit="//@compilationUnits.1" name="a">
-                        <modifier/>
-                        <type type="//@ownedElements.1/@ownedPackages.1/@ownedElements.2"/>
-                      </parameters>
-                      <parameters originalCompilationUnit="//@compilationUnits.1" name="b">
-                        <modifier/>
-                        <type type="//@ownedElements.1/@ownedPackages.1/@ownedElements.2"/>
-                      </parameters>
-                    </bodyDeclarations>
+                  <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.0">
+                    <annotations originalCompilationUnit="//@compilationUnits.0">
+                      <type type="//@ownedElements.1/@ownedPackages.1/@ownedElements.2"/>
+                      <values>
+                        <value xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.0" escapedValue="&quot;unused&quot;"/>
+                      </values>
+                    </annotations>
+                    <modifier visibility="private"/>
+                    <type type="//@ownedElements.2/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+                    <fragments originalCompilationUnit="//@compilationUnits.0" name="path"/>
                   </bodyDeclarations>
-                  <bodyDeclarations xsi:type="java:ConstructorDeclaration" originalCompilationUnit="//@compilationUnits.1" name="TypeParameter">
+                  <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="typeAsListType">
                     <modifier visibility="public"/>
-                    <body originalCompilationUnit="//@compilationUnits.1">
-                      <statements xsi:type="java:VariableDeclarationStatement" originalCompilationUnit="//@compilationUnits.1">
+                    <body originalCompilationUnit="//@compilationUnits.0">
+                      <statements xsi:type="java:VariableDeclarationStatement" originalCompilationUnit="//@compilationUnits.0">
                         <type type="//@orphanTypes.9"/>
-                        <fragments originalCompilationUnit="//@compilationUnits.1" name="events" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1/@expression/@arguments.0">
-                          <initializer xsi:type="java:ClassInstanceCreation" originalCompilationUnit="//@compilationUnits.1" method="//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0">
+                        <fragments originalCompilationUnit="//@compilationUnits.0" name="paths" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1/@expression/@arguments.0">
+                          <initializer xsi:type="java:ClassInstanceCreation" originalCompilationUnit="//@compilationUnits.0" method="//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0">
                             <type type="//@orphanTypes.10"/>
                           </initializer>
                         </fragments>
                         <modifier/>
                       </statements>
-                      <statements xsi:type="java:ExpressionStatement" originalCompilationUnit="//@compilationUnits.1">
-                        <expression xsi:type="java:MethodInvocation" originalCompilationUnit="//@compilationUnits.1" method="//@ownedElements.1/@ownedPackages.2/@ownedElements.1/@bodyDeclarations.0">
+                      <statements xsi:type="java:ExpressionStatement" originalCompilationUnit="//@compilationUnits.0">
+                        <expression xsi:type="java:MethodInvocation" originalCompilationUnit="//@compilationUnits.0" method="//@ownedElements.1/@ownedPackages.2/@ownedElements.1/@bodyDeclarations.0">
                           <arguments xsi:type="java:SingleVariableAccess" variable="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.0/@fragments.0"/>
-                          <expression xsi:type="java:SingleVariableAccess" variable="//@ownedElements.1/@ownedPackages.1/@ownedElements.5/@bodyDeclarations.0/@fragments.0">
-                            <qualifier xsi:type="java:TypeAccess" type="//@ownedElements.1/@ownedPackages.1/@ownedElements.5"/>
+                          <expression xsi:type="java:SingleVariableAccess" variable="//@ownedElements.1/@ownedPackages.1/@ownedElements.3/@bodyDeclarations.0/@fragments.0">
+                            <qualifier xsi:type="java:TypeAccess" type="//@ownedElements.1/@ownedPackages.1/@ownedElements.3"/>
                           </expression>
                         </expression>
                       </statements>
                     </body>
+                    <returnType type="//@orphanTypes.5"/>
                   </bodyDeclarations>
-                  <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.1" name="arrayParameterMethod">
+                  <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="typeAsArrayParameter">
                     <modifier visibility="public"/>
-                    <body originalCompilationUnit="//@compilationUnits.1">
-                      <statements xsi:type="java:ExpressionStatement" originalCompilationUnit="//@compilationUnits.1">
-                        <expression xsi:type="java:MethodInvocation" originalCompilationUnit="//@compilationUnits.1" method="//@ownedElements.1/@ownedPackages.2/@ownedElements.1/@bodyDeclarations.0">
+                    <body originalCompilationUnit="//@compilationUnits.0">
+                      <statements xsi:type="java:ExpressionStatement" originalCompilationUnit="//@compilationUnits.0">
+                        <expression xsi:type="java:MethodInvocation" originalCompilationUnit="//@compilationUnits.0" method="//@ownedElements.1/@ownedPackages.2/@ownedElements.1/@bodyDeclarations.0">
                           <arguments xsi:type="java:SingleVariableAccess" variable="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@parameters.0"/>
-                          <expression xsi:type="java:SingleVariableAccess" variable="//@ownedElements.1/@ownedPackages.1/@ownedElements.5/@bodyDeclarations.0/@fragments.0">
-                            <qualifier xsi:type="java:TypeAccess" type="//@ownedElements.1/@ownedPackages.1/@ownedElements.5"/>
+                          <expression xsi:type="java:SingleVariableAccess" variable="//@ownedElements.1/@ownedPackages.1/@ownedElements.3/@bodyDeclarations.0/@fragments.0">
+                            <qualifier xsi:type="java:TypeAccess" type="//@ownedElements.1/@ownedPackages.1/@ownedElements.3"/>
                           </expression>
                         </expression>
                       </statements>
                     </body>
-                    <parameters originalCompilationUnit="//@compilationUnits.1" name="extents" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@body/@statements.0/@expression/@arguments.0">
+                    <parameters originalCompilationUnit="//@compilationUnits.0" name="extents" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@body/@statements.0/@expression/@arguments.0">
                       <modifier/>
                       <type type="//@orphanTypes.11"/>
                     </parameters>
                     <returnType type="//@orphanTypes.5"/>
                   </bodyDeclarations>
-                  <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.1" name="textReference">
-                    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; * An unresolveable reference in a java doc comment tag that is not changed.&#xA; * @see org.netbeans.lib.jmi.xmi.XmiContext#XmiContext(javax.xml.xpath.XPath[],org.netbeans.api.xmi.XMIInputConfig)&#xA; */&#xA;" prefixOfParent="true">
-                      <tags originalCompilationUnit="//@compilationUnits.1">
-                        <fragments xsi:type="java:TextElement" originalCompilationUnit="//@compilationUnits.1" text="An unresolveable reference in a java doc comment tag that is not changed."/>
+                  <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="typeInJavaDocTag">
+                    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.0" content="/** &#xA; * An unresolveable reference in a java doc comment tag that is not changed.&#xA; * @see org.netbeans.lib.jmi.xmi.XmiContext#XmiContext(javax.xml.xpath.XPath[],org.netbeans.api.xmi.XMIInputConfig)&#xA; */&#xA;" prefixOfParent="true">
+                      <tags originalCompilationUnit="//@compilationUnits.0">
+                        <fragments xsi:type="java:TextElement" originalCompilationUnit="//@compilationUnits.0" text="An unresolveable reference in a java doc comment tag that is not changed."/>
                       </tags>
-                      <tags originalCompilationUnit="//@compilationUnits.1" tagName="@see">
-                        <fragments xsi:type="java:MethodRef" originalCompilationUnit="//@compilationUnits.1" method="//@unresolvedItems.5">
+                      <tags originalCompilationUnit="//@compilationUnits.0" tagName="@see">
+                        <fragments xsi:type="java:MethodRef" originalCompilationUnit="//@compilationUnits.0" method="//@unresolvedItems.5">
                           <qualifier type="//@unresolvedItems.4">
                             <qualifier xsi:type="java:UnresolvedItemAccess" element="//@unresolvedItems.3">
                               <qualifier xsi:type="java:UnresolvedItemAccess" element="//@unresolvedItems.2">
@@ -82,10 +79,10 @@
                               </qualifier>
                             </qualifier>
                           </qualifier>
-                          <parameters originalCompilationUnit="//@compilationUnits.1">
+                          <parameters originalCompilationUnit="//@compilationUnits.0">
                             <type type="//@orphanTypes.12"/>
                           </parameters>
-                          <parameters originalCompilationUnit="//@compilationUnits.1">
+                          <parameters originalCompilationUnit="//@compilationUnits.0">
                             <type type="//@unresolvedItems.12">
                               <qualifier xsi:type="java:UnresolvedItemAccess" element="//@unresolvedItems.3">
                                 <qualifier xsi:type="java:UnresolvedItemAccess" element="//@unresolvedItems.11">
@@ -100,7 +97,24 @@
                       </tags>
                     </comments>
                     <modifier visibility="public"/>
-                    <body originalCompilationUnit="//@compilationUnits.1"/>
+                    <body originalCompilationUnit="//@compilationUnits.0"/>
+                    <returnType type="//@orphanTypes.5"/>
+                  </bodyDeclarations>
+                  <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="typeInMethod">
+                    <annotations originalCompilationUnit="//@compilationUnits.0">
+                      <type type="//@ownedElements.1/@ownedPackages.1/@ownedElements.2"/>
+                      <values>
+                        <value xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.0" escapedValue="&quot;unused&quot;"/>
+                      </values>
+                    </annotations>
+                    <modifier visibility="public"/>
+                    <body originalCompilationUnit="//@compilationUnits.0">
+                      <statements xsi:type="java:VariableDeclarationStatement" originalCompilationUnit="//@compilationUnits.0">
+                        <type type="//@ownedElements.2/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+                        <fragments originalCompilationUnit="//@compilationUnits.0" name="path"/>
+                        <modifier/>
+                      </statements>
+                    </body>
                     <returnType type="//@orphanTypes.5"/>
                   </bodyDeclarations>
                 </ownedElements>
@@ -113,7 +127,7 @@
   </ownedElements>
   <ownedElements name="java" proxy="true">
     <ownedPackages name="util" proxy="true">
-      <ownedElements xsi:type="java:ClassDeclaration" name="ArrayList" proxy="true" usagesInImports="//@compilationUnits.1/@imports.0" usagesInTypeAccess="//@orphanTypes.10/@type">
+      <ownedElements xsi:type="java:ClassDeclaration" name="ArrayList" proxy="true" usagesInImports="//@compilationUnits.0/@imports.0" usagesInTypeAccess="//@orphanTypes.10/@type">
         <bodyDeclarations xsi:type="java:ConstructorDeclaration" name="ArrayList" proxy="true" usages="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.0/@fragments.0/@initializer"/>
         <superInterfaces type="//@ownedElements.1/@ownedPackages.0/@ownedElements.4"/>
         <superInterfaces type="//@ownedElements.1/@ownedPackages.0/@ownedElements.5"/>
@@ -135,7 +149,7 @@
         <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.0"/>
         <typeParameters name="E" proxy="true"/>
       </ownedElements>
-      <ownedElements xsi:type="java:InterfaceDeclaration" name="List" proxy="true" usagesInImports="//@compilationUnits.1/@imports.1" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.1/@superInterfaces.0 //@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.0 //@orphanTypes.9/@type">
+      <ownedElements xsi:type="java:InterfaceDeclaration" name="List" proxy="true" usagesInImports="//@compilationUnits.0/@imports.1" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.1/@superInterfaces.0 //@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.0 //@orphanTypes.9/@type">
         <superInterfaces type="//@ownedElements.1/@ownedPackages.0/@ownedElements.3"/>
         <typeParameters name="E" proxy="true"/>
       </ownedElements>
@@ -146,15 +160,7 @@
         <typeParameters name="T" proxy="true"/>
       </ownedElements>
       <ownedElements xsi:type="java:InterfaceDeclaration" name="Cloneable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.2"/>
-      <ownedElements xsi:type="java:ClassDeclaration" name="String" proxy="true" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@bodyDeclarations.0/@parameters.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@bodyDeclarations.0/@parameters.1/@type">
-        <superInterfaces type="//@ownedElements.1/@ownedPackages.2/@ownedElements.0"/>
-        <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.3"/>
-        <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.4"/>
-      </ownedElements>
-      <ownedElements xsi:type="java:InterfaceDeclaration" name="Comparable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.1/@ownedElements.2/@superInterfaces.1">
-        <typeParameters name="T" proxy="true"/>
-      </ownedElements>
-      <ownedElements xsi:type="java:InterfaceDeclaration" name="CharSequence" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.1/@ownedElements.2/@superInterfaces.2"/>
+      <ownedElements xsi:type="java:AnnotationTypeDeclaration" name="SuppressWarnings" proxy="true" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@annotations.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.4/@annotations.0/@type"/>
       <ownedElements xsi:type="java:ClassDeclaration" name="System" proxy="true" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1/@expression/@expression/@qualifier //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@body/@statements.0/@expression/@expression/@qualifier">
         <bodyDeclarations xsi:type="java:FieldDeclaration" proxy="true">
           <fragments name="out" proxy="true" usageInVariableAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1/@expression/@expression //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@body/@statements.0/@expression/@expression"/>
@@ -164,14 +170,14 @@
       <ownedElements xsi:type="java:InterfaceDeclaration" name="Appendable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.2/@ownedElements.1/@superInterfaces.0"/>
     </ownedPackages>
     <ownedPackages name="io" proxy="true">
-      <ownedElements xsi:type="java:InterfaceDeclaration" name="Serializable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.3 //@ownedElements.1/@ownedPackages.1/@ownedElements.2/@superInterfaces.0"/>
+      <ownedElements xsi:type="java:InterfaceDeclaration" name="Serializable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.3"/>
       <ownedElements xsi:type="java:ClassDeclaration" name="PrintStream" proxy="true">
         <bodyDeclarations xsi:type="java:MethodDeclaration" name="println" proxy="true" usages="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.1/@expression //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@body/@statements.0/@expression">
           <parameters name="arg0" proxy="true">
-            <type type="//@ownedElements.1/@ownedPackages.1/@ownedElements.6"/>
+            <type type="//@ownedElements.1/@ownedPackages.1/@ownedElements.4"/>
           </parameters>
         </bodyDeclarations>
-        <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.7"/>
+        <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.5"/>
         <superInterfaces type="//@ownedElements.1/@ownedPackages.2/@ownedElements.4"/>
         <superClass type="//@ownedElements.1/@ownedPackages.2/@ownedElements.2"/>
       </ownedElements>
@@ -189,7 +195,7 @@
   <ownedElements name="javax" proxy="true">
     <ownedPackages name="xml" proxy="true">
       <ownedPackages name="xpath" proxy="true">
-        <ownedElements xsi:type="java:InterfaceDeclaration" name="XPath" proxy="true" usagesInImports="//@compilationUnits.1/@imports.2" usagesInTypeAccess="//@orphanTypes.11/@elementType"/>
+        <ownedElements xsi:type="java:InterfaceDeclaration" name="XPath" proxy="true" usagesInImports="//@compilationUnits.0/@imports.2" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@type //@orphanTypes.9/@typeArguments.0 //@orphanTypes.10/@typeArguments.0 //@orphanTypes.11/@elementType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.4/@body/@statements.0/@type"/>
       </ownedPackages>
     </ownedPackages>
   </ownedElements>
@@ -198,17 +204,17 @@
   <orphanTypes xsi:type="java:PrimitiveTypeFloat" name="float"/>
   <orphanTypes xsi:type="java:PrimitiveTypeDouble" name="double"/>
   <orphanTypes xsi:type="java:PrimitiveTypeBoolean" name="boolean"/>
-  <orphanTypes xsi:type="java:PrimitiveTypeVoid" name="void" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.3/@returnType"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeVoid" name="void" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.3/@returnType //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.4/@returnType"/>
   <orphanTypes xsi:type="java:PrimitiveTypeChar" name="char"/>
   <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
   <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
-  <orphanTypes xsi:type="java:ParameterizedType" name="java.util.List&lt;org.splevo.modisco.java.diffing.tests.access.TypeParameter.EventAndListeners>" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.0/@type">
+  <orphanTypes xsi:type="java:ParameterizedType" name="java.util.List&lt;javax.xml.xpath.XPath>" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.0/@type">
     <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.4"/>
-    <typeArguments type="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0"/>
+    <typeArguments type="//@ownedElements.2/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
   </orphanTypes>
-  <orphanTypes xsi:type="java:ParameterizedType" name="java.util.ArrayList&lt;org.splevo.modisco.java.diffing.tests.access.TypeParameter.EventAndListeners>" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.0/@fragments.0/@initializer/@type">
+  <orphanTypes xsi:type="java:ParameterizedType" name="java.util.ArrayList&lt;javax.xml.xpath.XPath>" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@body/@statements.0/@fragments.0/@initializer/@type">
     <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
-    <typeArguments type="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0"/>
+    <typeArguments type="//@ownedElements.2/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
   </orphanTypes>
   <orphanTypes xsi:type="java:ArrayType" name="javax.xml.xpath.XPath[]" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@parameters.0/@type" dimensions="1">
     <elementType type="//@ownedElements.2/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
@@ -235,13 +241,13 @@
   <unresolvedItems name="org" proxy="true"/>
   <unresolvedItems name="api" proxy="true"/>
   <unresolvedItems xsi:type="java:UnresolvedTypeDeclaration" name="XMIInputConfig" proxy="true" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.3/@comments.0/@tags.1/@fragments.0/@parameters.1/@type"/>
-  <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing\tests\access\package-info.java" commentList="//@compilationUnits.0/@comments.0 //@compilationUnits.0/@comments.1" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
-    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.0" content="/** &#xA; */&#xA;" prefixOfParent="true"/>
-    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.0" content="/** &#xA; * @author benjamin&#xA; */&#xA;" prefixOfParent="true"/>
+  <compilationUnits name="ExternalTypeAccess.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing\tests\access\ExternalTypeAccess.java" commentList="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.3/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0">
+    <imports originalCompilationUnit="//@compilationUnits.0" importedElement="//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <imports originalCompilationUnit="//@compilationUnits.0" importedElement="//@ownedElements.1/@ownedPackages.0/@ownedElements.4"/>
+    <imports originalCompilationUnit="//@compilationUnits.0" importedElement="//@ownedElements.2/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
   </compilationUnits>
-  <compilationUnits name="TypeParameter.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing\tests\access\TypeParameter.java" commentList="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.3/@comments.0" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0">
-    <imports originalCompilationUnit="//@compilationUnits.1" importedElement="//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
-    <imports originalCompilationUnit="//@compilationUnits.1" importedElement="//@ownedElements.1/@ownedPackages.0/@ownedElements.4"/>
-    <imports originalCompilationUnit="//@compilationUnits.1" importedElement="//@ownedElements.2/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+  <compilationUnits name="package-info.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.modisco.java.diffing.tests.access.a\src\org\splevo\modisco\java\diffing\tests\access\package-info.java" commentList="//@compilationUnits.1/@comments.0 //@compilationUnits.1/@comments.1" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0">
+    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; */&#xA;" prefixOfParent="true"/>
+    <comments xsi:type="java:Javadoc" originalCompilationUnit="//@compilationUnits.1" content="/** &#xA; * @author benjamin&#xA; */&#xA;" prefixOfParent="true"/>
   </compilationUnits>
 </java:Model>

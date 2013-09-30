@@ -79,7 +79,7 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
      *            The reference to check.
      * @param mapping
      *            The mapping under study.
-     * @return true/false whether to ignore the reference or not.
+     * @return true = ignore the reference, false = do not.
      */
     protected boolean shouldBeIgnored(EReference reference, Match2Elements mapping) {
 
@@ -92,13 +92,8 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
         // this is represented by a bi-directional reference.
         // this bi-derectional reference should be ignored for the "usagesIn.." side
         // ************************************
-        String[] backLinkNames = {  "usagesInTypeAccess",
-                                    "usagesInImports",
-                                    "usagesInPackageAccess",
-                                    "usageInVariableAccess",
-                                    "usages",
-                                    "usagesInDocComments",
-                                    "originalCompilationUnit"};
+        String[] backLinkNames = { "usagesInTypeAccess", "usagesInImports", "usagesInPackageAccess",
+                "usageInVariableAccess", "usages", "usagesInDocComments", "originalCompilationUnit" };
         if (Arrays.asList(backLinkNames).contains(reference.getName())) {
             return true;
         }
@@ -166,6 +161,13 @@ public class JavaModelReferenceCheck extends ReferencesCheck {
             Boolean result = checkVariableReference(referencingElementLeft, referencingElementRight);
             if (result != null) {
                 return result.booleanValue();
+            }
+        }
+
+        // filter qualifier for TypeAccess
+        if ("qualifier".equals(reference.getName())) {
+            if (referencingElementLeft instanceof TypeAccess || referencingElementRight instanceof TypeAccess) {
+                return true;
             }
         }
 
