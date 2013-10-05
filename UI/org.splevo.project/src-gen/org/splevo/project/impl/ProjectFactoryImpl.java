@@ -5,12 +5,11 @@ package org.splevo.project.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.splevo.project.*;
+import org.splevo.project.ProjectFactory;
+import org.splevo.project.ProjectPackage;
+import org.splevo.project.SPLevoProject;
 
 /**
  * <!-- begin-user-doc -->

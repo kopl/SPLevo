@@ -1,5 +1,3 @@
-/**
- */
 package org.splevo.project;
 
 import org.eclipse.emf.ecore.EAttribute;
