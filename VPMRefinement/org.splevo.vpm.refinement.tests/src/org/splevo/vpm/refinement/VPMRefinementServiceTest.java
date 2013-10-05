@@ -14,8 +14,10 @@ import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.junit.Before;
 import org.junit.Test;
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.modisco.util.SourceConnector;
 import org.splevo.tests.SPLevoTestUtil;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -23,15 +25,10 @@ import org.splevo.vpm.variability.VariationPointModel;
 /**
  * Test the vpm refinement service.
  * 
- * Initial VPM is loaded during test setup. 
- * VPM describes changes in the GCD Example Version 1.0:
- * - ImportInsert: LargeInteger
- * - ImportDelete: BigInteger
- * - StatementChange: integerValue1
- * - StatementChange: integerValue2
- * - StatementChange: gcd
- * - StatementInsert: return gcd.toString() // LargeInteger.toString();
- * - StatementDelete: return gcd.toString() // BigInteger.toString();
+ * Initial VPM is loaded during test setup. VPM describes changes in the GCD Example Version 1.0: -
+ * ImportInsert: LargeInteger - ImportDelete: BigInteger - StatementChange: integerValue1 -
+ * StatementChange: integerValue2 - StatementChange: gcd - StatementInsert: return gcd.toString() //
+ * LargeInteger.toString(); - StatementDelete: return gcd.toString() // BigInteger.toString();
  */
 public class VPMRefinementServiceTest extends AbstractTest {
 
@@ -67,7 +64,14 @@ public class VPMRefinementServiceTest extends AbstractTest {
         refinement.setType(RefinementType.GROUPING);
         for (VariationPointGroup group : initialVpm.getVariationPointGroups()) {
             for (VariationPoint vp : group.getVariationPoints()) {
-                if (vp.getEnclosingSoftwareEntity() instanceof Block) {
+
+                // TODO Release MoDisco dependency
+                SoftwareElement element = vp.getEnclosingSoftwareEntity();
+                if (!(element instanceof MoDiscoJavaSoftwareElement)) {
+                    fail("Unexpected SoftwareElement type: " + element.getClass().getSimpleName());
+                }
+                ASTNode node = ((MoDiscoJavaSoftwareElement) element).getAstNode();
+                if (node instanceof Block) {
                     refinement.getVariationPoints().add(vp);
                 }
 
@@ -83,25 +87,26 @@ public class VPMRefinementServiceTest extends AbstractTest {
 
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
             if (vpGroup.getGroupId().equals("gcd")) {
-                ASTNode astNode = vpGroup.getVariationPoints().get(0).getEnclosingSoftwareEntity();
-                JavaApplication model = refinedVPM.getLeadingModel();
-                SourceConnector sourceConnector = new SourceConnector(model);
-                JavaNodeSourceRegion sourceRegion = sourceConnector.findSourceRegion(astNode);
-                assertNotNull(sourceRegion);
+                SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getEnclosingSoftwareEntity();
+                if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
+                    fail("Software Element is not an MoDisco Java element as assumed");
+                }
+
+                ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
+                assertNotNull("ASTNode reference missing", astNode);
+
             }
         }
     }
 
     /**
-     * Test of a basic merge refinement application. 
+     * Test of a basic merge refinement application.
      * 
-     * The initial VPM used containes a set of VPs which are contained
-     * in the same Block (the body of the method gcd). All other VPs are 
-     * import statement changes contained in compilation unit.
+     * The initial VPM used containes a set of VPs which are contained in the same Block (the body
+     * of the method gcd). All other VPs are import statement changes contained in compilation unit.
      * 
-     * The test creates a merge refinement for the gcd() VPs, 
-     * triggers the refinement service to perform the refinement,
-     * and the reduced number of VPs is checked afterwards.
+     * The test creates a merge refinement for the gcd() VPs, triggers the refinement service to
+     * perform the refinement, and the reduced number of VPs is checked afterwards.
      * 
      * @throws IOException
      *             identifies that the vpm could not be loaded.
@@ -117,7 +122,14 @@ public class VPMRefinementServiceTest extends AbstractTest {
         refinement.setType(RefinementType.MERGE);
         for (VariationPointGroup group : initialVpm.getVariationPointGroups()) {
             for (VariationPoint vp : group.getVariationPoints()) {
-                if (vp.getEnclosingSoftwareEntity() instanceof Block) {
+
+                SoftwareElement softwareElement = vp.getEnclosingSoftwareEntity();
+                if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
+                    fail("SoftwareElement is not a MoDiscoJavaSoftwareElement as assumed");
+                }
+                ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
+
+                if (astNode instanceof Block) {
                     refinement.getVariationPoints().add(vp);
                 }
 
@@ -133,7 +145,11 @@ public class VPMRefinementServiceTest extends AbstractTest {
 
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
             if (vpGroup.getGroupId().equals("gcd")) {
-                ASTNode astNode = vpGroup.getVariationPoints().get(0).getEnclosingSoftwareEntity();
+                SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getEnclosingSoftwareEntity();
+                if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
+                    fail("SoftwareElement is not a MoDiscoJavaSoftwareElement as assumed");
+                }
+                ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
                 JavaApplication model = refinedVPM.getLeadingModel();
                 SourceConnector sourceConnector = new SourceConnector(model);
                 JavaNodeSourceRegion sourceRegion = sourceConnector.findSourceRegion(astNode);

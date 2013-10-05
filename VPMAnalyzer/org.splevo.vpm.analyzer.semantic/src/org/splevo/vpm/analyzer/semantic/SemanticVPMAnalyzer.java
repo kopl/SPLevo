@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
@@ -25,6 +26,7 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.RelationShipSearchConfiguration;
 import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -262,7 +264,13 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             throw new IllegalArgumentException();
         }
 
-        ASTNode astNode = vp.getEnclosingSoftwareEntity();
+        // TODO Release MoDisco Dependency
+        SoftwareElement softwareElement = vp.getEnclosingSoftwareEntity();
+        if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
+            logger.error("Unsupported SoftwareElement Type: " + softwareElement.getClass());
+            throw new IllegalStateException();
+        }
+        ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
         if (astNode == null) {
             throw new IllegalStateException();
         }

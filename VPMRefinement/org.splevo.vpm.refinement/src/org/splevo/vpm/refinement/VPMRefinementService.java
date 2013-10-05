@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.gmt.modisco.java.ASTNode;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -75,8 +75,8 @@ public class VPMRefinementService {
         for (VariationPoint vp : refinement.getVariationPoints()) {
             for (Variant variant : vp.getVariants()) {
                 if (variantMap.containsKey(variant.getVariantId())) {
-                    EList<ASTNode> swEntities = variant.getSoftwareEntities();
-                    variantMap.get(variant.getVariantId()).getSoftwareEntities().addAll(swEntities);
+                    EList<SoftwareElement> swElements = variant.getSoftwareEntities();
+                    variantMap.get(variant.getVariantId()).getSoftwareEntities().addAll(swElements);
                 } else {
                     variantMap.put(variant.getVariantId(), variant);
                 }

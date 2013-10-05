@@ -2,6 +2,8 @@ package org.splevo.ui.jobs;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -10,7 +12,8 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.project.SPLevoProject;
-import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
+import org.splevo.vpm.builder.DefaultVPMBuilderService;
+import org.splevo.vpm.builder.VPMBuildException;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
@@ -52,8 +55,14 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         }
 
         logger.info("Build initival vpm model");
-        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder(splevoProject.getVariantNameLeading(), splevoProject.getVariantNameIntegration());
-        VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
+        Map<String, Object> builderOptions = new LinkedHashMap<String, Object>();
+        DefaultVPMBuilderService builderService = new DefaultVPMBuilderService();
+        VariationPointModel vpm;
+        try {
+            vpm = builderService.buildVPM(diffModel, splevoProject.getVariantNameLeading(), splevoProject.getVariantNameIntegration(), builderOptions);
+        } catch (VPMBuildException e) {
+            throw new JobFailedException("Failed to initialize the VPM model", e);
+        }
 
         // check if the process was canceled
         if (monitor.isCanceled()) {

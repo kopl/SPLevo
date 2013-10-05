@@ -18,7 +18,7 @@
    </license>
 
    <plugin
-         id="org.splevo.vpm.builder.java2kdmdiff"
+         id="org.splevo.vpm.builder"
          download-size="0"
          install-size="0"
          version="0.0.0"

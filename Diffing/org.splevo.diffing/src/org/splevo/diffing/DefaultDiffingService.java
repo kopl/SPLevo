@@ -78,7 +78,7 @@ public class DefaultDiffingService implements DiffingService {
 					}
 				} catch (CoreException e) {
 					logger.error(
-							"Failed to load software model extractor extension",
+							"Failed to load differ extension",
 							e);
 				}
 			}

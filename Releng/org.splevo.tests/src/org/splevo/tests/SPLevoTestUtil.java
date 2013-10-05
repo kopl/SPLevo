@@ -45,8 +45,8 @@ public class SPLevoTestUtil {
      * Load the variation point model graph for the GCD example.
      * 
      * @return The loaded graph.
-	 * @throws DiffingException
-	 *             Identifies a failed diffing.
+     * @throws DiffingException
+     *             Identifies a failed diffing.
      */
     public static VPMGraph loadGCDVPMGraph() throws Exception {
         VariationPointModel vpm = loadGCDVPMModel();
@@ -60,15 +60,15 @@ public class SPLevoTestUtil {
      * Load the vpm model for the common GCD test example.
      * 
      * @return The loaded model.
-	 * @throws DiffingException
-	 *             Identifies a failed diffing.
+     * @throws DiffingException
+     *             Identifies a failed diffing.
      */
     public static VariationPointModel loadGCDVPMModel() throws Exception {
 
         DiffModel diffModel = loadGCDDiffModel();
 
-        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder("LEADING", "INTEGRATION");
-        VariationPointModel initialVpm = java2KDMVPMBuilder.buildVPM(diffModel);
+        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
+        VariationPointModel initialVpm = java2KDMVPMBuilder.buildVPM(diffModel, "LEADING", "INTEGRATION");
 
         return initialVpm;
     }
@@ -80,8 +80,8 @@ public class SPLevoTestUtil {
      * @param integrationModel
      * @param ignorePackages
      * @return
-	 * @throws DiffingException
-	 *             Identifies a failed diffing.
+     * @throws DiffingException
+     *             Identifies a failed diffing.
      */
     public static DiffModel loadGCDDiffModel() throws Exception {
 
@@ -93,11 +93,12 @@ public class SPLevoTestUtil {
         ignorePackages.add("javolution.*");
 
         Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
-		diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
-		
+        diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
+
         Java2KDMDiffer differ = new Java2KDMDiffer();
 
-        DiffModel diffModel = differ.doDiff(NATIVE_JAVA2KDMMODEL_DIR.toURI(), JSCIENCE_JAVA2KDMMODEL_DIR.toURI(), diffOptions);
+        DiffModel diffModel = differ.doDiff(NATIVE_JAVA2KDMMODEL_DIR.toURI(), JSCIENCE_JAVA2KDMMODEL_DIR.toURI(),
+                diffOptions);
 
         return diffModel;
     }
@@ -109,16 +110,17 @@ public class SPLevoTestUtil {
      * @param integrationModel
      * @param ignorePackages
      * @return
-	 * @throws DiffingException
-	 *             Identifies a failed diffing.
+     * @throws DiffingException
+     *             Identifies a failed diffing.
      */
     public static DiffModel loadInterfaceImplementsDiffModel() throws DiffingException {
 
         Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
-		diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, Arrays.asList("java.*"));
-		
+        diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, Arrays.asList("java.*"));
+
         Java2KDMDiffer differ = new Java2KDMDiffer();
-        DiffModel diffModel = differ.doDiff(INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(), INTERFACE_IMPLEMENT_TEST_DIR_2.toURI(), diffOptions);
+        DiffModel diffModel = differ.doDiff(INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(),
+                INTERFACE_IMPLEMENT_TEST_DIR_2.toURI(), diffOptions);
 
         return diffModel;
     }

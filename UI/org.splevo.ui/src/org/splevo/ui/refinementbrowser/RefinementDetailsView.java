@@ -1,10 +1,7 @@
 package org.splevo.ui.refinementbrowser;
 
 import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
-import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.ReturnStatement;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.jface.action.Action;
@@ -20,6 +17,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -176,26 +174,8 @@ public class RefinementDetailsView extends Composite {
          * @return the string
          */
         private String buildVariationPointLabel(VariationPoint variationPoint) {
-
-            StringBuilder label = new StringBuilder();
-            label.append("VariationPoint in ");
-
-            ASTNode astNode = variationPoint.getEnclosingSoftwareEntity();
-            if (astNode != null) {
-
-                if (astNode instanceof Block && astNode.eContainer() instanceof MethodDeclaration) {
-
-                    MethodDeclaration method = (MethodDeclaration) astNode.eContainer();
-                    label.append(method.getName() + "()");
-
-                } else if (astNode instanceof NamedElement) {
-                    label.append(((NamedElement) astNode).getName());
-                } else {
-                    label.append(astNode.getClass().getSimpleName());
-                }
-
-            }
-            return label.toString();
+            SoftwareElement softwareElement = variationPoint.getEnclosingSoftwareEntity();
+            return String.format("VariationPoint in %s", softwareElement.getLabel());
         }
     }
 

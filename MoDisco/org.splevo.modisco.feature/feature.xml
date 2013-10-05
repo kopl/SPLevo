@@ -256,4 +256,32 @@ litigation.
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="org.splevo.vpm.builder.java2kdmdiff"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.java.vpm"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.java.vpm.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.java.vpm.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

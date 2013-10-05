@@ -32,8 +32,8 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
 
         DiffModel diffModel = SPLevoTestUtil.loadGCDDiffModel();
 
-        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder("LEADING", "INTEGRATION");
-        VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel);
+        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
+        VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel, "LEADING", "INTEGRATION");
         assertNotNull("No VPM initialized", vpm);
 
         logger.warn("Number of variation point groups: " + vpm.getVariationPointGroups().size());

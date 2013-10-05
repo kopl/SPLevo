@@ -23,6 +23,7 @@ public class CustomEdgeLabelAttributeProxy extends ThreadProxyPipe {
      * @param labelKey
      *            The label key to be aware of.
      */
+    @SuppressWarnings("deprecation")
     public CustomEdgeLabelAttributeProxy(final Graph graph, final String labelKey) {
         super(graph, true);
 

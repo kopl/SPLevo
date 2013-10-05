@@ -28,8 +28,11 @@ import org.splevo.modisco.java.diffing.java2kdmdiff.StatementChange;
 import org.splevo.modisco.java.diffing.java2kdmdiff.StatementDelete;
 import org.splevo.modisco.java.diffing.java2kdmdiff.StatementInsert;
 import org.splevo.modisco.java.diffing.java2kdmdiff.util.Java2KDMDiffSwitch;
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
+import org.splevo.modisco.java.vpm.software.softwareFactory;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityFactory;
 
 /**
@@ -46,6 +49,8 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /** The id to set for integration variants. */
     private String variantIDIntegration = null;
 
+    private VariationPointModel vpm = null;
+
     /**
      * Constructor to set the variant ids.
      * 
@@ -53,10 +58,13 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      *            The id for the leading variants.
      * @param variantIDIntegration
      *            The id for the integration variants.
+     * @param vpm
+     *            The variation point model to add new software element nodes to.
      */
-    public Java2KDMDiffVisitor(String variantIDLeading, String variantIDIntegration) {
+    public Java2KDMDiffVisitor(String variantIDLeading, String variantIDIntegration, VariationPointModel vpm) {
         this.variantIDIntegration = variantIDIntegration;
         this.variantIDLeading = variantIDLeading;
+        this.vpm = vpm;
     }
 
     /**
@@ -69,10 +77,10 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint casePackageInsert(PackageInsert packageInsert) {
-        
+
         Package packageLeft = packageInsert.getPackageLeft();
         Package parent = packageLeft.getPackage();
-        
+
         return createVariationPointInsert(packageLeft, parent);
     }
 
@@ -86,10 +94,10 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint caseImportInsert(ImportInsert importInsert) {
-        
+
         ImportDeclaration importDeclaration = importInsert.getImportLeft();
         CompilationUnit parent = importDeclaration.getOriginalCompilationUnit();
-        
+
         return createVariationPointInsert(importDeclaration, parent);
     }
 
@@ -103,10 +111,10 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint caseClassInsert(ClassInsert classInsert) {
-        
+
         ClassDeclaration classDeclaration = classInsert.getClassLeft();
         Package parent = classDeclaration.getPackage();
-        
+
         return createVariationPointInsert(classDeclaration, parent);
     }
 
@@ -120,10 +128,10 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint caseFieldInsert(FieldInsert fieldInsert) {
-        
+
         FieldDeclaration fieldLeft = fieldInsert.getFieldLeft();
         AbstractTypeDeclaration parent = fieldLeft.getAbstractTypeDeclaration();
-        
+
         return createVariationPointInsert(fieldLeft, parent);
     }
 
@@ -137,13 +145,13 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint caseImportDelete(ImportDelete importDelete) {
-        
+
         ImportDeclaration importDeclaration = importDelete.getImportRight();
         CompilationUnit parent = importDelete.getLeftContainer();
-        
+
         return createVariationPointDelete(importDeclaration, parent);
     }
-    
+
     /**
      * Handle package deletes.<br>
      * VP references the parent package.<br>
@@ -155,13 +163,13 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint casePackageDelete(PackageDelete packageDelete) {
-        
+
         Package packageDeclaration = packageDelete.getPackageRight();
         Package parent = packageDelete.getLeftContainer();
-        
+
         return createVariationPointDelete(packageDeclaration, parent);
     }
-    
+
     /**
      * Handle class deletes.<br>
      * VP references the parent package.<br>
@@ -173,18 +181,17 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint caseClassDelete(ClassDelete classDelete) {
-        
+
         ClassDeclaration classDeclaration = classDelete.getClassRight();
         Package parent = classDelete.getLeftContainer();
-        
+
         return createVariationPointDelete(classDeclaration, parent);
     }
-    
+
     /**
      * Handle field deletes.<br>
-     * VP references the containing type which can be either an 
-     * AbstractTypeDeclaration or an AnonymousTypeDeclaration according 
-     * to field declaration element's container definition.<br>
+     * VP references the containing type which can be either an AbstractTypeDeclaration or an
+     * AnonymousTypeDeclaration according to field declaration element's container definition.<br>
      * The leading variant references the deleted field declaration.
      * 
      * @param fieldDelete
@@ -193,13 +200,13 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint caseFieldDelete(FieldDelete fieldDelete) {
-        
+
         FieldDeclaration fieldDeclaration = fieldDelete.getFieldRight();
         ASTNode parent = fieldDelete.getLeftContainer();
-        
+
         return createVariationPointDelete(fieldDeclaration, parent);
     }
-    
+
     /**
      * Handle method deletes.<br>
      * VP references the containing type.<br>
@@ -211,10 +218,10 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint caseMethodDelete(MethodDelete methodDelete) {
-        
+
         AbstractMethodDeclaration methodDeclaration = methodDelete.getMethodRight();
         ASTNode parent = methodDelete.getLeftContainer();
-        
+
         return createVariationPointDelete(methodDeclaration, parent);
     }
 
@@ -230,89 +237,90 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     @Override
     public VariationPoint caseMethodInsert(MethodInsert methodInsert) {
-        
+
         AbstractMethodDeclaration methodDeclaration = methodInsert.getMethodLeft();
         AbstractTypeDeclaration parent = methodDeclaration.getAbstractTypeDeclaration();
-        
+
         return createVariationPointInsert(methodDeclaration, parent);
     }
 
     /**
-     * Handle an inserted statement change by creating
-     * a variation point describing this change.
+     * Handle an inserted statement change by creating a variation point describing this change.
      * 
-     * @param statementInsert The diff element to handle.
+     * @param statementInsert
+     *            The diff element to handle.
      * @return The prepared variation point.
      */
     @Override
     public VariationPoint caseStatementInsert(StatementInsert statementInsert) {
-        
+
         Statement statement = statementInsert.getStatementLeft();
         ASTNode parent = (ASTNode) statement.eContainer();
-        
+
         return createVariationPointInsert(statement, parent);
     }
 
     /**
-     * Handle a deleted statement change by creating
-     * a variation point describing this change.
+     * Handle a deleted statement change by creating a variation point describing this change.
      * 
-     * @param statementDelete The diff element to handle.
+     * @param statementDelete
+     *            The diff element to handle.
      * @return The prepared variation point.
      */
     @Override
     public VariationPoint caseStatementDelete(StatementDelete statementDelete) {
-        
+
         Statement statement = statementDelete.getStatementRight();
         ASTNode parent = statementDelete.getLeftContainer();
-        
+
         return createVariationPointDelete(statement, parent);
     }
 
     /**
-     * Handle a field declaration change by creating
-     * a variation point describing this change.
+     * Handle a field declaration change by creating a variation point describing this change.
      * 
-     * @param fieldDeclChange The diff element to handle.
+     * @param fieldDeclChange
+     *            The diff element to handle.
      * @return The prepared variation point.
      */
     @Override
     public VariationPoint caseFieldDeclarationChange(FieldDeclarationChange fieldDeclChange) {
-        
+
         FieldDeclaration fieldDeclLeft = fieldDeclChange.getFieldLeft();
         FieldDeclaration fieldDeclRight = fieldDeclChange.getFieldRight();
         AbstractTypeDeclaration parent = fieldDeclLeft.getAbstractTypeDeclaration();
-        
+
         return createVariationPointChange(fieldDeclLeft, fieldDeclRight, parent);
     }
 
     /**
-     * Handle a statement change by creating
-     * a variation point describing this change.
+     * Handle a statement change by creating a variation point describing this change.
      * 
-     * @param statementChange The diff element to handle.
+     * @param statementChange
+     *            The diff element to handle.
      * @return The prepared variation point.
      */
     @Override
     public VariationPoint caseStatementChange(StatementChange statementChange) {
-        
+
         Statement statementLeft = statementChange.getStatementLeft();
         Statement statementRight = statementChange.getStatementRight();
         ASTNode parent = (ASTNode) statementLeft.eContainer();
-        
+
         return createVariationPointChange(statementLeft, statementRight, parent);
     }
 
     /**
-     * Handle an enumeration declaration change by creating
-     * a variation point describing this change.
+     * Handle an enumeration declaration change by creating a variation point describing this
+     * change.
      * 
-     * @param enumDeclChange The diff element to handle.
+     * @param enumDeclChange
+     *            The diff element to handle.
      * @return The prepared variation point.
      */
     @Override
     public VariationPoint caseEnumDeclarationChange(EnumDeclarationChange enumDeclChange) {
-        
+
         EnumDeclaration enumDeclLeft = enumDeclChange.getEnumLeft();
         EnumDeclaration enumDeclRight = enumDeclChange.getEnumRight();
         AbstractTypeDeclaration parent = enumDeclLeft.getAbstractTypeDeclaration();
@@ -339,7 +347,9 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-        variationPoint.setEnclosingSoftwareEntity(parentNode);
+
+        MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(parentNode);
+        variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
 
         // create the variants
         Variant integrationVariant = createVariant(newElement, false, variantIDIntegration);
@@ -353,15 +363,17 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      * 
      * @param element
      *            The deleted ast element.
-     * @param parentNode
+     * @param enclosingASTNode
      *            The parent node the change was made in.
      * @return The prepared variation point.
      */
-    private VariationPoint createVariationPointDelete(ASTNode element, ASTNode parentNode) {
+    private VariationPoint createVariationPointDelete(ASTNode element, ASTNode enclosingASTNode) {
+
+        MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(enclosingASTNode);
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-        variationPoint.setEnclosingSoftwareEntity(parentNode);
+        variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
 
         // create the variants
         Variant leadingVariant = createVariant(element, true, variantIDLeading);
@@ -373,15 +385,21 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /**
      * Factory method for a variation point describing a program change.
      * 
-     * @param astNodeLeft The ast node of the left variant.
-     * @param astNodeRight The ast node of the right variant.
-     * @param parent The parent ast node containing the change.
+     * @param astNodeLeft
+     *            The ast node of the left variant.
+     * @param astNodeRight
+     *            The ast node of the right variant.
+     * @param parent
+     *            The parent ast node containing the change.
      * @return The initialized variation point.
      */
     private VariationPoint createVariationPointChange(ASTNode astNodeLeft, ASTNode astNodeRight, ASTNode parent) {
+
+        MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(parent);
+
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-        variationPoint.setEnclosingSoftwareEntity(parent);
+        variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
 
         // create the integration variant
         Variant integrationVariant = createVariant(astNodeLeft, false, variantIDIntegration);
@@ -396,17 +414,37 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /**
      * Factory method to create an initialized variant element.
      * 
-     * @param element The element to be linked with the variant.
-     * @param leading The flag whether this variant is a leading one.
-     * @param variantID The id of the product variant this one belongs to.
+     * @param astNode
+     *            The element to be linked with the variant.
+     * @param leading
+     *            The flag whether this variant is a leading one.
+     * @param variantID
+     *            The id of the product variant this one belongs to.
      * @return The prepared variant object.
      */
-    private Variant createVariant(ASTNode element, Boolean leading, String variantID) {
+    private Variant createVariant(ASTNode astNode, Boolean leading, String variantID) {
+
+        MoDiscoJavaSoftwareElement softwareElement = createSoftwareElement(astNode);
+
         Variant integrationVariant = null;
         integrationVariant = variabilityFactory.eINSTANCE.createVariant();
-        integrationVariant.getSoftwareEntities().add(element);
+        integrationVariant.getSoftwareEntities().add(softwareElement);
         integrationVariant.setLeading(leading);
         integrationVariant.setVariantId(variantID);
         return integrationVariant;
+    }
+
+    /**
+     * Create a software element wrapping an ASTNode.
+     * 
+     * @param astNode
+     *            The ASTNode to link.
+     * @return The prepared software element.
+     */
+    private MoDiscoJavaSoftwareElement createSoftwareElement(ASTNode astNode) {
+        MoDiscoJavaSoftwareElement element = softwareFactory.eINSTANCE.createMoDiscoJavaSoftwareElement();
+        vpm.getSoftwareElements().add(element);
+        element.setAstNode(astNode);
+        return element;
     }
 }

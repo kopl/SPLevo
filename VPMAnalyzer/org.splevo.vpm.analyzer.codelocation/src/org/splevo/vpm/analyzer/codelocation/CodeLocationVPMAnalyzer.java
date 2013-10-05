@@ -10,10 +10,12 @@ import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.IfStatement;
 import org.graphstream.graph.Node;
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -116,14 +118,21 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
             if (vp != null) {
 
-                ASTNode astNode = vp.getEnclosingSoftwareEntity();
-                astNode = chooseEnclosingNode(astNode);
+                SoftwareElement softwareElement = vp.getEnclosingSoftwareEntity();
+                
+                // TODO Release MoDisco Dependency
+                if (softwareElement instanceof MoDiscoJavaSoftwareElement) {
+                    ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
+                    astNode = chooseEnclosingNode(astNode);
 
-                if (!structureMap.containsKey(astNode)) {
-                    structureMap.put(astNode, new ArrayList<Node>());
+                    if (!structureMap.containsKey(astNode)) {
+                        structureMap.put(astNode, new ArrayList<Node>());
+                    }
+
+                    structureMap.get(astNode).add(node);
+                } else {
+                    logger.error("Unsupported SoftwareElement Type: " + softwareElement.getClass());
                 }
-
-                structureMap.get(astNode).add(node);
             }
 
         }

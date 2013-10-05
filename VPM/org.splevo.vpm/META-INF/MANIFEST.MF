@@ -16,6 +16,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.modisco.kdm.source.extension;bundle-version="0.10.1",
  org.apache.log4j
 Bundle-ActivationPolicy: lazy
-Export-Package: org.splevo.vpm.variability,
+Export-Package: org.splevo.vpm.software,
+ org.splevo.vpm.software.impl,
+ org.splevo.vpm.software.util,
+ org.splevo.vpm.variability,
  org.splevo.vpm.variability.impl,
  org.splevo.vpm.variability.util

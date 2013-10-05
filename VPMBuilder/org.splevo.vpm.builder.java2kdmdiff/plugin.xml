@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.splevo.vpm.builder">
+      <builder
+            builder.class="org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder">
+      </builder>
+   </extension>
+
+</plugin>

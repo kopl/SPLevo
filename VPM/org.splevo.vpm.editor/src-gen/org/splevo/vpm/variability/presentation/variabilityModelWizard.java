@@ -2,7 +2,6 @@
  */
 package org.splevo.vpm.variability.presentation;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -73,7 +72,6 @@ import org.splevo.vpm.variability.variabilityFactory;
 import org.splevo.vpm.variability.variabilityPackage;
 import org.splevo.vpm.variability.provider.vpmEditPlugin;
 
-
 import org.eclipse.core.runtime.Path;
 
 import org.eclipse.jface.viewers.ISelection;
@@ -84,7 +82,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 
-
 /**
  * This is a simple wizard for creating a new model file.
  * <!-- begin-user-doc -->
@@ -92,105 +89,106 @@ import org.eclipse.ui.PartInitException;
  * @generated
  */
 public class variabilityModelWizard extends Wizard implements INewWizard {
-	/**
+    /**
      * The supported extensions for created files.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public static final List<String> FILE_EXTENSIONS =
-		Collections.unmodifiableList(Arrays.asList(vpmEditorPlugin.INSTANCE.getString("_UI_variabilityEditorFilenameExtensions").split("\\s*,\\s*")));
+    public static final List<String> FILE_EXTENSIONS = Collections.unmodifiableList(Arrays
+            .asList(vpmEditorPlugin.INSTANCE.getString("_UI_variabilityEditorFilenameExtensions").split("\\s*,\\s*")));
 
-	/**
+    /**
      * A formatted list of supported file extensions, suitable for display.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public static final String FORMATTED_FILE_EXTENSIONS =
-		vpmEditorPlugin.INSTANCE.getString("_UI_variabilityEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+    public static final String FORMATTED_FILE_EXTENSIONS = vpmEditorPlugin.INSTANCE.getString(
+            "_UI_variabilityEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
 
-	/**
+    /**
      * This caches an instance of the model package.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected variabilityPackage _variabilityPackage = variabilityPackage.eINSTANCE;
+    protected variabilityPackage _variabilityPackage = variabilityPackage.eINSTANCE;
 
-	/**
+    /**
      * This caches an instance of the model factory.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected variabilityFactory _variabilityFactory = _variabilityPackage.getvariabilityFactory();
+    protected variabilityFactory _variabilityFactory = _variabilityPackage.getvariabilityFactory();
 
-	/**
+    /**
      * This is the file creation page.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected variabilityModelWizardNewFileCreationPage newFileCreationPage;
+    protected variabilityModelWizardNewFileCreationPage newFileCreationPage;
 
-	/**
+    /**
      * This is the initial object creation page.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected variabilityModelWizardInitialObjectCreationPage initialObjectCreationPage;
+    protected variabilityModelWizardInitialObjectCreationPage initialObjectCreationPage;
 
-	/**
+    /**
      * Remember the selection during initialization for populating the default container.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected IStructuredSelection selection;
+    protected IStructuredSelection selection;
 
-	/**
+    /**
      * Remember the workbench during initialization.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected IWorkbench workbench;
+    protected IWorkbench workbench;
 
-	/**
+    /**
      * Caches the names of the types that can be created as the root object.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected List<String> initialObjectNames;
+    protected List<String> initialObjectNames;
 
-	/**
+    /**
      * This just records the information.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
+    public void init(IWorkbench workbench, IStructuredSelection selection) {
         this.workbench = workbench;
         this.selection = selection;
         setWindowTitle(vpmEditorPlugin.INSTANCE.getString("_UI_Wizard_label"));
-        setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(vpmEditorPlugin.INSTANCE.getImage("full/wizban/Newvariability")));
+        setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(vpmEditorPlugin.INSTANCE
+                .getImage("full/wizban/Newvariability")));
     }
 
-	/**
+    /**
      * Returns the names of the types that can be created as the root object.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected Collection<String> getInitialObjectNames() {
+    protected Collection<String> getInitialObjectNames() {
         if (initialObjectNames == null) {
             initialObjectNames = new ArrayList<String>();
             for (EClassifier eClassifier : _variabilityPackage.getEClassifiers()) {
                 if (eClassifier instanceof EClass) {
-                    EClass eClass = (EClass)eClassifier;
+                    EClass eClass = (EClass) eClassifier;
                     if (!eClass.isAbstract()) {
                         initialObjectNames.add(eClass.getName());
                     }
@@ -201,26 +199,26 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
         return initialObjectNames;
     }
 
-	/**
+    /**
      * Create a new model.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected EObject createInitialModel() {
-        EClass eClass = (EClass)_variabilityPackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
+    protected EObject createInitialModel() {
+        EClass eClass = (EClass) _variabilityPackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
         EObject rootObject = _variabilityFactory.create(eClass);
         return rootObject;
     }
 
-	/**
+    /**
      * Do the work after everything is specified.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	@Override
-	public boolean performFinish() {
+    @Override
+    public boolean performFinish() {
         try {
             // Remember the file.
             //
@@ -228,44 +226,41 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
             // Do the work within an operation.
             //
-            WorkspaceModifyOperation operation =
-                new WorkspaceModifyOperation() {
-                    @Override
-                    protected void execute(IProgressMonitor progressMonitor) {
-                        try {
-                            // Create a resource set
-                            //
-                            ResourceSet resourceSet = new ResourceSetImpl();
+            WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
+                @Override
+                protected void execute(IProgressMonitor progressMonitor) {
+                    try {
+                        // Create a resource set
+                        //
+                        ResourceSet resourceSet = new ResourceSetImpl();
 
-                            // Get the URI of the model file.
-                            //
-                            URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
+                        // Get the URI of the model file.
+                        //
+                        URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
 
-                            // Create a resource for this file.
-                            //
-                            Resource resource = resourceSet.createResource(fileURI);
+                        // Create a resource for this file.
+                        //
+                        Resource resource = resourceSet.createResource(fileURI);
 
-                            // Add the initial model object to the contents.
-                            //
-                            EObject rootObject = createInitialModel();
-                            if (rootObject != null) {
-                                resource.getContents().add(rootObject);
-                            }
-
-                            // Save the contents of the resource to the file system.
-                            //
-                            Map<Object, Object> options = new HashMap<Object, Object>();
-                            options.put(XMLResource.OPTION_ENCODING, initialObjectCreationPage.getEncoding());
-                            resource.save(options);
+                        // Add the initial model object to the contents.
+                        //
+                        EObject rootObject = createInitialModel();
+                        if (rootObject != null) {
+                            resource.getContents().add(rootObject);
                         }
-                        catch (Exception exception) {
-                            vpmEditorPlugin.INSTANCE.log(exception);
-                        }
-                        finally {
-                            progressMonitor.done();
-                        }
+
+                        // Save the contents of the resource to the file system.
+                        //
+                        Map<Object, Object> options = new HashMap<Object, Object>();
+                        options.put(XMLResource.OPTION_ENCODING, initialObjectCreationPage.getEncoding());
+                        resource.save(options);
+                    } catch (Exception exception) {
+                        vpmEditorPlugin.INSTANCE.log(exception);
+                    } finally {
+                        progressMonitor.done();
                     }
-                };
+                }
+            };
 
             getContainer().run(false, false, operation);
 
@@ -276,64 +271,61 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
             final IWorkbenchPart activePart = page.getActivePart();
             if (activePart instanceof ISetSelectionTarget) {
                 final ISelection targetSelection = new StructuredSelection(modelFile);
-                getShell().getDisplay().asyncExec
-                    (new Runnable() {
-                         public void run() {
-                             ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
-                         }
-                     });
+                getShell().getDisplay().asyncExec(new Runnable() {
+                    public void run() {
+                        ((ISetSelectionTarget) activePart).selectReveal(targetSelection);
+                    }
+                });
             }
 
             // Open an editor on the new file.
             //
             try {
-                page.openEditor
-                    (new FileEditorInput(modelFile),
-                     workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());					 	 
-            }
-            catch (PartInitException exception) {
-                MessageDialog.openError(workbenchWindow.getShell(), vpmEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
+                page.openEditor(new FileEditorInput(modelFile),
+                        workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());
+            } catch (PartInitException exception) {
+                MessageDialog.openError(workbenchWindow.getShell(),
+                        vpmEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
                 return false;
             }
 
             return true;
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             vpmEditorPlugin.INSTANCE.log(exception);
             return false;
         }
     }
 
-	/**
+    /**
      * This is the one page of the wizard.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public class variabilityModelWizardNewFileCreationPage extends WizardNewFileCreationPage {
-		/**
+    public class variabilityModelWizardNewFileCreationPage extends WizardNewFileCreationPage {
+        /**
          * Pass in the selection.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		public variabilityModelWizardNewFileCreationPage(String pageId, IStructuredSelection selection) {
+        public variabilityModelWizardNewFileCreationPage(String pageId, IStructuredSelection selection) {
             super(pageId, selection);
         }
 
-		/**
+        /**
          * The framework calls this to see if the file is correct.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		@Override
-		protected boolean validatePage() {
+        @Override
+        protected boolean validatePage() {
             if (super.validatePage()) {
                 String extension = new Path(getFileName()).getFileExtension();
                 if (extension == null || !FILE_EXTENSIONS.contains(extension)) {
                     String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";
-                    setErrorMessage(vpmEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
+                    setErrorMessage(vpmEditorPlugin.INSTANCE.getString(key, new Object[] { FORMATTED_FILE_EXTENSIONS }));
                     return false;
                 }
                 return true;
@@ -341,61 +333,62 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
             return false;
         }
 
-		/**
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		public IFile getModelFile() {
+        public IFile getModelFile() {
             return ResourcesPlugin.getWorkspace().getRoot().getFile(getContainerFullPath().append(getFileName()));
         }
-	}
+    }
 
-	/**
+    /**
      * This is the page where the type of object to create is selected.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public class variabilityModelWizardInitialObjectCreationPage extends WizardPage {
-		/**
+    public class variabilityModelWizardInitialObjectCreationPage extends WizardPage {
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		protected Combo initialObjectField;
+        protected Combo initialObjectField;
 
-		/**
+        /**
          * @generated
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          */
-		protected List<String> encodings;
+        protected List<String> encodings;
 
-		/**
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		protected Combo encodingField;
+        protected Combo encodingField;
 
-		/**
+        /**
          * Pass in the selection.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		public variabilityModelWizardInitialObjectCreationPage(String pageId) {
+        public variabilityModelWizardInitialObjectCreationPage(String pageId) {
             super(pageId);
         }
 
-		/**
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		public void createControl(Composite parent) {
-            Composite composite = new Composite(parent, SWT.NONE); {
+        public void createControl(Composite parent) {
+            Composite composite = new Composite(parent, SWT.NONE);
+            {
                 GridLayout layout = new GridLayout();
                 layout.numColumns = 1;
                 layout.verticalSpacing = 12;
@@ -461,53 +454,51 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
             setControl(composite);
         }
 
-		/**
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		protected ModifyListener validator =
-			new ModifyListener() {
-                public void modifyText(ModifyEvent e) {
-                    setPageComplete(validatePage());
-                }
-            };
+        protected ModifyListener validator = new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                setPageComplete(validatePage());
+            }
+        };
 
-		/**
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		protected boolean validatePage() {
+        protected boolean validatePage() {
             return getInitialObjectName() != null && getEncodings().contains(encodingField.getText());
         }
 
-		/**
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		@Override
-		public void setVisible(boolean visible) {
+        @Override
+        public void setVisible(boolean visible) {
             super.setVisible(visible);
             if (visible) {
                 if (initialObjectField.getItemCount() == 1) {
                     initialObjectField.clearSelection();
                     encodingField.setFocus();
-                }
-                else {
+                } else {
                     encodingField.clearSelection();
                     initialObjectField.setFocus();
                 }
             }
         }
 
-		/**
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		public String getInitialObjectName() {
+        public String getInitialObjectName() {
             String label = initialObjectField.getText();
 
             for (String name : getInitialObjectNames()) {
@@ -518,61 +509,63 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
             return null;
         }
 
-		/**
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		public String getEncoding() {
+        public String getEncoding() {
             return encodingField.getText();
         }
 
-		/**
+        /**
          * Returns the label for the specified type name.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		protected String getLabel(String typeName) {
+        protected String getLabel(String typeName) {
             try {
                 return vpmEditPlugin.INSTANCE.getString("_UI_" + typeName + "_type");
-            }
-            catch(MissingResourceException mre) {
+            } catch (MissingResourceException mre) {
                 vpmEditorPlugin.INSTANCE.log(mre);
             }
             return typeName;
         }
 
-		/**
+        /**
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		protected Collection<String> getEncodings() {
+        protected Collection<String> getEncodings() {
             if (encodings == null) {
                 encodings = new ArrayList<String>();
-                for (StringTokenizer stringTokenizer = new StringTokenizer(vpmEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) {
+                for (StringTokenizer stringTokenizer = new StringTokenizer(
+                        vpmEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens();) {
                     encodings.add(stringTokenizer.nextToken());
                 }
             }
             return encodings;
         }
-	}
+    }
 
-	/**
+    /**
      * The framework calls this to create the contents of the wizard.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-		@Override
-	public void addPages() {
+    @Override
+    public void addPages() {
         // Create a page, set the title, and the initial model file name.
         //
         newFileCreationPage = new variabilityModelWizardNewFileCreationPage("Whatever", selection);
         newFileCreationPage.setTitle(vpmEditorPlugin.INSTANCE.getString("_UI_variabilityModelWizard_label"));
-        newFileCreationPage.setDescription(vpmEditorPlugin.INSTANCE.getString("_UI_variabilityModelWizard_description"));
-        newFileCreationPage.setFileName(vpmEditorPlugin.INSTANCE.getString("_UI_variabilityEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
+        newFileCreationPage
+                .setDescription(vpmEditorPlugin.INSTANCE.getString("_UI_variabilityModelWizard_description"));
+        newFileCreationPage.setFileName(vpmEditorPlugin.INSTANCE.getString("_UI_variabilityEditorFilenameDefaultBase")
+                + "." + FILE_EXTENSIONS.get(0));
         addPage(newFileCreationPage);
 
         // Try and get the resource selection to determine a current directory for the file dialog.
@@ -584,7 +577,7 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
             if (selectedElement instanceof IResource) {
                 // Get the resource parent, if its a file.
                 //
-                IResource selectedResource = (IResource)selectedElement;
+                IResource selectedResource = (IResource) selectedElement;
                 if (selectedResource.getType() == IResource.FILE) {
                     selectedResource = selectedResource.getParent();
                 }
@@ -598,10 +591,11 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
                     // Make up a unique new name here.
                     //
-                    String defaultModelBaseFilename = vpmEditorPlugin.INSTANCE.getString("_UI_variabilityEditorFilenameDefaultBase");
+                    String defaultModelBaseFilename = vpmEditorPlugin.INSTANCE
+                            .getString("_UI_variabilityEditorFilenameDefaultBase");
                     String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
                     String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
-                    for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i) {
+                    for (int i = 1; ((IContainer) selectedResource).findMember(modelFilename) != null; ++i) {
                         modelFilename = defaultModelBaseFilename + i + "." + defaultModelFilenameExtension;
                     }
                     newFileCreationPage.setFileName(modelFilename);
@@ -610,17 +604,18 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
         }
         initialObjectCreationPage = new variabilityModelWizardInitialObjectCreationPage("Whatever2");
         initialObjectCreationPage.setTitle(vpmEditorPlugin.INSTANCE.getString("_UI_variabilityModelWizard_label"));
-        initialObjectCreationPage.setDescription(vpmEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description"));
+        initialObjectCreationPage.setDescription(vpmEditorPlugin.INSTANCE
+                .getString("_UI_Wizard_initial_object_description"));
         addPage(initialObjectCreationPage);
     }
 
-	/**
+    /**
      * Get the file from the page.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public IFile getModelFile() {
+    public IFile getModelFile() {
         return newFileCreationPage.getModelFile();
     }
 

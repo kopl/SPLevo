@@ -9,7 +9,9 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -139,7 +141,17 @@ public class VariationPointIndex {
         List<ASTNode> astNodes = new ArrayList<ASTNode>();
 
         for (Variant v : vp.getVariants()) {
-            astNodes.addAll(v.getSoftwareEntities());
+
+            for (SoftwareElement softwareElement : v.getSoftwareEntities()) {
+                
+                // TODO Release MoDisco Dependency
+                if (softwareElement instanceof MoDiscoJavaSoftwareElement) {
+                    ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
+                    astNodes.add(astNode);
+                } else {
+                    logger.error("Unsupported SoftwareElement Type: " + softwareElement);
+                }
+            }
         }
 
         return astNodes;

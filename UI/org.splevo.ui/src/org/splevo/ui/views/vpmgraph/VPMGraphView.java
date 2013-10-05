@@ -90,6 +90,9 @@ public class VPMGraphView extends ViewPart {
         view.setFocusTraversalKeysEnabled(true);
 
         Panel panel = new Panel(new BorderLayout()) {
+
+            private static final long serialVersionUID = 1L;
+
             public void update(java.awt.Graphics g) {
                 /* Do not erase the background */
                 paint(g);

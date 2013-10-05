@@ -5,12 +5,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.Block;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
-import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.vpm.builder.VPMBuilder;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -21,7 +18,7 @@ import org.splevo.vpm.variability.variabilityFactory;
  * extended EMF Compare diff-model.
  * 
  */
-public class Java2KDMVPMBuilder {
+public class Java2KDMVPMBuilder implements VPMBuilder {
 
     /** Group id identifying variation points located under the AST model root. */
     public static final String GROUP_ID_TOPLEVEL = "TOPLEVEL";
@@ -29,42 +26,8 @@ public class Java2KDMVPMBuilder {
     /** The logger used by this class. */
     private Logger logger = Logger.getLogger(Java2KDMVPMBuilder.class);
 
-    /** The id to set for leading variants. */
-    private String variantIDLeading = null;
-
-    /** The id to set for integration variants. */
-    private String variantIDIntegration = null;
-
-    /**
-     * Constructor to set the variant ids.
-     * 
-     * @param variantIDLeading
-     *            The id for the leading variants.
-     * @param variantIDIntegration
-     *            The id for the integration variants.
-     */
-    public Java2KDMVPMBuilder(String variantIDLeading, String variantIDIntegration) {
-
-    	// Make sure the meta model is loaded.
-        Java2KDMDiffPackage.eINSTANCE.eClass();
-        
-        this.variantIDIntegration = variantIDIntegration;
-        this.variantIDLeading = variantIDLeading;
-    }
-
-    /**
-     * Build a new VariationPointModel based on a DiffModel.
-     * 
-     * The provided diff model should be the result of a JavaModel diffing. This will be checked by
-     * the builder and null will be returned if this is not valid.
-     * 
-     * @param diffModel
-     *            The diff model to interpret.
-     * @return The resulting VariationPointModel or null if the DiffModel is not a about a modisco
-     *         JavaModel.
-     * 
-     */
-    public VariationPointModel buildVPM(DiffModel diffModel) {
+    @Override
+    public VariationPointModel buildVPM(DiffModel diffModel, String variantIDLeading, String variantIDIntegration) {
 
         if (!diffModelIsValid(diffModel)) {
             return null;
@@ -73,7 +36,7 @@ public class Java2KDMVPMBuilder {
         VariationPointModel vpm = initVPM(diffModel);
 
         // visit the difference tree
-        Java2KDMDiffVisitor java2KDMDiffVisitor = new Java2KDMDiffVisitor(variantIDLeading, variantIDIntegration);
+        Java2KDMDiffVisitor java2KDMDiffVisitor = new Java2KDMDiffVisitor(variantIDLeading, variantIDIntegration, vpm);
         for (DiffElement diffElement : diffModel.getDifferences()) {
             VariationPoint vp = java2KDMDiffVisitor.doSwitch(diffElement);
             if (vp != null) {
@@ -98,41 +61,20 @@ public class Java2KDMVPMBuilder {
      * Get the id for variation point group based on the ASTNode specifying the variability
      * location.
      * 
-     * @param node
+     * @param softwareElement
      *            The AST node containing the variability.
      * @return The derived group id.
      */
-    private String buildGroupID(ASTNode node) {
-        String groupID = null;
+    private String buildGroupID(SoftwareElement softwareElement) {
 
         // handle empty nodes. This might be the case if a varying element
         // is located directly on the model root such as a compilation unit or
         // a top level package
-        if (node == null) {
+        if (softwareElement == null) {
             return GROUP_ID_TOPLEVEL;
         }
 
-        // get the containing elements name in case of a block
-        if (node instanceof Block) {
-            EObject parent = node.eContainer();
-            if (parent instanceof MethodDeclaration) {
-                groupID = ((MethodDeclaration) parent).getName() + "()";
-            } else if (node instanceof NamedElement) {
-                groupID = ((NamedElement) node).getName();
-            }
-
-        }
-
-        // use the name of named elements
-        if (node instanceof NamedElement) {
-            groupID = ((NamedElement) node).getName();
-        }
-
-        // use the meta class name as fall back
-        if (groupID == null) {
-            groupID = node.getClass().getSimpleName();
-        }
-        return groupID;
+        return softwareElement.getLabel();
     }
 
     /**
@@ -193,6 +135,16 @@ public class Java2KDMVPMBuilder {
         }
 
         return valid;
+    }
+
+    @Override
+    public String getId() {
+        return getClass().getSimpleName();
+    }
+
+    @Override
+    public String getLabel() {
+        return "MoDisco Java VPM Builder";
     }
 
 }
