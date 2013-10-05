@@ -7,7 +7,7 @@ Bundle-Vendor: www.splevo.org
 Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm;bundle-version="1.0.0";visibility:=reexport,
  org.splevo.vpm.refinement;bundle-version="1.0.0",
- org.graphstream;bundle-version="1.1.2";visibility:=reexport,
+ org.graphstream;bundle-version="1.2.0";visibility:=reexport,
  org.apache.log4j;bundle-version="1.2.15"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
