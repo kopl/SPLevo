@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
+import org.eclipse.gmt.modisco.java.AbstractMethodInvocation;
 import org.eclipse.gmt.modisco.java.AbstractTypeDeclaration;
 import org.eclipse.gmt.modisco.java.Annotation;
 import org.eclipse.gmt.modisco.java.AnnotationMemberValuePair;
@@ -20,8 +21,10 @@ import org.eclipse.gmt.modisco.java.CastExpression;
 import org.eclipse.gmt.modisco.java.CatchClause;
 import org.eclipse.gmt.modisco.java.CharacterLiteral;
 import org.eclipse.gmt.modisco.java.ClassInstanceCreation;
+import org.eclipse.gmt.modisco.java.Comment;
 import org.eclipse.gmt.modisco.java.CompilationUnit;
 import org.eclipse.gmt.modisco.java.ConditionalExpression;
+import org.eclipse.gmt.modisco.java.DoStatement;
 import org.eclipse.gmt.modisco.java.EnhancedForStatement;
 import org.eclipse.gmt.modisco.java.Expression;
 import org.eclipse.gmt.modisco.java.ExpressionStatement;
@@ -32,8 +35,6 @@ import org.eclipse.gmt.modisco.java.IfStatement;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.InfixExpression;
 import org.eclipse.gmt.modisco.java.InstanceofExpression;
-import org.eclipse.gmt.modisco.java.Javadoc;
-import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.gmt.modisco.java.Modifier;
@@ -78,11 +79,16 @@ import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 /**
  * Internal switch class to prove element similarity.
  * 
+ * <p>
  * The similarity case methods do not need to check for null values. It is assumed that the calling
  * class does a null value check for the elements to compare in advanced, such as done by the
  * SimilarityChecker class.
+ * </p>
  * 
- * 
+ * <p>
+ * Check strategy:<br>
+ * First all "not-similar"-criteria are checked. If none hits, true will be returned.
+ * </p>
  */
 public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
@@ -408,7 +414,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         if (method1.getAnonymousClassDeclarationOwner() != null) {
             AnonymousClassDeclaration type1 = method1.getAnonymousClassDeclarationOwner();
             AnonymousClassDeclaration type2 = method2.getAnonymousClassDeclarationOwner();
-            Boolean typeSimilarity = checkAnonymousClassDeclarationSimilarity(type1, type2);
+            Boolean typeSimilarity = similarityChecker.isSimilar(type1, type2);
             if (typeSimilarity != null) {
                 return typeSimilarity;
             }
@@ -454,7 +460,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         // check the class instance types
         Boolean typeSimilarity = similarityChecker.isSimilar(cic1.getType().getType(), cic2.getType().getType());
-        if (typeSimilarity != null && typeSimilarity == Boolean.FALSE) {
+        if (typeSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -792,6 +798,36 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
+     * Check if two while statements are similar.
+     * 
+     * Similarity is checked by:
+     * <ul>
+     * <li>expression similarity</li>
+     * </ul>
+     * 
+     * The body is not checked as part of the while statement check because this is only about the
+     * container enhanced for statement similarity. The contained statements are checked in a
+     * separate step of the compare process if the enclosing for statement matches.
+     * 
+     * @param statement1
+     *            The statement to compare with the compare element.
+     * @return True/False whether they are similar or not.
+     */
+    @Override
+    public Boolean caseDoStatement(DoStatement statement1) {
+
+        DoStatement statement2 = (DoStatement) compareElement;
+
+        Boolean expressionSimilarity = similarityChecker.isSimilar(statement1.getExpression(),
+                statement2.getExpression());
+        if (expressionSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
      * Check if two if catch clauses are similar.
      * 
      * Similarity is checked by:
@@ -853,12 +889,12 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         Boolean leftOpSimilarity = similarityChecker.isSimilar(exp2.getLeftOperand(), exp1.getLeftOperand());
-        if (leftOpSimilarity != Boolean.TRUE) {
+        if (leftOpSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
         Boolean rightOpSimilarity = similarityChecker.isSimilar(exp2.getRightOperand(), exp1.getRightOperand());
-        if (rightOpSimilarity != Boolean.TRUE) {
+        if (rightOpSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -881,12 +917,12 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         InstanceofExpression exp2 = (InstanceofExpression) compareElement;
 
         Boolean leftOpSimilarity = similarityChecker.isSimilar(exp2.getLeftOperand(), exp1.getLeftOperand());
-        if (leftOpSimilarity != Boolean.TRUE) {
+        if (leftOpSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
         Boolean rightOpSimilarity = similarityChecker.isSimilar(exp2.getRightOperand(), exp1.getRightOperand());
-        if (rightOpSimilarity != Boolean.TRUE) {
+        if (rightOpSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -915,12 +951,12 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         Boolean leftSimilarity = similarityChecker.isSimilar(ass1.getLeftHandSide(), ass2.getLeftHandSide());
-        if (leftSimilarity != Boolean.TRUE) {
+        if (leftSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
         Boolean rightSimilarity = similarityChecker.isSimilar(ass1.getRightHandSide(), ass2.getRightHandSide());
-        if (rightSimilarity != Boolean.TRUE) {
+        if (rightSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1007,7 +1043,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     public Boolean caseTypeLiteral(TypeLiteral literal1) {
         TypeLiteral literal2 = (TypeLiteral) compareElement;
         Boolean typeSimilarity = similarityChecker.isSimilar(literal1.getType(), literal2.getType());
-        if (typeSimilarity == null && typeSimilarity == Boolean.FALSE) {
+        if (typeSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
@@ -1093,7 +1129,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         VariableDeclaration decl1 = varAccess1.getVariable();
         VariableDeclaration decl2 = varAccess2.getVariable();
         Boolean varDeclSimilarity = similarityChecker.isSimilar(decl1, decl2);
-        if (varDeclSimilarity != null && varDeclSimilarity == Boolean.FALSE) {
+        if (varDeclSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1282,23 +1318,6 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             return Boolean.FALSE;
         }
 
-        // // if only one containing package is null: FALSE
-        // if ((package1 == null && package2 != null) || (package1 != null && package2 == null)) {
-        // return Boolean.FALSE;
-        //
-        // // if none is null check the package names
-        // } else if (package1 != null && checkPackageSimilarity(package1, package2)) {
-        // return Boolean.TRUE;
-        //
-        // // if both packages are null check if both types are
-        // // inner class of the same enclosing class
-        // } else if (package1 == null && type1.eContainer() instanceof AbstractTypeDeclaration
-        // && type2.eContainer() instanceof AbstractTypeDeclaration) {
-        // AbstractTypeDeclaration enclosingAtd1 = (AbstractTypeDeclaration) type1.eContainer();
-        // AbstractTypeDeclaration enclosingAtd2 = (AbstractTypeDeclaration) type2.eContainer();
-        // return similarityChecker.isSimilar(enclosingAtd1, enclosingAtd2);
-        // }
-
         return Boolean.TRUE;
     }
 
@@ -1321,7 +1340,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         ClassInstanceCreation ci1 = aClassDecl1.getClassInstanceCreation();
         ClassInstanceCreation ci2 = aClassDecl2.getClassInstanceCreation();
         Boolean creationSimilarity = similarityChecker.isSimilar(ci1, ci2);
-        if (creationSimilarity != null && creationSimilarity == Boolean.FALSE) {
+        if (creationSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1354,7 +1373,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         Type type2 = annotation2.getType().getType();
 
         Boolean typeSimilarity = similarityChecker.isSimilar(type1, type2);
-        if (typeSimilarity != null && typeSimilarity == Boolean.FALSE) {
+        if (typeSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1363,7 +1382,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             AnnotationMemberValuePair valuePair2 = annotation2.getValues().get(i);
 
             Boolean valueSimilarity = similarityChecker.isSimilar(valuePair1, valuePair2);
-            if (valueSimilarity != null && valueSimilarity == Boolean.FALSE) {
+            if (valueSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
             }
         }
@@ -1393,7 +1412,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         }
 
         Boolean valueSimilarity = similarityChecker.isSimilar(valuePair1.getValue(), valuePair2.getValue());
-        if (valueSimilarity != null && valueSimilarity == Boolean.FALSE) {
+        if (valueSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1438,10 +1457,10 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
             if (accessedType1.getName() == null) {
                 if (accessedType2.getName() != null) {
-                    return false;
+                    return Boolean.FALSE;
                 }
             } else if (!accessedType1.getName().equals(accessedType2.getName())) {
-                return false;
+                return Boolean.FALSE;
             }
         }
 
@@ -1522,12 +1541,12 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         ArrayAccess access2 = (ArrayAccess) compareElement;
 
         Boolean arraySimilarity = similarityChecker.isSimilar(access1.getArray(), access2.getArray());
-        if (arraySimilarity != null && arraySimilarity == Boolean.FALSE) {
+        if (arraySimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
         Boolean indexSimilarity = similarityChecker.isSimilar(access1.getIndex(), access2.getIndex());
-        if (indexSimilarity != null && indexSimilarity == Boolean.FALSE) {
+        if (indexSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1601,17 +1620,17 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         ConditionalExpression exp2 = (ConditionalExpression) compareElement;
 
         Boolean expSimilarity = similarityChecker.isSimilar(exp1.getExpression(), exp2.getExpression());
-        if (expSimilarity != null && expSimilarity == Boolean.FALSE) {
+        if (expSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
         Boolean expElseSimilarity = similarityChecker.isSimilar(exp1.getElseExpression(), exp2.getElseExpression());
-        if (expElseSimilarity != null && expElseSimilarity == Boolean.FALSE) {
+        if (expElseSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
         Boolean expThenSimilarity = similarityChecker.isSimilar(exp1.getThenExpression(), exp2.getThenExpression());
-        if (expThenSimilarity != null && expThenSimilarity == Boolean.FALSE) {
+        if (expThenSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1657,7 +1676,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         Expression prefixExp1 = exp1.getOperand();
         Expression prefixExp2 = exp1.getOperand();
         Boolean operandSimilarity = similarityChecker.isSimilar(prefixExp1, prefixExp2);
-        if (operandSimilarity != null && operandSimilarity == Boolean.FALSE) {
+        if (operandSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1689,8 +1708,65 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         Expression prefixExp1 = exp1.getOperand();
         Expression prefixExp2 = exp1.getOperand();
         Boolean operandSimilarity = similarityChecker.isSimilar(prefixExp1, prefixExp2);
-        if (operandSimilarity != null && operandSimilarity == Boolean.FALSE) {
+        if (operandSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check if two method invocations are similar.<br>
+     * This checks
+     * <ul>
+     * <li>invoked method</li>
+     * <li>invocation arguments</li>
+     * <li>invocation argument types</li>
+     * </ul>
+     * 
+     * @param methodInvocation
+     *            the method invocation to check
+     * @return the boolean
+     */
+    @Override
+    public Boolean caseAbstractMethodInvocation(AbstractMethodInvocation methodInvocation) {
+
+        AbstractMethodInvocation methodInvocation2 = (AbstractMethodInvocation) compareElement;
+
+        // Invoked Method
+        AbstractMethodDeclaration method1 = methodInvocation.getMethod();
+        AbstractMethodDeclaration method2 = methodInvocation2.getMethod();
+        Boolean methodSimilarity = similarityChecker.isSimilar(method1, method2);
+        if (methodSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        // Argument / Parameter similarity
+        if (methodInvocation.getArguments().size() != methodInvocation2.getArguments().size()) {
+            return Boolean.FALSE;
+        }
+        for (int i = 0; i < methodInvocation.getArguments().size(); i++) {
+            Expression exp1 = methodInvocation.getArguments().get(i);
+            Expression exp2 = methodInvocation2.getArguments().get(i);
+
+            Boolean argumentSimilarity = similarityChecker.isSimilar(exp1, exp2);
+            if (argumentSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+        }
+
+        // Type argument similarity
+        if (methodInvocation.getTypeArguments().size() != methodInvocation2.getTypeArguments().size()) {
+            return Boolean.FALSE;
+        }
+        for (int i = 0; i < methodInvocation.getTypeArguments().size(); i++) {
+            TypeAccess access1 = methodInvocation.getTypeArguments().get(i);
+            TypeAccess access2 = methodInvocation2.getTypeArguments().get(i);
+
+            Boolean accessSimilarity = similarityChecker.isSimilar(access1, access2);
+            if (accessSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
         }
 
         return Boolean.TRUE;
@@ -1713,32 +1789,17 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     @Override
     public Boolean caseMethodInvocation(MethodInvocation methodInvocation) {
 
-        MethodInvocation methodInvocation2 = (MethodInvocation) compareElement;
-
-        // check the methods names
-        AbstractMethodDeclaration method1 = methodInvocation.getMethod();
-        AbstractMethodDeclaration method2 = methodInvocation2.getMethod();
-
-        Boolean methodSimilarity = similarityChecker.isSimilar(method1, method2);
-        if (methodSimilarity != null && methodSimilarity == Boolean.FALSE) {
+        Boolean abstractSimilarity = caseAbstractMethodInvocation(methodInvocation);
+        if (abstractSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
-        // TODO check the variable access
-        for (int i = 0; i < methodInvocation.getArguments().size(); i++) {
-            Expression methodArgument1 = methodInvocation.getArguments().get(i);
-            Expression methodArgument2 = methodInvocation2.getArguments().get(i);
-
-            Boolean argumentSimilarity = similarityChecker.isSimilar(methodArgument1, methodArgument2);
-            if (argumentSimilarity != null && argumentSimilarity == Boolean.FALSE) {
-                return Boolean.FALSE;
-            }
-        }
+        MethodInvocation methodInvocation2 = (MethodInvocation) compareElement;
 
         Expression exp1 = methodInvocation.getExpression();
         Expression exp2 = methodInvocation2.getExpression();
         Boolean expSimilarity = similarityChecker.isSimilar(exp1, exp2);
-        if (expSimilarity != null && expSimilarity == Boolean.FALSE) {
+        if (expSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1769,7 +1830,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         for (int i = 0; i < sci1.getArguments().size(); i++) {
             Boolean argSimilarity = similarityChecker.isSimilar(sci1.getArguments().get(i), sci2.getArguments().get(i));
-            if (argSimilarity != null && argSimilarity == Boolean.FALSE) {
+            if (argSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
             }
         }
@@ -1798,7 +1859,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         AbstractMethodDeclaration md1 = smi1.getMethod();
         AbstractMethodDeclaration md2 = smi2.getMethod();
         Boolean methodSimilarity = similarityChecker.isSimilar(md1, md2);
-        if (methodSimilarity != null && methodSimilarity == Boolean.FALSE) {
+        if (methodSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
@@ -1808,7 +1869,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         for (int i = 0; i < smi1.getArguments().size(); i++) {
             Boolean argSimilarity = similarityChecker.isSimilar(smi1.getArguments().get(i), smi2.getArguments().get(i));
-            if (argSimilarity != null && argSimilarity == Boolean.FALSE) {
+            if (argSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
             }
         }
@@ -1895,9 +1956,15 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
      */
     @Override
     public Boolean caseBlock(Block block) {
-        Boolean parentSimilarity = similarityChecker.isSimilar(block.eContainer(),
-                ((Block) compareElement).eContainer());
-        return parentSimilarity;
+
+        EObject container1 = block.eContainer();
+        EObject container2 = ((Block) compareElement).eContainer();
+        Boolean containerSimilarity = similarityChecker.isSimilar(container1, container2);
+        if (containerSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
     }
 
     /**
@@ -1924,18 +1991,19 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
     }
 
     /**
-     * JavaDoc elements are always ignored and true is returned. {@inheritDoc}
-     */
-    @Override
-    public Boolean caseJavadoc(Javadoc object) {
-        return Boolean.TRUE;
-    }
-
-    /**
      * TagElement elements are always ignored and true is returned. {@inheritDoc}
      */
     @Override
     public Boolean caseTagElement(TagElement object) {
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Ignore comment elements by returning always true. TODO: Check if null would be more
+     * appropriate. {@inheritDoc}
+     */
+    @Override
+    public Boolean caseComment(Comment object) {
         return Boolean.TRUE;
     }
 
@@ -1949,97 +2017,8 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
      */
     @Override
     public Boolean defaultCase(EObject object) {
-        logger.warn("Unsupported element type: " + object.getClass());
+        logger.debug("Unsupported element type: " + object.getClass());
         return null;
-    }
-
-    /**
-     * Check anonymous type declaration similarity.<br>
-     * Similarity is checked by
-     * <ul>
-     * <li>name</li>
-     * </ul>
-     * 
-     * @param type1
-     *            The first anonymous type declaration to compare.
-     * @param type2
-     *            The second anonymous type declaration to compare.
-     * @return True/False if the anonymous type declarations are similar or not.
-     */
-    private Boolean checkAnonymousClassDeclarationSimilarity(AnonymousClassDeclaration type1,
-            AnonymousClassDeclaration type2) {
-
-        // if both types null: they are similar
-        if (type1 == null && type2 == null) {
-            return true;
-        }
-
-        // if only one is null: they are different
-        if ((type1 == null && type2 != null) || (type1 != null && type2 == null)) {
-            return false;
-        }
-
-        // if the parent class is again an anonymous one: recursively check this
-        // one
-        if (type1.eContainer() instanceof AnonymousClassDeclaration) {
-            return checkAnonymousClassDeclarationSimilarity((AnonymousClassDeclaration) type1.eContainer(),
-                    (AnonymousClassDeclaration) type2.eContainer());
-        }
-
-        // if parent class are regular classes, return their similarity
-        if (type1.eContainer() instanceof AbstractTypeDeclaration) {
-            AbstractTypeDeclaration atd1 = (AbstractTypeDeclaration) type1.eContainer();
-            AbstractTypeDeclaration atd2 = (AbstractTypeDeclaration) type2.eContainer();
-            similarityChecker.isSimilar(atd1, atd2);
-        }
-
-        // if container is a class instance creation
-        if (type1.eContainer() instanceof ClassInstanceCreation) {
-            ClassInstanceCreation cic1 = (ClassInstanceCreation) type1.eContainer();
-            ClassInstanceCreation cic2 = (ClassInstanceCreation) type2.eContainer();
-
-            return similarityChecker.isSimilar(cic1, cic2);
-
-        }
-
-        logger.warn("Unknown anonymous class declaration container: [" + type1 + "] contained in ["
-                + type1.eContainer() + "]");
-
-        return null;
-    }
-
-    /**
-     * ICheck two package elements for similarity.
-     * 
-     * Check - package name - package path
-     * 
-     * @param packageElement
-     *            the package element
-     * @param referencePackage
-     *            the reference package
-     * @return the check result.
-     */
-    private Boolean checkPackageSimilarity(Package packageElement, Package referencePackage) {
-
-        // similar packages are similar by default.
-        if (packageElement == referencePackage) {
-            return true;
-
-            // packages with same name and same parent packages name are
-            // considered as similar.
-        } else if (packageElement != null && referencePackage != null) {
-
-            String packagePath1 = JavaModelUtil.buildPackagePath(packageElement);
-            String packagePath2 = JavaModelUtil.buildPackagePath(referencePackage);
-            if (packagePath1.equals(packagePath2)) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-
-        }
-
-        return false;
     }
 
 }

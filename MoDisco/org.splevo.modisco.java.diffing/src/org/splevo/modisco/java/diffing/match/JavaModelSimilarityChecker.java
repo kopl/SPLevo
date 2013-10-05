@@ -12,6 +12,7 @@ import org.splevo.modisco.util.SimilarityChecker;
  * A java model specific similarity checker which is used by the match engine
  * to find matching elements.
  */
+@SuppressWarnings("restriction")
 public class JavaModelSimilarityChecker extends StatisticBasedSimilarityChecker {
 
     /** The checker to use for the java model specific element similarity. */

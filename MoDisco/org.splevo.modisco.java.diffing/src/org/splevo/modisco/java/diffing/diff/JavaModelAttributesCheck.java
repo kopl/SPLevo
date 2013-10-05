@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
 import org.eclipse.emf.compare.diff.engine.check.AttributesCheck;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
 import org.eclipse.emf.compare.match.metamodel.Match2Elements;
 import org.eclipse.emf.ecore.EAttribute;

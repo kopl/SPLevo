@@ -30,6 +30,7 @@ import org.splevo.modisco.util.SimilarityChecker;
  * @see http://www.eclipse.org/forums/index.php?t=msg&goto=511859&
  * 
  */
+@SuppressWarnings("restriction")
 public class JavaModelMatchEngine extends GenericMatchEngine {
 
     /** The checker to use to prove element similarity. */
