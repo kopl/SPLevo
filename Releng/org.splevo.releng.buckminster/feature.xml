@@ -99,14 +99,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.splevo.vpm.builder.java2kdmdiff.tests"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.splevo.vpm.refinement.tests"
          download-size="0"
          install-size="0"
@@ -155,6 +147,14 @@
 
    <plugin
          id="org.splevo.modisco.java.extraction.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.modisco.java.vpm.builder.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"
