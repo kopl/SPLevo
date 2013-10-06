@@ -6,7 +6,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.splevo.vpm.analyzer.semantic.VPLinkContainer;
 import org.splevo.vpm.analyzer.semantic.lucene.finder.FinderExecutor;
 import org.splevo.vpm.analyzer.semantic.lucene.finder.OverallSimilarityFinder;
-import org.splevo.vpm.analyzer.semantic.lucene.finder.RareTermFinder;
+import org.splevo.vpm.analyzer.semantic.lucene.finder.ImportantTermFinder;
 import org.splevo.vpm.analyzer.semantic.lucene.finder.TopNTermFinder;
 
 /**
@@ -26,12 +26,6 @@ public class Searcher {
 	 * @throws IOException Throws an exception if there is already an open writer to the index.
 	 */
 	public static VPLinkContainer findSemanticRelationships(RelationShipSearchConfiguration searchConfig) throws IOException {
-		if (!searchConfig.isUseOverallSimilarityFinder() 
-				&& 	!searchConfig.isUseRareTermFinder() 
-				&&  !searchConfig.isUseTopNFinder()) {
-			throw new IllegalStateException();
-		}
-		
 		// Open the Directory reader for the main index.
 		DirectoryReader reader = Indexer.getInstance().getIndexReader();
 		
@@ -40,13 +34,11 @@ public class Searcher {
 		
 		// Add finders here:
 		if (searchConfig.isUseRareTermFinder()) {
-			analysisExecutor.addAnalyzer(new RareTermFinder(reader, searchConfig.isMatchComments(), 
-					searchConfig.getMaxPercentage()));
+			analysisExecutor.addAnalyzer(new ImportantTermFinder(reader, searchConfig.isMatchComments()));
 		}
 		
 		if (searchConfig.isUseOverallSimilarityFinder()) {
-			analysisExecutor.addAnalyzer(new OverallSimilarityFinder(reader, searchConfig.isMatchComments(), 
-					searchConfig.getMinSimilarity()));
+			analysisExecutor.addAnalyzer(new OverallSimilarityFinder(reader, searchConfig.isMatchComments()));
 		}
 
 		if (searchConfig.isUseTopNFinder()) {

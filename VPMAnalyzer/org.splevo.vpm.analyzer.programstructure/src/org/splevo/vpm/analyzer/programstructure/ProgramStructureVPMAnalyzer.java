@@ -1,9 +1,7 @@
 package org.splevo.vpm.analyzer.programstructure;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.gmt.modisco.java.ASTNode;
@@ -11,8 +9,8 @@ import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
-import org.splevo.vpm.analyzer.config.BooleanChoiceConfigDefintion;
-import org.splevo.vpm.analyzer.config.ConfigDefinition;
+import org.splevo.vpm.analyzer.config.BooleanConfiguration;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.programstructure.index.VariationPointIndex;
 import org.splevo.vpm.variability.VariationPoint;
@@ -51,11 +49,10 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
 
-    /** Label of the configuration to consider the full sub AST for the referred VP. */
-    private static final String CONFIG_LABEL_FULL_REFERRED_TREE = "Check Full Referred AST";
+    private static final boolean DEFAULT_CONFIG_FULL_REFERRED_TREE = true;
 
-    /** ID of the configuration to consider the full sub AST for the referred VP. */
-    private static final String CONFIG_ID_FULL_REFERRED_TREE = "programStructureVPMAnalyzer.fullReferredTree";
+	/** Label of the configuration to consider the full sub AST for the referred VP. */
+    private static final String CONFIG_LABEL_FULL_REFERRED_TREE = "Check Full Referred AST";
 
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramStructure";
@@ -63,10 +60,7 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(ProgramStructureVPMAnalyzer.class);
 
-    /** The internal configurations map. */
-    private Map<String, Object> configurations = new HashMap<String, Object>();
-
-    /** The index of variation points and AST nodes. **/
+     /** The index of variation points and AST nodes. **/
     private VariationPointIndex variationPointIndex = null;
 
     /** Switch to get the referrer for an ast node. */
@@ -76,7 +70,6 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      * Constructor initializing the variation point analyzer.
      */
     public ProgramStructureVPMAnalyzer() {
-        setDefaultConfigurations();
         variationPointIndex = new VariationPointIndex();
     }
 
@@ -171,23 +164,13 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
 
         return variationPoints;
     }
-
+    
     @Override
-    public Map<String, ConfigDefinition> getAvailableConfigurations() {
-        Map<String, ConfigDefinition> availableConfigurations = new HashMap<String, ConfigDefinition>();
-        availableConfigurations.put(CONFIG_ID_FULL_REFERRED_TREE, new BooleanChoiceConfigDefintion());
-        return availableConfigurations;
-    }
-
-    @Override
-    public Map<String, String> getConfigurationLabels() {
-        Map<String, String> configurationLabels = new HashMap<String, String>();
-        configurationLabels.put(CONFIG_ID_FULL_REFERRED_TREE, CONFIG_LABEL_FULL_REFERRED_TREE);
-        return configurationLabels;
-    }
-
-    @Override
-    public Map<String, Object> getConfigurations() {
+    public VPMAnalyzerConfigurations getConfigurations() {
+    	VPMAnalyzerConfigurations configurations = new VPMAnalyzerConfigurations();
+    	BooleanConfiguration fullReferredTreeConfig = new BooleanConfiguration(CONFIG_LABEL_FULL_REFERRED_TREE, null, DEFAULT_CONFIG_FULL_REFERRED_TREE);
+    	configurations.addConfigurations("General Settings", fullReferredTreeConfig);
+    
         return configurations;
     }
 

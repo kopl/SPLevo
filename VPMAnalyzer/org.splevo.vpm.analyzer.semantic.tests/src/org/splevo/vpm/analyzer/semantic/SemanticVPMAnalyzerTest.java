@@ -5,13 +5,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
+import org.splevo.vpm.analyzer.config.BooleanConfiguration;
+import org.splevo.vpm.analyzer.config.NumericConfiguration;
+import org.splevo.vpm.analyzer.config.StringConfiguration;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 
@@ -51,9 +54,9 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
     	int originalNodeCount = graph.getNodeCount();
         int originalEdgeCount = graph.getEdgeCount();
-    	Map<String, Object> availableConfigurations = analyzer.getConfigurations();
+    	VPMAnalyzerConfigurations availableConfigurations = analyzer.getConfigurations();
     	
-    	setConfig(availableConfigurations, "", false, false, true, false, 1.d, 0.3d, 0.3d, 5);
+    	setConfig(availableConfigurations, "", false, false, true, false, 0.3d, 0.3d, 5);
     	
     	// Execution
     	VPMAnalyzerResult results = analyzer.analyze(graph);
@@ -78,9 +81,9 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
     	int originalNodeCount = graph.getNodeCount();
     	int originalEdgeCount = graph.getEdgeCount();
-    	Map<String, Object> availableConfigurations = analyzer.getConfigurations();
+    	VPMAnalyzerConfigurations availableConfigurations = analyzer.getConfigurations();
     	
-    	setConfig(availableConfigurations, "", false, true, false, false, 1.d, 0.21d, 0.3d, 5);
+    	setConfig(availableConfigurations, "", false, true, false, false, 0.21d, 0.3d, 5);
     	
     	// Execution
     	VPMAnalyzerResult results = analyzer.analyze(graph);
@@ -105,9 +108,9 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
     	int originalNodeCount = graph.getNodeCount();
     	int originalEdgeCount = graph.getEdgeCount();
-    	Map<String, Object> availableConfigurations = analyzer.getConfigurations();
+    	VPMAnalyzerConfigurations availableConfigurations = analyzer.getConfigurations();
     	
-    	setConfig(availableConfigurations, "", false, false, false, true, 1.d, 0.21d, 1.d, 1);
+    	setConfig(availableConfigurations, "", false, false, false, true, 0.21d, 1.d, 1);
     	
     	// Execution
     	VPMAnalyzerResult results = analyzer.analyze(graph);
@@ -118,24 +121,6 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     	assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
     	assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
     	assertEquals("Failure in Top-N-Term-Search: Edge count of 10 expected but was " + size + ".", 10, size);
-    }
-
-	/**
-     * Test method for {@link org.splevo.vpm.analyzer.programstructure.SemanticVPMAnalyzer#getAvailableConfigurations()}.
-     */
-    @Test
-    public void testGetAvailableConfigurations() {
-    	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
-        assertNotNull("Null available configuration map is not allowed", analyzer.getAvailableConfigurations());
-    }
-
-    /**
-     * Test method for {@link org.splevo.vpm.analyzer.programstructure.SemanticVPMAnalyzer#getConfigurationLabels()}.
-     */
-    @Test
-    public void testGetConfigurationLabels() {
-    	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
-        assertNotNull("Null configuration label map is not allowed", analyzer.getConfigurationLabels());
     }
 
     /**
@@ -206,44 +191,31 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
      * @param leastDocFreq Configuration.
      * @param n Configuration.
      */
-    private void setConfig(Map<String, Object> config, 
+    private void setConfig(VPMAnalyzerConfigurations config, 
     		String stopWords,
     		boolean matchComments, 
 			boolean useRareTermFinder, 
 			boolean useOverallSimilarityFinder, 
 			boolean useTopNFinder, 
-			double minSimilarity, 
 			double maxPercentage,
 			double leastDocFreq,
 			int n) {
-		for (String key : config.keySet()) {
-			if (key.equals(ConfigDefaults.LABEL_STOP_WORDS)) {
-				config.put(key, stopWords);
-			}
-			if (key.equals(ConfigDefaults.LABEL_INCLUDE_COMMENTS)) {
-				config.put(key, matchComments);
-			}
-			if (key.equals(ConfigDefaults.LABEL_LEAST_DOC_FREQ)) {
-				config.put(key, leastDocFreq);
-			}
-			if (key.equals(ConfigDefaults.LABEL_MINIMUM_SIMILARITY)) {
-				config.put(key, minSimilarity);
-			}
-			if (key.equals(ConfigDefaults.LABEL_N)) {
-				config.put(key, n);
-			}
-			if (key.equals(ConfigDefaults.LABEL_RARE_TERM_FINDER_MAX_PERCENTAGE)) {
-				config.put(key, maxPercentage);
-			}
-			if (key.equals(ConfigDefaults.LABEL_USE_OVERALL_SIMILARITY_FINDER)) {
-				config.put(key, useOverallSimilarityFinder);
-			}
-			if (key.equals(ConfigDefaults.LABEL_USE_RARE_FINDER)) {
-				config.put(key, useRareTermFinder);
-			}
-			if (key.equals(ConfigDefaults.LABEL_USE_TOP_N_TERM_FINDER)) {
-				config.put(key, useTopNFinder);
-			}
-		}
+    	StringConfiguration stopWordConf = new StringConfiguration("C0", null, "");
+		BooleanConfiguration matchCommentsConf = new BooleanConfiguration("C1", null, false);
+		BooleanConfiguration useRareTermFinderConf = new BooleanConfiguration("C2", null, false);
+		BooleanConfiguration useOverallSimilarityFinderConf = new BooleanConfiguration("C3", null, false);
+		BooleanConfiguration useTopNFinderConf = new BooleanConfiguration("C4", null, false);
+		NumericConfiguration maxPercentageConf = new NumericConfiguration("C5", null, 0, 1, 0, 1, 2);
+		NumericConfiguration leasDocFreqConf = new NumericConfiguration("C5", null, 0, 1, 0, 1, 2);
+		NumericConfiguration nConf = new NumericConfiguration("C6", null, 0, 1, 0, 100, 0);
+		
+		matchCommentsConf.setCurrentValue(matchComments);
+		useRareTermFinderConf.setCurrentValue(useRareTermFinder);
+		useOverallSimilarityFinderConf.setCurrentValue(useOverallSimilarityFinder);
+		useTopNFinderConf.setCurrentValue(useTopNFinder);
+		stopWordConf.setCurrentValue(stopWords);
+		maxPercentageConf.setCurrentValue(maxPercentage);
+		leasDocFreqConf.setCurrentValue(leastDocFreq);
+		nConf.setCurrentValue((double)n);
 	}
 }

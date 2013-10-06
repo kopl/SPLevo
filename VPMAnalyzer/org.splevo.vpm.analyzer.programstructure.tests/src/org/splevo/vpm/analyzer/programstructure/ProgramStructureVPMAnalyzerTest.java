@@ -62,27 +62,11 @@ public class ProgramStructureVPMAnalyzerTest extends AbstractTest {
     }
 
     /**
-     * Test method for {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#getAvailableConfigurations()}.
-     */
-    @Test
-    public void testGetAvailableConfigurations() {
-        assertNotNull("Null available configuration map is not allowed", analyzer.getAvailableConfigurations());
-    }
-
-    /**
-     * Test method for {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#getConfigurationLabels()}.
-     */
-    @Test
-    public void testGetConfigurationLabels() {
-        assertNotNull("Null configuration label map is not allowed", analyzer.getConfigurationLabels());
-    }
-
-    /**
      * Test method for {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#getConfigurations()}.
      */
     @Test
     public void testGetConfigurations() {
-        assertNotNull("Null configuration map is not allowed", analyzer.getConfigurations());
+        assertNotNull("Null for configurations is not allowed", analyzer.getConfigurations());
     }
 
     /**

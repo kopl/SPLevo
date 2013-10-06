@@ -1,13 +1,11 @@
 package org.splevo.vpm.analyzer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.graphstream.graph.Node;
-import org.splevo.vpm.analyzer.config.ConfigDefinition;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
 
 /**
  * An abstract variation point model analyzer providing some common infrastructure.
@@ -19,6 +17,9 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
 
     @Override
     public abstract String getRelationshipLabel();
+    
+    @Override
+    public abstract VPMAnalyzerConfigurations getConfigurations();
 
     /** Internal list to cache which edges have already been created. */
     protected List<String> edgeRegistry = new ArrayList<String>();
@@ -41,24 +42,6 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
      */
     protected void logAnalysisInfo(String vp1ID, String vp2ID, String sourceInfo, String targetInfo) {
         logAnalysisInfo(vp1ID, vp2ID, sourceInfo, targetInfo, "");
-    }
-
-    /**
-     * Sets the default configuration in the analyzer.
-     * First, any existing configurations are removed, 
-     * next, the default values of the config definitions are set. 
-     * 
-     */
-    public void setDefaultConfigurations() {
-        
-        this.getConfigurations().clear();
-        
-        for (String confId : getAvailableConfigurations().keySet()) {
-            ConfigDefinition confDef = getAvailableConfigurations().get(confId);
-            if (confDef.getDefaultValue() != null) {
-                this.getConfigurations().put(confId, confDef.getDefaultValue());
-            }
-        }
     }
 
     /**
@@ -91,16 +74,6 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
         logMessage.append(remark);
         logMessage.append('"');
         analysisLogger.info(logMessage.toString());
-    }
-
-    /**
-     * Default implementation returning an empty configuration map.
-     * 
-     * @return An emty configuration map.
-     */
-    @Override
-    public Map<String, ConfigDefinition> getAvailableConfigurations() {
-        return new HashMap<String, ConfigDefinition>();
     }
 
     /**

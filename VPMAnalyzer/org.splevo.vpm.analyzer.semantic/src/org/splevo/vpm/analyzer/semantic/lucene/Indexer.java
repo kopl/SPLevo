@@ -85,7 +85,7 @@ public final class Indexer {
 	 */
 	private Indexer() {
 		this.splitCamelCase = true;
-		this.stopWords = ConfigDefaults.DEFAULT_STOP_WORDS;
+		this.stopWords = ConfigDefaults.DEFAULT_STOP_WORDS.split(" ");
 		this.config = new IndexWriterConfig(Version.LUCENE_43, 
 				CustomPerFieldAnalyzerWrapper.getWrapper(this.stopWords, splitCamelCase));	
 		

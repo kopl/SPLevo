@@ -1,8 +1,6 @@
 package org.splevo.vpm.analyzer;
 
-import java.util.Map;
-
-import org.splevo.vpm.analyzer.config.ConfigDefinition;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 /**
@@ -34,27 +32,6 @@ public interface VPMAnalyzer {
     public VPMAnalyzerResult analyze(final VPMGraph vpmGraph);
 
     /**
-     * Get a map of the possible configuration settings for the analyzer.
-     * 
-     * @return A map with the setting IDs and their according data type for each available setting.
-     */
-    public Map<String, ConfigDefinition> getAvailableConfigurations();
-
-    /**
-     * Get the labels to display for the available configuration settings.
-     * 
-     * @return A map with setting IDs and the according labels.
-     */
-    public Map<String, String> getConfigurationLabels();
-
-    /**
-     * Get the configuration map of the analyzer instance.
-     * 
-     * @return The map of settings with the id of the setting and it's value.
-     */
-    public Map<String, Object> getConfigurations();
-
-    /**
      * Get the name of the analyzer to be displayed.
      * 
      * @return The name of the analyzer to be presented to the user.
@@ -66,4 +43,10 @@ public interface VPMAnalyzer {
      * @return The relationship label.
      */
     public String getRelationshipLabel();
+    
+    /**
+     * Get the available configurations for this VPM Analyzer.
+     * @return All available configurations.
+     */
+    public VPMAnalyzerConfigurations getConfigurations();
 }

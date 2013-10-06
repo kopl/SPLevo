@@ -14,10 +14,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -26,9 +27,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 
 /**
@@ -76,17 +77,24 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 		setControl(container);
 		container.setLayout(new FormLayout());
 
-		Group grpAnalyzers = new Group(container, SWT.SHADOW_IN);
-		grpAnalyzers.setText("Analyzers");
-		grpAnalyzers.setLayout(new GridLayout(2, true));
+		Composite compAnalyzers = new Composite(container, SWT.NONE);
+		GridLayout gridLayout = new GridLayout(2, true);
+		compAnalyzers.setLayout(gridLayout);
 		FormData grpAnalyzersFD = new FormData();
 		grpAnalyzersFD.top = new FormAttachment(0);
 		grpAnalyzersFD.left = new FormAttachment(0, 5);
 		grpAnalyzersFD.right = new FormAttachment(30);
 		grpAnalyzersFD.bottom = new FormAttachment(100);
-		grpAnalyzers.setLayoutData(grpAnalyzersFD);
+		compAnalyzers.setLayoutData(grpAnalyzersFD);
 
-		listViewerAnalysis = new ListViewer(grpAnalyzers, SWT.BORDER
+		Label analyzerLabel = new Label(compAnalyzers, SWT.BOLD);
+		analyzerLabel.setText("Analyzers");
+		analyzerLabel.setLayoutData(new GridData(SWT.DEFAULT, SWT.DEFAULT, true, false, 2, 1));
+		FontData[] fD = analyzerLabel.getFont().getFontData();
+		fD[0].setHeight(12);
+		fD[0].setStyle(SWT.BOLD);
+		analyzerLabel.setFont( new Font(compAnalyzers.getDisplay(),fD[0]));
+		listViewerAnalysis = new ListViewer(compAnalyzers, SWT.NONE
 				| SWT.V_SCROLL | SWT.H_SCROLL);
 		listViewerAnalysis.setContentProvider(ArrayContentProvider
 				.getInstance());
@@ -105,17 +113,15 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 				});
 
 		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.CENTER;
-		Button addBtn = new Button(grpAnalyzers, SWT.PUSH);
-		addBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui",
-				"icons/plus.png"));
+		gridData.horizontalAlignment = SWT.FILL;
+		Button addBtn = new Button(compAnalyzers, SWT.PUSH);
+		addBtn.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD));
 		addBtn.addMouseListener(new VPMAnalyzerSelectionDialogListener(this));
 		addBtn.setLayoutData(gridData);
-		rmvBtn = new Button(grpAnalyzers, SWT.PUSH);
-		rmvBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui",
-				"icons/cross.png"));
+		rmvBtn = new Button(compAnalyzers, SWT.PUSH);
+		rmvBtn.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_DELETE));
 		rmvBtn.setEnabled(false);
-		rmvBtn.addMouseListener(new MouseListener() {
+		rmvBtn.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseUp(MouseEvent arg0) {
@@ -123,36 +129,26 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 				selectedAnalyzer = null;
 				update();
 			}
-
-			@Override
-			public void mouseDoubleClick(MouseEvent arg0) {
-				// Ignore: Not used
-			}
-
-			@Override
-			public void mouseDown(MouseEvent arg0) {
-				// Ignore: Not used
-			}
 		});
 		rmvBtn.setLayoutData(gridData);
 
-		final Group grpConfigurations = new Group(container, SWT.SHADOW_IN
-				| SWT.V_SCROLL | SWT.H_SCROLL);
-		grpConfigurations.setText("Configurations");
-		grpConfigurations.setLayout(new FillLayout());
+		Label separator = new Label(container, SWT.SEPARATOR | SWT.VERTICAL);
+		FormData separatorFD = new FormData();
+		separatorFD.top = new FormAttachment(0);
+		separatorFD.left = new FormAttachment(compAnalyzers, 0);
+		separatorFD.bottom = new FormAttachment(100);
+		separator.setLayoutData(separatorFD);
+
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0);
-		formData.left = new FormAttachment(grpAnalyzers, 5);
+		formData.left = new FormAttachment(separator, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(100);
-		grpConfigurations.setLayoutData(formData);
-
-		scrolledComposite = new ScrolledComposite(grpConfigurations,
-				SWT.SHADOW_IN | SWT.V_SCROLL);
+		scrolledComposite = new ScrolledComposite(container,
+				SWT.V_SCROLL);
+		scrolledComposite.setLayoutData(formData);
 		configComp = new Composite(scrolledComposite, SWT.NONE);
-		GridLayout gridLayout = new GridLayout(2, false);
-		gridLayout.verticalSpacing = 10;
-		configComp.setLayout(gridLayout);
+		configComp.setLayout(new FormLayout());
 		updateConfig();
 
 		scrolledComposite.setExpandHorizontal(true);
@@ -251,11 +247,11 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 			Label label = new Label(configComp, SWT.NONE);
 			label.setText("Please select a VPM Analyzer first.");
 			configComp.pack();
-			return;
+		} else {
+			new ConfigurationCompositeFactory(selectedAnalyzer)
+			.createConfigComps(configComp);			
 		}
 
-		new ConfigurationCompositeFactory(selectedAnalyzer)
-				.createConfigComps(configComp);
 		configComp.setSize(configComp.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		Rectangle r = scrolledComposite.getClientArea();
 		scrolledComposite.setMinSize(configComp.computeSize(r.width - 5,
