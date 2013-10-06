@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.junit.Test;
-import org.splevo.modisco.java.vpm.builder.Java2KDMVPMBuilder;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.variability.VariationPointModel;
 
