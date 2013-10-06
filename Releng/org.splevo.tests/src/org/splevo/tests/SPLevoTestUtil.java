@@ -11,9 +11,9 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.JavaDiffer;
 import org.splevo.modisco.java.diffing.Java2KDMDiffer;
+import org.splevo.modisco.java.vpm.builder.Java2KDMVPMBuilder;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
-import org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**

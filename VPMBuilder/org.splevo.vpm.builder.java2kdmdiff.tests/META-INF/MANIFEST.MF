@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Java2KDM VPM Builder Tests
-Bundle-SymbolicName: org.splevo.vpm.builder.java2kdmdiff.tests
+Bundle-SymbolicName: org.splevo.modisco.java.vpm.builder.tests
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: org.splevo.vpm.builder.java2kdmdiff;bundle-version="1.0.0"
+Fragment-Host: org.splevo.modisco.java.vpm.builder;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit,
  org.splevo.diffing;bundle-version="1.0.0",

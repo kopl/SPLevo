@@ -4,7 +4,7 @@
    <extension
          point="org.splevo.vpm.builder">
       <builder
-            builder.class="org.splevo.vpm.builder.java2kdmdiff.Java2KDMVPMBuilder">
+            builder.class="org.splevo.modisco.java.vpm.builder.Java2KDMVPMBuilder">
       </builder>
    </extension>
 

@@ -1,4 +1,4 @@
-package org.splevo.vpm.builder.java2kdmdiff;
+package org.splevo.modisco.java.vpm.builder;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;

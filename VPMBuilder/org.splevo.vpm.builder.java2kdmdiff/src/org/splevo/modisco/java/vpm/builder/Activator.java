@@ -1,4 +1,4 @@
-package org.splevo.vpm.builder.java2kdmdiff;
+package org.splevo.modisco.java.vpm.builder;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

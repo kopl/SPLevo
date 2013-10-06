@@ -1,4 +1,4 @@
 /**
  * VPM Builder test infrastructure.
  */
-package org.splevo.vpm.builder.java2kdmdiff;
+package org.splevo.modisco.java.vpm.builder;
