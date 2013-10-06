@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.splevo.vpm.builder" name="SPLevo VPM Builder" schema="schema/org.splevo.vpm.builder.exsd"/>
+
+</plugin>
