@@ -3,10 +3,10 @@ package org.splevo.ui.jobs;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.vpm.variability.VariationPointModel;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to set a variation point model in the blackboard.
@@ -39,13 +39,11 @@ public class SetVPMJob extends
 	}
 
 	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback possible
+	public String getName() {
+		return "Set VPM Job";
 	}
 
 	@Override
-	public String getName() {
-		return "Set VPM Job";
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
 	}
 }

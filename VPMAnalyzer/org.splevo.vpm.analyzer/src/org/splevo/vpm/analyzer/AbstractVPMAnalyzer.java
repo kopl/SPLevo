@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.graphstream.graph.Node;
-import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 
 /**
  * An abstract variation point model analyzer providing some common infrastructure.
@@ -19,7 +19,7 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
     public abstract String getRelationshipLabel();
     
     @Override
-    public abstract VPMAnalyzerConfigurations getConfigurations();
+    public abstract VPMAnalyzerConfigurationSet getConfigurations();
 
     /** Internal list to cache which edges have already been created. */
     protected List<String> edgeRegistry = new ArrayList<String>();

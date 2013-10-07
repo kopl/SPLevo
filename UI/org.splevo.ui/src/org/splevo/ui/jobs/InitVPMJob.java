@@ -16,10 +16,10 @@ import org.splevo.vpm.builder.DefaultVPMBuilderService;
 import org.splevo.vpm.builder.VPMBuildException;
 import org.splevo.vpm.variability.VariationPointModel;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to initialize a variation point model from a diffing model.
@@ -79,12 +79,11 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     }
 
     @Override
-    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
-        // no rollback possible
-    }
-
-    @Override
     public String getName() {
         return "Init VPM model Job";
     }
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	}
 }

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for the {@link VPMAnalyzerConfigurations} class.
+ * Tests for the {@link VPMAnalyzerConfigurationSet} class.
  * 
  * @author Daniel Kojic
  * 
@@ -16,14 +16,14 @@ public class VPMAnalyzerConfigurationsTest {
 	/**
 	 * The object under test.
 	 */
-	private VPMAnalyzerConfigurations testedObject;
+	private VPMAnalyzerConfigurationSet testedObject;
 
 	/**
 	 * Re-initializes the test-object before every test.
 	 */
 	@Before
 	public void beforeTest() {
-		this.testedObject = new VPMAnalyzerConfigurations();
+		this.testedObject = new VPMAnalyzerConfigurationSet();
 	}
 
 	/**

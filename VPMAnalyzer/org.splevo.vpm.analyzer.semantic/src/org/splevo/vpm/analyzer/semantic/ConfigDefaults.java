@@ -43,16 +43,16 @@ public final class ConfigDefaults {
 	
 	// Configuration explanations
 	/** The explanation for the stop word configuration. */
-	public static final String EXPL_STOP_WORDS = "Stop-Words wont be relevant for analysis. Use commonly used words without a semantic meaning.";
+	public static final String EXPL_STOP_WORDS = "Stop-Words are terms ignored by the analysis (e.g. words without any semantic meaning). Put in words separated by whitespace.";
 	
 	/** The explanation for the N configuration. */
 	public static final String EXPL_N = "Calculates the N most frequent words and uses those for analysis.";
 	
 	/** The explanation for the least document frequency configuration. */
-	public static final String EXPL_LEAST_DOC_FREQ = "Defines the share of all documents the top-N terms have to be part of.";
+	public static final String EXPL_LEAST_DOC_FREQ = "Defines the share of all Variationpoints the top-N terms have to be part of.";
 	
 	/** The explanation for the minimum similarity configuration. */
-	public static final String EXPL_MIN_SIMILARITY = "Defines how similar two documents have to be to be matched.";
+	public static final String EXPL_MIN_SIMILARITY = "Defines how similar two Variationpoints have to be to be matched. One common term is the minimum for Variationpoints to be matched (even for a defined similarity of 0%).";
 	
 	// Default configuration values
 	/** The default configuration for the RARE_TERM_MAX_PERCENTAGE configuration. */

@@ -12,18 +12,18 @@ import java.util.Map;
  * @author Daniel Kojic
  * 
  */
-public class VPMAnalyzerConfigurations {
+public class VPMAnalyzerConfigurationSet {
 
 	/**
 	 * Stores all configurations with their corresponding group names.
 	 */
-	private Map<String, List<AbstractVPMAnalyzerConfiguration<?>>> configurationsGroupName;
+	private Map<String, List<AbstractVPMAnalyzerConfiguration<?>>> configurationsGroups;
 
 	/**
 	 * The main constructor.
 	 */
-	public VPMAnalyzerConfigurations() {
-		configurationsGroupName = new LinkedHashMap<String, List<AbstractVPMAnalyzerConfiguration<?>>>();
+	public VPMAnalyzerConfigurationSet() {
+		configurationsGroups = new LinkedHashMap<String, List<AbstractVPMAnalyzerConfiguration<?>>>();
 	}
 
 	/**
@@ -34,13 +34,13 @@ public class VPMAnalyzerConfigurations {
 	 */
 	public void addConfigurations(String groupName,
 			AbstractVPMAnalyzerConfiguration<?>... configs) {
-		if (!configurationsGroupName.containsKey(groupName)) {
-			configurationsGroupName.put(groupName,
+		if (!configurationsGroups.containsKey(groupName)) {
+			configurationsGroups.put(groupName,
 					new LinkedList<AbstractVPMAnalyzerConfiguration<?>>());
 		}
 
 		for (AbstractVPMAnalyzerConfiguration<?> vpmAnalyzerConfiguration : configs) {
-			configurationsGroupName.get(groupName)
+			configurationsGroups.get(groupName)
 					.add(vpmAnalyzerConfiguration);
 		}
 	}
@@ -51,6 +51,6 @@ public class VPMAnalyzerConfigurations {
 	 * @return The configurations.
 	 */
 	public Map<String, List<AbstractVPMAnalyzerConfiguration<?>>> getAllConfigurationsByGroupName() {
-		return configurationsGroupName;
+		return configurationsGroups;
 	}
 }

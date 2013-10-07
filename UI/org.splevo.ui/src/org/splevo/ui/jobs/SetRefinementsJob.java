@@ -5,10 +5,10 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.vpm.refinement.Refinement;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to set a list of refinements in the blackboard.
@@ -42,13 +42,11 @@ public class SetRefinementsJob extends
 	}
 
 	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback possible
+	public String getName() {
+		return "Set refinements Job";
 	}
 
 	@Override
-	public String getName() {
-		return "Set refinements Job";
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
 	}
 }

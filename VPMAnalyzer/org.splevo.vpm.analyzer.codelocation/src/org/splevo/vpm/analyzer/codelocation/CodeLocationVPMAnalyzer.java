@@ -14,7 +14,7 @@ import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
-import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
@@ -127,12 +127,10 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 			VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT,
 					VariationPoint.class);
 			if (vp != null) {
-
-				ASTNode astNode = (ASTNode) vp.getEnclosingSoftwareEntity();
-				astNode = chooseEnclosingNode(astNode);
 				SoftwareElement softwareElement = vp
 						.getEnclosingSoftwareEntity();
 
+				ASTNode astNode;
 				// TODO Release MoDisco Dependency
 				if (softwareElement instanceof MoDiscoJavaSoftwareElement) {
 					astNode = ((MoDiscoJavaSoftwareElement) softwareElement)
@@ -151,8 +149,6 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 					logger.error("Unsupported SoftwareElement Type: "
 							+ softwareElement.getClass());
 				}
-
-				structureMap.get(astNode).add(node);
 			}
 		}
 
@@ -206,8 +202,8 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 	 * @see org.splevo.vpm.analyzer.VPMAnalyzer#getConfigurations()
 	 */
 	@Override
-	public VPMAnalyzerConfigurations getConfigurations() {
-		return new VPMAnalyzerConfigurations();
+	public VPMAnalyzerConfigurationSet getConfigurations() {
+		return new VPMAnalyzerConfigurationSet();
 	}
 
 }

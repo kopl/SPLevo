@@ -7,10 +7,10 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.refinementbrowser.VPMRefinementBrowser;
 import org.splevo.ui.refinementbrowser.VPMRefinementBrowserInput;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to open the VPM refinement browser with the result of the analysis.
@@ -48,13 +48,12 @@ public class OpenVPMRefinementBrowserJob extends AbstractBlackboardInteractingJo
     }
 
     @Override
-    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
-        // nothing to roll back
-    }
-
-    @Override
     public String getName() {
         return "Open VPM Refinement Browser Job";
     }
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	}
 
 }

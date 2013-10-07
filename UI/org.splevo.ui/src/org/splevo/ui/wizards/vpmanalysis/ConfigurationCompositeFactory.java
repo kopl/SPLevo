@@ -29,7 +29,7 @@ import org.splevo.vpm.analyzer.config.BooleanConfiguration;
 import org.splevo.vpm.analyzer.config.ChoiceConfiguration;
 import org.splevo.vpm.analyzer.config.NumericConfiguration;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
-import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 
 public class ConfigurationCompositeFactory {
 
@@ -40,7 +40,7 @@ public class ConfigurationCompositeFactory {
 	}
 
 	public void createConfigComps(Composite parent) {
-		VPMAnalyzerConfigurations configurations = analyzer.getConfigurations();
+		VPMAnalyzerConfigurationSet configurations = analyzer.getConfigurations();
 		Map<String, List<AbstractVPMAnalyzerConfiguration<?>>> configsByGroupName = configurations
 				.getAllConfigurationsByGroupName();
 

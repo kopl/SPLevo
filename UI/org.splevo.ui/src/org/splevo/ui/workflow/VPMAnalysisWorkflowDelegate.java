@@ -28,10 +28,10 @@ import org.splevo.ui.jobs.VPMAnalysisJob;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 
-import de.uka.ipd.sdq.workflow.Blackboard;
-import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.OrderPreservingBlackboardCompositeJob;
-import de.uka.ipd.sdq.workflow.ParallelBlackboardInteractingCompositeJob;
+import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
+import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.ParallelJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
@@ -69,21 +69,21 @@ public class VPMAnalysisWorkflowDelegate extends
 
         // initialize the basic elements
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-        OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob = null;
-        compositeJob = new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
-        compositeJob.setBlackboard(new SPLevoBlackBoard());
+        SequentialJob jobSequence = new SequentialJob();
+        SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
 
         // load the latest vpm model
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
-        compositeJob.add(loadVPMJob);
+        loadVPMJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(loadVPMJob);
 
         // build vpm graph
         InitVPMGraphJob initVPMGraphJob = new InitVPMGraphJob();
-        compositeJob.add(initVPMGraphJob);
+        initVPMGraphJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(initVPMGraphJob);
 
         // trigger the configured refinement analysis
-        ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard> parallelAnalysisJob = null;
-        parallelAnalysisJob = new ParallelBlackboardInteractingCompositeJob<SPLevoBlackBoard>();
+        ParallelJob parallelJob = new ParallelJob();
         if (config.getAnalyzers().size() < 1) {
             logger.error("No analysis to perform configured.");
             return null;
@@ -94,26 +94,29 @@ public class VPMAnalysisWorkflowDelegate extends
 
         for (VPMAnalyzer analyzerInstance : config.getAnalyzers()) {
             VPMAnalysisJob vpmAnalysisJob = new VPMAnalysisJob(analyzerInstance);
-            parallelAnalysisJob.add(vpmAnalysisJob);
+            vpmAnalysisJob.setBlackboard(spLevoBlackBoard);
+            parallelJob.add(vpmAnalysisJob);
         }
-        compositeJob.add(parallelAnalysisJob);
+        jobSequence.add(parallelJob);
 
         MergeVPMAnalyzerResultsIntoGraphJob mergeVPMAnalyzerResultsJob = new MergeVPMAnalyzerResultsIntoGraphJob();
-        compositeJob.add(mergeVPMAnalyzerResultsJob);
+        mergeVPMAnalyzerResultsJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(mergeVPMAnalyzerResultsJob);
 
         // decide about the workflow to be exectured
         if (config.getPresentation() == ResultPresentation.RELATIONSHIP_GRAPH_ONLY) {
             OpenVPMGraphJob openVPMGraphJob = new OpenVPMGraphJob();
-            compositeJob.add(openVPMGraphJob);
+            openVPMGraphJob.setBlackboard(spLevoBlackBoard);
+            jobSequence.add(openVPMGraphJob);
         } else if (config.getPresentation() == ResultPresentation.REFINEMENT_BROWSER) {
-            addRefinementBrowserWorkflow(compositeJob, splevoProject);
+            addRefinementBrowserWorkflow(jobSequence, splevoProject);
         }
 
         // clean up appender when workflow is done
-        compositeJob.add(new CloseAnalysisTraceLogAppenderJob());
+        jobSequence.add(new CloseAnalysisTraceLogAppenderJob());
 
         // return the prepared workflow
-        return compositeJob;
+        return jobSequence;
     }
 
     /**
@@ -152,7 +155,7 @@ public class VPMAnalysisWorkflowDelegate extends
      * @param splevoProject
      *            The splevo project to interact with.
      */
-    private void addRefinementBrowserWorkflow(OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob,
+    private void addRefinementBrowserWorkflow(SequentialJob compositeJob,
             SPLevoProject splevoProject) {
 
         DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob(config.getDetectionRules());

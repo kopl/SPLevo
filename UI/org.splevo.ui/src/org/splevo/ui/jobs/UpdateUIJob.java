@@ -6,10 +6,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 
-import de.uka.ipd.sdq.workflow.AbstractJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to update the UI based on a referenced SPLevoProjectEditor instance.
@@ -37,12 +37,6 @@ public class UpdateUIJob extends AbstractJob {
 	}
 	
 	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback necessary
-	}
-	
-	@Override
 	public String getName() {
 		return "Update UI Job";
 	}
@@ -61,6 +55,10 @@ public class UpdateUIJob extends AbstractJob {
 		
 		splevoProjectEditor.updateUi(this.message);
 		monitor.done();
+	}
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
 	}
 
 }

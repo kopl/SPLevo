@@ -14,7 +14,7 @@ import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.config.BooleanConfiguration;
 import org.splevo.vpm.analyzer.config.NumericConfiguration;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
-import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 
@@ -54,7 +54,7 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
     	int originalNodeCount = graph.getNodeCount();
         int originalEdgeCount = graph.getEdgeCount();
-    	VPMAnalyzerConfigurations availableConfigurations = analyzer.getConfigurations();
+    	VPMAnalyzerConfigurationSet availableConfigurations = analyzer.getConfigurations();
     	
     	setConfig(availableConfigurations, "", false, false, true, false, 0.3d, 0.3d, 5);
     	
@@ -81,7 +81,7 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
     	int originalNodeCount = graph.getNodeCount();
     	int originalEdgeCount = graph.getEdgeCount();
-    	VPMAnalyzerConfigurations availableConfigurations = analyzer.getConfigurations();
+    	VPMAnalyzerConfigurationSet availableConfigurations = analyzer.getConfigurations();
     	
     	setConfig(availableConfigurations, "", false, true, false, false, 0.21d, 0.3d, 5);
     	
@@ -108,7 +108,7 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
     	SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
     	int originalNodeCount = graph.getNodeCount();
     	int originalEdgeCount = graph.getEdgeCount();
-    	VPMAnalyzerConfigurations availableConfigurations = analyzer.getConfigurations();
+    	VPMAnalyzerConfigurationSet availableConfigurations = analyzer.getConfigurations();
     	
     	setConfig(availableConfigurations, "", false, false, false, true, 0.21d, 1.d, 1);
     	
@@ -191,7 +191,7 @@ public class SemanticVPMAnalyzerTest extends AbstractTest {
      * @param leastDocFreq Configuration.
      * @param n Configuration.
      */
-    private void setConfig(VPMAnalyzerConfigurations config, 
+    private void setConfig(VPMAnalyzerConfigurationSet config, 
     		String stopWords,
     		boolean matchComments, 
 			boolean useRareTermFinder, 

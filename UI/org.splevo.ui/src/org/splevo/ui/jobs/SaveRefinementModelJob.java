@@ -18,10 +18,10 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to read the refinement model from the blackboard and save it at a given path.
@@ -187,11 +187,6 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
         }
     }
 
-    @Override
-    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
-        // no roll back required
-    }
-
     /**
      * Get the name of the job.
      * 
@@ -227,4 +222,8 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
          */
         NONE
     }
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	}
 }

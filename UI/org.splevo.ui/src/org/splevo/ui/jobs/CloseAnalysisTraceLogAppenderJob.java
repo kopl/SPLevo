@@ -4,10 +4,10 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 
-import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to close the analysis trace log appender including the log file reference.
@@ -29,13 +29,13 @@ public class CloseAnalysisTraceLogAppenderJob implements IJob {
     }
 
     @Override
-    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
-    }
-
-    @Override
     public String getName() {
         return "Clean Analysis Trace Log Appender";
     }
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	}
 
 
 }

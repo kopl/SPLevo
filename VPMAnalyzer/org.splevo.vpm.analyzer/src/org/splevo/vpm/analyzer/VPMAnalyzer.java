@@ -1,6 +1,6 @@
 package org.splevo.vpm.analyzer;
 
-import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 /**
@@ -48,5 +48,5 @@ public interface VPMAnalyzer {
      * Get the available configurations for this VPM Analyzer.
      * @return All available configurations.
      */
-    public VPMAnalyzerConfigurations getConfigurations();
+    public VPMAnalyzerConfigurationSet getConfigurations();
 }

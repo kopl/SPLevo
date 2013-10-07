@@ -9,10 +9,10 @@ import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to get the reference to a VPMGraph from the blackboard and execute a VPMAnalyzer on it. The
@@ -56,12 +56,11 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
     }
 
     @Override
-    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
-        // no rollback possible
-    }
-
-    @Override
     public String getName() {
         return "Analyze VPM Job";
     }
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	}
 }

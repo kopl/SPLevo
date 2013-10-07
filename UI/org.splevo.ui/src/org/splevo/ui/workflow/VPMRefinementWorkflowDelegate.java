@@ -10,9 +10,9 @@ import org.splevo.ui.jobs.SetVPMJob;
 import org.splevo.ui.jobs.UpdateUIJob;
 import org.splevo.ui.jobs.VPMApplyRefinementsJob;
 
-import de.uka.ipd.sdq.workflow.Blackboard;
-import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.OrderPreservingBlackboardCompositeJob;
+import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
+import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
@@ -43,32 +43,36 @@ public class VPMRefinementWorkflowDelegate extends
 
         // initialize the basic elements
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-        OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob = new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
-        compositeJob.setBlackboard(new SPLevoBlackBoard());
+        SequentialJob jobSequence = new SequentialJob();
+        SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
 
         SetVPMJob setVpmJob = new SetVPMJob(config.getVariationPointModel());
-        compositeJob.add(setVpmJob);
+        setVpmJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(setVpmJob);
 
         // set the refinements to perform and variation point model in the blackboard
         SetRefinementsJob setRefinementsJob = new SetRefinementsJob(config.getRefinements());
-        compositeJob.add(setRefinementsJob);
+        setRefinementsJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(setRefinementsJob);
 
         // perform the refinements automatically
         VPMApplyRefinementsJob vpmApplyRefinementsJob = new VPMApplyRefinementsJob();
-        compositeJob.add(vpmApplyRefinementsJob);
+        vpmApplyRefinementsJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(vpmApplyRefinementsJob);
 
         // save the latest vpm model
         String modelNamePrefix = "" + splevoProject.getVpmModelPaths().size();
         String targetPath = splevoProject.getWorkspace() + "models/vpms/" + modelNamePrefix + "-vpm.vpm";
         SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
-        compositeJob.add(saveVPMJob);
+        saveVPMJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(saveVPMJob);
 
         // init the ui update job
-        IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "VPM refined");
-        compositeJob.add(updateUiJob);
+        UpdateUIJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "VPM refined");
+        jobSequence.add(updateUiJob);
 
         // return the prepared workflow
-        return compositeJob;
+        return jobSequence;
     }
 
     @Override

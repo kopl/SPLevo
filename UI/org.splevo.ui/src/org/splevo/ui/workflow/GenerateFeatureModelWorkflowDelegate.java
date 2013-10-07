@@ -9,9 +9,9 @@ import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveFeatureModelJob;
 import org.splevo.ui.jobs.UpdateUIJob;
 
-import de.uka.ipd.sdq.workflow.Blackboard;
-import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.OrderPreservingBlackboardCompositeJob;
+import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
+import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
@@ -41,30 +41,32 @@ public class GenerateFeatureModelWorkflowDelegate extends
     @Override
     protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
 
-        OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob = new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
-        compositeJob.setBlackboard(new SPLevoBlackBoard());
-
+    	SequentialJob jobSequence = new SequentialJob();
+		SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
 
         // load the diff model
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
-        compositeJob.add(loadVPMJob);
+        loadVPMJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(loadVPMJob);
 
         // init the vpm
         GenerateFeatureModelJob generateFMJob = new GenerateFeatureModelJob();
-        compositeJob.add(generateFMJob);
+        generateFMJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(generateFMJob);
 
         // save the model
         String targetPath = splevoProject.getWorkspace() + "models/fm/feature-model.featuremodel";
         SaveFeatureModelJob saveFMJob = new SaveFeatureModelJob(targetPath);
-        compositeJob.add(saveFMJob);
+        saveFMJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(saveFMJob);
 
         // init the ui update job
-        IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Feature model generated");
-        compositeJob.add(updateUiJob);
+        UpdateUIJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Feature model generated");
+        jobSequence.add(updateUiJob);
 
         // return the prepared workflow
-        return compositeJob;
+        return jobSequence;
     }
 
     @Override

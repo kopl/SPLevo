@@ -12,7 +12,7 @@ import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.variability.VariationPointModel;
 
-import de.uka.ipd.sdq.workflow.Blackboard;
+import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 
 /**
  * The SPLevoBlackBoard providing access to the models to be processed.

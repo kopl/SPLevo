@@ -12,10 +12,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.diffing.DefaultDiffingService;
 import org.splevo.project.SPLevoProject;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to load a diffing model in the blackboard.
@@ -62,12 +62,11 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
     }
 
     @Override
-    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
-        // no rollback possible
-    }
-
-    @Override
     public String getName() {
         return "Load diffing model Job";
     }
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	}
 }

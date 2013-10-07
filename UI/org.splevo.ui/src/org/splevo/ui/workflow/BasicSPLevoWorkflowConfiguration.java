@@ -2,7 +2,7 @@ package org.splevo.ui.workflow;
 
 import org.splevo.ui.editors.SPLevoProjectEditor;
 
-import de.uka.ipd.sdq.workflow.AbstractJobConfiguration;
+import de.uka.ipd.sdq.workflow.configuration.AbstractJobConfiguration;
 
 /**
  * A basic workflow configuration shared by different workflows providing access to the splevo

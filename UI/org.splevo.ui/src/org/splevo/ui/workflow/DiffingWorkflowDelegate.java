@@ -5,9 +5,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.splevo.ui.jobs.DiffingJob;
 import org.splevo.ui.jobs.UpdateUIJob;
 
-import de.uka.ipd.sdq.workflow.Blackboard;
-import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.OrderPreservingCompositeJob;
+import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
+import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
@@ -36,19 +36,18 @@ public class DiffingWorkflowDelegate extends
      */
     @Override
     protected IJob createWorkflowJob(final DiffingWorkflowConfiguration config) {
-
-        final OrderPreservingCompositeJob compositeJob = new OrderPreservingCompositeJob();
-
+        final SequentialJob jobSequence = new SequentialJob();
+        
         // init the parallel extraction
         final DiffingJob diffingJob = new DiffingJob(config.getSplevoProjectEditor().getSplevoProject());
-        compositeJob.add(diffingJob);
+        jobSequence.add(diffingJob);
 
         // init the ui update job
         final IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Diffing performed");
-        compositeJob.add(updateUiJob);
+        jobSequence.add(updateUiJob);
 
         // return the prepared workflow
-        return compositeJob;
+        return jobSequence;
     }
 
     @Override

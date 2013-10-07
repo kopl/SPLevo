@@ -9,9 +9,9 @@ import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveVPMJob;
 import org.splevo.ui.jobs.UpdateUIJob;
 
-import de.uka.ipd.sdq.workflow.Blackboard;
-import de.uka.ipd.sdq.workflow.IJob;
-import de.uka.ipd.sdq.workflow.OrderPreservingBlackboardCompositeJob;
+import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
+import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
@@ -40,30 +40,33 @@ public class InitVPMWorkflowDelegate extends
     @Override
     protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
 
-        OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard> compositeJob = new OrderPreservingBlackboardCompositeJob<SPLevoBlackBoard>();
-        compositeJob.setBlackboard(new SPLevoBlackBoard());
-
+    	SequentialJob jobSequence = new SequentialJob();
+    	
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-
+        SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
+        
         // load the diff model
         LoadDiffingModelJob loadDiffJob = new LoadDiffingModelJob(splevoProject);
-        compositeJob.add(loadDiffJob);
+		loadDiffJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(loadDiffJob);
 
         // init the vpm
         InitVPMJob initVPMJob = new InitVPMJob(splevoProject);
-        compositeJob.add(initVPMJob);
+        initVPMJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(initVPMJob);
 
         // save the model
         String targetPath = splevoProject.getWorkspace() + "models/vpms/initial-vpm.vpm";
         SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
-        compositeJob.add(saveVPMJob);
+        saveVPMJob.setBlackboard(spLevoBlackBoard);
+        jobSequence.add(saveVPMJob);
 
         // init the ui update job
-        IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Initial VPM created");
-        compositeJob.add(updateUiJob);
+        UpdateUIJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Initial VPM created");
+        jobSequence.add(updateUiJob);
 
         // return the prepared workflow
-        return compositeJob;
+        return jobSequence;
     }
 
     @Override

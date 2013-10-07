@@ -24,10 +24,10 @@ import org.splevo.diffing.DiffingService;
 import org.splevo.diffing.JavaDiffer;
 import org.splevo.project.SPLevoProject;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to execute the diffing on the source models provided through the
@@ -148,13 +148,11 @@ public class DiffingJob extends
 	}
 
 	@Override
-	public void rollback(final IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback required
+	public String getName() {
+		return "Diff source models Job";
 	}
 
 	@Override
-	public String getName() {
-		return "Diff source models Job";
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
 	}
 }

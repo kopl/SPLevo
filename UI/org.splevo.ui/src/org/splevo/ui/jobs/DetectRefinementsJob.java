@@ -10,10 +10,10 @@ import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to apply the detection rules and store a refinement model containing the identified models in
@@ -68,12 +68,11 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
     }
 
     @Override
-    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
-        // no rollback possible
-    }
-
-    @Override
     public String getName() {
         return "Detect Refinements Job";
     }
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	}
 }

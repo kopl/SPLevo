@@ -12,10 +12,10 @@ import org.splevo.extraction.ExtractionService;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.project.SPLevoProject;
 
-import de.uka.ipd.sdq.workflow.AbstractJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to extract a software model from an eclipse java project.
@@ -156,11 +156,6 @@ public class ExtractionJob extends AbstractJob {
         run(monitor);
     }
 
-    @Override
-    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
-        // no rollback possible
-    }
-
     /**
      * Get the name of the extraction job. This depends on whether the leading or the integration
      * job should be extracted.
@@ -175,4 +170,8 @@ public class ExtractionJob extends AbstractJob {
             return "Model Extraction Job " + splevoProject.getVariantNameIntegration();
         }
     }
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	}
 }

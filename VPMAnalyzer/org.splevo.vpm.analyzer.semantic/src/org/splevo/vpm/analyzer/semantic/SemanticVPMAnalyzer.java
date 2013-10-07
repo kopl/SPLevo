@@ -8,14 +8,16 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.config.BooleanConfiguration;
 import org.splevo.vpm.analyzer.config.NumericConfiguration;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
-import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.RelationShipSearchConfiguration;
@@ -24,18 +26,16 @@ import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>What it does</h1>
- * The semantic relationship VPMAnalazer analyzer is able to find semantic
- * relationships between several {@link VariationPoint}s. Several configurations
- * allow a customized search, just as needed.
+ * <h1>What it does</h1> The semantic relationship VPMAnalazer analyzer is able
+ * to find semantic relationships between several {@link VariationPoint}s.
+ * Several configurations allow a customized search, just as needed.
  * 
- * <h1>How does that work?</h1>
- * As a first step, the analyzer extracts all relevant content from a VPMGraph
- * and stores that within a Lucene index. Through storing additional
- * informations about the indexed text, Lucene provides the ability to extract
- * vectors from given index content. The Analyzer uses several Finders to search
- * for semantic dependencies. Those results can be displayed within the VPMGraph
- * or the Refinement Browser.
+ * <h1>How does that work?</h1> As a first step, the analyzer extracts all
+ * relevant content from a VPMGraph and stores that within a Lucene index.
+ * Through storing additional informations about the indexed text, Lucene
+ * provides the ability to extract vectors from given index content. The
+ * Analyzer uses several Finders to search for semantic dependencies. Those
+ * results can be displayed within the VPMGraph or the Refinement Browser.
  * 
  * 
  * @author Daniel Kojic
@@ -67,7 +67,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 	/** The configuration-object for the use overall sim finder configuration. */
 	private BooleanConfiguration useOverallSimFinderConfig;
 
-	/** The configuration-object for the use important term finder configuration. */
+	/**
+	 * The configuration-object for the use important term finder configuration.
+	 */
 	private BooleanConfiguration useimportantTermFinderConfig;
 
 	/** The configuration-object for the use top n finder configuration. */
@@ -131,6 +133,11 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
 		VPMAnalyzerResult result = null;
 
+		if (vpmGraph.getNodeCount() == 0) {
+			logger.info("Got empty VPM Graph. No analysis executed.");
+			return result;
+		}
+
 		// Fill the index.
 		try {
 			logger.info("Filling index...");
@@ -169,8 +176,8 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 	 * @see org.splevo.vpm.analyzer.VPMAnalyzer#getConfigurations()
 	 */
 	@Override
-	public VPMAnalyzerConfigurations getConfigurations() {
-		VPMAnalyzerConfigurations configurations = new VPMAnalyzerConfigurations();
+	public VPMAnalyzerConfigurationSet getConfigurations() {
+		VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
 		configurations.addConfigurations("General Configuations",
 				includeCommentsConfig, splitCamelCaseConfig, stopWordsConfig);
 		configurations.addConfigurations("Overall Similarity Search",
@@ -256,12 +263,19 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 			throw new IllegalArgumentException();
 		}
 
-		SoftwareElement astNode = vp.getEnclosingSoftwareEntity();
-		if (astNode == null) {
+		SoftwareElement softwareElement = vp.getEnclosingSoftwareEntity();
+		if (softwareElement == null) {
 			throw new IllegalStateException();
 		}
 
 		// Iterate through all child elements.
+		if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
+			logger.error("Unsupported SoftwareElement Type: "
+					+ softwareElement.getClass());
+		}
+
+		ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement)
+				.getAstNode();
 		TreeIterator<EObject> allContents = EcoreUtil.getAllContents(astNode
 				.eContents());
 		IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch(

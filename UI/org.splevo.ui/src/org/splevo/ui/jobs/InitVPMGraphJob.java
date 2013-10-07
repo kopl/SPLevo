@@ -6,10 +6,10 @@ import org.splevo.vpm.analyzer.VPMAnalyzerService;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.VariationPointModel;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to initialize the variation point graph from the variation point model.
@@ -54,12 +54,6 @@ public class InitVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
 		monitor.done();
 	}
 
-	@Override
-	public void rollback(IProgressMonitor monitor)
-			throws RollbackFailedException {
-		// no rollback possible
-	}
-
 	/**
 	 * Get the name of the job. 
 	 * @return Get the name of the job.
@@ -67,5 +61,9 @@ public class InitVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
 	@Override
 	public String getName() {
 		return "Init VPMGraph Job";
+	}
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
 	}
 }

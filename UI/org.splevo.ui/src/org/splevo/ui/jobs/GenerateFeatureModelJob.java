@@ -5,10 +5,10 @@ import org.eclipse.featuremodel.FeatureModel;
 import org.splevo.fm.builder.VPM2FMBuilder;
 import org.splevo.vpm.variability.VariationPointModel;
 
-import de.uka.ipd.sdq.workflow.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.exceptions.JobFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.RollbackFailedException;
-import de.uka.ipd.sdq.workflow.exceptions.UserCanceledException;
+import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
+import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
+import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to generate a feature model from a variation point model.
@@ -40,12 +40,11 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
     }
 
     @Override
-    public void rollback(IProgressMonitor monitor) throws RollbackFailedException {
-        // no rollback possible
-    }
-
-    @Override
     public String getName() {
         return "Generate Feature Model Job";
     }
+
+	@Override
+	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	}
 }

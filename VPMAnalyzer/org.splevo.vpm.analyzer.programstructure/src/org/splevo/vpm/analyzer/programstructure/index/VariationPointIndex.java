@@ -105,8 +105,8 @@ public class VariationPointIndex {
         Map<ASTNode, VariationPoint> index = new HashMap<ASTNode, VariationPoint>();
 
         for (VariationPoint vp : variationPoints) {
-            for (ASTNode astNode : getVariantSoftwareEntities(vp)) {
-                indexEnclosedAstNode(index, astNode, vp);
+            for (ASTNode se : getVariantSoftwareEntities(vp)) {
+                indexEnclosedAstNode(index, se, vp);
             }
         }
 

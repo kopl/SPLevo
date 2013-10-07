@@ -10,7 +10,7 @@ import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.config.BooleanConfiguration;
-import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurations;
+import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.programstructure.index.VariationPointIndex;
 import org.splevo.vpm.variability.VariationPoint;
@@ -166,8 +166,8 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
     }
     
     @Override
-    public VPMAnalyzerConfigurations getConfigurations() {
-    	VPMAnalyzerConfigurations configurations = new VPMAnalyzerConfigurations();
+    public VPMAnalyzerConfigurationSet getConfigurations() {
+    	VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
     	BooleanConfiguration fullReferredTreeConfig = new BooleanConfiguration(CONFIG_LABEL_FULL_REFERRED_TREE, null, DEFAULT_CONFIG_FULL_REFERRED_TREE);
     	configurations.addConfigurations("General Settings", fullReferredTreeConfig);
     
