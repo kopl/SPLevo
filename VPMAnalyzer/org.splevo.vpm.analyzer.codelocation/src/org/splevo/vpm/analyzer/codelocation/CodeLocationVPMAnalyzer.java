@@ -130,10 +130,9 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 				SoftwareElement softwareElement = vp
 						.getEnclosingSoftwareEntity();
 
-				ASTNode astNode;
 				// TODO Release MoDisco Dependency
 				if (softwareElement instanceof MoDiscoJavaSoftwareElement) {
-					astNode = ((MoDiscoJavaSoftwareElement) softwareElement)
+				    ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement)
 							.getAstNode();
 					astNode = chooseEnclosingNode(astNode);
 
