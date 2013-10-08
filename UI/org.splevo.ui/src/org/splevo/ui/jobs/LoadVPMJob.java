@@ -1,7 +1,6 @@
 package org.splevo.ui.jobs;
 
 import java.io.File;
-import java.util.List;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -10,9 +9,6 @@ import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.modisco.java.vpm.software.softwarePackage;
 import org.splevo.project.SPLevoProject;
-import org.splevo.vpm.builder.DefaultVPMBuilderService;
-import org.splevo.vpm.builder.VPMBuilder;
-import org.splevo.vpm.builder.VPMBuilderService;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityPackage;
 
