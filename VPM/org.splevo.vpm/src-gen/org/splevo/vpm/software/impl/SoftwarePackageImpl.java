@@ -4,21 +4,15 @@ package org.splevo.vpm.software.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.featuremodel.FeatureModelPackage;
-
 import org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage;
-
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SoftwareFactory;
 import org.splevo.vpm.software.SoftwarePackage;
-
-import org.splevo.vpm.variability.impl.variabilityPackageImpl;
-
 import org.splevo.vpm.variability.variabilityPackage;
+import org.splevo.vpm.variability.impl.variabilityPackageImpl;
 
 /**
  * <!-- begin-user-doc -->

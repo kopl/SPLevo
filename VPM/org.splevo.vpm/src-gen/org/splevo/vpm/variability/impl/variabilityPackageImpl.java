@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.featuremodel.FeatureModelPackage;
-import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 import org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage;
 import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.software.impl.SoftwarePackageImpl;
