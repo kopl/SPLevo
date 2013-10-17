@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.splevo.extraction.DefaultExtractionService;
 import org.splevo.extraction.ExtractionService;
@@ -27,14 +25,15 @@ public class ExtractionJob extends AbstractJob {
 
     /** Flag whether the leading or the integration project should be extracted. */
     private boolean processLeading;
-    
+
     /** The internal id of the extractor to be executed. */
     private String extractorId;
 
     /**
      * Constructor to create an extraction job with the required references.
      * 
-     * @param extractorId The identifier of the extractor to be executed.
+     * @param extractorId
+     *            The identifier of the extractor to be executed.
      * @param splevoProject
      *            The splevo project to get and store required information
      * @param processLeading
@@ -44,69 +43,6 @@ public class ExtractionJob extends AbstractJob {
         this.splevoProject = splevoProject;
         this.processLeading = processLeading;
         this.extractorId = extractorId;
-    }
-
-    /**
-     * Runs the long running operation.
-     * 
-     * @param monitor
-     *            the progress monitor
-     * @return the status of the job. This should be OK or CANCLED
-     */
-    public IStatus run(IProgressMonitor monitor) {
-        monitor.beginTask("Software Model Extraction", 100);
-
-        List<String> projectNames = null;
-        String variantName = null;
-        if (processLeading) {
-            projectNames = splevoProject.getLeadingProjects();
-            variantName = splevoProject.getVariantNameLeading();
-        } else {
-            projectNames = splevoProject.getIntegrationProjects();
-            variantName = splevoProject.getVariantNameIntegration();
-        }
-
-        // prepare the target path
-        URI targetURI = buildTargetURI(variantName);
-        List<URI> projectURIs = buildProjectURIs(projectNames);
-
-        logger.info("Extraction target: " + targetURI);
-        logger.info("Main Project: " + projectNames.get(0));
-        if (projectNames.size() > 1) {
-            logger.info("Additional Projects: " + projectNames.subList(1, projectNames.size() - 1));
-        }
-
-        // check if the process was canceled
-        if (monitor.isCanceled()) {
-            return Status.CANCEL_STATUS;
-        }
-
-        // extract model
-        ExtractionService extractionService = new DefaultExtractionService();
-        try {
-            monitor.subTask("Extract Model for project: " + variantName);
-            extractionService.extractSoftwareModel(extractorId, projectURIs, monitor, targetURI);
-        } catch (SoftwareModelExtractionException e) {
-            e.printStackTrace();
-            return Status.CANCEL_STATUS;
-        }
-
-        monitor.subTask("Update SPLevo project information");
-
-        if (processLeading) {
-            splevoProject.setSourceModelPathLeading(targetURI.path());
-        } else {
-            splevoProject.setSourceModelPathIntegration(targetURI.path());
-        }
-
-        // finish run
-        monitor.done();
-
-        if (monitor.isCanceled()) {
-            return Status.CANCEL_STATUS;
-        }
-
-        return Status.OK_STATUS;
     }
 
     /**
@@ -153,7 +89,57 @@ public class ExtractionJob extends AbstractJob {
 
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
-        run(monitor);
+
+        monitor.beginTask("Software Model Extraction", 100);
+
+        List<String> projectNames = null;
+        String variantName = null;
+        if (processLeading) {
+            projectNames = splevoProject.getLeadingProjects();
+            variantName = splevoProject.getVariantNameLeading();
+        } else {
+            projectNames = splevoProject.getIntegrationProjects();
+            variantName = splevoProject.getVariantNameIntegration();
+        }
+
+        // prepare the target path
+        URI targetURI = buildTargetURI(variantName);
+        List<URI> projectURIs = buildProjectURIs(projectNames);
+
+        logger.info("Extraction target: " + targetURI);
+        logger.info("Main Project: " + projectNames.get(0));
+        if (projectNames.size() > 1) {
+            logger.info("Additional Projects: " + projectNames.subList(1, projectNames.size() - 1));
+        }
+
+        // check if the process was canceled
+        if (monitor.isCanceled()) {
+            throw new UserCanceledException();
+        }
+
+        // extract model
+        ExtractionService extractionService = new DefaultExtractionService();
+        try {
+            monitor.subTask("Extract Model for project: " + variantName);
+            extractionService.extractSoftwareModel(extractorId, projectURIs, monitor, targetURI);
+        } catch (SoftwareModelExtractionException e) {
+            throw new JobFailedException("Failed to extract model.", e);
+        }
+
+        monitor.subTask("Update SPLevo project information");
+
+        if (processLeading) {
+            splevoProject.setSourceModelPathLeading(targetURI.path());
+        } else {
+            splevoProject.setSourceModelPathIntegration(targetURI.path());
+        }
+
+        // finish run
+        monitor.done();
+
+        if (monitor.isCanceled()) {
+            throw new UserCanceledException();
+        }
     }
 
     /**
@@ -171,7 +157,7 @@ public class ExtractionJob extends AbstractJob {
         }
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }
