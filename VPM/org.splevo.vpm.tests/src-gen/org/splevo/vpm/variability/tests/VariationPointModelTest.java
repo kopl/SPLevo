@@ -17,72 +17,72 @@ import org.splevo.vpm.variability.variabilityFactory;
  */
 public class VariationPointModelTest extends TestCase {
 
-	/**
+    /**
      * The fixture for this Variation Point Model test case.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected VariationPointModel fixture = null;
+    protected VariationPointModel fixture = null;
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         TestRunner.run(VariationPointModelTest.class);
     }
 
-	/**
+    /**
      * Constructs a new Variation Point Model test case with the given name.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public VariationPointModelTest(String name) {
+    public VariationPointModelTest(String name) {
         super(name);
     }
 
-	/**
+    /**
      * Sets the fixture for this Variation Point Model test case.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected void setFixture(VariationPointModel fixture) {
+    protected void setFixture(VariationPointModel fixture) {
         this.fixture = fixture;
     }
 
-	/**
+    /**
      * Returns the fixture for this Variation Point Model test case.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	protected VariationPointModel getFixture() {
+    protected VariationPointModel getFixture() {
         return fixture;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @see junit.framework.TestCase#setUp()
      * @generated
      */
-	@Override
-	protected void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception {
         setFixture(variabilityFactory.eINSTANCE.createVariationPointModel());
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @see junit.framework.TestCase#tearDown()
      * @generated
      */
-	@Override
-	protected void tearDown() throws Exception {
+    @Override
+    protected void tearDown() throws Exception {
         setFixture(null);
     }
 

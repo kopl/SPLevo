@@ -39,13 +39,29 @@ public abstract class JavaSoftwareElementImpl extends EObjectImpl implements Jav
 
     /**
      * <!-- begin-user-doc -->
+     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
-    public String getLabel() {
-        // TODO: implement this method
-        // Ensure that you remove @generated or mark it @generated NOT
-        throw new UnsupportedOperationException();
-    }
+    @Override
+    public abstract String getLabel();
+
+    /**
+     * <!-- begin-user-doc -->
+     * {@inheritDoc}
+     * <!-- end-user-doc -->
+     * @generated not
+     */
+    @Override
+    public abstract String getName();
+
+    /**
+     * <!-- begin-user-doc -->
+     * {@inheritDoc}
+     * <!-- end-user-doc -->
+     * @generated not
+     */
+    @Override
+    public abstract Object getValue();
 
 } //JavaSoftwareElementImpl

@@ -122,6 +122,14 @@
             <element xmi:type="ecore:EOperation" href="vpm.ecore#//software/SoftwareElement/getLabel"/>
             <layoutConstraint xmi:type="notation:Location" xmi:id="_Ibb8QS3OEeO9Qvh9lXVKew"/>
           </children>
+          <children xmi:type="notation:Node" xmi:id="_ypj9EDcdEeOUpt0RZ7uf7w" type="2002">
+            <element xmi:type="ecore:EOperation" href="vpm.ecore#//software/SoftwareElement/getName"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_ypj9ETcdEeOUpt0RZ7uf7w"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_943cMDcfEeO3iZQkcDgklQ" type="2002">
+            <element xmi:type="ecore:EOperation" href="vpm.ecore#//software/SoftwareElement/getValue"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_943cMTcfEeO3iZQkcDgklQ"/>
+          </children>
           <styles xmi:type="notation:DrawerStyle" xmi:id="_PMYUUS29EeO8yuvfzP6SAg"/>
           <styles xmi:type="notation:SortingStyle" xmi:id="_PMYUUi29EeO8yuvfzP6SAg"/>
           <styles xmi:type="notation:FilteringStyle" xmi:id="_PMYUUy29EeO8yuvfzP6SAg"/>
@@ -144,7 +152,7 @@
         </children>
         <styles xmi:type="notation:ShapeStyle" xmi:id="_lRGvwS29EeO8yuvfzP6SAg" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
         <element xmi:type="ecore:EClass" href="vpm.ecore#//software/JavaSoftwareElement"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lRGvwi29EeO8yuvfzP6SAg" x="319" y="88"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lRGvwi29EeO8yuvfzP6SAg" x="151" y="123"/>
       </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_KOEAMC29EeO8yuvfzP6SAg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_KOEAMS29EeO8yuvfzP6SAg"/>
@@ -153,7 +161,7 @@
     <styles xmi:type="notation:ShapeStyle" xmi:id="_KN-goS29EeO8yuvfzP6SAg" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13150135" lineColor="4210752"/>
     <styles xmi:type="notation:MultiDiagramLinkStyle" xmi:id="_KN-goi29EeO8yuvfzP6SAg"/>
     <element xmi:type="ecore:EPackage" href="vpm.ecore#//software"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KN-goy29EeO8yuvfzP6SAg" x="48" y="420" width="573" height="189"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KN-goy29EeO8yuvfzP6SAg" x="48" y="420" width="573" height="213"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_NmmbcU6kEeKu0IvcocBLUA"/>
   <element xmi:type="ecore:EPackage" href="vpm.ecore#/"/>

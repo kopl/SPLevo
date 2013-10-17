@@ -1,9 +1,8 @@
 /**
  */
-package org.splevo.vpm.variability.tests;
+package org.splevo.vpm.software.tests;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
@@ -19,17 +18,15 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import org.splevo.vpm.variability.VariationPoint;
-import org.splevo.vpm.variability.variabilityFactory;
-import org.splevo.vpm.variability.variabilityPackage;
+import org.splevo.vpm.software.SoftwarePackage;
 
 /**
  * <!-- begin-user-doc -->
- * A sample utility for the '<em><b>variability</b></em>' package.
+ * A sample utility for the '<em><b>software</b></em>' package.
  * <!-- end-user-doc -->
  * @generated
  */
-public class variabilityExample {
+public class SoftwareExample {
     /**
      * <!-- begin-user-doc -->
      * Load all the argument file paths or URIs as instances of the model.
@@ -49,20 +46,12 @@ public class variabilityExample {
 
         // Register the package to ensure it is available during loading.
         //
-        resourceSet.getPackageRegistry().put(variabilityPackage.eNS_URI, variabilityPackage.eINSTANCE);
+        resourceSet.getPackageRegistry().put(SoftwarePackage.eNS_URI, SoftwarePackage.eINSTANCE);
 
         // If there are no arguments, emit an appropriate usage message.
         //
         if (args.length == 0) {
-            System.out.println("Enter a list of file paths or URIs that have content like this:");
-            try {
-                Resource resource = resourceSet.createResource(URI.createURI("http:///My.vpm"));
-                VariationPoint root = variabilityFactory.eINSTANCE.createVariationPoint();
-                resource.getContents().add(root);
-                resource.save(System.out, null);
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
+            System.out.println("Enter a list of file paths or URIs");
         } else {
             // Iterate over all the arguments.
             //
@@ -112,4 +101,4 @@ public class variabilityExample {
         }
     }
 
-} //variabilityExample
+} //SoftwareExample

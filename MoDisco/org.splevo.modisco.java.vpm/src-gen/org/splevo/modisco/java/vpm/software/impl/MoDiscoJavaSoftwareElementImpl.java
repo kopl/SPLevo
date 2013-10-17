@@ -58,9 +58,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * {@inheritDoc}
-     * <!-- end-user-doc -->
+     * <!-- begin-user-doc --> {@inheritDoc} <!-- end-user-doc -->
      * 
      * @generated not
      */
@@ -80,6 +78,36 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
         }
 
         return getAstNode().getClass().getSimpleName();
+    }
+
+    /**
+     * <!-- begin-user-doc --> {@inheritDoc} <!-- end-user-doc -->
+     * 
+     * @generated not
+     */
+    @Override
+    public String getName() {
+        ASTNode node = getAstNode();
+        if (node == null) {
+            return null;
+        }
+        if (node instanceof NamedElement) {
+            return ((NamedElement) node).getName();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * {@inheritDoc} <!-- end-user-doc -->
+     * 
+     * @generated not
+     */
+    @Override
+    public Object getValue() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**

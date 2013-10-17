@@ -15,31 +15,31 @@ import junit.textui.TestRunner;
  */
 public class variabilityTests extends TestSuite {
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         TestRunner.run(suite());
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public static Test suite() {
+    public static Test suite() {
         TestSuite suite = new variabilityTests("variability Tests");
         return suite;
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public variabilityTests(String name) {
+    public variabilityTests(String name) {
         super(name);
     }
 
