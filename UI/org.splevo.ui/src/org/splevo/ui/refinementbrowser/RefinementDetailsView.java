@@ -137,6 +137,10 @@ public class RefinementDetailsView extends Composite {
             if (element instanceof Variant) {
                 return "Variant: " + ((Variant) element).getVariantId();
             }
+            
+            if (element instanceof SoftwareElement){
+                return ((SoftwareElement) element).getLabel();
+            }
 
             // variable declaration optimized label
             if (element instanceof VariableDeclarationStatement) {
@@ -159,7 +163,7 @@ public class RefinementDetailsView extends Composite {
             // generic ast node
             if (element instanceof ASTNode) {
                 ASTNode astNode = (ASTNode) element;
-                return astNode.getClass().getSimpleName();
+                return "MoDisco AST Node: " + astNode.getClass().getSimpleName();
             }
 
             // default label
