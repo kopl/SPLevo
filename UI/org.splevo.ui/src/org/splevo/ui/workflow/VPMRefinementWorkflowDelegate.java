@@ -12,6 +12,7 @@ import org.splevo.ui.jobs.VPMApplyRefinementsJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
@@ -43,28 +44,24 @@ public class VPMRefinementWorkflowDelegate extends
 
         // initialize the basic elements
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-        SequentialJob jobSequence = new SequentialJob();
-        SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
-
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        jobSequence.setBlackboard(new SPLevoBlackBoard());
+        
         SetVPMJob setVpmJob = new SetVPMJob(config.getVariationPointModel());
-        setVpmJob.setBlackboard(spLevoBlackBoard);
         jobSequence.add(setVpmJob);
 
         // set the refinements to perform and variation point model in the blackboard
         SetRefinementsJob setRefinementsJob = new SetRefinementsJob(config.getRefinements());
-        setRefinementsJob.setBlackboard(spLevoBlackBoard);
         jobSequence.add(setRefinementsJob);
 
         // perform the refinements automatically
         VPMApplyRefinementsJob vpmApplyRefinementsJob = new VPMApplyRefinementsJob();
-        vpmApplyRefinementsJob.setBlackboard(spLevoBlackBoard);
         jobSequence.add(vpmApplyRefinementsJob);
 
         // save the latest vpm model
         String modelNamePrefix = "" + splevoProject.getVpmModelPaths().size();
         String targetPath = splevoProject.getWorkspace() + "models/vpms/" + modelNamePrefix + "-vpm.vpm";
         SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
-        saveVPMJob.setBlackboard(spLevoBlackBoard);
         jobSequence.add(saveVPMJob);
 
         // init the ui update job

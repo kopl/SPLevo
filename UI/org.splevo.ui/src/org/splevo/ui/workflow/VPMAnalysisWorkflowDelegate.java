@@ -30,7 +30,8 @@ import org.splevo.vpm.analyzer.VPMAnalyzer;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
-import de.uka.ipd.sdq.workflow.jobs.ParallelJob;
+import de.uka.ipd.sdq.workflow.jobs.ParallelBlackboardInteractingJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
@@ -69,21 +70,19 @@ public class VPMAnalysisWorkflowDelegate extends
 
         // initialize the basic elements
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-        SequentialJob jobSequence = new SequentialJob();
-        SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        jobSequence.setBlackboard(new SPLevoBlackBoard());
 
         // load the latest vpm model
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
-        loadVPMJob.setBlackboard(spLevoBlackBoard);
         jobSequence.add(loadVPMJob);
 
         // build vpm graph
         InitVPMGraphJob initVPMGraphJob = new InitVPMGraphJob();
-        initVPMGraphJob.setBlackboard(spLevoBlackBoard);
         jobSequence.add(initVPMGraphJob);
 
         // trigger the configured refinement analysis
-        ParallelJob parallelJob = new ParallelJob();
+        ParallelBlackboardInteractingJob<SPLevoBlackBoard> parallelJob = new ParallelBlackboardInteractingJob<SPLevoBlackBoard>();
         if (config.getAnalyzers().size() < 1) {
             logger.error("No analysis to perform configured.");
             return null;
@@ -94,19 +93,16 @@ public class VPMAnalysisWorkflowDelegate extends
 
         for (VPMAnalyzer analyzerInstance : config.getAnalyzers()) {
             VPMAnalysisJob vpmAnalysisJob = new VPMAnalysisJob(analyzerInstance);
-            vpmAnalysisJob.setBlackboard(spLevoBlackBoard);
             parallelJob.add(vpmAnalysisJob);
         }
         jobSequence.add(parallelJob);
 
         MergeVPMAnalyzerResultsIntoGraphJob mergeVPMAnalyzerResultsJob = new MergeVPMAnalyzerResultsIntoGraphJob();
-        mergeVPMAnalyzerResultsJob.setBlackboard(spLevoBlackBoard);
         jobSequence.add(mergeVPMAnalyzerResultsJob);
 
         // decide about the workflow to be exectured
         if (config.getPresentation() == ResultPresentation.RELATIONSHIP_GRAPH_ONLY) {
             OpenVPMGraphJob openVPMGraphJob = new OpenVPMGraphJob();
-            openVPMGraphJob.setBlackboard(spLevoBlackBoard);
             jobSequence.add(openVPMGraphJob);
         } else if (config.getPresentation() == ResultPresentation.REFINEMENT_BROWSER) {
             addRefinementBrowserWorkflow(jobSequence, splevoProject);

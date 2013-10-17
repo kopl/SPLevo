@@ -4,11 +4,13 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.ExtractionJob;
+import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.UpdateUIJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
 import de.uka.ipd.sdq.workflow.jobs.ParallelJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
@@ -40,8 +42,9 @@ public class ExtractionWorkflowDelegate extends
     @Override
     protected IJob createWorkflowJob(ExtractionWorkflowConfiguration config) {
 
-    	SequentialJob jobSequence = new SequentialJob();
-
+    	SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        jobSequence.setBlackboard(new SPLevoBlackBoard());
+        
         // create the parallel extraction
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
         String extractorId = splevoProject.getExtractorIds().get(0);

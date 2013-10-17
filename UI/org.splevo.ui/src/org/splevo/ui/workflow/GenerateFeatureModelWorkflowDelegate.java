@@ -11,76 +11,80 @@ import org.splevo.ui.jobs.UpdateUIJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
 /**
- * Delegate defining a work flow to initialize a feature model based on the latest variation point
- * model.
+ * Delegate defining a work flow to initialize a feature model based on the
+ * latest variation point model.
  */
-public class GenerateFeatureModelWorkflowDelegate extends
-        AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
+public class GenerateFeatureModelWorkflowDelegate
+		extends
+		AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
-    /** The configuration of the workflow. */
-    private BasicSPLevoWorkflowConfiguration config = null;
+	/** The configuration of the workflow. */
+	private BasicSPLevoWorkflowConfiguration config = null;
 
-    /**
-     * Constructor requiring a diffing workflow configuration.
-     * 
-     * @param config
-     *            The configuration of the workflow.
-     */
-    public GenerateFeatureModelWorkflowDelegate(BasicSPLevoWorkflowConfiguration config) {
-        this.config = config;
-    }
+	/**
+	 * Constructor requiring a diffing workflow configuration.
+	 * 
+	 * @param config
+	 *            The configuration of the workflow.
+	 */
+	public GenerateFeatureModelWorkflowDelegate(
+			BasicSPLevoWorkflowConfiguration config) {
+		this.config = config;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
 
-    	SequentialJob jobSequence = new SequentialJob();
-		SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
-        SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
+		SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+		jobSequence.setBlackboard(new SPLevoBlackBoard());
 
-        // load the diff model
-        LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
-        loadVPMJob.setBlackboard(spLevoBlackBoard);
-        jobSequence.add(loadVPMJob);
+		SPLevoProject splevoProject = config.getSplevoProjectEditor()
+				.getSplevoProject();
 
-        // init the vpm
-        GenerateFeatureModelJob generateFMJob = new GenerateFeatureModelJob();
-        generateFMJob.setBlackboard(spLevoBlackBoard);
-        jobSequence.add(generateFMJob);
+		// load the diff model
+		LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
+		jobSequence.add(loadVPMJob);
 
-        // save the model
-        String targetPath = splevoProject.getWorkspace() + "models/fm/feature-model.featuremodel";
-        SaveFeatureModelJob saveFMJob = new SaveFeatureModelJob(targetPath);
-        saveFMJob.setBlackboard(spLevoBlackBoard);
-        jobSequence.add(saveFMJob);
+		// init the vpm
+		GenerateFeatureModelJob generateFMJob = new GenerateFeatureModelJob();
+		jobSequence.add(generateFMJob);
 
-        // init the ui update job
-        UpdateUIJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Feature model generated");
-        jobSequence.add(updateUiJob);
+		// save the model
+		String targetPath = splevoProject.getWorkspace()
+				+ "models/fm/feature-model.featuremodel";
+		SaveFeatureModelJob saveFMJob = new SaveFeatureModelJob(targetPath);
+		jobSequence.add(saveFMJob);
 
-        // return the prepared workflow
-        return jobSequence;
-    }
+		// init the ui update job
+		UpdateUIJob updateUiJob = new UpdateUIJob(
+				config.getSplevoProjectEditor(), "Feature model generated");
+		jobSequence.add(updateUiJob);
 
-    @Override
-    public void selectionChanged(IAction action, ISelection selection) {
-        // nothing to do here
-    }
+		// return the prepared workflow
+		return jobSequence;
+	}
 
-    @Override
-    protected boolean useSeparateConsoleForEachJobRun() {
-        return false;
-    }
+	@Override
+	public void selectionChanged(IAction action, ISelection selection) {
+		// nothing to do here
+	}
 
-    @Override
-    protected BasicSPLevoWorkflowConfiguration getConfiguration() {
-        return this.config;
-    }
+	@Override
+	protected boolean useSeparateConsoleForEachJobRun() {
+		return false;
+	}
+
+	@Override
+	protected BasicSPLevoWorkflowConfiguration getConfiguration() {
+		return this.config;
+	}
 }

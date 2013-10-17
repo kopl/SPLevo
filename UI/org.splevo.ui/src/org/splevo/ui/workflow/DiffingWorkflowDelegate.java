@@ -3,10 +3,12 @@ package org.splevo.ui.workflow;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.ui.jobs.DiffingJob;
+import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.UpdateUIJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
@@ -36,7 +38,8 @@ public class DiffingWorkflowDelegate extends
      */
     @Override
     protected IJob createWorkflowJob(final DiffingWorkflowConfiguration config) {
-        final SequentialJob jobSequence = new SequentialJob();
+    	SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        jobSequence.setBlackboard(new SPLevoBlackBoard());
         
         // init the parallel extraction
         final DiffingJob diffingJob = new DiffingJob(config.getSplevoProjectEditor().getSplevoProject());
