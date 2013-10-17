@@ -7,8 +7,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.eclipse.swt.widgets.TreeItem;
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.ui.Activator;
 import org.splevo.ui.jdt.JavaEditorConnector;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -52,8 +54,11 @@ public final class OpenSourceInEditorAction extends Action {
         TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
         Object object = selectedItem.getData();
 
-        if (object instanceof ASTNode) {
-            ASTNode astNode = (ASTNode) object;
+        // TODO make abstract from modisco
+        if (object instanceof MoDiscoJavaSoftwareElement) {
+            
+            MoDiscoJavaSoftwareElement modiscoElement = (MoDiscoJavaSoftwareElement) object;
+            ASTNode astNode = modiscoElement.getAstNode();
 
             TreeItem parent = selectedItem.getParentItem();
             Variant variant = (Variant) parent.getData();
@@ -86,7 +91,7 @@ public final class OpenSourceInEditorAction extends Action {
         }
         TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
         Object data = selectedItem.getData();
-        if (data instanceof ASTNode) {
+        if (data instanceof SoftwareElement) {
             return true;
         }
         return false;
