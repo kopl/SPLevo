@@ -10,27 +10,27 @@ import org.splevo.vpm.software.SoftwareElement;
  * <p>
  * The following operations are tested:
  * <ul>
- * <li>{@link org.splevo.vpm.software.SoftwareElement#getLabel() <em>Get Label</em>}</li>
- * <li>{@link org.splevo.vpm.software.SoftwareElement#getName() <em>Get Name</em>}</li>
- * <li>{@link org.splevo.vpm.software.SoftwareElement#getValue() <em>Get Value</em>}</li>
+ *   <li>{@link org.splevo.vpm.software.SoftwareElement#getLabel() <em>Get Label</em>}</li>
+ *   <li>{@link org.splevo.vpm.software.SoftwareElement#getName() <em>Get Name</em>}</li>
+ *   <li>{@link org.splevo.vpm.software.SoftwareElement#getValue() <em>Get Value</em>}</li>
+ *   <li>{@link org.splevo.vpm.software.SoftwareElement#getSourceLocation() <em>Get Source Location</em>}</li>
  * </ul>
  * </p>
- * 
  * @generated
  */
 public abstract class SoftwareElementTest extends TestCase {
 
     /**
-     * The fixture for this Element test case. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The fixture for this Element test case.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected SoftwareElement fixture = null;
 
     /**
-     * Constructs a new Element test case with the given name. <!-- begin-user-doc --> <!--
+     * Constructs a new Element test case with the given name.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public SoftwareElementTest(String name) {
@@ -38,8 +38,8 @@ public abstract class SoftwareElementTest extends TestCase {
     }
 
     /**
-     * Sets the fixture for this Element test case. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Sets the fixture for this Element test case.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected void setFixture(SoftwareElement fixture) {
@@ -47,8 +47,8 @@ public abstract class SoftwareElementTest extends TestCase {
     }
 
     /**
-     * Returns the fixture for this Element test case. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns the fixture for this Element test case.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected SoftwareElement getFixture() {
@@ -83,6 +83,16 @@ public abstract class SoftwareElementTest extends TestCase {
      * @generated not
      */
     public void testGetValue() {
+    }
+
+    /**
+     * Tests the '{@link org.splevo.vpm.software.SoftwareElement#getSourceLocation()
+     * <em>Get Source Location</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see org.splevo.vpm.software.SoftwareElement#getSourceLocation()
+     * @generated not
+     */
+    public void testGetSourceLocation() {
     }
 
 } // SoftwareElementTest

@@ -13,8 +13,6 @@ import org.splevo.vpm.software.SoftwareElement;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getLeadingModel <em>Leading Model</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getIntegrationModel <em>Integration Model</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getVariationPointGroups <em>Variation Point Groups</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getSoftwareElements <em>Software Elements</em>}</li>
  * </ul>
@@ -25,58 +23,6 @@ import org.splevo.vpm.software.SoftwareElement;
  * @generated
  */
 public interface VariationPointModel extends EObject {
-    /**
-     * Returns the value of the '<em><b>Leading Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Leading Model</em>' reference isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Leading Model</em>' reference.
-     * @see #setLeadingModel(JavaApplication)
-     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_LeadingModel()
-     * @model required="true"
-     * @generated
-     */
-    JavaApplication getLeadingModel();
-
-    /**
-     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointModel#getLeadingModel <em>Leading Model</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Leading Model</em>' reference.
-     * @see #getLeadingModel()
-     * @generated
-     */
-    void setLeadingModel(JavaApplication value);
-
-    /**
-     * Returns the value of the '<em><b>Integration Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Integration Model</em>' reference isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Integration Model</em>' reference.
-     * @see #setIntegrationModel(JavaApplication)
-     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel_IntegrationModel()
-     * @model required="true"
-     * @generated
-     */
-    JavaApplication getIntegrationModel();
-
-    /**
-     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointModel#getIntegrationModel <em>Integration Model</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Integration Model</em>' reference.
-     * @see #getIntegrationModel()
-     * @generated
-     */
-    void setIntegrationModel(JavaApplication value);
-
     /**
      * Returns the value of the '<em><b>Variation Point Groups</b></em>' containment reference list.
      * The list contents are of type {@link org.splevo.vpm.variability.VariationPointGroup}.

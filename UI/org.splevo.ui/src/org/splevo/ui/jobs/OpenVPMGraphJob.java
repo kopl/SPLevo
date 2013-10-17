@@ -71,8 +71,8 @@ public class OpenVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
         return "Open VPM Refinement Browser Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 
 }

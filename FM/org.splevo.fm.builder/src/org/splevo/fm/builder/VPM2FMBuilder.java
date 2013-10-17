@@ -27,11 +27,13 @@ public class VPM2FMBuilder {
      * 
      * @param vpm
      *            The variation point model to make use of.
+     * @param rootFeatureName
+     *            The name of the feature models root element.
      * @return The prepared feature model.
      */
-    public FeatureModel buildFeatureModel(VariationPointModel vpm) {
+    public FeatureModel buildFeatureModel(VariationPointModel vpm, String rootFeatureName) {
 
-        FeatureModel fm = initFeatureModel(vpm);
+        FeatureModel fm = initFeatureModel(vpm, rootFeatureName);
 
         for (VariationPointGroup variationPointGroup : vpm.getVariationPointGroups()) {
 
@@ -113,14 +115,16 @@ public class VPM2FMBuilder {
      * 
      * @param vpm
      *            The vpm to init the fm for.
+     * @param rootFeatureName
+     *            The name of the root feature.
      * @return The initialized fm.
      */
-    private FeatureModel initFeatureModel(VariationPointModel vpm) {
+    private FeatureModel initFeatureModel(VariationPointModel vpm, String rootFeatureName) {
         FeatureModel fm = FeatureModelFactory.eINSTANCE.createFeatureModel();
         fm.setId(EcoreUtil.generateUUID());
         fm.setVersion("1.0");
         Feature rootFeature = FeatureModelFactory.eINSTANCE.createFeature();
-        rootFeature.setName(vpm.getLeadingModel().getJavaModel().getName());
+        rootFeature.setName(rootFeatureName);
         rootFeature.setId(EcoreUtil.generateUUID());
         fm.setRoot(rootFeature);
         return fm;

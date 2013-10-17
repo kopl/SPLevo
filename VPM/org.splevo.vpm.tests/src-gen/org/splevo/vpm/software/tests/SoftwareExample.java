@@ -4,6 +4,7 @@ package org.splevo.vpm.software.tests;
 
 import java.io.File;
 
+import java.io.IOException;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 
@@ -18,7 +19,9 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
+import org.splevo.vpm.software.SoftwareFactory;
 import org.splevo.vpm.software.SoftwarePackage;
+import org.splevo.vpm.software.SourceLocation;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,7 +54,15 @@ public class SoftwareExample {
         // If there are no arguments, emit an appropriate usage message.
         //
         if (args.length == 0) {
-            System.out.println("Enter a list of file paths or URIs");
+            System.out.println("Enter a list of file paths or URIs that have content like this:");
+            try {
+                Resource resource = resourceSet.createResource(URI.createURI("http:///My.softwaremodel"));
+                SourceLocation root = SoftwareFactory.eINSTANCE.createSourceLocation();
+                resource.getContents().add(root);
+                resource.save(System.out, null);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
         } else {
             // Iterate over all the arguments.
             //

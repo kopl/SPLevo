@@ -11,42 +11,40 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
- * Job to set a list of refinements in the blackboard.
- * The refinements must be set in the job through the constructor.
+ * Job to set a list of refinements in the blackboard. The refinements must be set in the job
+ * through the constructor.
  */
-public class SetRefinementsJob extends
-		AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
+public class SetRefinementsJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-	/** The refinements to set in the blackboard. */
-	private List<Refinement> refinements;
+    /** The refinements to set in the blackboard. */
+    private List<Refinement> refinements;
 
-	/**
-	 * Constructor to set the refinements to be applied.
-	 * 
-	 * @param refinements
-	 *            The reference to the refinements.
-	 */
-	public SetRefinementsJob(List<Refinement> refinements) {
-		this.refinements = refinements;
-	}
+    /**
+     * Constructor to set the refinements to be applied.
+     * 
+     * @param refinements
+     *            The reference to the refinements.
+     */
+    public SetRefinementsJob(List<Refinement> refinements) {
+        this.refinements = refinements;
+    }
 
-	@Override
-	public void execute(IProgressMonitor monitor) throws JobFailedException,
-			UserCanceledException {
+    @Override
+    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-		logger.info("Set the refinements to perform in the blackboard");
-		getBlackboard().getRefinementsToApply().addAll(refinements);
-		
-		// finish run
-		monitor.done();
-	}
+        logger.info("Set the refinements to perform in the blackboard");
+        getBlackboard().getRefinementsToApply().addAll(refinements);
 
-	@Override
-	public String getName() {
-		return "Set refinements Job";
-	}
+        // finish run
+        monitor.done();
+    }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public String getName() {
+        return "Set refinements Job";
+    }
+
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

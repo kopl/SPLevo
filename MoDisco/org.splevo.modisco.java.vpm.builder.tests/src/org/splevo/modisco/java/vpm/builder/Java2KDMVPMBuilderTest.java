@@ -37,11 +37,6 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
         assertNotNull("No VPM initialized", vpm);
 
         logger.warn("Number of variation point groups: " + vpm.getVariationPointGroups().size());
-
-        assertNotNull("Leading model must not be null", vpm.getLeadingModel());
-        assertNotNull("Integration model must not be null", vpm.getIntegrationModel());
-
-        // ModelUtils.save(vpm, "testresult/gcd-intial.vpm");
     }
 
 }

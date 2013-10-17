@@ -59,7 +59,8 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         DefaultVPMBuilderService builderService = new DefaultVPMBuilderService();
         VariationPointModel vpm;
         try {
-            vpm = builderService.buildVPM(diffModel, splevoProject.getVariantNameLeading(), splevoProject.getVariantNameIntegration(), builderOptions);
+            vpm = builderService.buildVPM(diffModel, splevoProject.getVariantNameLeading(),
+                    splevoProject.getVariantNameIntegration(), builderOptions);
         } catch (VPMBuildException e) {
             throw new JobFailedException("Failed to initialize the VPM model", e);
         }
@@ -83,7 +84,7 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         return "Init VPM model Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

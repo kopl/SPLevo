@@ -11,39 +11,37 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 /**
  * Job to set a variation point model in the blackboard.
  */
-public class SetVPMJob extends
-		AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
+public class SetVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-	/** The variation point model to set in the blackboard. */
-	private VariationPointModel vpm;
+    /** The variation point model to set in the blackboard. */
+    private VariationPointModel vpm;
 
-	/**
-	 * Constructor to set the variation point model.
-	 * 
-	 * @param vpm
-	 *            The reference to the variation point model.
-	 */
-	public SetVPMJob(VariationPointModel vpm) {
-		this.vpm = vpm;
-	}
+    /**
+     * Constructor to set the variation point model.
+     * 
+     * @param vpm
+     *            The reference to the variation point model.
+     */
+    public SetVPMJob(VariationPointModel vpm) {
+        this.vpm = vpm;
+    }
 
-	@Override
-	public void execute(IProgressMonitor monitor) throws JobFailedException,
-			UserCanceledException {
+    @Override
+    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-		logger.info("Set the variation point model in the blackboard");
-		getBlackboard().setVariationPointModel(vpm);
-		
-		// finish run
-		monitor.done();
-	}
+        logger.info("Set the variation point model in the blackboard");
+        getBlackboard().setVariationPointModel(vpm);
 
-	@Override
-	public String getName() {
-		return "Set VPM Job";
-	}
+        // finish run
+        monitor.done();
+    }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public String getName() {
+        return "Set VPM Job";
+    }
+
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

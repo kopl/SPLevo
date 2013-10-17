@@ -4,6 +4,7 @@ package org.splevo.modisco.java.vpm.software;
 
 import org.eclipse.gmt.modisco.java.ASTNode;
 
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.vpm.software.JavaSoftwareElement;
 
 /**
@@ -19,6 +20,7 @@ import org.splevo.vpm.software.JavaSoftwareElement;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement#getAstNode <em>Ast Node</em>}</li>
+ *   <li>{@link org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement#getJavaApplicationModel <em>Java Application Model</em>}</li>
  * </ul>
  * </p>
  *
@@ -51,5 +53,31 @@ public interface MoDiscoJavaSoftwareElement extends JavaSoftwareElement {
      * @generated
      */
     void setAstNode(ASTNode value);
+
+    /**
+     * Returns the value of the '<em><b>Java Application Model</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * The reference to the root model containing the ast node.
+     * The JavaApplication model is the comprehensive model referencing the MoDisco AST Model and the according InfrastructureModel.
+     * <!-- end-model-doc -->
+     * @return the value of the '<em>Java Application Model</em>' reference.
+     * @see #setJavaApplicationModel(JavaApplication)
+     * @see org.splevo.modisco.java.vpm.software.softwarePackage#getMoDiscoJavaSoftwareElement_JavaApplicationModel()
+     * @model
+     * @generated
+     */
+    JavaApplication getJavaApplicationModel();
+
+    /**
+     * Sets the value of the '{@link org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement#getJavaApplicationModel <em>Java Application Model</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Java Application Model</em>' reference.
+     * @see #getJavaApplicationModel()
+     * @generated
+     */
+    void setJavaApplicationModel(JavaApplication value);
 
 } // MoDiscoJavaSoftwareElement

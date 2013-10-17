@@ -41,9 +41,7 @@ public final class vpmEditPlugin extends EMFPlugin {
      * @generated
      */
     public vpmEditPlugin() {
-        super(new ResourceLocator[] { EcoreEditPlugin.INSTANCE, FeatureModelEditPlugin.INSTANCE,
-                JavaEditPlugin.INSTANCE, JavaApplicationEditPlugin.INSTANCE, KdmEditPlugin.INSTANCE,
-                KdmSourceExtensionEditPlugin.INSTANCE, });
+        super(new ResourceLocator[] { EcoreEditPlugin.INSTANCE, FeatureModelEditPlugin.INSTANCE, });
     }
 
     /**

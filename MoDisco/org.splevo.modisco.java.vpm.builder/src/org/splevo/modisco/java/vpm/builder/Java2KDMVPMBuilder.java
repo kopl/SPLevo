@@ -33,10 +33,14 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
             return null;
         }
 
-        VariationPointModel vpm = initVPM(diffModel);
+
+        JavaApplication leadingModel = selectJavaAppModel(diffModel.getRightRoots());
+        JavaApplication integrationModel = selectJavaAppModel(diffModel.getLeftRoots());
+
+        VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 
         // visit the difference tree
-        Java2KDMDiffVisitor java2KDMDiffVisitor = new Java2KDMDiffVisitor(variantIDLeading, variantIDIntegration, vpm);
+        Java2KDMDiffVisitor java2KDMDiffVisitor = new Java2KDMDiffVisitor(leadingModel, integrationModel, variantIDLeading, variantIDIntegration, vpm);
         for (DiffElement diffElement : diffModel.getDifferences()) {
             VariationPoint vp = java2KDMDiffVisitor.doSwitch(diffElement);
             if (vp != null) {
@@ -75,25 +79,6 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
         }
 
         return softwareElement.getLabel();
-    }
-
-    /**
-     * Init the instance of the variation point model.
-     * 
-     * @param diffModel
-     *            The diff model to get the diffed models from.
-     * @return The initialized variation point model.
-     */
-    private VariationPointModel initVPM(DiffModel diffModel) {
-
-        JavaApplication leadingModel = selectJavaAppModel(diffModel.getRightRoots());
-        JavaApplication integrationModel = selectJavaAppModel(diffModel.getLeftRoots());
-
-        VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
-        vpm.setLeadingModel(leadingModel);
-        vpm.setIntegrationModel(integrationModel);
-
-        return vpm;
     }
 
     /**

@@ -93,6 +93,29 @@ public class SoftwareItemProviderAdapterFactory extends SoftwareAdapterFactory i
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.vpm.software.SourceLocation} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected SourceLocationItemProvider sourceLocationItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.vpm.software.SourceLocation}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createSourceLocationAdapter() {
+        if (sourceLocationItemProvider == null) {
+            sourceLocationItemProvider = new SourceLocationItemProvider(this);
+        }
+
+        return sourceLocationItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -218,6 +241,8 @@ public class SoftwareItemProviderAdapterFactory extends SoftwareAdapterFactory i
      * @generated
      */
     public void dispose() {
+        if (sourceLocationItemProvider != null)
+            sourceLocationItemProvider.dispose();
     }
 
 }

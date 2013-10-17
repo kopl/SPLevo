@@ -57,7 +57,7 @@ public class SaveFeatureModelJob extends AbstractBlackboardInteractingJob<SPLevo
         return "Save Feature Model Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

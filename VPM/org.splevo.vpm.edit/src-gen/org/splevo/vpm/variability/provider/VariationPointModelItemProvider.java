@@ -56,44 +56,9 @@ public class VariationPointModelItemProvider extends ItemProviderAdapter impleme
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addLeadingModelPropertyDescriptor(object);
-            addIntegrationModelPropertyDescriptor(object);
             addSoftwareElementsPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
-    }
-
-    /**
-     * This adds a property descriptor for the Leading Model feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected void addLeadingModelPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-                getResourceLocator(),
-                getString("_UI_VariationPointModel_leadingModel_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_VariationPointModel_leadingModel_feature",
-                        "_UI_VariationPointModel_type"),
-                variabilityPackage.Literals.VARIATION_POINT_MODEL__LEADING_MODEL, true, false, true, null, null, null));
-    }
-
-    /**
-     * This adds a property descriptor for the Integration Model feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected void addIntegrationModelPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-                getResourceLocator(),
-                getString("_UI_VariationPointModel_integrationModel_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_VariationPointModel_integrationModel_feature",
-                        "_UI_VariationPointModel_type"),
-                variabilityPackage.Literals.VARIATION_POINT_MODEL__INTEGRATION_MODEL, true, false, true, null, null,
-                null));
     }
 
     /**

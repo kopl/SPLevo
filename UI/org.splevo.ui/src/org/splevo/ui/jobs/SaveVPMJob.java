@@ -65,7 +65,7 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         return "Save VPM model Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

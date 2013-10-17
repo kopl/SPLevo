@@ -1,18 +1,13 @@
 package org.splevo.ui.refinementbrowser;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.eclipse.swt.widgets.TreeItem;
-import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.ui.Activator;
 import org.splevo.ui.jdt.JavaEditorConnector;
-import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.variability.Variant;
-import org.splevo.vpm.variability.VariationPointModel;
+import org.splevo.vpm.software.JavaSoftwareElement;
 
 /**
  * Action to open the currently selected element of a tree viewer in a source editor and higlight
@@ -54,33 +49,17 @@ public final class OpenSourceInEditorAction extends Action {
         TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
         Object object = selectedItem.getData();
 
-        // TODO make abstract from modisco
-        if (object instanceof MoDiscoJavaSoftwareElement) {
-            
-            MoDiscoJavaSoftwareElement modiscoElement = (MoDiscoJavaSoftwareElement) object;
-            ASTNode astNode = modiscoElement.getAstNode();
-
-            TreeItem parent = selectedItem.getParentItem();
-            Variant variant = (Variant) parent.getData();
-            VariationPointModel vpm = variant.getVariationPoint().getGroup().getModel();
-
-            JavaApplication javaApplication = null;
-            if (variant.getLeading()) {
-                javaApplication = vpm.getLeadingModel();
-            } else {
-                javaApplication = vpm.getIntegrationModel();
-            }
-            
-            javaEditorConnector.openEditor(astNode, javaApplication);
-            
+        if (object instanceof JavaSoftwareElement) {
+            javaEditorConnector.openEditor((JavaSoftwareElement) object);
         } else {
-            logger.warn("A non-eObject has been selected");
+            logger.warn("A non supported element has been selected");
         }
     }
 
     /**
-     * Check if this action is enabled. This method takes checks the currently selected icon in the
-     * tree.
+     * Check if this action is enabled. This method checks if
+     * the selected element is a JavaSoftwareElement because only those
+     * can be opened in an editor yet.
      * 
      * @return true/false whether it can be applied.
      */
@@ -91,7 +70,7 @@ public final class OpenSourceInEditorAction extends Action {
         }
         TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
         Object data = selectedItem.getData();
-        if (data instanceof SoftwareElement) {
+        if (data instanceof JavaSoftwareElement) {
             return true;
         }
         return false;

@@ -10,8 +10,14 @@ import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.NamedElement;
+import org.eclipse.modisco.java.composition.javaapplication.Java2File;
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.modisco.java.vpm.software.softwarePackage;
+import org.splevo.modisco.util.SourceConnector;
+import org.splevo.vpm.software.SoftwareFactory;
+import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.software.impl.JavaSoftwareElementImpl;
 
 /**
@@ -20,11 +26,11 @@ import org.splevo.vpm.software.impl.JavaSoftwareElementImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.splevo.modisco.java.vpm.software.impl.MoDiscoJavaSoftwareElementImpl#getAstNode
- * <em>Ast Node</em>}</li>
+ *   <li>{@link org.splevo.modisco.java.vpm.software.impl.MoDiscoJavaSoftwareElementImpl#getAstNode <em>Ast Node</em>}</li>
+ *   <li>{@link org.splevo.modisco.java.vpm.software.impl.MoDiscoJavaSoftwareElementImpl#getJavaApplicationModel <em>Java Application Model</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl implements MoDiscoJavaSoftwareElement {
@@ -39,8 +45,17 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
     protected ASTNode astNode;
 
     /**
+     * The cached value of the '{@link #getJavaApplicationModel() <em>Java Application Model</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getJavaApplicationModel()
+     * @generated
+     * @ordered
+     */
+    protected JavaApplication javaApplicationModel;
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected MoDiscoJavaSoftwareElementImpl() {
@@ -49,7 +64,6 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -112,7 +126,6 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ASTNode getAstNode() {
@@ -130,7 +143,6 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public ASTNode basicGetAstNode() {
@@ -139,7 +151,6 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setAstNode(ASTNode newAstNode) {
@@ -151,8 +162,49 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
     }
 
     /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public JavaApplication getJavaApplicationModel() {
+        if (javaApplicationModel != null && javaApplicationModel.eIsProxy()) {
+            InternalEObject oldJavaApplicationModel = (InternalEObject) javaApplicationModel;
+            javaApplicationModel = (JavaApplication) eResolveProxy(oldJavaApplicationModel);
+            if (javaApplicationModel != oldJavaApplicationModel) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+                            softwarePackage.MO_DISCO_JAVA_SOFTWARE_ELEMENT__JAVA_APPLICATION_MODEL,
+                            oldJavaApplicationModel, javaApplicationModel));
+            }
+        }
+        return javaApplicationModel;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public JavaApplication basicGetJavaApplicationModel() {
+        return javaApplicationModel;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setJavaApplicationModel(JavaApplication newJavaApplicationModel) {
+        JavaApplication oldJavaApplicationModel = javaApplicationModel;
+        javaApplicationModel = newJavaApplicationModel;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET,
+                    softwarePackage.MO_DISCO_JAVA_SOFTWARE_ELEMENT__JAVA_APPLICATION_MODEL, oldJavaApplicationModel,
+                    javaApplicationModel));
+    }
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -162,13 +214,16 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
             if (resolve)
                 return getAstNode();
             return basicGetAstNode();
+        case softwarePackage.MO_DISCO_JAVA_SOFTWARE_ELEMENT__JAVA_APPLICATION_MODEL:
+            if (resolve)
+                return getJavaApplicationModel();
+            return basicGetJavaApplicationModel();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -177,13 +232,15 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
         case softwarePackage.MO_DISCO_JAVA_SOFTWARE_ELEMENT__AST_NODE:
             setAstNode((ASTNode) newValue);
             return;
+        case softwarePackage.MO_DISCO_JAVA_SOFTWARE_ELEMENT__JAVA_APPLICATION_MODEL:
+            setJavaApplicationModel((JavaApplication) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -192,13 +249,15 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
         case softwarePackage.MO_DISCO_JAVA_SOFTWARE_ELEMENT__AST_NODE:
             setAstNode((ASTNode) null);
             return;
+        case softwarePackage.MO_DISCO_JAVA_SOFTWARE_ELEMENT__JAVA_APPLICATION_MODEL:
+            setJavaApplicationModel((JavaApplication) null);
+            return;
         }
         super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -206,8 +265,40 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
         switch (featureID) {
         case softwarePackage.MO_DISCO_JAVA_SOFTWARE_ELEMENT__AST_NODE:
             return astNode != null;
+        case softwarePackage.MO_DISCO_JAVA_SOFTWARE_ELEMENT__JAVA_APPLICATION_MODEL:
+            return javaApplicationModel != null;
         }
         return super.eIsSet(featureID);
+    }
+
+
+    /**
+     * <!-- begin-user-doc -->
+     * {@inheritDoc} <!-- end-user-doc -->
+     * 
+     * @generated not
+     */
+    @SuppressWarnings("restriction")
+    @Override
+    public SourceLocation getSourceLocation() {
+        SourceConnector sourceConnector = new SourceConnector(getJavaApplicationModel());
+        JavaNodeSourceRegion sourceRegion = sourceConnector.findSourceRegion(getAstNode());
+        
+        SourceLocation sourceLocation = null;
+        
+        if (sourceRegion.eContainer() instanceof Java2File) {
+            Java2File fileMapping = (Java2File) sourceRegion.eContainer();
+            String filePath = fileMapping.getFile().getPath();
+            
+            sourceLocation = SoftwareFactory.eINSTANCE.createSourceLocation();
+            sourceLocation.setFilePath(filePath);
+            sourceLocation.setStartLine(sourceRegion.getStartLine());
+            sourceLocation.setStartPosition(sourceRegion.getStartPosition());
+            sourceLocation.setEndLine(sourceRegion.getEndLine());
+            sourceLocation.setEndPosition(sourceRegion.getEndPosition());
+        }
+        
+        return sourceLocation;
     }
 
 } // MoDiscoJavaSoftwareElementImpl

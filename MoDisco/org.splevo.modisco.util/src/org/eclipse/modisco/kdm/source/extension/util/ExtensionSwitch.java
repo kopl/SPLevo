@@ -15,12 +15,11 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.gmt.modisco.omg.kdm.core.Element;
-
 import org.eclipse.gmt.modisco.omg.kdm.source.SourceRegion;
-
-import org.eclipse.modisco.kdm.source.extension.*;
+import org.eclipse.modisco.kdm.source.extension.ASTNodeSourceRegion;
+import org.eclipse.modisco.kdm.source.extension.CodeUnit2File;
+import org.eclipse.modisco.kdm.source.extension.ExtensionPackage;
 
 /**
  * <!-- begin-user-doc --> The <b>Switch</b> for the model's inheritance

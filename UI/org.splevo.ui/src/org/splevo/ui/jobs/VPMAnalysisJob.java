@@ -50,7 +50,7 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
 
         // store the results
         getBlackboard().getVpmAnalyzerResults().add(analyzerResult);
-        
+
         // finish run
         monitor.done();
     }
@@ -60,7 +60,7 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         return "Analyze VPM Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

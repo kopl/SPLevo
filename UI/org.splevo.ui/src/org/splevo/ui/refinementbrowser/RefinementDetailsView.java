@@ -137,8 +137,8 @@ public class RefinementDetailsView extends Composite {
             if (element instanceof Variant) {
                 return "Variant: " + ((Variant) element).getVariantId();
             }
-            
-            if (element instanceof SoftwareElement){
+
+            if (element instanceof SoftwareElement) {
                 return ((SoftwareElement) element).getLabel();
             }
 

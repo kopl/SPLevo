@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.splevo.vpm.software.*;
 import org.splevo.vpm.software.SoftwareFactory;
 import org.splevo.vpm.software.SoftwarePackage;
 
@@ -54,9 +55,21 @@ public class SoftwareFactoryImpl extends EFactoryImpl implements SoftwareFactory
     @Override
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
+        case SoftwarePackage.SOURCE_LOCATION:
+            return createSourceLocation();
         default:
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public SourceLocation createSourceLocation() {
+        SourceLocationImpl sourceLocation = new SourceLocationImpl();
+        return sourceLocation;
     }
 
     /**

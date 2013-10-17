@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.gmt.modisco.java.emf.JavaPackage;
 
+import org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage;
 import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.modisco.java.vpm.software.softwareFactory;
 import org.splevo.modisco.java.vpm.software.softwarePackage;
@@ -121,6 +122,15 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getMoDiscoJavaSoftwareElement_JavaApplicationModel() {
+        return (EReference) moDiscoJavaSoftwareElementEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public softwareFactory getsoftwareFactory() {
         return (softwareFactory) getEFactoryInstance();
     }
@@ -147,6 +157,7 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
         // Create classes and their features
         moDiscoJavaSoftwareElementEClass = createEClass(MO_DISCO_JAVA_SOFTWARE_ELEMENT);
         createEReference(moDiscoJavaSoftwareElementEClass, MO_DISCO_JAVA_SOFTWARE_ELEMENT__AST_NODE);
+        createEReference(moDiscoJavaSoftwareElementEClass, MO_DISCO_JAVA_SOFTWARE_ELEMENT__JAVA_APPLICATION_MODEL);
     }
 
     /**
@@ -177,6 +188,8 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
         SoftwarePackage theSoftwarePackage = (SoftwarePackage) EPackage.Registry.INSTANCE
                 .getEPackage(SoftwarePackage.eNS_URI);
         JavaPackage theJavaPackage = (JavaPackage) EPackage.Registry.INSTANCE.getEPackage(JavaPackage.eNS_URI);
+        JavaapplicationPackage theJavaapplicationPackage = (JavaapplicationPackage) EPackage.Registry.INSTANCE
+                .getEPackage(JavaapplicationPackage.eNS_URI);
 
         // Create type parameters
 
@@ -190,6 +203,10 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
                 !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getMoDiscoJavaSoftwareElement_AstNode(), theJavaPackage.getASTNode(), null, "astNode", null, 1,
                 1, MoDiscoJavaSoftwareElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+                IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getMoDiscoJavaSoftwareElement_JavaApplicationModel(),
+                theJavaapplicationPackage.getJavaApplication(), null, "javaApplicationModel", null, 0, 1,
+                MoDiscoJavaSoftwareElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
                 IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource

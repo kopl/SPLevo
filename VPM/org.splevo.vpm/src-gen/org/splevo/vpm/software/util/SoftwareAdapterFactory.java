@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.splevo.vpm.software.*;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SoftwarePackage;
@@ -76,6 +77,11 @@ public class SoftwareAdapterFactory extends AdapterFactoryImpl {
         }
 
         @Override
+        public Adapter caseSourceLocation(SourceLocation object) {
+            return createSourceLocationAdapter();
+        }
+
+        @Override
         public Adapter defaultCase(EObject object) {
             return createEObjectAdapter();
         }
@@ -119,6 +125,20 @@ public class SoftwareAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createJavaSoftwareElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.vpm.software.SourceLocation <em>Source Location</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.vpm.software.SourceLocation
+     * @generated
+     */
+    public Adapter createSourceLocationAdapter() {
         return null;
     }
 

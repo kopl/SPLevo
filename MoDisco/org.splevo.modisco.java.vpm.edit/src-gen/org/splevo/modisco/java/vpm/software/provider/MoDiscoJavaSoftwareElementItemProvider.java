@@ -55,6 +55,7 @@ public class MoDiscoJavaSoftwareElementItemProvider extends JavaSoftwareElementI
             super.getPropertyDescriptors(object);
 
             addAstNodePropertyDescriptor(object);
+            addJavaApplicationModelPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -75,6 +76,24 @@ public class MoDiscoJavaSoftwareElementItemProvider extends JavaSoftwareElementI
                                 "_UI_MoDiscoJavaSoftwareElement_astNode_feature", "_UI_MoDiscoJavaSoftwareElement_type"),
                         softwarePackage.Literals.MO_DISCO_JAVA_SOFTWARE_ELEMENT__AST_NODE, true, false, true, null,
                         null, null));
+    }
+
+    /**
+     * This adds a property descriptor for the Java Application Model feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addJavaApplicationModelPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_MoDiscoJavaSoftwareElement_javaApplicationModel_feature"),
+                getString("_UI_PropertyDescriptor_description",
+                        "_UI_MoDiscoJavaSoftwareElement_javaApplicationModel_feature",
+                        "_UI_MoDiscoJavaSoftwareElement_type"),
+                softwarePackage.Literals.MO_DISCO_JAVA_SOFTWARE_ELEMENT__JAVA_APPLICATION_MODEL, true, false, true,
+                null, null, null));
     }
 
     /**

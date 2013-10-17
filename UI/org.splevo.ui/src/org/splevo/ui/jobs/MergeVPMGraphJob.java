@@ -11,14 +11,13 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
- * Job to merge the relationship edges in the VPM graph
- * stored in the blackboard.
+ * Job to merge the relationship edges in the VPM graph stored in the blackboard.
  */
 public class MergeVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
     /** The analyzer service for the merge. */
     private VPMAnalyzerService analyzerService = new DefaultVPMAnalyzerService();
-    
+
     /**
      * Default constructor.
      */
@@ -43,7 +42,7 @@ public class MergeVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBla
         return "Merge VPMGraph Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

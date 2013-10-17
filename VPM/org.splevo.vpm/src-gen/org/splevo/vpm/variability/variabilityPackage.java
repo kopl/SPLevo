@@ -176,31 +176,13 @@ public interface variabilityPackage extends EPackage {
     int VARIATION_POINT_MODEL = 2;
 
     /**
-     * The feature id for the '<em><b>Leading Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int VARIATION_POINT_MODEL__LEADING_MODEL = 0;
-
-    /**
-     * The feature id for the '<em><b>Integration Model</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int VARIATION_POINT_MODEL__INTEGRATION_MODEL = 1;
-
-    /**
      * The feature id for the '<em><b>Variation Point Groups</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS = 2;
+    int VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS = 0;
 
     /**
      * The feature id for the '<em><b>Software Elements</b></em>' containment reference list.
@@ -209,7 +191,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_MODEL__SOFTWARE_ELEMENTS = 3;
+    int VARIATION_POINT_MODEL__SOFTWARE_ELEMENTS = 1;
 
     /**
      * The number of structural features of the '<em>Variation Point Model</em>' class.
@@ -218,7 +200,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_MODEL_FEATURE_COUNT = 4;
+    int VARIATION_POINT_MODEL_FEATURE_COUNT = 2;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl <em>Variation Point Group</em>}' class.
@@ -392,28 +374,6 @@ public interface variabilityPackage extends EPackage {
      * @generated
      */
     EClass getVariationPointModel();
-
-    /**
-     * Returns the meta object for the reference '{@link org.splevo.vpm.variability.VariationPointModel#getLeadingModel <em>Leading Model</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Leading Model</em>'.
-     * @see org.splevo.vpm.variability.VariationPointModel#getLeadingModel()
-     * @see #getVariationPointModel()
-     * @generated
-     */
-    EReference getVariationPointModel_LeadingModel();
-
-    /**
-     * Returns the meta object for the reference '{@link org.splevo.vpm.variability.VariationPointModel#getIntegrationModel <em>Integration Model</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Integration Model</em>'.
-     * @see org.splevo.vpm.variability.VariationPointModel#getIntegrationModel()
-     * @see #getVariationPointModel()
-     * @generated
-     */
-    EReference getVariationPointModel_IntegrationModel();
 
     /**
      * Returns the meta object for the containment reference list '{@link org.splevo.vpm.variability.VariationPointModel#getVariationPointGroups <em>Variation Point Groups</em>}'.
@@ -606,22 +566,6 @@ public interface variabilityPackage extends EPackage {
          * @generated
          */
         EClass VARIATION_POINT_MODEL = eINSTANCE.getVariationPointModel();
-
-        /**
-         * The meta object literal for the '<em><b>Leading Model</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference VARIATION_POINT_MODEL__LEADING_MODEL = eINSTANCE.getVariationPointModel_LeadingModel();
-
-        /**
-         * The meta object literal for the '<em><b>Integration Model</b></em>' reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference VARIATION_POINT_MODEL__INTEGRATION_MODEL = eINSTANCE.getVariationPointModel_IntegrationModel();
 
         /**
          * The meta object literal for the '<em><b>Variation Point Groups</b></em>' containment reference list feature.

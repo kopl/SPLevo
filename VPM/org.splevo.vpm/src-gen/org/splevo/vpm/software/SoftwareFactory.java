@@ -22,6 +22,15 @@ public interface SoftwareFactory extends EFactory {
     SoftwareFactory eINSTANCE = org.splevo.vpm.software.impl.SoftwareFactoryImpl.init();
 
     /**
+     * Returns a new object of class '<em>Source Location</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Source Location</em>'.
+     * @generated
+     */
+    SourceLocation createSourceLocation();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

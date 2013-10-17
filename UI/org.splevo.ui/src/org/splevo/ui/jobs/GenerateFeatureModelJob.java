@@ -3,6 +3,7 @@ package org.splevo.ui.jobs;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.featuremodel.FeatureModel;
 import org.splevo.fm.builder.VPM2FMBuilder;
+import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
@@ -15,6 +16,19 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  */
 public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
+    /** The splevo project to store the required data to. */
+    private SPLevoProject splevoProject;
+
+    /**
+     * Constructor to set the reference to the SPLevo project.
+     * 
+     * @param splevoProject
+     *            The SPLevo project to exchange data with.
+     */
+    public GenerateFeatureModelJob(SPLevoProject splevoProject) {
+        this.splevoProject = splevoProject;
+    }
+
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
@@ -24,7 +38,7 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
             throw new JobFailedException("No variation point model available in the blackboard.");
         }
         VPM2FMBuilder builder = new VPM2FMBuilder();
-        FeatureModel featureModel = builder.buildFeatureModel(vpm);
+        FeatureModel featureModel = builder.buildFeatureModel(vpm, splevoProject.getName());
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
@@ -44,7 +58,7 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
         return "Generate Feature Model Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

@@ -13,9 +13,8 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
- * Job to read a VPM from the blackboard, 
- * apply a given list of refinements also accessed through the blackboard
- * and store the VPM back into the blackboard.
+ * Job to read a VPM from the blackboard, apply a given list of refinements also accessed through
+ * the blackboard and store the VPM back into the blackboard.
  */
 public class VPMApplyRefinementsJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
@@ -50,7 +49,7 @@ public class VPMApplyRefinementsJob extends AbstractBlackboardInteractingJob<SPL
         return "Save feature model Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

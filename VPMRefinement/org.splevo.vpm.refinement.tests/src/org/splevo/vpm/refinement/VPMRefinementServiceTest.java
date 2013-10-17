@@ -10,12 +10,9 @@ import java.util.List;
 
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Block;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
 import org.junit.Before;
 import org.junit.Test;
 import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
-import org.splevo.modisco.util.SourceConnector;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
@@ -65,7 +62,6 @@ public class VPMRefinementServiceTest extends AbstractTest {
         for (VariationPointGroup group : initialVpm.getVariationPointGroups()) {
             for (VariationPoint vp : group.getVariationPoints()) {
 
-                // TODO Release MoDisco dependency
                 SoftwareElement element = vp.getEnclosingSoftwareEntity();
                 if (!(element instanceof MoDiscoJavaSoftwareElement)) {
                     fail("Unexpected SoftwareElement type: " + element.getClass().getSimpleName());
@@ -149,11 +145,6 @@ public class VPMRefinementServiceTest extends AbstractTest {
                 if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
                     fail("SoftwareElement is not a MoDiscoJavaSoftwareElement as assumed");
                 }
-                ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
-                JavaApplication model = refinedVPM.getLeadingModel();
-                SourceConnector sourceConnector = new SourceConnector(model);
-                JavaNodeSourceRegion sourceRegion = sourceConnector.findSourceRegion(astNode);
-                assertNotNull(sourceRegion);
             }
         }
     }

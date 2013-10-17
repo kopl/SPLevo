@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwarePackage;
+import org.splevo.vpm.software.SourceLocation;
 
 /**
  * <!-- begin-user-doc -->
@@ -62,5 +63,13 @@ public abstract class JavaSoftwareElementImpl extends EObjectImpl implements Jav
      */
     @Override
     public abstract Object getValue();
+
+    /**
+     * <!-- begin-user-doc -->
+     * {@inheritDoc}
+     * <!-- end-user-doc -->
+     * @generated not
+     */
+    public abstract SourceLocation getSourceLocation();
 
 } //JavaSoftwareElementImpl

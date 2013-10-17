@@ -128,8 +128,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
         CSVWriter writer = null;
         try {
             writer = new CSVWriter(new FileWriter(resultFilePath));
-            String[] header = new String[] { "Type", "VP ASTNode", "Leading AST Node",
-                    "Integration AST Node" };
+            String[] header = new String[] { "Type", "VP ASTNode", "Leading AST Node", "Integration AST Node" };
             writer.writeNext(header);
             for (Refinement refinement : refModel.getRefinements()) {
                 String type = refinement.getType().toString();
@@ -223,7 +222,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
         NONE
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

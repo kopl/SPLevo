@@ -1,5 +1,3 @@
-/**
- */
 package org.splevo.vpm.software.tests;
 
 import junit.framework.TestCase;
@@ -16,6 +14,7 @@ import org.splevo.vpm.software.JavaSoftwareElement;
  *   <li>{@link org.splevo.vpm.software.SoftwareElement#getLabel() <em>Get Label</em>}</li>
  *   <li>{@link org.splevo.vpm.software.SoftwareElement#getName() <em>Get Name</em>}</li>
  *   <li>{@link org.splevo.vpm.software.SoftwareElement#getValue() <em>Get Value</em>}</li>
+ *   <li>{@link org.splevo.vpm.software.SoftwareElement#getSourceLocation() <em>Get Source Location</em>}</li>
  * </ul>
  * </p>
  * @generated
@@ -65,12 +64,9 @@ public abstract class JavaSoftwareElementTest extends TestCase {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see org.splevo.vpm.software.SoftwareElement#getLabel()
-     * @generated
+     * @generated not
      */
     public void testGetLabel() {
-        // TODO: implement this operation test method
-        // Ensure that you remove @generated or mark it @generated NOT
-        fail();
     }
 
     /**
@@ -78,12 +74,9 @@ public abstract class JavaSoftwareElementTest extends TestCase {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see org.splevo.vpm.software.SoftwareElement#getName()
-     * @generated
+     * @generated not
      */
     public void testGetName() {
-        // TODO: implement this operation test method
-        // Ensure that you remove @generated or mark it @generated NOT
-        fail();
     }
 
     /**
@@ -91,12 +84,19 @@ public abstract class JavaSoftwareElementTest extends TestCase {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see org.splevo.vpm.software.SoftwareElement#getValue()
-     * @generated
+     * @generated not
      */
     public void testGetValue() {
-        // TODO: implement this operation test method
-        // Ensure that you remove @generated or mark it @generated NOT
-        fail();
+    }
+
+    /**
+     * Tests the '{@link org.splevo.vpm.software.SoftwareElement#getSourceLocation() <em>Get Source Location</em>}' operation.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.vpm.software.SoftwareElement#getSourceLocation()
+     * @generated not
+     */
+    public void testGetSourceLocation() {
     }
 
 } //JavaSoftwareElementTest

@@ -11,7 +11,6 @@ import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
 import de.uka.ipd.sdq.workflow.jobs.ParallelJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.SequentialJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 

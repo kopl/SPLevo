@@ -1,10 +1,8 @@
 package org.splevo.ui.actions;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
+import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -21,13 +19,9 @@ public class OpenVariationPointLocationAction  extends AbstractOpenSourceLocatio
 
     @Override
     public void run(IAction action) {
-
-        // TODO Refactor to work with JavaSoftwareElements in general
         SoftwareElement softwareElement = selectedElement.getEnclosingSoftwareEntity();
-        if (softwareElement instanceof MoDiscoJavaSoftwareElement) {
-            ASTNode locationNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
-            JavaApplication javaApplication = getJavaModel(selectedElement);
-            javaEditorConnector.openEditor(locationNode, javaApplication);
+        if (softwareElement instanceof JavaSoftwareElement) {
+            javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
         }
     }
 }

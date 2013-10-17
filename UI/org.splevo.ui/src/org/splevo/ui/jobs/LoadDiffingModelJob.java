@@ -44,7 +44,7 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
         // trigger loading the diff extensions.
         DefaultDiffingService diffingService = new DefaultDiffingService();
         diffingService.getDiffers();
-        
+
         logger.info("Load diff models");
         File diffModelFile = new File(basePath + splevoProject.getDiffingModelPath());
         DiffModel diffModel;
@@ -66,7 +66,7 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
         return "Load diffing model Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

@@ -55,7 +55,7 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
         analyzerService.createGraphEdges(vpmGraph, analyzerResults);
 
         logStatistics(vpmGraph);
-        
+
         // finish run
         monitor.done();
     }
@@ -89,7 +89,7 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
         return "Merge VPMGraph Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    }
 }

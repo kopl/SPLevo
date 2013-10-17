@@ -105,7 +105,6 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 
         // Initialize simple dependencies
         FeatureModelPackage.eINSTANCE.eClass();
-        JavaapplicationPackage.eINSTANCE.eClass();
 
         // Obtain or create and register interdependencies
         SoftwarePackageImpl theSoftwarePackage = (SoftwarePackageImpl) (EPackage.Registry.INSTANCE
@@ -232,7 +231,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getVariationPointModel_LeadingModel() {
+    public EReference getVariationPointModel_VariationPointGroups() {
         return (EReference) variationPointModelEClass.getEStructuralFeatures().get(0);
     }
 
@@ -241,26 +240,8 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getVariationPointModel_IntegrationModel() {
-        return (EReference) variationPointModelEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getVariationPointModel_VariationPointGroups() {
-        return (EReference) variationPointModelEClass.getEStructuralFeatures().get(2);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EReference getVariationPointModel_SoftwareElements() {
-        return (EReference) variationPointModelEClass.getEStructuralFeatures().get(3);
+        return (EReference) variationPointModelEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -350,8 +331,6 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         createEReference(variantEClass, VARIANT__VARIATION_POINT);
 
         variationPointModelEClass = createEClass(VARIATION_POINT_MODEL);
-        createEReference(variationPointModelEClass, VARIATION_POINT_MODEL__LEADING_MODEL);
-        createEReference(variationPointModelEClass, VARIATION_POINT_MODEL__INTEGRATION_MODEL);
         createEReference(variationPointModelEClass, VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS);
         createEReference(variationPointModelEClass, VARIATION_POINT_MODEL__SOFTWARE_ELEMENTS);
 
@@ -392,8 +371,6 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         FeatureModelPackage theFeatureModelPackage = (FeatureModelPackage) EPackage.Registry.INSTANCE
                 .getEPackage(FeatureModelPackage.eNS_URI);
         EcorePackage theEcorePackage = (EcorePackage) EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
-        JavaapplicationPackage theJavaapplicationPackage = (JavaapplicationPackage) EPackage.Registry.INSTANCE
-                .getEPackage(JavaapplicationPackage.eNS_URI);
 
         // Create type parameters
 
@@ -432,12 +409,6 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 
         initEClass(variationPointModelEClass, VariationPointModel.class, "VariationPointModel", !IS_ABSTRACT,
                 !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getVariationPointModel_LeadingModel(), theJavaapplicationPackage.getJavaApplication(), null,
-                "leadingModel", null, 1, 1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getVariationPointModel_IntegrationModel(), theJavaapplicationPackage.getJavaApplication(), null,
-                "integrationModel", null, 1, 1, VariationPointModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVariationPointModel_VariationPointGroups(), this.getVariationPointGroup(),
                 this.getVariationPointGroup_Model(), "variationPointGroups", null, 0, -1, VariationPointModel.class,
                 !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,

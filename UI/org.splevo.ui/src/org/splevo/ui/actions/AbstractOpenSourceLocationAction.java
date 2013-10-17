@@ -4,13 +4,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.splevo.ui.jdt.JavaEditorConnector;
-import org.splevo.vpm.variability.Variant;
-import org.splevo.vpm.variability.VariationPoint;
-import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * The abstract super class for actions to open a source location in the java editor.
@@ -52,34 +48,6 @@ public abstract class AbstractOpenSourceLocationAction<T extends Object> impleme
                             + cce.getMessage());
                 }
             }
-        }
-    }
-
-    /**
-     * Get the leading java model for a variation point.
-     * 
-     * @param vp
-     *            The variation point to get the java model for.
-     * @return The identified java application model.
-     */
-    protected JavaApplication getJavaModel(VariationPoint vp) {
-        return vp.getGroup().getModel().getIntegrationModel();
-    }
-
-    /**
-     * Get the java application model for a variant. This takes the variant (integration or leading)
-     * of the variant into account.
-     * 
-     * @param variant
-     *            The variant to get the model for.
-     * @return The identified model including the inventory information.
-     */
-    protected JavaApplication getJavaModel(Variant variant) {
-        VariationPointModel vpm = variant.getVariationPoint().getGroup().getModel();
-        if (variant.getLeading()) {
-            return vpm.getLeadingModel();
-        } else {
-            return vpm.getIntegrationModel();
         }
     }
 

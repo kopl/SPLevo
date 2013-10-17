@@ -2,8 +2,10 @@
  */
 package org.splevo.vpm.software.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.featuremodel.FeatureModelPackage;
 import org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage;
@@ -11,6 +13,7 @@ import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SoftwareFactory;
 import org.splevo.vpm.software.SoftwarePackage;
+import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.variability.variabilityPackage;
 import org.splevo.vpm.variability.impl.variabilityPackageImpl;
 
@@ -34,6 +37,13 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
      * @generated
      */
     private EClass javaSoftwareElementEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass sourceLocationEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -85,7 +95,6 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
 
         // Initialize simple dependencies
         FeatureModelPackage.eINSTANCE.eClass();
-        JavaapplicationPackage.eINSTANCE.eClass();
 
         // Obtain or create and register interdependencies
         variabilityPackageImpl thevariabilityPackage = (variabilityPackageImpl) (EPackage.Registry.INSTANCE
@@ -131,6 +140,60 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getSourceLocation() {
+        return sourceLocationEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getSourceLocation_FilePath() {
+        return (EAttribute) sourceLocationEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getSourceLocation_StartLine() {
+        return (EAttribute) sourceLocationEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getSourceLocation_StartPosition() {
+        return (EAttribute) sourceLocationEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getSourceLocation_EndLine() {
+        return (EAttribute) sourceLocationEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getSourceLocation_EndPosition() {
+        return (EAttribute) sourceLocationEClass.getEStructuralFeatures().get(4);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public SoftwareFactory getSoftwareFactory() {
         return (SoftwareFactory) getEFactoryInstance();
     }
@@ -158,6 +221,13 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
         softwareElementEClass = createEClass(SOFTWARE_ELEMENT);
 
         javaSoftwareElementEClass = createEClass(JAVA_SOFTWARE_ELEMENT);
+
+        sourceLocationEClass = createEClass(SOURCE_LOCATION);
+        createEAttribute(sourceLocationEClass, SOURCE_LOCATION__FILE_PATH);
+        createEAttribute(sourceLocationEClass, SOURCE_LOCATION__START_LINE);
+        createEAttribute(sourceLocationEClass, SOURCE_LOCATION__START_POSITION);
+        createEAttribute(sourceLocationEClass, SOURCE_LOCATION__END_LINE);
+        createEAttribute(sourceLocationEClass, SOURCE_LOCATION__END_POSITION);
     }
 
     /**
@@ -184,6 +254,9 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
         setNsPrefix(eNS_PREFIX);
         setNsURI(eNS_URI);
 
+        // Obtain other dependent packages
+        EcorePackage theEcorePackage = (EcorePackage) EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+
         // Create type parameters
 
         // Set bounds for type parameters
@@ -201,8 +274,28 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
 
         addEOperation(softwareElementEClass, ecorePackage.getEJavaObject(), "getValue", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+        addEOperation(softwareElementEClass, this.getSourceLocation(), "getSourceLocation", 0, 1, IS_UNIQUE, IS_ORDERED);
+
         initEClass(javaSoftwareElementEClass, JavaSoftwareElement.class, "JavaSoftwareElement", IS_ABSTRACT,
                 !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+        initEClass(sourceLocationEClass, SourceLocation.class, "SourceLocation", !IS_ABSTRACT, !IS_INTERFACE,
+                IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getSourceLocation_FilePath(), theEcorePackage.getEString(), "filePath", null, 0, 1,
+                SourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSourceLocation_StartLine(), theEcorePackage.getEInt(), "startLine", null, 0, 1,
+                SourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSourceLocation_StartPosition(), theEcorePackage.getEInt(), "startPosition", null, 0, 1,
+                SourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSourceLocation_EndLine(), theEcorePackage.getEInt(), "endLine", null, 0, 1,
+                SourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSourceLocation_EndPosition(), theEcorePackage.getEInt(), "endPosition", null, 0, 1,
+                SourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

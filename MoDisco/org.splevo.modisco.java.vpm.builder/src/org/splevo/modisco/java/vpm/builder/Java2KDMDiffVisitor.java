@@ -12,6 +12,7 @@ import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.eclipse.gmt.modisco.java.Statement;
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ClassDelete;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ClassInsert;
 import org.splevo.modisco.java.diffing.java2kdmdiff.EnumDeclarationChange;
@@ -43,6 +44,12 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /** The logger used by this class. */
     private Logger logger = Logger.getLogger(Java2KDMDiffVisitor.class);
 
+    /** The leading model to set in software elements. */
+    private JavaApplication leadingModel = null;
+
+    /** The integration model to set in software elements. */
+    private JavaApplication integrationModel = null;
+
     /** The id to set for leading variants. */
     private String variantIDLeading = null;
 
@@ -54,6 +61,11 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /**
      * Constructor to set the variant ids.
      * 
+     * @param leadingModel
+     *            the comprehensive model referencing leading ASTNodes and their source locations.
+     * @param integrationModel
+     *            the comprehensive model referencing integration ASTNodes and their source
+     *            locations.
      * @param variantIDLeading
      *            The id for the leading variants.
      * @param variantIDIntegration
@@ -61,7 +73,10 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      * @param vpm
      *            The variation point model to add new software element nodes to.
      */
-    public Java2KDMDiffVisitor(String variantIDLeading, String variantIDIntegration, VariationPointModel vpm) {
+    public Java2KDMDiffVisitor(JavaApplication leadingModel, JavaApplication integrationModel, String variantIDLeading,
+            String variantIDIntegration, VariationPointModel vpm) {
+        this.leadingModel = leadingModel;
+        this.integrationModel = integrationModel;
         this.variantIDIntegration = variantIDIntegration;
         this.variantIDLeading = variantIDLeading;
         this.vpm = vpm;
@@ -348,7 +363,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
 
-        MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(parentNode);
+        MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(parentNode, true);
         variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
 
         // create the variants
@@ -369,7 +384,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     private VariationPoint createVariationPointDelete(ASTNode element, ASTNode enclosingASTNode) {
 
-        MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(enclosingASTNode);
+        MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(enclosingASTNode, true);
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
@@ -395,7 +410,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     private VariationPoint createVariationPointChange(ASTNode astNodeLeft, ASTNode astNodeRight, ASTNode parent) {
 
-        MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(parent);
+        MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(parent, true);
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
@@ -424,7 +439,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     private Variant createVariant(ASTNode astNode, Boolean leading, String variantID) {
 
-        MoDiscoJavaSoftwareElement softwareElement = createSoftwareElement(astNode);
+        MoDiscoJavaSoftwareElement softwareElement = createSoftwareElement(astNode, leading);
 
         Variant integrationVariant = null;
         integrationVariant = variabilityFactory.eINSTANCE.createVariant();
@@ -439,12 +454,19 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      * 
      * @param astNode
      *            The ASTNode to link.
+     * @param leading
+     *            flag whether to set the leading or integration model.
      * @return The prepared software element.
      */
-    private MoDiscoJavaSoftwareElement createSoftwareElement(ASTNode astNode) {
+    private MoDiscoJavaSoftwareElement createSoftwareElement(ASTNode astNode, boolean leading) {
         MoDiscoJavaSoftwareElement element = softwareFactory.eINSTANCE.createMoDiscoJavaSoftwareElement();
-        vpm.getSoftwareElements().add(element);
+        if (leading) {
+            element.setJavaApplicationModel(leadingModel);
+        } else {
+            element.setJavaApplicationModel(integrationModel);
+        }
         element.setAstNode(astNode);
+        vpm.getSoftwareElements().add(element);
         return element;
     }
 }
