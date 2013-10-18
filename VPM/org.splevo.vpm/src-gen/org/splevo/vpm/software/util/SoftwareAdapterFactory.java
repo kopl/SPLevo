@@ -1,15 +1,13 @@
-/**
- */
 package org.splevo.vpm.software.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.splevo.vpm.software.*;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SoftwarePackage;
+import org.splevo.vpm.software.SourceLocation;
 
 /**
  * <!-- begin-user-doc -->

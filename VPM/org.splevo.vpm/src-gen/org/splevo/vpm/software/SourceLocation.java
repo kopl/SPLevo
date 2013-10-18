@@ -1,5 +1,3 @@
-/**
- */
 package org.splevo.vpm.software;
 
 import org.eclipse.emf.ecore.EObject;
