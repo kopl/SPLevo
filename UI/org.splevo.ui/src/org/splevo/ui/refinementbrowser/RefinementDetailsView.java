@@ -1,9 +1,5 @@
 package org.splevo.ui.refinementbrowser;
 
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.ImportDeclaration;
-import org.eclipse.gmt.modisco.java.ReturnStatement;
-import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -140,30 +136,6 @@ public class RefinementDetailsView extends Composite {
 
             if (element instanceof SoftwareElement) {
                 return ((SoftwareElement) element).getLabel();
-            }
-
-            // variable declaration optimized label
-            if (element instanceof VariableDeclarationStatement) {
-                VariableDeclarationStatement statement = (VariableDeclarationStatement) element;
-                return "Variable Declaration Statement: " + statement.getFragments().get(0).getName();
-            }
-
-            // return statement
-            if (element instanceof ReturnStatement) {
-                return "Return Statement";
-
-            }
-
-            // import declaration
-            if (element instanceof ImportDeclaration) {
-                ImportDeclaration importDecl = (ImportDeclaration) element;
-                return "Import: " + importDecl.getImportedElement().getName();
-            }
-
-            // generic ast node
-            if (element instanceof ASTNode) {
-                ASTNode astNode = (ASTNode) element;
-                return "MoDisco AST Node: " + astNode.getClass().getSimpleName();
             }
 
             // default label

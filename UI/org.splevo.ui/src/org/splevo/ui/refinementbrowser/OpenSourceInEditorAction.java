@@ -8,6 +8,9 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.splevo.ui.Activator;
 import org.splevo.ui.jdt.JavaEditorConnector;
 import org.splevo.vpm.software.JavaSoftwareElement;
+import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.Variant;
+import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * Action to open the currently selected element of a tree viewer in a source editor and higlight
@@ -23,9 +26,9 @@ public final class OpenSourceInEditorAction extends Action {
 
     /** The tree viewer to access the selected items. */
     private TreeViewer treeViewer = null;
-    
+
     /** The connector to the java editor. */
-    private JavaEditorConnector javaEditorConnector = new JavaEditorConnector(); 
+    private JavaEditorConnector javaEditorConnector = new JavaEditorConnector();
 
     /**
      * Constructor requiring a reference to the tree viewer containing the refinement details.
@@ -51,15 +54,29 @@ public final class OpenSourceInEditorAction extends Action {
 
         if (object instanceof JavaSoftwareElement) {
             javaEditorConnector.openEditor((JavaSoftwareElement) object);
+
+        } else if (object instanceof VariationPoint) {
+            VariationPoint vp = (VariationPoint) object;
+            if (vp.getEnclosingSoftwareEntity() instanceof JavaSoftwareElement) {
+                javaEditorConnector.openEditor((JavaSoftwareElement) vp.getEnclosingSoftwareEntity());
+            }
+
+        } else if (object instanceof Variant) {
+            Variant variant = (Variant) object;
+            for (SoftwareElement softwareElement : variant.getSoftwareEntities()) {
+                if (softwareElement instanceof JavaSoftwareElement) {
+                    javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
+                }
+            }
+
         } else {
             logger.warn("A non supported element has been selected");
         }
     }
 
     /**
-     * Check if this action is enabled. This method checks if
-     * the selected element is a JavaSoftwareElement because only those
-     * can be opened in an editor yet.
+     * Check if this action is enabled. This method checks if the selected element is a
+     * JavaSoftwareElement because only those can be opened in an editor yet.
      * 
      * @return true/false whether it can be applied.
      */
@@ -71,6 +88,10 @@ public final class OpenSourceInEditorAction extends Action {
         TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
         Object data = selectedItem.getData();
         if (data instanceof JavaSoftwareElement) {
+            return true;
+        } else if (data instanceof VariationPoint) {
+            return true;
+        } else if (data instanceof Variant) {
             return true;
         }
         return false;
