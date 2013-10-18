@@ -1,4 +1,6 @@
-package org.splevo.vpm.variability.tests;
+/**
+ */
+package org.splevo.vpm.refinement.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -7,11 +9,11 @@ import junit.textui.TestRunner;
 
 /**
  * <!-- begin-user-doc -->
- * A test suite for the '<em><b>variability</b></em>' package.
+ * A test suite for the '<em><b>refinement</b></em>' package.
  * <!-- end-user-doc -->
  * @generated
  */
-public class variabilityTests extends TestSuite {
+public class RefinementTests extends TestSuite {
 
     /**
      * <!-- begin-user-doc -->
@@ -28,7 +30,7 @@ public class variabilityTests extends TestSuite {
      * @generated
      */
     public static Test suite() {
-        TestSuite suite = new variabilityTests("variability Tests");
+        TestSuite suite = new RefinementTests("refinement Tests");
         return suite;
     }
 
@@ -37,8 +39,8 @@ public class variabilityTests extends TestSuite {
      * <!-- end-user-doc -->
      * @generated
      */
-    public variabilityTests(String name) {
+    public RefinementTests(String name) {
         super(name);
     }
 
-} //variabilityTests
+} //RefinementTests

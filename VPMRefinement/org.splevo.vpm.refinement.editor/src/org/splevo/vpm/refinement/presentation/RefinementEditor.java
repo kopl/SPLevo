@@ -124,6 +124,7 @@ import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.splevo.vpm.software.provider.SoftwareItemProviderAdapterFactory;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
@@ -673,22 +674,8 @@ public class RefinementEditor
         adapterFactory.addAdapterFactory(new RefinementItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new FeatureModelItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new JavaItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new JavaapplicationItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new CoreItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new KdmItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new SourceItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new CodeItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new ActionItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new PlatformItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new BuildItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new ConceptualItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new DataItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new EventItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new StructureItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new UiItemProviderAdapterFactory());
-        adapterFactory.addAdapterFactory(new ExtensionItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new variabilityItemProviderAdapterFactory());
+        adapterFactory.addAdapterFactory(new SoftwareItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
         // Create the command stack that will notify this editor as commands are executed.

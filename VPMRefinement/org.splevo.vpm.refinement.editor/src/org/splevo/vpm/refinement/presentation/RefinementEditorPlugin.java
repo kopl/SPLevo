@@ -56,10 +56,6 @@ public final class RefinementEditorPlugin extends EMFPlugin {
             (new ResourceLocator [] {
                 EcoreEditPlugin.INSTANCE,
                 FeatureModelEditPlugin.INSTANCE,
-                JavaEditPlugin.INSTANCE,
-                JavaApplicationEditPlugin.INSTANCE,
-                KdmEditPlugin.INSTANCE,
-                KdmSourceExtensionEditPlugin.INSTANCE,
                 vpmEditPlugin.INSTANCE,
             });
     }

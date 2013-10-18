@@ -1,5 +1,3 @@
-/**
- */
 package org.splevo.vpm.refinement;
 
 import java.util.Arrays;

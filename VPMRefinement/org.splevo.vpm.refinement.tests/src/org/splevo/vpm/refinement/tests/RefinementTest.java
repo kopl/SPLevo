@@ -1,27 +1,29 @@
-package org.splevo.vpm.software.tests;
+/**
+ */
+package org.splevo.vpm.refinement.tests;
 
 import junit.framework.TestCase;
 
 import junit.textui.TestRunner;
 
-import org.splevo.vpm.software.SoftwareFactory;
-import org.splevo.vpm.software.SourceLocation;
+import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementFactory;
 
 /**
  * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Source Location</b></em>'.
+ * A test case for the model object '<em><b>Refinement</b></em>'.
  * <!-- end-user-doc -->
  * @generated
  */
-public class SourceLocationTest extends TestCase {
+public class RefinementTest extends TestCase {
 
     /**
-     * The fixture for this Source Location test case.
+     * The fixture for this Refinement test case.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected SourceLocation fixture = null;
+    protected Refinement fixture = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -29,36 +31,36 @@ public class SourceLocationTest extends TestCase {
      * @generated
      */
     public static void main(String[] args) {
-        TestRunner.run(SourceLocationTest.class);
+        TestRunner.run(RefinementTest.class);
     }
 
     /**
-     * Constructs a new Source Location test case with the given name.
+     * Constructs a new Refinement test case with the given name.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    public SourceLocationTest(String name) {
+    public RefinementTest(String name) {
         super(name);
     }
 
     /**
-     * Sets the fixture for this Source Location test case.
+     * Sets the fixture for this Refinement test case.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void setFixture(SourceLocation fixture) {
+    protected void setFixture(Refinement fixture) {
         this.fixture = fixture;
     }
 
     /**
-     * Returns the fixture for this Source Location test case.
+     * Returns the fixture for this Refinement test case.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected SourceLocation getFixture() {
+    protected Refinement getFixture() {
         return fixture;
     }
 
@@ -70,7 +72,7 @@ public class SourceLocationTest extends TestCase {
      */
     @Override
     protected void setUp() throws Exception {
-        setFixture(SoftwareFactory.eINSTANCE.createSourceLocation());
+        setFixture(RefinementFactory.eINSTANCE.createRefinement());
     }
 
     /**
@@ -84,4 +86,4 @@ public class SourceLocationTest extends TestCase {
         setFixture(null);
     }
 
-} //SourceLocationTest
+} //RefinementTest

@@ -13,6 +13,7 @@ import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementType;
+import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.variability.variabilityPackage;
 
 /**
@@ -91,6 +92,7 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
         // Initialize simple dependencies
         variabilityPackage.eINSTANCE.eClass();
+        SoftwarePackage.eINSTANCE.eClass();
 
         // Create package meta-data objects
         theRefinementPackage.createPackageContents();

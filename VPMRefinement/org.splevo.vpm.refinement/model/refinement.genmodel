@@ -2,7 +2,7 @@
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.splevo.vpm.refinement/src-gen" modelPluginID="org.splevo.vpm.refinement"
     modelName="Refinement" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
-    copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.genmodel#//featuremodel platform:/plugin/org.eclipse.gmt.modisco.java/model/java.genmodel#//java platform:/plugin/org.eclipse.modisco.java.composition/model/javaApplication.genmodel#//javaapplication platform:/plugin/org.eclipse.gmt.modisco.omg.kdm/model/kdm.genmodel#//kdm platform:/plugin/org.eclipse.modisco.kdm.source.extension/model/kdmSourceExtension.genmodel#//kdm platform:/plugin/org.splevo.vpm/model/vpm.genmodel#//vpm">
+    copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.genmodel#//featuremodel platform:/plugin/org.splevo.vpm/model/vpm.genmodel#//vpm">
   <foreignModel>refinement.ecore</foreignModel>
   <genPackages prefix="Refinement" basePackage="org.splevo.vpm" disposableProviderFactory="true"
       ecorePackage="refinement.ecore#/">
@@ -17,6 +17,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//Refinement/type"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference refinement.ecore#//Refinement/variationPoints"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference refinement.ecore#//Refinement/refinementModel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//Refinement/source"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
