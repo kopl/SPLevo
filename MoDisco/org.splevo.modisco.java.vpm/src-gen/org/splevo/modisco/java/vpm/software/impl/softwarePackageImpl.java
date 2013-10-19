@@ -5,18 +5,13 @@ package org.splevo.modisco.java.vpm.software.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.gmt.modisco.java.emf.JavaPackage;
-
 import org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage;
 import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.modisco.java.vpm.software.softwareFactory;
 import org.splevo.modisco.java.vpm.software.softwarePackage;
-
 import org.splevo.vpm.software.SoftwarePackage;
-
 import org.splevo.vpm.variability.variabilityPackage;
 
 /**

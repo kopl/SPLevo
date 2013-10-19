@@ -4,15 +4,35 @@ package org.splevo.modisco.java.diffing.java2kdmdiff.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.compare.diff.metamodel.AbstractDiffExtension;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.splevo.modisco.java.diffing.java2kdmdiff.*;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ClassChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ClassDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ClassInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.EnumChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.EnumDeclarationChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.FieldChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.FieldDeclarationChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.FieldDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.FieldInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImplementsInterfaceDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImplementsInterfaceInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImportDeclarationChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImportDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImportInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffExtension;
+import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
+import org.splevo.modisco.java.diffing.java2kdmdiff.MethodChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.MethodDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.MethodInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.PackageChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.PackageDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.PackageInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.StatementChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.StatementDelete;
+import org.splevo.modisco.java.diffing.java2kdmdiff.StatementInsert;
 
 /**
  * <!-- begin-user-doc -->

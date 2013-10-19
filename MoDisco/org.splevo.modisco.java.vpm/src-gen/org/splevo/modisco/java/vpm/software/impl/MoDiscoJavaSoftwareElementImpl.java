@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Block;
-import org.eclipse.gmt.modisco.java.IfStatement;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
 import org.eclipse.gmt.modisco.java.NamedElement;
@@ -18,7 +17,6 @@ import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion
 import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.modisco.java.vpm.software.softwarePackage;
 import org.splevo.modisco.util.SourceConnector;
-import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SoftwareFactory;
 import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.software.impl.JavaSoftwareElementImpl;

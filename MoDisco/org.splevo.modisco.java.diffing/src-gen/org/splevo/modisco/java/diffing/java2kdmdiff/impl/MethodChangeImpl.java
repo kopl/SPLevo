@@ -3,7 +3,6 @@
 package org.splevo.modisco.java.diffing.java2kdmdiff.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.modisco.java.diffing.java2kdmdiff.MethodChange;
 

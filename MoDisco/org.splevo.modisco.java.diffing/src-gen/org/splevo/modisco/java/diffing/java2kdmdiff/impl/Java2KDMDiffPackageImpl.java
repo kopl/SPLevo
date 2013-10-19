@@ -3,15 +3,11 @@
 package org.splevo.modisco.java.diffing.java2kdmdiff.impl;
 
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.gmt.modisco.java.emf.JavaPackage;
-
 import org.splevo.modisco.java.diffing.java2kdmdiff.ClassChange;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ClassDelete;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ClassInsert;

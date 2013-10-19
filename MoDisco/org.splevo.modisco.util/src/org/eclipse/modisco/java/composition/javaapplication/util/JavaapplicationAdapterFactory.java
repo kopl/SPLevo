@@ -14,17 +14,16 @@ package org.eclipse.modisco.java.composition.javaapplication.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-
 import org.eclipse.gmt.modisco.omg.kdm.core.Element;
-
 import org.eclipse.gmt.modisco.omg.kdm.source.SourceRegion;
-
-import org.eclipse.modisco.java.composition.javaapplication.*;
+import org.eclipse.modisco.java.composition.javaapplication.Java2Directory;
+import org.eclipse.modisco.java.composition.javaapplication.Java2File;
+import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+import org.eclipse.modisco.java.composition.javaapplication.JavaJar2File;
+import org.eclipse.modisco.java.composition.javaapplication.JavaNodeSourceRegion;
+import org.eclipse.modisco.java.composition.javaapplication.JavaapplicationPackage;
 import org.eclipse.modisco.kdm.source.extension.ASTNodeSourceRegion;
 import org.eclipse.modisco.kdm.source.extension.CodeUnit2File;
 

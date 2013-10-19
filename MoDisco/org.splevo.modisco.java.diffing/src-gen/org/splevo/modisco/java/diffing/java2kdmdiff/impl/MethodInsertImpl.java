@@ -3,14 +3,10 @@
 package org.splevo.modisco.java.diffing.java2kdmdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
-
 import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.modisco.java.diffing.java2kdmdiff.MethodInsert;
 

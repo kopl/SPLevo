@@ -5,12 +5,11 @@ package org.splevo.modisco.java.vpm.software.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.splevo.modisco.java.vpm.software.*;
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
+import org.splevo.modisco.java.vpm.software.softwareFactory;
+import org.splevo.modisco.java.vpm.software.softwarePackage;
 
 /**
  * <!-- begin-user-doc -->

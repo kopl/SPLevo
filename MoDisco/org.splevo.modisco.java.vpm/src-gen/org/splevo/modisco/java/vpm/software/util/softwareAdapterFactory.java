@@ -4,13 +4,10 @@ package org.splevo.modisco.java.vpm.software.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.splevo.modisco.java.vpm.software.*;
-
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
+import org.splevo.modisco.java.vpm.software.softwarePackage;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 

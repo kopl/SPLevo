@@ -3,17 +3,11 @@
 package org.splevo.modisco.java.diffing.java2kdmdiff.presentation;
 
 import org.eclipse.emf.common.EMFPlugin;
-
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.compare.diff.provider.DiffEditPlugin;
-
 import org.eclipse.emf.compare.match.metamodel.provider.MatchEditPlugin;
-
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
-
 import org.eclipse.gmt.modisco.java.emf.provider.JavaEditPlugin;
 
 /**

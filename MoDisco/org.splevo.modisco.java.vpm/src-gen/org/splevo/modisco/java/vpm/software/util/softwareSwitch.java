@@ -4,11 +4,9 @@ package org.splevo.modisco.java.vpm.software.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
-import org.splevo.modisco.java.vpm.software.*;
-
+import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
+import org.splevo.modisco.java.vpm.software.softwarePackage;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 

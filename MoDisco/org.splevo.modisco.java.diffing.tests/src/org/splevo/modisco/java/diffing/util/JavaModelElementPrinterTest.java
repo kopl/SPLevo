@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.emf.JavaFactory;
 import org.junit.Test;
-import org.splevo.modisco.java.diffing.util.JavaModelElementPrinter;
 
 /**
  * Test Case for the java model element printer.

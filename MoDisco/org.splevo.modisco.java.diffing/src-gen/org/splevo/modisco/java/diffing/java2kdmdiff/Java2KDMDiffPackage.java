@@ -3,7 +3,6 @@
 package org.splevo.modisco.java.diffing.java2kdmdiff;
 
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;

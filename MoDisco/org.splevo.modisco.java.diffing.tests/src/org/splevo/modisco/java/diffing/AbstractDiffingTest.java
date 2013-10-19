@@ -9,7 +9,6 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.junit.Before;
 import org.splevo.diffing.JavaDiffer;
-import org.splevo.modisco.java.diffing.Java2KDMDiffer;
 
 /**
  * Abstract base class for diffing tests. 

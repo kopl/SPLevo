@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.diff.engine.IMatchManager;
 import org.eclipse.emf.compare.diff.engine.check.ReferencesCheck;
+import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
 import org.eclipse.emf.compare.diff.metamodel.DiffGroup;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeLeftTarget;

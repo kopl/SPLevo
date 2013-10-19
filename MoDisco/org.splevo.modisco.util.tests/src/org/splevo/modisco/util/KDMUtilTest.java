@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.junit.Test;
-import org.splevo.modisco.util.KDMUtil;
 
 /**
  * The Class KDMUtilTest.

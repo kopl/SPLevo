@@ -3,7 +3,6 @@
 package org.splevo.modisco.java.vpm.software;
 
 import org.eclipse.gmt.modisco.java.ASTNode;
-
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.vpm.software.JavaSoftwareElement;
 
