@@ -90,46 +90,46 @@ import org.eclipse.ui.PartInitException;
  */
 public class variabilityModelWizard extends Wizard implements INewWizard {
     /**
-     * The supported extensions for created files. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The supported extensions for created files.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public static final List<String> FILE_EXTENSIONS = Collections.unmodifiableList(Arrays
             .asList(vpmEditorPlugin.INSTANCE.getString("_UI_variabilityEditorFilenameExtensions").split("\\s*,\\s*")));
 
     /**
-     * A formatted list of supported file extensions, suitable for display. <!-- begin-user-doc -->
+     * A formatted list of supported file extensions, suitable for display.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static final String FORMATTED_FILE_EXTENSIONS = vpmEditorPlugin.INSTANCE.getString(
             "_UI_variabilityEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
 
     /**
-     * This caches an instance of the model package. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This caches an instance of the model package.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected variabilityPackage _variabilityPackage = variabilityPackage.eINSTANCE;
 
     /**
-     * This caches an instance of the model factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This caches an instance of the model factory.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected variabilityFactory _variabilityFactory = _variabilityPackage.getvariabilityFactory();
 
     /**
-     * This is the file creation page. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is the file creation page.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected variabilityModelWizardNewFileCreationPage newFileCreationPage;
 
     /**
-     * This is the initial object creation page. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is the initial object creation page.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected variabilityModelWizardInitialObjectCreationPage initialObjectCreationPage;
@@ -143,23 +143,23 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
     protected IStructuredSelection selection;
 
     /**
-     * Remember the workbench during initialization. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Remember the workbench during initialization.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected IWorkbench workbench;
 
     /**
-     * Caches the names of the types that can be created as the root object. <!-- begin-user-doc -->
+     * Caches the names of the types that can be created as the root object.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected List<String> initialObjectNames;
 
     /**
-     * This just records the information. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This just records the information.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -171,9 +171,9 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
     }
 
     /**
-     * Returns the names of the types that can be created as the root object. <!-- begin-user-doc
+     * Returns the names of the types that can be created as the root object.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected Collection<String> getInitialObjectNames() {
@@ -193,8 +193,8 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
     }
 
     /**
-     * Create a new model. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Create a new model.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected EObject createInitialModel() {
@@ -204,8 +204,8 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
     }
 
     /**
-     * Do the work after everything is specified. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Do the work after everything is specified.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -288,14 +288,14 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
     }
 
     /**
-     * This is the one page of the wizard. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is the one page of the wizard.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public class variabilityModelWizardNewFileCreationPage extends WizardNewFileCreationPage {
         /**
-         * Pass in the selection. <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
+         * Pass in the selection.
+         * <!-- begin-user-doc --> <!-- end-user-doc -->
          * @generated
          */
         public variabilityModelWizardNewFileCreationPage(String pageId, IStructuredSelection selection) {
@@ -303,9 +303,9 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
         }
 
         /**
-         * The framework calls this to see if the file is correct. <!-- begin-user-doc --> <!--
+         * The framework calls this to see if the file is correct.
+         * <!-- begin-user-doc --> <!--
          * end-user-doc -->
-         * 
          * @generated
          */
         @Override
@@ -324,7 +324,6 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         public IFile getModelFile() {
@@ -333,15 +332,14 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
     }
 
     /**
-     * This is the page where the type of object to create is selected. <!-- begin-user-doc --> <!--
+     * This is the page where the type of object to create is selected.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public class variabilityModelWizardInitialObjectCreationPage extends WizardPage {
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         protected Combo initialObjectField;
@@ -353,14 +351,13 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         protected Combo encodingField;
 
         /**
-         * Pass in the selection. <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
+         * Pass in the selection.
+         * <!-- begin-user-doc --> <!-- end-user-doc -->
          * @generated
          */
         public variabilityModelWizardInitialObjectCreationPage(String pageId) {
@@ -369,7 +366,6 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         public void createControl(Composite parent) {
@@ -442,7 +438,6 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         protected ModifyListener validator = new ModifyListener() {
@@ -453,7 +448,6 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         protected boolean validatePage() {
@@ -462,7 +456,6 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         @Override
@@ -481,7 +474,6 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         public String getInitialObjectName() {
@@ -497,7 +489,6 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         public String getEncoding() {
@@ -521,7 +512,6 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         protected Collection<String> getEncodings() {
@@ -537,9 +527,9 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
     }
 
     /**
-     * The framework calls this to create the contents of the wizard. <!-- begin-user-doc --> <!--
+     * The framework calls this to create the contents of the wizard.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -596,8 +586,8 @@ public class variabilityModelWizard extends Wizard implements INewWizard {
     }
 
     /**
-     * Get the file from the page. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Get the file from the page.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public IFile getModelFile() {

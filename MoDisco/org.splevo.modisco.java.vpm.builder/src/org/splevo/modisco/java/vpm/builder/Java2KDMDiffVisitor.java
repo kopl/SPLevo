@@ -1,5 +1,8 @@
 package org.splevo.modisco.java.vpm.builder;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
@@ -57,6 +60,9 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     private String variantIDIntegration = null;
 
     private VariationPointModel vpm = null;
+
+    /** Registry to store already created software elements. */
+    private Map<ASTNode, MoDiscoJavaSoftwareElement> elementRegistry = new LinkedHashMap<ASTNode, MoDiscoJavaSoftwareElement>();
 
     /**
      * Constructor to set the variant ids.
@@ -452,6 +458,8 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /**
      * Create a software element wrapping an ASTNode.
      * 
+     * Uses a registry map to prevent creating multiple SoftwareElements for the same ASTNode.
+     * 
      * @param astNode
      *            The ASTNode to link.
      * @param leading
@@ -459,6 +467,11 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      * @return The prepared software element.
      */
     private MoDiscoJavaSoftwareElement createSoftwareElement(ASTNode astNode, boolean leading) {
+
+        if (elementRegistry.containsKey(astNode)) {
+            return elementRegistry.get(astNode);
+        }
+
         MoDiscoJavaSoftwareElement element = softwareFactory.eINSTANCE.createMoDiscoJavaSoftwareElement();
         if (leading) {
             element.setJavaApplicationModel(leadingModel);
@@ -467,6 +480,8 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
         }
         element.setAstNode(astNode);
         vpm.getSoftwareElements().add(element);
+        elementRegistry.put(astNode, element);
+        
         return element;
     }
 }

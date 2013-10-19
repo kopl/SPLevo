@@ -25,7 +25,7 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
 
     /** The logger used by this class. */
     private Logger logger = Logger.getLogger(Java2KDMVPMBuilder.class);
-
+    
     @Override
     public VariationPointModel buildVPM(DiffModel diffModel, String variantIDLeading, String variantIDIntegration) {
 

@@ -3,9 +3,7 @@
 package org.splevo.vpm.software.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SoftwarePackage;
 
