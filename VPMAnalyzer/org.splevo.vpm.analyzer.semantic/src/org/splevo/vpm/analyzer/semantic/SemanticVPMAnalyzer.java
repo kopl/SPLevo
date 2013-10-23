@@ -2,15 +2,12 @@ package org.splevo.vpm.analyzer.semantic;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
-import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
@@ -19,6 +16,10 @@ import org.splevo.vpm.analyzer.config.NumericConfiguration;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
+import org.splevo.vpm.analyzer.semantic.extensionpoint.Activator;
+import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContent;
+import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProvider;
+import org.splevo.vpm.analyzer.semantic.extensionpoint.UnsupportedSoftwareElementException;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.RelationShipSearchConfiguration;
 import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
@@ -240,7 +241,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 		for (Node node : vpmGraph.getNodeSet()) {
 			VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT,
 					VariationPoint.class);
-			indexNode(node.getId(), node, vp, indexComments);
+			indexNode(node.getId(), vp, indexComments);
 		}
 	}
 
@@ -250,16 +251,14 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 	 * 
 	 * @param id
 	 *            The ID used to store the text in the Lucene index.
-	 * @param node
-	 *            The corresponding {@link Node}.
 	 * @param vp
 	 *            The corresponding {@link VariationPoint}.
-	 * @param indexComments
+	 * @param matchComments
 	 *            Determines if comments should be indexed or ignored.
 	 */
-	private void indexNode(String id, Node node, VariationPoint vp,
-			boolean indexComments) {
-		if (id == null || node == null || vp == null) {
+	private void indexNode(String id, VariationPoint vp,
+			boolean matchComments) {
+		if (id == null || vp == null) {
 			throw new IllegalArgumentException();
 		}
 
@@ -268,34 +267,41 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 			throw new IllegalStateException();
 		}
 
-		// Iterate through all child elements.
-		if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
-			logger.error("Unsupported SoftwareElement Type: "
-					+ softwareElement.getClass());
-		}
-
-		ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement)
-				.getAstNode();
-		TreeIterator<EObject> allContents = EcoreUtil.getAllContents(astNode
-				.eContents());
-		IndexASTNodeSwitch indexASTNodeSwitch = new IndexASTNodeSwitch(
-				indexComments);
-		while (allContents.hasNext()) {
-			EObject next = allContents.next();
-			indexASTNodeSwitch.doSwitch(next);
+		List<String> code = new LinkedList<String>();
+		List<String> comments = new LinkedList<String>();
+		List<SemanticContentProvider> semanticContentProviders = Activator.getSemanticContentProviders();
+		for (SemanticContentProvider semanticContentProvider : semanticContentProviders) {
+			SemanticContent relevantContent;
+			try {
+				relevantContent = semanticContentProvider.getRelevantContent(softwareElement, matchComments);
+			} catch (UnsupportedSoftwareElementException e) {
+				continue;
+			}
+			code.addAll(relevantContent.getCode());			
+			comments.addAll(relevantContent.getComments());
 		}
 
 		// Get content and comment from switch.
-		String content = indexASTNodeSwitch.getContent();
-		String comment = indexASTNodeSwitch.getComments();
+		String codeString = convertListToString(code);
+		String commentString = convertListToString(comments);
 
 		// Add to index.
 		try {
-			this.indexer.addToIndex(id, content, comment);
+			this.indexer.addToIndex(id, codeString, commentString);
 		} catch (IOException e) {
 			logger.error("Failure while adding node to index.", e);
 		}
 
+	}
+
+	/**
+	 * Transforms a list that stores strings to a string.
+	 * 
+	 * @param list The list.
+	 * @return The string representation.
+	 */
+	private String convertListToString(List<String> list) {
+		return Arrays.toString(list.toArray()).replaceAll("\\[|\\]", "").replaceAll(", ", " ");
 	}
 
 	/**

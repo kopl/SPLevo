@@ -3,13 +3,15 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Semantic
 Bundle-SymbolicName: org.splevo.vpm.analyzer.semantic;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.splevo.vpm.analyzer.semantic.extensionpoint.Activator
 Require-Bundle: org.splevo.vpm.analyzer;bundle-version="1.0.0",
  org.apache.log4j;bundle-version="1.2.15",
- org.splevo.modisco.util;bundle-version="1.0.0",
- org.lucene;bundle-version="4.3.0";visibility:=reexport,
- org.splevo.modisco.java.vpm;bundle-version="1.0.0"
+ org.lucene;bundle-version="4.3.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Bundle-Vendor: www.splevo.org
-Export-Package: org.splevo.vpm.analyzer.semantic
+Export-Package: org.splevo.vpm.analyzer.semantic,
+ org.splevo.vpm.analyzer.semantic.extensionpoint
+Import-Package: org.eclipse.core.runtime;version="3.4.0",
+ org.osgi.framework

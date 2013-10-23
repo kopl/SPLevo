@@ -239,7 +239,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
             label.setText("Please select a VPM Analyzer first.");
             configComp.pack();
         } else {
-            new ConfigurationCompositeFactory(selectedAnalyzer).createConfigComps(configComp);
+            new UIConfigurationCompositeFactory(selectedAnalyzer).createConfigComps(configComp);
         }
 
         configComp.setSize(configComp.computeSize(SWT.DEFAULT, SWT.DEFAULT));

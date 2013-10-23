@@ -31,16 +31,17 @@ import org.splevo.vpm.analyzer.config.NumericConfiguration;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 
-public class ConfigurationCompositeFactory {
+public class UIConfigurationCompositeFactory {
 
 	private VPMAnalyzer analyzer;
 
-	public ConfigurationCompositeFactory(VPMAnalyzer analyzer) {
+	public UIConfigurationCompositeFactory(VPMAnalyzer analyzer) {
 		this.analyzer = analyzer;
 	}
 
 	public void createConfigComps(Composite parent) {
-		VPMAnalyzerConfigurationSet configurations = analyzer.getConfigurations();
+		VPMAnalyzerConfigurationSet configurations = analyzer
+				.getConfigurations();
 		Map<String, List<AbstractVPMAnalyzerConfiguration<?>>> configsByGroupName = configurations
 				.getAllConfigurationsByGroupName();
 
@@ -70,7 +71,7 @@ public class ConfigurationCompositeFactory {
 		formData.right = new FormAttachment(100);
 		group.setLayoutData(formData);
 
-		for (AbstractVPMAnalyzerConfiguration config : configs) {
+		for (AbstractVPMAnalyzerConfiguration<?> config : configs) {
 			Composite parentComp = new Composite(group, SWT.NONE);
 			RowLayout layout = new RowLayout(SWT.HORIZONTAL);
 			layout.center = true;

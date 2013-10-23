@@ -3,8 +3,11 @@ package org.splevo.vpm.analyzer.semantic.lucene.finder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -85,17 +88,18 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 			}
 		}
 
-		if (termFrequencies.size() == 0) {
-			return new HashSet<String>();
-		}
-
-		int minFreq = calculateMinFreq(termFrequencies);
-
-		HashSet<String> result = new HashSet<String>();
-		for (String key : termFrequencies.keySet()) {
-			if (minFreq <= termFrequencies.get(key)) {
-				result.add(key);
+		List<Map.Entry<String, Integer>> entries = new ArrayList<Map.Entry<String, Integer>>(
+				termFrequencies.entrySet());
+		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+			public int compare(Map.Entry<String, Integer> a,
+					Map.Entry<String, Integer> b) {
+				return b.getValue().compareTo(a.getValue());
 			}
+		});
+
+		Set<String> result = new LinkedHashSet<String>();
+		for (int i = 0; i < n; i++) {
+			result.add(entries.get(i).getKey());
 		}
 
 		return result;
@@ -137,31 +141,6 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 				termFrequencies.put(key, docFrequencies.get(key));
 			}
 		}
-	}
-
-	/**
-	 * Calculates the frequency of the n-th frequent term.
-	 * 
-	 * @param termFrequencies
-	 *            The {@link Map} containing the index frequencies.
-	 * @return The frequency of the n-th term.
-	 */
-	private int calculateMinFreq(Map<String, Integer> termFrequencies) {
-		if (termFrequencies.size() == 0) {
-			throw new IllegalArgumentException();
-		}
-
-		ArrayList<Integer> list = new ArrayList<Integer>(
-				termFrequencies.values());
-		Collections.sort(list);
-		int minFreq;
-
-		if (list.size() <= n) {
-			minFreq = list.get(0);
-		} else {
-			minFreq = list.get(list.size() - 1 - n);
-		}
-		return minFreq;
 	}
 
 	@Override
@@ -208,7 +187,7 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 	}
 
 	/**
-	 * Adds a {@link Set} of VP ids to a given {@link VPLinkContainer}.
+	 * Adds a {@link Set} of VP IDs to a given {@link VPLinkContainer}.
 	 * 
 	 * @param result
 	 *            The result {@link VPLinkContainer}.
@@ -234,8 +213,8 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 	 * Executes a {@link TermQuery} for the given term. Uses the given
 	 * {@link IndexSearcher} to query the index.
 	 * 
-	 * @param term The term to search for.
-	 *            The {@link Term}.
+	 * @param term
+	 *            The term to search for. The {@link Term}.
 	 * @param indexSearcher
 	 *            The {@link IndexSearcher}.
 	 * @return The result of the query as {@link ScoreDoc} array.
