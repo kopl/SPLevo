@@ -1,18 +1,14 @@
 package org.splevo.vpm.refinement;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gmt.modisco.java.ASTNode;
-import org.eclipse.gmt.modisco.java.Block;
 import org.junit.Before;
 import org.junit.Test;
-import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
@@ -63,11 +59,7 @@ public class VPMRefinementServiceTest extends AbstractTest {
             for (VariationPoint vp : group.getVariationPoints()) {
 
                 SoftwareElement element = vp.getEnclosingSoftwareEntity();
-                if (!(element instanceof MoDiscoJavaSoftwareElement)) {
-                    fail("Unexpected SoftwareElement type: " + element.getClass().getSimpleName());
-                }
-                ASTNode node = ((MoDiscoJavaSoftwareElement) element).getAstNode();
-                if (node instanceof Block) {
+                if ("gcd()".equals(element.getLabel())) {
                     refinement.getVariationPoints().add(vp);
                 }
 
@@ -84,13 +76,7 @@ public class VPMRefinementServiceTest extends AbstractTest {
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
             if (vpGroup.getGroupId().equals("gcd")) {
                 SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getEnclosingSoftwareEntity();
-                if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
-                    fail("Software Element is not an MoDisco Java element as assumed");
-                }
-
-                ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
-                assertNotNull("ASTNode reference missing", astNode);
-
+                assertEquals("Wrong enclosing software element", "gcd()", softwareElement.getLabel());
             }
         }
     }
@@ -119,13 +105,8 @@ public class VPMRefinementServiceTest extends AbstractTest {
         for (VariationPointGroup group : initialVpm.getVariationPointGroups()) {
             for (VariationPoint vp : group.getVariationPoints()) {
 
-                SoftwareElement softwareElement = vp.getEnclosingSoftwareEntity();
-                if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
-                    fail("SoftwareElement is not a MoDiscoJavaSoftwareElement as assumed");
-                }
-                ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
-
-                if (astNode instanceof Block) {
+                SoftwareElement element = vp.getEnclosingSoftwareEntity();
+                if ("gcd()".equals(element.getLabel())) {
                     refinement.getVariationPoints().add(vp);
                 }
 
@@ -142,9 +123,7 @@ public class VPMRefinementServiceTest extends AbstractTest {
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
             if (vpGroup.getGroupId().equals("gcd")) {
                 SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getEnclosingSoftwareEntity();
-                if (!(softwareElement instanceof MoDiscoJavaSoftwareElement)) {
-                    fail("SoftwareElement is not a MoDiscoJavaSoftwareElement as assumed");
-                }
+                assertEquals("Wrong enclosing software element", "gcd()", softwareElement.getLabel());
             }
         }
     }
