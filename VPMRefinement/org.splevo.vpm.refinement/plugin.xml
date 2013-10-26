@@ -9,7 +9,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://refinement/1.0"
-            class="refinement.RefinementPackage"
+            class="org.splevo.vpm.refinement.RefinementPackage"
             genModel="model/refinement.genmodel"/>
    </extension>
 
