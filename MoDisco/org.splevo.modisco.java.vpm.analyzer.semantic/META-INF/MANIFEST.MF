@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Contentprovider
-Bundle-SymbolicName: org.splevo.modisco.java.vpm.semantic.contentprovider;singleton:=true
+Bundle-SymbolicName: org.splevo.modisco.java.vpm.analyzer.semantic;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.splevo.vpm;bundle-version="1.0.0",
