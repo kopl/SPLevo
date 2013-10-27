@@ -12,13 +12,5 @@
             class="modisco.vpm.MoDiscoJava.MoDiscoJavaPackage"
             genModel="model/modisco.genmodel"/>
    </extension>
-   <extension
-         id="id1"
-         name="Modisco Content Provider"
-         point="org.splevo.vpm.analyzer.semantic.contentprovider">
-      <contentprovider
-            contentprovider.class="org.splevo.modisco.java.vpm.semantic.MoDiscoSemanticContentProvider">
-      </contentprovider>
-   </extension>
 
 </plugin>
