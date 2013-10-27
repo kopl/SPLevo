@@ -254,25 +254,19 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         Modifier modifier2 = (Modifier) compareElement;
 
         // check visibility modifier
-        if (modifier1.getVisibility() != null) {
-            if (modifier2.getVisibility() == modifier1.getVisibility()) {
-                return Boolean.TRUE;
-            } else {
+        if (modifier2.getVisibility() != modifier1.getVisibility()) {
                 return Boolean.FALSE;
-            }
         }
 
         // check inheritance modifier
-        if (modifier1.getInheritance() != null) {
-            if (modifier2.getInheritance() == modifier1.getInheritance()) {
-                return Boolean.TRUE;
-            } else {
+        if (modifier1.getInheritance() != modifier2.getInheritance()) {
                 return Boolean.FALSE;
-            }
         }
+        
+        // TODO: MoDisco Similarity: Add further attribute checks
 
         logger.warn("Unknown Modifier type: " + modifier1);
-        return Boolean.FALSE;
+        return Boolean.TRUE;
     }
 
     /**
