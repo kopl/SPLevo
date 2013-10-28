@@ -31,14 +31,35 @@ import org.splevo.vpm.analyzer.config.NumericConfiguration;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 
+/**
+ * This class has methods to create the configuration panel for the analysis
+ * configuration wizard.
+ * 
+ * @author Daniel Kojic
+ * 
+ */
 public class UIConfigurationCompositeFactory {
 
+	/**
+	 * The {@link VPMAnalyzer} to get the configs from.
+	 */
 	private VPMAnalyzer analyzer;
 
+	/**
+	 * @param analyzer
+	 *            The {@link VPMAnalyzer} to get the configs from.
+	 */
 	public UIConfigurationCompositeFactory(VPMAnalyzer analyzer) {
 		this.analyzer = analyzer;
 	}
 
+	/**
+	 * Takes a {@link Composite} and adds the configuration elements as
+	 * children.
+	 * 
+	 * @param parent
+	 *            The {@link Composite}.
+	 */
 	public void createConfigComps(Composite parent) {
 		VPMAnalyzerConfigurationSet configurations = analyzer
 				.getConfigurations();
@@ -51,6 +72,16 @@ public class UIConfigurationCompositeFactory {
 		}
 	}
 
+	/**
+	 * Creates a named group that has configurations.
+	 * 
+	 * @param parent
+	 *            The parent {@link Composite}.
+	 * @param groupName
+	 *            The name of the group.
+	 * @param configs
+	 *            The UI configuration elements to be added to the group.
+	 */
 	private void createConfigurationGroup(Composite parent, String groupName,
 			List<AbstractVPMAnalyzerConfiguration<?>> configs) {
 		Group group = new Group(parent, SWT.NONE);
@@ -92,6 +123,15 @@ public class UIConfigurationCompositeFactory {
 		}
 	}
 
+	/**
+	 * Creates the configuration elements for a numeric configuration. Adds them
+	 * to a parent element.
+	 * 
+	 * @param parent
+	 *            The parent.
+	 * @param config
+	 *            The numeric configuration.
+	 */
 	private void createNumericConfigField(Composite parent,
 			final NumericConfiguration config) {
 		addLabel(parent, config.getLabel());
@@ -125,6 +165,15 @@ public class UIConfigurationCompositeFactory {
 		addExplanation(parent, config.getExplanation());
 	}
 
+	/**
+	 * Creates the configuration elements for a chioce configuration. Adds them
+	 * to a parent element.
+	 * 
+	 * @param parent
+	 *            The parent.
+	 * @param config
+	 *            The choice configuration.
+	 */
 	private void createChoiceConfigField(Composite parent,
 			final ChoiceConfiguration config) {
 		addLabel(parent, config.getLabel());
@@ -144,6 +193,15 @@ public class UIConfigurationCompositeFactory {
 		addExplanation(parent, config.getExplanation());
 	}
 
+	/**
+	 * Creates the configuration elements for a string configuration. Adds them
+	 * to a parent element.
+	 * 
+	 * @param parent
+	 *            The parent.
+	 * @param config
+	 *            The string configuration.
+	 */
 	private void createStringConfigField(Composite parent,
 			final StringConfiguration config) {
 		addLabel(parent, config.getLabel());
@@ -170,6 +228,15 @@ public class UIConfigurationCompositeFactory {
 		addExplanation(parent, config.getExplanation());
 	}
 
+	/**
+	 * Creates the configuration elements for a boolean configuration. Adds them
+	 * to a parent element.
+	 * 
+	 * @param parent
+	 *            The parent.
+	 * @param config
+	 *            The boolean configuration.
+	 */
 	private void createBooleanConfigField(Composite parent,
 			final BooleanConfiguration config) {
 		final Button checkButton = new Button(parent, SWT.CHECK);
@@ -185,11 +252,23 @@ public class UIConfigurationCompositeFactory {
 		addExplanation(parent, config.getExplanation());
 	}
 
+	/**
+	 * Adds a label with given text to a composite.
+	 * 
+	 * @param parent The composite to add the label to.
+	 * @param text The text of the label.
+	 */
 	private void addLabel(Composite parent, String text) {
 		Label label = new Label(parent, SWT.WRAP);
 		label.setText(text);
 	}
 
+	/**
+	 * Adds a Tool-Tip explanation to a given parent composite.
+	 * 
+	 * @param parent The parent.
+	 * @param explanation The textual explanation.
+	 */
 	private void addExplanation(Composite parent, String explanation) {
 		Label explanationLabel = new Label(parent, SWT.NONE);
 		explanationLabel.setImage(PlatformUI.getWorkbench().getSharedImages()
