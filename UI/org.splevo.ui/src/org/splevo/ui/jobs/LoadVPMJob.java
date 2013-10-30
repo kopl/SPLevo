@@ -7,8 +7,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.splevo.modisco.java.vpm.software.softwarePackage;
 import org.splevo.project.SPLevoProject;
+import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityPackage;
 
@@ -62,7 +62,7 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
         logger.info("Load vpm model");
         variabilityPackage.eINSTANCE.eClass();
-        softwarePackage.eINSTANCE.eClass();
+        SoftwarePackage.eINSTANCE.eClass();
 
         int index = targetVPMIndex;
         if (targetVPMIndex == -1) {

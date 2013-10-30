@@ -35,7 +35,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm.analyzer.codelocation;bundle-version="1.0.0",
  org.splevo.vpm.analyzer.programstructure;bundle-version="1.0.0",
  com.google.guava;bundle-version="10.0.1",
- org.splevo.modisco.java.vpm;bundle-version="1.0.0",
  org.splevo.vpm.builder;bundle-version="1.0.0",
  org.splevo.modisco.java.vpm.builder;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
