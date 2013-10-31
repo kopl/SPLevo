@@ -54,27 +54,37 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 				Document doc = indexSearcher.doc(i);
 				
 				if (doc.getField(Indexer.INDEX_CONTENT) != null) {
-					Map<String, Integer> contentFrequencies = getTermFrequencies(i, Indexer.INDEX_CONTENT);
-					Query contentQuery = buildQuery(Indexer.INDEX_CONTENT, contentFrequencies);
-					int maxDoc = reader.maxDoc();
-					ScoreDoc[] contentHits = executeQuery(indexSearcher, maxDoc, contentQuery);
-					String explanation = getExplanation();
-					addHitsToStructuredMap(indexSearcher, result, contentHits, doc, explanation, contentQuery);
-				}				
+					buildQueryAndExecuteSearch(indexSearcher, result, Indexer.INDEX_CONTENT, i, doc);
+				}	
 				
 				if (matchComments && doc.getField(Indexer.INDEX_COMMENT) != null) {
-					Map<String, Integer> commentFrequencies = getTermFrequencies(i, Indexer.INDEX_COMMENT);
-					Query commentQuery = buildQuery(Indexer.INDEX_COMMENT, commentFrequencies);
-					int maxDoc = reader.maxDoc();
-					ScoreDoc[] commentHits = executeQuery(indexSearcher, maxDoc, commentQuery);
-					String explanation = getExplanation();					
-					addHitsToStructuredMap(indexSearcher, result, commentHits, doc, explanation, commentQuery);
+					buildQueryAndExecuteSearch(indexSearcher, result, Indexer.INDEX_COMMENT, i, doc);
 				}				
 			}
 		} catch (IOException e) {
 			logger.error("Failure while searching Lucene index.", e);
 		}
 		return result;
+	}
+
+	/**
+	 * Builds the relevant arguments for a search and executes it. Add the search results to the given result parameter.
+	 * 
+	 * @param indexSearcher The {@link IndexSearcher} to execute the search on.
+	 * @param result The result container.
+	 * @param field The field to search on.
+	 * @param docID The current document's ID.
+	 * @param doc The current document.
+	 * @throws IOException Thrown if there were problems during search.
+	 */
+	private void buildQueryAndExecuteSearch(IndexSearcher indexSearcher, VPLinkContainer result, String field, int docID,
+			Document doc) throws IOException {
+		Map<String, Integer> frequencies = getTermFrequencies(docID, field);
+		Query query = buildQuery(field, frequencies);
+		int maxDoc = reader.maxDoc();
+		ScoreDoc[] hits = executeQuery(indexSearcher, maxDoc, query);
+		String explanation = getExplanation();
+		addHitsToStructuredMap(indexSearcher, result, hits, doc, explanation, query);
 	}
 
 	/**

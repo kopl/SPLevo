@@ -10,11 +10,11 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
 /**
- * This Finder matches documents with a specified minimum percentage of
- * equal terms.
+ * This Finder matches documents with a specified minimum percentage of equal
+ * terms.
  * 
  * @author Daniel Kojic
- *
+ * 
  */
 public class OverallSimilarityFinder extends AbstractLuceneQueryFinder {
 
@@ -22,49 +22,59 @@ public class OverallSimilarityFinder extends AbstractLuceneQueryFinder {
 	private double minSimilarity;
 
 	/**
-	 * The default constructor.
-	 * 
-	 * @param reader The reader to be used by the Finder.
-	 * @param matchComments Indicates whether to include comments for analysis or not.
+	 * Indicates whether to use the minimum similarity to link variation points
+	 * or link vps having at least one common term.
 	 */
-	public OverallSimilarityFinder(DirectoryReader reader, boolean matchComments) {
-		super(reader, matchComments);
-	}
+	private boolean useSimilarityMeasure;
 
 	/**
-	 * Initializations. Queries the content of the
-	 * given {@link DirectoryReader}. Documents having
-	 * the specified minimum similarity are a match.
+	 * Initializations. Queries the content of the given {@link DirectoryReader}
+	 * . Documents having the specified minimum similarity or having at least
+	 * one common term (depending on the parameter) are a match.
 	 * 
-	 * @param reader The reader to be used by the Finder.
-	 * @param matchComments Indicates whether to include comments for analysis or not.
-	 * @param minSimilarity The minimum similarity.
+	 * @param reader
+	 *            The reader to be used by the Finder.
+	 * @param matchComments
+	 *            Indicates whether to include comments for analysis or not.
+	 * @param useSimilarityMeasure
+	 *            Indicates whether to use the minimum similarity to link
+	 *            variation points or not.
+	 * @param minSimilarity
+	 *            The minimum similarity.
 	 */
-	public OverallSimilarityFinder(DirectoryReader reader, boolean matchComments, double minSimilarity) {
+	public OverallSimilarityFinder(DirectoryReader reader, boolean matchComments, boolean useSimilarityMeasure, double minSimilarity) {
 		super(reader, matchComments);
 		this.minSimilarity = minSimilarity;
+		this.useSimilarityMeasure = useSimilarityMeasure;
 	}
 
 	@Override
-	protected Query buildQuery(String fieldName, Map<String, Integer> termFrequencies) {
+	protected Query buildQuery(String fieldName,
+			Map<String, Integer> termFrequencies) {
 		BooleanQuery.setMaxClauseCount(Integer.MAX_VALUE);
 		BooleanQuery finalQuery = new BooleanQuery();
-		
+
 		// Add a TermQuery for each term in the document.
 		for (String key : termFrequencies.keySet()) {
 			Term t = new Term(fieldName, key);
 			TermQuery termQuery = new TermQuery(t);
 			finalQuery.add(termQuery, Occur.SHOULD);
 		}
-		
+
 		// Set the minimal number of terms that a similar document should have.
-		int numTerms = (int) (((float) termFrequencies.keySet().size() * minSimilarity) + 0.5f);
-		if (numTerms == 0) {
+		// If useSimilarityMeasure is true, numTerms has to be 1.
+		int numTerms = 0;
+		if (useSimilarityMeasure) {
+			numTerms = (int) (((float) termFrequencies.keySet().size() * minSimilarity) + 0.5f);
+			if (numTerms == 0) {
+				numTerms = 1;
+			}
+		} else {
 			numTerms = 1;
 		}
-		
+
 		finalQuery.setMinimumNumberShouldMatch(numTerms);
-		
+
 		return finalQuery;
 	}
 

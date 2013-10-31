@@ -79,6 +79,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 	/** The configuration-object for the minimum similarity configuration. */
 	private NumericConfiguration minSimConfig;
 
+	/** The configuration-object for the minimum similarity configuration. */
+	private BooleanConfiguration oneCommonTermConfig;
+
 	/** The configuration-object for the least document frequency configuration. */
 	private NumericConfiguration topNLeastDocFreqConfig;
 
@@ -116,6 +119,11 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 				ConfigDefaults.LABEL_MIN_SIMILARITY,
 				ConfigDefaults.EXPL_MIN_SIMILARITY,
 				ConfigDefaults.DEFAULT_MIN_SIMILARITY, 0.01d, 0.d, 1.d, 2);
+
+		oneCommonTermConfig = new BooleanConfiguration(
+				ConfigDefaults.LABEL_USE_SIMILARITY_MEASURE,
+				ConfigDefaults.EXPL_USE_SIMILARITY_MEASURE,
+				ConfigDefaults.DEFAULT_USE_SIMILARITY_MEASURE);
 
 		topNLeastDocFreqConfig = new NumericConfiguration(
 				ConfigDefaults.LABEL_LEAST_DOC_FREQ,
@@ -182,7 +190,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 		configurations.addConfigurations("General Configuations",
 				includeCommentsConfig, splitCamelCaseConfig, stopWordsConfig);
 		configurations.addConfigurations("Overall Similarity Search",
-				useOverallSimFinderConfig, minSimConfig);
+				useOverallSimFinderConfig, oneCommonTermConfig, minSimConfig);
 		configurations.addConfigurations("Important Term Search",
 				useimportantTermFinderConfig);
 		configurations.addConfigurations("Top N Term Search",
@@ -256,8 +264,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 	 * @param matchComments
 	 *            Determines if comments should be indexed or ignored.
 	 */
-	private void indexNode(String id, VariationPoint vp,
-			boolean matchComments) {
+	private void indexNode(String id, VariationPoint vp, boolean matchComments) {
 		if (id == null || vp == null) {
 			throw new IllegalArgumentException();
 		}
@@ -269,15 +276,17 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
 		List<String> code = new LinkedList<String>();
 		List<String> comments = new LinkedList<String>();
-		List<SemanticContentProvider> semanticContentProviders = Activator.getSemanticContentProviders();
+		List<SemanticContentProvider> semanticContentProviders = Activator
+				.getSemanticContentProviders();
 		for (SemanticContentProvider semanticContentProvider : semanticContentProviders) {
 			SemanticContent relevantContent;
 			try {
-				relevantContent = semanticContentProvider.getRelevantContent(softwareElement, matchComments);
+				relevantContent = semanticContentProvider.getRelevantContent(
+						softwareElement, matchComments);
 			} catch (UnsupportedSoftwareElementException e) {
 				continue;
 			}
-			code.addAll(relevantContent.getCode());			
+			code.addAll(relevantContent.getCode());
 			comments.addAll(relevantContent.getComments());
 		}
 
@@ -297,11 +306,13 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 	/**
 	 * Transforms a list that stores strings to a string.
 	 * 
-	 * @param list The list.
+	 * @param list
+	 *            The list.
 	 * @return The string representation.
 	 */
 	private String convertListToString(List<String> list) {
-		return Arrays.toString(list.toArray()).replaceAll("\\[|\\]", "").replaceAll(", ", " ");
+		return Arrays.toString(list.toArray()).replaceAll("\\[|\\]", "")
+				.replaceAll(", ", " ");
 	}
 
 	/**
@@ -328,13 +339,14 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 				.getCurrentValue();
 		boolean useTopNTermFinder = useTopNFinderConfig.getCurrentValue();
 		Double minSimilarity = minSimConfig.getCurrentValue();
+		boolean oneCommonTerm = oneCommonTermConfig.getCurrentValue();
 		Double leastDocFreq = topNLeastDocFreqConfig.getCurrentValue();
 		Integer n = topNNConfig.getIntegerValue();
 
 		// Setup the configuration object.
 		RelationShipSearchConfiguration searchConfig = new RelationShipSearchConfiguration();
 		searchConfig.useComments(includeComments);
-		searchConfig.configureOverallFinder(useOverallSimFinder, minSimilarity);
+		searchConfig.configureOverallFinder(useOverallSimFinder, oneCommonTerm, minSimilarity);
 		searchConfig.configureImportantTermFinder(useRareFinder);
 		searchConfig.configureTopNFinder(useTopNTermFinder, leastDocFreq, n);
 

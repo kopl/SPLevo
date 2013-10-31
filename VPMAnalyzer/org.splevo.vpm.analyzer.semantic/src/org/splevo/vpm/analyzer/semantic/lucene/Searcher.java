@@ -13,45 +13,55 @@ import org.splevo.vpm.analyzer.semantic.lucene.finder.TopNTermFinder;
  * Use this class to find dependencies between documents of the main index.
  * 
  * @author Daniel Kojic
- *
+ * 
  */
 public class Searcher {
-	
+
 	/**
-	 * Searches the index (the one hold by the Indexer singleton) to
-	 * find relationships between the Cartesian product of all documents.
+	 * Searches the index (the one hold by the Indexer singleton) to find
+	 * relationships between the Cartesian product of all documents.
 	 * 
-	 * @param searchConfig The search configurations.
-	 * @return A {@link Map} containing the {@link VariationPoint} IDs having a relationship.
-	 * @throws IOException Throws an exception if there is already an open writer to the index.
+	 * @param searchConfig
+	 *            The search configurations.
+	 * @return A {@link Map} containing the {@link VariationPoint} IDs having a
+	 *         relationship.
+	 * @throws IOException
+	 *             Throws an exception if there is already an open writer to the
+	 *             index.
 	 */
-	public static VPLinkContainer findSemanticRelationships(RelationShipSearchConfiguration searchConfig) throws IOException {
+	public static VPLinkContainer findSemanticRelationships(
+			RelationShipSearchConfiguration searchConfig) throws IOException {
 		// Open the Directory reader for the main index.
 		DirectoryReader reader = Indexer.getInstance().getIndexReader();
-		
+
 		// This class executes the analysis.
 		FinderExecutor analysisExecutor = new FinderExecutor();
-		
+
 		// Add finders here:
 		if (searchConfig.isUseRareTermFinder()) {
-			analysisExecutor.addAnalyzer(new ImportantTermFinder(reader, searchConfig.isMatchComments()));
+			analysisExecutor.addAnalyzer(new ImportantTermFinder(reader,
+					searchConfig.isMatchComments()));
 		}
-		
+
 		if (searchConfig.isUseOverallSimilarityFinder()) {
-			analysisExecutor.addAnalyzer(new OverallSimilarityFinder(reader, searchConfig.isMatchComments()));
+			analysisExecutor.addAnalyzer(new OverallSimilarityFinder(reader,
+					searchConfig.isMatchComments(), searchConfig
+							.isUseSimilarityMeasure(), searchConfig
+							.getMinSimilarity()));
 		}
 
 		if (searchConfig.isUseTopNFinder()) {
-			analysisExecutor.addAnalyzer(new TopNTermFinder(reader, searchConfig.isMatchComments(), 
-					searchConfig.getLeastDocFreq(), searchConfig.getN()));
-		}		
-		
+			analysisExecutor.addAnalyzer(new TopNTermFinder(reader,
+					searchConfig.isMatchComments(), searchConfig
+							.getLeastDocFreq(), searchConfig.getN()));
+		}
+
 		// Store found relationships in this StructuredMap.
 		VPLinkContainer result = analysisExecutor.executeAnalysis();
-		
+
 		// Close reader.
 		reader.close();
-		
+
 		return result;
 	}
 }

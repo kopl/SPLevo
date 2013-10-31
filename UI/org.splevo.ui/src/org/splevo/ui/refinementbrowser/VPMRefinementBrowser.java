@@ -3,6 +3,10 @@ package org.splevo.ui.refinementbrowser;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -11,6 +15,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -44,6 +49,8 @@ public class VPMRefinementBrowser extends EditorPart {
 	
 	/** The main form of the editor. */
 	private Form form;
+
+	private RefinementDetailsView detailsView;
 
 	@Override
 	public void init(IEditorSite site, IEditorInput editorInput)
@@ -102,13 +109,12 @@ public class VPMRefinementBrowser extends EditorPart {
 			}
 		});
 
-		RefinementDetailsView detailsView = new RefinementDetailsView(sashForm);
+		detailsView = new RefinementDetailsView(sashForm);
 
 		sashForm.setWeights(new int[] { 3, 7 });
 		RefinementSelectionListener listener = new RefinementSelectionListener(detailsView, input, toolkit);
 		refinementTreeViewer.addSelectionChangedListener(listener);
-
-		
+		initContextMenu();
 	}
 
 	/**
@@ -180,4 +186,22 @@ public class VPMRefinementBrowser extends EditorPart {
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
+	
+	/**
+     * initialize the context menu.
+     */
+    private void initContextMenu() {
+        MenuManager menuMgr = new MenuManager();
+        menuMgr.setRemoveAllWhenShown(true);
+        menuMgr.addMenuListener(new IMenuListener() {
+
+            @Override
+            public void menuAboutToShow(IMenuManager manager) {
+                Action action = new DeleteRefinementAction(refinementTreeViewer, detailsView);
+                manager.add(action);
+            }
+        });
+        Menu menu = menuMgr.createContextMenu(refinementTreeViewer.getTree());
+        refinementTreeViewer.getTree().setMenu(menu);
+    }
 }

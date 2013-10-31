@@ -44,7 +44,15 @@ public class RefinementDetailsView extends Composite {
 
         initContextMenu();
     }
-
+    
+    /**
+     * Enables or disables the control.
+     * 
+     * @param enable <code>true</code> to enable; <code>false</code> to disable.
+     */
+    public void setEnabled(boolean enable) {
+    	variationPointTreeViewer.getControl().setEnabled(enable);
+    }
     /**
      * Create contents of the details page.
      * 
@@ -63,6 +71,7 @@ public class RefinementDetailsView extends Composite {
      *            The refinement to show.
      */
     public void showRefinement(Refinement refinement) {
+    	setEnabled(true);
         variationPointTreeViewer.setInput(refinement);
     }
 

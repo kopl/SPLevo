@@ -1,36 +1,44 @@
 package org.splevo.vpm.analyzer.semantic.lucene;
 
 /**
- * This is a container class that holds all necessary information to execute a search.
+ * This is a container class that holds all necessary information to execute a
+ * search.
  * 
  * @author Daniel Kojic
- *
+ * 
  */
 public class RelationShipSearchConfiguration {
 
 	/** Indicates whether to include comments for analysis or not. */
 	private boolean matchComments;
-	
-	/** Determines whether to use RareTermFinder or not. */		 
+
+	/** Determines whether to use RareTermFinder or not. */
 	private boolean useImportantTermFinder;
-	
+
 	/** Determines whether to use OverallSimilarityFinder or not. */
 	private boolean useOverallSimilarityFinder;
-	
+
 	/** Determines whether to use TopNTermFinder or not. */
 	private boolean useTopNFinder;
-	
+
 	/** The minimum document frequency share. */
 	private double leastDocFreq;
-	
+
 	/** Specifies the max. number of terms to search for. */
 	private int n;
 
 	/** Defines the minimum similarity of two documents. */
 	private Double minSimilarity;
-	
+
 	/**
-	 * Sets default values. As a default no finder is used, comments are ignored.
+	 * A boolean value indicating whether to link VPs by the given similarity
+	 * metric or by looking for documents with at least one common term.
+	 */
+	private boolean useSimilarityMeasure;
+
+	/**
+	 * Sets default values. As a default no finder is used, comments are
+	 * ignored.
 	 */
 	public RelationShipSearchConfiguration() {
 		this.matchComments = false;
@@ -38,22 +46,32 @@ public class RelationShipSearchConfiguration {
 		this.useImportantTermFinder = false;
 		this.useTopNFinder = false;
 	}
-	
+
 	/**
 	 * Configures the Overall Finder.
 	 * 
-	 * @param use Determines whether to use the {@link OverallSimilarityFinder} or not.
-	 * @param minSimilarity The minimum similarity of two documents.
+	 * @param use
+	 *            Determines whether to use the {@link OverallSimilarityFinder}
+	 *            or not.
+	 * @param useSimilarityMeasure
+	 *            Indicates whether to search for at least one common term or a
+	 *            specified similarity measure.
+	 * @param minSimilarity
+	 *            The minimum similarity of two documents.
 	 */
-	public void configureOverallFinder(boolean use, Double minSimilarity) {
+	public void configureOverallFinder(boolean use, boolean useSimilarityMeasure,
+			Double minSimilarity) {
 		this.useOverallSimilarityFinder = use;
+		this.useSimilarityMeasure = useSimilarityMeasure;
 		this.minSimilarity = minSimilarity;
 	}
-	
+
 	/**
 	 * Configures the Rare Term Finder.
 	 * 
-	 * @param use Determines whether to use the {@link ImportantTermFinder} or not.
+	 * @param use
+	 *            Determines whether to use the {@link ImportantTermFinder} or
+	 *            not.
 	 */
 	public void configureImportantTermFinder(boolean use) {
 		this.useImportantTermFinder = use;
@@ -62,25 +80,30 @@ public class RelationShipSearchConfiguration {
 	/**
 	 * Configures the Top N Term Finder.
 	 * 
-	 * @param use Determines whether to use the Overall Similarity Finder or not.
-	 * @param leastDocFreq The minimum document frequency share.
-	 * @param n Specifies how much of the top-n-terms has to be matched.
+	 * @param use
+	 *            Determines whether to use the Overall Similarity Finder or
+	 *            not.
+	 * @param leastDocFreq
+	 *            The minimum document frequency share.
+	 * @param n
+	 *            Specifies how much of the top-n-terms has to be matched.
 	 */
 	public void configureTopNFinder(boolean use, double leastDocFreq, int n) {
 		this.useTopNFinder = use;
 		this.leastDocFreq = leastDocFreq;
 		this.n = n;
 	}
-	
+
 	/**
 	 * Indicates whether to use comments or not.
 	 * 
-	 * @param use True to use comments; False otherwise.
+	 * @param use
+	 *            True to use comments; False otherwise.
 	 */
 	public void useComments(boolean use) {
 		this.matchComments = use;
 	}
-	
+
 	/**
 	 * @return the matchComments
 	 */
@@ -122,11 +145,19 @@ public class RelationShipSearchConfiguration {
 	public int getN() {
 		return n;
 	}
-	
+
 	/**
 	 * @return the minimum similarity
 	 */
 	public Double getMinSimilarity() {
 		return minSimilarity;
 	}
+
+	/**
+	 * @return <code>true</code> when using similarity metric; <code>false</code> otherwise.
+	 */
+	public boolean isUseSimilarityMeasure() {
+		return useSimilarityMeasure;
+	}
+
 }
