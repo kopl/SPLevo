@@ -51,6 +51,10 @@ public class MoDiscoSemanticContentProvider implements SemanticContentProvider {
 
 		ASTNode astNode = ((MoDiscoJavaSoftwareElement) element).getAstNode();
 
+		if(astNode == null) {
+			return content;
+		}
+		
 		TreeIterator<EObject> allContents = EcoreUtil.getAllContents(astNode
 				.eContents());
 
