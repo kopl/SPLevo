@@ -263,9 +263,30 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
                 return Boolean.FALSE;
         }
         
-        // TODO: MoDisco Similarity: Add further attribute checks
-
-        logger.warn("Unknown Modifier type: " + modifier1);
+        if (modifier1.isNative() != modifier2.isNative()) {
+            return Boolean.FALSE;
+        }
+        
+        if (modifier1.isStatic() != modifier2.isStatic()) {
+            return Boolean.FALSE;
+        }
+        
+        if (modifier1.isStrictfp() != modifier2.isStrictfp()) {
+            return Boolean.FALSE;
+        }
+        
+        if (modifier1.isSynchronized() != modifier2.isSynchronized()) {
+            return Boolean.FALSE;
+        }
+        
+        if (modifier1.isTransient() != modifier2.isTransient()) {
+            return Boolean.FALSE;
+        }
+        
+        if (modifier1.isVolatile() != modifier2.isVolatile()) {
+            return Boolean.FALSE;
+        }
+        
         return Boolean.TRUE;
     }
 
