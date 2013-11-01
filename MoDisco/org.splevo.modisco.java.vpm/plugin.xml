@@ -9,8 +9,14 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://splevo.org/modisco/java/vpm/1.0/software"
-            class="modisco.vpm.MoDiscoJava.MoDiscoJavaPackage"
+            class="org.splevo.modisco.java.vpm.software.softwarePackage"
             genModel="model/modisco.genmodel"/>
+   </extension>
+   <extension
+         point="org.splevo.vpm.extension">
+      <vpm.extension
+            extension.class="org.splevo.modisco.java.vpm.MoDiscoJavaVPMExtension">
+      </vpm.extension>
    </extension>
 
 </plugin>

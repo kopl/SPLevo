@@ -12,9 +12,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.featuremodel.metamodel;visibility:=reexport,
  org.apache.log4j
 Bundle-ActivationPolicy: lazy
-Export-Package: org.splevo.vpm.software,
+Export-Package: org.splevo.vpm,
+ org.splevo.vpm.software,
  org.splevo.vpm.software.impl,
  org.splevo.vpm.software.util,
  org.splevo.vpm.variability,
  org.splevo.vpm.variability.impl,
  org.splevo.vpm.variability.util
+Bundle-Activator: org.splevo.vpm.Activator

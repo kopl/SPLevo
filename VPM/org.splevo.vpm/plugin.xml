@@ -9,6 +9,7 @@
 -->
 
 <plugin>
+   <extension-point id="extension" name="VPM Extension" schema="schema/vpm_extension.exsd"/>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
