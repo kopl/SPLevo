@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
@@ -13,6 +12,7 @@ import org.splevo.vpm.analyzer.config.BooleanConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.analyzer.programstructure.index.VariationPointIndex;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -51,7 +51,7 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
 
     private static final boolean DEFAULT_CONFIG_FULL_REFERRED_TREE = true;
 
-	/** Label of the configuration to consider the full sub AST for the referred VP. */
+    /** Label of the configuration to consider the full sub AST for the referred VP. */
     private static final String CONFIG_LABEL_FULL_REFERRED_TREE = "Check Full Referred AST";
 
     /** The relationship label of the analyzer. */
@@ -60,11 +60,8 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(ProgramStructureVPMAnalyzer.class);
 
-     /** The index of variation points and AST nodes. **/
+    /** The index of variation points and AST nodes. **/
     private VariationPointIndex variationPointIndex = null;
-
-    /** Switch to get the referrer for an ast node. */
-    private ReferringASTNodeSwitch referringASTNodeSwitch = new ReferringASTNodeSwitch();
 
     /**
      * Constructor initializing the variation point analyzer.
@@ -108,15 +105,14 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
 
         for (VariationPoint vp : variationPointIndex.getVariationPoints()) {
 
-            List<ASTNode> astNodes = variationPointIndex.getVariantSoftwareEntities(vp);
-            for (ASTNode astNode : astNodes) {
-                List<VariationPoint> relatedVPs = findRelatedVariationPoints(vp, astNode);
-                for (VariationPoint referee : relatedVPs) {
+            List<SoftwareElement> vpSoftwareElements = variationPointIndex.getVariantsSoftwareElements(vp);
+            for (SoftwareElement referredVPs : vpSoftwareElements) {
+                List<VariationPoint> referringVPs = findReferringVariationPoints(vp, referredVPs);
+                for (VariationPoint referringVP : referringVPs) {
                     Node sourceNode = variationPointIndex.getGraphNode(vp);
-                    Node targetNode = variationPointIndex.getGraphNode(referee);
+                    Node targetNode = variationPointIndex.getGraphNode(referringVP);
 
-                    VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, astNode.getClass()
-                            .getSimpleName());
+                    VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, referredVPs.getLabel());
                     if (descriptor != null) {
                         result.getEdgeDescriptors().add(descriptor);
                     }
@@ -133,44 +129,47 @@ public class ProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer {
      * 
      * @param referredVP
      *            The variation point to find relationships for.
-     * @param referredAstNode
+     * @param referredSoftwareElement
      *            The AST node to find references for.
      * @return The list of referring variation points.
      */
-    private List<VariationPoint> findRelatedVariationPoints(VariationPoint referredVP, ASTNode referredAstNode) {
+    private List<VariationPoint> findReferringVariationPoints(VariationPoint referredVP,
+            SoftwareElement referredSoftwareElement) {
 
         List<VariationPoint> variationPoints = new ArrayList<VariationPoint>();
 
-        List<ASTNode> referringASTNodes = referringASTNodeSwitch.doSwitch(referredAstNode);
+        List<SoftwareElement> referringElements = new ArrayList<SoftwareElement>();
+        for (ProgramStructureProvider provider : Activator.getProgramStructureProviders()) {
+            List<SoftwareElement> elements = provider.getReferringSoftwareElements(referredSoftwareElement);
+            referringElements.addAll(elements);
+        }
 
-        for (ASTNode referringASTNode : referringASTNodes) {
-            VariationPoint relatedVariationPoint = variationPointIndex.getEnclosingVariationPoint(referringASTNode);
+        for (SoftwareElement referringSoftwareElement : referringElements) {
+            VariationPoint relatedVariationPoint = variationPointIndex
+                    .getEnclosingVariationPoint(referringSoftwareElement);
             if (relatedVariationPoint != null) {
                 variationPoints.add(relatedVariationPoint);
 
                 String vp1ID = variationPointIndex.getGraphNode(referredVP).getId();
                 String vp2ID = variationPointIndex.getGraphNode(relatedVariationPoint).getId();
-                String sourceInfo = referredAstNode.getClass().getSimpleName();
-                if (referredAstNode.getOriginalCompilationUnit() != null) {
-                    sourceInfo += " (" + referredAstNode.getOriginalCompilationUnit().getName() + ")";
-                }
-                String targetInfo = referringASTNode.getClass().getSimpleName();
-                if (referringASTNode.getOriginalCompilationUnit() != null) {
-                    targetInfo += " (" + referringASTNode.getOriginalCompilationUnit().getName() + ")";
-                }
+                String sourceInfo = referredSoftwareElement.getLabel();
+                String targetInfo = referringSoftwareElement.getLabel();
                 logAnalysisInfo(vp1ID, vp2ID, sourceInfo, targetInfo);
+            } else {
+                logger.warn("Referring SoftwareElement not in index: " + referredSoftwareElement.getLabel());
             }
         }
 
         return variationPoints;
     }
-    
+
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
-    	VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
-    	BooleanConfiguration fullReferredTreeConfig = new BooleanConfiguration(CONFIG_LABEL_FULL_REFERRED_TREE, null, DEFAULT_CONFIG_FULL_REFERRED_TREE);
-    	configurations.addConfigurations("General Settings", fullReferredTreeConfig);
-    
+        VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
+        BooleanConfiguration fullReferredTreeConfig = new BooleanConfiguration(CONFIG_LABEL_FULL_REFERRED_TREE, null,
+                DEFAULT_CONFIG_FULL_REFERRED_TREE);
+        configurations.addConfigurations("General Settings", fullReferredTreeConfig);
+
         return configurations;
     }
 

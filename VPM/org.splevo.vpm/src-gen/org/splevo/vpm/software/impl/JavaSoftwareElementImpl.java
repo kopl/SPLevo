@@ -59,15 +59,6 @@ public abstract class JavaSoftwareElementImpl extends EObjectImpl implements Jav
      * <!-- end-user-doc -->
      * @generated not
      */
-    @Override
-    public abstract Object getValue();
-
-    /**
-     * <!-- begin-user-doc -->
-     * {@inheritDoc}
-     * <!-- end-user-doc -->
-     * @generated not
-     */
     public abstract SourceLocation getSourceLocation();
 
 } //JavaSoftwareElementImpl

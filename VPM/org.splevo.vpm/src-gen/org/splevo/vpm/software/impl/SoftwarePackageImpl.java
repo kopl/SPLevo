@@ -269,8 +269,6 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
 
         addEOperation(softwareElementEClass, ecorePackage.getEString(), "getName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-        addEOperation(softwareElementEClass, ecorePackage.getEJavaObject(), "getValue", 0, 1, IS_UNIQUE, IS_ORDERED);
-
         addEOperation(softwareElementEClass, this.getSourceLocation(), "getSourceLocation", 0, 1, IS_UNIQUE, IS_ORDERED);
 
         initEClass(javaSoftwareElementEClass, JavaSoftwareElement.class, "JavaSoftwareElement", IS_ABSTRACT,

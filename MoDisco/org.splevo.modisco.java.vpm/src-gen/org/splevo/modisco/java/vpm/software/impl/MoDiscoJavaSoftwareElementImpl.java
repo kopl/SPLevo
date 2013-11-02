@@ -8,6 +8,7 @@ import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.MethodDeclaration;
+import org.eclipse.gmt.modisco.java.MethodInvocation;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.eclipse.gmt.modisco.java.ReturnStatement;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
@@ -101,6 +102,10 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
             ImportDeclaration importDecl = (ImportDeclaration) node;
             return "Import: " + importDecl.getImportedElement().getName();
 
+        } else if (node instanceof MethodInvocation) {
+            MethodInvocation invocation = (MethodInvocation) node;
+            return "Method Invocation: " + invocation.getMethod().getName() + "()";
+
         } else if (node instanceof Block && node.eContainer() instanceof MethodDeclaration) {
             MethodDeclaration method = (MethodDeclaration) node.eContainer();
             return method.getName() + "()";
@@ -128,17 +133,6 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
         } else {
             return null;
         }
-    }
-
-    /**
-     * <!-- begin-user-doc --> {@inheritDoc} <!-- end-user-doc -->
-     * 
-     * @generated not
-     */
-    @Override
-    public Object getValue() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /**
@@ -321,6 +315,35 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
         }
 
         return sourceLocation;
+    }
+
+    /**
+     * <!-- begin-user-doc --> 
+     * Equality is defined by the equality of the referenced ast nodes.
+     * {@inheritDoc}
+     * <!-- end-user-doc -->
+     * 
+     * @generated not
+     */
+    @Override
+    public boolean equals(Object arg0) {
+        if (getAstNode() != null && arg0 instanceof MoDiscoJavaSoftwareElement) {
+            return getAstNode().equals(((MoDiscoJavaSoftwareElement) arg0).getAstNode());
+        }
+        return super.equals(arg0);
+    }
+    
+    /**
+     * <!-- begin-user-doc --> 
+     * Equality is defined by the equality of the referenced ast nodes.
+     * {@inheritDoc}
+     * <!-- end-user-doc -->
+     * 
+     * @generated not
+     */
+    @Override
+    public int hashCode() {
+        return getAstNode().hashCode();
     }
 
 } // MoDiscoJavaSoftwareElementImpl

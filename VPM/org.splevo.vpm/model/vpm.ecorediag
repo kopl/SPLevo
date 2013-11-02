@@ -126,10 +126,6 @@
             <element xmi:type="ecore:EOperation" href="vpm.ecore#//software/SoftwareElement/getName"/>
             <layoutConstraint xmi:type="notation:Location" xmi:id="_ypj9ETcdEeOUpt0RZ7uf7w"/>
           </children>
-          <children xmi:type="notation:Node" xmi:id="_943cMDcfEeO3iZQkcDgklQ" type="2002">
-            <element xmi:type="ecore:EOperation" href="vpm.ecore#//software/SoftwareElement/getValue"/>
-            <layoutConstraint xmi:type="notation:Location" xmi:id="_943cMTcfEeO3iZQkcDgklQ"/>
-          </children>
           <children xmi:type="notation:Node" xmi:id="_Ny9FEDdGEeO3iZQkcDgklQ" type="2002">
             <element xmi:type="ecore:EOperation" href="vpm.ecore#//software/SoftwareElement/getSourceLocation"/>
             <layoutConstraint xmi:type="notation:Location" xmi:id="_Ny9FETdGEeO3iZQkcDgklQ"/>

@@ -46,18 +46,6 @@ public interface SoftwareElement extends EObject {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
-     * Get the value of a "value carrying element" such as StringLiterals or similar.
-     * If the software element does not have any value (e.g. a class declaration) this method returns null.
-     * <!-- end-model-doc -->
-     * @model kind="operation"
-     * @generated
-     */
-    Object getValue();
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
      * Get the source location of the software elements implementation.
      * <!-- end-model-doc -->
      * @model kind="operation"

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="programstructureprovider" name="Program Structure Provider" schema="schema/programstructureprovider.exsd"/>
    <extension
-         id="id1"
+         id="org.splevo.cpm.analyzer.programstructure"
+         name="Program Structure Analyzer"
          point="org.splevo.vpm.analyzer.analyzer">
       <analyzer
             analyzer.class="org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer">

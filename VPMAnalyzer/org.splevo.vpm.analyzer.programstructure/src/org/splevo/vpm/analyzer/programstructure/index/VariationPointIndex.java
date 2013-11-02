@@ -2,15 +2,15 @@ package org.splevo.vpm.analyzer.programstructure.index;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.gmt.modisco.java.ASTNode;
 import org.graphstream.graph.Node;
-import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
+import org.splevo.vpm.analyzer.programstructure.Activator;
+import org.splevo.vpm.analyzer.programstructure.ProgramStructureProvider;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -31,13 +31,10 @@ public class VariationPointIndex {
      * Internal map to simplify working with variation points and to reference back to nodes
      * afterwards.
      */
-    private Map<VariationPoint, Node> graphNodeIndex = null;
+    private Map<VariationPoint, Node> vp2GraphNodeIndex = null;
 
-    /** an index mapping all AST nodes enclosed by a variation point to this variation point. */
-    private Map<ASTNode, VariationPoint> enclosedASTNodeIndex = null;
-
-    /** The AST node traverser for building the AST node index. */
-    private ASTNodeChildrenSelector astNodeTraverser = new ASTNodeChildrenSelector();
+    /** An index mapping all AST nodes enclosed by a variation point to the enclosing variation point. */
+    private Map<SoftwareElement, VariationPoint> softwareElement2VPIndex = null;
 
     /**
      * Index the nodes and variation points of the supplied variation point model graph.
@@ -47,9 +44,9 @@ public class VariationPointIndex {
      */
     public void index(VPMGraph vpmGraph) {
         logger.info("Start build graph node index");
-        graphNodeIndex = buildGraphNodeIndex(vpmGraph);
+        vp2GraphNodeIndex = buildGraphNodeIndex(vpmGraph);
         logger.info("Start build enclosed ast node index");
-        enclosedASTNodeIndex = buildEnclosedASTNodeIndex(graphNodeIndex.keySet());
+        softwareElement2VPIndex = buildEnclosedASTNodeIndex(vp2GraphNodeIndex.keySet());
     }
 
     /**
@@ -58,7 +55,7 @@ public class VariationPointIndex {
      * @return The variation point list.
      */
     public List<VariationPoint> getVariationPoints() {
-        return new ArrayList<VariationPoint>(graphNodeIndex.keySet());
+        return new ArrayList<VariationPoint>(vp2GraphNodeIndex.keySet());
     }
 
     /**
@@ -72,7 +69,7 @@ public class VariationPointIndex {
      * @return The referencing node.
      */
     public Node getGraphNode(VariationPoint vp) {
-        return graphNodeIndex.get(vp);
+        return vp2GraphNodeIndex.get(vp);
     }
 
     /**
@@ -83,7 +80,7 @@ public class VariationPointIndex {
      * @return The prepared inverted index.
      */
     private Map<VariationPoint, Node> buildGraphNodeIndex(VPMGraph vpmGraph) {
-        Map<VariationPoint, Node> index = new HashMap<VariationPoint, Node>();
+        Map<VariationPoint, Node> index = new LinkedHashMap<VariationPoint, Node>();
 
         for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
@@ -100,13 +97,13 @@ public class VariationPointIndex {
      *            The variation point collection to build the AST node index for.
      * @return The prepared AST node index.
      */
-    public Map<ASTNode, VariationPoint> buildEnclosedASTNodeIndex(Collection<VariationPoint> variationPoints) {
+    private Map<SoftwareElement, VariationPoint> buildEnclosedASTNodeIndex(Collection<VariationPoint> variationPoints) {
 
-        Map<ASTNode, VariationPoint> index = new HashMap<ASTNode, VariationPoint>();
+        Map<SoftwareElement, VariationPoint> index = new LinkedHashMap<SoftwareElement, VariationPoint>();
 
         for (VariationPoint vp : variationPoints) {
-            for (ASTNode se : getVariantSoftwareEntities(vp)) {
-                indexEnclosedAstNode(index, se, vp);
+            for (SoftwareElement se : getVariantsSoftwareElements(vp)) {
+                indexEnclosedSoftwareElements(index, se, vp);
             }
         }
 
@@ -114,19 +111,25 @@ public class VariationPointIndex {
     }
 
     /**
-     * Index an AST node and it's sub nodes recursively.
+     * Software elements can have child elements (e.g. a method containing statements). This method
+     * indexes all sub elements.
      * 
      * @param index
      *            The index map to add the node to.
-     * @param astNode
+     * @param softwareElement
      *            The AST node to index.
      * @param vp
      *            The variation point to map the node to.
      */
-    private void indexEnclosedAstNode(Map<ASTNode, VariationPoint> index, ASTNode astNode, VariationPoint vp) {
-        index.put(astNode, vp);
-        for (ASTNode subNode : astNodeTraverser.doSwitch(astNode)) {
-            indexEnclosedAstNode(index, subNode, vp);
+    private void indexEnclosedSoftwareElements(Map<SoftwareElement, VariationPoint> index,
+            SoftwareElement softwareElement, VariationPoint vp) {
+        index.put(softwareElement, vp);
+        
+        for (ProgramStructureProvider provider : Activator.getProgramStructureProviders()) {
+            List<SoftwareElement> subElements = provider.getRelevantSubElements(softwareElement);
+            for (SoftwareElement subElement : subElements) {
+                indexEnclosedSoftwareElements(index, subElement, vp);
+            }
         }
     }
 
@@ -137,36 +140,29 @@ public class VariationPointIndex {
      *            The variation point to get the ASTNodes for.
      * @return A list of all referenced ASTNodes.
      */
-    public List<ASTNode> getVariantSoftwareEntities(VariationPoint vp) {
-        List<ASTNode> astNodes = new ArrayList<ASTNode>();
+    public List<SoftwareElement> getVariantsSoftwareElements(VariationPoint vp) {
+        List<SoftwareElement> softwareElements = new ArrayList<SoftwareElement>();
 
         for (Variant v : vp.getVariants()) {
 
             for (SoftwareElement softwareElement : v.getSoftwareEntities()) {
-                
-                // TODO Release MoDisco Dependency
-                if (softwareElement instanceof MoDiscoJavaSoftwareElement) {
-                    ASTNode astNode = ((MoDiscoJavaSoftwareElement) softwareElement).getAstNode();
-                    astNodes.add(astNode);
-                } else {
-                    logger.error("Unsupported SoftwareElement Type: " + softwareElement);
-                }
+                softwareElements.add(softwareElement);
             }
         }
 
-        return astNodes;
+        return softwareElements;
     }
 
     /**
      * Lookup the enclosing variation point for an AST node. This might be null if the provided AST
      * nodes is not part of a variation point.
      * 
-     * @param astNode
-     *            The AST node to lookup the variation point for.
+     * @param softwareElement
+     *            The SoftwareElement to look up the variation point for.
      * @return The enclosing variation point or null if none exist.
      */
-    public VariationPoint getEnclosingVariationPoint(ASTNode astNode) {
-        return enclosedASTNodeIndex.get(astNode);
+    public VariationPoint getEnclosingVariationPoint(SoftwareElement softwareElement) {
+        return softwareElement2VPIndex.get(softwareElement);
     }
 
 }

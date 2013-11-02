@@ -13,7 +13,6 @@ import org.splevo.vpm.software.JavaSoftwareElement;
  * <ul>
  *   <li>{@link org.splevo.vpm.software.SoftwareElement#getLabel() <em>Get Label</em>}</li>
  *   <li>{@link org.splevo.vpm.software.SoftwareElement#getName() <em>Get Name</em>}</li>
- *   <li>{@link org.splevo.vpm.software.SoftwareElement#getValue() <em>Get Value</em>}</li>
  *   <li>{@link org.splevo.vpm.software.SoftwareElement#getSourceLocation() <em>Get Source Location</em>}</li>
  * </ul>
  * </p>

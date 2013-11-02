@@ -80,11 +80,6 @@
           <details key="documentation" value="Get the name of a NamedElement, such as a public class declaration, a method, or others.&#xD;&#xA;In case of not named elements, it will return null."/>
         </eAnnotations>
       </eOperations>
-      <eOperations name="getValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="Get the value of a &quot;value carrying element&quot; such as StringLiterals or similar.&#xD;&#xA;If the software element does not have any value (e.g. a class declaration) this method returns null."/>
-        </eAnnotations>
-      </eOperations>
       <eOperations name="getSourceLocation" eType="#//software/SourceLocation">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="Get the source location of the software elements implementation."/>
