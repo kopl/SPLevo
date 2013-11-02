@@ -41,21 +41,23 @@ public class ExtractionWorkflowDelegate extends
     @Override
     protected IJob createWorkflowJob(ExtractionWorkflowConfiguration config) {
 
-    	SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(new SPLevoBlackBoard());
-        
+
         // create the parallel extraction
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-        String extractorId = splevoProject.getExtractorIds().get(0);
-        
-        ExtractionJob leadingExtractionJob = new ExtractionJob(extractorId, splevoProject, true);
-        ExtractionJob integrationExtractionJob = new ExtractionJob(extractorId, splevoProject, false);
 
         ParallelJob parallelJob = new ParallelJob();
-        parallelJob.add(leadingExtractionJob);
-        parallelJob.add(integrationExtractionJob);
+
+        for (String extractorId : splevoProject.getExtractorIds()) {
+            ExtractionJob leadingExtractionJob = new ExtractionJob(extractorId, splevoProject, true);
+            ExtractionJob integrationExtractionJob = new ExtractionJob(extractorId, splevoProject, false);
+            parallelJob.add(leadingExtractionJob);
+            parallelJob.add(integrationExtractionJob);
+        }
+
         jobSequence.add(parallelJob);
-        
+
         // create the ui update job
         IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Source Models extracted");
         jobSequence.add(updateUiJob);
