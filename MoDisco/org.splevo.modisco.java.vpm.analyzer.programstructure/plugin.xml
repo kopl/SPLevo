@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.splevo.vpm.analyzer.programstructure.programstructureprovider">
+      <ProgramStructureProvider
+            extension.class="org.splevo.modisco.java.vpm.analyzer.programstructure.MoDiscoJavaProgramStructureProvider">
+      </ProgramStructureProvider>
+   </extension>
+
+</plugin>

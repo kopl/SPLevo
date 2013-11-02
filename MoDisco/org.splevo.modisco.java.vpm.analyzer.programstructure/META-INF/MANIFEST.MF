@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MoDisco Program Structure Analyzer Extension
+Bundle-SymbolicName: org.splevo.modisco.java.vpm.analyzer.programstructure;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: SPLevo
+Require-Bundle: org.eclipse.core.runtime,
+ org.splevo.vpm.analyzer.programstructure;bundle-version="1.0.0",
+ org.splevo.modisco.java.vpm;bundle-version="1.0.0",
+ org.apache.log4j;bundle-version="1.2.15"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.splevo.modisco.java.vpm.analyzer.programstructure

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MoDisco Program Structure Analyzer Extension Tests
+Bundle-SymbolicName: org.splevo.modisco.java.vpm.analyzer.programstructure.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: SPLevo
+Fragment-Host: org.splevo.modisco.java.vpm.analyzer.programstructure;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit;bundle-version="4.10.0"
