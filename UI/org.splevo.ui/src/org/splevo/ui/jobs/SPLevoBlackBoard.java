@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.featuremodel.FeatureModel;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.refinement.Refinement;
@@ -19,12 +18,6 @@ import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
  * 
  */
 public class SPLevoBlackBoard extends Blackboard<Object> {
-
-    /** The leading source model. */
-    private JavaApplication sourceModelLeading = null;
-
-    /** The integration source model. */
-    private JavaApplication sourceModelIntegration = null;
 
     /** The diffing model. */
     private DiffModel diffModel = null;
@@ -67,44 +60,6 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
      */
     public void setFeatureModel(FeatureModel featureModel) {
         this.featureModel = featureModel;
-    }
-
-    /**
-     * Gets the leading source model.
-     * 
-     * @return the sourceModelLeading
-     */
-    public JavaApplication getSourceModelLeading() {
-        return sourceModelLeading;
-    }
-
-    /**
-     * Sets the leading source model.
-     * 
-     * @param sourceModelLeading
-     *            the sourceModelLeading to set
-     */
-    public void setSourceModelLeading(JavaApplication sourceModelLeading) {
-        this.sourceModelLeading = sourceModelLeading;
-    }
-
-    /**
-     * Gets the integration source model.
-     * 
-     * @return the sourceModelIntegration
-     */
-    public JavaApplication getSourceModelIntegration() {
-        return sourceModelIntegration;
-    }
-
-    /**
-     * Sets the integration source model.
-     * 
-     * @param sourceModelIntegration
-     *            the sourceModelIntegration to set
-     */
-    public void setSourceModelIntegration(JavaApplication sourceModelIntegration) {
-        this.sourceModelIntegration = sourceModelIntegration;
     }
 
     /**
