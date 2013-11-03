@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.splevo.jamopp.feature"
+      label="SPLevo JaMoPP Technology Cartridge"
+      version="1.0.0.qualifier"
+      provider-name="SPLevo">
+
+   <description url="http://www.splevo.org">
+      A SPLevo technology cartridge based on the JaMoPP Java Model Parser and Printer.
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <plugin
+         id="org.splevo.jamopp.extraction"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
