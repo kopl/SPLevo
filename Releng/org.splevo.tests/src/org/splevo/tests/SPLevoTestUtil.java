@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.splevo.diffing.DiffingException;
+import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.diffing.JavaDiffer;
 import org.splevo.modisco.java.diffing.Java2KDMDiffer;
 import org.splevo.modisco.java.vpm.builder.Java2KDMVPMBuilder;
@@ -113,7 +114,7 @@ public class SPLevoTestUtil {
      * @throws DiffingException
      *             Identifies a failed diffing.
      */
-    public static DiffModel loadInterfaceImplementsDiffModel() throws DiffingException {
+    public static DiffModel loadInterfaceImplementsDiffModel() throws DiffingException, DiffingNotSupportedException {
 
         Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
         diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, Arrays.asList("java.*"));

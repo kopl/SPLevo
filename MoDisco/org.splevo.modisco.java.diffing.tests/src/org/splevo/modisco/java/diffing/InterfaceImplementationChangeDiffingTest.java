@@ -10,6 +10,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
+import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.modisco.java.diffing.java2kdmdiff.FieldDelete;
 import org.splevo.modisco.java.diffing.java2kdmdiff.FieldInsert;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ImplementsInterfaceDelete;
@@ -38,7 +39,7 @@ public class InterfaceImplementationChangeDiffingTest extends AbstractDiffingTes
 	 *             Identifies a failed diffing.
      */
     @Test
-    public void testInserts() throws DiffingException {
+    public void testInserts() throws DiffingException, DiffingNotSupportedException {
     	
     	DiffModel diff = differ.doDiff(
     								SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(), 
@@ -77,7 +78,7 @@ public class InterfaceImplementationChangeDiffingTest extends AbstractDiffingTes
 	 *             Identifies a failed diffing.
      */
     @Test
-    public void testDeletes() throws DiffingException {
+    public void testDeletes() throws DiffingException, DiffingNotSupportedException {
     	
     	DiffModel diff = differ.doDiff(
     								SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_DIR_2.toURI(), 

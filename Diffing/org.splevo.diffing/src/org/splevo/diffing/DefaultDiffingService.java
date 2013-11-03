@@ -39,13 +39,18 @@ public class DefaultDiffingService implements DiffingService {
         DiffModel diffModel = DiffFactory.eINSTANCE.createDiffModel();
 
         for (Differ differ : differs) {
-            DiffModel partDiffModel = differ.doDiff(leadingModelDirectory, integrationModelDirectory, diffingOptions);
-            diffModel.getAncestorRoots().addAll(partDiffModel.getAncestorRoots());
-            diffModel.getOwnedElements().addAll(partDiffModel.getOwnedElements());
-            diffModel.getLeftRoots().addAll(partDiffModel.getLeftRoots());
-            diffModel.getRightRoots().addAll(partDiffModel.getRightRoots());
+            DiffModel partDiffModel;
+            try {
+                partDiffModel = differ.doDiff(leadingModelDirectory, integrationModelDirectory, diffingOptions);
+                diffModel.getAncestorRoots().addAll(partDiffModel.getAncestorRoots());
+                diffModel.getOwnedElements().addAll(partDiffModel.getOwnedElements());
+                diffModel.getLeftRoots().addAll(partDiffModel.getLeftRoots());
+                diffModel.getRightRoots().addAll(partDiffModel.getRightRoots());
+            } catch (DiffingNotSupportedException e) {
+                logger.info("The differ does not support the provided input");
+            }
         }
-        
+
         return diffModel;
     }
 

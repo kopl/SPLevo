@@ -13,6 +13,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
+import org.splevo.diffing.DiffingNotSupportedException;
 
 /**
  * Unit test for the diffing service class.
@@ -40,7 +41,7 @@ public class GCDDiffingTest extends AbstractDiffingTest {
 	 *             Identifies a failed diffing.
      */
     @Test
-    public final void testGetDiff() throws DiffingException {
+    public final void testGetDiff() throws DiffingException, DiffingNotSupportedException {
 
 		DiffModel diff = differ.doDiff(NATIVE_JAVA2KDMMODEL_DIR.toURI(), JSCIENCE_JAVA2KDMMODEL_DIR.toURI(),
 				diffOptions);

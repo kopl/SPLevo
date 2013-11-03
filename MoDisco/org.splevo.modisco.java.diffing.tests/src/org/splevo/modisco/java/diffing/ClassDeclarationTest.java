@@ -15,6 +15,7 @@ import org.eclipse.gmt.modisco.java.EnumDeclaration;
 import org.eclipse.gmt.modisco.java.Package;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
+import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ClassDelete;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ClassInsert;
 import org.splevo.modisco.java.diffing.java2kdmdiff.EnumDeclarationChange;
@@ -42,9 +43,10 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
 	 * 
 	 * @throws DiffingException
 	 *             Identifies a failed diffing.
+	 * @throws DiffingNotSupportedException 
 	 */
 	@Test
-	public void testDoDiff() throws DiffingException {
+	public void testDoDiff() throws DiffingException, DiffingNotSupportedException {
 
 		DiffModel diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
 				diffOptions);
@@ -118,7 +120,7 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
 	 *             Identifies a failed diffing.
 	 */
 	@Test
-	public void testDoDiffReverse() throws DiffingException {
+	public void testDoDiffReverse() throws DiffingException, DiffingNotSupportedException {
 
 		DiffModel diff = differ.doDiff(TEST_DIR_2.toURI(), TEST_DIR_1.toURI(),
 				diffOptions);

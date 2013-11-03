@@ -12,6 +12,7 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
+import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.modisco.java.diffing.java2kdmdiff.MethodInsert;
 
 /**
@@ -35,7 +36,7 @@ public class MethodDeclarationTest extends AbstractDiffingTest {
 	 *             Identifies a failed diffing.
      */
     @Test
-    public void testDoDiff() throws DiffingException {
+    public void testDoDiff() throws DiffingException, DiffingNotSupportedException {
     	
     	DiffModel diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
 				diffOptions);

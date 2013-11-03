@@ -14,6 +14,7 @@ import org.eclipse.gmt.modisco.java.ArrayInitializer;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
+import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.modisco.java.diffing.java2kdmdiff.FieldDeclarationChange;
 import org.splevo.modisco.java.diffing.java2kdmdiff.FieldDelete;
 import org.splevo.modisco.java.diffing.java2kdmdiff.FieldInsert;
@@ -39,7 +40,7 @@ public class FieldDeclarationTest extends AbstractDiffingTest {
 	 *             Identifies a failed diffing.
      */
     @Test
-    public void testDoDiff() throws DiffingException {
+    public void testDoDiff() throws DiffingException, DiffingNotSupportedException {
     	
     	DiffModel diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
 				diffOptions);

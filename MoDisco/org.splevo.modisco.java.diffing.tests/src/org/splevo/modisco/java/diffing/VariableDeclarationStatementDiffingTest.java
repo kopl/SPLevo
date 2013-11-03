@@ -14,6 +14,7 @@ import org.eclipse.gmt.modisco.java.Statement;
 import org.eclipse.gmt.modisco.java.VariableDeclarationStatement;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
+import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ImportDelete;
 import org.splevo.modisco.java.diffing.java2kdmdiff.ImportInsert;
 import org.splevo.modisco.java.diffing.java2kdmdiff.StatementChange;
@@ -59,7 +60,7 @@ public class VariableDeclarationStatementDiffingTest extends
 	 *             Identifies a failed diffing.
 	 */
 	@Test
-	public void testVariableDeclarationDiff() throws DiffingException {
+	public void testVariableDeclarationDiff() throws DiffingException, DiffingNotSupportedException {
 
 		DiffModel diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
 				diffOptions);
