@@ -75,10 +75,21 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             return;
         }
 
+        if (diffModel.eContents().size() == 0) {
+            logger.info("No Differences detected.");
+            monitor.done();
+            return;
+        }
+
         logger.info("Save Diff Model");
         try {
-            // TODO Do not save a KDM specific diff model.
-            final String targetPath = this.splevoProject.getWorkspace() + "models/diffmodel/diffModel.java2kdmdiff";
+            // TODO Do not save a technology specific diff model.
+            String targetPath = null;
+            if (splevoProject.getExtractorIds().contains("JaMoPPSoftwareModelExtractor")) {
+                targetPath = this.splevoProject.getWorkspace() + "models/diffmodel/diffModel.jamoppdiff";
+            } else {
+                targetPath = this.splevoProject.getWorkspace() + "models/diffmodel/diffModel.java2kdmdiff";
+            }
 
             ModelUtils.save(diffModel, basePath + targetPath);
             this.splevoProject.setDiffingModelPath(targetPath);
