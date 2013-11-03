@@ -2,12 +2,20 @@
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
 
   <rm:locator searchPathRef="localresources" failOnError="false"/>
+  <rm:locator searchPathRef="jamopp" failOnError="false" />
   <rm:locator searchPathRef="workflowengine" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
   <rm:locator searchPathRef="EMFFeatureModel" failOnError="false" />
   <rm:locator searchPathRef="orbit" failOnError="false" />
   <rm:locator searchPathRef="juno" failOnError="false" />
   <rm:locator searchPathRef="palladio-commons" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
   
+  <rm:searchPath name="jamopp">
+	  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+	 	<rm:property key="buckminster.source" value="false"/>
+	    <rm:property key="buckminster.mutable" value="false"/>
+	  	<rm:uri format="http://jamopp.org/update/"/>
+	  </rm:provider>
+  </rm:searchPath>
   <rm:searchPath name="workflowengine">
 	  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
 	 	<rm:property key="buckminster.source" value="false"/>
