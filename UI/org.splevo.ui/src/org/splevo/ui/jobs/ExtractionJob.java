@@ -3,6 +3,8 @@ package org.splevo.ui.jobs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.splevo.extraction.DefaultExtractionService;
@@ -46,7 +48,7 @@ public class ExtractionJob extends AbstractJob {
     }
 
     /**
-     * Build the URIs for a list of projects identified by their names.
+     * Build the absolute URIs for a list of projects identified by their names.
      * 
      * @param projectNames
      *            The project names.
@@ -54,9 +56,9 @@ public class ExtractionJob extends AbstractJob {
      */
     private List<URI> buildProjectURIs(List<String> projectNames) {
         List<URI> projectURIs = new ArrayList<URI>();
+        String basePath = getAbsoluteWorkspacePath();
         for (String projectName : projectNames) {
-            String basePath = getBasePath(splevoProject);
-            URI projectURI = URI.createURI(basePath + projectName);
+            URI projectURI = URI.createFileURI(basePath + "/" + projectName);
             projectURIs.add(projectURI);
         }
         return projectURIs;
@@ -70,7 +72,7 @@ public class ExtractionJob extends AbstractJob {
      * @return The prepared URI.
      */
     private URI buildTargetURI(String variantName) {
-        String basePath = getBasePath(splevoProject);
+        String basePath = getBasePath(splevoProject) + "models/sourcemodels/";
         String targetPath = basePath + variantName;
         URI targetURI = URI.createURI(targetPath);
         return targetURI;
@@ -84,7 +86,7 @@ public class ExtractionJob extends AbstractJob {
      * @return The base path to store the extracted models at.
      */
     private String getBasePath(SPLevoProject splevoProject) {
-        return splevoProject.getWorkspace() + "models/sourcemodels/";
+        return splevoProject.getWorkspace();
     }
 
     @Override
@@ -104,7 +106,7 @@ public class ExtractionJob extends AbstractJob {
 
         // prepare the target path
         URI targetURI = buildTargetURI(variantName);
-        List<URI> projectURIs = buildProjectURIs(projectNames);
+        List<URI> projectURIsAbsolute = buildProjectURIs(projectNames);
 
         logger.info("Extraction target: " + targetURI);
         logger.info("Main Project: " + projectNames.get(0));
@@ -119,9 +121,10 @@ public class ExtractionJob extends AbstractJob {
 
         // extract model
         ExtractionService extractionService = new DefaultExtractionService();
+
         try {
             monitor.subTask("Extract Model for project: " + variantName);
-            extractionService.extractSoftwareModel(extractorId, projectURIs, monitor, targetURI);
+            extractionService.extractSoftwareModel(extractorId, projectURIsAbsolute, monitor, targetURI);
         } catch (SoftwareModelExtractionException e) {
             throw new JobFailedException("Failed to extract model.", e);
         }
@@ -140,6 +143,17 @@ public class ExtractionJob extends AbstractJob {
         if (monitor.isCanceled()) {
             throw new UserCanceledException();
         }
+    }
+
+    /**
+     * Determine the absolute OS specific path of the workspace.
+     * 
+     * @return The absolute path.
+     */
+    private String getAbsoluteWorkspacePath() {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        String basePath = workspace.getRoot().getRawLocation().toOSString();
+        return basePath;
     }
 
     /**
