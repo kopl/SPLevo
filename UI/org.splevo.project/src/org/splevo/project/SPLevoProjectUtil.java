@@ -33,28 +33,22 @@ public class SPLevoProjectUtil {
      */
     public static SPLevoProject loadSPLevoProjectModel(File splevoProjectFile) throws IOException {
 
-        // check that the file is accessible
-        if (!splevoProjectFile.canRead()) {
-            throw new IOException("cannot read model file " + splevoProjectFile);
-        }
-
         // load the required meta class packages
         ProjectPackage.eINSTANCE.eClass();
 
         // register the factory to be able to read xmi files
-        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(SPLEVO_FILE_EXTENSION,
-                new XMIResourceFactoryImpl());
+        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(SPLEVO_FILE_EXTENSION, new XMIResourceFactoryImpl());
 
         // load the resource and resolve the proxies
         ResourceSet rs = new ResourceSetImpl();
-        Resource r = rs.createResource(URI.createFileURI(splevoProjectFile.getAbsolutePath()));
+        Resource r = rs.createResource(URI.createPlatformResourceURI(splevoProjectFile.getPath(), true));
         r.load(null);
         EcoreUtil.resolveAll(rs);
 
         // convert the model to a java model
         EObject model = r.getContents().get(0);
         if (!(model instanceof SPLevoProject)) {
-            throw new IllegalArgumentException("Model is not a valid SPLevoProject: " + model.getClass().getName());
+            throw new IOException("Model is not a valid SPLevoProject: " + model.getClass().getName());
         }
         SPLevoProject splEvoProjectModel = (SPLevoProject) model;
 
@@ -67,18 +61,18 @@ public class SPLevoProjectUtil {
      * @param project
      *            The project to save.
      * @param filePath
-     *            The file to save to.
+     *            The eclipse workspace relative file path to save to.
      * @throws IOException
      *             identifies that the file could not be written.
      */
     public static void save(SPLevoProject project, File filePath) throws IOException {
-
+        
         // try to write to the project file
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put(SPLevoProjectUtil.SPLEVO_FILE_EXTENSION, new XMIResourceFactoryImpl());
         ResourceSet resSet = new ResourceSetImpl();
-        final Resource resource = resSet.createResource(URI.createFileURI(filePath.getAbsolutePath()));
+        final Resource resource = resSet.createResource(URI.createPlatformResourceURI(filePath.getPath(), true));
         resource.getContents().add(project);
 
         resource.save(Collections.EMPTY_MAP);

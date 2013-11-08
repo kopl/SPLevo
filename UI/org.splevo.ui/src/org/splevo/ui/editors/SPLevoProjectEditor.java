@@ -15,13 +15,6 @@ import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -61,7 +54,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.extraction.DefaultExtractionService;
 import org.splevo.extraction.ExtractionService;
 import org.splevo.extraction.SoftwareModelExtractor;
-import org.splevo.project.ProjectPackage;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
 import org.splevo.ui.editors.listener.ExtractorCheckBoxListener;
@@ -657,15 +649,12 @@ public class SPLevoProjectEditor extends EditorPart {
         // check workspace setting
         if (getSplevoProject().getWorkspace() == null || getSplevoProject().getWorkspace().equals("")) {
             Shell shell = getEditorSite().getShell();
-            MessageDialog.openError(shell, "Workspace Missing",
-                    "You need to specify a workspace directory for the project.");
+            MessageDialog.openError(shell, "Workspace Missing", "You need to specify a workspace directory for the project.");
             return;
         }
-
-        String filePath = null;
+        File filePath = getCurrentFilePath();
         try {
-            filePath = getCurrentFilePath();
-            ModelUtils.save(splevoProject, filePath);
+            SPLevoProjectUtil.save(splevoProject, filePath);
         } catch (Exception e) {
             Shell shell = getEditorSite().getShell();
             MessageDialog.openError(shell, "Save error", "Unable to save the project file to " + filePath);
@@ -681,10 +670,10 @@ public class SPLevoProjectEditor extends EditorPart {
      * 
      * @return The file path derived from the editor input.
      */
-    private String getCurrentFilePath() {
+    private File getCurrentFilePath() {
         FileEditorInput fileInput = (FileEditorInput) getEditorInput();
         String filePath = fileInput.getFile().getFullPath().toOSString();
-        return filePath;
+        return new File(filePath);
     }
 
     @Override
@@ -701,41 +690,15 @@ public class SPLevoProjectEditor extends EditorPart {
         if (input instanceof IFileEditorInput) {
             IFileEditorInput fileInput = (IFileEditorInput) input;
             if (fileInput.getName().endsWith(SPLevoProjectUtil.SPLEVO_FILE_EXTENSION)) {
-                URI projectFile = URI.createPlatformResourceURI(fileInput.getFile().getFullPath().toString(), true);
-                
+                File projectFile = new File(fileInput.getFile().getFullPath().toString());
+
                 try {
-                    this.splevoProject = loadProjectFile(projectFile);
+                    this.splevoProject = SPLevoProjectUtil.loadSPLevoProjectModel(projectFile);
                 } catch (Exception e) {
                     throw new PartInitException("Unable to load SPLevo project file in editor", e);
                 }
             }
         }
-    }
-
-    /**
-     * Load the project information for a given project file.
-     * 
-     * @param modelUri
-     *            The model file to load.
-     * @return The prepared project model.
-     * @throws Exception
-     *             Any failure during the load.
-     */
-    private SPLevoProject loadProjectFile(URI modelUri) throws Exception {
-        
-        ProjectPackage.eINSTANCE.eClass();
-        
-        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-        Map<String, Object> m = reg.getExtensionToFactoryMap();
-        m.put(SPLevoProjectUtil.SPLEVO_FILE_EXTENSION, new XMIResourceFactoryImpl());
-
-        ResourceSet rs = new ResourceSetImpl();
-        Resource modelResource = rs.getResource(modelUri, true);
-        EObject model = modelResource.getContents().get(0);
-        if (model instanceof SPLevoProject) {
-            return (SPLevoProject) model;
-        }
-        return null;
     }
 
     /**

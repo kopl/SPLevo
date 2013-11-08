@@ -10,7 +10,6 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -65,8 +64,8 @@ public class SPLevoNature implements IProjectNature {
         projectConfiguration.setWorkspace("/" + project.getName() + "/");
         projectConfiguration.setName(project.getName());
         try {
-            ModelUtils.save(projectConfiguration, project.getFullPath().toOSString() + File.separator
-                    + splevoProjectFileName);
+            File filePath = new File(project.getFullPath().toString() + File.separator + splevoProjectFileName);
+            SPLevoProjectUtil.save(projectConfiguration, filePath);
             project.refreshLocal(-1, new NullProgressMonitor());
             IFile file = project.getFile(splevoProjectFileName);
             IFileEditorInput inputFile = new FileEditorInput(file);
