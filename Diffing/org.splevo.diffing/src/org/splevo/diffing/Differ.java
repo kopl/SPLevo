@@ -12,6 +12,9 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
  */
 public interface Differ {
 
+    /** Initialize the differ and any required resources (e.g. meta models etc.). */
+    void init();
+
     /**
      * Perform the diffing process for two modisco JavaApplicationModels.
      * 

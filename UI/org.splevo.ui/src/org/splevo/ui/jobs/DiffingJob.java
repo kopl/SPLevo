@@ -17,9 +17,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.splevo.diffing.DefaultDiffingService;
 import org.splevo.diffing.DiffingException;
+import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.diffing.DiffingService;
 import org.splevo.diffing.JavaDiffer;
 import org.splevo.project.SPLevoProject;
@@ -86,12 +86,12 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             // TODO Do not save a technology specific diff model.
             String targetPath = null;
             if (splevoProject.getExtractorIds().contains("JaMoPPSoftwareModelExtractor")) {
-                targetPath = this.splevoProject.getWorkspace() + "models/diffmodel/diffModel.jamoppdiff";
+                targetPath = "models/diffmodel/diffModel.jamoppdiff";
             } else {
-                targetPath = this.splevoProject.getWorkspace() + "models/diffmodel/diffModel.java2kdmdiff";
+                targetPath = "models/diffmodel/diffModel.java2kdmdiff";
             }
-
-            ModelUtils.save(diffModel, basePath + targetPath);
+            targetPath = splevoProject.getWorkspace() + targetPath;
+            DiffingModelUtil.save(diffModel, new File(targetPath));
             this.splevoProject.setDiffingModelPath(targetPath);
         } catch (final IOException e) {
             throw new JobFailedException("Failed to save diff model.", e);

@@ -3,13 +3,9 @@ package org.splevo.ui.jobs;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.splevo.diffing.DefaultDiffingService;
+import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.project.SPLevoProject;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
@@ -38,18 +34,12 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        String basePath = workspace.getRoot().getRawLocation().toOSString();
-
-        // trigger loading the diff extensions.
-        DefaultDiffingService diffingService = new DefaultDiffingService();
-        diffingService.getDiffers();
-
         logger.info("Load diff models");
-        File diffModelFile = new File(basePath + splevoProject.getDiffingModelPath());
+        File diffModelFile = new File(splevoProject.getDiffingModelPath());
+        
         DiffModel diffModel;
         try {
-            diffModel = (DiffModel) ModelUtils.load(diffModelFile, new ResourceSetImpl());
+            diffModel = DiffingModelUtil.loadModel(diffModelFile);
         } catch (IOException e) {
             throw new JobFailedException("Failed to load diff model.", e);
         }

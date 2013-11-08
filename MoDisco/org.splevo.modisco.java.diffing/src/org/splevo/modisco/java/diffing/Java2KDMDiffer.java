@@ -16,6 +16,7 @@ import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.diffing.JavaDiffer;
 import org.splevo.modisco.java.diffing.diff.JavaModelDiffEngine;
+import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
 import org.splevo.modisco.java.diffing.match.JavaModelMatchEngine;
 import org.splevo.modisco.java.diffing.match.JavaModelMatchScopeProvider;
 import org.splevo.modisco.java.diffing.postprocessor.DiffModelPostProcessor;
@@ -130,6 +131,11 @@ public class Java2KDMDiffer extends JavaDiffer {
     @Override
     public String getLabel() {
         return LABEL;
+    }
+
+    @Override
+    public void init() {
+        Java2KDMDiffPackage.eINSTANCE.eClass();
     }
 
 }
