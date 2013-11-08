@@ -7,7 +7,8 @@ Bundle-Activator: org.splevo.utilities.metrics.Activator
 Bundle-Vendor: www.splevo.org
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.core.resources;bundle-version="3.8.1"
+ org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.jdt.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
@@ -15,5 +16,6 @@ Bundle-ClassPath: .,
 Export-Package: org.splevo.utilities.metrics,
  org.splevo.utilities.metrics.calculator,
  org.splevo.utilities.metrics.calculator.impl,
- org.splevo.utilities.metrics.commonloc,
+ org.splevo.utilities.metrics.calculators.commonloc,
  org.splevo.utilities.metrics.ui
+Import-Package: org.eclipse.jdt.core

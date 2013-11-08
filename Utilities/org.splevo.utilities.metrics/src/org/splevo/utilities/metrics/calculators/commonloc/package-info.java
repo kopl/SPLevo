@@ -4,4 +4,4 @@
  * @author Benjamin Klatt
  *
  */
-package org.splevo.utilities.metrics.commonloc;
+package org.splevo.utilities.metrics.calculators.commonloc;

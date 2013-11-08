@@ -20,10 +20,33 @@
    <extension
          point="org.splevo.utilities.metrics.calculator">
       <calculator
-            calculator.class="org.splevo.utilities.metrics.commonloc.CommonLOCMetricCalculator">
+            calculator.class="org.splevo.utilities.metrics.calculators.commonloc.CommonLOCMetricCalculator">
       </calculator>
       <calculator
-            calculator.class="org.splevo.utilities.metrics.qvto.QVToMetricCalculator">
+            calculator.class="org.splevo.utilities.metrics.calculators.qvto.QVToMetricCalculator">
       </calculator>
+      <calculator
+            calculator.class="org.splevo.utilities.metrics.calculators.java.JavaMetricCalculator">
+      </calculator>
+      <calculator
+            calculator.class="org.splevo.utilities.metrics.calculators.preprocessor.PreprocessorMetricCalculator">
+      </calculator>
+      <calculator
+            calculator.class="org.splevo.utilities.metrics.calculators.generic.GenericCalculator">
+      </calculator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.splevo.utilities.metrics.preferences.PreferencePage"
+            id="org.splevo.utilities.metrics.preferences.PreferencePage"
+            name="Metrics View Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.splevo.utilities.metrics.preferences.PreferenceInitializer">
+      </initializer>
    </extension>
 </plugin>
