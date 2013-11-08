@@ -4,9 +4,12 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmt.modisco.java.ASTNode;
+import org.eclipse.gmt.modisco.java.BodyDeclaration;
+import org.eclipse.gmt.modisco.java.ClassFile;
 import org.eclipse.gmt.modisco.java.Comment;
-import org.eclipse.gmt.modisco.java.NamedElement;
+import org.eclipse.gmt.modisco.java.LabeledStatement;
 import org.eclipse.gmt.modisco.java.TextElement;
+import org.eclipse.gmt.modisco.java.VariableDeclaration;
 import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContent;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProvider;
@@ -89,10 +92,6 @@ public class MoDiscoSemanticContentProvider implements SemanticContentProvider {
 	 * @return The extracted text.
 	 */
 	private String getRelevantTextFromElement(EObject eObject) {
-		if (eObject instanceof NamedElement) {
-			return ((NamedElement) eObject).getName();
-		}
-
 		if (eObject instanceof TextElement) {
 			return ((TextElement) eObject).getText();
 		}
@@ -101,6 +100,26 @@ public class MoDiscoSemanticContentProvider implements SemanticContentProvider {
 			return ((Comment) eObject).getContent();
 		}
 
+		if (eObject instanceof BodyDeclaration) {
+			return ((BodyDeclaration) eObject).getName();
+		}
+
+		if (eObject instanceof ClassFile) {
+			return ((ClassFile) eObject).getName();
+		}
+
+		if (eObject instanceof LabeledStatement) {
+			return ((LabeledStatement) eObject).getName();
+		}
+
+		if (eObject instanceof VariableDeclaration) {
+			return ((VariableDeclaration) eObject).getName();
+		}
+
+		if (eObject instanceof org.eclipse.gmt.modisco.java.Package) {
+			return ((Package) eObject).getName();
+		}
+		
 		return null;
 	}
 
