@@ -15,10 +15,6 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
 
@@ -95,14 +91,9 @@ public class SPLevoBuilder extends IncrementalProjectBuilder {
         if (resource instanceof IFile && resource.getName().endsWith(SPLevoProjectUtil.SPLEVO_FILE_EXTENSION)) {
             IFile file = (IFile) resource;
             deleteMarkers(file);
-            ResourceSet rs = new ResourceSetImpl();
-            String osFilePath = file.getFullPath().toOSString();
             SPLevoProject splEvoProject = null;
             try {
-                EObject model = ModelUtils.load(new File(osFilePath), rs);
-                if (model instanceof SPLevoProject) {
-                    splEvoProject = (SPLevoProject) model;
-                }
+                splEvoProject = SPLevoProjectUtil.loadSPLevoProjectModel(new File(resource.getFullPath().toString()));
             } catch (IOException e) {
                 logger.warn("Failed to check project settings.", e);
             } finally {
@@ -110,9 +101,6 @@ public class SPLevoBuilder extends IncrementalProjectBuilder {
                     addMarker(file, "Project configuration file could not be loaded", -1, IMarker.SEVERITY_ERROR);
                 }
             }
-
-            // TODO: further validation of the splevo project model
-
         }
     }
 
