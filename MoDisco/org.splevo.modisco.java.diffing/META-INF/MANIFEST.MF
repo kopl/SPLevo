@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.ui,
  org.apache.log4j,
  org.splevo.diffing;bundle-version="1.0.0",
  org.splevo.modisco.util;bundle-version="1.0.0",
- com.google.guava;bundle-version="10.0.1"
+ com.google.guava;bundle-version="11.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.modisco.java.diffing,
  org.splevo.modisco.java.diffing.diff,

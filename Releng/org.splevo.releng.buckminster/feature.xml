@@ -22,6 +22,7 @@
       <discovery label="Eclipse Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20130827064939/repository/"/>
       <discovery label="EMFFeatureModel" url="http://download.eclipse.org/modeling/emft/featuremodel/update-site"/>
       <discovery label="JaMoPP" url="http://jamopp.org/update"/>
+      <discovery label="Google Guava" url="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
    </url>
 
    <includes
