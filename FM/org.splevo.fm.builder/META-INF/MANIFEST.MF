@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.splevo.fm.builder.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.apache.log4j;bundle-version="1.2.15",
- org.splevo.vpm;bundle-version="1.0.0"
+ org.splevo.vpm;bundle-version="1.0.0",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.8.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.fm.builder

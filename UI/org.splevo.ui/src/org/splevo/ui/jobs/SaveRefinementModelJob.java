@@ -10,10 +10,10 @@ import java.util.Calendar;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
+import org.splevo.vpm.refinement.RefinementUtil;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -84,7 +84,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         String basePath = workspace.getRoot().getRawLocation().toOSString();
-        String resultDirectory = basePath + splevoProject.getWorkspace() + "models/analyses-results/";
+        String resultDirectory = splevoProject.getWorkspace() + "models/analyses-results/";
 
         if (targetPath == null) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
@@ -95,8 +95,8 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
         switch (this.format) {
         case CSV:
-            new File(resultDirectory).mkdirs();
-            exportResultCSV(refModel, targetPath);
+            new File(basePath + resultDirectory).mkdirs();
+            exportResultCSV(refModel, basePath + targetPath);
             break;
 
         case ECORE_XMI:
@@ -180,7 +180,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
         logger.info("Save Refinement Model");
         try {
             String modelPath = targetPath + ".refinement";
-            ModelUtils.save(refModel, modelPath);
+            RefinementUtil.save(refModel, new File(modelPath));
         } catch (IOException e) {
             throw new JobFailedException("Failed to save refinement model as xmi.", e);
         }

@@ -1,12 +1,11 @@
 package org.splevo.ui.jobs;
 
+import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.splevo.project.SPLevoProject;
+import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
@@ -42,15 +41,11 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        String basePath = workspace.getRoot().getRawLocation().toOSString();
-
         VariationPointModel vpm = getBlackboard().getVariationPointModel();
 
         logger.info("Save VPM Model");
         try {
-            String modelPath = basePath + targetPath;
-            ModelUtils.save(vpm, modelPath);
+            VPMUtil.save(vpm, new File(targetPath));
             splevoProject.getVpmModelPaths().add(targetPath);
         } catch (IOException e) {
             throw new JobFailedException("Failed to save vpm model.", e);

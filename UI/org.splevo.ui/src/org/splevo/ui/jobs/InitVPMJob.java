@@ -5,12 +5,9 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.builder.DefaultVPMBuilderService;
 import org.splevo.vpm.builder.VPMBuildException;
@@ -42,14 +39,11 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        String basePath = workspace.getRoot().getRawLocation().toOSString();
-
         logger.info("Load diff models");
-        File diffModelFile = new File(basePath + splevoProject.getDiffingModelPath());
+        File diffModelFile = new File(splevoProject.getDiffingModelPath());
         DiffModel diffModel;
         try {
-            diffModel = (DiffModel) ModelUtils.load(diffModelFile, new ResourceSetImpl());
+            diffModel = DiffingModelUtil.loadModel(diffModelFile);
         } catch (IOException e) {
             throw new JobFailedException("Failed to load diff model.", e);
         }

@@ -2,12 +2,9 @@ package org.splevo.ui.jobs;
 
 import java.io.File;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.compare.util.ModelUtils;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.project.SPLevoProject;
+import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityPackage;
@@ -57,9 +54,6 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        String basePath = workspace.getRoot().getRawLocation().toOSString();
-
         logger.info("Load vpm model");
         variabilityPackage.eINSTANCE.eClass();
         SoftwarePackage.eINSTANCE.eClass();
@@ -70,8 +64,8 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         }
         VariationPointModel vpm;
         try {
-            File vpmFile = new File(basePath + splevoProject.getVpmModelPaths().get(index));
-            vpm = (VariationPointModel) ModelUtils.load(vpmFile, new ResourceSetImpl());
+            File vpmFile = new File(splevoProject.getVpmModelPaths().get(index));
+            vpm = VPMUtil.loadVariationPointModel(vpmFile);
         } catch (Exception e) {
             throw new JobFailedException("Failed to load vpm model.", e);
         }

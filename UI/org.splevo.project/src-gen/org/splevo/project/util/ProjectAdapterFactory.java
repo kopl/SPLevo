@@ -1,15 +1,11 @@
-/**
- */
 package org.splevo.project.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.splevo.project.*;
+import org.splevo.project.ProjectPackage;
+import org.splevo.project.SPLevoProject;
 
 /**
  * <!-- begin-user-doc -->

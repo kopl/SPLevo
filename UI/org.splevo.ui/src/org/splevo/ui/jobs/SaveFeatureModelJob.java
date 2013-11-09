@@ -1,12 +1,11 @@
 package org.splevo.ui.jobs;
 
+import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.featuremodel.FeatureModel;
+import org.splevo.fm.builder.FeatureModelUtil;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -22,8 +21,7 @@ public class SaveFeatureModelJob extends AbstractBlackboardInteractingJob<SPLevo
     private String targetPath;
 
     /**
-     * Constructor to set the reference to the splevo project and the target path to write the model
-     * to.
+     * Constructor to set the target path to write the model to.
      * 
      * @param targetPath
      *            The eclipse workspace relative path to write to.
@@ -35,15 +33,11 @@ public class SaveFeatureModelJob extends AbstractBlackboardInteractingJob<SPLevo
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        String basePath = workspace.getRoot().getRawLocation().toOSString();
-
         FeatureModel fm = getBlackboard().getFeatureModel();
 
-        logger.info("Save VPM Model");
+        logger.info("Save feature model");
         try {
-            String modelPath = basePath + targetPath;
-            ModelUtils.save(fm, modelPath);
+            FeatureModelUtil.save(fm, new File(targetPath));
         } catch (IOException e) {
             throw new JobFailedException("Failed to save feature model.", e);
         }
