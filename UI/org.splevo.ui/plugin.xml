@@ -133,5 +133,46 @@
             name="SPLevo">
       </category>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.splevo.ui.commands.CleanProjectCommand"
+            id="referenceToSPLevoMenu"
+            name="SPLevo Menu">
+      </command>
+      <command
+            defaultHandler="org.splevo.ui.commands.CleanProjectCommand"
+            id="cleanProjectCommand"
+            name="Clean Project">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="org.splevo.ui.toolbar1"
+               label="SPLevo">
+            <command
+                  commandId="referenceToSPLevoMenu"
+                  icon="icons/kopl_circle_only.png"
+                  id="referenceToSPLevoMenu"
+                  label="SPLevo Menu"
+                  style="pulldown">
+            </command>
+         </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="menu:referenceToSPLevoMenu">
+         <command
+               commandId="cleanProjectCommand"
+               icon="icons/bin.png"
+               label="Clean Project"
+               style="push"
+               tooltip="Deletes the /models and /logs directories and all SPLevo settings except of the Project Selection, Project Infos, Extractor Selection and Diffing Package Filter Rules.">
+         </command>
+      </menuContribution>
+   </extension>
 </plugin>
