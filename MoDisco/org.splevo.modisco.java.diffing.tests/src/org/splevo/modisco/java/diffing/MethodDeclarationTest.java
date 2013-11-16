@@ -1,19 +1,22 @@
 package org.splevo.modisco.java.diffing;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
-import org.splevo.modisco.java.diffing.java2kdmdiff.MethodInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.MethodChange;
 
 /**
  * Unit test to prove the differencing of method declarations.
@@ -32,28 +35,29 @@ public class MethodDeclarationTest extends AbstractDiffingTest {
     /**
      * Test method to detect changes in the method declarations.
      * 
-	 * @throws DiffingException
-	 *             Identifies a failed diffing.
+     * @throws DiffingException
+     *             Identifies a failed diffing.
      */
     @Test
     public void testDoDiff() throws DiffingException, DiffingNotSupportedException {
-    	
-    	DiffModel diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
-				diffOptions);
 
-        EList<DiffElement> differences = diff.getDifferences();
+        Java2KDMDiffer differ = new Java2KDMDiffer();
+        Comparison diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(), diffOptions);
+
+        EList<Diff> differences = diff.getDifferences();
         assertEquals("Wrong number of differences detected", 1, differences.size());
 
-        for (DiffElement diffElement : differences) {
-            if (diffElement instanceof MethodInsert) {
-                MethodInsert fieldInsert = ((MethodInsert) diffElement);
-                AbstractMethodDeclaration methodDecl = fieldInsert.getMethodLeft();
-                assertEquals("Wrong method detected as changed", "newMethod", methodDecl.getName());
-                
-            
-                
+        for (Diff diffElement : differences) {
+            if (diffElement instanceof MethodChange) {
+                MethodChange methodChange = ((MethodChange) diffElement);
+
+                assertThat("Wrong DifferenceKind", methodChange.getKind(), is(DifferenceKind.ADD));
+
+                AbstractMethodDeclaration methodDecl = methodChange.getChangedMethod();
+                assertThat("Wrong method", methodDecl.getName(), is("newMethod"));
+
             } else {
-                fail("No other diff elements than MethodInsert should have been detected.");
+                fail("No other diff elements than MethodChanges should have been detected.");
             }
             logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
         }

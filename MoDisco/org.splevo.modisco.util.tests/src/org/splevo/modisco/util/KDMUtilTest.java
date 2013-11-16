@@ -13,18 +13,20 @@ import org.junit.Test;
  */
 public class KDMUtilTest {
 
-	/**
-	 * Test load kdm model from directory.
-	 * @throws IOException Identifies that the model could not be loaded
-	 */
-	@Test
-	public final void testLoadKDMModelFromDirectory() throws IOException {
-		File java2kdmModelFile = new File("testmodels/sourcemodels/Native/_java2kdm.xmi");
-		
-		JavaApplication applicationModel = KDMUtil.loadKDMModel(java2kdmModelFile);
-		assertNotNull("No overarching model has been extracted",applicationModel);
-		assertNotNull("No java model has been extracted",applicationModel.getJavaModel());
-		assertNotNull("No inventory model has been extracted",applicationModel.getDeploymentModel());
-	}
+    /**
+     * Test load kdm model from directory.
+     * 
+     * @throws IOException
+     *             Identifies that the model could not be loaded
+     */
+    @Test
+    public final void testLoadKDMModelFromDirectory() throws IOException {
+        File java2kdmModelFile = new File("testmodels/sourcemodels/Native/_java2kdm.xmi");
+
+        JavaApplication applicationModel = KDMUtil.loadKDMModel(java2kdmModelFile);
+        assertNotNull("No overarching model has been extracted", applicationModel);
+        assertNotNull("No java model has been extracted", applicationModel.getJavaModel());
+        assertNotNull("No inventory model has been extracted", applicationModel.getDeploymentModel());
+    }
 
 }

@@ -7,12 +7,12 @@ Bundle-Activator: org.splevo.modisco.java.vpm.builder.Activator
 Require-Bundle: org.splevo.vpm;bundle-version="1.0.0",
  org.eclipse.core.runtime,
  org.splevo.modisco.java.diffing;bundle-version="1.0.0",
- org.eclipse.compare;bundle-version="3.5.300",
- org.eclipse.emf.compare.diff;bundle-version="1.3.1",
+ org.eclipse.compare,
  org.eclipse.gmt.modisco.java;bundle-version="0.10.1",
  org.apache.log4j;bundle-version="1.2.15",
  org.splevo.vpm.builder;bundle-version="1.0.0",
- org.splevo.modisco.java.vpm;bundle-version="1.0.0"
+ org.splevo.modisco.java.vpm;bundle-version="1.0.0",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.8.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.modisco.java.vpm.builder

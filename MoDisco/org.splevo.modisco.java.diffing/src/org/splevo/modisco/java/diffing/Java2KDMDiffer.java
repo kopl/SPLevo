@@ -1,28 +1,48 @@
 package org.splevo.modisco.java.diffing;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.util.EMFCompareMap;
-import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.EMFCompare.Builder;
+import org.eclipse.emf.compare.diff.DefaultDiffEngine;
+import org.eclipse.emf.compare.diff.FeatureFilter;
+import org.eclipse.emf.compare.diff.IDiffEngine;
+import org.eclipse.emf.compare.diff.IDiffProcessor;
+import org.eclipse.emf.compare.match.DefaultMatchEngine;
+import org.eclipse.emf.compare.match.IMatchEngine;
+import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
+import org.eclipse.emf.compare.postprocessor.BasicPostProcessorDescriptorImpl;
+import org.eclipse.emf.compare.postprocessor.IPostProcessor;
+import org.eclipse.emf.compare.postprocessor.PostProcessorDescriptorRegistryImpl;
+import org.eclipse.emf.compare.scope.IComparisonScope;
+import org.eclipse.emf.compare.utils.EqualityHelper;
+import org.eclipse.emf.compare.utils.IEqualityHelper;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.diffing.JavaDiffer;
-import org.splevo.modisco.java.diffing.diff.JavaModelDiffEngine;
+import org.splevo.modisco.java.diffing.diff.MoDiscoJavaDiffBuilder;
+import org.splevo.modisco.java.diffing.diff.MoDiscoJavaFeatureFilter;
 import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
-import org.splevo.modisco.java.diffing.match.JavaModelMatchEngine;
-import org.splevo.modisco.java.diffing.match.JavaModelMatchScopeProvider;
-import org.splevo.modisco.java.diffing.postprocessor.DiffModelPostProcessor;
+import org.splevo.modisco.java.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
+import org.splevo.modisco.java.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
+import org.splevo.modisco.java.diffing.match.HierarchicalMatchEngineFactory;
+import org.splevo.modisco.java.diffing.match.JavaModelMatchScope;
+import org.splevo.modisco.java.diffing.match.MoDiscoJavaEqualityStrategy;
+import org.splevo.modisco.java.diffing.match.MoDiscoJavaIgnoreStrategy;
+import org.splevo.modisco.java.diffing.postprocessor.MoDiscoJavaPostProcessor;
+import org.splevo.modisco.java.diffing.util.PackageIgnoreChecker;
 import org.splevo.modisco.util.KDMUtil;
+import org.splevo.modisco.util.SimilarityChecker;
 
-import com.google.common.io.PatternFilenameFilter;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.LoadingCache;
 
 /**
  * Differ for MoDiscos Java2KDM software models.
@@ -41,86 +61,140 @@ public class Java2KDMDiffer extends JavaDiffer {
      * modisco specific diffing. {@inheritDoc}
      * 
      * @return null if no supported source models available.
-     * @throws DiffingNotSupportedException Thrown if no Java2Kdm models provided to compare.
+     * @throws DiffingNotSupportedException
+     *             Thrown if no Java2Kdm models provided to compare.
      */
     @Override
-    public DiffModel doDiff(URI leadingModelDirectory, URI integrationModelDirectory, Map<String, Object> diffingOptions)
-            throws DiffingException, DiffingNotSupportedException {
-
-        @SuppressWarnings("unchecked")
-        List<String> ignorePackages = (List<String>) diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
-
-        final Map<String, Object> matchOptions = buildMatchOptions(ignorePackages);
+    @SuppressWarnings("unchecked")
+    public Comparison doDiff(URI leadingModelDirectory, URI integrationModelDirectory,
+            Map<String, Object> diffingOptions) throws DiffingException, DiffingNotSupportedException {
 
         this.logger.info("Load source models");
-        JavaApplication leadingModel = null;
-        JavaApplication integrationModel = null;
-        try {
-            File leadingModelFile = findRootModelFileInDirectory(leadingModelDirectory);
-            File integrationModelFile = findRootModelFileInDirectory(integrationModelDirectory);
-            if (leadingModelFile == null || integrationModelFile == null) {
-                throw new DiffingNotSupportedException("No Java2KDM models provided to compare.");
-            }
-            leadingModel = KDMUtil.loadKDMModel(leadingModelFile);
-            integrationModel = KDMUtil.loadKDMModel(integrationModelFile);
-        } catch (final IOException e) {
-            throw new DiffingException("Failed to load source models", e);
-        }
+        ResourceSet resourceSetLeading = KDMUtil.loadResourceSetRecursively(leadingModelDirectory);
+        ResourceSet resourceSetIntegration = KDMUtil.loadResourceSetRecursively(integrationModelDirectory);
 
-        logger.debug("Diffing: MATCHING PHASE");
-        JavaModelMatchEngine matchEngine = new JavaModelMatchEngine();
-        MatchModel matchModel;
-        try {
-            matchModel = matchEngine.modelMatch(integrationModel, leadingModel, matchOptions);
-        } catch (InterruptedException e) {
-            throw new DiffingException("Failed to build match model.", e);
-        }
+        logger.debug("Diffing: Configure EMF Compare");
+        final List<String> ignorePackages = (List<String>) diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
+        PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
 
-        logger.debug("Diffing: MAIN DIFFING PHASE");
-        JavaModelDiffEngine javaModelDiffEngine = new JavaModelDiffEngine(ignorePackages);
-        DiffModel diffModel = javaModelDiffEngine.doDiff(matchModel, false);
+        SimilarityChecker similarityChecker = new SimilarityChecker();
 
-        logger.debug("Diffing: POST PROCESSING PHASE");
+        final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = initEqualityCache();
+        IEqualityHelper equalityHelper = new MoDiscoJavaEqualityHelper(cache, similarityChecker);
+        IMatchEngine.Factory.Registry matchEngineRegistry = initMatchEngine(equalityHelper, packageIgnoreChecker,
+                similarityChecker);
+        IPostProcessor.Descriptor.Registry<?> postProcessorRegistry = initPostProcessors(packageIgnoreChecker);
+        IDiffEngine diffEngine = initDiffEngine(ignorePackages);
 
-        DiffModelPostProcessor postProcessor = new DiffModelPostProcessor(javaModelDiffEngine.getMatchManager());
-        postProcessor.process(diffModel);
+        EMFCompare comparator = initComparator(matchEngineRegistry, postProcessorRegistry, diffEngine);
 
-        return diffModel;
+        // Compare the two models
+        // In comparison, the left side is always the changed one.
+        // push in the integration model first
+        IComparisonScope scope = new JavaModelMatchScope(resourceSetIntegration, resourceSetLeading,
+                packageIgnoreChecker);
+
+        logger.debug("Diffing: Perform comparison");
+        Comparison comparisonModel = comparator.compare(scope);
+
+        return comparisonModel;
 
     }
 
     /**
-     * Find the MoDisco root model file within a directory.
+     * Initialize a cache to be used by the equality helper.
      * 
-     * @param basePath
-     *            The path of the directory to search in.
-     * @return The detected File.
+     * @return The ready to use cache.
      */
-    private File findRootModelFileInDirectory(final URI basePath) {
-        File leadingModelDirectory = new File(basePath);
-        String[] rootFiles = leadingModelDirectory.list(new PatternFilenameFilter(".*java2kdm\\.xmi"));
-        if (rootFiles.length < 1) {
-            return null;
-        }
-        File moDiscoRootFile = new File(leadingModelDirectory.getAbsolutePath() + File.separator + rootFiles[0]);
-        return moDiscoRootFile;
+    private LoadingCache<EObject, org.eclipse.emf.common.util.URI> initEqualityCache() {
+        CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder().maximumSize(
+                DefaultMatchEngine.DEFAULT_EOBJECT_URI_CACHE_MAX_SIZE);
+        final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = EqualityHelper
+                .createDefaultCache(cacheBuilder);
+        return cache;
     }
 
     /**
-     * Build old match options for.
+     * Initialize the post processors and build an according registry.
+     * 
+     * @param packageIgnoreChecker
+     *            The checker if an element belongs to an ignored package.
+     * @return The prepared registry with references to the post processors.
+     */
+    private IPostProcessor.Descriptor.Registry<String> initPostProcessors(PackageIgnoreChecker packageIgnoreChecker) {
+        IPostProcessor customPostProcessor = new MoDiscoJavaPostProcessor();
+        Pattern any = Pattern.compile(".*");
+        IPostProcessor.Descriptor descriptor = new BasicPostProcessorDescriptorImpl(customPostProcessor, any, any);
+        IPostProcessor.Descriptor.Registry<String> postProcessorRegistry = new PostProcessorDescriptorRegistryImpl<String>();
+        postProcessorRegistry.put(MoDiscoJavaPostProcessor.class.getName(), descriptor);
+        return postProcessorRegistry;
+    }
+
+    /**
+     * Init the comparator instance to be used for comparison.
+     * 
+     * @param matchEngineRegistry
+     *            The registry containing the match engines to be used.
+     * @param postProcessorRegistry
+     *            Registry for post processors to be executed.
+     * @param diffEngine
+     *            The diff engine to run.
+     * @return The prepared comparator instance.
+     */
+    private EMFCompare initComparator(IMatchEngine.Factory.Registry matchEngineRegistry,
+            IPostProcessor.Descriptor.Registry<?> postProcessorRegistry, IDiffEngine diffEngine) {
+        Builder builder = EMFCompare.builder();
+        builder.setDiffEngine(diffEngine);
+        builder.setMatchEngineFactoryRegistry(matchEngineRegistry);
+        builder.setPostProcessorRegistry(postProcessorRegistry);
+        EMFCompare comparator = builder.build();
+        return comparator;
+    }
+
+    /**
+     * Initialize the diff engine with the diff processor and feature filters to be used.
      * 
      * @param ignorePackages
-     *            The configured packages to ignore.
-     * @return The prepared match options.
+     *            The java packages to ignore.
+     * @return The ready-to-use diff engine.
      */
-    private Map<String, Object> buildMatchOptions(List<String> ignorePackages) {
-        final Map<String, Object> options = new EMFCompareMap<String, Object>();
-        JavaModelMatchScopeProvider scopeProvider = new JavaModelMatchScopeProvider(ignorePackages);
-        options.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, scopeProvider);
-        options.put(MatchOptions.OPTION_DISTINCT_METAMODELS, true);
-        options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
-        options.put(MatchOptions.OPTION_IGNORE_ID, true);
-        return options;
+    private IDiffEngine initDiffEngine(final List<String> ignorePackages) {
+        IDiffProcessor diffProcessor = new MoDiscoJavaDiffBuilder();
+        IDiffEngine diffEngine = new DefaultDiffEngine(diffProcessor) {
+            @Override
+            protected FeatureFilter createFeatureFilter() {
+                return new MoDiscoJavaFeatureFilter(ignorePackages);
+            }
+        };
+        return diffEngine;
+    }
+
+    /**
+     * Initialize and configure the match engines to be used.
+     * 
+     * @param equalityHelper
+     *            The equality helper to be used during the diff process.
+     * @param packageIgnoreChecker
+     *            The package ignore checker to use in the match engine.
+     * @param similarityChecker
+     *            The similarity checker to use in the match engine.
+     * 
+     * @return The registry containing all prepared match engines
+     */
+    private IMatchEngine.Factory.Registry initMatchEngine(IEqualityHelper equalityHelper,
+            PackageIgnoreChecker packageIgnoreChecker, SimilarityChecker similarityChecker) {
+
+        EqualityStrategy equalityStrategy = new MoDiscoJavaEqualityStrategy(similarityChecker);
+        IgnoreStrategy ignoreStrategy = new MoDiscoJavaIgnoreStrategy(packageIgnoreChecker);
+
+        IMatchEngine.Factory matchEngineFactory = new HierarchicalMatchEngineFactory(equalityHelper, equalityStrategy,
+                ignoreStrategy);
+        matchEngineFactory.setRanking(20);
+
+        IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
+        matchEngineRegistry.add(matchEngineFactory);
+
+        return matchEngineRegistry;
     }
 
     @Override

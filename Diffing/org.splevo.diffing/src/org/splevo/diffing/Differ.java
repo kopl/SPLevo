@@ -3,7 +3,7 @@ package org.splevo.diffing;
 import java.net.URI;
 import java.util.Map;
 
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
 
 /**
  * A differ encapsulating the technology specific diffing logic. It is capable to select all
@@ -30,7 +30,7 @@ public interface Differ {
      * @throws DiffingNotSupportedException
      *             The differ is not capable to process this input.
      */
-    DiffModel doDiff(URI leadingModelDirectory, URI integrationModelDirectory, Map<String, Object> diffingOptions)
+    Comparison doDiff(URI leadingModelDirectory, URI integrationModelDirectory, Map<String, Object> diffingOptions)
             throws DiffingException, DiffingNotSupportedException;
 
     /**

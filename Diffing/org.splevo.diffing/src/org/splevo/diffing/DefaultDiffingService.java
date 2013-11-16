@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.CompareFactory;
+import org.eclipse.emf.compare.Comparison;
 
 /**
  * Default service to run the an extractor.
@@ -19,7 +19,7 @@ public class DefaultDiffingService implements DiffingService {
     private static final String MSG_DIFFER_NOT_AVAILABLE = "No differs available.";
 
     @Override
-    public DiffModel diffSoftwareModels(URI leadingModelDirectory, URI integrationModelDirectory,
+    public Comparison diffSoftwareModels(URI leadingModelDirectory, URI integrationModelDirectory,
             Map<String, Object> diffingOptions) throws DiffingException {
 
         List<Differ> differs = getDiffers();
@@ -27,16 +27,16 @@ public class DefaultDiffingService implements DiffingService {
             throw new DiffingException(String.format(MSG_DIFFER_NOT_AVAILABLE));
         }
 
-        DiffModel diffModel = DiffFactory.eINSTANCE.createDiffModel();
+        Comparison diffModel = CompareFactory.eINSTANCE.createComparison();
+        diffModel.setThreeWay(false);
 
         for (Differ differ : differs) {
-            DiffModel partDiffModel;
+            Comparison partComparisonModel;
             try {
-                partDiffModel = differ.doDiff(leadingModelDirectory, integrationModelDirectory, diffingOptions);
-                diffModel.getAncestorRoots().addAll(partDiffModel.getAncestorRoots());
-                diffModel.getOwnedElements().addAll(partDiffModel.getOwnedElements());
-                diffModel.getLeftRoots().addAll(partDiffModel.getLeftRoots());
-                diffModel.getRightRoots().addAll(partDiffModel.getRightRoots());
+                partComparisonModel = differ.doDiff(leadingModelDirectory, integrationModelDirectory, diffingOptions);
+                // diffModel.getDifferences().addAll(partComparisonModel.getDifferences());
+                diffModel.getMatches().addAll(partComparisonModel.getMatches());
+                diffModel.getMatchedResources().addAll(partComparisonModel.getMatchedResources());
             } catch (DiffingNotSupportedException e) {
                 logger.info("The differ does not support the provided input");
             }

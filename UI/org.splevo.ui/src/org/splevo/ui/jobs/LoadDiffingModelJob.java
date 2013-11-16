@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
 import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.project.SPLevoProject;
 
@@ -37,7 +37,7 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
         logger.info("Load diff models");
         File diffModelFile = new File(splevoProject.getDiffingModelPath());
         
-        DiffModel diffModel;
+        Comparison diffModel;
         try {
             diffModel = DiffingModelUtil.loadModel(diffModelFile);
         } catch (IOException e) {

@@ -36,6 +36,8 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.InfixExpression;
 import org.eclipse.gmt.modisco.java.InstanceofExpression;
 import org.eclipse.gmt.modisco.java.MethodInvocation;
+import org.eclipse.gmt.modisco.java.MethodRef;
+import org.eclipse.gmt.modisco.java.MethodRefParameter;
 import org.eclipse.gmt.modisco.java.Model;
 import org.eclipse.gmt.modisco.java.Modifier;
 import org.eclipse.gmt.modisco.java.NamedElement;
@@ -255,38 +257,43 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         // check visibility modifier
         if (modifier2.getVisibility() != modifier1.getVisibility()) {
-                return Boolean.FALSE;
+            return Boolean.FALSE;
         }
 
         // check inheritance modifier
         if (modifier1.getInheritance() != modifier2.getInheritance()) {
-                return Boolean.FALSE;
+            return Boolean.FALSE;
         }
-        
+
         if (modifier1.isNative() != modifier2.isNative()) {
             return Boolean.FALSE;
         }
-        
+
         if (modifier1.isStatic() != modifier2.isStatic()) {
             return Boolean.FALSE;
         }
-        
+
         if (modifier1.isStrictfp() != modifier2.isStrictfp()) {
             return Boolean.FALSE;
         }
-        
+
         if (modifier1.isSynchronized() != modifier2.isSynchronized()) {
             return Boolean.FALSE;
         }
-        
+
         if (modifier1.isTransient() != modifier2.isTransient()) {
             return Boolean.FALSE;
         }
-        
+
         if (modifier1.isVolatile() != modifier2.isVolatile()) {
             return Boolean.FALSE;
         }
-        
+
+        Boolean containerSimilarity = similarityChecker.isSimilar(modifier1.eContainer(), modifier2.eContainer());
+        if (containerSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
         return Boolean.TRUE;
     }
 
@@ -396,7 +403,7 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
         // if methods have different names they are not similar.
         if (!method1.getName().equals(method2.getName())) {
-            return false;
+            return Boolean.FALSE;
         }
 
         if (method1.getParameters().size() != method2.getParameters().size()) {
@@ -1815,6 +1822,77 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         Expression exp2 = methodInvocation2.getExpression();
         Boolean expSimilarity = similarityChecker.isSimilar(exp1, exp2);
         if (expSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check if two method references are similar.<br>
+     * This checks
+     * <ul>
+     * <li>the referenced method</li>
+     * <li>the reference parameters</li>
+     * </ul>
+     * 
+     * @param methodRef1
+     *            the method reference to check
+     * @return the boolean
+     */
+    @Override
+    public Boolean caseMethodRef(MethodRef methodRef1) {
+        MethodRef methodRef2 = (MethodRef) compareElement;
+
+        AbstractMethodDeclaration method1 = methodRef1.getMethod();
+        AbstractMethodDeclaration method2 = methodRef2.getMethod();
+        Boolean methodSimilarity = similarityChecker.isSimilar(method1, method2);
+        if (methodSimilarity == Boolean.FALSE) {
+            return Boolean.FALSE;
+        }
+
+        EList<MethodRefParameter> method1Params = methodRef1.getParameters();
+        EList<MethodRefParameter> method2Params = methodRef1.getParameters();
+        if (method1Params.size() != method2Params.size()) {
+            return Boolean.FALSE;
+        }
+
+        for (int i = 0; i < method1Params.size(); i++) {
+            MethodRefParameter param1 = method1Params.get(i);
+            MethodRefParameter param2 = method2Params.get(i);
+            Boolean paramSimilarity = similarityChecker.isSimilar(param1, param2);
+            if (paramSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
+     * Check if two method parameters are similar.<br>
+     * This checks
+     * <ul>
+     * <li>the parameter name</li>
+     * <li>the parameter type</li>
+     * </ul>
+     * 
+     * @param param1
+     *            the parameter to check
+     * @return the boolean
+     */
+    @Override
+    public Boolean caseMethodRefParameter(MethodRefParameter param1) {
+        MethodRefParameter param2 = (MethodRefParameter) compareElement;
+
+        String name1 = param1.getName();
+        String name2 = param2.getName();
+
+        if ((name1 == null && name2 != null) || (name1 != null && !name1.equals(name2))) {
+            return Boolean.FALSE;
+        }
+        Boolean typeSimilarity = similarityChecker.isSimilar(param1.getType().getType(), param2.getType().getType());
+        if (typeSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 

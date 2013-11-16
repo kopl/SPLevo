@@ -1,22 +1,23 @@
 package org.splevo.modisco.java.diffing;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.DifferenceKind;
+import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
-import org.splevo.modisco.java.diffing.java2kdmdiff.FieldDelete;
-import org.splevo.modisco.java.diffing.java2kdmdiff.FieldInsert;
-import org.splevo.modisco.java.diffing.java2kdmdiff.ImplementsInterfaceDelete;
-import org.splevo.modisco.java.diffing.java2kdmdiff.ImplementsInterfaceInsert;
-import org.splevo.modisco.java.diffing.java2kdmdiff.ImportDelete;
-import org.splevo.modisco.java.diffing.java2kdmdiff.ImportInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ClassChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.FieldChange;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImportChange;
 import org.splevo.tests.SPLevoTestUtil;
 
 /**
@@ -40,33 +41,43 @@ public class InterfaceImplementationChangeDiffingTest extends AbstractDiffingTes
      */
     @Test
     public void testInserts() throws DiffingException, DiffingNotSupportedException {
-    	
-    	DiffModel diff = differ.doDiff(
+
+        Java2KDMDiffer differ = new Java2KDMDiffer();
+    	Comparison comparison = differ.doDiff(
     								SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(), 
     								SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_DIR_2.toURI(),
     								diffOptions);
 
-    	EList<DiffElement> differences = diff.getDifferences();
+    	EList<Diff> differences = comparison.getDifferences();
         assertEquals("Wrong number of differences detected", 3, differences.size());
 
-        for (DiffElement diffElement : differences) {
-            if (diffElement instanceof ImportInsert) {
-                String importedClass = ((ImportInsert) diffElement).getImportLeft().getImportedElement().getName();
-                assertEquals("Serializable should have been recognized as new import", "Serializable", importedClass);
-            } else if (diffElement instanceof ImplementsInterfaceInsert) {
-                String implementedInterface = ((ImplementsInterfaceInsert) diffElement).getImplementedInterface()
-                        .getName();
-                assertEquals("Serializable should have been recognized as new implements class signature",
-                        "Serializable", implementedInterface);
-            } else if (diffElement instanceof FieldInsert) {
-                FieldDeclaration fieldDecl = ((FieldInsert) diffElement).getFieldLeft();
+        for (Diff diff : differences) {
+            if (diff instanceof ImportChange) {
+                ImportChange importChange = (ImportChange) diff;
+                String importedType = importChange.getChangedImport().getImportedElement().getName();
+                assertEquals("Wrong imported type", "Serializable", importedType);
+                assertThat("Wrong DifferenceKind", importChange.getKind(), is(DifferenceKind.ADD));
+                
+            } else if (diff instanceof ClassChange) {
+                ClassChange classChange = (ClassChange) diff;
+                assertThat("Wrong DifferenceKind", classChange.getKind(), is(DifferenceKind.CHANGE));
+                
+                ClassDeclaration classDecl = classChange.getChangedClass();
+                String interfaceName = classDecl.getSuperInterfaces().get(0).getType().getName();
+                assertThat("Wrong interface detected as implemented", interfaceName, is("Serializable"));
+
+            } else if (diff instanceof FieldChange) {
+                FieldChange fieldChange = (FieldChange) diff;
+                assertThat("Wrong DifferenceKind", fieldChange.getKind(), is(DifferenceKind.ADD));
+                FieldDeclaration fieldDecl = fieldChange.getChangedField();
+                
                 String fieldName = fieldDecl.getFragments().get(0).getName();
-                assertEquals("serialVersionUID should have been recognized as new field", "serialVersionUID", fieldName);
+                assertThat("Expected field not added", fieldName, is("serialVersionUID"));
+                
             } else {
-                fail("No other diff elements than ImportInsert, ImplementsInterfaceInsert and FieldInsert should have been detected. "
-                        + diffElement);
+                fail("Unexpected diff type detected " + diff);
             }
-            logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
+            logger.debug(diff.getKind() + ": " + diff.getClass().getName());
         }
         logger.debug("Found Differences: " + differences.size());
     }
@@ -79,39 +90,46 @@ public class InterfaceImplementationChangeDiffingTest extends AbstractDiffingTes
      */
     @Test
     public void testDeletes() throws DiffingException, DiffingNotSupportedException {
-    	
-    	DiffModel diff = differ.doDiff(
+
+        Java2KDMDiffer differ = new Java2KDMDiffer();
+    	Comparison comparison = differ.doDiff(
     								SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_DIR_2.toURI(), 
     								SPLevoTestUtil.INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(),
     								diffOptions);
     	
-        EList<DiffElement> differences = diff.getDifferences();
+        EList<Diff> differences = comparison.getDifferences();
         assertEquals("Wrong number of differences detected", 3, differences.size());
 
-        for (DiffElement diffElement : differences) {
-            if (diffElement instanceof ImportDelete) {
-                String importedClass = ((ImportDelete) diffElement).getImportRight().getImportedElement().getName();
-                assertEquals("Serializable should have been recognized as removed import", "Serializable",
-                        importedClass);
-            } else if (diffElement instanceof ImplementsInterfaceDelete) {
-                String implementedInterface = ((ImplementsInterfaceDelete) diffElement).getImplementedInterface()
-                        .getName();
-                assertEquals("Serializable should have been recognized as removed implements class signature",
-                        "Serializable", implementedInterface);
-            } else if (diffElement instanceof FieldDelete) {
-                FieldDeclaration fieldDecl = ((FieldDelete) diffElement).getFieldRight();
+        for (Diff diff : differences) {
+            if (diff instanceof ImportChange) {
+                ImportChange importChange = (ImportChange) diff;
+                String importedType = importChange.getChangedImport().getImportedElement().getName();
+                assertEquals("Wrong imported type", "Serializable", importedType);
+                assertThat("Wrong DifferenceKind", importChange.getKind(), is(DifferenceKind.DELETE));
+                
+            } else if (diff instanceof ClassChange) {
+                ClassChange classChange = (ClassChange) diff;
+                assertThat("Wrong DifferenceKind", classChange.getKind(), is(DifferenceKind.CHANGE));
+
+                ClassDeclaration changedClass = classChange.getChangedClass();
+                ClassDeclaration origClass = (ClassDeclaration) comparison.getMatch(changedClass).getRight();
+                String interfaceName = origClass.getSuperInterfaces().get(0).getType().getName();
+                assertThat("Wrong interface detected as implemented", interfaceName, is("Serializable"));
+
+            } else if (diff instanceof FieldChange) {
+                FieldChange fieldChange = (FieldChange) diff;
+                assertThat("Wrong DifferenceKind", fieldChange.getKind(), is(DifferenceKind.DELETE));
+                FieldDeclaration fieldDecl = fieldChange.getChangedField();
+                
                 String fieldName = fieldDecl.getFragments().get(0).getName();
-                assertEquals("serialVersionUID should have been recognized as removed field", "serialVersionUID",
-                        fieldName);
+                assertThat("Expected field not added", fieldName, is("serialVersionUID"));
+                
             } else {
-                fail("No other diff elements than ImportDelete, ImplementsInterfaceDelete and FieldDelete should have been detected. "
-                        + diffElement);
+                fail("Unexpected diff type detected " + diff);
             }
-            logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
+            logger.debug(diff.getKind() + ": " + diff.getClass().getName());
         }
         logger.debug("Found Differences: " + differences.size());
-
-        // ModelUtils.save(diff, "testresult/importDiffModel.java2kdmdiff");
     }
 
 }

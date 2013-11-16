@@ -7,13 +7,11 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.DifferenceKind;
 import org.junit.Test;
-import org.splevo.diffing.DiffingException;
-import org.splevo.diffing.DiffingNotSupportedException;
-import org.splevo.modisco.java.diffing.java2kdmdiff.ImportDelete;
-import org.splevo.modisco.java.diffing.java2kdmdiff.ImportInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.ImportChange;
 
 /**
  * Test the diffing of changed imports.
@@ -26,42 +24,49 @@ public class ImportChangeDiffingTest extends AbstractDiffingTest {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(ImportChangeDiffingTest.class);
 
-    /** Source path to the native calculator implementation. */
-    private static final File TEST_DIR_1 = new File("testmodels/implementation/importDiffing/1");
+    /** Path to the source model of the original import project. */
+    private static final File TEST_DIR_1 = new File("testmodels/implementation/importDiffing/a");
 
-    /** Source path to the jscience based calculator implementation. */
-    private static final File TEST_DIR_2 = new File("testmodels/implementation/importDiffing/2");
+    /** Path to the source model of the changed import project. */
+    private static final File TEST_DIR_2 = new File("testmodels/implementation/importDiffing/b");
 
     /**
      * Test method to detect changes in import declarations.
      * 
-	 * @throws DiffingException
-	 *             Identifies a failed diffing.
+     * @throws Exception
+     *             Identifies a failed diffing.
      */
     @Test
-    public void testDoDiff() throws DiffingException, DiffingNotSupportedException {
-    	
-    	DiffModel diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
-				diffOptions);
+    public void testDoDiff() throws Exception {
 
-        EList<DiffElement> differences = diff.getDifferences();
+        Java2KDMDiffer differ = new Java2KDMDiffer();
+        Comparison comparison = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(), diffOptions);
+        save(comparison, "testresult/importChange.emfdiff");
+
+        EList<Diff> differences = comparison.getDifferences();
         assertEquals("Wrong number of differences detected", 2, differences.size());
 
-        for (DiffElement diffElement : differences) {
-            if (diffElement instanceof ImportInsert) {
-                String importedClass = ((ImportInsert) diffElement).getImportLeft().getImportedElement().getName();
-                assertEquals("BigDecimal should have been recognized as new import", "BigDecimal", importedClass);
-            } else if (diffElement instanceof ImportDelete) {
-                String importedClass = ((ImportDelete) diffElement).getImportRight().getImportedElement().getName();
-                assertEquals("BigInteger should have been recognized as new import", "BigInteger", importedClass);
+        for (Diff diff : differences) {
+            if (diff instanceof ImportChange) {
+                
+                ImportChange importChange = (ImportChange) diff;
+                String importedClass = importChange.getChangedImport().getImportedElement().getName();
+                
+                if(importChange.getKind() == DifferenceKind.ADD) {
+                    assertEquals("BigDecimal should have been recognized as new import", "BigDecimal", importedClass);
+                } else if(importChange.getKind() == DifferenceKind.DELETE) {
+                    assertEquals("BigInteger should have been recognized as deleted import", "BigInteger", importedClass);    
+                } else {
+                    fail("Wrong DifferenceKind detected: " + importChange.getKind());
+                }
+                
             } else {
-                fail("No other diff elements than ImportInsert and ImportDelete should have been detected.");
+                fail("No other diff elements than ImportChange should have been detected. Detected: " + diff);
             }
-            logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
+            logger.debug(diff.getKind() + ": " + diff.getClass().getName());
         }
         logger.debug("Found Differences: " + differences.size());
 
-        //ModelUtils.save(diff, "testresult/importDiffModel.java2kdmdiff");
     }
 
 }

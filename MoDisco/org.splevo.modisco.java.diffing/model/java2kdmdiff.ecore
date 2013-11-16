@@ -3,7 +3,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="java2kdmdiff" nsURI="http://www.eclipse.org/emf/compare/diff/java2kdmdiff/1.0"
     nsPrefix="java2kdmdiff">
   <eClassifiers xsi:type="ecore:EClass" name="Java2KDMDiffExtension" abstract="true"
-      eSuperTypes="platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//AbstractDiffExtension platform:/plugin/org.eclipse.emf.compare.diff/model/diff.ecore#//DiffElement">
+      eSuperTypes="../../org.eclipse.emf.compare/model/compare.ecore#//Diff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="An EMF Compare Diffing extension model specific for the java2kdm meta model extracted by the modisco tooling.&#xD;&#xA;&#xD;&#xA;This diffing uses the terms &quot;left model&quot; and &quot;right model&quot;. &#xD;&#xA;The right model identifies the original model.&#xD;&#xA;The left model the modified version."/>
     </eAnnotations>
@@ -12,180 +12,43 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A change on a statement level.&#xD;&#xA;Depending on the type of change (delete, add, remove, move) the left, right or both statement references are filled."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="statementRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Statement">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The statement in the right model which is the new modified version."/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="name" value="statementRight"/>
-        <details key="namespace" value=""/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="statementLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Statement">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The statement source element in the left model."/>
-      </eAnnotations>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedStatement" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Statement"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ImportDeclarationChange" abstract="true"
-      eSuperTypes="#//Java2KDMDiffExtension">
+  <eClassifiers xsi:type="ecore:EClass" name="ImportChange" eSuperTypes="#//Java2KDMDiffExtension">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A difference identifying that an import has been changed."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ImportDeclarationChange"/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedImport" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ImportInsert" eSuperTypes="#//ImportDeclarationChange">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A change representing a new import which is only present in the left model."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="importLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ImportDelete" eSuperTypes="#//ImportDeclarationChange">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="An import that was deleted and is only present in the right model."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="importRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ImportDeclaration"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//CompilationUnit">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The container in the changed model that no longer contains the import. (according to emf compares &quot;leftParent&quot; terminology)"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ClassChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ImplementsInterfaceInsert" eSuperTypes="#//ClassChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="implementedInterface" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//InterfaceDeclaration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassChange" eSuperTypes="#//Java2KDMDiffExtension">
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedClass" lowerBound="1"
         eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ImplementsInterfaceDelete" eSuperTypes="#//ClassChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="implementedInterface" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//InterfaceDeclaration"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="changedClass" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FieldChange" eSuperTypes="#//Java2KDMDiffExtension">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedField" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FieldChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension"/>
-  <eClassifiers xsi:type="ecore:EClass" name="FieldInsert" eSuperTypes="#//FieldChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The new field declaration that has been added."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FieldDelete" eSuperTypes="#//FieldChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The original field declaration that has been removed."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ASTNode">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The container of the deleted element in the old model.&#xD;&#xA;This can be either an AbstractTypeDeclaration or an AnonymousClassDeclaration. &#xD;&#xA;Their most specific common super class is the ASTNode, so this is referenced here."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ClassInsert" eSuperTypes="#//ClassChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="classLeft" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The added class declaration."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ClassDelete" eSuperTypes="#//ClassChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="classRight" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ClassDeclaration">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The deleted class declaration."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The package in the current model that no longer contains the deleted class.&#xD;&#xA;It might be null if the deleted class is conainted in a package that was deleted, too."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PackageChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension">
+  <eClassifiers xsi:type="ecore:EClass" name="PackageChange" eSuperTypes="#//Java2KDMDiffExtension">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A changed package declaration."/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedPackage" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PackageInsert" eSuperTypes="#//PackageChange">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A package that was inserted and is only present in the left model."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="packageLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The package inserted to the software."/>
-      </eAnnotations>
-    </eStructuralFeatures>
+  <eClassifiers xsi:type="ecore:EClass" name="MethodChange" eSuperTypes="#//Java2KDMDiffExtension">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedMethod" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//AbstractMethodDeclaration"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PackageDelete" eSuperTypes="#//PackageChange">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A package that was deleted and is only present in the right model."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="packageRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The package removed from the software."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//Package">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The parent package in the current model that no longer contains the deleted package.&#xD;&#xA;It might be null if the deleted package is conainted in a parent package that was deleted, too."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MethodChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension"/>
-  <eClassifiers xsi:type="ecore:EClass" name="MethodInsert" eSuperTypes="#//MethodChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="methodLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//AbstractMethodDeclaration"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MethodDelete" eSuperTypes="#//MethodChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="methodRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//AbstractMethodDeclaration"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ASTNode">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The container in the changed model that no longer contains the method. (according to emf compares &quot;leftParent&quot; terminology)"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StatementInsert" eSuperTypes="#//StatementChange"/>
-  <eClassifiers xsi:type="ecore:EClass" name="StatementDelete" eSuperTypes="#//StatementChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="leftContainer" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//ASTNode">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The container in the changed model that no longer contains the statement. (according to emf compares &quot;leftParent&quot; terminology)"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FieldDeclarationChange" eSuperTypes="#//FieldChange">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A change identifying a modified field declaration."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The new version of  the field."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fieldRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//FieldDeclaration">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The original version of the field."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EnumChange" abstract="true" eSuperTypes="#//Java2KDMDiffExtension">
+  <eClassifiers xsi:type="ecore:EClass" name="EnumChange" eSuperTypes="#//Java2KDMDiffExtension">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Change that indications a modification of an enumeration type."/>
     </eAnnotations>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EnumDeclarationChange" eSuperTypes="#//EnumChange">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="enumLeft" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//EnumDeclaration">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The new version of  the enumeration."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="enumRight" eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//EnumDeclaration">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The original version of  the enumeration"/>
-      </eAnnotations>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedEnum" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.gmt.modisco.java/model/java.ecore#//EnumDeclaration"/>
   </eClassifiers>
 </ecore:EPackage>

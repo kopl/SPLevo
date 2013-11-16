@@ -23,6 +23,7 @@
       <discovery label="EMFFeatureModel" url="http://download.eclipse.org/modeling/emft/featuremodel/update-site"/>
       <discovery label="JaMoPP" url="http://jamopp.org/update"/>
       <discovery label="Google Guava" url="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
+      <discovery label="EMF Compare" url="http://download.eclipse.org/modeling/emf/compare/updates/releases/"/>
    </url>
 
    <includes

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.compare.diff.provider.AbstractDiffExtensionItemProvider;
+import org.eclipse.emf.compare.provider.DiffItemProvider;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.gmt.modisco.java.ASTNode;
 
@@ -65,7 +65,7 @@ public class ImageUtil {
      * @param itemProvider The item provider to access the resources.
      * @return The loaded image or null none is available.
      */
-    public static Object getASTIcon(ASTNode astNode, AbstractDiffExtensionItemProvider itemProvider) {
+    public static Object getASTIcon(ASTNode astNode, DiffItemProvider itemProvider) {
 
         if (astNode == null) {
             logger.warn("null ASTNode supplied to ImageUtil");
@@ -92,7 +92,7 @@ public class ImageUtil {
      *            The path to the image to be overlaid. (relative to /icons/)
      * @return The composed image object.
      */
-    public static Object composeImage(Object baseImage, AbstractDiffExtensionItemProvider itemProvider, String imagePath) {
+    public static Object composeImage(Object baseImage, DiffItemProvider itemProvider, String imagePath) {
         List<Object> images = new ArrayList<Object>(2);
         images.add(baseImage);
         images.add(itemProvider.getResourceLocator().getImage(imagePath));
@@ -108,7 +108,7 @@ public class ImageUtil {
      *            The item provider to access the resources.
      * @return The prepared delete icon.
      */
-    public static Object getASTDeleteIcon(ASTNode astNode, AbstractDiffExtensionItemProvider itemProvider) {
+    public static Object getASTDeleteIcon(ASTNode astNode, DiffItemProvider itemProvider) {
         Object baseImage = getASTIcon(astNode, itemProvider);
         return ImageUtil.composeImage(baseImage, itemProvider, OVERLAY_ICON_DELETE);
     }
@@ -122,7 +122,7 @@ public class ImageUtil {
      *            The item provider to access the resources.
      * @return The prepared insert icon.
      */
-    public static Object getASTInsertIcon(ASTNode astNode, AbstractDiffExtensionItemProvider itemProvider) {
+    public static Object getASTInsertIcon(ASTNode astNode, DiffItemProvider itemProvider) {
         Object baseImage = getASTIcon(astNode, itemProvider);
         return ImageUtil.composeImage(baseImage, itemProvider, OVERLAY_ICON_INSERT);
     }
@@ -136,7 +136,7 @@ public class ImageUtil {
      *            The item provider to access the resources.
      * @return The prepared change icon.
      */
-    public static Object getASTChangeIcon(ASTNode astNode, AbstractDiffExtensionItemProvider itemProvider) {
+    public static Object getASTChangeIcon(ASTNode astNode, DiffItemProvider itemProvider) {
         Object baseImage = getASTIcon(astNode, itemProvider);
         return ImageUtil.composeImage(baseImage, itemProvider, OVERLAY_ICON_CHANGE);
     }
@@ -150,7 +150,7 @@ public class ImageUtil {
      *            The relative path to the base icon.
      * @return The prepared insert icon.
      */
-    public static Object composeInsertIcon(AbstractDiffExtensionItemProvider itemProvider, String iconPath) {
+    public static Object composeInsertIcon(DiffItemProvider itemProvider, String iconPath) {
         Object baseIcon = itemProvider.getResourceLocator().getImage(iconPath);
         return ImageUtil.composeImage(baseIcon, itemProvider, OVERLAY_ICON_INSERT);
     }
@@ -164,7 +164,7 @@ public class ImageUtil {
      *            The relative path to the base icon.
      * @return The prepared insert icon.
      */
-    public static Object composeDeleteIcon(AbstractDiffExtensionItemProvider itemProvider, String iconPath) {
+    public static Object composeDeleteIcon(DiffItemProvider itemProvider, String iconPath) {
         Object baseIcon = itemProvider.getResourceLocator().getImage(iconPath);
         return ImageUtil.composeImage(baseIcon, itemProvider, OVERLAY_ICON_DELETE);
     }
@@ -178,7 +178,7 @@ public class ImageUtil {
      *            The relative path to the base icon.
      * @return The prepared insert icon.
      */
-    public static Object composeChangeIcon(AbstractDiffExtensionItemProvider itemProvider, String iconPath) {
+    public static Object composeChangeIcon(DiffItemProvider itemProvider, String iconPath) {
         Object baseIcon = itemProvider.getResourceLocator().getImage(iconPath);
         return ImageUtil.composeImage(baseIcon, itemProvider, OVERLAY_ICON_CHANGE);
     }

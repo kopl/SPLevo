@@ -14,8 +14,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
- org.eclipse.emf.compare.diff.edit;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
  org.eclipse.gmt.modisco.java.edit;visibility:=reexport,
- org.eclipse.emf.compare.match;visibility:=reexport
+ org.eclipse.emf.compare.edit;bundle-version="3.0.1"
 Bundle-ActivationPolicy: lazy

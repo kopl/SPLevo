@@ -8,8 +8,9 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.gmt.modisco.java.CatchClause;
 import org.eclipse.gmt.modisco.java.EnhancedForStatement;
 import org.eclipse.gmt.modisco.java.ExpressionStatement;
@@ -23,8 +24,7 @@ import org.eclipse.gmt.modisco.java.WhileStatement;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
-import org.splevo.modisco.java.diffing.java2kdmdiff.StatementDelete;
-import org.splevo.modisco.java.diffing.java2kdmdiff.StatementInsert;
+import org.splevo.modisco.java.diffing.java2kdmdiff.StatementChange;
 
 /**
  * Unit test to prove the differencing of method declarations.
@@ -48,55 +48,57 @@ public class StatementTest extends AbstractDiffingTest {
      */
     @Test
     public void testDoDiff() throws DiffingException, DiffingNotSupportedException {
-    	
-    	DiffModel diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
+
+        Java2KDMDiffer differ = new Java2KDMDiffer();
+    	Comparison comparison = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
 				diffOptions);
 
-        EList<DiffElement> differences = diff.getDifferences();
-        for (DiffElement diffElement : differences) {
-        	logger.debug(diffElement.getClass().getSimpleName());
-			
-		}
-        assertEquals("Wrong number of differences detected", 26, differences.size());
+        EList<Diff> differences = comparison.getDifferences();
+        assertEquals("Wrong number of differences detected", 25, differences.size());
 
-        for (DiffElement diffElement : differences) {
-            if (diffElement instanceof StatementInsert) {
-                StatementInsert statementInsert = ((StatementInsert) diffElement);
-                Statement statement = statementInsert.getStatementLeft();
-                assertNotNull("The inserted statement should not be null.", statement);
+        for (Diff diff : differences) {
+            if (diff instanceof StatementChange) {
+                StatementChange statementChange = (StatementChange) diff;
 
-                // check the statements should be either if, return or expression statements
-                if (!(statement instanceof IfStatement || statement instanceof ReturnStatement
-                        || statement instanceof ExpressionStatement
-                        || statement instanceof VariableDeclarationStatement 
-                        || statement instanceof CatchClause
-                        || statement instanceof ThrowStatement
-                        || statement instanceof ForStatement
-                        || statement instanceof EnhancedForStatement
-                        || statement instanceof WhileStatement)) {
-                    fail("Unexpected statement type detected." + statement);
+                Statement statement = statementChange.getChangedStatement();
+                assertNotNull("The changed statement should not be null.", statement);
+
+                if(statementChange.getKind() == DifferenceKind.ADD) {
+                    // check the statements should be either if, return or expression statements
+                    if (!(statement instanceof IfStatement || statement instanceof ReturnStatement
+                            || statement instanceof ExpressionStatement
+                            || statement instanceof VariableDeclarationStatement 
+                            || statement instanceof CatchClause
+                            || statement instanceof ThrowStatement
+                            || statement instanceof ForStatement
+                            || statement instanceof EnhancedForStatement
+                            || statement instanceof WhileStatement)) {
+                        fail("Unexpected statement type detected." + statement);
+                    }
+                } else if(statementChange.getKind() == DifferenceKind.DELETE) {
+
+                    if (!(statement instanceof IfStatement || statement instanceof VariableDeclarationStatement
+                            || statement instanceof ReturnStatement 
+                            || statement instanceof CatchClause
+                            || statement instanceof ThrowStatement
+                            || statement instanceof ForStatement
+                            || statement instanceof EnhancedForStatement
+                            || statement instanceof WhileStatement)) {
+                        fail("Unexpected statement type detected." + statement);
+                    }
+                } else if(statementChange.getKind() == DifferenceKind.CHANGE) {
+
+                    if (!(statement instanceof ForStatement)) {
+                        fail("Unexpected statement type detected." + statement);
+                    }
+                } else {
+                    fail("Unexpected DifferenceKind: " + statementChange.getKind());
                 }
 
-            } else if (diffElement instanceof StatementDelete) {
-                StatementDelete statementDelete = ((StatementDelete) diffElement);
-                Statement statement = statementDelete.getStatementRight();
-                assertNotNull("The deleted statement should not be null.", statement);
-
-                if (!(statement instanceof IfStatement || statement instanceof VariableDeclarationStatement
-                        || statement instanceof ReturnStatement 
-                        || statement instanceof CatchClause
-                        || statement instanceof ThrowStatement
-                        || statement instanceof ForStatement
-                        || statement instanceof EnhancedForStatement
-                        || statement instanceof WhileStatement)) {
-                    fail("Unexpected statement type detected." + statement);
-                }
-
-                assertNotNull("Left container not set.", statementDelete.getLeftContainer());
             } else {
-                fail("No other diff elements than StatementInsert and Delete should have been detected.:" + diffElement);
+                fail("No other diff elements than StatementChange should have been detected.:" + diff);
             }
-            logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
+            logger.debug(diff.getKind() + ": " + diff.getClass().getName());
         }
         logger.debug("Found Differences: " + differences.size());
     }

@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.diffing.JavaDiffer;
@@ -18,11 +18,8 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
- * Utility class for the common SPLevo test infrstructure to prevent redundant code and stream line
+ * Utility class for the common SPLevo test infrastructure to prevent redundant code and stream line
  * test development.
- * 
- * @author Benjamin Klatt
- * 
  */
 public class SPLevoTestUtil {
 
@@ -66,7 +63,7 @@ public class SPLevoTestUtil {
      */
     public static VariationPointModel loadGCDVPMModel() throws Exception {
 
-        DiffModel diffModel = loadGCDDiffModel();
+        Comparison diffModel = loadGCDDiffModel();
 
         Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
         VariationPointModel initialVpm = java2KDMVPMBuilder.buildVPM(diffModel, "LEADING", "INTEGRATION");
@@ -79,12 +76,12 @@ public class SPLevoTestUtil {
      * 
      * @param leadingModel
      * @param integrationModel
-     * @param ignorePackages
+     * @param isInScopeSwitch.ignorePackages
      * @return
      * @throws DiffingException
      *             Identifies a failed diffing.
      */
-    public static DiffModel loadGCDDiffModel() throws Exception {
+    public static Comparison loadGCDDiffModel() throws Exception {
 
         List<String> ignorePackages = new ArrayList<String>();
         ignorePackages.add("java.lang");
@@ -98,7 +95,7 @@ public class SPLevoTestUtil {
 
         Java2KDMDiffer differ = new Java2KDMDiffer();
 
-        DiffModel diffModel = differ.doDiff(NATIVE_JAVA2KDMMODEL_DIR.toURI(), JSCIENCE_JAVA2KDMMODEL_DIR.toURI(),
+        Comparison diffModel = differ.doDiff(NATIVE_JAVA2KDMMODEL_DIR.toURI(), JSCIENCE_JAVA2KDMMODEL_DIR.toURI(),
                 diffOptions);
 
         return diffModel;
@@ -109,18 +106,18 @@ public class SPLevoTestUtil {
      * 
      * @param leadingModel
      * @param integrationModel
-     * @param ignorePackages
+     * @param isInScopeSwitch.ignorePackages
      * @return
      * @throws DiffingException
      *             Identifies a failed diffing.
      */
-    public static DiffModel loadInterfaceImplementsDiffModel() throws DiffingException, DiffingNotSupportedException {
+    public static Comparison loadInterfaceImplementsDiffModel() throws DiffingException, DiffingNotSupportedException {
 
         Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
         diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, Arrays.asList("java.*"));
 
         Java2KDMDiffer differ = new Java2KDMDiffer();
-        DiffModel diffModel = differ.doDiff(INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(),
+        Comparison diffModel = differ.doDiff(INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(),
                 INTERFACE_IMPLEMENT_TEST_DIR_2.toURI(), diffOptions);
 
         return diffModel;

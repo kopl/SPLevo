@@ -6,8 +6,8 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
@@ -36,11 +36,13 @@ public class AccessTest extends AbstractDiffingTest {
      */
     @Test
     public void testDoDiff() throws DiffingException, DiffingNotSupportedException {
+        
+        Java2KDMDiffer differ = new Java2KDMDiffer();
     	
-    	DiffModel diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
+    	Comparison diff = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(),
 				diffOptions);
 
-        EList<DiffElement> differences = diff.getDifferences();
+        EList<Diff> differences = diff.getDifferences();
         assertEquals("Wrong number of differences detected", 0, differences.size());
     }
 }

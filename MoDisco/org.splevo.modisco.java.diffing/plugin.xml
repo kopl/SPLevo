@@ -11,24 +11,6 @@
       </package>
    </extension>
    <extension
-         point="org.eclipse.emf.compare.diff.engine">
-      <diffengine
-            engineClass="org.splevo.modisco.java.diffing.diff.KdmDiffEngine"
-            fileExtension="xmi"
-            label="KDM Diff Engine"
-            priority="high">
-      </diffengine>
-   </extension>
-   <extension
-         point="org.eclipse.emf.compare.match.engine">
-      <matchengine
-            engineClass="org.splevo.modisco.java.diffing.match.JavaModelMatchEngine"
-            fileExtension="xmi"
-            label="KDM Match Engine"
-            priority="high">
-      </matchengine>
-   </extension>
-   <extension
          point="org.splevo.diffing.differ">
       <differ
             differ.class="org.splevo.modisco.java.diffing.Java2KDMDiffer">

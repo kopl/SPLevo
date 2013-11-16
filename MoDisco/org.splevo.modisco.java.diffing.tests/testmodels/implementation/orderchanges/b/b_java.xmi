@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ASCII"?>
+<java:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://www.eclipse.org/MoDisco/Java/0.2.incubation/java" name="org.splevo.tests.matching.orderchanges.b">
+  <ownedElements name="org">
+    <ownedPackages name="splevo">
+      <ownedPackages name="tests">
+        <ownedPackages name="matching">
+          <ownedPackages name="orderchanges">
+            <ownedElements xsi:type="java:ClassDeclaration" originalCompilationUnit="//@compilationUnits.0" name="OrderChangeClass">
+              <modifier visibility="public"/>
+              <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.0">
+                <modifier visibility="public" inheritance="final" static="true"/>
+                <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+                <fragments originalCompilationUnit="//@compilationUnits.0" name="CONST2">
+                  <initializer xsi:type="java:NullLiteral" originalCompilationUnit="//@compilationUnits.0"/>
+                </fragments>
+              </bodyDeclarations>
+              <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.0">
+                <modifier visibility="public" inheritance="final" static="true"/>
+                <type type="//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+                <fragments originalCompilationUnit="//@compilationUnits.0" name="CONST1">
+                  <initializer xsi:type="java:NullLiteral" originalCompilationUnit="//@compilationUnits.0"/>
+                </fragments>
+              </bodyDeclarations>
+              <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.0">
+                <modifier visibility="private"/>
+                <type type="//@ownedElements.1/@ownedPackages.1/@ownedElements.2"/>
+                <fragments originalCompilationUnit="//@compilationUnits.0" name="field2">
+                  <initializer xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.0" escapedValue="&quot;field2&quot;"/>
+                </fragments>
+              </bodyDeclarations>
+              <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.0">
+                <modifier visibility="private"/>
+                <type type="//@ownedElements.1/@ownedPackages.1/@ownedElements.2"/>
+                <fragments originalCompilationUnit="//@compilationUnits.0" name="field3">
+                  <initializer xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.0" escapedValue="&quot;field3&quot;"/>
+                </fragments>
+              </bodyDeclarations>
+              <bodyDeclarations xsi:type="java:FieldDeclaration" originalCompilationUnit="//@compilationUnits.0">
+                <modifier visibility="private"/>
+                <type type="//@ownedElements.1/@ownedPackages.1/@ownedElements.2"/>
+                <fragments originalCompilationUnit="//@compilationUnits.0" name="field1">
+                  <initializer xsi:type="java:StringLiteral" originalCompilationUnit="//@compilationUnits.0" escapedValue="&quot;field1&quot;"/>
+                </fragments>
+              </bodyDeclarations>
+              <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="method2">
+                <modifier visibility="public"/>
+                <body originalCompilationUnit="//@compilationUnits.0">
+                  <statements xsi:type="java:ReturnStatement" originalCompilationUnit="//@compilationUnits.0">
+                    <expression xsi:type="java:NullLiteral" originalCompilationUnit="//@compilationUnits.0"/>
+                  </statements>
+                </body>
+                <returnType type="//@ownedElements.1/@ownedPackages.0/@ownedElements.1"/>
+              </bodyDeclarations>
+              <bodyDeclarations xsi:type="java:MethodDeclaration" originalCompilationUnit="//@compilationUnits.0" name="method1">
+                <modifier visibility="public"/>
+                <body originalCompilationUnit="//@compilationUnits.0"/>
+                <returnType type="//@orphanTypes.5"/>
+              </bodyDeclarations>
+            </ownedElements>
+          </ownedPackages>
+        </ownedPackages>
+      </ownedPackages>
+    </ownedPackages>
+  </ownedElements>
+  <ownedElements name="java" proxy="true">
+    <ownedPackages name="math" proxy="true">
+      <ownedElements xsi:type="java:ClassDeclaration" name="BigInteger" proxy="true" usagesInImports="//@compilationUnits.0/@imports.0" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.1/@type">
+        <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.1"/>
+        <superClass type="//@ownedElements.1/@ownedPackages.1/@ownedElements.0"/>
+      </ownedElements>
+      <ownedElements xsi:type="java:ClassDeclaration" name="BigDecimal" proxy="true" usagesInImports="//@compilationUnits.0/@imports.1" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.5/@returnType">
+        <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.1"/>
+        <superClass type="//@ownedElements.1/@ownedPackages.1/@ownedElements.0"/>
+      </ownedElements>
+    </ownedPackages>
+    <ownedPackages name="lang" proxy="true">
+      <ownedElements xsi:type="java:ClassDeclaration" name="Number" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superClass //@ownedElements.1/@ownedPackages.0/@ownedElements.1/@superClass">
+        <superInterfaces type="//@ownedElements.1/@ownedPackages.2/@ownedElements.0"/>
+      </ownedElements>
+      <ownedElements xsi:type="java:InterfaceDeclaration" name="Comparable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.0/@ownedElements.0/@superInterfaces.0 //@ownedElements.1/@ownedPackages.0/@ownedElements.1/@superInterfaces.0 //@ownedElements.1/@ownedPackages.1/@ownedElements.2/@superInterfaces.1">
+        <typeParameters name="T" proxy="true"/>
+      </ownedElements>
+      <ownedElements xsi:type="java:ClassDeclaration" name="String" proxy="true" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.2/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.3/@type //@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.4/@type">
+        <superInterfaces type="//@ownedElements.1/@ownedPackages.2/@ownedElements.0"/>
+        <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.1"/>
+        <superInterfaces type="//@ownedElements.1/@ownedPackages.1/@ownedElements.3"/>
+      </ownedElements>
+      <ownedElements xsi:type="java:InterfaceDeclaration" name="CharSequence" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.1/@ownedElements.2/@superInterfaces.2"/>
+    </ownedPackages>
+    <ownedPackages name="io" proxy="true">
+      <ownedElements xsi:type="java:InterfaceDeclaration" name="Serializable" proxy="true" usagesInTypeAccess="//@ownedElements.1/@ownedPackages.1/@ownedElements.0/@superInterfaces.0 //@ownedElements.1/@ownedPackages.1/@ownedElements.2/@superInterfaces.0"/>
+    </ownedPackages>
+  </ownedElements>
+  <orphanTypes xsi:type="java:PrimitiveTypeInt" name="int"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeLong" name="long"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeFloat" name="float"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeDouble" name="double"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeBoolean" name="boolean"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeVoid" name="void" usagesInTypeAccess="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.6/@returnType"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeChar" name="char"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeShort" name="short"/>
+  <orphanTypes xsi:type="java:PrimitiveTypeByte" name="byte"/>
+  <compilationUnits name="OrderChangeClass.java" originalFilePath="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.tests.matching.orderchanges.b\src\org\splevo\tests\matching\orderchanges\OrderChangeClass.java" package="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0" types="//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0">
+    <imports originalCompilationUnit="//@compilationUnits.0" importedElement="//@ownedElements.1/@ownedPackages.0/@ownedElements.0"/>
+    <imports originalCompilationUnit="//@compilationUnits.0" importedElement="//@ownedElements.1/@ownedPackages.0/@ownedElements.1"/>
+  </compilationUnits>
+</java:Model>

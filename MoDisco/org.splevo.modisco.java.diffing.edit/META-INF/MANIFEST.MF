@@ -11,14 +11,12 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.splevo.modisco.java.diffing;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
- org.eclipse.emf.compare.diff;visibility:=reexport,
- org.eclipse.emf.compare.diff.edit;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
  org.eclipse.gmt.modisco.java;visibility:=reexport,
  org.eclipse.gmt.modisco.java.edit;visibility:=reexport,
- org.eclipse.emf.compare.match;visibility:=reexport,
- org.apache.log4j;bundle-version="1.2.15"
+ org.apache.log4j,
+ org.eclipse.emf.compare.edit;bundle-version="3.0.1"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.splevo.modisco.java.diffing.edit,
  org.splevo.modisco.java.diffing.edit.images,

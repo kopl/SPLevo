@@ -3,22 +3,20 @@ Bundle-ManifestVersion: 2
 Bundle-Name: MoDisco-specific Java Diffing
 Bundle-SymbolicName: org.splevo.modisco.java.diffing;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.ui,
+Require-Bundle: org.splevo.diffing;bundle-version="1.0.0";visibility:=reexport,
+ org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.emf.ecore,
- org.eclipse.emf.compare.diff,
- org.eclipse.emf.compare.match,
- org.eclipse.emf.compare,
  org.eclipse.gmt.modisco.java,
  org.eclipse.modisco.java.composition,
  org.eclipse.modisco.kdm.source.extension,
  org.eclipse.modisco.kdm.source.extension.ui,
  org.eclipse.emf.ecore.xmi,
  org.apache.log4j,
- org.splevo.diffing;bundle-version="1.0.0",
  org.splevo.modisco.util;bundle-version="1.0.0",
- com.google.guava;bundle-version="11.0.1"
+ com.google.guava;bundle-version="11.0.1",
+ org.apache.commons.io;bundle-version="2.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.modisco.java.diffing,
  org.splevo.modisco.java.diffing.diff,

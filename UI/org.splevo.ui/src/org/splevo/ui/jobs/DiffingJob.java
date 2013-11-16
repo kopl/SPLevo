@@ -16,7 +16,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
 import org.splevo.diffing.DefaultDiffingService;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingModelUtil;
@@ -59,15 +59,15 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         URI integrationModelDir = new File(basePath + splevoProject.getSourceModelPathIntegration()).toURI();
 
         logger.info("Diffing started at: " + (dateFormat.format(new Date())));
-        DiffModel diffModel = null;
+        Comparison comparison = null;
         try {
             final DiffingService diffingService = new DefaultDiffingService();
-            diffModel = diffingService.diffSoftwareModels(leadingModelDir, integrationModelDir, options);
+            comparison = diffingService.diffSoftwareModels(leadingModelDir, integrationModelDir, options);
         } catch (final DiffingException e) {
             throw new JobFailedException("Failed to process diffing.", e);
         }
         logger.info("Diffing finished at: " + (dateFormat.format(new Date())));
-        logger.info("Number of differences: " + diffModel.getDifferences().size());
+        logger.info("Number of differences: " + comparison.getDifferences().size());
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
@@ -75,7 +75,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             return;
         }
 
-        if (diffModel.eContents().size() == 0) {
+        if (comparison.eContents().size() == 0) {
             logger.info("No Differences detected.");
             monitor.done();
             return;
@@ -91,7 +91,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
                 targetPath = "models/diffmodel/diffModel.java2kdmdiff";
             }
             targetPath = splevoProject.getWorkspace() + targetPath;
-            DiffingModelUtil.save(diffModel, new File(targetPath));
+            DiffingModelUtil.save(comparison, new File(targetPath));
             this.splevoProject.setDiffingModelPath(targetPath);
         } catch (final IOException e) {
             throw new JobFailedException("Failed to save diff model.", e);

@@ -1,9 +1,6 @@
-/**
- */
 package org.splevo.modisco.java.diffing.java2kdmdiff;
 
-import org.eclipse.emf.compare.diff.metamodel.AbstractDiffExtension;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
+import org.eclipse.emf.compare.Diff;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,6 +20,5 @@ import org.eclipse.emf.compare.diff.metamodel.DiffElement;
  * @model abstract="true"
  * @generated
  */
-public interface Java2KDMDiffExtension extends AbstractDiffExtension,
-		DiffElement {
+public interface Java2KDMDiffExtension extends Diff {
 } // Java2KDMDiffExtension

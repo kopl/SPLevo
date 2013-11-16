@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityFactory;
 
@@ -28,8 +28,8 @@ public class DefaultVPMBuilderService implements VPMBuilderService {
     private static final String EXTENSION_POINT_ATTR_DIFFER_CLASS = "builder.class";
 
     @Override
-    public VariationPointModel buildVPM(DiffModel diffModel, String variantIDLeading, String variantIDIntegration,
-            Map<String, Object> builderOptions) throws VPMBuildException {
+    public VariationPointModel buildVPM(Comparison comparisonModel, String variantIDLeading,
+            String variantIDIntegration, Map<String, Object> builderOptions) throws VPMBuildException {
 
         List<VPMBuilder> builders = getVPMBuilders();
         if (builders.size() == 0) {
@@ -39,7 +39,11 @@ public class DefaultVPMBuilderService implements VPMBuilderService {
         VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 
         for (VPMBuilder vpmBuilder : builders) {
-            VariationPointModel builderVPM = vpmBuilder.buildVPM(diffModel, variantIDLeading, variantIDIntegration);
+            VariationPointModel builderVPM = vpmBuilder.buildVPM(comparisonModel, variantIDLeading,
+                    variantIDIntegration);
+            if (builderVPM == null) {
+                logger.warn("Builder returned null for Variation Point Model (Builder: " + vpmBuilder.getId() + ")");
+            }
             mergeIntoVPM(vpm, builderVPM);
         }
 

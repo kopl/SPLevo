@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<compare:Comparison xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:compare="http://www.eclipse.org/emf/compare">
+  <matchedResources leftURI="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi" rightURI="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi"/>
+  <matches>
+    <submatches>
+      <submatches>
+        <submatches>
+          <submatches>
+            <submatches>
+              <submatches>
+                <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@modifier"/>
+                <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@modifier"/>
+              </submatches>
+              <submatches>
+                <submatches>
+                  <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@modifier"/>
+                  <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@modifier"/>
+                </submatches>
+                <submatches>
+                  <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body"/>
+                  <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@body"/>
+                </submatches>
+                <submatches>
+                  <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@returnType"/>
+                  <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0/@returnType"/>
+                </submatches>
+                <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0"/>
+                <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0/@bodyDeclarations.0"/>
+              </submatches>
+              <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+              <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0/@ownedElements.0"/>
+            </submatches>
+            <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0"/>
+            <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0"/>
+          </submatches>
+          <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0"/>
+          <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0"/>
+        </submatches>
+        <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0/@ownedPackages.0"/>
+        <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0/@ownedPackages.0"/>
+      </submatches>
+      <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@ownedElements.0"/>
+      <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@ownedElements.0"/>
+    </submatches>
+    <submatches>
+      <submatches>
+        <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@compilationUnits.0/@imports.0"/>
+      </submatches>
+      <submatches>
+        <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@compilationUnits.0/@imports.0"/>
+      </submatches>
+      <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#//@compilationUnits.0"/>
+      <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#//@compilationUnits.0"/>
+    </submatches>
+    <left href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/b/b_java.xmi#/"/>
+    <right href="file:/D:/Projekte/phd/Development/eclipse/workspace/org.splevo.modisco.java.diffing.tests/testmodels/implementation/importDiffing/a/a_java.xmi#/"/>
+  </matches>
+</compare:Comparison>

@@ -24,7 +24,7 @@ public class PackageIgnoreChecker {
      *            The list of packages to be ignored. Regular expressions are excepted.
      */
     public PackageIgnoreChecker(List<String> ignorePackages) {
-        this.ignoreSwitch = new IgnoreSwitch(ignorePackages);
+        ignoreSwitch = new IgnoreSwitch(ignorePackages);
     }
 
     /**

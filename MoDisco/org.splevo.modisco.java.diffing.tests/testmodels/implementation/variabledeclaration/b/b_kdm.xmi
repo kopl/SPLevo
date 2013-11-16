@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<kdm:Segment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:kdm="http://www.eclipse.org/MoDisco/kdm/kdm" xmlns:source="http://www.eclipse.org/MoDisco/kdm/source">
+  <model xsi:type="source:InventoryModel" name="org.splevo.test.variabledeclaration.b">
+    <inventoryElement xsi:type="source:Project" name="org.splevo.test.variabledeclaration.b">
+      <inventoryElement xsi:type="source:Configuration" name=".classpath" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\.classpath"/>
+      <inventoryElement xsi:type="source:Configuration" name=".project" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\.project"/>
+      <inventoryElement xsi:type="source:Directory" name=".settings" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\.settings">
+        <inventoryElement xsi:type="source:Configuration" name="org.eclipse.jdt.core.prefs" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\.settings\org.eclipse.jdt.core.prefs"/>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:Directory" name="bin" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\bin">
+        <inventoryElement xsi:type="source:Directory" name="org" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\bin\org">
+          <inventoryElement xsi:type="source:Directory" name="splevo" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\bin\org\splevo">
+            <inventoryElement xsi:type="source:Directory" name="test" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\bin\org\splevo\test">
+              <inventoryElement xsi:type="source:Directory" name="variabledeclaration" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\bin\org\splevo\test\variabledeclaration">
+                <inventoryElement xsi:type="source:BinaryFile" name="A.class" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\bin\org\splevo\test\variabledeclaration\A.class"/>
+              </inventoryElement>
+            </inventoryElement>
+          </inventoryElement>
+        </inventoryElement>
+      </inventoryElement>
+      <inventoryElement xsi:type="source:Directory" name="src" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\src">
+        <inventoryElement xsi:type="source:Directory" name="org" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\src\org">
+          <inventoryElement xsi:type="source:Directory" name="splevo" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\src\org\splevo">
+            <inventoryElement xsi:type="source:Directory" name="test" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\src\org\splevo\test">
+              <inventoryElement xsi:type="source:Directory" name="variabledeclaration" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\src\org\splevo\test\variabledeclaration">
+                <inventoryElement xsi:type="source:SourceFile" name="A.java" path="D:\Projekte\phd\Development\eclipse\workspace\org.splevo.test.variabledeclaration.b\src\org\splevo\test\variabledeclaration\A.java"/>
+              </inventoryElement>
+            </inventoryElement>
+          </inventoryElement>
+        </inventoryElement>
+      </inventoryElement>
+    </inventoryElement>
+  </model>
+</kdm:Segment>

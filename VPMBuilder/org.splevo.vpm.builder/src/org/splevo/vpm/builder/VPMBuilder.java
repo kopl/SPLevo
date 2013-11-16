@@ -1,6 +1,6 @@
 package org.splevo.vpm.builder;
 
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -11,7 +11,7 @@ public interface VPMBuilder {
     /**
      * Build a variation point model for all supported diff elements of a DiffModel.
      * 
-     * @param diffModel
+     * @param comparisonModel
      *            The diff model to read supported DiffElements from.
      * @param variantIDLeading
      *            The id for the leading variants.
@@ -22,7 +22,7 @@ public interface VPMBuilder {
      * @throws VPMBuildException
      *             An exception thrown because of an error during the build process.
      */
-    public VariationPointModel buildVPM(DiffModel diffModel, String variantIDLeading, String variantIDIntegration) throws VPMBuildException;
+    public VariationPointModel buildVPM(Comparison comparisonModel, String variantIDLeading, String variantIDIntegration) throws VPMBuildException;
 
     /**
      * Get the identifier of the builder. This should be unique compared to all

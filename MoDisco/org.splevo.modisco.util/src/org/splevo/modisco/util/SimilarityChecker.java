@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * Checker for the similarity of two elements specific for the java application model.
  * 
- * @author Benjamin Klatt
+ * TODO: Check caching for this similarity checker. Would require to pass this to the similarity switch as well!
  * 
  */
 public class SimilarityChecker {
@@ -31,13 +31,9 @@ public class SimilarityChecker {
             return Boolean.TRUE;
         }
 
-        if (element1 == null) {
-            if (element2 == null) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-        } else if (element2 == null) {
+        if (element1 != null && element2 == null) {
+            return Boolean.FALSE;
+        } else if (element1 == null && element2 != null) {
             return Boolean.FALSE;
         }
 
@@ -50,7 +46,6 @@ public class SimilarityChecker {
         SimilaritySwitch similaritySwitch = new SimilaritySwitch(element2);
         Boolean similar = similaritySwitch.doSwitch(element1);
         return similar;
-
     }
 
 }

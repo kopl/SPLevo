@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
@@ -29,7 +29,7 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
     /** The logger to use for this class. */
     private Logger logger = Logger.getLogger(Java2KDMVPMBuilderTest.class);
 
-    private static DiffModel diffModel;
+    private static Comparison comparisonModel;
 
     /**
      * Load the diff model to process.
@@ -39,7 +39,7 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        diffModel = SPLevoTestUtil.loadGCDDiffModel();
+        comparisonModel = SPLevoTestUtil.loadGCDDiffModel();
     }
 
     /**
@@ -49,7 +49,7 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
     public void testBuildVPM() {
 
         Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
-        VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel, "LEADING", "INTEGRATION");
+        VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(comparisonModel, "LEADING", "INTEGRATION");
         assertNotNull("No VPM initialized", vpm);
 
         logger.warn("Number of variation point groups: " + vpm.getVariationPointGroups().size());
@@ -63,7 +63,7 @@ public class Java2KDMVPMBuilderTest extends AbstractTest {
     public void testVPLocationReferences() {
 
         Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
-        VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(diffModel, "LEADING", "INTEGRATION");
+        VariationPointModel vpm = java2KDMVPMBuilder.buildVPM(comparisonModel, "LEADING", "INTEGRATION");
         assertNotNull("No VPM initialized", vpm);
         
         Set<SoftwareElement> vpLocations = new LinkedHashSet<SoftwareElement>();

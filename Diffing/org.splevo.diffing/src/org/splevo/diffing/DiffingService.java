@@ -7,7 +7,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
 
 /**
  * A service to difference two resource sets.
@@ -28,7 +28,7 @@ public interface DiffingService {
 	 * @throws DiffingException
 	 *             An error during the differencing process.
 	 */
-	public DiffModel diffSoftwareModels(URI leadingModelDirectory,
+	public Comparison diffSoftwareModels(URI leadingModelDirectory,
 			URI integrationModelDirectory, Map<String, Object> diffingOptions)
 			throws DiffingException;
 	

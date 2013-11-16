@@ -3,7 +3,7 @@ package org.splevo.ui.jobs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
 import org.eclipse.featuremodel.FeatureModel;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
@@ -20,7 +20,7 @@ import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /** The diffing model. */
-    private DiffModel diffModel = null;
+    private Comparison diffModel = null;
 
     /** The variation point model. */
     private VariationPointModel variationPointModel = null;
@@ -67,7 +67,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
      * 
      * @return the diffModel
      */
-    public DiffModel getDiffModel() {
+    public Comparison getDiffModel() {
         return diffModel;
     }
 
@@ -77,7 +77,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
      * @param diffModel
      *            the diffModel to set
      */
-    public void setDiffModel(DiffModel diffModel) {
+    public void setDiffModel(Comparison diffModel) {
         this.diffModel = diffModel;
     }
 

@@ -9,8 +9,8 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
 import org.junit.Test;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
@@ -43,13 +43,14 @@ public class GCDDiffingTest extends AbstractDiffingTest {
     @Test
     public final void testGetDiff() throws DiffingException, DiffingNotSupportedException {
 
-		DiffModel diff = differ.doDiff(NATIVE_JAVA2KDMMODEL_DIR.toURI(), JSCIENCE_JAVA2KDMMODEL_DIR.toURI(),
+        Java2KDMDiffer differ = new Java2KDMDiffer();
+		Comparison comparison = differ.doDiff(NATIVE_JAVA2KDMMODEL_DIR.toURI(), JSCIENCE_JAVA2KDMMODEL_DIR.toURI(),
 				diffOptions);
 
-        EList<DiffElement> differences = diff.getDifferences();
+        EList<Diff> differences = comparison.getDifferences();
 
-        for (DiffElement diffElement : differences) {
-            logger.debug(diffElement.getKind() + ": " + diffElement.getClass().getName());
+        for (Diff diff : differences) {
+            logger.debug(diff.getKind() + ": " + diff.getClass().getSimpleName() + " : "+ diff.getMatch());
         }
         assertEquals("Wrong number of differences detected", 12, differences.size());
 
