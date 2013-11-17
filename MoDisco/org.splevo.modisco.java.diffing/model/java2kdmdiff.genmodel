@@ -8,7 +8,7 @@
     testSuiteClass="org.splevo.modisco.java.diffing.java2kdmdiff.tests.Java2KDMDiffAllTests"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
     editPluginID="org.splevo.modisco.java.diffing.edit" editorPluginID="org.splevo.modisco.java.diffing.editor"
-    language="" usedGenPackages="../../org.eclipse.emf.compare/model/compare.genmodel#//compare platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.gmt.modisco.java/model/java.genmodel#//java">
+    language="" usedGenPackages="platform:/plugin/org.eclipse.emf.compare/model/compare.genmodel#//compare platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.gmt.modisco.java/model/java.genmodel#//java">
   <foreignModel>java2kdmdiff.ecore</foreignModel>
   <genPackages prefix="Java2KDMDiff" basePackage="org.splevo.modisco.java.diffing"
       resource="XML" disposableProviderFactory="true" ecorePackage="java2kdmdiff.ecore#/">

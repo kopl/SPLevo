@@ -3,7 +3,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="java2kdmdiff" nsURI="http://www.eclipse.org/emf/compare/diff/java2kdmdiff/1.0"
     nsPrefix="java2kdmdiff">
   <eClassifiers xsi:type="ecore:EClass" name="Java2KDMDiffExtension" abstract="true"
-      eSuperTypes="../../org.eclipse.emf.compare/model/compare.ecore#//Diff">
+      eSuperTypes="platform:/plugin/org.eclipse.emf.compare/model/compare.ecore#//Diff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="An EMF Compare Diffing extension model specific for the java2kdm meta model extracted by the modisco tooling.&#xD;&#xA;&#xD;&#xA;This diffing uses the terms &quot;left model&quot; and &quot;right model&quot;. &#xD;&#xA;The right model identifies the original model.&#xD;&#xA;The left model the modified version."/>
     </eAnnotations>
