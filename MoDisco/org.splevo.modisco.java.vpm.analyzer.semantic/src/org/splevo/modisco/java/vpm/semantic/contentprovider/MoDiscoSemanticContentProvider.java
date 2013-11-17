@@ -117,7 +117,7 @@ public class MoDiscoSemanticContentProvider implements SemanticContentProvider {
 		}
 
 		if (eObject instanceof org.eclipse.gmt.modisco.java.Package) {
-			return ((Package) eObject).getName();
+			return ((org.eclipse.gmt.modisco.java.Package) eObject).getName();
 		}
 		
 		return null;

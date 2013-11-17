@@ -5,6 +5,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IEditorPart;
 import org.splevo.ui.Activator;
 import org.splevo.ui.jdt.JavaEditorConnector;
 import org.splevo.vpm.software.JavaSoftwareElement;
@@ -51,21 +52,27 @@ public final class OpenSourceInEditorAction extends Action {
         }
         TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
         Object object = selectedItem.getData();
+        IEditorPart editor = null;
 
         if (object instanceof JavaSoftwareElement) {
-            javaEditorConnector.openEditor((JavaSoftwareElement) object);
+        	JavaSoftwareElement softwareElement = (JavaSoftwareElement) object;
+            editor = javaEditorConnector.openEditor(softwareElement);
+            javaEditorConnector.highlightInTextEditor(editor, softwareElement, softwareElement.getLabel());
 
         } else if (object instanceof VariationPoint) {
             VariationPoint vp = (VariationPoint) object;
             if (vp.getEnclosingSoftwareEntity() instanceof JavaSoftwareElement) {
-                javaEditorConnector.openEditor((JavaSoftwareElement) vp.getEnclosingSoftwareEntity());
+            	JavaSoftwareElement softwareElement = (JavaSoftwareElement) vp.getEnclosingSoftwareEntity();
+				editor = javaEditorConnector.openEditor(softwareElement);
+            	javaEditorConnector.highlightInTextEditor(editor, softwareElement, softwareElement.getLabel());
             }
 
         } else if (object instanceof Variant) {
             Variant variant = (Variant) object;
             for (SoftwareElement softwareElement : variant.getSoftwareEntities()) {
                 if (softwareElement instanceof JavaSoftwareElement) {
-                    javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
+                	editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
+                	javaEditorConnector.highlightInTextEditor(editor, softwareElement, softwareElement.getLabel());
                 }
             }
 

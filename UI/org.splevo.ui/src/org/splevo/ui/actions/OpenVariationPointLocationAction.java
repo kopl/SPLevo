@@ -2,6 +2,7 @@ package org.splevo.ui.actions;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.ui.IEditorPart;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
@@ -21,7 +22,8 @@ public class OpenVariationPointLocationAction  extends AbstractOpenSourceLocatio
     public void run(IAction action) {
         SoftwareElement softwareElement = selectedElement.getEnclosingSoftwareEntity();
         if (softwareElement instanceof JavaSoftwareElement) {
-            javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
+            IEditorPart editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
+            javaEditorConnector.highlightInTextEditor(editor, softwareElement, softwareElement.getLabel());
         }
     }
 }

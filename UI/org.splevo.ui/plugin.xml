@@ -175,4 +175,34 @@
          </command>
       </menuContribution>
    </extension>
+   <extension point="org.eclipse.core.resources.markers" id="org.splevo.ui.markers.codelocationmarker"
+  name="Code Location Marker">
+	<super type="org.eclipse.core.resources.textmarker"/>
+	<super type="org.eclipse.core.resources.marker"/>
+	<persistent value="true"/>
+	</extension>
+	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
+		id="annotationspecification" name="SPLevoAnnotation">
+	<specification annotationType="org.splevo.ui.annotations.textmarkerannotation"
+			label="SPLevo Annotation"
+			icon="icons/kopl_circle_only.png"
+			overviewRulerPreferenceKey="clruler"
+			overviewRulerPreferenceValue="true"
+			colorPreferenceKey="clcolor"
+			colorPreferenceValue="0,255,0"
+			textPreferenceKey="cltext"
+			textPreferenceValue="true"
+			verticalRulerPreferenceKey="clvertical"
+			verticalRulerPreferenceValue="true"
+			textStylePreferenceKey="clstyle"
+			textStylePreferenceValue="BOX">
+			</specification>
+	</extension>
+	<extension point="org.eclipse.ui.editors.annotationTypes">
+                <type markerSeverity="0"
+                                        super="org.eclipse.ui.workbench.texteditor.info"
+                                        name="org.splevo.ui.annotations.textmarkerannotation"
+                                        markerType="org.splevo.ui.markers.codelocationmarker"/>
+    </extension>
+
 </plugin>
