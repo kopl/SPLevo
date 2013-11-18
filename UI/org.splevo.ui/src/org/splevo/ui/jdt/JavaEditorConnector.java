@@ -204,7 +204,6 @@ public class JavaEditorConnector {
 		IMarker marker = null;
 		// The id that is defined in the plugin.xml
 		marker = res.createMarker("org.splevo.ui.markers.codelocationmarker");
-		marker.setAttribute("description", "this is one of my markers");
 		marker.setAttribute(IMarker.MESSAGE, message);
 
 		return marker;

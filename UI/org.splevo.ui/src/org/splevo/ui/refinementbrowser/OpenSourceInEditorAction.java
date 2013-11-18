@@ -30,6 +30,8 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public final class OpenSourceInEditorAction extends Action {
 
+	private static final String TEXT_AVAILABLE_VARIANTS = "\n\n\nAvailable Variants:\n\n";
+
 	/** The logger for this class. */
 	private Logger logger = Logger.getLogger(OpenSourceInEditorAction.class);
 
@@ -73,12 +75,12 @@ public final class OpenSourceInEditorAction extends Action {
 				Object data = parentItem.getData();
 				if (data instanceof VariationPoint) {
 					String codeForVariationPoint = getCodeForVariationPoint((VariationPoint) data);
-					message += "\n\nAvailable Variants:\n"
+					message += TEXT_AVAILABLE_VARIANTS
 							+ codeForVariationPoint;
 				} else if (data instanceof Variant) {
 					String codeForVariationPoint = getCodeForVariationPoint(((Variant) data)
 							.getVariationPoint());
-					message += "\n\nAvailable Variants:\n"
+					message += TEXT_AVAILABLE_VARIANTS
 							+ codeForVariationPoint;
 				}
 			}
@@ -96,7 +98,7 @@ public final class OpenSourceInEditorAction extends Action {
 				javaEditorConnector.highlightInTextEditor(editor,
 						softwareElement,
 						"Variation Point: " + softwareElement.getLabel()
-								+ "\n\nAvailable Variants:\n"
+								+ TEXT_AVAILABLE_VARIANTS
 								+ codeForVariationPoint);
 			}
 
@@ -112,7 +114,7 @@ public final class OpenSourceInEditorAction extends Action {
 					javaEditorConnector.highlightInTextEditor(editor,
 							softwareElement,
 							"Variant: " + softwareElement.getLabel()
-									+ "\n\nAvailable Variants:\n"
+									+ TEXT_AVAILABLE_VARIANTS
 									+ codeForVariationPoint);
 				}
 			}
@@ -205,9 +207,9 @@ public final class OpenSourceInEditorAction extends Action {
 		StringBuilder code = new StringBuilder();
 		for (Variant v : vp.getVariants()) {
 			for (SoftwareElement e : v.getSoftwareEntities()) {
-				code.append("-"
+				code.append(v.getVariantId() + ":\n-->"
 						+ getCodeForSourceLocation(e.getSourceLocation())
-						+ "\n");
+						+ "\n\n");
 			}
 		}
 		return code.toString();
