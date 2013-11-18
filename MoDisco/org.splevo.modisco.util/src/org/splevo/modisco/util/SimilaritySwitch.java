@@ -92,6 +92,7 @@ import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
  * First all "not-similar"-criteria are checked. If none hits, true will be returned.
  * </p>
  */
+@SuppressWarnings("restriction")
 public class SimilaritySwitch extends JavaSwitch<Boolean> {
 
     /** The logger for this class. */
@@ -587,37 +588,6 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
         Boolean compUnitSimilarity = similarityChecker.isSimilar(access1.getOriginalCompilationUnit(),
                 access2.getOriginalCompilationUnit());
         if (compUnitSimilarity == Boolean.FALSE) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
-    }
-
-    /**
-     * Check single variable declaration similarity.<br>
-     * Similarity is checked by
-     * <ul>
-     * <li>variable name</li>
-     * <li>variable container (name space)</li>
-     * </ul>
-     * 
-     * @param varDecl1
-     *            The single variable declaration to compare with the compare element.
-     * @return True/False if the single variable declarations are similar or not.
-     */
-    @Override
-    public Boolean caseSingleVariableDeclaration(SingleVariableDeclaration varDecl1) {
-
-        SingleVariableDeclaration varDecl2 = (SingleVariableDeclaration) compareElement;
-
-        // Check name similarity
-        if (varDecl1.getName() != null && !varDecl1.getName().equals(varDecl2.getName())) {
-            return Boolean.FALSE;
-        }
-
-        // check container similarity
-        Boolean containerSimilarity = similarityChecker.isSimilar(varDecl1.eContainer(), varDecl2.eContainer());
-        if (containerSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
 
