@@ -1,6 +1,13 @@
 package org.splevo.ui.refinementbrowser;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -10,117 +17,199 @@ import org.splevo.ui.Activator;
 import org.splevo.ui.jdt.JavaEditorConnector;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Action to open the currently selected element of a tree viewer in a source editor and higlight
- * it.
+ * Action to open the currently selected element of a tree viewer in a source
+ * editor and higlight it.
  * 
  * @author Benjamin Klatt
  * 
  */
 public final class OpenSourceInEditorAction extends Action {
 
-    /** The logger for this class. */
-    private Logger logger = Logger.getLogger(OpenSourceInEditorAction.class);
+	/** The logger for this class. */
+	private Logger logger = Logger.getLogger(OpenSourceInEditorAction.class);
 
-    /** The tree viewer to access the selected items. */
-    private TreeViewer treeViewer = null;
+	/** The tree viewer to access the selected items. */
+	private TreeViewer treeViewer = null;
 
-    /** The connector to the java editor. */
-    private JavaEditorConnector javaEditorConnector = new JavaEditorConnector();
+	/** The connector to the java editor. */
+	private JavaEditorConnector javaEditorConnector = new JavaEditorConnector();
 
-    /**
-     * Constructor requiring a reference to the tree viewer containing the refinement details.
-     * 
-     * @param treeViewer
-     *            The tree viewer to get the selection from.
-     */
-    public OpenSourceInEditorAction(TreeViewer treeViewer) {
-        this.treeViewer = treeViewer;
-    }
+	/**
+	 * Constructor requiring a reference to the tree viewer containing the
+	 * refinement details.
+	 * 
+	 * @param treeViewer
+	 *            The tree viewer to get the selection from.
+	 */
+	public OpenSourceInEditorAction(TreeViewer treeViewer) {
+		this.treeViewer = treeViewer;
+	}
 
-    /**
-     * The run method to execute the action.
-     */
-    public void run() {
+	/**
+	 * The run method to execute the action.
+	 */
+	public void run() {
 
-        if (this.treeViewer.getTree().getSelection().length == 0) {
-            logger.error("No item selected in refinement detail view tree.");
-            return;
-        }
-        TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
-        Object object = selectedItem.getData();
-        IEditorPart editor = null;
+		if (this.treeViewer.getTree().getSelection().length == 0) {
+			logger.error("No item selected in refinement detail view tree.");
+			return;
+		}
+		TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
+		Object object = selectedItem.getData();
+		IEditorPart editor = null;
 
-        if (object instanceof JavaSoftwareElement) {
-        	JavaSoftwareElement softwareElement = (JavaSoftwareElement) object;
-            editor = javaEditorConnector.openEditor(softwareElement);
-            javaEditorConnector.highlightInTextEditor(editor, softwareElement, softwareElement.getLabel());
+		if (object instanceof JavaSoftwareElement) {
+			JavaSoftwareElement softwareElement = (JavaSoftwareElement) object;
+			TreeItem parentItem = treeViewer.getTree().getSelection()[0]
+					.getParentItem();
+			String message = "Java Software Element: "
+					+ softwareElement.getLabel();
+			if (parentItem != null) {
+				Object data = parentItem.getData();
+				if (data instanceof VariationPoint) {
+					String codeForVariationPoint = getCodeForVariationPoint((VariationPoint) data);
+					message += "\n\nAvailable Variants:\n"
+							+ codeForVariationPoint;
+				} else if (data instanceof Variant) {
+					String codeForVariationPoint = getCodeForVariationPoint(((Variant) data)
+							.getVariationPoint());
+					message += "\n\nAvailable Variants:\n"
+							+ codeForVariationPoint;
+				}
+			}
+			editor = javaEditorConnector.openEditor(softwareElement);
+			javaEditorConnector.highlightInTextEditor(editor, softwareElement,
+					message);
 
-        } else if (object instanceof VariationPoint) {
-            VariationPoint vp = (VariationPoint) object;
-            if (vp.getEnclosingSoftwareEntity() instanceof JavaSoftwareElement) {
-            	JavaSoftwareElement softwareElement = (JavaSoftwareElement) vp.getEnclosingSoftwareEntity();
+		} else if (object instanceof VariationPoint) {
+			VariationPoint vp = (VariationPoint) object;
+			if (vp.getEnclosingSoftwareEntity() instanceof JavaSoftwareElement) {
+				JavaSoftwareElement softwareElement = (JavaSoftwareElement) vp
+						.getEnclosingSoftwareEntity();
 				editor = javaEditorConnector.openEditor(softwareElement);
-            	javaEditorConnector.highlightInTextEditor(editor, softwareElement, softwareElement.getLabel());
-            }
+				String codeForVariationPoint = getCodeForVariationPoint(vp);
+				javaEditorConnector.highlightInTextEditor(editor,
+						softwareElement,
+						"Variation Point: " + softwareElement.getLabel()
+								+ "\n\nAvailable Variants:\n"
+								+ codeForVariationPoint);
+			}
 
-        } else if (object instanceof Variant) {
-            Variant variant = (Variant) object;
-            for (SoftwareElement softwareElement : variant.getSoftwareEntities()) {
-                if (softwareElement instanceof JavaSoftwareElement) {
-                	editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
-                	javaEditorConnector.highlightInTextEditor(editor, softwareElement, softwareElement.getLabel());
-                }
-            }
+		} else if (object instanceof Variant) {
+			Variant variant = (Variant) object;
+			for (SoftwareElement softwareElement : variant
+					.getSoftwareEntities()) {
+				if (softwareElement instanceof JavaSoftwareElement) {
+					editor = javaEditorConnector
+							.openEditor((JavaSoftwareElement) softwareElement);
+					String codeForVariationPoint = getCodeForVariationPoint(variant
+							.getVariationPoint());
+					javaEditorConnector.highlightInTextEditor(editor,
+							softwareElement,
+							"Variant: " + softwareElement.getLabel()
+									+ "\n\nAvailable Variants:\n"
+									+ codeForVariationPoint);
+				}
+			}
 
-        } else {
-            logger.warn("A non supported element has been selected");
-        }
-    }
+		} else {
+			logger.warn("A non supported element has been selected");
+		}
+	}
 
-    /**
-     * Check if this action is enabled. This method checks if the selected element is a
-     * JavaSoftwareElement because only those can be opened in an editor yet.
-     * 
-     * @return true/false whether it can be applied.
-     */
-    @Override
-    public boolean isEnabled() {
-        if (treeViewer.getTree().getSelection().length < 1) {
-            return false;
-        }
-        TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
-        Object data = selectedItem.getData();
-        if (data instanceof JavaSoftwareElement) {
-            return true;
-        } else if (data instanceof VariationPoint) {
-            return true;
-        } else if (data instanceof Variant) {
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * Check if this action is enabled. This method checks if the selected
+	 * element is a JavaSoftwareElement because only those can be opened in an
+	 * editor yet.
+	 * 
+	 * @return true/false whether it can be applied.
+	 */
+	@Override
+	public boolean isEnabled() {
+		if (treeViewer.getTree().getSelection().length < 1) {
+			return false;
+		}
+		TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
+		Object data = selectedItem.getData();
+		if (data instanceof JavaSoftwareElement) {
+			return true;
+		} else if (data instanceof VariationPoint) {
+			return true;
+		} else if (data instanceof Variant) {
+			return true;
+		}
+		return false;
+	}
 
-    /**
-     * Get the text for this action.
-     * 
-     * @return The action label.
-     */
-    @Override
-    public String getText() {
-        return "Open Source in Editor";
-    }
+	/**
+	 * Get the text for this action.
+	 * 
+	 * @return The action label.
+	 */
+	@Override
+	public String getText() {
+		return "Open Source in Editor";
+	}
 
-    /**
-     * Get the image descriptor for this action.
-     * 
-     * @return The action icon.
-     */
-    @Override
-    public ImageDescriptor getImageDescriptor() {
-        return Activator.getImageDescriptor("icons/jcu_obj.gif");
-    }
+	/**
+	 * Get the image descriptor for this action.
+	 * 
+	 * @return The action icon.
+	 */
+	@Override
+	public ImageDescriptor getImageDescriptor() {
+		return Activator.getImageDescriptor("icons/jcu_obj.gif");
+	}
+
+	/**
+	 * Extracts the code from the file by a given {@link SourceLocation}.
+	 * 
+	 * @param sourceLocation The {@link SourceLocation}.
+	 * @return The textual content.
+	 */
+	private String getCodeForSourceLocation(SourceLocation sourceLocation) {
+		StringBuilder code = new StringBuilder();
+		try {
+			IPath location = Path.fromOSString(sourceLocation.getFilePath());
+			URI uri = location.toFile().toURI();
+			InputStream inputStream = uri.toURL().openConnection()
+					.getInputStream();
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					inputStream));
+			int b;
+			while ((b = in.read()) != -1) {
+				code.append((char) ((byte) b));
+			}
+			in.close();
+			inputStream.close();
+		} catch (Throwable e) {
+			logger.error("Error while reading .class file");
+		}
+
+		return code.substring(sourceLocation.getStartPosition(),
+				sourceLocation.getEndPosition());
+	}
+
+	/**
+	 * Gets the textual representation of a {@link VariationPoint}.
+	 * 
+	 * @param vp The {@link VariationPoint}.
+	 * @return The {@link String} contents of the {@link VariationPoint}.
+	 */
+	private String getCodeForVariationPoint(VariationPoint vp) {
+		StringBuilder code = new StringBuilder();
+		for (Variant v : vp.getVariants()) {
+			for (SoftwareElement e : v.getSoftwareEntities()) {
+				code.append("-"
+						+ getCodeForSourceLocation(e.getSourceLocation())
+						+ "\n");
+			}
+		}
+		return code.toString();
+	}
 }

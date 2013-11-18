@@ -18,7 +18,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.IDocumentProvider;
@@ -45,6 +44,8 @@ public class JavaEditorConnector {
 	 * 
 	 * @param softwareElement
 	 *            The software element to open in the JDT Java Editor.
+	 *
+	 * @return The opened {@link IEditorPart}
 	 */
 	public IEditorPart openEditor(JavaSoftwareElement softwareElement) {
 
@@ -68,7 +69,7 @@ public class JavaEditorConnector {
 	 *            The source region.
 	 * @param openFileMultipleTimes
 	 *            The true/false flag if a file can be opened multiple times.
-	 * @return 
+	 * @return The opened {@link IEditorPart}
 	 */
 	public IEditorPart openJavaEditor(final SourceLocation sourceLocation,
 			final boolean openFileMultipleTimes) {
@@ -112,6 +113,13 @@ public class JavaEditorConnector {
 		return iEditorPart;
 	}
 
+	/**
+	 * Highlights given area in the specified editor with a given message and background color. Supports multiple highlighting.
+	 * 
+	 * @param editor The {@link IEditorPart}.
+	 * @param softwareElement The {@link SoftwareElement} to be highlighted.
+	 * @param message The {@link String} message to be displayed.
+	 */
 	public void highlightInTextEditor(IEditorPart editor, SoftwareElement softwareElement, String message) {
 		SourceLocation sourceLocation = softwareElement.getSourceLocation();
 		IPath location = Path.fromOSString(sourceLocation.getFilePath());
@@ -153,6 +161,13 @@ public class JavaEditorConnector {
 
 	}
 
+	/**
+	 * Adds a annotation with a given marker to the specified {@link IEditorPart}.
+	 * 
+	 * @param marker The marker to be displayed on the right side.
+	 * @param selection The relevant text selection.
+	 * @param editor The {@link ITextEditor}.
+	 */
 	private void addAnnotation(IMarker marker, ITextSelection selection,
 			ITextEditor editor) {
 		// The DocumentProvider enables to get the document currently loaded in
@@ -176,6 +191,14 @@ public class JavaEditorConnector {
 		iamf.disconnect(document);
 	}
 
+	/**
+	 * Creates a marker with a given message to a {@link IResource}.
+	 * 
+	 * @param res The {@link IResource}.
+	 * @param message The {@link String} message.
+	 * @return An {@link IMarker}.
+	 * @throws CoreException Throws {@link CoreException} for invalid resources.
+	 */
 	private IMarker createMarker(IResource res, String message)
 			throws CoreException {
 		IMarker marker = null;
