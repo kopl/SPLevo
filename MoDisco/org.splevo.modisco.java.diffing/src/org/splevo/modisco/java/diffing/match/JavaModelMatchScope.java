@@ -68,7 +68,8 @@ public class JavaModelMatchScope extends DefaultComparisonScope {
      */
     private class EObjectInScopePredicate implements Predicate<EObject> {
 
-        @Override
+        @SuppressWarnings("restriction")
+		@Override
         public boolean apply(EObject input) {
             Boolean isInScope = isInScopeSwitch.doSwitch(input);
             if (isInScope == Boolean.FALSE) {

@@ -95,7 +95,8 @@ public class MoDiscoJavaPostProcessor implements IPostProcessor {
      *            The {@link ReferenceChange} to check and refine if reasonable.
      * @return The refined diff, if one has been created.
      */
-    private Diff refineToDetailedReferenceChange(ReferenceChange referenceChange) {
+    @SuppressWarnings("restriction")
+	private Diff refineToDetailedReferenceChange(ReferenceChange referenceChange) {
         EObject changedValue = referenceChange.getValue();
 
         if (changedValue instanceof Expression) {

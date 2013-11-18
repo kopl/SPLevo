@@ -15,6 +15,7 @@ import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 /**
  * A switch to decide if an element is part of the match scope or not.
  */
+@SuppressWarnings("restriction")
 public class IsInScopeSwitch extends JavaSwitch<Boolean> {
 
     /** 

@@ -1,7 +1,7 @@
 package org.splevo.modisco.java.diffing.match;
 
 import org.eclipse.emf.ecore.EObject;
-import org.splevo.modisco.java.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
+import org.splevo.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
 import org.splevo.modisco.util.SimilarityChecker;
 
 /**

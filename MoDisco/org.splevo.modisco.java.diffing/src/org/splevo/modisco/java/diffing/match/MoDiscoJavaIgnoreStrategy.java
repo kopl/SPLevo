@@ -10,12 +10,13 @@ import org.eclipse.gmt.modisco.java.TextElement;
 import org.eclipse.gmt.modisco.java.TypeAccess;
 import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 import org.eclipse.modisco.java.composition.javaapplication.JavaApplication;
-import org.splevo.modisco.java.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
+import org.splevo.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
 import org.splevo.modisco.java.diffing.util.PackageIgnoreChecker;
 
 /**
  * A strategy to identify elements to ignore during the matching.
  */
+@SuppressWarnings("restriction")
 public class MoDiscoJavaIgnoreStrategy implements IgnoreStrategy {
 
     /** Switch for elements which should be ignored at all. */
@@ -34,7 +35,7 @@ public class MoDiscoJavaIgnoreStrategy implements IgnoreStrategy {
         this.packageIgnoreChecker = packageIgnoreChecker;
     }
 
-    @Override
+	@Override
     public boolean ignore(EObject element) {
 
         Boolean ignoredElement = elementsIgnoreSwitch.doSwitch(element);

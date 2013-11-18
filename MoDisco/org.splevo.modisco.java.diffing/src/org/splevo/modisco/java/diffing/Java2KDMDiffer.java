@@ -27,12 +27,12 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.diffing.JavaDiffer;
+import org.splevo.diffing.match.HierarchicalMatchEngineFactory;
+import org.splevo.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
+import org.splevo.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
 import org.splevo.modisco.java.diffing.diff.MoDiscoJavaDiffBuilder;
 import org.splevo.modisco.java.diffing.diff.MoDiscoJavaFeatureFilter;
 import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
-import org.splevo.modisco.java.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
-import org.splevo.modisco.java.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
-import org.splevo.modisco.java.diffing.match.HierarchicalMatchEngineFactory;
 import org.splevo.modisco.java.diffing.match.JavaModelMatchScope;
 import org.splevo.modisco.java.diffing.match.MoDiscoJavaEqualityStrategy;
 import org.splevo.modisco.java.diffing.match.MoDiscoJavaIgnoreStrategy;
@@ -53,7 +53,7 @@ import com.google.common.cache.LoadingCache;
 public class Java2KDMDiffer extends JavaDiffer {
 
     private static final String LABEL = "MoDisco-based Java Differ";
-    private static final String ID = "org.splevo.technology.java.modisco.differ";
+    private static final String ID = "org.splevo.modisco.java.differ";
     private Logger logger = Logger.getLogger(Java2KDMDiffer.class);
 
     /**

@@ -29,6 +29,7 @@ import org.eclipse.gmt.modisco.java.Statement;
  * Main purpose of this builder is to filter invalid move changes and produce custom diffs for
  * directly identifyable .
  */
+@SuppressWarnings("restriction")
 public class MoDiscoJavaDiffBuilder extends DiffBuilder {
 
     /** The logger for this class. */

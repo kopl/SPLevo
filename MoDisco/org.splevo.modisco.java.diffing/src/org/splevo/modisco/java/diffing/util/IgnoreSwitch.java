@@ -22,6 +22,7 @@ import org.splevo.modisco.util.JavaModelUtil;
 /**
  * Internal class to switch between the different element types and check if they should be ignored.
  */
+@SuppressWarnings("restriction")
 public class IgnoreSwitch extends JavaSwitch<Boolean> {
 
     /** The logger for this class. */
@@ -103,12 +104,7 @@ public class IgnoreSwitch extends JavaSwitch<Boolean> {
     @Override
     public Boolean caseInterfaceDeclaration(InterfaceDeclaration object) {
         String packagePath = JavaModelUtil.buildPackagePath(object.getPackage());
-        for (String regex : ignorePackages) {
-            if (packagePath.matches(regex)) {
-                return Boolean.TRUE;
-            }
-        }
-        return Boolean.FALSE;
+        return checkIgnorePackage(packagePath);
     }
 
     /**
@@ -122,19 +118,12 @@ public class IgnoreSwitch extends JavaSwitch<Boolean> {
     @Override
     public Boolean casePackage(Package object) {
         String packagePath = JavaModelUtil.buildPackagePath(object);
-        for (String regex : ignorePackages) {
-            if (packagePath.matches(regex)) {
-                return Boolean.TRUE;
-            }
-        }
-        return Boolean.FALSE;
+        return checkIgnorePackage(packagePath);
     }
 
     /**
      * Type parameters are always ignored because they are relative to the local code construct and
      * do not have any important change except of code beautifying
-     * 
-     * TODO might need to be configurable if code beautifying should be considered.
      * 
      * @param object
      *            The type parameter declaration to check.

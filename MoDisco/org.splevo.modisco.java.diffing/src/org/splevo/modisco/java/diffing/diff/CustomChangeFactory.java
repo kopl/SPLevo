@@ -22,6 +22,7 @@ import org.splevo.modisco.java.diffing.java2kdmdiff.StatementChange;
 /**
  * Factory to create custom changes according to the changed value object.
  */
+@SuppressWarnings("restriction")
 public class CustomChangeFactory extends JavaSwitch<Diff> {
 
     @Override
