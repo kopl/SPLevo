@@ -48,8 +48,8 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
             return null;
         }
 
-        JavaApplication leadingModel = selectJavaAppModel(comparisonModel, true);
-        JavaApplication integrationModel = selectJavaAppModel(comparisonModel, false);
+        JavaApplication leadingModel = selectJavaAppModel(comparisonModel, false);
+        JavaApplication integrationModel = selectJavaAppModel(comparisonModel, true);
 
         VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 
