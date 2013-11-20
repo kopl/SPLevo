@@ -105,7 +105,11 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
         } else if (node instanceof MethodInvocation) {
             MethodInvocation invocation = (MethodInvocation) node;
             return "Method Invocation: " + invocation.getMethod().getName() + "()";
-
+        
+        } else if (node instanceof MethodDeclaration) {
+            MethodDeclaration method = (MethodDeclaration) node;
+            return method.getName() + "()";
+            
         } else if (node instanceof Block && node.eContainer() instanceof MethodDeclaration) {
             MethodDeclaration method = (MethodDeclaration) node.eContainer();
             return method.getName() + "()";
