@@ -10,6 +10,7 @@ import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.eclipse.gmt.modisco.java.AbstractMethodDeclaration;
+import org.eclipse.gmt.modisco.java.Block;
 import org.eclipse.gmt.modisco.java.ClassDeclaration;
 import org.eclipse.gmt.modisco.java.EnumDeclaration;
 import org.eclipse.gmt.modisco.java.FieldDeclaration;
@@ -330,6 +331,10 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
             parent = parentMatch.getRight();
         } else {
             parent = parentMatch.getLeft();
+        }
+        
+        if(parent instanceof Block && parent.eContainer() instanceof AbstractMethodDeclaration){
+        	return (ASTNode) parent.eContainer();
         }
         
         return (ASTNode) parent;
