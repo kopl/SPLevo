@@ -1,10 +1,8 @@
 package org.splevo.ui.refinementbrowser;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -175,22 +173,12 @@ public final class OpenSourceInEditorAction extends Action {
 	 * @return The textual content.
 	 */
 	private String getCodeForSourceLocation(SourceLocation sourceLocation) {
-		StringBuilder code = new StringBuilder();
+		String code = "";
+		IPath location = Path.fromOSString(sourceLocation.getFilePath());
 		try {
-			IPath location = Path.fromOSString(sourceLocation.getFilePath());
-			URI uri = location.toFile().toURI();
-			InputStream inputStream = uri.toURL().openConnection()
-					.getInputStream();
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					inputStream));
-			int b;
-			while ((b = in.read()) != -1) {
-				code.append((char) ((byte) b));
-			}
-			in.close();
-			inputStream.close();
-		} catch (Throwable e) {
-			logger.error("Error while reading .class file");
+			code = FileUtils.readFileToString(location.toFile());
+		} catch (IOException e) {
+			logger.error("Error while reading .class file", e);
 		}
 
 		return code.substring(sourceLocation.getStartPosition(),
