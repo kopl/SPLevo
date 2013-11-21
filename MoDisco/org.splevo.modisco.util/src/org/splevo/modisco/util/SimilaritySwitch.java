@@ -502,16 +502,6 @@ public class SimilaritySwitch extends JavaSwitch<Boolean> {
             }
         }
 
-        // container similarity
-        if (cic1.eContainer() instanceof AbstractTypeDeclaration) {
-            AbstractTypeDeclaration type1 = (AbstractTypeDeclaration) cic1.eContainer();
-            AbstractTypeDeclaration type2 = (AbstractTypeDeclaration) cic2.eContainer();
-            Boolean containerSimilarity = similarityChecker.isSimilar(type1, type2);
-            if (containerSimilarity == Boolean.FALSE) {
-                return Boolean.FALSE;
-            }
-        }
-
         return Boolean.TRUE;
     }
 
