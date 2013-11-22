@@ -84,7 +84,7 @@ public class MoDiscoJavaDiffBuilder extends DiffBuilder {
                 }
 
                 if (!changeCache.containsKey(parentObject)) {
-                    Diff change = customChangeFactory.doSwitch(nextParent.getLeft());
+                    Diff change = customChangeFactory.doSwitch(parentObject);
                     fillStandardFields(change, nextParent, DifferenceKind.CHANGE, source);
                     changeCache.put(parentObject, change);
                 }
