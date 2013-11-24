@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.match.DefaultMatchEngine;
+import org.eclipse.emf.compare.match.resource.StrategyResourceMatcher;
 import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.compare.utils.EqualityHelper;
 import org.eclipse.emf.compare.utils.IEqualityHelper;
@@ -58,7 +59,7 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
 
     /** The strategy to use to identify elements to ignore during matching. */
     private IgnoreStrategy ignoreStrategy;
-
+    
     /**
      * Test the match engine to identify all matches in two equal models.
      */
@@ -67,7 +68,7 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
         File testDir1 = new File("testmodels/implementation/calculator/jscience");
         IComparisonScope scope = initScope(testDir1, testDir1);
         HierarchicalMatchEngine matchEngine = new HierarchicalMatchEngine(equalityHelper, equalityStrategy,
-                ignoreStrategy);
+                ignoreStrategy, new StrategyResourceMatcher());
         Comparison comparison = matchEngine.match(scope, new BasicMonitor());
 
         assertThat("No matches created", comparison.getMatches().size(), is(not(0)));
@@ -88,7 +89,7 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
         File testDir2 = new File("testmodels/implementation/orderchanges/b");
         IComparisonScope scope = initScope(testDir1, testDir2);
         HierarchicalMatchEngine matchEngine = new HierarchicalMatchEngine(equalityHelper, equalityStrategy,
-                ignoreStrategy);
+                ignoreStrategy, new StrategyResourceMatcher());
         Comparison comparison = matchEngine.match(scope, new BasicMonitor());
 
         assertThat("No matches created", comparison.getMatches().size(), is(not(0)));
@@ -117,7 +118,7 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
         File testDir2 = new File("testmodels/implementation/importDiffing/b");
         IComparisonScope scope = initScope(testDir1, testDir2);
         HierarchicalMatchEngine matchEngine = new HierarchicalMatchEngine(equalityHelper, equalityStrategy,
-                ignoreStrategy);
+                ignoreStrategy, new StrategyResourceMatcher());
         Comparison comparison = matchEngine.match(scope, new BasicMonitor());
 
         assertThat("No matches created", comparison.getMatches().size(), is(not(0)));
@@ -150,7 +151,7 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
         File testDir2 = new File("testmodels/implementation/methoddeclaration/b");
         IComparisonScope scope = initScope(testDir1, testDir2);
         HierarchicalMatchEngine matchEngine = new HierarchicalMatchEngine(equalityHelper, equalityStrategy,
-                ignoreStrategy);
+                ignoreStrategy, new StrategyResourceMatcher());
         Comparison comparison = matchEngine.match(scope, new BasicMonitor());
 
         assertThat("No matches created", comparison.getMatches().size(), is(not(0)));
@@ -181,7 +182,7 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
         File testDir2 = new File("testmodels/implementation/fielddeclaration.test/b");
         IComparisonScope scope = initScope(testDir1, testDir2);
         HierarchicalMatchEngine matchEngine = new HierarchicalMatchEngine(equalityHelper, equalityStrategy,
-                ignoreStrategy);
+                ignoreStrategy, new StrategyResourceMatcher());
         Comparison comparison = matchEngine.match(scope, new BasicMonitor());
 
         assertThat("No matches created", comparison.getMatches().size(), is(not(0)));
