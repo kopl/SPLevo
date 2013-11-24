@@ -13,7 +13,6 @@ import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.MatchResource;
 import org.eclipse.emf.compare.match.IMatchEngine;
 import org.eclipse.emf.compare.match.resource.IResourceMatcher;
-import org.eclipse.emf.compare.match.resource.StrategyResourceMatcher;
 import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.compare.utils.IEqualityHelper;
 import org.eclipse.emf.ecore.EObject;
@@ -35,7 +34,8 @@ import com.google.common.collect.Iterators;
 public class HierarchicalMatchEngine implements IMatchEngine {
 
     /** The class logger to use. */
-    private static Logger logger = Logger.getLogger(HierarchicalMatchEngine.class);
+    @SuppressWarnings("unused")
+	private static Logger logger = Logger.getLogger(HierarchicalMatchEngine.class);
 
     /** The equality helper for the model. */
     private IEqualityHelper equalityHelper = null;
@@ -45,6 +45,9 @@ public class HierarchicalMatchEngine implements IMatchEngine {
 
     /** The strategy to decide which elements to ignore. */
     private IgnoreStrategy ignoreStrategy = null;
+    
+    /** The resource matcher to find resources belonging together. */
+    private IResourceMatcher resourceMatcher = null;
 
     /**
      * Constructor to set the required dependencies.
@@ -57,10 +60,11 @@ public class HierarchicalMatchEngine implements IMatchEngine {
      *            the strategy which elements must not be matched and can be ignored.
      */
     public HierarchicalMatchEngine(IEqualityHelper equalityHelper, EqualityStrategy equalityStrategy,
-            IgnoreStrategy ignoreStrategy) {
+            IgnoreStrategy ignoreStrategy, IResourceMatcher resourceMatcher) {
         this.equalityHelper = equalityHelper;
         this.equalityStrategy = equalityStrategy;
         this.ignoreStrategy = ignoreStrategy;
+        this.resourceMatcher = resourceMatcher;
     }
 
     @Override
@@ -165,13 +169,15 @@ public class HierarchicalMatchEngine implements IMatchEngine {
      */
     protected void match(Comparison comparison, final Resource leftRes, final Resource rightRes, Monitor monitor) {
 
-        if (leftRes == null || rightRes == null) {
-            logger.warn("Null resource provided vor comparison (Left: " + leftRes + ", Right: " + rightRes + ")");
-            return;
+    	List<EObject> leftElements = new ArrayList<EObject>();
+    	List<EObject> rightElements = new ArrayList<EObject>();
+    	
+        if (leftRes != null) {
+        	leftElements = leftRes.getContents();
         }
-
-        List<EObject> leftElements = leftRes.getContents();
-        List<EObject> rightElements = rightRes.getContents();
+        if (rightRes != null) {
+        	rightElements = rightRes.getContents();
+        }
 
         List<Match> matches = match(comparison, leftElements, rightElements, monitor);
         comparison.getMatches().addAll(matches);
@@ -252,7 +258,17 @@ public class HierarchicalMatchEngine implements IMatchEngine {
      *         for this comparison.
      */
     protected IResourceMatcher createResourceMatcher() {
-        return new StrategyResourceMatcher();
+    	return resourceMatcher;
+    }
+    
+    /**
+     * The mode of the resource matcher to use.
+     */
+    public static enum ResourceMatcherMode {
+    	/** The default mode using a name and id based strategy matcher. */
+    	DEFAULT,
+    	/** A strict hierarchical based name matching mode . */
+    	HIERARCHICAL
     }
 
     /**
