@@ -1,5 +1,6 @@
 package org.splevo.extraction.java.modisco;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class MoDiscoSoftwareModelExtractor implements SoftwareModelExtractor {
     public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor, URI targetURI)
             throws SoftwareModelExtractionException {
 
-        URI fullTargetURI = targetURI.appendSegment("modisco_java2kdm.xmi");
+    	URI fullTargetURI = URI.createFileURI(targetURI.toFileString() + File.separator + "modisco_java2kdm.xmi");
 
         IJavaProject mainProject = null;
         try {
