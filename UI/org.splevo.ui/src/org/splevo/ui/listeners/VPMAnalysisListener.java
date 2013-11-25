@@ -22,8 +22,11 @@ import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizard;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
+import org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer;
+import org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer;
 import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
+import org.splevo.vpm.analyzer.semantic.SemanticVPMAnalyzer;
 import org.splevo.vpm.refinement.RefinementType;
 
 /**
@@ -112,9 +115,10 @@ public class VPMAnalysisListener extends MouseAdapter {
         List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
 
         List<String> edgeLabels = new ArrayList<String>();
-        edgeLabels.add("CodeLocation");
-        edgeLabels.add("ProgramStructure");
-        edgeLabels.add("Semantic");
+        edgeLabels.add(CodeLocationVPMAnalyzer.RELATIONSHIP_LABEL_CODE_LOCATION);
+        edgeLabels.add(ProgramStructureVPMAnalyzer.RELATIONSHIP_LABEL_PROGRAM_STRUCTURE);
+        edgeLabels.add(SemanticVPMAnalyzer.RELATIONSHIP_LABEL_SEMANTIC);
+        
         detectionRules.add(new BasicDetectionRule(edgeLabels, RefinementType.MERGE));
         
         config.setDetectionRules(detectionRules);

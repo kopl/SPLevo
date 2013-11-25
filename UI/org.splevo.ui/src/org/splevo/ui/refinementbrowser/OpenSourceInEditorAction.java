@@ -71,13 +71,8 @@ public final class OpenSourceInEditorAction extends Action {
 					+ softwareElement.getLabel();
 			if (parentItem != null) {
 				Object data = parentItem.getData();
-				if (data instanceof VariationPoint) {
-					String codeForVariationPoint = getCodeForVariationPoint((VariationPoint) data);
-					message += TEXT_AVAILABLE_VARIANTS
-							+ codeForVariationPoint;
-				} else if (data instanceof Variant) {
-					String codeForVariationPoint = getCodeForVariationPoint(((Variant) data)
-							.getVariationPoint());
+				if (data instanceof Variant) {
+					String codeForVariationPoint = getCodeForVariationPoint(((Variant) data).getVariationPoint(), (Variant) data);
 					message += TEXT_AVAILABLE_VARIANTS
 							+ codeForVariationPoint;
 				}
@@ -92,7 +87,7 @@ public final class OpenSourceInEditorAction extends Action {
 				JavaSoftwareElement softwareElement = (JavaSoftwareElement) vp
 						.getEnclosingSoftwareEntity();
 				editor = javaEditorConnector.openEditor(softwareElement);
-				String codeForVariationPoint = getCodeForVariationPoint(vp);
+				String codeForVariationPoint = getCodeForVariationPoint(vp, null);
 				javaEditorConnector.highlightInTextEditor(editor,
 						softwareElement,
 						"Variation Point: " + softwareElement.getLabel()
@@ -108,7 +103,7 @@ public final class OpenSourceInEditorAction extends Action {
 					editor = javaEditorConnector
 							.openEditor((JavaSoftwareElement) softwareElement);
 					String codeForVariationPoint = getCodeForVariationPoint(variant
-							.getVariationPoint());
+							.getVariationPoint(), variant);
 					javaEditorConnector.highlightInTextEditor(editor,
 							softwareElement,
 							"Variant: " + softwareElement.getLabel()
@@ -189,11 +184,16 @@ public final class OpenSourceInEditorAction extends Action {
 	 * Gets the textual representation of a {@link VariationPoint}.
 	 * 
 	 * @param vp The {@link VariationPoint}.
+	 * @param exclude This {@link Variant} wont be included in the string. Null if nothing has to be excluded.
 	 * @return The {@link String} contents of the {@link VariationPoint}.
 	 */
-	private String getCodeForVariationPoint(VariationPoint vp) {
+	private String getCodeForVariationPoint(VariationPoint vp, Variant exclude) {
 		StringBuilder code = new StringBuilder();
 		for (Variant v : vp.getVariants()) {
+			if (v != null && v.equals(exclude)) {
+				continue;
+			}
+			
 			for (SoftwareElement e : v.getSoftwareEntities()) {
 				code.append(v.getVariantId() + ":\n-->"
 						+ getCodeForSourceLocation(e.getSourceLocation())
