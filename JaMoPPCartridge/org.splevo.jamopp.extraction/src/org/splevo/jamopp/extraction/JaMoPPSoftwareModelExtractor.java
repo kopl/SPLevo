@@ -53,32 +53,35 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     @Override
     public ResourceSet extractSoftwareModel(List<URI> projectURIs, IProgressMonitor monitor, URI targetURI)
             throws SoftwareModelExtractionException {
-
-        ResourceSet rs = setUpResourceSet();
-        JavaClasspath cp = JavaClasspath.get(rs);
+    	
+        ResourceSet targetResourceSet = setUpResourceSet();
+        JavaClasspath.get(targetResourceSet);
 
         for (URI projectPathURI : projectURIs) {
+
+            ResourceSet rs = setUpResourceSet();
+            JavaClasspath cp = JavaClasspath.get(rs);
 
             String projectPath = projectPathURI.toFileString();
             cp.getURIMap().put(projectPathURI, URI.createURI(""));
             File srcFolder = new File(projectPath);
             try {
+            	srcFolder.isDirectory();
                 addAllJarFilesToClassPath(srcFolder, cp);
                 loadAllFilesInResourceSet(srcFolder, ".java", rs);
 
                 if (!resolveAllProxies(0, rs)) {
                     handleFailedProxyResolution(rs);
                 }
+                
+                saveToFolder(projectPathURI, targetURI, rs, targetResourceSet);
+                
             } catch (Exception e) {
                 throw new SoftwareModelExtractionException("Failed to extract software model.", e);
             }
         }
 
-        try {
-            return saveToSingleXMIFile(targetURI, rs);
-        } catch (Exception e) {
-            throw new SoftwareModelExtractionException("Failed to save extracted software model.", e);
-        }
+        return targetResourceSet;
     }
 
     /**
@@ -93,7 +96,8 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * @throws IOException
      *             failed to save the model.
      */
-    private ResourceSet saveToSingleXMIFile(URI targetURI, ResourceSet rs) throws IOException {
+    @SuppressWarnings("unused")
+	private ResourceSet saveToSingleXMIFile(URI targetURI, ResourceSet rs) throws IOException {
 
         File parentDir = new File(targetURI.toFileString());
         if (!parentDir.exists()) {
@@ -118,6 +122,37 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         return targetResourceSet;
     }
+
+	private void saveToFolder(URI srcUri, URI targetURI, ResourceSet rs, ResourceSet targetResourceSet)
+			throws IOException {
+
+        File parentDir = new File(targetURI.toFileString());
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+        URI outUri = URI.createFileURI(parentDir.getAbsolutePath());
+        
+		List<Resource> result = new ArrayList<Resource>();
+
+		for (Resource javaResource : new ArrayList<Resource>(rs.getResources())) {
+			URI srcURI = javaResource.getURI();
+			srcURI = rs.getURIConverter().normalize(srcURI);
+			URI outFileURI = outUri.appendSegments(
+					srcURI.deresolve(srcUri.appendSegment("")).segments())
+					.appendFileExtension("xmi");
+			Resource xmiResource = rs.createResource(outFileURI);
+			xmiResource.getContents().addAll(javaResource.getContents());
+			result.add(xmiResource);
+		}
+
+		// save the metamodels (schemas) for dynamic loading
+		//serializeMetamodel(parentDir, targetResourceSet);
+
+		for (Resource xmiResource : result) {
+			saveXmiResource(xmiResource);
+			targetResourceSet.getResources().add(xmiResource);
+		}
+	}
 
     /**
      * Save a resource in the xmi resource format.
@@ -281,7 +316,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      *            The counter of processed resources for statistical reasons.
      * @param rs
      *            The resource set to resolve the proxies in.
-     * @return True/False if the resolving was successfull or not.
+     * @return True/False if the resolving was successful or not.
      */
     private boolean resolveAllProxies(int resourcesProcessedBefore, ResourceSet rs) {
         boolean failure = false;
@@ -297,35 +332,17 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
             return true;
         }
 
-        // logger.debug("Resolving cross-references of " + eobjects.size() + " EObjects.");
-        // int resolved = 0;
-        // int notResolved = 0;
-        // int eobjectCnt = 0;
         for (EObject next : eobjects) {
-            // eobjectCnt++;
-            // if (eobjectCnt % 1000 == 0) {
-            // logger.debug(eobjectCnt + "/" + eobjects.size() + " done: Resolved " + resolved +
-            // " crossrefs, "
-            // + notResolved + " crossrefs could not be resolved.");
-            // }
-
             InternalEObject nextElement = (InternalEObject) next;
             for (EObject crElement : nextElement.eCrossReferences()) {
                 crElement = EcoreUtil.resolve(crElement, rs);
                 if (crElement.eIsProxy()) {
                     failure = true;
-                    // notResolved++;
                     logger.warn("Can not find referenced element in classpath: "
                             + ((InternalEObject) crElement).eProxyURI());
-                    // } else {
-                    // resolved++;
                 }
             }
         }
-
-        // logger.debug(eobjectCnt + "/" + eobjects.size() + " done: Resolved " + resolved +
-        // " crossrefs, " + notResolved
-        // + " crossrefs could not be resolved.");
 
         // call this method again, because the resolving might have triggered loading
         // of additional resources that may also contain references that need to be resolved.
@@ -342,10 +359,9 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         rs.getLoadOptions().put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.FALSE);
         rs.getLoadOptions().put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.FALSE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
-        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java",
-                new JavaSourceOrClassFileResourceFactoryImpl());
-        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION,
-                new XMIResourceFactoryImpl());
+        Map<String, Object> extensionToFactoryMap = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
+		extensionToFactoryMap.put("java", new JavaSourceOrClassFileResourceFactoryImpl());
+        extensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
         return rs;
     }
 
