@@ -28,6 +28,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.ResourceManager;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
@@ -171,7 +173,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 		groupFD.right = new FormAttachment(30);
 		groupListGroup.setLayoutData(groupFD);
 		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.CENTER;
+		gridData.horizontalAlignment = SWT.FILL;
 		listViewerAnalysis = new ListViewer(groupListGroup, SWT.BORDER
 				| SWT.V_SCROLL | SWT.H_SCROLL);
 		listViewerAnalysis.setContentProvider(ArrayContentProvider
@@ -199,8 +201,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 					}
 				});
 		Button addBtn = new Button(groupListGroup, SWT.PUSH);
-		addBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui",
-				"icons/plus.png"));
+		addBtn.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD));
 		addBtn.setLayoutData(gridData);
 		addBtn.addSelectionListener(new SelectionAdapter() {
 			@Override

@@ -113,15 +113,9 @@ public class VPMAnalysisListener extends MouseAdapter {
 
         List<String> edgeLabels = new ArrayList<String>();
         edgeLabels.add("CodeLocation");
+        edgeLabels.add("ProgramStructure");
+        edgeLabels.add("Semantic");
         detectionRules.add(new BasicDetectionRule(edgeLabels, RefinementType.MERGE));
-        
-        List<String> edgeLabelsStructure = new ArrayList<String>();
-        edgeLabelsStructure.add("ProgramStructure");
-        detectionRules.add(new BasicDetectionRule(edgeLabelsStructure, RefinementType.MERGE));
-        
-        List<String> edgeLabelsSemantic = new ArrayList<String>();
-        edgeLabelsSemantic.add("Semantic");
-        detectionRules.add(new BasicDetectionRule(edgeLabelsSemantic, RefinementType.MERGE));
         
         config.setDetectionRules(detectionRules);
         
