@@ -45,7 +45,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
 	/** The relationship label of the analyzer. */
-	private static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
+	public static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
 
 	/** The displayed name of the analyzer. */
 	private static final String DISPLAYED_NAME = "Semantic VPM Analyzer";
