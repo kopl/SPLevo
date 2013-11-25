@@ -3,7 +3,9 @@ package org.splevo.ui.jobs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -56,9 +58,10 @@ public class ExtractionJob extends AbstractJob {
      */
     private List<URI> buildProjectURIs(List<String> projectNames) {
         List<URI> projectURIs = new ArrayList<URI>();
-        String basePath = getAbsoluteWorkspacePath();
         for (String projectName : projectNames) {
-            URI projectURI = URI.createFileURI(basePath + "/" + projectName);
+        	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        	IProject project = root.getProject(projectName);
+        	URI projectURI = URI.createFileURI(project.getLocation().toPortableString());
             projectURIs.add(projectURI);
         }
         return projectURIs;
@@ -106,6 +109,9 @@ public class ExtractionJob extends AbstractJob {
 
         // prepare the target path
         URI targetURI = buildTargetURI(variantName);
+        
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        URI absoluteTargetUri = URI.createFileURI(root.getLocation().toPortableString() + targetURI.toString());
         List<URI> projectURIsAbsolute = buildProjectURIs(projectNames);
 
         logger.info("Extraction target: " + targetURI);
@@ -124,7 +130,7 @@ public class ExtractionJob extends AbstractJob {
 
         try {
             monitor.subTask("Extract Model for project: " + variantName);
-            extractionService.extractSoftwareModel(extractorId, projectURIsAbsolute, monitor, targetURI);
+            extractionService.extractSoftwareModel(extractorId, projectURIsAbsolute, monitor, absoluteTargetUri);
         } catch (SoftwareModelExtractionException e) {
             throw new JobFailedException("Failed to extract model.", e);
         }
@@ -145,7 +151,7 @@ public class ExtractionJob extends AbstractJob {
         }
     }
 
-    /**
+	/**
      * Determine the absolute OS specific path of the workspace.
      * 
      * @return The absolute path.
