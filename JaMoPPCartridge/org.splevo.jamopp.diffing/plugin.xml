@@ -13,5 +13,11 @@
             class="org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage"
             genModel="model/jamoppdiff.genmodel"/>
    </extension>
+   <extension
+         point="org.splevo.diffing.differ">
+      <differ
+            differ.class="org.splevo.jamopp.diffing.JaMoPPDiffer">
+      </differ>
+   </extension>
 
 </plugin>

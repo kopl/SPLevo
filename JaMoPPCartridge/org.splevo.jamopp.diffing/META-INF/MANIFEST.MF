@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: JaMoPP SPLevo Differ
 Bundle-SymbolicName: org.splevo.jamopp.diffing;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.splevo.jamopp.diffing.Activator
-Bundle-Vendor: %providerName
+Bundle-Vendor: www.splevo.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
