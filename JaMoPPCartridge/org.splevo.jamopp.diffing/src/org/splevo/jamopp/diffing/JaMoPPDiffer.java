@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.eclipse.emf.common.util.URI;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.compare.diff.DefaultDiffEngine;
@@ -38,8 +38,8 @@ import org.splevo.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
 import org.splevo.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
 import org.splevo.diffing.match.HierarchicalMatchEngineFactory;
 import org.splevo.diffing.match.HierarchicalStrategyResourceMatcher;
-import org.splevo.jamopp.diffing.diff.JaMoPPFeatureFilter;
 import org.splevo.jamopp.diffing.diff.JaMoPPDiffBuilder;
+import org.splevo.jamopp.diffing.diff.JaMoPPFeatureFilter;
 import org.splevo.jamopp.diffing.match.JaMoPPEqualityHelper;
 import org.splevo.jamopp.diffing.match.JaMoPPEqualityStrategy;
 import org.splevo.jamopp.diffing.match.JaMoPPIgnoreStrategy;
@@ -50,201 +50,255 @@ import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Lists;
 
 /**
  * Differ for JaMoPP software models.
+ * 
+ * <p>
+ * <strong>Ignored files</strong><br>
+ * By default, the differ ignores all package-info.java.xmi model files.<br>
+ * The option {@link JaMoPPDiffer#OPTION_JAMOPP_IGNORE_FILES} can be provided
+ * as diffing option to the doDiff() method to change this default behavior.
+ * </p>
  * 
  * @author Benjamin Klatt
  * 
  */
 public class JaMoPPDiffer extends JavaDiffer {
 
-    private static final String LABEL = "JaMoPP Java Differ";
-    private static final String ID = "org.splevo.jamopp.differ";
-    private Logger logger = Logger.getLogger(JaMoPPDiffer.class);
+	/** Option key for java packages to ignore. */
+	public static final String OPTION_JAMOPP_IGNORE_FILES = "jamopp.ignoreFiles";
 
-    /**
-     * Diffing identifies the MoDisco Java2KDM source model in the directory and performs the
-     * modisco specific diffing. {@inheritDoc}
-     * 
-     * @return null if no supported source models available.
-     * @throws DiffingNotSupportedException
-     *             Thrown if no Java2Kdm models provided to compare.
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public Comparison doDiff(java.net.URI leadingModelDirectory, java.net.URI integrationModelDirectory,
-            Map<String, Object> diffingOptions) throws DiffingException, DiffingNotSupportedException {
+	private static final String LABEL = "JaMoPP Java Differ";
+	private static final String ID = "org.splevo.jamopp.differ";
+	private Logger logger = Logger.getLogger(JaMoPPDiffer.class);
 
-        this.logger.info("Load source models");
-        ResourceSet resourceSetLeading = loadResourceSetRecursively(leadingModelDirectory);
-        ResourceSet resourceSetIntegration = loadResourceSetRecursively(integrationModelDirectory);
+	/**
+	 * Diffing identifies the MoDisco Java2KDM source model in the directory and
+	 * performs the modisco specific diffing. {@inheritDoc}
+	 * 
+	 * @return null if no supported source models available.
+	 * @throws DiffingNotSupportedException
+	 *             Thrown if no Java2Kdm models provided to compare.
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public Comparison doDiff(java.net.URI leadingModelDirectory,
+			java.net.URI integrationModelDirectory,
+			Map<String, Object> diffingOptions) throws DiffingException,
+			DiffingNotSupportedException {
 
-        logger.debug("Diffing: Configure EMF Compare");
-        final List<String> ignorePackages = (List<String>) diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
-        PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
+		final List<String> ignorePackages = (List<String>) diffingOptions
+				.get(OPTION_JAVA_IGNORE_PACKAGES);
 
-        SimilarityChecker similarityChecker = new SimilarityChecker();
+		final List<String> ignoreFiles;
+		if (diffingOptions.containsKey(OPTION_JAMOPP_IGNORE_FILES)) {
+			ignoreFiles = (List<String>) diffingOptions
+					.get(OPTION_JAMOPP_IGNORE_FILES);
+		} else {
+			ignoreFiles = Lists
+					.asList("package-info.java.xmi", new String[] {});
+		}
 
-        final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = initEqualityCache();
-        IEqualityHelper equalityHelper = new JaMoPPEqualityHelper(cache, similarityChecker);
-        IMatchEngine.Factory.Registry matchEngineRegistry = initMatchEngine(equalityHelper, packageIgnoreChecker,
-                similarityChecker);
-        IPostProcessor.Descriptor.Registry<?> postProcessorRegistry = initPostProcessors(packageIgnoreChecker);
-        IDiffEngine diffEngine = initDiffEngine(ignorePackages);
+		this.logger.info("Load source models");
+		ResourceSet resourceSetLeading = loadResourceSetRecursively(
+				leadingModelDirectory, ignoreFiles);
+		ResourceSet resourceSetIntegration = loadResourceSetRecursively(
+				integrationModelDirectory, ignoreFiles);
 
-        EMFCompare comparator = initComparator(matchEngineRegistry, postProcessorRegistry, diffEngine);
+		logger.debug("Diffing: Configure EMF Compare");
+		PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(
+				ignorePackages);
 
-        // Compare the two models
-        // In comparison, the left side is always the changed one.
-        // push in the integration model first
-        IComparisonScope scope = new JavaModelMatchScope(resourceSetIntegration, resourceSetLeading,
-                packageIgnoreChecker);
+		SimilarityChecker similarityChecker = new SimilarityChecker();
 
-        logger.debug("Diffing: Perform comparison");
-        Comparison comparisonModel = comparator.compare(scope);
+		final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = initEqualityCache();
+		IEqualityHelper equalityHelper = new JaMoPPEqualityHelper(cache,
+				similarityChecker);
+		IMatchEngine.Factory.Registry matchEngineRegistry = initMatchEngine(
+				equalityHelper, packageIgnoreChecker, similarityChecker);
+		IPostProcessor.Descriptor.Registry<?> postProcessorRegistry = initPostProcessors(packageIgnoreChecker);
+		IDiffEngine diffEngine = initDiffEngine(packageIgnoreChecker);
 
-        return comparisonModel;
+		EMFCompare comparator = initComparator(matchEngineRegistry,
+				postProcessorRegistry, diffEngine);
 
-    }
+		// Compare the two models
+		// In comparison, the left side is always the changed one.
+		// push in the integration model first
+		IComparisonScope scope = new JavaModelMatchScope(
+				resourceSetIntegration, resourceSetLeading,
+				packageIgnoreChecker);
 
-    /**
-     * Initialize a cache to be used by the equality helper.
-     * 
-     * @return The ready to use cache.
-     */
-    private LoadingCache<EObject, org.eclipse.emf.common.util.URI> initEqualityCache() {
-        CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder().maximumSize(
-                DefaultMatchEngine.DEFAULT_EOBJECT_URI_CACHE_MAX_SIZE);
-        final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = EqualityHelper
-                .createDefaultCache(cacheBuilder);
-        return cache;
-    }
+		logger.debug("Diffing: Perform comparison");
+		Comparison comparisonModel = comparator.compare(scope);
 
-    /**
-     * Initialize the post processors and build an according registry.
-     * 
-     * @param packageIgnoreChecker
-     *            The checker if an element belongs to an ignored package.
-     * @return The prepared registry with references to the post processors.
-     */
-    private IPostProcessor.Descriptor.Registry<String> initPostProcessors(PackageIgnoreChecker packageIgnoreChecker) {
-        IPostProcessor customPostProcessor = new JaMoPPPostProcessor();
-        Pattern any = Pattern.compile(".*");
-        IPostProcessor.Descriptor descriptor = new BasicPostProcessorDescriptorImpl(customPostProcessor, any, any);
-        IPostProcessor.Descriptor.Registry<String> postProcessorRegistry = new PostProcessorDescriptorRegistryImpl<String>();
-        postProcessorRegistry.put(JaMoPPPostProcessor.class.getName(), descriptor);
-        return postProcessorRegistry;
-    }
+		return comparisonModel;
 
-    /**
-     * Init the comparator instance to be used for comparison.
-     * 
-     * @param matchEngineRegistry
-     *            The registry containing the match engines to be used.
-     * @param postProcessorRegistry
-     *            Registry for post processors to be executed.
-     * @param diffEngine
-     *            The diff engine to run.
-     * @return The prepared comparator instance.
-     */
-    private EMFCompare initComparator(IMatchEngine.Factory.Registry matchEngineRegistry,
-            IPostProcessor.Descriptor.Registry<?> postProcessorRegistry, IDiffEngine diffEngine) {
-        EMFCompare.Builder builder = EMFCompare.builder();
-        builder.setDiffEngine(diffEngine);
-        builder.setMatchEngineFactoryRegistry(matchEngineRegistry);
-        builder.setPostProcessorRegistry(postProcessorRegistry);
-        EMFCompare comparator = builder.build();
-        return comparator;
-    }
+	}
 
-    /**
-     * Initialize the diff engine with the diff processor and feature filters to be used.
-     * 
-     * @param ignorePackages
-     *            The java packages to ignore.
-     * @return The ready-to-use diff engine.
-     */
-    private IDiffEngine initDiffEngine(final List<String> ignorePackages) {
-        IDiffProcessor diffProcessor = new JaMoPPDiffBuilder();
-        IDiffEngine diffEngine = new DefaultDiffEngine(diffProcessor) {
-            @Override
-            protected FeatureFilter createFeatureFilter() {
-                return new JaMoPPFeatureFilter(ignorePackages);
-            }
-        };
-        return diffEngine;
-    }
+	/**
+	 * Initialize a cache to be used by the equality helper.
+	 * 
+	 * @return The ready to use cache.
+	 */
+	private LoadingCache<EObject, org.eclipse.emf.common.util.URI> initEqualityCache() {
+		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
+				.maximumSize(
+						DefaultMatchEngine.DEFAULT_EOBJECT_URI_CACHE_MAX_SIZE);
+		final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = EqualityHelper
+				.createDefaultCache(cacheBuilder);
+		return cache;
+	}
 
-    /**
-     * Initialize and configure the match engines to be used.
-     * 
-     * @param equalityHelper
-     *            The equality helper to be used during the diff process.
-     * @param packageIgnoreChecker
-     *            The package ignore checker to use in the match engine.
-     * @param similarityChecker
-     *            The similarity checker to use in the match engine.
-     * 
-     * @return The registry containing all prepared match engines
-     */
-    private IMatchEngine.Factory.Registry initMatchEngine(IEqualityHelper equalityHelper,
-            PackageIgnoreChecker packageIgnoreChecker, SimilarityChecker similarityChecker) {
+	/**
+	 * Initialize the post processors and build an according registry.
+	 * 
+	 * @param packageIgnoreChecker
+	 *            The checker if an element belongs to an ignored package.
+	 * @return The prepared registry with references to the post processors.
+	 */
+	private IPostProcessor.Descriptor.Registry<String> initPostProcessors(
+			PackageIgnoreChecker packageIgnoreChecker) {
+		IPostProcessor customPostProcessor = new JaMoPPPostProcessor();
+		Pattern any = Pattern.compile(".*");
+		IPostProcessor.Descriptor descriptor = new BasicPostProcessorDescriptorImpl(
+				customPostProcessor, any, any);
+		IPostProcessor.Descriptor.Registry<String> postProcessorRegistry = new PostProcessorDescriptorRegistryImpl<String>();
+		postProcessorRegistry.put(JaMoPPPostProcessor.class.getName(),
+				descriptor);
+		return postProcessorRegistry;
+	}
 
-        EqualityStrategy equalityStrategy = new JaMoPPEqualityStrategy(similarityChecker);
-        IgnoreStrategy ignoreStrategy = new JaMoPPIgnoreStrategy(packageIgnoreChecker);
+	/**
+	 * Init the comparator instance to be used for comparison.
+	 * 
+	 * @param matchEngineRegistry
+	 *            The registry containing the match engines to be used.
+	 * @param postProcessorRegistry
+	 *            Registry for post processors to be executed.
+	 * @param diffEngine
+	 *            The diff engine to run.
+	 * @return The prepared comparator instance.
+	 */
+	private EMFCompare initComparator(
+			IMatchEngine.Factory.Registry matchEngineRegistry,
+			IPostProcessor.Descriptor.Registry<?> postProcessorRegistry,
+			IDiffEngine diffEngine) {
+		EMFCompare.Builder builder = EMFCompare.builder();
+		builder.setDiffEngine(diffEngine);
+		builder.setMatchEngineFactoryRegistry(matchEngineRegistry);
+		builder.setPostProcessorRegistry(postProcessorRegistry);
+		EMFCompare comparator = builder.build();
+		return comparator;
+	}
 
-        IMatchEngine.Factory matchEngineFactory = new HierarchicalMatchEngineFactory(equalityHelper, equalityStrategy,
-                ignoreStrategy, new HierarchicalStrategyResourceMatcher());
-        matchEngineFactory.setRanking(20);
+	/**
+	 * Initialize the diff engine with the diff processor and feature filters to
+	 * be used.
+	 * 
+	 * @param packageIgnoreChecker
+	 *            Checker to decide if an element is in a package to ignore.
+	 * @return The ready-to-use diff engine.
+	 */
+	private IDiffEngine initDiffEngine(
+			final PackageIgnoreChecker packageIgnoreChecker) {
+		IDiffProcessor diffProcessor = new JaMoPPDiffBuilder(
+				packageIgnoreChecker);
+		IDiffEngine diffEngine = new DefaultDiffEngine(diffProcessor) {
+			@Override
+			protected FeatureFilter createFeatureFilter() {
+				return new JaMoPPFeatureFilter(packageIgnoreChecker);
+			}
+		};
+		return diffEngine;
+	}
 
-        IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
-        matchEngineRegistry.add(matchEngineFactory);
+	/**
+	 * Initialize and configure the match engines to be used.
+	 * 
+	 * @param equalityHelper
+	 *            The equality helper to be used during the diff process.
+	 * @param packageIgnoreChecker
+	 *            The package ignore checker to use in the match engine.
+	 * @param similarityChecker
+	 *            The similarity checker to use in the match engine.
+	 * 
+	 * @return The registry containing all prepared match engines
+	 */
+	private IMatchEngine.Factory.Registry initMatchEngine(
+			IEqualityHelper equalityHelper,
+			PackageIgnoreChecker packageIgnoreChecker,
+			SimilarityChecker similarityChecker) {
 
-        return matchEngineRegistry;
-    }
+		EqualityStrategy equalityStrategy = new JaMoPPEqualityStrategy(
+				similarityChecker);
+		IgnoreStrategy ignoreStrategy = new JaMoPPIgnoreStrategy(
+				packageIgnoreChecker);
 
-    @Override
-    public String getId() {
-        return ID;
-    }
+		IMatchEngine.Factory matchEngineFactory = new HierarchicalMatchEngineFactory(
+				equalityHelper, equalityStrategy, ignoreStrategy,
+				new HierarchicalStrategyResourceMatcher());
+		matchEngineFactory.setRanking(20);
 
-    @Override
-    public String getLabel() {
-        return LABEL;
-    }
+		IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
+		matchEngineRegistry.add(matchEngineFactory);
 
-    @Override
-    public void init() {
+		return matchEngineRegistry;
+	}
+
+	@Override
+	public String getId() {
+		return ID;
+	}
+
+	@Override
+	public String getLabel() {
+		return LABEL;
+	}
+
+	@Override
+	public void init() {
 		JavaPackage.eINSTANCE.eClass();
 		LayoutPackage.eINSTANCE.eClass();
-    }
+	}
 
-    /**
-     * Recursively load all files within a directory into a resource set.
-     * 
-     * @param baseDirectory
-     *            The root directory to search files in.
-     * @return The prepared resource set.
-     */
-    public static ResourceSet loadResourceSetRecursively(java.net.URI baseDirectory) {
+	/**
+	 * Recursively load all files within a directory into a resource set.
+	 * 
+	 * @param baseDirectory
+	 *            The root directory to search files in.
+	 * @param ignoreFiles
+	 *            A list of filenames to ignore during load.
+	 * @return The prepared resource set.
+	 */
+	public static ResourceSet loadResourceSetRecursively(
+			java.net.URI baseDirectory, List<String> ignoreFiles) {
 
-        // load the required meta class packages
+		// load the required meta class packages
 		JavaPackage.eINSTANCE.eClass();
 		LayoutPackage.eINSTANCE.eClass();
 
-        ResourceSet resourceSet = new ResourceSetImpl();
-        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
-        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-                .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+		ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put("xmi", new XMIResourceFactoryImpl());
+		resourceSet
+				.getResourceFactoryRegistry()
+				.getExtensionToFactoryMap()
+				.put(Resource.Factory.Registry.DEFAULT_EXTENSION,
+						new XMIResourceFactoryImpl());
 
-        Collection<File> files = FileUtils.listFiles(new File(baseDirectory), new String[] { "xmi" }, true);
-        for (File file : files) {
-            URI uri = URI.createFileURI(file.getAbsolutePath());
-            resourceSet.getResource(uri, true);
-        }
+		Collection<File> files = FileUtils.listFiles(new File(baseDirectory),
+				new String[] { "xmi" }, true);
+		for (File file : files) {
+			if (ignoreFiles.contains(file.getName())) {
+				continue;
+			}
+			URI uri = URI.createFileURI(file.getAbsolutePath());
+			resourceSet.getResource(uri, true);
+		}
 
-        return resourceSet;
-    }
-
+		return resourceSet;
+	}
 }

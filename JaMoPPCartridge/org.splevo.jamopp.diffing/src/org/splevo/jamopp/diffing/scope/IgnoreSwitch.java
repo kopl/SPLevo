@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.util.ContainersSwitch;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.util.MembersSwitch;
@@ -100,6 +101,12 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 	private class ContainersIgnoreSwitch extends ContainersSwitch<Boolean> {
 		@Override
 		public Boolean casePackage(org.emftext.language.java.containers.Package object) {
+			String packagePath = JaMoPPModelUtil.buildNamespacePath(object);
+			return checkIgnorePackage(packagePath);
+		}
+		
+		@Override
+		public Boolean caseCompilationUnit(CompilationUnit object) {
 			String packagePath = JaMoPPModelUtil.buildNamespacePath(object);
 			return checkIgnorePackage(packagePath);
 		}

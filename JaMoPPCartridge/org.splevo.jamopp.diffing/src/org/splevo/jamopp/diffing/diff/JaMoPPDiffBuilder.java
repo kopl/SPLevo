@@ -23,12 +23,13 @@ import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Statement;
+import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
 
 /**
  * Diff builder / DiffProcessor specific for the MoDisco Java model.
  * 
  * Main purpose of this builder is to filter invalid move changes and produce
- * custom diffs for directly identifyable .
+ * custom diffs for directly identifiable.
  */
 public class JaMoPPDiffBuilder extends DiffBuilder {
 
@@ -46,6 +47,19 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
 
 	private List<EObject> resourceAttachementRegistry = new ArrayList<EObject>();
 
+	/** To check if an element is referenced that should be ignored. */
+	private PackageIgnoreChecker packageIgnoreChecker = null;
+
+	/**
+	 * Constructor to set required dependencies.
+	 * 
+	 * @param packageIgnoreChecker
+	 *            The checker if an element is located in a package to ignore.
+	 */
+	public JaMoPPDiffBuilder(PackageIgnoreChecker packageIgnoreChecker) {
+		this.packageIgnoreChecker = packageIgnoreChecker;
+	}
+
 	/**
 	 * Resource attachment changes are ignored to prevent errors because of
 	 * unmatched resources.<br>
@@ -60,6 +74,10 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
 			changedElement = match.getLeft();
 		} else {
 			changedElement = match.getRight();
+		}
+
+		if (packageIgnoreChecker.isInIgnorePackage(changedElement)) {
+			logger.warn("Element to ignore: " + changedElement);
 		}
 
 		// TODO Remove temporarily Filter when JaMoPP behavior fixed.
@@ -110,8 +128,6 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
 				return;
 			}
 		}
-
-		// catch all reasonable explicit elements
 
 		// TODO: Enable not only for expressions
 		if (value instanceof EnumConstant || value instanceof Expression
