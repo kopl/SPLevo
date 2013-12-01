@@ -177,7 +177,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
         update();
     }
 
-    /**
+	/**
      * Remove an analyzer from the list of configured analyzers.
      * 
      * @param analyzer
@@ -185,6 +185,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
      */
     public void removeAnalyzer(VPMAnalyzer analyzer) {
         this.analyzers.remove(analyzer);
+        updateConfig();
         update();
     }
 
@@ -223,7 +224,6 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
      */
     private void update() {
         listViewerAnalysis.refresh();
-        updateConfig();
         rmvBtn.setEnabled(selectedAnalyzer != null);
         getWizard().getContainer().updateButtons();
     }

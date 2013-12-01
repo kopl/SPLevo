@@ -34,7 +34,7 @@ public class VPMAnalysisWizard extends Wizard {
         setWindowTitle("Configure VPM Analysis.");
         setNeedsProgressMonitor(false);
     }
-
+    
     @Override
     public void addPages() {
         analyzerPage = new VPMAnalyzerConfigurationPage();

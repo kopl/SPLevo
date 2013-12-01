@@ -34,11 +34,8 @@ import org.eclipse.wb.swt.ResourceManager;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
-import org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer;
-import org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer;
 import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
-import org.splevo.vpm.analyzer.semantic.SemanticVPMAnalyzer;
 import org.splevo.vpm.refinement.RefinementType;
 
 /**
@@ -63,12 +60,6 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	 * Stores the ID's {@link RefinementType}s.
 	 */
 	private Map<Integer, RefinementType> refinementTypeToGroupID;
-
-	/**
-	 * A list that has all {@link VPMAnalyzer}s. Used for group creation.
-	 */
-	private VPMAnalyzer[] analyzers = { new SemanticVPMAnalyzer(),
-			new CodeLocationVPMAnalyzer(), new ProgramStructureVPMAnalyzer() };
 
 	/**
 	 * The detection rule label.
@@ -100,6 +91,10 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	 */
 	private Composite detailComp;
 
+	private List<VPMAnalyzer> analyzers;
+
+	private List<DetectionRule> detectionRules;
+
 	/**
 	 * Create the wizard and initialize members.
 	 * 
@@ -109,18 +104,68 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	public ResultHandlingConfigurationPage(
 			VPMAnalysisWorkflowConfiguration defaultConfiguration) {
 		super("ResultHandlingConfiguration");
+
 		setTitle("Analysis Result Handling");
 		setDescription("Configure how you would like to handle the analysis result.");
-		
+
+		this.analyzers = new LinkedList<VPMAnalyzer>();
+
 		this.labelsToGroupID = new HashMap<Integer, Set<String>>();
 		this.refinementTypeToGroupID = new HashMap<Integer, RefinementType>();
 
-		for (DetectionRule rule : defaultConfiguration.getDetectionRules()) {
+		this.resultPresentation = defaultConfiguration.getPresentation();
+		this.detectionRules = defaultConfiguration.getDetectionRules();
+	}
+
+	/**
+	 * Fills the member group maps according to the {@link DetectionRule}s given
+	 * in the configuration.
+	 */
+	private void fillInitialRuleMaps() {
+		labelsToGroupID.clear();
+		refinementTypeToGroupID.clear();
+
+		for (DetectionRule rule : detectionRules) {
 			int id = findNextFreeID();
-			this.labelsToGroupID.put(id, new HashSet<String>(rule.getEdgeLabels()));
+
+			// Add only edge labes that do have a corresponding analyzer.
+			this.labelsToGroupID.put(id, new HashSet<String>());
+			for (VPMAnalyzer analyzer : analyzers) {
+				if (rule.getEdgeLabels().contains(
+						analyzer.getRelationshipLabel())) {
+					labelsToGroupID.get(id)
+							.add(analyzer.getRelationshipLabel());
+				}
+			}
+
+			// Add the refinement type.
 			this.refinementTypeToGroupID.put(id, rule.getRefinementType());
 		}
-		this.resultPresentation = defaultConfiguration.getPresentation();
+
+		listViewerAnalysis.refresh();
+	}
+
+	/**
+	 * Removes all edge labels that do not have a corresponding analyzer.
+	 */
+	private void removeInvalidEdgeLabelsFromRules() {
+		for (Integer id : labelsToGroupID.keySet()) {
+			Set<String> labels = labelsToGroupID.get(id);
+			Set<String> toBeDeleted = new HashSet<String>();
+			for (String label : labels) {
+				boolean labelHasAnalyer = false;
+				for (VPMAnalyzer analyzer : this.analyzers) {
+					if (analyzer.getRelationshipLabel().equals(label)) {
+						labelHasAnalyer = true;
+						break;
+					}
+				}
+				if (!labelHasAnalyer) {
+					toBeDeleted.add(label);
+				}
+			}
+			labels.removeAll(toBeDeleted);
+		}
 	}
 
 	/**
@@ -188,20 +233,12 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 					@Override
 					public void selectionChanged(SelectionChangedEvent event) {
-						removeDetailComponents();
-						detailComp.pack();
-						Integer selectedID = getSelectedID();
-						if (selectedID == null) {
-							rmvBtn.setEnabled(false);
-						} else {
-							rmvBtn.setEnabled(true);
-							buildDetailComponents(selectedID);
-						}
-						detailComp.pack();
+						rebuildDetailComp();
 					}
 				});
 		Button addBtn = new Button(groupListGroup, SWT.PUSH);
-		addBtn.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD));
+		addBtn.setImage(PlatformUI.getWorkbench().getSharedImages()
+				.getImage(ISharedImages.IMG_OBJ_ADD));
 		addBtn.setLayoutData(gridData);
 		addBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -249,10 +286,11 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	}
 
 	/**
-	 * Generates a group that allows the user to choose between several
-	 * result presentation options.
+	 * Generates a group that allows the user to choose between several result
+	 * presentation options.
 	 * 
-	 * @param parent The parent container.
+	 * @param parent
+	 *            The parent container.
 	 * @return The Group.
 	 */
 	private Group generateResultPresentationGroup(Composite parent) {
@@ -351,7 +389,18 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 				2, 1));
 		labelsLabel
 				.setText("Choose the labels the rule should be applied for:");
-		for (final VPMAnalyzer analyzer : analyzers) {
+		createAnalyzerSelection(id);
+	}
+
+	/**
+	 * Adds selectable check-boxes with labels for each available analyzer to
+	 * the details view.
+	 * 
+	 * @param id
+	 *            The id of the group which is currently selected.
+	 */
+	private void createAnalyzerSelection(final Integer id) {
+		for (final VPMAnalyzer analyzer : this.analyzers) {
 			Button checkBtn = new Button(detailComp, SWT.CHECK);
 			checkBtn.setText(analyzer.getRelationshipLabel());
 			if (labelsToGroupID.get(id).contains(
@@ -467,5 +516,45 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 		}
 		return id;
 
+	}
+
+	/**
+	 * Rebuilds the detail view.
+	 */
+	private void rebuildDetailComp() {
+		removeDetailComponents();
+		detailComp.pack();
+		Integer selectedID = getSelectedID();
+		if (selectedID == null) {
+			rmvBtn.setEnabled(false);
+		} else {
+			rmvBtn.setEnabled(true);
+			buildDetailComponents(selectedID);
+		}
+		detailComp.pack();
+	}
+
+	/**
+	 * Prepares the GUI for the initial call.
+	 * 
+	 * @param analyzers The analyzers that were selected in the configuration page.
+	 * @param clearRules Indicates whether to restore initial detection rules or not.
+	 */
+	public void prepareForInitialCall(List<VPMAnalyzer> analyzers,
+			boolean clearRules) {
+		if (analyzers == null) {
+			throw new IllegalArgumentException();
+		}
+
+		this.analyzers = analyzers;
+
+		if (clearRules) {
+			fillInitialRuleMaps();
+		} else {
+			removeInvalidEdgeLabelsFromRules();
+		}
+
+		rebuildDetailComp();
+		listViewerAnalysis.refresh();
 	}
 }
