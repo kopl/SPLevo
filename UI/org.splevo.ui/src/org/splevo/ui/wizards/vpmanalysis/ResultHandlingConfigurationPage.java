@@ -400,7 +400,12 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	 *            The id of the group which is currently selected.
 	 */
 	private void createAnalyzerSelection(final Integer id) {
+		Set<String> alreadyExistingLabels = new HashSet<String>();
 		for (final VPMAnalyzer analyzer : this.analyzers) {
+			if (!alreadyExistingLabels.add(analyzer.getRelationshipLabel())) {
+				continue;
+			}
+
 			Button checkBtn = new Button(detailComp, SWT.CHECK);
 			checkBtn.setText(analyzer.getRelationshipLabel());
 			if (labelsToGroupID.get(id).contains(
@@ -537,8 +542,10 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	/**
 	 * Prepares the GUI for the initial call.
 	 * 
-	 * @param analyzers The analyzers that were selected in the configuration page.
-	 * @param clearRules Indicates whether to restore initial detection rules or not.
+	 * @param analyzers
+	 *            The analyzers that were selected in the configuration page.
+	 * @param clearRules
+	 *            Indicates whether to restore initial detection rules or not.
 	 */
 	public void prepareForInitialCall(List<VPMAnalyzer> analyzers,
 			boolean clearRules) {
@@ -555,6 +562,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 		}
 
 		rebuildDetailComp();
+		enableRulesDetection(resultPresentation == ResultPresentation.REFINEMENT_BROWSER);
 		listViewerAnalysis.refresh();
 	}
 }
