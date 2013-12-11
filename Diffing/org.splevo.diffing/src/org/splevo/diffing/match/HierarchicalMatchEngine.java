@@ -45,13 +45,13 @@ public class HierarchicalMatchEngine implements IMatchEngine {
 
     /** The strategy to decide which elements to ignore. */
     private IgnoreStrategy ignoreStrategy = null;
-    
+
     /** The resource matcher to find resources belonging together. */
     private IResourceMatcher resourceMatcher = null;
 
     /**
      * Constructor to set the required dependencies.
-     * 
+     *
      * @param equalityHelper
      *            The equality helper to check equality and to be wired with the comparison model.
      * @param equalityStrategy
@@ -72,7 +72,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
 
         final Notifier left = scope.getLeft();
         final Notifier right = scope.getRight();
-        
+
         Comparison comparison = createComparison();
         comparison.setThreeWay(false);
 
@@ -84,7 +84,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
     /**
      * This methods will delegate to the proper "match(T, T, T)" implementation according to the
      * types of {@code left}, {@code right} and {@code origin}.
-     * 
+     *
      * @param comparison
      *            The comparison to which will be added detected matches.
      * @param scope
@@ -114,14 +114,14 @@ public class HierarchicalMatchEngine implements IMatchEngine {
      * This will be used to match the given {@link ResourceSet}s. This default implementation will
      * query the comparison scope for these resource sets children, then delegate to an
      * {@link IResourceMatcher} to determine the resource mappings.
-     * 
+     *
      * The content of the matched resources is then pushed into the resource specific match method.<br>
-     * 
+     *
      * <b>Note:</b><br>
      * In contrast to the DefaultMatchEngine, the match for eObjects recursively iterates through
      * sub elements of the models. As a result, only the root elements of the resources are matched
      * and not the plain list of all all contained elements.
-     * 
+     *
      * @param comparison
      *            The comparison to which will be added detected matches.
      * @param scope
@@ -157,7 +157,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
     /**
      * Build the matches for two given resources. The direct sub elements will be detected and
      * pushed into a match process for sub elements.
-     * 
+     *
      * @param comparison
      *            The comparison model to feed.
      * @param leftRes
@@ -171,7 +171,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
 
     	List<EObject> leftElements = new ArrayList<EObject>();
     	List<EObject> rightElements = new ArrayList<EObject>();
-    	
+
         if (leftRes != null) {
         	leftElements = leftRes.getContents();
         }
@@ -186,7 +186,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
     /**
      * Create matches for the provided elements and trigger a match process for the child elements
      * in case of a match.
-     * 
+     *
      * @param comparison
      *            The comparison to fill up.
      * @param leftElements
@@ -206,7 +206,6 @@ public class HierarchicalMatchEngine implements IMatchEngine {
         List<EObject> rightElementsInScope = filterIgnoredElements(rightElements);
 
         for (EObject leftElement : leftElementsInScope) {
-
             Match match = CompareFactory.eINSTANCE.createMatch();
             match.setLeft(leftElement);
 
@@ -219,7 +218,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
                     break;
                 }
             }
-            
+
             matches.add(match);
         }
 
@@ -234,7 +233,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
 
     /**
      * Get a filtered list of elements without any elements that are not in scope.
-     * 
+     *
      * @param leftElements
      *            The list to filter.
      * @return The filtered list.
@@ -253,14 +252,14 @@ public class HierarchicalMatchEngine implements IMatchEngine {
 
     /**
      * This will be used to create the resource matcher that will be used by this match engine.
-     * 
+     *
      * @return An {@link IResourceMatcher} that can be used to retrieve the {@link MatchResource}s
      *         for this comparison.
      */
     protected IResourceMatcher createResourceMatcher() {
     	return resourceMatcher;
     }
-    
+
     /**
      * The mode of the resource matcher to use.
      */
@@ -273,7 +272,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.eclipse.emf.compare.match.IComparisonFactory#createComparison()
      */
     private Comparison createComparison() {
@@ -294,7 +293,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
         /**
          * Check if two elements are equal. They are located at a matching position. So container
          * similarity can be assumed.
-         * 
+         *
          * @param left
          *            The element of the left model.
          * @param right
@@ -311,7 +310,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
 
         /**
          * Check if an element should be ignored during the matching
-         * 
+         *
          * @param element
          *            The element to check.
          * @return True/False whether it should be ignored.
