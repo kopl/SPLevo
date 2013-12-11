@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.splevo.jamopp.extraction;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: www.splevo.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.splevo.extraction;bundle-version="1.0.0",
+Require-Bundle: org.splevo.extraction;bundle-version="1.0.0";visibility:=reexport,
  org.emftext.language.java;bundle-version="1.4.0",
  org.emftext.language.java.resource.java;bundle-version="1.4.0",
  org.emftext.language.java.resource;bundle-version="1.4.0",
