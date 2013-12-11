@@ -47,9 +47,9 @@ import com.google.common.cache.LoadingCache;
 
 /**
  * Differ for MoDiscos Java2KDM software models.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class Java2KDMDiffer extends JavaDiffer {
 
@@ -58,15 +58,12 @@ public class Java2KDMDiffer extends JavaDiffer {
 	private Logger logger = Logger.getLogger(Java2KDMDiffer.class);
 
 	/**
-	 * Diffing identifies the MoDisco Java2KDM source model in the directory and
-	 * performs the modisco specific diffing. {@inheritDoc}
-	 * 
-	 * @return null if no supported source models available.
-	 * @throws DiffingNotSupportedException
-	 *             Thrown if no Java2Kdm models provided to compare.
+	 * Load the MoDisco resource sets and trigger the ResourceSet-based
+	 * doDiff method.<br>
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public Comparison doDiff(URI leadingModelDirectory,
 			URI integrationModelDirectory, Map<String, Object> diffingOptions)
 			throws DiffingException, DiffingNotSupportedException {
@@ -76,6 +73,25 @@ public class Java2KDMDiffer extends JavaDiffer {
 				.loadResourceSetRecursively(leadingModelDirectory);
 		ResourceSet resourceSetIntegration = KDMUtil
 				.loadResourceSetRecursively(integrationModelDirectory);
+
+		return doDiff(resourceSetLeading, resourceSetIntegration, diffingOptions);
+	}
+
+
+	/**
+	 * Diffing identifies the MoDisco Java2KDM source model in the directory and
+	 * performs the modisco specific diffing. {@inheritDoc}
+	 *
+	 * @return null if no supported source models available.
+	 * @throws DiffingNotSupportedException
+	 *             Thrown if no Java2Kdm models provided to compare.
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public Comparison doDiff(ResourceSet resourceSetLeading,
+			ResourceSet resourceSetIntegration,
+			Map<String, Object> diffingOptions) throws DiffingException,
+			DiffingNotSupportedException {
 
 		logger.debug("Diffing: Configure EMF Compare");
 		final List<String> ignorePackages = (List<String>) diffingOptions
@@ -112,7 +128,7 @@ public class Java2KDMDiffer extends JavaDiffer {
 
 	/**
 	 * Initialize a cache to be used by the equality helper.
-	 * 
+	 *
 	 * @return The ready to use cache.
 	 */
 	private LoadingCache<EObject, org.eclipse.emf.common.util.URI> initEqualityCache() {
@@ -126,7 +142,7 @@ public class Java2KDMDiffer extends JavaDiffer {
 
 	/**
 	 * Initialize the post processors and build an according registry.
-	 * 
+	 *
 	 * @param packageIgnoreChecker
 	 *            The checker if an element belongs to an ignored package.
 	 * @return The prepared registry with references to the post processors.
@@ -145,7 +161,7 @@ public class Java2KDMDiffer extends JavaDiffer {
 
 	/**
 	 * Init the comparator instance to be used for comparison.
-	 * 
+	 *
 	 * @param matchEngineRegistry
 	 *            The registry containing the match engines to be used.
 	 * @param postProcessorRegistry
@@ -169,7 +185,7 @@ public class Java2KDMDiffer extends JavaDiffer {
 	/**
 	 * Initialize the diff engine with the diff processor and feature filters to
 	 * be used.
-	 * 
+	 *
 	 * @param ignorePackages
 	 *            The java packages to ignore.
 	 * @return The ready-to-use diff engine.
@@ -187,14 +203,14 @@ public class Java2KDMDiffer extends JavaDiffer {
 
 	/**
 	 * Initialize and configure the match engines to be used.
-	 * 
+	 *
 	 * @param equalityHelper
 	 *            The equality helper to be used during the diff process.
 	 * @param packageIgnoreChecker
 	 *            The package ignore checker to use in the match engine.
 	 * @param similarityChecker
 	 *            The similarity checker to use in the match engine.
-	 * 
+	 *
 	 * @return The registry containing all prepared match engines
 	 */
 	private IMatchEngine.Factory.Registry initMatchEngine(
