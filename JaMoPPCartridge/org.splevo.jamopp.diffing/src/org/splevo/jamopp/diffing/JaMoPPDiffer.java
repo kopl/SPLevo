@@ -54,16 +54,16 @@ import com.google.common.collect.Lists;
 
 /**
  * Differ for JaMoPP software models.
- * 
+ *
  * <p>
  * <strong>Ignored files</strong><br>
  * By default, the differ ignores all package-info.java.xmi model files.<br>
  * The option {@link JaMoPPDiffer#OPTION_JAMOPP_IGNORE_FILES} can be provided
  * as diffing option to the doDiff() method to change this default behavior.
  * </p>
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class JaMoPPDiffer extends JavaDiffer {
 
@@ -77,7 +77,7 @@ public class JaMoPPDiffer extends JavaDiffer {
 	/**
 	 * Diffing identifies the MoDisco Java2KDM source model in the directory and
 	 * performs the modisco specific diffing. {@inheritDoc}
-	 * 
+	 *
 	 * @return null if no supported source models available.
 	 * @throws DiffingNotSupportedException
 	 *             Thrown if no Java2Kdm models provided to compare.
@@ -88,9 +88,6 @@ public class JaMoPPDiffer extends JavaDiffer {
 			java.net.URI integrationModelDirectory,
 			Map<String, Object> diffingOptions) throws DiffingException,
 			DiffingNotSupportedException {
-
-		final List<String> ignorePackages = (List<String>) diffingOptions
-				.get(OPTION_JAVA_IGNORE_PACKAGES);
 
 		final List<String> ignoreFiles;
 		if (diffingOptions.containsKey(OPTION_JAMOPP_IGNORE_FILES)) {
@@ -107,7 +104,29 @@ public class JaMoPPDiffer extends JavaDiffer {
 		ResourceSet resourceSetIntegration = loadResourceSetRecursively(
 				integrationModelDirectory, ignoreFiles);
 
+		return doDiff(resourceSetLeading, resourceSetIntegration, diffingOptions);
+	}
+
+		/**
+		 * Diffing the models contained in the provided resource sets.<br>
+		 *
+		 * {@inheritDoc}
+		 *
+		 * @return null if no supported source models available.
+		 * @throws DiffingNotSupportedException
+		 *             Thrown if no reasonable JaMoPP model is contained in the resource sets.
+		 */
+		@Override
+		@SuppressWarnings("unchecked")
+		public Comparison doDiff(ResourceSet resourceSetLeading,
+				ResourceSet resourceSetIntegration,
+				Map<String, Object> diffingOptions) throws DiffingException,
+				DiffingNotSupportedException {
+
 		logger.debug("Diffing: Configure EMF Compare");
+
+		final List<String> ignorePackages = (List<String>) diffingOptions
+				.get(OPTION_JAVA_IGNORE_PACKAGES);
 		PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(
 				ignorePackages);
 
@@ -140,7 +159,7 @@ public class JaMoPPDiffer extends JavaDiffer {
 
 	/**
 	 * Initialize a cache to be used by the equality helper.
-	 * 
+	 *
 	 * @return The ready to use cache.
 	 */
 	private LoadingCache<EObject, org.eclipse.emf.common.util.URI> initEqualityCache() {
@@ -154,7 +173,7 @@ public class JaMoPPDiffer extends JavaDiffer {
 
 	/**
 	 * Initialize the post processors and build an according registry.
-	 * 
+	 *
 	 * @param packageIgnoreChecker
 	 *            The checker if an element belongs to an ignored package.
 	 * @return The prepared registry with references to the post processors.
@@ -173,7 +192,7 @@ public class JaMoPPDiffer extends JavaDiffer {
 
 	/**
 	 * Init the comparator instance to be used for comparison.
-	 * 
+	 *
 	 * @param matchEngineRegistry
 	 *            The registry containing the match engines to be used.
 	 * @param postProcessorRegistry
@@ -197,7 +216,7 @@ public class JaMoPPDiffer extends JavaDiffer {
 	/**
 	 * Initialize the diff engine with the diff processor and feature filters to
 	 * be used.
-	 * 
+	 *
 	 * @param packageIgnoreChecker
 	 *            Checker to decide if an element is in a package to ignore.
 	 * @return The ready-to-use diff engine.
@@ -217,14 +236,14 @@ public class JaMoPPDiffer extends JavaDiffer {
 
 	/**
 	 * Initialize and configure the match engines to be used.
-	 * 
+	 *
 	 * @param equalityHelper
 	 *            The equality helper to be used during the diff process.
 	 * @param packageIgnoreChecker
 	 *            The package ignore checker to use in the match engine.
 	 * @param similarityChecker
 	 *            The similarity checker to use in the match engine.
-	 * 
+	 *
 	 * @return The registry containing all prepared match engines
 	 */
 	private IMatchEngine.Factory.Registry initMatchEngine(
@@ -266,7 +285,7 @@ public class JaMoPPDiffer extends JavaDiffer {
 
 	/**
 	 * Recursively load all files within a directory into a resource set.
-	 * 
+	 *
 	 * @param baseDirectory
 	 *            The root directory to search files in.
 	 * @param ignoreFiles
