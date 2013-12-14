@@ -185,7 +185,6 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
      */
     public void removeAnalyzer(VPMAnalyzer analyzer) {
         this.analyzers.remove(analyzer);
-        updateConfig();
         update();
     }
 
@@ -223,6 +222,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
      * Update the page.
      */
     private void update() {
+    	updateConfig();
         listViewerAnalysis.refresh();
         rmvBtn.setEnabled(selectedAnalyzer != null);
         getWizard().getContainer().updateButtons();
