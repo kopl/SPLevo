@@ -16,8 +16,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.modisco.kdm.source.extension;visibility:=reexport,
  org.splevo.vpm;visibility:=reexport,
  org.splevo.modisco.util;bundle-version="1.0.0",
- org.eclipse.e4.core.di;bundle-version="1.1.0",
- org.splevo.vpm.analyzer.semantic
+ org.eclipse.e4.core.di;bundle-version="1.1.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.splevo.modisco.java.vpm.software,
  org.splevo.modisco.java.vpm.software.impl,
