@@ -58,8 +58,8 @@ import com.google.common.collect.Lists;
  * <p>
  * <strong>Ignored files</strong><br>
  * By default, the differ ignores all package-info.java.xmi model files.<br>
- * The option {@link JaMoPPDiffer#OPTION_JAMOPP_IGNORE_FILES} can be provided
- * as diffing option to the doDiff() method to change this default behavior.
+ * The option {@link JaMoPPDiffer#OPTION_JAMOPP_IGNORE_FILES} can be provided as
+ * diffing option to the doDiff() method to change this default behavior.
  * </p>
  *
  * @author Benjamin Klatt
@@ -75,8 +75,9 @@ public class JaMoPPDiffer extends JavaDiffer {
 	private Logger logger = Logger.getLogger(JaMoPPDiffer.class);
 
 	/**
-	 * Diffing identifies the MoDisco Java2KDM source model in the directory and
-	 * performs the modisco specific diffing. {@inheritDoc}
+	 * Load the source models from the according directories and perform the
+	 * difference analysis of the loaded {@link ResourceSet}s. <br>
+	 * {@inheritDoc}
 	 *
 	 * @return null if no supported source models available.
 	 * @throws DiffingNotSupportedException
@@ -104,44 +105,33 @@ public class JaMoPPDiffer extends JavaDiffer {
 		ResourceSet resourceSetIntegration = loadResourceSetRecursively(
 				integrationModelDirectory, ignoreFiles);
 
-		return doDiff(resourceSetLeading, resourceSetIntegration, diffingOptions);
+		return doDiff(resourceSetLeading, resourceSetIntegration,
+				diffingOptions);
 	}
 
-		/**
-		 * Diffing the models contained in the provided resource sets.<br>
-		 *
-		 * {@inheritDoc}
-		 *
-		 * @return null if no supported source models available.
-		 * @throws DiffingNotSupportedException
-		 *             Thrown if no reasonable JaMoPP model is contained in the resource sets.
-		 */
-		@Override
-		@SuppressWarnings("unchecked")
-		public Comparison doDiff(ResourceSet resourceSetLeading,
-				ResourceSet resourceSetIntegration,
-				Map<String, Object> diffingOptions) throws DiffingException,
-				DiffingNotSupportedException {
-
-		logger.debug("Diffing: Configure EMF Compare");
+	/**
+	 * Diffing the models contained in the provided resource sets.<br>
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @return null if no supported source models available.
+	 * @throws DiffingNotSupportedException
+	 *             Thrown if no reasonable JaMoPP model is contained in the
+	 *             resource sets.
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public Comparison doDiff(ResourceSet resourceSetLeading,
+			ResourceSet resourceSetIntegration,
+			Map<String, Object> diffingOptions) throws DiffingException,
+			DiffingNotSupportedException {
 
 		final List<String> ignorePackages = (List<String>) diffingOptions
 				.get(OPTION_JAVA_IGNORE_PACKAGES);
 		PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(
 				ignorePackages);
 
-		SimilarityChecker similarityChecker = new SimilarityChecker();
-
-		final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = initEqualityCache();
-		IEqualityHelper equalityHelper = new JaMoPPEqualityHelper(cache,
-				similarityChecker);
-		IMatchEngine.Factory.Registry matchEngineRegistry = initMatchEngine(
-				equalityHelper, packageIgnoreChecker, similarityChecker);
-		IPostProcessor.Descriptor.Registry<?> postProcessorRegistry = initPostProcessors(packageIgnoreChecker);
-		IDiffEngine diffEngine = initDiffEngine(packageIgnoreChecker);
-
-		EMFCompare comparator = initComparator(matchEngineRegistry,
-				postProcessorRegistry, diffEngine);
+		EMFCompare comparator = initCompare(packageIgnoreChecker);
 
 		// Compare the two models
 		// In comparison, the left side is always the changed one.
@@ -150,11 +140,32 @@ public class JaMoPPDiffer extends JavaDiffer {
 				resourceSetIntegration, resourceSetLeading,
 				packageIgnoreChecker);
 
-		logger.debug("Diffing: Perform comparison");
 		Comparison comparisonModel = comparator.compare(scope);
 
 		return comparisonModel;
 
+	}
+
+	/**
+	 * Initialize the compare engine.
+	 *
+	 * @param packageIgnoreChecker
+	 *            The checker to decide if an element is within a package to
+	 *            ignore.
+	 * @return The prepared emf compare engine.
+	 */
+	private EMFCompare initCompare(PackageIgnoreChecker packageIgnoreChecker) {
+		SimilarityChecker similarityChecker = new SimilarityChecker();
+		final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = initEqualityCache();
+		IEqualityHelper equalityHelper = new JaMoPPEqualityHelper(cache,
+				similarityChecker);
+		IMatchEngine.Factory.Registry matchEngineRegistry = initMatchEngine(
+				equalityHelper, packageIgnoreChecker, similarityChecker);
+		IPostProcessor.Descriptor.Registry<?> postProcessorRegistry = initPostProcessors(packageIgnoreChecker);
+		IDiffEngine diffEngine = initDiffEngine(packageIgnoreChecker);
+		EMFCompare comparator = initComparator(matchEngineRegistry,
+				postProcessorRegistry, diffEngine);
+		return comparator;
 	}
 
 	/**

@@ -97,10 +97,10 @@ import com.google.common.base.Strings;
  * returned.
  * </p>
  */
-public class SimilaritySwitch extends ComposedSwitch<Boolean> {
+public class SimilaritySwitchPredecessorAware extends ComposedSwitch<Boolean> {
 
 	/** The logger for this class. */
-	private Logger logger = Logger.getLogger(SimilaritySwitch.class);
+	private Logger logger = Logger.getLogger(SimilaritySwitchPredecessorAware.class);
 
 	/** The object to compare the switched element with. */
 	private EObject compareElement = null;
@@ -114,7 +114,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 	 * @param compareElement
 	 *            The element to check the similarity with.
 	 */
-	public SimilaritySwitch(EObject compareElement,
+	public SimilaritySwitchPredecessorAware(EObject compareElement,
 			boolean checkStatementPosition) {
 		this.compareElement = compareElement;
 		addSwitch(new AnnotationsSimilaritySwitch());
@@ -391,6 +391,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
 			return Boolean.TRUE;
 		}
+
+
 
 		@Override
 		public Boolean defaultCase(EObject object) {
@@ -819,14 +821,14 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 			ReferenceableElement target1 = ref1.getTarget();
 			ReferenceableElement target2 = ref2.getTarget();
 			Boolean similarity = similarityChecker.isSimilar(target1, target2);
-			if (similarity == Boolean.FALSE) {
+			if(similarity == Boolean.FALSE) {
 				return Boolean.FALSE;
 			}
 
 			Reference next1 = ref1.getNext();
 			Reference next2 = ref2.getNext();
 			Boolean nextSimilarity = similarityChecker.isSimilar(next1, next2);
-			if (nextSimilarity == Boolean.FALSE) {
+			if(nextSimilarity == Boolean.FALSE) {
 				return Boolean.FALSE;
 			}
 
@@ -909,10 +911,16 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 				return Boolean.FALSE;
 			}
 
+			// check position similarity
+			// int pos1 = getParentPosition(statement1);
+			// int pos2 = getParentPosition(statement2);
+			// if (pos1 != pos2) {
+			// return Boolean.FALSE;
+			// }
+
 			// check predecessor similarity
 			if (checkStatementPosition) {
-				if (differentPredecessor(statement1, statement2)
-						&& differentSuccessor(statement1, statement2)) {
+				if (differentPredecessor(statement1, statement2)) {
 					return Boolean.FALSE;
 				}
 			}
@@ -1075,32 +1083,10 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 		}
 
 		/**
-		 * Check if two statements have differing successor statements.
-		 *
-		 * @param statement1
-		 *            The first statement to check.
-		 * @param statement2
-		 *            The second statement to check.
-		 * @return True if their successor differ, false if not.
-		 */
-		private boolean differentSuccessor(ExpressionStatement statement1,
-				ExpressionStatement statement2) {
-			Statement pred1 = getSuccessor(statement1);
-			Statement pred2 = getSuccessor(statement2);
-			Boolean similarity = similarityChecker.isSimilar(pred1, pred2,
-					false);
-			if (similarity == Boolean.FALSE) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		/**
 		 * Get the predecessor statement of a statement within the parents
 		 * container statement list.<br>
 		 * If a statement is the first, the only one, or the container is not a
-		 * {@link StatementListContainer}, or no predecessor exists, null will
+		 * {@link StatementListContainer}, no predecessor exists and null will
 		 * be returned.
 		 *
 		 * @param statement
@@ -1114,31 +1100,6 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 				StatementListContainer container = (StatementListContainer) statement
 						.eContainer();
 				return container.getStatements().get(pos - 1);
-			}
-
-			return null;
-		}
-
-		/**
-		 * Get the successor statement of a statement within the parents
-		 * container statement list.<br>
-		 * If a statement is the last, the only one, or the container is not a
-		 * {@link StatementListContainer}, no successor exists, null will be
-		 * returned.
-		 *
-		 * @param statement
-		 *            The statement to get the predecessor for.
-		 * @return The predecessor or null if non exists.
-		 */
-		private Statement getSuccessor(Statement statement) {
-
-			int pos = getParentPosition(statement);
-			if (pos != -1) {
-				StatementListContainer container = (StatementListContainer) statement
-						.eContainer();
-				if (container.getStatements().size() > pos + 1) {
-					return container.getStatements().get(pos + 1);
-				}
 			}
 
 			return null;

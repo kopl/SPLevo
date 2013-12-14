@@ -32,7 +32,7 @@ public class JaMoPPFeatureFilter extends FeatureFilter {
 
 	/**
 	 * Constructor requires to set the list of packages to be ignored.
-	 * 
+	 *
 	 * @param packageIgnoreChecker
 	 *            Checker to decide if an element is in a package to ignore.
 	 */
@@ -108,15 +108,19 @@ public class JaMoPPFeatureFilter extends FeatureFilter {
 
 	@Override
 	public boolean checkForOrderingChanges(EStructuralFeature feature) {
+
+//		if("statements".equals(feature.getName())){
+//			return true;
+//		}
 		return false;
 	}
 
 	/**
 	 * Check if one of the elements is in an ignore package.
-	 * 
+	 *
 	 * If the left element is not null it is checked. Otherwise the right one is
 	 * checked if it is not null. If both are null, null is returned.
-	 * 
+	 *
 	 * @param left
 	 *            The left element to check.
 	 * @param right

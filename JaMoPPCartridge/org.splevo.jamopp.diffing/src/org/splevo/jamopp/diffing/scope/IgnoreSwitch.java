@@ -7,12 +7,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.util.ContainersSwitch;
-import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.util.MembersSwitch;
+import org.emftext.language.java.references.util.ReferencesSwitch;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.TypedElement;
 import org.emftext.language.java.types.util.TypesSwitch;
 import org.emftext.language.java.variables.Variable;
 import org.emftext.language.java.variables.util.VariablesSwitch;
@@ -29,7 +28,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 
 	/**
 	 * Instantiates a new ignore switch.
-	 * 
+	 *
 	 * @param ignorePackages
 	 *            the packages to ignore
 	 */
@@ -39,6 +38,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 		addSwitch(new MembersIgnoreSwitch());
 		addSwitch(new VariablesIgnoreSwitch());
 		addSwitch(new ContainersIgnoreSwitch());
+		addSwitch(new ReferencesIgnoreSwitch());
 	}
 
 	private class TypesIgnoreSwitch extends TypesSwitch<Boolean> {
@@ -46,9 +46,9 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 		/**
 		 * Check a type declaration whether it is located in one of the packages
 		 * to ignore.
-		 * 
+		 *
 		 * A Type includes Classifier (Class, Interface, Enumeration, etc.)
-		 * 
+		 *
 		 * @param object
 		 *            The type to check.
 		 * @return the boolean
@@ -65,30 +65,26 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 		}
 
 		@Override
-		public Boolean caseTypedElement(TypedElement object) {
-			if (object.getTypeReference() != null) {
-				Type type = object.getTypeReference().getTarget();
-				String packagePath = JaMoPPModelUtil.buildNamespacePath(type);
-				return checkIgnorePackage(packagePath);
-			}
-			return super.caseTypedElement(object);
-		}
-
-		@Override
 		public Boolean caseTypeReference(TypeReference object) {
 			return composedDoSwitch(object.eContainer());
 		}
-		
+
 	}
 
 	private class MembersIgnoreSwitch extends MembersSwitch<Boolean> {
 
+		/**
+		 * Members are either contained by a parent element which is in scope or not,
+		 * or it can be ignored if it has no container (which is not valid).
+		 */
 		@Override
-		public Boolean caseMember(Member object) {
-			String packagePath = JaMoPPModelUtil.buildNamespacePath(object);
-			return checkIgnorePackage(packagePath);
+		public Boolean defaultCase(EObject object) {
+			if(object.eContainer() != null) {
+				return composedDoSwitch(object.eContainer());
+			} else {
+				return Boolean.TRUE;
+			}
 		}
-
 	}
 
 	private class VariablesIgnoreSwitch extends VariablesSwitch<Boolean> {
@@ -97,14 +93,14 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 			return composedDoSwitch(object.eContainer());
 		}
 	}
-	
+
 	private class ContainersIgnoreSwitch extends ContainersSwitch<Boolean> {
 		@Override
 		public Boolean casePackage(org.emftext.language.java.containers.Package object) {
 			String packagePath = JaMoPPModelUtil.buildNamespacePath(object);
 			return checkIgnorePackage(packagePath);
 		}
-		
+
 		@Override
 		public Boolean caseCompilationUnit(CompilationUnit object) {
 			String packagePath = JaMoPPModelUtil.buildNamespacePath(object);
@@ -112,9 +108,16 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 		}
 	}
 
+	private class ReferencesIgnoreSwitch extends ReferencesSwitch<Boolean> {
+		@Override
+		public Boolean defaultCase(EObject object) {
+			return composedDoSwitch(object.eContainer());
+		}
+	}
+
 	/**
 	 * The default case is to not ignore the supplied element.
-	 * 
+	 *
 	 * @param object
 	 *            The object to check.
 	 * @return Whether to ignore it (always false).
@@ -126,7 +129,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 
 	/**
 	 * Method to make sure the outer composed switch is invoked.
-	 * 
+	 *
 	 * @return The result of the outer switch.
 	 */
 	public Boolean composedDoSwitch(EObject eObject) {
@@ -136,7 +139,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 	/**
 	 * Check a package path whether it matches one of the ignore package
 	 * patterns.
-	 * 
+	 *
 	 * @param packagePath
 	 *            the package path to check
 	 * @return true/false whether it should be ignored or not.

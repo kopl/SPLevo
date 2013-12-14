@@ -23,11 +23,14 @@ import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.types.ClassifierReference;
+import org.emftext.language.java.variables.AdditionalLocalVariable;
+import org.emftext.language.java.variables.Variable;
 import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
 
 /**
  * Diff builder / DiffProcessor specific for the MoDisco Java model.
- * 
+ *
  * Main purpose of this builder is to filter invalid move changes and produce
  * custom diffs for directly identifiable.
  */
@@ -52,7 +55,7 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
 
 	/**
 	 * Constructor to set required dependencies.
-	 * 
+	 *
 	 * @param packageIgnoreChecker
 	 *            The checker if an element is located in a package to ignore.
 	 */
@@ -108,7 +111,7 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
 	/**
 	 * Reference changes. New or deleted model elements are identified by
 	 * changed containment references.
-	 * 
+	 *
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -129,11 +132,12 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
 			}
 		}
 
-		// TODO: Enable not only for expressions
 		if (value instanceof EnumConstant || value instanceof Expression
 				|| value instanceof org.emftext.language.java.classifiers.Class
 				|| value instanceof Interface || value instanceof Method
-				|| value instanceof Constructor) {
+				|| value instanceof Constructor || value instanceof Variable
+				 || value instanceof AdditionalLocalVariable
+				 || value instanceof ClassifierReference) {
 			Match nextParent = nextResonableMatch(match);
 			if (nextParent != null) {
 				EObject parentObject = null;
@@ -171,7 +175,7 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
 	/**
 	 * Check a match if it is reasonable as parent for a change or get the next
 	 * reasonable of its parent matches.
-	 * 
+	 *
 	 * @param match
 	 *            The match to check.
 	 * @return The next reasonable match or null if none exists.
@@ -215,7 +219,7 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
 
 	/**
 	 * Convenience method to fill the standard fields.
-	 * 
+	 *
 	 * @param diff
 	 *            The diff to change.
 	 * @param match

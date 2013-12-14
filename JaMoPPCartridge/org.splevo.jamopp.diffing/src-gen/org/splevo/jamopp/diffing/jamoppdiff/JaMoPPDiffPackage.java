@@ -46,7 +46,7 @@ public interface JaMoPPDiffPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "java2kdmdiff";
+	String eNS_PREFIX = "jamoppdiff";
 
 	/**
 	 * The singleton instance of the package.

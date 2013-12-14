@@ -11,14 +11,16 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.compare;visibility:=reexport,
- org.emftext.language.java;bundle-version="1.4.1",
+ org.emftext.language.java,
  org.emftext.commons.layout;visibility:=reexport,
  org.splevo.diffing;bundle-version="1.0.0",
  org.apache.log4j;bundle-version="1.2.15",
  com.google.guava;bundle-version="11.0.2",
  org.apache.commons.io;bundle-version="2.0.1",
  org.eclipse.emf.ecore.xmi;bundle-version="2.9.1",
- org.eclipse.emf;bundle-version="2.6.0"
+ org.eclipse.emf;bundle-version="2.6.0",
+ org.emftext.language.java.resource.java;bundle-version="1.4.1",
+ org.emftext.commons.antlr3_4_0;bundle-version="3.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.jamopp.diffing.jamoppdiff,
  org.splevo.jamopp.diffing.jamoppdiff.impl,

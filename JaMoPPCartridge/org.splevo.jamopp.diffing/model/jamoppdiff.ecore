@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="jamoppdiff" nsURI="http://www.eclipse.org/emf/compare/diff/jamoppdiff/1.0"
-    nsPrefix="java2kdmdiff">
+    nsPrefix="jamoppdiff">
   <eClassifiers xsi:type="ecore:EClass" name="JaMoPPDiff" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.emf.compare/model/compare.ecore#//Diff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="An EMF Compare Diffing extension model specific for the Java meta model extracted by the JaMoPP tooling.&#xD;&#xA;&#xD;&#xA;This diffing uses the terms &quot;left model&quot; and &quot;right model&quot;. &#xD;&#xA;The right model identifies the original model.&#xD;&#xA;The left model the modified version."/>
