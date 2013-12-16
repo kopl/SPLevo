@@ -23,8 +23,8 @@ public class DiffingModelUtil {
     /**
      * Load diff model from the standard xmi file. The concrete file extension is determined from
      * the given file name.
-     * 
-     * 
+     *
+     *
      * @param modelFile
      *            The file object pointing to the diff model file
      * @return the loaded diff model
@@ -59,7 +59,7 @@ public class DiffingModelUtil {
 
     /**
      * Get the file extension of a file.
-     * 
+     *
      * @param file
      *            The file object to get the extension for.
      * @return The file extension or null if none found.
@@ -75,7 +75,7 @@ public class DiffingModelUtil {
 
     /**
      * Save a project model to a specified file.
-     * 
+     *
      * @param comparisonModel
      *            The model to save.
      * @param filePath
@@ -87,12 +87,14 @@ public class DiffingModelUtil {
 
         String fileExtension = getFileExtension(filePath);
 
+        //Files.createParentDirs(filePath);
+
         // try to write to the project file
-        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-        Map<String, Object> m = reg.getExtensionToFactoryMap();
-        m.put(fileExtension, new XMIResourceFactoryImpl());
         ResourceSet resSet = new ResourceSetImpl();
-        final Resource resource = resSet.createResource(URI.createPlatformResourceURI(filePath.getPath(), true));
+        Map<String, Object> m = resSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+        m.put(fileExtension, new XMIResourceFactoryImpl());
+
+        final Resource resource = resSet.createResource(URI.createPlatformResourceURI(filePath.getPath(), false));
         resource.getContents().add(comparisonModel);
 
         resource.save(Collections.EMPTY_MAP);

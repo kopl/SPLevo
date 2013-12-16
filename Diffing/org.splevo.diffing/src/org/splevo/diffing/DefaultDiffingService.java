@@ -1,12 +1,12 @@
 package org.splevo.diffing;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.CompareFactory;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
  * Default service to run the an extractor.
@@ -19,7 +19,7 @@ public class DefaultDiffingService implements DiffingService {
     private static final String MSG_DIFFER_NOT_AVAILABLE = "No differs available.";
 
     @Override
-    public Comparison diffSoftwareModels(URI leadingModelDirectory, URI integrationModelDirectory,
+    public Comparison diffSoftwareModels(ResourceSet leadingModel, ResourceSet integrationModel,
             Map<String, Object> diffingOptions) throws DiffingException {
 
         List<Differ> differs = getDiffers();
@@ -33,8 +33,7 @@ public class DefaultDiffingService implements DiffingService {
         for (Differ differ : differs) {
             Comparison partComparisonModel;
             try {
-                partComparisonModel = differ.doDiff(leadingModelDirectory, integrationModelDirectory, diffingOptions);
-                // diffModel.getDifferences().addAll(partComparisonModel.getDifferences());
+                partComparisonModel = differ.doDiff(leadingModel, integrationModel, diffingOptions);
                 diffModel.getMatches().addAll(partComparisonModel.getMatches());
                 diffModel.getMatchedResources().addAll(partComparisonModel.getMatchedResources());
             } catch (DiffingNotSupportedException e) {
@@ -48,7 +47,7 @@ public class DefaultDiffingService implements DiffingService {
     /**
      * Load the software model extractor implementations registered for the according extension
      * point.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
