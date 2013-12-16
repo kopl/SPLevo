@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.featuremodel.FeatureModel;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
@@ -15,19 +17,25 @@ import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 
 /**
  * The SPLevoBlackBoard providing access to the models to be processed.
- * 
+ *
  */
 public class SPLevoBlackBoard extends Blackboard<Object> {
+
+	/** The resources of the leading variant. */
+	private final ResourceSet resourceSetLeading = new ResourceSetImpl();
+
+	/** The resource set of the integration variant. */
+	private final ResourceSet resourceSetIntegration = new ResourceSetImpl();
 
     /** The diffing model. */
     private Comparison diffModel = null;
 
     /** The variation point model. */
     private VariationPointModel variationPointModel = null;
-    
+
     /** The variation point graph to be analyzed. */
     private VPMGraph vpmGraph = null;
-    
+
     /** The result list of applied VPMAnalyzers. */
     private final List<VPMAnalyzerResult> vpmAnalyzerResults = new ArrayList<VPMAnalyzerResult>();
 
@@ -44,8 +52,28 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
     private final List<Refinement> refinementsToApply = new ArrayList<Refinement>();
 
     /**
+     * Get the leading variant resources.
+     * The returned ResourceSet can be modified but not be replaced.
+     *
+     * @return The current ResourceSet (never null).
+     */
+	public ResourceSet getResourceSetLeading() {
+		return resourceSetLeading;
+	}
+
+    /**
+     * Get the integration variant resources.
+     * The returned ResourceSet can be modified but not be replaced.
+     *
+     * @return The current ResourceSet (never null).
+     */
+	public ResourceSet getResourceSetIntegration() {
+		return resourceSetIntegration;
+	}
+
+    /**
      * Gets the feature model.
-     * 
+     *
      * @return the featureModel
      */
     public FeatureModel getFeatureModel() {
@@ -54,7 +82,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Sets the feature model.
-     * 
+     *
      * @param featureModel
      *            the featureModel to set
      */
@@ -64,7 +92,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Gets the diffing model.
-     * 
+     *
      * @return the diffModel
      */
     public Comparison getDiffModel() {
@@ -73,7 +101,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Sets the diffing model.
-     * 
+     *
      * @param diffModel
      *            the diffModel to set
      */
@@ -83,7 +111,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Gets the variation point model.
-     * 
+     *
      * @return the variationPointModel
      */
     public VariationPointModel getVariationPointModel() {
@@ -92,7 +120,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Sets the variation point model.
-     * 
+     *
      * @param variationPointModel
      *            the variationPointModel to set
      */
@@ -102,7 +130,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Gets the map of analyzer - refinements pairs.
-     * 
+     *
      * @return the analysis results
      */
     public List<Refinement> getAnalysisResults() {
@@ -111,7 +139,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Gets the refinements to apply to the vpm model.
-     * 
+     *
      * @return the refinementsToApply
      */
     public List<Refinement> getRefinementsToApply() {
@@ -120,7 +148,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Gets the refinement model representing the analysis results.
-     * 
+     *
      * @return the refinementModel
      */
     public RefinementModel getRefinementModel() {
@@ -129,7 +157,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Sets the refinement model representing the analysis results.
-     * 
+     *
      * @param refinementModel
      *            the refinementModel to set
      */
@@ -139,7 +167,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Gets the variation point graph to be analyzed.
-     * 
+     *
      * @return the variation point graph to be analyzed
      */
     public VPMGraph getVpmGraph() {
@@ -148,7 +176,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Sets the variation point graph to be analyzed.
-     * 
+     *
      * @param vpmGraph
      *            the new variation point graph to be analyzed
      */
@@ -158,7 +186,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 
     /**
      * Gets the result list of applied VPMAnalyzers.
-     * 
+     *
      * @return the vpmAnalyzerResults
      */
     public List<VPMAnalyzerResult> getVpmAnalyzerResults() {

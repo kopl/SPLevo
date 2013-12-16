@@ -61,7 +61,6 @@ import org.splevo.ui.editors.listener.GotoTabMouseListener;
 import org.splevo.ui.editors.listener.MarkDirtyListener;
 import org.splevo.ui.editors.listener.ProjectDropListener;
 import org.splevo.ui.listeners.DiffSourceModelListener;
-import org.splevo.ui.listeners.ExtractProjectListener;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
@@ -69,9 +68,9 @@ import org.splevo.ui.listeners.VPMAnalysisListener;
 /**
  * The SPLevo dash board to control the consolidation process as well as editing the SPLevo project
  * configuration.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class SPLevoProjectEditor extends EditorPart {
 
@@ -162,9 +161,6 @@ public class SPLevoProjectEditor extends EditorPart {
     /** Button Project Selection. */
     private Button btnSelectSourceProjects;
 
-    /** Button Extract source models . */
-    private Button btnExtractSourceModels;
-
     /** Button Diffing. */
     private Button btnDiffing;
 
@@ -223,7 +219,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Create the tab to handle the source models.
-     * 
+     *
      * @param tabIndex
      *            The index of the tab within the parent tab folder.
      */
@@ -248,7 +244,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Build a ui group containing information of the currently used source model paths.
-     * 
+     *
      * @param parent
      *            The container UI element.
      * @param verticalBase
@@ -276,10 +272,10 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Build a ui group presenting check boxes to (de-)activate the extractors to executed or not.
-     * 
+     *
      * @param sourceModelTabComposite
      *            The parent ui element to place on.
-     * 
+     *
      * @return The newly created group.
      */
     private Group buildExtractorSelectionGroup(Composite sourceModelTabComposite) {
@@ -320,7 +316,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Create the tab to handle the diff model.
-     * 
+     *
      * @param tabIndex
      *            The index of the tab within the parent tab folder.
      */
@@ -353,7 +349,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Create the tab to select the source projects.
-     * 
+     *
      * @param tabIndex
      *            The index of the tab within the parent tab folder.
      */
@@ -453,7 +449,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Create the tab for project information.
-     * 
+     *
      * @param tabIndex
      *            The index of the tab within the parent tab folder.
      */
@@ -489,7 +485,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Create the tab for the process control.
-     * 
+     *
      * @param tabIndex
      *            The index of the tab within the parent tab folder.
      */
@@ -504,7 +500,7 @@ public class SPLevoProjectEditor extends EditorPart {
         Label lblSplevoDashboard = new Label(processControlContainer, SWT.NONE);
         lblSplevoDashboard.setAlignment(SWT.CENTER);
         lblSplevoDashboard.setFont(SWTResourceManager.getFont("Arial", 14, SWT.BOLD));
-        lblSplevoDashboard.setBounds(10, 10, 746, 30);
+        lblSplevoDashboard.setBounds(76, 10, 570, 30);
         lblSplevoDashboard.setText("SPLevo Dashboard");
 
         Label activityStart = new Label(processControlContainer, SWT.NONE);
@@ -522,59 +518,49 @@ public class SPLevoProjectEditor extends EditorPart {
         btnSelectSourceProjects.setBounds(75, 59, 78, 45);
         btnSelectSourceProjects.setText("Project Selection");
 
-        Label activityFlow1 = new Label(processControlContainer, SWT.NONE);
-        activityFlow1.setAlignment(SWT.CENTER);
-        activityFlow1.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
-        activityFlow1.setBounds(159, 66, 30, 30);
-
-        btnExtractSourceModels = new Button(processControlContainer, SWT.WRAP);
-        btnExtractSourceModels.addMouseListener(new ExtractProjectListener(this));
-        btnExtractSourceModels.setBounds(195, 59, 78, 45);
-        btnExtractSourceModels.setText("Model Extraction");
-
         Label activityFlow3 = new Label(processControlContainer, SWT.NONE);
         activityFlow3.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
         activityFlow3.setAlignment(SWT.CENTER);
-        activityFlow3.setBounds(279, 66, 30, 30);
+        activityFlow3.setBounds(159, 66, 30, 30);
 
         btnDiffing = new Button(processControlContainer, SWT.WRAP);
         btnDiffing.addMouseListener(new DiffSourceModelListener(this));
-        btnDiffing.setBounds(315, 59, 72, 45);
+        btnDiffing.setBounds(195, 58, 72, 45);
         btnDiffing.setText("Diffing");
 
         Label activityFlow4 = new Label(processControlContainer, SWT.NONE);
         activityFlow4.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
         activityFlow4.setAlignment(SWT.CENTER);
-        activityFlow4.setBounds(393, 66, 30, 30);
+        activityFlow4.setBounds(273, 65, 30, 30);
 
         btnInitVpm = new Button(processControlContainer, SWT.WRAP);
         btnInitVpm.addMouseListener(new InitVPMListener(this));
-        btnInitVpm.setBounds(429, 59, 72, 45);
+        btnInitVpm.setBounds(309, 58, 72, 45);
         btnInitVpm.setText("Init VPM");
 
         Label activityFlow5 = new Label(processControlContainer, SWT.NONE);
         activityFlow5.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
         activityFlow5.setAlignment(SWT.CENTER);
-        activityFlow5.setBounds(507, 66, 30, 30);
+        activityFlow5.setBounds(387, 65, 30, 30);
 
         btnRefineVPM = new Button(processControlContainer, SWT.WRAP);
         btnRefineVPM.addMouseListener(new VPMAnalysisListener(this));
         btnRefineVPM.setText("Analyze VPM");
-        btnRefineVPM.setBounds(539, 59, 72, 45);
+        btnRefineVPM.setBounds(419, 58, 72, 45);
 
         Label label = new Label(processControlContainer, SWT.NONE);
         label.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
         label.setAlignment(SWT.CENTER);
-        label.setBounds(617, 66, 30, 30);
+        label.setBounds(497, 65, 30, 30);
 
         btnGenerateFeatureModel = new Button(processControlContainer, SWT.WRAP);
         btnGenerateFeatureModel.addMouseListener(new GenerateFeatureModelListener(this));
         btnGenerateFeatureModel.setText("Generate Feature Model");
-        btnGenerateFeatureModel.setBounds(648, 59, 118, 45);
+        btnGenerateFeatureModel.setBounds(528, 58, 118, 45);
 
         btnOpenDiff = new Button(processControlContainer, SWT.NONE);
         btnOpenDiff.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
-        btnOpenDiff.setBounds(341, 110, 26, 30);
+        btnOpenDiff.setBounds(221, 109, 26, 30);
         btnOpenDiff.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -596,7 +582,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
         btnOpenVPM = new Button(processControlContainer, SWT.NONE);
         btnOpenVPM.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
-        btnOpenVPM.setBounds(451, 110, 26, 30);
+        btnOpenVPM.setBounds(331, 109, 26, 30);
         btnOpenVPM.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -626,7 +612,7 @@ public class SPLevoProjectEditor extends EditorPart {
     /**
      * Get the editor input resource. This methods overrides the super types method to return a more
      * specific IFileEditorInput.
-     * 
+     *
      * @return The editor input converted to an IFileEditorInput or null if not possible.
      */
     @Override
@@ -639,7 +625,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Save the project configuration to the currently edited file.
-     * 
+     *
      * @param monitor
      *            The progress monitor to report to.
      */
@@ -667,7 +653,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Get the absolute path of the current editor input file.
-     * 
+     *
      * @return The file path derived from the editor input.
      */
     private File getCurrentFilePath() {
@@ -730,7 +716,7 @@ public class SPLevoProjectEditor extends EditorPart {
     /**
      * Update the ui and present the submitted message in an information dialog. If the provided
      * message is null, no dialog will be opened.
-     * 
+     *
      * @param message
      *            The optional message to be presented.
      */
@@ -776,12 +762,6 @@ public class SPLevoProjectEditor extends EditorPart {
         disableAllButtonsExceptProjectSelection();
 
         if (projectsSelected()) {
-            btnExtractSourceModels.setEnabled(true);
-        } else {
-            return;
-        }
-
-        if (sourceModelsExtracted()) {
             btnDiffing.setEnabled(true);
         } else {
             return;
@@ -805,7 +785,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Check if at least one variation point model is set and can be accessed.
-     * 
+     *
      * @return True if an accessible vpm exists.
      */
     private boolean vpmAvailable() {
@@ -816,7 +796,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Check if a diff model is set in the project file and if it can be read.
-     * 
+     *
      * @return true if the diff model is available.
      */
     private boolean diffModelAvailable() {
@@ -827,7 +807,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * Determine the absolute OS specific path of the workspace.
-     * 
+     *
      * @return The absolute path.
      */
     private String getAbsoluteWorkspacePath() {
@@ -837,22 +817,8 @@ public class SPLevoProjectEditor extends EditorPart {
     }
 
     /**
-     * Check if source models have been extracted previously based on the project file content.
-     * 
-     * @return True if both models are available.
-     */
-    private boolean sourceModelsExtracted() {
-        String basePath = getAbsoluteWorkspacePath();
-
-        return splevoProject.getSourceModelPathIntegration() != null
-                && new File(basePath + splevoProject.getSourceModelPathIntegration()).canRead()
-                && splevoProject.getSourceModelPathLeading() != null
-                && new File(basePath + splevoProject.getSourceModelPathLeading()).canRead();
-    }
-
-    /**
      * Checks if both input models have more than one project.
-     * 
+     *
      * @return true, if both input models have more than one project, else false
      */
     private boolean projectsSelected() {
@@ -864,8 +830,6 @@ public class SPLevoProjectEditor extends EditorPart {
      */
     private void disableAllButtonsExceptProjectSelection() {
         List<Button> buttons = new ArrayList<Button>();
-
-        buttons.add(btnExtractSourceModels);
         buttons.add(btnDiffing);
         buttons.add(btnOpenDiff);
         buttons.add(btnGenerateFeatureModel);
@@ -880,7 +844,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /**
      * initializing the data bindings for the UI.
-     * 
+     *
      * @return The prepared context to be bound to the ui.
      */
     protected DataBindingContext initDataBindings() {

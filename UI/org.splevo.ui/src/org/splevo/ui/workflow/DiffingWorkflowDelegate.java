@@ -2,12 +2,16 @@ package org.splevo.ui.workflow;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.DiffingJob;
+import org.splevo.ui.jobs.ExtractionJob;
+import org.splevo.ui.jobs.RefreshWorkspaceJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.UpdateUIJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
+import de.uka.ipd.sdq.workflow.jobs.ParallelBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
@@ -24,7 +28,7 @@ public class DiffingWorkflowDelegate extends
 
     /**
      * Constructor requiring a diffing work flow configuration.
-     * 
+     *
      * @param config
      *            The configuration of the work flow.
      */
@@ -39,8 +43,24 @@ public class DiffingWorkflowDelegate extends
     protected IJob createWorkflowJob(final DiffingWorkflowConfiguration config) {
     	SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(new SPLevoBlackBoard());
-        
-        // init the parallel extraction
+
+        SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
+
+        // create the parallel extraction
+        ParallelBlackboardInteractingJob<SPLevoBlackBoard> parallelJob = new ParallelBlackboardInteractingJob<SPLevoBlackBoard>();
+        for (String extractorId : splevoProject.getExtractorIds()) {
+            ExtractionJob leadingExtractionJob = new ExtractionJob(extractorId, splevoProject, true);
+            ExtractionJob integrationExtractionJob = new ExtractionJob(extractorId, splevoProject, false);
+            parallelJob.add(leadingExtractionJob);
+            parallelJob.add(integrationExtractionJob);
+        }
+        jobSequence.add(parallelJob);
+
+        // refresh the workspace to ensure if an extractor has changed the workspace
+        // the eclipse environment does not struggle because of an workspace not in sync
+        jobSequence.add(new RefreshWorkspaceJob());
+
+        // difference analysis
         final DiffingJob diffingJob = new DiffingJob(config.getSplevoProjectEditor().getSplevoProject());
         jobSequence.add(diffingJob);
 

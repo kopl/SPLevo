@@ -2,7 +2,6 @@ package org.splevo.ui.jobs;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.diffing.DefaultDiffingService;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingModelUtil;
@@ -39,7 +38,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
     /**
      * Constructor for the diffing job.
-     * 
+     *
      * @param splevoProject
      *            The SPLevo project to process the diffing for.
      */
@@ -50,13 +49,11 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     @Override
     public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        final String basePath = getWorkspacePath();
-
         logger.info("Init diffing service");
 
         Map<String, Object> options = buildDiffingOptions();
-        URI leadingModelDir = new File(basePath + splevoProject.getSourceModelPathLeading()).toURI();
-        URI integrationModelDir = new File(basePath + splevoProject.getSourceModelPathIntegration()).toURI();
+        ResourceSet leadingModelDir = getBlackboard().getResourceSetLeading();
+        ResourceSet integrationModelDir = getBlackboard().getResourceSetIntegration();
 
         logger.info("Diffing started at: " + (dateFormat.format(new Date())));
         Comparison comparison = null;
@@ -102,19 +99,8 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     }
 
     /**
-     * Get the path to the workspace.
-     * 
-     * @return The uri pointing to the workspace root.
-     */
-    private String getWorkspacePath() {
-        final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        final String basePath = workspace.getRoot().getRawLocation().toOSString();
-        return basePath;
-    }
-
-    /**
      * Refresh the workspace so the UI will present all new generated files to the user.
-     * 
+     *
      * @param monitor
      *            The process monitor to report the progress to.
      */
@@ -128,7 +114,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
     /**
      * Build the map of differ configurations from the settings in the splevo project.
-     * 
+     *
      * @return The prepared diffings for the differs.
      */
     private Map<String, Object> buildDiffingOptions() {
