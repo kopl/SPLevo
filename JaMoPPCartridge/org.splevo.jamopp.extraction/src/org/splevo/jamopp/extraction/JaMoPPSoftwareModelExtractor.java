@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,9 +21,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.emftext.commons.layout.LayoutPackage;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
@@ -38,10 +35,7 @@ import org.splevo.extraction.SoftwareModelExtractor;
  */
 public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
-	private static final String XMI_FILE_SEGMENT = "jamopp_model.xmi";
-
-	private static Logger logger = Logger
-			.getLogger(JaMoPPSoftwareModelExtractor.class);
+	private static Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractor.class);
 
 	private static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
 	private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
@@ -82,13 +76,8 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 					handleFailedProxyResolution(rs);
 				}
 
-				if (targetURI != null) {
-					saveToFolder(projectPathURI, targetURI, rs,
-							targetResourceSet);
-				} else {
-					mergeResourecSets(targetResourceSet, rs);
-					logger.info("targetURI not set: Model resources not persisted.");
-				}
+				mergeResourecSets(targetResourceSet, rs);
+				logger.info("targetURI not set: Model resources not persisted.");
 			} catch (Exception e) {
 				throw new SoftwareModelExtractionException(
 						"Failed to extract software model.", e);
@@ -114,123 +103,6 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 		for (Resource resource : resources) {
 			totalResourceSet.getResources().add(resource);
 		}
-	}
-
-	/**
-	 * Take the source resource set, and move all contents to a new target
-	 * resource set saved within a single xmi file.
-	 *
-	 * @param targetURI
-	 *            The directory to save the target file to.
-	 * @param rs
-	 *            The source resource set to load.
-	 * @return The resource set containing the target file and the according
-	 *         meta model.
-	 * @throws IOException
-	 *             failed to save the model.
-	 */
-	@SuppressWarnings("unused")
-	private ResourceSet saveToSingleXMIFile(URI targetURI, ResourceSet rs)
-			throws IOException {
-
-		File parentDir = new File(targetURI.toFileString());
-		if (!parentDir.exists()) {
-			parentDir.mkdirs();
-		}
-
-		URI outUri = targetURI.appendSegment(XMI_FILE_SEGMENT);
-
-		ResourceSet targetResourceSet = new ResourceSetImpl();
-		JavaClasspath.get(targetResourceSet);
-
-		targetResourceSet.getLoadOptions().put(
-				IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
-		Resource xmiResource = targetResourceSet.createResource(outUri);
-		for (Resource javaResource : new ArrayList<Resource>(rs.getResources())) {
-			xmiResource.getContents().addAll(javaResource.getContents());
-		}
-
-		// save the metamodels (schemas) for dynamic loading
-		serializeMetamodel(parentDir, targetResourceSet);
-
-		saveXmiResource(xmiResource);
-
-		return targetResourceSet;
-	}
-
-	private void saveToFolder(URI srcUri, URI targetURI, ResourceSet rs,
-			ResourceSet targetResourceSet) throws IOException {
-
-		File parentDir = new File(targetURI.toFileString());
-		if (!parentDir.exists()) {
-			parentDir.mkdirs();
-		}
-		URI outUri = URI.createFileURI(parentDir.getAbsolutePath());
-
-		List<Resource> result = new ArrayList<Resource>();
-
-		for (Resource javaResource : new ArrayList<Resource>(rs.getResources())) {
-			URI srcURI = javaResource.getURI();
-			srcURI = rs.getURIConverter().normalize(srcURI);
-			URI outFileURI = outUri.appendSegments(
-					srcURI.deresolve(srcUri.appendSegment("")).segments())
-					.appendFileExtension("xmi");
-			Resource xmiResource = rs.createResource(outFileURI);
-			xmiResource.getContents().addAll(javaResource.getContents());
-			result.add(xmiResource);
-		}
-
-		// save the metamodels (schemas) for dynamic loading
-		// serializeMetamodel(parentDir, targetResourceSet);
-
-		for (Resource xmiResource : result) {
-			saveXmiResource(xmiResource);
-			targetResourceSet.getResources().add(xmiResource);
-		}
-	}
-
-	/**
-	 * Save a resource in the xmi resource format.
-	 *
-	 * @param xmiResource
-	 *            The resource to save.
-	 * @throws IOException
-	 *             A failed saving.
-	 */
-	private static void saveXmiResource(Resource xmiResource)
-			throws IOException {
-		Map<Object, Object> options = new HashMap<Object, Object>();
-		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-		xmiResource.save(options);
-	}
-
-	/**
-	 * Serialize the meta model file with the model to ensure it can be loaded
-	 * afterwards.
-	 *
-	 * @param outFolder
-	 *            The folder to write to.
-	 * @param rs
-	 *            The resource set to create the meta model resource.
-	 * @throws IOException
-	 *             A failed saving process.
-	 */
-	protected static void serializeMetamodel(File outFolder, ResourceSet rs)
-			throws IOException {
-		URI outUri = URI.createFileURI(outFolder.getCanonicalPath());
-
-		URI javaEcoreURI = outUri.appendSegment("java.ecore");
-		Resource javaEcoreResource = rs.createResource(javaEcoreURI);
-		javaEcoreResource.getContents().addAll(
-				JavaPackage.eINSTANCE.getESubpackages());
-
-		javaEcoreResource.save(null);
-
-		URI layoutEcoreURI = outUri.appendSegment("layout.ecore");
-		Resource layoutEcoreResource = rs.createResource(layoutEcoreURI);
-		layoutEcoreResource.getContents().add(LayoutPackage.eINSTANCE);
-
-		layoutEcoreResource.save(null);
 	}
 
 	/**
@@ -404,19 +276,12 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 	 */
 	private ResourceSet setUpResourceSet() {
 		ResourceSet rs = new ResourceSetImpl();
-		rs.getLoadOptions().put(
-				IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING,
-				Boolean.FALSE);
-		rs.getLoadOptions().put(IJavaOptions.DISABLE_LOCATION_MAP,
-				Boolean.FALSE);
-		EPackage.Registry.INSTANCE.put("http://www.emftext.org/java",
-				JavaPackage.eINSTANCE);
-		Map<String, Object> extensionToFactoryMap = Resource.Factory.Registry.INSTANCE
-				.getExtensionToFactoryMap();
-		extensionToFactoryMap.put("java",
-				new JavaSourceOrClassFileResourceFactoryImpl());
-		extensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION,
-				new XMIResourceFactoryImpl());
+		rs.getLoadOptions().put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING,Boolean.FALSE);
+		rs.getLoadOptions().put(IJavaOptions.DISABLE_LOCATION_MAP,Boolean.FALSE);
+		EPackage.Registry.INSTANCE.put("http://www.emftext.org/java",JavaPackage.eINSTANCE);
+		Map<String, Object> extensionToFactoryMap = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
+		extensionToFactoryMap.put("java",new JavaSourceOrClassFileResourceFactoryImpl());
+		extensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION,new XMIResourceFactoryImpl());
 		return rs;
 	}
 
