@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated jamopp.vpm -->
+      <package
+            uri="http://splevo.org/jamopp/vpm/1.0/software"
+            class="org.splevo.jamopp.vpm.software.softwarePackage"
+            genModel="model/jamopp.vpm.genmodel"/>
+   </extension>
+
+</plugin>
