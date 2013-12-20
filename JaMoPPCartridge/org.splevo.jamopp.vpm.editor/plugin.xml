@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated jamopp.vpm -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.splevo.jamopp.vpm.software.presentation.softwareModelWizardID"
+            name="%_UI_softwareModelWizard_label"
+            class="org.splevo.jamopp.vpm.software.presentation.softwareModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/softwareModelFile.gif">
+         <description>%_UI_softwareModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated jamopp.vpm -->
+      <editor
+            id="org.splevo.jamopp.vpm.software.presentation.softwareEditorID"
+            name="%_UI_softwareEditor_label"
+            icon="icons/full/obj16/softwareModelFile.gif"
+            extensions="software"
+            class="org.splevo.jamopp.vpm.software.presentation.softwareEditor"
+            contributorClass="org.splevo.jamopp.vpm.software.presentation.softwareActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
