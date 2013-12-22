@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JaMoPP VPM Builder Tests
+Bundle-SymbolicName: org.splevo.jamopp.vpm.builder.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Fragment-Host: org.splevo.jamopp.vpm.builder;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit;bundle-version="4.11.0",
+ org.splevo.jamopp.extraction;bundle-version="1.0.0"
