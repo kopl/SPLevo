@@ -8,9 +8,9 @@
   <rm:locator searchPathRef="workflowengine" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
   <rm:locator searchPathRef="EMFFeatureModel" failOnError="false" />
   <rm:locator searchPathRef="orbit" failOnError="false" />
-  <rm:locator searchPathRef="juno" failOnError="false" />
+  <rm:locator searchPathRef="kepler" failOnError="false" />
   <rm:locator searchPathRef="palladio-commons" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
-  
+
   <rm:searchPath name="emfcompare">
 	  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
 	 	<rm:property key="buckminster.source" value="false"/>
@@ -60,11 +60,11 @@
       <rm:uri format="http://download.eclipse.org/tools/orbit/downloads/drops/R20130827064939/repository/"/>
     </rm:provider>
   </rm:searchPath>
-  <rm:searchPath name="juno">
+  <rm:searchPath name="kepler">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/releases/juno/"/>
+      <rm:uri format="http://download.eclipse.org/releases/kepler/"/>
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="localresources">
