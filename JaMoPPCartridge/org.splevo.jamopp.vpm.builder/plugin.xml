@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.splevo.vpm.builder">
+      <builder
+            builder.class="org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder">
+      </builder>
+   </extension>
+
+</plugin>

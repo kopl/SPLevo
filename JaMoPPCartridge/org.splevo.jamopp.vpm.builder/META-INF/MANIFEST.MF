@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SPLevo JaMoPP VPM Builder
+Bundle-SymbolicName: org.splevo.jamopp.vpm.builder;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.splevo.jamopp.diffing;bundle-version="1.0.0";visibility:=reexport,
+ org.apache.log4j;bundle-version="1.2.15",
+ org.splevo.vpm.builder;bundle-version="1.0.0";visibility:=reexport,
+ org.emftext.language.java;bundle-version="1.4.1",
+ org.splevo.jamopp.vpm;bundle-version="1.0.0";visibility:=reexport,
+ com.google.guava;bundle-version="11.0.2"
