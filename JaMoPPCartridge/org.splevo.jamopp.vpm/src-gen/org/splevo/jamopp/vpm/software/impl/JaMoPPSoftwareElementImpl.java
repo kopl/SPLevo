@@ -260,6 +260,7 @@ public class JaMoPPSoftwareElementImpl extends JavaSoftwareElementImpl
 		}
 
 		SourceLocation location = SoftwareFactory.eINSTANCE.createSourceLocation();
+		location.setFilePath(resource.getURI().toFileString());
 		location.setStartLine(locationMap.getLine(element));
 		location.setStartPosition(locationMap.getColumn(element));
 
