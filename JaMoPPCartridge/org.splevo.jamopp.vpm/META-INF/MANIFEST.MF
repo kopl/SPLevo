@@ -13,9 +13,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm;bundle-version="1.0.0",
  org.emftext.language.java;bundle-version="1.4.1",
  org.emftext.commons.layout;visibility:=reexport,
- org.emftext.language.java.resource.java;bundle-version="1.4.1",
  org.apache.log4j;bundle-version="1.2.15",
- com.google.guava;bundle-version="11.0.2"
+ com.google.guava;bundle-version="11.0.2",
+ org.emftext.language.java.resource.java;bundle-version="1.4.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.jamopp.vpm.software,
  org.splevo.jamopp.vpm.software.impl,
