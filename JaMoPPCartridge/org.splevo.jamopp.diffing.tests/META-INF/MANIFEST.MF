@@ -10,7 +10,6 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.jamopp.diffing.jamoppdiff.tests
 Require-Bundle: org.eclipse.core.runtime,
- org.splevo.jamopp.diffing;visibility:=reexport,
  org.eclipse.emf.compare;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.emftext.language.java;visibility:=reexport,
