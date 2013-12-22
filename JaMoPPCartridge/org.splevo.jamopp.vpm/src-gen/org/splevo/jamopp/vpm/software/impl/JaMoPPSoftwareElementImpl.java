@@ -263,7 +263,8 @@ public class JaMoPPSoftwareElementImpl extends JavaSoftwareElementImpl
 		location.setStartLine(locationMap.getLine(element));
 		location.setStartPosition(locationMap.getColumn(element));
 
-		String lineSeparator = System.getProperty("line.separator");
+//		String lineSeparator = System.getProperty("line.separator");
+		String lineSeparator = "\n";
 
 		String elementText = JavaResourceUtil.getText(element);
 		elementText = CharMatcher.anyOf(lineSeparator).trimFrom(elementText);
