@@ -263,17 +263,17 @@ public class JaMoPPSoftwareElementImpl extends JavaSoftwareElementImpl
 		location.setStartLine(locationMap.getLine(element));
 		location.setStartPosition(locationMap.getColumn(element));
 
-//		String lineSeparator = System.getProperty("line.separator");
-		String lineSeparator = "\n";
 
 		String elementText = JavaResourceUtil.getText(element);
-		elementText = CharMatcher.anyOf(lineSeparator).trimFrom(elementText);
-		Iterable<String> elementLines = Splitter.on(lineSeparator).split(elementText);
+
+		elementText = CharMatcher.anyOf("\r?\n").trimFrom(elementText);
+		Iterable<String> elementLines = Splitter.onPattern("\r?\n").split(elementText);
+
 		String lastLine = "";
 		int lineCounter = 0;
 		for(String line : elementLines){
 			lineCounter++;
-			if(line.trim() != ""){
+			if(line.trim().length() > 0){
 				lastLine = line;
 			}
 		}
