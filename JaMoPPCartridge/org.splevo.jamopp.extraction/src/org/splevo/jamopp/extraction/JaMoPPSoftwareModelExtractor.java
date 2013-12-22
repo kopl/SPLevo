@@ -77,7 +77,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 				}
 
 				mergeResourecSets(targetResourceSet, rs);
-				logger.info("targetURI not set: Model resources not persisted.");
+
 			} catch (Exception e) {
 				throw new SoftwareModelExtractionException(
 						"Failed to extract software model.", e);
