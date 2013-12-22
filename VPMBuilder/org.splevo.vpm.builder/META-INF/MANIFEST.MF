@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.splevo.vpm.builder.Activator
 Bundle-Vendor: www.splevo.org
 Require-Bundle: org.eclipse.core.runtime,
- org.splevo.vpm;bundle-version="1.0.0",
+ org.splevo.vpm;bundle-version="1.0.0";visibility:=reexport,
  org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.emf.compare;bundle-version="3.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
