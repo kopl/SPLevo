@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.ui,
  org.emftext.language.java.resource.java;bundle-version="1.4.1",
  org.emftext.commons.antlr3_4_0;bundle-version="3.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.splevo.jamopp.diffing.jamoppdiff,
+Export-Package: org.splevo.jamopp.diffing,
+ org.splevo.jamopp.diffing.jamoppdiff,
  org.splevo.jamopp.diffing.jamoppdiff.impl,
  org.splevo.jamopp.diffing.jamoppdiff.util
 Bundle-ActivationPolicy: lazy
