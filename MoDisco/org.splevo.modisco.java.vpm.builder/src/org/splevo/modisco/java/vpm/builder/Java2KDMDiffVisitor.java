@@ -64,7 +64,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
     /**
      * Constructor to set the variant ids.
-     * 
+     *
      * @param leadingModel
      *            the comprehensive model referencing leading ASTNodes and their source locations.
      * @param integrationModel
@@ -92,7 +92,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /**
      * Handle import inserts. VP references the compilation unit. The leading variant references the
      * inserted import declaration.
-     * 
+     *
      * @param change
      *            The package change to process.
      * @return The prepared variation point.
@@ -106,7 +106,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /**
      * Handle import changes. VP references the compilation unit. The leading variant references the
      * inserted import declaration.
-     * 
+     *
      * @param change
      *            The import change diff element.
      * @return The prepared variation point.
@@ -119,7 +119,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
     /**
      * Handle class changes.
-     * 
+     *
      * @param change
      *            The class change diff element.
      * @return The prepared variation point.
@@ -133,7 +133,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /**
      * Handle field inserts. VP references the enclosing class. The integration variant references
      * the inserted import declaration.
-     * 
+     *
      * @param change
      *            The field change diff element.
      * @return The prepared variation point.
@@ -147,7 +147,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /**
      * Handle method changes.<br>
      * VP references the changed method.<br>
-     * 
+     *
      * @param change
      *            The method change diff element.
      * @return The prepared variation point.
@@ -160,7 +160,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
     /**
      * Handle a statement change by creating a variation point describing this change.
-     * 
+     *
      * @param change
      *            The diff element to handle.
      * @return The prepared variation point.
@@ -174,7 +174,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     /**
      * Handle an enumeration declaration change by creating a variation point describing this
      * change.
-     * 
+     *
      * @param change
      *            The diff element to handle.
      * @return The prepared variation point.
@@ -193,7 +193,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
     /**
      * Build a variation point according to the change kind of the provided Change.
-     * 
+     *
      * @param diff
      *            The Diff element to build the VP for.
      * @param changedASTNode
@@ -202,6 +202,11 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
      */
     private VariationPoint buildKindSpecificVariationPoint(Diff diff, ASTNode changedASTNode) {
         ASTNode parent = getParentNode(changedASTNode);
+
+        if(parent == null) {
+        	logger.warn("No parent node identified (changedASTNode: " + changedASTNode + ", diff: " + diff + ")");
+        	return null;
+        }
 
         switch (diff.getKind()) {
         case ADD:
@@ -221,7 +226,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
     /**
      * Create a new variation point for an inserted element.
-     * 
+     *
      * @param newElement
      *            The new ast element.
      * @param parentNode
@@ -245,7 +250,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
     /**
      * Create a new variation point for a deleted element.
-     * 
+     *
      * @param element
      *            The deleted ast element.
      * @param enclosingASTNode
@@ -269,7 +274,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
     /**
      * Create a variation point for a CHANGE with an existing left and right side.
-     * 
+     *
      * @param changedElement
      *            The changed model element.
      * @param parent
@@ -285,7 +290,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
     /**
      * Factory method for a variation point describing a program change.
-     * 
+     *
      * @param astNodeLeft
      *            The AST node of the left variant.
      * @param astNodeRight
@@ -313,36 +318,41 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
     }
 
     /**
-     * Get the parent node for an AST node. 
+     * Get the parent node for an AST node.
      * Using the comparison model, the match for the parent
      * element will be searched and if available the right side will be used,
      * the left side as fall back.
-     * 
+     *
      * @param astNode
      *            The {@link Diff} to get the parent for.
      * @return The most reasonable parent AST node.
      */
     private ASTNode getParentNode(ASTNode astNode) {
-        
+
         Match parentMatch = comparison.getMatch(astNode.eContainer());
-        
+
         EObject parent = null;
         if (parentMatch.getRight() != null) {
             parent = parentMatch.getRight();
         } else {
             parent = parentMatch.getLeft();
         }
-        
+
         if(parent instanceof Block && parent.eContainer() instanceof AbstractMethodDeclaration){
         	return (ASTNode) parent.eContainer();
         }
-        
-        return (ASTNode) parent;
+
+        if(parent instanceof ASTNode) {
+        	return (ASTNode) parent;
+        } else {
+        	logger.warn("Diff with a non-ASTNode parent detected. Diff child: " + astNode);
+        	return null;
+        }
     }
 
     /**
      * Factory method to create an initialized variant element.
-     * 
+     *
      * @param astNode
      *            The element to be linked with the variant.
      * @param leading
@@ -365,9 +375,9 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
     /**
      * Create a software element wrapping an ASTNode.
-     * 
+     *
      * Uses a registry map to prevent creating multiple SoftwareElements for the same ASTNode.
-     * 
+     *
      * @param astNode
      *            The ASTNode to link.
      * @param leading
