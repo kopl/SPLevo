@@ -1,6 +1,5 @@
 package org.splevo.vpm.analyzer.semantic;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -8,23 +7,14 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.tests.SPLevoTestUtil;
-import org.splevo.vpm.analyzer.VPMAnalyzerResult;
-import org.splevo.vpm.analyzer.config.BooleanConfiguration;
-import org.splevo.vpm.analyzer.config.NumericConfiguration;
-import org.splevo.vpm.analyzer.config.StringConfiguration;
-import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
-import org.splevo.vpm.analyzer.graph.VPMGraph;
-import org.splevo.vpm.analyzer.semantic.extensionpoint.Activator;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 
 /**
  * Unit-Tests for the {@link SemanticVPMAnalyzer} class.
- * 
+ *
  * @author Daniel Kojic
- * 
+ *
  */
 public class SemanticVPMAnalyzerTest extends AbstractTest {
 
