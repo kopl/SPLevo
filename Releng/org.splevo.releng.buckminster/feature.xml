@@ -176,4 +176,28 @@
          fragment="true"
          unpack="false"/>
 
+   <plugin
+         id="org.splevo.jamopp.diffing.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.jamopp.vpm.builder.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.jamopp.vpm.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
 </feature>
