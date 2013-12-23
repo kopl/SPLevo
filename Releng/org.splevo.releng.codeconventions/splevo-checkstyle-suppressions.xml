@@ -5,8 +5,8 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
-    <suppress checks="."
-              files="org[\\/]splevo[\\/]tests[\\/]"/>
-    <suppress checks="."
+    <suppress checks=".*"
               files=".*[\\/]testmodels[\\/].*"/>
+    <suppress checks=".*"
+              files="A\\.java"/>
 </suppressions>
