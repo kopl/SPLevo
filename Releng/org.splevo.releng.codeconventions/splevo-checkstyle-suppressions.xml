@@ -7,6 +7,4 @@
 <suppressions>
     <suppress checks=".*"
               files=".*[\\/]testmodels[\\/].*"/>
-    <suppress checks=".*"
-              files="A\\.java"/>
 </suppressions>
