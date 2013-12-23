@@ -31,6 +31,7 @@ import org.eclipse.modisco.kdm.source.extension.ExtensionPackage;
  * @see org.eclipse.modisco.kdm.source.extension.ExtensionPackage
  * @generated
  */
+@SuppressWarnings("restriction")
 public class ExtensionSwitch<T> {
 	/**
 	 * The cached model package

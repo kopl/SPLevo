@@ -5,9 +5,9 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * Checker for the similarity of two elements specific for the java application model.
- * 
+ *
  * TODO: Check caching for this similarity checker. Would require to pass this to the similarity switch as well!
- * 
+ *
  */
 public class SimilarityChecker {
 
@@ -17,13 +17,14 @@ public class SimilarityChecker {
 
     /**
      * Check two objects if they are similar.
-     * 
+     *
      * @param element1
      *            The first element to check.
      * @param element2
      *            The second element to check.
      * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
      */
+	@SuppressWarnings("restriction")
     public Boolean isSimilar(final EObject element1, final EObject element2) {
 
         // check that either both or none of them is null
