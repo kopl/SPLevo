@@ -7,4 +7,6 @@
 <suppressions>
     <suppress checks="."
               files="org[\\/]splevo[\\/]tests[\\/]"/>
+    <suppress checks="."
+              files=".*[\\/]testmodels[\\/].*"/>
 </suppressions>
