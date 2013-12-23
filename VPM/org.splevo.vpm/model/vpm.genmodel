@@ -44,7 +44,6 @@
       <genClasses image="false" ecoreClass="vpm.ecore#//software/SoftwareElement">
         <genOperations ecoreOperation="vpm.ecore#//software/SoftwareElement/getLabel"/>
         <genOperations ecoreOperation="vpm.ecore#//software/SoftwareElement/getName"/>
-        <genOperations ecoreOperation="vpm.ecore#//software/SoftwareElement/getValue"/>
         <genOperations ecoreOperation="vpm.ecore#//software/SoftwareElement/getSourceLocation"/>
       </genClasses>
       <genClasses image="false" ecoreClass="vpm.ecore#//software/JavaSoftwareElement"/>
@@ -52,7 +51,6 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//software/SourceLocation/filePath"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//software/SourceLocation/startLine"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//software/SourceLocation/startPosition"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//software/SourceLocation/endLine"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//software/SourceLocation/endPosition"/>
       </genClasses>
     </nestedGenPackages>
