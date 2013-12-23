@@ -35,7 +35,7 @@ import org.splevo.vpm.software.impl.JavaSoftwareElementImpl;
  * <em>Java Application Model</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl implements MoDiscoJavaSoftwareElement {
@@ -43,7 +43,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
     /**
      * The cached value of the '{@link #getAstNode() <em>Ast Node</em>}' reference. <!--
      * begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @see #getAstNode()
      * @generated
      * @ordered
@@ -53,7 +53,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
     /**
      * The cached value of the '{@link #getJavaApplicationModel() <em>Java Application Model</em>}'
      * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @see #getJavaApplicationModel()
      * @generated
      * @ordered
@@ -62,7 +62,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     protected MoDiscoJavaSoftwareElementImpl() {
@@ -71,7 +71,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -81,7 +81,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> {@inheritDoc} <!-- end-user-doc -->
-     * 
+     *
      * @generated not
      */
     @Override
@@ -105,11 +105,11 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
         } else if (node instanceof MethodInvocation) {
             MethodInvocation invocation = (MethodInvocation) node;
             return "Method Invocation: " + invocation.getMethod().getName() + "()";
-        
+
         } else if (node instanceof MethodDeclaration) {
             MethodDeclaration method = (MethodDeclaration) node;
             return method.getName() + "()";
-            
+
         } else if (node instanceof Block && node.eContainer() instanceof MethodDeclaration) {
             MethodDeclaration method = (MethodDeclaration) node.eContainer();
             return method.getName() + "()";
@@ -123,7 +123,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> {@inheritDoc} <!-- end-user-doc -->
-     * 
+     *
      * @generated not
      */
     @Override
@@ -141,7 +141,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     public ASTNode getAstNode() {
@@ -159,7 +159,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     public ASTNode basicGetAstNode() {
@@ -168,7 +168,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     public void setAstNode(ASTNode newAstNode) {
@@ -181,7 +181,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     public JavaApplication getJavaApplicationModel() {
@@ -200,7 +200,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     public JavaApplication basicGetJavaApplicationModel() {
@@ -209,7 +209,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     public void setJavaApplicationModel(JavaApplication newJavaApplicationModel) {
@@ -223,7 +223,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -243,7 +243,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -261,7 +261,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -279,7 +279,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     *
      * @generated
      */
     @Override
@@ -295,7 +295,7 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
 
     /**
      * <!-- begin-user-doc --> {@inheritDoc} <!-- end-user-doc -->
-     * 
+     *
      * @generated not
      */
     @SuppressWarnings("restriction")
@@ -314,7 +314,6 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
             sourceLocation.setFilePath(filePath);
             sourceLocation.setStartLine(sourceRegion.getStartLine());
             sourceLocation.setStartPosition(sourceRegion.getStartPosition());
-            sourceLocation.setEndLine(sourceRegion.getEndLine());
             sourceLocation.setEndPosition(sourceRegion.getEndPosition());
         }
 
@@ -322,11 +321,11 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
     }
 
     /**
-     * <!-- begin-user-doc --> 
+     * <!-- begin-user-doc -->
      * Equality is defined by the equality of the referenced ast nodes.
      * {@inheritDoc}
      * <!-- end-user-doc -->
-     * 
+     *
      * @generated not
      */
     @Override
@@ -336,13 +335,13 @@ public class MoDiscoJavaSoftwareElementImpl extends JavaSoftwareElementImpl impl
         }
         return super.equals(arg0);
     }
-    
+
     /**
-     * <!-- begin-user-doc --> 
+     * <!-- begin-user-doc -->
      * Equality is defined by the equality of the referenced ast nodes.
      * {@inheritDoc}
      * <!-- end-user-doc -->
-     * 
+     *
      * @generated not
      */
     @Override
