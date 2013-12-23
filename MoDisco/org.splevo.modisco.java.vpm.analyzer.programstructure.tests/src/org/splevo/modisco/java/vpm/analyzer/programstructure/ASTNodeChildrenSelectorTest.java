@@ -12,22 +12,23 @@ import org.splevo.modisco.java.vpm.analyzer.programstructure.ASTNodeChildrenSele
 
 /**
  * Test case to validate children selector model switch.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class ASTNodeChildrenSelectorTest {
 
     /**
      * Create an ast node children selector and prove it agains a list of different ast nodes.
      */
-    @Test
+    @SuppressWarnings("restriction")
+	@Test
     public void testDoSwitchEClassEObject() {
         ASTNodeChildrenSelector astNodeTraverser = new ASTNodeChildrenSelector();
-        
+
         ClassDeclaration classDeclaration = JavaFactory.eINSTANCE.createClassDeclaration();
         classDeclaration.getBodyDeclarations().add(JavaFactory.eINSTANCE.createMethodDeclaration());
-        
+
         List<ASTNode> classDeclarationChilds = astNodeTraverser.doSwitch(classDeclaration);
         assertEquals("Wrong number of children",1,classDeclarationChilds.size());
     }
