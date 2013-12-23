@@ -10,9 +10,9 @@ import org.eclipse.gmt.modisco.java.ASTNode;
 
 /**
  * Utility class to handle images for the model elements.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class ImageUtil {
 
@@ -60,7 +60,7 @@ public class ImageUtil {
 
     /**
      * Get the icon for a specified AST node.
-     * 
+     *
      * @param astNode The AST node to get the icon for.
      * @param itemProvider The item provider to access the resources.
      * @return The loaded image or null none is available.
@@ -72,7 +72,8 @@ public class ImageUtil {
             return itemProvider.getResourceLocator().getImage(ICON_DEFAULT);
         }
 
-        String iconPath = AST_ICON_SWITCH.doSwitch(astNode);
+        @SuppressWarnings("restriction")
+		String iconPath = AST_ICON_SWITCH.doSwitch(astNode);
         if (iconPath != null) {
             return itemProvider.getResourceLocator().getImage(iconPath);
         }
@@ -83,7 +84,7 @@ public class ImageUtil {
 
     /**
      * Compose two images to derive a combined icon.
-     * 
+     *
      * @param baseImage
      *            The base image to combine.
      * @param itemProvider
@@ -101,7 +102,7 @@ public class ImageUtil {
 
     /**
      * Get an icon for a provided ast node overlaid as delete icon.
-     * 
+     *
      * @param astNode
      *            The ast node to get the icon for.
      * @param itemProvider
@@ -115,7 +116,7 @@ public class ImageUtil {
 
     /**
      * Get an icon for a provided ast node overlaid as insert icon.
-     * 
+     *
      * @param astNode
      *            The ast node to get the icon for.
      * @param itemProvider
@@ -129,7 +130,7 @@ public class ImageUtil {
 
     /**
      * Get an icon for a provided ast node overlaid as change icon.
-     * 
+     *
      * @param astNode
      *            The ast node to get the icon for.
      * @param itemProvider
@@ -143,7 +144,7 @@ public class ImageUtil {
 
     /**
      * Compose an insert icon from a provided base icon.
-     * 
+     *
      * @param itemProvider
      *            The item provider to access the resources.
      * @param iconPath
@@ -157,7 +158,7 @@ public class ImageUtil {
 
     /**
      * Compose an delete icon from a provided base icon.
-     * 
+     *
      * @param itemProvider
      *            The item provider to access the resources.
      * @param iconPath
@@ -171,7 +172,7 @@ public class ImageUtil {
 
     /**
      * Compose a change icon from a provided base icon.
-     * 
+     *
      * @param itemProvider
      *            The item provider to access the resources.
      * @param iconPath

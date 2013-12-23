@@ -18,10 +18,11 @@ import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 
 /**
  * Model element switch to decide for an icon to load.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
+@SuppressWarnings("restriction")
 class ASTElementIconSwitch extends JavaSwitch<String> {
 
     /** The logger to use for this class. */
