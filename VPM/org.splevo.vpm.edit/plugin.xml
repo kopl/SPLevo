@@ -20,8 +20,8 @@
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <factory
-            uri="http://splevo.org/vpm/1.0/realization"
-            class="org.splevo.vpm.realization.provider.realizationItemProviderAdapterFactory"
+            uri="http://splevo.org/vpm/1.0/software"
+            class="org.splevo.vpm.software.provider.SoftwareItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider
