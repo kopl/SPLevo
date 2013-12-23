@@ -148,6 +148,6 @@
     <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="Supress Warnings on EMF generated code. No Supress Warning on manual code"/>
   </module>
   <module name="SuppressionFilter">
-    <property name="file" value="splevo-checkstyle-suppressions.xml"/>
+    <property name="file" value="org.splevo.releng.codeconventions/splevo-checkstyle-suppressions.xml"/>
 </module>
 </module>
