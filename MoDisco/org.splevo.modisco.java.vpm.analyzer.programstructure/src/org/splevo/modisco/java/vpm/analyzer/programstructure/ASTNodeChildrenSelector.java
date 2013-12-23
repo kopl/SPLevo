@@ -61,38 +61,39 @@ import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 
 /**
  * EMF model switch to traverse AST nodes to return a list of sub AST nodes to be indexed.
- * It only returns the direct children of an AST node and does not recursively collect 
+ * It only returns the direct children of an AST node and does not recursively collect
  * all nodes of the according AST sub tree.
- * 
+ *
  * Standard elements of the java language are not included in the returns:
  * <ul>
  *  <li>Modifiers</li>
  *  <li>TypeAccesses</li>
  * </ul>
- * 
+ *
  * @author Benjamin Klatt
  *
  */
+@SuppressWarnings("restriction")
 public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(ASTNodeChildrenSelector.class);
-    
+
     /**
      * Do switch method enhanced to globally remove all null values.
      * {@inheritDoc}
      */
     @Override
     protected List<ASTNode> doSwitch(EClass eClass, EObject eObject) {
-        List<ASTNode> nodes = super.doSwitch(eClass, eObject); 
+        List<ASTNode> nodes = super.doSwitch(eClass, eObject);
         nodes.removeAll(Collections.singleton(null));
         return nodes;
     }
-    
+
     /**
-     * Add the return statement itself and recursively process the 
+     * Add the return statement itself and recursively process the
      * expression of the return statement.
-     * 
+     *
      * @param returnStatement The return statement to traverse.
      * @return The statement itself and the enclosed sub AST nodes.
      */
@@ -102,10 +103,10 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(returnStatement.getExpression());
         return childNodes;
     }
-    
+
     /**
      * Add the fragments and annotations of a variable declaration statement.
-     * 
+     *
      * @param varDeclStmt The variable declaration statement to traverse.
      * @return The statement's fragments and annotations.
      */
@@ -116,17 +117,17 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.addAll(varDeclStmt.getAnnotations());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseVariableDeclarationExpression(VariableDeclarationExpression exp) {
         return new ArrayList<ASTNode>(exp.getFragments());
     }
-    
+
     @Override
     public List<ASTNode> caseClassDeclaration(ClassDeclaration classDecl) {
         return new ArrayList<ASTNode>(classDecl.getBodyDeclarations());
     }
-    
+
     /**
      * Get the fragments initializer expression as sub element.
      * {@inheritDoc}
@@ -137,7 +138,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(varDeclFrgmt.getInitializer());
         return childNodes;
     }
-    
+
     /**
      * Return the arguments of the class instance creation as it's sub nodes.
      * {@inheritDoc}
@@ -146,7 +147,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseClassInstanceCreation(ClassInstanceCreation instanceCreation) {
         return new ArrayList<ASTNode>(instanceCreation.getArguments());
     }
-    
+
     @Override
     public List<ASTNode> caseArrayCreation(ArrayCreation creation) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -154,7 +155,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(creation.getInitializer());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseEnumConstantDeclaration(EnumConstantDeclaration decl) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -162,7 +163,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(decl.getInitializer());
         return childNodes;
     }
-    
+
     /**
      * Return the arguments of the method invocation as it's sub nodes.
      * {@inheritDoc}
@@ -174,7 +175,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.addAll(invocation.getTypeArguments());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseSuperMethodInvocation(SuperMethodInvocation invocation) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -182,7 +183,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.addAll(invocation.getTypeArguments());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseSuperConstructorInvocation(SuperConstructorInvocation invocation) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -190,7 +191,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.addAll(invocation.getTypeArguments());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseConstructorInvocation(ConstructorInvocation invocation) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -209,7 +210,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(expressionStatement.getExpression());
         return childNodes;
     }
-    
+
     /**
      * Get the conditional expression, the then statement, and the else statement
      * as sub nodes.
@@ -223,7 +224,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(stmt.getElseStatement());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseSwitchStatement(SwitchStatement stmt) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -231,19 +232,19 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.addAll(stmt.getStatements());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseSwitchCase(SwitchCase switchCase) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
         childNodes.add(switchCase.getExpression());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseBreakStatement(BreakStatement object) {
         return new ArrayList<ASTNode>();
     }
-    
+
     @Override
     public List<ASTNode> caseAssertStatement(AssertStatement stmt) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -251,7 +252,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(stmt.getMessage());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseForStatement(ForStatement stmt) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -261,7 +262,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.addAll(stmt.getUpdaters());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseWhileStatement(WhileStatement stmt) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -269,7 +270,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(stmt.getBody());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseEnhancedForStatement(EnhancedForStatement stmt) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -278,7 +279,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(stmt.getParameter());
         return childNodes;
     }
-    
+
     /**
      * Get the sub packages and contained classes, interfaces, and enumerations
      * as child nodes.
@@ -291,7 +292,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.addAll(packageNode.getOwnedElements());
         return childNodes;
     }
-    
+
     /**
      * Get the parameters, type parameters, and the body of the method declaration
      * to the list of sub AST nodes.
@@ -305,7 +306,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(methodDeclaration.getBody());
         return childNodes;
     }
-    
+
     /**
      * Get the parameters, type parameters, and the body of the constructor declaration
      * to the list of sub AST nodes.
@@ -319,7 +320,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(decl.getBody());
         return childNodes;
     }
-    
+
     /**
      * Get the fragments of a field as sub ast nodes.
      * {@inheritDoc}
@@ -328,7 +329,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseFieldDeclaration(FieldDeclaration fieldDeclaration) {
         return new ArrayList<ASTNode>(fieldDeclaration.getFragments());
     }
-    
+
     /**
      * Get the enum constants and the body of the enum declaration as sub AST nodes.
      * {@inheritDoc}
@@ -340,7 +341,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.addAll(decl.getBodyDeclarations());
         return childNodes;
     }
-    
+
     /**
      * Get the contained statements of the block as sub node elements.
      * {@inheritDoc}
@@ -349,9 +350,9 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseBlock(Block block) {
         return new ArrayList<ASTNode>(block.getStatements());
     }
-    
+
     /**
-     * Get the left and right hand side elements as sub ast nodes 
+     * Get the left and right hand side elements as sub ast nodes
      * for the assignment.
      * {@inheritDoc}
      */
@@ -362,7 +363,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(assignment.getRightHandSide());
         return childNodes;
     }
-    
+
     /**
      * Get the extended operands, left hand and right hand side expressions
      * as sub ast node elements for the expression.
@@ -376,7 +377,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(exp.getRightOperand());
         return childNodes;
     }
-    
+
     @Override
     public List<ASTNode> caseConditionalExpression(ConditionalExpression exp) {
         List<ASTNode> childNodes = new ArrayList<ASTNode>();
@@ -384,24 +385,24 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
         childNodes.add(exp.getElseExpression());
         childNodes.add(exp.getThenExpression());
         return childNodes;
-        
+
     }
-    
+
     @Override
     public List<ASTNode> caseInstanceofExpression(InstanceofExpression exp) {
         return new ArrayList<ASTNode>(Collections.singleton(exp.getLeftOperand()));
     }
-    
+
     @Override
     public List<ASTNode> casePrefixExpression(PrefixExpression exp) {
         return new ArrayList<ASTNode>(Collections.singleton(exp.getOperand()));
     }
-    
+
     @Override
     public List<ASTNode> casePostfixExpression(PostfixExpression exp) {
         return new ArrayList<ASTNode>(Collections.singleton(exp.getOperand()));
     }
-    
+
     /**
      * This expression has no children to return.
      * {@inheritDoc}
@@ -410,42 +411,42 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseThisExpression(ThisExpression object) {
         return new ArrayList<ASTNode>();
     }
-    
+
     @Override
     public List<ASTNode> caseCastExpression(CastExpression castExp) {
         return new ArrayList<ASTNode>(Collections.singleton(castExp.getExpression()));
     }
-    
+
     @Override
     public List<ASTNode> caseParenthesizedExpression(ParenthesizedExpression pExp) {
         return new ArrayList<ASTNode>(Collections.singleton(pExp.getExpression()));
     }
-    
+
     @Override
     public List<ASTNode> caseSingleVariableDeclaration(SingleVariableDeclaration decl) {
         return new ArrayList<ASTNode>(Collections.singleton(decl.getInitializer()));
     }
-    
+
     @Override
     public List<ASTNode> caseTryStatement(TryStatement stmt) {
         return new ArrayList<ASTNode>(Collections.singleton(stmt.getBody()));
     }
-    
+
     @Override
     public List<ASTNode> caseThrowStatement(ThrowStatement stmt) {
         return new ArrayList<ASTNode>(Collections.singleton(stmt.getExpression()));
     }
-    
+
     @Override
     public List<ASTNode> caseArrayAccess(ArrayAccess access) {
         return new ArrayList<ASTNode>(Collections.singleton(access.getIndex()));
     }
-    
+
     @Override
     public List<ASTNode> caseArrayInitializer(ArrayInitializer initializer) {
         return new ArrayList<ASTNode>(initializer.getExpressions());
     }
-    
+
     /**
      * A single variable access has no children of interest so an empty list is returned.
      * {@inheritDoc}
@@ -454,7 +455,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseSingleVariableAccess(SingleVariableAccess object) {
         return new ArrayList<ASTNode>();
     }
-    
+
     /**
      * A single variable access has no children of interest so an empty list is returned.
      * {@inheritDoc}
@@ -472,7 +473,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseImportDeclaration(ImportDeclaration importDeclaration) {
         return new ArrayList<ASTNode>();
     }
-    
+
     /**
      * Literals have no children to return.
      * {@inheritDoc}
@@ -481,7 +482,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseTypeLiteral(TypeLiteral typeLiteral) {
         return new ArrayList<ASTNode>();
     }
-    
+
     /**
      * Literals have no children to return.
      * {@inheritDoc}
@@ -490,7 +491,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseNullLiteral(NullLiteral object) {
         return new ArrayList<ASTNode>();
     }
-    
+
     /**
      * Literals have no children to return.
      * {@inheritDoc}
@@ -499,7 +500,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseBooleanLiteral(BooleanLiteral object) {
         return new ArrayList<ASTNode>();
     }
-    
+
     /**
      * Literals have no children to return.
      * {@inheritDoc}
@@ -508,7 +509,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseStringLiteral(StringLiteral object) {
         return new ArrayList<ASTNode>();
     }
-    
+
     /**
      * Literals have no children to return.
      * {@inheritDoc}
@@ -517,7 +518,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
     public List<ASTNode> caseNumberLiteral(NumberLiteral object) {
         return new ArrayList<ASTNode>();
     }
-    
+
     @Override
     public List<ASTNode> defaultCase(EObject object) {
         logger.warn("[ASTNodeChildrenSelector] Yet not handled AST node: " + object.toString());

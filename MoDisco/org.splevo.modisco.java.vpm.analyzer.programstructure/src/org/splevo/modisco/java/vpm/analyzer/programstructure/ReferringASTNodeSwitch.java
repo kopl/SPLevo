@@ -28,13 +28,14 @@ import org.eclipse.gmt.modisco.java.emf.util.JavaSwitch;
 
 /**
  * A model element switch providing the logic to lookup referring AST nodes for each AST node type.
- * 
+ *
  * TODO: Check for statements manipulating the same variable -> might be part of the data flow
  * analyzer?!?
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
+@SuppressWarnings("restriction")
 public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 
     /** The logger for this class. */
@@ -42,12 +43,12 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 
     /**
      * Find AST nodes accessing the imported elements in the same compilation unit.
-     * 
+     *
      * <b>CompilationUnit Check</b><br>
      * The same compilation unit is required because really all usages in type accesses are
      * returned. TypeAccesses contained in ASTNodes without a compilation unit are possible e.g.
      * when contained in jar libraries etc.
-     * 
+     *
      * @param importDeclaration
      *            The import declaration to find influenced elements for.
      * @return The detected influenced AST nodes.
@@ -86,9 +87,9 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
     /**
      * Find all ASTNodes referring one of the variable fragments declared in a variable declaration
      * statement.
-     * 
+     *
      * A forward program slice to find all influenced elements.
-     * 
+     *
      * @param variableDeclarationStatement
      *            The statement to find influenced elements for.
      * @return The detected AST nodes.
@@ -162,8 +163,8 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 
     /**
      * An if statement is referenced by none other element.
-     * 
-     * 
+     *
+     *
      * @param ifStatement
      *            The return statement to get referring AST nodes for.
      * @return An empty list because of no referring elements for if statements.
@@ -193,7 +194,7 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 
     /**
      * A return statement is referenced by none other element.
-     * 
+     *
      * @param stmt
      *            The statement to get referring AST nodes for.
      * @return An empty list because of no referring elements for expression statements.
@@ -205,10 +206,10 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 
     /**
      * A return statement is referenced by none other element.
-     * 
+     *
      * Only the caller of the return statement's method is influenced by the changed return value.
      * However, this is not part of the static structure program analyzer.
-     * 
+     *
      * @param returnStatement
      *            The return statement to get referring AST nodes for.
      * @return An empty list because of no referring elements for return statements.
@@ -226,7 +227,7 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 
     /**
      * Get the accesses for a variable declaration fragment.
-     * 
+     *
      * @param fragment
      *            The fragment to look up for.
      * @return The list of identified accesses.

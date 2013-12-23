@@ -33,7 +33,8 @@ public class MoDiscoJavaProgramStructureProvider implements ProgramStructureProv
      * ASTNode linked by the provided software element. {@inheritDoc}
      */
     @Override
-    public List<SoftwareElement> getRelevantSubElements(SoftwareElement softwareElement) {
+    @SuppressWarnings("restriction")
+	public List<SoftwareElement> getRelevantSubElements(SoftwareElement softwareElement) {
 
         List<SoftwareElement> subElements = new ArrayList<SoftwareElement>();
 
@@ -52,7 +53,8 @@ public class MoDiscoJavaProgramStructureProvider implements ProgramStructureProv
     }
 
     @Override
-    public List<SoftwareElement> getReferringSoftwareElements(SoftwareElement referredSoftwareElement) {
+    @SuppressWarnings("restriction")
+	public List<SoftwareElement> getReferringSoftwareElements(SoftwareElement referredSoftwareElement) {
         List<SoftwareElement> referringElements = new ArrayList<SoftwareElement>();
 
         if (referredSoftwareElement instanceof MoDiscoJavaSoftwareElement) {
@@ -68,7 +70,7 @@ public class MoDiscoJavaProgramStructureProvider implements ProgramStructureProv
 
     /**
      * Build a new MoDisco software element for an ASTNode.
-     * 
+     *
      * @param parentElement
      *            The template for common settings.
      * @param astNode
@@ -83,7 +85,7 @@ public class MoDiscoJavaProgramStructureProvider implements ProgramStructureProv
             element.setJavaApplicationModel(parentElement.getJavaApplicationModel());
             softwareElementCache.put(astNode, element);
         }
-        
+
         return softwareElementCache.get(astNode);
     }
 }
