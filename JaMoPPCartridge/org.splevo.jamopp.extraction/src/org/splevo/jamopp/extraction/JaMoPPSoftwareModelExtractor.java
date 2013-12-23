@@ -276,12 +276,14 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 	 */
 	private ResourceSet setUpResourceSet() {
 		ResourceSet rs = new ResourceSetImpl();
-		rs.getLoadOptions().put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING,Boolean.FALSE);
-		rs.getLoadOptions().put(IJavaOptions.DISABLE_LOCATION_MAP,Boolean.FALSE);
+		Map<Object, Object> options = rs.getLoadOptions();
+		options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING,Boolean.FALSE);
+		options.put(IJavaOptions.DISABLE_LOCATION_MAP,Boolean.FALSE);
 		EPackage.Registry.INSTANCE.put("http://www.emftext.org/java",JavaPackage.eINSTANCE);
-		Map<String, Object> extensionToFactoryMap = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
-		extensionToFactoryMap.put("java",new JavaSourceOrClassFileResourceFactoryImpl());
-		extensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION,new XMIResourceFactoryImpl());
+
+		Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
+		factoryMap.put("java",new JavaSourceOrClassFileResourceFactoryImpl());
+		factoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION,new XMIResourceFactoryImpl());
 		return rs;
 	}
 
