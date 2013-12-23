@@ -14,7 +14,6 @@ import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.resource.java.IJavaLocationMap;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
-import org.emftext.language.java.resource.java.util.JavaResourceUtil;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
@@ -23,9 +22,6 @@ import org.splevo.jamopp.vpm.software.softwarePackage;
 import org.splevo.vpm.software.SoftwareFactory;
 import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.software.impl.JavaSoftwareElementImpl;
-
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -262,36 +258,10 @@ public class JaMoPPSoftwareElementImpl extends JavaSoftwareElementImpl
 		SourceLocation location = SoftwareFactory.eINSTANCE.createSourceLocation();
 		location.setFilePath(resource.getURI().toFileString());
 		location.setStartLine(locationMap.getLine(element));
-		location.setStartPosition(locationMap.getColumn(element));
-
-
-		String elementText = JavaResourceUtil.getText(element);
-
-		elementText = CharMatcher.anyOf("\r?\n").trimFrom(elementText);
-		Iterable<String> elementLines = Splitter.onPattern("\r?\n").split(elementText);
-
-		String lastLine = "";
-		int lineCounter = 0;
-		for(String line : elementLines){
-			lineCounter++;
-			if(line.trim().length() > 0){
-				lastLine = line;
-			}
-		}
-
-		int endLine = location.getStartLine() + lineCounter - 1;
-		location.setEndLine(endLine);
-		location.setEndPosition(rtrim(lastLine).length());
+		location.setStartPosition(locationMap.getCharStart(element));
+		location.setEndPosition(locationMap.getCharEnd(element));
 
 		return location;
 	}
-
-    public static String rtrim(String s) {
-        int i = s.length()-1;
-        while (i >= 0 && Character.isWhitespace(s.charAt(i))) {
-            i--;
-        }
-        return s.substring(0,i+1);
-    }
 
 } // JaMoPPSoftwareElementImpl
