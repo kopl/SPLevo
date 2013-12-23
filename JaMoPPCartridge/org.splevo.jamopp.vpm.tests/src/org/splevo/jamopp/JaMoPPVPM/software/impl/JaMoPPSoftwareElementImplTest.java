@@ -40,8 +40,8 @@ public class JaMoPPSoftwareElementImplTest {
     /** Source path to the original implementation. */
     private static final File TEST_FILE = new File("testcode/ExampleClass.java");
 
-    /** The compilation unit to test the elements of. */
-    private CompilationUnit compilationUnit = null;
+    /** The class of the test code. */
+    private ConcreteClassifier exampleClass = null;
 
     /**
      * Initialize the resources to test.
@@ -55,12 +55,12 @@ public class JaMoPPSoftwareElementImplTest {
 
 		ResourceSet rs = setUpResourceSet();
 		JavaResource resource = (JavaResource) parseResource(TEST_FILE, rs);
-		compilationUnit = (CompilationUnit) resource.getContents().get(0);
+		CompilationUnit compilationUnit = (CompilationUnit) resource.getContents().get(0);
+		exampleClass = compilationUnit.getConcreteClassifier("ExampleClass");
 	}
 
 	@Test
 	public void testSingleLineFieldLocation() throws Exception {
-		ConcreteClassifier exampleClass = compilationUnit.getConcreteClassifier("ExampleClass");
 
 		Field field = exampleClass.getFields().get(0);
 
@@ -69,14 +69,12 @@ public class JaMoPPSoftwareElementImplTest {
 		SourceLocation location = softwareElement.getSourceLocation();
 
 		assertThat("Wrong start line", location.getStartLine(), is(4));
-		assertThat("Wrong start position", location.getStartPosition(), is(1));
-		assertThat("Wrong end line", location.getEndLine(), is(4));
-		assertThat("Wrong end position", location.getEndPosition(), is(28));
+		assertThat("Wrong start position", location.getStartPosition(), is(34));
+		assertThat("Wrong end position", location.getEndPosition(), is(60));
 	}
 
 	@Test
 	public void testMultiLineMethodLocation() throws Exception {
-		ConcreteClassifier exampleClass = compilationUnit.getConcreteClassifier("ExampleClass");
 
 		Method method = exampleClass.getMethods().get(0);
 
@@ -85,9 +83,8 @@ public class JaMoPPSoftwareElementImplTest {
 		SourceLocation location = softwareElement.getSourceLocation();
 
 		assertThat("Wrong start line", location.getStartLine(), is(6));
-		assertThat("Wrong start position", location.getStartPosition(), is(1));
-		assertThat("Wrong end line", location.getEndLine(), is(8));
-		assertThat("Wrong end position", location.getEndPosition(), is(2));
+		assertThat("Wrong start position", location.getStartPosition(), is(66));
+		assertThat("Wrong end position", location.getEndPosition(), is(128));
 	}
 
     /**
