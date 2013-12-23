@@ -22,13 +22,13 @@ import org.splevo.vpm.variability.VariationPoint;
 /**
  * Action to open the currently selected element of a tree viewer in a source
  * editor and higlight it.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public final class OpenSourceInEditorAction extends Action {
 
-	private static final String TEXT_AVAILABLE_VARIANTS = "\n\n\nAvailable Variants:\n\n";
+	private static final String TEXT_AVAILABLE_VARIANTS = "\n\nAlternative Variants:\n\n";
 
 	/** The logger for this class. */
 	private Logger logger = Logger.getLogger(OpenSourceInEditorAction.class);
@@ -42,7 +42,7 @@ public final class OpenSourceInEditorAction extends Action {
 	/**
 	 * Constructor requiring a reference to the tree viewer containing the
 	 * refinement details.
-	 * 
+	 *
 	 * @param treeViewer
 	 *            The tree viewer to get the selection from.
 	 */
@@ -121,7 +121,7 @@ public final class OpenSourceInEditorAction extends Action {
 	 * Check if this action is enabled. This method checks if the selected
 	 * element is a JavaSoftwareElement because only those can be opened in an
 	 * editor yet.
-	 * 
+	 *
 	 * @return true/false whether it can be applied.
 	 */
 	@Override
@@ -143,7 +143,7 @@ public final class OpenSourceInEditorAction extends Action {
 
 	/**
 	 * Get the text for this action.
-	 * 
+	 *
 	 * @return The action label.
 	 */
 	@Override
@@ -153,7 +153,7 @@ public final class OpenSourceInEditorAction extends Action {
 
 	/**
 	 * Get the image descriptor for this action.
-	 * 
+	 *
 	 * @return The action icon.
 	 */
 	@Override
@@ -163,7 +163,7 @@ public final class OpenSourceInEditorAction extends Action {
 
 	/**
 	 * Extracts the code from the file by a given {@link SourceLocation}.
-	 * 
+	 *
 	 * @param sourceLocation The {@link SourceLocation}.
 	 * @return The textual content.
 	 */
@@ -182,7 +182,7 @@ public final class OpenSourceInEditorAction extends Action {
 
 	/**
 	 * Gets the textual representation of a {@link VariationPoint}.
-	 * 
+	 *
 	 * @param vp The {@link VariationPoint}.
 	 * @param exclude This {@link Variant} wont be included in the string. Null if nothing has to be excluded.
 	 * @return The {@link String} contents of the {@link VariationPoint}.
@@ -193,11 +193,12 @@ public final class OpenSourceInEditorAction extends Action {
 			if (v != null && v.equals(exclude)) {
 				continue;
 			}
-			
+
 			for (SoftwareElement e : v.getSoftwareEntities()) {
-				code.append(v.getVariantId() + ":\n-->"
-						+ getCodeForSourceLocation(e.getSourceLocation())
-						+ "\n\n");
+				code.append(v.getVariantId());
+				code.append(":\n");
+				code.append(getCodeForSourceLocation(e.getSourceLocation()));
+				code.append("\n\n");
 			}
 		}
 		return code.toString();
