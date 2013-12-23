@@ -22,6 +22,18 @@
    </extension>
 
    <extension point="org.eclipse.ui.editors">
+      <!-- @generated vpm -->
+      <editor
+            id="org.splevo.vpm.software.presentation.SoftwareEditorID"
+            name="%_UI_SoftwareEditor_label"
+            icon="icons/full/obj16/SoftwareModelFile.gif"
+            extensions="softwaremodel"
+            class="org.splevo.vpm.software.presentation.SoftwareEditor"
+            contributorClass="org.splevo.vpm.software.presentation.SoftwareActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
       <editor
             id="org.splevo.vpm.variability.presentation.variabilityEditorID"
             name="%_UI_variabilityEditor_label"
@@ -30,6 +42,22 @@
             class="org.splevo.vpm.variability.presentation.variabilityEditor"
             contributorClass="org.splevo.vpm.variability.presentation.variabilityActionBarContributor">
       </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated vpm -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.splevo.vpm.software.presentation.SoftwareModelWizardID"
+            name="%_UI_SoftwareModelWizard_label"
+            class="org.splevo.vpm.software.presentation.SoftwareModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SoftwareModelFile.gif">
+         <description>%_UI_SoftwareModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
    </extension>
 
 </plugin>
