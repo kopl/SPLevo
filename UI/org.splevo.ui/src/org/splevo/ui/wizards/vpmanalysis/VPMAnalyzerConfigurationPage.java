@@ -34,7 +34,7 @@ import org.splevo.vpm.analyzer.VPMAnalyzer;
 
 /**
  * Wizard page to select and configure the vpm analyzers to be executed.
- * 
+ *
  * @author Benjamin Klatt
  */
 public class VPMAnalyzerConfigurationPage extends WizardPage {
@@ -66,7 +66,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 
     /**
      * Create contents of the wizard.
-     * 
+     *
      * @param parent
      *            The parent ui element this control should be placed in.
      */
@@ -161,14 +161,9 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
         return (analyzers.size() > 0);
     }
 
-    @Override
-    public boolean canFlipToNextPage() {
-        return isPageComplete();
-    }
-
     /**
      * Add an analyzer to the list of configured analyzers.
-     * 
+     *
      * @param analyzer
      *            The analyzer instance to be added.
      */
@@ -179,7 +174,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 
 	/**
      * Remove an analyzer from the list of configured analyzers.
-     * 
+     *
      * @param analyzer
      *            The analyzer to be removed.
      */
@@ -190,7 +185,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 
     /**
      * Get the set of configured analyzer instances.
-     * 
+     *
      * @return The list of analyzers.
      */
     public List<VPMAnalyzer> getAnalyzers() {
@@ -199,7 +194,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 
     /**
      * Get the analyzer currently selected in the analyzer list viewer.
-     * 
+     *
      * @return Returns the first selected analyzer or null if none is selected.
      */
     private VPMAnalyzer getSelectedAnalyzer() {
@@ -249,7 +244,7 @@ public class VPMAnalyzerConfigurationPage extends WizardPage {
 
     /**
      * Trigger the disposition of all child elements of a composite.
-     * 
+     *
      * @param composite
      *            The composite to clean up.
      */

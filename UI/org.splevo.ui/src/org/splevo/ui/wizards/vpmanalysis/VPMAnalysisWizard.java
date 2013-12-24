@@ -18,12 +18,16 @@ public class VPMAnalysisWizard extends Wizard {
     /** Wizard page to configure the result handling. */
     private ResultHandlingConfigurationPage resultHandlingPage = null;
 
+    /** Wizard page to browse and modify the result of the VPM analysis */
+    private VPMRefinementPage vpmRefinementPage;
+
     /** The configuration object to be filled. */
     private VPMAnalysisWorkflowConfiguration configuration = null;
 
+
     /**
      * Constructor to make the basic wizard settings.
-     * 
+     *
      * @param configuration
      *            The workflow configuration to be filled on finished and to get required
      *            information from.
@@ -34,15 +38,16 @@ public class VPMAnalysisWizard extends Wizard {
         setWindowTitle("Configure VPM Analysis.");
         setNeedsProgressMonitor(false);
     }
-    
+
     @Override
     public void addPages() {
         analyzerPage = new VPMAnalyzerConfigurationPage();
-        addPage(analyzerPage);
-        
         resultHandlingPage = new ResultHandlingConfigurationPage(this.configuration);
-        resultHandlingPage.setPreviousPage(analyzerPage);
+        vpmRefinementPage = new VPMRefinementPage();
+
+        addPage(analyzerPage);
         addPage(resultHandlingPage);
+        addPage(vpmRefinementPage);
 
     }
 
@@ -52,15 +57,15 @@ public class VPMAnalysisWizard extends Wizard {
      */
     @Override
 	public boolean performFinish() {
-		
+
 		List<VPMAnalyzer> analyzers = analyzerPage.getAnalyzers();
 		configuration.getAnalyzers().addAll(analyzers);
-		
+
 		ResultPresentation resultPresentation = resultHandlingPage.getResultPresentation();
 		configuration.setPresentation(resultPresentation);
-		
+
 		configuration.setDetectionRules(resultHandlingPage.getDetectionRules());
-		
+
 		return configuration.isValid();
 	}
 }

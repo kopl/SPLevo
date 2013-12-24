@@ -40,9 +40,9 @@ import org.splevo.vpm.refinement.RefinementType;
 
 /**
  * Wizard page to configure how the analysis result should be presented.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class ResultHandlingConfigurationPage extends WizardPage {
 
@@ -97,7 +97,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	/**
 	 * Create the wizard and initialize members.
-	 * 
+	 *
 	 * @param defaultConfiguration
 	 *            The default configuration to initialize the page.
 	 */
@@ -170,7 +170,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	/**
 	 * Create contents of the wizard.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent ui element to place this one into.
 	 */
@@ -189,7 +189,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	/**
 	 * Generates the components that handle (create and add) the groups.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent composite.
 	 * @param presentationGroup
@@ -252,6 +252,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 				labelsToGroupID.put(id, labels);
 				refinementTypeToGroupID.put(id, RefinementType.MERGE);
 				listViewerAnalysis.refresh();
+				update();
 			}
 		});
 		rmvBtn = new Button(groupListGroup, SWT.PUSH);
@@ -269,6 +270,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 				listViewerAnalysis.refresh();
 				removeDetailComponents();
 				detailComp.pack();
+				update();
 			}
 		});
 
@@ -288,7 +290,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	/**
 	 * Generates a group that allows the user to choose between several result
 	 * presentation options.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent container.
 	 * @return The Group.
@@ -317,6 +319,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 				super.widgetSelected(e);
 				resultPresentation = ResultPresentation.RELATIONSHIP_GRAPH_ONLY;
 				enableRulesDetection(false);
+				update();
 			}
 		});
 		Button refBrowserBtn = new Button(resultPresentationGrp, SWT.RADIO);
@@ -329,6 +332,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 				super.widgetSelected(e);
 				resultPresentation = ResultPresentation.REFINEMENT_BROWSER;
 				enableRulesDetection(true);
+				update();
 			}
 		});
 		resultPresentationFD.height = resultPresentationGrp.computeSize(
@@ -348,7 +352,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	/**
 	 * Builds the components that display the group's details.
-	 * 
+	 *
 	 * @param id
 	 *            The group's id.
 	 */
@@ -395,7 +399,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	/**
 	 * Adds selectable check-boxes with labels for each available analyzer to
 	 * the details view.
-	 * 
+	 *
 	 * @param id
 	 *            The id of the group which is currently selected.
 	 */
@@ -431,7 +435,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	/**
 	 * Get the result presentation configured on the wizard page.
-	 * 
+	 *
 	 * @return The result presentation option.
 	 */
 	public ResultPresentation getResultPresentation() {
@@ -440,7 +444,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	/**
 	 * Get the detection rules configured by the user.
-	 * 
+	 *
 	 * @return The list of prepared detection rules.
 	 */
 	public List<DetectionRule> getDetectionRules() {
@@ -457,7 +461,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	/**
 	 * Enables or disables the components that are responsible for the group
 	 * handling.
-	 * 
+	 *
 	 * @param enabled
 	 *            Determines whether to enable or disable the components.
 	 */
@@ -469,7 +473,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	/**
 	 * Recursively enables or disables the given Control and all it's children.
-	 * 
+	 *
 	 * @param ctrl
 	 *            The control to be en/disabled.
 	 * @param enabled
@@ -491,7 +495,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 	/**
 	 * Checks the keys from the refinementTypeToGroupID and returns the lowest
 	 * number that is not part of the set.
-	 * 
+	 *
 	 * @return The number.
 	 */
 	private int findNextFreeID() {
@@ -505,7 +509,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	/**
 	 * Gets the ID that is currently selected in the listViewerAnalysis.
-	 * 
+	 *
 	 * @return The ID.
 	 */
 	private Integer getSelectedID() {
@@ -541,7 +545,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	/**
 	 * Prepares the GUI for the initial call.
-	 * 
+	 *
 	 * @param analyzers
 	 *            The analyzers that were selected in the configuration page.
 	 * @param clearRules
@@ -564,5 +568,18 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 		rebuildDetailComp();
 		enableRulesDetection(resultPresentation == ResultPresentation.REFINEMENT_BROWSER);
 		listViewerAnalysis.refresh();
+	}
+
+	/**
+	 * Updates everything according to the current state.
+	 * Has to be called manually after state change.
+	 */
+	private void update() {
+	    getContainer().updateButtons();
+	}
+
+	@Override
+	public boolean isPageComplete() {
+	    return resultPresentation == ResultPresentation.REFINEMENT_BROWSER && !labelsToGroupID.isEmpty();
 	}
 }
