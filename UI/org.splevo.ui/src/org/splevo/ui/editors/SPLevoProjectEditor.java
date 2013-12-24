@@ -735,14 +735,10 @@ public class SPLevoProjectEditor extends EditorPart {
 
         if (splevoProject.getSourceModelPathLeading() != null) {
             sourceModelLeadingInput.setText(splevoProject.getSourceModelPathLeading());
-        } else {
-            logger.warn("Leading source model path is empty.");
         }
 
         if (splevoProject.getSourceModelPathIntegration() != null) {
             sourceModelIntegrationInput.setText(splevoProject.getSourceModelPathIntegration());
-        } else {
-            logger.warn("Integration source model path is empty.");
         }
 
         if (splevoProject.getDiffingModelPath() != null) {

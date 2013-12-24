@@ -22,8 +22,8 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 /**
  * Job to extract a software model from eclipse java projects.
  *
- * The extraction result is a {@link ResourceSet} which is merged into the variant
- * specific {@link ResourceSet} in the blackboard.
+ * The extraction result is a {@link ResourceSet} which is merged into the variant specific
+ * {@link ResourceSet} in the blackboard.
  */
 public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
@@ -54,6 +54,8 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
 
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+
+        logger.info("Extraction started");
 
         monitor.beginTask("Software Model Extraction", 100);
 
@@ -90,11 +92,12 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
 
         try {
             monitor.subTask("Extract Model for project: " + variantName);
-            ResourceSet resourceSet = extractionService.extractSoftwareModel(extractorId, projectURIsAbsolute, monitor, absoluteTargetUri);
-            if(processLeading) {
-            	getBlackboard().getResourceSetLeading().getResources().addAll(resourceSet.getResources());
+            ResourceSet resourceSet = extractionService.extractSoftwareModel(extractorId, projectURIsAbsolute, monitor,
+                    absoluteTargetUri);
+            if (processLeading) {
+                getBlackboard().getResourceSetLeading().getResources().addAll(resourceSet.getResources());
             } else {
-            	getBlackboard().getResourceSetIntegration().getResources().addAll(resourceSet.getResources());
+                getBlackboard().getResourceSetIntegration().getResources().addAll(resourceSet.getResources());
             }
 
         } catch (SoftwareModelExtractionException e) {
@@ -103,7 +106,8 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
 
         monitor.subTask("Update SPLevo project information");
 
-        // TODO SourceModelPath might be outdated because diffing and extraction are now done in one step
+        // TODO SourceModelPath might be outdated because diffing and extraction are now done in one
+        // step
         if (processLeading) {
             splevoProject.setSourceModelPathLeading(targetURI.path());
         } else {
@@ -128,9 +132,9 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
     private List<URI> buildProjectURIs(List<String> projectNames) {
         List<URI> projectURIs = new ArrayList<URI>();
         for (String projectName : projectNames) {
-        	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        	IProject project = root.getProject(projectName);
-        	URI projectURI = URI.createFileURI(project.getLocation().toPortableString());
+            IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+            IProject project = root.getProject(projectName);
+            URI projectURI = URI.createFileURI(project.getLocation().toPortableString());
             projectURIs.add(projectURI);
         }
         return projectURIs;

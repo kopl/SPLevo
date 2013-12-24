@@ -1,5 +1,6 @@
 package org.splevo.ui.workflow;
 
+import org.apache.log4j.Level;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
@@ -34,6 +35,7 @@ public class DiffingWorkflowDelegate extends
      */
     public DiffingWorkflowDelegate(final DiffingWorkflowConfiguration config) {
         this.config = config;
+        setupLogging(Level.INFO);
     }
 
     /**

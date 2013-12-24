@@ -40,8 +40,6 @@ import org.splevo.vpm.refinement.RefinementType;
  */
 public class VPMAnalysisListener extends MouseAdapter {
 
-	protected static final Object ResultHandlingConfigurationPage = null;
-
 	/** The logger for this class. */
 	private Logger logger = Logger.getLogger(VPMAnalysisListener.class);
 
@@ -50,7 +48,7 @@ public class VPMAnalysisListener extends MouseAdapter {
 
 	/**
 	 * Constructor requiring the reference to a splevoProject.
-	 * 
+	 *
 	 * @param splevoProjectEditor
 	 *            The references to the splevo project editor.
 	 */
@@ -131,7 +129,7 @@ public class VPMAnalysisListener extends MouseAdapter {
 
 	/**
 	 * Build the configuration for the workflow.
-	 * 
+	 *
 	 * @return The prepared configuration.
 	 */
 	private VPMAnalysisWorkflowConfiguration buildWorflowConfiguration() {

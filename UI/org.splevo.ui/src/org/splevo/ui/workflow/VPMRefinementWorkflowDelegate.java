@@ -27,7 +27,7 @@ public class VPMRefinementWorkflowDelegate extends
 
     /**
      * Constructor requiring a basic splevo workflow configuration.
-     * 
+     *
      * @param config
      *            The configuration of the workflow.
      */
@@ -45,7 +45,7 @@ public class VPMRefinementWorkflowDelegate extends
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
         SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(new SPLevoBlackBoard());
-        
+
         SetVPMJob setVpmJob = new SetVPMJob(config.getVariationPointModel());
         jobSequence.add(setVpmJob);
 

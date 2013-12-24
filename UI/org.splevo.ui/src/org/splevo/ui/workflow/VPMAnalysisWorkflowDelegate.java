@@ -50,7 +50,7 @@ public class VPMAnalysisWorkflowDelegate extends
 
     /**
      * Constructor requiring a diffing workflow configuration.
-     * 
+     *
      * @param config
      *            The configuration of the workflow.
      */
@@ -60,7 +60,7 @@ public class VPMAnalysisWorkflowDelegate extends
 
     /**
      * Create the work flow.
-     * 
+     *
      * @param config
      *            The configuration object for this work flow.
      * @return The prepared job.
@@ -145,7 +145,7 @@ public class VPMAnalysisWorkflowDelegate extends
 
     /**
      * Add the jobs of the refinement browser work flow to the composite job.
-     * 
+     *
      * @param compositeJob
      *            The composite job to add the jobs to.
      * @param splevoProject

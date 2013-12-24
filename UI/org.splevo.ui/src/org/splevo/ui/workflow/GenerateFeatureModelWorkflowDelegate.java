@@ -28,7 +28,7 @@ public class GenerateFeatureModelWorkflowDelegate
 
 	/**
 	 * Constructor requiring a diffing workflow configuration.
-	 * 
+	 *
 	 * @param config
 	 *            The configuration of the workflow.
 	 */

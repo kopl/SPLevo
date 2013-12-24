@@ -21,7 +21,7 @@ public class DiffSourceModelListener extends MouseAdapter {
 
     /**
      * Constructor requiring the reference to a splevoProject.
-     * 
+     *
      * @param splevoProjectEditor
      *            The reference to the splevo project editor.
      */
@@ -42,46 +42,44 @@ public class DiffSourceModelListener extends MouseAdapter {
             return;
         }
 
-		SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
-        
-		// Check preexisting results
-		if (splevoProject.getVpmModelPaths().size() > 0) {
-			
-			boolean proceed = MessageDialog.openConfirm(shell,
-					"Override existing Data",
-					"There is existing data from previous processings.\n"
-							+ "This data will be deleted if you proceed.\n"
-							+ "Proceed anyway?");
-			if (!proceed) {
-				return;
-			} else {
-				resetDownstramData(splevoProject);
-			}
-		}
+        SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
+
+        // Check preexisting results
+        if (splevoProject.getVpmModelPaths().size() > 0) {
+
+            boolean proceed = MessageDialog.openConfirm(shell, "Override existing Data",
+                    "There is existing data from previous processings.\n"
+                            + "This data will be deleted if you proceed.\n" + "Proceed anyway?");
+            if (!proceed) {
+                return;
+            } else {
+                resetDownstramData(splevoProject);
+            }
+        }
 
         // trigger workflow
         DiffingWorkflowDelegate workflowDelegate = new DiffingWorkflowDelegate(config);
         IAction action = new Action("Diffing") {
         };
         workflowDelegate.run(action);
-        
+
         splevoProjectEditor.enableButtonsIfInformationAvailable();
-        
+
     }
 
-	/**
-	 * Reset the data of all downstream processes.
-	 * 
-	 * @param splevoProject
-	 *            The project to access the relevant information.
-	 */
-	private void resetDownstramData(SPLevoProject splevoProject) {
-		splevoProject.getVpmModelPaths().clear();
-	}
+    /**
+     * Reset the data of all downstream processes.
+     *
+     * @param splevoProject
+     *            The project to access the relevant information.
+     */
+    private void resetDownstramData(SPLevoProject splevoProject) {
+        splevoProject.getVpmModelPaths().clear();
+    }
 
     /**
      * Build the configuration for the workflow.
-     * 
+     *
      * @return The prepared configuration.
      */
     private DiffingWorkflowConfiguration buildWorflowConfiguration() {
