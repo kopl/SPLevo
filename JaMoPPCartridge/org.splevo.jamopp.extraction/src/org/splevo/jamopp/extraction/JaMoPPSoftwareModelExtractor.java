@@ -2,7 +2,6 @@ package org.splevo.jamopp.extraction;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -30,271 +29,241 @@ import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.extraction.SoftwareModelExtractor;
 
 /**
- * Software Model Extractor for the Java technology based on the Java Model
- * Parser and Printer (JaMoPP).
+ * Software Model Extractor for the Java technology based on the Java Model Parser and Printer
+ * (JaMoPP).
  */
 public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
-	private static Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractor.class);
+    private static Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractor.class);
 
-	private static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
-	private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
+    private static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
+    private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
 
-	/**
-	 * Extract all java files and referenced resources to a file named according
-	 * to {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the
-	 * provided targetURI.
-	 *
-	 * <p>
-	 * If the targetUri is null, the extracted model will not be persisted and
-	 * the resourceSet of the last projectURI will be returned.
-	 * </p>
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ResourceSet extractSoftwareModel(List<URI> projectURIs,
-			IProgressMonitor monitor, URI targetURI)
-			throws SoftwareModelExtractionException {
+    /**
+     * Extract all java files and referenced resources to a file named according to
+     * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
+     *
+     * <p>
+     * If the targetUri is null, the extracted model will not be persisted and the resourceSet of
+     * the last projectURI will be returned.
+     * </p>
+     * {@inheritDoc}
+     */
+    @Override
+    public ResourceSet extractSoftwareModel(List<URI> projectURIs, IProgressMonitor monitor, URI targetURI)
+            throws SoftwareModelExtractionException {
 
-		ResourceSet targetResourceSet = setUpResourceSet();
-		JavaClasspath.get(targetResourceSet);
+        ResourceSet targetResourceSet = setUpResourceSet();
+        JavaClasspath cp = JavaClasspath.get(targetResourceSet);
 
-		for (URI projectPathURI : projectURIs) {
+        for (URI projectPathURI : projectURIs) {
 
-			ResourceSet rs = setUpResourceSet();
-			JavaClasspath cp = JavaClasspath.get(rs);
+//            ResourceSet rs = setUpResourceSet();
+//            JavaClasspath cp = JavaClasspath.get(rs);
 
-			String projectPath = projectPathURI.toFileString();
-			cp.getURIMap().put(projectPathURI, URI.createURI(""));
-			File srcFolder = new File(projectPath);
-			try {
-				srcFolder.isDirectory();
-				addAllJarFilesToClassPath(srcFolder, cp);
-				loadAllFilesInResourceSet(srcFolder, ".java", rs);
+            String projectPath = projectPathURI.toFileString();
+            cp.getURIMap().put(projectPathURI, URI.createURI(""));
+            File srcFolder = new File(projectPath);
+            try {
+                srcFolder.isDirectory();
+                addAllJarFilesToClassPath(srcFolder, cp);
+                loadAllFilesInResourceSet(srcFolder, ".java", targetResourceSet);
 
-				if (!resolveAllProxies(0, rs)) {
-					handleFailedProxyResolution(rs);
-				}
+            } catch (Exception e) {
+                throw new SoftwareModelExtractionException("Failed to extract software model.", e);
+            }
+        }
 
-				mergeResourecSets(targetResourceSet, rs);
+        if (!resolveAllProxies(0, targetResourceSet)) {
+            handleFailedProxyResolution(targetResourceSet);
+        }
 
-			} catch (Exception e) {
-				throw new SoftwareModelExtractionException(
-						"Failed to extract software model.", e);
-			}
-		}
+        return targetResourceSet;
+    }
 
-		return targetResourceSet;
-	}
+    /**
+     * Handle any failed proxy resolution.
+     *
+     * @param rs
+     *            The resource set to prove for any un-handled proxies.
+     */
+    private void handleFailedProxyResolution(ResourceSet rs) {
+        logger.error("Resolution of some Proxies failed...");
+        Iterator<Notifier> it = rs.getAllContents();
+        while (it.hasNext()) {
+            Notifier next = it.next();
+            if (next instanceof EObject) {
+                EObject o = (EObject) next;
+                if (o.eIsProxy()) {
+                    try {
+                        it.remove();
+                    } catch (UnsupportedOperationException e) {
+                        e.printStackTrace();
+                        logger.info("Error during unresolved proxy handling", e);
+                    }
+                }
+            }
+        }
+    }
 
-	/**
-	 * Merge the content of the partialResourceSet in the totalResourceSet.
-	 *
-	 * @param totalResourceSet
-	 *            The resource set to merge into.
-	 * @param partialResourceSet
-	 *            The resource set with the resources to be merged.
-	 */
-	private void mergeResourecSets(ResourceSet totalResourceSet,
-			ResourceSet partialResourceSet) {
-		List<Resource> resources = new ArrayList<Resource>();
-		resources.addAll(partialResourceSet.getResources());
+    /**
+     * Register all jars contained in the project.
+     *
+     * @param projectDirectory
+     *            The base directory to find jar files in.
+     * @param classPath
+     *            The virtual class path for the parser.
+     * @throws IOException
+     *             Any exception during jar access.
+     */
+    private void addAllJarFilesToClassPath(File projectDirectory, JavaClasspath classPath) throws IOException {
 
-		for (Resource resource : resources) {
-			totalResourceSet.getResources().add(resource);
-		}
-	}
+        Collection<File> jarFiles = FileUtils.listFiles(projectDirectory, new String[] { "jar" }, true);
+        for (File jarPath : jarFiles) {
+            if (jarPath.exists()) {
+                classPath.registerClassifierJar(URI.createFileURI(jarPath.getCanonicalPath()));
+            }
+        }
+    }
 
-	/**
-	 * Handle any failed proxy resolution.
-	 *
-	 * @param rs
-	 *            The resource set to prove for any un-handled proxies.
-	 */
-	private void handleFailedProxyResolution(ResourceSet rs) {
-		logger.error("Resolution of some Proxies failed...");
-		Iterator<Notifier> it = rs.getAllContents();
-		while (it.hasNext()) {
-			Notifier next = it.next();
-			if (next instanceof EObject) {
-				EObject o = (EObject) next;
-				if (o.eIsProxy()) {
-					try {
-						it.remove();
-					} catch (UnsupportedOperationException e) {
-						e.printStackTrace();
-						logger.info("Error during unresolved proxy handling", e);
-					}
-				}
-			}
-		}
-	}
+    /**
+     * Load a all files as resource in a specific folder and it's sub folders.<br>
+     * This ignores internal directories starting with ".".
+     *
+     * @param rootFolder
+     *            The root folder to recursively load all resources from.
+     * @param fileExtension
+     *            The extension of files to load.
+     * @param rs
+     *            The resource set to add it to.
+     * @throws IOException
+     *             An exception during resource access.
+     */
+    private void loadAllFilesInResourceSet(File rootFolder, String fileExtension, ResourceSet rs) throws IOException {
+        for (File member : rootFolder.listFiles()) {
+            if (member.isFile()) {
+                if (member.getName().endsWith(fileExtension)) {
+                    parseResource(member, rs);
+                }
+            }
+            if (member.isDirectory()) {
+                if (!member.getName().startsWith(".")) {
+                    loadAllFilesInResourceSet(member, fileExtension, rs);
+                }
+            }
+        }
+    }
 
-	/**
-	 * Register all jars contained in the project.
-	 *
-	 * @param projectDirectory
-	 *            The base directory to find jar files in.
-	 * @param classPath
-	 *            The virtual class path for the parser.
-	 * @throws IOException
-	 *             Any exception during jar access.
-	 */
-	private void addAllJarFilesToClassPath(File projectDirectory,
-			JavaClasspath classPath) throws IOException {
+    /**
+     * Load a specific resource.
+     *
+     * @param file
+     *            The file object to load as resource.
+     * @param rs
+     *            The resource set to add it to.
+     * @throws IOException
+     *             An exception during resource access.
+     */
+    private void parseResource(File file, ResourceSet rs) throws IOException {
+        loadResource(file.getCanonicalPath(), rs);
+    }
 
-		Collection<File> jarFiles = FileUtils.listFiles(projectDirectory,
-				new String[] { "jar" }, true);
-		for (File jarPath : jarFiles) {
-			if (jarPath.exists()) {
-				classPath.registerClassifierJar(URI.createFileURI(jarPath
-						.getCanonicalPath()));
-			}
-		}
-	}
+    /**
+     * Load a specific resource.
+     *
+     * @param filePath
+     *            The path of the file to load.
+     * @param rs
+     *            The resource set to add it to.
+     * @throws IOException
+     *             An exception during resource access.
+     */
+    private void loadResource(String filePath, ResourceSet rs) throws IOException {
+        loadResource(URI.createFileURI(filePath), rs);
+    }
 
-	/**
-	 * Load a all files as resource in a specific folder and it's sub folders.<br>
-	 * This ignores internal directories starting with ".".
-	 *
-	 * @param rootFolder
-	 *            The root folder to recursively load all resources from.
-	 * @param fileExtension
-	 *            The extension of files to load.
-	 * @param rs
-	 *            The resource set to add it to.
-	 * @throws IOException
-	 *             An exception during resource access.
-	 */
-	private void loadAllFilesInResourceSet(File rootFolder,
-			String fileExtension, ResourceSet rs) throws IOException {
-		for (File member : rootFolder.listFiles()) {
-			if (member.isFile()) {
-				if (member.getName().endsWith(fileExtension)) {
-					parseResource(member, rs);
-				}
-			}
-			if (member.isDirectory()) {
-				if (!member.getName().startsWith(".")) {
-					loadAllFilesInResourceSet(member, fileExtension, rs);
-				}
-			}
-		}
-	}
+    /**
+     * Load a specific resource.
+     *
+     * @param uri
+     *            The uri of the resource.
+     * @param rs
+     *            The resource set to add it to.
+     * @throws IOException
+     *             An exception during resource access.
+     */
+    private void loadResource(URI uri, ResourceSet rs) throws IOException {
+        rs.getResource(uri, true);
+    }
 
-	/**
-	 * Load a specific resource.
-	 *
-	 * @param file
-	 *            The file object to load as resource.
-	 * @param rs
-	 *            The resource set to add it to.
-	 * @throws IOException
-	 *             An exception during resource access.
-	 */
-	private void parseResource(File file, ResourceSet rs) throws IOException {
-		loadResource(file.getCanonicalPath(), rs);
-	}
+    /**
+     * Resolve all proxies of the loaded sources.
+     *
+     * @param resourcesProcessedBefore
+     *            The counter of processed resources for statistical reasons.
+     * @param rs
+     *            The resource set to resolve the proxies in.
+     * @return True/False if the resolving was successful or not.
+     */
+    private boolean resolveAllProxies(int resourcesProcessedBefore, ResourceSet rs) {
+        boolean failure = false;
+        List<EObject> eobjects = new LinkedList<EObject>();
+        for (Iterator<Notifier> i = rs.getAllContents(); i.hasNext();) {
+            Notifier next = i.next();
+            if (next instanceof EObject) {
+                eobjects.add((EObject) next);
+            }
+        }
+        int resourcesProcessed = rs.getResources().size();
+        if (resourcesProcessed == resourcesProcessedBefore) {
+            return true;
+        }
 
-	/**
-	 * Load a specific resource.
-	 *
-	 * @param filePath
-	 *            The path of the file to load.
-	 * @param rs
-	 *            The resource set to add it to.
-	 * @throws IOException
-	 *             An exception during resource access.
-	 */
-	private void loadResource(String filePath, ResourceSet rs)
-			throws IOException {
-		loadResource(URI.createFileURI(filePath), rs);
-	}
+        for (EObject next : eobjects) {
+            InternalEObject nextElement = (InternalEObject) next;
+            for (EObject crElement : nextElement.eCrossReferences()) {
+                crElement = EcoreUtil.resolve(crElement, rs);
+                if (crElement.eIsProxy()) {
+                    failure = true;
+                    logger.warn("Can not find referenced element in classpath: "
+                            + ((InternalEObject) crElement).eProxyURI());
+                }
+            }
+        }
 
-	/**
-	 * Load a specific resource.
-	 *
-	 * @param uri
-	 *            The uri of the resource.
-	 * @param rs
-	 *            The resource set to add it to.
-	 * @throws IOException
-	 *             An exception during resource access.
-	 */
-	private void loadResource(URI uri, ResourceSet rs) throws IOException {
-		rs.getResource(uri, true);
-	}
+        // call this method again, because the resolving might have triggered
+        // loading
+        // of additional resources that may also contain references that need to
+        // be resolved.
+        return !failure && resolveAllProxies(resourcesProcessed, rs);
+    }
 
-	/**
-	 * Resolve all proxies of the loaded sources.
-	 *
-	 * @param resourcesProcessedBefore
-	 *            The counter of processed resources for statistical reasons.
-	 * @param rs
-	 *            The resource set to resolve the proxies in.
-	 * @return True/False if the resolving was successful or not.
-	 */
-	private boolean resolveAllProxies(int resourcesProcessedBefore,
-			ResourceSet rs) {
-		boolean failure = false;
-		List<EObject> eobjects = new LinkedList<EObject>();
-		for (Iterator<Notifier> i = rs.getAllContents(); i.hasNext();) {
-			Notifier next = i.next();
-			if (next instanceof EObject) {
-				eobjects.add((EObject) next);
-			}
-		}
-		int resourcesProcessed = rs.getResources().size();
-		if (resourcesProcessed == resourcesProcessedBefore) {
-			return true;
-		}
+    /**
+     * Setup the JaMoPP resource set and prepare the parsing options for the java resource type.
+     *
+     * @return The initialized resource set.
+     */
+    private ResourceSet setUpResourceSet() {
+        ResourceSet rs = new ResourceSetImpl();
+        Map<Object, Object> options = rs.getLoadOptions();
+        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.FALSE);
+        options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.FALSE);
+        EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
 
-		for (EObject next : eobjects) {
-			InternalEObject nextElement = (InternalEObject) next;
-			for (EObject crElement : nextElement.eCrossReferences()) {
-				crElement = EcoreUtil.resolve(crElement, rs);
-				if (crElement.eIsProxy()) {
-					failure = true;
-					logger.warn("Can not find referenced element in classpath: "
-							+ ((InternalEObject) crElement).eProxyURI());
-				}
-			}
-		}
+        Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
+        factoryMap.put("java", new JavaSourceOrClassFileResourceFactoryImpl());
+        factoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+        return rs;
+    }
 
-		// call this method again, because the resolving might have triggered
-		// loading
-		// of additional resources that may also contain references that need to
-		// be resolved.
-		return !failure && resolveAllProxies(resourcesProcessed, rs);
-	}
+    @Override
+    public String getId() {
+        return EXTRACTOR_ID;
+    }
 
-	/**
-	 * Setup the JaMoPP resource set and prepare the parsing options for the
-	 * java resource type.
-	 *
-	 * @return The initialized resource set.
-	 */
-	private ResourceSet setUpResourceSet() {
-		ResourceSet rs = new ResourceSetImpl();
-		Map<Object, Object> options = rs.getLoadOptions();
-		options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING,Boolean.FALSE);
-		options.put(IJavaOptions.DISABLE_LOCATION_MAP,Boolean.FALSE);
-		EPackage.Registry.INSTANCE.put("http://www.emftext.org/java",JavaPackage.eINSTANCE);
-
-		Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-		factoryMap.put("java",new JavaSourceOrClassFileResourceFactoryImpl());
-		factoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION,new XMIResourceFactoryImpl());
-		return rs;
-	}
-
-	@Override
-	public String getId() {
-		return EXTRACTOR_ID;
-	}
-
-	@Override
-	public String getLabel() {
-		return EXTRACTOR_LABEL;
-	}
+    @Override
+    public String getLabel() {
+        return EXTRACTOR_LABEL;
+    }
 
 }
