@@ -7,4 +7,10 @@
 <suppressions>
     <suppress checks=".*"
               files=".*[\\/]testmodels[\\/].*"/>
+    <suppress checks=".*"
+              files=".*[\\/]testcode[\\/].*"/>
+    <suppress checks=".*"
+              files="org[\\/]eclipse[\\/]gmt[\\/].*"/>
+    <suppress checks=".*"
+              files="org[\\/]eclipse[\\/]modisco[\\/].*"/>
 </suppressions>
