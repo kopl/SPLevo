@@ -14,5 +14,5 @@
     <suppress checks=".*"
               files="org[\\/]eclipse[\\/]modisco[\\/].*"/>
     <suppress checks=".*"
-              files="org[\\/]eclipse[\\/]wbt[\\/].*"/>
+              files=".*[\\/]org[\\/]eclipse[\\/]wbt[\\/].*"/>
 </suppressions>
