@@ -13,7 +13,6 @@ import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.members.Method;
 import org.junit.Test;
-import org.splevo.diffing.DiffingException;
 import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
 
 import com.google.common.collect.Sets;
@@ -28,7 +27,7 @@ public class MethodDeclarationTest {
     /**
      * Test method to detect changes in the method declarations.
      *
-     * @throws DiffingException
+     * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
@@ -41,7 +40,7 @@ public class MethodDeclarationTest {
 		ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
 
 		JaMoPPDiffer differ = new JaMoPPDiffer();
-		Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.diffOptions);
+		Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
 
 		EList<Diff> differences = comparison.getDifferences();
 

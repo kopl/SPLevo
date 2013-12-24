@@ -17,7 +17,6 @@ import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.junit.Test;
-import org.splevo.diffing.DiffingException;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
@@ -48,25 +47,24 @@ public class VariableDeclarationStatementDiffingTest {
      * 	BigInteger integerValue1 = new BigInteger("1");
      * </code> and <code>
      *  BigDecimal integerValue1 = new BigDecimal("1");
-     * </code>
-     * This is expected to result in a single Statement Change.
+     * </code> This is expected to result in a single Statement Change.
      *
      * This also includes differing imports which are not in the focus of this test.<br>
      * Both variable declarations are within a method methodA() of a class A.
      *
-     * @throws DiffingException
+     * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
     public void testVariableDeclarationDiff() throws Exception {
 
-		TestUtil.setUp();
-    	ResourceSet rsLeading = TestUtil.loadResourceSet(Sets.newHashSet(TEST_FILE_1));
-    	ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(TEST_FILE_2));
+        TestUtil.setUp();
+        ResourceSet rsLeading = TestUtil.loadResourceSet(Sets.newHashSet(TEST_FILE_1));
+        ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(TEST_FILE_2));
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-    	Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.diffOptions);
+        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.DIFF_OPTIONS);
         EList<Diff> differences = comparison.getDifferences();
         for (Diff diff : differences) {
             logger.debug(diff.getKind() + ": " + TestUtil.printDiff(diff));
@@ -79,9 +77,9 @@ public class VariableDeclarationStatementDiffingTest {
                 ClassifierImport classifierImport = (ClassifierImport) importChange.getChangedImport();
                 String importedClass = classifierImport.getClassifier().getName();
 
-                if(importChange.getKind() == DifferenceKind.ADD) {
+                if (importChange.getKind() == DifferenceKind.ADD) {
                     assertThat("Wrong added import type", importedClass, is("BigDecimal"));
-                } else if(importChange.getKind() == DifferenceKind.DELETE) {
+                } else if (importChange.getKind() == DifferenceKind.DELETE) {
                     assertThat("Wrong deleted import type", importedClass, is("BigInteger"));
                 }
 

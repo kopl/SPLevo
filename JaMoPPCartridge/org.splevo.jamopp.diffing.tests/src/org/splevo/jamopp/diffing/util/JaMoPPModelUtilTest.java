@@ -13,22 +13,24 @@ import org.junit.Test;
  */
 public class JaMoPPModelUtilTest {
 
-	@Test
-	public void testBuildPackagePath() {
-		CompilationUnit cu = ContainersFactory.eINSTANCE.createCompilationUnit();
-		cu.getNamespaces().add("java");
-		cu.getNamespaces().add("lang");
-		
-		org.emftext.language.java.classifiers.Class bigIntClass = ClassifiersFactory.eINSTANCE.createClass();
-		bigIntClass.setName("BigInteger");
-		
-		cu.getClassifiers().add(bigIntClass);
-		
-		
-		String packagePath = JaMoPPModelUtil.buildNamespacePath(bigIntClass);
-		
-		assertThat("Package should match", packagePath, is("java.lang"));
-		
-	}
+    /**
+     * Test for the utility method to build a path string for a package containment.
+     */
+    @Test
+    public void testBuildPackagePath() {
+        CompilationUnit cu = ContainersFactory.eINSTANCE.createCompilationUnit();
+        cu.getNamespaces().add("java");
+        cu.getNamespaces().add("lang");
+
+        org.emftext.language.java.classifiers.Class bigIntClass = ClassifiersFactory.eINSTANCE.createClass();
+        bigIntClass.setName("BigInteger");
+
+        cu.getClassifiers().add(bigIntClass);
+
+        String packagePath = JaMoPPModelUtil.buildNamespacePath(bigIntClass);
+
+        assertThat("Package should match", packagePath, is("java.lang"));
+
+    }
 
 }

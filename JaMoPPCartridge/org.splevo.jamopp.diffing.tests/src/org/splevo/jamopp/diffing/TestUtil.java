@@ -43,34 +43,31 @@ import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
  */
 public abstract class TestUtil {
 
-	/** The logger for the test utility. */
-	private static Logger logger = Logger.getLogger(TestUtil.class);
+    /** The logger for the test utility. */
+    private static Logger logger = Logger.getLogger(TestUtil.class);
 
-	/** The default options to be used in the tests. */
-	public static Map<String, Object> diffOptions = null;
+    /** The default options to be used in the tests. */
+    public static final Map<String, Object> DIFF_OPTIONS = new LinkedHashMap<String, Object>();
+    static {
+        DIFF_OPTIONS.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES,
+                Arrays.asList("java.*", "org.jscience.*", "javolution.*"));
+    }
 
-	static {
-		diffOptions = new LinkedHashMap<String, Object>();
-		diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, Arrays.asList("java.*", "org.jscience.*", "javolution.*"));
-	}
-
-
-	/**
-	 * Prepare the test.
-	 * Initializes a log4j logging environment.
-	 */
-	public static void setUp() {
-		// set up a basic logging configuration for the test environment
-		BasicConfigurator.resetConfiguration();
-		BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
-	}
+    /**
+     * Prepare the test. Initializes a log4j logging environment.
+     */
+    public static void setUp() {
+        // set up a basic logging configuration for the test environment
+        BasicConfigurator.resetConfiguration();
+        BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
+    }
 
     /**
      * Save a project model to a specified file.
      *
      * @param comparisonModel
      *            The model to save.
-     * @param filePath
+     * @param relativeFilePath
      *            The eclipse workspace relative file path to save to.
      * @throws IOException
      *             identifies that the file could not be written.
@@ -90,32 +87,38 @@ public abstract class TestUtil {
         resource.save(Collections.EMPTY_MAP);
     }
 
-	public static String printDiff(Diff diff) {
+    /**
+     * Get the text representation of the changed software element contained referenced by a diff.
+     *
+     * @param diff
+     *            The diff element to print.
+     * @return the string representation of the elements code.
+     */
+    public static String printDiff(Diff diff) {
 
-		EObject changedElement = null;
-		if(diff instanceof StatementChange) {
-			StatementChange change = (StatementChange) diff;
-			changedElement = change.getChangedStatement();
-		} else if(diff instanceof ImportChange) {
-			ImportChange change = (ImportChange) diff;
-			changedElement = change.getChangedImport();
-		}
+        EObject changedElement = null;
+        if (diff instanceof StatementChange) {
+            StatementChange change = (StatementChange) diff;
+            changedElement = change.getChangedStatement();
+        } else if (diff instanceof ImportChange) {
+            ImportChange change = (ImportChange) diff;
+            changedElement = change.getChangedImport();
+        }
 
-
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		JavaPrinter2 printer = new JavaPrinter2(stream, new JavaResource());
-		try {
-			printer.print(changedElement);
-		} catch (IOException e) {
-			logger.warn("Failed to print: ", e);
-		}
-		return stream.toString();
-	}
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        JavaPrinter2 printer = new JavaPrinter2(stream, new JavaResource());
+        try {
+            printer.print(changedElement);
+        } catch (IOException e) {
+            logger.warn("Failed to print: ", e);
+        }
+        return stream.toString();
+    }
 
     /**
      * Get the file extension of a file.
      *
-     * @param file
+     * @param path
      *            The file object to get the extension for.
      * @return The file extension or null if none found.
      */
@@ -129,23 +132,26 @@ public abstract class TestUtil {
 
     /**
      * Load the resource set for a set of java files.
-     * @param sourceFile
-     * @return
+     *
+     * @param sourceFiles
+     *            The source files to load in the resource set.
+     * @return The prepared resource set.
      * @throws IOException
+     *             A failure during file load.
      */
-	public static ResourceSet loadResourceSet(Set<File> sourceFiles) throws IOException {
-		ResourceSet rs = setUpResourceSet();
+    public static ResourceSet loadResourceSet(Set<File> sourceFiles) throws IOException {
+        ResourceSet rs = setUpResourceSet();
         JavaClasspath.get(rs);
         for (File sourceFile : sourceFiles) {
-        	parseResource(sourceFile, rs);
-		}
+            parseResource(sourceFile, rs);
+        }
 
         if (!resolveAllProxies(0, rs)) {
             handleFailedProxyResolution(rs);
         }
 
-		return rs;
-	}
+        return rs;
+    }
 
     /**
      * Handle any failed proxy resolution.
@@ -252,8 +258,6 @@ public abstract class TestUtil {
         rs.getResource(uri, true);
     }
 
-
-
     /**
      * Setup the JaMoPP resource set and prepare the parsing options for the java resource type.
      *
@@ -265,7 +269,7 @@ public abstract class TestUtil {
         rs.getLoadOptions().put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.FALSE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
         Map<String, Object> extensionToFactoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-		extensionToFactoryMap.put("java", new JavaSourceOrClassFileResourceFactoryImpl());
+        extensionToFactoryMap.put("java", new JavaSourceOrClassFileResourceFactoryImpl());
         extensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
         return rs;
     }

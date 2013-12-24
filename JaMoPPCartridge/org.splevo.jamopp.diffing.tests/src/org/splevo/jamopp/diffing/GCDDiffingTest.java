@@ -15,7 +15,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 
@@ -29,43 +28,32 @@ import com.google.common.collect.Lists;
  */
 public class GCDDiffingTest {
 
-	private static ResourceSet setA;
-	private static ResourceSet setB;
+    /**
+     * Test the diffing of the calculator example.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testDoDiff() throws Exception {
 
-	@BeforeClass
-	public static void initTest() throws Exception {
+        TestUtil.setUp();
 
-		TestUtil.setUp();
+        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
+        String basePath = "testmodels/implementation/calculator/";
+        List<URI> urisA = Lists.asList(URI.createFileURI(basePath + "native"), new URI[] {});
+        List<URI> urisB = Lists.asList(URI.createFileURI(basePath + "jscience"), new URI[] {});
+        NullProgressMonitor monitor = new NullProgressMonitor();
+        ResourceSet setA = extractor.extractSoftwareModel(urisA, monitor, null);
+        ResourceSet setB = extractor.extractSoftwareModel(urisB, monitor, null);
 
-		JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-		String basePath = "testmodels/implementation/calculator/";
-		List<URI> urisA = Lists.asList(URI.createFileURI(basePath + "native"),
-				new URI[] {});
-		List<URI> urisB = Lists.asList(URI.createFileURI(basePath + "jscience"),
-				new URI[] {});
-		NullProgressMonitor monitor = new NullProgressMonitor();
-		setA = extractor.extractSoftwareModel(urisA, monitor, null);
-		setB = extractor.extractSoftwareModel(urisB, monitor, null);
-	}
+        JaMoPPDiffer differ = new JaMoPPDiffer();
 
-	/**
-	 * Test the diffing of the calculator example.
-	 *
-	 * @throws Exception
-	 *             Identifies a failed diffing.
-	 */
-	@Test
-	public void testDoDiff() throws Exception {
+        Map<String, Object> diffOptions = TestUtil.DIFF_OPTIONS;
+        Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
-		TestUtil.setUp();
+        EList<Diff> differences = comparison.getDifferences();
 
-		JaMoPPDiffer differ = new JaMoPPDiffer();
-
-		Map<String, Object> diffOptions = TestUtil.diffOptions;
-		Comparison comparison = differ.doDiff(setA, setB, diffOptions);
-
-		EList<Diff> differences = comparison.getDifferences();
-
-		assertThat("Wrong number of differences", differences.size(), is(12));
+        assertThat("Wrong number of differences", differences.size(), is(12));
     }
 }
