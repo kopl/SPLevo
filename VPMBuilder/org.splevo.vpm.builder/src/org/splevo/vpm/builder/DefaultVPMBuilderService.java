@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2013
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.vpm.builder;
 
 import java.util.LinkedList;
@@ -53,7 +64,7 @@ public class DefaultVPMBuilderService implements VPMBuilderService {
     /**
      * Merge a variation point model into another one. The second vpm will be merged into the first
      * one.
-     * 
+     *
      * @param enrichVPM
      *            The VPM to enrich.
      * @param mergeVPM
@@ -69,7 +80,7 @@ public class DefaultVPMBuilderService implements VPMBuilderService {
     /**
      * Load the software model extractor implementations registered for the according extension
      * point.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
@@ -112,7 +123,7 @@ public class DefaultVPMBuilderService implements VPMBuilderService {
 
     /**
      * Check if there are two or more builders with the same id.
-     * 
+     *
      * @param builders
      *            The builders to check.
      * @return True if the same id is used more than once. False otherwise.

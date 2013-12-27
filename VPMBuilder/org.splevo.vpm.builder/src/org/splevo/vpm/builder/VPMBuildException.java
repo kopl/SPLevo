@@ -1,6 +1,14 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2013
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.vpm.builder;
 
 /**
@@ -11,30 +19,34 @@ public class VPMBuildException extends Exception {
     private static final long serialVersionUID = 1L;
 
     /**
-     * {@inheritDoc}
+     * Create a new exception without any settings.
      */
     public VPMBuildException() {
     }
 
     /**
-     * {@inheritDoc}
+     * Create a new exception with an info message.
+     * @param message Some information about the exception.
      */
-    public VPMBuildException(String arg0) {
-        super(arg0);
+    public VPMBuildException(String message) {
+        super(message);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a new exception with an info message and wrapped exception.
+     * @param throwable Another throwable to wrap by this exception.
      */
-    public VPMBuildException(Throwable arg0) {
-        super(arg0);
+    public VPMBuildException(Throwable throwable) {
+        super(throwable);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a new exception with an info message and wrapped exception.
+     * @param message Some information about the exception.
+     * @param throwable Another throwable to wrap by this exception.
      */
-    public VPMBuildException(String arg0, Throwable arg1) {
-        super(arg0, arg1);
+    public VPMBuildException(String message, Throwable throwable) {
+        super(message, throwable);
     }
 
 }
