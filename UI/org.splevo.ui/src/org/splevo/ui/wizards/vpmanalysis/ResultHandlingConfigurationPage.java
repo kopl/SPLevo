@@ -580,6 +580,12 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
 	@Override
 	public boolean isPageComplete() {
+	    return resultPresentation == ResultPresentation.RELATIONSHIP_GRAPH_ONLY
+	            || (resultPresentation == ResultPresentation.REFINEMENT_BROWSER && !labelsToGroupID.isEmpty());
+	}
+
+	@Override
+	public boolean canFlipToNextPage() {
 	    return resultPresentation == ResultPresentation.REFINEMENT_BROWSER && !labelsToGroupID.isEmpty();
 	}
 }
