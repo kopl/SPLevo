@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2013
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.vpm.analyzer.programstructure.index;
 
 import java.util.ArrayList;
@@ -17,10 +28,10 @@ import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * An index for storing and looking up variation points and their contained AST nodes.
- * 
- * 
+ *
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class VariationPointIndex {
 
@@ -38,7 +49,7 @@ public class VariationPointIndex {
 
     /**
      * Index the nodes and variation points of the supplied variation point model graph.
-     * 
+     *
      * @param vpmGraph
      *            The graph to fill the index from.
      */
@@ -51,7 +62,7 @@ public class VariationPointIndex {
 
     /**
      * Get a list of all indexed variation points.
-     * 
+     *
      * @return The variation point list.
      */
     public List<VariationPoint> getVariationPoints() {
@@ -60,10 +71,10 @@ public class VariationPointIndex {
 
     /**
      * Get the graph node representing a variation point.
-     * 
+     *
      * Theoretically, this might return null. If the same data was used to fill the index and to
      * retrieve the node now, this would not happen.
-     * 
+     *
      * @param vp
      *            The variation point to look up the node for.
      * @return The referencing node.
@@ -74,7 +85,7 @@ public class VariationPointIndex {
 
     /**
      * Build the inverted index mapping a variation point to the graph node it is contained in.
-     * 
+     *
      * @param vpmGraph
      *            The graph to index.
      * @return The prepared inverted index.
@@ -92,7 +103,7 @@ public class VariationPointIndex {
 
     /**
      * Build an AST node index to simplify the variation point for AST node lookup.
-     * 
+     *
      * @param variationPoints
      *            The variation point collection to build the AST node index for.
      * @return The prepared AST node index.
@@ -113,7 +124,7 @@ public class VariationPointIndex {
     /**
      * Software elements can have child elements (e.g. a method containing statements). This method
      * indexes all sub elements.
-     * 
+     *
      * @param index
      *            The index map to add the node to.
      * @param softwareElement
@@ -124,7 +135,7 @@ public class VariationPointIndex {
     private void indexEnclosedSoftwareElements(Map<SoftwareElement, VariationPoint> index,
             SoftwareElement softwareElement, VariationPoint vp) {
         index.put(softwareElement, vp);
-        
+
         for (ProgramStructureProvider provider : Activator.getProgramStructureProviders()) {
             List<SoftwareElement> subElements = provider.getRelevantSubElements(softwareElement);
             for (SoftwareElement subElement : subElements) {
@@ -135,7 +146,7 @@ public class VariationPointIndex {
 
     /**
      * Collect all AST nodes implementing a variant of a Variation Point.
-     * 
+     *
      * @param vp
      *            The variation point to get the ASTNodes for.
      * @return A list of all referenced ASTNodes.
@@ -156,7 +167,7 @@ public class VariationPointIndex {
     /**
      * Lookup the enclosing variation point for an AST node. This might be null if the provided AST
      * nodes is not part of a variation point.
-     * 
+     *
      * @param softwareElement
      *            The SoftwareElement to look up the variation point for.
      * @return The enclosing variation point or null if none exist.
