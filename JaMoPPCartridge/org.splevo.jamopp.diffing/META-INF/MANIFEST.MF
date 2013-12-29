@@ -19,8 +19,8 @@ Require-Bundle: org.eclipse.ui,
  org.apache.commons.io;bundle-version="2.0.1",
  org.eclipse.emf.ecore.xmi;bundle-version="2.9.1",
  org.eclipse.emf;bundle-version="2.6.0",
- org.emftext.language.java.resource.java;bundle-version="1.4.1",
- org.emftext.commons.antlr3_4_0;bundle-version="3.4.0"
+ org.emftext.language.java.resource.java,
+ org.emftext.commons.antlr3_4_0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.jamopp.diffing,
  org.splevo.jamopp.diffing.jamoppdiff,
