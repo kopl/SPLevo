@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2013
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.diffing.match;
 
 import java.util.ArrayList;
@@ -23,7 +34,7 @@ import com.google.common.collect.Sets;
  */
 public class HierarchicalStrategyResourceMatcher extends
 		StrategyResourceMatcher {
-	
+
 	/** Index to assign the left resources to their file name. */
 	private ListMultimap<String, Resource> segmentToLeftResources = ArrayListMultimap
 			.create();
@@ -89,13 +100,13 @@ public class HierarchicalStrategyResourceMatcher extends
 	/**
 	 * Create matches for the left and right candidates. A match is only created
 	 * if a pair is the best match for both sides.
-	 * 
+	 *
 	 * Internally, an index is build to identify the matches and the best
 	 * matches for both candidate lists.
-	 * 
-	 * @param leftCandidates
-	 * @param rightCandidates
-	 * @param mappings
+	 *
+	 * @param leftCandidates The left candidates to search matches for.
+	 * @param rightCandidates The right candidates to search matches for.
+	 * @param mappings The list of mappings to fill.
 	 */
 	private void matchBestMatches(List<Resource> leftCandidates,
 			List<Resource> rightCandidates, List<MatchResource> mappings) {
@@ -151,7 +162,7 @@ public class HierarchicalStrategyResourceMatcher extends
 	 * Count the number of matching segments for two resources. The segment
 	 * comparison starts from the end of the resources' URIs because the
 	 * filename is the most identifying one.
-	 * 
+	 *
 	 * @param leftResource
 	 *            The left resource to compare the uri.
 	 * @param rightResource
@@ -190,7 +201,7 @@ public class HierarchicalStrategyResourceMatcher extends
 
 	/**
 	 * Index a set of resources according to their last segment.
-	 * 
+	 *
 	 * @param resources
 	 *            The resources to index.
 	 * @param index
