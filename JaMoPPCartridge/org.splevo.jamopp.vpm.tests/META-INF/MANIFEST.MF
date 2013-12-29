@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.junit;visibility:=reexport,
- org.emftext.language.java.resource;bundle-version="1.4.1",
- org.emftext.commons.antlr3_4_0;bundle-version="3.4.0",
- org.emftext.language.java.resource.bcel;bundle-version="1.4.1"
+ org.emftext.language.java.resource,
+ org.emftext.commons.antlr3_4_0,
+ org.emftext.language.java.resource.bcel
 Bundle-ActivationPolicy: lazy
