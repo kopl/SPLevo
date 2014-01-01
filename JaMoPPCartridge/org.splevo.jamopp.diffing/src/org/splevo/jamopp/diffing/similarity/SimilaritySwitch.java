@@ -978,7 +978,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         @Override
         public Boolean caseJump(Jump jump1) {
-            ElementReference jump2 = (ElementReference) compareElement;
+            Jump jump2 = (Jump) compareElement;
 
             Boolean similarity = similarityChecker.isSimilar(jump1.getTarget(), jump2.getTarget());
             if (similarity == Boolean.FALSE) {
