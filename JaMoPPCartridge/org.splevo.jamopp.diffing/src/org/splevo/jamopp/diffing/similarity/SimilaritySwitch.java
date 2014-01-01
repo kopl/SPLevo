@@ -778,6 +778,16 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             IdentifierReference ref2 = (IdentifierReference) compareElement;
             ReferenceableElement target1 = ref1.getTarget();
             ReferenceableElement target2 = ref2.getTarget();
+
+            // target container similarity
+            EObject container1 = target1.eContainer();
+            EObject container2 = target2.eContainer();
+            Boolean containerSimilarity = similarityChecker.isSimilar(container1, container2);
+            if (containerSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+
+            // target identity similarity
             Boolean similarity = similarityChecker.isSimilar(target1, target2);
             if (similarity == Boolean.FALSE) {
                 return Boolean.FALSE;
@@ -1170,19 +1180,6 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
             // check the variables name equality
             if (!var1.getName().equals(var2.getName())) {
-                return Boolean.FALSE;
-            }
-
-            // TODO: Check alternative to let all referencing elements prove the
-            // container similarity
-            // This is already done by the hierarchical match engine. This could
-            // also explicitly been
-            // done by the reference checks.
-            // check variable declaration container
-            EObject container1 = var1.eContainer();
-            EObject container2 = var2.eContainer();
-            Boolean containerSimilarity = similarityChecker.isSimilar(container1, container2);
-            if (containerSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
             }
 
