@@ -91,6 +91,33 @@ public class StatementTest {
     }
 
     /**
+     * Test classic for loop with object (iterator) initialization inside.
+     *
+     * Due to the hierarchical design of the match engine, this is a special
+     * case because the variable initialization and the reference to the variable
+     * are contained within the same container.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testForLoopWithIterator() throws Exception {
+
+        TestUtil.setUp();
+        File testFileA = new File(basePath + "a/ForLoopWithIterator.java");
+        File testFileB = new File(basePath + "b/ForLoopWithIterator.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Should return no difference", differences.size(), is(0));
+    }
+
+    /**
      * Test insertion of new statements
      *
      * @throws Exception
