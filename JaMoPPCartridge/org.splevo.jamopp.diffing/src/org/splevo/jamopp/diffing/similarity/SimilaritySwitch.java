@@ -780,11 +780,17 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             ReferenceableElement target2 = ref2.getTarget();
 
             // target container similarity
+            // check this only if the reference target is located
+            // in another container than the reference itself.
+            // Otherwise such a situation would lead to endless loops
+            // e.g. for for "(Iterator i = c.iterator(); i.hasNext(); ) {"
             EObject container1 = target1.eContainer();
             EObject container2 = target2.eContainer();
-            Boolean containerSimilarity = similarityChecker.isSimilar(container1, container2);
-            if (containerSimilarity == Boolean.FALSE) {
-                return Boolean.FALSE;
+            if (container1 != ref1.eContainer() && container2 != ref2.eContainer()) {
+                Boolean containerSimilarity = similarityChecker.isSimilar(container1, container2);
+                if (containerSimilarity == Boolean.FALSE) {
+                    return Boolean.FALSE;
+                }
             }
 
             // target identity similarity
@@ -1146,8 +1152,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Primitive type elements are strongly typed and the exact type is already checked by the
-         * outer {@link SimilarityChecker}.
-         * <br>
+         * outer {@link SimilarityChecker}. <br>
          * {@inheritDoc}
          */
         @Override
