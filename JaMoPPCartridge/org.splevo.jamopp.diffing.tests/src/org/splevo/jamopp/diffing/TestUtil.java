@@ -160,7 +160,6 @@ public abstract class TestUtil {
      *            The resource set to prove for any un-handled proxies.
      */
     private static void handleFailedProxyResolution(ResourceSet rs) {
-        logger.error("Resolution of some Proxies failed...");
         Iterator<Notifier> it = rs.getAllContents();
         while (it.hasNext()) {
             Notifier next = it.next();
