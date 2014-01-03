@@ -3,17 +3,22 @@ package org.splevo.jamopp.extraction;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
@@ -32,6 +37,9 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     private static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
     private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
+
+    /** Option to resolve all proxies in the model immediately after resource loading. */
+    private boolean resolveProxiesImmediately = false;
 
     /**
      * Extract all java files and referenced resources to a file named according to
@@ -67,7 +75,91 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         logger.info("Java and Jar Files added to resource set");
 
+        if (resolveProxiesImmediately) {
+            logger.info("Resolve all proxies");
+            if (!resolveAllProxies(targetResourceSet)) {
+                handleFailedProxyResolution(targetResourceSet);
+            }
+        }
+
         return targetResourceSet;
+    }
+
+    /**
+     * Resolve all proxies of the loaded sources.
+     *
+     * This is a slightly modified version of the JaMoPPCC proxy resolution. It is not called
+     * recursively because the extractor ensures all available resources have been loaded in
+     * advance.<br>
+     * The code has also been cleaned up.
+     *
+     * Note: The same result could also be achieved by calling {@link EcoreUtil} resolveAll() but
+     * this would not allow to track any non resolved proxies.
+     *
+     * @param rs
+     *            The resource set to resolve the proxies in.
+     * @return True/False if the resolving was successful or not.
+     */
+    private boolean resolveAllProxies(ResourceSet rs) {
+        boolean failure = false;
+
+        for (Iterator<Notifier> i = rs.getAllContents(); i.hasNext();) {
+            Notifier next = i.next();
+            if (next instanceof InternalEObject) {
+                failure = resolveProxyReferences(rs, (InternalEObject) next);
+            }
+        }
+
+        return !failure;
+    }
+
+    /**
+     * Resolve the proxies of all cross referenced eobjects of an internal object.
+     *
+     * @param rs
+     *            The resource set to resolve the proxies.
+     * @param internalEObject
+     *            The internal object to process the cross references of.
+     * @return True if one or more proxy resolutions failed.
+     */
+    private boolean resolveProxyReferences(ResourceSet rs, InternalEObject internalEObject) {
+        boolean failure = false;
+        for (EObject crElement : internalEObject.eCrossReferences()) {
+            if (crElement.eIsProxy()) {
+                crElement = EcoreUtil.resolve(crElement, rs);
+                if (crElement.eIsProxy()) {
+                    failure = true;
+                    logger.warn("Can not find referenced element in classpath: "
+                            + ((InternalEObject) crElement).eProxyURI());
+                }
+            }
+        }
+        return failure;
+    }
+
+    /**
+     * Handle any failed proxy resolution.
+     *
+     * @param rs
+     *            The resource set to prove for any un-handled proxies.
+     */
+    private void handleFailedProxyResolution(ResourceSet rs) {
+        logger.error("Resolution of some Proxies failed...");
+        Iterator<Notifier> it = rs.getAllContents();
+        while (it.hasNext()) {
+            Notifier next = it.next();
+            if (next instanceof EObject) {
+                EObject o = (EObject) next;
+                if (o.eIsProxy()) {
+                    try {
+                        it.remove();
+                    } catch (UnsupportedOperationException e) {
+                        e.printStackTrace();
+                        logger.info("Error during unresolved proxy handling", e);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -156,8 +248,8 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     private ResourceSet setUpResourceSet() {
         ResourceSet rs = new ResourceSetImpl();
         Map<Object, Object> options = rs.getLoadOptions();
-        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.FALSE);
-        options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.FALSE);
+        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
+        options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
