@@ -14,11 +14,12 @@ import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.postprocessor.IPostProcessor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmt.modisco.java.Expression;
+import org.splevo.diffing.postprocessor.ComparisonModelCleanUp;
 import org.splevo.modisco.java.diffing.diff.CustomChangeFactory;
 
 /**
  * A MoDisco Java specific post processor to refine the comparison model.
- * 
+ *
  * <h2>Post Diff Processing</h2>
  * <p>
  * After the diff process has been finished, too detailed differences are detected and refined diffs
@@ -73,7 +74,7 @@ public class MoDiscoJavaPostProcessor implements IPostProcessor {
 
     /**
      * Detect and refine to detailed diffs.
-     * 
+     *
      * @param diff
      *            The diff to check and refine if reasonable.
      * @return The refined diff, if one has been created.
@@ -90,7 +91,7 @@ public class MoDiscoJavaPostProcessor implements IPostProcessor {
 
     /**
      * Detect and refine to detailed {@link ReferenceChange}.
-     * 
+     *
      * @param referenceChange
      *            The {@link ReferenceChange} to check and refine if reasonable.
      * @return The refined diff, if one has been created.
@@ -137,7 +138,7 @@ public class MoDiscoJavaPostProcessor implements IPostProcessor {
 
     /**
      * Detect and refine to detailed {@link AttributeChange}.
-     * 
+     *
      * @param attributeChange
      *            The {@link AttributeChange} to check and refine if reasonable.
      * @return The refined diff, if one has been created.
@@ -159,13 +160,22 @@ public class MoDiscoJavaPostProcessor implements IPostProcessor {
     public void postConflicts(Comparison comparison, Monitor monitor) {
     }
 
+    /**
+     * The comparison represents the original models hierarchies with match elements. While only
+     * those subtrees containing diff elements are relevant for the downstream process, the model is
+     * larger then needed. This post processor step removes all match element (subtrees) that do not
+     * contain any diff element.<br>
+     *
+     * {@inheritDoc}
+     */
     @Override
     public void postComparison(Comparison comparison, Monitor monitor) {
+        ComparisonModelCleanUp.cleanMatches(comparison.getMatches());
     }
 
     /**
      * Get the parent match of a match.
-     * 
+     *
      * @param match
      *            The match to get the parent match for.
      * @return If the container is null or not a match, return null.
