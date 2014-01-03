@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.diffing.scope;
 
 import org.eclipse.emf.common.notify.Notifier;
@@ -22,7 +33,7 @@ public class JavaModelMatchScope extends DefaultComparisonScope {
 
     /**
      * Constructor requiring to specify the packages to ignore.
-     * 
+     *
      * @param left
      *            The left notifier of this scope.
      * @param right
@@ -53,8 +64,8 @@ public class JavaModelMatchScope extends DefaultComparisonScope {
                 if (rootElement instanceof CompilationUnit) {
                     return true;
                 }
-                if(rootElement instanceof org.emftext.language.java.containers.Package){
-                	return true;
+                if (rootElement instanceof org.emftext.language.java.containers.Package) {
+                    return true;
                 }
             }
             return false;
@@ -69,16 +80,16 @@ public class JavaModelMatchScope extends DefaultComparisonScope {
 
         @Override
         public boolean apply(EObject input) {
-        	
-        	if(input instanceof LayoutInformation) {
-        		return false;
-        	}
-        	
-        	if(input instanceof CompilationUnit) {
-        		if(PACKAGE_INFO_FILENAME.equals(((CompilationUnit) input).getName())) {
-        			return false;
-        		}
-        	}
+
+            if (input instanceof LayoutInformation) {
+                return false;
+            }
+
+            if (input instanceof CompilationUnit) {
+                if (PACKAGE_INFO_FILENAME.equals(((CompilationUnit) input).getName())) {
+                    return false;
+                }
+            }
 
             Boolean isInIgnorePackage = packageIgnoreChecker.isInIgnorePackage(input);
             if (isInIgnorePackage == Boolean.TRUE) {

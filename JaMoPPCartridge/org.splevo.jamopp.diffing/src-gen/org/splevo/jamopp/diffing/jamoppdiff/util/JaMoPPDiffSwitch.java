@@ -3,13 +3,20 @@
 package org.splevo.jamopp.diffing.jamoppdiff.util;
 
 import org.eclipse.emf.compare.Diff;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
-import org.splevo.jamopp.diffing.jamoppdiff.*;
+import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
+import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
+import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
+import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
+import org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange;
+import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiff;
+import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
+import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
+import org.splevo.jamopp.diffing.jamoppdiff.PackageChange;
+import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
 /**
  * <!-- begin-user-doc -->

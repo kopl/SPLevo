@@ -1,17 +1,32 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.diffing.jamoppdiff.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.compare.Diff;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.splevo.jamopp.diffing.jamoppdiff.*;
+import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
+import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
+import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
+import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
+import org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange;
+import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiff;
+import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
+import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
+import org.splevo.jamopp.diffing.jamoppdiff.PackageChange;
+import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
 /**
  * <!-- begin-user-doc -->
