@@ -8,35 +8,48 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.extraction.SoftwareModelExtractionException;
-import org.splevo.tests.AbstractTest;
 
 /**
  * Test case for basic functionality of the JaMoPP based extractor.
  */
-public class JaMoPPSoftwareModelExtractorTest extends AbstractTest {
+public class JaMoPPSoftwareModelExtractorTest {
 
 	private static final String TEST_TARGET_PATH = "test/models/sourcemodel/calculator-jscience";
 
-	private Logger logger = Logger
-			.getLogger(JaMoPPSoftwareModelExtractorTest.class);
+	private Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractorTest.class);
 
 	/** The relative path to the project to extract java sources from. */
 	private static final String TEST_PROJECT_PATH = "test/project/calculator-jscience";
 
+    /**
+     * Prepare the test.
+     * Initializes a log4j logging environment.
+     */
+    @BeforeClass
+    public static void setUp() {
+        // set up a basic logging configuration for the test environment
+        BasicConfigurator.resetConfiguration();
+        BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
+    }
+
 	/**
 	 * Test extraction functionality.
-	 * 
+	 *
 	 * Proof the number of resources resulting from the parsed test project.
-	 * 
+	 *
 	 * @throws SoftwareModelExtractionException
 	 *             for any exception during the extraction process.
 	 */
