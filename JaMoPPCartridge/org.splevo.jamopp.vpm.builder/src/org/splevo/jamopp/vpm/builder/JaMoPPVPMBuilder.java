@@ -38,7 +38,8 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
         VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 
         // visit the difference tree
-        JaMoPPDiffVisitor java2KDMDiffVisitor = new JaMoPPDiffVisitor(variantIDLeading, variantIDIntegration, vpm, comparisonModel);
+        JaMoPPDiffVisitor java2KDMDiffVisitor = new JaMoPPDiffVisitor(variantIDLeading, variantIDIntegration, vpm,
+                comparisonModel);
         for (Diff diff : comparisonModel.getDifferences()) {
             VariationPoint vp = java2KDMDiffVisitor.doSwitch(diff);
             if (vp != null) {
@@ -80,8 +81,7 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
     }
 
     /**
-     * Check if at least one JaMoPP specific Diff element exisits
-     * in the comparision model.
+     * Check if at least one JaMoPP specific Diff element exisits in the comparision model.
      *
      * @param compareModel
      *            The diff model to check
@@ -90,10 +90,10 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
     private boolean diffModelIsValid(Comparison compareModel) {
 
         List<Diff> differences = Lists.newArrayList(compareModel.getDifferences());
-		for(Diff diff : differences) {
-        	if(diff instanceof JaMoPPDiff) {
-        		return true;
-        	}
+        for (Diff diff : differences) {
+            if (diff instanceof JaMoPPDiff) {
+                return true;
+            }
         }
 
         return false;
