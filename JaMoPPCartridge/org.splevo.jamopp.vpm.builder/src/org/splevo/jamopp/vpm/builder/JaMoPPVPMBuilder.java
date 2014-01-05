@@ -16,7 +16,7 @@ import org.splevo.vpm.variability.variabilityFactory;
 import com.google.common.collect.Lists;
 
 /**
- * A builder to generate a Variation Point Model (VPM) based on a java2kdm diff-model, i.e. an
+ * A builder to generate a Variation Point Model (VPM) based on a JaMoPP diff-model, i.e. an
  * extended EMF Compare diff-model.
  *
  */
@@ -38,10 +38,10 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
         VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 
         // visit the difference tree
-        JaMoPPDiffVisitor java2KDMDiffVisitor = new JaMoPPDiffVisitor(variantIDLeading, variantIDIntegration, vpm,
+        JaMoPPDiffVisitor jamoppDiffVisitor = new JaMoPPDiffVisitor(variantIDLeading, variantIDIntegration, vpm,
                 comparisonModel);
         for (Diff diff : comparisonModel.getDifferences()) {
-            VariationPoint vp = java2KDMDiffVisitor.doSwitch(diff);
+            VariationPoint vp = jamoppDiffVisitor.doSwitch(diff);
             if (vp != null) {
                 VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
 
