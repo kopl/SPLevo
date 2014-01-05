@@ -1,4 +1,12 @@
 /**
+ * Copyright (c) 2014
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Benjamin Klatt - initial API and implementation and/or initial documentation
  */
 package org.splevo.jamopp.diffing.jamoppdiff;
 
@@ -23,30 +31,30 @@ package org.splevo.jamopp.diffing.jamoppdiff;
  * @generated
  */
 public interface ClassChange extends JaMoPPDiff {
-	/**
-	 * Returns the value of the '<em><b>Changed Class</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Changed Class</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Changed Class</em>' reference.
-	 * @see #setChangedClass(org.emftext.language.java.classifiers.Class)
-	 * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getClassChange_ChangedClass()
-	 * @model required="true"
-	 * @generated
-	 */
-	org.emftext.language.java.classifiers.Class getChangedClass();
+    /**
+     * Returns the value of the '<em><b>Changed Class</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Changed Class</em>' reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Changed Class</em>' reference.
+     * @see #setChangedClass(org.emftext.language.java.classifiers.Class)
+     * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getClassChange_ChangedClass()
+     * @model required="true"
+     * @generated
+     */
+    org.emftext.language.java.classifiers.Class getChangedClass();
 
-	/**
-	 * Sets the value of the '{@link org.splevo.jamopp.diffing.jamoppdiff.ClassChange#getChangedClass <em>Changed Class</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Changed Class</em>' reference.
-	 * @see #getChangedClass()
-	 * @generated
-	 */
-	void setChangedClass(org.emftext.language.java.classifiers.Class value);
+    /**
+     * Sets the value of the '{@link org.splevo.jamopp.diffing.jamoppdiff.ClassChange#getChangedClass <em>Changed Class</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Changed Class</em>' reference.
+     * @see #getChangedClass()
+     * @generated
+     */
+    void setChangedClass(org.emftext.language.java.classifiers.Class value);
 
 } // ClassChange

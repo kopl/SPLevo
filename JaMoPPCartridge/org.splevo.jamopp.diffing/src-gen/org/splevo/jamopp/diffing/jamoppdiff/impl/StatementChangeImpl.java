@@ -1,4 +1,12 @@
 /**
+ * Copyright (c) 2014
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Benjamin Klatt - initial API and implementation and/or initial documentation
  */
 package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
@@ -27,139 +35,135 @@ import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
  *
  * @generated
  */
-public class StatementChangeImpl extends JaMoPPDiffImpl implements
-		StatementChange {
-	/**
-	 * The cached value of the '{@link #getChangedStatement() <em>Changed Statement</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getChangedStatement()
-	 * @generated
-	 * @ordered
-	 */
-	protected Statement changedStatement;
+public class StatementChangeImpl extends JaMoPPDiffImpl implements StatementChange {
+    /**
+     * The cached value of the '{@link #getChangedStatement() <em>Changed Statement</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getChangedStatement()
+     * @generated
+     * @ordered
+     */
+    protected Statement changedStatement;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected StatementChangeImpl() {
-		super();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected StatementChangeImpl() {
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return JaMoPPDiffPackage.Literals.STATEMENT_CHANGE;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return JaMoPPDiffPackage.Literals.STATEMENT_CHANGE;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Statement getChangedStatement() {
-		if (changedStatement != null && changedStatement.eIsProxy()) {
-			InternalEObject oldChangedStatement = (InternalEObject) changedStatement;
-			changedStatement = (Statement) eResolveProxy(oldChangedStatement);
-			if (changedStatement != oldChangedStatement) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(
-							this,
-							Notification.RESOLVE,
-							JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT,
-							oldChangedStatement, changedStatement));
-			}
-		}
-		return changedStatement;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Statement getChangedStatement() {
+        if (changedStatement != null && changedStatement.eIsProxy()) {
+            InternalEObject oldChangedStatement = (InternalEObject) changedStatement;
+            changedStatement = (Statement) eResolveProxy(oldChangedStatement);
+            if (changedStatement != oldChangedStatement) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+                            JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT, oldChangedStatement,
+                            changedStatement));
+            }
+        }
+        return changedStatement;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Statement basicGetChangedStatement() {
-		return changedStatement;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Statement basicGetChangedStatement() {
+        return changedStatement;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setChangedStatement(Statement newChangedStatement) {
-		Statement oldChangedStatement = changedStatement;
-		changedStatement = newChangedStatement;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT,
-					oldChangedStatement, changedStatement));
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setChangedStatement(Statement newChangedStatement) {
+        Statement oldChangedStatement = changedStatement;
+        changedStatement = newChangedStatement;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET,
+                    JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT, oldChangedStatement, changedStatement));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-		case JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT:
-			if (resolve)
-				return getChangedStatement();
-			return basicGetChangedStatement();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+        case JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT:
+            if (resolve)
+                return getChangedStatement();
+            return basicGetChangedStatement();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-		case JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT:
-			setChangedStatement((Statement) newValue);
-			return;
-		}
-		super.eSet(featureID, newValue);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+        case JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT:
+            setChangedStatement((Statement) newValue);
+            return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-		case JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT:
-			setChangedStatement((Statement) null);
-			return;
-		}
-		super.eUnset(featureID);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void eUnset(int featureID) {
+        switch (featureID) {
+        case JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT:
+            setChangedStatement((Statement) null);
+            return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-		case JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT:
-			return changedStatement != null;
-		}
-		return super.eIsSet(featureID);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+        case JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT:
+            return changedStatement != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //StatementChangeImpl
