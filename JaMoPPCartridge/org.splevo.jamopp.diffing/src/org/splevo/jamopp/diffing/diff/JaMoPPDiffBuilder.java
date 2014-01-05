@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,7 +40,7 @@ import org.emftext.language.java.variables.Variable;
 import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
 
 /**
- * Diff builder / DiffProcessor specific for the MoDisco Java model.
+ * Diff builder / DiffProcessor specific for the JaMoPP Java model.
  *
  * Main purpose of this builder is to filter invalid move changes and produce
  * custom diffs for directly identifiable.

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -52,7 +52,7 @@ public class JavaModelMatchScope extends DefaultComparisonScope {
 
     /**
      * A predicate to decide if a resource is in the scope.<br>
-     * For MoDisco models we must include the resources instances of {@link JavaModel} as these are
+     * For JaMoPP models we must include the resources instances of {@link JavaModel} as these are
      * the AST models we must compare as well as instances of {@link JavaApplication} as their
      * references are required in the downstream process.
      */

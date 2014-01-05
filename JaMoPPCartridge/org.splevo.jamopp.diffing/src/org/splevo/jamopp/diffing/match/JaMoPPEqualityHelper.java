@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,7 @@ import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 import com.google.common.cache.LoadingCache;
 
 /**
- * EqualityHelper specific for the MoDisco Java software element.
+ * EqualityHelper specific for the JaMoPP Java software element.
  */
 public class JaMoPPEqualityHelper extends EqualityHelper {
 
@@ -27,7 +27,7 @@ public class JaMoPPEqualityHelper extends EqualityHelper {
 
     /**
      * Constructor to initialize the required cache.
-     * 
+     *
      * @param uriCache
      *            The cache to use during the equality checks.
      * @param similarityChecker

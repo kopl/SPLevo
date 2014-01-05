@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -92,7 +92,7 @@ public class JaMoPPDiffer extends JavaDiffer {
 	 *
 	 * @return null if no supported source models available.
 	 * @throws DiffingNotSupportedException
-	 *             Thrown if no Java2Kdm models provided to compare.
+	 *             Thrown if a diffing cannot be done for the provided models.
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

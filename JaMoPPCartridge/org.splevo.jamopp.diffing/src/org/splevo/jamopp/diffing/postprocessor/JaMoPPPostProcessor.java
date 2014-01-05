@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,7 +32,7 @@ import org.splevo.diffing.postprocessor.ComparisonModelCleanUp;
 import org.splevo.jamopp.diffing.diff.JaMoPPChangeFactory;
 
 /**
- * A MoDisco Java specific post processor to refine the comparison model.
+ * A JaMoPP specific post processor to refine the comparison model.
  *
  * <h2>Post Diff Processing</h2>
  * <p>
