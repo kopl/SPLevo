@@ -11,3 +11,4 @@ Require-Bundle: org.splevo.jamopp.diffing;bundle-version="1.0.0";visibility:=ree
  org.emftext.language.java,
  org.splevo.jamopp.vpm;bundle-version="1.0.0";visibility:=reexport,
  com.google.guava;bundle-version="11.0.2"
+Export-Package: org.splevo.jamopp.vpm.builder
