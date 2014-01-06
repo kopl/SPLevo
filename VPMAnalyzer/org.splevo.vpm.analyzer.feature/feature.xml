@@ -223,13 +223,6 @@ litigation.
          unpack="false"/>
 
    <plugin
-         id="org.splevo.vpm.analyzer.programstructure"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.splevo.vpm.analyzer.codelocation"
          download-size="0"
          install-size="0"
