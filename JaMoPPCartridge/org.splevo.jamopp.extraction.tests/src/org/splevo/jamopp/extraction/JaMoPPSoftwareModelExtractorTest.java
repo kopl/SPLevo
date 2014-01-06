@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.extraction;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -27,16 +38,15 @@ import org.splevo.extraction.SoftwareModelExtractionException;
  */
 public class JaMoPPSoftwareModelExtractorTest {
 
-	private static final String TEST_TARGET_PATH = "test/models/sourcemodel/calculator-jscience";
+    private static final String TEST_TARGET_PATH = "test/models/sourcemodel/calculator-jscience";
 
-	private Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractorTest.class);
+    private Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractorTest.class);
 
-	/** The relative path to the project to extract java sources from. */
-	private static final String TEST_PROJECT_PATH = "test/project/calculator-jscience";
+    /** The relative path to the project to extract java sources from. */
+    private static final String TEST_PROJECT_PATH = "test/project/calculator-jscience";
 
     /**
-     * Prepare the test.
-     * Initializes a log4j logging environment.
+     * Prepare the test. Initializes a log4j logging environment.
      */
     @BeforeClass
     public static void setUp() {
@@ -45,66 +55,62 @@ public class JaMoPPSoftwareModelExtractorTest {
         BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
     }
 
-	/**
-	 * Test extraction functionality.
-	 *
-	 * Proof the number of resources resulting from the parsed test project.
-	 *
-	 * @throws SoftwareModelExtractionException
-	 *             for any exception during the extraction process.
-	 */
-	@Test
-	public void testExtractSoftwareModel()
-			throws SoftwareModelExtractionException {
+    /**
+     * Test extraction functionality.
+     *
+     * Proof the number of resources resulting from the parsed test project.
+     *
+     * @throws SoftwareModelExtractionException
+     *             for any exception during the extraction process.
+     */
+    @Test
+    public void testExtractSoftwareModel() throws SoftwareModelExtractionException {
 
-		JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-		List<URI> projectPaths = new ArrayList<URI>();
-		projectPaths.add(URI.createFileURI(new File(TEST_PROJECT_PATH)
-				.getAbsolutePath()));
-		URI targetURI = URI.createFileURI(new File(TEST_TARGET_PATH)
-				.getAbsolutePath());
-		ResourceSet extractionResult = extractor.extractSoftwareModel(
-				projectPaths, new NullProgressMonitor(), targetURI);
+        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
+        List<URI> projectPaths = new ArrayList<URI>();
+        projectPaths.add(URI.createFileURI(new File(TEST_PROJECT_PATH).getAbsolutePath()));
+        URI targetURI = URI.createFileURI(new File(TEST_TARGET_PATH).getAbsolutePath());
+        ResourceSet extractionResult = extractor.extractSoftwareModel(projectPaths, new NullProgressMonitor(),
+                targetURI);
 
-		assertThat(extractionResult, notNullValue());
+        assertThat(extractionResult, notNullValue());
 
-		// check the compilation unit count
-		int projectResourceCount = 0;
-		List<Resource> projectResources = new ArrayList<Resource>();
-		for (Resource resource : extractionResult.getResources()) {
-			String[] segments = resource.getURI().segments();
-			if ("calculator".equals(segments[segments.length - 2])) {
-				projectResourceCount++;
-				projectResources.add(resource);
-			}
-			for (EObject topLevelEObject : resource.getContents()) {
-				if (!(topLevelEObject instanceof CompilationUnit)) {
-					logger.info("TopLevelEObject: "
-							+ topLevelEObject.getClass().getSimpleName());
-				}
-			}
-		}
+        // check the compilation unit count
+        int projectResourceCount = 0;
+        List<Resource> projectResources = new ArrayList<Resource>();
+        for (Resource resource : extractionResult.getResources()) {
+            String[] segments = resource.getURI().segments();
+            if ("calculator".equals(segments[segments.length - 2])) {
+                projectResourceCount++;
+                projectResources.add(resource);
+            }
+            for (EObject topLevelEObject : resource.getContents()) {
+                if (!(topLevelEObject instanceof CompilationUnit)) {
+                    logger.info("TopLevelEObject: " + topLevelEObject.getClass().getSimpleName());
+                }
+            }
+        }
 
-		int expectedTestClasses = 3;
-		assertThat(projectResourceCount, equalTo(expectedTestClasses));
-	}
+        int expectedTestClasses = 3;
+        assertThat(projectResourceCount, equalTo(expectedTestClasses));
+    }
 
-	/**
-	 * Test a valid id to be returned.
-	 */
-	@Test
-	public void testGetId() {
-		JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-		assertThat(extractor.getId(), notNullValue());
-	}
+    /**
+     * Test a valid id to be returned.
+     */
+    @Test
+    public void testGetId() {
+        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
+        assertThat(extractor.getId(), notNullValue());
+    }
 
-	/**
-	 * Test a valid label to be returned.
-	 */
-	@Test
-	public void testGetLabel() {
-		JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-		assertThat(extractor.getLabel(), notNullValue());
-	}
+    /**
+     * Test a valid label to be returned.
+     */
+    @Test
+    public void testGetLabel() {
+        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
+        assertThat(extractor.getLabel(), notNullValue());
+    }
 
 }
