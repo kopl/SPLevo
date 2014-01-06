@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
+import org.splevo.vpm.analyzer.VPMAnalyzerException;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
@@ -26,7 +27,7 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
 
     /**
      * Constructor to set configuration of the analysis to perform.
-     * 
+     *
      * @param analyzer
      *            The configuration of the analysis to perform.
      */
@@ -43,7 +44,13 @@ public class VPMAnalysisJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         logger.info("Analyze VPM Graph");
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
         this.logger.info("VPM Analysis (" + analyzer.getName() + ") started at: " + (dateFormat.format(new Date())));
-        VPMAnalyzerResult analyzerResult = analyzer.analyze(vpmGraph);
+        VPMAnalyzerResult analyzerResult;
+        try {
+            analyzerResult = analyzer.analyze(vpmGraph);
+        } catch (VPMAnalyzerException e) {
+            this.logger.error("VPM Analysis (" + analyzer.getName() + ") failed at: " + (dateFormat.format(new Date())));
+            throw new JobFailedException("VPM Analysis failed (" + analyzer.getName() + ")", e);
+        }
         this.logger.info("VPM Analysis (" + analyzer.getName() + ") finished at: " + (dateFormat.format(new Date())));
         this.logger.info("VPM Analysis (" + analyzer.getName() + ") relationships detected: "
                 + analyzerResult.getEdgeDescriptors().size());
