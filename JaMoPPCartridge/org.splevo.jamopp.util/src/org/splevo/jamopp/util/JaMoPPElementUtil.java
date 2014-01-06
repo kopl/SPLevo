@@ -37,8 +37,8 @@ public final class JaMoPPElementUtil {
      * If you want to always get a string representation, check out {@link JaMoPPElementUtil#getLabel(Commentable)}.
      *
      * @param element
-     *            The JaMopp
-     * @return
+     *            The JaMoPP element to get the name for.
+     * @return The name attribute of an element.
      */
     public static String getName(Commentable element) {
         if (element == null) {
@@ -60,7 +60,7 @@ public final class JaMoPPElementUtil {
      *            The JaMoPP element to get the label for.
      * @return The String representation.
      */
-    public String getLabel(Commentable element) {
+    public static String getLabel(Commentable element) {
         if (element == null) {
             return "NULL";
 
