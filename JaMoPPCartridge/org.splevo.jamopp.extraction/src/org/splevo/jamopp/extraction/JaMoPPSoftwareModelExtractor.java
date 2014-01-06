@@ -52,28 +52,45 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * {@inheritDoc}
      */
     @Override
-    public ResourceSet extractSoftwareModel(List<URI> projectURIs, IProgressMonitor monitor, URI targetURI)
+    public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor, URI targetURI)
+            throws SoftwareModelExtractionException {
+        return extractSoftwareModel(projectPaths, monitor);
+    }
+
+    /**
+     * Extract the source model of a list of java projects. One project is the main project while a
+     * list of additional projects to analyze can be specified. The reason for one main project is,
+     * that this one is used for example for the naming of the root inventory produced etc.
+     *
+     * @param projectPaths
+     *            Source Paths of the projects to be extracted.
+     * @param monitor
+     *            The monitor to report the progress to.
+     * @return The set of resources containing the extracted model.
+     * @throws SoftwareModelExtractionException
+     *             Identifies the extraction was not successful.
+     */
+    public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor)
             throws SoftwareModelExtractionException {
 
         ResourceSet targetResourceSet = setUpResourceSet();
         JavaClasspath cp = JavaClasspath.get(targetResourceSet);
 
-        for (URI projectPathURI : projectURIs) {
+        for (URI projectPathURI : projectPaths) {
 
             String projectPath = projectPathURI.toFileString();
             cp.getURIMap().put(projectPathURI, URI.createURI(""));
             File srcFolder = new File(projectPath);
             try {
                 srcFolder.isDirectory();
-                addAllJarFilesToClassPath(srcFolder, cp);
-                loadAllJavaFilesInResourceSet(srcFolder, targetResourceSet);
+                int jarCount = addAllJarFilesToClassPath(srcFolder, cp);
+                int javaCount = loadAllJavaFilesInResourceSet(srcFolder, targetResourceSet);
+                logger.info(String.format("%d Java and %d Jar Files added to resource set", javaCount, jarCount));
 
             } catch (Exception e) {
                 throw new SoftwareModelExtractionException("Failed to extract software model.", e);
             }
         }
-
-        logger.info("Java and Jar Files added to resource set");
 
         if (resolveProxiesImmediately) {
             logger.info("Resolve all proxies");
@@ -169,16 +186,18 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      *            The base directory to find jar files in.
      * @param classPath
      *            The virtual class path for the parser.
+     * @return the number of jar files added to the Classpath
      * @throws IOException
      *             Any exception during jar access.
      */
-    private void addAllJarFilesToClassPath(File projectDirectory, JavaClasspath classPath) throws IOException {
+    private int addAllJarFilesToClassPath(File projectDirectory, JavaClasspath classPath) throws IOException {
         Collection<File> jarFiles = FileUtils.listFiles(projectDirectory, new String[] { "jar" }, true);
         for (File jarPath : jarFiles) {
             if (jarPath.exists()) {
                 classPath.registerClassifierJar(URI.createFileURI(jarPath.getCanonicalPath()));
             }
         }
+        return jarFiles.size();
     }
 
     /**
@@ -188,14 +207,16 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      *            The root folder to recursively load all resources from.
      * @param rs
      *            The resource set to add it to.
+     * @return The number of loaded java files.
      * @throws IOException
      *             An exception during resource access.
      */
-    private void loadAllJavaFilesInResourceSet(File rootFolder, ResourceSet rs) throws IOException {
+    private int loadAllJavaFilesInResourceSet(File rootFolder, ResourceSet rs) throws IOException {
         Collection<File> javaFiles = FileUtils.listFiles(rootFolder, new String[] { "java" }, true);
         for (File javaFile : javaFiles) {
             parseResource(javaFile, rs);
         }
+        return javaFiles.size();
     }
 
     /**
