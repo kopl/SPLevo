@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.compare.Comparison;
-import org.splevo.diffing.DiffingException;
-import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.diffing.JavaDiffer;
-import org.splevo.modisco.java.diffing.Java2KDMDiffer;
-import org.splevo.modisco.java.vpm.builder.Java2KDMVPMBuilder;
+import org.splevo.jamopp.diffing.JaMoPPDiffer;
+import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -41,9 +39,9 @@ public class SPLevoTestUtil {
 
     /**
      * Load the variation point model graph for the GCD example.
-     * 
+     *
      * @return The loaded graph.
-     * @throws DiffingException
+     * @throws Exception
      *             Identifies a failed diffing.
      */
     public static VPMGraph loadGCDVPMGraph() throws Exception {
@@ -56,29 +54,26 @@ public class SPLevoTestUtil {
 
     /**
      * Load the vpm model for the common GCD test example.
-     * 
+     *
      * @return The loaded model.
-     * @throws DiffingException
+     * @throws Exception
      *             Identifies a failed diffing.
      */
     public static VariationPointModel loadGCDVPMModel() throws Exception {
 
         Comparison diffModel = loadGCDDiffModel();
 
-        Java2KDMVPMBuilder java2KDMVPMBuilder = new Java2KDMVPMBuilder();
-        VariationPointModel initialVpm = java2KDMVPMBuilder.buildVPM(diffModel, "LEADING", "INTEGRATION");
+        JaMoPPVPMBuilder jamoppVPMBuilder = new JaMoPPVPMBuilder();
+        VariationPointModel initialVpm = jamoppVPMBuilder.buildVPM(diffModel, "LEADING", "INTEGRATION");
 
         return initialVpm;
     }
 
     /**
      * Load the diffing model.
-     * 
-     * @param leadingModel
-     * @param integrationModel
-     * @param isInScopeSwitch.ignorePackages
-     * @return
-     * @throws DiffingException
+     *
+     * @return The loaded diff model.
+     * @throws Exception
      *             Identifies a failed diffing.
      */
     public static Comparison loadGCDDiffModel() throws Exception {
@@ -93,7 +88,7 @@ public class SPLevoTestUtil {
         Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
         diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
 
-        Java2KDMDiffer differ = new Java2KDMDiffer();
+        JaMoPPDiffer differ = new JaMoPPDiffer();
 
         Comparison diffModel = differ.doDiff(NATIVE_JAVA2KDMMODEL_DIR.toURI(), JSCIENCE_JAVA2KDMMODEL_DIR.toURI(),
                 diffOptions);
@@ -103,20 +98,19 @@ public class SPLevoTestUtil {
 
     /**
      * Load the diffing model.
-     * 
+     *
      * @param leadingModel
      * @param integrationModel
-     * @param isInScopeSwitch.ignorePackages
-     * @return
-     * @throws DiffingException
+     * @return The resulting comparison model.
+     * @throws Exception
      *             Identifies a failed diffing.
      */
-    public static Comparison loadInterfaceImplementsDiffModel() throws DiffingException, DiffingNotSupportedException {
+    public static Comparison loadInterfaceImplementsDiffModel() throws Exception {
 
         Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
         diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, Arrays.asList("java.*"));
 
-        Java2KDMDiffer differ = new Java2KDMDiffer();
+        JaMoPPDiffer differ = new JaMoPPDiffer();
         Comparison diffModel = differ.doDiff(INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(),
                 INTERFACE_IMPLEMENT_TEST_DIR_2.toURI(), diffOptions);
 

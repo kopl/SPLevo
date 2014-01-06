@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<javaapplication:Java2Directory xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:javaapplication="http://www.eclipse.org/MoDisco/Java/Composition/0.1.incubation/javaApplication">
-  <javaPackage href="../_java.xmi#//@ownedElements.0/@ownedPackages.0/@ownedPackages.0/@ownedPackages.0"/>
-  <directory href="../_kdm.xmi#//@model.0/@inventoryElement.0/@inventoryElement.6/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0/@inventoryElement.0"/>
-  <parent href="../_java2kdm.xmi#/"/>
-  <java2FileChildren href="org.splevo.examples.calculator_java2kdm.xmi#/0"/>
-  <java2FileChildren href="org.splevo.examples.calculator_java2kdm.xmi#/1"/>
-</javaapplication:Java2Directory>
