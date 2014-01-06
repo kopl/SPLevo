@@ -121,14 +121,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.splevo.vpm.analyzer.programstructure.tests"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.splevo.vpm.analyzer.codelocation.tests"
          download-size="0"
          install-size="0"
@@ -194,6 +186,14 @@
 
    <plugin
          id="org.splevo.jamopp.vpm.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.jamopp.vpm.analyzer.programdependency.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"
