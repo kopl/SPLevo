@@ -10,12 +10,13 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.featuremodel.metamodel;visibility:=reexport,
- org.splevo.vpm;bundle-version="1.0.0",
+ org.splevo.vpm,
  org.emftext.language.java;visibility:=reexport,
  org.emftext.commons.layout;visibility:=reexport,
- org.apache.log4j;bundle-version="1.2.15",
- com.google.guava;bundle-version="11.0.2",
- org.emftext.language.java.resource.java
+ org.apache.log4j,
+ com.google.guava,
+ org.emftext.language.java.resource.java,
+ org.splevo.jamopp.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.jamopp.vpm.software,
  org.splevo.jamopp.vpm.software.impl,
