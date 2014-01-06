@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.splevo.vpm.analyzer;
 
@@ -17,7 +17,6 @@ import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
-import org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer;
 import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
 import org.splevo.vpm.refinement.Refinement;
@@ -26,15 +25,15 @@ import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * Test case for the default vpm analyzer service implementation.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
     /**
      * Test initializing the VPMGraph for the vpm model initialized for the GCD example.
-     * 
+     *
      * @throws Exception
      *             identifies test input could not be read.
      */
@@ -53,7 +52,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
     /**
      * Test method for
      * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#mergeGraphs(java.util.List)}.
-     * 
+     *
      * @throws InterruptedException
      *             identifies test has been interrupted.
      */
@@ -97,7 +96,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
     /**
      * Test method for
      * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#mergeGraphEdges(java.util.List)}.
-     * 
+     *
      * @throws InterruptedException
      *             identifies test has been interrupted.
      */
@@ -126,7 +125,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
     /**
      * Test method for
      * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#createGraphEdges(VPMGraph, List)}.
-     * 
+     *
      * @throws InterruptedException
      *             identifies test has been interrupted.
      */
@@ -139,7 +138,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
         createNode(graph, "VP3");
         createNode(graph, "VP4");
 
-        
+
         VPMAnalyzerResult resultCS = new VPMAnalyzerResult(new CodeLocationVPMAnalyzer());
 
         VPMEdgeDescriptor descriptorVP1VP2 = new VPMEdgeDescriptor("CodeStructure", "Method", "VP1", "VP2");
@@ -148,7 +147,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
         VPMEdgeDescriptor descriptorVP3VP4CS = new VPMEdgeDescriptor("CodeStructure", "Method", "VP3", "VP4");
         resultCS.getEdgeDescriptors().add(descriptorVP3VP4CS);
 
-        VPMAnalyzerResult resultPD = new VPMAnalyzerResult(new ProgramStructureVPMAnalyzer());
+        VPMAnalyzerResult resultPD = new VPMAnalyzerResult(new CodeLocationVPMAnalyzer());
 
         VPMEdgeDescriptor descriptorVP3VP4PD = new VPMEdgeDescriptor("ProgramDependency", "Variable", "VP3", "VP4");
         resultPD.getEdgeDescriptors().add(descriptorVP3VP4PD);
@@ -165,14 +164,14 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
         assertNotNull("Missing Edge VP3#VP4 (Maybe wrong id creation)", graph.getEdge("VP3#VP4"));
         assertTrue("Unexpected Edge VP4#VP3 (Wrong id creation)", graph.getEdge("VP4#VP3") == null);
-        
+
     }
 
     /**
      * Test method for
      * {@link org.splevo.vpm.analyzer.DefaultVPMAnalyzerService#deriveRefinements(org.splevo.vpm.analyzer.graph.VPMGraph, java.util.List)}
      * .
-     * 
+     *
      * @throws Exception
      *             identifies the test graph could not be loaded.
      */
@@ -210,7 +209,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
     /**
      * Create node with a label.
-     * 
+     *
      * @param graph
      *            The graph to create the node in.
      * @param label
