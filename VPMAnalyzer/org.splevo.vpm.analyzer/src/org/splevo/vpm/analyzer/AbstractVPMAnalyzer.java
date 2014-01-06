@@ -9,15 +9,15 @@ import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 
 /**
  * An abstract variation point model analyzer providing some common infrastructure.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
 
     @Override
     public abstract String getRelationshipLabel();
-    
+
     @Override
     public abstract VPMAnalyzerConfigurationSet getConfigurations();
 
@@ -30,7 +30,7 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
     /**
      * Log information during the analysis for later evaluation. An empty relationship info is
      * added.
-     * 
+     *
      * @param vp1ID
      *            An identifier for the first variation point of the relation.
      * @param vp2ID
@@ -46,7 +46,7 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
 
     /**
      * Log some information during the analysis for later evaluation.
-     * 
+     *
      * @param vp1ID
      *            An identifier for the first variation point of the relation.
      * @param vp2ID
@@ -79,7 +79,7 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
     /**
      * Build a unique internal identifier for the undirected edge between the nodes. This is done
      * ensuring an alphabetical order to be independent of the parameter order.
-     * 
+     *
      * @param node1
      *            The first node to connect.
      * @param node2
@@ -97,7 +97,7 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
     /**
      * Build a unique identifier for the undirected edge between the nodes. The edge id is build
      * from the Relationship label and the nodes ids in ascending order.
-     * 
+     *
      * @param node1
      *            The first node to connect.
      * @param node2
@@ -114,7 +114,7 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
 
     /**
      * Builds the edge descriptor.
-     * 
+     *
      * @param node1
      *            the source node of the edge.
      * @param node2
@@ -123,7 +123,7 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
      *            the relationship sub label
      * @return the VPM edge descriptor. Might be null if the edge already exists.
      */
-    protected VPMEdgeDescriptor buildEdgeDescriptor(Node node1, Node node2, String relationshipSubLabel) {
+    public VPMEdgeDescriptor buildEdgeDescriptor(Node node1, Node node2, String relationshipSubLabel) {
 
         VPMEdgeDescriptor descriptor = null;
 
