@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JaMoPP Programstructure Analyzer
+Bundle-SymbolicName: org.splevo.jamopp.vpm.analyzer.programdependency;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.splevo.jamopp.vpm,
+ com.google.guava,
+ org.apache.log4j,
+ org.splevo.vpm.analyzer,
+ org.splevo.jamopp.util
+Export-Package: org.splevo.jamopp.vpm.analyzer.programdependency
