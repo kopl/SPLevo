@@ -2,10 +2,11 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.splevo.vpm.analyzer.programstructure.programstructureprovider">
-      <ProgramStructureProvider
-            extension.class="org.splevo.modisco.java.vpm.analyzer.programstructure.MoDiscoJavaProgramStructureProvider">
-      </ProgramStructureProvider>
+         id="id1"
+         point="org.splevo.vpm.analyzer.analyzer">
+      <analyzer
+            analyzer.class="org.splevo.modisco.java.vpm.analyzer.programstructure.MoDiscoJavaProgramStructureVPMAnalyzer">
+      </analyzer>
    </extension>
 
 </plugin>

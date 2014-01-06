@@ -8,13 +8,12 @@ import java.util.Map;
 import org.eclipse.gmt.modisco.java.ASTNode;
 import org.splevo.modisco.java.vpm.software.MoDiscoJavaSoftwareElement;
 import org.splevo.modisco.java.vpm.software.softwareFactory;
-import org.splevo.vpm.analyzer.programstructure.ProgramStructureProvider;
 import org.splevo.vpm.software.SoftwareElement;
 
 /**
  * Program structure provider specific to the MoDisco Java technology.
  */
-public class MoDiscoJavaProgramStructureProvider implements ProgramStructureProvider {
+public class MoDiscoJavaProgramStructureProvider {
 
     /** The AST node traverser for building the AST node index. */
     private ASTNodeChildrenSelector astNodeTraverser = new ASTNodeChildrenSelector();
@@ -32,9 +31,8 @@ public class MoDiscoJavaProgramStructureProvider implements ProgramStructureProv
      * element. Only if a MoDiscoSoftwareElement is provided, sub elements are discovered by the
      * ASTNode linked by the provided software element. {@inheritDoc}
      */
-    @Override
     @SuppressWarnings("restriction")
-	public List<SoftwareElement> getRelevantSubElements(SoftwareElement softwareElement) {
+	public List<SoftwareElement> getReferableSubElements(SoftwareElement softwareElement) {
 
         List<SoftwareElement> subElements = new ArrayList<SoftwareElement>();
 
@@ -52,7 +50,11 @@ public class MoDiscoJavaProgramStructureProvider implements ProgramStructureProv
         return subElements;
     }
 
-    @Override
+    /**
+     * Get the software elements referring to a specific software element.
+     * @param referredSoftwareElement The element to find referring elements for.
+     * @return The list of referring elements.
+     */
     @SuppressWarnings("restriction")
 	public List<SoftwareElement> getReferringSoftwareElements(SoftwareElement referredSoftwareElement) {
         List<SoftwareElement> referringElements = new ArrayList<SoftwareElement>();
