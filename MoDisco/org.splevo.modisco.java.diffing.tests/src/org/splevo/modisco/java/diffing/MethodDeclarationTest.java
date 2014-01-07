@@ -34,9 +34,11 @@ public class MethodDeclarationTest extends AbstractDiffingTest {
 
     /**
      * Test method to detect changes in the method declarations.
-     * 
+     *
      * @throws DiffingException
      *             Identifies a failed diffing.
+     * @throws DiffingNotSupportedException
+     *             Identifies that the provided models can not be handled by this differ.
      */
     @Test
     public void testDoDiff() throws DiffingException, DiffingNotSupportedException {
