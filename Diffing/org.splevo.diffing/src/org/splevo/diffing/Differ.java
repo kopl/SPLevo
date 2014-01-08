@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2013
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -42,9 +42,18 @@ public interface Differ {
      * @throws DiffingNotSupportedException
      *             The differ is not capable to process this input.
      */
-    Comparison doDiff(URI leadingModelDirectory, URI integrationModelDirectory, Map<String, Object> diffingOptions)
+    Comparison doDiff(URI leadingModelDirectory, URI integrationModelDirectory, Map<String, String> diffingOptions)
             throws DiffingException, DiffingNotSupportedException;
 
+    /**
+     * Get the available configurations for a specific differ.
+     *
+     * All configurations are designed to have string values.<br>
+     * The key of the map is the key of the configuration, the value is the default value.
+     *
+     * @return A map assigning the configurations key to it's default value.
+     */
+    Map<String, String> getAvailableConfigurations();
 
     /**
      * Perform the diffing process for two modisco JavaApplicationModels.
@@ -61,10 +70,8 @@ public interface Differ {
      * @throws DiffingNotSupportedException
      *             The differ is not capable to process this input.
      */
-    Comparison doDiff(ResourceSet resourceSetLeading,
-			ResourceSet resourceSetIntegration,
-			Map<String, Object> diffingOptions) throws DiffingException,
-			DiffingNotSupportedException;
+    Comparison doDiff(ResourceSet resourceSetLeading, ResourceSet resourceSetIntegration,
+            Map<String, String> diffingOptions) throws DiffingException, DiffingNotSupportedException;
 
     /**
      * Get the identifier of the differ. This should be unique compared to all other loaded differs

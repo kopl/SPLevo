@@ -31,7 +31,7 @@ public class DefaultDiffingService implements DiffingService {
 
     @Override
     public Comparison diffSoftwareModels(ResourceSet leadingModel, ResourceSet integrationModel,
-            Map<String, Object> diffingOptions) throws DiffingException {
+            Map<String, String> diffingOptions) throws DiffingException {
 
         List<Differ> differs = getDiffers();
         if (differs.size() == 0) {
