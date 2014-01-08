@@ -1,14 +1,10 @@
 package org.splevo.tests;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.compare.Comparison;
-import org.splevo.diffing.JavaDiffer;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
@@ -22,11 +18,11 @@ import org.splevo.vpm.variability.VariationPointModel;
 public class SPLevoTestUtil {
 
     /** Source path to the native calculator implementation. */
-    public static final File NATIVE_JAVA2KDMMODEL_DIR = new File(
+    public static final File NATIVE_DIR = new File(
             "../org.splevo.tests/testmodels/implementation/gcd/native");
 
     /** Source path to the jscience based calculator implementation. */
-    public static final File JSCIENCE_JAVA2KDMMODEL_DIR = new File(
+    public static final File JSCIENCE_DIR = new File(
             "../org.splevo.tests/testmodels/implementation/gcd/jscience");
 
     /** Source path to the class without an interface. */
@@ -78,19 +74,19 @@ public class SPLevoTestUtil {
      */
     public static Comparison loadGCDDiffModel() throws Exception {
 
-        List<String> ignorePackages = new ArrayList<String>();
-        ignorePackages.add("java.lang");
-        ignorePackages.add("java.math");
-        ignorePackages.add("java.io");
-        ignorePackages.add("org.jscience.*");
-        ignorePackages.add("javolution.*");
+        StringBuilder ignorePackages = new StringBuilder();
+        ignorePackages.append("java.*");
+        ignorePackages.append(System.getProperty("line.separator"));
+        ignorePackages.append("org.jscience.*");
+        ignorePackages.append(System.getProperty("line.separator"));
+        ignorePackages.append("javolution.*");
 
-        Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
-        diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
+        Map<String, String> diffOptions = new LinkedHashMap<String, String>();
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages.toString());
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Comparison diffModel = differ.doDiff(NATIVE_JAVA2KDMMODEL_DIR.toURI(), JSCIENCE_JAVA2KDMMODEL_DIR.toURI(),
+        Comparison diffModel = differ.doDiff(NATIVE_DIR.toURI(), JSCIENCE_DIR.toURI(),
                 diffOptions);
 
         return diffModel;
@@ -107,8 +103,8 @@ public class SPLevoTestUtil {
      */
     public static Comparison loadInterfaceImplementsDiffModel() throws Exception {
 
-        Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
-        diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, Arrays.asList("java.*"));
+        Map<String, String> diffOptions = new LinkedHashMap<String, String>();
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, "java.*");
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
         Comparison diffModel = differ.doDiff(INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(),
