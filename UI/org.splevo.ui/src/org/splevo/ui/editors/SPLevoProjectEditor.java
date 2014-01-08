@@ -51,11 +51,14 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.splevo.diffing.DefaultDiffingService;
+import org.splevo.diffing.Differ;
 import org.splevo.extraction.DefaultExtractionService;
 import org.splevo.extraction.ExtractionService;
 import org.splevo.extraction.SoftwareModelExtractor;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.ui.editors.listener.DifferCheckBoxListener;
 import org.splevo.ui.editors.listener.ExtractorCheckBoxListener;
 import org.splevo.ui.editors.listener.GotoTabMouseListener;
 import org.splevo.ui.editors.listener.MarkDirtyListener;
@@ -64,6 +67,13 @@ import org.splevo.ui.listeners.DiffSourceModelListener;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
+
+import com.google.common.base.CaseFormat;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 
 /**
  * The SPLevo dash board to control the consolidation process as well as editing the SPLevo project
@@ -93,7 +103,7 @@ public class SPLevoProjectEditor extends EditorPart {
     private static final int TABINDEX_SOURCE_MODELS = 3;
 
     /** The internal index of the diffing model tab. */
-    private static final int TABINDEX_DIFFING_MODEL = 4;
+    private static final int TABINDEX_DIFFING = 4;
 
     /** The splevo project manipulated in the editor instance. */
     private SPLevoProject splevoProject = null;
@@ -155,9 +165,6 @@ public class SPLevoProjectEditor extends EditorPart {
     /** The text input for the path to the diffing model. */
     private Text diffingModelInput;
 
-    /** The text input field for the packages to filter. */
-    private Text diffingPackageFilterInput;
-
     /** Button Project Selection. */
     private Button btnSelectSourceProjects;
 
@@ -209,7 +216,7 @@ public class SPLevoProjectEditor extends EditorPart {
         createProjectInfoTab(TABINDEX_PROJECT_INFOS);
         createProjectSelectionTab(TABINDEX_PROJECT_SELECTION);
         createSourceModelTab(TABINDEX_SOURCE_MODELS);
-        createDiffingModelTab(TABINDEX_DIFFING_MODEL);
+        createDiffingTab(TABINDEX_DIFFING);
 
         initDataBindings();
 
@@ -280,7 +287,7 @@ public class SPLevoProjectEditor extends EditorPart {
      */
     private Group buildExtractorSelectionGroup(Composite sourceModelTabComposite) {
 
-        Group groupExtractors = new Group(sourceModelTabComposite, SWT.NONE);
+        Group groupExtractors = new Group(sourceModelTabComposite, SWT.FILL);
         groupExtractors.setText("Extractors");
 
         List<Button> extractorCheckBoxes = new LinkedList<Button>();
@@ -299,7 +306,7 @@ public class SPLevoProjectEditor extends EditorPart {
             Button btnExtracor = new Button(groupExtractors, SWT.CHECK);
             btnExtracor.addSelectionListener(new ExtractorCheckBoxListener(btnExtracor, extractor.getId(), this));
             int yPositionCurrent = yBase + (index * offset);
-            btnExtracor.setBounds(10, yPositionCurrent, 111, 20);
+            btnExtracor.setBounds(10, yPositionCurrent, 450, 20);
             btnExtracor.setText(extractor.getLabel());
             extractorCheckBoxes.add(btnExtracor);
 
@@ -320,10 +327,10 @@ public class SPLevoProjectEditor extends EditorPart {
      * @param tabIndex
      *            The index of the tab within the parent tab folder.
      */
-    private void createDiffingModelTab(int tabIndex) {
+    private void createDiffingTab(int tabIndex) {
 
         TabItem tbtmDiffingModel = new TabItem(tabFolder, SWT.NONE, tabIndex);
-        tbtmDiffingModel.setText("Diffing Model");
+        tbtmDiffingModel.setText("Diffing");
 
         Composite composite = new Composite(tabFolder, SWT.NONE);
         tbtmDiffingModel.setControl(composite);
@@ -339,12 +346,86 @@ public class SPLevoProjectEditor extends EditorPart {
         diffingModelInput = new Text(composite, SWT.BORDER);
         diffingModelInput.setBounds(10, 67, 490, 26);
 
-        diffingPackageFilterInput = new Text(composite, SWT.BORDER | SWT.WRAP);
-        diffingPackageFilterInput.setBounds(10, 141, 490, 158);
+        buildDifferSelectionGroup(composite);
+    }
 
-        Label lblPackageFilterRules = new Label(composite, SWT.NONE);
-        lblPackageFilterRules.setBounds(10, 115, 266, 20);
-        lblPackageFilterRules.setText("Package Filter Rules (one per line):");
+    /**
+     * Build a ui group presenting check boxes to (de-)activate the extractors to executed or not.
+     *
+     * @param composite
+     *            The parent ui element to place on.
+     *
+     * @return The newly created group.
+     */
+    private Group buildDifferSelectionGroup(Composite composite) {
+
+        Group groupDiffers = new Group(composite, SWT.FILL);
+        groupDiffers.setText("Differ");
+
+        List<Button> differCheckBoxes = new LinkedList<Button>();
+
+        DefaultDiffingService diffingService = new DefaultDiffingService();
+        List<Differ> availableDiffers = diffingService.getDiffers();
+
+        int singleHeight = 20;
+        int multipleHeight = 138;
+        int yPositionCurrent = 25;
+
+        for (Differ differ : availableDiffers) {
+
+            Button checkBox = new Button(groupDiffers, SWT.CHECK);
+            checkBox.addSelectionListener(new DifferCheckBoxListener(checkBox, differ.getId(), this));
+            checkBox.setBounds(10, yPositionCurrent, 450, singleHeight);
+            checkBox.setText(differ.getLabel());
+            differCheckBoxes.add(checkBox);
+            boolean selected = splevoProject.getDifferIds().contains(differ.getId());
+            checkBox.setSelection(selected);
+
+            yPositionCurrent = yPositionCurrent + (singleHeight + 5);
+
+            for (String configKey : differ.getAvailableConfigurations().keySet()) {
+
+                String defaultValue = differ.getAvailableConfigurations().get(configKey);
+                String currentValue = this.getSplevoProject().getDifferOptions().get(configKey);
+                String label = getLabelFromKey(configKey);
+
+                Label configLabel = new Label(groupDiffers, SWT.SCROLL_LINE);
+                configLabel.setBounds(10, yPositionCurrent, 266, singleHeight);
+                configLabel.setText(label + ":");
+
+                yPositionCurrent = yPositionCurrent + (singleHeight + 3);
+
+                Text configInput = new Text(groupDiffers, SWT.BORDER | SWT.WRAP);
+                configInput.setBounds(10, yPositionCurrent, 450, multipleHeight);
+                if (currentValue != null) {
+                    configInput.setText(currentValue);
+                } else {
+                    configInput.setText(defaultValue);
+                }
+
+                yPositionCurrent = yPositionCurrent + (multipleHeight + 5);
+
+            }
+
+        }
+
+        groupDiffers.setBounds(10, 100, 490, yPositionCurrent + 5);
+
+        return groupDiffers;
+    }
+
+    /**
+     * Extract a label from a configuration key. The key will be split and concatenated again
+     * separated by whitespaces.
+     *
+     * @param configKey
+     *            The key convert.
+     * @return The resulting label.
+     */
+    private String getLabelFromKey(String configKey) {
+        Splitter splitter = Splitter.on(CharMatcher.anyOf(".")).omitEmptyStrings().trimResults();
+        Joiner joiner = Joiner.on(" ").skipNulls();
+        return joiner.join(splitter.split(configKey));
     }
 
     /**
@@ -635,7 +716,8 @@ public class SPLevoProjectEditor extends EditorPart {
         // check workspace setting
         if (getSplevoProject().getWorkspace() == null || getSplevoProject().getWorkspace().equals("")) {
             Shell shell = getEditorSite().getShell();
-            MessageDialog.openError(shell, "Workspace Missing", "You need to specify a workspace directory for the project.");
+            MessageDialog.openError(shell, "Workspace Missing",
+                    "You need to specify a workspace directory for the project.");
             return;
         }
         File filePath = getCurrentFilePath();
@@ -909,14 +991,6 @@ public class SPLevoProjectEditor extends EditorPart {
         diffingModelPathSplevoProjectObserveValue.addChangeListener(markDirtyListener);
         bindingContext.bindValue(observeTextDiffingModelInputObserveWidget, diffingModelPathSplevoProjectObserveValue,
                 null, null);
-        //
-        IObservableValue observeTextDiffingPackageFilterInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(
-                diffingPackageFilterInput);
-        IObservableValue diffingFilterRulesSplevoProjectObserveValue = PojoProperties.value("diffingFilterRules")
-                .observe(splevoProject);
-        diffingFilterRulesSplevoProjectObserveValue.addChangeListener(markDirtyListener);
-        bindingContext.bindValue(observeTextDiffingPackageFilterInputObserveWidget,
-                diffingFilterRulesSplevoProjectObserveValue, null, null);
         //
         return bindingContext;
     }

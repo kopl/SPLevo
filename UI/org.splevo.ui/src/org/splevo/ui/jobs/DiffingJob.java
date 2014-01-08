@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
@@ -20,7 +17,6 @@ import org.splevo.diffing.DefaultDiffingService;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.diffing.DiffingService;
-import org.splevo.diffing.JavaDiffer;
 import org.splevo.project.SPLevoProject;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
@@ -51,7 +47,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
         logger.info("Init diffing service");
 
-        Map<String, Object> options = buildDiffingOptions();
+        Map<String, String> options = buildDiffingOptions();
         ResourceSet leadingModelDir = getBlackboard().getResourceSetLeading();
         ResourceSet integrationModelDir = getBlackboard().getResourceSetIntegration();
 
@@ -117,15 +113,18 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
      *
      * @return The prepared diffings for the differs.
      */
-    private Map<String, Object> buildDiffingOptions() {
-        List<String> ignorePackages = new ArrayList<String>();
-        final String diffingRuleRaw = this.splevoProject.getDiffingFilterRules();
-        final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
-        for (final String rule : parts) {
-            ignorePackages.add(rule);
-        }
-        Map<String, Object> diffingOptions = new HashMap<String, Object>();
-        diffingOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
+    private Map<String, String> buildDiffingOptions() {
+
+        Map<String, String> diffingOptions = this.splevoProject.getDifferOptions();
+
+//        List<String> ignorePackages = new ArrayList<String>();
+//        final String diffingRuleRaw = this.splevoProject.getDiffingFilterRules();
+//        final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
+//        for (final String rule : parts) {
+//            ignorePackages.add(rule);
+//        }
+//        Map<String, Object> diffingOptions = new HashMap<String, Object>();
+//        diffingOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
         return diffingOptions;
     }
 
