@@ -90,12 +90,7 @@ public class Java2KDMDiffer implements Differ {
 
         logger.debug("Diffing: Configure EMF Compare");
 
-        final String diffingRuleRaw = diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
-        final List<String> ignorePackages = Lists.newArrayList();
-        final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
-        for (final String rule : parts) {
-            ignorePackages.add(rule);
-        }
+        List<String> ignorePackages = configureIgnorePackages(diffingOptions);
         PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
 
         SimilarityChecker similarityChecker = new SimilarityChecker();
@@ -120,6 +115,25 @@ public class Java2KDMDiffer implements Differ {
 
         return comparisonModel;
 
+    }
+
+    /**
+     * Configure the list of package ignore patterns from the provided diffing options.
+     *
+     * @param diffingOptions
+     *            The set options.
+     * @return The list of configured ignore patterns.
+     */
+    private List<String> configureIgnorePackages(Map<String, String> diffingOptions) {
+        List<String> ignorePackages = Lists.newArrayList();
+        String diffingRuleRaw = diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
+        if (diffingRuleRaw != null) {
+            final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
+            for (final String rule : parts) {
+                ignorePackages.add(rule);
+            }
+        }
+        return ignorePackages;
     }
 
     /**
