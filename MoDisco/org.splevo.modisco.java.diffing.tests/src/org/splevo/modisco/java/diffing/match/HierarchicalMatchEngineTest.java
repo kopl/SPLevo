@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.modisco.java.diffing.match;
 
 import static org.hamcrest.CoreMatchers.anyOf;
@@ -30,11 +41,11 @@ import org.eclipse.gmt.modisco.java.ImportDeclaration;
 import org.eclipse.gmt.modisco.java.NamedElement;
 import org.junit.Before;
 import org.junit.Test;
-import org.splevo.diffing.JavaDiffer;
 import org.splevo.diffing.match.HierarchicalMatchEngine;
 import org.splevo.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
 import org.splevo.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
 import org.splevo.modisco.java.diffing.AbstractDiffingTest;
+import org.splevo.modisco.java.diffing.Java2KDMDiffer;
 import org.splevo.modisco.java.diffing.MoDiscoJavaEqualityHelper;
 import org.splevo.modisco.java.diffing.util.PackageIgnoreChecker;
 import org.splevo.modisco.util.KDMUtil;
@@ -42,6 +53,7 @@ import org.splevo.modisco.util.SimilarityChecker;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Lists;
 
 /**
  * Test case for the hierarchical match engine. Ensures that the match stage is performed in the
@@ -59,9 +71,12 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
 
     /** The strategy to use to identify elements to ignore during matching. */
     private IgnoreStrategy ignoreStrategy;
-    
+
     /**
      * Test the match engine to identify all matches in two equal models.
+     *
+     * @throws Exception
+     *             A failure during the test processing.
      */
     @Test
     public void testMatchEqualModel() throws Exception {
@@ -82,6 +97,9 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
 
     /**
      * Test the match engine to identify all matches in two equal models.
+     *
+     * @throws Exception
+     *             A failure during the test processing.
      */
     @Test
     public void testOrderChanges() throws Exception {
@@ -111,6 +129,9 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
 
     /**
      * Test the match engine to identify all matches in two equal models.
+     *
+     * @throws Exception
+     *             A failure during the test processing.
      */
     @Test
     public void testUnmatchedImport() throws Exception {
@@ -144,6 +165,9 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
 
     /**
      * Test the match engine to identify all matches in two equal models.
+     *
+     * @throws Exception
+     *             A failure during the test processing.
      */
     @Test
     public void testUnmatchedMethodDeclarations() throws Exception {
@@ -175,6 +199,9 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
 
     /**
      * Test the match engine to identify all matches in two equal models.
+     *
+     * @throws Exception
+     *             A failure during the test processing.
      */
     @Test
     public void testFieldDeclarations() throws Exception {
@@ -222,7 +249,7 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
     /**
      * Extract a list of all matches from a comparison model. This returns a plain list of the whole
      * match hierarchy.
-     * 
+     *
      * @param comparison
      *            The comparison model to get the matches of.
      * @return The list of pure matches.
@@ -241,7 +268,7 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
 
     /**
      * Initialize the comparison scope for the base directories of the given files.
-     * 
+     *
      * @param testDir1
      *            Base directory of the first model.
      * @param testDir2
@@ -259,10 +286,8 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
-    @SuppressWarnings("unchecked")
     @Before
     public void setUpMatchRequirements() {
-        
 
         SimilarityChecker similarityChecker = new SimilarityChecker();
 
@@ -272,7 +297,13 @@ public class HierarchicalMatchEngineTest extends AbstractDiffingTest {
                 .createDefaultCache(cacheBuilder);
         equalityHelper = new MoDiscoJavaEqualityHelper(cache, similarityChecker);
 
-        List<String> ignorePackages = (List<String>) diffOptions.get(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES);
+        final String diffingRuleRaw = diffOptions.get(Java2KDMDiffer.OPTION_JAVA_IGNORE_PACKAGES);
+        final List<String> ignorePackages = Lists.newArrayList();
+        final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
+        for (final String rule : parts) {
+            ignorePackages.add(rule);
+        }
+
         packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
 
         equalityStrategy = new MoDiscoJavaEqualityStrategy(similarityChecker);

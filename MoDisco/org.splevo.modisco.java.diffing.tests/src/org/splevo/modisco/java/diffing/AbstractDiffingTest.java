@@ -1,7 +1,6 @@
 package org.splevo.modisco.java.diffing;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,38 +15,41 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.junit.Before;
-import org.splevo.diffing.JavaDiffer;
 
 /**
- * Abstract base class for diffing tests. 
+ * Abstract base class for diffing tests.
  */
 public abstract class AbstractDiffingTest {
-	
-	/** The default options to be used in the tests. */
-	protected Map<String, Object> diffOptions = null;
 
-	/**
-	 * Prepare the test.
-	 * Initializes a log4j logging environment.
-	 */
-	@Before
-	public void setUp() {
-		// set up a basic logging configuration for the test environment
-		BasicConfigurator.resetConfiguration();
-		BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
-		
-		// prepare the default differ and options
-		diffOptions = new LinkedHashMap<String, Object>();
-		diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, Arrays.asList("java.*", "org.jscience.*", "javolution.*"));
-        
-	}
+    /** The default options to be used in the tests. */
+    protected Map<String, String> diffOptions = null;
+
+    /**
+     * Prepare the test. Initializes a log4j logging environment.
+     */
+    @Before
+    public void setUp() {
+        // set up a basic logging configuration for the test environment
+        BasicConfigurator.resetConfiguration();
+        BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
+
+        // prepare the default differ and options
+        diffOptions = new LinkedHashMap<String, String>();
+        StringBuilder sb = new StringBuilder();
+        sb.append("java.*");
+        sb.append(System.getProperty("line.separator"));
+        sb.append("org.jscience.*");
+        sb.append(System.getProperty("line.separator"));
+        sb.append("javolution.*");
+        diffOptions.put(Java2KDMDiffer.OPTION_JAVA_IGNORE_PACKAGES, sb.toString());
+    }
 
     /**
      * Save a project model to a specified file.
-     * 
+     *
      * @param comparisonModel
      *            The model to save.
-     * @param filePath
+     * @param relativeFilePath
      *            The eclipse workspace relative file path to save to.
      * @throws IOException
      *             identifies that the file could not be written.
@@ -69,9 +71,9 @@ public abstract class AbstractDiffingTest {
 
     /**
      * Get the file extension of a file.
-     * 
-     * @param file
-     *            The file object to get the extension for.
+     *
+     * @param path
+     *            The file path to get the extension for.
      * @return The file extension or null if none found.
      */
     private static String getFileExtension(String path) {

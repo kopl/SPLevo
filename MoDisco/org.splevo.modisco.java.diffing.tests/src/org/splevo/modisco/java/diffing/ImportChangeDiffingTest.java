@@ -1,6 +1,8 @@
 package org.splevo.modisco.java.diffing;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -15,9 +17,9 @@ import org.splevo.modisco.java.diffing.java2kdmdiff.ImportChange;
 
 /**
  * Test the diffing of changed imports.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class ImportChangeDiffingTest extends AbstractDiffingTest {
 
@@ -32,7 +34,7 @@ public class ImportChangeDiffingTest extends AbstractDiffingTest {
 
     /**
      * Test method to detect changes in import declarations.
-     * 
+     *
      * @throws Exception
      *             Identifies a failed diffing.
      */
@@ -41,25 +43,25 @@ public class ImportChangeDiffingTest extends AbstractDiffingTest {
 
         Java2KDMDiffer differ = new Java2KDMDiffer();
         Comparison comparison = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(), diffOptions);
-        save(comparison, "testresult/importChange.emfdiff");
 
         EList<Diff> differences = comparison.getDifferences();
-        assertEquals("Wrong number of differences detected", 2, differences.size());
+        assertThat("Wrong number of differences detected", differences.size(), is(2));
 
         for (Diff diff : differences) {
             if (diff instanceof ImportChange) {
-                
+
                 ImportChange importChange = (ImportChange) diff;
                 String importedClass = importChange.getChangedImport().getImportedElement().getName();
-                
-                if(importChange.getKind() == DifferenceKind.ADD) {
+
+                if (importChange.getKind() == DifferenceKind.ADD) {
                     assertEquals("BigDecimal should have been recognized as new import", "BigDecimal", importedClass);
-                } else if(importChange.getKind() == DifferenceKind.DELETE) {
-                    assertEquals("BigInteger should have been recognized as deleted import", "BigInteger", importedClass);    
+                } else if (importChange.getKind() == DifferenceKind.DELETE) {
+                    assertEquals("BigInteger should have been recognized as deleted import", "BigInteger",
+                            importedClass);
                 } else {
                     fail("Wrong DifferenceKind detected: " + importChange.getKind());
                 }
-                
+
             } else {
                 fail("No other diff elements than ImportChange should have been detected. Detected: " + diff);
             }

@@ -37,20 +37,20 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
 
     /**
      * Test method to detect changes in the class and package declarations.
-     * 
+     *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
     public void testDoDiff() throws Exception {
-        
+
         Java2KDMDiffer differ = new Java2KDMDiffer();
         Comparison comparison = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(), diffOptions);
-        
+
         EList<Diff> differences = comparison.getDifferences();
 
         for (Diff diff : differences) {
-            logger.debug(diff.getKind() + ": " + diff.getClass().getSimpleName() + " : "+ diff.getMatch());
+            logger.debug(diff.getKind() + ": " + diff.getClass().getSimpleName() + " : " + diff.getMatch());
         }
         logger.debug("Found Differences: " + differences.size());
         assertEquals("Wrong number of differences detected", 3, differences.size());
@@ -83,13 +83,13 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
     /**
      * Reverse test method to detect changes in the class and package declarations for opposite
      * change types (e.g. class delete instead of class insert).
-     * 
+     *
      * @throws DiffingException
      *             Identifies a failed diffing.
      */
     @Test
     public void testDoDiffReverse() throws DiffingException, DiffingNotSupportedException {
-        
+
         Java2KDMDiffer differ = new Java2KDMDiffer();
         Comparison diff = differ.doDiff(TEST_DIR_2.toURI(), TEST_DIR_1.toURI(), diffOptions);
 
@@ -103,8 +103,7 @@ public class ClassDeclarationTest extends AbstractDiffingTest {
                 ClassDeclaration classDecl = classChange.getChangedClass();
                 assertEquals("Wrong class detected as top level insert diff", "AddedClassDeclaration",
                         classDecl.getName());
-                assertTrue("ClassChange is not of type add",
-                        (classChange.getKind() == DifferenceKind.DELETE));
+                assertTrue("ClassChange is not of type add", (classChange.getKind() == DifferenceKind.DELETE));
 
             } else if (diffElement instanceof EnumChange) {
                 EnumChange enumChange = ((EnumChange) diffElement);

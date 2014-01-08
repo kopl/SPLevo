@@ -23,9 +23,9 @@ import org.splevo.modisco.java.diffing.java2kdmdiff.StatementChange;
 
 /**
  * Diffing test case for changed variable declarations.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class VariableDeclarationStatementDiffingTest extends AbstractDiffingTest {
 
@@ -40,19 +40,19 @@ public class VariableDeclarationStatementDiffingTest extends AbstractDiffingTest
 
     /**
      * Test method for identifying changed variable declarations. .
-     * 
+     *
      * This test compares two implementations with differing variable declaration statements. The
      * differing implementations are: <code>
      * 	BigInteger integerValue1 = new BigInteger("1");
      * </code> and <code>
      *  BigDecimal integerValue1 = new BigDecimal("1");
      * </code>
-     * 
+     *
      * This also includes differing imports which are not in the focus of this test. Both variable
      * declarations are within a methods methodA() of a class A.
-     * 
+     *
      * The changes should and up with a changed a single StatementChange.
-     * 
+     *
      * @throws DiffingException
      *             Identifies a failed diffing.
      */
@@ -63,7 +63,7 @@ public class VariableDeclarationStatementDiffingTest extends AbstractDiffingTest
         Comparison comparison = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(), diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
-        for(Diff diff : differences){
+        for (Diff diff : differences) {
             logger.info(diff.getKind() + ": " + diff);
         }
         assertEquals("Wrong number of differences detected", 3, differences.size());
@@ -72,10 +72,10 @@ public class VariableDeclarationStatementDiffingTest extends AbstractDiffingTest
             if (diff instanceof ImportChange) {
                 ImportChange importChange = (ImportChange) diff;
                 String importedClass = importChange.getChangedImport().getImportedElement().getName();
-                
-                if(importChange.getKind() == DifferenceKind.ADD) {
+
+                if (importChange.getKind() == DifferenceKind.ADD) {
                     assertThat("Wrong added import type", importedClass, is("BigDecimal"));
-                } else if(importChange.getKind() == DifferenceKind.DELETE) {
+                } else if (importChange.getKind() == DifferenceKind.DELETE) {
                     assertThat("Wrong deleted import type", importedClass, is("BigInteger"));
                 }
 
