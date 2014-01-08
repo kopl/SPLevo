@@ -21,6 +21,7 @@ import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
@@ -329,8 +330,12 @@ public class SPLevoProjectEditor extends EditorPart {
         TabItem tbtmDiffingModel = new TabItem(tabFolder, SWT.NONE, tabIndex);
         tbtmDiffingModel.setText("Diffing");
 
-        Composite composite = new Composite(tabFolder, SWT.NONE);
-        tbtmDiffingModel.setControl(composite);
+        ScrolledComposite scrolledComposite = new ScrolledComposite(tabFolder, SWT.V_SCROLL);
+        scrolledComposite.setExpandHorizontal(true);
+        scrolledComposite.setExpandVertical(true);
+        Composite composite = new Composite(scrolledComposite, SWT.NONE);
+        scrolledComposite.setContent(composite);
+        tbtmDiffingModel.setControl(scrolledComposite);
 
         Label lblDiffingModelDescription = new Label(composite, SWT.NONE);
         lblDiffingModelDescription.setText("The diffing model extracted from the source models.");
@@ -344,6 +349,7 @@ public class SPLevoProjectEditor extends EditorPart {
         diffingModelInput.setBounds(10, 67, 490, 26);
 
         buildDifferSelectionGroup(composite);
+        scrolledComposite.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
     }
 
     /**
@@ -365,7 +371,7 @@ public class SPLevoProjectEditor extends EditorPart {
         List<Differ> availableDiffers = diffingService.getDiffers();
 
         int singleHeight = 20;
-        int multipleHeight = 138;
+        int multipleHeight = 100;
         int yPositionCurrent = 25;
 
         for (Differ differ : availableDiffers) {
@@ -386,13 +392,13 @@ public class SPLevoProjectEditor extends EditorPart {
                 String currentValue = this.getSplevoProject().getDifferOptions().get(configKey);
                 String label = getLabelFromKey(configKey);
 
-                Label configLabel = new Label(groupDiffers, SWT.SCROLL_LINE);
+                Label configLabel = new Label(groupDiffers, SWT.NONE);
                 configLabel.setBounds(10, yPositionCurrent, 266, singleHeight);
                 configLabel.setText(label + ":");
 
                 yPositionCurrent = yPositionCurrent + (singleHeight + 3);
 
-                Text configInput = new Text(groupDiffers, SWT.BORDER | SWT.WRAP);
+                Text configInput = new Text(groupDiffers, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
                 configInput.setBounds(10, yPositionCurrent, 450, multipleHeight);
                 if (currentValue != null) {
                     configInput.setText(currentValue);
