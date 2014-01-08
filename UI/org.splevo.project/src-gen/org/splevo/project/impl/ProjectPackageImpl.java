@@ -1,5 +1,14 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.project.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -55,7 +64,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 
 	/**
      * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-     * 
+     *
      * <p>This method is used to initialize {@link ProjectPackage#eINSTANCE} when that field is accessed.
      * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
      * <!-- begin-user-doc -->
@@ -82,7 +91,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         // Mark meta-data to indicate it can't be changed
         theProjectPackage.freeze();
 
-  
+
         // Update the registry and return the package
         EPackage.Registry.INSTANCE.put(ProjectPackage.eNS_URI, theProjectPackage);
         return theProjectPackage;
