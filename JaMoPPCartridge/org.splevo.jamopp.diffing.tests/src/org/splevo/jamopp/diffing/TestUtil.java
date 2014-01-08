@@ -3,7 +3,6 @@ package org.splevo.jamopp.diffing;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -34,7 +33,7 @@ import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryIm
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.mopp.JavaPrinter2;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
-import org.splevo.diffing.JavaDiffer;
+import org.junit.BeforeClass;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
@@ -47,15 +46,21 @@ public abstract class TestUtil {
     private static Logger logger = Logger.getLogger(TestUtil.class);
 
     /** The default options to be used in the tests. */
-    public static final Map<String, Object> DIFF_OPTIONS = new LinkedHashMap<String, Object>();
+    public static final Map<String, String> DIFF_OPTIONS = new LinkedHashMap<String, String>();
     static {
-        DIFF_OPTIONS.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES,
-                Arrays.asList("java.*", "org.jscience.*", "javolution.*"));
+        StringBuilder builder = new StringBuilder();
+        builder.append("java.*");
+        builder.append(System.getProperty("line.separator"));
+        builder.append("org.jscience.*");
+        builder.append(System.getProperty("line.separator"));
+        builder.append("javolution.*");
+        DIFF_OPTIONS.put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, builder.toString());
     }
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
+    @BeforeClass
     public static void setUp() {
         // set up a basic logging configuration for the test environment
         BasicConfigurator.resetConfiguration();
@@ -103,6 +108,11 @@ public abstract class TestUtil {
         } else if (diff instanceof ImportChange) {
             ImportChange change = (ImportChange) diff;
             changedElement = change.getChangedImport();
+//        } else if (diff instanceof CompilationUnitChange) {
+//            CompilationUnitChange change = (CompilationUnitChange) diff;
+//            changedElement = change.getChangedCompilationUnit();
+        } else {
+            logger.warn("Unexpected diff class" + diff.getClass().getSimpleName());
         }
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

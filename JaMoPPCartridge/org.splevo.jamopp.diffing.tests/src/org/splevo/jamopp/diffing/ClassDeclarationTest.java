@@ -8,7 +8,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -77,8 +76,8 @@ public class ClassDeclarationTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, Object> diffOptions = TestUtil.DIFF_OPTIONS;
-        diffOptions.put(JaMoPPDiffer.OPTION_JAMOPP_IGNORE_FILES, new ArrayList<String>());
+        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        diffOptions.put(JaMoPPDiffer.OPTION_JAMOPP_IGNORE_FILES, "");
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
@@ -134,8 +133,8 @@ public class ClassDeclarationTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, Object> diffOptions = TestUtil.DIFF_OPTIONS;
-        diffOptions.put(JaMoPPDiffer.OPTION_JAMOPP_IGNORE_FILES, new ArrayList<String>());
+        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        diffOptions.put(JaMoPPDiffer.OPTION_JAMOPP_IGNORE_FILES, "");
         Comparison comparison = differ.doDiff(setB, setA, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();

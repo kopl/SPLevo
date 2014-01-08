@@ -49,7 +49,7 @@ public class GCDDiffingTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, Object> diffOptions = TestUtil.DIFF_OPTIONS;
+        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
