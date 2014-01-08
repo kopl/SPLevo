@@ -254,4 +254,9 @@ public class Java2KDMDiffer implements Differ {
         return options;
     }
 
+    @Override
+    public int getOrderId() {
+        return 10;
+    }
+
 }
