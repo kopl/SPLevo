@@ -260,7 +260,7 @@ public class ResourceManager extends SWTResourceManager {
                 return getPluginImageFromUrl(url);
             }
         } catch (Throwable e) {
-            // Ignore any exceptions
+            logger.warn("Failed to get plugin image", e);
         }
         return null;
     }
@@ -295,24 +295,20 @@ public class ResourceManager extends SWTResourceManager {
      */
     private static Image getPluginImageFromUrl(URL url) {
         try {
-            try {
-                String key = url.toExternalForm();
-                Image image = urlImageMap.get(key);
-                if (image == null) {
-                    InputStream stream = url.openStream();
-                    try {
-                        image = getImage(stream);
-                        urlImageMap.put(key, image);
-                    } finally {
-                        stream.close();
-                    }
+            String key = url.toExternalForm();
+            Image image = urlImageMap.get(key);
+            if (image == null) {
+                InputStream stream = url.openStream();
+                try {
+                    image = getImage(stream);
+                    urlImageMap.put(key, image);
+                } finally {
+                    stream.close();
                 }
-                return image;
-            } catch (Throwable e) {
-                // Ignore any exceptions
             }
+            return image;
         } catch (Throwable e) {
-            // Ignore any exceptions
+            logger.warn("Failed to get plugin image", e);
         }
         return null;
     }
@@ -331,14 +327,10 @@ public class ResourceManager extends SWTResourceManager {
     @Deprecated
     public static ImageDescriptor getPluginImageDescriptor(Object plugin, String name) {
         try {
-            try {
-                URL url = getPluginImageURL(plugin, name);
-                return ImageDescriptor.createFromURL(url);
-            } catch (Throwable e) {
-                // Ignore any exceptions
-            }
+            URL url = getPluginImageURL(plugin, name);
+            return ImageDescriptor.createFromURL(url);
         } catch (Throwable e) {
-            // Ignore any exceptions
+            logger.warn("Failed to get plugin image", e);
         }
         return null;
     }
@@ -359,7 +351,7 @@ public class ResourceManager extends SWTResourceManager {
                 return ImageDescriptor.createFromURL(url);
             }
         } catch (Throwable e) {
-            // Ignore any exceptions
+            logger.warn("Failed to get plugin image", e);
         }
         return null;
     }
@@ -417,7 +409,7 @@ public class ResourceManager extends SWTResourceManager {
                 return (URL) findMethod.invoke(null, new Object[] { bundle, path });
             }
         } catch (Throwable e) {
-            // Ignore any exceptions
+            logger.warn("Failed to get plugin image", e);
         }
         // else work with 'plugin' as with usual Eclipse plugin
         Class<?> pluginClass = Class.forName("org.eclipse.core.runtime.Plugin"); //$NON-NLS-1$
