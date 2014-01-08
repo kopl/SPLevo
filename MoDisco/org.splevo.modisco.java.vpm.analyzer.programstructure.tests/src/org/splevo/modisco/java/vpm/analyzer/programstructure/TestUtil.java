@@ -12,13 +12,10 @@
 package org.splevo.modisco.java.vpm.analyzer.programstructure;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.compare.Comparison;
-import org.splevo.diffing.JavaDiffer;
 import org.splevo.modisco.java.diffing.Java2KDMDiffer;
 import org.splevo.modisco.java.vpm.builder.Java2KDMVPMBuilder;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
@@ -80,15 +77,10 @@ public class TestUtil {
      */
     public static Comparison loadGCDDiffModel() throws Exception {
 
-        List<String> ignorePackages = new ArrayList<String>();
-        ignorePackages.add("java.lang");
-        ignorePackages.add("java.math");
-        ignorePackages.add("java.io");
-        ignorePackages.add("org.jscience.*");
-        ignorePackages.add("javolution.*");
+        String ignorePackages = "java.*\norg.jscience.*\njavolution.*";
 
-        Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
-        diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
+        Map<String, String> diffOptions = new LinkedHashMap<String, String>();
+        diffOptions.put(Java2KDMDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
 
         Java2KDMDiffer differ = new Java2KDMDiffer();
 
