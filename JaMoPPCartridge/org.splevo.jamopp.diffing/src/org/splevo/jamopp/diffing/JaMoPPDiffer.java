@@ -84,7 +84,8 @@ public class JaMoPPDiffer implements Differ {
 
     /**
      * Option key for java package patterns to ignore.<br>
-     * The purpose of this option is to exclude source code packages from being considered during the diff analysis.
+     * The purpose of this option is to exclude source code packages from being considered during
+     * the diff analysis.
      *
      */
     public static final String OPTION_JAVA_IGNORE_PACKAGES = "JaMoPP.Java.Packages.to.ignore";
@@ -128,7 +129,6 @@ public class JaMoPPDiffer implements Differ {
     public Comparison doDiff(java.net.URI leadingModelDirectory, java.net.URI integrationModelDirectory,
             Map<String, String> diffingOptions) throws DiffingException, DiffingNotSupportedException {
 
-
         final List<String> ignoreFiles;
         if (diffingOptions.containsKey(OPTION_JAMOPP_IGNORE_FILES)) {
             final String diffingRuleRaw = diffingOptions.get(OPTION_JAMOPP_IGNORE_FILES);
@@ -161,12 +161,7 @@ public class JaMoPPDiffer implements Differ {
     public Comparison doDiff(ResourceSet resourceSetLeading, ResourceSet resourceSetIntegration,
             Map<String, String> diffingOptions) throws DiffingException, DiffingNotSupportedException {
 
-        final String diffingRuleRaw = diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
-        final List<String> ignorePackages = Lists.newArrayList();
-        final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
-        for (final String rule : parts) {
-            ignorePackages.add(rule);
-        }
+        List<String> ignorePackages = buildIgnorePackageList(diffingOptions);
         PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
 
         EMFCompare comparator = initCompare(packageIgnoreChecker);
@@ -181,6 +176,25 @@ public class JaMoPPDiffer implements Differ {
 
         return comparisonModel;
 
+    }
+
+    /**
+     * Build the list of package ignore patterns from the provided diffing options.
+     *
+     * @param diffingOptions
+     *            Diffing options to process.
+     * @return The list of patterns, maybe empty but never null.
+     */
+    private List<String> buildIgnorePackageList(Map<String, String> diffingOptions) {
+        String diffingRuleRaw = diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
+        List<String> ignorePackages = Lists.newArrayList();
+        if (diffingRuleRaw != null) {
+            final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
+            for (final String rule : parts) {
+                ignorePackages.add(rule);
+            }
+        }
+        return ignorePackages;
     }
 
     /**
