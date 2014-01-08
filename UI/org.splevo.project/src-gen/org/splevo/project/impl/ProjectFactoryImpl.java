@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.splevo.project.*;
 import org.splevo.project.ProjectFactory;
 import org.splevo.project.ProjectPackage;
 import org.splevo.project.SPLevoProject;
@@ -19,78 +20,76 @@ import org.splevo.project.SPLevoProject;
  */
 public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public static ProjectFactory init() {
-		try {
-			ProjectFactory theProjectFactory = (ProjectFactory) EPackage.Registry.INSTANCE
-					.getEFactory("http://org.splevo.project/1.0");
-			if (theProjectFactory != null) {
-				return theProjectFactory;
-			}
-		} catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new ProjectFactoryImpl();
-	}
+        try {
+            ProjectFactory theProjectFactory = (ProjectFactory)EPackage.Registry.INSTANCE.getEFactory(ProjectPackage.eNS_URI);
+            if (theProjectFactory != null) {
+                return theProjectFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new ProjectFactoryImpl();
+    }
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ProjectFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-		case ProjectPackage.SP_LEVO_PROJECT:
-			return createSPLevoProject();
-		default:
-			throw new IllegalArgumentException("The class '" + eClass.getName()
-					+ "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case ProjectPackage.SP_LEVO_PROJECT: return createSPLevoProject();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public SPLevoProject createSPLevoProject() {
-		SPLevoProjectImpl spLevoProject = new SPLevoProjectImpl();
-		return spLevoProject;
-	}
+        SPLevoProjectImpl spLevoProject = new SPLevoProjectImpl();
+        return spLevoProject;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ProjectPackage getProjectPackage() {
-		return (ProjectPackage) getEPackage();
-	}
+        return (ProjectPackage)getEPackage();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	@Deprecated
 	public static ProjectPackage getPackage() {
-		return ProjectPackage.eINSTANCE;
-	}
+        return ProjectPackage.eINSTANCE;
+    }
 
 } //ProjectFactoryImpl

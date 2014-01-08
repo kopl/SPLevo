@@ -21,6 +21,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/vpmModelPaths"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/diffingFilterRules"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/extractorIds"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/differIds"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/differOptions"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
