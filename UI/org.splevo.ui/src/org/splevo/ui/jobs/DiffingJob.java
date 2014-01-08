@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
@@ -50,12 +51,13 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         Map<String, String> options = buildDiffingOptions();
         ResourceSet leadingModelDir = getBlackboard().getResourceSetLeading();
         ResourceSet integrationModelDir = getBlackboard().getResourceSetIntegration();
+        List<String> differIds = splevoProject.getDifferIds();
 
         logger.info("Diffing started at: " + (dateFormat.format(new Date())));
         Comparison comparison = null;
         try {
             final DiffingService diffingService = new DefaultDiffingService();
-            comparison = diffingService.diffSoftwareModels(leadingModelDir, integrationModelDir, options);
+            comparison = diffingService.diffSoftwareModels(differIds, leadingModelDir, integrationModelDir, options);
         } catch (final DiffingException e) {
             throw new JobFailedException("Failed to process diffing.", e);
         }

@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.splevo.ui; singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.splevo.ui.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.splevo.project;bundle-version="1.0.0",
+ org.splevo.project,
  org.eclipse.core.databinding.beans,
  org.eclipse.jface.databinding,
  org.eclipse.core.databinding.beans,
