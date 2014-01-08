@@ -40,9 +40,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.commons.layout.LayoutPackage;
 import org.emftext.language.java.JavaPackage;
+import org.splevo.diffing.Differ;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
-import org.splevo.diffing.JavaDiffer;
 import org.splevo.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
 import org.splevo.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
 import org.splevo.diffing.match.HierarchicalMatchEngineFactory;
@@ -62,6 +62,7 @@ import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * Differ for JaMoPP software models.
@@ -76,10 +77,39 @@ import com.google.common.collect.Lists;
  * @author Benjamin Klatt
  *
  */
-public class JaMoPPDiffer extends JavaDiffer {
+public class JaMoPPDiffer implements Differ {
 
     /** Option key for java packages to ignore. */
-    public static final String OPTION_JAMOPP_IGNORE_FILES = "jamopp.ignoreFiles";
+    public static final String OPTION_JAMOPP_IGNORE_FILES = "JaMoPP.Files.to.ignore";
+
+    /**
+     * Option key for java package patterns to ignore.<br>
+     * The purpose of this option is to exclude source code packages from being considered during the diff analysis.
+     *
+     */
+    public static final String OPTION_JAVA_IGNORE_PACKAGES = "JaMoPP.Java.Packages.to.ignore";
+
+    /**
+     * Option key for package mappings.<br>
+     * The purpose of this option is to normalize the package of the integrated variant.<br>
+     * <p>
+     * Example:<br>
+     * If the original code contains a package named:<br>
+     * <tt>org.example.client</tt><br>
+     * and the customized code contains a package named:<br>
+     * <tt>org.example.customer.client</tt><br>
+     * the mapping can be used to normalize the latter package to the former.
+     * </p>
+     *
+     * <p>
+     * A rule is specified per line.<br>
+     * Each line contains a pair of search and replace separated with a pipe ("|").<br>
+     * For example:<br>
+     * org.example.customer.client|org.example.client<br>
+     * org.example.customer.server|org.example.server
+     * </p>
+     */
+    public static final String OPTION_JAVA_PACKAGE_NORMALIZATION = "JaMoPP.Java.Package.Normalization.Pattern";
 
     private static final String LABEL = "JaMoPP Java Differ";
     private static final String ID = "org.splevo.jamopp.differ";
@@ -95,13 +125,18 @@ public class JaMoPPDiffer extends JavaDiffer {
      *             Thrown if a diffing cannot be done for the provided models.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public Comparison doDiff(java.net.URI leadingModelDirectory, java.net.URI integrationModelDirectory,
-            Map<String, Object> diffingOptions) throws DiffingException, DiffingNotSupportedException {
+            Map<String, String> diffingOptions) throws DiffingException, DiffingNotSupportedException {
+
 
         final List<String> ignoreFiles;
         if (diffingOptions.containsKey(OPTION_JAMOPP_IGNORE_FILES)) {
-            ignoreFiles = (List<String>) diffingOptions.get(OPTION_JAMOPP_IGNORE_FILES);
+            final String diffingRuleRaw = diffingOptions.get(OPTION_JAMOPP_IGNORE_FILES);
+            final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
+            ignoreFiles = Lists.newArrayList();
+            for (final String rule : parts) {
+                ignoreFiles.add(rule);
+            }
         } else {
             ignoreFiles = Lists.asList("package-info.java", new String[] {});
         }
@@ -123,11 +158,15 @@ public class JaMoPPDiffer extends JavaDiffer {
      *             Thrown if no reasonable JaMoPP model is contained in the resource sets.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public Comparison doDiff(ResourceSet resourceSetLeading, ResourceSet resourceSetIntegration,
-            Map<String, Object> diffingOptions) throws DiffingException, DiffingNotSupportedException {
+            Map<String, String> diffingOptions) throws DiffingException, DiffingNotSupportedException {
 
-        final List<String> ignorePackages = (List<String>) diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
+        final String diffingRuleRaw = diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
+        final List<String> ignorePackages = Lists.newArrayList();
+        final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
+        for (final String rule : parts) {
+            ignorePackages.add(rule);
+        }
         PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
 
         EMFCompare comparator = initCompare(packageIgnoreChecker);
@@ -296,5 +335,13 @@ public class JaMoPPDiffer extends JavaDiffer {
         }
 
         return new ResourceSetImpl();
+    }
+
+    @Override
+    public Map<String, String> getAvailableConfigurations() {
+        Map<String, String> options = Maps.newHashMap();
+        options.put(OPTION_JAVA_IGNORE_PACKAGES, "java.*\njavax.*");
+        options.put(OPTION_JAMOPP_IGNORE_FILES, "package-info.java");
+        return options;
     }
 }
