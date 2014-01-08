@@ -22,29 +22,30 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public interface DiffingService {
 
-	/**
-	 * Differencing two software models. Software models might consist of
-	 * multiple models encapsulated in two EMF resource sets.
-	 *
-	 * @param leadingModel
-	 *            The software model resources of the leading software model.
-	 * @param integrationModel
-	 *            The software model resources of the leading software model.
-	 * @param diffingOptions
-	 *            A set of configurations for the diffing.
-	 * @return The differences and matches of the two models.
-	 * @throws DiffingException
-	 *             An error during the differencing process.
-	 */
-	public Comparison diffSoftwareModels(ResourceSet leadingModel,
-			ResourceSet integrationModel, Map<String, String> diffingOptions)
-			throws DiffingException;
+    /**
+     * Differencing two software models. Software models might consist of multiple models
+     * encapsulated in two EMF resource sets.
+     *
+     * @param differIds
+     *            The ids of the differ extensions to be executed if available.
+     * @param leadingModel
+     *            The software model resources of the leading software model.
+     * @param integrationModel
+     *            The software model resources of the leading software model.
+     * @param diffingOptions
+     *            A set of configurations for the diffing.
+     * @return The differences and matches of the two models.
+     * @throws DiffingException
+     *             An error during the differencing process.
+     */
+    public Comparison diffSoftwareModels(List<String> differIds, ResourceSet leadingModel,
+            ResourceSet integrationModel, Map<String, String> diffingOptions) throws DiffingException;
 
-	/**
-	 * Get the Map of available differs.
-	 *
-	 * @return The list of differs.
-	 */
-	public List<Differ> getDiffers();
+    /**
+     * Get the Map of available differs.
+     *
+     * @return The list of differs.
+     */
+    public List<Differ> getDiffers();
 
 }

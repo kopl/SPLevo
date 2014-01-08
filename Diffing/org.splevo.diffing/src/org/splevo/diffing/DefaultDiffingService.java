@@ -30,8 +30,8 @@ public class DefaultDiffingService implements DiffingService {
     private static final String MSG_DIFFER_NOT_AVAILABLE = "No differs available.";
 
     @Override
-    public Comparison diffSoftwareModels(ResourceSet leadingModel, ResourceSet integrationModel,
-            Map<String, String> diffingOptions) throws DiffingException {
+    public Comparison diffSoftwareModels(List<String> differIds, ResourceSet leadingModel,
+            ResourceSet integrationModel, Map<String, String> diffingOptions) throws DiffingException {
 
         List<Differ> differs = getDiffers();
         if (differs.size() == 0) {
@@ -42,6 +42,10 @@ public class DefaultDiffingService implements DiffingService {
         diffModel.setThreeWay(false);
 
         for (Differ differ : differs) {
+            if (!differIds.contains(differ.getId())) {
+                continue;
+            }
+
             Comparison partComparisonModel;
             try {
                 partComparisonModel = differ.doDiff(leadingModel, integrationModel, diffingOptions);
