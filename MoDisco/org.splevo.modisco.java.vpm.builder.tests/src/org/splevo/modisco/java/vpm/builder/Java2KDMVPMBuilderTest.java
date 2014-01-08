@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -17,7 +16,6 @@ import org.apache.log4j.PatternLayout;
 import org.eclipse.emf.compare.Comparison;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.diffing.JavaDiffer;
 import org.splevo.modisco.java.diffing.Java2KDMDiffer;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
@@ -59,8 +57,14 @@ public class Java2KDMVPMBuilderTest {
         BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
 
         // prepare the default differ and options
-        Map<String, Object> diffOptions = new LinkedHashMap<String, Object>();
-        diffOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, Arrays.asList("java.*", "org.jscience.*", "javolution.*"));
+        StringBuilder sb = new StringBuilder();
+        sb.append("java.*");
+        sb.append(System.getProperty("line.separator"));
+        sb.append("org.jscience.*");
+        sb.append(System.getProperty("line.separator"));
+        sb.append("javolution.*");
+        Map<String, String> diffOptions = new LinkedHashMap<String, String>();
+        diffOptions.put(Java2KDMDiffer.OPTION_JAVA_IGNORE_PACKAGES, sb.toString());
 
         Java2KDMDiffer differ = new Java2KDMDiffer();
         comparisonModel = differ.doDiff(TEST_DIR_1.toURI(), TEST_DIR_2.toURI(), diffOptions);
