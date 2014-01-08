@@ -34,14 +34,14 @@ public class DefaultExtractionService implements ExtractionService {
         if (extractor == null) {
             throw new SoftwareModelExtractionException(String.format(MSG_EXTRACTOR_NOT_AVAILABLE, extractorId));
         }
-        
+
         return extractor.extractSoftwareModel(projectPaths, monitor, targetURI);
     }
 
     /**
      * Load the software model extractor implementations registered for the according extension
      * point.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
