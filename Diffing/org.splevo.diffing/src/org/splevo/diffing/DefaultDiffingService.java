@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.splevo.diffing;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +69,13 @@ public class DefaultDiffingService implements DiffingService {
      */
     @Override
     public List<Differ> getDiffers() {
-        return Activator.getDiffers();
+        List<Differ> differ = Activator.getDiffers();
+        Collections.sort(differ, new Comparator<Differ>() {
+            @Override
+            public int compare(Differ d1, Differ d2) {
+                return d1.getOrderId() - d2.getOrderId();
+            }
+        });
+        return differ;
     }
 }

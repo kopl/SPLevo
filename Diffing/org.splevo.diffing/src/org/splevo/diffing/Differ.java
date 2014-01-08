@@ -82,6 +82,14 @@ public interface Differ {
     String getId();
 
     /**
+     * The id to use for ordering a list of differs. This is a non unique value and two differs with
+     * the same order id will be ordered randomly.
+     *
+     * @return The order id of the integer.
+     */
+    int getOrderId();
+
+    /**
      * The label of the differ to represent it for the user.
      *
      * @return The representative label.
