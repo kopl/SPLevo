@@ -358,4 +358,9 @@ public class JaMoPPDiffer implements Differ {
         options.put(OPTION_JAMOPP_IGNORE_FILES, "package-info.java");
         return options;
     }
+
+    @Override
+    public int getOrderId() {
+        return 0;
+    }
 }
