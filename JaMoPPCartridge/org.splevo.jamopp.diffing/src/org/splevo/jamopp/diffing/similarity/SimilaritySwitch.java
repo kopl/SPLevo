@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -279,6 +279,9 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
             if (unit1.getNamespaces() == null) {
                 return (unit2.getNamespaces() == null);
+            }
+            if (unit2.getNamespaces() == null) {
+                return (unit1.getNamespaces() == null);
             }
 
             if (unit1.getNamespaces().size() != unit2.getNamespaces().size()) {
