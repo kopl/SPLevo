@@ -129,6 +129,23 @@ public class JaMoPPDiffer implements Differ {
     public Comparison doDiff(java.net.URI leadingModelDirectory, java.net.URI integrationModelDirectory,
             Map<String, String> diffingOptions) throws DiffingException, DiffingNotSupportedException {
 
+        final List<String> ignoreFiles = loadIgnoreFileConfiguration(diffingOptions);
+
+        logger.info("Load source models");
+        ResourceSet resourceSetLeading = loadResourceSetRecursively(leadingModelDirectory, ignoreFiles);
+        ResourceSet resourceSetIntegration = loadResourceSetRecursively(integrationModelDirectory, ignoreFiles);
+
+        return doDiff(resourceSetLeading, resourceSetIntegration, diffingOptions);
+    }
+
+    /**
+     * Get the ignore file configuration for the provided options.
+     *
+     * @param diffingOptions
+     *            The options map.
+     * @return The list of file names to ignore.
+     */
+    private List<String> loadIgnoreFileConfiguration(Map<String, String> diffingOptions) {
         final List<String> ignoreFiles;
         if (diffingOptions.containsKey(OPTION_JAMOPP_IGNORE_FILES)) {
             final String diffingRuleRaw = diffingOptions.get(OPTION_JAMOPP_IGNORE_FILES);
@@ -140,12 +157,7 @@ public class JaMoPPDiffer implements Differ {
         } else {
             ignoreFiles = Lists.asList("package-info.java", new String[] {});
         }
-
-        logger.info("Load source models");
-        ResourceSet resourceSetLeading = loadResourceSetRecursively(leadingModelDirectory, ignoreFiles);
-        ResourceSet resourceSetIntegration = loadResourceSetRecursively(integrationModelDirectory, ignoreFiles);
-
-        return doDiff(resourceSetLeading, resourceSetIntegration, diffingOptions);
+        return ignoreFiles;
     }
 
     /**
