@@ -140,7 +140,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
     public SimilaritySwitch(EObject compareElement, boolean checkStatementPosition,
             Map<Pattern, String> classifierNormalizations, Map<Pattern, String> compilationUnitNormalizations,
             Map<Pattern, String> packageNormalizations) {
-        this.similarityChecker = new SimilarityChecker(classifierNormalizations, compilationUnitNormalizations, packageNormalizations);
+        this.similarityChecker = new SimilarityChecker(classifierNormalizations, compilationUnitNormalizations,
+                packageNormalizations);
         this.compareElement = compareElement;
         addSwitch(new AnnotationsSimilaritySwitch());
         addSwitch(new ArraysSimilaritySwitch());
@@ -318,6 +319,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * <li>Comparing their names (including renamings)</li>
          * <li>Comparing their namespaces' values (including renamings)</li>
          * </ul>
+         * Note: CompilationUnit names are full qualified. So it is important to apply classifier as
+         * well as package renaming normalizations to them.
          *
          * @param unit1
          *            The compilation unit to compare with the compareElement.
@@ -329,12 +332,14 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             CompilationUnit unit2 = (CompilationUnit) compareElement;
 
             String name1 = NormalizationUtil.normalize(unit1.getName(), compilationUnitNormalizations);
+            name1 = NormalizationUtil.normalize(name1, packageNormalizations);
             String name2 = unit2.getName();
             if (!name1.equals(name2)) {
                 return Boolean.FALSE;
             }
 
-            String namespaceString1 = NormalizationUtil.normalizeNamespace(unit1.getNamespacesAsString(), packageNormalizations);
+            String namespaceString1 = NormalizationUtil.normalizeNamespace(unit1.getNamespacesAsString(),
+                    packageNormalizations);
             String namespaceString2 = Strings.nullToEmpty(unit2.getNamespacesAsString());
             if (!namespaceString1.equals(namespaceString2)) {
                 return Boolean.FALSE;
@@ -842,24 +847,26 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             ReferenceableElement target1 = ref1.getTarget();
             ReferenceableElement target2 = ref2.getTarget();
 
-            // target container similarity
-            // check this only if the reference target is located
-            // in another container than the reference itself.
-            // Otherwise such a situation would lead to endless loops
-            // e.g. for for "(Iterator i = c.iterator(); i.hasNext(); ) {"
-            EObject container1 = target1.eContainer();
-            EObject container2 = target2.eContainer();
-            if (container1 != ref1.eContainer() && container2 != ref2.eContainer()) {
-                Boolean containerSimilarity = similarityChecker.isSimilar(container1, container2);
-                if (containerSimilarity == Boolean.FALSE) {
-                    return Boolean.FALSE;
-                }
-            }
-
             // target identity similarity
             Boolean similarity = similarityChecker.isSimilar(target1, target2);
             if (similarity == Boolean.FALSE) {
                 return Boolean.FALSE;
+            }
+
+            if (target1 != null) {
+                // target container similarity
+                // check this only if the reference target is located
+                // in another container than the reference itself.
+                // Otherwise such a situation would lead to endless loops
+                // e.g. for for "(Iterator i = c.iterator(); i.hasNext(); ) {"
+                EObject container1 = target1.eContainer();
+                EObject container2 = target2.eContainer();
+                if (container1 != ref1.eContainer() && container2 != ref2.eContainer()) {
+                    Boolean containerSimilarity = similarityChecker.isSimilar(container1, container2);
+                    if (containerSimilarity == Boolean.FALSE) {
+                        return Boolean.FALSE;
+                    }
+                }
             }
 
             Reference next1 = ref1.getNext();
