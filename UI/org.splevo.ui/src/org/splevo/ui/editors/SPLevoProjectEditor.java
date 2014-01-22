@@ -25,6 +25,8 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
@@ -348,7 +350,7 @@ public class SPLevoProjectEditor extends EditorPart {
         diffingModelInput = new Text(composite, SWT.BORDER);
         diffingModelInput.setBounds(10, 67, 490, 26);
 
-        buildDifferSelectionGroup(composite);
+        buildDifferConfigurationGroup(composite);
         scrolledComposite.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
     }
 
@@ -360,7 +362,7 @@ public class SPLevoProjectEditor extends EditorPart {
      *
      * @return The newly created group.
      */
-    private Group buildDifferSelectionGroup(Composite composite) {
+    private Group buildDifferConfigurationGroup(Composite composite) {
 
         Group groupDiffers = new Group(composite, SWT.FILL);
         groupDiffers.setText("Differ");
@@ -386,14 +388,14 @@ public class SPLevoProjectEditor extends EditorPart {
 
             yPositionCurrent = yPositionCurrent + (singleHeight + 5);
 
-            for (String configKey : differ.getAvailableConfigurations().keySet()) {
+            for (final String configKey : differ.getAvailableConfigurations().keySet()) {
 
                 String defaultValue = differ.getAvailableConfigurations().get(configKey);
                 String currentValue = this.getSplevoProject().getDifferOptions().get(configKey);
                 String label = getLabelFromKey(configKey);
 
                 Label configLabel = new Label(groupDiffers, SWT.NONE);
-                configLabel.setBounds(10, yPositionCurrent, 266, singleHeight);
+                configLabel.setBounds(10, yPositionCurrent, 450, singleHeight);
                 configLabel.setText(label + ":");
 
                 yPositionCurrent = yPositionCurrent + (singleHeight + 3);
@@ -405,6 +407,15 @@ public class SPLevoProjectEditor extends EditorPart {
                 } else {
                     configInput.setText(defaultValue);
                 }
+                configInput.addModifyListener(new ModifyListener() {
+
+                    @Override
+                    public void modifyText(ModifyEvent event) {
+                        Text text = (Text) event.widget;
+                        getSplevoProject().getDifferOptions().put(configKey, text.getText());
+                        markAsDirty();
+                    }
+                });
 
                 yPositionCurrent = yPositionCurrent + (multipleHeight + 5);
 

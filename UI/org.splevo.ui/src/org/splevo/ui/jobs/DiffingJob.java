@@ -117,7 +117,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
      */
     private Map<String, String> buildDiffingOptions() {
 
-        Map<String, String> diffingOptions = this.splevoProject.getDifferOptions();
+        Map<String, String> diffingOptions = this.splevoProject.getDifferOptions().map();
 
 //        List<String> ignorePackages = new ArrayList<String>();
 //        final String diffingRuleRaw = this.splevoProject.getDiffingFilterRules();
