@@ -11,11 +11,13 @@
  *******************************************************************************/
 package org.splevo.project.impl;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.splevo.project.ProjectFactory;
@@ -37,6 +39,13 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	private EClass spLevoProjectEClass = null;
 
 	/**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass differOptionEClass = null;
+
+    /**
      * Creates an instance of the model <b>Package</b>, registered with
      * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
      * package URI value.
@@ -64,7 +73,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 
 	/**
      * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-     *
+     * 
      * <p>This method is used to initialize {@link ProjectPackage#eINSTANCE} when that field is accessed.
      * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
      * <!-- begin-user-doc -->
@@ -91,7 +100,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         // Mark meta-data to indicate it can't be changed
         theProjectPackage.freeze();
 
-
+  
         // Update the registry and return the package
         EPackage.Registry.INSTANCE.put(ProjectPackage.eNS_URI, theProjectPackage);
         return theProjectPackage;
@@ -237,8 +246,35 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSPLevoProject_DifferOptions() {
-        return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(14);
+    public EReference getSPLevoProject_DifferOptions() {
+        return (EReference)spLevoProjectEClass.getEStructuralFeatures().get(14);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getDifferOption() {
+        return differOptionEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getDifferOption_Key() {
+        return (EAttribute)differOptionEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getDifferOption_Value() {
+        return (EAttribute)differOptionEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -284,7 +320,11 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_FILTER_RULES);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__EXTRACTOR_IDS);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_IDS);
-        createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_OPTIONS);
+        createEReference(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_OPTIONS);
+
+        differOptionEClass = createEClass(DIFFER_OPTION);
+        createEAttribute(differOptionEClass, DIFFER_OPTION__KEY);
+        createEAttribute(differOptionEClass, DIFFER_OPTION__VALUE);
     }
 
 	/**
@@ -332,12 +372,11 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         initEAttribute(getSPLevoProject_DiffingFilterRules(), ecorePackage.getEString(), "diffingFilterRules", "", 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_ExtractorIds(), ecorePackage.getEString(), "extractorIds", null, 1, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_DifferIds(), ecorePackage.getEString(), "differIds", null, 1, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        EGenericType g1 = createEGenericType(ecorePackage.getEMap());
-        EGenericType g2 = createEGenericType(ecorePackage.getEString());
-        g1.getETypeArguments().add(g2);
-        g2 = createEGenericType(ecorePackage.getEString());
-        g1.getETypeArguments().add(g2);
-        initEAttribute(getSPLevoProject_DifferOptions(), g1, "differOptions", null, 0, 1, SPLevoProject.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getSPLevoProject_DifferOptions(), this.getDifferOption(), null, "differOptions", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(differOptionEClass, Map.Entry.class, "DifferOption", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getDifferOption_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getDifferOption_Value(), ecorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

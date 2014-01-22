@@ -14,6 +14,7 @@ package org.splevo.project;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -200,7 +201,7 @@ public interface ProjectPackage extends EPackage {
     int SP_LEVO_PROJECT__DIFFER_IDS = 13;
 
     /**
-     * The feature id for the '<em><b>Differ Options</b></em>' attribute.
+     * The feature id for the '<em><b>Differ Options</b></em>' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -218,6 +219,43 @@ public interface ProjectPackage extends EPackage {
 	int SP_LEVO_PROJECT_FEATURE_COUNT = 15;
 
 	/**
+     * The meta object id for the '{@link org.splevo.project.impl.DifferOptionImpl <em>Differ Option</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.project.impl.DifferOptionImpl
+     * @see org.splevo.project.impl.ProjectPackageImpl#getDifferOption()
+     * @generated
+     */
+    int DIFFER_OPTION = 1;
+
+    /**
+     * The feature id for the '<em><b>Key</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIFFER_OPTION__KEY = 0;
+
+    /**
+     * The feature id for the '<em><b>Value</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIFFER_OPTION__VALUE = 1;
+
+    /**
+     * The number of structural features of the '<em>Differ Option</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIFFER_OPTION_FEATURE_COUNT = 2;
+
+    /**
      * Returns the meta object for class '{@link org.splevo.project.SPLevoProject <em>SP Levo Project</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -382,15 +420,49 @@ public interface ProjectPackage extends EPackage {
     EAttribute getSPLevoProject_DifferIds();
 
     /**
-     * Returns the meta object for the attribute '{@link org.splevo.project.SPLevoProject#getDifferOptions <em>Differ Options</em>}'.
+     * Returns the meta object for the map '{@link org.splevo.project.SPLevoProject#getDifferOptions <em>Differ Options</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Differ Options</em>'.
+     * @return the meta object for the map '<em>Differ Options</em>'.
      * @see org.splevo.project.SPLevoProject#getDifferOptions()
      * @see #getSPLevoProject()
      * @generated
      */
-    EAttribute getSPLevoProject_DifferOptions();
+    EReference getSPLevoProject_DifferOptions();
+
+    /**
+     * Returns the meta object for class '{@link java.util.Map.Entry <em>Differ Option</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Differ Option</em>'.
+     * @see java.util.Map.Entry
+     * @model keyDataType="org.eclipse.emf.ecore.EString"
+     *        valueDataType="org.eclipse.emf.ecore.EString"
+     * @generated
+     */
+    EClass getDifferOption();
+
+    /**
+     * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Key</em>'.
+     * @see java.util.Map.Entry
+     * @see #getDifferOption()
+     * @generated
+     */
+    EAttribute getDifferOption_Key();
+
+    /**
+     * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Value</em>'.
+     * @see java.util.Map.Entry
+     * @see #getDifferOption()
+     * @generated
+     */
+    EAttribute getDifferOption_Value();
 
     /**
      * Returns the factory that creates the instances of the model.
@@ -537,12 +609,38 @@ public interface ProjectPackage extends EPackage {
         EAttribute SP_LEVO_PROJECT__DIFFER_IDS = eINSTANCE.getSPLevoProject_DifferIds();
 
         /**
-         * The meta object literal for the '<em><b>Differ Options</b></em>' attribute feature.
+         * The meta object literal for the '<em><b>Differ Options</b></em>' map feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EAttribute SP_LEVO_PROJECT__DIFFER_OPTIONS = eINSTANCE.getSPLevoProject_DifferOptions();
+        EReference SP_LEVO_PROJECT__DIFFER_OPTIONS = eINSTANCE.getSPLevoProject_DifferOptions();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.project.impl.DifferOptionImpl <em>Differ Option</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.project.impl.DifferOptionImpl
+         * @see org.splevo.project.impl.ProjectPackageImpl#getDifferOption()
+         * @generated
+         */
+        EClass DIFFER_OPTION = eINSTANCE.getDifferOption();
+
+        /**
+         * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute DIFFER_OPTION__KEY = eINSTANCE.getDifferOption_Key();
+
+        /**
+         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute DIFFER_OPTION__VALUE = eINSTANCE.getDifferOption_Value();
 
 	}
 

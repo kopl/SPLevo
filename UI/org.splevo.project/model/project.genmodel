@@ -22,7 +22,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/diffingFilterRules"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/extractorIds"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/differIds"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/differOptions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference project.ecore#//SPLevoProject/differOptions"/>
+    </genClasses>
+    <genClasses ecoreClass="project.ecore#//DifferOption">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//DifferOption/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//DifferOption/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

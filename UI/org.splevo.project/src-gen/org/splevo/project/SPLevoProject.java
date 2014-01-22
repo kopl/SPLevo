@@ -14,6 +14,7 @@ package org.splevo.project;
 import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -353,18 +354,20 @@ public interface SPLevoProject extends EObject {
     EList<String> getDifferIds();
 
     /**
-     * Returns the value of the '<em><b>Differ Options</b></em>' attribute.
+     * Returns the value of the '<em><b>Differ Options</b></em>' map.
+     * The key is of type {@link java.lang.String},
+     * and the value is of type {@link java.lang.String},
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Differ Options</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Differ Options</em>' attribute.
+     * @return the value of the '<em>Differ Options</em>' map.
      * @see org.splevo.project.ProjectPackage#getSPLevoProject_DifferOptions()
-     * @model transient="true" changeable="false"
+     * @model mapType="org.splevo.project.DifferOption<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
      * @generated
      */
-    Map<String, String> getDifferOptions();
+    EMap<String, String> getDifferOptions();
 
 } // SPLevoProject

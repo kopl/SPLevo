@@ -72,6 +72,44 @@
     <element xmi:type="ecore:EClass" href="project.ecore#//SPLevoProject"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6JLScuhmEeGE_bESYdztFA" x="120" y="36"/>
   </children>
+  <children xmi:type="notation:Node" xmi:id="_GKvU4INVEeOYxdh9cJy7VA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_GKxKEINVEeOYxdh9cJy7VA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_GKxxIINVEeOYxdh9cJy7VA" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_HZSLoINVEeOYxdh9cJy7VA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//DifferOption/key"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_HZSLoYNVEeOYxdh9cJy7VA"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_JFkHQINVEeOYxdh9cJy7VA" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//DifferOption/value"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_JFkHQYNVEeOYxdh9cJy7VA"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_GKxxIYNVEeOYxdh9cJy7VA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_GKxxIoNVEeOYxdh9cJy7VA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_GKxxI4NVEeOYxdh9cJy7VA"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_GKyYMINVEeOYxdh9cJy7VA" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_GKyYMYNVEeOYxdh9cJy7VA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_GKyYMoNVEeOYxdh9cJy7VA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_GKyYM4NVEeOYxdh9cJy7VA"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_GKvU4YNVEeOYxdh9cJy7VA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="project.ecore#//DifferOption"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GKvU4oNVEeOYxdh9cJy7VA" x="694" y="151"/>
+  </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_6JGZ8ehmEeGE_bESYdztFA"/>
   <element xmi:type="ecore:EPackage" href="project.ecore#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_jzzrgINVEeOYxdh9cJy7VA" type="3002" source="_6JLScOhmEeGE_bESYdztFA" target="_GKvU4INVEeOYxdh9cJy7VA">
+    <children xmi:type="notation:Node" xmi:id="_jz8OYINVEeOYxdh9cJy7VA" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_jz8OYYNVEeOYxdh9cJy7VA" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_jz81cINVEeOYxdh9cJy7VA" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_jz81cYNVEeOYxdh9cJy7VA" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_jzzrgYNVEeOYxdh9cJy7VA" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_jzzrgoNVEeOYxdh9cJy7VA" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="project.ecore#//SPLevoProject/differOptions"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jzzrg4NVEeOYxdh9cJy7VA" points="[25, 9, -322, -108]$[348, 105, 1, -12]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j0Q-gINVEeOYxdh9cJy7VA" id="(0.9213836477987422,0.02857142857142857)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j0Q-gYNVEeOYxdh9cJy7VA" id="(0.39634146341463417,0.1511627906976744)"/>
+  </edges>
 </notation:Diagram>

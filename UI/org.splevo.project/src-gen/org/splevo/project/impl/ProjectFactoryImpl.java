@@ -11,11 +11,13 @@
  *******************************************************************************/
 package org.splevo.project.impl;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.splevo.project.*;
 import org.splevo.project.ProjectFactory;
 import org.splevo.project.ProjectPackage;
 import org.splevo.project.SPLevoProject;
@@ -65,6 +67,7 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory {
 	public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
             case ProjectPackage.SP_LEVO_PROJECT: return createSPLevoProject();
+            case ProjectPackage.DIFFER_OPTION: return (EObject)createDifferOption();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -81,6 +84,16 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory {
     }
 
 	/**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Map.Entry<String, String> createDifferOption() {
+        DifferOptionImpl differOption = new DifferOptionImpl();
+        return differOption;
+    }
+
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated

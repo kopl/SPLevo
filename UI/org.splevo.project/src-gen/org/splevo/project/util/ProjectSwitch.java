@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.project.util;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -81,6 +82,12 @@ public class ProjectSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case ProjectPackage.DIFFER_OPTION: {
+                @SuppressWarnings("unchecked") Map.Entry<String, String> differOption = (Map.Entry<String, String>)theEObject;
+                T result = caseDifferOption(differOption);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -101,6 +108,21 @@ public class ProjectSwitch<T> extends Switch<T> {
     }
 
 	/**
+     * Returns the result of interpreting the object as an instance of '<em>Differ Option</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Differ Option</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseDifferOption(Map.Entry<String, String> object) {
+        return null;
+    }
+
+    /**
      * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
      * <!-- begin-user-doc -->
 	 * This implementation returns null;

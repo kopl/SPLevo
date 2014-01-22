@@ -16,11 +16,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EcoreEMap;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.splevo.project.ProjectPackage;
 import org.splevo.project.SPLevoProject;
 
@@ -283,14 +289,14 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
     protected EList<String> differIds;
 
     /**
-     * The cached value of the '{@link #getDifferOptions() <em>Differ Options</em>}' attribute.
+     * The cached value of the '{@link #getDifferOptions() <em>Differ Options</em>}' map.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #getDifferOptions()
-     * @generated not
+     * @generated
      * @ordered
      */
-    protected Map<String, String> differOptions = new LinkedHashMap<String, String>();
+    protected EMap<String, String> differOptions;
 
     /**
      * <!-- begin-user-doc -->
@@ -566,8 +572,25 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Map<String, String> getDifferOptions() {
+    public EMap<String, String> getDifferOptions() {
+        if (differOptions == null) {
+            differOptions = new EcoreEMap<String,String>(ProjectPackage.Literals.DIFFER_OPTION, DifferOptionImpl.class, this, ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS);
+        }
         return differOptions;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+        switch (featureID) {
+            case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
+                return ((InternalEList<?>)getDifferOptions()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
@@ -607,7 +630,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
                 return getDifferIds();
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
-                return getDifferOptions();
+                if (coreType) return getDifferOptions();
+                else return getDifferOptions().map();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -668,6 +692,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
                 getDifferIds().clear();
                 getDifferIds().addAll((Collection<? extends String>)newValue);
                 return;
+            case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
+                ((EStructuralFeature.Setting)getDifferOptions()).set(newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -722,6 +749,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
                 getDifferIds().clear();
                 return;
+            case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
+                getDifferOptions().clear();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -763,7 +793,7 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
                 return differIds != null && !differIds.isEmpty();
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
-                return differOptions != null;
+                return differOptions != null && !differOptions.isEmpty();
         }
         return super.eIsSet(featureID);
     }
@@ -806,8 +836,6 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
         result.append(extractorIds);
         result.append(", differIds: ");
         result.append(differIds);
-        result.append(", differOptions: ");
-        result.append(differOptions);
         result.append(')');
         return result.toString();
     }
