@@ -69,7 +69,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
         @Override
         public Boolean caseType(Type object) {
             String packagePath = JaMoPPModelUtil.buildNamespacePath(object);
-            return checkIgnorePackage(packagePath);
+            return shouldBeIgnored(packagePath);
         }
 
         @Override
@@ -121,13 +121,13 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
         @Override
         public Boolean casePackage(org.emftext.language.java.containers.Package object) {
             String packagePath = JaMoPPModelUtil.buildNamespacePath(object);
-            return checkIgnorePackage(packagePath);
+            return shouldBeIgnored(packagePath);
         }
 
         @Override
         public Boolean caseCompilationUnit(CompilationUnit object) {
             String packagePath = JaMoPPModelUtil.buildNamespacePath(object);
-            return checkIgnorePackage(packagePath);
+            return shouldBeIgnored(packagePath);
         }
     }
 
@@ -171,7 +171,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
      *            the package path to check
      * @return true/false whether it should be ignored or not.
      */
-    public Boolean checkIgnorePackage(String packagePath) {
+    public Boolean shouldBeIgnored(String packagePath) {
 
         for (String regex : ignorePackages) {
             if (packagePath.matches(regex)) {
