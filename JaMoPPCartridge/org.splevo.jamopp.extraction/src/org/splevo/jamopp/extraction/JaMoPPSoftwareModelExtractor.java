@@ -26,6 +26,9 @@ import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryIm
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.extraction.SoftwareModelExtractor;
+import org.splevo.jamopp.extraction.cache.ReferenceCache;
+
+import com.google.common.collect.Lists;
 
 /**
  * Software Model Extractor for the Java technology based on the Java Model Parser and Printer
@@ -41,21 +44,8 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     /** Option to resolve all proxies in the model immediately after resource loading. */
     private boolean resolveProxiesImmediately = false;
 
-    /**
-     * Extract all java files and referenced resources to a file named according to
-     * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
-     *
-     * <p>
-     * If the targetUri is null, the extracted model will not be persisted and the resourceSet of
-     * the last projectURI will be returned.
-     * </p>
-     * {@inheritDoc}
-     */
-    @Override
-    public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor, URI targetURI)
-            throws SoftwareModelExtractionException {
-        return extractSoftwareModel(projectPaths, monitor);
-    }
+    /** Use the reference resolution caching */
+    private boolean useCache = false;
 
     /**
      * Extract the source model of a list of java projects. One project is the main project while a
@@ -71,6 +61,22 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      *             Identifies the extraction was not successful.
      */
     public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor)
+            throws SoftwareModelExtractionException {
+        return extractSoftwareModel(projectPaths, monitor, null);
+    }
+
+    /**
+     * Extract all java files and referenced resources to a file named according to
+     * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
+     *
+     * <p>
+     * If the targetUri is null, the extracted model will not be persisted and the resourceSet of
+     * the last projectURI will be returned.
+     * </p>
+     * {@inheritDoc}
+     */
+    @Override
+    public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor, URI targetURI)
             throws SoftwareModelExtractionException {
 
         ResourceSet targetResourceSet = setUpResourceSet();
@@ -90,6 +96,24 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
             } catch (Exception e) {
                 throw new SoftwareModelExtractionException("Failed to extract software model.", e);
             }
+        }
+
+        if (useCache && targetURI != null) {
+            String cacheFile = targetURI.toFileString() + File.separator + projectPaths.hashCode() + ".cache";
+            logger.info("Use cache file: " + cacheFile);
+            ReferenceCache referenceCache = new ReferenceCache(cacheFile);
+            referenceCache.load();
+
+            int notResolvedFromCacheCount = 0;
+            List<Resource> resources = Lists.newArrayList(targetResourceSet.getResources());
+            for (Resource resource : resources) {
+                referenceCache.resolve(resource);
+                notResolvedFromCacheCount += EcoreUtil.ProxyCrossReferencer.find(resource).size();
+            }
+            referenceCache.save();
+            logger.info("Proxies not resolved from cache: " + notResolvedFromCacheCount);
+
+            logger.info("Use cache file: " + cacheFile);
         }
 
         if (resolveProxiesImmediately) {

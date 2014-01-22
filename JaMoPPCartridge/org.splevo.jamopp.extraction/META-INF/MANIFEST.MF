@@ -13,5 +13,6 @@ Require-Bundle: org.splevo.extraction;bundle-version="1.0.0";visibility:=reexpor
  org.emftext.commons.antlr3_4_0,
  org.emftext.language.java.resource.bcel,
  org.apache.commons.io;bundle-version="2.0.1",
- org.apache.log4j;bundle-version="1.2.15"
+ org.apache.log4j;bundle-version="1.2.15",
+ com.google.guava;bundle-version="11.0.2"
 Export-Package: org.splevo.jamopp.extraction
