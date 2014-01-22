@@ -75,6 +75,8 @@ public class RenamingTest {
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
+        assertThat("Should only match two test classes + java.lang.Object", comparison.getMatchedResources().size(), is(3));
+
         EList<Diff> differences = comparison.getDifferences();
         for (Diff diffElement : differences) {
             logger.debug(diffElement.getClass().getSimpleName());
