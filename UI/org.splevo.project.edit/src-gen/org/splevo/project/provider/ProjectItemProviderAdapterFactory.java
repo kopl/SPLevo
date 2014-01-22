@@ -96,6 +96,29 @@ public class ProjectItemProviderAdapterFactory extends ProjectAdapterFactory
     }
 
 	/**
+     * This keeps track of the one adapter used for all {@link java.util.Map.Entry} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected DifferOptionItemProvider differOptionItemProvider;
+
+    /**
+     * This creates an adapter for a {@link java.util.Map.Entry}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createDifferOptionAdapter() {
+        if (differOptionItemProvider == null) {
+            differOptionItemProvider = new DifferOptionItemProvider(this);
+        }
+
+        return differOptionItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -196,6 +219,7 @@ public class ProjectItemProviderAdapterFactory extends ProjectAdapterFactory
      */
 	public void dispose() {
         if (spLevoProjectItemProvider != null) spLevoProjectItemProvider.dispose();
+        if (differOptionItemProvider != null) differOptionItemProvider.dispose();
     }
 
 }
