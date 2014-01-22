@@ -76,12 +76,6 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
         URI absoluteTargetUri = URI.createFileURI(root.getLocation().toPortableString() + targetURI.toString());
         List<URI> projectURIsAbsolute = buildProjectURIs(projectNames);
 
-        logger.info("Extraction target: " + targetURI);
-        logger.info("Main Project: " + projectNames.get(0));
-        if (projectNames.size() > 1) {
-            logger.info("Additional Projects: " + projectNames.subList(1, projectNames.size() - 1));
-        }
-
         // check if the process was canceled
         if (monitor.isCanceled()) {
             throw new UserCanceledException();
