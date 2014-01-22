@@ -208,6 +208,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      */
     @Override
     public void postComparison(Comparison comparison, Monitor monitor) {
+
         ComparisonModelCleanUp.cleanMatches(comparison.getMatches());
     }
 

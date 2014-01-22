@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,7 +36,7 @@ public class JaMoPPModelUtil {
                 if (namespace.lastIndexOf('$') != -1) {
                     namespace = namespace.substring(0, namespace.lastIndexOf('$'));
                 }
-                if (namespace.charAt(namespace.length() - 1) == '.') {
+                if (namespace.length() > 0 && namespace.charAt(namespace.length() - 1) == '.') {
                     namespace = namespace.substring(0, namespace.length() - 1);
                 }
                 return namespace;

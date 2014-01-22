@@ -29,6 +29,7 @@ import org.eclipse.emf.compare.diff.IDiffProcessor;
 import org.eclipse.emf.compare.match.DefaultMatchEngine;
 import org.eclipse.emf.compare.match.IMatchEngine;
 import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
+import org.eclipse.emf.compare.match.resource.StrategyResourceMatcher;
 import org.eclipse.emf.compare.postprocessor.BasicPostProcessorDescriptorImpl;
 import org.eclipse.emf.compare.postprocessor.IPostProcessor;
 import org.eclipse.emf.compare.postprocessor.PostProcessorDescriptorRegistryImpl;
@@ -47,6 +48,7 @@ import org.splevo.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
 import org.splevo.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
 import org.splevo.diffing.match.HierarchicalMatchEngineFactory;
 import org.splevo.diffing.match.HierarchicalStrategyResourceMatcher;
+import org.splevo.diffing.util.NormalizationUtil;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.jamopp.diffing.diff.JaMoPPDiffBuilder;
 import org.splevo.jamopp.diffing.diff.JaMoPPFeatureFilter;
@@ -79,6 +81,8 @@ import com.google.common.collect.Maps;
  */
 public class JaMoPPDiffer implements Differ {
 
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
     /** Option key for java packages to ignore. */
     public static final String OPTION_JAMOPP_IGNORE_FILES = "JaMoPP.Files.to.ignore";
 
@@ -91,7 +95,7 @@ public class JaMoPPDiffer implements Differ {
     public static final String OPTION_JAVA_IGNORE_PACKAGES = "JaMoPP.Java.Packages.to.ignore";
 
     /**
-     * Option key for package mappings.<br>
+     * Option key for package normalization.<br>
      * The purpose of this option is to normalize the package of the integrated variant.<br>
      * <p>
      * Example:<br>
@@ -111,6 +115,32 @@ public class JaMoPPDiffer implements Differ {
      * </p>
      */
     public static final String OPTION_JAVA_PACKAGE_NORMALIZATION = "JaMoPP.Java.Package.Normalization.Pattern";
+
+    /**
+     * Option key for classifier normalization.<br>
+     * The purpose of this option is to normalize the classifier of the integration variant.<br>
+     * <p>
+     * Example:<br>
+     * If the original code contains a classifier named:<br>
+     * <tt>MyClass</tt><br>
+     * and the customized code contains a classifier named:<br>
+     * <tt>MyClassCust</tt><br>
+     * the normalization pattern can be used to remove the suffix from the classifier.
+     * </p>
+     *
+     * <p>
+     * One rule is specified per line.<br>
+     * Each line specifies a prefix or suffix to replace.<br>
+     * The arbitrary part of the classifiers name to keep is identified with an astrix '*'.
+     * </p>
+     * <p>
+     * <b>Examples:</b><br>
+     * To remove the suffix "Custom" from the name "MyClassCustom" the pattern must be specified as
+     * "*Custom".<br>
+     * To remove the prefix "My" from the name "MyBaseClass" the pattern must be specified as "My*".
+     * </p>
+     */
+    public static final String OPTION_JAVA_CLASSIFIER_NORMALIZATION = "JaMoPP.Java.Classifier.Normalization.Pattern";
 
     private static final String LABEL = "JaMoPP Java Differ";
     private static final String ID = "org.splevo.jamopp.differ";
@@ -149,7 +179,7 @@ public class JaMoPPDiffer implements Differ {
         final List<String> ignoreFiles;
         if (diffingOptions.containsKey(OPTION_JAMOPP_IGNORE_FILES)) {
             final String diffingRuleRaw = diffingOptions.get(OPTION_JAMOPP_IGNORE_FILES);
-            final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
+            final String[] parts = diffingRuleRaw.split(LINE_SEPARATOR);
             ignoreFiles = Lists.newArrayList();
             for (final String rule : parts) {
                 ignoreFiles.add(rule);
@@ -176,7 +206,7 @@ public class JaMoPPDiffer implements Differ {
         List<String> ignorePackages = buildIgnorePackageList(diffingOptions);
         PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
 
-        EMFCompare comparator = initCompare(packageIgnoreChecker);
+        EMFCompare comparator = initCompare(packageIgnoreChecker, diffingOptions);
 
         // Compare the two models
         // In comparison, the left side is always the changed one.
@@ -201,7 +231,7 @@ public class JaMoPPDiffer implements Differ {
         String diffingRuleRaw = diffingOptions.get(OPTION_JAVA_IGNORE_PACKAGES);
         List<String> ignorePackages = Lists.newArrayList();
         if (diffingRuleRaw != null) {
-            final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
+            final String[] parts = diffingRuleRaw.split(LINE_SEPARATOR);
             for (final String rule : parts) {
                 ignorePackages.add(rule);
             }
@@ -214,14 +244,13 @@ public class JaMoPPDiffer implements Differ {
      *
      * @param packageIgnoreChecker
      *            The checker to decide if an element is within a package to ignore.
+     * @param diffingOptions
+     *            The options configuring the comparison.
      * @return The prepared emf compare engine.
      */
-    private EMFCompare initCompare(PackageIgnoreChecker packageIgnoreChecker) {
-        SimilarityChecker similarityChecker = new SimilarityChecker();
-        final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = initEqualityCache();
-        IEqualityHelper equalityHelper = new JaMoPPEqualityHelper(cache, similarityChecker);
-        IMatchEngine.Factory.Registry matchEngineRegistry = initMatchEngine(equalityHelper, packageIgnoreChecker,
-                similarityChecker);
+    private EMFCompare initCompare(PackageIgnoreChecker packageIgnoreChecker, Map<String, String> diffingOptions) {
+
+        IMatchEngine.Factory.Registry matchEngineRegistry = initMatchEngine(packageIgnoreChecker, diffingOptions);
         IPostProcessor.Descriptor.Registry<?> postProcessorRegistry = initPostProcessors(packageIgnoreChecker);
         IDiffEngine diffEngine = initDiffEngine(packageIgnoreChecker);
         EMFCompare comparator = initComparator(matchEngineRegistry, postProcessorRegistry, diffEngine);
@@ -299,29 +328,78 @@ public class JaMoPPDiffer implements Differ {
     /**
      * Initialize and configure the match engines to be used.
      *
-     * @param equalityHelper
-     *            The equality helper to be used during the diff process.
      * @param packageIgnoreChecker
      *            The package ignore checker to use in the match engine.
-     * @param similarityChecker
-     *            The similarity checker to use in the match engine.
+     * @param diffingOptions
+     *            The options configuring the comparison.
      *
      * @return The registry containing all prepared match engines
      */
-    private IMatchEngine.Factory.Registry initMatchEngine(IEqualityHelper equalityHelper,
-            PackageIgnoreChecker packageIgnoreChecker, SimilarityChecker similarityChecker) {
+    private IMatchEngine.Factory.Registry initMatchEngine(PackageIgnoreChecker packageIgnoreChecker,
+            Map<String, String> diffingOptions) {
 
+        SimilarityChecker similarityChecker = initSimilarityChecker(diffingOptions);
+        IEqualityHelper equalityHelper = initEqualityHelper(similarityChecker);
         EqualityStrategy equalityStrategy = new JaMoPPEqualityStrategy(similarityChecker);
         IgnoreStrategy ignoreStrategy = new JaMoPPIgnoreStrategy(packageIgnoreChecker);
+        StrategyResourceMatcher resourceMatcher = initResourceMatcher(diffingOptions);
 
         IMatchEngine.Factory matchEngineFactory = new HierarchicalMatchEngineFactory(equalityHelper, equalityStrategy,
-                ignoreStrategy, new HierarchicalStrategyResourceMatcher());
+                ignoreStrategy, resourceMatcher);
         matchEngineFactory.setRanking(20);
 
         IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
         matchEngineRegistry.add(matchEngineFactory);
 
         return matchEngineRegistry;
+    }
+
+    /**
+     * Initialize the similarity checker with the according configurations.
+     *
+     * @param diffingOptions
+     *            The map of configurations.
+     * @return The prepared checker.
+     */
+    private SimilarityChecker initSimilarityChecker(Map<String, String> diffingOptions) {
+        String configString = diffingOptions.get(OPTION_JAVA_CLASSIFIER_NORMALIZATION);
+        Map<Pattern, String> classifierNorms = NormalizationUtil.loadRemoveNormalizations(configString, null);
+        Map<Pattern, String> compUnitNorms = NormalizationUtil.loadRemoveNormalizations(configString, ".java");
+
+        String configStringPackage = diffingOptions.get(OPTION_JAVA_PACKAGE_NORMALIZATION);
+        Map<Pattern, String> packageNorms = NormalizationUtil.loadReplaceNormalizations(configStringPackage);
+
+        return new SimilarityChecker(classifierNorms, compUnitNorms, packageNorms);
+    }
+
+    /**
+     * Init the equality helper to decide about element similarity.
+     *
+     * @param similarityChecker
+     *            The similarity checker to use.
+     * @return The prepared equality helper.
+     */
+    private IEqualityHelper initEqualityHelper(SimilarityChecker similarityChecker) {
+        final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = initEqualityCache();
+        IEqualityHelper equalityHelper = new JaMoPPEqualityHelper(cache, similarityChecker);
+        return equalityHelper;
+    }
+
+    /**
+     * Initialize the resource matcher to be used by the MatchEngine.
+     *
+     * @param diffingOptions
+     *            The configuration map to init based on.
+     * @return The prepared resource matcher.
+     */
+    private HierarchicalStrategyResourceMatcher initResourceMatcher(Map<String, String> diffingOptions) {
+        String packageNormConfig = diffingOptions.get(OPTION_JAVA_PACKAGE_NORMALIZATION);
+        Map<Pattern, String> uriNormalizations = NormalizationUtil.loadReplaceNormalizations(packageNormConfig);
+        String classNormConfig = diffingOptions.get(OPTION_JAVA_CLASSIFIER_NORMALIZATION);
+        Map<Pattern, String> fileNormalizations = NormalizationUtil.loadRemoveNormalizations(classNormConfig, ".java");
+        HierarchicalStrategyResourceMatcher resourceMatcher = new HierarchicalStrategyResourceMatcher(
+                uriNormalizations, fileNormalizations);
+        return resourceMatcher;
     }
 
     @Override
@@ -368,6 +446,8 @@ public class JaMoPPDiffer implements Differ {
         Map<String, String> options = Maps.newHashMap();
         options.put(OPTION_JAVA_IGNORE_PACKAGES, "java.*\njavax.*");
         options.put(OPTION_JAMOPP_IGNORE_FILES, "package-info.java");
+        options.put(OPTION_JAVA_CLASSIFIER_NORMALIZATION, "");
+        options.put(OPTION_JAVA_PACKAGE_NORMALIZATION, "");
         return options;
     }
 

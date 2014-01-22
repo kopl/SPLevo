@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -88,6 +91,7 @@ import org.emftext.language.java.types.util.TypesSwitch;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.Variable;
 import org.emftext.language.java.variables.util.VariablesSwitch;
+import org.splevo.diffing.util.NormalizationUtil;
 import org.splevo.jamopp.diffing.util.JaMoPPModelUtil;
 
 import com.google.common.base.Strings;
@@ -115,7 +119,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
     private EObject compareElement = null;
 
     /** Internal similarity checker to compare container elements etc. */
-    private SimilarityChecker similarityChecker = new SimilarityChecker();
+    private SimilarityChecker similarityChecker = null;
 
     /**
      * Constructor requiring the element to compare with.
@@ -123,15 +127,26 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      * @param compareElement
      *            The element to check the similarity with
      * @param checkStatementPosition
-     *            Flag if the similarity check schould consider the position of a statement or not.
+     *            Flag if the similarity check should consider the position of a statement or not.
+     * @param classifierNormalizations
+     *            A list of patterns replace any match in a classifier name with the defined
+     *            replacement string.
+     * @param compilationUnitNormalizations
+     *            A list of patterns replace any match in a compilation unit name with the defined
+     *            replacement string.
+     * @param packageNormalizations
+     *            A list of package normalization patterns.
      */
-    public SimilaritySwitch(EObject compareElement, boolean checkStatementPosition) {
+    public SimilaritySwitch(EObject compareElement, boolean checkStatementPosition,
+            Map<Pattern, String> classifierNormalizations, Map<Pattern, String> compilationUnitNormalizations,
+            Map<Pattern, String> packageNormalizations) {
+        this.similarityChecker = new SimilarityChecker(classifierNormalizations, compilationUnitNormalizations, packageNormalizations);
         this.compareElement = compareElement;
         addSwitch(new AnnotationsSimilaritySwitch());
         addSwitch(new ArraysSimilaritySwitch());
-        addSwitch(new ClassifiersSimilaritySwitch());
+        addSwitch(new ClassifiersSimilaritySwitch(classifierNormalizations));
         addSwitch(new CommonsSimilaritySwitch());
-        addSwitch(new ContainersSimilaritySwitch());
+        addSwitch(new ContainersSimilaritySwitch(compilationUnitNormalizations, packageNormalizations));
         addSwitch(new ExpressionsSimilaritySwitch());
         addSwitch(new GenericsSimilaritySwitch());
         addSwitch(new ImportsSimilaritySwitch());
@@ -209,17 +224,39 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
     private class ClassifiersSimilaritySwitch extends ClassifiersSwitch<Boolean> {
 
         /**
+         * A list of patterns replace any match in a classifier name with the defined replacement
+         * string.
+         */
+        private Map<Pattern, String> classifierNormalizationPatterns = null;
+
+        /**
+         * Constructor to set the required configurations.
+         *
+         * @param classifierNormalizationPatterns
+         *            A list of patterns replace any match in a classifier name with the defined
+         *            replacement string.
+         */
+        public ClassifiersSimilaritySwitch(Map<Pattern, String> classifierNormalizationPatterns) {
+            this.classifierNormalizationPatterns = classifierNormalizationPatterns;
+        }
+
+        /**
          * Concrete classifiers such as classes and interface are identified by their location and
          * name. The location is considered implicitly.
          *
          * @param classifier1
          *            the classifier to compare with the compareelement
-         * @return True or false wether they are similar or not.
+         * @return True or false whether they are similar or not.
          */
         @Override
         public Boolean caseConcreteClassifier(ConcreteClassifier classifier1) {
+
             ConcreteClassifier classifier2 = (ConcreteClassifier) compareElement;
-            return (classifier1.getName().equals(classifier2.getName()));
+
+            String name1 = NormalizationUtil.normalize(classifier1.getName(), classifierNormalizationPatterns);
+            String name2 = Strings.nullToEmpty(classifier2.getName());
+
+            return (name1.equals(name2));
         }
 
     }
@@ -255,13 +292,31 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      */
     private class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> {
 
+        private Map<Pattern, String> compilationUnitNormalizations = null;
+
+        private Map<Pattern, String> packageNormalizations = null;
+
+        /**
+         * Constructor to set the required configurations.
+         *
+         * @param compilationUnitNormalizations
+         *            A list of patterns replace any match in a classifier name with the defined
+         *            replacement string.
+         * @param packageNormalizations
+         *            A list of package normalization patterns.
+         */
+        public ContainersSimilaritySwitch(Map<Pattern, String> compilationUnitNormalizations,
+                Map<Pattern, String> packageNormalizations) {
+            this.compilationUnitNormalizations = compilationUnitNormalizations;
+            this.packageNormalizations = packageNormalizations;
+        }
+
         /**
          * Check the similarity of two CompilationUnits.<br>
          * Similarity is checked by
          * <ul>
-         * <li>Comparing their names</li>
-         * <li>Comparing their namespaces' sizes</li>
-         * <li>Comparing their namespaces' values</li>
+         * <li>Comparing their names (including renamings)</li>
+         * <li>Comparing their namespaces' values (including renamings)</li>
          * </ul>
          *
          * @param unit1
@@ -273,22 +328,15 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
             CompilationUnit unit2 = (CompilationUnit) compareElement;
 
-            if (!unit1.getName().equals(unit2.getName())) {
+            String name1 = NormalizationUtil.normalize(unit1.getName(), compilationUnitNormalizations);
+            String name2 = unit2.getName();
+            if (!name1.equals(name2)) {
                 return Boolean.FALSE;
             }
 
-            if (unit1.getNamespaces() == null) {
-                return (unit2.getNamespaces() == null);
-            }
-            if (unit2.getNamespaces() == null) {
-                return (unit1.getNamespaces() == null);
-            }
-
-            if (unit1.getNamespaces().size() != unit2.getNamespaces().size()) {
-                return Boolean.FALSE;
-            }
-
-            if (!unit1.getNamespacesAsString().equals(unit2.getNamespacesAsString())) {
+            String namespaceString1 = NormalizationUtil.normalizeNamespace(unit1.getNamespacesAsString(), packageNormalizations);
+            String namespaceString2 = Strings.nullToEmpty(unit2.getNamespacesAsString());
+            if (!namespaceString1.equals(namespaceString2)) {
                 return Boolean.FALSE;
             }
 
@@ -311,6 +359,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             Package package2 = (Package) compareElement;
 
             String packagePath1 = JaMoPPModelUtil.buildNamespacePath(package1);
+            packagePath1 = NormalizationUtil.normalizeNamespace(packagePath1, packageNormalizations);
             String packagePath2 = JaMoPPModelUtil.buildNamespacePath(package2);
             if (!packagePath1.equals(packagePath2)) {
                 return Boolean.FALSE;

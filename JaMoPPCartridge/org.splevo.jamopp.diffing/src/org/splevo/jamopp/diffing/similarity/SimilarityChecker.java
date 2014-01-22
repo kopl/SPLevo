@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,73 +11,94 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * Checker for the similarity of two elements specific for the java application
- * model.
+ * Checker for the similarity of two elements specific for the java application model.
  *
- * TODO: Check caching for this similarity checker. Would require to pass this
- * to the similarity switch as well!
+ * TODO: Check caching for this similarity checker. Would require to pass this to the similarity
+ * switch as well!
  *
  */
 public class SimilarityChecker {
 
-	/** The logger for this class. */
-	@SuppressWarnings("unused")
-	private Logger logger = Logger.getLogger(SimilarityChecker.class);
+    /** The logger for this class. */
+    @SuppressWarnings("unused")
+    private Logger logger = Logger.getLogger(SimilarityChecker.class);
 
-	/**
-	 * Check two objects if they are similar.
-	 *
-	 * @param element1
-	 *            The first element to check.
-	 * @param element2
-	 *            The second element to check.
-	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be
-	 *         decided.
-	 */
-	public Boolean isSimilar(final EObject element1, final EObject element2) {
-		return isSimilar(element1, element2, true);
-	}
+    private Map<Pattern, String> classifierNormalizations = null;
+    private Map<Pattern, String> compilationUnitNormalizations = null;
+    private Map<Pattern, String> packageNormalizations = null;
 
-	/**
-	 * Check two objects if they are similar.
-	 *
-	 * @param element1
-	 *            The first element to check.
-	 * @param element2
-	 *            The second element to check.
-	 * @param checkStatementPosition
-	 *            Flag if the position of statement elements should be
-	 *            considered or not.
-	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be
-	 *         decided.
-	 */
-	public Boolean isSimilar(final EObject element1, final EObject element2,
-			boolean checkStatementPosition) {
+    /**
+     * Constructor to set the required configurations.
+     *
+     * @param classifierNormalizations
+     *            A list of patterns replace any match in a classifier name with the defined
+     *            replacement string.
+     * @param compilationUnitNormalizations
+     *            A list of patterns replace any match in a compilation unit name with the defined
+     *            replacement string.
+     *            @param packageNormalizations The normalizations to replace expressions.
+     */
+    public SimilarityChecker(Map<Pattern, String> classifierNormalizations,
+            Map<Pattern, String> compilationUnitNormalizations, Map<Pattern, String> packageNormalizations) {
+        this.classifierNormalizations = classifierNormalizations;
+        this.compilationUnitNormalizations = compilationUnitNormalizations;
+        this.packageNormalizations = packageNormalizations;
+    }
 
-		// check that either both or none of them is null
-		if (element1 == element2) {
-			return Boolean.TRUE;
-		}
+    /**
+     * Check two objects if they are similar.
+     *
+     * @param element1
+     *            The first element to check.
+     * @param element2
+     *            The second element to check.
+     * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
+     */
+    public Boolean isSimilar(final EObject element1, final EObject element2) {
+        return isSimilar(element1, element2, true);
+    }
 
-		if (element1 != null && element2 == null) {
-			return Boolean.FALSE;
-		} else if (element1 == null && element2 != null) {
-			return Boolean.FALSE;
-		}
+    /**
+     * Check two objects if they are similar.
+     *
+     * @param element1
+     *            The first element to check.
+     * @param element2
+     *            The second element to check.
+     * @param checkStatementPosition
+     *            Flag if the position of statement elements should be considered or not.
+     * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
+     */
+    public Boolean isSimilar(final EObject element1, final EObject element2, boolean checkStatementPosition) {
 
-		// check the elements to have similar classes
-		if (!element1.getClass().equals(element2.getClass())) {
-			return Boolean.FALSE;
-		}
+        // check that either both or none of them is null
+        if (element1 == element2) {
+            return Boolean.TRUE;
+        }
 
-		// check type specific similarity
-		SimilaritySwitch similaritySwitch = new SimilaritySwitch(element2, checkStatementPosition);
-		Boolean similar = similaritySwitch.doSwitch(element1);
-		return similar;
-	}
+        if (element1 != null && element2 == null) {
+            return Boolean.FALSE;
+        } else if (element1 == null && element2 != null) {
+            return Boolean.FALSE;
+        }
+
+        // check the elements to have similar classes
+        if (!element1.getClass().equals(element2.getClass())) {
+            return Boolean.FALSE;
+        }
+
+        // check type specific similarity
+        SimilaritySwitch similaritySwitch = new SimilaritySwitch(element2, checkStatementPosition,
+                classifierNormalizations, compilationUnitNormalizations, packageNormalizations);
+        Boolean similar = similaritySwitch.doSwitch(element1);
+        return similar;
+    }
 
 }

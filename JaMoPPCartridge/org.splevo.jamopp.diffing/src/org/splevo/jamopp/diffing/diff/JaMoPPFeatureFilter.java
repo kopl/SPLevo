@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,7 +23,6 @@ import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.imports.ImportsPackage;
 import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
-import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 
 /**
  * A filter for model element features specific for the JaMoPP java model.
@@ -36,10 +35,6 @@ public class JaMoPPFeatureFilter extends FeatureFilter {
 
 	/** The package ignore visitor instance to be used. */
 	private PackageIgnoreChecker packageIgnoreChecker = null;
-
-	/** The similarity checker. */
-	@SuppressWarnings("unused")
-	private SimilarityChecker similarityChecker = new SimilarityChecker();
 
 	/**
 	 * Constructor requires to set the list of packages to be ignored.
