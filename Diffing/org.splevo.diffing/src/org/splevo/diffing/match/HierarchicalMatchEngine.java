@@ -270,19 +270,19 @@ public class HierarchicalMatchEngine implements IMatchEngine {
      * @return The filtered list. If the list is null, an empty list will be returned
      */
     private List<EObject> filterIgnoredElements(List<EObject> elements) {
-        List<EObject> filteredList = new ArrayList<EObject>();
+        List<EObject> elementsInScope = new ArrayList<EObject>();
 
         if (elements == null) {
-            return filteredList;
+            return elementsInScope;
         }
 
         for (EObject object : elements) {
             if (!ignoreStrategy.ignore(object)) {
-                filteredList.add(object);
+                elementsInScope.add(object);
             }
         }
 
-        return filteredList;
+        return elementsInScope;
     }
 
     /**
