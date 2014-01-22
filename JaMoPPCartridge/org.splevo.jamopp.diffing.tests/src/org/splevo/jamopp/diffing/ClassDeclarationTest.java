@@ -81,6 +81,11 @@ public class ClassDeclarationTest {
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
+        for (Diff diffElement : differences) {
+            logger.debug(diffElement.getClass().getSimpleName());
+            //logger.debug(TestUtil.printDiff(diffElement));
+        }
+
         assertThat("Wrong number of differences", differences.size(), is(6));
 
         for (Diff diffElement : differences) {
@@ -138,9 +143,12 @@ public class ClassDeclarationTest {
         Comparison comparison = differ.doDiff(setB, setA, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
-        assertThat("Wrong number of differences", differences.size(), is(6));
-
         for (Diff diffElement : differences) {
+            logger.debug(diffElement.getClass().getSimpleName());
+            //logger.debug(TestUtil.printDiff(diffElement));
+        }
+
+        for (Diff diffElement : comparison.getDifferences()) {
             if (diffElement instanceof ClassChange) {
                 ClassChange classChange = ((ClassChange) diffElement);
                 org.emftext.language.java.classifiers.Class classDecl = classChange.getChangedClass();
@@ -166,16 +174,17 @@ public class ClassDeclarationTest {
                                 equalTo("org.splevo.tests.fielddeclaration.newpackage.sub.NewSubPackageClass.java")));
 
             } else if (diffElement instanceof PackageChange) {
+
                 PackageChange packageChange = (PackageChange) diffElement;
                 org.emftext.language.java.containers.Package packageDeclaration = packageChange.getChangedPackage();
                 assertThat("wrong difference type", packageChange.getKind(), equalTo(DifferenceKind.DELETE));
                 assertThat("Unexpected package deleted", packageDeclaration.getName(),
                         anyOf(equalTo("newpackage"), equalTo("sub")));
-
             } else {
                 logger.error("Detected Diff: " + diffElement.getClass());
                 fail("No other diff elements than class and package delete should have been detected.");
             }
         }
+        assertThat("Wrong number of differences", differences.size(), is(6));
     }
 }

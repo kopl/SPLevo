@@ -34,6 +34,7 @@ import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.mopp.JavaPrinter2;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
 import org.junit.BeforeClass;
+import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
@@ -108,9 +109,9 @@ public abstract class TestUtil {
         } else if (diff instanceof ImportChange) {
             ImportChange change = (ImportChange) diff;
             changedElement = change.getChangedImport();
-//        } else if (diff instanceof CompilationUnitChange) {
-//            CompilationUnitChange change = (CompilationUnitChange) diff;
-//            changedElement = change.getChangedCompilationUnit();
+        } else if (diff instanceof CompilationUnitChange) {
+            CompilationUnitChange change = (CompilationUnitChange) diff;
+            changedElement = change.getChangedCompilationUnit();
         } else {
             logger.warn("Unexpected diff class" + diff.getClass().getSimpleName());
         }
