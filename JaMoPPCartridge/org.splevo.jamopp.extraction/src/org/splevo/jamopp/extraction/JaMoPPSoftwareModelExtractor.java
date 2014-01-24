@@ -45,7 +45,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     private boolean resolveProxiesImmediately = false;
 
     /** Use the reference resolution caching */
-    private boolean useCache = false;
+    private boolean useCache = true;
 
     /**
      * Extract the source model of a list of java projects. One project is the main project while a
@@ -295,6 +295,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         Map<Object, Object> options = rs.getLoadOptions();
         options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
+        options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
