@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.diffing;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -75,7 +86,7 @@ public class RenamingTest {
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
-        assertThat("Should only match two test classes + java.lang.Object", comparison.getMatchedResources().size(), is(3));
+        assertThat("Should only match two test classes", comparison.getMatchedResources().size(), is(2));
 
         EList<Diff> differences = comparison.getDifferences();
         for (Diff diffElement : differences) {
@@ -84,7 +95,6 @@ public class RenamingTest {
                 CompilationUnitChange change = (CompilationUnitChange) diffElement;
                 logger.debug(change.getChangedCompilationUnit().getName());
             }
-            // logger.debug(TestUtil.printDiff(diffElement));
         }
         assertThat("No difference should exist", differences.size(), is(0));
 
