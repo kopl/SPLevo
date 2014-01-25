@@ -70,6 +70,7 @@ import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.util.ParametersSwitch;
 import org.emftext.language.java.references.ElementReference;
 import org.emftext.language.java.references.IdentifierReference;
+import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.references.StringReference;
@@ -125,7 +126,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      * Constructor requiring the element to compare with.
      *
      * @param compareElement
-     *            The element to check the similarity with
+     *            The right-side / original element to check the similarity against.
      * @param checkStatementPosition
      *            Flag if the similarity check should consider the position of a statement or not.
      * @param classifierNormalizations
@@ -896,6 +897,40 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             Boolean targetSimilarity = similarityChecker.isSimilar(ref1.getTarget(), ref2.getTarget());
             if (targetSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
+            }
+
+            return Boolean.TRUE;
+        }
+
+        /**
+         * Proof method call similarity.
+         *
+         * Similarity is decided by the method referenced and the arguments passed by.
+         *
+         * @param call1
+         *            The left / modified method call to compare with the original one.
+         * @return True/False if the method calls are similar or not.
+         */
+        @Override
+        public Boolean caseMethodCall(MethodCall call1) {
+            MethodCall call2 = (MethodCall) compareElement;
+
+            Boolean targetSimilarity = similarityChecker.isSimilar(call1.getTarget(), call2.getTarget());
+            if (targetSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+
+            if (call1.getArguments().size() != call2.getArguments().size()) {
+                return Boolean.FALSE;
+            }
+
+            for (int i = 0; i < call1.getArguments().size(); i++) {
+                Expression exp1 = call1.getArguments().get(i);
+                Expression exp2 = call2.getArguments().get(i);
+                Boolean argSimilarity = similarityChecker.isSimilar(exp1, exp2);
+                if (argSimilarity == Boolean.FALSE) {
+                    return Boolean.FALSE;
+                }
             }
 
             return Boolean.TRUE;
