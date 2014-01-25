@@ -236,14 +236,22 @@ public class ReferenceCache {
                     BasicEList<EObject> list = (BasicEList<EObject>) refValue;
                     for (int i = 0; i < list.size(); i++) {
                         String targetURI = targetURIList.get(index);
-                        EObject targetObject = getTarget(resource, targetURI);
-                        list.set(i, targetObject);
+                        if (targetURI != null) {
+                            EObject targetObject = getTarget(resource, targetURI);
+                            list.set(i, targetObject);
+                        } else {
+                            logger.warn("Element is not resolved (null) in cache: " + targetURI);
+                        }
                         index++;
                     }
                 } else if (refValue instanceof EObject) {
                     String targetURI = targetURIList.get(index);
-                    EObject targetObject = getTarget(resource, targetURI);
-                    nextElement.eSet(eReference, targetObject);
+                    if (targetURI != null) {
+                        EObject targetObject = getTarget(resource, targetURI);
+                        nextElement.eSet(eReference, targetObject);
+                    } else {
+                        logger.warn("Element is not resolved (null) in cache: " + targetURI);
+                    }
                     index++;
                 } else {
                     throw new RuntimeException("Unknown object: " + refValue);
