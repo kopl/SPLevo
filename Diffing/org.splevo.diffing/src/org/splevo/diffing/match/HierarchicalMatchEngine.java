@@ -46,7 +46,6 @@ import com.google.common.collect.Lists;
 public class HierarchicalMatchEngine implements IMatchEngine {
 
     /** The class logger to use. */
-    @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(HierarchicalMatchEngine.class);
 
     /** The equality helper for the model. */
@@ -155,8 +154,7 @@ public class HierarchicalMatchEngine implements IMatchEngine {
         final Iterator<? extends Resource> originChildren = Iterators.emptyIterator();
 
         final IResourceMatcher matcher = createResourceMatcher();
-        final Iterable<MatchResource> mappings = matcher.createMappings(leftChildren, rightChildren,
-                originChildren);
+        final Iterable<MatchResource> mappings = matcher.createMappings(leftChildren, rightChildren, originChildren);
 
         for (MatchResource mapping : mappings) {
             comparison.getMatchedResources().add(mapping);
@@ -277,6 +275,11 @@ public class HierarchicalMatchEngine implements IMatchEngine {
         }
 
         for (EObject object : elements) {
+            if (object == null) {
+                logger.error("Null object provided to ignore filter. Containing element list: " + elements);
+                continue;
+            }
+
             if (!ignoreStrategy.ignore(object)) {
                 elementsInScope.add(object);
             }

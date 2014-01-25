@@ -159,26 +159,46 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
             }
         }
 
+        List<MatchResource> bestMatches = createMatchElementsForBestMatches(bestMatchCountIndex, bestMatchIndexLeft);
+        mappings.addAll(bestMatches);
+    }
+
+    /**
+     * Create match elements for valid best matching pairs.
+     *
+     * For the best match of each left resource, create a match element if this match-pair is also
+     * best available match for the right resource in the pair.
+     *
+     * TODO: Check if a match should be prevented if it is only 1<br>
+     * 1 means only the filename is the same. The resources are expected to be located relative
+     * folders and the URI is an absolute uri. On the other hand, the path to the root folder might
+     * be different.<br>
+     * subfolderleft/resource.xmi vs. differentsubfolder/resource.xmi<br>
+     * vs.<br>
+     * rootfolderlef/resource.xmi vs rootsfolderright/resource.xmi<br>
+     *
+     * @param bestMatchCountIndex
+     *            The best match qualifiers for each resource (left and right).
+     * @param bestMatchIndexLeft
+     *            The pairs of best matches for the left resource.
+     * @return The valid resource matches identified.
+     */
+    private List<MatchResource> createMatchElementsForBestMatches(HashMap<Resource, Integer> bestMatchCountIndex,
+            HashMap<Resource, Resource> bestMatchIndexLeft) {
+        List<MatchResource> mappings = Lists.newArrayList();
+
         for (Resource leftRes : bestMatchIndexLeft.keySet()) {
 
             Resource rightRes = bestMatchIndexLeft.get(leftRes);
 
-            // TODO: Check if a match should be prevented if it is only 1
-            // 1 means only the filename is the same. The resources are expected
-            // to
-            // be located relative folders and the URI is an absolute uri.
-            // on the other hand, the path to the root folder might be
-            // different.
-            // subfolderleft/resource.xmi vs. differentsubfolder/resource.xmi
-            // vs
-            // rootfolderlef/resource.xmi vs rootsfolderright/resource.xmi
             if (bestMatchCountIndex.get(leftRes) == bestMatchCountIndex.get(rightRes)) {
                 mappings.add(createMatchResource(leftRes, rightRes, null));
                 removeFromIndex(filenameResourcesIndexLeft, leftRes);
                 removeFromIndex(filenameResourcesIndexRight, rightRes);
-                break;
             }
         }
+
+        return mappings;
     }
 
     /**
