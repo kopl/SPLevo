@@ -34,7 +34,6 @@ import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.Final;
-import org.emftext.language.java.modifiers.impl.FinalImpl;
 import org.emftext.language.java.references.PackageReference;
 import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.Statement;

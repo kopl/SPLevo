@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.containers.CompilationUnit;
-import org.splevo.jamopp.diffing.util.JaMoPPModelUtil;
 
 import com.google.common.base.Predicate;
 
