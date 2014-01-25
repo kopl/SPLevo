@@ -14,6 +14,7 @@ package org.splevo.jamopp.diffing.scope;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -32,6 +33,9 @@ import org.splevo.jamopp.diffing.util.JaMoPPModelUtil;
  * Internal class to switch between the different element types and check if they should be ignored.
  */
 public class IgnoreSwitch extends ComposedSwitch<Boolean> {
+
+    /** The logger to be shared by all instances of this class. */
+    private static Logger logger = Logger.getLogger(IgnoreSwitch.class);
 
     /** The packages to be ignored. */
     private List<String> ignorePackages = new ArrayList<String>();
@@ -79,7 +83,12 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 
         @Override
         public Boolean caseTypeReference(TypeReference object) {
-            return composedDoSwitch(object.eContainer());
+            if (object.eContainer() != null) {
+                return composedDoSwitch(object.eContainer());
+            } else {
+                logger.warn("A reference element without a container: " + object);
+                return Boolean.TRUE;
+            }
         }
 
     }
@@ -99,6 +108,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
             if (object.eContainer() != null) {
                 return composedDoSwitch(object.eContainer());
             } else {
+                logger.warn("A reference element without a container: " + object);
                 return Boolean.TRUE;
             }
         }
@@ -110,7 +120,12 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
     private class VariablesIgnoreSwitch extends VariablesSwitch<Boolean> {
         @Override
         public Boolean caseVariable(Variable object) {
-            return composedDoSwitch(object.eContainer());
+            if (object.eContainer() != null) {
+                return composedDoSwitch(object.eContainer());
+            } else {
+                logger.warn("A reference element without a container: " + object);
+                return Boolean.TRUE;
+            }
         }
     }
 
@@ -137,7 +152,12 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
     private class ReferencesIgnoreSwitch extends ReferencesSwitch<Boolean> {
         @Override
         public Boolean defaultCase(EObject object) {
-            return composedDoSwitch(object.eContainer());
+            if (object.eContainer() != null) {
+                return composedDoSwitch(object.eContainer());
+            } else {
+                logger.warn("A reference element without a container: " + object);
+                return Boolean.TRUE;
+            }
         }
     }
 

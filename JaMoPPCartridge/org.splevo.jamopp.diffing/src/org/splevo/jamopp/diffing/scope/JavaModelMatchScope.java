@@ -61,6 +61,12 @@ public class JavaModelMatchScope extends DefaultComparisonScope {
 
         @Override
         public boolean apply(Resource input) {
+
+            // filter path map elements
+            if (input.getURI().toString().startsWith("pathmap:/javaclass/")) {
+                return false;
+            }
+
             for (EObject rootElement : input.getContents()) {
                 if (rootElement instanceof CompilationUnit) {
                     return true;
