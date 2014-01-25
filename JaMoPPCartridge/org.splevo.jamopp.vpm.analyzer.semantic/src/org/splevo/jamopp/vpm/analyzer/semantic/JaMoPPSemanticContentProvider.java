@@ -1,6 +1,14 @@
-/**
+/*******************************************************************************
+ * Copyright (c) 2014
  *
- */
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.vpm.analyzer.semantic;
 
 import java.util.List;
@@ -21,79 +29,77 @@ import com.google.common.collect.Lists;
  */
 public class JaMoPPSemanticContentProvider implements SemanticContentProvider {
 
+    @Override
+    public SemanticContent getRelevantContent(SoftwareElement element, boolean matchComments)
+            throws UnsupportedSoftwareElementException {
 
-	@Override
-	public SemanticContent getRelevantContent(SoftwareElement element,
-			boolean matchComments) throws UnsupportedSoftwareElementException {
+        if (element == null) {
+            throw new IllegalArgumentException();
+        }
 
-		if (element == null) {
-			throw new IllegalArgumentException();
-		}
+        if (!(element instanceof JaMoPPSoftwareElement)) {
+            throw new UnsupportedSoftwareElementException(element);
+        }
 
-		if (!(element instanceof JaMoPPSoftwareElement)) {
-			throw new UnsupportedSoftwareElementException(element);
-		}
+        return getContentFromChildren((JaMoPPSoftwareElement) element, matchComments);
+    }
 
-		return getContentFromChildren((JaMoPPSoftwareElement) element, matchComments);
-	}
+    /**
+     * Extracts the content from all children of the specified root element and stores that in a
+     * SemanticContainer.
+     *
+     * @param softwareElement
+     *            The root element.
+     * @param matchComments
+     *            Indicates whether to extract comments or ignore them.
+     * @return The {@link SemanticContent} containing the relevant content.
+     */
+    private SemanticContent getContentFromChildren(JaMoPPSoftwareElement softwareElement, boolean matchComments) {
+        SemanticContent content = new SemanticContent();
 
-	/**
-	 * Extracts the content from all children of the specified root element and
-	 * stores that in a SemanticContainer.
-	 *
-	 * @param softwareElement
-	 *            The root element.
-	 * @param matchComments
-	 *            Indicates whether to extract comments or ignore them.
-	 * @return The {@link SemanticContent} containing the relevant content.
-	 */
-	private SemanticContent getContentFromChildren(JaMoPPSoftwareElement softwareElement,
-			boolean matchComments) {
-		SemanticContent content = new SemanticContent();
+        Commentable element = softwareElement.getJamoppElement();
 
-		Commentable element = softwareElement.getJamoppElement();
+        if (element == null) {
+            return content;
+        }
 
-		if(element == null) {
-			return content;
-		}
+        List<EObject> childElements = Lists.newArrayList(element.eAllContents());
+        for (EObject child : childElements) {
 
-		List<EObject> childElements = Lists.newArrayList(element.eAllContents());
-		for (EObject child : childElements) {
+            if (!(child instanceof Commentable)) {
+                continue;
+            }
 
-			if(!(child instanceof Commentable)) {
-				continue;
-			}
+            Commentable commentableChild = (Commentable) child;
+            String text = getRelevantTextFromElement(commentableChild);
+            content.addCode(text);
 
-			Commentable commentableChild = (Commentable) child;
-			String text = getRelevantTextFromElement(commentableChild);
-			content.addCode(text);
+            if (matchComments) {
+                StringBuilder builder = new StringBuilder();
+                for (String comment : commentableChild.getComments()) {
+                    builder.append(comment);
+                }
+                content.addComment(builder.toString());
+            }
 
-			if (matchComments) {
-				StringBuilder builder = new StringBuilder();
-				for(String comment : commentableChild.getComments()) {
-					builder.append(comment);
-				}
-				content.addComment(builder.toString());
-			}
+        }
+        return content;
+    }
 
-		}
-		return content;
-	}
+    /**
+     * extracts relevant text from a given object.
+     *
+     * @param eObject
+     *            The object to extract the information from.
+     * @return The extracted text.
+     */
+    private String getRelevantTextFromElement(EObject eObject) {
 
+        if (eObject instanceof NamedElement) {
+            return ((NamedElement) eObject).getName();
+        }
 
-	/**
-	 * extracts relevant text from a given object.
-	 *
-	 * @param eObject The object to extract the information from.
-	 * @return The extracted text.
-	 */
-	private String getRelevantTextFromElement(EObject eObject) {
-
-		if (eObject instanceof NamedElement) {
-			return ((NamedElement) eObject).getName();
-		}
-
-		return "";
-	}
+        return "";
+    }
 
 }
