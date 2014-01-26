@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
@@ -44,11 +45,15 @@ public class VariableDeclarationStatementDiffingTest {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(VariableDeclarationStatementDiffingTest.class);
 
-    /** Source path to the original variable declaration test model. */
-    private static final File TEST_FILE_1 = new File("testmodels/implementation/variabledeclaration/a/A.java");
+    private static String baseDirectory = "testmodels/implementation/variabledeclaration/";
 
-    /** Source path to the modified variable declaration test model. */
-    private static final File TEST_FILE_2 = new File("testmodels/implementation/variabledeclaration/b/A.java");
+    /**
+     * Initialize the test preconditions.
+     */
+    @BeforeClass
+    public static void setUp() {
+        TestUtil.setUp();
+    }
 
     /**
      * Test method for identifying changed variable declarations. .
@@ -69,9 +74,11 @@ public class VariableDeclarationStatementDiffingTest {
     @Test
     public void testVariableDeclarationDiff() throws Exception {
 
-        TestUtil.setUp();
-        ResourceSet rsLeading = TestUtil.loadResourceSet(Sets.newHashSet(TEST_FILE_1));
-        ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(TEST_FILE_2));
+        File fileLeading = new File(baseDirectory + "a/A.java");
+        File fileIntegration = new File(baseDirectory + "b/A.java");
+
+        ResourceSet rsLeading = TestUtil.loadResourceSet(Sets.newHashSet(fileLeading));
+        ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(fileIntegration));
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
@@ -102,8 +109,31 @@ public class VariableDeclarationStatementDiffingTest {
                 fail("Unexpected diff type detected: " + diff);
             }
         }
+    }
 
-        logger.debug("Found Differences: " + differences.size());
+    /**
+     * Test the correct detection of a new local variable declaration in a method.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testNewVariable() throws Exception {
+
+        File fileLeading = new File(baseDirectory + "a/MultipleVariables.java");
+        File fileIntegration = new File(baseDirectory + "b/MultipleVariables.java");
+
+        ResourceSet rsLeading = TestUtil.loadResourceSet(Sets.newHashSet(fileLeading));
+        ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(fileIntegration));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+
+        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.DIFF_OPTIONS);
+        EList<Diff> differences = comparison.getDifferences();
+        for (Diff diff : differences) {
+            logger.debug(diff.getKind() + ": " + TestUtil.printDiff(diff));
+        }
+        assertThat("Wrong number of differences", differences.size(), is(1));
     }
 
 }

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
@@ -33,6 +34,14 @@ public class StatementTest {
     private String basePath = "testmodels/implementation/statements/";
 
     /**
+     * Initialize the test infrastructure.
+     */
+    @BeforeClass
+    public static void setUp() {
+        TestUtil.setUp();
+    }
+
+    /**
      * Test diffing of changed array field declarations.
      *
      * @throws Exception
@@ -41,7 +50,6 @@ public class StatementTest {
     @Test
     public void testArrayAccessesDiff() throws Exception {
 
-        TestUtil.setUp();
         File testFileA = new File(basePath + "a/ArrayAccesses.java");
         File testFileB = new File(basePath + "b/ArrayAccesses.java");
         ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
@@ -64,7 +72,6 @@ public class StatementTest {
     @Test
     public void testClassStatementInsertDiff() throws Exception {
 
-        TestUtil.setUp();
         File testFileA = new File(basePath + "a/ClassStatementInsert.java");
         File testFileB = new File(basePath + "b/ClassStatementInsert.java");
         ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
@@ -87,7 +94,6 @@ public class StatementTest {
     @Test
     public void testIfStatementDiff() throws Exception {
 
-        TestUtil.setUp();
         File testFileA = new File(basePath + "a/IfStatements.java");
         File testFileB = new File(basePath + "b/IfStatements.java");
         ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
@@ -114,7 +120,6 @@ public class StatementTest {
     @Test
     public void testForLoopWithIterator() throws Exception {
 
-        TestUtil.setUp();
         File testFileA = new File(basePath + "a/ForLoopWithIterator.java");
         File testFileB = new File(basePath + "b/ForLoopWithIterator.java");
         ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
@@ -137,7 +142,6 @@ public class StatementTest {
     @Test
     public void testLoopStatementDiff() throws Exception {
 
-        TestUtil.setUp();
         File testFileA = new File(basePath + "a/LoopStatements.java");
         File testFileB = new File(basePath + "b/LoopStatements.java");
         ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
@@ -160,7 +164,6 @@ public class StatementTest {
     @Test
     public void testReturnStatementsDiff() throws Exception {
 
-        TestUtil.setUp();
         File testFileA = new File(basePath + "a/ReturnStatementChanges.java");
         File testFileB = new File(basePath + "b/ReturnStatementChanges.java");
         ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
@@ -183,7 +186,6 @@ public class StatementTest {
     @Test
     public void testThrowStatementsDiff() throws Exception {
 
-        TestUtil.setUp();
         File testFileA = new File(basePath + "a/ThrowStatements.java");
         File testFileB = new File(basePath + "b/ThrowStatements.java");
         ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
@@ -206,7 +208,6 @@ public class StatementTest {
     @Test
     public void testTryCatchDiff() throws Exception {
 
-        TestUtil.setUp();
         File testFileA = new File(basePath + "a/TryCatch.java");
         File testFileB = new File(basePath + "b/TryCatch.java");
         ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
@@ -229,7 +230,6 @@ public class StatementTest {
     @Test
     public void testVariableDeclarationDiff() throws Exception {
 
-        TestUtil.setUp();
         File testFileA = new File(basePath + "a/VariableDeclarationStatements.java");
         File testFileB = new File(basePath + "b/VariableDeclarationStatements.java");
         ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
@@ -241,5 +241,32 @@ public class StatementTest {
         EList<Diff> differences = comparison.getDifferences();
 
         assertThat("Wrong number of differences", differences.size(), is(1));
+    }
+
+    /**
+     * Test statement changes in a static initialization block.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStaticInitializationDiff() throws Exception {
+
+        File testFileA = new File(basePath + "a/StaticInitialization.java");
+        File testFileB = new File(basePath + "b/StaticInitialization.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Wrong number of differences", differences.size(), is(2));
+
+//        StatementChange change = (StatementChange) differences.get(1);
+//        LocalVariableStatement statement = (LocalVariableStatement) change.getChangedStatement();
+//        assertThat("Wrong var detected as changed.", statement.getVariable().getName(), equalTo("varMiddle"));
+
     }
 }
