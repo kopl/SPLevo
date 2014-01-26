@@ -90,18 +90,26 @@ public class JaMoPPPostProcessor implements IPostProcessor {
             }
         }
 
-        // clean up nested statement diffs
+        // clean up nested StatementChanges
+        // TODO: Check if this can be done already in the matching or by the DiffBuilder
         Set<Diff> diffsToRemove = new HashSet<Diff>();
         for (Diff diff : comparison.getDifferences()) {
-            if (diff.getMatch().getLeft() instanceof Statement || diff.getMatch().getRight() instanceof Statement) {
-                for (Diff subDiff : diff.getMatch().getAllDifferences()) {
-                    if (!diff.getMatch().getDifferences().contains(subDiff)) {
-                        if (subDiff.getMatch() == null) {
-                            logger.debug("subDiff without match: " + subDiff);
-                        }
-                        diffsToRemove.add(subDiff);
+
+            Match parentMatch = diff.getMatch();
+            parentMatch = getParentMatch(parentMatch);
+            while (parentMatch != null) {
+
+                if (parentMatch.getDifferences().size() > 0) {
+                    EObject left = parentMatch.getLeft();
+                    EObject right = parentMatch.getRight();
+                    if ((left instanceof Statement || right instanceof Statement)
+                            && !(left instanceof org.emftext.language.java.classifiers.Class || right instanceof org.emftext.language.java.classifiers.Class)) {
+                        logger.debug("Remove nested diff: " + diff);
+                        diffsToRemove.add(diff);
                     }
                 }
+
+                parentMatch = getParentMatch(parentMatch);
             }
         }
 
@@ -220,7 +228,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * @return If the container is null or not a match, return null.
      */
     private Match getParentMatch(Match match) {
-        if (match.eContainer() instanceof Match) {
+        if (match != null && match.eContainer() instanceof Match) {
             return (Match) match.eContainer();
         }
         return null;

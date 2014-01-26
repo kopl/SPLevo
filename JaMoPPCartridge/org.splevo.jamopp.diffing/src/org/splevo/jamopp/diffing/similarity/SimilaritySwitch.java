@@ -79,6 +79,7 @@ import org.emftext.language.java.statements.Conditional;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.Jump;
 import org.emftext.language.java.statements.JumpLabel;
+import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
@@ -992,6 +993,30 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
                 if (differentPredecessor(statement1, statement2) && differentSuccessor(statement1, statement2)) {
                     return Boolean.FALSE;
                 }
+            }
+
+            return Boolean.TRUE;
+        }
+
+        /**
+         * Check the similarity of a variable declaration.
+         *
+         * The similarity is decided by the declared variables name only. A changed variable type or
+         * value initialization should lead to a changed statement not a new one.
+         *
+         * @param varStmt1
+         *            The variable to compare with the original / right-side one
+         * @return True/False if they are similar or not.
+         */
+        @Override
+        public Boolean caseLocalVariableStatement(LocalVariableStatement varStmt1) {
+            LocalVariableStatement varStmt2 = (LocalVariableStatement) compareElement;
+
+            Variable var1 = varStmt1.getVariable();
+            Variable var2 = varStmt2.getVariable();
+            Boolean varSimilarity = similarityChecker.isSimilar(var1, var2);
+            if (varSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
             }
 
             return Boolean.TRUE;
