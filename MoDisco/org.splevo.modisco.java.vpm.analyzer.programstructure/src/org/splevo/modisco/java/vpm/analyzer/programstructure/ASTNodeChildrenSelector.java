@@ -521,7 +521,7 @@ public class ASTNodeChildrenSelector extends JavaSwitch<List<ASTNode>> {
 
     @Override
     public List<ASTNode> defaultCase(EObject object) {
-        logger.warn("[ASTNodeChildrenSelector] Yet not handled AST node: " + object.toString());
+        logger.warn("[ASTNodeChildrenSelector] Not yet handled AST node: " + object.toString());
         return new ArrayList<ASTNode>();
     }
 

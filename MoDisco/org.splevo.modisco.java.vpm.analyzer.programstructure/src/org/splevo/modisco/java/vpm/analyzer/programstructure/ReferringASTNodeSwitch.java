@@ -221,7 +221,7 @@ public class ReferringASTNodeSwitch extends JavaSwitch<List<ASTNode>> {
 
     @Override
     public List<ASTNode> defaultCase(EObject object) {
-        logger.warn("[RefferingASTNodeTraverser] Yet not handled ast node: " + object.toString());
+        logger.warn("[RefferingASTNodeTraverser] Not yet handled ast node: " + object.toString());
         return new ArrayList<ASTNode>();
     }
 
