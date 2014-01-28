@@ -216,9 +216,6 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      */
     @Override
     public void postComparison(Comparison comparison, Monitor monitor) {
-        // FIXME: Remove
-        CaseStudyLogger.log(comparison);
-
         ComparisonModelCleanUp.cleanMatches(comparison.getMatches());
     }
 
