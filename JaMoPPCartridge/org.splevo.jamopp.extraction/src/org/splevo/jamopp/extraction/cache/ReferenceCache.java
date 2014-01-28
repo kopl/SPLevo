@@ -18,11 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -36,6 +33,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import com.google.common.collect.LinkedListMultimap;
+
 /**
  * A file based cache to reduce the number of proxy resolutions for multiple code extractions.
  */
@@ -43,12 +42,18 @@ public class ReferenceCache {
 
     private static Logger logger = Logger.getLogger(ReferenceCache.class);
 
-    /**
-     * The file the cache will be serialized into.
-     */
+    /** The file the cache will be serialized into. */
     private final File cacheFile;
 
-    private Map<String, List<String>> resourceToTargetURIListMap = new LinkedHashMap<String, List<String>>();
+    /**
+     * The map of the cache itself.<br>
+     * It links a resource URI with a list or resolved element URIs.
+     *
+     * Note:<br>
+     * An order preserving map is required to ensure URI cache list validity.
+     *
+     */
+    private LinkedListMultimap<String, String> resourceToTargetURIListMap = LinkedListMultimap.create();
 
     /**
      * Constructor requiring to set the file to persist the cache to and to load from if the file is
@@ -72,13 +77,11 @@ public class ReferenceCache {
      */
     @SuppressWarnings("unchecked")
     public List<String> resolve(Resource resource) {
-        List<String> cachedList = resourceToTargetURIListMap.get(resource.getURI().toString());
-        if (cachedList != null) {
-            resolveProxiesFromCache(resource, cachedList);
-            return cachedList;
+        List<String> targetURIs = resourceToTargetURIListMap.get(resource.getURI().toString());
+        if (targetURIs.size() > 0) {
+            resolveProxiesFromCache(resource, targetURIs);
+            return targetURIs;
         }
-
-        List<String> targetURIs = new ArrayList<String>();
 
         for (Iterator<EObject> elementIt = resource.getAllContents(); elementIt.hasNext();) {
             InternalEObject nextElement = (InternalEObject) elementIt.next();
@@ -115,7 +118,6 @@ public class ReferenceCache {
             }
         }
 
-        resourceToTargetURIListMap.put(resource.getURI().toString(), targetURIs);
         return targetURIs;
     }
 
@@ -145,7 +147,7 @@ public class ReferenceCache {
      *
      * @return The map of resource and target URIs
      */
-    public Map<String, List<String>> getResourceToTargetURIListMap() {
+    public LinkedListMultimap<String, String> getResourceToTargetURIListMap() {
         return resourceToTargetURIListMap;
     }
 
@@ -175,17 +177,19 @@ public class ReferenceCache {
 
     /**
      * Load the chache if it was persisted before.
+     *
+     * @return True/False if an existing cache file was loaded or not.
      */
     @SuppressWarnings("unchecked")
-    public void load() {
+    public boolean load() {
         if (!cacheFile.exists() && !cacheFile.canRead()) {
-            return;
+            return false;
         }
 
         ObjectInputStream oos = null;
         try {
             oos = new ObjectInputStream(new FileInputStream(cacheFile));
-            resourceToTargetURIListMap = (Map<String, List<String>>) oos.readObject();
+            resourceToTargetURIListMap = (LinkedListMultimap<String, String>) oos.readObject();
         } catch (FileNotFoundException e) {
             logger.error("Cache file can not be found", e);
         } catch (IOException e) {
@@ -201,6 +205,7 @@ public class ReferenceCache {
                 }
             }
         }
+        return true;
     }
 
     /**
