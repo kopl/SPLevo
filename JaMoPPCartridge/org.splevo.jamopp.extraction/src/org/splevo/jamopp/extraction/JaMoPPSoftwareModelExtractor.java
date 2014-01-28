@@ -112,8 +112,6 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
             }
             referenceCache.save();
             logger.info("Proxies not resolved from cache: " + notResolvedFromCacheCount);
-
-            logger.info("Use cache file: " + cacheFile);
         }
 
         if (resolveProxiesImmediately) {
