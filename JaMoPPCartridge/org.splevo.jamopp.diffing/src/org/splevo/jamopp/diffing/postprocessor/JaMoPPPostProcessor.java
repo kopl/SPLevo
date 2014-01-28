@@ -104,8 +104,8 @@ public class JaMoPPPostProcessor implements IPostProcessor {
                     EObject right = parentMatch.getRight();
                     if ((left instanceof Statement || right instanceof Statement)
                             && !(left instanceof org.emftext.language.java.classifiers.Class || right instanceof org.emftext.language.java.classifiers.Class)) {
-                        logger.debug("Remove nested diff: " + diff);
                         diffsToRemove.add(diff);
+                        break;
                     }
                 }
 
@@ -216,6 +216,8 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      */
     @Override
     public void postComparison(Comparison comparison, Monitor monitor) {
+        // FIXME: Remove
+        CaseStudyLogger.log(comparison);
 
         ComparisonModelCleanUp.cleanMatches(comparison.getMatches());
     }
