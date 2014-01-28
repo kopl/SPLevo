@@ -251,7 +251,8 @@ public class JaMoPPDiffer implements Differ {
     private EMFCompare initCompare(PackageIgnoreChecker packageIgnoreChecker, Map<String, String> diffingOptions) {
 
         IMatchEngine.Factory.Registry matchEngineRegistry = initMatchEngine(packageIgnoreChecker, diffingOptions);
-        IPostProcessor.Descriptor.Registry<?> postProcessorRegistry = initPostProcessors(packageIgnoreChecker);
+        IPostProcessor.Descriptor.Registry<?> postProcessorRegistry = initPostProcessors(packageIgnoreChecker,
+                diffingOptions);
         IDiffEngine diffEngine = initDiffEngine(packageIgnoreChecker);
         EMFCompare comparator = initComparator(matchEngineRegistry, postProcessorRegistry, diffEngine);
         return comparator;
@@ -262,11 +263,10 @@ public class JaMoPPDiffer implements Differ {
      *
      * @return The ready to use cache.
      */
-    private LoadingCache<EObject, org.eclipse.emf.common.util.URI> initEqualityCache() {
+    private LoadingCache<EObject, URI> initEqualityCache() {
         CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder().maximumSize(
                 DefaultMatchEngine.DEFAULT_EOBJECT_URI_CACHE_MAX_SIZE);
-        final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = EqualityHelper
-                .createDefaultCache(cacheBuilder);
+        final LoadingCache<EObject, URI> cache = EqualityHelper.createDefaultCache(cacheBuilder);
         return cache;
     }
 
@@ -275,10 +275,13 @@ public class JaMoPPDiffer implements Differ {
      *
      * @param packageIgnoreChecker
      *            The checker if an element belongs to an ignored package.
+     * @param diffingOptions
+     *            The options to configure the post processor.
      * @return The prepared registry with references to the post processors.
      */
-    private IPostProcessor.Descriptor.Registry<String> initPostProcessors(PackageIgnoreChecker packageIgnoreChecker) {
-        IPostProcessor customPostProcessor = new JaMoPPPostProcessor();
+    private IPostProcessor.Descriptor.Registry<String> initPostProcessors(PackageIgnoreChecker packageIgnoreChecker,
+            Map<String, String> diffingOptions) {
+        IPostProcessor customPostProcessor = new JaMoPPPostProcessor(diffingOptions);
         Pattern any = Pattern.compile(".*");
         IPostProcessor.Descriptor descriptor = new BasicPostProcessorDescriptorImpl(customPostProcessor, any, any);
         IPostProcessor.Descriptor.Registry<String> postProcessorRegistry = new PostProcessorDescriptorRegistryImpl<String>();
@@ -448,6 +451,7 @@ public class JaMoPPDiffer implements Differ {
         options.put(OPTION_JAMOPP_IGNORE_FILES, "package-info.java");
         options.put(OPTION_JAVA_CLASSIFIER_NORMALIZATION, "");
         options.put(OPTION_JAVA_PACKAGE_NORMALIZATION, "");
+        options.put(JaMoPPPostProcessor.OPTION_DIFF_STATISTICS_LOG_DIR, "");
         return options;
     }
 

@@ -31,6 +31,8 @@ import org.emftext.language.java.statements.Statement;
 import org.splevo.diffing.postprocessor.ComparisonModelCleanUp;
 import org.splevo.jamopp.diffing.diff.JaMoPPChangeFactory;
 
+import com.google.common.collect.Maps;
+
 /**
  * A JaMoPP specific post processor to refine the comparison model.
  *
@@ -39,8 +41,7 @@ import org.splevo.jamopp.diffing.diff.JaMoPPChangeFactory;
  * After the diff process has been finished, too detailed differences are detected and refined diffs
  * for the next uper level of more coarse grained diffs are created. For example, if a diff is for
  * an expression, the parent matches are walked up to find an appropriate AST element (e.g. a
- * FieldDeclaration). A {@link FieldChange} will be created and marked as refined by the original
- * diff.
+ * FieldDeclaration). A FieldChange will be created and marked as refined by the original diff.
  * </p>
  */
 public class JaMoPPPostProcessor implements IPostProcessor {
@@ -53,6 +54,37 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /** Cache for already refined higher level Diffs */
     private Map<EObject, Diff> refinedDiffCache = new LinkedHashMap<EObject, Diff>();
+
+    /** Options to configure the post processing. */
+    private Map<String, Object> options = Maps.newHashMap();
+
+    /**
+     * Option to log informations about the found differences to the log file provided with this
+     * option.
+     *
+     * If the option is null (default) no log files will be produced.
+     */
+    public static final String OPTION_DIFF_STATISTICS_LOG_DIR = "JaMoPP.Differ.Statistics.Log.Directory";
+
+    /** Default constructor setting the post processors default options. */
+    public JaMoPPPostProcessor() {
+        options.put(OPTION_DIFF_STATISTICS_LOG_DIR, null);
+    }
+
+    /**
+     * Constructor to set specific options for the post processor.
+     *
+     * @param options
+     *            The options to overwrite the default options.
+     */
+    public JaMoPPPostProcessor(Map<String, String> options) {
+        this();
+        if (options != null) {
+            for (String key : options.keySet()) {
+                this.options.put(key, options.get(key));
+            }
+        }
+    }
 
     /**
      * Handle one side matches corresponding to a change type.<br>
@@ -212,10 +244,22 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * larger then needed. This post processor step removes all match element (subtrees) that do not
      * contain any diff element.<br>
      *
+     * If the {@link OPTION_DIFF_STATISTICS_LOG_DIR} option is set, statistics about the Diff result
+     * will be logged.
+     *
      * {@inheritDoc}
      */
     @Override
     public void postComparison(Comparison comparison, Monitor monitor) {
+
+        Object logDir = options.get(OPTION_DIFF_STATISTICS_LOG_DIR);
+        if (logDir != null && logDir instanceof String) {
+            String logDirPath = (String) logDir;
+            if (!logDirPath.trim().isEmpty()) {
+                DifferenceStatisticLogger.log(comparison, (String) logDir);
+            }
+        }
+
         ComparisonModelCleanUp.cleanMatches(comparison.getMatches());
     }
 
