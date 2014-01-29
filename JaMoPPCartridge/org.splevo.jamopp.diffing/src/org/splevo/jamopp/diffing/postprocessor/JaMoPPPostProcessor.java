@@ -112,7 +112,22 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     @Override
     public void postDiff(Comparison comparison, Monitor monitor) {
 
-        // refine to detailed diffs
+        refineTooDetailedDiffs(comparison);
+        cleanNestedDifferences(comparison);
+    }
+
+    /**
+     * Differences should be detected on a minimum granularity. This minimum granularity is aligned
+     * with is supported later on by the variability technique used.
+     *
+     * The difference analysis done before should not have produced any more fine grained
+     * differences. However, to ensure a valid model, this is rechecked here. If such a too fine
+     * grained difference is detected, a log is produce to improve the difference done before.
+     *
+     * @param comparison
+     *            The comparison model to clean up.
+     */
+    private void refineTooDetailedDiffs(Comparison comparison) {
         for (Diff diff : comparison.getDifferences()) {
             Diff refinedDiff = refineToDetailedDiff(diff);
             if (refinedDiff != null) {
@@ -121,9 +136,16 @@ public class JaMoPPPostProcessor implements IPostProcessor {
                 logger.info("PostDiff: Refined to detailed Diff: " + diff);
             }
         }
+    }
 
-        // clean up nested StatementChanges
-        // TODO: Check if this can be done already in the matching or by the DiffBuilder
+    /**
+     * Remove nested diffs from the model. No nested variation points are supported yet. So we are
+     * not able to handle nested differences in the downstream process.
+     *
+     * @param comparison
+     *            The comparison model to clean up.
+     */
+    private void cleanNestedDifferences(Comparison comparison) {
         Set<Diff> diffsToRemove = new HashSet<Diff>();
         for (Diff diff : comparison.getDifferences()) {
 
@@ -134,8 +156,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
                 if (parentMatch.getDifferences().size() > 0) {
                     EObject left = parentMatch.getLeft();
                     EObject right = parentMatch.getRight();
-                    if ((left instanceof Statement || right instanceof Statement)
-                            && !(left instanceof org.emftext.language.java.classifiers.Class || right instanceof org.emftext.language.java.classifiers.Class)) {
+                    if ((left instanceof Statement || right instanceof Statement) && noClassElement(left, right)) {
                         diffsToRemove.add(diff);
                         break;
                     }
@@ -148,7 +169,30 @@ public class JaMoPPPostProcessor implements IPostProcessor {
         for (Diff diff : diffsToRemove) {
             diff.getMatch().getDifferences().remove(diff);
         }
+    }
 
+    /**
+     * Check that non of the provided elements is a class element.
+     *
+     * @param left
+     *            The first element to check.
+     * @param right
+     *            The second element to check.
+     * @return True if none of them is a class element.
+     */
+    private boolean noClassElement(EObject left, EObject right) {
+        return !(isClassElement(left) || isClassElement(right));
+    }
+
+    /**
+     * Check if an object is an instance of a JaMoPP Class
+     *
+     * @param object
+     *            The object to check.
+     * @return True if it is a class.
+     */
+    private boolean isClassElement(EObject object) {
+        return object instanceof org.emftext.language.java.classifiers.Class;
     }
 
     /**
