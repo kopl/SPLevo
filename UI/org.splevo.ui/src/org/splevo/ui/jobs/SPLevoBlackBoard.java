@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.featuremodel.FeatureModel;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.refinement.Refinement;
@@ -39,9 +38,6 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
     /** The result list of applied VPMAnalyzers. */
     private final List<VPMAnalyzerResult> vpmAnalyzerResults = new ArrayList<VPMAnalyzerResult>();
 
-    /** The feature model. */
-    private FeatureModel featureModel = null;
-
     /** The map of analyzer - refinements pairs. */
     private final List<Refinement> analysisResults = new ArrayList<Refinement>();
 
@@ -70,25 +66,6 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
 	public ResourceSet getResourceSetIntegration() {
 		return resourceSetIntegration;
 	}
-
-    /**
-     * Gets the feature model.
-     *
-     * @return the featureModel
-     */
-    public FeatureModel getFeatureModel() {
-        return featureModel;
-    }
-
-    /**
-     * Sets the feature model.
-     *
-     * @param featureModel
-     *            the featureModel to set
-     */
-    public void setFeatureModel(FeatureModel featureModel) {
-        this.featureModel = featureModel;
-    }
 
     /**
      * Gets the diffing model.

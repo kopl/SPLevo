@@ -32,8 +32,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;bundle-version="2.8.1",
  org.eclipse.core.databinding;bundle-version="1.4.1",
  org.eclipse.jface.text;bundle-version="3.8.2",
- org.apache.commons.io,
- org.eclipse.featuremodel.diagrameditor;bundle-version="0.8.0"
+ org.apache.commons.io
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

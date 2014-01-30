@@ -1,10 +1,14 @@
 package org.splevo.ui.jobs;
 
+import java.io.File;
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.featuremodel.FeatureModel;
-import org.splevo.fm.builder.VPM2FMBuilder;
+import org.splevo.fm.builder.FeatureModelBuilderService;
 import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.variability.VariationPointModel;
+
+import com.google.common.collect.Lists;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -21,7 +25,7 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
 
     /**
      * Constructor to set the reference to the SPLevo project.
-     * 
+     *
      * @param splevoProject
      *            The SPLevo project to exchange data with.
      */
@@ -37,8 +41,14 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
         if (vpm == null) {
             throw new JobFailedException("No variation point model available in the blackboard.");
         }
-        VPM2FMBuilder builder = new VPM2FMBuilder();
-        FeatureModel featureModel = builder.buildFeatureModel(vpm, splevoProject.getName());
+        FeatureModelBuilderService service = new FeatureModelBuilderService();
+        // TODO make configurable and do not trigger all builders
+        List<String> ids = Lists.newArrayList();
+        for (String builderId : service.getAvailableBuilders().keySet()) {
+            ids.add(builderId);
+        }
+        String targetPath = getModelFilePath(splevoProject);
+        service.buildAndSaveModels(ids, vpm, splevoProject.getName(), targetPath);
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
@@ -46,11 +56,20 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
             return;
         }
 
-        logger.info("Store VPM model in blackboard");
-        getBlackboard().setFeatureModel(featureModel);
-
         // finish run
         monitor.done();
+    }
+
+    /**
+     * Return the Feature Model file path.
+     *
+     * @param splevoProject
+     *            The {@link SPLevoProject} to get the workspace from.
+     * @return the file {@link IPath}
+     */
+    private String getModelFilePath(SPLevoProject splevoProject) {
+        String path = splevoProject.getWorkspace() + "models" + File.separator + "fm" + File.separator;
+        return path;
     }
 
     @Override
