@@ -14,6 +14,7 @@ package org.splevo.jamopp.extraction;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,11 +25,14 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.references.ElementReference;
+import org.emftext.language.java.references.MethodCall;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.extraction.SoftwareModelExtractionException;
@@ -38,12 +42,7 @@ import org.splevo.extraction.SoftwareModelExtractionException;
  */
 public class JaMoPPSoftwareModelExtractorTest {
 
-    private static final String TEST_TARGET_PATH = "test/models/sourcemodel/calculator-jscience";
-
     private Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractorTest.class);
-
-    /** The relative path to the project to extract java sources from. */
-    private static final String TEST_PROJECT_PATH = "test/project/calculator-jscience";
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -66,12 +65,12 @@ public class JaMoPPSoftwareModelExtractorTest {
     @Test
     public void testExtractSoftwareModel() throws SoftwareModelExtractionException {
 
+        String testProjectPath = "test/project/calculator-jscience";
+
         JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
         List<URI> projectPaths = new ArrayList<URI>();
-        projectPaths.add(URI.createFileURI(new File(TEST_PROJECT_PATH).getAbsolutePath()));
-        URI targetURI = URI.createFileURI(new File(TEST_TARGET_PATH).getAbsolutePath());
-        ResourceSet extractionResult = extractor.extractSoftwareModel(projectPaths, new NullProgressMonitor(),
-                targetURI);
+        projectPaths.add(URI.createFileURI(new File(testProjectPath).getAbsolutePath()));
+        ResourceSet extractionResult = extractor.extractSoftwareModel(projectPaths, new NullProgressMonitor(), null);
 
         assertThat(extractionResult, notNullValue());
 
