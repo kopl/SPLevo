@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.splevo.fm.builder" name="Feature Model Builder" schema="schema/org.splevo.fm.builder.exsd"/>
+
+</plugin>
