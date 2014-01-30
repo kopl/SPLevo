@@ -21,6 +21,7 @@ import org.apache.log4j.PatternLayout;
 import org.eclipse.featuremodel.FeatureModel;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.splevo.fm.emffeaturemodel.builder.EMFFeatureModelBuilder;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -28,11 +29,11 @@ import org.splevo.vpm.variability.VariationPointModel;
  * Test to verify the functionality of the builder deriving a feature model from a variation point
  * model.
  */
-public class VPM2FMBuilderTest {
+public class EMFFeatureModelBuilderTest {
 
     /** The logger for this test class. */
     @SuppressWarnings("unused")
-    private Logger logger = Logger.getLogger(VPM2FMBuilderTest.class);
+    private Logger logger = Logger.getLogger(EMFFeatureModelBuilderTest.class);
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -55,8 +56,8 @@ public class VPM2FMBuilderTest {
 
         VariationPointModel vpm = SPLevoTestUtil.loadGCDVPMModel();
 
-        VPM2FMBuilder builder = new VPM2FMBuilder();
-        FeatureModel fm = builder.buildFeatureModel(vpm, "TestFeature");
+        EMFFeatureModelBuilder builder = new EMFFeatureModelBuilder();
+        FeatureModel fm = builder.build(vpm, "TestFeature");
 
         assertNotNull("No Feature Model Created", fm);
         assertNotNull("No root feature created", fm.getRoot());
