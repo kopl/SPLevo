@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Plug-in to test SPLevo FeatureMapper Integration
+Bundle-SymbolicName: de.devboost.featuremapper.splevo.builder.test
+Fragment-Host: de.devboost.featuremapper.splevo.builder;bundle-version="1.0.0"
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit,
+ org.splevo.diffing;bundle-version="1.0.0",
+ org.splevo.jamopp.vpm;bundle-version="1.0.0"
