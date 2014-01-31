@@ -1,0 +1,23 @@
+Objective of FeatureMapper Models Builder:
+
+	The FeatureMapper Models Builder transforms a given SPLevo 
+	Variation Point Model to a feature model and a 
+	mapping model for FeatureMapper
+
+If there is for example a variation point model named VPM1
+	With a variation point PointP 
+		That has a variant A mapped to class ExampleClassA in resource ClassA_Resource
+		That has a variant B mapped to class ExampleClassB  in resource ClassB_Resource
+	
+Then the FeatureMapper Models Builder generates
+	A Feature Model
+		With a root feature RootFeature
+			With 1 child features named PointP
+		With feature PointP that contains 2 child features named A and B 
+				
+	A Mapping Model
+		With solution space model ClassA_Resource
+		With solution space model ClassB_Resource
+		With a mapping of feature A to ExampleClassA
+		With a mapping of feature B to ExampleClassB
+	

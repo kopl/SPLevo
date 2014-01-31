@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Builder Plug-in for Integrating FeatureMapper with SPLevo
-Bundle-SymbolicName: de.devboost.featuremapper.splevo.builder
+Bundle-SymbolicName: de.devboost.featuremapper.splevo.builder;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.apache.log4j;bundle-version="1.2.15",
@@ -10,6 +10,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.featuremapper.models.feature;bundle-version="0.8.6";visibility:=reexport,
  org.featuremapper.models.featuremapping;bundle-version="0.8.6";visibility:=reexport,
  org.emftext.language.java,
- org.splevo.jamopp.vpm
+ org.splevo.jamopp.vpm,
+ org.splevo.fm.builder
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: de.devboost.featuremapper.splevo.builder
+Bundle-Vendor: DevBoost GmbH
