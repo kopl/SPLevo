@@ -5,6 +5,6 @@ Bundle-SymbolicName: org.splevo.fm.builder.tests
 Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.splevo.fm.emffeaturemodel.builder;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.junit,
- org.splevo.diffing;bundle-version="1.0.0",
- org.splevo.tests;bundle-version="1.0.0"
+Require-Bundle: org.splevo.diffing;bundle-version="1.0.0",
+ org.splevo.tests;bundle-version="1.0.0",
+ org.junit;bundle-version="4.11.0"
