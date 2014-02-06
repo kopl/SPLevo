@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2013
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ package org.splevo.diffing;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -23,8 +24,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.splevo.extraction.DefaultExtractionService;
 
 /**
  * The Class SPLevoProjectUtil. Utility class to handle splevo project models.
@@ -38,11 +39,13 @@ public class DiffingModelUtil {
      *
      * @param modelFile
      *            The file object pointing to the diff model file
+     * @param sourceModelPaths
+     *            The list of base directories of the diffing sources.
      * @return the loaded diff model
      * @throws IOException
      *             Identifies that the file could not be loaded
      */
-    public static Comparison loadModel(File modelFile) throws IOException {
+    public static Comparison loadModel(File modelFile, List<String> sourceModelPaths) throws IOException {
 
         // load the required meta class packages
         ComparePackage.eINSTANCE.eClass();
@@ -54,9 +57,11 @@ public class DiffingModelUtil {
 
         // load the resource and resolve the proxies
         ResourceSet rs = new ResourceSetImpl();
+        DefaultExtractionService service = new DefaultExtractionService();
+        service.prepareResourceSet(rs, sourceModelPaths);
         Resource r = rs.createResource(URI.createPlatformResourceURI(modelFile.getPath(), true));
         r.load(null);
-        EcoreUtil.resolveAll(rs);
+        // EcoreUtil.resolveAll(rs);
 
         // convert the model to a java model
         EObject model = r.getContents().get(0);
@@ -98,7 +103,7 @@ public class DiffingModelUtil {
 
         String fileExtension = getFileExtension(filePath);
 
-        //Files.createParentDirs(filePath);
+        // Files.createParentDirs(filePath);
 
         // try to write to the project file
         ResourceSet resSet = new ResourceSetImpl();
