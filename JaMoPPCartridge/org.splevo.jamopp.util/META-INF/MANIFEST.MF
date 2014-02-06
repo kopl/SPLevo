@@ -5,5 +5,10 @@ Bundle-SymbolicName: org.splevo.jamopp.util
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: www.splevo.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.emftext.language.java;visibility:=reexport
-Export-Package: org.splevo.jamopp.util
+Require-Bundle: org.emftext.language.java;visibility:=reexport,
+ org.emftext.language.java.resource;bundle-version="1.1.0";visibility:=reexport,
+ org.emftext.language.java.resource.java;bundle-version="1.0.0";visibility:=reexport,
+ org.apache.log4j;bundle-version="1.2.15",
+ org.apache.commons.io;bundle-version="2.0.1"
+Export-Package: org.splevo.jamopp.util,
+ org.splevo.jamopp.util.resource
