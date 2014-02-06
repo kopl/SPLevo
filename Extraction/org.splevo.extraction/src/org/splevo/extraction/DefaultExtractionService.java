@@ -15,12 +15,15 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
+// TODO change to a registry concept to enable the service registering outside a running eclipse.
 /**
  * Default service to run the an extractor.
  */
 public class DefaultExtractionService implements ExtractionService {
 
     private Logger logger = Logger.getLogger(DefaultExtractionService.class);
+
+    private Map<String, SoftwareModelExtractor> registeredExtractors = null;
 
     private static final String MSG_EXTRACTOR_NOT_AVAILABLE = "No software extractor available for the provided id: %1";
     private static final String EXTRACTOR_EXTENSION_POINT_ID = "org.splevo.extraction.softwareextractor";
@@ -46,7 +49,11 @@ public class DefaultExtractionService implements ExtractionService {
      */
     @Override
     public Map<String, SoftwareModelExtractor> getSoftwareModelExtractors() {
-        Map<String, SoftwareModelExtractor> softwareModelExtractors = new LinkedHashMap<String, SoftwareModelExtractor>();
+        if (registeredExtractors != null) {
+            return registeredExtractors;
+        }
+
+        registeredExtractors = new LinkedHashMap<String, SoftwareModelExtractor>();
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         if (registry == null) {
             logger.warn("No extension point registry available.");
@@ -66,14 +73,22 @@ public class DefaultExtractionService implements ExtractionService {
                     Object o = element.createExecutableExtension(EXTENSION_POINT_ATTR_EXTRACTOR_CLASS);
                     if ((o != null) && (o instanceof SoftwareModelExtractor)) {
                         SoftwareModelExtractor extractor = (SoftwareModelExtractor) o;
-                        softwareModelExtractors.put(extractor.getId(), extractor);
+                        registeredExtractors.put(extractor.getId(), extractor);
                     }
                 } catch (CoreException e) {
                     logger.error("Failed to load software model extractor extension", e);
                 }
             }
         }
-        return softwareModelExtractors;
+        return registeredExtractors;
+    }
+
+    @Override
+    public void prepareResourceSet(ResourceSet resourceSet, List<String> sourceModelPaths) {
+        Map<String, SoftwareModelExtractor> extractors = getSoftwareModelExtractors();
+        for (String key : extractors.keySet()) {
+            extractors.get(key).prepareResourceSet(resourceSet, sourceModelPaths);
+        }
     }
 
 }
