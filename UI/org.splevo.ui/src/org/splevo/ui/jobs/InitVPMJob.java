@@ -1,13 +1,10 @@
 package org.splevo.ui.jobs;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.Comparison;
-import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.builder.DefaultVPMBuilderService;
 import org.splevo.vpm.builder.VPMBuildException;
@@ -28,7 +25,7 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
     /**
      * Constructor to set the reference to the SPLevo project.
-     * 
+     *
      * @param splevoProject
      *            The SPLevo project to exchange data with.
      */
@@ -39,14 +36,8 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        logger.info("Load diff models");
-        File diffModelFile = new File(splevoProject.getDiffingModelPath());
-        Comparison comparison;
-        try {
-            comparison = DiffingModelUtil.loadModel(diffModelFile);
-        } catch (IOException e) {
-            throw new JobFailedException("Failed to load diff model.", e);
-        }
+        logger.info("Get comparison model");
+        Comparison comparison = getBlackboard().getDiffModel();
 
         logger.info("Build initival vpm model");
         Map<String, Object> builderOptions = new LinkedHashMap<String, Object>();

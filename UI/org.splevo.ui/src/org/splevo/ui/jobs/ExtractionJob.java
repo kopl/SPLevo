@@ -13,6 +13,7 @@ import org.splevo.extraction.DefaultExtractionService;
 import org.splevo.extraction.ExtractionService;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.util.WorkspaceUtil;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -70,10 +71,8 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
         }
 
         // prepare the target path
-        URI targetURI = buildTargetURI(variantName);
+        URI absoluteTargetUri = WorkspaceUtil.getSourceModelPathWithinEclipse(splevoProject, variantName);
 
-        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        URI absoluteTargetUri = URI.createFileURI(root.getLocation().toPortableString() + targetURI.toString());
         List<URI> projectURIsAbsolute = buildProjectURIs(projectNames);
 
         // check if the process was canceled
@@ -100,12 +99,10 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
 
         monitor.subTask("Update SPLevo project information");
 
-        // TODO SourceModelPath might be outdated because diffing and extraction are now done in one
-        // step
         if (processLeading) {
-            splevoProject.setSourceModelPathLeading(targetURI.path());
+            splevoProject.setSourceModelPathLeading(absoluteTargetUri.toFileString());
         } else {
-            splevoProject.setSourceModelPathIntegration(targetURI.path());
+            splevoProject.setSourceModelPathIntegration(absoluteTargetUri.toFileString());
         }
 
         // finish run
@@ -132,31 +129,6 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
             projectURIs.add(projectURI);
         }
         return projectURIs;
-    }
-
-    /**
-     * Build the target uri for the model extraction.
-     *
-     * @param variantName
-     *            The name of the variant to extract.
-     * @return The prepared URI.
-     */
-    private URI buildTargetURI(String variantName) {
-        String basePath = getBasePath(splevoProject) + "models/sourcemodels/";
-        String targetPath = basePath + variantName;
-        URI targetURI = URI.createURI(targetPath);
-        return targetURI;
-    }
-
-    /**
-     * Build the base path for the target models.
-     *
-     * @param splevoProject
-     *            The SPLevo project to interact with.
-     * @return The base path to store the extracted models at.
-     */
-    private String getBasePath(SPLevoProject splevoProject) {
-        return splevoProject.getWorkspace();
     }
 
     /**
