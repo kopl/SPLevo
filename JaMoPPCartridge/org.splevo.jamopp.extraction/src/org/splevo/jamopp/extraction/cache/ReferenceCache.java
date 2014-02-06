@@ -36,30 +36,73 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 /**
- * A file based cache to reduce the number of proxy resolutions for multiple code extractions.
+ * A file based cache to reuse the proxy resolutions already performed.
+ *
+ * The cache was designed to work with one or more cache files to use it with resource sets
+ * containing the resources of one or more software models. For example, during extraction a
+ * separate resource set is used per software, but for differencing several software models must be
+ * accessed in one resource set.
+ *
+ * Cache files are always named according to {@link #CACHE_FILE_NAME}.
+ *
+ * During initialization, cache files existing in the provided directories are loaded.
+ * Subdirectories are not considered.
+ *
+ * When proxies in new resources are resolved and {@link #save()} is triggered, they are stored in a
+ * cache file of the first directory provided in the list. If a cache file already exists in the
+ * first cache directory, the existing cache is loaded and enhanced with the new cached references.
  */
 public class ReferenceCache {
 
+    /** The name of the cache files to be used. */
+    public static final String CACHE_FILE_NAME = "jamopp.cache";
+
     private static Logger logger = Logger.getLogger(ReferenceCache.class);
+
+    /** Internal counter how many resources have been resolved from cache. */
+    private int notResolvedFromCacheCounter = 0;
 
     /**
      * The file the cache will be serialized into.
      */
-    private final File cacheFile;
+    private final List<String> cacheFileDirectories;
 
     private Map<String, List<String>> resourceToTargetURIListMap = new LinkedHashMap<String, List<String>>();
 
+    /** List of map entries that are not persisted yet and must be saved before cache is finished. */
+    private List<String> unsavedCacheEntries = Lists.newArrayList();
+
     /**
-     * Constructor requiring to set the file to persist the cache to and to load from if the file is
-     * available.
+     * Constructor to set a list of directories containing cache files. Within these directories,
+     * files with the name {@link #CACHE_FILE_NAME} are searched.
      *
-     * @param cacheFilePath
-     *            Location of the file to be used for serializing the cache. Will be created if
-     *            non-existent.
+     * If a new file must be created, this will be done in the first directory of the list.
+     *
+     * @param cacheFileDirectories
+     *            A list of absolute paths to the directories containing cache files.
      */
-    public ReferenceCache(String cacheFilePath) {
-        this.cacheFile = new File(cacheFilePath);
+    public ReferenceCache(List<String> cacheFileDirectories) {
+        this.cacheFileDirectories = cacheFileDirectories;
+        init();
+    }
+
+    /**
+     * Initialize the cache by loading all cache files available in the configured directory.
+     */
+    private void init() {
+        for (String cacheDirectory : this.cacheFileDirectories) {
+            File cacheFile = new File(cacheDirectory + File.separator + CACHE_FILE_NAME);
+            if (cacheFile.exists() && cacheFile.canRead()) {
+                Map<String, List<String>> load = load(cacheFile);
+                if (load != null) {
+                    resourceToTargetURIListMap.putAll(load);
+                }
+            }
+        }
     }
 
     /**
@@ -72,13 +115,14 @@ public class ReferenceCache {
      */
     @SuppressWarnings("unchecked")
     public List<String> resolve(Resource resource) {
-        List<String> cachedList = resourceToTargetURIListMap.get(resource.getURI().toString());
+        String resourceUri = resource.getURI().toString();
+        List<String> cachedList = resourceToTargetURIListMap.get(resourceUri);
         if (cachedList != null) {
             resolveProxiesFromCache(resource, cachedList);
             return cachedList;
         }
 
-        List<String> targetURIs = new ArrayList<String>();
+        List<String> resolvedReferenceTargetURIs = new ArrayList<String>();
 
         for (Iterator<EObject> elementIt = resource.getAllContents(); elementIt.hasNext();) {
             InternalEObject nextElement = (InternalEObject) elementIt.next();
@@ -104,19 +148,21 @@ public class ReferenceCache {
                     BasicEList<EObject> list = (BasicEList<EObject>) refValue;
                     for (int i = 0; i < list.size(); i++) {
                         EObject crElement = list.basicGet(i);
-                        resolve(resource, targetURIs, crElement);
+                        resolve(resource, resolvedReferenceTargetURIs, crElement);
                     }
                 } else if (refValue instanceof EObject) {
                     EObject crElement = (EObject) refValue;
-                    resolve(resource, targetURIs, crElement);
+                    resolve(resource, resolvedReferenceTargetURIs, crElement);
                 } else {
                     throw new RuntimeException("Unknown object: " + refValue);
                 }
             }
         }
 
-        resourceToTargetURIListMap.put(resource.getURI().toString(), targetURIs);
-        return targetURIs;
+        resourceToTargetURIListMap.put(resourceUri, resolvedReferenceTargetURIs);
+        unsavedCacheEntries.add(resourceUri);
+        notResolvedFromCacheCounter++;
+        return resolvedReferenceTargetURIs;
     }
 
     /**
@@ -150,9 +196,50 @@ public class ReferenceCache {
     }
 
     /**
-     * Persist the cache in the file system.
+     * Trigger to save all non yet persisted cache entries.<br>
+     * These are the entries created for resources that could not be loaded from any existing cache
+     * file.
+     *
+     * If more than one cache file directory was created, the first entry in the list will be used.
+     *
+     * If the cache file already exists, it will not be overridden, but loaded and the new entries
+     * will be added to it.
+     *
      */
     public void save() {
+
+        if (unsavedCacheEntries.size() == 0) {
+            logger.debug("No new cache entries to save. ");
+        }
+
+        if (cacheFileDirectories == null || cacheFileDirectories.size() < 1) {
+            logger.warn("No cache file directory(ies) configured");
+            return;
+        }
+
+        File cacheFile = new File(cacheFileDirectories.get(0) + File.separator + CACHE_FILE_NAME);
+        Map<String, List<String>> cacheMap = load(cacheFile);
+        if (cacheMap == null) {
+            cacheMap = Maps.newLinkedHashMap();
+        }
+
+        for (String key : unsavedCacheEntries) {
+            List<String> uris = resourceToTargetURIListMap.get(key);
+            cacheMap.put(key, uris);
+        }
+
+        save(cacheFile, cacheMap);
+    }
+
+    /**
+     * Persist the cache in the file system.
+     *
+     * @param cacheFile
+     *            The file to save to.
+     * @param resourceToTargetURIListMap
+     *            The cache map to save.
+     */
+    public synchronized void save(File cacheFile, Map<String, List<String>> resourceToTargetURIListMap) {
         ObjectOutputStream oos = null;
         try {
             FileUtils.forceMkdir(cacheFile.getParentFile());
@@ -174,18 +261,25 @@ public class ReferenceCache {
     }
 
     /**
-     * Load the chache if it was persisted before.
+     * Load the cache from a file.
+     *
+     * @param cacheFile
+     *            The file to load.
+     * @return The cache map loaded from this file.
      */
     @SuppressWarnings("unchecked")
-    public void load() {
+    private Map<String, List<String>> load(File cacheFile) {
+
         if (!cacheFile.exists() && !cacheFile.canRead()) {
-            return;
+            return null;
         }
+
+        Map<String, List<String>> cacheMap = null;
 
         ObjectInputStream oos = null;
         try {
             oos = new ObjectInputStream(new FileInputStream(cacheFile));
-            resourceToTargetURIListMap = (Map<String, List<String>>) oos.readObject();
+            cacheMap = (Map<String, List<String>>) oos.readObject();
         } catch (FileNotFoundException e) {
             logger.error("Cache file can not be found", e);
         } catch (IOException e) {
@@ -201,6 +295,8 @@ public class ReferenceCache {
                 }
             }
         }
+
+        return cacheMap;
     }
 
     /**
@@ -212,7 +308,7 @@ public class ReferenceCache {
      *            The list of target URIs to use for the resolution.
      */
     @SuppressWarnings("unchecked")
-    public void resolveProxiesFromCache(Resource resource, List<String> targetURIList) {
+    private void resolveProxiesFromCache(Resource resource, List<String> targetURIList) {
 
         int index = 0;
         for (Iterator<EObject> elementIt = EcoreUtil.getAllContents(resource, true); elementIt.hasNext();) {
@@ -275,4 +371,14 @@ public class ReferenceCache {
         EObject target = resourceSet.getEObject(createURI, true);
         return target;
     }
+
+    /**
+     * Get the number of resources which's references have not been resolved from cache.
+     *
+     * @return The counter value.
+     */
+    public int getNotResolvedFromCacheCounter() {
+        return notResolvedFromCacheCounter;
+    }
+
 }

@@ -15,18 +15,16 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
-import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.extraction.SoftwareModelExtractor;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
+import org.splevo.jamopp.extraction.resource.JavaSourceOrClassFileResourceCachingFactoryImpl;
 
 import com.google.common.collect.Lists;
 
@@ -79,7 +77,13 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor, URI targetURI)
             throws SoftwareModelExtractionException {
 
-        ResourceSet targetResourceSet = setUpResourceSet();
+        String sourceModelPath = null;
+        if (useCache && targetURI != null) {
+            sourceModelPath = targetURI.toFileString();
+            logger.info("Use cache file: " + sourceModelPath);
+        }
+
+        ResourceSet targetResourceSet = setUpResourceSet(sourceModelPath);
         JavaClasspath cp = JavaClasspath.get(targetResourceSet);
 
         for (URI projectPathURI : projectPaths) {
@@ -98,22 +102,6 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
             }
         }
 
-        if (useCache && targetURI != null) {
-            String cacheFile = targetURI.toFileString() + File.separator + projectPaths.hashCode() + ".cache";
-            logger.info("Use cache file: " + cacheFile);
-            ReferenceCache referenceCache = new ReferenceCache(cacheFile);
-            referenceCache.load();
-
-            int notResolvedFromCacheCount = 0;
-            List<Resource> resources = Lists.newArrayList(targetResourceSet.getResources());
-            for (Resource resource : resources) {
-                referenceCache.resolve(resource);
-                notResolvedFromCacheCount += EcoreUtil.ProxyCrossReferencer.find(resource).size();
-            }
-            referenceCache.save();
-            logger.info("Proxies not resolved from cache: " + notResolvedFromCacheCount);
-        }
-
         if (resolveProxiesImmediately) {
             logger.info("Resolve all proxies");
             if (!resolveAllProxies(targetResourceSet)) {
@@ -121,7 +109,24 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
             }
         }
 
+        triggerCacheSave(targetResourceSet);
+
         return targetResourceSet;
+    }
+
+    /**
+     * Trigger the cache enabled JaMoPP resource cache to be saved.
+     *
+     * @param targetResourceSet
+     *            The resource set to save the assigned cache in.
+     */
+    private void triggerCacheSave(ResourceSet targetResourceSet) {
+        Map<String, Object> factoryMap = targetResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+        JavaSourceOrClassFileResourceCachingFactoryImpl factory = (JavaSourceOrClassFileResourceCachingFactoryImpl) factoryMap
+                .get("java");
+        ReferenceCache cache = factory.getReferenceCache();
+        logger.debug("Resources not resolved from Cache: " + cache.getNotResolvedFromCacheCounter());
+        cache.save();
     }
 
     /**
@@ -286,9 +291,12 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     /**
      * Setup the JaMoPP resource set and prepare the parsing options for the java resource type.
      *
+     * @param sourceModelDirectory
+     *            The path to the directory assigned to the extracted copy.
+     *
      * @return The initialized resource set.
      */
-    private ResourceSet setUpResourceSet() {
+    private ResourceSet setUpResourceSet(String sourceModelDirectory) {
         ResourceSet rs = new ResourceSetImpl();
         Map<Object, Object> options = rs.getLoadOptions();
         options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
@@ -296,9 +304,8 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
 
-        Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        factoryMap.put("java", new JavaSourceOrClassFileResourceFactoryImpl());
-        factoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+        prepareResourceSet(rs, Lists.newArrayList(sourceModelDirectory));
+
         return rs;
     }
 
@@ -310,6 +317,12 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     @Override
     public String getLabel() {
         return EXTRACTOR_LABEL;
+    }
+
+    @Override
+    public void prepareResourceSet(ResourceSet resourceSet, List<String> sourceModelPaths) {
+        Map<String, Object> factoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(sourceModelPaths));
     }
 
 }
