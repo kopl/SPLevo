@@ -65,7 +65,7 @@ public class MoDiscoSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Get the JavaProject for a specific project name.
-     * 
+     *
      * @param projectName
      *            The name to search for.
      * @return The Identified project if a java one is found. Null otherwise.
@@ -86,7 +86,7 @@ public class MoDiscoSoftwareModelExtractor implements SoftwareModelExtractor {
      * Extract the source model of a list of java projects. One project is the main project while a
      * list of additional projects to analyze can be specified. The reason for one main project is,
      * that this one is used for example for the naming of the root inventory produced etc.
-     * 
+     *
      * @param mainProject
      *            The project to extract.
      * @param additionalProjects
@@ -124,5 +124,10 @@ public class MoDiscoSoftwareModelExtractor implements SoftwareModelExtractor {
     @Override
     public String getLabel() {
         return EXTRACTOR_LABEL;
+    }
+
+    @Override
+    public void prepareResourceSet(ResourceSet resourceSet, List<String> sourceModelPaths) {
+
     }
 }
