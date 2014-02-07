@@ -7,7 +7,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.extraction.DefaultExtractionService;
 import org.splevo.extraction.ExtractionService;
@@ -71,9 +70,9 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
         }
 
         // prepare the target path
-        URI absoluteTargetUri = WorkspaceUtil.getSourceModelPathWithinEclipse(splevoProject, variantName);
+        String sourceModelPath = WorkspaceUtil.getSourceModelPathWithinEclipse(splevoProject, variantName);
 
-        List<URI> projectURIsAbsolute = buildProjectURIs(projectNames);
+        List<String> projectURIsAbsolute = buildProjectPaths(projectNames);
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
@@ -86,7 +85,7 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
         try {
             monitor.subTask("Extract Model for project: " + variantName);
             ResourceSet resourceSet = extractionService.extractSoftwareModel(extractorId, projectURIsAbsolute, monitor,
-                    absoluteTargetUri);
+                    sourceModelPath);
             if (processLeading) {
                 getBlackboard().getResourceSetLeading().getResources().addAll(resourceSet.getResources());
             } else {
@@ -100,9 +99,9 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
         monitor.subTask("Update SPLevo project information");
 
         if (processLeading) {
-            splevoProject.setSourceModelPathLeading(absoluteTargetUri.toFileString());
+            splevoProject.setSourceModelPathLeading(sourceModelPath);
         } else {
-            splevoProject.setSourceModelPathIntegration(absoluteTargetUri.toFileString());
+            splevoProject.setSourceModelPathIntegration(sourceModelPath);
         }
 
         // finish run
@@ -120,13 +119,13 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
      *            The project names.
      * @return The list of URIs identifying the projects.
      */
-    private List<URI> buildProjectURIs(List<String> projectNames) {
-        List<URI> projectURIs = new ArrayList<URI>();
+    private List<String> buildProjectPaths(List<String> projectNames) {
+        List<String> projectURIs = new ArrayList<String>();
         for (String projectName : projectNames) {
             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
             IProject project = root.getProject(projectName);
-            URI projectURI = URI.createFileURI(project.getLocation().toPortableString());
-            projectURIs.add(projectURI);
+            String path = project.getLocation().toPortableString();
+            projectURIs.add(path);
         }
         return projectURIs;
     }

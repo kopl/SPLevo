@@ -13,7 +13,6 @@ package org.splevo.ui.util;
 
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.emf.common.util.URI;
 import org.splevo.project.SPLevoProject;
 
 /**
@@ -23,23 +22,6 @@ public final class WorkspaceUtil {
 
     /** Disable constructor for utility class. */
     private WorkspaceUtil() {
-    }
-
-    // TODO Proof to return a String instead of a URI
-    /**
-     * Build the target uri for the model extraction.
-     *
-     * @param splevoProject
-     *            The project to get the workspace for.
-     * @param variantName
-     *            The name of the variant to extract.
-     * @return The prepared URI.
-     */
-    public static URI buildTargetURI(SPLevoProject splevoProject, String variantName) {
-        String basePath = splevoProject.getWorkspace() + "models/sourcemodels/";
-        String targetPath = basePath + variantName;
-        URI targetURI = URI.createURI(targetPath);
-        return targetURI;
     }
 
     // TODO check to use an absolute base path for the splevo project workspace.
@@ -53,11 +35,12 @@ public final class WorkspaceUtil {
      *            The variant to get the source model path for.
      * @return The absolute URI describing the workspace.
      */
-    public static URI getSourceModelPathWithinEclipse(SPLevoProject splevoProject, String variantName) {
-        URI targetURI = WorkspaceUtil.buildTargetURI(splevoProject, variantName);
+    public static String getSourceModelPathWithinEclipse(SPLevoProject splevoProject, String variantName) {
+        String basePath = splevoProject.getWorkspace() + "models/sourcemodels/";
+        String relativePath = basePath + variantName;
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        URI absoluteTargetUri = URI.createFileURI(root.getLocation().toPortableString() + targetURI.toString());
-        return absoluteTargetUri;
+        String absolutePath = root.getLocation().toPortableString() + relativePath;
+        return absolutePath;
     }
 
 }
