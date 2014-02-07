@@ -433,8 +433,8 @@ public class JaMoPPDiffer implements Differ {
     private ResourceSet loadResourceSetRecursively(java.net.URI baseDirectory, List<String> ignoreFiles) {
 
         JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-        List<URI> projectPaths = new ArrayList<URI>();
-        projectPaths.add(URI.createFileURI(new File(baseDirectory).getAbsolutePath()));
+        List<String> projectPaths = new ArrayList<String>();
+        projectPaths.add((new File(baseDirectory).getAbsolutePath()));
         try {
             return extractor.extractSoftwareModel(projectPaths, new NullProgressMonitor());
         } catch (SoftwareModelExtractionException e) {
