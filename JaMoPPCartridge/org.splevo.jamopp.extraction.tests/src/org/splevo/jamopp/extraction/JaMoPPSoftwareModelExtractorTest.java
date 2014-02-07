@@ -24,7 +24,6 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -32,6 +31,8 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.extraction.SoftwareModelExtractionException;
+
+import com.google.common.collect.Lists;
 
 /**
  * Test case for basic functionality of the JaMoPP based extractor.
@@ -64,8 +65,7 @@ public class JaMoPPSoftwareModelExtractorTest {
         String testProjectPath = "test/project/calculator-jscience";
 
         JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-        List<URI> projectPaths = new ArrayList<URI>();
-        projectPaths.add(URI.createFileURI(new File(testProjectPath).getAbsolutePath()));
+        List<String> projectPaths = Lists.newArrayList(new File(testProjectPath).getAbsolutePath());
         ResourceSet extractionResult = extractor.extractSoftwareModel(projectPaths, new NullProgressMonitor(), null);
 
         assertThat(extractionResult, notNullValue());
