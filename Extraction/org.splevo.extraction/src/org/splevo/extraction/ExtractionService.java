@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
@@ -23,14 +22,15 @@ public interface ExtractionService {
      *            Source Paths of the projects to be extracted.
      * @param monitor
      *            The monitor to report the progress to.
-     * @param targetURI
-     *            The target uri to store the model resources to.
+     * @param sourceModelPath
+     *            The absolute path to the directory to store information for extracted source model
+     *            in.
      * @return The set of resources containing the extracted model.
      * @throws SoftwareModelExtractionException
      *             Identifies the extraction was not successful.
      */
-    public ResourceSet extractSoftwareModel(String extractorId, List<URI> projectPaths, IProgressMonitor monitor,
-            URI targetURI) throws SoftwareModelExtractionException;
+    public ResourceSet extractSoftwareModel(String extractorId, List<String> projectPaths, IProgressMonitor monitor,
+            String sourceModelPath) throws SoftwareModelExtractionException;
 
     /**
      * Load the software model extractor implementations registered for the according extension

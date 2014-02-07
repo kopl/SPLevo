@@ -12,7 +12,6 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 // TODO change to a registry concept to enable the service registering outside a running eclipse.
@@ -30,8 +29,8 @@ public class DefaultExtractionService implements ExtractionService {
     private static final String EXTENSION_POINT_ATTR_EXTRACTOR_CLASS = "extractor.class";
 
     @Override
-    public ResourceSet extractSoftwareModel(String extractorId, List<URI> projectPaths, IProgressMonitor monitor,
-            URI targetURI) throws SoftwareModelExtractionException {
+    public ResourceSet extractSoftwareModel(String extractorId, List<String> projectPaths, IProgressMonitor monitor,
+            String targetURI) throws SoftwareModelExtractionException {
 
         SoftwareModelExtractor extractor = getSoftwareModelExtractors().get(extractorId);
         if (extractor == null) {
