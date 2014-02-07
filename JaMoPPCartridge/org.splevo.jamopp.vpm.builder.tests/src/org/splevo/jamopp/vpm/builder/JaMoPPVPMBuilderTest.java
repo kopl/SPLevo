@@ -65,7 +65,7 @@ public class JaMoPPVPMBuilderTest {
         JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
         String basePath = "testcode/";
         List<String> urisA = Lists.newArrayList(new File(basePath + "a").getAbsolutePath());
-        List<String> urisB = Lists.newArrayList(new File(basePath + "a").getAbsolutePath());
+        List<String> urisB = Lists.newArrayList(new File(basePath + "b").getAbsolutePath());
         NullProgressMonitor monitor = new NullProgressMonitor();
         ResourceSet setA = extractor.extractSoftwareModel(urisA, monitor, null);
         ResourceSet setB = extractor.extractSoftwareModel(urisB, monitor, null);
