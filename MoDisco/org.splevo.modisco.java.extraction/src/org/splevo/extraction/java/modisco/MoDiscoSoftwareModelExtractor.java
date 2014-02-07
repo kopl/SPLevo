@@ -30,14 +30,19 @@ public class MoDiscoSoftwareModelExtractor implements SoftwareModelExtractor {
     private Logger logger = Logger.getLogger(MoDiscoSoftwareModelExtractor.class);
 
     @Override
-    public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor, URI targetURI)
+    public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor, String sourceModelPath)
             throws SoftwareModelExtractionException {
 
-    	URI fullTargetURI = URI.createFileURI(targetURI.toFileString() + File.separator + "modisco_java2kdm.xmi");
+        if (!sourceModelPath.endsWith(File.separator)) {
+            sourceModelPath = sourceModelPath + File.separator;
+        }
+
+        URI fullTargetURI = URI.createFileURI(sourceModelPath + File.separator + "modisco_java2kdm.xmi");
 
         IJavaProject mainProject = null;
         try {
-            mainProject = getJavaProject(projectPaths.get(0).lastSegment());
+            String path = projectPaths.get(0);
+            mainProject = getJavaProject(FileUtil.getLastSegment(path));
         } catch (CoreException ce) {
             logger.error("Failed to load main project", ce);
             throw new SoftwareModelExtractionException("Failed to load main project", ce);
@@ -47,8 +52,10 @@ public class MoDiscoSoftwareModelExtractor implements SoftwareModelExtractor {
         List<String> additionalProjectNames = new ArrayList<String>();
         for (int i = 1; i < projectPaths.size(); i++) {
             try {
-                additionalProjects.add(getJavaProject(projectPaths.get(i).lastSegment()));
-                additionalProjectNames.add(projectPaths.get(i).lastSegment());
+
+                String path = projectPaths.get(i);
+                additionalProjects.add(getJavaProject(FileUtil.getLastSegment(path)));
+                additionalProjectNames.add(FileUtil.getLastSegment(path));
             } catch (CoreException ce) {
                 throw new SoftwareModelExtractionException("Failed to load java project", ce);
             }
