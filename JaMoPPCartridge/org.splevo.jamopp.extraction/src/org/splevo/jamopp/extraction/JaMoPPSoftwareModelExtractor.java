@@ -2,6 +2,7 @@ package org.splevo.jamopp.extraction;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -87,7 +88,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         for (String projectPath : projectPaths) {
 
             // FIXME Not sure of this line is necessary
-            //cp.getURIMap().put(projectPathURI, URI.createURI(""));
+            // cp.getURIMap().put(projectPathURI, URI.createURI(""));
             File srcFolder = new File(projectPath);
             try {
                 srcFolder.isDirectory();
@@ -302,7 +303,11 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
 
-        prepareResourceSet(rs, Lists.newArrayList(sourceModelDirectory));
+        ArrayList<String> directories = Lists.newArrayList();
+        if (sourceModelDirectory != null) {
+            directories.add(sourceModelDirectory);
+        }
+        prepareResourceSet(rs, directories);
 
         return rs;
     }

@@ -212,7 +212,7 @@ public class ReferenceCache {
             logger.debug("No new cache entries to save. ");
         }
 
-        if (cacheFileDirectories == null || cacheFileDirectories.size() < 1) {
+        if (cacheFileDirectories == null || cacheFileDirectories.size() < 1 || cacheFileDirectories.get(0) == null) {
             logger.warn("No cache file directory(ies) configured");
             return;
         }
