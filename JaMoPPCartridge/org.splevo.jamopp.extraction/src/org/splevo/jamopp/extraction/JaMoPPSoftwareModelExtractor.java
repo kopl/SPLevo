@@ -58,7 +58,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * @throws SoftwareModelExtractionException
      *             Identifies the extraction was not successful.
      */
-    public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor)
+    public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor)
             throws SoftwareModelExtractionException {
         return extractSoftwareModel(projectPaths, monitor, null);
     }
@@ -74,22 +74,20 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * {@inheritDoc}
      */
     @Override
-    public ResourceSet extractSoftwareModel(List<URI> projectPaths, IProgressMonitor monitor, URI targetURI)
+    public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor, String sourceModelPath)
             throws SoftwareModelExtractionException {
 
-        String sourceModelPath = null;
-        if (useCache && targetURI != null) {
-            sourceModelPath = targetURI.toFileString();
+        if (useCache && sourceModelPath != null) {
             logger.info("Use cache file: " + sourceModelPath);
         }
 
         ResourceSet targetResourceSet = setUpResourceSet(sourceModelPath);
         JavaClasspath cp = JavaClasspath.get(targetResourceSet);
 
-        for (URI projectPathURI : projectPaths) {
+        for (String projectPath : projectPaths) {
 
-            String projectPath = projectPathURI.toFileString();
-            cp.getURIMap().put(projectPathURI, URI.createURI(""));
+            // FIXME Not sure of this line is necessary
+            //cp.getURIMap().put(projectPathURI, URI.createURI(""));
             File srcFolder = new File(projectPath);
             try {
                 srcFolder.isDirectory();
