@@ -14,6 +14,7 @@ package org.splevo.jamopp.vpm.builder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,6 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.junit.BeforeClass;
@@ -64,8 +64,8 @@ public class JaMoPPVPMBuilderTest {
 
         JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
         String basePath = "testcode/";
-        List<URI> urisA = Lists.asList(URI.createFileURI(basePath + "a"), new URI[] {});
-        List<URI> urisB = Lists.asList(URI.createFileURI(basePath + "b"), new URI[] {});
+        List<String> urisA = Lists.newArrayList(new File(basePath + "a").getAbsolutePath());
+        List<String> urisB = Lists.newArrayList(new File(basePath + "a").getAbsolutePath());
         NullProgressMonitor monitor = new NullProgressMonitor();
         ResourceSet setA = extractor.extractSoftwareModel(urisA, monitor, null);
         ResourceSet setB = extractor.extractSoftwareModel(urisB, monitor, null);
