@@ -6,19 +6,13 @@ package org.splevo.jamopp.diffing;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.junit.Test;
-import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
-
-import com.google.common.collect.Lists;
 
 /**
  * Unit test for the diffing service class.
@@ -27,6 +21,8 @@ import com.google.common.collect.Lists;
  *
  */
 public class GCDDiffingTest {
+
+    private static final String BASE_PATH = "testmodels/implementation/calculator/";
 
     /**
      * Test the diffing of the calculator example.
@@ -38,14 +34,8 @@ public class GCDDiffingTest {
     public void testDoDiff() throws Exception {
 
         TestUtil.setUp();
-
-        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-        String basePath = "testmodels/implementation/calculator/";
-        List<URI> urisA = Lists.asList(URI.createFileURI(basePath + "native"), new URI[] {});
-        List<URI> urisB = Lists.asList(URI.createFileURI(basePath + "jscience"), new URI[] {});
-        NullProgressMonitor monitor = new NullProgressMonitor();
-        ResourceSet setA = extractor.extractSoftwareModel(urisA, monitor, null);
-        ResourceSet setB = extractor.extractSoftwareModel(urisB, monitor, null);
+        ResourceSet setA = TestUtil.extractModel(BASE_PATH + "native");
+        ResourceSet setB = TestUtil.extractModel(BASE_PATH + "jscience");
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 

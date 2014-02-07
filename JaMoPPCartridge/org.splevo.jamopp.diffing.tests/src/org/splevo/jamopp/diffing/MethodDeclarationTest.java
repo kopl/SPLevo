@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -33,7 +33,7 @@ import com.google.common.collect.Sets;
  */
 public class MethodDeclarationTest {
 
-    private String basePath = "testmodels/implementation/methoddeclaration/";
+    private static final String BASE_PATH = "testmodels/implementation/methoddeclaration/";
 
     /**
      * Test method to detect changes in the method declarations.
@@ -45,8 +45,8 @@ public class MethodDeclarationTest {
     public void testDoDiff() throws Exception {
 
 		TestUtil.setUp();
-		File testFileA = new File(basePath + "a/ClassA.java");
-		File testFileB = new File(basePath + "b/ClassA.java");
+		File testFileA = new File(BASE_PATH + "a/ClassA.java");
+		File testFileB = new File(BASE_PATH + "b/ClassA.java");
 		ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
 		ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
 

@@ -45,7 +45,7 @@ public class VariableDeclarationStatementDiffingTest {
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(VariableDeclarationStatementDiffingTest.class);
 
-    private static String baseDirectory = "testmodels/implementation/variabledeclaration/";
+    private static final String BASE_PATH = "testmodels/implementation/variabledeclaration/";
 
     /**
      * Initialize the test preconditions.
@@ -74,8 +74,8 @@ public class VariableDeclarationStatementDiffingTest {
     @Test
     public void testVariableDeclarationDiff() throws Exception {
 
-        File fileLeading = new File(baseDirectory + "a/A.java");
-        File fileIntegration = new File(baseDirectory + "b/A.java");
+        File fileLeading = new File(BASE_PATH + "a/A.java");
+        File fileIntegration = new File(BASE_PATH + "b/A.java");
 
         ResourceSet rsLeading = TestUtil.loadResourceSet(Sets.newHashSet(fileLeading));
         ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(fileIntegration));
@@ -120,8 +120,8 @@ public class VariableDeclarationStatementDiffingTest {
     @Test
     public void testNewVariable() throws Exception {
 
-        File fileLeading = new File(baseDirectory + "a/MultipleVariables.java");
-        File fileIntegration = new File(baseDirectory + "b/MultipleVariables.java");
+        File fileLeading = new File(BASE_PATH + "a/MultipleVariables.java");
+        File fileIntegration = new File(BASE_PATH + "b/MultipleVariables.java");
 
         ResourceSet rsLeading = TestUtil.loadResourceSet(Sets.newHashSet(fileLeading));
         ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(fileIntegration));

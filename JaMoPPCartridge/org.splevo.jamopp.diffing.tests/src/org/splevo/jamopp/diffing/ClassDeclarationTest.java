@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,13 +19,10 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.DifferenceKind;
@@ -38,9 +35,6 @@ import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
 import org.splevo.jamopp.diffing.jamoppdiff.PackageChange;
-import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
-
-import com.google.common.collect.Lists;
 
 /**
  * Unit test to prove the differencing of class declarations.
@@ -48,6 +42,8 @@ import com.google.common.collect.Lists;
  * This test also considers package-info files which are ignored by default.
  */
 public class ClassDeclarationTest {
+
+    private static final String BASE_PATH = "testmodels/implementation/classdeclaration/";
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(ClassDeclarationTest.class);
@@ -58,20 +54,14 @@ public class ClassDeclarationTest {
     /**
      * Initialize the test by loading the resources once to be used by the severall diff tests.
      *
-     * @throws Exception A failed initialization
+     * @throws Exception
+     *             A failed initialization
      */
     @BeforeClass
     public static void initTest() throws Exception {
-
         TestUtil.setUp();
-
-        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-        String basePath = "testmodels/implementation/classdeclaration/";
-        List<URI> urisA = Lists.asList(URI.createFileURI(basePath + "a"), new URI[] {});
-        List<URI> urisB = Lists.asList(URI.createFileURI(basePath + "b"), new URI[] {});
-        NullProgressMonitor monitor = new NullProgressMonitor();
-        setA = extractor.extractSoftwareModel(urisA, monitor, null);
-        setB = extractor.extractSoftwareModel(urisB, monitor, null);
+        setA = TestUtil.extractModel(BASE_PATH + "a");
+        setB = TestUtil.extractModel(BASE_PATH + "b");
     }
 
     /**
@@ -83,8 +73,6 @@ public class ClassDeclarationTest {
     @Test
     public void testDoDiff() throws Exception {
 
-        TestUtil.setUp();
-
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
         Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
@@ -94,7 +82,7 @@ public class ClassDeclarationTest {
         EList<Diff> differences = comparison.getDifferences();
         for (Diff diffElement : differences) {
             logger.debug(diffElement.getClass().getSimpleName());
-            //logger.debug(TestUtil.printDiff(diffElement));
+            // logger.debug(TestUtil.printDiff(diffElement));
         }
 
         assertThat("Wrong number of differences", differences.size(), is(6));
@@ -156,7 +144,7 @@ public class ClassDeclarationTest {
         EList<Diff> differences = comparison.getDifferences();
         for (Diff diffElement : differences) {
             logger.debug(diffElement.getClass().getSimpleName());
-            //logger.debug(TestUtil.printDiff(diffElement));
+            // logger.debug(TestUtil.printDiff(diffElement));
         }
 
         for (Diff diffElement : comparison.getDifferences()) {

@@ -263,7 +263,7 @@ public class StatementTest {
         EList<Diff> differences = comparison.getDifferences();
 
         assertThat("Wrong number of differences", differences.size(), is(2));
-
+// TODO Implement static initializer test
 //        StatementChange change = (StatementChange) differences.get(1);
 //        LocalVariableStatement statement = (LocalVariableStatement) change.getChangedStatement();
 //        assertThat("Wrong var detected as changed.", statement.getVariable().getName(), equalTo("varMiddle"));

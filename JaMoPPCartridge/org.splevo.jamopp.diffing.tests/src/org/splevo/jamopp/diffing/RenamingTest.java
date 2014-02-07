@@ -14,27 +14,23 @@ package org.splevo.jamopp.diffing;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
-import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
-
-import com.google.common.collect.Lists;
 
 /**
  * Unit test to prove the mapping options of the diffing.
  */
 public class RenamingTest {
+
+    private static final String BASE_PATH = "testmodels/implementation/renaming/";
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(RenamingTest.class);
@@ -50,16 +46,9 @@ public class RenamingTest {
      */
     @BeforeClass
     public static void initTest() throws Exception {
-
         TestUtil.setUp();
-
-        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-        String basePath = "testmodels/implementation/renaming/";
-        List<URI> urisA = Lists.asList(URI.createFileURI(basePath + "a"), new URI[] {});
-        List<URI> urisB = Lists.asList(URI.createFileURI(basePath + "b"), new URI[] {});
-        NullProgressMonitor monitor = new NullProgressMonitor();
-        setA = extractor.extractSoftwareModel(urisA, monitor, null);
-        setB = extractor.extractSoftwareModel(urisB, monitor, null);
+        setA = TestUtil.extractModel(BASE_PATH + "a");
+        setB = TestUtil.extractModel(BASE_PATH + "b");
     }
 
     /**

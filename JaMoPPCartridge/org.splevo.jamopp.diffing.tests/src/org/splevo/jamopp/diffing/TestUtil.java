@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,6 +26,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
@@ -45,9 +46,13 @@ import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.mopp.JavaPrinter2;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
 import org.junit.BeforeClass;
+import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
+import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
+
+import com.google.common.collect.Lists;
 
 /**
  * JaMoPP Test utility.
@@ -77,6 +82,23 @@ public abstract class TestUtil {
         // set up a basic logging configuration for the test environment
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
+    }
+
+    /**
+     * Extract the software model for a given source directory.
+     *
+     * @param path
+     *            The base path of the implementation.
+     * @return The resulting resource set.
+     * @throws SoftwareModelExtractionException
+     *             A failed extraction.
+     */
+    public static ResourceSet extractModel(String path) throws SoftwareModelExtractionException {
+        NullProgressMonitor monitor = new NullProgressMonitor();
+        String pathA = (new File(path)).getAbsolutePath();
+        List<String> urisA = Lists.newArrayList(pathA);
+        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
+        return extractor.extractSoftwareModel(urisA, monitor, null);
     }
 
     /**
