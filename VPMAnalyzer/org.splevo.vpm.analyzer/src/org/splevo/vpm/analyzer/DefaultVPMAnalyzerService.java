@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.vpm.analyzer;
 
 import java.util.ArrayList;
@@ -23,9 +34,9 @@ import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * The default vpm analyzer service implementation.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
 
@@ -47,13 +58,13 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         int nodeIndex = 0;
         for (VariationPointGroup vpGroup : vpm.getVariationPointGroups()) {
             for (VariationPoint vp : vpGroup.getVariationPoints()) {
-                
+
                 // At this time, the referenced ASTNode might be a proxy.
                 // To prevent issues in the later processing, it is important
-                // to resolve the proxy here before pushing the variation point 
+                // to resolve the proxy here before pushing the variation point
                 // into the graph node.
                 EcoreUtil.resolveAll(vp);
-                
+
                 String nodeID = "VP" + (nodeIndex++);
                 Node n = graph.addNode(nodeID);
                 n.addAttribute(VPMGraph.GS_LABEL, nodeID);
@@ -66,7 +77,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.splevo.vpm.analyzer.VPMAnalyzerService#mergeGraphs(java.util.List)
      */
     @SuppressWarnings("unchecked")
@@ -170,29 +181,29 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
 
     /**
      * Build a simple edge id by using the ids of the connected nodes only.
-     * 
+     *
      * @param node1
      *            The first node.
      * @param node2
      *            The second node.
      * @return The prepared edge id.
      */
-    public String buildEdgeId(Node node1, Node node2) {
+    private String buildEdgeId(Node node1, Node node2) {
         return buildEdgeId(node1.getId(), node2.getId());
     }
 
     /**
      * Build a simple edge id by using the ids of the connected nodes only.
-     * 
+     *
      * The method ensures an alphanumeric ascending order of the node ids.
-     * 
+     *
      * @param node1ID
      *            The id of the first node.
      * @param node2ID
      *            The id of the second node.
      * @return The prepared edge id.
      */
-    public String buildEdgeId(String node1ID, String node2ID) {
+    private String buildEdgeId(String node1ID, String node2ID) {
         if (node1ID.compareTo(node2ID) <= 0) {
             return node1ID + "#" + node2ID;
         } else {
@@ -219,7 +230,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
 
     /**
      * Load the vpm analyzer implementations registered for the according extension point.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
