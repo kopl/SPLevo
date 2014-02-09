@@ -13,5 +13,11 @@
             class="org.splevo.jamopp.vpm.software.softwarePackage"
             genModel="model/jamopp.vpm.genmodel"/>
    </extension>
+   <extension
+         point="org.splevo.vpm.extension">
+      <vpm.extension
+            extension.class="org.splevo.jamopp.vpm.JaMoPPVPMExtension">
+      </vpm.extension>
+   </extension>
 
 </plugin>

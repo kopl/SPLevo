@@ -9,24 +9,7 @@
  * Contributors:
  *    Benjamin Klatt - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.vpm;
-
-import org.splevo.jamopp.vpm.software.softwarePackage;
-import org.splevo.vpm.VPMExtension;
-
 /**
- * Life cycle management for the variation point model extension.
+ * JaMoPP specific extension of the variation point model.
  */
-public class JaMoPPVPMExtension implements VPMExtension {
-
-    @Override
-    public void init() {
-        softwarePackage.eINSTANCE.eClass();
-    }
-
-    @Override
-    public String getName() {
-        return "JaMoPPVPMExtension";
-    }
-
-}
+package org.splevo.jamopp.vpm;
