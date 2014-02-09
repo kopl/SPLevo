@@ -31,7 +31,7 @@ import org.splevo.vpm.variability.variabilityFactory;
 /**
  * A builder to generate a Variation Point Model (VPM) based on a java2kdm diff-model, i.e. an
  * extended EMF Compare diff-model.
- * 
+ *
  */
 public class Java2KDMVPMBuilder implements VPMBuilder {
 
@@ -45,6 +45,7 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
     public VariationPointModel buildVPM(Comparison comparisonModel, String variantIDLeading, String variantIDIntegration) {
 
         if (!diffModelIsValid(comparisonModel)) {
+            logger.info("Diff model not supported by the MoDisco VPM Builder");
             return null;
         }
 
@@ -79,7 +80,7 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
     /**
      * Get the id for variation point group based on the ASTNode specifying the variability
      * location.
-     * 
+     *
      * @param softwareElement
      *            The AST node containing the variability.
      * @return The derived group id.
@@ -98,7 +99,7 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
 
     /**
      * Get a JavaApplication model from a list of model elements.
-     * 
+     *
      * @param comparisonModel
      *            The comparison model to find the JavaApplication element in.
      * @param left
@@ -127,24 +128,26 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
     /**
      * Get the matched resource object. Try to access the direct resource reference. If not
      * available, try to load the resource from the given uri.
-     * 
+     *
+     * Only loads the resource if it is an XMI resource. Other resources are not supported.
+     *
      * @param matchResource
      *            The match object for the resource.
      * @param left
      *            The flag if the left or right resource is of interest.
-     * @return The resource or null if it could not be laoded.
+     * @return The resource or null if it could not be loaded.
      */
     private Resource getMatchedResource(MatchResource matchResource, boolean left) {
         Resource originalResource = null;
         if (left) {
             originalResource = matchResource.getLeft();
-            if (originalResource == null) {
+            if (originalResource == null && isXmiURI(matchResource.getLeftURI())) {
                 originalResource = loadResource(matchResource.getLeftURI());
                 matchResource.setLeft(originalResource);
             }
         } else {
             originalResource = matchResource.getRight();
-            if (originalResource == null) {
+            if (originalResource == null && isXmiURI(matchResource.getRightURI())) {
                 originalResource = loadResource(matchResource.getRightURI());
                 matchResource.setRight(originalResource);
             }
@@ -154,13 +157,19 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
 
     /**
      * Load the resource for a given URI.
-     * 
+     *
+     * Only xmi resources are supported by this VPM builder, so all others are blocked.
+     *
      * @param uriString
      *            The string representation of the uri.
      * @return The resource or null if it could not be loaded.
      */
     private Resource loadResource(String uriString) {
         if (uriString == null) {
+            return null;
+        }
+
+        if (isXmiURI(uriString)) {
             return null;
         }
 
@@ -191,28 +200,33 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
     }
 
     /**
+     * Check if a uri points to an XMI resource based on the file extension.
+     * @param uriString The uri to check.
+     * @return True if the uri points to an xmi file extension.
+     */
+    private boolean isXmiURI(String uriString) {
+        return !uriString.contains(".") || !uriString.substring(uriString.lastIndexOf(".")).equals("xmi");
+    }
+
+    /**
      * Check that the DiffModel is a valid input. This means, that the diffed models must be modisco
      * discovered java models and contain a JavaApplication model
-     * 
+     *
      * @param compareModel
      *            The diff model to check
      * @return true/false depending whether the diff model is valid.
      */
     private boolean diffModelIsValid(Comparison compareModel) {
 
-        boolean valid = true;
-
         if (selectJavaAppModel(compareModel, true) == null) {
-            logger.warn("Diff model invalid: No valid JavaApplication integration root (left) available");
-            valid = false;
+            return false;
         }
 
         if (selectJavaAppModel(compareModel, false) == null) {
-            logger.warn("Diff model contains no valid JavaApplication leading root (right) available");
-            valid = false;
+            return false;
         }
 
-        return valid;
+        return true;
     }
 
     @Override
