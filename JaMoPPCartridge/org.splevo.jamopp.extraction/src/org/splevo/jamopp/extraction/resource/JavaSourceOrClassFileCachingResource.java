@@ -37,9 +37,7 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
      */
     public JavaSourceOrClassFileCachingResource(ReferenceCache referenceCache, URI uri) {
         super(uri);
-        if (referenceCache != null) {
-            this.referenceCache = referenceCache;
-        }
+        this.referenceCache = referenceCache;
     }
 
     /**
