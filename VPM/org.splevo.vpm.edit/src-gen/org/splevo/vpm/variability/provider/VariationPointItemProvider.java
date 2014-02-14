@@ -127,6 +127,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
+	 * {@inheritDoc}
 	 * <!-- end-user-doc -->
 	 * @generated not
 	 */

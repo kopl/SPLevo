@@ -1,5 +1,14 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.vpm.variability.provider;
 
 import java.util.Collection;
@@ -142,6 +151,7 @@ public class VariantItemProvider extends ItemProviderAdapter implements
 	 * This returns an icon for the variant element.
 	 * Depending on the leading flag, the icon is changed.
 	 * <!-- begin-user-doc -->
+     * {@inheritDoc}
 	 * <!-- end-user-doc -->
 	 * @generated not
 	 */
@@ -162,6 +172,7 @@ public class VariantItemProvider extends ItemProviderAdapter implements
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
+     * {@inheritDoc}
 	 * <!-- end-user-doc -->
 	 * @generated not
 	 */
