@@ -34,7 +34,7 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
         if (!diffModelIsValid(comparisonModel)) {
             return null;
         }
-
+        
         VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 
         // visit the difference tree
