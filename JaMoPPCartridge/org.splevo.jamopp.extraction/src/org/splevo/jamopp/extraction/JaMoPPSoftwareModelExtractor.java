@@ -87,8 +87,6 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         for (String projectPath : projectPaths) {
 
-            // FIXME Not sure of this line is necessary
-            // cp.getURIMap().put(projectPathURI, URI.createURI(""));
             File srcFolder = new File(projectPath);
             try {
                 srcFolder.isDirectory();
@@ -300,7 +298,6 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         Map<Object, Object> options = rs.getLoadOptions();
         options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
-        options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
 
         ArrayList<String> directories = Lists.newArrayList();
@@ -323,8 +320,13 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     }
 
     @Override
-    public void prepareResourceSet(ResourceSet resourceSet, List<String> sourceModelPaths) {
-        Map<String, Object> factoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+    public void prepareResourceSet(ResourceSet rs, List<String> sourceModelPaths) {
+
+        Map<Object, Object> options = rs.getLoadOptions();
+        options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
+        options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
+
+        Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(sourceModelPaths));
     }
 
