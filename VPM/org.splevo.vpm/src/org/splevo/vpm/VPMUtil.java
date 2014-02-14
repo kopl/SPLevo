@@ -16,7 +16,7 @@ import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityPackage;
 
 /**
- *  Utility class to handle VariationPointModel models.
+ * Utility class to handle VariationPointModel models.
  */
 public class VPMUtil {
 
@@ -24,25 +24,29 @@ public class VPMUtil {
     public static final String VPM_FILE_EXTENSION = "vpm";
 
     /**
-     * Load SPLevoProject model from the standard xmi file.
-     * 
-     * 
+     * Load a variation model from a given VPM model file.
+     *
+     * <p>
+     * A resource set providing the context to load the vpm in can be provided. For example, the
+     * resource set can be prepared to properly load any referenced source models.
+     * </p>
+     *
      * @param vpmFile
      *            The file object pointing to the main model file
+     * @param rs
+     *            The resource set to load the model into.
      * @return the loaded vpm model
      * @throws IOException
      *             Identifies that the file could not be loaded
      */
-    public static VariationPointModel loadVariationPointModel(File vpmFile) throws IOException {
+    public static VariationPointModel loadVariationPointModel(File vpmFile, ResourceSet rs) throws IOException {
+
+        // Prepare the resource set for the required resource types
+        rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
+                .put(VPM_FILE_EXTENSION, new XMIResourceFactoryImpl());
 
         // load the required meta class packages
         variabilityPackage.eINSTANCE.eClass();
-
-        // register the factory to be able to read xmi files
-        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(VPM_FILE_EXTENSION, new XMIResourceFactoryImpl());
-
-        // load the resource and resolve the proxies
-        ResourceSet rs = new ResourceSetImpl();
         Resource r = rs.createResource(URI.createPlatformResourceURI(vpmFile.getPath(), true));
         r.load(null);
         EcoreUtil.resolveAll(rs);
@@ -59,7 +63,7 @@ public class VPMUtil {
 
     /**
      * Save a project model to a specified file.
-     * 
+     *
      * @param project
      *            The project to save.
      * @param filePath
@@ -68,7 +72,7 @@ public class VPMUtil {
      *             identifies that the file could not be written.
      */
     public static void save(VariationPointModel project, File filePath) throws IOException {
-        
+
         // try to write to the project file
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
