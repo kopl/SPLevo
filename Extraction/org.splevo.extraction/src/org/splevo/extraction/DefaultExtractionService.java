@@ -37,7 +37,9 @@ public class DefaultExtractionService implements ExtractionService {
             throw new SoftwareModelExtractionException(String.format(MSG_EXTRACTOR_NOT_AVAILABLE, extractorId));
         }
 
-        return extractor.extractSoftwareModel(projectPaths, monitor, targetURI);
+        ResourceSet resourceSet = extractor.extractSoftwareModel(projectPaths, monitor, targetURI);
+        logger.info("Extraction done: " + targetURI);
+        return resourceSet;
     }
 
     /**
