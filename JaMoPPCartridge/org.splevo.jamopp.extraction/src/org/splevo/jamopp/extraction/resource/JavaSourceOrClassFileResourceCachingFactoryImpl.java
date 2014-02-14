@@ -11,10 +11,12 @@
  *******************************************************************************/
 package org.splevo.jamopp.extraction.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 
@@ -28,18 +30,36 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
 
     /**
      * Constructor to set the base directory for internal reference cache.
-     *
+     * 
      * @param cacheDirectories
      *            The absolute paths of directories containing cache files.
+     * @param javaClasspath
+     *            The class path to enhance. Should be the same as associated with the resource set the resource factory belongs to.
      */
-    public JavaSourceOrClassFileResourceCachingFactoryImpl(List<String> cacheDirectories) {
+    public JavaSourceOrClassFileResourceCachingFactoryImpl(List<String> cacheDirectories, JavaClasspath javaClasspath) {
+        this(cacheDirectories, javaClasspath, new ArrayList<String>());
+    }
+
+    /**
+     * Constructor to set the base directory for internal reference cache.
+     * 
+     * @param cacheDirectories
+     *            The absolute paths of directories containing cache files.
+     * @param javaClasspath
+     *            The class path to enhance. Should be the same as associated with the resource set the resource factory belongs to.
+     * @param jarPaths
+     *            A list of paths to jar files to be registered in the {@link JavaClasspath} and
+     *            stored in the cache.
+     */
+    public JavaSourceOrClassFileResourceCachingFactoryImpl(List<String> cacheDirectories, JavaClasspath javaClasspath,
+            List<String> jarPaths) {
         super();
-        referenceCache = new ReferenceCache(cacheDirectories);
+        referenceCache = new ReferenceCache(cacheDirectories, javaClasspath, jarPaths);
     }
 
     /**
      * Create a cache enabled resource.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override
@@ -49,7 +69,7 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
 
     /**
      * Access the internal cache.
-     *
+     * 
      * @return The internally used cache.
      */
     public ReferenceCache getReferenceCache() {

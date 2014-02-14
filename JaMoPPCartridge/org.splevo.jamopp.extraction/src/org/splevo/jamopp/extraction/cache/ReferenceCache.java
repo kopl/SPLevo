@@ -34,8 +34,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.JavaClasspath;
-
-import com.google.common.collect.Lists;
+import org.emftext.language.java.commons.Commentable;
 
 /**
  * A file based cache to reuse the proxy resolutions already performed.
@@ -72,19 +71,8 @@ public class ReferenceCache {
     /** The cache data object to work with. */
     private ReferenceCacheData cacheData = new ReferenceCacheData();
 
-    /**
-     * Memory of JavaClasspaths which's URI maps have already been enhanced with cached URI
-     * mappings.<br>
-     * This is used to prevent filling a class path with cached URI mappings multiple times. The
-     * list exists to remember the already filled class path instances.
-     */
-    private List<JavaClasspath> alreadyEnhancedClasspath = Lists.newArrayList();
-
-    /**
-     * Memory of JavaClasspaths which's URI maps have already been extracted.<br>
-     * This is used to prevent extracting and caching a class path's URI mappings multiple times.
-     */
-    private List<JavaClasspath> alreadyAnalyzedClasspath = Lists.newArrayList();
+    /** The java class path to enhance with the cached data. */
+    private JavaClasspath javaClasspath = null;
 
     /**
      * Constructor to set a list of directories containing cache files. Within these directories,
@@ -94,14 +82,38 @@ public class ReferenceCache {
      * 
      * @param cacheFileDirectories
      *            A list of absolute paths to the directories containing cache files.
+     * @param javaClasspath
+     *            The java class path to enhance with the cached data
      */
-    public ReferenceCache(List<String> cacheFileDirectories) {
+    public ReferenceCache(List<String> cacheFileDirectories, JavaClasspath javaClasspath) {
+        this(cacheFileDirectories, javaClasspath, new ArrayList<String>());
+    }
+
+    /**
+     * Constructor to set a list of directories containing cache files. Within these directories,
+     * files with the name {@link #CACHE_FILE_NAME} are searched.
+     * 
+     * If a new file must be created, this will be done in the first directory of the list.
+     * 
+     * @param cacheFileDirectories
+     *            A list of absolute paths to the directories containing cache files.
+     * @param javaClasspath
+     *            The java class path to enhance with the cached data
+     * @param jarPaths
+     *            A list of paths to jar files to be registered in the {@link JavaClasspath} and
+     *            stored in the cache.
+     */
+    public ReferenceCache(List<String> cacheFileDirectories, JavaClasspath javaClasspath, List<String> jarPaths) {
         this.cacheFileDirectories = cacheFileDirectories;
+        this.javaClasspath = javaClasspath;
+        cacheData.getJarFilePaths().addAll(jarPaths);
         init();
     }
 
     /**
      * Initialize the cache by loading all cache files available in the configured directory.
+     * 
+     * In addition, register the jar files in the {@link JavaClasspath}.
      */
     private void init() {
         for (String cacheDirectory : this.cacheFileDirectories) {
@@ -113,6 +125,11 @@ public class ReferenceCache {
                 }
             }
         }
+
+        for (String jarPath : cacheData.getJarFilePaths()) {
+            javaClasspath.registerClassifierJar(URI.createFileURI(jarPath));
+        }
+        logger.info("Registered " + cacheData.getJarFilePaths().size() + " jar files from cache.");
     }
 
     /**
@@ -124,48 +141,20 @@ public class ReferenceCache {
      * @return A list of this resources target URIs.
      */
     public List<String> resolve(Resource resource) {
-
-        processClasspath(resource);
-
         String resourceUri = resource.getURI().toString();
         List<String> cachedList = cacheData.getResourceToTargetURIListMap().get(resourceUri);
-        if (cachedList != null) {
-            resolveProxiesFromCache(resource, cachedList);
-        } else {
-            cachedList = resolveProxies(resource);
-            cacheData.getResourceToTargetURIListMap().put(resourceUri, cachedList);
-            notResolvedFromCacheCounter++;
+        try {
+            if (cachedList != null) {
+                resolveProxiesFromCache(resource, cachedList);
+            } else {
+                cachedList = resolveProxies(resource);
+                cacheData.getResourceToTargetURIListMap().put(resourceUri, cachedList);
+                notResolvedFromCacheCounter++;
+            }
+        } catch (Exception e) {
+            logger.error("Error during proxy resolving", e);
         }
         return cachedList;
-    }
-
-    /**
-     * Process the {@link JavaClasspath} to either extract or fill up the contained URI mappings
-     * depending of the cache status and if the {@link JavaClasspath} has been processed before.
-     * 
-     * This method assumes a local class path used by the ResourceSet.
-     * 
-     * @param resource
-     *            The resource to process the class path of.
-     */
-    private void processClasspath(Resource resource) {
-        JavaClasspath cp = JavaClasspath.get(resource.getResourceSet());
-        if (!alreadyEnhancedClasspath.contains(cp)) {
-
-            for (String keyURI : cacheData.getJavaClasspathUriMap().keySet()) {
-                String valueURI = cacheData.getJavaClasspathUriMap().get(keyURI);
-                cp.getURIMap().put(URI.createURI(keyURI.toString()), URI.createURI(valueURI.toString()));
-            }
-            alreadyEnhancedClasspath.add(cp);
-        }
-        if (!alreadyAnalyzedClasspath.contains(cp)) {
-
-            for (URI keyURI : cp.getURIMap().keySet()) {
-                URI valueURI = cp.getURIMap().get(keyURI);
-                cacheData.getJavaClasspathUriMap().put(keyURI.toString(), valueURI.toString());
-            }
-            alreadyAnalyzedClasspath.add(cp);
-        }
     }
 
     /**
@@ -183,6 +172,13 @@ public class ReferenceCache {
             InternalEObject nextElement = (InternalEObject) elementIt.next();
             if (nextElement.eIsProxy()) {
                 throw new RuntimeException("Unexpected containment proxy.");
+            }
+
+            // Non JaMoPP Elements, such as layout information should always be ignored
+            // to be able to extract the code without layout information
+            // but being able to use it afterwards.
+            if (!(nextElement instanceof Commentable)) {
+                continue;
             }
 
             List<EReference> eReferences = nextElement.eClass().getEAllReferences();
@@ -260,7 +256,7 @@ public class ReferenceCache {
             cacheDataExisting = new ReferenceCacheData();
             cacheData.merge(cacheDataExisting);
         }
-        
+
         save(cacheFile, cacheData);
     }
 
@@ -350,9 +346,24 @@ public class ReferenceCache {
                 throw new RuntimeException("Unexpected containment proxy.");
             }
 
+            // Non JaMoPP Elements, such as layout information should always be ignored
+            // to be able to extract the code without layout information
+            // but being able to use it afterwards.
+            if (!(nextElement instanceof Commentable)) {
+                continue;
+            }
+
             EList<EReference> eReferences = nextElement.eClass().getEAllReferences();
             for (EReference eReference : eReferences) {
                 if (eReference.isContainment()) {
+                    continue;
+                }
+                if (eReference.isDerived()) {
+                    logger.warn("Derived reference skipped");
+                    continue;
+                }
+                if ("layoutInformations".equals(eReference.getName())) {
+                    logger.warn("Layoutinformation reference skipped");
                     continue;
                 }
 
@@ -379,7 +390,7 @@ public class ReferenceCache {
                         EObject targetObject = getTarget(resource, targetURI);
                         nextElement.eSet(eReference, targetObject);
                     } else {
-                        logger.warn("Element is not resolved (null) in cache: " + targetURI);
+                        logger.warn("Element is not resolved (targetURI is null) in cache: " + refValue);
                     }
                     index++;
                 } else {
