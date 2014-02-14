@@ -50,9 +50,8 @@ public class DiffingModelUtil {
         // load the required meta class packages
         ComparePackage.eINSTANCE.eClass();
 
-        String fileExtension = getFileExtension(modelFile);
-
         // register the factory to be able to read xmi files
+        String fileExtension = getFileExtension(modelFile);
         Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(fileExtension, new XMIResourceFactoryImpl());
 
         // load the resource and resolve the proxies
@@ -61,6 +60,7 @@ public class DiffingModelUtil {
         service.prepareResourceSet(rs, sourceModelPaths);
         Resource r = rs.createResource(URI.createPlatformResourceURI(modelFile.getPath(), true));
         r.load(null);
+        // disabled preventive resolving of all proxies. It seems that this is not necessary
         // EcoreUtil.resolveAll(rs);
 
         // convert the model to a java model
