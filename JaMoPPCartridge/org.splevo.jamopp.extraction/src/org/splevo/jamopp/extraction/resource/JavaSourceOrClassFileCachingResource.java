@@ -27,32 +27,51 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
     /** The reference cache to resolve proxies. */
     private ReferenceCache referenceCache = null;
 
+    /** Flag if the resource's references should be resolved as soon as doLoad is finished. */
+    private boolean resolveImmediately = true;
+
     /**
      * Constructor to set the reference cache the resource should use for resolving.
-     *
-     * @param referenceCache
-     *            The reference cache to use. If null is provided no cache is used.
+     * 
      * @param uri
      *            The URI identifying this resource.
+     * @param referenceCache
+     *            The reference cache to use. If null is provided no cache is used.
      */
-    public JavaSourceOrClassFileCachingResource(ReferenceCache referenceCache, URI uri) {
+    public JavaSourceOrClassFileCachingResource(URI uri, ReferenceCache referenceCache) {
+        this(uri, referenceCache, true);
+    }
+
+    /**
+     * Constructor to set the reference cache the resource should use for resolving.
+     * 
+     * @param uri
+     *            The URI identifying this resource.
+     * @param referenceCache
+     *            The reference cache to use. If null is provided no cache is used.
+     * @param resolveImmediately
+     *            Flag if the resource's references should be resolved as soon as doLoad is
+     *            finished.
+     */
+    public JavaSourceOrClassFileCachingResource(URI uri, ReferenceCache referenceCache, boolean resolveImmediately) {
         super(uri);
         this.referenceCache = referenceCache;
+        this.resolveImmediately = resolveImmediately;
     }
 
     /**
      * Adapted loading implementation resolving the references from cache if available after the
      * resource itself has been loaded.
-     *
+     * 
      * If no cacheDirectory was provided (null value), no caching will be used.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override
     protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException {
         super.doLoad(inputStream, options);
 
-        if (referenceCache != null) {
+        if (resolveImmediately && referenceCache != null) {
             referenceCache.resolve(this);
         }
     }

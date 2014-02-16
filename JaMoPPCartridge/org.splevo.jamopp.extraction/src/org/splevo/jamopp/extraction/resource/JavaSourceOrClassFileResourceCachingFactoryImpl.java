@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.JavaClasspath;
+import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 
@@ -25,19 +26,25 @@ import org.splevo.jamopp.extraction.cache.ReferenceCache;
  */
 public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceOrClassFileResourceFactoryImpl {
 
+    private static final String FILE_URI_SCHEME = "file";
+
     /** The reference cache to use. */
     private ReferenceCache referenceCache = null;
 
+    /** Flag if the resource's references should be resolved as soon as doLoad is finished. */
+    private boolean resolveImmediately = true;
+
     /**
      * Constructor to set the base directory for internal reference cache.
      * 
      * @param cacheDirectories
      *            The absolute paths of directories containing cache files.
      * @param javaClasspath
-     *            The class path to enhance. Should be the same as associated with the resource set the resource factory belongs to.
+     *            The class path to enhance. Should be the same as associated with the resource set
+     *            the resource factory belongs to.
      */
     public JavaSourceOrClassFileResourceCachingFactoryImpl(List<String> cacheDirectories, JavaClasspath javaClasspath) {
-        this(cacheDirectories, javaClasspath, new ArrayList<String>());
+        this(cacheDirectories, javaClasspath, new ArrayList<String>(), true);
     }
 
     /**
@@ -46,25 +53,35 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
      * @param cacheDirectories
      *            The absolute paths of directories containing cache files.
      * @param javaClasspath
-     *            The class path to enhance. Should be the same as associated with the resource set the resource factory belongs to.
+     *            The class path to enhance. Should be the same as associated with the resource set
+     *            the resource factory belongs to.
      * @param jarPaths
      *            A list of paths to jar files to be registered in the {@link JavaClasspath} and
      *            stored in the cache.
+     * @param resolveImmediately
+     *            Flag if the resource's references should be resolved as soon as doLoad is
+     *            finished.
      */
     public JavaSourceOrClassFileResourceCachingFactoryImpl(List<String> cacheDirectories, JavaClasspath javaClasspath,
-            List<String> jarPaths) {
+            List<String> jarPaths, boolean resolveImmediately) {
         super();
         referenceCache = new ReferenceCache(cacheDirectories, javaClasspath, jarPaths);
+        this.resolveImmediately = resolveImmediately;
     }
 
     /**
-     * Create a cache enabled resource.
+     * Create a cache enabled resource for file scheme URIs.<br>
+     * Otherwise a regular JaMoPP resource is created.
      * 
      * {@inheritDoc}
      */
     @Override
     public Resource createResource(URI uri) {
-        return new JavaSourceOrClassFileCachingResource(referenceCache, uri);
+        if (FILE_URI_SCHEME.equals(uri.scheme())) {
+            return new JavaSourceOrClassFileCachingResource(uri, referenceCache, resolveImmediately);
+        } else {
+            return new JavaSourceOrClassFileResource(uri);
+        }
     }
 
     /**
