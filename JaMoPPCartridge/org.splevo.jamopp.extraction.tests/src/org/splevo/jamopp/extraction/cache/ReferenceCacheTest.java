@@ -155,7 +155,7 @@ public class ReferenceCacheTest {
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(cacheFileDirs, javaClasspath,
-                jarPaths));
+                jarPaths, false));
     }
 
     /**
