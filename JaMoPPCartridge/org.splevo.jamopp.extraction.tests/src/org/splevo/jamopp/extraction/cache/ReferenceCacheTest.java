@@ -86,7 +86,6 @@ public class ReferenceCacheTest {
     @Test
     public void testResolve() throws IOException {
         File cacheDir = folder.newFolder("cacheDir");
-        System.out.println(cacheDir.getAbsolutePath());
         ArrayList<String> cacheFileDirs = Lists.newArrayList(cacheDir.getAbsolutePath());
 
         String resourcePath = "test/cache/basic/CalculatorSqrt.java";
@@ -94,9 +93,9 @@ public class ReferenceCacheTest {
         String jarPathAbsolute = new File(jarPath).getAbsolutePath();
         List<String> jarPaths = Lists.newArrayList(jarPathAbsolute);
 
-        ReferenceCache referenceCache = initializeCache(cacheFileDirs, resourcePath, jarPaths);
-        System.out.println("Not resolved from cache: " + referenceCache.getNotResolvedFromCacheCounter());
-        assertThat("No cache file created", cacheDir.listFiles().length, is(1));
+        ResourceSet rs = prepareResourceSetAsDoneByExtractor(cacheFileDirs, jarPaths);
+        ReferenceCache referenceCache = loadCache(rs, resourcePath);
+        referenceCache.save();
 
         // resolve the resource a second time and use the now pre-loaded cache
         ResourceSet resourceSet = initNewResourceSet(cacheFileDirs);
@@ -105,6 +104,8 @@ public class ReferenceCacheTest {
         referenceCacheNew.resolve(resource);
 
         int uncachedProxies = referenceCacheNew.getNotResolvedFromCacheCounter();
+
+        assertThat("No cache file created", cacheDir.listFiles().length, is(1));
         assertThat("Not all references could be resolved from cache", uncachedProxies, is(0));
 
     }
@@ -115,23 +116,16 @@ public class ReferenceCacheTest {
      * 
      * Initialize ("warm up") the cache by parsing the resource the first time.
      * 
-     * @param cacheFileDirs
-     *            The cache data directories.
+     * @param rs
+     *            The resource set to initialize the cache for.
      * @param resourcePath
-     *            The path to the java resource to load.
-     * @param jarPaths
-     *            Jar files to load.
+     *            The path to the java resource (file) to load.
      * @return The filled cache.
      */
-    private ReferenceCache initializeCache(List<String> cacheFileDirs, String resourcePath, List<String> jarPaths) {
-
-        ResourceSet rs = new ResourceSetImpl();
-        prepareResourceSetAsDoneByExtractor(cacheFileDirs, jarPaths, rs);
-        
-        rs.getResource(URI.createFileURI(resourcePath), true);
-
+    private ReferenceCache loadCache(ResourceSet rs, String resourcePath) {
         ReferenceCache referenceCache = getReferenceCache(rs);
-        referenceCache.save();
+        Resource resource = rs.getResource(URI.createFileURI(resourcePath), true);
+        referenceCache.resolve(resource);
         return referenceCache;
     }
 
@@ -142,10 +136,12 @@ public class ReferenceCacheTest {
      *            The cache directories.
      * @param jarPaths
      *            The jar files to register.
-     * @param rs
-     *            The resource set to configure.
+     * @return The prepared resource set.
      */
-    private void prepareResourceSetAsDoneByExtractor(List<String> cacheFileDirs, List<String> jarPaths, ResourceSet rs) {
+    private ResourceSet prepareResourceSetAsDoneByExtractor(List<String> cacheFileDirs, List<String> jarPaths) {
+
+        ResourceSet rs = new ResourceSetImpl();
+
         Map<Object, Object> options = rs.getLoadOptions();
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
@@ -156,6 +152,8 @@ public class ReferenceCacheTest {
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(cacheFileDirs, javaClasspath,
                 jarPaths, false));
+
+        return rs;
     }
 
     /**
