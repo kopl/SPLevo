@@ -1,5 +1,7 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2014
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package org.splevo.jamopp.vpm.software.presentation;
 
 import java.io.IOException;
