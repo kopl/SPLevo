@@ -2,14 +2,12 @@ package org.splevo.ui.jobs;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.project.SPLevoProject;
-
-import com.google.common.collect.Lists;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -26,7 +24,7 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
 
     /**
      * Constructor to set a reference to the splevoproject.
-     *
+     * 
      * @param splevoProject
      *            The reference to the splevoproject.
      */
@@ -40,13 +38,11 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
         logger.info("Load diff models");
         File diffModelFile = new File(splevoProject.getDiffingModelPath());
 
-        List<String> sourceModelPaths = Lists.newArrayList();
-        sourceModelPaths.add(splevoProject.getSourceModelPathLeading());
-        sourceModelPaths.add(splevoProject.getSourceModelPathIntegration());
+        ResourceSet resourceSet = JobUtil.initResourceSet(splevoProject);
 
         Comparison diffModel;
         try {
-            diffModel = DiffingModelUtil.loadModel(diffModelFile, sourceModelPaths);
+            diffModel = DiffingModelUtil.loadModel(diffModelFile, resourceSet);
         } catch (IOException e) {
             throw new JobFailedException("Failed to load diff model.", e);
         }

@@ -1,18 +1,14 @@
 package org.splevo.ui.jobs;
 
 import java.io.File;
-import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.splevo.extraction.DefaultExtractionService;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityPackage;
-
-import com.google.common.collect.Lists;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
@@ -48,12 +44,12 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
      *
      * @param splevoProject
      *            The reference to the splevo project.
-     * @param index
-     *            The index of the vpm.
+     * @param targetVPMIndex
+     *            The index of the VPM to load.
      */
-    public LoadVPMJob(SPLevoProject splevoProject, int index) {
+    public LoadVPMJob(SPLevoProject splevoProject, int targetVPMIndex) {
         this.splevoProject = splevoProject;
-        this.targetVPMIndex = index;
+        this.targetVPMIndex = targetVPMIndex;
     }
 
     @Override
@@ -68,7 +64,7 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             index = splevoProject.getVpmModelPaths().size() - 1;
         }
 
-        ResourceSetImpl resourceSet = initResourceSet();
+        ResourceSet resourceSet = JobUtil.initResourceSet(splevoProject);
 
         VariationPointModel vpm;
         try {
@@ -83,22 +79,6 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
         // finish run
         monitor.done();
-    }
-
-    /**
-     * Initialize the resource set including preparation by the source model extractors for specific
-     * source models.
-     *
-     * @return The initialized resource set.
-     */
-    private ResourceSetImpl initResourceSet() {
-        ResourceSetImpl resourceSet = new ResourceSetImpl();
-        DefaultExtractionService extractionService = new DefaultExtractionService();
-        List<String> sourceModelPaths = Lists.newArrayList();
-        sourceModelPaths.add(splevoProject.getSourceModelPathLeading());
-        sourceModelPaths.add(splevoProject.getSourceModelPathIntegration());
-        extractionService.prepareResourceSet(resourceSet, sourceModelPaths);
-        return resourceSet;
     }
 
     @Override
