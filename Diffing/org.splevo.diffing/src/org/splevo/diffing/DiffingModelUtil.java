@@ -14,7 +14,6 @@ package org.splevo.diffing;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -25,7 +24,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.splevo.extraction.DefaultExtractionService;
 
 /**
  * The Class SPLevoProjectUtil. Utility class to handle splevo project models.
@@ -35,17 +33,17 @@ public class DiffingModelUtil {
     /**
      * Load diff model from the standard xmi file. The concrete file extension is determined from
      * the given file name.
-     *
-     *
+     * 
+     * 
      * @param modelFile
      *            The file object pointing to the diff model file
-     * @param sourceModelPaths
-     *            The list of base directories of the diffing sources.
+     * @param rs
+     *            The resource set to load the model into.
      * @return the loaded diff model
      * @throws IOException
      *             Identifies that the file could not be loaded
      */
-    public static Comparison loadModel(File modelFile, List<String> sourceModelPaths) throws IOException {
+    public static Comparison loadModel(File modelFile, ResourceSet rs) throws IOException {
 
         // load the required meta class packages
         ComparePackage.eINSTANCE.eClass();
@@ -55,9 +53,6 @@ public class DiffingModelUtil {
         Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(fileExtension, new XMIResourceFactoryImpl());
 
         // load the resource and resolve the proxies
-        ResourceSet rs = new ResourceSetImpl();
-        DefaultExtractionService service = new DefaultExtractionService();
-        service.prepareResourceSet(rs, sourceModelPaths);
         Resource r = rs.createResource(URI.createPlatformResourceURI(modelFile.getPath(), true));
         r.load(null);
 
@@ -72,7 +67,7 @@ public class DiffingModelUtil {
 
     /**
      * Get the file extension of a file.
-     *
+     * 
      * @param file
      *            The file object to get the extension for.
      * @return The file extension or null if none found.
@@ -88,7 +83,7 @@ public class DiffingModelUtil {
 
     /**
      * Save a project model to a specified file.
-     *
+     * 
      * @param comparisonModel
      *            The model to save.
      * @param filePath
