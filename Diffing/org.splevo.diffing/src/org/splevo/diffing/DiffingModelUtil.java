@@ -60,10 +60,7 @@ public class DiffingModelUtil {
         service.prepareResourceSet(rs, sourceModelPaths);
         Resource r = rs.createResource(URI.createPlatformResourceURI(modelFile.getPath(), true));
         r.load(null);
-        // disabled preventive resolving of all proxies. It seems that this is not necessary
-        // EcoreUtil.resolveAll(rs);
 
-        // convert the model to a java model
         EObject model = r.getContents().get(0);
         if (!(model instanceof Comparison)) {
             throw new IOException("Model is not a valid SPLevoProject: " + model.getClass().getName());
