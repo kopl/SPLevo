@@ -48,18 +48,24 @@ public class LuceneCodeAnalyzer extends Analyzer {
 	@Override
 	protected TokenStreamComponents createComponents(String field, Reader reader) {
 		Tokenizer source = new WhitespaceTokenizer(Version.LUCENE_43, reader);		
-	    Map<String, String> args = new HashMap<String, String>();
+
+		TokenStream stopFilter = new StopFilter(Version.LUCENE_43, source, stopWords);
+	    
+		Map<String, String> args = new HashMap<String, String>();
 	    args.put("generateWordParts", "1"); 
 	    args.put("generateNumberParts", "0"); 
 	    args.put("catenateWords", "0"); 
 	    args.put("catenateNumbers", "0"); 
 	    args.put("catenateAll", "0"); 
 	    args.put("splitOnCaseChange", splitCamelCase ? "1" : "0"); 
-	    WordDelimiterFilter wordDelimiterFilter = new WordDelimiterFilterFactory(args).create(source);
+	    WordDelimiterFilter wordDelimiterFilter = new WordDelimiterFilterFactory(args).create(stopFilter);
+	    
 	    TokenStream lowerFilter = new LowerCaseFilter(Version.LUCENE_43, wordDelimiterFilter);
-	    TokenStream stopFilter = new StopFilter(Version.LUCENE_43, lowerFilter, stopWords);
-	    TokenStream lengthFilter = new LengthFilter(true, stopFilter, 3, Integer.MAX_VALUE);
+	    
+	    TokenStream lengthFilter = new LengthFilter(true, lowerFilter, 3, Integer.MAX_VALUE);
+	    
 	    TokenStream standardFilter = new StandardFilter(Version.LUCENE_43, lengthFilter);
+	    
 	    return new TokenStreamComponents(source, standardFilter);
 	}
 	
