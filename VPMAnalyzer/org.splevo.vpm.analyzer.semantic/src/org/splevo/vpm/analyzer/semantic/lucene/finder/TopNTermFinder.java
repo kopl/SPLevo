@@ -98,7 +98,7 @@ public class TopNTermFinder extends AbstractRelationshipFinder {
 		});
 
 		Set<String> result = new LinkedHashSet<String>();
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n || i < entries.size(); i++) {
 			result.add(entries.get(i).getKey());
 		}
 
