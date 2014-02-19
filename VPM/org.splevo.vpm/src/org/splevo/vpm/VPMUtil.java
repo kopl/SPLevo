@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityPackage;
@@ -49,7 +48,6 @@ public class VPMUtil {
         variabilityPackage.eINSTANCE.eClass();
         Resource r = rs.createResource(URI.createPlatformResourceURI(vpmFile.getPath(), true));
         r.load(null);
-        EcoreUtil.resolveAll(rs);
 
         // convert the model to a java model
         EObject model = r.getContents().get(0);
