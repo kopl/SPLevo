@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
@@ -63,7 +62,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
                 // To prevent issues in the later processing, it is important
                 // to resolve the proxy here before pushing the variation point
                 // into the graph node.
-                EcoreUtil.resolveAll(vp);
+                //EcoreUtil.resolveAll(vp);
 
                 String nodeID = "VP" + (nodeIndex++);
                 Node n = graph.addNode(nodeID);
