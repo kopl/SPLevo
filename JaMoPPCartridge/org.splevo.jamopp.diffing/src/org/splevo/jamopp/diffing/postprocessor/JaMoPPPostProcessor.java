@@ -13,6 +13,7 @@ package org.splevo.jamopp.diffing.postprocessor;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,16 +27,20 @@ import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.postprocessor.IPostProcessor;
 import org.eclipse.emf.ecore.EObject;
+import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.types.TypeReference;
 import org.splevo.diffing.postprocessor.ComparisonModelCleanUp;
 import org.splevo.jamopp.diffing.diff.JaMoPPChangeFactory;
+import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
  * A JaMoPP specific post processor to refine the comparison model.
- *
+ * 
  * <h2>Post Diff Processing</h2>
  * <p>
  * After the diff process has been finished, too detailed differences are detected and refined diffs
@@ -61,19 +66,31 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     /**
      * Option to log informations about the found differences to the log file provided with this
      * option.
-     *
+     * 
      * If the option is null (default) no log files will be produced.
      */
     public static final String OPTION_DIFF_STATISTICS_LOG_DIR = "JaMoPP.Differ.Statistics.Log.Directory";
 
+    /**
+     * Option to clean up false positive differences based on derived copies. A derived copy means
+     * the developer has not only copied code, but also introduced an "extends"-relationship between
+     * the copy and the original. As a result, public, protected or package fields, present in the
+     * original but not in the copy are not deleted but derived from the parent.
+     * 
+     * If the option is null (default) no clean up will be performed. The configuration currently
+     * supports only strings. So any not null and not empty string activates this option.
+     */
+    public static final String OPTION_DIFF_CLEANUP_DERIVED_COPIES = "JaMoPP.Differ.Derived.Copy.Cleanup";
+
     /** Default constructor setting the post processors default options. */
     public JaMoPPPostProcessor() {
         options.put(OPTION_DIFF_STATISTICS_LOG_DIR, null);
+        options.put(OPTION_DIFF_CLEANUP_DERIVED_COPIES, null);
     }
 
     /**
      * Constructor to set specific options for the post processor.
-     *
+     * 
      * @param options
      *            The options to overwrite the default options.
      */
@@ -106,7 +123,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * additional (nested) diffs must be specified inside this.<br>
      * If a more fine-grained level than statements is intended this needs to be adapted.</li>
      * </ol>
-     *
+     * 
      * {@inheritDoc}
      */
     @Override
@@ -119,11 +136,11 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     /**
      * Differences should be detected on a minimum granularity. This minimum granularity is aligned
      * with is supported later on by the variability technique used.
-     *
+     * 
      * The difference analysis done before should not have produced any more fine grained
      * differences. However, to ensure a valid model, this is rechecked here. If such a too fine
      * grained difference is detected, a log is produce to improve the difference done before.
-     *
+     * 
      * @param comparison
      *            The comparison model to clean up.
      */
@@ -141,7 +158,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     /**
      * Remove nested diffs from the model. No nested variation points are supported yet. So we are
      * not able to handle nested differences in the downstream process.
-     *
+     * 
      * @param comparison
      *            The comparison model to clean up.
      */
@@ -173,7 +190,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Check that non of the provided elements is a class element.
-     *
+     * 
      * @param left
      *            The first element to check.
      * @param right
@@ -186,7 +203,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Check if an object is an instance of a JaMoPP Class
-     *
+     * 
      * @param object
      *            The object to check.
      * @return True if it is a class.
@@ -197,7 +214,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Detect and refine to detailed diffs.
-     *
+     * 
      * @param diff
      *            The diff to check and refine if reasonable.
      * @return The refined diff, if one has been created.
@@ -214,7 +231,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Detect and refine to detailed {@link ReferenceChange}.
-     *
+     * 
      * @param referenceChange
      *            The {@link ReferenceChange} to check and refine if reasonable.
      * @return The refined diff, if one has been created.
@@ -260,7 +277,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Detect and refine to detailed {@link AttributeChange}.
-     *
+     * 
      * @param attributeChange
      *            The {@link AttributeChange} to check and refine if reasonable.
      * @return The refined diff, if one has been created.
@@ -287,10 +304,10 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * those subtrees containing diff elements are relevant for the downstream process, the model is
      * larger then needed. This post processor step removes all match element (subtrees) that do not
      * contain any diff element.<br>
-     *
+     * 
      * If the {@link OPTION_DIFF_STATISTICS_LOG_DIR} option is set, statistics about the Diff result
      * will be logged.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override
@@ -304,12 +321,97 @@ public class JaMoPPPostProcessor implements IPostProcessor {
             }
         }
 
+        if (isCleanUpDerivedCopiesActivated()) {
+            cleanUpDerivedCopies(comparison);
+        }
+
         ComparisonModelCleanUp.cleanMatches(comparison.getMatches());
     }
 
     /**
+     * Check if the option to clean up derived copies is activated in the diffing options.
+     * 
+     * @return True if derived copies should be detected and cleaned up.
+     */
+    private boolean isCleanUpDerivedCopiesActivated() {
+        boolean cleanUpDerivedCopiesActive = false;
+        Object cleanUpDerivedCopies = options.get(OPTION_DIFF_CLEANUP_DERIVED_COPIES);
+        if (cleanUpDerivedCopies != null && cleanUpDerivedCopies instanceof String) {
+            String cleanUpDerivedCopiesString = (String) cleanUpDerivedCopies;
+            if (!cleanUpDerivedCopiesString.trim().isEmpty()) {
+                cleanUpDerivedCopiesActive = true;
+            }
+        }
+        return cleanUpDerivedCopiesActive;
+    }
+
+    /**
+     * Clean up false positive deletes of any members that are available in the copy due to an
+     * existing extends relationship between left and right models.
+     * 
+     * @param comparison
+     *            The comparison model to clean up.
+     */
+    private void cleanUpDerivedCopies(Comparison comparison) {
+
+        List<Diff> falsePositivesToRemove = Lists.newArrayList();
+
+        // CLASS CHANGES
+        // find class changes about changed extends / default extends
+        // Identify the super and the sub class
+        // ignore deleted references of the super class
+        // ignore added references similar to the sub class
+        for (Diff diff : comparison.getDifferences()) {
+
+            if (diff instanceof ClassChange) {
+
+                ClassChange change = (ClassChange) diff;
+
+                boolean derivedCopyDetected = false;
+
+                derivedCopyDetected = checkDerivedCopyPattern(comparison, change);
+
+                if (derivedCopyDetected) {
+                    falsePositivesToRemove.add(diff);
+                }
+            }
+        }
+
+        for (Diff diff : falsePositivesToRemove) {
+            diff.getMatch().getDifferences().remove(diff);
+        }
+
+    }
+
+    /**
+     * Check a {@link ClassChange} if it is part of a derived copy pattern.
+     * 
+     * Check if the extended class matches to the same class as the derived one. This is an
+     * indicator for a derived copy pattern.
+     * 
+     * @param comparison
+     *            The comparison model to look up matches.
+     * @param change
+     *            The class change to analyze.
+     * @return True if a derived copy pattern is detected.
+     */
+    private boolean checkDerivedCopyPattern(Comparison comparison, ClassChange change) {
+        Class originalClass = (Class) change.getMatch().getRight();
+        Class changedClass = change.getChangedClass();
+        TypeReference classExtends = changedClass.getExtends();
+
+        Match extendedClassMatch = comparison.getMatch(classExtends.getTarget());
+        if (extendedClassMatch != null) {
+            if (extendedClassMatch.getRight() == originalClass) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get the parent match of a match.
-     *
+     * 
      * @param match
      *            The match to get the parent match for.
      * @return If the container is null or not a match, return null.

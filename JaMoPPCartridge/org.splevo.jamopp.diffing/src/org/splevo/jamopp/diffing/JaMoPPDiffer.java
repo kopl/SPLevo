@@ -451,6 +451,7 @@ public class JaMoPPDiffer implements Differ {
         options.put(OPTION_JAMOPP_IGNORE_FILES, "package-info.java");
         options.put(OPTION_JAVA_CLASSIFIER_NORMALIZATION, "");
         options.put(OPTION_JAVA_PACKAGE_NORMALIZATION, "");
+        options.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "");
         options.put(JaMoPPPostProcessor.OPTION_DIFF_STATISTICS_LOG_DIR, "");
         return options;
     }

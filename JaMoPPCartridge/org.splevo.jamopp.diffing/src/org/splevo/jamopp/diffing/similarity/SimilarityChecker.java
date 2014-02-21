@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * Checker for the similarity of two elements specific for the java application model.
- *
+ * 
  * TODO: Check caching for this similarity checker. Would require to pass this to the similarity
  * switch as well!
- *
+ * 
  */
 public class SimilarityChecker {
 
@@ -36,14 +36,15 @@ public class SimilarityChecker {
 
     /**
      * Constructor to set the required configurations.
-     *
+     * 
      * @param classifierNormalizations
      *            A list of patterns replace any match in a classifier name with the defined
      *            replacement string.
      * @param compilationUnitNormalizations
      *            A list of patterns replace any match in a compilation unit name with the defined
      *            replacement string.
-     *            @param packageNormalizations The normalizations to replace expressions.
+     * @param packageNormalizations
+     *            The normalizations to replace expressions.
      */
     public SimilarityChecker(Map<Pattern, String> classifierNormalizations,
             Map<Pattern, String> compilationUnitNormalizations, Map<Pattern, String> packageNormalizations) {
@@ -54,7 +55,7 @@ public class SimilarityChecker {
 
     /**
      * Check two objects if they are similar.
-     *
+     * 
      * @param element1
      *            The first element to check.
      * @param element2
@@ -67,7 +68,7 @@ public class SimilarityChecker {
 
     /**
      * Check two objects if they are similar.
-     *
+     * 
      * @param element1
      *            The first element to check.
      * @param element2
@@ -83,13 +84,11 @@ public class SimilarityChecker {
             return Boolean.TRUE;
         }
 
-        if (element1 != null && element2 == null) {
-            return Boolean.FALSE;
-        } else if (element1 == null && element2 != null) {
+        if (onlyOneIsNull(element1, element2)) {
             return Boolean.FALSE;
         }
 
-        // check the elements to have similar classes
+        // check the elements to be of the same type
         if (!element1.getClass().equals(element2.getClass())) {
             return Boolean.FALSE;
         }
@@ -99,6 +98,25 @@ public class SimilarityChecker {
                 classifierNormalizations, compilationUnitNormalizations, packageNormalizations);
         Boolean similar = similaritySwitch.doSwitch(element1);
         return similar;
+    }
+
+    /**
+     * Method to check if only one of the provided elements is null.
+     * 
+     * @param element1
+     *            The first element.
+     * @param element2
+     *            The second element.
+     * @return True if only one element is null and the other is not.
+     */
+    private Boolean onlyOneIsNull(final EObject element1, final EObject element2) {
+        Boolean onlyOneIsNull = false;
+        if (element1 != null && element2 == null) {
+            onlyOneIsNull = Boolean.TRUE;
+        } else if (element1 == null && element2 != null) {
+            onlyOneIsNull = Boolean.TRUE;
+        }
+        return onlyOneIsNull;
     }
 
 }
