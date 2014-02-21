@@ -42,7 +42,7 @@ public class RefinementTreeLabelProvider extends LabelProvider {
             labelBuilder.append(" VPs)");
             return labelBuilder.toString();
         } else {
-            throw new RuntimeException("Unknown Refiment Type: " + element.getClass());
+            throw new RuntimeException("Unknown Refinement Type: " + element.getClass());
         }
     }
 
