@@ -69,6 +69,7 @@ public class VPMRefinementPage extends WizardPage {
                 "C:/Users/Morpheus/workspace/runtime-New_configuration/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java");
         System.out.println("exists: " + file.exists());
         System.out.println("readable: " + file.canRead());
+        System.out.println("writable: " + file.canWrite());
         System.out.println("is file: " + file.isFile());
         System.out.println("is directory: " + file.isDirectory());
         try {
