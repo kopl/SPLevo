@@ -12,6 +12,7 @@
 package org.splevo.diffing.match;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import org.splevo.diffing.util.NormalizationUtil;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -60,14 +62,14 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Constructor to specify pattern mappings to handle possible renaming.
-     *
+     * 
      * @param uriNormalizationPatterns
      *            A map with entries having a key representing a regular expression to match and a
      *            replacement string to set in case of a match.
      * @param fileNameNormalizationPatterns
      *            A map with entries having a key of a regular expression to match and a replacement
      *            string to set in case of a match.
-     *
+     * 
      */
     public HierarchicalStrategyResourceMatcher(Map<Pattern, String> uriNormalizationPatterns,
             Map<Pattern, String> fileNameNormalizationPatterns) {
@@ -124,10 +126,10 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
     /**
      * Create matches for the left and right candidates. A match is only created if a pair is the
      * best match for both sides.
-     *
+     * 
      * Internally, indexes are build to identify the total number of matches and the best matches
      * for both candidate lists.
-     *
+     * 
      * @param leftCandidates
      *            The left candidates to search matches for.
      * @param rightCandidates
@@ -140,19 +142,33 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
         // index for a fast lookup of the highest match score for a resource.
         HashMap<Resource, Integer> bestMatchCountIndex = new HashMap<Resource, Integer>();
-        HashMap<Resource, Resource> bestMatchIndexLeft = new HashMap<Resource, Resource>();
-        HashMap<Resource, Resource> bestMatchIndexRight = new HashMap<Resource, Resource>();
+
+        // mappings for a resource to it's best matches
+        // This is implemented as multimap to support renaming and derived copies.
+        // in such a case, an original resource might map two times:
+        // To the still existing same class as well as the modified, extending copy
+        // see SPLEVO-181 for details {@link https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-181}
+        LinkedListMultimap<Resource, Resource> bestMatchIndexLeft = LinkedListMultimap.create();
+        LinkedListMultimap<Resource, Resource> bestMatchIndexRight = LinkedListMultimap.create();
 
         for (Resource leftRes : leftCandidates) {
             for (Resource rightRes : rightCandidates) {
-                int matchCount = getMatchingSegments(leftRes, rightRes);
+                int matchCount = getMatchingSegmentsPathOnly(leftRes, rightRes);
 
                 if (!bestMatchCountIndex.containsKey(leftRes) || bestMatchCountIndex.get(leftRes) < matchCount) {
+                    bestMatchCountIndex.put(leftRes, matchCount);
+                    bestMatchIndexLeft.removeAll(leftRes);
+                    bestMatchIndexLeft.put(leftRes, rightRes);
+                } else if (bestMatchCountIndex.get(leftRes) == matchCount) {
                     bestMatchCountIndex.put(leftRes, matchCount);
                     bestMatchIndexLeft.put(leftRes, rightRes);
                 }
 
                 if (!bestMatchCountIndex.containsKey(rightRes) || bestMatchCountIndex.get(rightRes) < matchCount) {
+                    bestMatchCountIndex.put(rightRes, matchCount);
+                    bestMatchIndexRight.removeAll(rightRes);
+                    bestMatchIndexRight.put(rightRes, leftRes);
+                } else if (bestMatchCountIndex.get(rightRes) == matchCount) {
                     bestMatchCountIndex.put(rightRes, matchCount);
                     bestMatchIndexRight.put(rightRes, leftRes);
                 }
@@ -165,10 +181,15 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Create match elements for valid best matching pairs.
-     *
+     * 
      * For the best match of each left resource, create a match element if this match-pair is also
      * best available match for the right resource in the pair.
-     *
+     * 
+     * This supports original resources matched to one or more new resources.<br>
+     * This is required to support renaming and derived copies as described in the according Jira
+     * Issue:<br>
+     * SPLEVO-181 for details {@link https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-181}
+     * 
      * TODO: Check if a match should be prevented if it is only 1<br>
      * 1 means only the filename is the same. The resources are expected to be located relative
      * folders and the URI is an absolute uri. On the other hand, the path to the root folder might
@@ -176,7 +197,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
      * subfolderleft/resource.xmi vs. differentsubfolder/resource.xmi<br>
      * vs.<br>
      * rootfolderlef/resource.xmi vs rootsfolderright/resource.xmi<br>
-     *
+     * 
      * @param bestMatchCountIndex
      *            The best match qualifiers for each resource (left and right).
      * @param bestMatchIndexLeft
@@ -184,17 +205,19 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
      * @return The valid resource matches identified.
      */
     private List<MatchResource> createMatchElementsForBestMatches(HashMap<Resource, Integer> bestMatchCountIndex,
-            HashMap<Resource, Resource> bestMatchIndexLeft) {
+            LinkedListMultimap<Resource, Resource> bestMatchIndexLeft) {
         List<MatchResource> mappings = Lists.newArrayList();
 
         for (Resource leftRes : bestMatchIndexLeft.keySet()) {
 
-            Resource rightRes = bestMatchIndexLeft.get(leftRes);
+            List<Resource> rightRessources = bestMatchIndexLeft.get(leftRes);
 
-            if (bestMatchCountIndex.get(leftRes) == bestMatchCountIndex.get(rightRes)) {
-                mappings.add(createMatchResource(leftRes, rightRes, null));
-                removeFromIndex(filenameResourcesIndexLeft, leftRes);
-                removeFromIndex(filenameResourcesIndexRight, rightRes);
+            for (Resource rightRes : rightRessources) {
+                if (bestMatchCountIndex.get(leftRes) == bestMatchCountIndex.get(rightRes)) {
+                    mappings.add(createMatchResource(leftRes, rightRes, null));
+                    removeFromIndex(filenameResourcesIndexLeft, leftRes);
+                    removeFromIndex(filenameResourcesIndexRight, rightRes);
+                }
             }
         }
 
@@ -203,7 +226,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Remove a resource entry from the index for all segments it has been registered for.
-     *
+     * 
      * @param index
      *            The index to clean.
      * @param resource
@@ -217,16 +240,24 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
     }
 
     /**
-     * Count the number of matching segments for two resources. The segment comparison starts from
-     * the end of the resources' URIs because the filename is the most identifying one.
-     *
+     * Count the number of matching segments for two resources.
+     * 
+     * <p>
+     * The segment comparison starts from the end of the resources' URIs except of the filename.<br>
+     * The filename is expected to match for the resources provided to this method (including
+     * renaming awareness etc.). The comparison is done beginning from the end, because the sources
+     * of the same software product might be stored at different locations on the disk. So the
+     * beginning of the URIs / the locations where the implementations are stored, are expected to
+     * be different anyway.
+     * </p>
+     * 
      * @param leftResource
      *            The left resource to compare the uri.
      * @param rightResource
      *            The right resource to compare the uri.
      * @return The number of matching segments of the resources.
      */
-    private int getMatchingSegments(Resource leftResource, Resource rightResource) {
+    private int getMatchingSegmentsPathOnly(Resource leftResource, Resource rightResource) {
 
         URI leftURI = leftResource.getURI();
         URI rightUri = rightResource.getURI();
@@ -235,17 +266,20 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
         String[] segmentsLeft = processRenamingNormalizations(leftURI.segments());
         String[] segmentsRight = rightUri.segments();
 
-        int refLength = segmentsLeft.length;
-        int compLength = segmentsRight.length;
+        segmentsLeft = removeLast(segmentsLeft);
+        segmentsRight = removeLast(segmentsRight);
 
-        for (int i = 0; i < refLength; i++) {
+        int leftLength = segmentsLeft.length;
+        int rightLength = segmentsRight.length;
 
-            if (i >= compLength) {
+        for (int i = 0; i < leftLength; i++) {
+
+            if (i >= rightLength) {
                 break;
             }
 
-            String refString = segmentsLeft[refLength - 1 - i];
-            String compString = segmentsRight[compLength - 1 - i];
+            String refString = segmentsLeft[leftLength - 1 - i];
+            String compString = segmentsRight[rightLength - 1 - i];
             if (refString.equals(compString)) {
                 count++;
             } else {
@@ -257,11 +291,27 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
     }
 
     /**
+     * Remove the last element of an array.
+     * 
+     * In case of an empty array or null provided, also an empty array will be returned.
+     * 
+     * @param array
+     *            The array to remove the last element of.
+     * @return A copy of the original array without it's last element.
+     */
+    private String[] removeLast(String[] array) {
+        if (array == null || array.length == 0) {
+            return new String[] {};
+        }
+        return Arrays.copyOfRange(array, 0, array.length - 1);
+    }
+
+    /**
      * Resources are identified by URIs consisting of segments (directories and files).<br>
      * To apply a java package renaming normalization that also manifests in the source directories,
      * the normalization pattern provided as string containing "." characters must be mapped to the
      * array of URI segment strings.
-     *
+     * 
      * This is done by merging the URI segments with "." as glue character. As a result also the
      * directory segments of the URI representing the absolute path of the source directory are
      * joined with a dot. Later on, when the joined string is split again using "." as split
@@ -271,10 +321,10 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
      * split into three segments when the absolute segment string is split again. if this becomes an
      * issue later on, the logic of this method must be adapted. However, any character potentially
      * lead to the same problem as different file systems also allow for different directory names.
-     *
+     * 
      * Note: The last segment representing the filename will be preserved even if it contains a dot
      * e.g. to separate the file extension.
-     *
+     * 
      * @param segmentsLeft
      *            The source array to process.
      * @return The resulting array after processing.
@@ -297,7 +347,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Index a set of resources according to their last segment.
-     *
+     * 
      * @param resources
      *            The resources to index.
      * @param index
