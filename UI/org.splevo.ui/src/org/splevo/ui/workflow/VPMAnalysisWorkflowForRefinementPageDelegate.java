@@ -39,7 +39,7 @@ public class VPMAnalysisWorkflowForRefinementPageDelegate extends
         AbstractWorkbenchDelegate<VPMAnalysisWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
     /** The logger for this class. */
-    private Logger logger = Logger.getLogger(VPMAnalysisWorkflowDelegate.class);
+    private Logger logger = Logger.getLogger(VPMAnalysisWorkflowForRefinementPageDelegate.class);
 
     /** The configuration of the workflow. */
     private VPMAnalysisWorkflowConfiguration config = null;
