@@ -58,14 +58,20 @@ public class VPMAnalysisWizard extends Wizard {
     @Override
 	public boolean performFinish() {
 
-		List<VPMAnalyzer> analyzers = analyzerPage.getAnalyzers();
+		updateConfiguration();
+
+		return configuration.isValid();
+	}
+
+    private void updateConfiguration() {
+        List<VPMAnalyzer> analyzers = analyzerPage.getAnalyzers();
+		configuration.getAnalyzers().clear();
 		configuration.getAnalyzers().addAll(analyzers);
+		
 
 		ResultPresentation resultPresentation = resultHandlingPage.getResultPresentation();
 		configuration.setPresentation(resultPresentation);
 
 		configuration.setDetectionRules(resultHandlingPage.getDetectionRules());
-
-		return configuration.isValid();
-	}
+    }
 }
