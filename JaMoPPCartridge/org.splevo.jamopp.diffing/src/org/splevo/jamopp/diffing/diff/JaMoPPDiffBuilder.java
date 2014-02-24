@@ -34,6 +34,7 @@ import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.Final;
+import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.PackageReference;
 import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.Statement;
@@ -149,7 +150,8 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
                 || value instanceof AdditionalLocalVariable || value instanceof ClassifierReference
                 || value instanceof Final || value instanceof CatchBlock
                 || value instanceof NamespaceClassifierReference
-                || value instanceof PackageReference) {
+                || value instanceof PackageReference
+                || value instanceof IdentifierReference) {
             Match nextParent = nextResonableMatch(match);
             if (nextParent != null) {
                 EObject parentObject = null;
