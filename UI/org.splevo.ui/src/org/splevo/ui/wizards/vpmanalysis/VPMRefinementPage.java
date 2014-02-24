@@ -17,6 +17,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
+import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.splevo.ui.refinementbrowser.CompleteRefinementTreeContentProvider;
 import org.splevo.ui.refinementbrowser.CompleteRefinementTreeLabelProvider;
@@ -63,27 +64,7 @@ public class VPMRefinementPage extends WizardPage {
         // preferenceStore, null, null);
         // leadingSourceViewer.configure(configuration);
         IDocument document = new Document();
-        final IDocumentProvider dp = new FileDocumentProvider();
-
-        final File file = new File(
-                "C:/Users/Morpheus/workspace/runtime-New_configuration/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java");
-        System.out.println("exists: " + file.exists());
-        System.out.println("readable: " + file.canRead());
-        System.out.println("writable: " + file.canWrite());
-        System.out.println("is file: " + file.isFile());
-        System.out.println("is directory: " + file.isDirectory());
-        try {
-            dp.connect(file);
-            document.set("Dolorem ipsum sit amet...");
-            document = dp.getDocument(file);
-            leadingSourceViewer.setDocument(document);
-            System.out.println("Done.");
-            // dp.disconnect(file);
-        } catch (final Exception e) {
-            System.out
-                    .println("!!!!!!!!!!!!!!!!!! NO !!!!!!!!!!!!!!!! NO !!!!!!!!!!!!!!!!! NO !!!!!!!!!!!!!!!!!! NO !!!!!!!!!!");
-            e.printStackTrace();
-        }
+        final IDocumentProvider dp = new TextFileDocumentProvider();
     }
 
     /**
