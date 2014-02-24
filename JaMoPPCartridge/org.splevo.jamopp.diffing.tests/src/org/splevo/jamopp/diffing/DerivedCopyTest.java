@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -22,8 +23,11 @@ import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.MatchResource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.emftext.language.java.statements.ExpressionStatement;
+import org.emftext.language.java.statements.Statement;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 import org.splevo.jamopp.diffing.postprocessor.JaMoPPPostProcessor;
 
 /**
@@ -119,6 +123,10 @@ public class DerivedCopyTest {
 
         EList<Diff> differences = comparison.getDifferences();
         assertThat("Hook mathod has been changed", differences.size(), is(1));
-
+        assertThat("Wrong difference type detected", differences.get(0), instanceOf(StatementChange.class));
+        StatementChange change = (StatementChange) differences.get(0);
+        Statement changedStatement = change.getChangedStatement();
+        assertThat("Wrong changed statement", changedStatement, instanceOf(ExpressionStatement.class));
+        
     }
 }
