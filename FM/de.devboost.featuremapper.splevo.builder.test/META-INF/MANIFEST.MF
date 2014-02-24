@@ -9,6 +9,6 @@ Require-Bundle: org.junit,
  org.splevo.diffing;bundle-version="1.0.0",
  org.splevo.jamopp.vpm;bundle-version="1.0.0",
  de.devboost.natspec.annotations;bundle-version="2.1.1",
- com.google.guava;bundle-version="12.0.0"
+ com.google.guava
 Bundle-Vendor: DevBoost GmbH
 Import-Package: org.featuremapper.models.feature
