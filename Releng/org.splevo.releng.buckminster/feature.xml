@@ -18,8 +18,8 @@
    </license>
 
    <url>
-      <discovery label="Palladio Workflow Engine" url="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.2/"/>
-      <discovery label="Eclipse Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20130827064939/repository/"/>
+      <discovery label="Palladio Workflow Engine" url="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.3/"/>
+      <discovery label="Eclipse Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/"/>
       <discovery label="EMFFeatureModel" url="http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/"/>
       <discovery label="JaMoPP" url="http://jamopp.org/update_trunk"/>
       <discovery label="Google Guava" url="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
