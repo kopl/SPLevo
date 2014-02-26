@@ -7,7 +7,6 @@ import org.splevo.ui.jobs.InitVPMJob;
 import org.splevo.ui.jobs.LoadDiffingModelJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveVPMJob;
-import org.splevo.ui.jobs.UpdateUIJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
@@ -60,11 +59,6 @@ public class InitVPMWorkflowDelegate
 				+ "models/vpms/initial-vpm.vpm";
 		SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
 		jobSequence.add(saveVPMJob);
-
-		// init the ui update job
-		UpdateUIJob updateUiJob = new UpdateUIJob(
-				config.getSplevoProjectEditor(), "Initial VPM created");
-		jobSequence.add(updateUiJob);
 
 		// return the prepared workflow
 		return jobSequence;

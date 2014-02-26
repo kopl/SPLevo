@@ -51,7 +51,7 @@ public class VPMAnalysisListener extends MouseAdapter {
     private SPLevoProjectEditor splevoProjectEditor = null;
 
     private VPMAnalysisWorkflowConfiguration config = null;
-    
+
     private VPMAnalysisWizard vpmAnalysisWizard = null;
     /**
      * Constructor requiring the reference to a splevoProject.
@@ -90,7 +90,7 @@ public class VPMAnalysisListener extends MouseAdapter {
                 return monitor;
             }
         };
-        wizardDialog.addPageChangedListener(new IPageChangedListener() {
+		wizardDialog.addPageChangedListener(new IPageChangedListener() {
             private List<VPMAnalyzer> analyzers = null;
             private boolean clearRules = true;
 
@@ -107,18 +107,26 @@ public class VPMAnalysisListener extends MouseAdapter {
                     }
                     clearRules = false;
                 } else if (selectedPage instanceof VPMRefinementPage) {
-                    VPMRefinementPage refinementPage = (VPMRefinementPage) selectedPage;
-                    // FIXME: This is an ugly hack! Consider changing visibility of VPMAnalysisListener.updateConfiguration and calling it instead.
+
+                	final VPMRefinementPage refinementPage = (VPMRefinementPage) selectedPage;
                     vpmAnalysisWizard.performFinish();
-                    VPMRefinementBrowserInput refinementBrowserInput = null;
-                    SPLevoBlackBoard blackBoard = new SPLevoBlackBoard();
-                    VPMAnalysisWorkflowForRefinementPageDelegate workflowDelegate = new VPMAnalysisWorkflowForRefinementPageDelegate(config, blackBoard);
-                    IAction action = new Action("Refine VPM") {
-                    };
-                    workflowDelegate.run(action);
-                    EList<Refinement> refinements = blackBoard.getRefinementModel().getRefinements();
-                    refinementBrowserInput = new VPMRefinementBrowserInput(refinements, splevoProjectEditor);
-                    refinementPage.setRefinementBrowserInput(refinementBrowserInput);
+
+                    final SPLevoBlackBoard blackBoard = new SPLevoBlackBoard();
+                    VPMAnalysisWorkflowForRefinementPageDelegate delegate = new VPMAnalysisWorkflowForRefinementPageDelegate(config, blackBoard);
+
+                    Runnable uiProcess = new Runnable() {
+            			@Override
+            			public void run() {
+            				EList<Refinement> refinements = blackBoard.getRefinementModel().getRefinements();
+            				VPMRefinementBrowserInput refinementBrowserInput = new VPMRefinementBrowserInput(refinements, splevoProjectEditor);
+                            refinementPage.setRefinementBrowserInput(refinementBrowserInput);
+            			}
+            		};
+
+            		WorkflowListenerUtil.runWorkflowAndUpdateUI(delegate,
+            				"Refine VPM", uiProcess);
+
+
                     // TODO: Read analysis result (refinements) from blackboard. Maybe via parameter of the workflow delegate?
                     // TODO: Pass analysis result (refinements) to VPMRefinementPage
                 }
@@ -137,13 +145,8 @@ public class VPMAnalysisListener extends MouseAdapter {
         }
 
         // trigger workflow
-
-        VPMAnalysisWorkflowDelegate workflowDelegate = new VPMAnalysisWorkflowDelegate(config);
-        IAction action = new Action("Refine VPM") {
-        };
-        workflowDelegate.run(action);
-
-        splevoProjectEditor.enableButtonsIfInformationAvailable();
+        VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(config);
+        WorkflowListenerUtil.runWorkflowAndUpdateUI(delegate, "Analyze VPM", config.getSplevoProjectEditor());
     }
 
     /**

@@ -27,7 +27,12 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  */
 public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-    /** The splevo project to store the required data to. */
+    private static final int PROGRESS_UPDATE_PROJECT_INFO_DONE = 5;
+	private static final int PROGRESS_RESOURCESET_MERGE_DONE = 10;
+	private static final int PROGRESS_EXTRACTION_DONE = 100;
+	private static final int PROGRESS_PREPARATION_DONE = 10;
+
+	/** The splevo project to store the required data to. */
     private SPLevoProject splevoProject;
 
     /** Flag whether the leading or the integration project should be extracted. */
@@ -57,8 +62,6 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
 
         logger.info("Extraction started");
 
-        monitor.beginTask("Software Model Extraction", 100);
-
         List<String> projectNames = null;
         String variantName = null;
         if (processLeading) {
@@ -82,15 +85,22 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
         // extract model
         ExtractionService extractionService = new DefaultExtractionService();
 
+        monitor.worked(PROGRESS_PREPARATION_DONE);
+
         try {
             monitor.subTask("Extract Model for project: " + variantName);
             ResourceSet resourceSet = extractionService.extractSoftwareModel(extractorId, projectURIsAbsolute, monitor,
                     sourceModelPath);
+
+            monitor.worked(PROGRESS_EXTRACTION_DONE);
+
             if (processLeading) {
                 getBlackboard().getResourceSetLeading().getResources().addAll(resourceSet.getResources());
             } else {
                 getBlackboard().getResourceSetIntegration().getResources().addAll(resourceSet.getResources());
             }
+
+            monitor.worked(PROGRESS_RESOURCESET_MERGE_DONE);
 
         } catch (SoftwareModelExtractionException e) {
             throw new JobFailedException("Failed to extract model.", e);
@@ -104,9 +114,7 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
             splevoProject.setSourceModelPathIntegration(sourceModelPath);
         }
 
-        // finish run
-        monitor.done();
-
+        monitor.worked(PROGRESS_UPDATE_PROJECT_INFO_DONE);
         if (monitor.isCanceled()) {
             throw new UserCanceledException();
         }
@@ -148,4 +156,5 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
     @Override
     public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
     }
+
 }

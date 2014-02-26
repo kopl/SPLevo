@@ -8,7 +8,6 @@ import org.splevo.ui.jobs.DiffingJob;
 import org.splevo.ui.jobs.ExtractionJob;
 import org.splevo.ui.jobs.RefreshWorkspaceJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
-import org.splevo.ui.jobs.UpdateUIJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
@@ -65,10 +64,6 @@ public class DiffingWorkflowDelegate extends
         // difference analysis
         final DiffingJob diffingJob = new DiffingJob(config.getSplevoProjectEditor().getSplevoProject());
         jobSequence.add(diffingJob);
-
-        // init the ui update job
-        final IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "Diffing performed");
-        jobSequence.add(updateUiJob);
 
         // return the prepared workflow
         return jobSequence;

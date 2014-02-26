@@ -77,7 +77,7 @@ public class CleanProjectCommand implements IHandler {
 
 		// Update UI
 		splevoProjectEditor.enableButtonsIfInformationAvailable();
-		splevoProjectEditor.updateUi("Project cleaned.");
+		splevoProjectEditor.updateUI("Project cleaned.");
 
 		return null;
 	}

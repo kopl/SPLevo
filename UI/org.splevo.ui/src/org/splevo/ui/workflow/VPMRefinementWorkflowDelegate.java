@@ -7,7 +7,6 @@ import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveVPMJob;
 import org.splevo.ui.jobs.SetRefinementsJob;
 import org.splevo.ui.jobs.SetVPMJob;
-import org.splevo.ui.jobs.UpdateUIJob;
 import org.splevo.ui.jobs.VPMApplyRefinementsJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
@@ -62,10 +61,6 @@ public class VPMRefinementWorkflowDelegate extends
         String targetPath = splevoProject.getWorkspace() + "models/vpms/" + modelNamePrefix + "-vpm.vpm";
         SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
         jobSequence.add(saveVPMJob);
-
-        // init the ui update job
-        UpdateUIJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), "VPM refined");
-        jobSequence.add(updateUiJob);
 
         // return the prepared workflow
         return jobSequence;

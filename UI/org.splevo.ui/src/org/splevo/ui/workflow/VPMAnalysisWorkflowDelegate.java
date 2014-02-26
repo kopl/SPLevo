@@ -23,7 +23,6 @@ import org.splevo.ui.jobs.OpenVPMRefinementBrowserJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveRefinementModelJob;
 import org.splevo.ui.jobs.SaveRefinementModelJob.FORMAT;
-import org.splevo.ui.jobs.UpdateUIJob;
 import org.splevo.ui.jobs.VPMAnalysisJob;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
@@ -162,10 +161,6 @@ public class VPMAnalysisWorkflowDelegate extends
 
         SaveRefinementModelJob saveRefinementModelJob = new SaveRefinementModelJob(splevoProject, null, FORMAT.CSV);
         compositeJob.add(saveRefinementModelJob);
-
-        // job to update the user interface and see the recently created
-        IJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(), null);
-        compositeJob.add(updateUiJob);
 
     }
 

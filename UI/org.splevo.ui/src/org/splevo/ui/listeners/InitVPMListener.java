@@ -4,8 +4,6 @@ import java.io.File;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -25,7 +23,7 @@ public class InitVPMListener extends MouseAdapter {
 
     /**
      * Constructor requiring the reference to a splevoProject.
-     * 
+     *
      * @param splevoProjectEditor
      *            The references to the splevo project editor.
      */
@@ -59,18 +57,14 @@ public class InitVPMListener extends MouseAdapter {
         }
 
         // trigger workflow
-        InitVPMWorkflowDelegate workflowDelegate = new InitVPMWorkflowDelegate(config);
-        IAction action = new Action("Init VPM") {
-        };
-        workflowDelegate.run(action);
-        
-        splevoProjectEditor.enableButtonsIfInformationAvailable();
-
+        InitVPMWorkflowDelegate delegate = new InitVPMWorkflowDelegate(config);
+        String title = "Init VPM";
+        WorkflowListenerUtil.runWorkflowAndUpdateUI(delegate, title, splevoProjectEditor);
     }
 
     /**
      * Delete the vpms registered in the splevo project.
-     * 
+     *
      * @param splevoProject
      *            The project to get the vpms from.
      */
@@ -87,7 +81,7 @@ public class InitVPMListener extends MouseAdapter {
 
     /**
      * Build the configuration for the workflow.
-     * 
+     *
      * @return The prepared configuration.
      */
     private BasicSPLevoWorkflowConfiguration buildWorflowConfiguration() {

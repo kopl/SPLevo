@@ -6,7 +6,6 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.GenerateFeatureModelJob;
 import org.splevo.ui.jobs.LoadVPMJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
-import org.splevo.ui.jobs.UpdateUIJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
@@ -52,11 +51,6 @@ public class GenerateFeatureModelWorkflowDelegate extends
         // init the vpm
         GenerateFeatureModelJob generateFMJob = new GenerateFeatureModelJob(splevoProject);
         jobSequence.add(generateFMJob);
-
-        // init the ui update job
-        UpdateUIJob updateUiJob = new UpdateUIJob(config.getSplevoProjectEditor(),
-                "Feature model and diagram generated");
-        jobSequence.add(updateUiJob);
 
         // return the prepared workflow
         return jobSequence;

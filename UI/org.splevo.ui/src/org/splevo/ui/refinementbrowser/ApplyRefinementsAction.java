@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.listeners.WorkflowListenerUtil;
 import org.splevo.ui.workflow.VPMRefinementWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMRefinementWorkflowDelegate;
 import org.splevo.vpm.refinement.Refinement;
@@ -26,7 +27,7 @@ public class ApplyRefinementsAction extends Action {
     /**
      * Constructor requiring a reference to the viewer to get the refinements to be executed from as
      * well as the text of the action.
-     * 
+     *
      * @param vpmRefinementBrowser
      *            The reference to the viewer.
      * @param text
@@ -63,8 +64,8 @@ public class ApplyRefinementsAction extends Action {
             VariationPointModel model = (VariationPointModel) group.eContainer();
             VPMRefinementWorkflowConfiguration config = buildWorflowConfiguration(refinements);
             config.setVariationPointModel(model);
-            VPMRefinementWorkflowDelegate workflowDelegate = new VPMRefinementWorkflowDelegate(config);
-            workflowDelegate.run(this);
+            VPMRefinementWorkflowDelegate delegate = new VPMRefinementWorkflowDelegate(config);
+            WorkflowListenerUtil.runWorkflowAndUpdateUI(delegate, "Apply Refinements", config.getSplevoProjectEditor());
         }
 
         // close the browser
@@ -75,7 +76,7 @@ public class ApplyRefinementsAction extends Action {
 
     /**
      * Build the configuration for the workflow.
-     * 
+     *
      * @param refinements
      *            The list of refinements to apply.
      * @return The prepared configuration.

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -30,8 +31,13 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  */
 public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-    private final SPLevoProject splevoProject;
+    private static final int PROGRESS_DIFF_MODEL_SAVE_DONE = 20;
+	private static final int PROGRESS_DIFFING_DONE = 100;
+
+	private final SPLevoProject splevoProject;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
+
+    protected Logger logger = Logger.getLogger("de.uka.ipd.sdq.workflow");
 
     /**
      * Constructor for the diffing job.
@@ -46,7 +52,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     @Override
     public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        logger.info("Init diffing service");
+    	logger.info("Init diffing service");
 
         Map<String, String> options = buildDiffingOptions();
         ResourceSet leadingModelDir = getBlackboard().getResourceSetLeading();
@@ -58,6 +64,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         try {
             final DiffingService diffingService = new DefaultDiffingService();
             comparison = diffingService.diffSoftwareModels(differIds, leadingModelDir, integrationModelDir, options);
+            monitor.worked(PROGRESS_DIFFING_DONE);
         } catch (final DiffingException e) {
             throw new JobFailedException("Failed to process diffing.", e);
         }
@@ -72,7 +79,6 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
         if (comparison.eContents().size() == 0) {
             logger.info("No Differences detected.");
-            monitor.done();
             return;
         }
 
@@ -92,8 +98,8 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             throw new JobFailedException("Failed to save diff model.", e);
         }
 
+        monitor.worked(PROGRESS_DIFF_MODEL_SAVE_DONE);
         refreshWorkspace(monitor);
-        monitor.done();
     }
 
     /**
