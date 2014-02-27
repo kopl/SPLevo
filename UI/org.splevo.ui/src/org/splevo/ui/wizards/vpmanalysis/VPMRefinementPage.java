@@ -14,9 +14,9 @@ import org.eclipse.jdt.ui.text.IColorManager;
 import org.eclipse.jdt.ui.text.JavaSourceViewerConfiguration;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.source.IVerticalRuler;
+import org.eclipse.jface.text.source.CompositeRuler;
+import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.jface.text.source.VerticalRuler;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -65,11 +65,16 @@ public class VPMRefinementPage extends WizardPage {
         this.treeViewer = new CheckboxTreeViewer(outerSash);
         this.treeViewer.setContentProvider(new CompleteRefinementTreeContentProvider());
         this.treeViewer.setLabelProvider(new CompleteRefinementTreeLabelProvider());
+        
         final SashForm sourceViewersSash = new SashForm(outerSash, SWT.HORIZONTAL);
-        final IVerticalRuler leadingRuler = new VerticalRuler(20);
-        final IVerticalRuler followingRuler = new VerticalRuler(20);
+        
+        final CompositeRuler leadingRuler = new CompositeRuler();
+        leadingRuler.addDecorator(0, new LineNumberRulerColumn());
+        final CompositeRuler followingRuler = new CompositeRuler();
+        followingRuler.addDecorator(0, new LineNumberRulerColumn());
         leadingSourceViewer = new SourceViewer(sourceViewersSash, leadingRuler, SWT.V_SCROLL);
         followingSourceViewer = new SourceViewer(sourceViewersSash, followingRuler, SWT.V_SCROLL);
+        
         this.treeViewer.addSelectionChangedListener(new VPMSelectionChangedListener());
     }
 
