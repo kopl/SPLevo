@@ -101,6 +101,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     private List<VPMEdgeDescriptor> identifyDependencies(Set<VariationPoint> vps) {
         List<VPMEdgeDescriptor> edges = Lists.newArrayList();
+        List<String> edgeRegistry = new ArrayList<String>();
         for (VariationPoint referringVP : vps) {
             List<Commentable> jamoppElements = getJamoppElements(referringVP);
             for (Commentable referringElement : jamoppElements) {
@@ -118,7 +119,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
                         Node sourceNode = vp2GraphNodeIndex.get(referredVP);
                         Node targetNode = vp2GraphNodeIndex.get(referringVP);
-                        VPMEdgeDescriptor edge = buildEdgeDescriptor(sourceNode, targetNode, targetLabel);
+                        VPMEdgeDescriptor edge = buildEdgeDescriptor(sourceNode, targetNode, targetLabel, edgeRegistry);
                         if (edge != null) {
                             edges.add(edge);
                         }
