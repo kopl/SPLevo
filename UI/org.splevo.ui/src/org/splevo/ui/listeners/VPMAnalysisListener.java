@@ -159,7 +159,7 @@ public class VPMAnalysisListener extends MouseAdapter {
         config.setSplevoProjectEditor(splevoProjectEditor);
 
         // Set default presentation mode
-        config.setPresentation(ResultPresentation.RELATIONSHIP_GRAPH_ONLY);
+        config.setPresentation(ResultPresentation.REFINEMENT_BROWSER);
 
         // build the detection rules
         List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
