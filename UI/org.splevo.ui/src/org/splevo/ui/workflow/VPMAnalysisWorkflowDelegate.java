@@ -18,13 +18,10 @@ import org.splevo.ui.jobs.DetectRefinementsJob;
 import org.splevo.ui.jobs.InitVPMGraphJob;
 import org.splevo.ui.jobs.LoadVPMJob;
 import org.splevo.ui.jobs.MergeVPMAnalyzerResultsIntoGraphJob;
-import org.splevo.ui.jobs.OpenVPMGraphJob;
-import org.splevo.ui.jobs.OpenVPMRefinementBrowserJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveRefinementModelJob;
 import org.splevo.ui.jobs.SaveRefinementModelJob.FORMAT;
 import org.splevo.ui.jobs.VPMAnalysisJob;
-import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
@@ -41,20 +38,26 @@ import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 public class VPMAnalysisWorkflowDelegate extends
         AbstractWorkbenchDelegate<VPMAnalysisWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
-    /** The logger for this class. */
     private Logger logger = Logger.getLogger(VPMAnalysisWorkflowDelegate.class);
-
-    /** The configuration of the workflow. */
-    private VPMAnalysisWorkflowConfiguration config = null;
+    private VPMAnalysisWorkflowConfiguration config;
+    private SPLevoBlackBoard blackboard;
+    private boolean executeRefinementDetection;
 
     /**
-     * Constructor requiring a diffing workflow configuration.
+     * Constructor requiring a difference analysis workflow configuration.
      *
      * @param config
      *            The configuration of the workflow.
+     * @param blackboard
+     *            The blackboard to communicate through.
+     * @param executeRefinementDetection
+     *            Flag if the refinement detection should be performed or not.
      */
-    public VPMAnalysisWorkflowDelegate(VPMAnalysisWorkflowConfiguration config) {
+    public VPMAnalysisWorkflowDelegate(VPMAnalysisWorkflowConfiguration config, SPLevoBlackBoard blackboard,
+            boolean executeRefinementDetection) {
         this.config = config;
+        this.blackboard = blackboard;
+        this.executeRefinementDetection = executeRefinementDetection;
     }
 
     /**
@@ -70,7 +73,7 @@ public class VPMAnalysisWorkflowDelegate extends
         // initialize the basic elements
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
         SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
-        jobSequence.setBlackboard(new SPLevoBlackBoard());
+        jobSequence.setBlackboard(blackboard);
 
         // load the latest vpm model
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
@@ -99,12 +102,9 @@ public class VPMAnalysisWorkflowDelegate extends
         MergeVPMAnalyzerResultsIntoGraphJob mergeVPMAnalyzerResultsJob = new MergeVPMAnalyzerResultsIntoGraphJob();
         jobSequence.add(mergeVPMAnalyzerResultsJob);
 
-        // decide about the workflow to be exectured
-        if (config.getPresentation() == ResultPresentation.RELATIONSHIP_GRAPH_ONLY) {
-            OpenVPMGraphJob openVPMGraphJob = new OpenVPMGraphJob();
-            jobSequence.add(openVPMGraphJob);
-        } else if (config.getPresentation() == ResultPresentation.REFINEMENT_BROWSER) {
-            addRefinementBrowserWorkflow(jobSequence, splevoProject);
+        // decide about the workflow to be executed
+        if (executeRefinementDetection) {
+            addRefinementDetectionJobs(jobSequence, splevoProject);
         }
 
         // clean up appender when workflow is done
@@ -150,18 +150,13 @@ public class VPMAnalysisWorkflowDelegate extends
      * @param splevoProject
      *            The splevo project to interact with.
      */
-    private void addRefinementBrowserWorkflow(SequentialJob compositeJob,
-            SPLevoProject splevoProject) {
+    private void addRefinementDetectionJobs(SequentialJob compositeJob, SPLevoProject splevoProject) {
 
         DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob(config.getDetectionRules());
         compositeJob.add(createRefinementModelJob);
 
-        IJob openViewerJob = new OpenVPMRefinementBrowserJob(config.getSplevoProjectEditor());
-        compositeJob.add(openViewerJob);
-
         SaveRefinementModelJob saveRefinementModelJob = new SaveRefinementModelJob(splevoProject, null, FORMAT.CSV);
         compositeJob.add(saveRefinementModelJob);
-
     }
 
     @Override

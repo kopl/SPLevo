@@ -1,6 +1,5 @@
 package org.splevo.ui.listeners;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -20,7 +19,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
-import org.splevo.ui.refinementbrowser.VPMRefinementBrowserInput;
 import org.splevo.ui.wizards.vpmanalysis.ResultHandlingConfigurationPage;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizard;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerConfigurationPage;
@@ -28,13 +26,8 @@ import org.splevo.ui.wizards.vpmanalysis.VPMRefinementPage;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
-import org.splevo.ui.workflow.VPMAnalysisWorkflowForRefinementPageDelegate;
-import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
-import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
-import org.splevo.vpm.analyzer.refinement.DetectionRule;
 import org.splevo.vpm.refinement.Refinement;
-import org.splevo.vpm.refinement.RefinementType;
 
 /**
  * Mouse adapter to listen for events which trigger the refinement process of a variation point
@@ -51,6 +44,7 @@ public class VPMAnalysisListener extends MouseAdapter {
     private VPMAnalysisWorkflowConfiguration config = null;
 
     private VPMAnalysisWizard vpmAnalysisWizard = null;
+
     /**
      * Constructor requiring the reference to a splevoProject.
      *
@@ -62,14 +56,100 @@ public class VPMAnalysisListener extends MouseAdapter {
         this.config = buildWorflowConfiguration();
     }
 
+    /**
+     * Handle a button click to create and start the VPM Analysis wizard.
+     *
+     * @param event
+     *            The mouse event to react on. All events are handled the same way.
+     */
     @Override
-    public void mouseUp(MouseEvent e) {
+    public void mouseUp(MouseEvent event) {
 
-        // Initialize the requried data
-        Shell shell = e.widget.getDisplay().getShells()[0];
+        Shell shell = event.widget.getDisplay().getShells()[0];
 
         // trigger the wizard to configure the refinement process
         vpmAnalysisWizard = new VPMAnalysisWizard(config);
+        WizardDialog wizardDialog = createWizardDialog(shell, vpmAnalysisWizard);
+        wizardDialog.addPageChangedListener(createWizardPageChangeListener());
+
+        if (wizardDialog.open() != Window.OK) {
+            logger.debug("Variation Point Analyses canceled");
+            return;
+        }
+
+        // validate configuration
+        if (!config.isValid()) {
+            MessageDialog.openError(shell, "Invalid Project Configuration", config.getErrorMessage());
+            return;
+        }
+
+
+    }
+
+    /**
+     * Create a listener to react on any changes from one wizard page to another.
+     *
+     * @return The prepared listener.
+     */
+    private IPageChangedListener createWizardPageChangeListener() {
+        return new IPageChangedListener() {
+            private List<VPMAnalyzer> analyzers = null;
+
+            @Override
+            public void pageChanged(PageChangedEvent event) {
+                Object selectedPage = event.getSelectedPage();
+
+                vpmAnalysisWizard.updateConfiguration();
+
+                if (selectedPage instanceof VPMAnalyzerConfigurationPage) {
+                    VPMAnalyzerConfigurationPage configPage = (VPMAnalyzerConfigurationPage) selectedPage;
+                    analyzers = configPage.getAnalyzers();
+
+                } else if (selectedPage instanceof ResultHandlingConfigurationPage) {
+                    ResultHandlingConfigurationPage resultPage = (ResultHandlingConfigurationPage) selectedPage;
+                    if (analyzers != null) {
+                        resultPage.setSelectedAnalyzers(analyzers);
+                    }
+
+                } else if (selectedPage instanceof VPMRefinementPage) {
+
+                    final VPMRefinementPage refinementPage = (VPMRefinementPage) selectedPage;
+
+                    final SPLevoBlackBoard blackBoard = new SPLevoBlackBoard();
+                    VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(config, blackBoard, true);
+
+//                    VPMAnalysisWorkflowForRefinementPageDelegate delegate = new VPMAnalysisWorkflowForRefinementPageDelegate(
+//                            config, blackBoard);
+
+                    Runnable uiProcess = new Runnable() {
+                        @Override
+                        public void run() {
+                            EList<Refinement> refinements = blackBoard.getRefinementModel().getRefinements();
+                            refinementPage.setRefinements(refinements);
+                        }
+                    };
+
+                    WorkflowListenerUtil.runUIBlockingWorkflow(delegate, "Refine VPM", uiProcess);
+
+
+                    // TODO: Read analysis result (refinements) from blackboard. Maybe via parameter
+                    // of the workflow delegate?
+                    // TODO: Pass analysis result (refinements) to VPMRefinementPage
+                }
+            }
+        };
+    }
+
+    /**
+     * Create the wizard dialog as a container of the vpm analysis wizard.
+     *
+     * @param shell
+     *            The UI shell to access the ui.
+     * @param vpmAnalysisWizard
+     *            The wizard to display in the dialog.
+     * @return The prepared wizard dialog.
+     */
+    private WizardDialog createWizardDialog(Shell shell, VPMAnalysisWizard vpmAnalysisWizard) {
         WizardDialog wizardDialog = new WizardDialog(shell, vpmAnalysisWizard) {
             @Override
             protected Control createDialogArea(Composite parent) {
@@ -88,63 +168,7 @@ public class VPMAnalysisListener extends MouseAdapter {
                 return monitor;
             }
         };
-		wizardDialog.addPageChangedListener(new IPageChangedListener() {
-            private List<VPMAnalyzer> analyzers = null;
-            private boolean clearRules = true;
-
-            @Override
-            public void pageChanged(PageChangedEvent event) {
-                Object selectedPage = event.getSelectedPage();
-                if (selectedPage instanceof VPMAnalyzerConfigurationPage) {
-                    VPMAnalyzerConfigurationPage configPage = (VPMAnalyzerConfigurationPage) selectedPage;
-                    analyzers = configPage.getAnalyzers();
-                } else if (selectedPage instanceof ResultHandlingConfigurationPage) {
-                    ResultHandlingConfigurationPage resultPage = (ResultHandlingConfigurationPage) selectedPage;
-                    if (analyzers != null) {
-                        resultPage.prepareForInitialCall(analyzers, clearRules);
-                    }
-                    clearRules = false;
-                } else if (selectedPage instanceof VPMRefinementPage) {
-
-                	final VPMRefinementPage refinementPage = (VPMRefinementPage) selectedPage;
-                    vpmAnalysisWizard.performFinish();
-
-                    final SPLevoBlackBoard blackBoard = new SPLevoBlackBoard();
-                    VPMAnalysisWorkflowForRefinementPageDelegate delegate = new VPMAnalysisWorkflowForRefinementPageDelegate(config, blackBoard);
-
-                    Runnable uiProcess = new Runnable() {
-            			@Override
-            			public void run() {
-            				EList<Refinement> refinements = blackBoard.getRefinementModel().getRefinements();
-            				VPMRefinementBrowserInput refinementBrowserInput = new VPMRefinementBrowserInput(refinements, splevoProjectEditor);
-                            refinementPage.setRefinementBrowserInput(refinementBrowserInput);
-            			}
-            		};
-
-            		WorkflowListenerUtil.runWorkflowAndUpdateUI(delegate,
-            				"Refine VPM", uiProcess);
-
-
-                    // TODO: Read analysis result (refinements) from blackboard. Maybe via parameter of the workflow delegate?
-                    // TODO: Pass analysis result (refinements) to VPMRefinementPage
-                }
-            }
-        });
-
-        if (wizardDialog.open() != Window.OK) {
-            logger.debug("Variation Point Analyses canceled");
-            return;
-        }
-
-        // validate configuration
-        if (!config.isValid()) {
-            MessageDialog.openError(shell, "Invalid Project Configuration", config.getErrorMessage());
-            return;
-        }
-
-        // trigger workflow
-        VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(config);
-        WorkflowListenerUtil.runWorkflowAndUpdateUI(delegate, "Analyze VPM", config.getSplevoProjectEditor());
+        return wizardDialog;
     }
 
     /**
@@ -158,18 +182,6 @@ public class VPMAnalysisListener extends MouseAdapter {
 
         // Set default presentation mode
         defaultConfig.setPresentation(ResultPresentation.REFINEMENT_BROWSER);
-
-        // build the detection rules
-        List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
-
-        List<String> edgeLabels = new ArrayList<String>();
-        DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
-        for (VPMAnalyzer analyzer : service.getAvailableAnalyzers()) {
-            edgeLabels.add(analyzer.getRelationshipLabel());
-        }
-        detectionRules.add(new BasicDetectionRule(edgeLabels, RefinementType.MERGE));
-
-        defaultConfig.setDetectionRules(detectionRules);
 
         return defaultConfig;
     }

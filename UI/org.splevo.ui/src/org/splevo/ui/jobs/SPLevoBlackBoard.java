@@ -6,6 +6,8 @@ import java.util.List;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.splevo.ui.refinementbrowser.RefinementModelProvider;
+import org.splevo.ui.views.vpmgraph.VPMGraphProvider;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.refinement.Refinement;
@@ -18,7 +20,7 @@ import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
  * The SPLevoBlackBoard providing access to the models to be processed.
  *
  */
-public class SPLevoBlackBoard extends Blackboard<Object> {
+public class SPLevoBlackBoard extends Blackboard<Object> implements VPMGraphProvider, RefinementModelProvider {
 
 	/** The resources of the leading variant. */
 	private final ResourceSet resourceSetLeading = new ResourceSetImpl();
@@ -123,11 +125,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
         return refinementsToApply;
     }
 
-    /**
-     * Gets the refinement model representing the analysis results.
-     *
-     * @return the refinementModel
-     */
+    @Override
     public RefinementModel getRefinementModel() {
         return refinementModel;
     }
@@ -142,11 +140,7 @@ public class SPLevoBlackBoard extends Blackboard<Object> {
         this.refinementModel = refinementModel;
     }
 
-    /**
-     * Gets the variation point graph to be analyzed.
-     *
-     * @return the variation point graph to be analyzed
-     */
+    @Override
     public VPMGraph getVpmGraph() {
         return vpmGraph;
     }

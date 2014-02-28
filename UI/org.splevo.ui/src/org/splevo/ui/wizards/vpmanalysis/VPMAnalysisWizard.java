@@ -2,15 +2,23 @@ package org.splevo.ui.wizards.vpmanalysis;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jface.wizard.Wizard;
+import org.splevo.ui.jobs.SPLevoBlackBoard;
+import org.splevo.ui.listeners.WorkflowListenerUtil;
+import org.splevo.ui.refinementbrowser.OpenRefinementEditorRunnable;
+import org.splevo.ui.views.vpmgraph.OpenVPMGraphViewerRunnable;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
+import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 
 /**
  * Wizard to let the user configure a vpm analysis run.
  */
 public class VPMAnalysisWizard extends Wizard {
+
+    private Logger logger = Logger.getLogger(VPMAnalysisWizard.class);
 
     /** Wizard page to select the analysis to be performed. */
     private VPMAnalyzerConfigurationPage analyzerPage = null;
@@ -59,13 +67,63 @@ public class VPMAnalysisWizard extends Wizard {
 
         updateConfiguration();
 
-        return configuration.isValid();
+        if (!configuration.isValid()) {
+            return false;
+        }
+
+        if (getContainer().getCurrentPage().equals(resultHandlingPage)) {
+
+            switch (configuration.getPresentation()) {
+            case RELATIONSHIP_GRAPH_ONLY:
+                runAnalysisAndOpenVPMGraphViewer();
+                break;
+
+            case REFINEMENT_BROWSER:
+                runAnalysisAndOpenRefinementEditor();
+                break;
+
+            default:
+                logger.error("Invalid result handling option");
+                break;
+            }
+        }
+
+        if (getContainer().getCurrentPage().equals(vpmRefinementPage)) {
+            //TODO Christian B: Implement refinement application workflow
+            logger.error("Refinement Page FINISH handling not yet implemented");
+            throw new UnsupportedOperationException("The result processing of the refinement page is not yet implemented");
+        }
+
+        return true;
+    }
+
+    /**
+     * Trigger the configured analysis and open the resulting refinement recommendations in the
+     * refinement editor.
+     */
+    private void runAnalysisAndOpenRefinementEditor() {
+        final SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
+        Runnable openRefinementEditorRunnable = new OpenRefinementEditorRunnable(
+                configuration.getSplevoProjectEditor(), spLevoBlackBoard);
+        VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(configuration, spLevoBlackBoard, true);
+        WorkflowListenerUtil.runWorkflowAndRunUITask(delegate, "Analyze VPM", openRefinementEditorRunnable);
+
+    }
+
+    /**
+     * Run the analysis and trigger the vpm graph viewer to be displayed afterwards.
+     */
+    private void runAnalysisAndOpenVPMGraphViewer() {
+        final SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
+        Runnable openGraphRunnable = new OpenVPMGraphViewerRunnable(spLevoBlackBoard);
+        VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(configuration, spLevoBlackBoard, false);
+        WorkflowListenerUtil.runWorkflowAndRunUITask(delegate, "Analyze VPM", openGraphRunnable);
     }
 
     /**
      * Update the configuration object with the current wizard content.
      */
-    private void updateConfiguration() {
+    public void updateConfiguration() {
         List<VPMAnalyzer> analyzers = analyzerPage.getAnalyzers();
         configuration.getAnalyzers().clear();
         configuration.getAnalyzers().addAll(analyzers);
@@ -73,6 +131,7 @@ public class VPMAnalysisWizard extends Wizard {
         ResultPresentation resultPresentation = resultHandlingPage.getResultPresentation();
         configuration.setPresentation(resultPresentation);
 
-        configuration.setDetectionRules(resultHandlingPage.getDetectionRules());
+        configuration.getDetectionRules().clear();
+        configuration.getDetectionRules().addAll(resultHandlingPage.getDetectionRules());
     }
 }

@@ -3,6 +3,7 @@ package org.splevo.ui.wizards.vpmanalysis;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -28,7 +29,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.splevo.ui.refinementbrowser.CompleteRefinementTreeContentProvider;
 import org.splevo.ui.refinementbrowser.CompleteRefinementTreeLabelProvider;
-import org.splevo.ui.refinementbrowser.VPMRefinementBrowserInput;
+import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -41,7 +42,6 @@ import com.google.common.io.CharStreams;
  */
 public class VPMRefinementPage extends WizardPage {
 
-    private VPMRefinementBrowserInput refinementBrowserInput;
     private CheckboxTreeViewer treeViewer;
     private SourceViewer leadingSourceViewer;
     private SourceViewer integrationSourceViewer;
@@ -142,12 +142,11 @@ public class VPMRefinementPage extends WizardPage {
     /**
      * Setter for the refinements.
      *
-     * @param refinement
+     * @param refinements
      *            refinements to be suggested in the VPMRefinementPage
      */
-    public void setRefinementBrowserInput(final VPMRefinementBrowserInput refinement) {
-        this.refinementBrowserInput = refinement;
-        this.treeViewer.setInput(this.refinementBrowserInput.getRefinements());
+    public void setRefinements(final List<Refinement> refinements) {
+        this.treeViewer.setInput(refinements);
         this.treeViewer.refresh();
     }
 
@@ -168,7 +167,8 @@ public class VPMRefinementPage extends WizardPage {
         Document integrationDocument;
         if (vp.getVariants().size() > 1) {
             Variant integrationVariant = vp.getVariants().get(1);
-            String integationLocation = integrationVariant.getSoftwareEntities().get(0).getSourceLocation().getFilePath();
+            String integationLocation = integrationVariant.getSoftwareEntities().get(0).getSourceLocation()
+                    .getFilePath();
             IPath integrationPath = new Path(integationLocation);
             integrationDocument = createDocumentFromPath(integrationPath);
         } else {
