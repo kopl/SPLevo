@@ -60,7 +60,6 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        logger.info("Extraction started");
 
         List<String> projectNames = null;
         String variantName = null;
@@ -71,6 +70,7 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
             projectNames = splevoProject.getIntegrationProjects();
             variantName = splevoProject.getVariantNameIntegration();
         }
+        logger.info("Extraction started: " + variantName);
 
         // prepare the target path
         String sourceModelPath = WorkspaceUtil.getSourceModelPathWithinEclipse(splevoProject, variantName);
@@ -118,6 +118,8 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
         if (monitor.isCanceled()) {
             throw new UserCanceledException();
         }
+
+        logger.info("Extraction finished: " + variantName);
     }
 
     /**

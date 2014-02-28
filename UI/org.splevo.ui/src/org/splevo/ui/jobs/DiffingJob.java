@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -37,8 +36,6 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 	private final SPLevoProject splevoProject;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
 
-    protected Logger logger = Logger.getLogger("de.uka.ipd.sdq.workflow");
-
     /**
      * Constructor for the diffing job.
      *
@@ -52,7 +49,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     @Override
     public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-    	logger.info("Init diffing service");
+        logger.info("Difference analysis started");
 
         Map<String, String> options = buildDiffingOptions();
         ResourceSet leadingModelDir = getBlackboard().getResourceSetLeading();
@@ -100,6 +97,8 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
         monitor.worked(PROGRESS_DIFF_MODEL_SAVE_DONE);
         refreshWorkspace(monitor);
+
+        logger.info("Difference analysis finished");
     }
 
     /**

@@ -68,13 +68,13 @@ public final class WorkflowListenerUtil {
 	 *            The delegate of the workflow to run.
 	 * @param workflowTitle
 	 *            The title of the workflow to show.
-	 * @param uiProcess
+	 * @param uiRunnable
 	 *            The post-workflow process to trigger and granted with ui
 	 *            access. Null means no process is triggered.
 	 */
 	public static void runWorkflowAndUpdateUI(
 			final AbstractWorkbenchDelegate<?, ?> workflowDelegate,
-			final String workflowTitle, final Runnable uiProcess) {
+			final String workflowTitle, final Runnable uiRunnable) {
 
 		Job job = new Job(workflowTitle) {
 			@Override
@@ -84,8 +84,8 @@ public final class WorkflowListenerUtil {
 				};
 				workflowDelegate.setProgressMonitor(monitor);
 				workflowDelegate.run(action);
-				if (uiProcess != null) {
-					Display.getDefault().asyncExec(uiProcess);
+				if (uiRunnable != null) {
+					Display.getDefault().asyncExec(uiRunnable);
 				}
 
 				monitor.done();
