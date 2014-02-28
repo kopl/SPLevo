@@ -568,6 +568,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 		rebuildDetailComp();
 		enableRulesDetection(resultPresentation == ResultPresentation.REFINEMENT_BROWSER);
 		listViewerAnalysis.refresh();
+		update();
 	}
 
 	/**
