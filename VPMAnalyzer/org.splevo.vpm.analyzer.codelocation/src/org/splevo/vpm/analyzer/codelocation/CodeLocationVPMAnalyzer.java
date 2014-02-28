@@ -17,7 +17,7 @@ import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * A variation point analyzer identifying variation points located in the same code structure.
- * 
+ *
  * Algorithm:
  * <ol>
  * <li>filling an internal structure map Map<ASTNode, List<Node>> [Complexity: O(n)]</li>
@@ -25,10 +25,10 @@ import org.splevo.vpm.variability.VariationPoint;
  * <li>Creating a relationship edge for each of them [Complexity: O(n)]</li>
  * </ol>
  * Overall Algorithm Complexity: O(n)
- * 
- * 
+ *
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 
@@ -39,20 +39,15 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
     private Logger logger = Logger.getLogger(CodeLocationVPMAnalyzer.class);
 
     /**
-     * An internal map to group nodes with variation points in the same ASTNode.
-     */
-    private Map<SoftwareElement, List<Node>> structureMap = new HashMap<SoftwareElement, List<Node>>();
-
-    /**
      * Analyze the vpm graph.
-     * 
+     *
      * Process:
      * <ol>
      * <li>filling an internal structure map</li>
      * <li>Searching the map for entries with more than one node</li>
      * <li>Creating a relationship edge for each of them</li>
      * </ol>
-     * 
+     *
      * @param vpmGraph
      *            The graph to analyze and store the edges in.
      * @return the VPM analyzer result
@@ -62,7 +57,7 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 
         VPMAnalyzerResult result = new VPMAnalyzerResult(this);
 
-        fillStructureMap(vpmGraph);
+        Map<SoftwareElement, List<Node>> structureMap = fillStructureMap(vpmGraph);
         logger.debug("Grouped " + vpmGraph.getNodeCount() + " Nodes into " + structureMap.keySet().size() + " buckets.");
 
         for (SoftwareElement astNode : structureMap.keySet()) {
@@ -77,7 +72,7 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /**
      * Build node edges in a graph between all nodes provided in the node list.
-     * 
+     *
      * @param result
      *            The vpm analyzer result object.
      * @param nodeList
@@ -86,6 +81,8 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
      *            The variation points of all nodes are located in.
      */
     private void buildNodeEdgeDescriptors(VPMAnalyzerResult result, List<Node> nodeList, SoftwareElement softwareElement) {
+
+        List<String> edgeRegistry = new ArrayList<String>();
 
         // build edges for all pairs of nodes.
         for (Node node1 : nodeList) {
@@ -96,7 +93,7 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
                     continue;
                 }
 
-                VPMEdgeDescriptor descriptor = buildEdgeDescriptor(node1, node2, "");
+                VPMEdgeDescriptor descriptor = buildEdgeDescriptor(node1, node2, "", edgeRegistry);
                 if (descriptor != null) {
                     result.getEdgeDescriptors().add(descriptor);
                 }
@@ -107,11 +104,14 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
     /**
      * Fill the internal structure map and sort the graph nodes according to their variation point
      * locations.
-     * 
+     *
      * @param vpmGraph
      *            The graph to analyze.
+     * @return The prepared structure map.
      */
-    private void fillStructureMap(VPMGraph vpmGraph) {
+    private Map<SoftwareElement, List<Node>> fillStructureMap(VPMGraph vpmGraph) {
+
+        Map<SoftwareElement, List<Node>> structureMap = new HashMap<SoftwareElement, List<Node>>();
 
         for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
@@ -129,11 +129,13 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
             }
         }
 
+        return structureMap;
+
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.splevo.vpm.analyzer.VPMAnalyzer#getName()
      */
     @Override
@@ -143,7 +145,7 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.splevo.vpm.analyzer.AbstractVPMAnalyzer#getRelationshipLabel()
      */
     @Override
@@ -153,7 +155,7 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.splevo.vpm.analyzer.VPMAnalyzer#getConfigurations()
      */
     @Override
