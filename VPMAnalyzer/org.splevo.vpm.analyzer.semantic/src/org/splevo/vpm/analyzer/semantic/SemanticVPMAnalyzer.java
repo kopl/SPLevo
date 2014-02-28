@@ -1,6 +1,7 @@
 package org.splevo.vpm.analyzer.semantic;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,17 +31,17 @@ import org.splevo.vpm.variability.VariationPoint;
  * <h1>What it does</h1> The semantic relationship VPMAnalazer analyzer is able
  * to find semantic relationships between several {@link VariationPoint}s.
  * Several configurations allow a customized search, just as needed.
- * 
+ *
  * <h1>How does that work?</h1> As a first step, the analyzer extracts all
  * relevant content from a VPMGraph and stores that within a Lucene index.
  * Through storing additional informations about the indexed text, Lucene
  * provides the ability to extract vectors from given index content. The
  * Analyzer uses several Finders to search for semantic dependencies. Those
  * results can be displayed within the VPMGraph or the Refinement Browser.
- * 
- * 
+ *
+ *
  * @author Daniel Kojic
- * 
+ *
  */
 public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
@@ -181,7 +182,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.splevo.vpm.analyzer.VPMAnalyzer#getConfigurations()
 	 */
 	@Override
@@ -201,7 +202,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.splevo.vpm.analyzer.VPMAnalyzer#getName()
 	 */
 	@Override
@@ -211,7 +212,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.splevo.vpm.analyzer.VPMAnalyzer#getRelationshipLabel()
 	 */
 	@Override
@@ -221,7 +222,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
 	/**
 	 * Writes all necessary data from the {@link VPMGraph} into the Index.
-	 * 
+	 *
 	 * @param vpmGraph
 	 *            The {@link VPMGraph} containing the information to be indexed.
 	 */
@@ -256,7 +257,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 	/**
 	 * This method uses the IndexASTNodeSwitch to extract the text from the
 	 * given Node. It iterates through all child elements.
-	 * 
+	 *
 	 * @param id
 	 *            The ID used to store the text in the Lucene index.
 	 * @param vp
@@ -305,7 +306,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
 	/**
 	 * Transforms a list that stores strings to a string.
-	 * 
+	 *
 	 * @param list
 	 *            The list.
 	 * @return The string representation.
@@ -317,7 +318,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
 	/**
 	 * Finds semantic relationships between the variation points.
-	 * 
+	 *
 	 * @param graph
 	 *            The {@link VPMGraph} to extract the IDs of the result nodes
 	 *            from.
@@ -357,7 +358,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 	/**
 	 * Transforms the links from the {@link VPLinkContainer} to
 	 * {@link VPMAnalyzerResult}.
-	 * 
+	 *
 	 * @param graph
 	 *            The related graph.
 	 * @param similars
@@ -367,6 +368,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 	private VPMAnalyzerResult addSimilarsToAnalyzerResultSet(VPMGraph graph,
 			VPLinkContainer similars) {
 		VPMAnalyzerResult result = new VPMAnalyzerResult(this);
+		List<String> edgeRegistry = new ArrayList<String>();
 		for (String key : similars.getAllLinks().keySet()) {
 			Set<String> values = similars.getAllLinks().get(key);
 
@@ -385,7 +387,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 				}
 
 				VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode,
-						targetNode, Arrays.deepToString(explanations));
+						targetNode, Arrays.deepToString(explanations), edgeRegistry);
 				if (descriptor != null) {
 					result.getEdgeDescriptors().add(descriptor);
 				}
