@@ -24,7 +24,6 @@ public class VPMAnalysisWizard extends Wizard {
     /** The configuration object to be filled. */
     private VPMAnalysisWorkflowConfiguration configuration = null;
 
-
     /**
      * Constructor to make the basic wizard settings.
      *
@@ -56,22 +55,24 @@ public class VPMAnalysisWizard extends Wizard {
      * {@inheritDoc}
      */
     @Override
-	public boolean performFinish() {
+    public boolean performFinish() {
 
-		updateConfiguration();
+        updateConfiguration();
 
-		return configuration.isValid();
-	}
+        return configuration.isValid();
+    }
 
+    /**
+     * Update the configuration object with the current wizard content.
+     */
     private void updateConfiguration() {
         List<VPMAnalyzer> analyzers = analyzerPage.getAnalyzers();
-		configuration.getAnalyzers().clear();
-		configuration.getAnalyzers().addAll(analyzers);
-		
+        configuration.getAnalyzers().clear();
+        configuration.getAnalyzers().addAll(analyzers);
 
-		ResultPresentation resultPresentation = resultHandlingPage.getResultPresentation();
-		configuration.setPresentation(resultPresentation);
+        ResultPresentation resultPresentation = resultHandlingPage.getResultPresentation();
+        configuration.setPresentation(resultPresentation);
 
-		configuration.setDetectionRules(resultHandlingPage.getDetectionRules());
+        configuration.setDetectionRules(resultHandlingPage.getDetectionRules());
     }
 }

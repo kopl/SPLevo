@@ -36,7 +36,7 @@ import com.google.common.io.CharStreams;
 
 /**
  * Wizard page to modify the results of the vpm analysis.
- * 
+ *
  * @author Christian Busch
  */
 public class VPMRefinementPage extends WizardPage {
@@ -44,7 +44,7 @@ public class VPMRefinementPage extends WizardPage {
     private VPMRefinementBrowserInput refinementBrowserInput;
     private CheckboxTreeViewer treeViewer;
     private SourceViewer leadingSourceViewer;
-    private SourceViewer followingSourceViewer;
+    private SourceViewer integrationSourceViewer;
 
     /**
      * Create the wizard page to let the user modify the found VPM.
@@ -65,23 +65,23 @@ public class VPMRefinementPage extends WizardPage {
         this.treeViewer = new CheckboxTreeViewer(outerSash);
         this.treeViewer.setContentProvider(new CompleteRefinementTreeContentProvider());
         this.treeViewer.setLabelProvider(new CompleteRefinementTreeLabelProvider());
-        
+
         final SashForm sourceViewersSash = new SashForm(outerSash, SWT.HORIZONTAL);
-        
+
         final CompositeRuler leadingRuler = new CompositeRuler();
         leadingRuler.addDecorator(0, new LineNumberRulerColumn());
-        final CompositeRuler followingRuler = new CompositeRuler();
-        followingRuler.addDecorator(0, new LineNumberRulerColumn());
+        final CompositeRuler integrationRuler = new CompositeRuler();
+        integrationRuler.addDecorator(0, new LineNumberRulerColumn());
         leadingSourceViewer = new SourceViewer(sourceViewersSash, leadingRuler, SWT.V_SCROLL);
-        followingSourceViewer = new SourceViewer(sourceViewersSash, followingRuler, SWT.V_SCROLL);
-        
+        integrationSourceViewer = new SourceViewer(sourceViewersSash, integrationRuler, SWT.V_SCROLL);
+
         this.treeViewer.addSelectionChangedListener(new VPMSelectionChangedListener());
     }
 
     /**
      * Displays the Document in the SourceViewer. To achieve this, the SourceViewer will also be set
      * up according to the Document.
-     * 
+     *
      * @param sourceViewer
      *            The Source viewer to display the Document in.
      * @param document
@@ -105,7 +105,7 @@ public class VPMRefinementPage extends WizardPage {
     /**
      * Given a path will return a Document with the contents of the file at this path and the
      * DocumentPartitioner set up accordingly.
-     * 
+     *
      * @param path
      *            Path of the File to generate a Document from.
      * @return a Document containing the content of the file at the path.
@@ -141,7 +141,7 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * Setter for the refinements.
-     * 
+     *
      * @param refinement
      *            refinements to be suggested in the VPMRefinementPage
      */
@@ -153,7 +153,7 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * Display the source of the the selected VariationPoints variants in the SourceViewers.
-     * 
+     *
      * @param selectedVariationPoint
      *            The VariationPoint of which its Variants sources should be displayed.
      */
@@ -165,24 +165,24 @@ public class VPMRefinementPage extends WizardPage {
         Document leadingDocument = createDocumentFromPath(leadingPath);
         displayDocument(leadingSourceViewer, leadingDocument);
 
-        Document followingDocument;
+        Document integrationDocument;
         if (vp.getVariants().size() > 1) {
-            Variant followingVariant = vp.getVariants().get(1);
-            String followingLocation = followingVariant.getSoftwareEntities().get(0).getSourceLocation().getFilePath();
-            IPath followingPath = new Path(followingLocation);
-            followingDocument = createDocumentFromPath(followingPath);
+            Variant integrationVariant = vp.getVariants().get(1);
+            String integationLocation = integrationVariant.getSoftwareEntities().get(0).getSourceLocation().getFilePath();
+            IPath integrationPath = new Path(integationLocation);
+            integrationDocument = createDocumentFromPath(integrationPath);
         } else {
-            followingDocument = new Document();
+            integrationDocument = new Document();
         }
-        displayDocument(followingSourceViewer, followingDocument);
+        displayDocument(integrationSourceViewer, integrationDocument);
     }
 
     /**
      * SelectionChangedListener that updates the the SourceViewers if the selection in the
      * TreeViewer changes.
-     * 
+     *
      * @author Christian Busch
-     * 
+     *
      */
     private class VPMSelectionChangedListener implements ISelectionChangedListener {
 
