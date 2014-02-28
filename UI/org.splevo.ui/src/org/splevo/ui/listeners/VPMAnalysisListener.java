@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.PageChangedEvent;
@@ -155,11 +153,11 @@ public class VPMAnalysisListener extends MouseAdapter {
      * @return The prepared configuration.
      */
     private VPMAnalysisWorkflowConfiguration buildWorflowConfiguration() {
-        VPMAnalysisWorkflowConfiguration config = new VPMAnalysisWorkflowConfiguration();
-        config.setSplevoProjectEditor(splevoProjectEditor);
+        VPMAnalysisWorkflowConfiguration defaultConfig = new VPMAnalysisWorkflowConfiguration();
+        defaultConfig.setSplevoProjectEditor(splevoProjectEditor);
 
         // Set default presentation mode
-        config.setPresentation(ResultPresentation.REFINEMENT_BROWSER);
+        defaultConfig.setPresentation(ResultPresentation.REFINEMENT_BROWSER);
 
         // build the detection rules
         List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
@@ -171,9 +169,9 @@ public class VPMAnalysisListener extends MouseAdapter {
         }
         detectionRules.add(new BasicDetectionRule(edgeLabels, RefinementType.MERGE));
 
-        config.setDetectionRules(detectionRules);
+        defaultConfig.setDetectionRules(detectionRules);
 
-        return config;
+        return defaultConfig;
     }
 
 }
