@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.util.ContainersSwitch;
 import org.emftext.language.java.members.util.MembersSwitch;
+import org.emftext.language.java.references.PackageReference;
 import org.emftext.language.java.references.util.ReferencesSwitch;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.Type;
@@ -86,7 +87,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
             if (object.eContainer() != null) {
                 return composedDoSwitch(object.eContainer());
             } else {
-                logger.warn("A reference element without a container: " + object);
+                logger.warn("A type reference element without a container: " + object);
                 return Boolean.TRUE;
             }
         }
@@ -108,7 +109,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
             if (object.eContainer() != null) {
                 return composedDoSwitch(object.eContainer());
             } else {
-                logger.warn("A reference element without a container: " + object);
+                logger.warn("A member element without a container: " + object);
                 return Boolean.TRUE;
             }
         }
@@ -123,7 +124,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
             if (object.eContainer() != null) {
                 return composedDoSwitch(object.eContainer());
             } else {
-                logger.warn("A reference element without a container: " + object);
+                logger.warn("A variable element without a container: " + object);
                 return Boolean.TRUE;
             }
         }
@@ -150,12 +151,23 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
      * Sub-switch for reference elements.
      */
     private class ReferencesIgnoreSwitch extends ReferencesSwitch<Boolean> {
+
+        /**
+         * If the container is not null, apply the switch to the container.
+         * If an element without a container is found log this exceptional case.
+         * Except for PackagesReferences as they are the only reference elements
+         * allowed to exist on the top level.
+         *
+         * {@inheritDoc}
+         */
         @Override
         public Boolean defaultCase(EObject object) {
             if (object.eContainer() != null) {
                 return composedDoSwitch(object.eContainer());
             } else {
-                logger.warn("A reference element without a container: " + object);
+                if (!(object instanceof PackageReference)) {
+                    logger.warn("A reference element without a container: " + object);
+                }
                 return Boolean.TRUE;
             }
         }
