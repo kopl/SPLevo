@@ -30,7 +30,7 @@ public class VPMAnalysisWizard extends Wizard {
     private VPMRefinementPage vpmRefinementPage;
 
     /** The configuration object to be filled. */
-    private VPMAnalysisWorkflowConfiguration configuration = null;
+    private VPMAnalysisWorkflowConfiguration analysisWorkflowConfiguration = null;
 
     /**
      * Constructor to make the basic wizard settings.
@@ -41,7 +41,7 @@ public class VPMAnalysisWizard extends Wizard {
      */
     public VPMAnalysisWizard(VPMAnalysisWorkflowConfiguration configuration) {
         super();
-        this.configuration = configuration;
+        this.analysisWorkflowConfiguration = configuration;
         setWindowTitle("Configure VPM Analysis.");
         setNeedsProgressMonitor(false);
     }
@@ -49,7 +49,7 @@ public class VPMAnalysisWizard extends Wizard {
     @Override
     public void addPages() {
         analyzerPage = new VPMAnalyzerConfigurationPage();
-        resultHandlingPage = new ResultHandlingConfigurationPage(this.configuration);
+        resultHandlingPage = new ResultHandlingConfigurationPage(this.analysisWorkflowConfiguration);
         vpmRefinementPage = new VPMRefinementPage();
 
         addPage(analyzerPage);
@@ -67,13 +67,13 @@ public class VPMAnalysisWizard extends Wizard {
 
         updateConfiguration();
 
-        if (!configuration.isValid()) {
+        if (!analysisWorkflowConfiguration.isValid()) {
             return false;
         }
 
         if (getContainer().getCurrentPage().equals(resultHandlingPage)) {
 
-            switch (configuration.getPresentation()) {
+            switch (analysisWorkflowConfiguration.getPresentation()) {
             case RELATIONSHIP_GRAPH_ONLY:
                 runAnalysisAndOpenVPMGraphViewer();
                 break;
@@ -89,9 +89,10 @@ public class VPMAnalysisWizard extends Wizard {
         }
 
         if (getContainer().getCurrentPage().equals(vpmRefinementPage)) {
-            //TODO Christian B: Implement refinement application workflow
+            // TODO Christian B: Implement refinement application workflow
             logger.error("Refinement Page FINISH handling not yet implemented");
-            throw new UnsupportedOperationException("The result processing of the refinement page is not yet implemented");
+            throw new UnsupportedOperationException(
+                    "The result processing of the refinement page is not yet implemented");
         }
 
         return true;
@@ -104,8 +105,9 @@ public class VPMAnalysisWizard extends Wizard {
     private void runAnalysisAndOpenRefinementEditor() {
         final SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
         Runnable openRefinementEditorRunnable = new OpenRefinementEditorRunnable(
-                configuration.getSplevoProjectEditor(), spLevoBlackBoard);
-        VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(configuration, spLevoBlackBoard, true);
+                analysisWorkflowConfiguration.getSplevoProjectEditor(), spLevoBlackBoard);
+        VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(analysisWorkflowConfiguration,
+                spLevoBlackBoard, true);
         WorkflowListenerUtil.runWorkflowAndRunUITask(delegate, "Analyze VPM", openRefinementEditorRunnable);
 
     }
@@ -116,7 +118,8 @@ public class VPMAnalysisWizard extends Wizard {
     private void runAnalysisAndOpenVPMGraphViewer() {
         final SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
         Runnable openGraphRunnable = new OpenVPMGraphViewerRunnable(spLevoBlackBoard);
-        VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(configuration, spLevoBlackBoard, false);
+        VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(analysisWorkflowConfiguration,
+                spLevoBlackBoard, false);
         WorkflowListenerUtil.runWorkflowAndRunUITask(delegate, "Analyze VPM", openGraphRunnable);
     }
 
@@ -125,13 +128,26 @@ public class VPMAnalysisWizard extends Wizard {
      */
     public void updateConfiguration() {
         List<VPMAnalyzer> analyzers = analyzerPage.getAnalyzers();
-        configuration.getAnalyzers().clear();
-        configuration.getAnalyzers().addAll(analyzers);
+        analysisWorkflowConfiguration.getAnalyzers().clear();
+        analysisWorkflowConfiguration.getAnalyzers().addAll(analyzers);
 
         ResultPresentation resultPresentation = resultHandlingPage.getResultPresentation();
-        configuration.setPresentation(resultPresentation);
+        analysisWorkflowConfiguration.setPresentation(resultPresentation);
 
-        configuration.getDetectionRules().clear();
-        configuration.getDetectionRules().addAll(resultHandlingPage.getDetectionRules());
+        analysisWorkflowConfiguration.getDetectionRules().clear();
+        analysisWorkflowConfiguration.getDetectionRules().addAll(resultHandlingPage.getDetectionRules());
+    }
+
+    /**
+     * Get the workflow configuration managed by the wizard.
+     *
+     * Whenever this is accessed, the wizard first synchronizes the configuration
+     * with the current ui settings.
+     *
+     * @return The workflow configuration.
+     */
+    public VPMAnalysisWorkflowConfiguration getAnalysisWorkflowConfiguration() {
+        updateConfiguration();
+        return analysisWorkflowConfiguration;
     }
 }

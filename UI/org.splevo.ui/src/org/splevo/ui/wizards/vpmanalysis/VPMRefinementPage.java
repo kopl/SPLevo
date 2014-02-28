@@ -1,8 +1,21 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Christian Busch - initial API and implementation and/or initial documentation
+ *    Benjamin Klatt - Improvement for result hand over and presentation
+ *******************************************************************************/
 package org.splevo.ui.wizards.vpmanalysis;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -13,6 +26,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.ui.text.IColorManager;
 import org.eclipse.jdt.ui.text.JavaSourceViewerConfiguration;
+import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.source.CompositeRuler;
@@ -37,9 +51,8 @@ import com.google.common.io.CharStreams;
 
 /**
  * Wizard page to modify the results of the vpm analysis.
- *
- * @author Christian Busch
  */
+@SuppressWarnings("restriction")
 public class VPMRefinementPage extends WizardPage {
 
     private CheckboxTreeViewer treeViewer;
@@ -148,6 +161,7 @@ public class VPMRefinementPage extends WizardPage {
     public void setRefinements(final List<Refinement> refinements) {
         this.treeViewer.setInput(refinements);
         this.treeViewer.refresh();
+        setMessage("Variation Point Refinement Recommendations", DialogPage.NONE);
     }
 
     /**
@@ -195,6 +209,13 @@ public class VPMRefinementPage extends WizardPage {
                 displaySources((VariationPoint) selectedElement);
             }
         }
+    }
+
+    /**
+     * Reset the refinement page to ensure no out-dated data resists.
+     */
+    public void reset() {
+        setRefinements(new ArrayList<Refinement>());
     }
 
 }
