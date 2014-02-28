@@ -40,7 +40,7 @@ import com.google.common.collect.Maps;
 
 /**
  * A JaMoPP specific post processor to refine the comparison model.
- * 
+ *
  * <h2>Post Diff Processing</h2>
  * <p>
  * After the diff process has been finished, too detailed differences are detected and refined diffs
@@ -66,7 +66,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     /**
      * Option to log informations about the found differences to the log file provided with this
      * option.
-     * 
+     *
      * If the option is null (default) no log files will be produced.
      */
     public static final String OPTION_DIFF_STATISTICS_LOG_DIR = "JaMoPP.Differ.Statistics.Log.Directory";
@@ -76,7 +76,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * the developer has not only copied code, but also introduced an "extends"-relationship between
      * the copy and the original. As a result, public, protected or package fields, present in the
      * original but not in the copy are not deleted but derived from the parent.
-     * 
+     *
      * If the option is null (default) no clean up will be performed. The configuration currently
      * supports only strings. So any not null and not empty string activates this option.
      */
@@ -90,7 +90,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Constructor to set specific options for the post processor.
-     * 
+     *
      * @param options
      *            The options to overwrite the default options.
      */
@@ -123,7 +123,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * additional (nested) diffs must be specified inside this.<br>
      * If a more fine-grained level than statements is intended this needs to be adapted.</li>
      * </ol>
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
@@ -136,11 +136,11 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     /**
      * Differences should be detected on a minimum granularity. This minimum granularity is aligned
      * with is supported later on by the variability technique used.
-     * 
+     *
      * The difference analysis done before should not have produced any more fine grained
      * differences. However, to ensure a valid model, this is rechecked here. If such a too fine
      * grained difference is detected, a log is produce to improve the difference done before.
-     * 
+     *
      * @param comparison
      *            The comparison model to clean up.
      */
@@ -158,7 +158,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     /**
      * Remove nested diffs from the model. No nested variation points are supported yet. So we are
      * not able to handle nested differences in the downstream process.
-     * 
+     *
      * @param comparison
      *            The comparison model to clean up.
      */
@@ -190,7 +190,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Check that non of the provided elements is a class element.
-     * 
+     *
      * @param left
      *            The first element to check.
      * @param right
@@ -203,7 +203,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Check if an object is an instance of a JaMoPP Class
-     * 
+     *
      * @param object
      *            The object to check.
      * @return True if it is a class.
@@ -214,7 +214,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Detect and refine to detailed diffs.
-     * 
+     *
      * @param diff
      *            The diff to check and refine if reasonable.
      * @return The refined diff, if one has been created.
@@ -231,7 +231,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Detect and refine to detailed {@link ReferenceChange}.
-     * 
+     *
      * @param referenceChange
      *            The {@link ReferenceChange} to check and refine if reasonable.
      * @return The refined diff, if one has been created.
@@ -277,7 +277,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Detect and refine to detailed {@link AttributeChange}.
-     * 
+     *
      * @param attributeChange
      *            The {@link AttributeChange} to check and refine if reasonable.
      * @return The refined diff, if one has been created.
@@ -304,10 +304,10 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * those subtrees containing diff elements are relevant for the downstream process, the model is
      * larger then needed. This post processor step removes all match element (subtrees) that do not
      * contain any diff element.<br>
-     * 
+     *
      * If the {@link OPTION_DIFF_STATISTICS_LOG_DIR} option is set, statistics about the Diff result
      * will be logged.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
@@ -330,7 +330,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Check if the option to clean up derived copies is activated in the diffing options.
-     * 
+     *
      * @return True if derived copies should be detected and cleaned up.
      */
     private boolean isCleanUpDerivedCopiesActivated() {
@@ -348,7 +348,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     /**
      * Clean up false positive deletes of any members that are available in the copy due to an
      * existing extends relationship between left and right models.
-     * 
+     *
      * @param comparison
      *            The comparison model to clean up.
      */
@@ -385,10 +385,16 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Check a {@link ClassChange} if it is part of a derived copy pattern.
-     * 
+     *
      * Check if the extended class matches to the same class as the derived one. This is an
      * indicator for a derived copy pattern.
-     * 
+     *
+     * Only ClassChanges of type CHANGE are considered. DELETE and ADD are not about
+     * changed class signatures (i.e. extends).
+     *
+     * If the class does not extend any specific class but only the default object class, this does
+     * not identify a pattern match and false will be returned.
+     *
      * @param comparison
      *            The comparison model to look up matches.
      * @param change
@@ -396,13 +402,23 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * @return True if a derived copy pattern is detected.
      */
     private boolean checkDerivedCopyPattern(Comparison comparison, ClassChange change) {
+
+        if (!(change.getMatch().getRight() instanceof Class)) {
+            return false;
+        }
+
         Class originalClass = (Class) change.getMatch().getRight();
         Class changedClass = change.getChangedClass();
         TypeReference classExtends = changedClass.getExtends();
 
+        if (classExtends == null) {
+            return false;
+        }
+
         Match extendedClassMatch = comparison.getMatch(classExtends.getTarget());
         if (extendedClassMatch != null) {
             if (extendedClassMatch.getRight() == originalClass) {
+                logger.debug("Derived Copy Detected: " + originalClass.getName());
                 return true;
             }
         }
@@ -411,7 +427,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
 
     /**
      * Get the parent match of a match.
-     * 
+     *
      * @param match
      *            The match to get the parent match for.
      * @return If the container is null or not a match, return null.
