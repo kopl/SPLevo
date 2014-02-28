@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.splevo.vpm.analyzer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -31,9 +30,6 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
 
     @Override
     public abstract VPMAnalyzerConfigurationSet getConfigurations();
-
-    /** Internal list to cache which edges have already been created. */
-    protected List<String> edgeRegistry = new ArrayList<String>();
 
     /** The logger to store any log analysis information to. */
     private Logger analysisLogger = Logger.getLogger(VPMAnalyzer.LOG_CATEGORY);
@@ -132,9 +128,12 @@ public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
      *            the target node of the edge.
      * @param relationshipSubLabel
      *            the relationship sub label
+     * @param edgeRegistry
+     *            to prove if this descriptor has already been created.
      * @return the VPM edge descriptor. Might be null if the edge already exists.
      */
-    public VPMEdgeDescriptor buildEdgeDescriptor(Node node1, Node node2, String relationshipSubLabel) {
+    public VPMEdgeDescriptor buildEdgeDescriptor(Node node1, Node node2, String relationshipSubLabel,
+            List<String> edgeRegistry) {
 
         VPMEdgeDescriptor descriptor = null;
 
