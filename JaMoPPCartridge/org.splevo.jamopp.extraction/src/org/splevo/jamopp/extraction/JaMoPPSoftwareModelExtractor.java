@@ -41,7 +41,9 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     private static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
     private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
 
-    /** Option to resolve all proxies in the model immediately after resource loading. */
+    /**
+     * Option to resolve all proxies in the model immediately after resource loading.
+     */
     private boolean resolveProxiesImmediately = false;
 
     /** Use the reference resolution caching */
@@ -51,7 +53,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * Extract the source model of a list of java projects. One project is the main project while a
      * list of additional projects to analyze can be specified. The reason for one main project is,
      * that this one is used for example for the naming of the root inventory produced etc.
-     * 
+     *
      * @param projectPaths
      *            Source Paths of the projects to be extracted.
      * @param monitor
@@ -68,7 +70,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     /**
      * Extract all java files and referenced resources to a file named according to
      * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
-     * 
+     *
      * <p>
      * If the targetUri is null, the extracted model will not be persisted and the resourceSet of
      * the last projectURI will be returned.
@@ -83,28 +85,24 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
             logger.info("Use cache file: " + sourceModelPath);
         }
 
-        // TODO: Refactor Code for more intuitive loading-resolving-caching-workflow
+        // TODO: Refactor Code for more intuitive
+        // loading-resolving-caching-workflow
         List<String> jarFiles = getAllJarFiles(projectPaths);
         ResourceSet targetResourceSet = setUpResourceSet(sourceModelPath, jarFiles);
 
+        List<Resource> resources = Lists.newArrayList();
+
         for (String projectPath : projectPaths) {
+            List<Resource> projectResources = loadProjectJavaFiles(targetResourceSet, projectPath);
+            resources.addAll(projectResources);
+        }
 
-            File srcFolder = new File(projectPath);
-            try {
-                srcFolder.isDirectory();
-                List<Resource> resources = loadAllJavaFilesInResourceSet(srcFolder, targetResourceSet);
-                logger.info(String.format("%d Java and %d Jar Files added to resource set", resources.size(),
-                        jarFiles.size()));
+        logger.info(String.format("%d Java and %d Jar Files added to resource set", resources.size(), jarFiles.size()));
 
-                // trigger the resource resolving as soon as all resources are parsed.
-                ReferenceCache cache = getReferenceCache(targetResourceSet);
-                for (Resource resource : resources) {
-                    cache.resolve(resource);
-                }
-
-            } catch (Exception e) {
-                throw new SoftwareModelExtractionException("Failed to extract software model.", e);
-            }
+        // trigger the resource resolving as soon as all resources are parsed.
+        ReferenceCache cache = getReferenceCache(targetResourceSet);
+        for (Resource resource : resources) {
+            cache.resolve(resource);
         }
 
         if (resolveProxiesImmediately) {
@@ -120,8 +118,33 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     }
 
     /**
+     * Load all java files found in a project into a ResourceSet and return the list of created
+     * resources.
+     *
+     * @param targetResourceSet
+     *            The preconfigured resource set to load to.
+     * @param projectPath
+     *            The base path of the project containing the java files.
+     * @return The list of newly created resources.
+     * @throws SoftwareModelExtractionException
+     *             thrown if a java file could not be parsed successfully.
+     */
+    private List<Resource> loadProjectJavaFiles(ResourceSet targetResourceSet, String projectPath)
+            throws SoftwareModelExtractionException {
+        List<Resource> projectResources;
+        try {
+            File srcFolder = new File(projectPath);
+            srcFolder.isDirectory();
+            projectResources = loadAllJavaFilesInResourceSet(srcFolder, targetResourceSet);
+        } catch (Exception e) {
+            throw new SoftwareModelExtractionException("Failed to parse project resources. Project: " + projectPath, e);
+        }
+        return projectResources;
+    }
+
+    /**
      * Get the list of paths of the involved jar files of all projects.
-     * 
+     *
      * @param projectPaths
      *            The project base directories.
      * @return The list of jar files found and accessible.
@@ -149,7 +172,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Trigger the cache enabled JaMoPP resource cache to be saved.
-     * 
+     *
      * @param targetResourceSet
      *            The resource set to save the assigned cache in.
      */
@@ -161,7 +184,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Get the reference cache of the JaMoPP java resource factory registered in a resource set.
-     * 
+     *
      * @param resourceSet
      *            The resource set to look up the cache.
      * @return The cache or null if none could be found.
@@ -176,15 +199,15 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Resolve all proxies of the loaded sources.
-     * 
+     *
      * This is a slightly modified version of the JaMoPPCC proxy resolution. It is not called
      * recursively because the extractor ensures all available resources have been loaded in
      * advance.<br>
      * The code has also been cleaned up.
-     * 
+     *
      * Note: The same result could also be achieved by calling {@link EcoreUtil} resolveAll() but
      * this would not allow to track any non resolved proxies.
-     * 
+     *
      * @param rs
      *            The resource set to resolve the proxies in.
      * @return True/False if the resolving was successful or not.
@@ -204,7 +227,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Resolve the proxies of all cross referenced {@link EObject}s of an {@link InternalEObject}.
-     * 
+     *
      * @param rs
      *            The resource set to resolve the proxies.
      * @param internalEObject
@@ -228,7 +251,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Handle any failed proxy resolution.
-     * 
+     *
      * @param rs
      *            The resource set to prove for any un-handled proxies.
      */
@@ -253,7 +276,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Load a all files as resource in a specific folder and it's sub folders.
-     * 
+     *
      * @param rootFolder
      *            The root folder to recursively load all resources from.
      * @param rs
@@ -281,7 +304,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Load a specific resource.
-     * 
+     *
      * @param file
      *            The file object to load as resource.
      * @param rs
@@ -296,7 +319,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Load a specific resource.
-     * 
+     *
      * @param filePath
      *            The path of the file to load.
      * @param rs
@@ -311,7 +334,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Load a specific resource.
-     * 
+     *
      * @param uri
      *            The uri of the resource.
      * @param rs
@@ -326,14 +349,14 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     /**
      * Setup the JaMoPP resource set and prepare the parsing options for the java resource type.
-     * 
+     *
      * The jar files contained in the extracted projects are registered to the class path as well.
-     * 
+     *
      * @param sourceModelDirectory
      *            The path to the directory assigned to the extracted copy.
      * @param jarPaths
      *            Absolute paths to the jar files of the source project.
-     * 
+     *
      * @return The initialized resource set.
      */
     private ResourceSet setUpResourceSet(String sourceModelDirectory, List<String> jarPaths) {
