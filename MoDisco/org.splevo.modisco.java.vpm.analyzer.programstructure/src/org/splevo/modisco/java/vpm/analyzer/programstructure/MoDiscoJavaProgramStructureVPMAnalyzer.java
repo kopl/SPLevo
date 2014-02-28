@@ -122,12 +122,12 @@ public class MoDiscoJavaProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer 
         List<VPMEdgeDescriptor> descriptors = new ArrayList<VPMEdgeDescriptor>();
 
         List<VariationPoint> referringVPs = findReferringVariationPoints(referredVP, referredElement);
-
+        List<String> edgeRegistry = new ArrayList<String>();
         for (VariationPoint referringVP : referringVPs) {
             Node sourceNode = vp2GraphNodeIndex.get(referredVP);
             Node targetNode = vp2GraphNodeIndex.get(referringVP);
 
-            VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, referredElement.getLabel());
+            VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode, referredElement.getLabel(), edgeRegistry);
             if (descriptor != null) {
                 descriptors.add(descriptor);
             }
