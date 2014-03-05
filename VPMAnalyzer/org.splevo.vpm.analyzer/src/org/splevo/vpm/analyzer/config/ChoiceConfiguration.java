@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,12 +20,12 @@ import java.util.List;
  * <li>red | green | blue</li>
  * <li>a | b | c</li>
  * </ul>
- * 
+ *
  * Don't use this configurations for numerical values as the
  * {@link NumericConfiguration} class is built for that.
- * 
+ *
  * @author Daniel Kojic
- * 
+ *
  */
 public class ChoiceConfiguration extends
 		AbstractVPMAnalyzerConfiguration<String> {
@@ -36,7 +36,7 @@ public class ChoiceConfiguration extends
 
 	/**
 	 * Gets all available values.
-	 * 
+	 *
 	 * @return The values.
 	 */
 	public List<String> getAvailableValues() {
@@ -45,7 +45,7 @@ public class ChoiceConfiguration extends
 
 	/**
 	 * Sets the all available values the configuration.
-	 * 
+	 *
 	 * @param availableValues
 	 *            The values.
 	 */
@@ -57,7 +57,9 @@ public class ChoiceConfiguration extends
 
 	/**
 	 * The main constructor for this class.
-	 * 
+	 *
+     * @param id
+     *            The unique identifier of the configuration option.
 	 * @param label
 	 *            The configurations' text label.
 	 * @param explanation
@@ -68,9 +70,9 @@ public class ChoiceConfiguration extends
 	 * @param availableValues
 	 *            The available values this configurations offers
 	 */
-	public ChoiceConfiguration(String label, String explanation,
+	public ChoiceConfiguration(String id, String label, String explanation,
 			String defaultValue, String... availableValues) {
-		super(label, explanation, defaultValue);
+		super(id, label, explanation, defaultValue);
 		this.availableValues = new LinkedList<String>();
 		setAvailableValues(availableValues);
 	}

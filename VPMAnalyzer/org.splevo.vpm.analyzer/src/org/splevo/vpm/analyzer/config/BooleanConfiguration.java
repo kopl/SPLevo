@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,7 @@ package org.splevo.vpm.analyzer.config;
  * 	<li>yes/no</li>
  * 	<li>do/don't</li>
  * </ul>
- * 
+ *
  * @author Daniel Kojic
  *
  */
@@ -26,7 +26,9 @@ public class BooleanConfiguration extends AbstractVPMAnalyzerConfiguration<Boole
 
 	/**
 	 * This is the main constructor of this class.
-	 * 
+	 *
+     * @param id
+     *            The unique identifier of the configuration option.
 	 * @param label
 	 *            The configurations' text label.
 	 * @param explanation
@@ -34,8 +36,8 @@ public class BooleanConfiguration extends AbstractVPMAnalyzerConfiguration<Boole
 	 * @param defaultValue
 	 *            The default value for the configuration.
 	 */
-	public BooleanConfiguration(String label, String explanation,
+	public BooleanConfiguration(String id, String label, String explanation,
 			Boolean defaultValue) {
-		super(label, explanation, defaultValue);
+		super(id, label, explanation, defaultValue);
 	}
 }
