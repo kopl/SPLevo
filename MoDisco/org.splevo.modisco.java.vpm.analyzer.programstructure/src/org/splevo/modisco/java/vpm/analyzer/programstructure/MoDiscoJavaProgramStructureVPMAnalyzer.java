@@ -50,6 +50,8 @@ public class MoDiscoJavaProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer 
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramStructure";
 
+    private static final String CONFIG_ID_FULL_REFERED_TREE = null;
+
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(MoDiscoJavaProgramStructureVPMAnalyzer.class);
 
@@ -194,7 +196,7 @@ public class MoDiscoJavaProgramStructureVPMAnalyzer extends AbstractVPMAnalyzer 
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
-        BooleanConfiguration fullReferredTreeConfig = new BooleanConfiguration(CONFIG_LABEL_FULL_REFERRED_TREE, null,
+        BooleanConfiguration fullReferredTreeConfig = new BooleanConfiguration(CONFIG_ID_FULL_REFERED_TREE, CONFIG_LABEL_FULL_REFERRED_TREE, null,
                 DEFAULT_CONFIG_FULL_REFERRED_TREE);
         configurations.addConfigurations("General Settings", fullReferredTreeConfig);
 
