@@ -17,9 +17,9 @@ import org.splevo.vpm.analyzer.config.NumericConfiguration;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
-import org.splevo.vpm.analyzer.semantic.extensionpoint.Activator;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContent;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProvider;
+import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProviderRegistry;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.UnsupportedSoftwareElementException;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.RelationShipSearchConfiguration;
@@ -312,7 +312,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
         List<String> code = new LinkedList<String>();
         List<String> comments = new LinkedList<String>();
-        List<SemanticContentProvider> semanticContentProviders = Activator.getSemanticContentProviders();
+        List<SemanticContentProvider> semanticContentProviders = SemanticContentProviderRegistry.getContentProviders();
         for (SemanticContentProvider semanticContentProvider : semanticContentProviders) {
             SemanticContent relevantContent;
             try {

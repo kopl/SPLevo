@@ -23,16 +23,16 @@ import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 /**
  * This is a special {@link AbstractRelationshipFinder} that allows similarity measurement
  * by querying the index.
- * 
+ *
  * @author Daniel Kojic
  *
  */
 public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFinder {
-	
+
 	/**
 	 * Initializations. Queries the content of the
 	 * given {@link DirectoryReader}.
-	 * 
+	 *
 	 * @param reader The {@link DirectoryReader}.
 	 * @param matchComments Indicates whether to include comments for analysis or not.
 	 */
@@ -42,24 +42,24 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 
 	/** The logger for this class. */
     private Logger logger = Logger.getLogger(AbstractLuceneQueryFinder.class);
-    
+
 	@Override
 	public VPLinkContainer findSimilarEntries() {
 		VPLinkContainer result = new VPLinkContainer();
 		try {
 			IndexSearcher indexSearcher = new IndexSearcher(reader);
-						
+
 			// Iterate over all documents (VariationPoints).
 			for (int i = 0; i < reader.maxDoc(); i++) {
 				Document doc = indexSearcher.doc(i);
-				
+
 				if (doc.getField(Indexer.INDEX_CONTENT) != null) {
 					buildQueryAndExecuteSearch(indexSearcher, result, Indexer.INDEX_CONTENT, i, doc);
-				}	
-				
+				}
+
 				if (matchComments && doc.getField(Indexer.INDEX_COMMENT) != null) {
 					buildQueryAndExecuteSearch(indexSearcher, result, Indexer.INDEX_COMMENT, i, doc);
-				}				
+				}
 			}
 		} catch (IOException e) {
 			logger.error("Failure while searching Lucene index.", e);
@@ -69,7 +69,7 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 
 	/**
 	 * Builds the relevant arguments for a search and executes it. Add the search results to the given result parameter.
-	 * 
+	 *
 	 * @param indexSearcher The {@link IndexSearcher} to execute the search on.
 	 * @param result The result container.
 	 * @param field The field to search on.
@@ -90,23 +90,23 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 	/**
 	 * This Method builds the {@link Query} the Finder uses to
 	 * search similarities.
-	 * 
+	 *
 	 * @param fieldName The name of the field that should be searched.
 	 * @param termFrequencies A {@link Map} that contains all terms and their frequencies.
 	 * @return The {@link Query}.
 	 */
 	protected abstract Query buildQuery(String fieldName, Map<String, Integer> termFrequencies);
-	
+
 	/**
 	 * Gets a explanation for the found results.
-	 * 
+	 *
 	 * @return The text explanation.
 	 */
 	protected abstract String getExplanation();
 
 	/**
 	 * Adds given {@link ScoreDoc} to a {@link VPLinkContainer}.
-	 * 
+	 *
 	 * @param indexSearcher The {@link IndexSearcher} to search the index with.
 	 * @param result The {@link VPLinkContainer} to add the results to.
 	 * @param hits The query hits to be added to the {@link VPLinkContainer}.
@@ -118,11 +118,11 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 	private void addHitsToStructuredMap(IndexSearcher indexSearcher,
 			VPLinkContainer result, ScoreDoc[] hits, Document doc, String explanation, Query query)
 			throws IOException {
-	    
+
 	    Set<Term> queryTerms = new HashSet<Term>();
         query.extractTerms(queryTerms);
-	    
-		for (int q = 0; q < hits.length; q++) {					
+
+		for (int q = 0; q < hits.length; q++) {
 			String id1 = doc.get(Indexer.INDEX_VARIATIONPOINT);
 			Document document = indexSearcher.doc(hits[q].doc);
 			String id2 = document.get(Indexer.INDEX_VARIATIONPOINT);
@@ -131,8 +131,9 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 			String sharedTermsExplanation = "Shared terms: " + sharedTerms;
 			if (sharedTerms.size() > 0) {
 				result.addLink(id1, id2, sharedTermsExplanation);
-			}			
-			result.addLink(id1, id2, explanation);
+			} else {
+			    result.addLink(id1, id2, explanation);
+			}
 		}
 	}
 
@@ -140,11 +141,11 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
      * Determine the terms shared by the related variation points
      * by looking up all terms included in the search query AND a found
      * document.
-     * 
+     *
      * @param queryTerms The terms of the searched query.
      * @param document A specific document found by the query.
      * @return The {@link Set} of terms shared between the query and the document.
-     * @throws IOException 
+     * @throws IOException
      */
     private Set<String> determineSharedTerms(Set<Term> queryTerms, Document document) throws IOException {
         Set<String> sharedTerms = new TreeSet<String>();
@@ -162,10 +163,10 @@ public abstract class AbstractLuceneQueryFinder extends AbstractRelationshipFind
 		}
         return sharedTerms;
     }
-	
+
 	/**
 	 * Executes a query.
-	 * 
+	 *
 	 * @param indexSearcher The {@link IndexSearcher} to be used.
 	 * @param maxDoc The max. number of results.
 	 * @param query The {@link Query} to be executed.

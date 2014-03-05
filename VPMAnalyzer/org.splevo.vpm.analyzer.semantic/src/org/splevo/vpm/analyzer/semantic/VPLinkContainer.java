@@ -67,7 +67,7 @@ public class VPLinkContainer {
 		// Add the relationship.
 		links.get(vpID1).add(vpID2);
 		
-		addExplaination(vpID1, vpID2, explanation);
+		addExplanation(vpID1, vpID2, explanation);
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class VPLinkContainer {
 	 * @param vpID2 The ID of the second node.
 	 * @param explanation The explanation.
 	 */
-	private void addExplaination(String vpID1, String vpID2, String explanation) {
+	private void addExplanation(String vpID1, String vpID2, String explanation) {
 		if (vpID1.compareTo(vpID2) > 0) {
 			String tmp = vpID1;
 			vpID1 = vpID2;
