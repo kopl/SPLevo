@@ -49,6 +49,51 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
+    /** Group identifier for general configurations. */
+    public static final String CONFIG_GROUP_GENERAL = "General Configuations";
+
+    /** Group Identifier for basic shared term analyzes. */
+    public static final String CONFIG_GROUP_OVERALL_SIMILARITY = "Overall Similarity Search";
+
+    /** Group Identifier for least frequent term searches. */
+    public static final String CONFIG_GROUP_IMPORTANT_TERM = "Important Term Search";
+
+    /** Group Identifier for most frequent term searches. */
+    public static final String CONFIG_GROUP_TOP_N = "Top N Term Search";
+
+    private static final String CONFIG_ID_BASE = "org.splevo.vpm.analyzer.semantic";
+
+    /** Identifier for the configuration to include comments in the analysis. */
+    public static final String CONFIG_ID_INCLUDE_COMMENTS = CONFIG_ID_BASE + "INCLUDE_COMMENTS";
+
+    /** Identifier for the configuration to split camel case terms. */
+    public static final String CONFIG_ID_SPLIT_CAMEL_CASE = CONFIG_ID_BASE + "SPLIT_CAMEL_CASE";
+
+    /** Identifier for the configuration of the stop words to filter. */
+    public static final String CONFIG_ID_STOP_WORDS = CONFIG_ID_BASE + "STOP_WORDS";
+
+    /** Identifier for the configuration to use the overall similarity finder. */
+    public static final String CONFIG_ID_USE_OVERALL_SIMILARITY_FINDER = CONFIG_ID_BASE
+            + "USE_OVERALL_SIMILARITY_FINDER";
+
+    /** Identifier for the configuration to use the important term finder. */
+    public static final String CONFIG_ID_USE_IMPORTANT_TERM_FINDER = CONFIG_ID_BASE + "USE_IMPORTANT_TERM_FINDER";
+
+    /** Identifier for the configuration to use the top term finder. */
+    public static final String CONFIG_ID_USE_TOP_N_TERM_FINDER = CONFIG_ID_BASE + "USE_TOP_N_TERM_FINDER";
+
+    /** Identifier for the configuration of the minimum similarity. */
+    public static final String CONFIG_ID_MIN_SIMILARITY = CONFIG_ID_BASE + "MIN_SIMILARITY";
+
+    /** Identifier for the configuration to use the similarity measure. */
+    public static final String CONFIG_ID_USE_SIMILARITY_MEASURE = CONFIG_ID_BASE + "USE_SIMILARITY_MEASURE";
+
+    /** Identifier for the configuration of .... */
+    public static final String CONFIG_ID_LEAST_DOC_FREQ = CONFIG_ID_BASE + "LEAST_DOC_FREQ";
+
+    /** Identifier for the configuration of .... */
+    public static final String CONFIG_ID_N = CONFIG_ID_BASE + "N";
+
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
 
@@ -99,30 +144,35 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     public SemanticVPMAnalyzer() {
         indexer = Indexer.getInstance();
 
-        includeCommentsConfig = new BooleanConfiguration(ConfigDefaults.LABEL_INCLUDE_COMMENTS, null,
-                ConfigDefaults.DEFAULT_INCLUDE_COMMENTS);
-        splitCamelCaseConfig = new BooleanConfiguration(ConfigDefaults.LABEL_SPLIT_CAMEL_CASE, null,
-                ConfigDefaults.DEFAULT_SPLIT_CAMEL_CASE);
-        stopWordsConfig = new StringConfiguration(ConfigDefaults.LABEL_STOP_WORDS, ConfigDefaults.EXPL_STOP_WORDS,
-                ConfigDefaults.DEFAULT_STOP_WORDS);
+        includeCommentsConfig = new BooleanConfiguration(CONFIG_ID_INCLUDE_COMMENTS,
+                ConfigDefaults.LABEL_INCLUDE_COMMENTS, null, ConfigDefaults.DEFAULT_INCLUDE_COMMENTS);
+        splitCamelCaseConfig = new BooleanConfiguration(CONFIG_ID_SPLIT_CAMEL_CASE,
+                ConfigDefaults.LABEL_SPLIT_CAMEL_CASE, null, ConfigDefaults.DEFAULT_SPLIT_CAMEL_CASE);
+        stopWordsConfig = new StringConfiguration(CONFIG_ID_STOP_WORDS, ConfigDefaults.LABEL_STOP_WORDS,
+                ConfigDefaults.EXPL_STOP_WORDS, ConfigDefaults.DEFAULT_STOP_WORDS);
 
-        useOverallSimFinderConfig = new BooleanConfiguration(ConfigDefaults.LABEL_USE_OVERALL_SIMILARITY_FINDER,
-                ConfigDefaults.EXPL_OVERALL_SIMILARITY_FINDER, ConfigDefaults.DEFAULT_USE_OVERALL_SIMILARITY_FINDER);
-        useimportantTermFinderConfig = new BooleanConfiguration(ConfigDefaults.LABEL_USE_IMPORTANT_TERM_FINDER,
-                ConfigDefaults.EXPL_IMPORTANT_TERM_FINDER, ConfigDefaults.DEFAULT_USE_IMPORTANT_TERM_FINDER);
-        useTopNFinderConfig = new BooleanConfiguration(ConfigDefaults.LABEL_USE_TOP_N_TERM_FINDER,
-                ConfigDefaults.EXPL_TOP_N_TERM_FINDER, ConfigDefaults.DEFAULT_USE_TOP_N_TERM_FINDER);
+        useOverallSimFinderConfig = new BooleanConfiguration(CONFIG_ID_USE_OVERALL_SIMILARITY_FINDER,
+                ConfigDefaults.LABEL_USE_OVERALL_SIMILARITY_FINDER, ConfigDefaults.EXPL_OVERALL_SIMILARITY_FINDER,
+                ConfigDefaults.DEFAULT_USE_OVERALL_SIMILARITY_FINDER);
+        useimportantTermFinderConfig = new BooleanConfiguration(CONFIG_ID_USE_IMPORTANT_TERM_FINDER,
+                ConfigDefaults.LABEL_USE_IMPORTANT_TERM_FINDER, ConfigDefaults.EXPL_IMPORTANT_TERM_FINDER,
+                ConfigDefaults.DEFAULT_USE_IMPORTANT_TERM_FINDER);
+        useTopNFinderConfig = new BooleanConfiguration(CONFIG_ID_USE_TOP_N_TERM_FINDER,
+                ConfigDefaults.LABEL_USE_TOP_N_TERM_FINDER, ConfigDefaults.EXPL_TOP_N_TERM_FINDER,
+                ConfigDefaults.DEFAULT_USE_TOP_N_TERM_FINDER);
 
-        minSimConfig = new NumericConfiguration(ConfigDefaults.LABEL_MIN_SIMILARITY,
+        minSimConfig = new NumericConfiguration(CONFIG_ID_MIN_SIMILARITY, ConfigDefaults.LABEL_MIN_SIMILARITY,
                 ConfigDefaults.EXPL_MIN_SIMILARITY, ConfigDefaults.DEFAULT_MIN_SIMILARITY, 0.01d, 0.d, 1.d, 2);
 
-        oneCommonTermConfig = new BooleanConfiguration(ConfigDefaults.LABEL_USE_SIMILARITY_MEASURE,
-                ConfigDefaults.EXPL_USE_SIMILARITY_MEASURE, ConfigDefaults.DEFAULT_USE_SIMILARITY_MEASURE);
+        oneCommonTermConfig = new BooleanConfiguration(CONFIG_ID_USE_SIMILARITY_MEASURE,
+                ConfigDefaults.LABEL_USE_SIMILARITY_MEASURE, ConfigDefaults.EXPL_USE_SIMILARITY_MEASURE,
+                ConfigDefaults.DEFAULT_USE_SIMILARITY_MEASURE);
 
-        topNLeastDocFreqConfig = new NumericConfiguration(ConfigDefaults.LABEL_LEAST_DOC_FREQ,
-                ConfigDefaults.EXPL_LEAST_DOC_FREQ, ConfigDefaults.DEFAULT_LEAST_DOC_FREQ, 0.01d, 0.d, 1.d, 2);
-        topNNConfig = new NumericConfiguration(ConfigDefaults.LABEL_N, ConfigDefaults.EXPL_N, ConfigDefaults.DEFAULT_N,
-                1.d, 1.d, 100.d, 0);
+        topNLeastDocFreqConfig = new NumericConfiguration(CONFIG_ID_LEAST_DOC_FREQ,
+                ConfigDefaults.LABEL_LEAST_DOC_FREQ, ConfigDefaults.EXPL_LEAST_DOC_FREQ,
+                ConfigDefaults.DEFAULT_LEAST_DOC_FREQ, 0.01d, 0.d, 1.d, 2);
+        topNNConfig = new NumericConfiguration(CONFIG_ID_N, ConfigDefaults.LABEL_N, ConfigDefaults.EXPL_N,
+                ConfigDefaults.DEFAULT_N, 1.d, 1.d, 100.d, 0);
     }
 
     @Override
@@ -176,12 +226,12 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
-        configurations.addConfigurations("General Configuations", includeCommentsConfig, splitCamelCaseConfig,
+        configurations.addConfigurations(CONFIG_GROUP_GENERAL, includeCommentsConfig, splitCamelCaseConfig,
                 stopWordsConfig);
-        configurations.addConfigurations("Overall Similarity Search", useOverallSimFinderConfig, oneCommonTermConfig,
-                minSimConfig);
-        configurations.addConfigurations("Important Term Search", useimportantTermFinderConfig);
-        configurations.addConfigurations("Top N Term Search", useTopNFinderConfig, topNLeastDocFreqConfig, topNNConfig);
+        configurations.addConfigurations(CONFIG_GROUP_OVERALL_SIMILARITY, useOverallSimFinderConfig,
+                oneCommonTermConfig, minSimConfig);
+        configurations.addConfigurations(CONFIG_GROUP_IMPORTANT_TERM, useimportantTermFinderConfig);
+        configurations.addConfigurations(CONFIG_GROUP_TOP_N, useTopNFinderConfig, topNLeastDocFreqConfig, topNNConfig);
 
         return configurations;
     }

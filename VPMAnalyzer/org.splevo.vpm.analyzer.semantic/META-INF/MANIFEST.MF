@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.splevo.vpm.analyzer.semantic.extensionpoint.Activator
 Require-Bundle: org.splevo.vpm.analyzer;bundle-version="1.0.0";visibility:=reexport,
  org.apache.log4j;bundle-version="1.2.15",
- org.lucene;bundle-version="4.3.0";visibility:=reexport
+ org.lucene;bundle-version="4.3.0";visibility:=reexport,
+ com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
