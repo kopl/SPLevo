@@ -25,7 +25,6 @@ import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerException;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
-import org.splevo.vpm.analyzer.config.BooleanConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.software.SoftwareElement;
@@ -41,18 +40,13 @@ import com.google.common.collect.Maps;
  *
  * The logic contains the steps:
  * <ol>
- * <li>Index variation points and contained refereable software elements</li>
+ * <li>Index variation points and contained referencable software elements</li>
  * <li>For each variation point, check if it contains a software element that refers to one of the
  * indexed ones</li>
  * <li>If a hit is found, create a relationship between the according nodes.</li>
  * </ol>
  */
 public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
-
-    private static final boolean DEFAULT_CONFIG_FULL_REFERRED_TREE = true;
-
-    /** Label of the configuration to consider the full sub AST for the referred VP. */
-    private static final String CONFIG_LABEL_FULL_REFERRED_TREE = "Check Full Referred AST";
 
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramDependency";
@@ -62,7 +56,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     private Map<VariationPoint, Node> vp2GraphNodeIndex = null;
 
-    /** The child node traverser identifying the refereable sub elements. */
+    /** The child node traverser identifying the referencable sub elements. */
     private RefereableElementSelector refereableElementSelector = new RefereableElementSelector();
 
     /** The index of variation points and AST nodes. **/
@@ -222,10 +216,6 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
-        BooleanConfiguration fullReferredTreeConfig = new BooleanConfiguration(CONFIG_LABEL_FULL_REFERRED_TREE, null,
-                DEFAULT_CONFIG_FULL_REFERRED_TREE);
-        configurations.addConfigurations("General Settings", fullReferredTreeConfig);
-
         return configurations;
     }
 
