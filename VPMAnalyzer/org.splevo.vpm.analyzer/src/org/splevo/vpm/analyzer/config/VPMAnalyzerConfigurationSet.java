@@ -82,7 +82,7 @@ public class VPMAnalyzerConfigurationSet {
      * @return The configuration object or null if none found.
      */
     public AbstractVPMAnalyzerConfiguration<?> getConfiguration(String groupId, String configId) {
-        if (!configurationsGroups.containsKey(groupId)) {
+        if (configurationsGroups.containsKey(groupId)) {
             return configurationsGroups.get(groupId).get(configId);
         } else {
             return null;
