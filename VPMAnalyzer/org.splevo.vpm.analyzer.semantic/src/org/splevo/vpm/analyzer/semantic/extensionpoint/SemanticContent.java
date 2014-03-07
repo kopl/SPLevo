@@ -1,13 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and/or initial documentation
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic.extensionpoint;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This is a container class to store textual code and comments.
- * 
- * @author Daniel Kojic
- * 
+ * Container to store textual code and comments.
  */
 public class SemanticContent {
 	private List<String> code;
@@ -23,7 +32,7 @@ public class SemanticContent {
 
 	/**
 	 * Gets the code.
-	 * 
+	 *
 	 * @return A {@link List} containing the words.
 	 */
 	public List<String> getCode() {
@@ -32,7 +41,7 @@ public class SemanticContent {
 
 	/**
 	 * Gets the comments.
-	 * 
+	 *
 	 * @return A {@link List} containing the words.
 	 */
 	public List<String> getComments() {
@@ -41,7 +50,7 @@ public class SemanticContent {
 
 	/**
 	 * Adds a single word to the code container.
-	 * 
+	 *
 	 * @param codeString
 	 *            The word as {@link String}.
 	 */
@@ -55,7 +64,7 @@ public class SemanticContent {
 
 	/**
 	 * Adds a single word to the comments container.
-	 * 
+	 *
 	 * @param commentString
 	 *            The word as {@link String}.
 	 */

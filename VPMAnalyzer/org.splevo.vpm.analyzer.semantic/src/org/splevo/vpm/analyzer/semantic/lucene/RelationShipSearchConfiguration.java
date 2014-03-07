@@ -1,40 +1,31 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and/or initial documentation
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic.lucene;
 
 /**
  * This is a container class that holds all necessary information to execute a
  * search.
- * 
- * @author Daniel Kojic
- * 
  */
 public class RelationShipSearchConfiguration {
 
 	/** Indicates whether to include comments for analysis or not. */
 	private boolean matchComments;
 
-	/** Determines whether to use RareTermFinder or not. */
-	private boolean useImportantTermFinder;
-
 	/** Determines whether to use OverallSimilarityFinder or not. */
-	private boolean useOverallSimilarityFinder;
+	private boolean useSharedTermFinder;
 
-	/** Determines whether to use TopNTermFinder or not. */
-	private boolean useTopNFinder;
-
-	/** The minimum document frequency share. */
-	private double leastDocFreq;
-
-	/** Specifies the max. number of terms to search for. */
-	private int n;
-
-	/** Defines the minimum similarity of two documents. */
-	private Double minSimilarity;
-
-	/**
-	 * A boolean value indicating whether to link VPs by the given similarity
-	 * metric or by looking for documents with at least one common term.
-	 */
-	private boolean useSimilarityMeasure;
+	/** Defines the minimum number of shared terms between two variation points. */
+	private int minSharedTerms;
 
 	/**
 	 * Sets default values. As a default no finder is used, comments are
@@ -42,61 +33,26 @@ public class RelationShipSearchConfiguration {
 	 */
 	public RelationShipSearchConfiguration() {
 		this.matchComments = false;
-		this.useOverallSimilarityFinder = false;
-		this.useImportantTermFinder = false;
-		this.useTopNFinder = false;
+		this.useSharedTermFinder = false;
 	}
 
 	/**
 	 * Configures the Overall Finder.
-	 * 
-	 * @param use
-	 *            Determines whether to use the {@link OverallSimilarityFinder}
+	 *
+	 * @param useSharedTermFinder
+	 *            Determines whether to use the {@link SharedTermFinder}
 	 *            or not.
-	 * @param useSimilarityMeasure
-	 *            Indicates whether to search for at least one common term or a
-	 *            specified similarity measure.
-	 * @param minSimilarity
+	 * @param minSharedTerms
 	 *            The minimum similarity of two documents.
 	 */
-	public void configureOverallFinder(boolean use, boolean useSimilarityMeasure,
-			Double minSimilarity) {
-		this.useOverallSimilarityFinder = use;
-		this.useSimilarityMeasure = useSimilarityMeasure;
-		this.minSimilarity = minSimilarity;
-	}
-
-	/**
-	 * Configures the Rare Term Finder.
-	 * 
-	 * @param use
-	 *            Determines whether to use the {@link ImportantTermFinder} or
-	 *            not.
-	 */
-	public void configureImportantTermFinder(boolean use) {
-		this.useImportantTermFinder = use;
-	}
-
-	/**
-	 * Configures the Top N Term Finder.
-	 * 
-	 * @param use
-	 *            Determines whether to use the Overall Similarity Finder or
-	 *            not.
-	 * @param leastDocFreq
-	 *            The minimum document frequency share.
-	 * @param n
-	 *            Specifies how much of the top-n-terms has to be matched.
-	 */
-	public void configureTopNFinder(boolean use, double leastDocFreq, int n) {
-		this.useTopNFinder = use;
-		this.leastDocFreq = leastDocFreq;
-		this.n = n;
+	public void configureSharedTermFinder(boolean useSharedTermFinder, int minSharedTerms) {
+		this.useSharedTermFinder = useSharedTermFinder;
+		this.minSharedTerms = minSharedTerms;
 	}
 
 	/**
 	 * Indicates whether to use comments or not.
-	 * 
+	 *
 	 * @param use
 	 *            True to use comments; False otherwise.
 	 */
@@ -112,52 +68,16 @@ public class RelationShipSearchConfiguration {
 	}
 
 	/**
-	 * @return the useRareTermFinder
-	 */
-	public boolean isUseRareTermFinder() {
-		return useImportantTermFinder;
-	}
-
-	/**
 	 * @return the useOverallSimilarityFinder
 	 */
-	public boolean isUseOverallSimilarityFinder() {
-		return useOverallSimilarityFinder;
-	}
-
-	/**
-	 * @return the useTopNFinder
-	 */
-	public boolean isUseTopNFinder() {
-		return useTopNFinder;
-	}
-
-	/**
-	 * @return the leastDocFreq
-	 */
-	public double getLeastDocFreq() {
-		return leastDocFreq;
-	}
-
-	/**
-	 * @return the n
-	 */
-	public int getN() {
-		return n;
+	public boolean isUseSharedTermFinder() {
+		return useSharedTermFinder;
 	}
 
 	/**
 	 * @return the minimum similarity
 	 */
-	public Double getMinSimilarity() {
-		return minSimilarity;
+	public int getMinSharedTerms() {
+		return minSharedTerms;
 	}
-
-	/**
-	 * @return <code>true</code> when using similarity metric; <code>false</code> otherwise.
-	 */
-	public boolean isUseSimilarityMeasure() {
-		return useSimilarityMeasure;
-	}
-
 }

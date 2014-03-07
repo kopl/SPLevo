@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and/or initial documentation
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -5,120 +17,85 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.util.Version;
 
 /**
- * This class contains configuration default values.
- *
- * @author Daniel Kojic
- *
+ * Container for configuration default values.
  */
 public final class ConfigDefaults {
 
-    // Configuration labels
+    // --------------------------
+    // Include Comments
+    // --------------------------
 
     /** The configuration label for the include comments configuration. */
     public static final String LABEL_INCLUDE_COMMENTS = "Include comments";
 
-    /** The configuration label for the USE_RARE_FINDER configuration. */
-    public static final String LABEL_USE_IMPORTANT_TERM_FINDER = "Use Important-Term-Search";
-
-    /** Explanation of the important term option. */
-    public static final String EXPL_IMPORTANT_TERM_FINDER = "Determine the least frequently used terms for each variation point"
-            + " and detect relationships only for those.";
-
-    /**
-     * The configuration label for the USE_OVERALL_SIMILARITY_FINDER configuration.
-     */
-    public static final String LABEL_USE_OVERALL_SIMILARITY_FINDER = "Use Overall-Similarity-Search";
-
-    /** Explanation of the overall similarity option. */
-    public static final String EXPL_OVERALL_SIMILARITY_FINDER = "Finds variation points sharing at"
-            + " least one, or a configured degree of terms.";
-
-    /** The configuration label for the USE_TOP_N_TERM_FINDER configuration. */
-    public static final String LABEL_USE_TOP_N_TERM_FINDER = "Use Top-N-Search";
-
-    /** Explanation of the top n option. */
-    public static final String EXPL_TOP_N_TERM_FINDER = "Calculate the most frequent terms used in variation"
-            + " points and detect relationships only for those.";
-
-    /** The configuration label for the STOPWORD configuration. */
-    public static final String LABEL_STOP_WORDS = "Stop-Words";
-
-    /** The configuration label for the similarity measure configuration. */
-    public static final String LABEL_USE_SIMILARITY_MEASURE = "Use similarity metric";
-
-    /** The configuration label for the minimum similarity configuration. */
-    public static final String LABEL_MIN_SIMILARITY = "Minimum similarity";
-
-    /** The configuration label for the N configuration. */
-    public static final String LABEL_N = "N";
-
-    /** The configuration label for the LEAST_DOC_FREQ configuration. */
-    public static final String LABEL_LEAST_DOC_FREQ = "Least Doc. Frequency";
-
-    /** The configuration label for the SPLIT_CAMEL_CASE configuration. */
-    public static final String LABEL_SPLIT_CAMEL_CASE = "Split camel-case words";
-
-    // Configuration explanations
     /** The explanation for the stop word configuration. */
-    public static final String EXPL_STOP_WORDS = "Terms to filter and not detect any relationships for. Put in words separated by whitespace.";
-
-    /** The explanation for the N configuration. */
-    public static final String EXPL_N = "Calculates the N most frequent words and uses those for analysis.";
-
-    /** The explanation for the least document frequency configuration. */
-    public static final String EXPL_LEAST_DOC_FREQ = "Defines the share of all Variationpoints the "
-            + "top-N terms have to be part of.";
-
-    /** The explanation for the similarity measure configuration. */
-    public static final String EXPL_USE_SIMILARITY_MEASURE = "Activate to use the min similarity "
-            + "confguration. When deactivated, the minimum similarity option is ignored and "
-            + "variation points with at least one common term are linked.";
-
-    /** The explanation for the minimum similarity configuration. */
-    public static final String EXPL_MIN_SIMILARITY = "Defines how similar two Variationpoints have "
-            + "to be to be matched. One common term is the minimum for Variationpoints to be matched "
-            + "(even for a defined similarity of 0%).";
-
-    // Default configuration values
-    /**
-     * The default configuration for the RARE_TERM_MAX_PERCENTAGE configuration.
-     */
-    public static final double DEFAULT_RARE_TERM_MAX_PERCENTAGE = 0.15d;
+    public static final String EXPL_INCLUDE_COMMENTS = "Include what the technology specific cartridge returns as comment.";
 
     /** The default configuration for the include comments configuration. */
     public static final boolean DEFAULT_INCLUDE_COMMENTS = false;
 
-    /** The default configuration for the USE_RARE_FINDER configuration. */
-    public static final boolean DEFAULT_USE_IMPORTANT_TERM_FINDER = false;
+    // --------------------------
+    // Camel Case
+    // --------------------------
 
-    /** The default configuration for the TOP_N_TERM_FINDER configuration. */
-    public static final boolean DEFAULT_USE_TOP_N_TERM_FINDER = false;
+    /** The configuration label for the SPLIT_CAMEL_CASE configuration. */
+    public static final String LABEL_SPLIT_CAMEL_CASE = "Split camel-case words";
 
-    /**
-     * The default configuration for the USE_OVERALL_SIMILARITY_FINDER configuration.
-     */
-    public static final boolean DEFAULT_USE_OVERALL_SIMILARITY_FINDER = true;
-
-    /** The default configuration for the LEAST_DOC_FREQ configuration. */
-    public static final double DEFAULT_LEAST_DOC_FREQ = 0.35d;
-
-    /** The default configuration for the N configuration. */
-    public static final int DEFAULT_N = 5;
+    /** The explanation for the stop word configuration. */
+    public static final String EXPL_SPLIT_CAMEL_CASE = "Split terms whenever the case of the term's characters change.";
 
     /** The default configuration for the SPLIT_CAMEL_CASE configuration. */
     public static final boolean DEFAULT_SPLIT_CAMEL_CASE = true;
 
-    /** The default configuration for the similarity measure configuration. */
-    public static final Boolean DEFAULT_USE_SIMILARITY_MEASURE = false;
+    // --------------------------
+    // Stop Words
+    // --------------------------
 
-    /** The default configuration for the minimum similarity configuration. */
-    public static final double DEFAULT_MIN_SIMILARITY = 0.8d;
+    /** The configuration label for the STOPWORD configuration. */
+    public static final String LABEL_STOP_WORDS = "Stop-Words";
 
-    // Analyzer configurations
-    /** This {@link Analyzer} is used to store comments and annotations. */
-    public static final Analyzer COMMENT_ANALYZER = new StandardAnalyzer(Version.LUCENE_43);
+    /** The explanation for the stop word configuration. */
+    public static final String EXPL_STOP_WORDS = "Terms to filter and not detect any relationships for. "
+            + "Put in words separated by whitespace.";
 
     /** The stop-word list for the analyzers. */
     public static final String DEFAULT_STOP_WORDS = "get set new case remove class type "
             + "create arg default configure clear value misc fig panel list element label the";
+
+    // --------------------------
+    // Shared Term Finder
+    // --------------------------
+
+    /** The configuration label for the USE_OVERALL_SIMILARITY_FINDER configuration. */
+    public static final String LABEL_USE_SHARED_TERM_FINDER = "Use Standard Shared-Term-Finder";
+
+    /** Explanation of the overall similarity option. */
+    public static final String EXPL_USE_SHARED_TERM_FINDER = "Finds variation points sharing at"
+            + " least a preconfigured number of terms.";
+
+    /** The default configuration for the USE_OVERALL_SIMILARITY_FINDER configuration. */
+    public static final boolean DEFAULT_USE_SHARED_TERM_FINDER = true;
+
+    // --------------------------
+    // Shared Term Minimum
+    // --------------------------
+
+    /** The configuration label for the similarity measure configuration. */
+    public static final String LABEL_SHARED_TERM_MINIMUM = "Minimum of shared terms";
+
+    /** The explanation for the similarity measure configuration. */
+    public static final String EXPL_SHARED_TERM_MINIMUM = "The minimum number of terms two variation points have to share to get connected.";
+
+    /** The default configuration for the minimum similarity configuration. */
+    public static final int DEFAULT_SHARED_TERM_MINIMUM = 1;
+
+    // --------------------------
+    // Others
+    // --------------------------
+
+    // Analyzer configurations
+    // TODO: This is not a configuration move it somewhere more reasonable
+    /** This {@link Analyzer} is used to store comments and annotations. */
+    public static final Analyzer COMMENT_ANALYZER = new StandardAnalyzer(Version.LUCENE_43);
+
 }

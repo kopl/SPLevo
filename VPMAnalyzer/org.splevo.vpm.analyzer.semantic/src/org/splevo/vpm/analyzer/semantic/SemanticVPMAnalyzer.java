@@ -1,13 +1,25 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and/or initial documentation
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.index.DirectoryReader;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
@@ -23,19 +35,24 @@ import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProviderRe
 import org.splevo.vpm.analyzer.semantic.extensionpoint.UnsupportedSoftwareElementException;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.RelationShipSearchConfiguration;
-import org.splevo.vpm.analyzer.semantic.lucene.Searcher;
+import org.splevo.vpm.analyzer.semantic.lucene.finder.SharedTermFinder;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Table;
+import com.google.common.collect.Table.Cell;
+
 /**
- * <h1>What it does</h1>
+ * <h2>What it does</h2>
  * <p>
  * The semantic relationship VPMAnalazer analyzer is able to find semantic relationships between
  * several {@link VariationPoint}s. Several configurations allow a customized search, just as
  * needed.
  * </p>
  *
- * <h1>How does that work?</h1>
+ * <h2>How it works</h2>
  * <p>
  * As a first step, the analyzer extracts all relevant content from a VPMGraph and stores that
  * within a Lucene index. Through storing additional informations about the indexed text, Lucene
@@ -43,23 +60,8 @@ import org.splevo.vpm.variability.VariationPoint;
  * Finders to search for semantic dependencies. Those results can be displayed within the VPMGraph
  * or the Refinement Browser.
  * </p>
- *
- * @author Daniel Kojic
- *
  */
 public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
-
-    /** Group identifier for general configurations. */
-    public static final String CONFIG_GROUP_GENERAL = "General Configuations";
-
-    /** Group Identifier for basic shared term analyzes. */
-    public static final String CONFIG_GROUP_OVERALL_SIMILARITY = "Overall Similarity Search";
-
-    /** Group Identifier for least frequent term searches. */
-    public static final String CONFIG_GROUP_IMPORTANT_TERM = "Important Term Search";
-
-    /** Group Identifier for most frequent term searches. */
-    public static final String CONFIG_GROUP_TOP_N = "Top N Term Search";
 
     private static final String CONFIG_ID_BASE = "org.splevo.vpm.analyzer.semantic";
 
@@ -72,27 +74,17 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     /** Identifier for the configuration of the stop words to filter. */
     public static final String CONFIG_ID_STOP_WORDS = CONFIG_ID_BASE + "STOP_WORDS";
 
+    /** Group identifier for general configurations. */
+    public static final String CONFIG_GROUP_GENERAL = "General Configuations";
+
+    /** Group Identifier for basic shared term analyzes. */
+    public static final String CONFIG_GROUP_SHARED_TERM_FINDER = "Shared Term Detection";
+
     /** Identifier for the configuration to use the overall similarity finder. */
-    public static final String CONFIG_ID_USE_OVERALL_SIMILARITY_FINDER = CONFIG_ID_BASE
-            + "USE_OVERALL_SIMILARITY_FINDER";
-
-    /** Identifier for the configuration to use the important term finder. */
-    public static final String CONFIG_ID_USE_IMPORTANT_TERM_FINDER = CONFIG_ID_BASE + "USE_IMPORTANT_TERM_FINDER";
-
-    /** Identifier for the configuration to use the top term finder. */
-    public static final String CONFIG_ID_USE_TOP_N_TERM_FINDER = CONFIG_ID_BASE + "USE_TOP_N_TERM_FINDER";
+    public static final String CONFIG_ID_USE_SHARED_TERM_FINDER = CONFIG_ID_BASE + "USE_OVERALL_SIMILARITY_FINDER";
 
     /** Identifier for the configuration of the minimum similarity. */
-    public static final String CONFIG_ID_MIN_SIMILARITY = CONFIG_ID_BASE + "MIN_SIMILARITY";
-
-    /** Identifier for the configuration to use the similarity measure. */
-    public static final String CONFIG_ID_USE_SIMILARITY_MEASURE = CONFIG_ID_BASE + "USE_SIMILARITY_MEASURE";
-
-    /** Identifier for the configuration of .... */
-    public static final String CONFIG_ID_LEAST_DOC_FREQ = CONFIG_ID_BASE + "LEAST_DOC_FREQ";
-
-    /** Identifier for the configuration of .... */
-    public static final String CONFIG_ID_N = CONFIG_ID_BASE + "N";
+    public static final String CONFIG_ID_SHARED_TERM_MINIMUM = CONFIG_ID_BASE + "MIN_SIMILARITY";
 
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
@@ -115,28 +107,11 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The configuration-object for the stop words configuration. */
     private StringConfiguration stopWordsConfig;
 
-    /** The configuration-object for the use overall sim finder configuration. */
-    private BooleanConfiguration useOverallSimFinderConfig;
+    /** The configuration-object for the shared term finder configuration. */
+    private BooleanConfiguration useSharedTermFinderConfig;
 
-    /**
-     * The configuration-object for the use important term finder configuration.
-     */
-    private BooleanConfiguration useimportantTermFinderConfig;
-
-    /** The configuration-object for the use top n finder configuration. */
-    private BooleanConfiguration useTopNFinderConfig;
-
-    /** The configuration-object for the minimum similarity configuration. */
-    private NumericConfiguration minSimConfig;
-
-    /** The configuration-object for the minimum similarity configuration. */
-    private BooleanConfiguration oneCommonTermConfig;
-
-    /** The configuration-object for the least document frequency configuration. */
-    private NumericConfiguration topNLeastDocFreqConfig;
-
-    /** The configuration-object for the N configuration. */
-    private NumericConfiguration topNNConfig;
+    /** The configuration-object for the minimum number of shared terms configuration. */
+    private NumericConfiguration minSharedTermConfig;
 
     /**
      * The default constructor for this class.
@@ -151,28 +126,13 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         stopWordsConfig = new StringConfiguration(CONFIG_ID_STOP_WORDS, ConfigDefaults.LABEL_STOP_WORDS,
                 ConfigDefaults.EXPL_STOP_WORDS, ConfigDefaults.DEFAULT_STOP_WORDS);
 
-        useOverallSimFinderConfig = new BooleanConfiguration(CONFIG_ID_USE_OVERALL_SIMILARITY_FINDER,
-                ConfigDefaults.LABEL_USE_OVERALL_SIMILARITY_FINDER, ConfigDefaults.EXPL_OVERALL_SIMILARITY_FINDER,
-                ConfigDefaults.DEFAULT_USE_OVERALL_SIMILARITY_FINDER);
-        useimportantTermFinderConfig = new BooleanConfiguration(CONFIG_ID_USE_IMPORTANT_TERM_FINDER,
-                ConfigDefaults.LABEL_USE_IMPORTANT_TERM_FINDER, ConfigDefaults.EXPL_IMPORTANT_TERM_FINDER,
-                ConfigDefaults.DEFAULT_USE_IMPORTANT_TERM_FINDER);
-        useTopNFinderConfig = new BooleanConfiguration(CONFIG_ID_USE_TOP_N_TERM_FINDER,
-                ConfigDefaults.LABEL_USE_TOP_N_TERM_FINDER, ConfigDefaults.EXPL_TOP_N_TERM_FINDER,
-                ConfigDefaults.DEFAULT_USE_TOP_N_TERM_FINDER);
+        useSharedTermFinderConfig = new BooleanConfiguration(CONFIG_ID_USE_SHARED_TERM_FINDER,
+                ConfigDefaults.LABEL_USE_SHARED_TERM_FINDER, ConfigDefaults.EXPL_USE_SHARED_TERM_FINDER,
+                ConfigDefaults.DEFAULT_USE_SHARED_TERM_FINDER);
 
-        minSimConfig = new NumericConfiguration(CONFIG_ID_MIN_SIMILARITY, ConfigDefaults.LABEL_MIN_SIMILARITY,
-                ConfigDefaults.EXPL_MIN_SIMILARITY, ConfigDefaults.DEFAULT_MIN_SIMILARITY, 0.01d, 0.d, 1.d, 2);
-
-        oneCommonTermConfig = new BooleanConfiguration(CONFIG_ID_USE_SIMILARITY_MEASURE,
-                ConfigDefaults.LABEL_USE_SIMILARITY_MEASURE, ConfigDefaults.EXPL_USE_SIMILARITY_MEASURE,
-                ConfigDefaults.DEFAULT_USE_SIMILARITY_MEASURE);
-
-        topNLeastDocFreqConfig = new NumericConfiguration(CONFIG_ID_LEAST_DOC_FREQ,
-                ConfigDefaults.LABEL_LEAST_DOC_FREQ, ConfigDefaults.EXPL_LEAST_DOC_FREQ,
-                ConfigDefaults.DEFAULT_LEAST_DOC_FREQ, 0.01d, 0.d, 1.d, 2);
-        topNNConfig = new NumericConfiguration(CONFIG_ID_N, ConfigDefaults.LABEL_N, ConfigDefaults.EXPL_N,
-                ConfigDefaults.DEFAULT_N, 1.d, 1.d, 100.d, 0);
+        minSharedTermConfig = new NumericConfiguration(CONFIG_ID_SHARED_TERM_MINIMUM,
+                ConfigDefaults.LABEL_SHARED_TERM_MINIMUM, ConfigDefaults.EXPL_SHARED_TERM_MINIMUM,
+                ConfigDefaults.DEFAULT_SHARED_TERM_MINIMUM, 1, 1, -1, 0);
     }
 
     @Override
@@ -195,16 +155,17 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             logger.info("Indexing done.");
         } catch (Exception e) {
             logger.error("Cannot write Index. Close all open IndexWriters first.", e);
+            return null;
         }
 
         // Find relationships.
         try {
             logger.info("Analyzing...");
-            VPLinkContainer similars = findRelationships(vpmGraph);
-            result = addSimilarsToAnalyzerResultSet(vpmGraph, similars);
+            result = findRelationships(vpmGraph);
             logger.info("Analysis done.");
         } catch (IOException e) {
             logger.error("Cannot read Index. Close all open IndexWriters first.", e);
+            return null;
         }
 
         // CLEAN-UP.
@@ -228,11 +189,8 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
         configurations.addConfigurations(CONFIG_GROUP_GENERAL, includeCommentsConfig, splitCamelCaseConfig,
                 stopWordsConfig);
-        configurations.addConfigurations(CONFIG_GROUP_OVERALL_SIMILARITY, useOverallSimFinderConfig,
-                oneCommonTermConfig, minSimConfig);
-        configurations.addConfigurations(CONFIG_GROUP_IMPORTANT_TERM, useimportantTermFinderConfig);
-        configurations.addConfigurations(CONFIG_GROUP_TOP_N, useTopNFinderConfig, topNLeastDocFreqConfig, topNNConfig);
-
+        configurations.addConfigurations(CONFIG_GROUP_SHARED_TERM_FINDER, useSharedTermFinderConfig,
+                minSharedTermConfig);
         return configurations;
     }
 
@@ -272,7 +230,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         boolean splitCamelCase = splitCamelCaseConfig.getCurrentValue();
         String stopWords = stopWordsConfig.getCurrentValue();
 
-        this.indexer.splitCamelCase(splitCamelCase);
+        this.indexer.setSplitCamelCase(splitCamelCase);
 
         if (stopWords != null) {
             if (stopWords.length() > 0) {
@@ -345,7 +303,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      * @return The string representation.
      */
     private String convertListToString(List<String> list) {
-        return Arrays.toString(list.toArray()).replaceAll("\\[|\\]", "").replaceAll(", ", " ");
+        return Joiner.on(" ").skipNulls().join(list);
     }
 
     /**
@@ -353,68 +311,48 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      *
      * @param graph
      *            The {@link VPMGraph} to extract the IDs of the result nodes from.
-     * @return A {@link VPLinkContainer} containing the search results.
+     * @return A {@link VPMAnalyzerResult} containing the search results.
      * @throws IOException
      *             Throws an {@link IOException} when there is already an open {@link IndexWriter}.
      */
-    private VPLinkContainer findRelationships(VPMGraph graph) throws IOException {
-        if (graph == null) {
-            throw new IllegalArgumentException();
-        }
+    private VPMAnalyzerResult findRelationships(VPMGraph graph) throws IOException {
 
         // Get the configurations
         boolean includeComments = includeCommentsConfig.getCurrentValue();
-        boolean useRareFinder = useimportantTermFinderConfig.getCurrentValue();
-        boolean useOverallSimFinder = useOverallSimFinderConfig.getCurrentValue();
-        boolean useTopNTermFinder = useTopNFinderConfig.getCurrentValue();
-        Double minSimilarity = minSimConfig.getCurrentValue();
-        boolean oneCommonTerm = oneCommonTermConfig.getCurrentValue();
-        Double leastDocFreq = topNLeastDocFreqConfig.getCurrentValue();
-        Integer n = topNNConfig.getIntegerValue();
+        boolean useSharedTermFinder = useSharedTermFinderConfig.getCurrentValue();
+        int minSharedTerm = 1;
+        if (minSharedTermConfig.getCurrentValue() != null) {
+            minSharedTerm = minSharedTermConfig.getCurrentValue().intValue();
+        }
 
         // Setup the configuration object.
         RelationShipSearchConfiguration searchConfig = new RelationShipSearchConfiguration();
         searchConfig.useComments(includeComments);
-        searchConfig.configureOverallFinder(useOverallSimFinder, oneCommonTerm, minSimilarity);
-        searchConfig.configureImportantTermFinder(useRareFinder);
-        searchConfig.configureTopNFinder(useTopNTermFinder, leastDocFreq, n);
+        searchConfig.configureSharedTermFinder(useSharedTermFinder, minSharedTerm);
 
-        // Use the searcher to search for semantic relationships.
-        return Searcher.findSemanticRelationships(searchConfig);
-    }
+        DirectoryReader reader = Indexer.getInstance().getIndexReader();
+        int minSharedTerms = searchConfig.getMinSharedTerms();
+        boolean matchComments = searchConfig.isMatchComments();
+        SharedTermFinder finder = new SharedTermFinder(reader, matchComments, minSharedTerms);
+        Table<String, String, Set<String>> sharedTermTable = finder.findSimilarEntries();
+        reader.close();
 
-    /**
-     * Transforms the links from the {@link VPLinkContainer} to {@link VPMAnalyzerResult}.
-     *
-     * @param graph
-     *            The related graph.
-     * @param similars
-     *            The search results.
-     * @return A {@link VPMAnalyzerResult} containing the edge descriptors.
-     */
-    private VPMAnalyzerResult addSimilarsToAnalyzerResultSet(VPMGraph graph, VPLinkContainer similars) {
         VPMAnalyzerResult result = new VPMAnalyzerResult(this);
-        List<String> edgeRegistry = new ArrayList<String>();
-        for (String key : similars.getAllLinks().keySet()) {
-            Set<String> values = similars.getAllLinks().get(key);
+        ArrayList<String> edgeRegistry = Lists.newArrayList();
+        for (Cell<String, String, Set<String>> cell : sharedTermTable.cellSet()) {
+            String id1 = cell.getRowKey();
+            String id2 = cell.getColumnKey();
+            Set<String> sharedTerms = cell.getValue();
 
-            for (String value : values) {
-                Node sourceNode = graph.getNode(key);
-                Node targetNode = graph.getNode(value);
-                String[] explanations = similars.getExplanations(key, value);
+            if (sharedTerms.size() > minSharedTerms) {
+                Node node1 = graph.getNode(id1);
+                Node node2 = graph.getNode(id2);
+                String subLabel = convertListToString(Lists.newArrayList(sharedTerms));
 
-                if (explanations == null) {
-                    explanations = new String[] { RELATIONSHIP_LABEL_SEMANTIC };
-                }
-
-                for (String explanation : explanations) {
-                    logAnalysisInfo(sourceNode.getId(), targetNode.getId(), "", "", explanation);
-                }
-
-                VPMEdgeDescriptor descriptor = buildEdgeDescriptor(sourceNode, targetNode,
-                        Arrays.deepToString(explanations), edgeRegistry);
-                if (descriptor != null) {
-                    result.getEdgeDescriptors().add(descriptor);
+                VPMEdgeDescriptor edge = buildEdgeDescriptor(node1, node2, subLabel, edgeRegistry);
+                if (edge != null) {
+                    logAnalysisInfo(id1, id2, "", "", String.format("Shared terms: %s", subLabel));
+                    result.getEdgeDescriptors().add(edge);
                 }
             }
         }

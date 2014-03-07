@@ -7,7 +7,8 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    CONTRIBUTR_FIRST_AND_LAST_NAME - WORK_DONE (e.g. "initial API and implementation and/or initial documentation")
+ *    Daniel Kojic - initial API and implementation and/or initial documentation
+ *    Benjamin Klatt
  *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic.extensionpoint;
 
