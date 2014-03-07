@@ -100,7 +100,7 @@ public class UIConfigurationCompositeFactory {
         for (AbstractVPMAnalyzerConfiguration<?> config : configs) {
             Composite parentComp = new Composite(group, SWT.NONE);
             RowLayout layout = new RowLayout(SWT.HORIZONTAL);
-            layout.center = true;
+            layout.center = false;
             parentComp.setLayout(layout);
             if (config instanceof BooleanConfiguration) {
                 createBooleanConfigField(parentComp, (BooleanConfiguration) config);
@@ -208,9 +208,9 @@ public class UIConfigurationCompositeFactory {
         String defaultText = config.getDefaultValue();
         text.setText(defaultText);
         if (defaultText.length() > 30) {
-            text.setLayoutData(new RowData(150, 80));
+            text.setLayoutData(new RowData(300, 80));
         } else {
-            text.setLayoutData(new RowData(150, 16));
+            text.setLayoutData(new RowData(300, 16));
         }
         addExplanation(parent, config.getExplanation());
     }
