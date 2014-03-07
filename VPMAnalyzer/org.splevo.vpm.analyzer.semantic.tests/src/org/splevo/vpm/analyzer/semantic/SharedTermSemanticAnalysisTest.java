@@ -41,7 +41,7 @@ import com.google.common.collect.Lists;
  *
  * The tests are designed to use a mock semantic content provider.
  */
-public class OverallSimilarityAnalysisTest extends AbstractTest {
+public class SharedTermSemanticAnalysisTest extends AbstractTest {
 
     /**
      * Test the semantic relationship detection for getMethods.
@@ -71,6 +71,36 @@ public class OverallSimilarityAnalysisTest extends AbstractTest {
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
         assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(1));
+    }
+
+    /**
+     * Test the semantic relationship detection for getMethods.
+     *
+     * @throws UnsupportedSoftwareElementException
+     *             Failed test when thrown.
+     */
+    @Test
+    public void testAllFiltered() throws UnsupportedSoftwareElementException {
+
+        List<String> termsVp1 = Lists.newArrayList("getUseCase");
+        List<String> termsVp2 = Lists.newArrayList("setUseCase");
+        SemanticContentProvider provider = mockContentProviderForTermLists(termsVp1, termsVp2);
+        SemanticContentProviderRegistry.getContentProviders().clear();
+        SemanticContentProviderRegistry.registerConentProvider(provider);
+
+        SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
+        StringConfiguration stopWordConfig = getStopWordConfig(analyzer);
+        stopWordConfig.setCurrentValue("get set use case");
+
+        VPMGraph vpmGraph = mock(VPMGraph.class);
+        Node node1 = mockGraphNodeWithVP("NODE1", vpmGraph);
+        Node node2 = mockGraphNodeWithVP("NODE2", vpmGraph);
+
+        when(vpmGraph.getNodeCount()).thenReturn(2);
+        when(vpmGraph.getNodeSet()).thenReturn(Lists.newArrayList(node1, node2));
+
+        VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
+        assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(0));
     }
 
     /**
