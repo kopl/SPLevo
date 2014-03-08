@@ -13,8 +13,10 @@ package org.splevo.jamopp.diffing;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
@@ -65,6 +67,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * Differ for JaMoPP software models.
@@ -459,5 +462,12 @@ public class JaMoPPDiffer implements Differ {
     @Override
     public int getOrderId() {
         return 0;
+    }
+
+    @Override
+    public Set<String> getRequiredExtractorIds() {
+        LinkedHashSet<String> ids = new LinkedHashSet<String>();
+        ids.add(JaMoPPSoftwareModelExtractor.EXTRACTOR_ID);
+        return ids;
     }
 }
