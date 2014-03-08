@@ -49,7 +49,6 @@ import org.splevo.project.SPLevoProject;
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDiffingModelPath <em>Diffing Model Path</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getVpmModelPaths <em>Vpm Model Paths</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDiffingFilterRules <em>Diffing Filter Rules</em>}</li>
- *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getExtractorIds <em>Extractor Ids</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDifferIds <em>Differ Ids</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDifferOptions <em>Differ Options</em>}</li>
  * </ul>
@@ -267,16 +266,6 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
      * @ordered
      */
 	protected String diffingFilterRules = DIFFING_FILTER_RULES_EDEFAULT;
-
-	/**
-     * The cached value of the '{@link #getExtractorIds() <em>Extractor Ids</em>}' attribute list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getExtractorIds()
-     * @generated
-     * @ordered
-     */
-	protected EList<String> extractorIds;
 
 	/**
      * The cached value of the '{@link #getDifferIds() <em>Differ Ids</em>}' attribute list.
@@ -545,18 +534,6 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
 
 	/**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public EList<String> getExtractorIds() {
-        if (extractorIds == null) {
-            extractorIds = new EDataTypeUniqueEList<String>(String.class, this, ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS);
-        }
-        return extractorIds;
-    }
-
-	/**
-     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
@@ -625,8 +602,6 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
                 return getVpmModelPaths();
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
                 return getDiffingFilterRules();
-            case ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS:
-                return getExtractorIds();
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
                 return getDifferIds();
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
@@ -684,10 +659,6 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
                 setDiffingFilterRules((String)newValue);
                 return;
-            case ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS:
-                getExtractorIds().clear();
-                getExtractorIds().addAll((Collection<? extends String>)newValue);
-                return;
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
                 getDifferIds().clear();
                 getDifferIds().addAll((Collection<? extends String>)newValue);
@@ -743,9 +714,6 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
                 setDiffingFilterRules(DIFFING_FILTER_RULES_EDEFAULT);
                 return;
-            case ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS:
-                getExtractorIds().clear();
-                return;
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
                 getDifferIds().clear();
                 return;
@@ -788,8 +756,6 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
                 return vpmModelPaths != null && !vpmModelPaths.isEmpty();
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
                 return DIFFING_FILTER_RULES_EDEFAULT == null ? diffingFilterRules != null : !DIFFING_FILTER_RULES_EDEFAULT.equals(diffingFilterRules);
-            case ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS:
-                return extractorIds != null && !extractorIds.isEmpty();
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
                 return differIds != null && !differIds.isEmpty();
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
@@ -832,8 +798,6 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
         result.append(vpmModelPaths);
         result.append(", diffingFilterRules: ");
         result.append(diffingFilterRules);
-        result.append(", extractorIds: ");
-        result.append(extractorIds);
         result.append(", differIds: ");
         result.append(differIds);
         result.append(')');

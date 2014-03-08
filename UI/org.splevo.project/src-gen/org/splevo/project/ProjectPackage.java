@@ -183,22 +183,13 @@ public interface ProjectPackage extends EPackage {
 	int SP_LEVO_PROJECT__DIFFING_FILTER_RULES = 11;
 
 	/**
-     * The feature id for the '<em><b>Extractor Ids</b></em>' attribute list.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int SP_LEVO_PROJECT__EXTRACTOR_IDS = 12;
-
-	/**
      * The feature id for the '<em><b>Differ Ids</b></em>' attribute list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SP_LEVO_PROJECT__DIFFER_IDS = 13;
+    int SP_LEVO_PROJECT__DIFFER_IDS = 12;
 
     /**
      * The feature id for the '<em><b>Differ Options</b></em>' map.
@@ -207,7 +198,7 @@ public interface ProjectPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SP_LEVO_PROJECT__DIFFER_OPTIONS = 14;
+    int SP_LEVO_PROJECT__DIFFER_OPTIONS = 13;
 
     /**
      * The number of structural features of the '<em>SP Levo Project</em>' class.
@@ -216,7 +207,7 @@ public interface ProjectPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int SP_LEVO_PROJECT_FEATURE_COUNT = 15;
+	int SP_LEVO_PROJECT_FEATURE_COUNT = 14;
 
 	/**
      * The meta object id for the '{@link org.splevo.project.impl.DifferOptionImpl <em>Differ Option</em>}' class.
@@ -396,17 +387,6 @@ public interface ProjectPackage extends EPackage {
      * @generated
      */
 	EAttribute getSPLevoProject_DiffingFilterRules();
-
-	/**
-     * Returns the meta object for the attribute list '{@link org.splevo.project.SPLevoProject#getExtractorIds <em>Extractor Ids</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute list '<em>Extractor Ids</em>'.
-     * @see org.splevo.project.SPLevoProject#getExtractorIds()
-     * @see #getSPLevoProject()
-     * @generated
-     */
-	EAttribute getSPLevoProject_ExtractorIds();
 
 	/**
      * Returns the meta object for the attribute list '{@link org.splevo.project.SPLevoProject#getDifferIds <em>Differ Ids</em>}'.
@@ -593,14 +573,6 @@ public interface ProjectPackage extends EPackage {
 		EAttribute SP_LEVO_PROJECT__DIFFING_FILTER_RULES = eINSTANCE.getSPLevoProject_DiffingFilterRules();
 
 		/**
-         * The meta object literal for the '<em><b>Extractor Ids</b></em>' attribute list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute SP_LEVO_PROJECT__EXTRACTOR_IDS = eINSTANCE.getSPLevoProject_ExtractorIds();
-
-        /**
          * The meta object literal for the '<em><b>Differ Ids</b></em>' attribute list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->

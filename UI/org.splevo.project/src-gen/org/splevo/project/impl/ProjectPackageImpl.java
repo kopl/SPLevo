@@ -225,20 +225,11 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 
 	/**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public EAttribute getSPLevoProject_ExtractorIds() {
-        return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(12);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     public EAttribute getSPLevoProject_DifferIds() {
-        return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(13);
+        return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(12);
     }
 
     /**
@@ -247,7 +238,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      * @generated
      */
     public EReference getSPLevoProject_DifferOptions() {
-        return (EReference)spLevoProjectEClass.getEStructuralFeatures().get(14);
+        return (EReference)spLevoProjectEClass.getEStructuralFeatures().get(13);
     }
 
     /**
@@ -318,7 +309,6 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_MODEL_PATH);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VPM_MODEL_PATHS);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_FILTER_RULES);
-        createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__EXTRACTOR_IDS);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_IDS);
         createEReference(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_OPTIONS);
 
@@ -370,7 +360,6 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         initEAttribute(getSPLevoProject_DiffingModelPath(), ecorePackage.getEString(), "diffingModelPath", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_VpmModelPaths(), ecorePackage.getEString(), "vpmModelPaths", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_DiffingFilterRules(), ecorePackage.getEString(), "diffingFilterRules", "", 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSPLevoProject_ExtractorIds(), ecorePackage.getEString(), "extractorIds", null, 1, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_DifferIds(), ecorePackage.getEString(), "differIds", null, 1, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSPLevoProject_DifferOptions(), this.getDifferOption(), null, "differOptions", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
