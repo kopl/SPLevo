@@ -33,7 +33,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     private static Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractor.class);
 
-    private static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
+    public static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
     private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
 
     /** Use the reference resolution caching */
