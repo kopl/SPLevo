@@ -12,18 +12,26 @@
  *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic;
 
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.util.Version;
 
 /**
  * Container for configuration default values.
  */
-public final class ConfigDefaults {
+public final class Config {
+
+    private static final String CONFIG_ID_BASE = "org.splevo.vpm.analyzer.semantic";
+
+    /** Group identifier for general configurations. */
+    public static final String CONFIG_GROUP_GENERAL = "General Configuations";
+
+    /** Group Identifier for basic shared term analyzes. */
+    public static final String CONFIG_GROUP_SHARED_TERM_FINDER = "Shared Term Detection";
 
     // --------------------------
     // Include Comments
     // --------------------------
+
+    /** Identifier for the configuration to include comments in the analysis. */
+    public static final String CONFIG_ID_INCLUDE_COMMENTS = CONFIG_ID_BASE + "INCLUDE_COMMENTS";
 
     /** The configuration label for the include comments configuration. */
     public static final String LABEL_INCLUDE_COMMENTS = "Include comments";
@@ -38,6 +46,9 @@ public final class ConfigDefaults {
     // Camel Case
     // --------------------------
 
+    /** Identifier for the configuration to split camel case terms. */
+    public static final String CONFIG_ID_SPLIT_CAMEL_CASE = CONFIG_ID_BASE + "SPLIT_CAMEL_CASE";
+
     /** The configuration label for the SPLIT_CAMEL_CASE configuration. */
     public static final String LABEL_SPLIT_CAMEL_CASE = "Split camel-case words";
 
@@ -51,6 +62,9 @@ public final class ConfigDefaults {
     // Stop Words
     // --------------------------
 
+    /** Identifier for the configuration of the stop words to filter. */
+    public static final String CONFIG_ID_STOP_WORDS = CONFIG_ID_BASE + "STOP_WORDS";
+
     /** The configuration label for the STOPWORD configuration. */
     public static final String LABEL_STOP_WORDS = "Stop-Words";
 
@@ -63,39 +77,20 @@ public final class ConfigDefaults {
             + "create arg default configure clear value misc fig panel list element label the";
 
     // --------------------------
-    // Shared Term Finder
-    // --------------------------
-
-    /** The configuration label for the USE_OVERALL_SIMILARITY_FINDER configuration. */
-    public static final String LABEL_USE_SHARED_TERM_FINDER = "Use Standard Shared-Term-Finder";
-
-    /** Explanation of the overall similarity option. */
-    public static final String EXPL_USE_SHARED_TERM_FINDER = "Finds variation points sharing at"
-            + " least a preconfigured number of terms.";
-
-    /** The default configuration for the USE_OVERALL_SIMILARITY_FINDER configuration. */
-    public static final boolean DEFAULT_USE_SHARED_TERM_FINDER = true;
-
-    // --------------------------
     // Shared Term Minimum
     // --------------------------
+
+    /** Identifier for the configuration of the minimum similarity. */
+    public static final String CONFIG_ID_SHARED_TERM_MINIMUM = CONFIG_ID_BASE + "MIN_SIMILARITY";
 
     /** The configuration label for the similarity measure configuration. */
     public static final String LABEL_SHARED_TERM_MINIMUM = "Minimum of shared terms";
 
     /** The explanation for the similarity measure configuration. */
-    public static final String EXPL_SHARED_TERM_MINIMUM = "The minimum number of terms two variation points have to share to get connected.";
+    public static final String EXPL_SHARED_TERM_MINIMUM = "The minimum number of terms two variation points "
+            + "have to share to get connected.";
 
     /** The default configuration for the minimum similarity configuration. */
     public static final int DEFAULT_SHARED_TERM_MINIMUM = 1;
-
-    // --------------------------
-    // Others
-    // --------------------------
-
-    // Analyzer configurations
-    // TODO: This is not a configuration move it somewhere more reasonable
-    /** This {@link Analyzer} is used to store comments and annotations. */
-    public static final Analyzer COMMENT_ANALYZER = new StandardAnalyzer(Version.LUCENE_43);
 
 }

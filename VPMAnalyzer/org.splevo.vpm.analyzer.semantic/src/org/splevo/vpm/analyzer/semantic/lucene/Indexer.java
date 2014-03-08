@@ -30,7 +30,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
-import org.splevo.vpm.analyzer.semantic.ConfigDefaults;
+import org.splevo.vpm.analyzer.semantic.Config;
 
 import com.google.common.base.Strings;
 
@@ -101,7 +101,7 @@ public final class Indexer {
      */
     private Indexer() {
         this.splitCamelCase = true;
-        this.stopWords = ConfigDefaults.DEFAULT_STOP_WORDS.split(" ");
+        this.stopWords = Config.DEFAULT_STOP_WORDS.split(" ");
 
         // Use RAMDirectory to use an in-memory index.
         directory = new RAMDirectory();
@@ -155,20 +155,20 @@ public final class Indexer {
      *
      * @param variationPointId
      *            The ID of the {@link VariationPoint} to be linked with its content.
-     * @param content
+     * @param code
      *            The text content of the {@link VariationPoint}.
      * @param comments
      *            The text comments of the {@link VariationPoint}.
      * @throws IOException
      *             Thrown if the document couldn't be added to index.
      */
-    public void addToIndex(String variationPointId, String content, String comments) throws IOException {
-        if (variationPointId == null || variationPointId.length() == 0 || (content == null && comments == null)) {
+    public void addToIndex(String variationPointId, String code, String comments) throws IOException {
+        if (variationPointId == null || variationPointId.length() == 0 || (code == null && comments == null)) {
             throw new IllegalArgumentException();
         }
 
-        if ((content != null && content.length() > 0) || (comments != null && comments.length() > 0)) {
-            addDocument(variationPointId, content, comments);
+        if (!Strings.isNullOrEmpty(code) || !Strings.isNullOrEmpty(comments)) {
+            addDocument(variationPointId, code, comments);
         }
     }
 

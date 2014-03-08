@@ -20,6 +20,10 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.SlowCompositeReaderWrapper;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.util.BytesRef;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
@@ -34,7 +38,6 @@ import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProvider;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProviderRegistry;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.UnsupportedSoftwareElementException;
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
-import org.splevo.vpm.analyzer.semantic.lucene.RelationShipSearchConfiguration;
 import org.splevo.vpm.analyzer.semantic.lucene.finder.SharedTermFinder;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
@@ -63,29 +66,6 @@ import com.google.common.collect.Table.Cell;
  */
 public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
-    private static final String CONFIG_ID_BASE = "org.splevo.vpm.analyzer.semantic";
-
-    /** Identifier for the configuration to include comments in the analysis. */
-    public static final String CONFIG_ID_INCLUDE_COMMENTS = CONFIG_ID_BASE + "INCLUDE_COMMENTS";
-
-    /** Identifier for the configuration to split camel case terms. */
-    public static final String CONFIG_ID_SPLIT_CAMEL_CASE = CONFIG_ID_BASE + "SPLIT_CAMEL_CASE";
-
-    /** Identifier for the configuration of the stop words to filter. */
-    public static final String CONFIG_ID_STOP_WORDS = CONFIG_ID_BASE + "STOP_WORDS";
-
-    /** Group identifier for general configurations. */
-    public static final String CONFIG_GROUP_GENERAL = "General Configuations";
-
-    /** Group Identifier for basic shared term analyzes. */
-    public static final String CONFIG_GROUP_SHARED_TERM_FINDER = "Shared Term Detection";
-
-    /** Identifier for the configuration to use the overall similarity finder. */
-    public static final String CONFIG_ID_USE_SHARED_TERM_FINDER = CONFIG_ID_BASE + "USE_OVERALL_SIMILARITY_FINDER";
-
-    /** Identifier for the configuration of the minimum similarity. */
-    public static final String CONFIG_ID_SHARED_TERM_MINIMUM = CONFIG_ID_BASE + "MIN_SIMILARITY";
-
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
 
@@ -107,9 +87,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The configuration-object for the stop words configuration. */
     private StringConfiguration stopWordsConfig;
 
-    /** The configuration-object for the shared term finder configuration. */
-    private BooleanConfiguration useSharedTermFinderConfig;
-
     /** The configuration-object for the minimum number of shared terms configuration. */
     private NumericConfiguration minSharedTermConfig;
 
@@ -119,20 +96,16 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     public SemanticVPMAnalyzer() {
         indexer = Indexer.getInstance();
 
-        includeCommentsConfig = new BooleanConfiguration(CONFIG_ID_INCLUDE_COMMENTS,
-                ConfigDefaults.LABEL_INCLUDE_COMMENTS, null, ConfigDefaults.DEFAULT_INCLUDE_COMMENTS);
-        splitCamelCaseConfig = new BooleanConfiguration(CONFIG_ID_SPLIT_CAMEL_CASE,
-                ConfigDefaults.LABEL_SPLIT_CAMEL_CASE, null, ConfigDefaults.DEFAULT_SPLIT_CAMEL_CASE);
-        stopWordsConfig = new StringConfiguration(CONFIG_ID_STOP_WORDS, ConfigDefaults.LABEL_STOP_WORDS,
-                ConfigDefaults.EXPL_STOP_WORDS, ConfigDefaults.DEFAULT_STOP_WORDS);
+        includeCommentsConfig = new BooleanConfiguration(Config.CONFIG_ID_INCLUDE_COMMENTS,
+                Config.LABEL_INCLUDE_COMMENTS, null, Config.DEFAULT_INCLUDE_COMMENTS);
+        splitCamelCaseConfig = new BooleanConfiguration(Config.CONFIG_ID_SPLIT_CAMEL_CASE,
+                Config.LABEL_SPLIT_CAMEL_CASE, null, Config.DEFAULT_SPLIT_CAMEL_CASE);
+        stopWordsConfig = new StringConfiguration(Config.CONFIG_ID_STOP_WORDS, Config.LABEL_STOP_WORDS,
+                Config.EXPL_STOP_WORDS, Config.DEFAULT_STOP_WORDS);
 
-        useSharedTermFinderConfig = new BooleanConfiguration(CONFIG_ID_USE_SHARED_TERM_FINDER,
-                ConfigDefaults.LABEL_USE_SHARED_TERM_FINDER, ConfigDefaults.EXPL_USE_SHARED_TERM_FINDER,
-                ConfigDefaults.DEFAULT_USE_SHARED_TERM_FINDER);
-
-        minSharedTermConfig = new NumericConfiguration(CONFIG_ID_SHARED_TERM_MINIMUM,
-                ConfigDefaults.LABEL_SHARED_TERM_MINIMUM, ConfigDefaults.EXPL_SHARED_TERM_MINIMUM,
-                ConfigDefaults.DEFAULT_SHARED_TERM_MINIMUM, 1, 1, -1, 0);
+        minSharedTermConfig = new NumericConfiguration(Config.CONFIG_ID_SHARED_TERM_MINIMUM,
+                Config.LABEL_SHARED_TERM_MINIMUM, Config.EXPL_SHARED_TERM_MINIMUM, Config.DEFAULT_SHARED_TERM_MINIMUM,
+                1, 1, -1, 0);
     }
 
     @Override
@@ -158,6 +131,10 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             return null;
         }
 
+        List<String> indexedTerms = getIndexedTerms();
+        String terms = Joiner.on(", ").skipNulls().join(indexedTerms);
+        logger.info("INDEXED TERMS: " + (terms.length() > 0 ? terms : "NO TERMS"));
+
         // Find relationships.
         try {
             logger.info("Analyzing...");
@@ -179,6 +156,29 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         return result;
     }
 
+    private List<String> getIndexedTerms() {
+        List<String> indexedTerms = Lists.newArrayList();
+        try {
+            DirectoryReader indexReader = indexer.getIndexReader();
+            Terms terms = SlowCompositeReaderWrapper.wrap(indexReader).terms(Indexer.INDEX_CONTENT);
+            if (terms == null) {
+                return indexedTerms;
+            }
+
+            TermsEnum termEnum = terms.iterator(null);
+            BytesRef byteRef = null;
+
+            while ((byteRef = termEnum.next()) != null) {
+                String term = new String(byteRef.bytes, byteRef.offset, byteRef.length);
+                indexedTerms.add(term);
+            }
+            indexReader.close();
+        } catch (Exception e) {
+            logger.error("Failed to dump index", e);
+        }
+        return indexedTerms;
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -187,28 +187,17 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
-        configurations.addConfigurations(CONFIG_GROUP_GENERAL, includeCommentsConfig, splitCamelCaseConfig,
+        configurations.addConfigurations(Config.CONFIG_GROUP_GENERAL, includeCommentsConfig, splitCamelCaseConfig,
                 stopWordsConfig);
-        configurations.addConfigurations(CONFIG_GROUP_SHARED_TERM_FINDER, useSharedTermFinderConfig,
-                minSharedTermConfig);
+        configurations.addConfigurations(Config.CONFIG_GROUP_SHARED_TERM_FINDER, minSharedTermConfig);
         return configurations;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.splevo.vpm.analyzer.VPMAnalyzer#getName()
-     */
     @Override
     public String getName() {
         return DISPLAYED_NAME;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.splevo.vpm.analyzer.VPMAnalyzer#getRelationshipLabel()
-     */
     @Override
     public String getRelationshipLabel() {
         return RELATIONSHIP_LABEL_SEMANTIC;
@@ -313,27 +302,19 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      *            The {@link VPMGraph} to extract the IDs of the result nodes from.
      * @return A {@link VPMAnalyzerResult} containing the search results.
      * @throws IOException
-     *             Throws an {@link IOException} when there is already an open {@link IndexWriter}.
+     *             Throws an {@link IOException} when there is already an open index writer.
      */
     private VPMAnalyzerResult findRelationships(VPMGraph graph) throws IOException {
 
         // Get the configurations
         boolean includeComments = includeCommentsConfig.getCurrentValue();
-        boolean useSharedTermFinder = useSharedTermFinderConfig.getCurrentValue();
-        int minSharedTerm = 1;
+        int minSharedTerms = 1;
         if (minSharedTermConfig.getCurrentValue() != null) {
-            minSharedTerm = minSharedTermConfig.getCurrentValue().intValue();
+            minSharedTerms = minSharedTermConfig.getCurrentValue().intValue();
         }
 
-        // Setup the configuration object.
-        RelationShipSearchConfiguration searchConfig = new RelationShipSearchConfiguration();
-        searchConfig.useComments(includeComments);
-        searchConfig.configureSharedTermFinder(useSharedTermFinder, minSharedTerm);
-
         DirectoryReader reader = Indexer.getInstance().getIndexReader();
-        int minSharedTerms = searchConfig.getMinSharedTerms();
-        boolean matchComments = searchConfig.isMatchComments();
-        SharedTermFinder finder = new SharedTermFinder(reader, matchComments, minSharedTerms);
+        SharedTermFinder finder = new SharedTermFinder(reader, includeComments, minSharedTerms);
         Table<String, String, Set<String>> sharedTermTable = finder.findSimilarEntries();
         reader.close();
 
@@ -344,7 +325,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             String id2 = cell.getColumnKey();
             Set<String> sharedTerms = cell.getValue();
 
-            if (sharedTerms.size() > minSharedTerms) {
+            if (sharedTerms.size() >= minSharedTerms) {
                 Node node1 = graph.getNode(id1);
                 Node node2 = graph.getNode(id2);
                 String subLabel = convertListToString(Lists.newArrayList(sharedTerms));

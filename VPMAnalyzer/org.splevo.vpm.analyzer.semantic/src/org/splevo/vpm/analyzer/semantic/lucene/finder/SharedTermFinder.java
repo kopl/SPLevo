@@ -175,6 +175,8 @@ public class SharedTermFinder implements RelationshipFinder {
                     id2 = idTmp;
                 }
 
+                // initialize the shared term list for the pair if not
+                // done yet
                 Set<String> set = sharedTermTable.get(id1, id2);
                 if (set == null) {
                     set = new LinkedHashSet<String>();
@@ -189,6 +191,8 @@ public class SharedTermFinder implements RelationshipFinder {
     /**
      * Determine the terms shared by the related variation points by looking up all terms included
      * in the search query AND a found document.
+     *
+     * FIXME: This does not check the terms of the provided document but reads all terms from the index again
      *
      * @param queryTerms
      *            The terms of the searched query.
