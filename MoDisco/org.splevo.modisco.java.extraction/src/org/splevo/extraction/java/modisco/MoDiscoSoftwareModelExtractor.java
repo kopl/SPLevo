@@ -25,8 +25,8 @@ import org.splevo.extraction.SoftwareModelExtractor;
  */
 public class MoDiscoSoftwareModelExtractor implements SoftwareModelExtractor {
 
-    private static final String EXTRACTOR_ID = "MoDiscoSoftwareModelExtractor";
-    private static final String EXTRACTOR_LABEL = "MoDisco Java Software Model Extractor";
+    public static final String EXTRACTOR_ID = "MoDiscoSoftwareModelExtractor";
+    public static final String EXTRACTOR_LABEL = "MoDisco Java Software Model Extractor";
     private Logger logger = Logger.getLogger(MoDiscoSoftwareModelExtractor.class);
 
     @Override
