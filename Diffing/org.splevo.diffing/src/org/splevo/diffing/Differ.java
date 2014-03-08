@@ -13,6 +13,7 @@ package org.splevo.diffing;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -72,6 +73,13 @@ public interface Differ {
      */
     Comparison doDiff(ResourceSet resourceSetLeading, ResourceSet resourceSetIntegration,
             Map<String, String> diffingOptions) throws DiffingException, DiffingNotSupportedException;
+
+    /**
+     * Get the internal ids of extractors a differ depends on.
+     *
+     * @return The list of ids.
+     */
+    Set<String> getRequiredExtractorIds();
 
     /**
      * Get the identifier of the differ. This should be unique compared to all other loaded differs

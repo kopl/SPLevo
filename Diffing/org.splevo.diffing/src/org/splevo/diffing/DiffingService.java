@@ -41,11 +41,4 @@ public interface DiffingService {
     public Comparison diffSoftwareModels(List<String> differIds, ResourceSet leadingModel,
             ResourceSet integrationModel, Map<String, String> diffingOptions) throws DiffingException;
 
-    /**
-     * Get the Map of available differs.
-     *
-     * @return The list of differs.
-     */
-    public List<Differ> getDiffers();
-
 }

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2013
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.splevo.diffing;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,14 +35,12 @@ public class Activator implements BundleActivator {
     /** The logger for this class. */
     private static Logger logger = Logger.getLogger(Activator.class);
 
-    private static List<Differ> differs = new ArrayList<Differ>();
-
     /** The context. */
     private static BundleContext context;
 
     /**
      * Gets the context.
-     * 
+     *
      * @return the context
      */
     static BundleContext getContext() {
@@ -53,13 +50,17 @@ public class Activator implements BundleActivator {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         Activator.context = bundleContext;
-        Activator.differs = loadDiffers();
+        List<Differ> differs = loadDiffers();
+        for (Differ differ : differs) {
+            DifferRegistry.registerDiffer(differ);
+        }
+
     }
 
     /**
      * Load the software model extractor implementations registered for the according extension
      * point.
-     * 
+     *
      * {@inheritDoc}
      */
     public List<Differ> loadDiffers() {
@@ -102,7 +103,7 @@ public class Activator implements BundleActivator {
 
     /**
      * Check if there are two or more differs with the same id.
-     * 
+     *
      * @param differs
      *            The differs to check.
      * @return True if the same id is used more than once. False otherwise.
@@ -123,13 +124,4 @@ public class Activator implements BundleActivator {
     public void stop(BundleContext bundleContext) throws Exception {
         Activator.context = null;
     }
-
-    /**
-     * Get the available differs.
-     * @return The list of loaded differs.
-     */
-    public static List<Differ> getDiffers() {
-        return differs;
-    }
-
 }

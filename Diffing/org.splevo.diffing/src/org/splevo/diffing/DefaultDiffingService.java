@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.splevo.diffing;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,22 +27,23 @@ public class DefaultDiffingService implements DiffingService {
     private Logger logger = Logger.getLogger(DefaultDiffingService.class);
 
     /** Regular expressions defining packages to be ignored. */
-    private static final String MSG_DIFFER_NOT_AVAILABLE = "No differs available.";
+    private static final String MSG_DIFFER_NOT_SELECTED = "No differ selected.";
 
     @Override
     public Comparison diffSoftwareModels(List<String> differIds, ResourceSet leadingModel,
             ResourceSet integrationModel, Map<String, String> diffingOptions) throws DiffingException {
 
-        List<Differ> differs = getDiffers();
-        if (differs.size() == 0) {
-            throw new DiffingException(String.format(MSG_DIFFER_NOT_AVAILABLE));
+        if (differIds.size() == 0) {
+            throw new DiffingException(String.format(MSG_DIFFER_NOT_SELECTED));
         }
 
         Comparison diffModel = CompareFactory.eINSTANCE.createComparison();
         diffModel.setThreeWay(false);
 
-        for (Differ differ : differs) {
-            if (!differIds.contains(differ.getId())) {
+        for (String differId : differIds) {
+            Differ differ = DifferRegistry.getDifferById(differId);
+            if (differ == null) {
+                logger.warn("Selected Differ not registered: " + differId);
                 continue;
             }
 
@@ -59,23 +58,5 @@ public class DefaultDiffingService implements DiffingService {
         }
 
         return diffModel;
-    }
-
-    /**
-     * Load the software model extractor implementations registered for the according extension
-     * point.
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Differ> getDiffers() {
-        List<Differ> differ = Activator.getDiffers();
-        Collections.sort(differ, new Comparator<Differ>() {
-            @Override
-            public int compare(Differ d1, Differ d2) {
-                return d1.getOrderId() - d2.getOrderId();
-            }
-        });
-        return differ;
     }
 }
