@@ -1,13 +1,20 @@
 package org.splevo.ui.workflow;
 
+import java.util.List;
+
 import org.apache.log4j.Level;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.splevo.diffing.Differ;
+import org.splevo.diffing.DifferRegistry;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.DiffingJob;
 import org.splevo.ui.jobs.ExtractionJob;
 import org.splevo.ui.jobs.RefreshWorkspaceJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
+
+import com.google.common.collect.Lists;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
@@ -42,14 +49,16 @@ public class DiffingWorkflowDelegate extends
      */
     @Override
     protected IJob createWorkflowJob(final DiffingWorkflowConfiguration config) {
-    	SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(new SPLevoBlackBoard());
 
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
 
+        List<String> requiredExtractors = getRequiredExtractors(splevoProject);
+
         // create the parallel extraction
         ParallelBlackboardInteractingJob<SPLevoBlackBoard> parallelJob = new ParallelBlackboardInteractingJob<SPLevoBlackBoard>();
-        for (String extractorId : splevoProject.getExtractorIds()) {
+        for (String extractorId : requiredExtractors) {
             ExtractionJob leadingExtractionJob = new ExtractionJob(extractorId, splevoProject, true);
             ExtractionJob integrationExtractionJob = new ExtractionJob(extractorId, splevoProject, false);
             parallelJob.add(leadingExtractionJob);
@@ -62,11 +71,23 @@ public class DiffingWorkflowDelegate extends
         jobSequence.add(new RefreshWorkspaceJob());
 
         // difference analysis
-        final DiffingJob diffingJob = new DiffingJob(config.getSplevoProjectEditor().getSplevoProject());
+        final DiffingJob diffingJob = new DiffingJob(splevoProject);
         jobSequence.add(diffingJob);
 
         // return the prepared workflow
         return jobSequence;
+    }
+
+    private List<String> getRequiredExtractors(SPLevoProject splevoProject) {
+        List<String> requiredExtractors = Lists.newArrayList();
+        EList<String> differIds = splevoProject.getDifferIds();
+        for (String differId : differIds) {
+            Differ differ = DifferRegistry.getDifferById(differId);
+            if (differ != null) {
+                requiredExtractors.addAll(differ.getRequiredExtractorIds());
+            }
+        }
+        return requiredExtractors;
     }
 
     @Override

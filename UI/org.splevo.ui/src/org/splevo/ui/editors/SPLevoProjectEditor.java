@@ -55,8 +55,8 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.splevo.diffing.DefaultDiffingService;
 import org.splevo.diffing.Differ;
+import org.splevo.diffing.DifferRegistry;
 import org.splevo.extraction.DefaultExtractionService;
 import org.splevo.extraction.ExtractionService;
 import org.splevo.extraction.SoftwareModelExtractor;
@@ -370,8 +370,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
         List<Button> differCheckBoxes = new LinkedList<Button>();
 
-        DefaultDiffingService diffingService = new DefaultDiffingService();
-        List<Differ> availableDiffers = diffingService.getDiffers();
+        List<Differ> availableDiffers = DifferRegistry.getDiffer();
 
         int singleHeight = 20;
         int multipleHeight = 100;
