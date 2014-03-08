@@ -84,17 +84,17 @@ public class SharedTermFinder implements RelationshipFinder {
 
             // Iterate over all documents (VariationPoints).
             for (int i = 0; i < reader.maxDoc(); i++) {
-                Document doc = indexSearcher.doc(i);
+                Document referenceDoc = indexSearcher.doc(i);
 
-                if (doc.getField(Indexer.INDEX_CONTENT) != null) {
+                if (referenceDoc.getField(Indexer.INDEX_CONTENT) != null) {
                     Table<String, String, Set<String>> sharedTerms = buildQueryAndExecuteSearch(indexSearcher,
-                            Indexer.INDEX_CONTENT, i, doc);
+                            Indexer.INDEX_CONTENT, i, referenceDoc);
                     sharedTermTable.putAll(sharedTerms);
                 }
 
-                if (matchComments && doc.getField(Indexer.INDEX_COMMENT) != null) {
+                if (matchComments && referenceDoc.getField(Indexer.INDEX_COMMENT) != null) {
                     Table<String, String, Set<String>> sharedTerms = buildQueryAndExecuteSearch(indexSearcher,
-                            Indexer.INDEX_COMMENT, i, doc);
+                            Indexer.INDEX_COMMENT, i, referenceDoc);
                     sharedTermTable.putAll(sharedTerms);
                 }
             }
@@ -115,20 +115,20 @@ public class SharedTermFinder implements RelationshipFinder {
      *            The field to search on.
      * @param docID
      *            The current document's ID.
-     * @param doc
+     * @param referenceDoc
      *            The current document.
      * @throws IOException
      *             Thrown if there were problems during search.
      */
     private Table<String, String, Set<String>> buildQueryAndExecuteSearch(IndexSearcher indexSearcher, String field,
-            int docID, Document doc) throws IOException {
+            int docID, Document referenceDoc) throws IOException {
         Map<String, Integer> frequencies = getTermFrequencies(docID, field);
         Query query = buildQuery(field, frequencies);
         int maxDoc = reader.maxDoc();
         ScoreDoc[] hits = executeQuery(indexSearcher, maxDoc, query);
-        Set<Term> queryTerms = new HashSet<Term>();
-        query.extractTerms(queryTerms);
-        return buildSharedTermTable(indexSearcher, hits, doc, queryTerms);
+        Set<Term> referenceDocTerms = new HashSet<Term>();
+        query.extractTerms(referenceDocTerms);
+        return buildSharedTermTable(indexSearcher, hits, referenceDoc, referenceDocTerms);
     }
 
     /**
@@ -145,14 +145,14 @@ public class SharedTermFinder implements RelationshipFinder {
      *            The number of hits for the document.
      * @param referenceDoc
      *            The document itself.
-     * @param queryTerms
+     * @param referenceDocTerms
      *            The terms to query for.
      * @return The table of identified term-sharing variation points.
      * @throws IOException
      *             Any error while working with the search engine index.
      */
     private Table<String, String, Set<String>> buildSharedTermTable(IndexSearcher indexSearcher, ScoreDoc[] hits,
-            Document referenceDoc, Set<Term> queryTerms) throws IOException {
+            Document referenceDoc, Set<Term> referenceDocTerms) throws IOException {
         Table<String, String, Set<String>> sharedTermTable = HashBasedTable.create();
         for (int q = 0; q < hits.length; q++) {
 
@@ -164,7 +164,7 @@ public class SharedTermFinder implements RelationshipFinder {
                 continue;
             }
 
-            Set<String> sharedTerms = determineSharedTerms(queryTerms, foundDoc);
+            Set<String> sharedTerms = determineSharedTerms(referenceDocTerms, foundDoc, hits[q].doc);
 
             // minShared terms is not check here because further
             // shared terms might be collected before this is evaluated.
@@ -192,24 +192,29 @@ public class SharedTermFinder implements RelationshipFinder {
      * Determine the terms shared by the related variation points by looking up all terms included
      * in the search query AND a found document.
      *
-     * FIXME: This does not check the terms of the provided document but reads all terms from the index again
+     * FIXME: This does not check the terms of the provided document but reads all terms from the
+     * index again
      *
-     * @param queryTerms
-     *            The terms of the searched query.
-     * @param document
+     * @param referenceDocTerms
+     *            The terms of the reference doc and used in the search query.
+     * @param foundDoc
      *            A specific document found by the query.
+     * @param foundDocId
+     *            The id of the document found to get it's index terms.
+     *
      * @return The {@link Set} of terms shared between the query and the document.
      * @throws IOException
      */
-    private Set<String> determineSharedTerms(Set<Term> queryTerms, Document document) throws IOException {
+    private Set<String> determineSharedTerms(Set<Term> referenceDocTerms, Document foundDoc, int foundDocId)
+            throws IOException {
         Set<String> sharedTerms = new TreeSet<String>();
-        Terms termVector = reader.getTermVector(0, Indexer.INDEX_CONTENT);
+        Terms termVector = reader.getTermVector(foundDocId, Indexer.INDEX_CONTENT);
         TermsEnum termsEnum = null;
         TermsEnum iterator = termVector.iterator(termsEnum);
         BytesRef br = null;
         while ((br = iterator.next()) != null) {
             String term = br.utf8ToString();
-            for (Term t : queryTerms) {
+            for (Term t : referenceDocTerms) {
                 if (t.text().equals(term)) {
                     sharedTerms.add(term);
                 }
