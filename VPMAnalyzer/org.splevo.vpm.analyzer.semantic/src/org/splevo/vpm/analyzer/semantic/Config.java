@@ -89,8 +89,7 @@ public final class Config {
             + "Put in words separated by whitespace.";
 
     /** The stop-word list for the analyzers. */
-    public static final String DEFAULT_STOP_WORDS = "get set new case remove class type "
-            + "create arg default configure clear value misc fig panel list element label the";
+    public static final String DEFAULT_STOP_WORDS = "get set is";
 
     // --------------------------
     // Shared Term Minimum
