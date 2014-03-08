@@ -36,7 +36,7 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
 
-        logger.info("Build initival vpm model");
+        logger.info("Generate Feature Model");
         VariationPointModel vpm = getBlackboard().getVariationPointModel();
         if (vpm == null) {
             throw new JobFailedException("No variation point model available in the blackboard.");
