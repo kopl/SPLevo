@@ -1,5 +1,14 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.project.provider;
 
 import java.util.Collection;
@@ -66,7 +75,6 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
             addDiffingModelPathPropertyDescriptor(object);
             addVpmModelPathsPropertyDescriptor(object);
             addDiffingFilterRulesPropertyDescriptor(object);
-            addExtractorIdsPropertyDescriptor(object);
             addDifferIdsPropertyDescriptor(object);
             addDifferOptionsPropertyDescriptor(object);
         }
@@ -338,28 +346,6 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
     }
 
 	/**
-     * This adds a property descriptor for the Extractor Ids feature.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	protected void addExtractorIdsPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_SPLevoProject_extractorIds_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_SPLevoProject_extractorIds_feature", "_UI_SPLevoProject_type"),
-                 ProjectPackage.Literals.SP_LEVO_PROJECT__EXTRACTOR_IDS,
-                 true,
-                 false,
-                 false,
-                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-                 null,
-                 null));
-    }
-
-	/**
      * This adds a property descriptor for the Differ Ids feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -452,7 +438,6 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
             case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
-            case ProjectPackage.SP_LEVO_PROJECT__EXTRACTOR_IDS:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

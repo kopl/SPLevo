@@ -1,5 +1,14 @@
-/**
- */
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.splevo.project.provider;
 
 import java.util.ArrayList;
@@ -212,7 +221,7 @@ public class ProjectItemProviderAdapterFactory extends ProjectAdapterFactory
     }
 
 	/**
-     * This disposes all of the item providers created by this factory. 
+     * This disposes all of the item providers created by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
