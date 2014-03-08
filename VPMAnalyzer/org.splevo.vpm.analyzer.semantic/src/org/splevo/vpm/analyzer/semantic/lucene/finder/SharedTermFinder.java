@@ -143,7 +143,7 @@ public class SharedTermFinder implements RelationshipFinder {
      *            The index searcher to access the Lucene search index.
      * @param hits
      *            The number of hits for the document.
-     * @param doc
+     * @param referenceDoc
      *            The document itself.
      * @param queryTerms
      *            The terms to query for.
@@ -152,37 +152,37 @@ public class SharedTermFinder implements RelationshipFinder {
      *             Any error while working with the search engine index.
      */
     private Table<String, String, Set<String>> buildSharedTermTable(IndexSearcher indexSearcher, ScoreDoc[] hits,
-            Document doc, Set<Term> queryTerms) throws IOException {
+            Document referenceDoc, Set<Term> queryTerms) throws IOException {
         Table<String, String, Set<String>> sharedTermTable = HashBasedTable.create();
         for (int q = 0; q < hits.length; q++) {
 
-            String id1 = doc.get(Indexer.INDEX_VARIATIONPOINT);
-            Document document = indexSearcher.doc(hits[q].doc);
-            String id2 = document.get(Indexer.INDEX_VARIATIONPOINT);
+            String referenceDocId = referenceDoc.get(Indexer.INDEX_VARIATIONPOINT);
+            Document foundDoc = indexSearcher.doc(hits[q].doc);
+            String foundDocId = foundDoc.get(Indexer.INDEX_VARIATIONPOINT);
 
-            if (id1.equals(id2)) {
+            if (referenceDocId.equals(foundDocId)) {
                 continue;
             }
 
-            Set<String> sharedTerms = determineSharedTerms(queryTerms, document);
+            Set<String> sharedTerms = determineSharedTerms(queryTerms, foundDoc);
 
             // minShared terms is not check here because further
             // shared terms might be collected before this is evaluated.
             if (sharedTerms.size() > 0) {
-                if (id1.compareTo(id2) > 0) {
-                    String idTmp = id1;
-                    id1 = id2;
-                    id2 = idTmp;
+                if (referenceDocId.compareTo(foundDocId) > 0) {
+                    String idTmp = referenceDocId;
+                    referenceDocId = foundDocId;
+                    foundDocId = idTmp;
                 }
 
                 // initialize the shared term list for the pair if not
                 // done yet
-                Set<String> set = sharedTermTable.get(id1, id2);
+                Set<String> set = sharedTermTable.get(referenceDocId, foundDocId);
                 if (set == null) {
                     set = new LinkedHashSet<String>();
                 }
                 set.addAll(sharedTerms);
-                sharedTermTable.put(id1, id2, sharedTerms);
+                sharedTermTable.put(referenceDocId, foundDocId, sharedTerms);
             }
         }
         return sharedTermTable;

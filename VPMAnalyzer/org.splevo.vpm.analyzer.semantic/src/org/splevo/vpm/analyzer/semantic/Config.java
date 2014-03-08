@@ -43,6 +43,22 @@ public final class Config {
     public static final boolean DEFAULT_INCLUDE_COMMENTS = false;
 
     // --------------------------
+    // Log Indexed Terms
+    // --------------------------
+
+    /** Identifier for the configuration to log all indexed terms during analysis. */
+    public static final String CONFIG_ID_LOG_INDEXED_TERMS = CONFIG_ID_BASE + "LOG_INDEXED_TERMS";
+
+    /** The configuration label for the log indexed terms configuration. */
+    public static final String LABEL_LOG_INDEXED_TERMS = "Log indexed terms";
+
+    /** The explanation for the log indexed terms configuration. */
+    public static final String EXPL_LOG_INDEXED_TERMS = "Dump all indexed terms to the log file (info level).";
+
+    /** The default configuration for the log indexed terms configuration. */
+    public static final boolean DEFAULT_LOG_INDEXED_TERMS = true;
+
+    // --------------------------
     // Camel Case
     // --------------------------
 

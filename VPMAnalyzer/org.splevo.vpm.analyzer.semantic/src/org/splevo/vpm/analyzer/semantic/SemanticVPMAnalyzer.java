@@ -76,87 +76,79 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     private Logger logger = Logger.getLogger(SemanticVPMAnalyzer.class);
 
     /** The indexer instance. */
-    private Indexer indexer;
+    private Indexer indexer = Indexer.getInstance();
 
     /** The configuration-object for the include comments configuration. */
-    private BooleanConfiguration includeCommentsConfig;
+    private BooleanConfiguration includeCommentsConfig = new BooleanConfiguration(Config.CONFIG_ID_INCLUDE_COMMENTS,
+            Config.LABEL_INCLUDE_COMMENTS, null, Config.DEFAULT_INCLUDE_COMMENTS);
 
     /** The configuration-object for the split on case change configuration. */
-    private BooleanConfiguration splitCamelCaseConfig;
+    private BooleanConfiguration splitCamelCaseConfig = new BooleanConfiguration(Config.CONFIG_ID_SPLIT_CAMEL_CASE,
+            Config.LABEL_SPLIT_CAMEL_CASE, null, Config.DEFAULT_SPLIT_CAMEL_CASE);
 
     /** The configuration-object for the stop words configuration. */
-    private StringConfiguration stopWordsConfig;
+    private StringConfiguration stopWordsConfig = new StringConfiguration(Config.CONFIG_ID_STOP_WORDS,
+            Config.LABEL_STOP_WORDS, Config.EXPL_STOP_WORDS, Config.DEFAULT_STOP_WORDS);
 
     /** The configuration-object for the minimum number of shared terms configuration. */
-    private NumericConfiguration minSharedTermConfig;
+    private NumericConfiguration minSharedTermConfig = new NumericConfiguration(Config.CONFIG_ID_SHARED_TERM_MINIMUM,
+            Config.LABEL_SHARED_TERM_MINIMUM, Config.EXPL_SHARED_TERM_MINIMUM, Config.DEFAULT_SHARED_TERM_MINIMUM, 1,
+            1, -1, 0);
 
-    /**
-     * The default constructor for this class.
-     */
-    public SemanticVPMAnalyzer() {
-        indexer = Indexer.getInstance();
-
-        includeCommentsConfig = new BooleanConfiguration(Config.CONFIG_ID_INCLUDE_COMMENTS,
-                Config.LABEL_INCLUDE_COMMENTS, null, Config.DEFAULT_INCLUDE_COMMENTS);
-        splitCamelCaseConfig = new BooleanConfiguration(Config.CONFIG_ID_SPLIT_CAMEL_CASE,
-                Config.LABEL_SPLIT_CAMEL_CASE, null, Config.DEFAULT_SPLIT_CAMEL_CASE);
-        stopWordsConfig = new StringConfiguration(Config.CONFIG_ID_STOP_WORDS, Config.LABEL_STOP_WORDS,
-                Config.EXPL_STOP_WORDS, Config.DEFAULT_STOP_WORDS);
-
-        minSharedTermConfig = new NumericConfiguration(Config.CONFIG_ID_SHARED_TERM_MINIMUM,
-                Config.LABEL_SHARED_TERM_MINIMUM, Config.EXPL_SHARED_TERM_MINIMUM, Config.DEFAULT_SHARED_TERM_MINIMUM,
-                1, 1, -1, 0);
-    }
+    /** The configuration-object for the log indexed terms configuration. */
+    private BooleanConfiguration logIndexedTermsConfig = new BooleanConfiguration(Config.CONFIG_ID_LOG_INDEXED_TERMS,
+            Config.LABEL_LOG_INDEXED_TERMS, null, Config.DEFAULT_LOG_INDEXED_TERMS);
 
     @Override
     public VPMAnalyzerResult analyze(VPMGraph vpmGraph) {
         if (vpmGraph == null) {
             throw new IllegalArgumentException();
         }
-
-        VPMAnalyzerResult result = null;
-
         if (vpmGraph.getNodeCount() == 0) {
             logger.info("Got empty VPM Graph. No analysis executed.");
-            return result;
+            return null;
         }
 
         // Fill the index.
         try {
-            logger.info("Filling index...");
             fillIndex(vpmGraph);
-            logger.info("Indexing done.");
         } catch (Exception e) {
             logger.error("Cannot write Index. Close all open IndexWriters first.", e);
             return null;
         }
 
-        List<String> indexedTerms = getIndexedTerms();
-        String terms = Joiner.on(", ").skipNulls().join(indexedTerms);
-        logger.info("INDEXED TERMS: " + (terms.length() > 0 ? terms : "NO TERMS"));
-
-        // Find relationships.
-        try {
-            logger.info("Analyzing...");
-            result = findRelationships(vpmGraph);
-            logger.info("Analysis done.");
-        } catch (IOException e) {
-            logger.error("Cannot read Index. Close all open IndexWriters first.", e);
-            return null;
+        if (logIndexedTermsConfig.getCurrentValue()) {
+            logIndexedTerms();
         }
 
-        // CLEAN-UP.
+        // Find relationships.
+        VPMAnalyzerResult result = null;
         try {
-            Indexer.getInstance().clearIndex();
-            logger.info("Clean-Up done.");
+            result = findRelationships(vpmGraph);
         } catch (IOException e) {
-            logger.error("Failure while trying to empty main index.", e);
+            logger.error("Cannot read Index. Close all open IndexWriters first.", e);
+        } finally {
+            cleanUp();
         }
 
         return result;
     }
 
-    private List<String> getIndexedTerms() {
+    private void logIndexedTerms() {
+        List<String> indexedTerms = getTermsFromIndex();
+        String terms = Joiner.on(", ").skipNulls().join(indexedTerms);
+        logger.info("INDEXED TERMS: " + (terms.length() > 0 ? terms : "NO TERMS"));
+    }
+
+    private void cleanUp() {
+        try {
+            Indexer.getInstance().clearIndex();
+        } catch (IOException e) {
+            logger.error("Failure while trying to empty main index.", e);
+        }
+    }
+
+    private List<String> getTermsFromIndex() {
         List<String> indexedTerms = Lists.newArrayList();
         try {
             DirectoryReader indexReader = indexer.getIndexReader();
@@ -189,7 +181,8 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
         configurations.addConfigurations(Config.CONFIG_GROUP_GENERAL, includeCommentsConfig, splitCamelCaseConfig,
                 stopWordsConfig);
-        configurations.addConfigurations(Config.CONFIG_GROUP_SHARED_TERM_FINDER, minSharedTermConfig);
+        configurations.addConfigurations(Config.CONFIG_GROUP_SHARED_TERM_FINDER, minSharedTermConfig,
+                logIndexedTermsConfig);
         return configurations;
     }
 
