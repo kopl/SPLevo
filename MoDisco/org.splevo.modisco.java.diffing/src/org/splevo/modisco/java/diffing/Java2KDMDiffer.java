@@ -1,8 +1,10 @@
 package org.splevo.modisco.java.diffing;
 
 import java.net.URI;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
@@ -31,6 +33,7 @@ import org.splevo.diffing.DiffingNotSupportedException;
 import org.splevo.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
 import org.splevo.diffing.match.HierarchicalMatchEngine.IgnoreStrategy;
 import org.splevo.diffing.match.HierarchicalMatchEngineFactory;
+import org.splevo.extraction.java.modisco.MoDiscoSoftwareModelExtractor;
 import org.splevo.modisco.java.diffing.diff.MoDiscoJavaDiffBuilder;
 import org.splevo.modisco.java.diffing.diff.MoDiscoJavaFeatureFilter;
 import org.splevo.modisco.java.diffing.java2kdmdiff.Java2KDMDiffPackage;
@@ -257,6 +260,13 @@ public class Java2KDMDiffer implements Differ {
     @Override
     public int getOrderId() {
         return 10;
+    }
+
+    @Override
+    public Set<String> getRequiredExtractorIds() {
+        LinkedHashSet<String> ids = new LinkedHashSet<String>();
+        ids.add(MoDiscoSoftwareModelExtractor.EXTRACTOR_ID);
+        return ids;
     }
 
 }
