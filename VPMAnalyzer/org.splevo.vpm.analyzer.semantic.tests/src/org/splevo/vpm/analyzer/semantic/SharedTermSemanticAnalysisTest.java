@@ -32,7 +32,9 @@ import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProvider;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProviderRegistry;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.UnsupportedSoftwareElementException;
 import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.variabilityFactory;
 
 import com.google.common.collect.Lists;
 
@@ -139,7 +141,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
         List<Node> nodeList = Lists.newArrayList();
         VPMGraph vpmGraph = mock(VPMGraph.class);
         for (String nodeId : nodeIds) {
-            Node node = mockGraphNodeWithVP(nodeId, vpmGraph);
+            Node node = mockGraphNodeWithVP(nodeId, vpmGraph, Lists.newArrayList("NewVariant"));
             nodeList.add(node);
         }
         when(vpmGraph.getNodeCount()).thenReturn(nodeList.size());
@@ -161,7 +163,8 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
     }
 
     /**
-     * Mock a graph node with a variation point.
+     * Mock a graph node with a variation point. The variation point contains as much variants as
+     * specified in the provided variant id list. The first one will be marked as leading.
      *
      * @param nodeId
      *            The id of the node.
@@ -169,9 +172,21 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
      *            The graph to mock an getNode() call to.
      * @return
      */
-    private Node mockGraphNodeWithVP(String nodeId, VPMGraph vpmGraph) {
-        VariationPoint vp = mock(VariationPoint.class);
-        when(vp.getEnclosingSoftwareEntity()).thenReturn(mock(SoftwareElement.class));
+    private Node mockGraphNodeWithVP(String nodeId, VPMGraph vpmGraph, List<String> variantIds) {
+
+        VariationPoint vp = variabilityFactory.eINSTANCE.createVariationPoint();
+        vp.setEnclosingSoftwareEntity(mock(SoftwareElement.class));
+
+        for (String id : variantIds) {
+            Variant v = variabilityFactory.eINSTANCE.createVariant();
+            v.setVariantId(id);
+            v.getSoftwareEntities().add(mock(SoftwareElement.class));
+            if (vp.getVariants().size() == 0) {
+                v.setLeading(true);
+            }
+            vp.getVariants().add(v);
+        }
+
         Node node = mock(Node.class);
         when(node.getId()).thenReturn(nodeId);
         when(node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class)).thenReturn(vp);
