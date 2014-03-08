@@ -23,8 +23,8 @@ public class DiffingWorkflowConfiguration extends
 
 		SPLevoProject splevoProject = getSplevoProjectEditor()
 				.getSplevoProject();
-		if (splevoProject.getExtractorIds().size() < 1) {
-			return "No software model extractor configured.";
+		if (splevoProject.getDifferIds().size() < 1) {
+			return "No differ configured.";
 		}
 
 		return null;

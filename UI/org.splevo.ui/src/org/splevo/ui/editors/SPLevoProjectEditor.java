@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -57,13 +56,9 @@ import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.diffing.Differ;
 import org.splevo.diffing.DifferRegistry;
-import org.splevo.extraction.DefaultExtractionService;
-import org.splevo.extraction.ExtractionService;
-import org.splevo.extraction.SoftwareModelExtractor;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
 import org.splevo.ui.editors.listener.DifferCheckBoxListener;
-import org.splevo.ui.editors.listener.ExtractorCheckBoxListener;
 import org.splevo.ui.editors.listener.GotoTabMouseListener;
 import org.splevo.ui.editors.listener.MarkDirtyListener;
 import org.splevo.ui.editors.listener.ProjectDropListener;
@@ -100,11 +95,8 @@ public class SPLevoProjectEditor extends EditorPart {
     /** The internal index of the project selection tab. */
     private static final int TABINDEX_PROJECT_SELECTION = 2;
 
-    /** The internal index of the source model tab. */
-    private static final int TABINDEX_SOURCE_MODELS = 3;
-
     /** The internal index of the diffing model tab. */
-    private static final int TABINDEX_DIFFING = 4;
+    private static final int TABINDEX_DIFFING = 3;
 
     /** The splevo project manipulated in the editor instance. */
     private SPLevoProject splevoProject = null;
@@ -154,14 +146,6 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /** The text input for the name of the variant to be integrated. */
     private Text inputVariantNameIntegration;
-
-    /** The text input for the path to the model of the leading variant. */
-    private Text sourceModelLeadingInput;
-
-    /**
-     * The text input for the path to the model of the variant to be integrated.
-     */
-    private Text sourceModelIntegrationInput;
 
     /** The text input for the path to the diffing model. */
     private Text diffingModelInput;
@@ -216,110 +200,12 @@ public class SPLevoProjectEditor extends EditorPart {
         createProcessControlTab(TABINDEX_PROCESS_CONTROL);
         createProjectInfoTab(TABINDEX_PROJECT_INFOS);
         createProjectSelectionTab(TABINDEX_PROJECT_SELECTION);
-        createSourceModelTab(TABINDEX_SOURCE_MODELS);
         createDiffingTab(TABINDEX_DIFFING);
 
         initDataBindings();
 
         enableButtonsIfInformationAvailable();
 
-    }
-
-    /**
-     * Create the tab to handle the source models.
-     *
-     * @param tabIndex
-     *            The index of the tab within the parent tab folder.
-     */
-    private void createSourceModelTab(int tabIndex) {
-
-        TabItem tabItemSourceModel = new TabItem(tabFolder, SWT.NONE, tabIndex);
-        tabItemSourceModel.setText("Extraction");
-
-        Composite sourceModelTabComposite = new Composite(tabFolder, SWT.NONE);
-        tabItemSourceModel.setControl(sourceModelTabComposite);
-        sourceModelTabComposite.setLayout(null);
-
-        Label lblTheSoftwareModels = new Label(sourceModelTabComposite, SWT.NONE);
-        lblTheSoftwareModels.setBounds(10, 10, 490, 20);
-        lblTheSoftwareModels.setText("Software model extraction configuration and infos.");
-
-        Group groupExtractors = buildExtractorSelectionGroup(sourceModelTabComposite);
-
-        int verticalBase = groupExtractors.getBounds().y + groupExtractors.getBounds().height;
-        buildSourceModelPathGroup(sourceModelTabComposite, verticalBase);
-    }
-
-    /**
-     * Build a ui group containing information of the currently used source model paths.
-     *
-     * @param parent
-     *            The container UI element.
-     * @param verticalBase
-     *            The vertical base offset to place the group.
-     */
-    private void buildSourceModelPathGroup(Composite parent, int verticalBase) {
-        Group grpExtractedSourceModels = new Group(parent, SWT.NONE);
-        grpExtractedSourceModels.setText("Extracted Source Models");
-        grpExtractedSourceModels.setBounds(10, verticalBase + 10, 490, 160);
-
-        Label lblLeadingProjectModel = new Label(grpExtractedSourceModels, SWT.NONE);
-        lblLeadingProjectModel.setBounds(10, 31, 191, 20);
-        lblLeadingProjectModel.setText("Leading Source Model:");
-
-        sourceModelLeadingInput = new Text(grpExtractedSourceModels, SWT.BORDER);
-        sourceModelLeadingInput.setBounds(10, 51, 464, 26);
-
-        Label lblsourceModelIntegration = new Label(grpExtractedSourceModels, SWT.NONE);
-        lblsourceModelIntegration.setBounds(10, 91, 191, 20);
-        lblsourceModelIntegration.setText("Integration Source Model:");
-
-        sourceModelIntegrationInput = new Text(grpExtractedSourceModels, SWT.BORDER);
-        sourceModelIntegrationInput.setBounds(10, 111, 464, 26);
-    }
-
-    /**
-     * Build a ui group presenting check boxes to (de-)activate the extractors to executed or not.
-     *
-     * @param sourceModelTabComposite
-     *            The parent ui element to place on.
-     *
-     * @return The newly created group.
-     */
-    private Group buildExtractorSelectionGroup(Composite sourceModelTabComposite) {
-
-        Group groupExtractors = new Group(sourceModelTabComposite, SWT.FILL);
-        groupExtractors.setText("Extractors");
-
-        List<Button> extractorCheckBoxes = new LinkedList<Button>();
-
-        ExtractionService extractionService = new DefaultExtractionService();
-        Map<String, SoftwareModelExtractor> availableExtractors = extractionService.getSoftwareModelExtractors();
-
-        int yBase = 25;
-        int index = 0;
-        int offset = 25;
-
-        for (String key : availableExtractors.keySet()) {
-
-            SoftwareModelExtractor extractor = availableExtractors.get(key);
-
-            Button btnExtracor = new Button(groupExtractors, SWT.CHECK);
-            btnExtracor.addSelectionListener(new ExtractorCheckBoxListener(btnExtracor, extractor.getId(), this));
-            int yPositionCurrent = yBase + (index * offset);
-            btnExtracor.setBounds(10, yPositionCurrent, 450, 20);
-            btnExtracor.setText(extractor.getLabel());
-            extractorCheckBoxes.add(btnExtracor);
-
-            boolean selected = splevoProject.getExtractorIds().contains(extractor.getId());
-            btnExtracor.setSelection(selected);
-
-            index++;
-        }
-
-        groupExtractors.setBounds(10, 49, 490, yBase + (index * offset) + 5);
-
-        return groupExtractors;
     }
 
     /**
@@ -829,14 +715,6 @@ public class SPLevoProjectEditor extends EditorPart {
      */
     public void updateUI() {
 
-        if (splevoProject.getSourceModelPathLeading() != null) {
-            sourceModelLeadingInput.setText(splevoProject.getSourceModelPathLeading());
-        }
-
-        if (splevoProject.getSourceModelPathIntegration() != null) {
-            sourceModelIntegrationInput.setText(splevoProject.getSourceModelPathIntegration());
-        }
-
         if (splevoProject.getDiffingModelPath() != null) {
             diffingModelInput.setText(splevoProject.getDiffingModelPath());
         }
@@ -982,23 +860,7 @@ public class SPLevoProjectEditor extends EditorPart {
         variantNameIntegrationGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
         bindingContext.bindValue(observeTextInputVariantNameIntegrationObserveWidget,
                 variantNameIntegrationGetSplevoProjectObserveValue, null, null);
-        //
-        IObservableValue observeTextSourceModelLeadingObserveWidget = WidgetProperties.text(SWT.Modify).observe(
-                sourceModelLeadingInput);
-        IObservableValue sourceModelPathLeadingGetSplevoProjectObserveValue = PojoProperties.value(
-                "sourceModelPathLeading").observe(splevoProject);
-        sourceModelPathLeadingGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
-        bindingContext.bindValue(observeTextSourceModelLeadingObserveWidget,
-                sourceModelPathLeadingGetSplevoProjectObserveValue, null, null);
-        //
-        IObservableValue observeTextSourceModelIntegrationObserveWidget = WidgetProperties.text(SWT.Modify).observe(
-                sourceModelIntegrationInput);
-        IObservableValue sourceModelPathIntegrationGetSplevoProjectObserveValue = PojoProperties.value(
-                "sourceModelPathIntegration").observe(splevoProject);
-        sourceModelPathIntegrationGetSplevoProjectObserveValue.addChangeListener(markDirtyListener);
-        bindingContext.bindValue(observeTextSourceModelIntegrationObserveWidget,
-                sourceModelPathIntegrationGetSplevoProjectObserveValue, null, null);
-        //
+
         IObservableValue observeTextDiffingModelInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(
                 diffingModelInput);
         IObservableValue diffingModelPathSplevoProjectObserveValue = PojoProperties.value("diffingModelPath").observe(

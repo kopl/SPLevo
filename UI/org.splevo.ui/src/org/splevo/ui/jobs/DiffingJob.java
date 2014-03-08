@@ -83,7 +83,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         try {
             // TODO Do not save a technology specific diff model.
             String targetPath = null;
-            if (splevoProject.getExtractorIds().contains("JaMoPPSoftwareModelExtractor")) {
+            if (splevoProject.getDifferIds().contains("org.splevo.jamopp.differ")) {
                 targetPath = "models/diffmodel/diffModel.jamoppdiff";
             } else {
                 targetPath = "models/diffmodel/diffModel.java2kdmdiff";
