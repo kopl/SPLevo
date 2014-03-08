@@ -14,7 +14,6 @@ package org.splevo.vpm.analyzer.semantic;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +39,7 @@ import org.splevo.vpm.analyzer.semantic.extensionpoint.UnsupportedSoftwareElemen
 import org.splevo.vpm.analyzer.semantic.lucene.Indexer;
 import org.splevo.vpm.analyzer.semantic.lucene.finder.SharedTermFinder;
 import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 import com.google.common.base.Joiner;
@@ -67,7 +67,7 @@ import com.google.common.collect.Table.Cell;
 public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /** The relationship label of the analyzer. */
-    public static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
+    private static final String RELATIONSHIP_LABEL_SEMANTIC = "Semantic";
 
     /** The displayed name of the analyzer. */
     private static final String DISPLAYED_NAME = "Semantic VPM Analyzer";
@@ -245,27 +245,17 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             throw new IllegalArgumentException();
         }
 
-        SoftwareElement softwareElement = vp.getEnclosingSoftwareEntity();
-        if (softwareElement == null) {
-            throw new IllegalStateException();
-        }
+        List<String> codeTerms = Lists.newLinkedList();
+        List<String> comments = Lists.newLinkedList();
 
-        List<String> code = new LinkedList<String>();
-        List<String> comments = new LinkedList<String>();
-        List<SemanticContentProvider> semanticContentProviders = SemanticContentProviderRegistry.getContentProviders();
-        for (SemanticContentProvider semanticContentProvider : semanticContentProviders) {
-            SemanticContent relevantContent;
-            try {
-                relevantContent = semanticContentProvider.getRelevantContent(softwareElement, matchComments);
-            } catch (UnsupportedSoftwareElementException e) {
-                continue;
+        for (Variant variant : vp.getVariants()) {
+            for (SoftwareElement softwareElement : variant.getSoftwareEntities()) {
+                loadTermsForSoftwareElement(matchComments, softwareElement, codeTerms, comments);
             }
-            code.addAll(relevantContent.getCode());
-            comments.addAll(relevantContent.getComments());
         }
 
         // Get content and comment from switch.
-        String codeString = convertListToString(code);
+        String codeString = convertListToString(codeTerms);
         String commentString = convertListToString(comments);
 
         // Add to index.
@@ -275,6 +265,34 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             logger.error("Failure while adding node to index.", e);
         }
 
+    }
+
+    /**
+     * Get the semantic relevant terms for a software element from the registered semantic content
+     * providers and store them in the code respectively comment lists.
+     *
+     * @param matchComments
+     *            The flag if comments should be considered.
+     * @param softwareElement
+     *            The software element to get the terms for.
+     * @param codeTerms
+     *            The list to store code terms in.
+     * @param commentTerms
+     *            The list to store comment terms in. Nothing added if comments not considered.
+     */
+    private void loadTermsForSoftwareElement(boolean matchComments, SoftwareElement softwareElement,
+            List<String> codeTerms, List<String> commentTerms) {
+        List<SemanticContentProvider> semanticContentProviders = SemanticContentProviderRegistry.getContentProviders();
+        for (SemanticContentProvider semanticContentProvider : semanticContentProviders) {
+            SemanticContent relevantContent;
+            try {
+                relevantContent = semanticContentProvider.getRelevantContent(softwareElement, matchComments);
+            } catch (UnsupportedSoftwareElementException e) {
+                continue;
+            }
+            codeTerms.addAll(relevantContent.getCode());
+            commentTerms.addAll(relevantContent.getComments());
+        }
     }
 
     /**

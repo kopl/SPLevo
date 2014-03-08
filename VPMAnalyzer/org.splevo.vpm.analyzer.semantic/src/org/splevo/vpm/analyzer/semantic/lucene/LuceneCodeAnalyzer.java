@@ -23,7 +23,6 @@ import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.miscellaneous.LengthFilter;
-import org.apache.lucene.analysis.miscellaneous.WordDelimiterFilter;
 import org.apache.lucene.analysis.miscellaneous.WordDelimiterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
@@ -66,14 +65,14 @@ public class LuceneCodeAnalyzer extends Analyzer {
 	    args.put("catenateNumbers", "0");
 	    args.put("catenateAll", "0");
 	    args.put("splitOnCaseChange", splitCamelCase ? "1" : "0");
-	    WordDelimiterFilter wordDelimiterFilter = new WordDelimiterFilterFactory(args).create(source);
+	    TokenStream currentStream = new WordDelimiterFilterFactory(args).create(source);
 
-	    TokenStream lowerFilter = new LowerCaseFilter(Version.LUCENE_43, wordDelimiterFilter);
-	    TokenStream lengthFilter = new LengthFilter(true, lowerFilter, 3, Integer.MAX_VALUE);
-        TokenStream stopFilter = new StopFilter(Version.LUCENE_43, lengthFilter, stopWords);
-	    TokenStream standardFilter = new StandardFilter(Version.LUCENE_43, stopFilter);
+	    currentStream = new LowerCaseFilter(Version.LUCENE_43, currentStream);
+	    currentStream = new LengthFilter(true, currentStream, 3, Integer.MAX_VALUE);
+	    currentStream = new StopFilter(Version.LUCENE_43, currentStream, stopWords);
+	    currentStream = new StandardFilter(Version.LUCENE_43, currentStream);
 
-	    return new TokenStreamComponents(source, standardFilter);
+	    return new TokenStreamComponents(source, currentStream);
 	}
 
 	/**
