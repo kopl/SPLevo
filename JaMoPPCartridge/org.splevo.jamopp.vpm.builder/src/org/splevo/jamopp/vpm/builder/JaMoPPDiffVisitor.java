@@ -9,12 +9,14 @@ import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Statement;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
+import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
@@ -85,6 +87,12 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
     @Override
     public VariationPoint casePackageChange(PackageChange change) {
         org.emftext.language.java.containers.Package changedElement = change.getChangedPackage();
+        return buildKindSpecificVariationPoint(change, changedElement);
+    }
+
+    @Override
+    public VariationPoint caseCompilationUnitChange(CompilationUnitChange change) {
+        CompilationUnit changedElement = change.getChangedCompilationUnit();
         return buildKindSpecificVariationPoint(change, changedElement);
     }
 
@@ -188,12 +196,6 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
     private VariationPoint buildKindSpecificVariationPoint(Diff diff, Commentable changedCommentable) {
         Commentable parent = getParentNode(changedCommentable);
 
-        if (parent == null) {
-            logger.warn("No parent node identified (changedCommentable: " + changedCommentable + ", diff: " + diff
-                    + ")");
-            return null;
-        }
-
         switch (diff.getKind()) {
         case ADD:
             return createVariationPointInsert(changedCommentable, parent);
@@ -224,8 +226,11 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
 
-        JaMoPPSoftwareElement enclosingSoftwareElement = createSoftwareElement(parentNode);
-        variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
+        // Top level elements might not have parent.
+        if (parentNode != null) {
+            JaMoPPSoftwareElement enclosingSoftwareElement = createSoftwareElement(parentNode);
+            variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
+        }
 
         // create the variants
         Variant integrationVariant = createVariant(newElement, false, variantIDIntegration);
@@ -314,6 +319,11 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
      * @return The most reasonable parent AST node.
      */
     private Commentable getParentNode(Commentable commentable) {
+
+        // CompilatinUnits are top level elements themselves. so return them directly
+        if (commentable instanceof CompilationUnit) {
+            return null;
+        }
 
         Match parentMatch = comparison.getMatch(commentable.eContainer());
 

@@ -1,10 +1,12 @@
 package org.splevo.jamopp.vpm.builder;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
+import org.emftext.language.java.resource.java.IJavaOptions;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiff;
 import org.splevo.vpm.builder.VPMBuilder;
 import org.splevo.vpm.software.SoftwareElement;
@@ -34,7 +36,14 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
         if (!diffModelIsValid(comparisonModel)) {
             return null;
         }
-        
+
+        // tweak ResourceSet for faster resolving
+        // Resources should not be loaded yet and will
+        // be loaded faster without layout information
+        Map<Object, Object> loadOptions = comparisonModel.eResource().getResourceSet().getLoadOptions();
+        loadOptions.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
+        loadOptions.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
+
         VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 
         // visit the difference tree
