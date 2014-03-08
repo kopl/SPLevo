@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.graphstream.graph.Node;
 import org.junit.Test;
+import org.mockito.stubbing.OngoingStubbing;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
@@ -52,22 +53,13 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
     @Test
     public void testGetterSetter() throws UnsupportedSoftwareElementException {
 
-        List<String> termsVp1 = Lists.newArrayList("getUseCase");
-        List<String> termsVp2 = Lists.newArrayList("setUseCase");
-        SemanticContentProvider provider = mockContentProviderForTermLists(termsVp1, termsVp2);
-        SemanticContentProviderRegistry.getContentProviders().clear();
-        SemanticContentProviderRegistry.registerConentProvider(provider);
+        List<List<String>> terms = Lists.newArrayList();
+        terms.add(Lists.newArrayList("getUseCase"));
+        terms.add(Lists.newArrayList("setUseCase"));
+        registerContentProvider(terms);
+        VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
 
-        SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
-        StringConfiguration stopWordConfig = getStopWordConfig(analyzer);
-        stopWordConfig.setCurrentValue("get set");
-
-        VPMGraph vpmGraph = mock(VPMGraph.class);
-        Node node1 = mockGraphNodeWithVP("NODE1", vpmGraph);
-        Node node2 = mockGraphNodeWithVP("NODE2", vpmGraph);
-
-        when(vpmGraph.getNodeCount()).thenReturn(2);
-        when(vpmGraph.getNodeSet()).thenReturn(Lists.newArrayList(node1, node2));
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set");
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
         assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(1));
@@ -82,31 +74,99 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
     @Test
     public void testAllFiltered() throws UnsupportedSoftwareElementException {
 
-        List<String> termsVp1 = Lists.newArrayList("getUseCase");
-        List<String> termsVp2 = Lists.newArrayList("setUseCase");
-        SemanticContentProvider provider = mockContentProviderForTermLists(termsVp1, termsVp2);
-        SemanticContentProviderRegistry.getContentProviders().clear();
-        SemanticContentProviderRegistry.registerConentProvider(provider);
+        List<List<String>> terms = Lists.newArrayList();
+        terms.add(Lists.newArrayList("getUseCase"));
+        terms.add(Lists.newArrayList("setUseCase"));
+        registerContentProvider(terms);
 
-        SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
-        StringConfiguration stopWordConfig = getStopWordConfig(analyzer);
-        stopWordConfig.setCurrentValue("get set use case");
+        VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
 
-        VPMGraph vpmGraph = mock(VPMGraph.class);
-        Node node1 = mockGraphNodeWithVP("NODE1", vpmGraph);
-        Node node2 = mockGraphNodeWithVP("NODE2", vpmGraph);
-
-        when(vpmGraph.getNodeCount()).thenReturn(2);
-        when(vpmGraph.getNodeSet()).thenReturn(Lists.newArrayList(node1, node2));
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set use case");
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
         assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(0));
     }
 
     /**
+     * Test the analyzer by adding more than two nodes but only two should match
+     *
+     * @throws UnsupportedSoftwareElementException
+     *             Failed test when thrown.
+     */
+    @Test
+    public void testNotAllVPsMatching() throws UnsupportedSoftwareElementException {
+
+        List<List<String>> terms = Lists.newArrayList();
+        terms.add(Lists.newArrayList("getMatch"));
+        terms.add(Lists.newArrayList("setMatch"));
+        terms.add(Lists.newArrayList("doSthElse"));
+        registerContentProvider(terms);
+
+        VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2", "NODE3"));
+
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set");
+
+        VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
+
+        assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(1));
+    }
+
+    /**
+     * Test the analyzer by adding more than two nodes but only two should match
+     *
+     * @throws UnsupportedSoftwareElementException
+     *             Failed test when thrown.
+     */
+    @Test
+    public void testNotAllTermsMatching() throws UnsupportedSoftwareElementException {
+
+        List<List<String>> terms = Lists.newArrayList();
+        terms.add(Lists.newArrayList("getMatchMultipleTerms"));
+        terms.add(Lists.newArrayList("setTermsMatch"));
+        registerContentProvider(terms);
+
+        VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
+
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set");
+
+        VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
+
+        assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(1));
+        assertThat("Wrong sublabel", result.getEdgeDescriptors().get(0).getRelationshipSubLabel(), is("match terms"));
+    }
+
+    private VPMGraph mockVPMGraph(List<String> nodeIds) {
+        List<Node> nodeList = Lists.newArrayList();
+        VPMGraph vpmGraph = mock(VPMGraph.class);
+        for (String nodeId : nodeIds) {
+            Node node = mockGraphNodeWithVP(nodeId, vpmGraph);
+            nodeList.add(node);
+        }
+        when(vpmGraph.getNodeCount()).thenReturn(nodeList.size());
+        when(vpmGraph.getNodeSet()).thenReturn(nodeList);
+        return vpmGraph;
+    }
+
+    private SemanticVPMAnalyzer createAnalyzer(String stopWords) {
+        SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
+        StringConfiguration stopWordConfig = getStopWordConfig(analyzer);
+        stopWordConfig.setCurrentValue(stopWords);
+        return analyzer;
+    }
+
+    private void registerContentProvider(List<List<String>> termLists) throws UnsupportedSoftwareElementException {
+        SemanticContentProvider provider = mockContentProviderForTermLists(termLists);
+        SemanticContentProviderRegistry.getContentProviders().clear();
+        SemanticContentProviderRegistry.registerConentProvider(provider);
+    }
+
+    /**
      * Mock a graph node with a variation point.
-     * @param nodeId The id of the node.
-     * @param vpmGraph The graph to mock an getNode() call to.
+     *
+     * @param nodeId
+     *            The id of the node.
+     * @param vpmGraph
+     *            The graph to mock an getNode() call to.
      * @return
      */
     private Node mockGraphNodeWithVP(String nodeId, VPMGraph vpmGraph) {
@@ -132,28 +192,28 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
      * @return The prepared mock.
      * @throws UnsupportedSoftwareElementException
      */
-    private SemanticContentProvider mockContentProviderForTermLists(List<String> terms1, List<String> terms2)
+    private SemanticContentProvider mockContentProviderForTermLists(List<List<String>> termLists)
             throws UnsupportedSoftwareElementException {
-        SemanticContent semantic1 = new SemanticContent();
-        for (String term : terms1) {
-            semantic1.addCode(term);
-        }
-
-        SemanticContent semantic2 = new SemanticContent();
-        for (String term : terms2) {
-            semantic2.addCode(term);
-        }
 
         SemanticContentProvider provider = mock(SemanticContentProvider.class);
-        when(provider.getRelevantContent(any(SoftwareElement.class), anyBoolean())).thenReturn(semantic1).thenReturn(
-                semantic2);
+        OngoingStubbing<SemanticContent> mockStub = when(provider.getRelevantContent(any(SoftwareElement.class),
+                anyBoolean()));
+
+        for (List<String> terms : termLists) {
+            SemanticContent semantic = new SemanticContent();
+            for (String term : terms) {
+                semantic.addCode(term);
+            }
+            mockStub = mockStub.thenReturn(semantic);
+        }
+
         return provider;
     }
 
     private StringConfiguration getStopWordConfig(SemanticVPMAnalyzer analyzer) {
         VPMAnalyzerConfigurationSet configs = analyzer.getConfigurations();
         StringConfiguration stopWordConfig = (StringConfiguration) configs.getConfiguration(
-                SemanticVPMAnalyzer.CONFIG_GROUP_GENERAL, SemanticVPMAnalyzer.CONFIG_ID_STOP_WORDS);
+                Config.CONFIG_GROUP_GENERAL, Config.CONFIG_ID_STOP_WORDS);
         return stopWordConfig;
     }
 
