@@ -262,6 +262,11 @@ public class SPLevoProjectEditor extends EditorPart {
         int multipleHeight = 100;
         int yPositionCurrent = 25;
 
+
+        if (availableDiffers.size() == 1) {
+            splevoProject.getDifferIds().add(availableDiffers.get(0).getId());
+        }
+
         for (Differ differ : availableDiffers) {
 
             Button checkBox = new Button(groupDiffers, SWT.CHECK);
