@@ -128,7 +128,7 @@ public class SharedTermFinder implements RelationshipFinder {
         ScoreDoc[] hits = executeQuery(indexSearcher, maxDoc, query);
         Set<Term> referenceDocTerms = new HashSet<Term>();
         query.extractTerms(referenceDocTerms);
-        return buildSharedTermTable(indexSearcher, hits, referenceDoc, referenceDocTerms);
+        return buildSharedTermTable(indexSearcher, hits, referenceDoc, referenceDocTerms, field);
     }
 
     /**
@@ -147,24 +147,29 @@ public class SharedTermFinder implements RelationshipFinder {
      *            The document itself.
      * @param referenceDocTerms
      *            The terms to query for.
+     * @param field
+     *            The field to get the terms for.
      * @return The table of identified term-sharing variation points.
      * @throws IOException
      *             Any error while working with the search engine index.
      */
     private Table<String, String, Set<String>> buildSharedTermTable(IndexSearcher indexSearcher, ScoreDoc[] hits,
-            Document referenceDoc, Set<Term> referenceDocTerms) throws IOException {
+            Document referenceDoc, Set<Term> referenceDocTerms, String field) throws IOException {
+
         Table<String, String, Set<String>> sharedTermTable = HashBasedTable.create();
         for (int q = 0; q < hits.length; q++) {
 
+            int indexDocId = hits[q].doc;
+
             String referenceDocId = referenceDoc.get(Indexer.INDEX_VARIATIONPOINT);
-            Document foundDoc = indexSearcher.doc(hits[q].doc);
+            Document foundDoc = indexSearcher.doc(indexDocId);
             String foundDocId = foundDoc.get(Indexer.INDEX_VARIATIONPOINT);
 
             if (referenceDocId.equals(foundDocId)) {
                 continue;
             }
 
-            Set<String> sharedTerms = determineSharedTerms(referenceDocTerms, foundDoc, hits[q].doc);
+            Set<String> sharedTerms = determineSharedTerms(referenceDocTerms, foundDoc, indexDocId, field);
 
             // minShared terms is not check here because further
             // shared terms might be collected before this is evaluated.
@@ -192,23 +197,22 @@ public class SharedTermFinder implements RelationshipFinder {
      * Determine the terms shared by the related variation points by looking up all terms included
      * in the search query AND a found document.
      *
-     * FIXME: This does not check the terms of the provided document but reads all terms from the
-     * index again
-     *
      * @param referenceDocTerms
      *            The terms of the reference doc and used in the search query.
      * @param foundDoc
      *            A specific document found by the query.
      * @param foundDocId
      *            The id of the document found to get it's index terms.
+     * @param field
+     *            The field to get the terms for.
      *
      * @return The {@link Set} of terms shared between the query and the document.
      * @throws IOException
      */
-    private Set<String> determineSharedTerms(Set<Term> referenceDocTerms, Document foundDoc, int foundDocId)
-            throws IOException {
+    private Set<String> determineSharedTerms(Set<Term> referenceDocTerms, Document foundDoc, int foundDocId,
+            String field) throws IOException {
         Set<String> sharedTerms = new TreeSet<String>();
-        Terms termVector = reader.getTermVector(foundDocId, Indexer.INDEX_CONTENT);
+        Terms termVector = reader.getTermVector(foundDocId, field);
         TermsEnum termsEnum = null;
         TermsEnum iterator = termVector.iterator(termsEnum);
         BytesRef br = null;
