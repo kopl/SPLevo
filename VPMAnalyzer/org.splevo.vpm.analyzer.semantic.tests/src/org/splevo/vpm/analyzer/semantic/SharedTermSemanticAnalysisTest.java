@@ -101,7 +101,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
         List<List<String>> terms = Lists.newArrayList();
         terms.add(Lists.newArrayList("getMatch"));
         terms.add(Lists.newArrayList("setMatch"));
-        terms.add(Lists.newArrayList("doSthElse"));
+        terms.add(Lists.newArrayList("doesNotMaatch"));
         registerContentProvider(terms);
 
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2", "NODE3"));
