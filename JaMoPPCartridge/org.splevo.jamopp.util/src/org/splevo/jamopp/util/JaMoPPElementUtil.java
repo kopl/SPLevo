@@ -13,6 +13,7 @@ package org.splevo.jamopp.util;
 
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.NamedElement;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.members.Method;
@@ -22,7 +23,7 @@ import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
 
 /**
- * Utlity class to handle JaMoPP elements.
+ * Utility class to handle JaMoPP elements.
  */
 public final class JaMoPPElementUtil {
 
@@ -34,7 +35,8 @@ public final class JaMoPPElementUtil {
      * Get the name for a JaMoPP element.<br>
      * This is the name in case of {@link NamedElement}s, otherwise null will be returned.<br>
      *
-     * If you want to always get a string representation, check out {@link JaMoPPElementUtil#getLabel(Commentable)}.
+     * If you want to always get a string representation, check out
+     * {@link JaMoPPElementUtil#getLabel(Commentable)}.
      *
      * @param element
      *            The JaMoPP element to get the name for.
@@ -63,6 +65,15 @@ public final class JaMoPPElementUtil {
     public static String getLabel(Commentable element) {
         if (element == null) {
             return "NULL";
+
+        } else if (element instanceof CompilationUnit) {
+            CompilationUnit cu = (CompilationUnit) element;
+            String name = cu.getName();
+            if (name != null) {
+                return name.substring(cu.getNamespaces().size());
+            } else {
+                return "CompilationUnit (no name)";
+            }
 
         } else if (element instanceof LocalVariableStatement) {
             LocalVariableStatement statement = (LocalVariableStatement) element;
