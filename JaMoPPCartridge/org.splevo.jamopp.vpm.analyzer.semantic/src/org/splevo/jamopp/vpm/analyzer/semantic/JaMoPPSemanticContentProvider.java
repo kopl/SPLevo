@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.NamedElement;
+import org.emftext.language.java.statements.Block;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContent;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProvider;
@@ -63,8 +64,9 @@ public class JaMoPPSemanticContentProvider implements SemanticContentProvider {
             return content;
         }
 
-        List<EObject> childElements = Lists.newArrayList(element.eAllContents());
-        for (EObject child : childElements) {
+        List<EObject> elementsToCheck = Lists.newArrayList(element.eAllContents());
+        elementsToCheck.add(element);
+        for (EObject child : elementsToCheck) {
 
             if (!(child instanceof Commentable)) {
                 continue;
@@ -94,6 +96,16 @@ public class JaMoPPSemanticContentProvider implements SemanticContentProvider {
      * @return The extracted text.
      */
     private String getRelevantTextFromElement(EObject eObject) {
+
+        if (eObject instanceof Block) {
+            Block block = (Block) eObject;
+            if ("block".equalsIgnoreCase(block.getName())) {
+                return "";
+            } else {
+                return block.getName();
+            }
+
+        }
 
         if (eObject instanceof NamedElement) {
             return ((NamedElement) eObject).getName();
