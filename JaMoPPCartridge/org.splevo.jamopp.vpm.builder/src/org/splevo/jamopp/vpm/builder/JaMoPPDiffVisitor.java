@@ -229,7 +229,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
         // Top level elements might not have parent.
         if (parentNode != null) {
             JaMoPPSoftwareElement enclosingSoftwareElement = createSoftwareElement(parentNode);
-            variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
+            variationPoint.setLocation(enclosingSoftwareElement);
         }
 
         // create the variants
@@ -254,7 +254,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-        variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
+        variationPoint.setLocation(enclosingSoftwareElement);
 
         // create the variants
         Variant leadingVariant = createVariant(element, true, variantIDLeading);
@@ -297,7 +297,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-        variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
+        variationPoint.setLocation(enclosingSoftwareElement);
 
         // create the integration variant
         Variant integrationVariant = createVariant(commentableLeft, false, variantIDIntegration);
@@ -363,7 +363,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
 
         Variant integrationVariant = null;
         integrationVariant = variabilityFactory.eINSTANCE.createVariant();
-        integrationVariant.getSoftwareEntities().add(softwareElement);
+        integrationVariant.getImplementingElements().add(softwareElement);
         integrationVariant.setLeading(leading);
         integrationVariant.setVariantId(variantID);
         return integrationVariant;
