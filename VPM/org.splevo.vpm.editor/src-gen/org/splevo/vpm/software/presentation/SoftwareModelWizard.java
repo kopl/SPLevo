@@ -1,5 +1,3 @@
-/**
- */
 package org.splevo.vpm.software.presentation;
 
 import java.util.ArrayList;

@@ -1,5 +1,3 @@
-/**
- */
 package org.splevo.vpm.variability.presentation;
 
 import org.eclipse.emf.common.EMFPlugin;
