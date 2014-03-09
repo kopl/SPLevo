@@ -11,8 +11,10 @@
  *******************************************************************************/
 package org.splevo.modisco.java.vpm.analyzer.programstructure;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -69,7 +71,7 @@ public class ModiscoProgramstructureAnalyzerTest {
             logger.debug("Edge Sub Label referred SoftwareElement: " + edgeDescriptor.getRelationshipSubLabel());
         }
 
-        assertEquals("Wrong edge descriptor count", 10, result.getEdgeDescriptors().size());
+        assertThat("Wrong edge descriptor count", result.getEdgeDescriptors().size(), is(12));
 
     }
 
