@@ -27,15 +27,14 @@ import org.splevo.vpm.variability.variabilityPackage;
 /**
  * This is the item provider adapter for a {@link org.splevo.vpm.variability.VariationPoint} object.
  * <!-- begin-user-doc --> <!-- end-user-doc -->
- *
  * @generated
  */
 public class VariationPointItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
         IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * This constructs an instance from a factory and a notifier.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     public VariationPointItemProvider(AdapterFactory adapterFactory) {
@@ -43,9 +42,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * This returns the property descriptors for the adapted class.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -53,26 +52,25 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addEnclosingSoftwareEntityPropertyDescriptor(object);
+            addLocationPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Enclosing Software Entity feature. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     *
+     * This adds a property descriptor for the Location feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-    protected void addEnclosingSoftwareEntityPropertyDescriptor(Object object) {
+    protected void addLocationPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariationPoint_enclosingSoftwareEntity_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_enclosingSoftwareEntity_feature",
-                        "_UI_VariationPoint_type"),
-                variabilityPackage.Literals.VARIATION_POINT__ENCLOSING_SOFTWARE_ENTITY, true, false, true, null, null,
-                null));
+                getString("_UI_VariationPoint_location_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_location_feature",
+                        "_UI_VariationPoint_type"), variabilityPackage.Literals.VARIATION_POINT__LOCATION, true, false,
+                true, null, null, null));
     }
 
     /**
@@ -95,7 +93,6 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -107,8 +104,8 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This returns VariationPoint.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * This returns VariationPoint.gif.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -129,7 +126,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
 
         VariationPoint vp = (VariationPoint) object;
         label.append(" in ");
-        SoftwareElement enclosingElement = vp.getEnclosingSoftwareEntity();
+        SoftwareElement enclosingElement = vp.getLocation();
         if (enclosingElement != null) {
             label.append(enclosingElement.getLabel());
         } else {
@@ -141,9 +138,8 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
-     * . <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -159,9 +155,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
-     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+     * that can be created under this object.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -173,9 +169,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * Return the resource locator for this item provider's resources. <!-- begin-user-doc --> <!--
+     * Return the resource locator for this item provider's resources.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override
