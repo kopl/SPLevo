@@ -2,6 +2,7 @@ package org.splevo.vpm.software.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.software.SourceLocation;
@@ -15,51 +16,50 @@ import org.splevo.vpm.software.SourceLocation;
  *
  * @generated
  */
-public abstract class JavaSoftwareElementImpl extends EObjectImpl implements
-		JavaSoftwareElement {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected JavaSoftwareElementImpl() {
-		super();
-	}
+public abstract class JavaSoftwareElementImpl extends MinimalEObjectImpl.Container implements JavaSoftwareElement {
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected JavaSoftwareElementImpl() {
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return SoftwarePackage.Literals.JAVA_SOFTWARE_ELEMENT;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return SoftwarePackage.Literals.JAVA_SOFTWARE_ELEMENT;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * {@inheritDoc}
-	 * <!-- end-user-doc -->
-	 * @generated not
-	 */
-	@Override
-	public abstract String getLabel();
+    /**
+     * <!-- begin-user-doc -->
+     * {@inheritDoc}
+     * <!-- end-user-doc -->
+     * @generated not
+     */
+    @Override
+    public abstract String getLabel();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * {@inheritDoc}
-	 * <!-- end-user-doc -->
-	 * @generated not
-	 */
-	@Override
-	public abstract String getName();
+    /**
+     * <!-- begin-user-doc -->
+     * {@inheritDoc}
+     * <!-- end-user-doc -->
+     * @generated not
+     */
+    @Override
+    public abstract String getName();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * {@inheritDoc}
-	 * <!-- end-user-doc -->
-	 * @generated not
-	 */
-	public abstract SourceLocation getSourceLocation();
+    /**
+     * <!-- begin-user-doc -->
+     * {@inheritDoc}
+     * <!-- end-user-doc -->
+     * @generated not
+     */
+    public abstract SourceLocation getSourceLocation();
 
 } //JavaSoftwareElementImpl
