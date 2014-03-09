@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,9 +26,9 @@ import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * A detection rule to derive refinement recommendations from a set of VPMRelationshipEdge labels.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class BasicDetectionRule implements DetectionRule {
 
@@ -43,7 +43,7 @@ public class BasicDetectionRule implements DetectionRule {
 
     /**
      * Constructor requiring to set the edge labels to match and the resulting refinement type.
-     * 
+     *
      * @param edgeLabels
      *            The list of edge labels.
      * @param refinementType
@@ -83,16 +83,16 @@ public class BasicDetectionRule implements DetectionRule {
      * Build the subgraph of edges matching the detection rule criteria. It also takes care that
      * processed edges are registered to not been processed twice. Especially in an undirected
      * graph, this would lead into problems.
-     * 
+     *
      * @param edge
      *            The edge to check.
      * @param subgraphEdges
      *            The edge list to put matched edges into.
      */
     private void detectSubgraph(RelationshipEdge edge, List<RelationshipEdge> subgraphEdges) {
+        processedEdges.add(edge);
         if (match(edge)) {
             subgraphEdges.add(edge);
-            processedEdges.add(edge);
 
             // recursively process subsequent edges
             for (RelationshipEdge subsequentEdge : subsequentEdges(edge)) {
@@ -106,7 +106,7 @@ public class BasicDetectionRule implements DetectionRule {
 
     /**
      * Get the subsequent edges for the source and target nodes of the edge.
-     * 
+     *
      * @param edge
      *            The edge to get the subsequent edges for.
      * @return The list of edges on the next level.
@@ -124,7 +124,7 @@ public class BasicDetectionRule implements DetectionRule {
 
     /**
      * Build a refinement for an edge.
-     * 
+     *
      * @param edges
      *            The edges to build the refinement for.
      * @return The refinemnt.
@@ -144,7 +144,7 @@ public class BasicDetectionRule implements DetectionRule {
         source.append("Detection Rule: ");
         source.append(edgeLabels.toString());
         source.append("\n");
-        
+
         refinement.setSource("Detection Rule " + edgeLabels.toString());
 
         return refinement;
@@ -153,7 +153,7 @@ public class BasicDetectionRule implements DetectionRule {
     /**
      * Add the variation point of a node to the refinement. It is ensured, that no vp is added
      * twice.
-     * 
+     *
      * @param refinement
      *            The refinement to add the vp to.
      * @param node
@@ -168,22 +168,18 @@ public class BasicDetectionRule implements DetectionRule {
 
     /**
      * Match an edge against the matching specification.
-     * 
+     *
      * @param edge
      *            The edge to check.
      * @return true/false whether the edge matches to this rule or not.
      */
-    public boolean match(final RelationshipEdge edge) {
-
-        boolean matched = true;
-        matched = edge.getRelationshipLabels().containsAll(this.edgeLabels);
-
-        return matched;
+    private boolean match(final RelationshipEdge edge) {
+        return edge.getRelationshipLabels().containsAll(this.edgeLabels);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.splevo.vpm.analyzer.refinement.DetectionRule#getEdgeLabels()
      */
     @Override
@@ -193,7 +189,7 @@ public class BasicDetectionRule implements DetectionRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.splevo.vpm.analyzer.refinement.DetectionRule#getRefinementType()
      */
     @Override
