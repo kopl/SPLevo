@@ -64,7 +64,7 @@ public class Java2KDMVPMBuilder implements VPMBuilder {
 
                 // set the group id to the class of the software entity
                 // except it is a block surrounded by a method
-                String groupID = buildGroupID(vp.getEnclosingSoftwareEntity());
+                String groupID = buildGroupID(vp.getLocation());
                 group.setGroupId(groupID);
                 group.getVariationPoints().add(vp);
                 vpm.getVariationPointGroups().add(group);

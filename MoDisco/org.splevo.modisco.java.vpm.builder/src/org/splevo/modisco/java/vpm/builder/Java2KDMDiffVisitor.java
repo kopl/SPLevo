@@ -239,7 +239,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
 
         MoDiscoJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(parentNode, true);
-        variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
+        variationPoint.setLocation(enclosingSoftwareElement);
 
         // create the variants
         Variant integrationVariant = createVariant(newElement, false, variantIDIntegration);
@@ -263,7 +263,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-        variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
+        variationPoint.setLocation(enclosingSoftwareElement);
 
         // create the variants
         Variant leadingVariant = createVariant(element, true, variantIDLeading);
@@ -305,7 +305,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
-        variationPoint.setEnclosingSoftwareEntity(enclosingSoftwareElement);
+        variationPoint.setLocation(enclosingSoftwareElement);
 
         // create the integration variant
         Variant integrationVariant = createVariant(astNodeLeft, false, variantIDIntegration);
@@ -367,7 +367,7 @@ class Java2KDMDiffVisitor extends Java2KDMDiffSwitch<VariationPoint> {
 
         Variant integrationVariant = null;
         integrationVariant = variabilityFactory.eINSTANCE.createVariant();
-        integrationVariant.getSoftwareEntities().add(softwareElement);
+        integrationVariant.getImplementingElements().add(softwareElement);
         integrationVariant.setLeading(leading);
         integrationVariant.setVariantId(variantID);
         return integrationVariant;
