@@ -129,11 +129,11 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
 
         VariationPoint vp = (VariationPoint) object;
         label.append(" in ");
-        SoftwareElement astNode = vp.getEnclosingSoftwareEntity();
-        if (astNode != null) {
-            label.append(astNode.getLabel());
+        SoftwareElement enclosingElement = vp.getEnclosingSoftwareEntity();
+        if (enclosingElement != null) {
+            label.append(enclosingElement.getLabel());
         } else {
-            label.append("TOP LEVEL");
+            label.append("[TOP LEVEL]");
         }
 
         return label.toString();
