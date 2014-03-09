@@ -116,7 +116,7 @@ public class CodeLocationVPMAnalyzer extends AbstractVPMAnalyzer {
         for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
             if (vp != null) {
-                SoftwareElement softwareElement = vp.getEnclosingSoftwareEntity();
+                SoftwareElement softwareElement = vp.getLocation();
 
                 if (softwareElement != null) {
 
