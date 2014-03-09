@@ -1,6 +1,18 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.vpm.analyzer.refinement;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +24,16 @@ import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.codelocation.CodeLocationVPMAnalyzer;
+import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementType;
+import org.splevo.vpm.variability.VariationPoint;
+
+import com.google.common.collect.Lists;
 
 /**
  * Test case for the basic detection rule.
- * 
- * @author Benjamin Klatt
- * 
  */
 public class BasicDetectionRuleTest extends AbstractTest {
 
@@ -28,7 +41,7 @@ public class BasicDetectionRuleTest extends AbstractTest {
      * Test method for
      * {@link org.splevo.vpm.analyzer.refinement.BasicDetectionRule#detect(org.splevo.vpm.analyzer.graph.VPMGraph)}
      * .
-     * 
+     *
      * @throws Exception
      *             Identifies the test failed to load the test model.
      */
@@ -43,10 +56,10 @@ public class BasicDetectionRuleTest extends AbstractTest {
 
         List<VPMAnalyzerResult> results = new ArrayList<VPMAnalyzerResult>();
         results.add(result);
-        
+
         DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
         service.createGraphEdges(graph, results);
-        
+
         // prepare a simple detection rule
         List<String> edgeLabels = new ArrayList<String>();
         edgeLabels.add(CodeLocationVPMAnalyzer.RELATIONSHIP_LABEL_CODE_LOCATION);
@@ -54,6 +67,35 @@ public class BasicDetectionRuleTest extends AbstractTest {
 
         List<Refinement> refinements = detectionRule.detect(graph);
         assertEquals("Wrong number of refinements detected", 2, refinements.size());
+    }
 
+    /**
+     * Test if the detection rule is able to handle graphs with cycles.
+     */
+    @Test
+    public void testCycle() {
+
+        VariationPoint vpA = mock(VariationPoint.class);
+        VariationPoint vpB = mock(VariationPoint.class);
+        VariationPoint vpC = mock(VariationPoint.class);
+
+        VPMGraph graph = new VPMGraph("TESTGRAPH");
+        graph.addNode("A").addAttribute(VPMGraph.VARIATIONPOINT, vpA);
+        graph.addNode("B").addAttribute(VPMGraph.VARIATIONPOINT, vpB);
+        graph.addNode("C").addAttribute(VPMGraph.VARIATIONPOINT, vpC);
+
+        RelationshipEdge edgeAB = (RelationshipEdge) graph.addEdge("AB", "A", "B");
+        RelationshipEdge edgeBC = (RelationshipEdge) graph.addEdge("BC", "B", "C");
+        RelationshipEdge edgeCA = (RelationshipEdge) graph.addEdge("CA", "C", "A");
+
+        String testLabel = "TESTLABEL";
+        edgeAB.addRelationshipLabel(testLabel);
+        edgeBC.addRelationshipLabel(testLabel);
+        edgeCA.addRelationshipLabel(testLabel);
+
+        List<String> ruleLabels = Lists.newArrayList(testLabel);
+        BasicDetectionRule rule = new BasicDetectionRule(ruleLabels, RefinementType.GROUPING);
+
+        rule.detect(graph);
     }
 }
