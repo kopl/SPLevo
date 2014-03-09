@@ -5,7 +5,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.splevo.vpm.software.*;
 import org.splevo.vpm.software.SoftwareFactory;
 import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.software.SourceLocation;
