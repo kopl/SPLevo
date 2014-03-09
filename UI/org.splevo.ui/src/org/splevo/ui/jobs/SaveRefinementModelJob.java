@@ -25,7 +25,7 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to read the refinement model from the blackboard and save it at a given path.
- * 
+ *
  * The job accepts a format option to decide how to persist the data.
  */
 public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
@@ -41,7 +41,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
     /**
      * Constructor to set the target path to write the model to.
-     * 
+     *
      * @param splevoProject
      *            The project to get the workspace from.
      * @param targetPath
@@ -54,7 +54,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
     /**
      * Constructor to set the target path to write the model to.
-     * 
+     *
      * @param splevoProject
      *            The project to get the workspace from.
      * @param targetPath
@@ -69,7 +69,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
     /**
      * Runs the long running operation.
-     * 
+     *
      * @param monitor
      *            the progress monitor
      * @throws JobFailedException
@@ -113,7 +113,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
     /**
      * Export csv files for the identified refinements.
-     * 
+     *
      * @param refModel
      *            The model to export.
      * @param targetPath
@@ -146,13 +146,13 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
                         }
                     }
 
-                    String[] result = new String[] { type, vp.getEnclosingSoftwareEntity().toString(),
-                            leadingVariant.toString(), integrationVariant.toString() };
+                    String vpLocation = vp.getEnclosingSoftwareEntity().toString();
+                    String[] result = new String[] { type, vpLocation, "" + leadingVariant, "" + integrationVariant };
                     writer.writeNext(result);
                 }
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new JobFailedException("Failed to write csv export", e);
         } finally {
             if (writer != null) {
@@ -168,7 +168,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
     /**
      * Export the model as xmi ecore file.
-     * 
+     *
      * @param refModel
      *            The model to export.
      * @param targetPath
@@ -188,7 +188,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
     /**
      * Get the name of the job.
-     * 
+     *
      * @return The name of the job.
      */
     @Override
@@ -198,9 +198,9 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
     /**
      * Enumeration specifying the formats supported by this job.
-     * 
+     *
      * @author Benjamin Klatt
-     * 
+     *
      */
     public enum FORMAT {
 
