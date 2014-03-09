@@ -140,13 +140,13 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
                     for (Variant v : vp.getVariants()) {
                         if (v.getLeading()) {
-                            leadingVariant.append(v.getSoftwareEntities().toString());
+                            leadingVariant.append(v.getImplementingElements().toString());
                         } else {
-                            integrationVariant.append(v.getSoftwareEntities().toString());
+                            integrationVariant.append(v.getImplementingElements().toString());
                         }
                     }
 
-                    String vpLocation = vp.getEnclosingSoftwareEntity().toString();
+                    String vpLocation = vp.getLocation().toString();
                     String[] result = new String[] { type, vpLocation, "" + leadingVariant, "" + integrationVariant };
                     writer.writeNext(result);
                 }

@@ -20,7 +20,7 @@ public class OpenVariationPointLocationAction  extends AbstractOpenSourceLocatio
 
     @Override
     public void run(IAction action) {
-        SoftwareElement softwareElement = selectedElement.getEnclosingSoftwareEntity();
+        SoftwareElement softwareElement = selectedElement.getLocation();
         if (softwareElement instanceof JavaSoftwareElement) {
             IEditorPart editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
             javaEditorConnector.highlightInTextEditor(editor, softwareElement, softwareElement.getLabel());

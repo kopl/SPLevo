@@ -84,7 +84,7 @@ public class CompleteRefinementTreeLabelProvider extends LabelProvider {
      * @return the string
      */
     private String buildVariationPointLabel(final VariationPoint variationPoint) {
-        final SoftwareElement softwareElement = variationPoint.getEnclosingSoftwareEntity();
+        final SoftwareElement softwareElement = variationPoint.getLocation();
         return String.format("VariationPoint in %s", softwareElement.getLabel());
     }
 

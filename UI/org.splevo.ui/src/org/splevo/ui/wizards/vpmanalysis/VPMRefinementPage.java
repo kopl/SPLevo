@@ -173,7 +173,7 @@ public class VPMRefinementPage extends WizardPage {
     private void displaySources(VariationPoint selectedVariationPoint) {
         VariationPoint vp = (VariationPoint) selectedVariationPoint;
         Variant leadingVariant = vp.getVariants().get(0);
-        String leadingLocation = leadingVariant.getSoftwareEntities().get(0).getSourceLocation().getFilePath();
+        String leadingLocation = leadingVariant.getImplementingElements().get(0).getSourceLocation().getFilePath();
         IPath leadingPath = new Path(leadingLocation);
         Document leadingDocument = createDocumentFromPath(leadingPath);
         displayDocument(leadingSourceViewer, leadingDocument);
@@ -181,7 +181,7 @@ public class VPMRefinementPage extends WizardPage {
         Document integrationDocument;
         if (vp.getVariants().size() > 1) {
             Variant integrationVariant = vp.getVariants().get(1);
-            String integationLocation = integrationVariant.getSoftwareEntities().get(0).getSourceLocation()
+            String integationLocation = integrationVariant.getImplementingElements().get(0).getSourceLocation()
                     .getFilePath();
             IPath integrationPath = new Path(integationLocation);
             integrationDocument = createDocumentFromPath(integrationPath);

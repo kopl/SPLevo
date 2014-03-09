@@ -83,9 +83,9 @@ public final class OpenSourceInEditorAction extends Action {
 
 		} else if (object instanceof VariationPoint) {
 			VariationPoint vp = (VariationPoint) object;
-			if (vp.getEnclosingSoftwareEntity() instanceof JavaSoftwareElement) {
+			if (vp.getLocation() instanceof JavaSoftwareElement) {
 				JavaSoftwareElement softwareElement = (JavaSoftwareElement) vp
-						.getEnclosingSoftwareEntity();
+						.getLocation();
 				editor = javaEditorConnector.openEditor(softwareElement);
 				String codeForVariationPoint = getCodeForVariationPoint(vp, null);
 				javaEditorConnector.highlightInTextEditor(editor,
@@ -98,7 +98,7 @@ public final class OpenSourceInEditorAction extends Action {
 		} else if (object instanceof Variant) {
 			Variant variant = (Variant) object;
 			for (SoftwareElement softwareElement : variant
-					.getSoftwareEntities()) {
+					.getImplementingElements()) {
 				if (softwareElement instanceof JavaSoftwareElement) {
 					editor = javaEditorConnector
 							.openEditor((JavaSoftwareElement) softwareElement);
@@ -194,7 +194,7 @@ public final class OpenSourceInEditorAction extends Action {
 				continue;
 			}
 
-			for (SoftwareElement e : v.getSoftwareEntities()) {
+			for (SoftwareElement e : v.getImplementingElements()) {
 				code.append(v.getVariantId());
 				code.append(":\n");
 				code.append(getCodeForSourceLocation(e.getSourceLocation()));

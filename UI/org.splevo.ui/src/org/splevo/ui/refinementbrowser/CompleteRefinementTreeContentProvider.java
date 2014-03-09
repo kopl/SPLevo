@@ -48,7 +48,7 @@ public class CompleteRefinementTreeContentProvider implements ITreeContentProvid
         } else if (parentElement instanceof VariationPoint) {
             return ((VariationPoint) parentElement).getVariants().toArray();
         } else if (parentElement instanceof Variant) {
-            return ((Variant) parentElement).getSoftwareEntities().toArray();
+            return ((Variant) parentElement).getImplementingElements().toArray();
         } else {
             return new Object[] {};
         }

@@ -24,7 +24,7 @@ public class OpenVariantLocationAction extends AbstractOpenSourceLocationAction<
      */
     @Override
     public void run(IAction action) {
-        for (SoftwareElement softwareElement : selectedElement.getSoftwareEntities()) {
+        for (SoftwareElement softwareElement : selectedElement.getImplementingElements()) {
             if (softwareElement instanceof JavaSoftwareElement) {
                 IEditorPart editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
                 javaEditorConnector.highlightInTextEditor(editor, softwareElement, softwareElement.getLabel());

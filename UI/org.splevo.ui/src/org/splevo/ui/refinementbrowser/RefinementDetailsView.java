@@ -101,7 +101,7 @@ public class RefinementDetailsView extends Composite {
             } else if (parentElement instanceof VariationPoint) {
                 return ((VariationPoint) parentElement).getVariants().toArray();
             } else if (parentElement instanceof Variant) {
-                return ((Variant) parentElement).getSoftwareEntities().toArray();
+                return ((Variant) parentElement).getImplementingElements().toArray();
             } else {
                 return new Object[] {};
             }
@@ -159,7 +159,7 @@ public class RefinementDetailsView extends Composite {
          * @return the string
          */
         private String buildVariationPointLabel(VariationPoint variationPoint) {
-            SoftwareElement softwareElement = variationPoint.getEnclosingSoftwareEntity();
+            SoftwareElement softwareElement = variationPoint.getLocation();
             return String.format("VariationPoint in %s", softwareElement.getLabel());
         }
     }
