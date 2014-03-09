@@ -75,8 +75,8 @@ public class VPMRefinementService {
         for (VariationPoint vp : refinement.getVariationPoints()) {
             for (Variant variant : vp.getVariants()) {
                 if (variantMap.containsKey(variant.getVariantId())) {
-                    EList<SoftwareElement> swElements = variant.getSoftwareEntities();
-                    variantMap.get(variant.getVariantId()).getSoftwareEntities().addAll(swElements);
+                    EList<SoftwareElement> swElements = variant.getImplementingElements();
+                    variantMap.get(variant.getVariantId()).getImplementingElements().addAll(swElements);
                 } else {
                     variantMap.put(variant.getVariantId(), variant);
                 }
