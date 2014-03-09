@@ -89,7 +89,7 @@ public class ReferableSoftwareElementIndex {
 
         for (Variant v : vp.getVariants()) {
 
-            for (SoftwareElement softwareElement : v.getSoftwareEntities()) {
+            for (SoftwareElement softwareElement : v.getImplementingElements()) {
                 softwareElements.add(softwareElement);
             }
         }
