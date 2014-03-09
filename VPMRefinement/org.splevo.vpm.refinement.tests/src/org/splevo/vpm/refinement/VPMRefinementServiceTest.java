@@ -66,7 +66,7 @@ public class VPMRefinementServiceTest {
         for (VariationPointGroup group : initialVpm.getVariationPointGroups()) {
             for (VariationPoint vp : group.getVariationPoints()) {
 
-                SoftwareElement element = vp.getEnclosingSoftwareEntity();
+                SoftwareElement element = vp.getLocation();
                 if ("gcd()".equals(element.getLabel())) {
                     refinement.getVariationPoints().add(vp);
                 }
@@ -83,7 +83,7 @@ public class VPMRefinementServiceTest {
 
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
             if (vpGroup.getGroupId().equals("gcd")) {
-                SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getEnclosingSoftwareEntity();
+                SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getLocation();
                 assertEquals("Wrong enclosing software element", "gcd()", softwareElement.getLabel());
             }
         }
@@ -113,7 +113,7 @@ public class VPMRefinementServiceTest {
         for (VariationPointGroup group : initialVpm.getVariationPointGroups()) {
             for (VariationPoint vp : group.getVariationPoints()) {
 
-                SoftwareElement element = vp.getEnclosingSoftwareEntity();
+                SoftwareElement element = vp.getLocation();
                 if ("gcd()".equals(element.getLabel())) {
                     refinement.getVariationPoints().add(vp);
                 }
@@ -130,7 +130,7 @@ public class VPMRefinementServiceTest {
 
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
             if (vpGroup.getGroupId().equals("gcd")) {
-                SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getEnclosingSoftwareEntity();
+                SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getLocation();
                 assertEquals("Wrong enclosing software element", "gcd()", softwareElement.getLabel());
             }
         }
