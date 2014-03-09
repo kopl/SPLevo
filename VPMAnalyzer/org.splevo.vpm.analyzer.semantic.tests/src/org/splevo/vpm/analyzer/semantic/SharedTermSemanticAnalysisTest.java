@@ -175,12 +175,12 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
     private Node mockGraphNodeWithVP(String nodeId, VPMGraph vpmGraph, List<String> variantIds) {
 
         VariationPoint vp = variabilityFactory.eINSTANCE.createVariationPoint();
-        vp.setEnclosingSoftwareEntity(mock(SoftwareElement.class));
+        vp.setLocation(mock(SoftwareElement.class));
 
         for (String id : variantIds) {
             Variant v = variabilityFactory.eINSTANCE.createVariant();
             v.setVariantId(id);
-            v.getSoftwareEntities().add(mock(SoftwareElement.class));
+            v.getImplementingElements().add(mock(SoftwareElement.class));
             if (vp.getVariants().size() == 0) {
                 v.setLeading(true);
             }
