@@ -322,7 +322,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
 
         // CompilatinUnits are top level elements themselves. so return them directly
         if (commentable instanceof CompilationUnit) {
-            return null;
+            return commentable;
         }
 
         Match parentMatch = comparison.getMatch(commentable.eContainer());

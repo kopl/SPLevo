@@ -24,8 +24,7 @@ import com.google.common.collect.Lists;
  */
 public class JaMoPPVPMBuilder implements VPMBuilder {
 
-    /** Group id identifying variation points located under the AST model root. */
-    public static final String GROUP_ID_TOPLEVEL = "TOPLEVEL";
+    public static final String GROUP_ID_TOPLEVEL = "[TOP LEVEL GROUP]";
 
     /** The logger used by this class. */
     private Logger logger = Logger.getLogger(JaMoPPVPMBuilder.class);
@@ -83,6 +82,7 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
         // is located directly on the model root such as a compilation unit or
         // a top level package
         if (softwareElement == null) {
+            logger.warn("No enclosing element provided to derive group id");
             return GROUP_ID_TOPLEVEL;
         }
 
