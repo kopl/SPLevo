@@ -98,7 +98,7 @@ public class Java2KDMVPMBuilderTest {
 
         for (VariationPointGroup vpGroup : vpm.getVariationPointGroups()) {
             for (VariationPoint vp : vpGroup.getVariationPoints()) {
-                vpLocations.add(vp.getEnclosingSoftwareEntity());
+                vpLocations.add(vp.getLocation());
             }
         }
 
