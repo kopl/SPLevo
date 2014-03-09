@@ -249,7 +249,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         List<String> comments = Lists.newLinkedList();
 
         for (Variant variant : vp.getVariants()) {
-            for (SoftwareElement softwareElement : variant.getSoftwareEntities()) {
+            for (SoftwareElement softwareElement : variant.getImplementingElements()) {
                 loadTermsForSoftwareElement(matchComments, softwareElement, codeTerms, comments);
             }
         }
