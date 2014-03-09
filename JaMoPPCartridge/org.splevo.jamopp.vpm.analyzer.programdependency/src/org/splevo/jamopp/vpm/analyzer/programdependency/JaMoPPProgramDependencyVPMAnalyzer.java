@@ -187,7 +187,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         List<SoftwareElement> softwareElements = new ArrayList<SoftwareElement>();
 
         for (Variant v : vp.getVariants()) {
-            for (SoftwareElement softwareElement : v.getSoftwareEntities()) {
+            for (SoftwareElement softwareElement : v.getImplementingElements()) {
                 softwareElements.add(softwareElement);
             }
         }
