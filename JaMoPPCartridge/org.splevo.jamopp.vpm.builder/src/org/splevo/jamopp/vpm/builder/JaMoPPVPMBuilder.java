@@ -36,12 +36,7 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
             return null;
         }
 
-        // tweak ResourceSet for faster resolving
-        // Resources should not be loaded yet and will
-        // be loaded faster without layout information
-        Map<Object, Object> loadOptions = comparisonModel.eResource().getResourceSet().getLoadOptions();
-        loadOptions.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
-        loadOptions.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
+        improveResourceSetContext(comparisonModel);
 
         VariationPointModel vpm = variabilityFactory.eINSTANCE.createVariationPointModel();
 
@@ -66,6 +61,23 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
 
         return vpm;
 
+    }
+
+    /**
+     * If the current comparison model is in a resource set context, tweak this ResourceSet for
+     * faster resolving of java resources by not loading any layout or location information.
+     *
+     * Note: This disables the opportunity to link the model with the code!
+     *
+     * @param comparisonModel
+     *            The model to check and improve the resource set of.
+     */
+    private void improveResourceSetContext(Comparison comparisonModel) {
+        if (comparisonModel.eResource() != null && comparisonModel.eResource().getResourceSet() != null) {
+            Map<Object, Object> loadOptions = comparisonModel.eResource().getResourceSet().getLoadOptions();
+            loadOptions.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
+            loadOptions.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
+        }
     }
 
     /**
