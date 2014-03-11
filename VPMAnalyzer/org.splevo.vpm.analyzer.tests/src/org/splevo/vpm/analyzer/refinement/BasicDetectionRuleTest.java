@@ -17,6 +17,9 @@ import static org.mockito.Mockito.mock;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.graphstream.graph.Node;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.AbstractTest;
@@ -36,6 +39,8 @@ import com.google.common.collect.Lists;
  * Test case for the basic detection rule.
  */
 public class BasicDetectionRuleTest extends AbstractTest {
+
+    private Logger logger = Logger.getLogger(BasicDetectionRuleTest.class);
 
     /**
      * Test method for
@@ -72,30 +77,37 @@ public class BasicDetectionRuleTest extends AbstractTest {
     /**
      * Test if the detection rule is able to handle graphs with cycles.
      */
+    @Ignore("For performance only. Should not be part of each test run")
     @Test
-    public void testCycle() {
+    public void testLongSubGraph() {
 
-        VariationPoint vpA = mock(VariationPoint.class);
-        VariationPoint vpB = mock(VariationPoint.class);
-        VariationPoint vpC = mock(VariationPoint.class);
-
+        String testEdgeLabel = "TESTLABEL";
         VPMGraph graph = new VPMGraph("TESTGRAPH");
-        graph.addNode("A").addAttribute(VPMGraph.VARIATIONPOINT, vpA);
-        graph.addNode("B").addAttribute(VPMGraph.VARIATIONPOINT, vpB);
-        graph.addNode("C").addAttribute(VPMGraph.VARIATIONPOINT, vpC);
 
-        RelationshipEdge edgeAB = (RelationshipEdge) graph.addEdge("AB", "A", "B");
-        RelationshipEdge edgeBC = (RelationshipEdge) graph.addEdge("BC", "B", "C");
-        RelationshipEdge edgeCA = (RelationshipEdge) graph.addEdge("CA", "C", "A");
+        int nodeCount = 1500;
 
-        String testLabel = "TESTLABEL";
-        edgeAB.addRelationshipLabel(testLabel);
-        edgeBC.addRelationshipLabel(testLabel);
-        edgeCA.addRelationshipLabel(testLabel);
+        Node lastNode = null;
+        for (int i = 0; i < nodeCount; i++) {
+            lastNode = buildAndConnectNode(testEdgeLabel, "NODE" + i, graph, lastNode);
+        }
 
-        List<String> ruleLabels = Lists.newArrayList(testLabel);
+        logger.info(String.format("Graph prepared with %s nodes and %s edges", graph.getNodeCount(), graph.getEdgeCount()));
+
+        List<String> ruleLabels = Lists.newArrayList(testEdgeLabel);
         BasicDetectionRule rule = new BasicDetectionRule(ruleLabels, RefinementType.GROUPING);
 
         rule.detect(graph);
+    }
+
+    private Node buildAndConnectNode(String edgeLabel, String newNodeId, VPMGraph graph, Node lastNode) {
+        VariationPoint vpB = mock(VariationPoint.class);
+        Node node = graph.addNode(newNodeId);
+        node.addAttribute(VPMGraph.VARIATIONPOINT, vpB);
+        if (lastNode != null) {
+            String edgeId = lastNode.getId() + node.getId();
+            RelationshipEdge edgeAB = (RelationshipEdge) graph.addEdge(edgeId, lastNode.getId(), node.getId());
+            edgeAB.addRelationshipLabel(edgeLabel);
+        }
+        return node;
     }
 }
