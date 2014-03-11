@@ -39,10 +39,11 @@ import com.google.common.base.Strings;
  * {@link Analyzer}s Comments can be handled different than regular code. This class offers Methods
  * to add text to an index, clear the main index and get reading access to an index.
  *
- * <b>This class is a singleton!</b><br>
- * This is because there should be only one index that holds all informations,
- * at any time. This class has the ability to create that index. To ensure there is
- * only one Index, the singleton pattern is used.
+ * DesignDecision: Singleton as required by Lucene infrastructure
+ *
+ * This class is a singleton because there should be only one index that holds all informations, at
+ * any time. This class has the ability to create that index. To ensure there is only one Index, the
+ * singleton pattern is used.
  */
 public final class Indexer {
 
