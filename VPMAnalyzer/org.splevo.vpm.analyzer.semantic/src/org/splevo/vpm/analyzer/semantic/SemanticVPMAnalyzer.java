@@ -137,7 +137,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     private void logIndexedTerms() {
         List<String> indexedTerms = getTermsFromIndex();
         String terms = Joiner.on(", ").skipNulls().join(indexedTerms);
-        logger.info("INDEXED TERMS: " + (terms.length() > 0 ? terms : "NO TERMS"));
+        logger.info("INDEXED TERMS (" + indexedTerms.size() + "): " + (terms.length() > 0 ? terms : "NO TERMS"));
     }
 
     private void cleanUp() {
