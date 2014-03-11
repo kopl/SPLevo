@@ -389,7 +389,6 @@ public class JaMoPPPostProcessor implements IPostProcessor {
                 derivedCopyDetected = checkDerivedCopyPattern(comparison, change);
 
                 if (derivedCopyDetected) {
-                    // FIXME: What about package deletes not longer required in subclass
                     falsePositivesToRemove.add(change);
                     counterClasses++;
 
@@ -401,10 +400,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
             }
         }
 
-        if (falsePositivesToRemove.size() > 0) {
-            logger.debug(String
-                    .format("Derived Copy Cleanup: Classes: %s, Imports: %s", counterClasses, counterImports));
-        }
+        logger.debug(String.format("Derived Copy Cleanup: Classes: %s, Imports: %s", counterClasses, counterImports));
 
         for (Diff diff : falsePositivesToRemove) {
             diff.getMatch().getDifferences().remove(diff);
@@ -474,7 +470,8 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * unit match instead of just using the one provided as parameter.
      * </p>
      *
-     * @param cuMatch The compilation unit match to search import deletes for.
+     * @param cuMatch
+     *            The compilation unit match to search import deletes for.
      * @return The list of import deletes
      */
     private List<ImportChange> getImportDeleteDiffs(Match cuMatch) {
