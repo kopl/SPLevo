@@ -96,7 +96,7 @@ public class BasicDetectionRule implements DetectionRule {
      * DesignDecision: Refinement creation based on edges to access further relationship information
      * stored with edges
      *
-     * DesignDecision: Flat edge based subgraph analysis using indexes instead of deep search to
+     * DesignDecision: Flat edge-based subgraph analysis using indexes instead of deep search to
      * improve performance.
      *
      * DesignDecision: No recursive deep search as this has lead to stack overflows in the past due
