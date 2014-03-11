@@ -28,12 +28,14 @@ import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.postprocessor.IPostProcessor;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.types.TypeReference;
 import org.splevo.diffing.postprocessor.ComparisonModelCleanUp;
 import org.splevo.jamopp.diffing.diff.JaMoPPChangeFactory;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -346,8 +348,20 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     }
 
     /**
+     * <p>
      * Clean up false positive deletes of any members that are available in the copy due to an
      * existing extends relationship between left and right models.
+     * </p>
+     *
+     * <p>
+     * When a derived copy is detected, the following clean up strategies are applied:
+     * <ul>
+     * <li>Remove the class change as it is about the extends relationship</li>
+     * <li>Remove import deletes as the sub class does not require any imports used for the super
+     * class implementation only.</li>
+     * <li>Constructors doing super call only (NOT YET IMPLEMENTED)</li>
+     * </ul>
+     * </p>
      *
      * @param comparison
      *            The comparison model to clean up.
@@ -355,6 +369,9 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     private void cleanUpDerivedCopies(Comparison comparison) {
 
         List<Diff> falsePositivesToRemove = Lists.newArrayList();
+
+        int counterClasses = 0;
+        int counterImports = 0;
 
         // CLASS CHANGES
         // find class changes about changed extends / default extends
@@ -372,9 +389,21 @@ public class JaMoPPPostProcessor implements IPostProcessor {
                 derivedCopyDetected = checkDerivedCopyPattern(comparison, change);
 
                 if (derivedCopyDetected) {
-                    falsePositivesToRemove.add(diff);
+                    // FIXME: What about package deletes not longer required in subclass
+                    falsePositivesToRemove.add(change);
+                    counterClasses++;
+
+                    List<ImportChange> importsToIgnore = identifyParentImportDeletes(change);
+                    falsePositivesToRemove.addAll(importsToIgnore);
+                    counterImports += importsToIgnore.size();
+
                 }
             }
+        }
+
+        if (falsePositivesToRemove.size() > 0) {
+            logger.debug(String
+                    .format("Derived Copy Cleanup: Classes: %s, Imports: %s", counterClasses, counterImports));
         }
 
         for (Diff diff : falsePositivesToRemove) {
@@ -384,13 +413,101 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     }
 
     /**
+     * <p>
+     * In case of a derived copy, the imports used in the parent only must not be present in the sub
+     * class and such false positives can be ignored.
+     * </p>
+     *
+     * <p>
+     * To detect them, the parent match identifying the compilation unit containing the changed
+     * class's container is searched, and all differences at this location which are
+     * {@link ImportChange}s with {@link DifferenceKind#DELETE} are returned as ignorable.
+     * </p>
+     *
+     * @param change
+     *            The change to get the enclosing compilation unit change for.
+     * @return The list of import deletes to ignore.
+     */
+    private List<ImportChange> identifyParentImportDeletes(ClassChange change) {
+
+        Match cuMatch = findCompilationUnitParentMatch(change);
+
+        if (cuMatch != null) {
+            return getImportDeleteDiffs(cuMatch);
+        } else {
+            return Lists.newArrayList();
+        }
+    }
+
+    /**
+     * Detect the import deletes that can be ignored.
+     *
+     * Due to the derived copy match, the original CompilationUnit is matched twice to it's
+     * counterpart in the copy and to the derived CompilationUnit in the copy.
+     *
+     * <table>
+     * <tr>
+     * <th>Original</th>
+     * <th>Copy</th>
+     * </tr>
+     * <tr>
+     * <td>BaseClass.java</td>
+     * <td>BaseClass.java</td>
+     * </tr>
+     * <tr>
+     * <td>BaseClass.java</td>
+     * <td>BaseClassCustom.java</td>
+     * </tr>
+     * </table>
+     * <p>
+     * The derived copy typically is a sub match of the match between the BaseClass and the
+     * BaseClassCustom (in the example above). However, differences identified are typically
+     * registered for the primary match of the original source. This seems to happen because the
+     * comparison model returns a single match only when asked for a match of an EObject:
+     * {@link Comparison#getMatch(EObject)}.
+     * </p>
+     * <p>
+     * DesignDecision: Using primary compilation unit match.
+     * </p>
+     * <p>
+     * To be able to access the import deletes, the comparison model is asked for the compilation
+     * unit match instead of just using the one provided as parameter.
+     * </p>
+     *
+     * @param cuMatch The compilation unit match to search import deletes for.
+     * @return The list of import deletes
+     */
+    private List<ImportChange> getImportDeleteDiffs(Match cuMatch) {
+
+        CompilationUnit originalCU = (CompilationUnit) cuMatch.getRight();
+        Match primaryMatch = cuMatch.getComparison().getMatch(originalCU);
+
+        List<ImportChange> ignoreImports = Lists.newArrayList();
+
+        for (Diff diff : primaryMatch.getDifferences()) {
+            if (diff instanceof ImportChange && diff.getKind() == DifferenceKind.DELETE) {
+                ignoreImports.add((ImportChange) diff);
+            }
+        }
+        return ignoreImports;
+    }
+
+    private Match findCompilationUnitParentMatch(ClassChange change) {
+        Match cuMatch = change.getMatch();
+        while (cuMatch != null && !(cuMatch.getRight() instanceof CompilationUnit)) {
+            cuMatch = getParentMatch(cuMatch);
+        }
+        return cuMatch;
+    }
+
+    /**
      * Check a {@link ClassChange} if it is part of a derived copy pattern.
      *
      * Check if the extended class matches to the same class as the derived one. This is an
      * indicator for a derived copy pattern.
      *
-     * Only ClassChanges of type CHANGE are considered. DELETE and ADD are not about
-     * changed class signatures (i.e. extends).
+     * Only ClassChanges of type CHANGE are considered. DELETE and ADD are not about changed class
+     * signatures (i.e. extends).
      *
      * If the class does not extend any specific class but only the default object class, this does
      * not identify a pattern match and false will be returned.
