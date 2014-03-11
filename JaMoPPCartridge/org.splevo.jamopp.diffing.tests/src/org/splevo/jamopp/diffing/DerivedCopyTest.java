@@ -37,7 +37,7 @@ public class DerivedCopyTest {
 
     /**
      * Initialize the test by loading the resources once to be used by the several diff tests.
-     * 
+     *
      * @throws Exception
      *             A failed initialization
      */
@@ -48,17 +48,17 @@ public class DerivedCopyTest {
 
     /**
      * Test method to detect changes in the class and package declarations.
-     * 
+     *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
     public void testDerivedCopyWithNoChange() throws Exception {
-        
+
         String basePath = "testmodels/implementation/derivedcopy/";
         ResourceSet setA = TestUtil.extractModel(basePath + "a");
         ResourceSet setB = TestUtil.extractModel(basePath + "b");
-        
+
         StringBuilder packageMapping = new StringBuilder();
 
         StringBuilder classifierNormalization = new StringBuilder();
@@ -70,7 +70,7 @@ public class DerivedCopyTest {
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
         diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
-        
+
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         assertThat("Should produce two matches", comparison.getMatchedResources().size(), is(2));
@@ -88,17 +88,17 @@ public class DerivedCopyTest {
 
     /**
      * Test method to detect changes in the class and package declarations.
-     * 
+     *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testDerivedCopyWithChangedHook() throws Exception {
-        
-        String basePath = "testmodels/implementation/derivedcopyhook/";
+    public void testDerivedCopyWithIgnoreImports() throws Exception {
+
+        String basePath = "testmodels/implementation/derivedcopyimport/";
         ResourceSet setA = TestUtil.extractModel(basePath + "a");
         ResourceSet setB = TestUtil.extractModel(basePath + "b");
-        
+
         StringBuilder packageMapping = new StringBuilder();
 
         StringBuilder classifierNormalization = new StringBuilder();
@@ -110,7 +110,39 @@ public class DerivedCopyTest {
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
         diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
-        
+
+        Comparison comparison = differ.doDiff(setA, setB, diffOptions);
+
+        EList<Diff> differences = comparison.getDifferences();
+        assertThat("No diff because not present imports must not be detected as deleted", differences.size(), is(0));
+
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testDerivedCopyWithChangedHook() throws Exception {
+
+        String basePath = "testmodels/implementation/derivedcopyhook/";
+        ResourceSet setA = TestUtil.extractModel(basePath + "a");
+        ResourceSet setB = TestUtil.extractModel(basePath + "b");
+
+        StringBuilder packageMapping = new StringBuilder();
+
+        StringBuilder classifierNormalization = new StringBuilder();
+        classifierNormalization.append("*Custom");
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+
+        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
+        diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
+
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         assertThat("Should produce two matches", comparison.getMatchedResources().size(), is(2));
@@ -122,11 +154,11 @@ public class DerivedCopyTest {
         }
 
         EList<Diff> differences = comparison.getDifferences();
-        assertThat("Hook mathod has been changed", differences.size(), is(1));
+        assertThat("Hook method has been changed", differences.size(), is(1));
         assertThat("Wrong difference type detected", differences.get(0), instanceOf(StatementChange.class));
         StatementChange change = (StatementChange) differences.get(0);
         Statement changedStatement = change.getChangedStatement();
         assertThat("Wrong changed statement", changedStatement, instanceOf(ExpressionStatement.class));
-        
+
     }
 }
