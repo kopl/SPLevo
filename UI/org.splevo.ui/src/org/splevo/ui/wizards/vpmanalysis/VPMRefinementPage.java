@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -30,6 +31,7 @@ import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.source.CompositeRuler;
+import org.eclipse.jface.text.source.IVerticalRulerColumn;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
@@ -58,6 +60,8 @@ public class VPMRefinementPage extends WizardPage {
     private CheckboxTreeViewer treeViewer;
     private SourceViewer leadingSourceViewer;
     private SourceViewer integrationSourceViewer;
+    private CompositeRuler leadingRuler;
+    private CompositeRuler integrationRuler;
 
     /**
      * Create the wizard page to let the user modify the found VPM.
@@ -81,10 +85,8 @@ public class VPMRefinementPage extends WizardPage {
 
         final SashForm sourceViewersSash = new SashForm(outerSash, SWT.HORIZONTAL);
 
-        final CompositeRuler leadingRuler = new CompositeRuler();
-        leadingRuler.addDecorator(0, new LineNumberRulerColumn());
-        final CompositeRuler integrationRuler = new CompositeRuler();
-        integrationRuler.addDecorator(0, new LineNumberRulerColumn());
+        leadingRuler = new CompositeRuler();
+        integrationRuler = new CompositeRuler();
         leadingSourceViewer = new SourceViewer(sourceViewersSash, leadingRuler, SWT.V_SCROLL);
         integrationSourceViewer = new SourceViewer(sourceViewersSash, integrationRuler, SWT.V_SCROLL);
 
@@ -94,7 +96,7 @@ public class VPMRefinementPage extends WizardPage {
     /**
      * Displays the Document in the SourceViewer. To achieve this, the SourceViewer will also be set
      * up according to the Document.
-     *
+     * 
      * @param sourceViewer
      *            The Source viewer to display the Document in.
      * @param document
@@ -118,7 +120,7 @@ public class VPMRefinementPage extends WizardPage {
     /**
      * Given a path will return a Document with the contents of the file at this path and the
      * DocumentPartitioner set up accordingly.
-     *
+     * 
      * @param path
      *            Path of the File to generate a Document from.
      * @return a Document containing the content of the file at the path.
@@ -154,7 +156,7 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * Setter for the refinements.
-     *
+     * 
      * @param refinements
      *            refinements to be suggested in the VPMRefinementPage
      */
@@ -166,7 +168,7 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * Display the source of the the selected VariationPoints variants in the SourceViewers.
-     *
+     * 
      * @param selectedVariationPoint
      *            The VariationPoint of which its Variants sources should be displayed.
      */
@@ -178,6 +180,10 @@ public class VPMRefinementPage extends WizardPage {
         Document leadingDocument = createDocumentFromPath(leadingPath);
         displayDocument(leadingSourceViewer, leadingDocument);
 
+        if (!leadingRuler.getDecoratorIterator().hasNext()) {
+            leadingRuler.addDecorator(0, new LineNumberRulerColumn());
+        }
+
         Document integrationDocument;
         if (vp.getVariants().size() > 1) {
             Variant integrationVariant = vp.getVariants().get(1);
@@ -185,6 +191,10 @@ public class VPMRefinementPage extends WizardPage {
                     .getFilePath();
             IPath integrationPath = new Path(integationLocation);
             integrationDocument = createDocumentFromPath(integrationPath);
+            
+            if (!integrationRuler.getDecoratorIterator().hasNext()) {
+                integrationRuler.addDecorator(0, new LineNumberRulerColumn());
+            }
         } else {
             integrationDocument = new Document();
         }
@@ -194,9 +204,9 @@ public class VPMRefinementPage extends WizardPage {
     /**
      * SelectionChangedListener that updates the the SourceViewers if the selection in the
      * TreeViewer changes.
-     *
+     * 
      * @author Christian Busch
-     *
+     * 
      */
     private class VPMSelectionChangedListener implements ISelectionChangedListener {
 
@@ -215,7 +225,20 @@ public class VPMRefinementPage extends WizardPage {
      * Reset the refinement page to ensure no out-dated data resists.
      */
     public void reset() {
+
+        removeAllRulerDecorators(leadingRuler);
+        removeAllRulerDecorators(integrationRuler);
+
         setRefinements(new ArrayList<Refinement>());
+    }
+
+    private void removeAllRulerDecorators(CompositeRuler ruler) {
+        @SuppressWarnings("rawtypes")
+        Iterator iter = ruler.getDecoratorIterator();
+        while (iter.hasNext()) {
+            iter.next();
+            iter.remove();
+        }
     }
 
 }
