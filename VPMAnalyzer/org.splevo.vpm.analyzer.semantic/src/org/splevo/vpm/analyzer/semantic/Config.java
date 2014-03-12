@@ -75,6 +75,22 @@ public final class Config {
     public static final boolean DEFAULT_SPLIT_CAMEL_CASE = true;
 
     // --------------------------
+    // Stemming
+    // --------------------------
+
+    /** Identifier for the configuration to split camel case terms. */
+    public static final String CONFIG_ID_STEMMING = CONFIG_ID_BASE + "STEMMING";
+
+    /** The configuration label for the SPLIT_CAMEL_CASE configuration. */
+    public static final String LABEL_STEMMING = "Use Stemming";
+
+    /** The explanation for the stop word configuration. */
+    public static final String EXPL_STEMMING = "Activate stemming of terms such as plural to singular";
+
+    /** The default configuration for the SPLIT_CAMEL_CASE configuration. */
+    public static final boolean DEFAULT_STEMMING = true;
+
+    // --------------------------
     // Stop Words
     // --------------------------
 
