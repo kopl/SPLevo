@@ -157,8 +157,7 @@ public class BasicDetectionRule implements DetectionRule {
             }
         }
 
-        logger.info("Subgraph Count (NodeIndex): " + subgraphNodeIndex.keySet().size());
-        logger.info("Subgraph Count (EdgeIndex): " + subgraphEdgeIndex.keySet().size());
+        logger.info("Subgraph Count: " + subgraphEdgeIndex.keySet().size());
 
         for (Integer subgraphId : subgraphEdgeIndex.keySet()) {
             List<RelationshipEdge> subgraphEdges = subgraphEdgeIndex.get(subgraphId);
