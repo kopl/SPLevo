@@ -107,6 +107,13 @@ public final class Config {
     /** The stop-word list for the analyzers. */
     public static final String DEFAULT_STOP_WORDS = "get set is";
 
+    /** Default stop words according to Host et al. "The Programmer ’ s Lexicon , Volume I The Verbs" */
+    public static final String DEFAULT_STOP_WORDS_HOST = "accept action add check clear close create do dump end equals find generate get handle has hash init initialize insert is load make new next parse print process read remove reset run set size start to update validate visit write";
+
+    /** Default stop words according to Caprile and Tonello "Nomen est omen: analyzing the language of function identifiers" */
+    public static final String DEFAULT_STOP_WORDS_CAPRILE = "get print set expand make copy list delete init search add write read put do parse free send find handle";
+
+
     // --------------------------
     // Shared Term Minimum
     // --------------------------
