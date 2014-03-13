@@ -11,8 +11,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -81,11 +81,10 @@ public class UIConfigurationCompositeFactory {
             List<AbstractVPMAnalyzerConfiguration<?>> configs) {
         Group group = new Group(parent, SWT.NONE);
         group.setText(groupName);
-        RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
-        rowLayout.justify = false;
-        rowLayout.fill = false;
-        rowLayout.wrap = false;
-        group.setLayout(rowLayout);
+        GridLayout groupGridLayout = new GridLayout(1, true);
+        groupGridLayout.verticalSpacing = 0;
+        group.setLayout(groupGridLayout);
+        
         FormData formData = new FormData();
         if (parent.getChildren().length == 1) {
             formData.top = new FormAttachment(0);
@@ -98,10 +97,12 @@ public class UIConfigurationCompositeFactory {
         group.setLayoutData(formData);
 
         for (AbstractVPMAnalyzerConfiguration<?> config : configs) {
-            Composite parentComp = new Composite(group, SWT.NONE);
-            RowLayout layout = new RowLayout(SWT.HORIZONTAL);
-            layout.center = false;
-            parentComp.setLayout(layout);
+            Composite parentComp = new Composite(group, SWT.FILL);
+            parentComp.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, false));
+            GridLayout parentCompLayout = new GridLayout(3, false);
+            parentCompLayout.verticalSpacing = 0;
+            parentComp.setLayout(parentCompLayout);
+            
             if (config instanceof BooleanConfiguration) {
                 createBooleanConfigField(parentComp, (BooleanConfiguration) config);
             } else if (config instanceof StringConfiguration) {
@@ -126,7 +127,7 @@ public class UIConfigurationCompositeFactory {
      *            The numeric configuration.
      */
     private void createNumericConfigField(Composite parent, final NumericConfiguration config) {
-        addLabel(parent, config.getLabel());
+        addLabel(parent, config.getLabel(), false);
         final double spinnerTransformationFactor = Math.pow(10, config.getNumFractionalDigits());
         final Spinner spinner = new Spinner(parent, SWT.NONE);
         spinner.setIncrement((int) Math.round(config.getStepSize() * spinnerTransformationFactor));
@@ -153,12 +154,15 @@ public class UIConfigurationCompositeFactory {
                         && (value <= config.getUpperBoundary() || config.getUpperBoundary() == -1);
             }
         });
+        GridData layoutData = new GridData(SWT.BEGINNING, SWT.CENTER, true, false);
+        layoutData.widthHint = 50;
+        spinner.setLayoutData(layoutData);
 
         addExplanation(parent, config.getExplanation());
     }
 
     /**
-     * Creates the configuration elements for a chioce configuration. Adds them to a parent element.
+     * Creates the configuration elements for a choice configuration. Adds them to a parent element.
      *
      * @param parent
      *            The parent.
@@ -166,7 +170,7 @@ public class UIConfigurationCompositeFactory {
      *            The choice configuration.
      */
     private void createChoiceConfigField(Composite parent, final ChoiceConfiguration config) {
-        addLabel(parent, config.getLabel());
+        addLabel(parent, config.getLabel(), false);
         final List<String> labels = config.getAvailableValues();
         final Combo combo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
         combo.setItems(labels.toArray(new String[0]));
@@ -179,6 +183,7 @@ public class UIConfigurationCompositeFactory {
                 config.setCurrentValue(selectedValue);
             }
         });
+        combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         addExplanation(parent, config.getExplanation());
     }
 
@@ -191,15 +196,14 @@ public class UIConfigurationCompositeFactory {
      *            The string configuration.
      */
     private void createStringConfigField(Composite parent, final StringConfiguration config) {
-        addLabel(parent, config.getLabel());
-        final StyledText text = new StyledText(parent, SWT.V_SCROLL);
+        addLabel(parent, config.getLabel(), false);
+        final StyledText text = new StyledText(parent, SWT.V_SCROLL | SWT.BORDER);
         text.setLeftMargin(2);
         text.setRightMargin(2);
         text.setTopMargin(2);
         text.setBottomMargin(2);
         text.setWordWrap(true);
         text.addModifyListener(new ModifyListener() {
-
             @Override
             public void modifyText(ModifyEvent arg0) {
                 config.setCurrentValue(text.getText());
@@ -207,11 +211,14 @@ public class UIConfigurationCompositeFactory {
         });
         String defaultText = config.getDefaultValue();
         text.setText(defaultText);
-        if (defaultText.length() > 30) {
-            text.setLayoutData(new RowData(300, 80));
+        GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
+        layoutData.widthHint = SWT.FILL;
+        if (config.isSingleLine()) {
+            layoutData.heightHint = 16;
         } else {
-            text.setLayoutData(new RowData(300, 16));
+            layoutData.heightHint = 80;
         }
+        text.setLayoutData(layoutData);
         addExplanation(parent, config.getExplanation());
     }
 
@@ -234,7 +241,7 @@ public class UIConfigurationCompositeFactory {
                 config.setCurrentValue(checkButton.getSelection());
             }
         });
-        addLabel(parent, config.getLabel());
+        addLabel(parent, config.getLabel(), true);
         addExplanation(parent, config.getExplanation());
     }
 
@@ -245,10 +252,12 @@ public class UIConfigurationCompositeFactory {
      *            The composite to add the label to.
      * @param text
      *            The text of the label.
+     * @param grabHorizontalSpace Whether cell will be made wide enough to fit the remaining horizontal space.
      */
-    private void addLabel(Composite parent, String text) {
+    private void addLabel(Composite parent, String text, boolean grabHorizontalSpace) {
         Label label = new Label(parent, SWT.WRAP);
         label.setText(text);
+        label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, grabHorizontalSpace, false));
     }
 
     /**
@@ -261,6 +270,7 @@ public class UIConfigurationCompositeFactory {
      */
     private void addExplanation(Composite parent, String explanation) {
         Label explanationLabel = new Label(parent, SWT.NONE);
+        explanationLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
         explanationLabel.setImage(PlatformUI.getWorkbench().getSharedImages()
                 .getImage(ISharedImages.IMG_LCL_LINKTO_HELP));
         explanationLabel.setToolTipText(explanation);

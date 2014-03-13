@@ -17,6 +17,8 @@ package org.splevo.vpm.analyzer.config;
  */
 public class StringConfiguration extends AbstractVPMAnalyzerConfiguration<String> {
 
+	private boolean isSingleLine;
+
 	/**
 	 * This is the main constructor of this class.
 	 *
@@ -28,9 +30,26 @@ public class StringConfiguration extends AbstractVPMAnalyzerConfiguration<String
 	 *            A detailed description of the configuration.
 	 * @param defaultValue
 	 *            The default value for the configuration.
+	 * @param isSingleLine Indicates whether the UI textbox's height should be adopted
+	 * 			  to a single line or multiple lines. Use false for a bigger box.
 	 */
 	public StringConfiguration(String id, String label, String explanation,
-			String defaultValue) {
+			String defaultValue, boolean isSingleLine) {
 		super(id, label, explanation, defaultValue);
+		this.isSingleLine = isSingleLine;
+	}
+
+	/**
+	 * @return the isSingleLine
+	 */
+	public boolean isSingleLine() {
+		return isSingleLine;
+	}
+
+	/**
+	 * @param isSingleLine the isSingleLine to set
+	 */
+	public void setSingleLine(boolean isSingleLine) {
+		this.isSingleLine = isSingleLine;
 	}
 }
