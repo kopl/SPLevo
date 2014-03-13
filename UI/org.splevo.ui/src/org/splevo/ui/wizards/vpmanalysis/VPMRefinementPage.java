@@ -188,7 +188,7 @@ public class VPMRefinementPage extends WizardPage {
                     .getFilePath();
             IPath integrationPath = new Path(integationLocation);
             integrationDocument = createDocumentFromPath(integrationPath);
-            
+
             addRulerDecorators(integrationRuler);
         } else {
             removeAllRulerDecorators(integrationRuler);
@@ -229,11 +229,12 @@ public class VPMRefinementPage extends WizardPage {
 
         setRefinements(new ArrayList<Refinement>());
     }
-    
+
     /**
      * Adds all necessary decorators to the ruler if they are not already set.
      * 
-     * @param ruler The ruler to add the decorators to.
+     * @param ruler
+     *            The ruler to add the decorators to.
      */
     private void addRulerDecorators(CompositeRuler ruler) {
         if (!ruler.getDecoratorIterator().hasNext()) {
@@ -244,7 +245,8 @@ public class VPMRefinementPage extends WizardPage {
     /**
      * Removes all decorators of the ruler.
      * 
-     * @param ruler The ruler to remove the decorators from.
+     * @param ruler
+     *            The ruler to remove the decorators from.
      */
     private void removeAllRulerDecorators(CompositeRuler ruler) {
         @SuppressWarnings("rawtypes")
@@ -253,7 +255,7 @@ public class VPMRefinementPage extends WizardPage {
             iter.next();
             iter.remove();
         }
-        ruler.relayout();   // We need this line to force our changes to be visually updated
+        ruler.relayout(); // We need this line to force our changes to be visually updated.
     }
 
 }
