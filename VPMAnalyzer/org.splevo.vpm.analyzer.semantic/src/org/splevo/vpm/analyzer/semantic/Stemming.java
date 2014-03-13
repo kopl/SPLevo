@@ -26,6 +26,9 @@ public enum Stemming {
     /** Use the porter stemming algorithm */
     PORTER,
 
+    /** Use kstem stemming algorithm */
+    KSTEM,
+
     /** Use the Pling stemming algorithm based on WORDNET lexical database. */
     PLING,
 

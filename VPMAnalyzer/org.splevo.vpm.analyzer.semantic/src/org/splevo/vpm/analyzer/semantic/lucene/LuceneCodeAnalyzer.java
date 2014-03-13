@@ -23,6 +23,7 @@ import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.en.EnglishMinimalStemFilter;
+import org.apache.lucene.analysis.en.KStemFilter;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.miscellaneous.LengthFilter;
 import org.apache.lucene.analysis.miscellaneous.WordDelimiterFilterFactory;
@@ -87,12 +88,16 @@ public class LuceneCodeAnalyzer extends Analyzer {
             currentStream = new PorterStemFilter(currentStream);
             break;
 
+        case KSTEM:
+            currentStream = new KStemFilter(currentStream);
+            break;
+
         case MINIMALENGLISH:
             currentStream = new EnglishMinimalStemFilter(currentStream);
             break;
 
         case PLING:
-            // FIXME: Implement Pling Stemmer based on wordnet
+            currentStream = new PlingStemmingFilter(currentStream);
             break;
 
         default:
