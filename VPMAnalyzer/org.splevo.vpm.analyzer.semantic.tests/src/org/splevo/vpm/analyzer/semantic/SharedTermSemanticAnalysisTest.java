@@ -124,8 +124,8 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
     public void testNotAllTermsMatching() throws UnsupportedSoftwareElementException {
 
         List<List<String>> terms = Lists.newArrayList();
-        terms.add(Lists.newArrayList("getMatchMultipleTerms"));
-        terms.add(Lists.newArrayList("setTermsMatch"));
+        terms.add(Lists.newArrayList("getMatchsMultipleTerms"));
+        terms.add(Lists.newArrayList("setTermsMatched"));
         registerContentProvider(terms);
 
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
