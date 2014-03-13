@@ -68,7 +68,7 @@ public class ChoiceConfiguration extends
 	 *            The default value for the configuration. Must be part of the
 	 *            available configurations parameter.
 	 * @param availableValues
-	 *            The available values this configurations offers
+	 *            The available values this configurations offers defined as attribute expansion
 	 */
 	public ChoiceConfiguration(String id, String label, String explanation,
 			String defaultValue, String... availableValues) {
@@ -76,6 +76,27 @@ public class ChoiceConfiguration extends
 		this.availableValues = new LinkedList<String>();
 		setAvailableValues(availableValues);
 	}
+
+    /**
+     * The main constructor for this class.
+     *
+     * @param id
+     *            The unique identifier of the configuration option.
+     * @param label
+     *            The configurations' text label.
+     * @param explanation
+     *            A detailed description of the configuration.
+     * @param defaultValue
+     *            The default value for the configuration. Must be part of the
+     *            available configurations parameter.
+     * @param availableValues
+     *            The available values this configurations offers defined as list
+     */
+    public ChoiceConfiguration(String id, String label, String explanation,
+            String defaultValue, List<String> availableValues) {
+        super(id, label, explanation, defaultValue);
+        this.availableValues = availableValues;
+    }
 
 	/* (non-Javadoc)
 	 * @see org.splevo.vpm.analyzer.config.AbstractVPMAnalyzerConfiguration#setDefaultValue(java.lang.Object)
