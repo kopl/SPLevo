@@ -216,6 +216,8 @@ public class VPMRefinementPage extends WizardPage {
 
             if (selectedElement instanceof VariationPoint) {
                 displaySources((VariationPoint) selectedElement);
+            } else if (selectedElement instanceof Variant) {
+                displaySources(((Variant) selectedElement).getVariationPoint());
             }
         }
     }
