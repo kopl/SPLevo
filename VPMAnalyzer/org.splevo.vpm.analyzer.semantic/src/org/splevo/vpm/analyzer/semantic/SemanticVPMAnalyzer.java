@@ -94,7 +94,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /** The configuration-object for the stop words configuration. */
     private StringConfiguration stopWordsConfig = new StringConfiguration(Config.CONFIG_ID_STOP_WORDS,
-            Config.LABEL_STOP_WORDS, Config.EXPL_STOP_WORDS, Config.DEFAULT_STOP_WORDS_HOST);
+            Config.LABEL_STOP_WORDS, Config.EXPL_STOP_WORDS, Config.DEFAULT_STOP_WORDS_HOST, false);
 
     /** The configuration-object for the minimum number of shared terms configuration. */
     private NumericConfiguration minSharedTermConfig = new NumericConfiguration(Config.CONFIG_ID_SHARED_TERM_MINIMUM,
