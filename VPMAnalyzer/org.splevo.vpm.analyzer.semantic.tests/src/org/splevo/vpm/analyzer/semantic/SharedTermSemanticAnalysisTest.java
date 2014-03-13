@@ -24,6 +24,7 @@ import org.graphstream.graph.Node;
 import org.junit.Test;
 import org.mockito.stubbing.OngoingStubbing;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
+import org.splevo.vpm.analyzer.config.ChoiceConfiguration;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
@@ -61,7 +62,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
         registerContentProvider(terms);
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
 
-        SemanticVPMAnalyzer analyzer = createAnalyzer("get set");
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set", Stemming.PORTER);
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
         assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(1));
@@ -83,7 +84,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
 
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
 
-        SemanticVPMAnalyzer analyzer = createAnalyzer("get set use case");
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set use case", Stemming.PORTER);
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
         assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(0));
@@ -106,7 +107,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
 
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2", "NODE3"));
 
-        SemanticVPMAnalyzer analyzer = createAnalyzer("get set");
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set", Stemming.PORTER);
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
 
@@ -129,12 +130,12 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
 
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
 
-        SemanticVPMAnalyzer analyzer = createAnalyzer("get set");
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set", Stemming.PORTER);
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
 
         assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(1));
-        assertThat("Wrong sublabel", result.getEdgeDescriptors().get(0).getRelationshipSubLabel(), is("match terms"));
+        assertThat("Wrong sublabel", result.getEdgeDescriptors().get(0).getRelationshipSubLabel(), is("match term"));
     }
 
     private VPMGraph mockVPMGraph(List<String> nodeIds) {
@@ -149,11 +150,19 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
         return vpmGraph;
     }
 
-    private SemanticVPMAnalyzer createAnalyzer(String stopWords) {
+    private SemanticVPMAnalyzer createAnalyzer(String stopWords, Stemming stemming) {
         SemanticVPMAnalyzer analyzer = new SemanticVPMAnalyzer();
-        StringConfiguration stopWordConfig = getStopWordConfig(analyzer);
-        stopWordConfig.setCurrentValue(stopWords);
+        setStopWordConfig(analyzer, stopWords);
+        setStemmingConfig(analyzer, stemming.name());
+
         return analyzer;
+    }
+
+    private void setStemmingConfig(SemanticVPMAnalyzer analyzer, String stemming) {
+        VPMAnalyzerConfigurationSet configs = analyzer.getConfigurations();
+        ChoiceConfiguration stemmingConfig = (ChoiceConfiguration) configs.getConfiguration(
+                Config.CONFIG_GROUP_GENERAL, Config.CONFIG_ID_STEMMING);
+        stemmingConfig.setCurrentValue(stemming);
     }
 
     private void registerContentProvider(List<List<String>> termLists) throws UnsupportedSoftwareElementException {
@@ -225,11 +234,11 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
         return provider;
     }
 
-    private StringConfiguration getStopWordConfig(SemanticVPMAnalyzer analyzer) {
+    private void setStopWordConfig(SemanticVPMAnalyzer analyzer, String stopWords) {
         VPMAnalyzerConfigurationSet configs = analyzer.getConfigurations();
         StringConfiguration stopWordConfig = (StringConfiguration) configs.getConfiguration(
                 Config.CONFIG_GROUP_GENERAL, Config.CONFIG_ID_STOP_WORDS);
-        return stopWordConfig;
+        stopWordConfig.setCurrentValue(stopWords);
     }
 
 }
