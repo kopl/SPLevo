@@ -16,8 +16,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -33,7 +35,10 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ICheckStateProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -56,6 +61,7 @@ import com.google.common.io.CharStreams;
 @SuppressWarnings("restriction")
 public class VPMRefinementPage extends WizardPage {
 
+    private Set<Refinement> selectedRefinements;
     private CheckboxTreeViewer treeViewer;
     private SourceViewer leadingSourceViewer;
     private SourceViewer integrationSourceViewer;
@@ -90,6 +96,9 @@ public class VPMRefinementPage extends WizardPage {
         integrationSourceViewer = new SourceViewer(sourceViewersSash, integrationRuler, SWT.V_SCROLL);
 
         this.treeViewer.addSelectionChangedListener(new VPMSelectionChangedListener());
+        this.treeViewer.setAutoExpandLevel(1);
+        this.treeViewer.setCheckStateProvider(new CheckStateProvider());
+        this.treeViewer.addCheckStateListener(new CheckStateListener());
     }
 
     /**
@@ -160,6 +169,8 @@ public class VPMRefinementPage extends WizardPage {
      *            refinements to be suggested in the VPMRefinementPage
      */
     public void setRefinements(final List<Refinement> refinements) {
+        // TODO: Copy refinements to output structure
+        selectedRefinements = new HashSet<Refinement>(refinements);
         this.treeViewer.setInput(refinements);
         this.treeViewer.refresh();
         setMessage("Variation Point Refinement Recommendations", DialogPage.NONE);
@@ -195,28 +206,6 @@ public class VPMRefinementPage extends WizardPage {
             integrationDocument = new Document();
         }
         displayDocument(integrationSourceViewer, integrationDocument);
-    }
-
-    /**
-     * SelectionChangedListener that updates the the SourceViewers if the selection in the
-     * TreeViewer changes.
-     * 
-     * @author Christian Busch
-     * 
-     */
-    private class VPMSelectionChangedListener implements ISelectionChangedListener {
-
-        @Override
-        public void selectionChanged(SelectionChangedEvent event) {
-
-            Object selectedElement = ((StructuredSelection) event.getSelection()).getFirstElement();
-
-            if (selectedElement instanceof VariationPoint) {
-                displaySources((VariationPoint) selectedElement);
-            } else if (selectedElement instanceof Variant) {
-                displaySources(((Variant) selectedElement).getVariationPoint());
-            }
-        }
     }
 
     /**
@@ -256,6 +245,71 @@ public class VPMRefinementPage extends WizardPage {
             iter.remove();
         }
         ruler.relayout(); // We need this line to force our changes to be visually updated.
+    }
+
+    private Refinement getParentRefinement(Refinement element) {
+        return element;
+    }
+
+    /**
+     * SelectionChangedListener that updates the the SourceViewers if the selection in the
+     * TreeViewer changes.
+     * 
+     * @author Christian Busch
+     * 
+     */
+    private class VPMSelectionChangedListener implements ISelectionChangedListener {
+    
+        @Override
+        public void selectionChanged(SelectionChangedEvent event) {
+    
+            Object selectedElement = ((StructuredSelection) event.getSelection()).getFirstElement();
+    
+            if (selectedElement instanceof VariationPoint) {
+                displaySources((VariationPoint) selectedElement);
+            } else if (selectedElement instanceof Variant) {
+                displaySources(((Variant) selectedElement).getVariationPoint());
+            }
+        }
+    }
+
+    /**
+     * This provider is responsible to compute which nodes are to be display as selected.
+     * 
+     * @author Christian Busch
+     * 
+     */
+    private class CheckStateProvider implements ICheckStateProvider {
+
+        @Override
+        public boolean isChecked(Object element) {
+            if (element instanceof Refinement) {
+                return selectedRefinements.contains(element);
+            } else if (element instanceof VariationPoint){
+                // TODO Check if element is in tree and in output data structure
+            } else if (element instanceof Variant) {
+                // TODO Check if element is in tree and in output data structure
+            }
+
+            return false;
+        }
+
+        @Override
+        public boolean isGrayed(Object element) {
+            // TODO check if there exists one child element not selected
+            return false;
+        }
+
+    }
+
+    private class CheckStateListener implements ICheckStateListener {
+
+        @Override
+        public void checkStateChanged(CheckStateChangedEvent event) {
+            // TODO Auto-generated method stub
+
+        }
+
     }
 
 }
