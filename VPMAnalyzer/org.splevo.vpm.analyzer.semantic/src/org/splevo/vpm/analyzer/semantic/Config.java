@@ -87,8 +87,11 @@ public final class Config {
     /** The explanation for the stop word configuration. */
     public static final String EXPL_STEMMING = "Activate stemming of terms such as plural to singular";
 
-    /** The default configuration for the SPLIT_CAMEL_CASE configuration. */
-    public static final boolean DEFAULT_STEMMING = true;
+    /** The default configuration for STEMMING. */
+    public static final String DEFAULT_STEMMING = Stemming.PORTER.name();
+
+    /** The available stemming options derived from the Stemming enum. */
+    public static final String[] AVAILABLEVALUES_STEMMING = Stemming.getAvailableNames();
 
     // --------------------------
     // Stop Words
@@ -107,12 +110,16 @@ public final class Config {
     /** The stop-word list for the analyzers. */
     public static final String DEFAULT_STOP_WORDS = "get set is";
 
-    /** Default stop words according to Host et al. "The Programmer ’ s Lexicon , Volume I The Verbs" */
+    /**
+     * Default stop words according to Host et al. "The Programmer ï¿½ s Lexicon , Volume I The Verbs"
+     */
     public static final String DEFAULT_STOP_WORDS_HOST = "accept action add check clear close create do dump end equals find generate get handle has hash init initialize insert is load make new next parse print process read remove reset run set size start to update validate visit write";
 
-    /** Default stop words according to Caprile and Tonello "Nomen est omen: analyzing the language of function identifiers" */
+    /**
+     * Default stop words according to Caprile and Tonello
+     * "Nomen est omen: analyzing the language of function identifiers"
+     */
     public static final String DEFAULT_STOP_WORDS_CAPRILE = "get print set expand make copy list delete init search add write read put do parse free send find handle";
-
 
     // --------------------------
     // Shared Term Minimum

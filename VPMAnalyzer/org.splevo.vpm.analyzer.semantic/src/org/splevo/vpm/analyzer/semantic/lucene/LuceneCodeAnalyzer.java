@@ -22,68 +22,97 @@ import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.core.WhitespaceTokenizer;
+import org.apache.lucene.analysis.en.EnglishMinimalStemFilter;
+import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.miscellaneous.LengthFilter;
 import org.apache.lucene.analysis.miscellaneous.WordDelimiterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.util.Version;
+import org.splevo.vpm.analyzer.semantic.Stemming;
 
 /**
- * This class is a custom Lucene-Analyzer. Tokenization is done by the
- * WhitespaceTokenizer. Stopwords which are specified in the Constants
- * class get filtered out. Further, camel-case notation is beeing split
- * up, too.
+ * This class is a custom Lucene-Analyzer. Tokenization is done by the WhitespaceTokenizer.
+ * Stopwords which are specified in the Constants class get filtered out. Further, camel-case
+ * notation is beeing split up, too.
  */
 public class LuceneCodeAnalyzer extends Analyzer {
 
-	/** The stop words. */
-	private CharArraySet stopWords;
+    private static final Version LUCENE_VERSION = Version.LUCENE_47;
 
-	/** Specifies whether to split on case-change or not. */
-	private boolean splitCamelCase;
+    /** The stop words. */
+    private CharArraySet stopWords;
 
-	/**
-	 * Initializes the Analyzer. Filters the given stop words.
-	 *
-	 * @param stopWords The stop-words.
-	 * @param splitCamelCase Specifies whether to split on case-change or not.
-	 */
-	public LuceneCodeAnalyzer(String[] stopWords, boolean splitCamelCase) {
-		this.stopWords = transformToCharArray(stopWords);
-		this.splitCamelCase = splitCamelCase;
-	}
+    /** Specifies whether to split on case-change or not. */
+    private boolean splitCamelCase;
 
-	@Override
-	protected TokenStreamComponents createComponents(String field, Reader reader) {
+    private Stemming stemming;
 
-	    Tokenizer source = new WhitespaceTokenizer(Version.LUCENE_43, reader);
+    /**
+     * Initializes the Analyzer. Filters the given stop words.
+     *
+     * @param stopWords
+     *            The stop-words.
+     * @param splitCamelCase
+     *            Specifies whether to split on case-change or not.
+     * @param stemming
+     *            option to use stemming or not.
+     */
+    public LuceneCodeAnalyzer(String[] stopWords, boolean splitCamelCase, Stemming stemming) {
+        this.stopWords = transformToCharArray(stopWords);
+        this.splitCamelCase = splitCamelCase;
+        this.stemming = stemming;
+    }
 
-		Map<String, String> args = new HashMap<String, String>();
-	    args.put("generateWordParts", "1");
-	    args.put("generateNumberParts", "0");
-	    args.put("catenateWords", "0");
-	    args.put("catenateNumbers", "0");
-	    args.put("catenateAll", "0");
-	    args.put("splitOnCaseChange", splitCamelCase ? "1" : "0");
-	    TokenStream currentStream = new WordDelimiterFilterFactory(args).create(source);
+    @Override
+    protected TokenStreamComponents createComponents(String field, Reader reader) {
 
-	    currentStream = new LowerCaseFilter(Version.LUCENE_43, currentStream);
-	    currentStream = new LengthFilter(true, currentStream, 3, Integer.MAX_VALUE);
-	    currentStream = new StopFilter(Version.LUCENE_43, currentStream, stopWords);
-	    currentStream = new StandardFilter(Version.LUCENE_43, currentStream);
+        Tokenizer source = new WhitespaceTokenizer(LUCENE_VERSION, reader);
 
-	    return new TokenStreamComponents(source, currentStream);
-	}
+        Map<String, String> args = new HashMap<String, String>();
+        args.put("generateWordParts", "1");
+        args.put("generateNumberParts", "0");
+        args.put("catenateWords", "0");
+        args.put("catenateNumbers", "0");
+        args.put("catenateAll", "0");
+        args.put("splitOnCaseChange", splitCamelCase ? "1" : "0");
+        TokenStream currentStream = new WordDelimiterFilterFactory(args).create(source);
 
-	/**
-	 * Transforms the stop-word-list from the Constants class
-	 * into a {@link CharArraySet}.
-	 *
-	 * @param stopWords The stop-words.
-	 * @return The {@link CharArraySet} containing the stop-words.
-	 */
-	private CharArraySet transformToCharArray(String[] stopWords) {
-		CharArraySet charArraySet = new CharArraySet(Version.LUCENE_43, java.util.Arrays.asList(stopWords), true);
-		return charArraySet;
-	}
+        currentStream = new LowerCaseFilter(LUCENE_VERSION, currentStream);
+        currentStream = new LengthFilter(LUCENE_VERSION, currentStream, 3, Integer.MAX_VALUE);
+        currentStream = new StopFilter(LUCENE_VERSION, currentStream, stopWords);
+
+        switch (stemming) {
+        case PORTER:
+            currentStream = new PorterStemFilter(currentStream);
+            break;
+
+        case MINIMALENGLISH:
+            currentStream = new EnglishMinimalStemFilter(currentStream);
+            break;
+
+        case PLING:
+            // FIXME: Implement Pling Stemmer based on wordnet
+            break;
+
+        default:
+            break;
+        }
+
+        currentStream = new StandardFilter(LUCENE_VERSION, currentStream);
+
+        return new TokenStreamComponents(source, currentStream);
+    }
+
+    /**
+     * Transforms the stop-word-list from the Constants class into a {@link CharArraySet}.
+     *
+     * @param stopWords
+     *            The stop-words.
+     * @return The {@link CharArraySet} containing the stop-words.
+     */
+    private CharArraySet transformToCharArray(String[] stopWords) {
+        CharArraySet charArraySet = new CharArraySet(LUCENE_VERSION, java.util.Arrays.asList(stopWords), true);
+        return charArraySet;
+    }
 }

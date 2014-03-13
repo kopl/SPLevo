@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javatools.parsers.PlingStemmer;
-
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.SlowCompositeReaderWrapper;
@@ -30,6 +28,7 @@ import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.config.BooleanConfiguration;
+import org.splevo.vpm.analyzer.config.ChoiceConfiguration;
 import org.splevo.vpm.analyzer.config.NumericConfiguration;
 import org.splevo.vpm.analyzer.config.StringConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
@@ -88,9 +87,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     private BooleanConfiguration splitCamelCaseConfig = new BooleanConfiguration(Config.CONFIG_ID_SPLIT_CAMEL_CASE,
             Config.LABEL_SPLIT_CAMEL_CASE, null, Config.DEFAULT_SPLIT_CAMEL_CASE);
 
-    /** The configuration-object for the stemming configuration. */
-    private BooleanConfiguration stemmingConfig = new BooleanConfiguration(Config.CONFIG_ID_STEMMING,
-            Config.LABEL_STEMMING, null, Config.DEFAULT_STEMMING);
+    /** The configuration-object for the stemming to be used. */
+    private ChoiceConfiguration stemmingConfig = new ChoiceConfiguration(Config.CONFIG_ID_STEMMING,
+            Config.LABEL_STEMMING, null, Config.DEFAULT_STEMMING, Config.AVAILABLEVALUES_STEMMING);
 
     /** The configuration-object for the stop words configuration. */
     private StringConfiguration stopWordsConfig = new StringConfiguration(Config.CONFIG_ID_STOP_WORDS,
@@ -218,7 +217,12 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         boolean splitCamelCase = splitCamelCaseConfig.getCurrentValue();
         String stopWords = stopWordsConfig.getCurrentValue();
 
+        String stemmingString = stemmingConfig.getCurrentValue();
+        Stemming stemming = Stemming.valueOf(stemmingString);
+
+
         this.indexer.setSplitCamelCase(splitCamelCase);
+        this.indexer.setStemming(stemming);
 
         if (stopWords != null) {
             if (stopWords.length() > 0) {
@@ -260,11 +264,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             }
         }
 
-        if (stemmingConfig.getCurrentValue()) {
-            codeTerms = stemmTerms(codeTerms);
-            comments = stemmTerms(comments);
-        }
-
         // Get content and comment from switch.
         String codeString = convertListToString(codeTerms);
         String commentString = convertListToString(comments);
@@ -276,15 +275,6 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             logger.error("Failure while adding node to index.", e);
         }
 
-    }
-
-    private List<String> stemmTerms(List<String> codeTerms) {
-        List<String> stemmedTerms = Lists.newArrayList();
-        for (String string : codeTerms) {
-            stemmedTerms.add(PlingStemmer.stem(string));
-        }
-        codeTerms = new ArrayList<String>(stemmedTerms);
-        return codeTerms;
     }
 
     /**

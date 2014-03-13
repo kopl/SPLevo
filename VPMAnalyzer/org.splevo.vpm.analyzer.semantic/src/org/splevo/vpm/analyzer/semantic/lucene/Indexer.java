@@ -31,6 +31,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.splevo.vpm.analyzer.semantic.Config;
+import org.splevo.vpm.analyzer.semantic.Stemming;
 
 import com.google.common.base.Strings;
 
@@ -46,6 +47,8 @@ import com.google.common.base.Strings;
  * singleton pattern is used.
  */
 public final class Indexer {
+
+    private static final Version LUCENE_VERSION = Version.LUCENE_47;
 
     private static Logger logger = Logger.getLogger(Indexer.class);
 
@@ -76,6 +79,9 @@ public final class Indexer {
     /** Contains the stop-words to be filtered out. */
     private String[] stopWords;
 
+    /** Option which stemming to use. */
+    private Stemming stemming;
+
     /**
      * Define the Field-Type the text gets added to the index. To allow term extraction,
      * DOCS_AND_FREQS has to be stored in the index.
@@ -103,6 +109,7 @@ public final class Indexer {
     private Indexer() {
         this.splitCamelCase = true;
         this.stopWords = Config.DEFAULT_STOP_WORDS.split(" ");
+        this.stemming = Stemming.valueOf(Config.DEFAULT_STEMMING);
 
         // Use RAMDirectory to use an in-memory index.
         directory = new RAMDirectory();
@@ -126,6 +133,16 @@ public final class Indexer {
      */
     public void setSplitCamelCase(boolean splitCamelCase) {
         this.splitCamelCase = splitCamelCase;
+    }
+
+    /**
+     * Sets the option to use stemming or not.
+     *
+     * @param stemming
+     *            True if stemming should be used.
+     */
+    public void setStemming(Stemming stemming) {
+        this.stemming = stemming;
     }
 
     /**
@@ -235,8 +252,8 @@ public final class Indexer {
      *             An error when trying to init the index access.
      */
     private IndexWriter createIndexWriter() throws IOException {
-        PerFieldAnalyzerWrapper wrapper = createAnalzyerWrapper(stopWords, splitCamelCase);
-        IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_43, wrapper);
+        PerFieldAnalyzerWrapper wrapper = createAnalzyerWrapper();
+        IndexWriterConfig config = new IndexWriterConfig(LUCENE_VERSION, wrapper);
         IndexWriter indexWriter = new IndexWriter(directory, config);
         return indexWriter;
     }
@@ -249,15 +266,17 @@ public final class Indexer {
      *            The stop-word list to be used by the {@link LuceneCodeAnalyzer}.
      * @param splitCamelCase
      *            Specifies whether to split on case-change or not.
+     * @param stemming
+     *            Option to use stemming or not.
      * @return A {@link AnalyzerWrapper}.
      */
-    private PerFieldAnalyzerWrapper createAnalzyerWrapper(String[] stopWords, boolean splitCamelCase) {
+    private PerFieldAnalyzerWrapper createAnalzyerWrapper() {
         Map<String, Analyzer> analyzerPerField = new HashMap<String, Analyzer>();
-        analyzerPerField.put(Indexer.INDEX_CONTENT, new LuceneCodeAnalyzer(stopWords, splitCamelCase));
-        analyzerPerField.put(Indexer.INDEX_COMMENT, new StandardAnalyzer(Version.LUCENE_43));
+        analyzerPerField.put(Indexer.INDEX_CONTENT, new LuceneCodeAnalyzer(stopWords, splitCamelCase, stemming));
+        analyzerPerField.put(Indexer.INDEX_COMMENT, new StandardAnalyzer(LUCENE_VERSION));
 
-        PerFieldAnalyzerWrapper aWrapper = new PerFieldAnalyzerWrapper(
-                new LuceneCodeAnalyzer(stopWords, splitCamelCase), analyzerPerField);
+        PerFieldAnalyzerWrapper aWrapper = new PerFieldAnalyzerWrapper(new LuceneCodeAnalyzer(stopWords,
+                splitCamelCase, stemming), analyzerPerField);
         return aWrapper;
     }
 }
