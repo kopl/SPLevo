@@ -22,15 +22,11 @@ import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.core.WhitespaceTokenizer;
-import org.apache.lucene.analysis.en.EnglishMinimalStemFilter;
-import org.apache.lucene.analysis.en.KStemFilter;
-import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.miscellaneous.LengthFilter;
 import org.apache.lucene.analysis.miscellaneous.WordDelimiterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.util.Version;
-import org.splevo.vpm.analyzer.semantic.Stemming;
 
 /**
  * This class is a custom Lucene-Analyzer. Tokenization is done by the WhitespaceTokenizer.
@@ -65,6 +61,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
         this.stemming = stemming;
     }
 
+    @SuppressWarnings("resource")
     @Override
     protected TokenStreamComponents createComponents(String field, Reader reader) {
 
@@ -82,27 +79,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
         currentStream = new LowerCaseFilter(LUCENE_VERSION, currentStream);
         currentStream = new LengthFilter(LUCENE_VERSION, currentStream, 3, Integer.MAX_VALUE);
         currentStream = new StopFilter(LUCENE_VERSION, currentStream, stopWords);
-
-        switch (stemming) {
-        case PORTER:
-            currentStream = new PorterStemFilter(currentStream);
-            break;
-
-        case KSTEM:
-            currentStream = new KStemFilter(currentStream);
-            break;
-
-        case MINIMALENGLISH:
-            currentStream = new EnglishMinimalStemFilter(currentStream);
-            break;
-
-        case PLING:
-            currentStream = new PlingStemmingFilter(currentStream);
-            break;
-
-        default:
-            break;
-        }
+        currentStream = Stemming.wrapStemmingFilter(currentStream, stemming);
 
         currentStream = new StandardFilter(LUCENE_VERSION, currentStream);
 

@@ -31,7 +31,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.splevo.vpm.analyzer.semantic.Config;
-import org.splevo.vpm.analyzer.semantic.Stemming;
 
 import com.google.common.base.Strings;
 

@@ -9,9 +9,16 @@
  * Contributors:
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.vpm.analyzer.semantic;
+package org.splevo.vpm.analyzer.semantic.lucene;
 
 import java.util.List;
+
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.en.EnglishMinimalStemFilter;
+import org.apache.lucene.analysis.en.KStemFilter;
+import org.apache.lucene.analysis.en.PorterStemFilter;
+import org.apache.lucene.analysis.snowball.SnowballFilter;
+import org.tartarus.snowball.ext.EnglishStemmer;
 
 import com.google.common.collect.Lists;
 
@@ -23,8 +30,11 @@ public enum Stemming {
     /** Use no stemming. */
     NONE,
 
-    /** Use the porter stemming algorithm */
+    /** Use the porter stemming algorithm from the snowball project */
     PORTER,
+
+    /** Use the porter stemming algorithm default implementation provided by lucene */
+    PORTERPLAIN,
 
     /** Use kstem stemming algorithm */
     KSTEM,
@@ -52,5 +62,37 @@ public enum Stemming {
             stemmingNames.add(stemming.name());
         }
         return stemmingNames.toArray(new String[] {});
+    }
+
+    /**
+     * Wrap the current stream with the configured stemming option.
+     *
+     * @param stream
+     *            The token stream to wrap.
+     * @param stemming
+     *            The stemming option selected.
+     * @return The wrapped stream, or the stream itself in case of none configured.
+     */
+    public static TokenStream wrapStemmingFilter(TokenStream stream, Stemming stemming) {
+        switch (stemming) {
+        case PORTER:
+            return new SnowballFilter(stream, new EnglishStemmer());
+
+        case PORTERPLAIN:
+            return new PorterStemFilter(stream);
+
+        case KSTEM:
+            return new KStemFilter(stream);
+
+        case MINIMALENGLISH:
+            return new EnglishMinimalStemFilter(stream);
+
+        case PLING:
+            return new PlingStemmingFilter(stream);
+
+        case NONE:
+        default:
+            return stream;
+        }
     }
 }

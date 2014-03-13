@@ -12,6 +12,8 @@
  *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic;
 
+import org.splevo.vpm.analyzer.semantic.lucene.Stemming;
+
 
 /**
  * Container for configuration default values.
