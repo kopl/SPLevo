@@ -39,10 +39,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.splevo.modisco.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.splevo.ui.feature"
          version="0.0.0"/>
 
@@ -67,23 +63,11 @@
          version="0.0.0"/>
 
    <includes
-         id="org.splevo.modisco.support.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.splevo.jamopp.feature"
          version="0.0.0"/>
 
    <plugin
          id="org.splevo.fm.builder.tests"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.splevo.modisco.util.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -130,30 +114,6 @@
 
    <plugin
          id="org.splevo.vpm.analyzer.semantic.tests"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.splevo.modisco.java.diffing.tests"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.splevo.modisco.java.vpm.builder.tests"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.splevo.modisco.java.vpm.analyzer.programstructure.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"
