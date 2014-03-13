@@ -32,6 +32,7 @@ import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContent;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProvider;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProviderRegistry;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.UnsupportedSoftwareElementException;
+import org.splevo.vpm.analyzer.semantic.lucene.Stemming;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
