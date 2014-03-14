@@ -14,6 +14,7 @@ package org.splevo.jamopp.vpm.analyzer.programdependency;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -37,6 +38,8 @@ import org.emftext.language.java.variables.LocalVariable;
  *
  */
 public class ReferencedElementSelector {
+
+    private static Logger logger = Logger.getLogger(RefereableElementSelector.class);
 
     /**
      * Get the referable child nodes of a JaMoPP element.
@@ -62,14 +65,18 @@ public class ReferencedElementSelector {
             LocalVariableStatement lvs = (LocalVariableStatement) commentable;
             LocalVariable var = lvs.getVariable();
 
-            // check the variables type
-            referencedElements.addAll(getReferencedElements(var.getTypeReference()));
+            if (var != null) {
 
-            // check the value
-            referencedElements.addAll(getReferencedElements(var.getInitialValue()));
+                // check the variables type
+                referencedElements.addAll(getReferencedElements(var.getTypeReference()));
 
-            // TODO check Additional variable
-            // var.getAdditionalLocalVariables()
+                // check the value
+                referencedElements.addAll(getReferencedElements(var.getInitialValue()));
+            } else {
+                logger.warn("VariableStatement without variable: " + lvs);
+                // additional local variables must not be checked
+                // as they do not introduce any new references
+            }
 
             return referencedElements;
         }
