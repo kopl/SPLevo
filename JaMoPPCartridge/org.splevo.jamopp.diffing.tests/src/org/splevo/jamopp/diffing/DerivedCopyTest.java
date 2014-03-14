@@ -93,6 +93,38 @@ public class DerivedCopyTest {
      *             Identifies a failed diffing.
      */
     @Test
+    public void testDerivedCopyWithIgnoreFields() throws Exception {
+
+        String basePath = "testmodels/implementation/derivedcopyfield/";
+        ResourceSet setA = TestUtil.extractModel(basePath + "a");
+        ResourceSet setB = TestUtil.extractModel(basePath + "b");
+
+        StringBuilder packageMapping = new StringBuilder();
+
+        StringBuilder classifierNormalization = new StringBuilder();
+        classifierNormalization.append("*Custom");
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+
+        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
+        diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
+
+        Comparison comparison = differ.doDiff(setA, setB, diffOptions);
+
+        EList<Diff> differences = comparison.getDifferences();
+        assertThat("No diff because not present imports must not be detected as deleted", differences.size(), is(0));
+
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
     public void testDerivedCopyWithIgnoreImports() throws Exception {
 
         String basePath = "testmodels/implementation/derivedcopyimport/";
