@@ -6,6 +6,7 @@
   <rm:locator searchPathRef="guava" failOnError="false" />
   <rm:locator searchPathRef="jamopp" failOnError="false" />
   <rm:locator searchPathRef="emftext" failOnError="false" />
+  <rm:locator searchPathRef="refactory" failOnError="false" />
   <rm:locator searchPathRef="workflowengine" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
   <rm:locator searchPathRef="EMFFeatureModel" failOnError="false" />
   <rm:locator searchPathRef="orbit" failOnError="false" />
@@ -31,6 +32,13 @@
 	 	<rm:property key="buckminster.source" value="false"/>
 	    <rm:property key="buckminster.mutable" value="false"/>
 	  	<rm:uri format="http://www.emftext.org/update_trunk/"/>
+	  </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="refactory">
+	  <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+	 	<rm:property key="buckminster.source" value="false"/>
+	    <rm:property key="buckminster.mutable" value="false"/>
+	  	<rm:uri format="http://www.modelrefactoring.org/update_trunk/"/>
 	  </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="jamopp">
