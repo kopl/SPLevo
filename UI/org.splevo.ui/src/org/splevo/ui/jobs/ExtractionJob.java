@@ -75,7 +75,7 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
         // prepare the target path
         String sourceModelPath = WorkspaceUtil.getSourceModelPathWithinEclipse(splevoProject, variantName);
 
-        List<String> projectURIsAbsolute = buildProjectPaths(projectNames);
+        List<String> projectURIsAbsolute = ProjectPathUtil.buildProjectPaths(projectNames);
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
@@ -120,24 +120,6 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
         }
 
         logger.info("Extraction finished: " + variantName);
-    }
-
-    /**
-     * Build the absolute URIs for a list of projects identified by their names.
-     *
-     * @param projectNames
-     *            The project names.
-     * @return The list of URIs identifying the projects.
-     */
-    private List<String> buildProjectPaths(List<String> projectNames) {
-        List<String> projectURIs = new ArrayList<String>();
-        for (String projectName : projectNames) {
-            IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-            IProject project = root.getProject(projectName);
-            String path = project.getLocation().toPortableString();
-            projectURIs.add(path);
-        }
-        return projectURIs;
     }
 
     /**
