@@ -1,6 +1,8 @@
 package org.splevo.refactoring;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -12,33 +14,13 @@ public class DefaultRefactoringService implements RefactoringService {
 
     @Override
     public void buildSoftwareProductLine(VariationPointModel vpm, String outputPath) {
+        
+        // FIXME: resource null. some bug in copyvpmjob.
+        Resource eResource = ((JaMoPPSoftwareElement) vpm.getSoftwareElements().get(0)).getJamoppElement().eResource();
+        
         throw new UnsupportedOperationException("Refactoring not yet implemented");
         // TODO: copy project contents
         // TODO: copy model: Copier copier = copyModel(vpm, outputPath);
         // TODO: do refactoring
     }
-
-//    private Copier copyModel(EObject inputModel, String to) {
-//        // delete old file if existing
-//        File outputFile = new File(to);
-//        if (outputFile.exists()) {
-//            if (!outputFile.delete()) {
-//                logger.error("File could not be deleted: " + outputFile.getPath());
-//            }
-//        }
-//
-//        // get a copier
-//        Copier copier = new Copier(false, true);
-//        EObject copiedModel = copier.copy(inputModel);
-//        copier.copyReferences();
-//
-//        // create new ResourceSet
-//        ResourceSet outputResourceSet = new ResourceSetImpl();
-//        URI uri = URI.createFileURI(outputFile.getAbsolutePath());
-//        Resource outputResource = outputResourceSet.createResource(uri);
-//        outputResourceSet.getResources().add(outputResource);
-//        outputResource.getContents().add(copiedModel);
-//
-//        return copier;
-//    }
 }
