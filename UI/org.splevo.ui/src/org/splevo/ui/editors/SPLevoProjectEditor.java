@@ -58,7 +58,6 @@ import org.splevo.diffing.Differ;
 import org.splevo.diffing.DifferRegistry;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
-import org.splevo.ui.editors.listener.BuildSPLListener;
 import org.splevo.ui.editors.listener.DifferCheckBoxListener;
 import org.splevo.ui.editors.listener.GotoTabMouseListener;
 import org.splevo.ui.editors.listener.MarkDirtyListener;
@@ -165,9 +164,6 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /** Button Generate feature model. */
     private Button btnGenerateFeatureModel;
-
-    /** Button Generate feature model. */
-    private Button btnBuildSPL;
 
     /** Button Open Diff. */
     private Button btnOpenDiff;
@@ -547,11 +543,6 @@ public class SPLevoProjectEditor extends EditorPart {
         btnGenerateFeatureModel.addMouseListener(new GenerateFeatureModelListener(this));
         btnGenerateFeatureModel.setText("Generate Feature Model");
         btnGenerateFeatureModel.setBounds(528, 58, 118, 45);
-
-        btnBuildSPL = new Button(processControlContainer, SWT.WRAP);
-        btnBuildSPL.addMouseListener(new BuildSPLListener(this));
-        btnBuildSPL.setText("Build SPL");
-        btnBuildSPL.setBounds(528, 120, 118, 45);
 
         btnOpenDiff = new Button(processControlContainer, SWT.NONE);
         btnOpenDiff.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
