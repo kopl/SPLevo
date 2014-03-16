@@ -24,7 +24,6 @@
       <discovery label="JaMoPP" url="http://jamopp.org/update_trunk"/>
       <discovery label="Google Guava" url="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
       <discovery label="EMF Compare" url="http://download.eclipse.org/modeling/emf/compare/updates/releases/"/>
-      <discovery label="Refactory" url="http://www.modelrefactoring.org/update_trunk/"/>
    </url>
 
    <includes
@@ -65,10 +64,6 @@
 
    <includes
          id="org.splevo.jamopp.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.splevo.refactoring.feature"
          version="0.0.0"/>
 
    <plugin
