@@ -104,7 +104,7 @@ public class VPMRefinementPage extends WizardPage {
     /**
      * Displays the Document in the SourceViewer. To achieve this, the SourceViewer will also be set
      * up according to the Document.
-     * 
+     *
      * @param sourceViewer
      *            The Source viewer to display the Document in.
      * @param document
@@ -128,7 +128,7 @@ public class VPMRefinementPage extends WizardPage {
     /**
      * Given a path will return a Document with the contents of the file at this path and the
      * DocumentPartitioner set up accordingly.
-     * 
+     *
      * @param path
      *            Path of the File to generate a Document from.
      * @return a Document containing the content of the file at the path.
@@ -164,7 +164,7 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * Setter for the refinements.
-     * 
+     *
      * @param refinements
      *            refinements to be suggested in the VPMRefinementPage
      */
@@ -178,7 +178,7 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * Display the source of the the selected VariationPoints variants in the SourceViewers.
-     * 
+     *
      * @param selectedVariationPoint
      *            The VariationPoint of which its Variants sources should be displayed.
      */
@@ -221,7 +221,7 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * Adds all necessary decorators to the ruler if they are not already set.
-     * 
+     *
      * @param ruler
      *            The ruler to add the decorators to.
      */
@@ -233,7 +233,7 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * Removes all decorators of the ruler.
-     * 
+     *
      * @param ruler
      *            The ruler to remove the decorators from.
      */
@@ -247,24 +247,20 @@ public class VPMRefinementPage extends WizardPage {
         ruler.relayout(); // We need this line to force our changes to be visually updated.
     }
 
-    private Refinement getParentRefinement(Refinement element) {
-        return element;
-    }
-
     /**
      * SelectionChangedListener that updates the the SourceViewers if the selection in the
      * TreeViewer changes.
-     * 
+     *
      * @author Christian Busch
-     * 
+     *
      */
     private class VPMSelectionChangedListener implements ISelectionChangedListener {
-    
+
         @Override
         public void selectionChanged(SelectionChangedEvent event) {
-    
+
             Object selectedElement = ((StructuredSelection) event.getSelection()).getFirstElement();
-    
+
             if (selectedElement instanceof VariationPoint) {
                 displaySources((VariationPoint) selectedElement);
             } else if (selectedElement instanceof Variant) {
@@ -275,9 +271,9 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * This provider is responsible to compute which nodes are to be display as selected.
-     * 
+     *
      * @author Christian Busch
-     * 
+     *
      */
     private class CheckStateProvider implements ICheckStateProvider {
 
@@ -285,7 +281,7 @@ public class VPMRefinementPage extends WizardPage {
         public boolean isChecked(Object element) {
             if (element instanceof Refinement) {
                 return selectedRefinements.contains(element);
-            } else if (element instanceof VariationPoint){
+            } else if (element instanceof VariationPoint) {
                 // TODO Check if element is in tree and in output data structure
             } else if (element instanceof Variant) {
                 // TODO Check if element is in tree and in output data structure
