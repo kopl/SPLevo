@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.ui.jobs;
 
 import java.util.ArrayList;
@@ -7,7 +18,14 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 
-public class ProjectPathUtil {
+/**
+ * Utility class for common project paths handling.
+ */
+public final class ProjectPathUtil {
+
+    /** Disable constructor for utility class. */
+    private ProjectPathUtil() {
+    }
 
     /**
      * Build the absolute URIs for a list of projects identified by their names.
@@ -38,5 +56,5 @@ public class ProjectPathUtil {
         String path = project.getLocation().toPortableString();
         return path;
     }
-    
+
 }
