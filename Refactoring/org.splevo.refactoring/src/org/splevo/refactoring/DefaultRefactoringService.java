@@ -13,14 +13,14 @@ public class DefaultRefactoringService implements RefactoringService {
     private Logger logger = Logger.getLogger(DefaultRefactoringService.class);
 
     @Override
-    public void buildSoftwareProductLine(VariationPointModel vpm, String outputPath) {
-        
+    public void buildSoftwareProductLine(VariationPointModel vpm) {
+        if (vpm == null) {
+            throw new IllegalArgumentException();
+        }
+
         // FIXME: resource null. some bug in copyvpmjob.
         Resource eResource = ((JaMoPPSoftwareElement) vpm.getSoftwareElements().get(0)).getJamoppElement().eResource();
-        
+
         throw new UnsupportedOperationException("Refactoring not yet implemented");
-        // TODO: copy project contents
-        // TODO: copy model: Copier copier = copyModel(vpm, outputPath);
-        // TODO: do refactoring
     }
 }

@@ -12,7 +12,6 @@ public interface RefactoringService {
      * to a {@link VariationPointModel}. The output is the SPL model.
      * 
      * @param vpm The {@link VariationPointModel}.
-     * @param outputPath The SPL will be saved here.
      */
-    public void buildSoftwareProductLine(VariationPointModel vpm, String outputPath);
+    public void buildSoftwareProductLine(VariationPointModel vpm);
 }

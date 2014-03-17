@@ -93,7 +93,7 @@ public final class RefactoringRegistry {
     /**
      * Unregisters all refactorings. That includes Role Models, Ref Specs and Role Mappings.
      */
-    public static final void unegisterRefactorings() {
+    public static final void unregisterRefactorings() {
         for (String rmName : roleModels) {
             unregisterModelByType(rmName, RoleModel.class);
         }
@@ -119,6 +119,8 @@ public final class RefactoringRegistry {
             FileNotFoundException {
         RoleModel roleModel = getModelByType(ROLE_MODEL_FOLDER + name + ".rolestext", RoleModel.class);
         IRoleModelRegistry.INSTANCE.registerRoleModel(roleModel);
+        
+        logger.info("Role Model registered: " + name);
     }
 
     /**
@@ -135,6 +137,8 @@ public final class RefactoringRegistry {
         RefactoringSpecification refSpec = getModelByType(REF_SPEC_FOLDER + name + ".refspec",
                 RefactoringSpecification.class);
         IRefactoringSpecificationRegistry.INSTANCE.registerRefSpec(refSpec);
+        
+        logger.info("Ref Spec registered: " + name);
     }
 
     /**
@@ -157,6 +161,8 @@ public final class RefactoringRegistry {
         for (IRefactoringPostProcessor pp : mappingPostProcessors.get(name)) {
             IRoleMappingRegistry.INSTANCE.registerPostProcessor(roleMapping, pp);
         }
+        
+        logger.info("Role Mapping registered: " + name);
     }
 
     /**
@@ -181,6 +187,8 @@ public final class RefactoringRegistry {
                 RoleMapping model = getModelByType(ROLE_MODEL_FOLDER + name + ".rolestext", RoleMapping.class);
                 IRoleMappingRegistry.INSTANCE.unregisterRoleMapping(model);
             }
+            
+            logger.info("Model unregistered: " + name + " (" + type.toString() + ")");
         } catch (FileNotFoundException e) {
             logger.error("Couldn't find model file: " + name);
         }
