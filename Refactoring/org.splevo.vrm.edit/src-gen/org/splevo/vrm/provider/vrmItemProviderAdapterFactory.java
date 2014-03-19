@@ -129,6 +129,30 @@ public class vrmItemProviderAdapterFactory extends vrmAdapterFactory implements 
     }
 
     /**
+     * This keeps track of the one adapter used for all
+     * {@link org.splevo.vrm.VariabilityRealizationModel} instances. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     */
+    protected VariabilityRealizationModelItemProvider variabilityRealizationModelItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.vrm.VariabilityRealizationModel}. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    @Override
+    public Adapter createVariabilityRealizationModelAdapter() {
+        if (variabilityRealizationModelItemProvider == null) {
+            variabilityRealizationModelItemProvider = new VariabilityRealizationModelItemProvider(this);
+        }
+
+        return variabilityRealizationModelItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * 
@@ -229,6 +253,8 @@ public class vrmItemProviderAdapterFactory extends vrmAdapterFactory implements 
             variabilityRealizationTechniqueItemProvider.dispose();
         if (variabilityRealizationConfigurationItemProvider != null)
             variabilityRealizationConfigurationItemProvider.dispose();
+        if (variabilityRealizationModelItemProvider != null)
+            variabilityRealizationModelItemProvider.dispose();
     }
 
 }
