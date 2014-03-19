@@ -65,6 +65,8 @@ public class vrmFactoryImpl extends EFactoryImpl implements vrmFactory {
             return createVariabilityRealizationTechnique();
         case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION:
             return createVariabilityRealizationConfiguration();
+        case vrmPackage.VARIABILITY_REALIZATION_MODEL:
+            return createVariabilityRealizationModel();
         default:
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -88,6 +90,16 @@ public class vrmFactoryImpl extends EFactoryImpl implements vrmFactory {
     public VariabilityRealizationConfiguration createVariabilityRealizationConfiguration() {
         VariabilityRealizationConfigurationImpl variabilityRealizationConfiguration = new VariabilityRealizationConfigurationImpl();
         return variabilityRealizationConfiguration;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public VariabilityRealizationModel createVariabilityRealizationModel() {
+        VariabilityRealizationModelImpl variabilityRealizationModel = new VariabilityRealizationModelImpl();
+        return variabilityRealizationModel;
     }
 
     /**

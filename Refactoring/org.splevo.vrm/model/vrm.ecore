@@ -21,4 +21,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="variationPoint" eType="ecore:EClass ../../org.splevo.vpm/model/vpm.ecore#//variability/VariationPoint"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="technique" eType="#//VariabilityRealizationTechnique"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariabilityRealizationModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="RealizationConfigurations"
+        upperBound="-1" eType="#//VariabilityRealizationConfiguration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vpm" lowerBound="1" eType="ecore:EClass ../../org.splevo.vpm/model/vpm.ecore#//variability/VariationPointModel"/>
+  </eClassifiers>
 </ecore:EPackage>

@@ -24,6 +24,7 @@ import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.variability.variabilityPackage;
 
 import org.splevo.vrm.VariabilityRealizationConfiguration;
+import org.splevo.vrm.VariabilityRealizationModel;
 import org.splevo.vrm.VariabilityRealizationTechnique;
 import org.splevo.vrm.vrmFactory;
 import org.splevo.vrm.vrmPackage;
@@ -47,6 +48,13 @@ public class vrmPackageImpl extends EPackageImpl implements vrmPackage {
      * @generated
      */
     private EClass variabilityRealizationConfigurationEClass = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    private EClass variabilityRealizationModelEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -174,6 +182,33 @@ public class vrmPackageImpl extends EPackageImpl implements vrmPackage {
      * 
      * @generated
      */
+    public EClass getVariabilityRealizationModel() {
+        return variabilityRealizationModelEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EReference getVariabilityRealizationModel_RealizationConfigurations() {
+        return (EReference) variabilityRealizationModelEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EReference getVariabilityRealizationModel_Vpm() {
+        return (EReference) variabilityRealizationModelEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public vrmFactory getvrmFactory() {
         return (vrmFactory) getEFactoryInstance();
     }
@@ -206,6 +241,10 @@ public class vrmPackageImpl extends EPackageImpl implements vrmPackage {
         createEReference(variabilityRealizationConfigurationEClass,
                 VARIABILITY_REALIZATION_CONFIGURATION__VARIATION_POINT);
         createEReference(variabilityRealizationConfigurationEClass, VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE);
+
+        variabilityRealizationModelEClass = createEClass(VARIABILITY_REALIZATION_MODEL);
+        createEReference(variabilityRealizationModelEClass, VARIABILITY_REALIZATION_MODEL__REALIZATION_CONFIGURATIONS);
+        createEReference(variabilityRealizationModelEClass, VARIABILITY_REALIZATION_MODEL__VPM);
     }
 
     /**
@@ -261,6 +300,16 @@ public class vrmPackageImpl extends EPackageImpl implements vrmPackage {
         initEReference(getVariabilityRealizationConfiguration_Technique(), this.getVariabilityRealizationTechnique(),
                 null, "technique", null, 0, 1, VariabilityRealizationConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE,
                 IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(variabilityRealizationModelEClass, VariabilityRealizationModel.class, "VariabilityRealizationModel",
+                !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getVariabilityRealizationModel_RealizationConfigurations(),
+                this.getVariabilityRealizationConfiguration(), null, "RealizationConfigurations", null, 0, -1,
+                VariabilityRealizationModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+                !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVariabilityRealizationModel_Vpm(), thevariabilityPackage.getVariationPointModel(), null,
+                "vpm", null, 1, 1, VariabilityRealizationModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

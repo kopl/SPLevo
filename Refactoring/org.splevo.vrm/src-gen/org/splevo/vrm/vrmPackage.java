@@ -160,6 +160,52 @@ public interface vrmPackage extends EPackage {
     int VARIABILITY_REALIZATION_CONFIGURATION_OPERATION_COUNT = 0;
 
     /**
+     * The meta object id for the '{@link org.splevo.vrm.impl.VariabilityRealizationModelImpl
+     * <em>Variability Realization Model</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see org.splevo.vrm.impl.VariabilityRealizationModelImpl
+     * @see org.splevo.vrm.impl.vrmPackageImpl#getVariabilityRealizationModel()
+     * @generated
+     */
+    int VARIABILITY_REALIZATION_MODEL = 2;
+
+    /**
+     * The feature id for the '<em><b>Realization Configurations</b></em>' containment reference
+     * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_REALIZATION_MODEL__REALIZATION_CONFIGURATIONS = 0;
+
+    /**
+     * The feature id for the '<em><b>Vpm</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_REALIZATION_MODEL__VPM = 1;
+
+    /**
+     * The number of structural features of the '<em>Variability Realization Model</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_REALIZATION_MODEL_FEATURE_COUNT = 2;
+
+    /**
+     * The number of operations of the '<em>Variability Realization Model</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_REALIZATION_MODEL_OPERATION_COUNT = 0;
+
+    /**
      * Returns the meta object for class '{@link org.splevo.vrm.VariabilityRealizationTechnique
      * <em>Variability Realization Technique</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -226,6 +272,41 @@ public interface vrmPackage extends EPackage {
      * @generated
      */
     EReference getVariabilityRealizationConfiguration_Technique();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.vrm.VariabilityRealizationModel
+     * <em>Variability Realization Model</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for class '<em>Variability Realization Model</em>'.
+     * @see org.splevo.vrm.VariabilityRealizationModel
+     * @generated
+     */
+    EClass getVariabilityRealizationModel();
+
+    /**
+     * Returns the meta object for the containment reference list '
+     * {@link org.splevo.vrm.VariabilityRealizationModel#getRealizationConfigurations
+     * <em>Realization Configurations</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the containment reference list '
+     *         <em>Realization Configurations</em>'.
+     * @see org.splevo.vrm.VariabilityRealizationModel#getRealizationConfigurations()
+     * @see #getVariabilityRealizationModel()
+     * @generated
+     */
+    EReference getVariabilityRealizationModel_RealizationConfigurations();
+
+    /**
+     * Returns the meta object for the reference '
+     * {@link org.splevo.vrm.VariabilityRealizationModel#getVpm <em>Vpm</em>}'. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the reference '<em>Vpm</em>'.
+     * @see org.splevo.vrm.VariabilityRealizationModel#getVpm()
+     * @see #getVariabilityRealizationModel()
+     * @generated
+     */
+    EReference getVariabilityRealizationModel_Vpm();
 
     /**
      * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!--
@@ -308,6 +389,35 @@ public interface vrmPackage extends EPackage {
          */
         EReference VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE = eINSTANCE
                 .getVariabilityRealizationConfiguration_Technique();
+
+        /**
+         * The meta object literal for the '
+         * {@link org.splevo.vrm.impl.VariabilityRealizationModelImpl
+         * <em>Variability Realization Model</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+         * -->
+         * 
+         * @see org.splevo.vrm.impl.VariabilityRealizationModelImpl
+         * @see org.splevo.vrm.impl.vrmPackageImpl#getVariabilityRealizationModel()
+         * @generated
+         */
+        EClass VARIABILITY_REALIZATION_MODEL = eINSTANCE.getVariabilityRealizationModel();
+
+        /**
+         * The meta object literal for the '<em><b>Realization Configurations</b></em>' containment
+         * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EReference VARIABILITY_REALIZATION_MODEL__REALIZATION_CONFIGURATIONS = eINSTANCE
+                .getVariabilityRealizationModel_RealizationConfigurations();
+
+        /**
+         * The meta object literal for the '<em><b>Vpm</b></em>' reference feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EReference VARIABILITY_REALIZATION_MODEL__VPM = eINSTANCE.getVariabilityRealizationModel_Vpm();
 
     }
 

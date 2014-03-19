@@ -83,6 +83,11 @@ public class vrmAdapterFactory extends AdapterFactoryImpl {
         }
 
         @Override
+        public Adapter caseVariabilityRealizationModel(VariabilityRealizationModel object) {
+            return createVariabilityRealizationModelAdapter();
+        }
+
+        @Override
         public Adapter defaultCase(EObject object) {
             return createEObjectAdapter();
         }
@@ -128,6 +133,21 @@ public class vrmAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createVariabilityRealizationConfigurationAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '
+     * {@link org.splevo.vrm.VariabilityRealizationModel <em>Variability Realization Model</em>}'.
+     * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore
+     * cases; it's useful to ignore a case when inheritance will catch all the cases anyway. <!--
+     * end-user-doc -->
+     * 
+     * @return the new adapter.
+     * @see org.splevo.vrm.VariabilityRealizationModel
+     * @generated
+     */
+    public Adapter createVariabilityRealizationModelAdapter() {
         return null;
     }
 
