@@ -10,29 +10,29 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vrm.VariabilityRealizationConfiguration;
+import org.splevo.vrm.VariabilityRealizationModel;
 
 /**
- * This service is capable of building the SPL from a {@link VariationPointModel}.
+ * This service is capable of building the SPL from a {@link VariabilityRealizationModel}.
  */
 public abstract class SoftwareProductLineBuildingService {
-	
+
     private static final String REFACTORING_EXTENSION_POINT_ID = "org.splevo.refactoring.refactoringservice";
     private static final String EXTENSION_POINT_ATTR_REFACTORING_CLASS = "refactoringservice.class";
 
 	/**
-     * Builds the Software Product Line according to a {@link VariationPointModel} and {@link VariabilityRealizationConfiguration}s.
-     * 
-     * @param vpm The {@link VariationPointModel}.
-     * @param variabilityRealizationConfigurations A {@link List} of {@link VariabilityRealizationConfiguration}s. 
+     * Builds the Software Product Line according to a {@link VariabilityRealizationModel} and {@link VariabilityRealizationConfiguration}s.
+     *
+     * @param vrm The {@link VariabilityRealizationModel}.
+     * @param variabilityRealizationConfigurations A {@link List} of {@link VariabilityRealizationConfiguration}s.
      */
-    public abstract void buildSoftwareProductLine(VariationPointModel vpm, 
+    public abstract void buildSoftwareProductLine(VariabilityRealizationModel vrm,
     		List<VariabilityRealizationConfiguration> variabilityRealizationConfigurations);
-    
+
     /**
      * Gets all {@link RefactoringService} that are registered to this extension point.
-     * 
+     *
      * @return A {@link List} of {@link RefactoringService}s.
      */
     protected List<RefactoringService> getRefactoringServices() {
@@ -75,11 +75,11 @@ public abstract class SoftwareProductLineBuildingService {
 
 	/**
 	 * Gets the logger that is responsible for this class.
-	 * 
+	 *
 	 * @return The {@link Logger}.
 	 */
 	protected abstract Logger getLogger();
-	
+
 	/**
      * Check if there are two or more builders with the same id.
      *
