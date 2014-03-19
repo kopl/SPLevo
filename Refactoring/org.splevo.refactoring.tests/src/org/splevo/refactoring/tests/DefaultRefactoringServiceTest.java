@@ -4,13 +4,12 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import org.splevo.refactoring.DefaultRefactoringService;
+import org.splevo.refactoring.DefaultSoftwareProductLineBuildingService;
 import org.splevo.refactoring.RefactoringRegistry;
 
 public class DefaultRefactoringServiceTest {
 	
-	DefaultRefactoringService testedObject = null;
+	DefaultSoftwareProductLineBuildingService testedObject = null;
 	
 	@BeforeClass
 	public static void beforeClass(){
@@ -24,16 +23,11 @@ public class DefaultRefactoringServiceTest {
 	
 	@Before
 	public void before(){
-		testedObject = new DefaultRefactoringService();
+		testedObject = new DefaultSoftwareProductLineBuildingService();
 	}
 
 	@After
 	public void after(){
 		testedObject = null;
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testForNullParameter() {
-		testedObject.buildSoftwareProductLine(null);
 	}
 }

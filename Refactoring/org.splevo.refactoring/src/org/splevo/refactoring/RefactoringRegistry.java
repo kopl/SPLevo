@@ -50,10 +50,10 @@ public final class RefactoringRegistry {
     static {
         initMembers();
 
-        // add role models here ######################
-        // add ref specs here ########################
-        // add role mappings here ####################
-        // add post processors here ##################
+        // add role models here
+        // add ref specs here
+        // add role mappings here
+        // add post processors here
     }
 
     /**
