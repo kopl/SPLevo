@@ -10,6 +10,7 @@ public class Activator implements BundleActivator {
 
     @Override
     public void start(BundleContext context) throws Exception {
+        RefactoringRegistry.initialize();
         RefactoringRegistry.registerRefactorings();
     }
 

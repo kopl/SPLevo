@@ -20,6 +20,10 @@ Require-Bundle: org.eclipse.osgi,
  org.splevo.jamopp.vpm,
  org.splevo.vrm;bundle-version="0.1.0",
  org.eclipse.equinox.registry,
- org.eclipse.core.runtime;bundle-version="3.9.0"
+ org.eclipse.core.runtime;bundle-version="3.9.0",
+ org.emftext.language.java.resource,
+ org.emftext.language.refactoring.rolemapping.resource.rolemapping,
+ org.emftext.language.refactoring.roles.resource.rolestext,
+ org.emftext.language.refactoring.specification.resource.refspec
 Export-Package: org.splevo.refactoring
 Bundle-Vendor: www.splevo.org

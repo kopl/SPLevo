@@ -10,13 +10,22 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.resource.JaMoPPUtil;
 import org.emftext.language.refactoring.refactoring_specification.RefactoringSpecification;
+import org.emftext.language.refactoring.refactoring_specification.RefactoringSpecificationPackage;
 import org.emftext.language.refactoring.rolemapping.RoleMapping;
 import org.emftext.language.refactoring.rolemapping.RoleMappingModel;
+import org.emftext.language.refactoring.rolemapping.RolemappingPackage;
+import org.emftext.language.refactoring.rolemapping.resource.rolemapping.mopp.RolemappingResourceFactory;
 import org.emftext.language.refactoring.roles.RoleModel;
+import org.emftext.language.refactoring.roles.RolesPackage;
+import org.emftext.language.refactoring.roles.resource.rolestext.mopp.RolestextResourceFactory;
+import org.emftext.language.refactoring.specification.resource.mopp.RefspecResourceFactory;
 import org.emftext.refactoring.registry.refactoringspecification.IRefactoringSpecificationRegistry;
 import org.emftext.refactoring.registry.refactoringspecification.exceptions.RefSpecAlreadyRegisteredException;
 import org.emftext.refactoring.registry.rolemapping.IRefactoringPostProcessor;
@@ -54,6 +63,21 @@ public final class RefactoringRegistry {
         // add ref specs here
         // add role mappings here
         // add post processors here
+    }
+
+    /**
+     * Initializes JaMoPP, required packages and factories.
+     */
+    public static final void initialize() {
+        JaMoPPUtil.initialize();
+        EPackage.Registry.INSTANCE.put(RolesPackage.eNS_URI, RolesPackage.eINSTANCE);
+        EPackage.Registry.INSTANCE.put(RolemappingPackage.eNS_URI, RolemappingPackage.eINSTANCE);
+        EPackage.Registry.INSTANCE.put(RefactoringSpecificationPackage.eNS_URI,
+                RefactoringSpecificationPackage.eINSTANCE);
+        Map<String, Object> extensionToFactoryMap = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
+        extensionToFactoryMap.put("rolestext", new RolestextResourceFactory());
+        extensionToFactoryMap.put("rolemapping", new RolemappingResourceFactory());
+        extensionToFactoryMap.put("refspec", new RefspecResourceFactory());
     }
 
     /**
@@ -106,6 +130,28 @@ public final class RefactoringRegistry {
     }
 
     /**
+     * Gets the {@link RoleMapping} that is registered for a given concrete refactoring name.
+     * 
+     * @param refactoringName
+     *            The {@link String} name.
+     * @return The {@link RoleMapping}.
+     */
+    public RoleMapping getRoleMapping(String refactoringName) {
+        Map<String, RoleMapping> registeredRoleMappings = IRoleMappingRegistry.INSTANCE
+                .getRoleMappingsForUri(JavaPackage.eNS_URI);
+        if (registeredRoleMappings == null) {
+            logger.error("No concrete refactorings registered for java.");
+        }
+
+        RoleMapping roleMapping = registeredRoleMappings.get(refactoringName);
+        if (roleMapping == null) {
+            logger.error("Concrete refactoring '" + refactoringName + "' not registered.");
+        }
+
+        return roleMapping;
+    }
+
+    /**
      * Registers the role model of the given name.
      * 
      * @param name
@@ -119,7 +165,7 @@ public final class RefactoringRegistry {
             FileNotFoundException {
         RoleModel roleModel = getModelByType(ROLE_MODEL_FOLDER + name + ".rolestext", RoleModel.class);
         IRoleModelRegistry.INSTANCE.registerRoleModel(roleModel);
-        
+
         logger.info("Role Model registered: " + name);
     }
 
@@ -137,7 +183,7 @@ public final class RefactoringRegistry {
         RefactoringSpecification refSpec = getModelByType(REF_SPEC_FOLDER + name + ".refspec",
                 RefactoringSpecification.class);
         IRefactoringSpecificationRegistry.INSTANCE.registerRefSpec(refSpec);
-        
+
         logger.info("Ref Spec registered: " + name);
     }
 
@@ -161,7 +207,7 @@ public final class RefactoringRegistry {
         for (IRefactoringPostProcessor pp : mappingPostProcessors.get(name)) {
             IRoleMappingRegistry.INSTANCE.registerPostProcessor(roleMapping, pp);
         }
-        
+
         logger.info("Role Mapping registered: " + name);
     }
 
@@ -187,7 +233,7 @@ public final class RefactoringRegistry {
                 RoleMapping model = getModelByType(ROLE_MODEL_FOLDER + name + ".rolestext", RoleMapping.class);
                 IRoleMappingRegistry.INSTANCE.unregisterRoleMapping(model);
             }
-            
+
             logger.info("Model unregistered: " + name + " (" + type.toString() + ")");
         } catch (FileNotFoundException e) {
             logger.error("Couldn't find model file: " + name);
