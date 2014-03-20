@@ -13,6 +13,8 @@ import org.eclipse.core.runtime.Platform;
 import org.splevo.vrm.VariabilityRealizationConfiguration;
 import org.splevo.vrm.VariabilityRealizationModel;
 
+import com.google.common.collect.Lists;
+
 /**
  * This service is capable of building the SPL from a {@link VariabilityRealizationModel}.
  */
@@ -35,8 +37,8 @@ public abstract class SoftwareProductLineBuildingService {
      *
      * @return A {@link List} of {@link RefactoringService}s.
      */
-    protected List<RefactoringService> getRefactoringServices() {
-        List<RefactoringService> refactoringServices = new LinkedList<RefactoringService>();
+    protected List<VariabilityRefactoring> getRefactoringServices() {
+        List<VariabilityRefactoring> refactorings = Lists.newLinkedList();
         Logger logger = getLogger();
 
         IExtensionRegistry registry = Platform.getExtensionRegistry();
@@ -56,9 +58,9 @@ public abstract class SoftwareProductLineBuildingService {
             for (IConfigurationElement element : configurations) {
                 try {
                     Object o = element.createExecutableExtension(EXTENSION_POINT_ATTR_REFACTORING_CLASS);
-                    if ((o != null) && (o instanceof RefactoringService)) {
-                    	RefactoringService differ = (RefactoringService) o;
-                        refactoringServices.add(differ);
+                    if ((o != null) && (o instanceof VariabilityRefactoring)) {
+                        VariabilityRefactoring refactoring = (VariabilityRefactoring) o;
+                        refactorings.add(refactoring);
                     }
                 } catch (CoreException e) {
                     logger.error("Failed to load refactoring service extension", e);
@@ -66,11 +68,11 @@ public abstract class SoftwareProductLineBuildingService {
             }
         }
 
-        if (refactoringServiceIdsNotUnique(refactoringServices)) {
+        if (refactoringIdsNotUnique(refactorings)) {
             logger.warn("Two or more refactoring services with the same id loaded.");
         }
 
-        return refactoringServices;
+        return refactorings;
     }
 
 	/**
@@ -83,17 +85,17 @@ public abstract class SoftwareProductLineBuildingService {
 	/**
      * Check if there are two or more builders with the same id.
      *
-     * @param refServices
+     * @param refactorings
      *            The builders to check.
      * @return True if the same id is used more than once. False otherwise.
      */
-    private boolean refactoringServiceIdsNotUnique(List<RefactoringService> refServices) {
+    private boolean refactoringIdsNotUnique(List<VariabilityRefactoring> refactorings) {
         List<String> ids = new LinkedList<String>();
-        for (RefactoringService refService : refServices) {
-            if (ids.contains(refService.getId())) {
+        for (VariabilityRefactoring refactoring : refactorings) {
+            if (ids.contains(refactoring.getId())) {
                 return true;
             }
-            ids.add(refService.getId());
+            ids.add(refactoring.getId());
         }
         return false;
 

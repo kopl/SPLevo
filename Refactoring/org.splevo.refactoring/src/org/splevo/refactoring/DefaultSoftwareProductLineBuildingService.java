@@ -18,12 +18,12 @@ public class DefaultSoftwareProductLineBuildingService extends SoftwareProductLi
     public void buildSoftwareProductLine(VariabilityRealizationModel vrm,
             List<VariabilityRealizationConfiguration> variabilityRealizationConfigurations) {
         // get all registered refactoring services
-        List<RefactoringService> refactoringServices = getRefactoringServices();
+        List<VariabilityRefactoring> refactorings = getRefactoringServices();
 
         // execute refactoring
         // TODO: respect configs
-        for (RefactoringService refactoringService : refactoringServices) {
-            refactoringService.refactor(vrm, "targetDir");
+        for (VariabilityRefactoring refactoringService : refactorings) {
+            //refactoringService.refactor(vrm);
         }
     }
 

@@ -1,5 +1,6 @@
 package org.splevo.refactoring;
 
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.vrm.VariabilityRealizationModel;
 
 /**
@@ -15,15 +16,7 @@ public interface RefactoringService {
      * @param variabilityRealizationModel
      *            The {@link VariabilityRealizationModel} linking the variation points with the
      *            intended variability realization technique.
-     *            @param targetDirectory The absolute path to the directory to write to.
+     * @return The ResourceSet referencing the refactored software.
      */
-    public void refactor(VariabilityRealizationModel variabilityRealizationModel, String targetDirectory);
-
-    /**
-     * Gets this refactoring services Id.
-     *
-     * @return The {@link String} Id.
-     */
-    public String getId();
-
+    public ResourceSet refactor(VariabilityRealizationModel variabilityRealizationModel);
 }
