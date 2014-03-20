@@ -11,11 +11,10 @@ public class Activator implements BundleActivator {
     @Override
     public void start(BundleContext context) throws Exception {
         RefactoringRegistry.initialize();
-        RefactoringRegistry.registerRefactorings();
     }
 
     @Override
     public void stop(BundleContext context) throws Exception {
-        RefactoringRegistry.unregisterRefactorings();
+        // nothing to do here
     }
 }
