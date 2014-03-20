@@ -1,46 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.splevo.refactoring"/>
-	<classpathentry kind="src" path="/org.splevo.vpm"/>
-	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.eclipse.core.resources_3.8.101.v20130717-0806.jar" sourcepath="C:/Program Files/eclipse/plugins/org.eclipse.core.resources.source_3.8.101.v20130717-0806.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/C:/Program%20Files/eclipse/plugins/org.eclipse.platform.doc.isv_4.3.0.v20130606-0003.jar!/reference/api"/>
-		</attributes>
-		<accessrules>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/dtree/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/events/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/localstore/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/properties/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/propertytester/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/refresh/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/resources/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/resources/mapping/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/resources/projectvariables/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/resources/refresh/win32/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/utils/*"/>
-			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/watson/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/core/resources/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/core/resources/filtermatchers/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/core/resources/mapping/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/core/resources/refresh/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/core/resources/team/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/core/resources/variableresolvers/*"/>
-			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
-		</accessrules>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/eclipse/plugins/org.eclipse.emf.common_2.9.2.v20131212-0545.jar" sourcepath="C:/Program Files/eclipse/plugins/org.eclipse.emf.common.source_2.9.2.v20131212-0545.jar">
-		<accessrules>
-			<accessrule kind="accessible" pattern="org/eclipse/emf/common/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/emf/common/archive/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/emf/common/command/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/emf/common/notify/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/emf/common/notify/impl/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/emf/common/util/*"/>
-			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
-		</accessrules>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

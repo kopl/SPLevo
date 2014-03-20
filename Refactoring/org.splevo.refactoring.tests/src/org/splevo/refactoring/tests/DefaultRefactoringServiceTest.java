@@ -8,9 +8,9 @@ import org.splevo.refactoring.DefaultSoftwareProductLineBuildingService;
 import org.splevo.refactoring.RefactoringRegistry;
 
 public class DefaultRefactoringServiceTest {
-	
+
 	DefaultSoftwareProductLineBuildingService testedObject = null;
-	
+
 	@BeforeClass
 	public static void beforeClass(){
 		RefactoringRegistry.registerRefactorings();
@@ -20,7 +20,7 @@ public class DefaultRefactoringServiceTest {
 	public static void afterClass(){
 		RefactoringRegistry.unregisterRefactorings();
 	}
-	
+
 	@Before
 	public void before(){
 		testedObject = new DefaultSoftwareProductLineBuildingService();
