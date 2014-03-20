@@ -14,13 +14,6 @@ package org.splevo.vpm.analyzer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
@@ -38,9 +31,6 @@ import org.splevo.vpm.variability.VariationPointModel;
  *
  */
 public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
-
-    /** The logger for this class. */
-    private Logger logger = Logger.getLogger(DefaultVPMAnalyzerService.class);
 
     /**
      * @see org.splevo.vpm.analyzer.VPMAnalyzerService#initVPMGraph(org.splevo.vpm.variability.
@@ -234,33 +224,6 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      */
     @Override
     public List<VPMAnalyzer> getAvailableAnalyzers() {
-        ArrayList<VPMAnalyzer> refinementAnalyser = new ArrayList<VPMAnalyzer>();
-        IExtensionRegistry registry = Platform.getExtensionRegistry();
-        if (registry == null) {
-            logger.warn("No extension point registry available.");
-            return null;
-        }
-        IExtensionPoint extensionPoint = registry.getExtensionPoint(VPM_ANALYZER_EXTENSION_POINT_ID);
-
-        if (extensionPoint == null) {
-            logger.warn("No extension point found for the ID " + VPM_ANALYZER_EXTENSION_POINT_ID);
-            return null;
-        }
-        IExtension[] extensions = extensionPoint.getExtensions();
-        for (IExtension extension : extensions) {
-            IConfigurationElement[] configurations = extension.getConfigurationElements();
-            for (IConfigurationElement element : configurations) {
-                try {
-                    Object o = element.createExecutableExtension(EXTENSION_POINT_ATTR_ANALYZER_CLASS);
-                    if ((o != null) && (o instanceof VPMAnalyzer)) {
-                        VPMAnalyzer analyzer = (VPMAnalyzer) o;
-                        refinementAnalyser.add(analyzer);
-                    }
-                } catch (CoreException e) {
-                    logger.error("Failed to load VPM analyzer extension", e);
-                }
-            }
-        }
-        return refinementAnalyser;
+        return VPMAnalyzerRegistry.getVPMAnalyzers();
     }
 }
