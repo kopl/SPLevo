@@ -13,12 +13,12 @@ public class DefaultRefactoringServiceTest {
 
 	@BeforeClass
 	public static void beforeClass(){
-		RefactoringRegistry.registerRefactorings();
+		//RefactoringRegistry.registerRefactorings();
 	}
 
 	@AfterClass
 	public static void afterClass(){
-		RefactoringRegistry.unregisterRefactorings();
+		//RefactoringRegistry.unregisterRefactorings();
 	}
 
 	@Before
