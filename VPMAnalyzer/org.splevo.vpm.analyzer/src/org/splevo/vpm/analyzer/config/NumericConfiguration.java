@@ -23,10 +23,10 @@ public class NumericConfiguration extends AbstractVPMAnalyzerConfiguration<Doubl
     private double stepSize;
 
     /** The minimum value. */
-    private double lowerBoundary;
+    private double lowerBoundary = 0;
 
     /** The maximum value. */
-    private double upperBoundary;
+    private double upperBoundary = 0;
 
     /** The amount of digits after the dot. */
     private int numFractionalDigits;
@@ -45,19 +45,19 @@ public class NumericConfiguration extends AbstractVPMAnalyzerConfiguration<Doubl
      * @param stepSize
      *            Sets the size of the steps in the UI for increasing / decreasing the value
      *            stepwise.
-     * @param lowerBoundary
-     *            The minimum value.
-     * @param upperBoundary
-     *            The maximum value.
+     * @param range
+     *            The allowed value. Unlimited in case of null
      * @param numFractionalDigits
      *            The amount of digits after the dot.
      */
     public NumericConfiguration(String id, String label, String explanation, double defaultValue, double stepSize,
-            double lowerBoundary, double upperBoundary, int numFractionalDigits) {
+            Range range, int numFractionalDigits) {
         super(id, label, explanation, defaultValue);
         this.stepSize = stepSize;
-        this.lowerBoundary = lowerBoundary;
-        this.upperBoundary = upperBoundary;
+        if (range != null) {
+            this.lowerBoundary = range.getLower();
+            this.upperBoundary = range.getUpper();
+        }
         this.numFractionalDigits = numFractionalDigits;
     }
 
