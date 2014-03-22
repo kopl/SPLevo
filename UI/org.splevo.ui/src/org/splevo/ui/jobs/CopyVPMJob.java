@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.ui.jobs;
 
 import java.io.File;
@@ -21,8 +32,6 @@ import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
-import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Copies the VPM model from the blackboard and re-initializes with the given outputPath.
@@ -33,8 +42,8 @@ public class CopyVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     private SPLevoProject spLevoProject;
 
     /**
-     * Initializes the job with a given splevoproject and a path where the spl should be copied to.
-     * 
+     * Initializes the job with a given {@link SPLevoProject} and a path where the spl should be copied to.
+     *
      * @param spLevoProject
      *            The {@link SPLevoProject}.
      * @param outputPath
@@ -51,13 +60,13 @@ public class CopyVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     }
 
     @Override
-    public void execute(IProgressMonitor arg0) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor arg0) {
         copyLeadingProjects();
-        
+
         VariationPointModel vpmModel = getBlackboard().getVariationPointModel();
         Set<Resource> resources = extractLeadingResourcesFromVPM(vpmModel);
         ResourceSetImpl rs = new ResourceSetImpl();
-        
+
         for (Resource oldResource : resources) {
             String projectSpecificPath = buildNewResourcePath(oldResource);
 
@@ -66,7 +75,7 @@ public class CopyVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             Resource newResource = rs.createResource(newURI);
             newResource.getContents().addAll(oldResource.getContents());
             oldResource.getContents().clear();
-            
+
             // save resource
             try {
                 newResource.save(Collections.EMPTY_MAP);
@@ -78,7 +87,7 @@ public class CopyVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
     private void copyLeadingProjects() {
         for (String project : spLevoProject.getLeadingProjects()) {
-            
+
             String projectPath = ProjectPathUtil.buildProjectPath(project);
             String projectOutputPath = (outputPath + "/" + project);
 
@@ -107,7 +116,7 @@ public class CopyVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
     private Set<Resource> extractLeadingResourcesFromVPM(VariationPointModel vpmModel) {
         Set<Resource> resources = new HashSet<Resource>();
-        
+
         // iterate over all software elements in the leading project
         for (VariationPointGroup group : vpmModel.getVariationPointGroups()) {
             for (VariationPoint vp : group.getVariationPoints()) {

@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.ui.jobs;
 
 import java.util.List;
@@ -11,9 +22,6 @@ import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
-import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to apply the detection rules and store a refinement model containing the identified models in
@@ -26,7 +34,7 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
 
     /** The detection rules to be applied. */
     private List<DetectionRule> detectionRules;
-    
+
     /**
      * Default constructor for the job.
      * @param detectionRules The detection rules to apply in the job.
@@ -36,17 +44,12 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
     }
 
     /**
-     * Runs the long running operation.
-     * 
-     * @param monitor
-     *            the progress monitor
-     * @throws JobFailedException
-     *             Identifies the job could not be finished successfully.
-     * @throws UserCanceledException
-     *             Identifies the user has canceled the work flow.
+     * Run the refinement detection.
+     *
+     * {@inheritDoc}
      */
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) {
 
         List<Refinement> refinements = vpmAnalyzerService.deriveRefinements(getBlackboard().getVpmGraph(),
                 detectionRules);
@@ -73,6 +76,6 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
     }
 
 	@Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+	public void cleanup(IProgressMonitor arg0) {
 	}
 }

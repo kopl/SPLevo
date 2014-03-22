@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.ui.actions;
 
 import org.apache.log4j.Logger;
@@ -10,12 +21,9 @@ import org.splevo.ui.jdt.JavaEditorConnector;
 
 /**
  * The abstract super class for actions to open a source location in the java editor.
- * 
+ *
  * @param <T>
  *            The class specifying the element type the action is able to open the Java editor for.
- * 
- * @author Benjamin Klatt
- * 
  */
 public abstract class AbstractOpenSourceLocationAction<T extends Object> implements IObjectActionDelegate {
 
@@ -31,7 +39,7 @@ public abstract class AbstractOpenSourceLocationAction<T extends Object> impleme
     /**
      * Check if the selected item is a variation point. If yes: save the selection reference. If
      * not: clean the old selection reference.
-     * 
+     *
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
