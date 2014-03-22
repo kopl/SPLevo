@@ -3,8 +3,10 @@
  */
 package org.splevo.vpm.analyzer;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -61,16 +63,16 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
     public void testMergeGraphs() throws InterruptedException {
 
         VPMGraph graph1 = new VPMGraph("VPMGraph");
-        Node node1A = createNode(graph1, "A");
-        Node node1B = createNode(graph1, "B");
-        Node node1C = createNode(graph1, "C");
-        Node node1D = createNode(graph1, "D");
+        Node node1A = VPMAnalyzerTestUtil.createNode(graph1, "A");
+        Node node1B = VPMAnalyzerTestUtil.createNode(graph1, "B");
+        Node node1C = VPMAnalyzerTestUtil.createNode(graph1, "C");
+        Node node1D = VPMAnalyzerTestUtil.createNode(graph1, "D");
 
         VPMGraph graph2 = new VPMGraph("VPMGraph");
-        Node node2A = createNode(graph2, "A");
-        Node node2B = createNode(graph2, "B");
-        Node node2C = createNode(graph2, "C");
-        Node node2D = createNode(graph2, "D");
+        Node node2A = VPMAnalyzerTestUtil.createNode(graph2, "A");
+        Node node2B = VPMAnalyzerTestUtil.createNode(graph2, "B");
+        Node node2C = VPMAnalyzerTestUtil.createNode(graph2, "C");
+        Node node2D = VPMAnalyzerTestUtil.createNode(graph2, "D");
 
         RelationshipEdge edge1 = graph1.addEdge("structure.e1", node1A, node1B);
         edge1.addRelationshipLabel("Structure");
@@ -104,8 +106,8 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
     public void testMergeGraphEdges() throws InterruptedException {
 
         VPMGraph graph = new VPMGraph("VPMGraph");
-        Node nodeVP1 = createNode(graph, "VP1");
-        Node nodeVP2 = createNode(graph, "VP2");
+        Node nodeVP1 = VPMAnalyzerTestUtil.createNode(graph, "VP1");
+        Node nodeVP2 = VPMAnalyzerTestUtil.createNode(graph, "VP2");
 
         RelationshipEdge edge1 = graph.addEdge("CodeStructure#VP1#VP2", nodeVP1, nodeVP2);
         edge1.addRelationshipLabel("CodeStructure");
@@ -133,10 +135,10 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
     public void testCreateGraphEdges() throws InterruptedException {
 
         VPMGraph graph = new VPMGraph("VPMGraph");
-        createNode(graph, "VP1");
-        createNode(graph, "VP2");
-        createNode(graph, "VP3");
-        createNode(graph, "VP4");
+        VPMAnalyzerTestUtil.createNode(graph, "VP1");
+        VPMAnalyzerTestUtil.createNode(graph, "VP2");
+        VPMAnalyzerTestUtil.createNode(graph, "VP3");
+        VPMAnalyzerTestUtil.createNode(graph, "VP4");
 
 
         VPMAnalyzerResult resultCS = new VPMAnalyzerResult(new CodeLocationVPMAnalyzer());
@@ -194,33 +196,17 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
         List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
         detectionRules.add(rule);
 
-        // trigger the derivce refinement
+        // trigger deriving refinements
         DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
         List<Refinement> refinements = service.deriveRefinements(graph, detectionRules);
 
         // check the result
         assertNotNull("Unexpected null value. At least an empty list is expected", refinements);
-        assertEquals("Wrong number of refinements", 1, refinements.size());
+        assertThat("Wrong number of refinements", refinements.size(), is(1));
 
         Refinement refinement = refinements.get(0);
         assertEquals("Wrong number of VPs in refinement", 2, refinement.getVariationPoints().size());
         assertEquals("Wrong refinement type", RefinementType.GROUPING, refinement.getType());
-    }
-
-    /**
-     * Create node with a label.
-     *
-     * @param graph
-     *            The graph to create the node in.
-     * @param label
-     *            The string for the node identifier and label.
-     * @return The prepared node.
-     */
-    private Node createNode(Graph graph, String label) {
-        Node node = graph.addNode(label);
-        node.addAttribute(VPMGraph.GS_LABEL, label);
-
-        return node;
     }
 
 }
