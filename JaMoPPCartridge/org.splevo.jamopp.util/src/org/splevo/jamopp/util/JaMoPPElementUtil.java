@@ -21,6 +21,8 @@ import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
+import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.statements.StatementListContainer;
 
 /**
  * Utility class to handle JaMoPP elements.
@@ -106,6 +108,24 @@ public final class JaMoPPElementUtil {
         }
 
         return "JaMoPP Element " + element.getClass().getSimpleName();
+    }
+
+    /**
+     * Get the position of a statement in its container. If the container is not a
+     * {@link StatementListContainer} the method will always return -1.
+     *
+     * @param statement
+     *            The statement to check the position of.
+     * @return The position in the container's statement list.
+     */
+    public static int getPositionInContainer(Statement statement) {
+
+        if (statement.eContainer() instanceof StatementListContainer) {
+            StatementListContainer container = (StatementListContainer) statement.eContainer();
+            return container.getStatements().indexOf(statement);
+        }
+
+        return -1;
     }
 
 }
