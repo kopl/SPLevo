@@ -23,6 +23,8 @@ import java.util.List;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.stubbing.OngoingStubbing;
@@ -52,6 +54,22 @@ public class MergeDetectionTest {
     public static void setUp() {
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
+    }
+
+    /**
+     * Ensure the {@link MergeDeciderRegistry} is cleaned before each test.
+     */
+    @Before
+    public void before() {
+        MergeDeciderRegistry.clearRegistry();
+    }
+
+    /**
+     * Ensure the {@link MergeDeciderRegistry} is cleaned after each test.
+     */
+    @After
+    public void after() {
+        MergeDeciderRegistry.clearRegistry();
     }
 
     /**
