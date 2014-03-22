@@ -27,9 +27,6 @@ import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * Test case for the default vpm analyzer service implementation.
- *
- * @author Benjamin Klatt
- *
  */
 public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
