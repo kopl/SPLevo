@@ -41,7 +41,6 @@ import org.splevo.vpm.refinement.VPMRefinementService;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
-import org.splevo.vrm.vrmFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
