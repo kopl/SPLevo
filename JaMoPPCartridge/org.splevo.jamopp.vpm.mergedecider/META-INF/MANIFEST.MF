@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JaMoPP specific Merge Decider
+Bundle-SymbolicName: org.splevo.jamopp.vpm.mergedecider;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.splevo.vpm.analyzer,
+ org.emftext.language.java,
+ com.google.guava;visibility:=reexport,
+ org.splevo.jamopp.vpm,
+ org.apache.log4j;visibility:=reexport,
+ org.splevo.jamopp.util;bundle-version="1.0.0"

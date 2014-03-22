@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.splevo.vpm.analyzer.mergedecider">
+      <MergeDecider
+            MergeDecider.class="org.splevo.jamopp.vpm.mergedecider.JaMoPPMergeDecider">
+      </MergeDecider>
+   </extension>
+
+</plugin>
