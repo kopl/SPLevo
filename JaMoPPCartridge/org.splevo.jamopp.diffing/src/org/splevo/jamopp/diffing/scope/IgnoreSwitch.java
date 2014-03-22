@@ -79,7 +79,7 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
 
         @Override
         public Boolean casePrimitiveType(PrimitiveType object) {
-            return Boolean.TRUE;
+            return Boolean.FALSE;
         }
 
         @Override

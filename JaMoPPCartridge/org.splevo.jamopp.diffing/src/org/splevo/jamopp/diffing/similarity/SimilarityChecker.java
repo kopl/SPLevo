@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * Checker for the similarity of two elements specific for the java application model.
- * 
+ *
  * TODO: Check caching for this similarity checker. Would require to pass this to the similarity
  * switch as well!
- * 
+ *
  */
 public class SimilarityChecker {
 
@@ -36,7 +36,7 @@ public class SimilarityChecker {
 
     /**
      * Constructor to set the required configurations.
-     * 
+     *
      * @param classifierNormalizations
      *            A list of patterns replace any match in a classifier name with the defined
      *            replacement string.
@@ -55,7 +55,7 @@ public class SimilarityChecker {
 
     /**
      * Check two objects if they are similar.
-     * 
+     *
      * @param element1
      *            The first element to check.
      * @param element2
@@ -68,7 +68,7 @@ public class SimilarityChecker {
 
     /**
      * Check two objects if they are similar.
-     * 
+     *
      * @param element1
      *            The first element to check.
      * @param element2
@@ -102,7 +102,7 @@ public class SimilarityChecker {
 
     /**
      * Method to check if only one of the provided elements is null.
-     * 
+     *
      * @param element1
      *            The first element.
      * @param element2

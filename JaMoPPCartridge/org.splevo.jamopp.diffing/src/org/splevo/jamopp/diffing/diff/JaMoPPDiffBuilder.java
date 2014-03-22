@@ -40,6 +40,7 @@ import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.NamespaceClassifierReference;
+import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.Variable;
 import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
@@ -151,7 +152,8 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
                 || value instanceof Final || value instanceof CatchBlock
                 || value instanceof NamespaceClassifierReference
                 || value instanceof PackageReference
-                || value instanceof IdentifierReference) {
+                || value instanceof IdentifierReference
+                || value instanceof PrimitiveType) {
             Match nextParent = nextResonableMatch(match);
             if (nextParent != null) {
                 EObject parentObject = null;
