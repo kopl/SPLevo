@@ -13,144 +13,145 @@ import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementType;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFactory {
-	/**
-     * Creates the default factory implementation.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Creates the default factory implementation. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public static RefinementFactory init() {
+    public static RefinementFactory init() {
         try {
-            RefinementFactory theRefinementFactory = (RefinementFactory)EPackage.Registry.INSTANCE.getEFactory("http://splevo.org/vpm/refinement/1.0"); 
+            RefinementFactory theRefinementFactory = (RefinementFactory) EPackage.Registry.INSTANCE
+                    .getEFactory(RefinementPackage.eNS_URI);
             if (theRefinementFactory != null) {
                 return theRefinementFactory;
             }
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             EcorePlugin.INSTANCE.log(exception);
         }
         return new RefinementFactoryImpl();
     }
 
-	/**
-     * Creates an instance of the factory.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public RefinementFactoryImpl() {
+    public RefinementFactoryImpl() {
         super();
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public EObject create(EClass eClass) {
+    @Override
+    public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
-            case RefinementPackage.REFINEMENT_MODEL: return createRefinementModel();
-            case RefinementPackage.REFINEMENT: return createRefinement();
-            default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        case RefinementPackage.REFINEMENT_MODEL:
+            return createRefinementModel();
+        case RefinementPackage.REFINEMENT:
+            return createRefinement();
+        default:
+            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public Object createFromString(EDataType eDataType, String initialValue) {
+    @Override
+    public Object createFromString(EDataType eDataType, String initialValue) {
         switch (eDataType.getClassifierID()) {
-            case RefinementPackage.REFINEMENT_TYPE:
-                return createRefinementTypeFromString(eDataType, initialValue);
-            default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        case RefinementPackage.REFINEMENT_TYPE:
+            return createRefinementTypeFromString(eDataType, initialValue);
+        default:
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	@Override
-	public String convertToString(EDataType eDataType, Object instanceValue) {
+    @Override
+    public String convertToString(EDataType eDataType, Object instanceValue) {
         switch (eDataType.getClassifierID()) {
-            case RefinementPackage.REFINEMENT_TYPE:
-                return convertRefinementTypeToString(eDataType, instanceValue);
-            default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        case RefinementPackage.REFINEMENT_TYPE:
+            return convertRefinementTypeToString(eDataType, instanceValue);
+        default:
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public Refinement createRefinement() {
+    public Refinement createRefinement() {
         RefinementImpl refinement = new RefinementImpl();
         return refinement;
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public RefinementModel createRefinementModel() {
+    public RefinementModel createRefinementModel() {
         RefinementModelImpl refinementModel = new RefinementModelImpl();
         return refinementModel;
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public RefinementType createRefinementTypeFromString(EDataType eDataType, String initialValue) {
+    public RefinementType createRefinementTypeFromString(EDataType eDataType, String initialValue) {
         RefinementType result = RefinementType.get(initialValue);
-        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        if (result == null)
+            throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '"
+                    + eDataType.getName() + "'");
         return result;
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public String convertRefinementTypeToString(EDataType eDataType, Object instanceValue) {
+    public String convertRefinementTypeToString(EDataType eDataType, Object instanceValue) {
         return instanceValue == null ? null : instanceValue.toString();
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @generated
      */
-	public RefinementPackage getRefinementPackage() {
-        return (RefinementPackage)getEPackage();
+    public RefinementPackage getRefinementPackage() {
+        return (RefinementPackage) getEPackage();
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
      * @deprecated
      * @generated
      */
-	@Deprecated
-	public static RefinementPackage getPackage() {
+    @Deprecated
+    public static RefinementPackage getPackage() {
         return RefinementPackage.eINSTANCE;
     }
 
-} //RefinementFactoryImpl
+} // RefinementFactoryImpl

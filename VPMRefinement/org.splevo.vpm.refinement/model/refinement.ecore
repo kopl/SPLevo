@@ -13,7 +13,7 @@
       <details key="documentation" value="A refinement identifies a refinement within a variation point model."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//RefinementType"
-        defaultValueLiteral="MANDATORY">
+        defaultValueLiteral="GROUPING">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The refinement type defines how the refinement can or must be handled."/>
       </eAnnotations>
