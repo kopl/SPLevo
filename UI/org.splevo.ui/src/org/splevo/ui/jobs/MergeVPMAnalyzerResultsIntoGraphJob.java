@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,13 +22,10 @@ import org.splevo.vpm.analyzer.VPMAnalyzerService;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
-import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to create edges for the VPMAnalyzer results in the VPMGraph.
- * 
+ *
  * The job
  * <ul>
  * <li>Read the VPMAnalyzerResults from the black board</li>
@@ -51,7 +48,7 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
      * {@inheritDoc}
      */
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) {
 
         logger.info("Load VPM Graph");
         VPMGraph vpmGraph = getBlackboard().getVpmGraph();
@@ -73,7 +70,7 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
 
     /**
      * Log the statistics for a variation point graph.
-     * 
+     *
      * @param vpmGraph
      *            The vpm graph to log the statics for.
      */
@@ -101,6 +98,6 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
     }
 
     @Override
-    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    public void cleanup(IProgressMonitor arg0) {
     }
 }

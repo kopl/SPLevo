@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,9 +17,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.vpm.refinement.Refinement;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
-import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to set a list of refinements in the blackboard. The refinements must be set in the job
@@ -32,7 +29,7 @@ public class SetRefinementsJob extends AbstractBlackboardInteractingJob<SPLevoBl
 
     /**
      * Constructor to set the refinements to be applied.
-     * 
+     *
      * @param refinements
      *            The reference to the refinements.
      */
@@ -41,7 +38,7 @@ public class SetRefinementsJob extends AbstractBlackboardInteractingJob<SPLevoBl
     }
 
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) {
 
         logger.info("Set the refinements to perform in the blackboard");
         getBlackboard().getRefinementsToApply().addAll(refinements);
@@ -56,6 +53,6 @@ public class SetRefinementsJob extends AbstractBlackboardInteractingJob<SPLevoBl
     }
 
     @Override
-    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    public void cleanup(IProgressMonitor arg0) {
     }
 }

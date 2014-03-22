@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,9 +21,7 @@ import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.project.SPLevoProject;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to load a diffing model in the blackboard.
@@ -35,7 +33,7 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
 
     /**
      * Constructor to set a reference to the splevoproject.
-     * 
+     *
      * @param splevoProject
      *            The reference to the splevoproject.
      */
@@ -44,7 +42,7 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
     }
 
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) throws JobFailedException {
 
         logger.info("Load diff models");
         File diffModelFile = new File(splevoProject.getDiffingModelPath());
@@ -71,6 +69,6 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
     }
 
     @Override
-    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    public void cleanup(IProgressMonitor arg0) {
     }
 }

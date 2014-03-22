@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,9 +15,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
-import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to set a variation point model in the blackboard.
@@ -29,7 +26,7 @@ public class SetVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard
 
     /**
      * Constructor to set the variation point model.
-     * 
+     *
      * @param vpm
      *            The reference to the variation point model.
      */
@@ -38,7 +35,7 @@ public class SetVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard
     }
 
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) {
 
         logger.info("Set the variation point model in the blackboard");
         getBlackboard().setVariationPointModel(vpm);
@@ -53,6 +50,6 @@ public class SetVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard
     }
 
     @Override
-    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    public void cleanup(IProgressMonitor arg0) {
     }
 }

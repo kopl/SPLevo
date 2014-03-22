@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,9 +18,6 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
-import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to initialize the variation point graph from the variation point model. Both are exchanged
@@ -30,17 +27,12 @@ public class InitVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
 
     /**
      * Runs the long running operation.
-     * 
+     *
      * @param monitor
      *            the progress monitor
-     * @throws JobFailedException
-     *             Identifies the job could not be executed successfully.
-     * @throws UserCanceledException
-     *             Identifies the user has canceled the job.
-     * 
      */
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) {
 
         logger.info("Get VPM from blackboard");
         VariationPointModel vpm = getBlackboard().getVariationPointModel();
@@ -65,7 +57,7 @@ public class InitVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
 
     /**
      * Get the name of the job.
-     * 
+     *
      * @return Get the name of the job.
      */
     @Override
@@ -74,6 +66,6 @@ public class InitVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
     }
 
     @Override
-    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    public void cleanup(IProgressMonitor arg0) {
     }
 }

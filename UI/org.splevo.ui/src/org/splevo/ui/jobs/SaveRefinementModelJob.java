@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -30,9 +30,7 @@ import org.splevo.vpm.variability.VariationPoint;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to read the refinement model from the blackboard and save it at a given path.
@@ -85,11 +83,9 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
      *            the progress monitor
      * @throws JobFailedException
      *             identifies an unexpected termination of the job.
-     * @throws UserCanceledException
-     *             The job has been canceled by the user.
      */
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) throws JobFailedException {
 
         RefinementModel refModel = getBlackboard().getRefinementModel();
 
@@ -234,6 +230,6 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
     }
 
     @Override
-    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    public void cleanup(IProgressMonitor arg0) {
     }
 }

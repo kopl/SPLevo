@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,7 +34,6 @@ import org.splevo.project.SPLevoProject;
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to execute the diffing on the source models provided through the blackboard.
@@ -58,7 +57,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     }
 
     @Override
-    public void execute(final IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(final IProgressMonitor monitor) throws JobFailedException {
 
         logger.info("Difference analysis started");
 
@@ -129,20 +128,10 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     /**
      * Build the map of differ configurations from the settings in the splevo project.
      *
-     * @return The prepared diffings for the differs.
+     * @return The prepared options for the differs.
      */
     private Map<String, String> buildDiffingOptions() {
-
         Map<String, String> diffingOptions = this.splevoProject.getDifferOptions().map();
-
-//        List<String> ignorePackages = new ArrayList<String>();
-//        final String diffingRuleRaw = this.splevoProject.getDiffingFilterRules();
-//        final String[] parts = diffingRuleRaw.split(System.getProperty("line.separator"));
-//        for (final String rule : parts) {
-//            ignorePackages.add(rule);
-//        }
-//        Map<String, Object> diffingOptions = new HashMap<String, Object>();
-//        diffingOptions.put(JavaDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
         return diffingOptions;
     }
 

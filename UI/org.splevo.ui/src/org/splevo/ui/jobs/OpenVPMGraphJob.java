@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,9 +24,7 @@ import org.splevo.ui.views.vpmgraph.VPMGraphView;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to open the VPMGraph currently present in the blackboard in a viewer.
@@ -38,7 +36,7 @@ public class OpenVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
      * refinement browser. {@inheritDoc}
      */
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) throws JobFailedException {
 
         VPMGraph graph = getBlackboard().getVpmGraph();
         if (graph == null) {
@@ -83,7 +81,7 @@ public class OpenVPMGraphJob extends AbstractBlackboardInteractingJob<SPLevoBlac
     }
 
     @Override
-    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    public void cleanup(IProgressMonitor arg0) {
     }
 
 }

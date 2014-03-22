@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -60,6 +61,8 @@ import com.google.common.io.CharStreams;
  */
 @SuppressWarnings("restriction")
 public class VPMRefinementPage extends WizardPage {
+
+    private static Logger logger = Logger.getLogger(VPMRefinementPage.class);
 
     private Set<Refinement> selectedRefinements;
     private CheckboxTreeViewer treeViewer;
@@ -271,9 +274,6 @@ public class VPMRefinementPage extends WizardPage {
 
     /**
      * This provider is responsible to compute which nodes are to be display as selected.
-     *
-     * @author Christian Busch
-     *
      */
     private class CheckStateProvider implements ICheckStateProvider {
 
@@ -281,9 +281,8 @@ public class VPMRefinementPage extends WizardPage {
         public boolean isChecked(Object element) {
             if (element instanceof Refinement) {
                 return selectedRefinements.contains(element);
-            } else if (element instanceof VariationPoint) {
-                // TODO Check if element is in tree and in output data structure
-            } else if (element instanceof Variant) {
+            } else {
+                logger.info("Unhandled element checked");
                 // TODO Check if element is in tree and in output data structure
             }
 
@@ -298,12 +297,14 @@ public class VPMRefinementPage extends WizardPage {
 
     }
 
+    /**
+     * Listener to react if the checkbox of a refinement tree node is changed.
+     */
     private class CheckStateListener implements ICheckStateListener {
 
         @Override
         public void checkStateChanged(CheckStateChangedEvent event) {
-            // TODO Auto-generated method stub
-
+            logger.info("Tree Checkbox state changed: " + "Source=" + event.getSource() + " | State=" + event.getChecked());
         }
 
     }

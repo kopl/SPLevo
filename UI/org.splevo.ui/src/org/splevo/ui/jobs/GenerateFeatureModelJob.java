@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,7 +24,6 @@ import com.google.common.collect.Lists;
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to generate a feature model from a variation point model.
@@ -45,7 +44,7 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
     }
 
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) throws JobFailedException {
 
         logger.info("Generate Feature Model");
         VariationPointModel vpm = getBlackboard().getVariationPointModel();
@@ -76,7 +75,7 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
      *
      * @param splevoProject
      *            The {@link SPLevoProject} to get the workspace from.
-     * @return the file {@link IPath}
+     * @return the absolute path to the file.
      */
     private String getModelFilePath(SPLevoProject splevoProject) {
         String path = splevoProject.getWorkspace() + "models" + File.separator + "fm" + File.separator;

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,9 +20,7 @@ import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
-import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
-import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
  * Job to save the variation point model currently present in the blackboard.
@@ -38,7 +36,7 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     /**
      * Constructor to set the reference to the splevo project and the target path to write the model
      * to.
-     * 
+     *
      * @param splevoProject
      *            The project to update.
      * @param targetPath
@@ -50,7 +48,7 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     }
 
     @Override
-    public void execute(IProgressMonitor monitor) throws JobFailedException, UserCanceledException {
+    public void execute(IProgressMonitor monitor) throws JobFailedException {
 
         VariationPointModel vpm = getBlackboard().getVariationPointModel();
 
@@ -72,6 +70,6 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     }
 
     @Override
-    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
+    public void cleanup(IProgressMonitor arg0) {
     }
 }
