@@ -90,6 +90,7 @@ public class MergeDetectionTest {
         OngoingStubbing<Boolean> methodCallStub = when(mergeDecider.canBeMerged(any(VariationPoint.class),
                 any(VariationPoint.class)));
         methodCallStub = methodCallStub.thenReturn(Boolean.TRUE);
+        methodCallStub = methodCallStub.thenReturn(Boolean.FALSE);
         methodCallStub.thenReturn(Boolean.FALSE);
         MergeDeciderRegistry.registerMergeDecider(mergeDecider);
 
