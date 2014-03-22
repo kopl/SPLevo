@@ -93,8 +93,10 @@ import org.emftext.language.java.types.util.TypesSwitch;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.Variable;
 import org.emftext.language.java.variables.util.VariablesSwitch;
+import org.splevo.diffing.match.HierarchicalMatchEngine;
 import org.splevo.diffing.util.NormalizationUtil;
 import org.splevo.jamopp.diffing.util.JaMoPPModelUtil;
+import org.splevo.jamopp.util.JaMoPPElementUtil;
 
 import com.google.common.base.Strings;
 
@@ -1193,7 +1195,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          */
         private Statement getPredecessor(Statement statement) {
 
-            int pos = getParentPosition(statement);
+            int pos = JaMoPPElementUtil.getPositionInContainer(statement);
             if (pos > 0) {
                 StatementListContainer container = (StatementListContainer) statement.eContainer();
                 return container.getStatements().get(pos - 1);
@@ -1213,7 +1215,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          */
         private Statement getSuccessor(Statement statement) {
 
-            int pos = getParentPosition(statement);
+            int pos = JaMoPPElementUtil.getPositionInContainer(statement);
             if (pos != -1) {
                 StatementListContainer container = (StatementListContainer) statement.eContainer();
                 if (container.getStatements().size() > pos + 1) {
@@ -1222,24 +1224,6 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             }
 
             return null;
-        }
-
-        /**
-         * Get the position of a statement in it's container. If the container is not a
-         * {@link StatementListContainer} the method will always return null.
-         *
-         * @param statement
-         *            The statement to check the position of.
-         * @return The position in the parents statement list.
-         */
-        private int getParentPosition(Statement statement) {
-
-            if (statement.eContainer() instanceof StatementListContainer) {
-                StatementListContainer container = (StatementListContainer) statement.eContainer();
-                return container.getStatements().indexOf(statement);
-            }
-
-            return -1;
         }
     }
 
