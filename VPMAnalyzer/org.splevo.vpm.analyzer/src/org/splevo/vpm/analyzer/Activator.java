@@ -21,6 +21,8 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
+import org.splevo.vpm.analyzer.mergedecider.MergeDecider;
+import org.splevo.vpm.analyzer.mergedecider.MergeDeciderRegistry;
 
 /**
  * Activator to manage the plugin's OSGi Bundle life-cycle.
@@ -35,11 +37,18 @@ public class Activator implements BundleActivator {
     /** The id of the implementing class attribute of the analyzer extension point. */
     private static final String EXTENSION_POINT_ATTR_ANALYZER_CLASS = "analyzer.class";
 
+    /** The id of the merge decider extension point. */
+    private static final String MERGE_DECIDER_EXTENSION_POINT_ID = "org.splevo.vpm.analyzer.mergedecider";
+
+    /** The id of the implementing class attribute of the merge decider extension point. */
+    private static final String MERGE_DECIDER_EXTENSION_POINT_ATTR_CLASS = "MergeDecider.class";
+
     private static Logger logger = Logger.getLogger(Activator.class);
 
     @Override
     public void start(BundleContext context) throws Exception {
         loadAndRegisterVPMAnalyzerExtensions();
+        loadAndRegisterMergeDeciderExtensions();
     }
 
     @Override
@@ -74,6 +83,39 @@ public class Activator implements BundleActivator {
                     }
                 } catch (CoreException e) {
                     logger.error("Failed to load VPM analyzer extension", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Load and register all installed {@link MergeDecider} extensions.
+     *
+     * @throws BundleException
+     *             If the infrastructure to load analyzers is not available.
+     */
+    private static void loadAndRegisterMergeDeciderExtensions() throws BundleException {
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
+        if (registry == null) {
+            throw new BundleException("No extension point registry available.");
+        }
+        IExtensionPoint extensionPoint = registry.getExtensionPoint(MERGE_DECIDER_EXTENSION_POINT_ID);
+
+        if (extensionPoint == null) {
+            throw new BundleException("No extension point found for the ID " + MERGE_DECIDER_EXTENSION_POINT_ID);
+        }
+        IExtension[] extensions = extensionPoint.getExtensions();
+        for (IExtension extension : extensions) {
+            IConfigurationElement[] configurations = extension.getConfigurationElements();
+            for (IConfigurationElement element : configurations) {
+                try {
+                    Object o = element.createExecutableExtension(MERGE_DECIDER_EXTENSION_POINT_ATTR_CLASS);
+                    if ((o != null) && (o instanceof MergeDecider)) {
+                        MergeDecider mergeDecider = (MergeDecider) o;
+                        MergeDeciderRegistry.registerMergeDecider(mergeDecider);
+                    }
+                } catch (CoreException e) {
+                    logger.error("Failed to load merge decider extension", e);
                 }
             }
         }

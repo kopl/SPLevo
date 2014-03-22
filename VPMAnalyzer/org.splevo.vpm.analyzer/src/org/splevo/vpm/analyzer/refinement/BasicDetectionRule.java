@@ -41,7 +41,7 @@ public class BasicDetectionRule implements DetectionRule {
     private List<String> edgeLabels = null;
 
     /** The type of refinement to create in case of a match. */
-    private RefinementType refinementType = null;
+    private RefinementType refinementType = RefinementType.GROUPING;
 
     /**
      * Constructor requiring to set the edge labels to match and the resulting refinement type.

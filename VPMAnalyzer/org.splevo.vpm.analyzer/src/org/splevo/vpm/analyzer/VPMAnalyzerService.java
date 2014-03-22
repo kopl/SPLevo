@@ -48,13 +48,13 @@ public interface VPMAnalyzerService {
     public abstract VPMGraph mergeGraphs(List<VPMGraph> vpmGraphs);
 
     /**
-     * A VPM is not a multi graph (multiple edges between two nodes),
-     * but it is possible to add multiple edges between the same pair of nodes.
-     * This enables a marking of relationships by multiple analyzers in parallel.
-     * For later processing, it is important to merge those edges later on.
+     * A VPM is not a multi graph (multiple edges between two nodes), but it is possible to add
+     * multiple edges between the same pair of nodes. This enables a marking of relationships by
+     * multiple analyzers in parallel. For later processing, it is important to merge those edges
+     * later on.
      *
-     * This is done by merging their relationship label attributes in one edge and stripping
-     * the analyzer prefix from the edges id.
+     * This is done by merging their relationship label attributes in one edge and stripping the
+     * analyzer prefix from the edges id.
      *
      * @param vpmGraph
      *            The list of graphs to merge.
@@ -62,7 +62,8 @@ public interface VPMAnalyzerService {
     public abstract void mergeGraphEdges(VPMGraph vpmGraph);
 
     /**
-     * Derive a list of refinements from the vpm graph by applying a list of detection rules to it.
+     * Derive a list of refinements from the VPM graph by applying a list of detection rules to it.
+     * In addition, apply the available detectors if a merge or a group should be performed.
      *
      * @param vpmGraph
      *            The graph containing the relationships.

@@ -15,5 +15,6 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.splevo.vpm.analyzer,
  org.splevo.vpm.analyzer.config,
  org.splevo.vpm.analyzer.graph,
+ org.splevo.vpm.analyzer.mergedecider,
  org.splevo.vpm.analyzer.refinement
 Bundle-Activator: org.splevo.vpm.analyzer.Activator
