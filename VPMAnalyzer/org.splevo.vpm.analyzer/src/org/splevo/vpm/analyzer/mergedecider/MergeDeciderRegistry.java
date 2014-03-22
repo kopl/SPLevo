@@ -23,7 +23,7 @@ import com.google.common.collect.Lists;
  */
 public class MergeDeciderRegistry {
 
-    private static List<MergeDecider> deciders = Lists.newArrayList();
+    private static List<MergeDecider> decider = Lists.newArrayList();
 
     /**
      * Register a new merge decider.
@@ -35,8 +35,16 @@ public class MergeDeciderRegistry {
      */
     public static void registerMergeDecider(MergeDecider mergeDecider) {
         if (isValid(mergeDecider) && isNotRegistered(mergeDecider)) {
-            deciders.add(mergeDecider);
+            decider.add(mergeDecider);
         }
+    }
+
+    /**
+     * Clear all registered decider.<br>
+     * This should be called if you need to ensure there are no decider registered previously.
+     */
+    public static void clearRegistry() {
+        decider.clear();
     }
 
     /**
@@ -47,7 +55,7 @@ public class MergeDeciderRegistry {
      * @return The current list.
      */
     public static List<MergeDecider> getMergeDecider() {
-        Collections.sort(deciders, new Comparator<MergeDecider>() {
+        Collections.sort(decider, new Comparator<MergeDecider>() {
             @Override
             public int compare(MergeDecider c1, MergeDecider c2) {
                 String name1 = c1.getClass().getSimpleName();
@@ -55,7 +63,7 @@ public class MergeDeciderRegistry {
                 return Strings.nullToEmpty(name1).compareTo(name2);
             }
         });
-        return deciders;
+        return decider;
     }
 
     /**
@@ -73,7 +81,7 @@ public class MergeDeciderRegistry {
     }
 
     private static boolean isNotRegistered(MergeDecider mergeDecider) {
-        for (MergeDecider existingDecider : deciders) {
+        for (MergeDecider existingDecider : decider) {
             if (existingDecider.getClass().equals(mergeDecider.getClass())) {
                 return false;
             }
