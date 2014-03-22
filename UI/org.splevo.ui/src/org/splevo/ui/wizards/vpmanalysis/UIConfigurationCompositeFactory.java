@@ -20,8 +20,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.config.AbstractVPMAnalyzerConfiguration;
 import org.splevo.vpm.analyzer.config.BooleanConfiguration;
@@ -84,7 +83,7 @@ public class UIConfigurationCompositeFactory {
         GridLayout groupGridLayout = new GridLayout(1, true);
         groupGridLayout.verticalSpacing = 0;
         group.setLayout(groupGridLayout);
-        
+
         FormData formData = new FormData();
         if (parent.getChildren().length == 1) {
             formData.top = new FormAttachment(0);
@@ -102,7 +101,7 @@ public class UIConfigurationCompositeFactory {
             GridLayout parentCompLayout = new GridLayout(3, false);
             parentCompLayout.verticalSpacing = 0;
             parentComp.setLayout(parentCompLayout);
-            
+
             if (config instanceof BooleanConfiguration) {
                 createBooleanConfigField(parentComp, (BooleanConfiguration) config);
             } else if (config instanceof StringConfiguration) {
@@ -158,7 +157,7 @@ public class UIConfigurationCompositeFactory {
         layoutData.widthHint = 50;
         spinner.setLayoutData(layoutData);
 
-        addExplanation(parent, config.getExplanation());
+        UIUtil.addExplanation(parent, config.getExplanation());
     }
 
     /**
@@ -184,7 +183,7 @@ public class UIConfigurationCompositeFactory {
             }
         });
         combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-        addExplanation(parent, config.getExplanation());
+        UIUtil.addExplanation(parent, config.getExplanation());
     }
 
     /**
@@ -219,7 +218,7 @@ public class UIConfigurationCompositeFactory {
             layoutData.heightHint = 80;
         }
         text.setLayoutData(layoutData);
-        addExplanation(parent, config.getExplanation());
+        UIUtil.addExplanation(parent, config.getExplanation());
     }
 
     /**
@@ -242,7 +241,7 @@ public class UIConfigurationCompositeFactory {
             }
         });
         addLabel(parent, config.getLabel(), true);
-        addExplanation(parent, config.getExplanation());
+        UIUtil.addExplanation(parent, config.getExplanation());
     }
 
     /**
@@ -258,25 +257,5 @@ public class UIConfigurationCompositeFactory {
         Label label = new Label(parent, SWT.WRAP);
         label.setText(text);
         label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, grabHorizontalSpace, false));
-    }
-
-    /**
-     * Adds a Tool-Tip explanation to a given parent composite.
-     *
-     * @param parent
-     *            The parent.
-     * @param explanation
-     *            The textual explanation.
-     */
-    private void addExplanation(Composite parent, String explanation) {
-        Label explanationLabel = new Label(parent, SWT.NONE);
-        explanationLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
-        explanationLabel.setImage(PlatformUI.getWorkbench().getSharedImages()
-                .getImage(ISharedImages.IMG_LCL_LINKTO_HELP));
-        explanationLabel.setToolTipText(explanation);
-
-        if (explanation == null || explanation.length() == 0) {
-            explanationLabel.setVisible(false);
-        }
     }
 }

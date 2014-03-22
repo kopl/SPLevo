@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.ResourceManager;
+import org.splevo.ui.util.UIUtil;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
@@ -94,7 +95,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
     /**
      * The button that removes groups.
      */
-    private Button rmvBtn;
+    private Button removeRuleButton;
 
     /**
      * This {@link Composite} manages group details.
@@ -143,7 +144,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
             edgeLabels.add(analyzer.getRelationshipLabel());
         }
         detectionRules.clear();
-        detectionRules.add(new BasicDetectionRule(edgeLabels, RefinementType.MERGE));
+        detectionRules.add(new BasicDetectionRule(edgeLabels, RefinementType.GROUPING));
 
         // Update the rule presentation
         labelsToGroupID.clear();
@@ -229,7 +230,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
         groupListGroup = new Group(parent, SWT.NONE);
         GridLayout gridLayout = new GridLayout(2, true);
         groupListGroup.setLayout(gridLayout);
-        groupListGroup.setText("Groups");
+        groupListGroup.setText("Rules");
         FormData groupFD = new FormData();
         groupFD.top = new FormAttachment(detectionRuleLabel, 10);
         groupFD.bottom = new FormAttachment(100);
@@ -250,10 +251,10 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 rebuildDetailComp();
             }
         });
-        Button addBtn = new Button(groupListGroup, SWT.PUSH);
-        addBtn.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD));
-        addBtn.setLayoutData(gridData);
-        addBtn.addSelectionListener(new SelectionAdapter() {
+        Button addRuleButton = new Button(groupListGroup, SWT.PUSH);
+        addRuleButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD));
+        addRuleButton.setLayoutData(gridData);
+        addRuleButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 super.widgetSelected(e);
@@ -263,16 +264,16 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 }
                 int id = findNextFreeID();
                 labelsToGroupID.put(id, labels);
-                refinementTypeToGroupID.put(id, RefinementType.MERGE);
+                refinementTypeToGroupID.put(id, RefinementType.GROUPING);
                 listViewerAnalysis.refresh();
                 update();
             }
         });
-        rmvBtn = new Button(groupListGroup, SWT.PUSH);
-        rmvBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/cross.png"));
-        rmvBtn.setEnabled(false);
-        rmvBtn.setLayoutData(gridData);
-        rmvBtn.addSelectionListener(new SelectionAdapter() {
+        removeRuleButton = new Button(groupListGroup, SWT.PUSH);
+        removeRuleButton.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/cross.png"));
+        removeRuleButton.setEnabled(false);
+        removeRuleButton.setLayoutData(gridData);
+        removeRuleButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 super.widgetSelected(e);
@@ -280,8 +281,9 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 labelsToGroupID.remove(selectedID);
                 refinementTypeToGroupID.remove(selectedID);
                 listViewerAnalysis.refresh();
-                removeDetailComponents();
+                removeRuleDetailComponents();
                 detailComp.pack();
+                showHowToConfigureRulesInfo();
                 update();
             }
         });
@@ -294,9 +296,11 @@ public class ResultHandlingConfigurationPage extends WizardPage {
         groupDetailFD.left = new FormAttachment(groupListGroup, 5);
         groupDetailFD.right = new FormAttachment(100);
         groupDetailGroup.setLayoutData(groupDetailFD);
-        detailComp = new Composite(groupDetailGroup, SWT.NONE);
         groupDetailGroup.setLayout(new RowLayout());
-        detailComp.setLayout(gridLayout);
+
+        detailComp = new Composite(groupDetailGroup, SWT.NONE);
+        GridLayout detailCompLayout = new GridLayout(3, true);
+        detailComp.setLayout(detailCompLayout);
     }
 
     /**
@@ -351,10 +355,16 @@ public class ResultHandlingConfigurationPage extends WizardPage {
     /**
      * Disposes all children of the detailComp composite.
      */
-    protected void removeDetailComponents() {
+    protected void removeRuleDetailComponents() {
         for (Control control : detailComp.getChildren()) {
             control.dispose();
         }
+    }
+
+    private void showHowToConfigureRulesInfo() {
+        Label infoLabel = new Label(detailComp, SWT.NONE);
+        infoLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+        infoLabel.setText("Select rule on the left to check on configure details.");
     }
 
     /**
@@ -366,10 +376,12 @@ public class ResultHandlingConfigurationPage extends WizardPage {
     private void buildDetailComponents(final Integer id) {
         Label organizeLabel = new Label(detailComp, SWT.NONE);
         organizeLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-        organizeLabel.setText("How should the labels be organized?");
+        organizeLabel.setText("How to aggregate related variation points?");
+        UIUtil.addExplanation(detailComp, "Use group per default. If a merge is possible, this be detected automatically.");
+
         Button mergeBtn = new Button(detailComp, SWT.RADIO);
         mergeBtn.setText("Merge");
-        mergeBtn.setToolTipText("Merges labels with the specified label.");
+        mergeBtn.setToolTipText("Recommend merging for related variation points.");
         mergeBtn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -380,7 +392,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
         });
         Button groupBtn = new Button(detailComp, SWT.RADIO);
         groupBtn.setText("Group");
-        groupBtn.setToolTipText("Creates groups of labels with the same name.");
+        groupBtn.setToolTipText("Recommend grouping for related variation points.");
         groupBtn.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -396,7 +408,9 @@ public class ResultHandlingConfigurationPage extends WizardPage {
         }
         Label labelsLabel = new Label(detailComp, SWT.NONE);
         labelsLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-        labelsLabel.setText("Choose the labels the rule should be applied for:");
+        labelsLabel.setText("Select the relationship combination to detect:");
+        UIUtil.addExplanation(detailComp, "The analyzer specific relationships are considered.");
+
         createAnalyzerSelection(id);
     }
 
@@ -484,7 +498,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 recursiveSetEnabled(c, enabled);
             }
         } else {
-            if (ctrl != rmvBtn || !enabled) {
+            if (ctrl != removeRuleButton || !enabled) {
                 ctrl.setEnabled(enabled);
             }
         }
@@ -528,13 +542,14 @@ public class ResultHandlingConfigurationPage extends WizardPage {
      * Rebuilds the detail view.
      */
     private void rebuildDetailComp() {
-        removeDetailComponents();
+        removeRuleDetailComponents();
         detailComp.pack();
         Integer selectedID = getSelectedID();
         if (selectedID == null) {
-            rmvBtn.setEnabled(false);
+            removeRuleButton.setEnabled(false);
+            showHowToConfigureRulesInfo();
         } else {
-            rmvBtn.setEnabled(true);
+            removeRuleButton.setEnabled(true);
             buildDetailComponents(selectedID);
         }
         detailComp.pack();
