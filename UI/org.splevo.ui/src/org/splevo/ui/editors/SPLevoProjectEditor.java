@@ -26,6 +26,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -73,10 +74,12 @@ import org.splevo.ui.editors.listener.DifferCheckBoxListener;
 import org.splevo.ui.editors.listener.GotoTabMouseListener;
 import org.splevo.ui.editors.listener.MarkDirtyListener;
 import org.splevo.ui.editors.listener.ProjectDropListener;
+import org.splevo.ui.jobs.JobUtil;
 import org.splevo.ui.listeners.DiffSourceModelListener;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
+import org.splevo.ui.vpexplorer.explorer.VPExplorer;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -596,6 +599,25 @@ public class SPLevoProjectEditor extends EditorPart {
                     } catch (PartInitException pie) {
                         logger.error("failed to open vpm file.");
                     }
+                    
+                    
+                    // Uncomment this block only if you want to test the explorer in it's pre-alpha state!
+                    /* ----------------- THIS WILL BREAK -----------------------------------------------*/
+//					try {
+//						// TODO display on left side
+//						VPExplorer explorer = (VPExplorer) PlatformUI
+//								.getWorkbench()
+//								.getActiveWorkbenchWindow()
+//								.getActivePage()
+//								.showView("org.splevo.ui.variationpointexplorer");
+//						explorer.setVpmFile(new File(splevoProject.getVpmModelPaths().get(0)));
+//				        ResourceSet resSet = JobUtil.initResourceSet(splevoProject);
+//				        explorer.setResourceSet(resSet);
+//				        explorer.displayModel();
+//					} catch (PartInitException e1) {
+//						logger.error("Failed to open the variant explorer.");
+//					}
+                    /* ----------------- THIS WILL BREAK -----------------------------------------------*/
                 }
             }
         });
