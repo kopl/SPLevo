@@ -3,13 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SPLevo Variation Point Explorer
 Bundle-SymbolicName: org.splevo.ui.vpexplorer;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.splevo.ui.vpexplorer.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.navigator,
  org.splevo.vpm;bundle-version="1.0.0",
  org.splevo.extraction,
  org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ActivationPolicy: lazy
 Export-Package: org.splevo.ui.vpexplorer.explorer
 Bundle-Vendor: www.splevo.org
