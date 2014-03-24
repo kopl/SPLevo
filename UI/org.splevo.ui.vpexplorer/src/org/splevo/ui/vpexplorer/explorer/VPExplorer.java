@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,6 @@
  * Contributors:
  *    Christian Busch
  *******************************************************************************/
-
 package org.splevo.ui.vpexplorer.explorer;
 
 import java.io.File;
@@ -27,9 +26,6 @@ import org.splevo.vpm.VPMUtil;
 
 /**
  * The VPExplorer displays a VP model in a tree structure.
- * 
- * @author Christian Busch
- * 
  */
 public class VPExplorer extends CommonNavigator {
 
@@ -61,15 +57,13 @@ public class VPExplorer extends CommonNavigator {
                     logger.error("Could not load Variation Point Model");
                 }
 
-                // TODO Build new model?
+                // TODO Build new model? -> NO
 
                 Display.getDefault().asyncExec(new Runnable() {
 
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
                         getCommonViewer().setInput(resSet);
-
                     }
                 });
                 return Status.OK_STATUS;
@@ -80,7 +74,7 @@ public class VPExplorer extends CommonNavigator {
 
     /**
      * Setter for VPM file.
-     * 
+     *
      * @param vpmFile
      *            the VPM file to set.
      */
@@ -90,7 +84,7 @@ public class VPExplorer extends CommonNavigator {
 
     /**
      * Setter for the ResourceSet.
-     * 
+     *
      * @param resSet
      *            the ResourceSet to set.
      */

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,6 @@
  * Contributors:
  *    Christian Busch
  *******************************************************************************/
-
 package org.splevo.ui.vpexplorer.providers;
 
 import java.util.LinkedList;
@@ -25,27 +24,22 @@ import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * The ContentProvider for the VPExplorer.
- * 
+ *
  * @author Christian Busch
- * 
+ *
  */
 public class VPExplorerContentProvider implements ITreeContentProvider {
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public Object[] getElements(Object inputElement) {
-        // TODO Auto-generated method stub
         return getChildren(inputElement);
     }
 
