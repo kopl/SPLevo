@@ -17,5 +17,11 @@ Require-Bundle: org.eclipse.core.runtime,
  com.google.guava;bundle-version="11.0.2",
  org.splevo.jamopp.diffing;bundle-version="1.0.0",
  org.splevo.jamopp.vpm.builder;bundle-version="1.0.0",
- org.splevo.vpm.refinement;bundle-version="1.0.0"
+ org.splevo.vpm.refinement;bundle-version="1.0.0",
+ org.eclipse.ui.workbench,
+ org.eclipse.core.resources,
+ org.emftext.language.java,
+ org.hamcrest.core,
+ org.emftext.refactoring.graph;bundle-version="0.9.1"
 Bundle-ActivationPolicy: lazy
+Import-Package: org.emftext.refactoring.interpreter
