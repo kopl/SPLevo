@@ -23,59 +23,65 @@ import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
+/**
+ * The ContentProvider for the VPExplorer.
+ * 
+ * @author Christian Busch
+ * 
+ */
 public class VPExplorerContentProvider implements ITreeContentProvider {
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
+    @Override
+    public void dispose() {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
+    @Override
+    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public Object[] getElements(Object inputElement) {
-		// TODO Auto-generated method stub
-		return getChildren(inputElement);
-	}
+    @Override
+    public Object[] getElements(Object inputElement) {
+        // TODO Auto-generated method stub
+        return getChildren(inputElement);
+    }
 
-	@Override
-	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof VariationPoint) {
-			return ((VariationPoint) parentElement).getVariants().toArray();
-		} else if (parentElement instanceof Variant) {
-			EList<SoftwareElement> implementingElements = ((Variant) parentElement).getImplementingElements();
-			List<SourceLocation> locations = new LinkedList<SourceLocation>();
-			for (SoftwareElement element : implementingElements) {
-				locations.add(element.getSourceLocation());
-			}
-			return locations.toArray();
-		}
-		return null;
-	}
+    @Override
+    public Object[] getChildren(Object parentElement) {
+        if (parentElement instanceof VariationPoint) {
+            return ((VariationPoint) parentElement).getVariants().toArray();
+        } else if (parentElement instanceof Variant) {
+            EList<SoftwareElement> implementingElements = ((Variant) parentElement).getImplementingElements();
+            List<SourceLocation> locations = new LinkedList<SourceLocation>();
+            for (SoftwareElement element : implementingElements) {
+                locations.add(element.getSourceLocation());
+            }
+            return locations.toArray();
+        }
+        return null;
+    }
 
-	@Override
-	public Object getParent(Object element) {
-		if (element instanceof Variant) {
-			return ((Variant)element).getVariationPoint();
-		} else if (element instanceof SourceLocation) {
-			return ((SourceLocation)element).eContainer();
-		}
-		return null;
-	}
+    @Override
+    public Object getParent(Object element) {
+        if (element instanceof Variant) {
+            return ((Variant) element).getVariationPoint();
+        } else if (element instanceof SourceLocation) {
+            return ((SourceLocation) element).eContainer();
+        }
+        return null;
+    }
 
-	@Override
-	public boolean hasChildren(Object element) {
-		if (element instanceof VariationPoint) {
-			return true;
-		} else if ( element instanceof Variant) {
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean hasChildren(Object element) {
+        if (element instanceof VariationPoint) {
+            return true;
+        } else if (element instanceof Variant) {
+            return true;
+        }
+        return false;
+    }
 
 }
