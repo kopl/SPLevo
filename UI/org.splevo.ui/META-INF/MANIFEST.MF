@@ -34,7 +34,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface.text;bundle-version="3.8.2",
  org.apache.commons.io,
  org.splevo.jamopp.vpm;bundle-version="1.0.0",
- org.splevo.ui.variatonpointexplorer;bundle-version="1.0.0",
+ org.splevo.ui.vpexplorer;bundle-version="1.0.0",
  org.eclipse.ui.navigator;bundle-version="3.5.300"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
