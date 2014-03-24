@@ -594,7 +594,7 @@ public class SPLevoProjectEditor extends EditorPart {
                     try {
                         IDE.openEditorOnFileStore(page, fileStore);
                     } catch (PartInitException pie) {
-                        logger.error("failed to open diff file.");
+                        logger.error("failed to open vpm file.");
                     }
                 }
             }
