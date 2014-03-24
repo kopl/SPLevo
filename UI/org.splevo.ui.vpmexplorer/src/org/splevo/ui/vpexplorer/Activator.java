@@ -10,7 +10,7 @@
  *    Christian Busch
  *******************************************************************************/
 
-package org.splevo.ui.vpmexplorer;
+package org.splevo.ui.vpexplorer;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

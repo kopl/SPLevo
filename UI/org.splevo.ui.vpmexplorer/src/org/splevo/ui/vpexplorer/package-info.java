@@ -1,4 +1,4 @@
 /**
  * The default package for the vp explorer
  */
-package org.splevo.ui.vpmexplorer;
+package org.splevo.ui.vpexplorer;

@@ -7,14 +7,14 @@
             category="org.splevo.ui"
             class="org.splevo.ui.vpexplorer.explorer.VPExplorer"
             icon="icons/splevo-project.gif"
-            id="org.splevo.ui.variationpointexplorer"
+            id="org.splevo.ui.vpexplorer"
             name="Variation Point Explorer">
       </view>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
       <viewerActionBinding
-            viewerId="org.splevo.ui.variationpointexplorer">
+            viewerId="org.splevo.ui.vpexplorer">
          <includes>
             <actionExtension
                   pattern="org.splevo.vpm.variability.*">
@@ -25,10 +25,10 @@
          </includes>
       </viewerActionBinding>
       <viewerContentBinding
-            viewerId="org.splevo.ui.variationpointexplorer">
+            viewerId="org.splevo.ui.vpexplorer">
          <includes>
             <contentExtension
-                  pattern="org.splevo.ui.variationpointexplorer.VPExplorerContent">
+                  pattern="org.splevo.ui.vpexplorer.VPExplorerContent">
             </contentExtension>
             <contentExtension
                   pattern="org.splevo.vpm.software.*">
@@ -41,7 +41,7 @@
       <perspectiveExtension
             targetID="org.eclipse.ui.resourcePerspective">
          <view
-               id="org.splevo.ui.variationpointexplorer"
+               id="org.splevo.ui.vpexplorer"
                ratio="0.5"
                relationship="left"
                relative="org.eclipse.ui.editorss">
@@ -53,7 +53,7 @@
       <navigatorContent
             activeByDefault="true"
             contentProvider="org.splevo.ui.vpexplorer.providers.VPExplorerContentProvider"
-            id="org.splevo.ui.variationpointexplorer.VPExplorerContent"
+            id="org.splevo.ui.vpexplorer.VPExplorerContent"
             labelProvider="org.splevo.ui.vpexplorer.providers.VPExplorerLabelProvider"
             name="VP Explorer Content">
          <triggerPoints>

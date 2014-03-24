@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: VPMExplorer
-Bundle-SymbolicName: org.splevo.ui.variatonpointexplorer;singleton:=true
+Bundle-Name: SPLevo Variation Point Explorer
+Bundle-SymbolicName: org.splevo.ui.vpexplorer;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.splevo.ui.vpmexplorer.Activator
+Bundle-Activator: org.splevo.ui.vpexplorer.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.navigator,
  org.splevo.vpm;bundle-version="1.0.0",
@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.splevo.ui.vpexplorer.explorer
+Bundle-Vendor: www.splevo.org
