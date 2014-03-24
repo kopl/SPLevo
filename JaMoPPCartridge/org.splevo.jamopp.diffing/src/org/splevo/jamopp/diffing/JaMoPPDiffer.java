@@ -77,9 +77,6 @@ import com.google.common.collect.Maps;
  * The option {@link JaMoPPDiffer#OPTION_JAMOPP_IGNORE_FILES} can be provided as diffing option to
  * the doDiff() method to change this default behavior.
  * </p>
- *
- * @author Benjamin Klatt
- *
  */
 public class JaMoPPDiffer implements Differ {
 
