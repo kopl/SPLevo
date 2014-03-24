@@ -3,13 +3,10 @@ package org.splevo.examples.calculator;
 import org.jscience.mathematics.number.FloatingPoint;
 
 /**
- * Calculator to get the positive square root of 
+ * Calculator to get the positive square root of
  * a floating point number.
- * This makes use of the FloatingPoint class of the 
- * JScience mathematics library (www.jscience.org) 
- * 
- * @author Benjamin Klatt
- *
+ * This makes use of the FloatingPoint class of the
+ * JScience mathematics library (www.jscience.org)
  */
 public class CalculatorSqrt {
 
@@ -19,11 +16,11 @@ public class CalculatorSqrt {
 	 * @return The calculated square root.
 	 */
 	public String sqrt(String value1){
-		
+
 		FloatingPoint floatingPointValue = FloatingPoint.valueOf(value1);
 		FloatingPoint sqrt = floatingPointValue.sqrt();
-		
-		return sqrt.toString();	
+
+		return sqrt.toString();
 	}
 
 }

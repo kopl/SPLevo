@@ -4,11 +4,8 @@ import org.jscience.mathematics.number.LargeInteger;
 
 /**
  * The calculator to perform numeric calculations.
- * This makes use of the LargeInteger class of the 
- * JScience mathematics library (www.jscience.org) 
- * 
- * @author Benjamin Klatt
- *
+ * This makes use of the LargeInteger class of the
+ * JScience mathematics library (www.jscience.org)
  */
 public class CalculatorGCD {
 
@@ -19,11 +16,11 @@ public class CalculatorGCD {
 	 * @return
 	 */
 	public String gcd(String value1, String value2){
-		
+
 		LargeInteger integerValue1 = LargeInteger.valueOf(value1);
 		LargeInteger integerValue2 = LargeInteger.valueOf(value2);
 		LargeInteger gcd = integerValue1.gcd(integerValue2);
-		
-		return gcd.toString();	
+
+		return gcd.toString();
 	}
 }

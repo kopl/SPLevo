@@ -36,9 +36,6 @@ import com.google.common.collect.Sets;
 
 /**
  * Diffing test case for changed variable declarations.
- *
- * @author Benjamin Klatt
- *
  */
 public class VariableDeclarationStatementDiffingTest {
 

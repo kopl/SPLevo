@@ -16,9 +16,6 @@ import org.junit.Test;
 
 /**
  * Unit test for the diffing service class.
- *
- * @author Benjamin Klatt
- *
  */
 public class GCDDiffingTest {
 
