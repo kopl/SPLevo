@@ -11,14 +11,21 @@
  *******************************************************************************/
 package org.splevo.refactoring.ifelsebasic;
 
-import org.eclipse.emf.common.util.EList;
-import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.imports.Import;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.refactoring.rolemapping.RoleMapping;
+import org.emftext.refactoring.interpreter.IRefactorer;
+import org.emftext.refactoring.interpreter.RefactorerFactory;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.refactoring.RefactoringRegistry;
+import org.splevo.refactoring.ValueProviderFactory;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vrm.VariabilityRealizationTechnique;
 
@@ -27,41 +34,38 @@ import org.splevo.vrm.VariabilityRealizationTechnique;
  * else condition of the given java code base.
  */
 public class IfElseBasicRefactoring implements VariabilityRefactoring {
+    
+    private static Logger logger = Logger.getLogger(IfElseBasicRefactoring.class);
 
     @Override
-    public void refactor(VariationPoint vp) {
+    public void refactor(VariationPoint variationPoint) {
+        Resource javaResource = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource();
+        RoleMapping roleMapping = RefactoringRegistry.getRoleMapping("IfElseBasic");
+        IRefactorer refactorer = RefactorerFactory.eINSTANCE.getRefactorer(javaResource, roleMapping);
+        ValueProviderFactory valueProviderFactory = new ValueProviderFactory();
+        refactorer.setValueProviderFactory(valueProviderFactory);
+        ClassMethod leadingMethod = (ClassMethod) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        List<EObject> integrationStatements = getVariantElements(variationPoint);
 
-        SoftwareElement locationElement = vp.getLocation();
-        if (locationElement instanceof JaMoPPSoftwareElement) {
-            JaMoPPSoftwareElement jamoppLocationElement = (JaMoPPSoftwareElement) locationElement;
+        List<EObject> inputList = new LinkedList<EObject>();
+        inputList.add(leadingMethod);
+        inputList.addAll(integrationStatements);
+        refactorer.setInput(inputList);
 
-            Commentable jamoppElement = jamoppLocationElement.getJamoppElement();
-            if (jamoppElement instanceof CompilationUnit) {
-                CompilationUnit cu = (CompilationUnit) jamoppElement;
+        refactorer.refactor();
+        if (refactorer.didErrorsOccur()) {
+            logger.error("Errow while refactoring: " + refactorer.getStatus());
+        }
+    }
 
-                EList<Variant> variants = vp.getVariants();
-                for (Variant variant : variants) {
-                    if (!variant.getLeading()) {
-
-                        EList<SoftwareElement> implementingElements = variant.getImplementingElements();
-                        for (SoftwareElement softwareElement : implementingElements) {
-                            if (softwareElement instanceof JaMoPPSoftwareElement) {
-                                JaMoPPSoftwareElement jamoppImplElement = (JaMoPPSoftwareElement) softwareElement;
-                                Commentable jamoppElement2 = jamoppImplElement.getJamoppElement();
-                                if (jamoppElement2 instanceof Import) {
-                                    Import importElement = (Import) jamoppElement2;
-                                    cu.getImports().add(importElement);
-                                }
-
-                            }
-                        }
-
-                    }
-                }
-            }
-
+    private List<EObject> getVariantElements(VariationPoint variationPoint) {
+        List<EObject> result = new LinkedList<EObject>();
+        for (SoftwareElement softwareElement : variationPoint.getVariants().get(1).getImplementingElements()) {
+            JaMoPPSoftwareElement jaMoPPSoftwareElement = (JaMoPPSoftwareElement) softwareElement;
+            result.add(jaMoPPSoftwareElement.getJamoppElement());
         }
 
+        return result;
     }
 
     @Override

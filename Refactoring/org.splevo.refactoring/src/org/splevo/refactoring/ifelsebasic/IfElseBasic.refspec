@@ -1,0 +1,18 @@
+REFACTORING FOR <IfElseBasic>
+
+STEPS {
+	object methodLeadingObject := MethodLeading from filter(INPUT);
+	object statementsIntegrationObject := IntegrationStatement from filter(INPUT);
+	
+	// create ifelse to introduce variability
+	create new ifElse:IfElse;
+	create new ifBlock:IfBlock in ifElse;
+	create new elseBlock:ElseBlock in ifElse;
+
+	// fill if block with leading statements and else block with integration statements
+	move methodLeadingObject.statements to ifBlock;
+	set use of statementsIntegrationObject in elseBlock.statements;
+	
+	// add ifelse to leading method
+	set use of ifElse in MethodLeading.variabilityIfElse;
+} 

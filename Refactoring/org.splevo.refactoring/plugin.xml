@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="org.splevo.refactoring" name="Refactoring Service Extension Point" schema="schema/org.splevo.refactoring.refactoringservice.exsd"/>
+   <extension
+         point="org.emftext.refactoring.rolemodel">
+      <rolemodel
+            rolemodel_resource="src/org/splevo/refactoring/ifelsebasic/IfElseBasic.rolestext">
+      </rolemodel>
+   </extension>
+   <extension
+         point="org.emftext.refactoring.refspec">
+      <refspec
+            refspec_resource="src/org/splevo/refactoring/ifelsebasic/IfElseBasic.refspec">
+      </refspec>
+   </extension>
+   <extension
+         point="org.emftext.refactoring.rolemapping">
+      <rolemapping
+            rolemapping_resource="src/org/splevo/refactoring/ifelsebasic/IfElseBasic.rolemapping">
+      </rolemapping>
+   </extension>
 
 
 </plugin>

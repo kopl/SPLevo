@@ -25,6 +25,11 @@ Require-Bundle: org.eclipse.osgi,
  org.emftext.language.refactoring.rolemapping.resource.rolemapping,
  org.emftext.language.refactoring.roles.resource.rolestext,
  org.emftext.language.refactoring.specification.resource.refspec,
- com.google.guava;bundle-version="11.0.2"
+ com.google.guava;bundle-version="11.0.2",
+ org.emftext.refactoring.specification.interpreter,
+ org.eclipse.swt,
+ org.emftext.refactoring.util,
+ org.emftext.refactoring.indexconnector;bundle-version="0.9.1",
+ org.eclipse.emf.ecore.change;bundle-version="2.9.0"
 Export-Package: org.splevo.refactoring
 Bundle-Vendor: www.splevo.org
