@@ -1,0 +1,21 @@
+RoleModel IfElseBasic { 
+	super input ROLE MethodLeading;
+	super ROLE LeadingStatement;
+	
+	super input ROLE IntegrationStatement;
+	
+	ROLE IfElse;
+	ROLE Condition;
+	ROLE IfBlock;
+	ROLE ElseBlock;
+
+	transitive : MethodLeading [1..1] <>- LeadingStatement statements [0..*];
+	transitive : MethodLeading [1..1] <>- IfElse variabilityIfElse [0..1];
+	
+	transitive : IfElse [1..1] <>- Condition condition [0..1];
+	transitive : IfElse [1..1] <>- IfBlock statement [0..1];
+	transitive : IfElse [1..1] <>- ElseBlock elseStatement [0..1];
+	
+	transitive : IfBlock [1..1] <>- LeadingStatement statements [0..*];
+	transitive : ElseBlock [1..1] <>- IntegrationStatement statements [0..*];
+}

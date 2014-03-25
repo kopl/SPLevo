@@ -1,0 +1,28 @@
+ROLEMODELMAPPING FOR <http://www.emftext.org/java> 
+
+
+"IfElseBasic" maps <IfElseBasic> {
+	MethodLeading := members.ClassMethod {
+		statements := statements;
+		variabilityIfElse := statements;
+	};
+	
+	LeadingStatement := statements.Statement;
+	IntegrationStatement := statements.Statement;
+
+	IfElse := statements.Condition{
+		condition := condition;
+		elseStatement := elseStatement;
+		statement := statement;
+	};
+
+	Condition := literals.BooleanLiteral;
+
+	IfBlock := statements.Block{
+		statements := statements;
+	};
+
+	ElseBlock := statements.Block{
+		statements := statements;
+	};
+}
