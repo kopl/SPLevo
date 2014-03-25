@@ -23,9 +23,7 @@ import org.emftext.refactoring.interpreter.IRefactorer;
 import org.emftext.refactoring.interpreter.RefactorerFactory;
 import org.splevo.jamopp.refactoring.refactory.ifelse.IfElseVariabilityRealizationTechnique;
 import org.splevo.jamopp.refactoring.refactory.ifelse.RefactoryUtil;
-import org.splevo.jamopp.refactoring.refactory.ifelse.ValueProviderFactory;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.RefactoringRegistry;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
@@ -44,8 +42,6 @@ public class IfElseVPRefactoring implements VariabilityRefactoring {
         Resource javaResource = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource();
         RoleMapping roleMapping = RefactoryUtil.getRoleMapping("IfElseBasic");
         IRefactorer refactorer = RefactorerFactory.eINSTANCE.getRefactorer(javaResource, roleMapping);
-        ValueProviderFactory valueProviderFactory = new ValueProviderFactory();
-        refactorer.setValueProviderFactory(valueProviderFactory);
         ClassMethod leadingMethod = (ClassMethod) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         List<EObject> integrationStatements = getVariantElements(variationPoint);
 

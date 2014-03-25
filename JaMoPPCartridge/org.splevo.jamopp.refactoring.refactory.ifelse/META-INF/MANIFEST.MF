@@ -23,5 +23,6 @@ Require-Bundle: org.splevo.refactoring,
  org.emftext.refactoring.indexconnector,
  org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.swt;bundle-version="3.102.1",
- org.eclipse.osgi;bundle-version="3.9.1"
+ org.eclipse.osgi;bundle-version="3.9.1",
+ org.splevo.vrm
 Bundle-Activator: org.splevo.jamopp.refactoring.refactory.ifelse.Activator
