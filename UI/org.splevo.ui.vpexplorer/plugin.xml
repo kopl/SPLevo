@@ -6,7 +6,7 @@
       <view
             category="org.splevo.ui"
             class="org.splevo.ui.vpexplorer.explorer.VPExplorer"
-            icon="icons/splevo-project.gif"
+            icon="icons/kopl_circle_only.png"
             id="org.splevo.ui.vpexplorer"
             name="Variation Point Explorer">
       </view>

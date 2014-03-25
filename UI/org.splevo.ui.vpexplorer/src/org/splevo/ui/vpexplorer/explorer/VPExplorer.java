@@ -29,6 +29,9 @@ import org.splevo.vpm.VPMUtil;
  */
 public class VPExplorer extends CommonNavigator {
 
+    /** Id to reference the view inside eclipse. */
+    public static final String VIEW_ID = "org.splevo.ui.vpexplorer";
+
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(VPExplorer.class);
 
