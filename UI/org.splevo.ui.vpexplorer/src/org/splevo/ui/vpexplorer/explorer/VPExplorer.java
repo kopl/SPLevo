@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.splevo.ui.vpexplorer.explorer;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.ui.navigator.CommonNavigator;
-import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * The VPExplorer displays a VP model in a tree structure.
@@ -22,15 +22,26 @@ public class VPExplorer extends CommonNavigator {
     /** Id to reference the view inside eclipse. */
     public static final String VIEW_ID = "org.splevo.ui.vpexplorer";
 
-    private static VPExplorerContent vpExplorerContent = new VPExplorerContent();
+    private VPExplorerContent vpExplorerContent;
+
+    /**
+     * Default explorer setting up the required dependencies.
+     */
+    public VPExplorer() {
+        vpExplorerContent = new VPExplorerContent(this);
+    }
 
     @Override
-    protected Object getInitialInput() {
+    protected IAdaptable getInitialInput() {
+        this.getCommonViewer().refresh();
         return vpExplorerContent;
     }
 
-
-    public static VPExplorerContent getVpExplorerContent() {
+    /**
+     * Access the static content element.
+     * @return The singleton content element.
+     */
+    public VPExplorerContent getVpExplorerContent() {
         return vpExplorerContent;
     }
 

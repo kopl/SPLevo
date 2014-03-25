@@ -15,9 +15,11 @@ package org.splevo.ui.vpexplorer.providers;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
 
 /**
  * This LabelProvider provides Labels for elements of a VPM.
@@ -48,15 +50,32 @@ public class VPExplorerLabelProvider implements ILabelProvider {
 
     @Override
     public String getText(Object element) {
-        if (element instanceof VariationPoint) {
-            return "Variation Point";
+
+        if (element instanceof VariationPointGroup) {
+            return "Variation Point Group: " + ((VariationPointGroup) element).getGroupId();
+        } else if (element instanceof VariationPoint) {
+            return buildVariationPointLabel((VariationPoint) element);
         } else if (element instanceof Variant) {
-            return ((Variant) element).getVariantId();
+            return "Variant: " + ((Variant) element).getVariantId();
+        } else if (element instanceof SoftwareElement) {
+            return ((SoftwareElement) element).getLabel();
         } else if (element instanceof SourceLocation) {
             // return ((SourceLocation) element).getFilePath();
             return "Source Location";
         }
         return null;
+    }
+
+    /**
+     * Builds the variation point label.
+     *
+     * @param variationPoint
+     *            the element
+     * @return the string
+     */
+    private String buildVariationPointLabel(final VariationPoint variationPoint) {
+        final SoftwareElement softwareElement = variationPoint.getLocation();
+        return String.format("VariationPoint in %s", softwareElement.getLabel());
     }
 
 }

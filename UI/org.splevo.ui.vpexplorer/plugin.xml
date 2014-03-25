@@ -13,28 +13,17 @@
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
-      <viewerActionBinding
+      <viewer
             viewerId="org.splevo.ui.vpexplorer">
-         <includes>
-            <actionExtension
-                  pattern="org.splevo.vpm.variability.*">
-            </actionExtension>
-            <actionExtension
-                  pattern="org.splevo.vpm.software.*">
-            </actionExtension>
-         </includes>
-      </viewerActionBinding>
+      </viewer>
       <viewerContentBinding
             viewerId="org.splevo.ui.vpexplorer">
          <includes>
             <contentExtension
-                  pattern="org.splevo.ui.vpexplorer.VPExplorerContent">
+                  pattern="org.splevo.ui.vpexplorer.vpExplorerContent">
             </contentExtension>
          </includes>
       </viewerContentBinding>
-      <viewer
-            viewerId="org.splevo.ui.vpexplorer">
-      </viewer>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -51,46 +40,15 @@
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent
-            activeByDefault="true"
             contentProvider="org.splevo.ui.vpexplorer.providers.VPExplorerContentProvider"
-            id="org.splevo.ui.vpexplorer.VPExplorerContent"
+            id="org.splevo.ui.vpexplorer.vpExplorerContent"
             labelProvider="org.splevo.ui.vpexplorer.providers.VPExplorerLabelProvider"
             name="VP Explorer Content">
          <triggerPoints>
-            <or>
-               <instanceof
-                     value="org.splevo.vpm.variability.VariationPoint">
-               </instanceof>
-               <instanceof
-                     value="org.splevo.vpm.variability.Variant">
-               </instanceof>
-               <instanceof
-                     value="org.splevo.vpm.software.SourceLocation">
-               </instanceof>
-               <instanceof
-                     value="org.splevo.vpm.variability.VariationPointModel">
-               </instanceof>
-               <instanceof
-                     value="org.splevo.vpm.variability.VariationPointGroup">
-               </instanceof>
-            </or>
+            <instanceof
+                  value="org.splevo.ui.vpexplorer.explorer.VPExplorerContent">
+            </instanceof>
          </triggerPoints>
-         <possibleChildren>
-            <or>
-               <instanceof
-                     value="org.splevo.vpm.variability.VariationPointGroup">
-               </instanceof>
-               <instanceof
-                     value="org.splevo.vpm.variability.Variant">
-               </instanceof>
-               <instanceof
-                     value="org.splevo.vpm.software.SourceLocation">
-               </instanceof>
-               <instanceof
-                     value="org.splevo.vpm.variability.VariationPointModel">
-               </instanceof>
-            </or>
-         </possibleChildren>
       </navigatorContent>
    </extension>
 
