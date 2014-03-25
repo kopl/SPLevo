@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -275,7 +275,6 @@ public class SPLevoProjectEditor extends EditorPart {
         int singleHeight = 20;
         int multipleHeight = 100;
         int yPositionCurrent = 25;
-
 
         if (availableDiffers.size() == 1) {
             splevoProject.getDifferIds().add(availableDiffers.get(0).getId());
@@ -591,33 +590,48 @@ public class SPLevoProjectEditor extends EditorPart {
                     String basePath = getAbsoluteWorkspacePath();
                     File fileToOpen = new File(basePath + File.separator
                             + splevoProject.getVpmModelPaths().get(splevoProject.getVpmModelPaths().size() - 1));
-                    IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
-                    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
                     try {
-                        IDE.openEditorOnFileStore(page, fileStore);
-                    } catch (PartInitException pie) {
-                        logger.error("failed to open vpm file.");
+                        // TODO display on left side
+                        openVPExplorer(fileToOpen);
+                    } catch (PartInitException e1) {
+                        logger.error("Failed to open the variant explorer.", e1);
+                        openDefaultVPMEditor(fileToOpen);
                     }
-                    
-                    
-                    // Uncomment this block only if you want to test the explorer in it's pre-alpha state!
-                    /* ----------------- THIS WILL BREAK -----------------------------------------------*/
-//					try {
-//						// TODO display on left side
-//						VPExplorer explorer = (VPExplorer) PlatformUI
-//								.getWorkbench()
-//								.getActiveWorkbenchWindow()
-//								.getActivePage()
-//								.showView("org.splevo.ui.variationpointexplorer");
-//						explorer.setVpmFile(new File(splevoProject.getVpmModelPaths().get(0)));
-//				        ResourceSet resSet = JobUtil.initResourceSet(splevoProject);
-//				        explorer.setResourceSet(resSet);
-//				        explorer.displayModel();
-//					} catch (PartInitException e1) {
-//						logger.error("Failed to open the variant explorer.");
-//					}
-                    /* ----------------- THIS WILL BREAK -----------------------------------------------*/
+                }
+            }
+
+            /**
+             * Open the SPLevo specific variation point explorer.
+             *
+             * @param fileToOpen
+             *            The model to be opened.
+             * @throws PartInitException
+             *             An error occurred during the view creation in the UI.
+             */
+            private void openVPExplorer(File fileToOpen) throws PartInitException {
+                VPExplorer explorer = (VPExplorer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+                        .showView(VPExplorer.VIEW_ID);
+                explorer.setVpmFile(fileToOpen);
+                ResourceSet resSet = JobUtil.initResourceSet(splevoProject);
+                explorer.setResourceSet(resSet);
+                explorer.displayModel();
+            }
+
+            /**
+             * Open the variation point model in the default editor.
+             *
+             * @param fileToOpen
+             *            Handle of the vpm file to open.
+             */
+            private void openDefaultVPMEditor(File fileToOpen) {
+                IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
+                IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+
+                try {
+                    IDE.openEditorOnFileStore(page, fileStore);
+                } catch (PartInitException pie) {
+                    logger.error("failed to open vpm file.", pie);
                 }
             }
         });
