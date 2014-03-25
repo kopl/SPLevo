@@ -33,8 +33,6 @@ import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -68,7 +66,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.diffing.Differ;
@@ -626,11 +623,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
                 ResourceSet resSet = JobUtil.initResourceSet(splevoProject);
                 VariationPointModel vpm = VPMUtil.loadVariationPointModel(new File(pathToVPM), resSet);
-
                 explorer.getVpExplorerContent().setVpm(vpm);
-
-//                explorer.getCommonViewer().setInput(vpm);
-//                explorer.show(new ShowInContext(vpm, new StructuredSelection(vpm)));
             }
 
             /**
