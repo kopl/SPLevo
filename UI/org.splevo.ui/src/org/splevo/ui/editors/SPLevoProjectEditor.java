@@ -12,6 +12,7 @@
 package org.splevo.ui.editors;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,11 +27,14 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -64,6 +68,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.diffing.Differ;
@@ -80,6 +85,8 @@ import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
 import org.splevo.ui.vpexplorer.explorer.VPExplorer;
+import org.splevo.vpm.VPMUtil;
+import org.splevo.vpm.variability.VariationPointModel;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -586,17 +593,18 @@ public class SPLevoProjectEditor extends EditorPart {
 
             @Override
             public void mouseUp(MouseEvent e) {
-                if (splevoProject.getVpmModelPaths().size() > 0) {
-                    String basePath = getAbsoluteWorkspacePath();
-                    File fileToOpen = new File(basePath + File.separator
-                            + splevoProject.getVpmModelPaths().get(splevoProject.getVpmModelPaths().size() - 1));
+                EList<String> vpmModelPaths = splevoProject.getVpmModelPaths();
+                if (vpmModelPaths.size() > 0) {
+                    String relativePathToLatestVPM = vpmModelPaths.get(vpmModelPaths.size() - 1);
 
                     try {
                         // TODO display on left side
-                        openVPExplorer(fileToOpen);
+                        openVPExplorer(relativePathToLatestVPM);
                     } catch (PartInitException e1) {
                         logger.error("Failed to open the variant explorer.", e1);
-                        openDefaultVPMEditor(fileToOpen);
+                        openDefaultVPMEditor(relativePathToLatestVPM);
+                    } catch (IOException ioe) {
+                        logger.error("Failed to load variation point model.", ioe);
                     }
                 }
             }
@@ -604,27 +612,38 @@ public class SPLevoProjectEditor extends EditorPart {
             /**
              * Open the SPLevo specific variation point explorer.
              *
-             * @param fileToOpen
-             *            The model to be opened.
+             * @param pathToVPM
+             *            Relative path to the VPM to be opened.
              * @throws PartInitException
              *             An error occurred during the view creation in the UI.
+             * @throws IOException
+             *             Failed to load the Variation Point Model file.
              */
-            private void openVPExplorer(File fileToOpen) throws PartInitException {
+            private void openVPExplorer(String pathToVPM) throws PartInitException, IOException {
+
                 VPExplorer explorer = (VPExplorer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
                         .showView(VPExplorer.VIEW_ID);
-                explorer.setVpmFile(fileToOpen);
+
                 ResourceSet resSet = JobUtil.initResourceSet(splevoProject);
-                explorer.setResourceSet(resSet);
-                explorer.displayModel();
+                VariationPointModel vpm = VPMUtil.loadVariationPointModel(new File(pathToVPM), resSet);
+
+                explorer.getVpExplorerContent().setVpm(vpm);
+
+//                explorer.getCommonViewer().setInput(vpm);
+//                explorer.show(new ShowInContext(vpm, new StructuredSelection(vpm)));
             }
 
             /**
              * Open the variation point model in the default editor.
              *
-             * @param fileToOpen
-             *            Handle of the vpm file to open.
+             * @param pathToVPM
+             *            Relative path to the VPM to be opened.
              */
-            private void openDefaultVPMEditor(File fileToOpen) {
+            private void openDefaultVPMEditor(String pathToVPM) {
+
+                String basePath = getAbsoluteWorkspacePath();
+                File fileToOpen = new File(basePath + File.separator + pathToVPM);
+
                 IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
                 IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
