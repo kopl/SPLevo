@@ -14,28 +14,27 @@ package org.splevo.ui.vpexplorer.providers;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreeNodeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
+import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * The ContentProvider for the VPExplorer.
- *
- * @author Christian Busch
- *
  */
-public class VPExplorerContentProvider implements ITreeContentProvider {
+public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
-    @Override
-    public void dispose() {
-    }
+    private static Logger logger = Logger.getLogger(VPExplorerContentProvider.class);
 
     @Override
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+        logger.info("New VPM Model received: " + newInput);
     }
 
     @Override
@@ -45,8 +44,17 @@ public class VPExplorerContentProvider implements ITreeContentProvider {
 
     @Override
     public Object[] getChildren(Object parentElement) {
-        if (parentElement instanceof VariationPoint) {
+        if (parentElement instanceof VariationPointModel) {
+            VariationPointModel vpm = (VariationPointModel) parentElement;
+            return vpm.getVariationPointGroups().toArray();
+
+        } else if (parentElement instanceof VariationPointGroup) {
+            VariationPointGroup group = (VariationPointGroup) parentElement;
+            return group.getVariationPoints().toArray();
+
+        } else if (parentElement instanceof VariationPoint) {
             return ((VariationPoint) parentElement).getVariants().toArray();
+
         } else if (parentElement instanceof Variant) {
             EList<SoftwareElement> implementingElements = ((Variant) parentElement).getImplementingElements();
             List<SourceLocation> locations = new LinkedList<SourceLocation>();
@@ -54,6 +62,8 @@ public class VPExplorerContentProvider implements ITreeContentProvider {
                 locations.add(element.getSourceLocation());
             }
             return locations.toArray();
+        } else {
+            logger.warn("Unhandled Parent Element: " + parentElement.getClass().getSimpleName());
         }
         return null;
     }
@@ -70,12 +80,7 @@ public class VPExplorerContentProvider implements ITreeContentProvider {
 
     @Override
     public boolean hasChildren(Object element) {
-        if (element instanceof VariationPoint) {
-            return true;
-        } else if (element instanceof Variant) {
-            return true;
-        }
-        return false;
+        return (getChildren(element) != null);
     }
 
 }

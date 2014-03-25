@@ -30,11 +30,11 @@
             <contentExtension
                   pattern="org.splevo.ui.vpexplorer.VPExplorerContent">
             </contentExtension>
-            <contentExtension
-                  pattern="org.splevo.vpm.software.*">
-            </contentExtension>
          </includes>
       </viewerContentBinding>
+      <viewer
+            viewerId="org.splevo.ui.vpexplorer">
+      </viewer>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -67,15 +67,27 @@
                <instanceof
                      value="org.splevo.vpm.software.SourceLocation">
                </instanceof>
+               <instanceof
+                     value="org.splevo.vpm.variability.VariationPointModel">
+               </instanceof>
+               <instanceof
+                     value="org.splevo.vpm.variability.VariationPointGroup">
+               </instanceof>
             </or>
          </triggerPoints>
          <possibleChildren>
             <or>
                <instanceof
+                     value="org.splevo.vpm.variability.VariationPointGroup">
+               </instanceof>
+               <instanceof
                      value="org.splevo.vpm.variability.Variant">
                </instanceof>
                <instanceof
                      value="org.splevo.vpm.software.SourceLocation">
+               </instanceof>
+               <instanceof
+                     value="org.splevo.vpm.variability.VariationPointModel">
                </instanceof>
             </or>
          </possibleChildren>
