@@ -9,7 +9,7 @@
  * Contributors:
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.refactoring.ifelsebasic;
+package org.splevo.refactoring.ifelse.basic;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +25,7 @@ import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.RefactoringRegistry;
 import org.splevo.refactoring.ValueProviderFactory;
 import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.ifelse.IfElseVariabilityRealizationTechnique;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vrm.VariabilityRealizationTechnique;

@@ -9,7 +9,7 @@
  * Contributors:
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.refactoring.ifelsebasic;
+package org.splevo.refactoring.ifelse;
 
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.commons.Commentable;

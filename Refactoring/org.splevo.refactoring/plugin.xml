@@ -4,19 +4,19 @@
    <extension
          point="org.emftext.refactoring.rolemodel">
       <rolemodel
-            rolemodel_resource="src/org/splevo/refactoring/ifelsebasic/IfElseBasic.rolestext">
+            rolemodel_resource="src/org/splevo/refactoring/ifelse/basic/IfElseBasic.rolestext">
       </rolemodel>
    </extension>
    <extension
          point="org.emftext.refactoring.refspec">
       <refspec
-            refspec_resource="src/org/splevo/refactoring/ifelsebasic/IfElseBasic.refspec">
+            refspec_resource="src/org/splevo/refactoring/ifelse/basic/IfElseBasic.refspec">
       </refspec>
    </extension>
    <extension
          point="org.emftext.refactoring.rolemapping">
       <rolemapping
-            rolemapping_resource="src/org/splevo/refactoring/ifelsebasic/IfElseBasic.rolemapping">
+            rolemapping_resource="src/org/splevo/refactoring/ifelse/basic/IfElseBasic.rolemapping">
       </rolemapping>
    </extension>
 
