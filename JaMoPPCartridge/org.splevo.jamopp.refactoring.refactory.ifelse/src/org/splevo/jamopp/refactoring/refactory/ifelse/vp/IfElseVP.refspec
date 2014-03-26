@@ -1,16 +1,16 @@
 REFACTORING FOR <IfElseVP>
 
 STEPS {
-	object methodLeadingObject := MethodLeading from filter(INPUT);
-	object statementsIntegrationObject := IntegrationStatement from filter(INPUT);
-
-	remove MethodLeading.statements;
-
-	// create ifelse to introduce variability
-	create new ifElse:IfElse in methodLeadingObject;
-	create new ifBlock:IfBlock in ifElse;
-	create new elseBlock:ElseBlock in ifElse;
-
-	set use of statementsIntegrationObject in elseBlock.statements;
-
+	// get variation point
+	// get method
+	// get leading variant
+	// get integration variant
+	// get statements from leading method that are common among the variants
+	// remove variant statements from method
+	// calculate INDEX where ifelse should be inserted
+	// create ifelse in method at INDEX
+	// get statements from leading variant
+	// get statements from integration variant
+	// add leading variant statements to if block
+	// add integration variant statements to else block
 }

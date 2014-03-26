@@ -1,30 +1,35 @@
 RoleModel IfElseVP {
+	//VPM stuff
 	super input ROLE VariationPoint;
-	ROLE LeadingVariant;
-	ROLE IntegrationVariants;
-	ROLE LeadingElement;
-	ROLE IntegrationElement;
-	ROLE LeadingStatements;
-	ROLE IntegrationStatements;
+	ROLE Method;
+	ROLE MethodStatement;
+	input ROLE LeadingVariant;
+	input ROLE IntegrationVariant;
+	ROLE LeadingStatement;
+	ROLE IntegrationStatement;
 
+	//IFELSE
 	ROLE IfElse;
 	ROLE Condition;
 	ROLE IfBlock;
 	ROLE ElseBlock;
-
+	
+	//vp transitions
+	transitive : VariationPoint [1..1] <>- Method method [1..1];
 	transitive : VariationPoint [1..1] <>- LeadingVariant leadingVariant [1..1];
-	transitive : VariationPoint [1..1] <>- IntegrationVariants integrationVariants [0..*];
+	transitive : VariationPoint [1..1] <>- IntegrationVariant integrationVariants [0..*];
 
-	transitive : LeadingVariant [1..1] <>- LeadingElement leadingElements [1..1];
-	transitive : IntegrationVariants [1..1] <>- IntegrationElement integrationElements [1..1];
+	transitive : Method [1..1] <>- MethodStatement methodStatements [0..*];
+	transitive : Method [1..1] <>- IfElse ifElse [0..1];
 
-	transitive : LeadingElement [1..1] <>- LeadingStatements leadingStatements [1..1];
-	transitive : IntegrationElement [1..1] <>- IntegrationStatements integrationStatements [1..1];
+	//Variant transitions
+	transitive : LeadingVariant [1..1] <>- LeadingStatement leadingStatements [1..*];
+	transitive : IntegrationVariant [1..1] <>- IntegrationStatement integrationStatements [1..*];
 
+	//IFELSE transitions
 	transitive : IfElse [1..1] <>- Condition condition [0..1];
 	transitive : IfElse [1..1] <>- IfBlock statement [0..1];
 	transitive : IfElse [1..1] <>- ElseBlock elseStatement [0..1];
-
-	transitive : IfBlock [1..1] <>- LeadingStatements statements [0..*];
-	transitive : ElseBlock [1..1] <>- IntegrationStatements statements [0..*];
+	transitive : IfBlock [1..1] <>- LeadingStatement statements [0..*];
+	transitive : ElseBlock [1..1] <>- IntegrationStatement statements [0..*];
 }
