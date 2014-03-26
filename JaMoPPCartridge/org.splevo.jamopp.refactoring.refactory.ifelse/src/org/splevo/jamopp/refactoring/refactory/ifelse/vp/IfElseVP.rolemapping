@@ -1,6 +1,6 @@
 ROLEMODELMAPPING FOR <http://www.emftext.org/java>
 
-IMPORTS <http://splevo.org/vpm/1.0/variability> <http://splevo.org/vpm/1.0/software> <http://splevo.org/jamopp/vpm/1.0>
+IMPORTS <http://splevo.org/vpm/1.0/variability> <http://splevo.org/vpm/1.0/software>
 
 "IfElseVP" maps <IfElseVP> {
 	VariationPoint := variability.VariationPoint{
@@ -9,12 +9,11 @@ IMPORTS <http://splevo.org/vpm/1.0/variability> <http://splevo.org/vpm/1.0/softw
 		integrationVariants := variants;
 	};
 	
-	Method := members.ClassMethod;
-	MethodStatement := statements.Statement;
-	
-	VPSoftwareElement := software.JaMoPPSoftwareElement{
-		vpMethod := jamoppElement;
+	Method := members.ClassMethod{
+		ifElse := statements;
+		methodStatements := statements;
 	};
+	MethodStatement := statements.Statement;
 	
 	LeadingVariant := variability.Variant{
 		leadingStatements := implementingElements; // how to navigate down to the statements?
