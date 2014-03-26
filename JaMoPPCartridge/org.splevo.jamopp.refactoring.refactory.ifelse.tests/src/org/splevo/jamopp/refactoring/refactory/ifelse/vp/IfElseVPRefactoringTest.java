@@ -9,7 +9,7 @@
  * Contributors:
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.refactoring.ifelse.basic;
+package org.splevo.jamopp.refactoring.refactory.ifelse.vp;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -18,15 +18,10 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.compare.Comparison;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.statements.Block;
@@ -39,12 +34,10 @@ import org.emftext.refactoring.registry.rolemapping.exceptions.RoleMappingAlread
 import org.emftext.refactoring.registry.rolemodel.exceptions.RoleModelAlreadyRegisteredException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.diffing.JaMoPPDiffer;
-import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
+import org.splevo.jamopp.refactoring.refactory.ifelse.RefactoryUtil;
 import org.splevo.jamopp.refactoring.refactory.ifelse.basic.IfElseBasicRefactoring;
-import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
+import org.splevo.jamopp.refactoring.refactory.ifelse.tests.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.tests.RefactoringTestUtil;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementType;
@@ -54,12 +47,11 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * Test the if else refactoring implementation.
  */
-public class IfElseBasicRefactoringTest {
+public class IfElseVPRefactoringTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -73,19 +65,20 @@ public class IfElseBasicRefactoringTest {
      * @throws RoleMappingAlreadyRegistered
      *             Role mapping already registered.
      */
+    @SuppressWarnings("unused")
     @BeforeClass
     public static void setUp() throws FileNotFoundException, RoleModelAlreadyRegisteredException,
             RefSpecAlreadyRegisteredException, RoleMappingAlreadyRegistered {
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
 
-        RefactoringTestUtil.initialize();
+        RefactoryUtil.initialize();
         Class<RefactoringInterpreter> i1 = RefactoringInterpreter.class;
         // Class<PathAlgorithmFactory> i2 = PathAlgorithmFactory.class;
-        String baseDirectory = "../org.splevo.refactoring/src/org/splevo/refactoring/ifelse/basic/";
-        File rolesText = new File(baseDirectory + "IfElseBasic.rolestext");
-        File refspec = new File(baseDirectory + "IfElseBasic.refspec");
-        File roleMapping = new File(baseDirectory + "IfElseBasic.rolemapping");
+        String baseDirectory = "../org.splevo.jamopp.refactoring.refactory.ifelse/src/org/splevo/jamopp/refactoring/refactory/ifelse/vp/";
+        File rolesText = new File(baseDirectory + "IfElseVP.rolestext");
+        File refspec = new File(baseDirectory + "IfElseVP.refspec");
+        File roleMapping = new File(baseDirectory + "IfElseVP.rolemapping");
 
         RefactoringTestUtil.registerRoleModel(rolesText);
         RefactoringTestUtil.registerRefSpec(refspec);
@@ -110,7 +103,7 @@ public class IfElseBasicRefactoringTest {
 
         String basePath = "testcode/";
 
-        VariationPointModel vpm = initializeVariationPointModel(basePath);
+        VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel(basePath);
         assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), is(2));
 
         // diffing imports are expected to be separate add and deletes, so merge
@@ -126,9 +119,6 @@ public class IfElseBasicRefactoringTest {
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
 
         IfElseBasicRefactoring refactoring = new IfElseBasicRefactoring();
-        boolean applicable = refactoring.getSupportedVariabilityRealizationTechnique().canBeAppliedTo(variationPoint);
-        //assertThat("Refactoring not applicable to VP", applicable, is(true));
-
         refactoring.refactor(variationPoint);
 
         SoftwareElement locationElement = variationPoint.getLocation();
@@ -149,53 +139,9 @@ public class IfElseBasicRefactoringTest {
             Statement elseStatement = ((Condition) firstStatement).getElseStatement();
             assertThat("Else statement is no VariableStatement.", elseStatement,
                     instanceOf(LocalVariableStatement.class));
-            // some more verifications
         } else {
             fail("Unexpected Variation Point Location");
         }
-    }
-
-    /**
-     * Initialize the variation point model to refactor. Extract, Diff and init VPM.
-     *
-     * @param basePath
-     *            The base path of the code to load (must contain subdirectories a and b)
-     * @return The initialized VPM based on the source code differences.
-     * @throws Exception
-     *             Failed to initialize the model.
-     */
-    private VariationPointModel initializeVariationPointModel(String basePath) throws Exception {
-        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-        List<String> urisA = Lists.newArrayList(new File(basePath + "a").getAbsolutePath());
-        List<String> urisB = Lists.newArrayList(new File(basePath + "b").getAbsolutePath());
-        NullProgressMonitor monitor = new NullProgressMonitor();
-        ResourceSet setA = extractor.extractSoftwareModel(urisA, monitor, null);
-        ResourceSet setB = extractor.extractSoftwareModel(urisB, monitor, null);
-
-        String ignorePackages = buildIgnorePackages();
-
-        Map<String, String> diffOptions = Maps.newLinkedHashMap();
-        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
-
-        JaMoPPDiffer differ = new JaMoPPDiffer();
-        Comparison comparison = differ.doDiff(setA, setB, diffOptions);
-
-        JaMoPPVPMBuilder builder = new JaMoPPVPMBuilder();
-        VariationPointModel vpm = builder.buildVPM(comparison, "leading", "integration");
-        return vpm;
-    }
-
-    /**
-     * Build the configuration string for the packages to ignore.
-     *
-     * @return The regular expressions for the packages to ignore.
-     */
-    private String buildIgnorePackages() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("java.*");
-        sb.append(System.getProperty("line.separator"));
-        String ignorePackages = sb.toString();
-        return ignorePackages;
     }
 
 }

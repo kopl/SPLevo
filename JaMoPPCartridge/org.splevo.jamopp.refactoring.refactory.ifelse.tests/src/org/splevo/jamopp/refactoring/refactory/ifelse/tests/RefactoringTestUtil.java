@@ -1,52 +1,102 @@
-package org.splevo.refactoring.tests;
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt
+ *******************************************************************************/
+package org.splevo.jamopp.refactoring.refactory.ifelse.tests;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.emftext.language.java.resource.JaMoPPUtil;
 import org.emftext.language.refactoring.refactoring_specification.RefactoringSpecification;
-import org.emftext.language.refactoring.refactoring_specification.RefactoringSpecificationPackage;
 import org.emftext.language.refactoring.rolemapping.RoleMapping;
 import org.emftext.language.refactoring.rolemapping.RoleMappingModel;
-import org.emftext.language.refactoring.rolemapping.RolemappingPackage;
-import org.emftext.language.refactoring.rolemapping.resource.rolemapping.mopp.RolemappingResourceFactory;
 import org.emftext.language.refactoring.roles.RoleModel;
-import org.emftext.language.refactoring.roles.RolesPackage;
-import org.emftext.language.refactoring.roles.resource.rolestext.mopp.RolestextResourceFactory;
-import org.emftext.language.refactoring.specification.resource.mopp.RefspecResourceFactory;
 import org.emftext.refactoring.registry.refactoringspecification.IRefactoringSpecificationRegistry;
 import org.emftext.refactoring.registry.refactoringspecification.exceptions.RefSpecAlreadyRegisteredException;
 import org.emftext.refactoring.registry.rolemapping.IRoleMappingRegistry;
 import org.emftext.refactoring.registry.rolemapping.exceptions.RoleMappingAlreadyRegistered;
 import org.emftext.refactoring.registry.rolemodel.IRoleModelRegistry;
 import org.emftext.refactoring.registry.rolemodel.exceptions.RoleModelAlreadyRegisteredException;
+import org.splevo.jamopp.diffing.JaMoPPDiffer;
+import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
+import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
+import org.splevo.vpm.variability.VariationPointModel;
 
-public class RefactoringTestUtil {
-	/**
-     * Initializes JaMoPP, required packages and factories.
-     */
-    public static final void initialize() {
-        JaMoPPUtil.initialize();
-        EPackage.Registry.INSTANCE.put(RolesPackage.eNS_URI, RolesPackage.eINSTANCE);
-        EPackage.Registry.INSTANCE.put(RolemappingPackage.eNS_URI, RolemappingPackage.eINSTANCE);
-        EPackage.Registry.INSTANCE.put(RefactoringSpecificationPackage.eNS_URI,
-                RefactoringSpecificationPackage.eINSTANCE);
-        Map<String, Object> extensionToFactoryMap = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
-        extensionToFactoryMap.put("rolestext", new RolestextResourceFactory());
-        extensionToFactoryMap.put("rolemapping", new RolemappingResourceFactory());
-        extensionToFactoryMap.put("refspec", new RefspecResourceFactory());
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+/**
+ * Utility class for writing unit tests for refactory based refactorings.
+ */
+public final class RefactoringTestUtil {
+
+
+    /** Disabled default constructor to force static utility usage. */
+    private RefactoringTestUtil() {
     }
-	
+
+    /**
+     * Initialize the variation point model to refactor. Extract, Diff and init VPM.
+     *
+     * @param basePath
+     *            The base path of the code to load (must contain subdirectories a and b)
+     * @return The initialized VPM based on the source code differences.
+     * @throws Exception
+     *             Failed to initialize the model.
+     */
+    public static VariationPointModel initializeVariationPointModel(String basePath) throws Exception {
+        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
+        List<String> urisA = Lists.newArrayList(new File(basePath + "a").getAbsolutePath());
+        List<String> urisB = Lists.newArrayList(new File(basePath + "b").getAbsolutePath());
+        NullProgressMonitor monitor = new NullProgressMonitor();
+        ResourceSet setA = extractor.extractSoftwareModel(urisA, monitor, null);
+        ResourceSet setB = extractor.extractSoftwareModel(urisB, monitor, null);
+
+        String ignorePackages = buildIgnorePackages();
+
+        Map<String, String> diffOptions = Maps.newLinkedHashMap();
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(setA, setB, diffOptions);
+
+        JaMoPPVPMBuilder builder = new JaMoPPVPMBuilder();
+        VariationPointModel vpm = builder.buildVPM(comparison, "leading", "integration");
+        return vpm;
+    }
+
+    /**
+     * Build the configuration string for the packages to ignore.
+     *
+     * @return The regular expressions for the packages to ignore.
+     */
+    private static String buildIgnorePackages() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("java.*");
+        sb.append(System.getProperty("line.separator"));
+        String ignorePackages = sb.toString();
+        return ignorePackages;
+    }
+
 	/**
 	 * Registers the role model of the given name.
-	 * 
+	 *
 	 * @param modelFile
 	 *            The modelFile.
 	 * @throws RoleModelAlreadyRegisteredException
@@ -62,7 +112,7 @@ public class RefactoringTestUtil {
 
 	/**
 	 * Registers the ref specs of the given name.
-	 * 
+	 *
 	 * @param modelFile
 	 *            The modelFile.
 	 * @throws RefSpecAlreadyRegisteredException
@@ -79,7 +129,7 @@ public class RefactoringTestUtil {
 
 	/**
 	 * Registers the role mappings of a given name and related post processors.
-	 * 
+	 *
 	 * @param modelFile
 	 *            The modelFile.
 	 * @throws RoleMappingAlreadyRegistered
@@ -97,7 +147,7 @@ public class RefactoringTestUtil {
 
 	/**
 	 * Gets a model of a specific type from a specified path.
-	 * 
+	 *
 	 * @param path
 	 *            The path.
 	 * @param type
