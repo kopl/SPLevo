@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
@@ -35,6 +36,7 @@ import org.splevo.vpm.variability.VariationPointModel;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * The default vpm analyzer service implementation.
@@ -220,14 +222,50 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         List<Refinement> refinements = new ArrayList<Refinement>();
 
         for (DetectionRule rule : detectionRules) {
-            List<Refinement> detectedRefinements = rule.detect(vpmGraph);
-            List<Refinement> mergeCheckedRefinements = mergeDetection(detectedRefinements);
+            List<Refinement> ruleRefinements = rule.detect(vpmGraph);
+            ruleRefinements = mergeDetection(ruleRefinements);
+            ruleRefinements = filterUnreasonable(ruleRefinements);
 
-            refinements.addAll(mergeCheckedRefinements);
+            refinements.addAll(ruleRefinements);
         }
 
         return refinements;
 
+    }
+
+    /**
+     * Filter refinements that have no effect on the VPM. For example recommending the grouping of
+     * VPs contained in the same group.
+     *
+     * @param ruleRefinements
+     *            The list of refinements to check.
+     * @return The list of accepted refinements.
+     */
+    private List<Refinement> filterUnreasonable(List<Refinement> ruleRefinements) {
+        List<Refinement> filteredRefinements = Lists.newLinkedList();
+
+        for (Refinement refinement : ruleRefinements) {
+            if (isGroupingOfAlllreadyGroupedVPs(refinement)) {
+                continue;
+            }
+            filteredRefinements.add(refinement);
+        }
+
+        return filteredRefinements;
+    }
+
+    private boolean isGroupingOfAlllreadyGroupedVPs(Refinement refinement) {
+        boolean sameGroup = false;
+        if (refinement.getType() == RefinementType.GROUPING) {
+            Set<VariationPointGroup> groups = Sets.newLinkedHashSet();
+            for (VariationPoint vp : refinement.getVariationPoints()) {
+                groups.add(vp.getGroup());
+            }
+            if (groups.size() == 1) {
+                sameGroup = true;
+            }
+        }
+        return sameGroup;
     }
 
     /**
@@ -282,7 +320,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
                 continue;
             }
 
-            List<VariationPoint> vpsNotMerged = Lists.newLinkedList(origRefinement.getVariationPoints());
+            List<VariationPoint> vpsNotMerged = Lists.newArrayList(origRefinement.getVariationPoints());
 
             // create a merge refinement per bucket
             for (VariationPoint bucketKey : mergeVPBuckets.keySet()) {
@@ -292,7 +330,8 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
                 refinedRefinements.add(mergeRefinement);
             }
 
-            if (vpsNotMerged.size() > 0) {
+            // add a grouping if more than one refinement is left
+            if (vpsNotMerged.size() > 0 || refinedRefinements.size() > 1) {
                 Refinement groupRefinement = buildOverarchingGroupRefinement(origRefinement, mergeVPBuckets.keySet(),
                         vpsNotMerged);
                 refinedRefinements.add(groupRefinement);
