@@ -12,9 +12,11 @@
 
 package org.splevo.ui.vpexplorer.providers;
 
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.ui.vpexplorer.treeitems.CULocationNameTreeItem;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.variability.Variant;
@@ -24,24 +26,7 @@ import org.splevo.vpm.variability.VariationPointGroup;
 /**
  * This LabelProvider provides Labels for elements of a VPM.
  */
-public class VPExplorerLabelProvider implements ILabelProvider {
-
-    @Override
-    public void addListener(ILabelProviderListener listener) {
-    }
-
-    @Override
-    public void dispose() {
-    }
-
-    @Override
-    public boolean isLabelProperty(Object element, String property) {
-        return false;
-    }
-
-    @Override
-    public void removeListener(ILabelProviderListener listener) {
-    }
+public class VPExplorerLabelProvider extends LabelProvider {
 
     @Override
     public Image getImage(Object element) {
@@ -57,11 +42,18 @@ public class VPExplorerLabelProvider implements ILabelProvider {
             return buildVariationPointLabel((VariationPoint) element);
         } else if (element instanceof Variant) {
             return "Variant: " + ((Variant) element).getVariantId();
+        } else if (element instanceof JaMoPPSoftwareElement) {
+            return ((JaMoPPSoftwareElement) element).getJamoppElement().getContainingCompilationUnit().getName();
         } else if (element instanceof SoftwareElement) {
             return ((SoftwareElement) element).getLabel();
         } else if (element instanceof SourceLocation) {
             // return ((SourceLocation) element).getFilePath();
             return "Source Location";
+        } else if (element instanceof CompilationUnit) {
+            CompilationUnit cu = (CompilationUnit) element;
+            return cu.getName();
+        } else if (element instanceof CULocationNameTreeItem) {
+            return ((CULocationNameTreeItem) element).getCULocationName();
         }
         return null;
     }
