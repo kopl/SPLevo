@@ -11,12 +11,12 @@
  *******************************************************************************/
 package org.splevo.vpm.analyzer;
 
-import static org.mockito.Mockito.mock;
-
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
+import org.splevo.vpm.variability.variabilityFactory;
 
 /**
  * Utility class to support VPM Analysis test development.
@@ -53,7 +53,11 @@ public final class VPMAnalyzerTestUtil {
      */
     public static Node createNodeWithVP(VPMGraph graph, String label) {
         Node node = createNode(graph, label);
-        node.addAttribute(VPMGraph.VARIATIONPOINT, mock(VariationPoint.class));
+        VariationPoint vp = variabilityFactory.eINSTANCE.createVariationPoint();
+        VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
+        group.setGroupId(label);
+        vp.setGroup(group);
+        node.addAttribute(VPMGraph.VARIATIONPOINT, vp);
         return node;
     }
 
