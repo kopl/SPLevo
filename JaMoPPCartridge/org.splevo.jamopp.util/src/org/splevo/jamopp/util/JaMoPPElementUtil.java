@@ -72,7 +72,7 @@ public final class JaMoPPElementUtil {
             CompilationUnit cu = (CompilationUnit) element;
             String name = cu.getName();
             if (name != null) {
-                return name.substring(cu.getNamespaces().size());
+                return name.substring(cu.getNamespacesAsString().length());
             } else {
                 return "CompilationUnit (no name)";
             }
