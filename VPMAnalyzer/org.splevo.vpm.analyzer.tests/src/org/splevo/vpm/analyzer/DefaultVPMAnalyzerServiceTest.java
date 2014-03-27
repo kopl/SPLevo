@@ -23,6 +23,7 @@ import org.splevo.vpm.analyzer.refinement.BasicDetectionRule;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementType;
+import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -204,6 +205,46 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
         Refinement refinement = refinements.get(0);
         assertEquals("Wrong number of VPs in refinement", 2, refinement.getVariationPoints().size());
         assertEquals("Wrong refinement type", RefinementType.GROUPING, refinement.getType());
+    }
+
+    /**
+     * Test that no groupings for already grouped VPs are recommended.
+     *
+     * @throws Exception
+     *             identifies the test graph could not be loaded.
+     */
+    @Test
+    public void testDeriveRefinementsGroupAware() throws Exception {
+
+        // init the test graph
+        VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
+        Node node1 = graph.getNode(0);
+        Node node2 = graph.getNode(1);
+
+        // place VPs in the same group
+        VariationPoint vp1 = (VariationPoint) node1.getAttribute(VPMGraph.VARIATIONPOINT);
+        VariationPoint vp2 = (VariationPoint) node2.getAttribute(VPMGraph.VARIATIONPOINT);
+        vp2.setGroup(vp1.getGroup());
+
+        RelationshipEdge edge = graph.addEdge("structure.edge1", node1, node2);
+        edge.addRelationshipLabel("Flow");
+        edge.addRelationshipLabel("Structure");
+
+        // prepare the detection rule
+        List<String> detectionSpecs = new ArrayList<String>();
+        detectionSpecs.add("Flow");
+        detectionSpecs.add("Structure");
+        BasicDetectionRule rule = new BasicDetectionRule(detectionSpecs, RefinementType.GROUPING);
+        List<DetectionRule> detectionRules = new ArrayList<DetectionRule>();
+        detectionRules.add(rule);
+
+        // trigger deriving refinements
+        DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
+        List<Refinement> refinements = service.deriveRefinements(graph, detectionRules);
+
+        // check the result
+        assertNotNull("Unexpected null value. At least an empty list is expected", refinements);
+        assertThat("There should be no recommended refinement", refinements.size(), is(0));
     }
 
 }
