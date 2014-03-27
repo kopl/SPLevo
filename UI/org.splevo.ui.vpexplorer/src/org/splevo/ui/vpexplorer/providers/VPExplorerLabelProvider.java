@@ -8,17 +8,23 @@
  *
  * Contributors:
  *    Christian Busch
+ *    Benjamin Klatt
  *******************************************************************************/
 
 package org.splevo.ui.vpexplorer.providers;
 
+import java.io.File;
+
+import org.apache.log4j.Logger;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.ui.vpexplorer.treeitems.CULocationNameTreeItem;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
 import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -28,9 +34,38 @@ import org.splevo.vpm.variability.VariationPointGroup;
  */
 public class VPExplorerLabelProvider extends LabelProvider {
 
+    private static Logger logger = Logger.getLogger(VPExplorerLabelProvider.class);
+
     @Override
     public Image getImage(Object element) {
+
+        if (element instanceof File) {
+            File file = (File) element;
+            if (file.isDirectory()) {
+                return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER);
+            } else if (file.getName().endsWith(".java")) {
+                return JavaUI.getSharedImages().getImage(org.eclipse.jdt.ui.ISharedImages.IMG_OBJS_CUNIT);
+            } else {
+                return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
+            }
+        } else if (element instanceof VPExplorerContent) {
+            return null;
+        }
+
+        Image image = getItemProviderImage(element);
+        if (image != null) {
+            return image;
+        }
+
+        logger.warn("Unsupported tree node element");
         return null;
+    }
+
+    private Image getItemProviderImage(Object element) {
+        ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(
+                ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+        AdapterFactoryLabelProvider labelProvider = new AdapterFactoryLabelProvider(composedAdapterFactory);
+        return labelProvider.getImage(element);
     }
 
     @Override
@@ -42,19 +77,21 @@ public class VPExplorerLabelProvider extends LabelProvider {
             return buildVariationPointLabel((VariationPoint) element);
         } else if (element instanceof Variant) {
             return "Variant: " + ((Variant) element).getVariantId();
-        } else if (element instanceof JaMoPPSoftwareElement) {
-            return ((JaMoPPSoftwareElement) element).getJamoppElement().getContainingCompilationUnit().getName();
         } else if (element instanceof SoftwareElement) {
             return ((SoftwareElement) element).getLabel();
-        } else if (element instanceof SourceLocation) {
-            // return ((SourceLocation) element).getFilePath();
-            return "Source Location";
-        } else if (element instanceof CompilationUnit) {
-            CompilationUnit cu = (CompilationUnit) element;
-            return cu.getName();
-        } else if (element instanceof CULocationNameTreeItem) {
-            return ((CULocationNameTreeItem) element).getCULocationName();
+        } else if (element instanceof File) {
+            File file = (File) element;
+            String label = file.getName();
+            if (label != null && label.length() > 0) {
+                return label;
+            } else {
+                return file.getPath();
+            }
+
+        } else if (element instanceof VPExplorerContent) {
+            return null;
         }
+        logger.warn("Unsupported tree node element");
         return null;
     }
 
