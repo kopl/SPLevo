@@ -83,7 +83,14 @@ public class VPExplorerLabelProvider extends LabelProvider {
             File file = (File) element;
             String label = file.getName();
             if (label != null && label.length() > 0) {
-                return label;
+
+                int numberOfVPs = VPExplorerContentProvider.getVPInFile(file).size();
+                if (numberOfVPs > 0) {
+                    return String.format("%s [%s VP]", label, numberOfVPs);
+                } else {
+                    return label;
+                }
+
             } else {
                 return file.getPath();
             }

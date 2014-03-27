@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
@@ -24,7 +25,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.TreeNodeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SourceLocation;
@@ -44,8 +44,12 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     private static Logger logger = Logger.getLogger(VPExplorerContentProvider.class);
 
-    /** Index to remember the variation points located in a file. */
-    private HashMultimap<File, VariationPoint> fileVPIndex = HashMultimap.create();
+    /**
+     * Index to remember the variation points located in a file.
+     *
+     * DesignDecision Enable public access to index for accessing this statistic information.
+     */
+    private static HashMultimap<File, VariationPoint> fileVPIndex = HashMultimap.create();
 
     /** Index to remember the file containing a variation point. */
     private Map<VariationPoint, File> vpFileIndex = Maps.newLinkedHashMap();
@@ -56,9 +60,17 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     /** Pointers to the files on the root level. */
     private List<File> rootFiles = Lists.newArrayList();
 
-    @Override
-    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-        logger.info("New VPM Model received: " + newInput);
+    /**
+     * Get the set of {@link VariationPoint}s contained in a file.
+     *
+     * DesignDecision Enable public access to index for accessing this statistic information.
+     *
+     * @param file
+     *            The file to get the VPs for.
+     * @return The set of variation points. At least an empty list but not null.
+     */
+    public static Set<VariationPoint> getVPInFile(File file) {
+        return fileVPIndex.get(file);
     }
 
     @Override
@@ -140,6 +152,8 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
      *            the VPcontent to be used as population source
      */
     private void indexVariationPointLocations(VPExplorerContent vpContent) {
+
+        fileVPIndex.clear();
 
         String workspacePath = getNormalizedWorkspacePath();
 
