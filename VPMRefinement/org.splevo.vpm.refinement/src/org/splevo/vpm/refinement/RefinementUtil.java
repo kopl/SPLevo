@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt
+ *******************************************************************************/
 package org.splevo.vpm.refinement;
 
 import java.io.File;
@@ -23,15 +34,15 @@ public class RefinementUtil {
 
     /**
      * Load refinement model from the standard xmi file.
-     * 
-     * 
+     *
+     *
      * @param refinementFile
      *            The file object pointing to the main model file
      * @return the loaded refinement model
      * @throws IOException
      *             Identifies that the file could not be loaded
      */
-    public static RefinementModel loadVariationPointModel(File refinementFile) throws IOException {
+    public static RefinementModel load(File refinementFile) throws IOException {
 
         // load the required meta class packages
         RefinementPackage.eINSTANCE.eClass();
@@ -58,7 +69,7 @@ public class RefinementUtil {
 
     /**
      * Save a refinement model to a specified file.
-     * 
+     *
      * @param refinementModel
      *            The project to save.
      * @param filePath
