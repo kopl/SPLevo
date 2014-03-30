@@ -21,7 +21,6 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.variabilityFactory;
 import org.splevo.vpm.variability.variabilityPackage;
@@ -163,12 +162,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
      */
     @Override
     public Object getImage(Object object) {
-        VariationPoint vp = (VariationPoint) object;
-        if(vp.getVariabilityType() == VariabilityType.XOR || vp.getVariabilityType() == VariabilityType.OPTXOR) {
-            return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPointXOR"));
-        } else {
-            return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPoint"));
-        }
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPoint"));
     }
 
     /**
