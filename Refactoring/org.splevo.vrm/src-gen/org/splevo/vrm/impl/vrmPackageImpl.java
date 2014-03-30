@@ -13,16 +13,12 @@ package org.splevo.vrm.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.splevo.vpm.software.SoftwarePackage;
-
 import org.splevo.vpm.variability.variabilityPackage;
-
 import org.splevo.vrm.VariabilityRealizationConfiguration;
 import org.splevo.vrm.VariabilityRealizationModel;
 import org.splevo.vrm.VariabilityRealizationTechnique;
@@ -137,7 +133,7 @@ public class vrmPackageImpl extends EPackageImpl implements vrmPackage {
      * 
      * @generated
      */
-    public EAttribute getVariabilityRealizationTechnique_Name() {
+    public EAttribute getVariabilityRealizationTechnique_RefactoringId() {
         return (EAttribute) variabilityRealizationTechniqueEClass.getEStructuralFeatures().get(0);
     }
 
@@ -146,8 +142,44 @@ public class vrmPackageImpl extends EPackageImpl implements vrmPackage {
      * 
      * @generated
      */
-    public EOperation getVariabilityRealizationTechnique__CanBeAppliedTo__VariationPoint() {
-        return variabilityRealizationTechniqueEClass.getEOperations().get(0);
+    public EAttribute getVariabilityRealizationTechnique_Name() {
+        return (EAttribute) variabilityRealizationTechniqueEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EAttribute getVariabilityRealizationTechnique_Description() {
+        return (EAttribute) variabilityRealizationTechniqueEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EAttribute getVariabilityRealizationTechnique_SupportedBindingTimes() {
+        return (EAttribute) variabilityRealizationTechniqueEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EAttribute getVariabilityRealizationTechnique_SupportedExtendibility() {
+        return (EAttribute) variabilityRealizationTechniqueEClass.getEStructuralFeatures().get(4);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EAttribute getVariabilityRealizationTechnique_SupportedVariabilityTypes() {
+        return (EAttribute) variabilityRealizationTechniqueEClass.getEStructuralFeatures().get(5);
     }
 
     /**
@@ -233,9 +265,15 @@ public class vrmPackageImpl extends EPackageImpl implements vrmPackage {
 
         // Create classes and their features
         variabilityRealizationTechniqueEClass = createEClass(VARIABILITY_REALIZATION_TECHNIQUE);
+        createEAttribute(variabilityRealizationTechniqueEClass, VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID);
         createEAttribute(variabilityRealizationTechniqueEClass, VARIABILITY_REALIZATION_TECHNIQUE__NAME);
-        createEOperation(variabilityRealizationTechniqueEClass,
-                VARIABILITY_REALIZATION_TECHNIQUE___CAN_BE_APPLIED_TO__VARIATIONPOINT);
+        createEAttribute(variabilityRealizationTechniqueEClass, VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION);
+        createEAttribute(variabilityRealizationTechniqueEClass,
+                VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES);
+        createEAttribute(variabilityRealizationTechniqueEClass,
+                VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY);
+        createEAttribute(variabilityRealizationTechniqueEClass,
+                VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES);
 
         variabilityRealizationConfigurationEClass = createEClass(VARIABILITY_REALIZATION_CONFIGURATION);
         createEReference(variabilityRealizationConfigurationEClass,
@@ -271,6 +309,7 @@ public class vrmPackageImpl extends EPackageImpl implements vrmPackage {
         setNsURI(eNS_URI);
 
         // Obtain other dependent packages
+        EcorePackage theEcorePackage = (EcorePackage) EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
         variabilityPackage thevariabilityPackage = (variabilityPackage) EPackage.Registry.INSTANCE
                 .getEPackage(variabilityPackage.eNS_URI);
 
@@ -283,22 +322,36 @@ public class vrmPackageImpl extends EPackageImpl implements vrmPackage {
         // Initialize classes, features, and operations; add parameters
         initEClass(variabilityRealizationTechniqueEClass, VariabilityRealizationTechnique.class,
                 "VariabilityRealizationTechnique", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getVariabilityRealizationTechnique_Name(), ecorePackage.getEString(), "name", null, 0, 1,
+        initEAttribute(getVariabilityRealizationTechnique_RefactoringId(), theEcorePackage.getEString(),
+                "refactoringId", null, 1, 1, VariabilityRealizationTechnique.class, !IS_TRANSIENT, !IS_VOLATILE,
+                IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariabilityRealizationTechnique_Name(), ecorePackage.getEString(), "name", null, 1, 1,
                 VariabilityRealizationTechnique.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
                 !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-        EOperation op = initEOperation(getVariabilityRealizationTechnique__CanBeAppliedTo__VariationPoint(),
-                ecorePackage.getEBoolean(), "canBeAppliedTo", 1, 1, IS_UNIQUE, IS_ORDERED);
-        addEParameter(op, thevariabilityPackage.getVariationPoint(), "variationPoint", 0, 1, IS_UNIQUE, IS_ORDERED);
+        initEAttribute(getVariabilityRealizationTechnique_Description(), theEcorePackage.getEString(), "description",
+                null, 0, 1, VariabilityRealizationTechnique.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+                !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariabilityRealizationTechnique_SupportedBindingTimes(),
+                thevariabilityPackage.getBindingTime(), "supportedBindingTimes", null, 1, -1,
+                VariabilityRealizationTechnique.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+                !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariabilityRealizationTechnique_SupportedExtendibility(),
+                thevariabilityPackage.getExtendibility(), "supportedExtendibility", null, 1, -1,
+                VariabilityRealizationTechnique.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+                !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariabilityRealizationTechnique_SupportedVariabilityTypes(),
+                thevariabilityPackage.getVariabilityType(), "supportedVariabilityTypes", null, 1, -1,
+                VariabilityRealizationTechnique.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+                !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(variabilityRealizationConfigurationEClass, VariabilityRealizationConfiguration.class,
                 "VariabilityRealizationConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getVariabilityRealizationConfiguration_VariationPoint(),
-                thevariabilityPackage.getVariationPoint(), null, "variationPoint", null, 0, 1,
+                thevariabilityPackage.getVariationPoint(), null, "variationPoint", null, 1, 1,
                 VariabilityRealizationConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
                 IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVariabilityRealizationConfiguration_Technique(), this.getVariabilityRealizationTechnique(),
-                null, "technique", null, 0, 1, VariabilityRealizationConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE,
+                null, "technique", null, 1, 1, VariabilityRealizationConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE,
                 IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(variabilityRealizationModelEClass, VariabilityRealizationModel.class, "VariabilityRealizationModel",

@@ -12,10 +12,12 @@
   <genPackages prefix="vrm" basePackage="org.splevo" disposableProviderFactory="true"
       ecorePackage="vrm.ecore#/">
     <genClasses ecoreClass="vrm.ecore#//VariabilityRealizationTechnique">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/refactoringId"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/name"/>
-      <genOperations ecoreOperation="vrm.ecore#//VariabilityRealizationTechnique/canBeAppliedTo">
-        <genParameters ecoreParameter="vrm.ecore#//VariabilityRealizationTechnique/canBeAppliedTo/variationPoint"/>
-      </genOperations>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/supportedBindingTimes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/supportedExtendibility"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/supportedVariabilityTypes"/>
     </genClasses>
     <genClasses ecoreClass="vrm.ecore#//VariabilityRealizationConfiguration">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference vrm.ecore#//VariabilityRealizationConfiguration/variationPoint"/>

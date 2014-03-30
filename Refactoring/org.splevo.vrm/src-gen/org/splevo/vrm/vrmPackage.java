@@ -13,7 +13,6 @@ package org.splevo.vrm;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -76,13 +75,58 @@ public interface vrmPackage extends EPackage {
     int VARIABILITY_REALIZATION_TECHNIQUE = 0;
 
     /**
+     * The feature id for the '<em><b>Refactoring Id</b></em>' attribute. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID = 0;
+
+    /**
      * The feature id for the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE__NAME = 0;
+    int VARIABILITY_REALIZATION_TECHNIQUE__NAME = 1;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION = 2;
+
+    /**
+     * The feature id for the '<em><b>Supported Binding Times</b></em>' attribute list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES = 3;
+
+    /**
+     * The feature id for the '<em><b>Supported Extendibility</b></em>' attribute list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY = 4;
+
+    /**
+     * The feature id for the '<em><b>Supported Variability Types</b></em>' attribute list. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES = 5;
 
     /**
      * The number of structural features of the '<em>Variability Realization Technique</em>' class.
@@ -91,16 +135,7 @@ public interface vrmPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE_FEATURE_COUNT = 1;
-
-    /**
-     * The operation id for the '<em>Can Be Applied To</em>' operation. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int VARIABILITY_REALIZATION_TECHNIQUE___CAN_BE_APPLIED_TO__VARIATIONPOINT = 0;
+    int VARIABILITY_REALIZATION_TECHNIQUE_FEATURE_COUNT = 6;
 
     /**
      * The number of operations of the '<em>Variability Realization Technique</em>' class. <!--
@@ -109,7 +144,7 @@ public interface vrmPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE_OPERATION_COUNT = 1;
+    int VARIABILITY_REALIZATION_TECHNIQUE_OPERATION_COUNT = 0;
 
     /**
      * The meta object id for the '
@@ -217,6 +252,18 @@ public interface vrmPackage extends EPackage {
 
     /**
      * Returns the meta object for the attribute '
+     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getRefactoringId
+     * <em>Refactoring Id</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the attribute '<em>Refactoring Id</em>'.
+     * @see org.splevo.vrm.VariabilityRealizationTechnique#getRefactoringId()
+     * @see #getVariabilityRealizationTechnique()
+     * @generated
+     */
+    EAttribute getVariabilityRealizationTechnique_RefactoringId();
+
+    /**
+     * Returns the meta object for the attribute '
      * {@link org.splevo.vrm.VariabilityRealizationTechnique#getName <em>Name</em>}'. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -228,15 +275,52 @@ public interface vrmPackage extends EPackage {
     EAttribute getVariabilityRealizationTechnique_Name();
 
     /**
-     * Returns the meta object for the '
-     * {@link org.splevo.vrm.VariabilityRealizationTechnique#canBeAppliedTo(org.splevo.vpm.variability.VariationPoint)
-     * <em>Can Be Applied To</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the meta object for the attribute '
+     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getDescription <em>Description</em>}'.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the '<em>Can Be Applied To</em>' operation.
-     * @see org.splevo.vrm.VariabilityRealizationTechnique#canBeAppliedTo(org.splevo.vpm.variability.VariationPoint)
+     * @return the meta object for the attribute '<em>Description</em>'.
+     * @see org.splevo.vrm.VariabilityRealizationTechnique#getDescription()
+     * @see #getVariabilityRealizationTechnique()
      * @generated
      */
-    EOperation getVariabilityRealizationTechnique__CanBeAppliedTo__VariationPoint();
+    EAttribute getVariabilityRealizationTechnique_Description();
+
+    /**
+     * Returns the meta object for the attribute list '
+     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getSupportedBindingTimes
+     * <em>Supported Binding Times</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the attribute list '<em>Supported Binding Times</em>'.
+     * @see org.splevo.vrm.VariabilityRealizationTechnique#getSupportedBindingTimes()
+     * @see #getVariabilityRealizationTechnique()
+     * @generated
+     */
+    EAttribute getVariabilityRealizationTechnique_SupportedBindingTimes();
+
+    /**
+     * Returns the meta object for the attribute list '
+     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getSupportedExtendibility
+     * <em>Supported Extendibility</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the attribute list '<em>Supported Extendibility</em>'.
+     * @see org.splevo.vrm.VariabilityRealizationTechnique#getSupportedExtendibility()
+     * @see #getVariabilityRealizationTechnique()
+     * @generated
+     */
+    EAttribute getVariabilityRealizationTechnique_SupportedExtendibility();
+
+    /**
+     * Returns the meta object for the attribute list '
+     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getSupportedVariabilityTypes
+     * <em>Supported Variability Types</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the attribute list '<em>Supported Variability Types</em>'.
+     * @see org.splevo.vrm.VariabilityRealizationTechnique#getSupportedVariabilityTypes()
+     * @see #getVariabilityRealizationTechnique()
+     * @generated
+     */
+    EAttribute getVariabilityRealizationTechnique_SupportedVariabilityTypes();
 
     /**
      * Returns the meta object for class '{@link org.splevo.vrm.VariabilityRealizationConfiguration
@@ -344,6 +428,15 @@ public interface vrmPackage extends EPackage {
         EClass VARIABILITY_REALIZATION_TECHNIQUE = eINSTANCE.getVariabilityRealizationTechnique();
 
         /**
+         * The meta object literal for the '<em><b>Refactoring Id</b></em>' attribute feature. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID = eINSTANCE
+                .getVariabilityRealizationTechnique_RefactoringId();
+
+        /**
          * The meta object literal for the '<em><b>Name</b></em>' attribute feature. <!--
          * begin-user-doc --> <!-- end-user-doc -->
          * 
@@ -352,13 +445,40 @@ public interface vrmPackage extends EPackage {
         EAttribute VARIABILITY_REALIZATION_TECHNIQUE__NAME = eINSTANCE.getVariabilityRealizationTechnique_Name();
 
         /**
-         * The meta object literal for the '<em><b>Can Be Applied To</b></em>' operation. <!--
+         * The meta object literal for the '<em><b>Description</b></em>' attribute feature. <!--
          * begin-user-doc --> <!-- end-user-doc -->
          * 
          * @generated
          */
-        EOperation VARIABILITY_REALIZATION_TECHNIQUE___CAN_BE_APPLIED_TO__VARIATIONPOINT = eINSTANCE
-                .getVariabilityRealizationTechnique__CanBeAppliedTo__VariationPoint();
+        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION = eINSTANCE
+                .getVariabilityRealizationTechnique_Description();
+
+        /**
+         * The meta object literal for the '<em><b>Supported Binding Times</b></em>' attribute list
+         * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES = eINSTANCE
+                .getVariabilityRealizationTechnique_SupportedBindingTimes();
+
+        /**
+         * The meta object literal for the '<em><b>Supported Extendibility</b></em>' attribute list
+         * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY = eINSTANCE
+                .getVariabilityRealizationTechnique_SupportedExtendibility();
+
+        /**
+         * The meta object literal for the '<em><b>Supported Variability Types</b></em>' attribute
+         * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES = eINSTANCE
+                .getVariabilityRealizationTechnique_SupportedVariabilityTypes();
 
         /**
          * The meta object literal for the '

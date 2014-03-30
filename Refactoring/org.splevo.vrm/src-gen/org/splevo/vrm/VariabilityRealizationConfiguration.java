@@ -39,12 +39,13 @@ public interface VariabilityRealizationConfiguration extends EObject {
      * If the meaning of the '<em>Variation Point</em>' reference isn't clear, there really should
      * be more of a description here...
      * </p>
-     * <!-- end-user-doc -->
+     * <!-- end-user-doc --> <!-- begin-model-doc --> The configured variation point. <!--
+     * end-model-doc -->
      * 
      * @return the value of the '<em>Variation Point</em>' reference.
      * @see #setVariationPoint(VariationPoint)
      * @see org.splevo.vrm.vrmPackage#getVariabilityRealizationConfiguration_VariationPoint()
-     * @model
+     * @model required="true"
      * @generated
      */
     VariationPoint getVariationPoint();
@@ -67,12 +68,13 @@ public interface VariabilityRealizationConfiguration extends EObject {
      * If the meaning of the '<em>Technique</em>' reference isn't clear, there really should be more
      * of a description here...
      * </p>
-     * <!-- end-user-doc -->
+     * <!-- end-user-doc --> <!-- begin-model-doc --> The realization technique selected for a
+     * variation point. <!-- end-model-doc -->
      * 
      * @return the value of the '<em>Technique</em>' reference.
      * @see #setTechnique(VariabilityRealizationTechnique)
      * @see org.splevo.vrm.vrmPackage#getVariabilityRealizationConfiguration_Technique()
-     * @model
+     * @model required="true"
      * @generated
      */
     VariabilityRealizationTechnique getTechnique();
