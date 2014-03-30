@@ -128,7 +128,7 @@ public interface VariationPoint extends EObject {
 
     /**
      * Returns the value of the '<em><b>Binding Time</b></em>' attribute.
-     * The default value is <code>"Loading"</code>.
+     * The default value is <code>"LoadTime"</code>.
      * The literals are from the enumeration {@link org.splevo.vpm.variability.BindingTime}.
      * <!-- begin-user-doc -->
      * <p>
@@ -140,7 +140,7 @@ public interface VariationPoint extends EObject {
      * @see org.splevo.vpm.variability.BindingTime
      * @see #setBindingTime(BindingTime)
      * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_BindingTime()
-     * @model default="Loading" required="true"
+     * @model default="LoadTime" required="true"
      * @generated
      */
     BindingTime getBindingTime();

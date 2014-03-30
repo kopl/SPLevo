@@ -31,124 +31,72 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum BindingTime implements Enumerator {
     /**
-     * The '<em><b>Implementation</b></em>' literal object.
+     * The '<em><b>Compile Time</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #IMPLEMENTATION_VALUE
+     * @see #COMPILE_TIME_VALUE
      * @generated
      * @ordered
      */
-    IMPLEMENTATION(0, "Implementation", "Implementation"),
+    COMPILE_TIME(0, "CompileTime", "CompileTime"), /**
+                                                    * The '<em><b>Load Time</b></em>' literal object.
+                                                    * <!-- begin-user-doc -->
+                                                    * <!-- end-user-doc -->
+                                                    * @see #LOAD_TIME_VALUE
+                                                    * @generated
+                                                    * @ordered
+                                                    */
+    LOAD_TIME(3, "LoadTime", "LoadTime"), /**
+                                           * The '<em><b>Run Time</b></em>' literal object.
+                                           * <!-- begin-user-doc -->
+                                           * <!-- end-user-doc -->
+                                           * @see #RUN_TIME_VALUE
+                                           * @generated
+                                           * @ordered
+                                           */
+    RUN_TIME(4, "RunTime", "RunTime");
 
     /**
-     * The '<em><b>Compilation</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #COMPILATION_VALUE
-     * @generated
-     * @ordered
-     */
-    COMPILATION(1, "Compilation", "Compilation"),
-
-    /**
-     * The '<em><b>Linking</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #LINKING_VALUE
-     * @generated
-     * @ordered
-     */
-    LINKING(2, "Linking", "Linking"),
-
-    /**
-     * The '<em><b>Loading</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #LOADING_VALUE
-     * @generated
-     * @ordered
-     */
-    LOADING(3, "Loading", "Loading"),
-
-    /**
-     * The '<em><b>Runtime</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #RUNTIME_VALUE
-     * @generated
-     * @ordered
-     */
-    RUNTIME(4, "Runtime", "Runtime");
-
-    /**
-     * The '<em><b>Implementation</b></em>' literal value.
+     * The '<em><b>Compile Time</b></em>' literal value.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * Source code must modified
      * <!-- end-model-doc -->
-     * @see #IMPLEMENTATION
-     * @model name="Implementation"
+     * @see #COMPILE_TIME
+     * @model name="CompileTime"
      * @generated
      * @ordered
      */
-    public static final int IMPLEMENTATION_VALUE = 0;
+    public static final int COMPILE_TIME_VALUE = 0;
 
     /**
-     * The '<em><b>Compilation</b></em>' literal value.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * Compilation process must be influenced
-     * <!-- end-model-doc -->
-     * @see #COMPILATION
-     * @model name="Compilation"
-     * @generated
-     * @ordered
-     */
-    public static final int COMPILATION_VALUE = 1;
-
-    /**
-     * The '<em><b>Linking</b></em>' literal value.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * Composition / assembly process must be influenced
-     * <!-- end-model-doc -->
-     * @see #LINKING
-     * @model name="Linking"
-     * @generated
-     * @ordered
-     */
-    public static final int LINKING_VALUE = 2;
-
-    /**
-     * The '<em><b>Loading</b></em>' literal value.
+     * The '<em><b>Load Time</b></em>' literal value.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * Configuration must be changed before application start
      * <!-- end-model-doc -->
-     * @see #LOADING
-     * @model name="Loading"
+     * @see #LOAD_TIME
+     * @model name="LoadTime"
      * @generated
      * @ordered
      */
-    public static final int LOADING_VALUE = 3;
+    public static final int LOAD_TIME_VALUE = 3;
 
     /**
-     * The '<em><b>Runtime</b></em>' literal value.
+     * The '<em><b>Run Time</b></em>' literal value.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * Context / parametrization must be changed before usage
      * <!-- end-model-doc -->
-     * @see #RUNTIME
-     * @model name="Runtime"
+     * @see #RUN_TIME
+     * @model name="RunTime"
      * @generated
      * @ordered
      */
-    public static final int RUNTIME_VALUE = 4;
+    public static final int RUN_TIME_VALUE = 4;
 
     /**
      * An array of all the '<em><b>Binding Time</b></em>' enumerators.
@@ -156,8 +104,7 @@ public enum BindingTime implements Enumerator {
      * <!-- end-user-doc -->
      * @generated
      */
-    private static final BindingTime[] VALUES_ARRAY = new BindingTime[] { IMPLEMENTATION, COMPILATION, LINKING,
-            LOADING, RUNTIME, };
+    private static final BindingTime[] VALUES_ARRAY = new BindingTime[] { COMPILE_TIME, LOAD_TIME, RUN_TIME, };
 
     /**
      * A public read-only list of all the '<em><b>Binding Time</b></em>' enumerators.
@@ -207,16 +154,12 @@ public enum BindingTime implements Enumerator {
      */
     public static BindingTime get(int value) {
         switch (value) {
-        case IMPLEMENTATION_VALUE:
-            return IMPLEMENTATION;
-        case COMPILATION_VALUE:
-            return COMPILATION;
-        case LINKING_VALUE:
-            return LINKING;
-        case LOADING_VALUE:
-            return LOADING;
-        case RUNTIME_VALUE:
-            return RUNTIME;
+        case COMPILE_TIME_VALUE:
+            return COMPILE_TIME;
+        case LOAD_TIME_VALUE:
+            return LOAD_TIME;
+        case RUN_TIME_VALUE:
+            return RUN_TIME;
         }
         return null;
     }

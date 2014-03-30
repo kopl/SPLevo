@@ -131,23 +131,15 @@
         <children xmi:type="notation:Node" xmi:id="_rSseELeOEeO-Lc2V-P6Vhw" type="4005"/>
         <children xmi:type="notation:Node" xmi:id="_rSseEbeOEeO-Lc2V-P6Vhw" type="5006">
           <children xmi:type="notation:Node" xmi:id="_YKpxALegEeO-Lc2V-P6Vhw" type="2006">
-            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/BindingTime/Implementation"/>
+            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/BindingTime/CompileTime"/>
             <layoutConstraint xmi:type="notation:Location" xmi:id="_YKpxAbegEeO-Lc2V-P6Vhw"/>
           </children>
-          <children xmi:type="notation:Node" xmi:id="_hbiGgLegEeO-Lc2V-P6Vhw" type="2006">
-            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/BindingTime/Compilation"/>
-            <layoutConstraint xmi:type="notation:Location" xmi:id="_hbiGgbegEeO-Lc2V-P6Vhw"/>
-          </children>
-          <children xmi:type="notation:Node" xmi:id="_lgYcALegEeO-Lc2V-P6Vhw" type="2006">
-            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/BindingTime/Linking"/>
-            <layoutConstraint xmi:type="notation:Location" xmi:id="_lgYcAbegEeO-Lc2V-P6Vhw"/>
-          </children>
           <children xmi:type="notation:Node" xmi:id="_orqFMLegEeO-Lc2V-P6Vhw" type="2006">
-            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/BindingTime/Loading"/>
+            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/BindingTime/LoadTime"/>
             <layoutConstraint xmi:type="notation:Location" xmi:id="_orqFMbegEeO-Lc2V-P6Vhw"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_rgCRULegEeO-Lc2V-P6Vhw" type="2006">
-            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/BindingTime/Runtime"/>
+            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/BindingTime/RunTime"/>
             <layoutConstraint xmi:type="notation:Location" xmi:id="_rgCRUbegEeO-Lc2V-P6Vhw"/>
           </children>
           <styles xmi:type="notation:DrawerStyle" xmi:id="_rSseEreOEeO-Lc2V-P6Vhw"/>
@@ -186,7 +178,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_4Sw0806kEeKu0IvcocBLUA"/>
         </children>
         <styles xmi:type="notation:ShapeStyle" xmi:id="_4SwN4U6kEeKu0IvcocBLUA" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
-        <element xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
+        <element xmi:type="ecore:EClass" href="platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4SwN4k6kEeKu0IvcocBLUA" x="445" y="4"/>
       </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_br6wUE6kEeKu0IvcocBLUA"/>
@@ -195,7 +187,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_br6JQU6kEeKu0IvcocBLUA" fontName="Segoe UI" fontHeight="10" lineColor="0"/>
     <styles xmi:type="notation:MultiDiagramLinkStyle" xmi:id="_br6JQk6kEeKu0IvcocBLUA"/>
-    <element xmi:type="ecore:EPackage" href="platform:/resource/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#/"/>
+    <element xmi:type="ecore:EPackage" href="platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#/"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_br6JQ06kEeKu0IvcocBLUA" x="48" y="9" width="1107" height="126"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_KN-goC29EeO8yuvfzP6SAg" type="1002">

@@ -90,7 +90,7 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * @generated
      * @ordered
      */
-    protected static final BindingTime BINDING_TIME_EDEFAULT = BindingTime.LOADING;
+    protected static final BindingTime BINDING_TIME_EDEFAULT = BindingTime.LOAD_TIME;
 
     /**
      * The cached value of the '{@link #getBindingTime() <em>Binding Time</em>}' attribute.

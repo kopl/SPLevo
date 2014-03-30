@@ -23,11 +23,9 @@
         <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/VariabilityType/OPTOR"/>
       </genEnums>
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="vpm.ecore#//variability/BindingTime">
-        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Implementation"/>
-        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Compilation"/>
-        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Linking"/>
-        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Loading"/>
-        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Runtime"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/CompileTime"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/LoadTime"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/RunTime"/>
       </genEnums>
       <genClasses ecoreClass="vpm.ecore#//variability/VariationPoint">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vpm.ecore#//variability/VariationPoint/variants"/>

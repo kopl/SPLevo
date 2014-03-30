@@ -20,7 +20,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="variabilityType" lowerBound="1"
           eType="#//variability/VariabilityType" defaultValueLiteral="XOR"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="bindingTime" lowerBound="1"
-          eType="#//variability/BindingTime" defaultValueLiteral="Loading"/>
+          eType="#//variability/BindingTime" defaultValueLiteral="LoadTime"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="extendibility" lowerBound="1"
           eType="#//variability/Extendibility" defaultValueLiteral="Open"/>
     </eClassifiers>
@@ -114,27 +114,17 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Defines the required action to decide for a variant (combination)"/>
       </eAnnotations>
-      <eLiterals name="Implementation">
+      <eLiterals name="CompileTime">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="Source code must modified"/>
         </eAnnotations>
       </eLiterals>
-      <eLiterals name="Compilation" value="1">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="Compilation process must be influenced"/>
-        </eAnnotations>
-      </eLiterals>
-      <eLiterals name="Linking" value="2">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="Composition / assembly process must be influenced"/>
-        </eAnnotations>
-      </eLiterals>
-      <eLiterals name="Loading" value="3">
+      <eLiterals name="LoadTime" value="3">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="Configuration must be changed before application start"/>
         </eAnnotations>
       </eLiterals>
-      <eLiterals name="Runtime" value="4">
+      <eLiterals name="RunTime" value="4">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="Context / parametrization must be changed before usage"/>
         </eAnnotations>

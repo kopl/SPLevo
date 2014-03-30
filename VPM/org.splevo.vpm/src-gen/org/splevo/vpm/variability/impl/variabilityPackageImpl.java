@@ -480,7 +480,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEAttribute(getVariationPoint_VariabilityType(), this.getVariabilityType(), "variabilityType", "XOR", 1, 1,
                 VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
                 !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getVariationPoint_BindingTime(), this.getBindingTime(), "bindingTime", "Loading", 1, 1,
+        initEAttribute(getVariationPoint_BindingTime(), this.getBindingTime(), "bindingTime", "LoadTime", 1, 1,
                 VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
                 !IS_DERIVED, IS_ORDERED);
         initEAttribute(getVariationPoint_Extendibility(), this.getExtendibility(), "extendibility", "Open", 1, 1,
@@ -541,11 +541,9 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         addEEnumLiteral(variabilityTypeEEnum, VariabilityType.OPTOR);
 
         initEEnum(bindingTimeEEnum, BindingTime.class, "BindingTime");
-        addEEnumLiteral(bindingTimeEEnum, BindingTime.IMPLEMENTATION);
-        addEEnumLiteral(bindingTimeEEnum, BindingTime.COMPILATION);
-        addEEnumLiteral(bindingTimeEEnum, BindingTime.LINKING);
-        addEEnumLiteral(bindingTimeEEnum, BindingTime.LOADING);
-        addEEnumLiteral(bindingTimeEEnum, BindingTime.RUNTIME);
+        addEEnumLiteral(bindingTimeEEnum, BindingTime.COMPILE_TIME);
+        addEEnumLiteral(bindingTimeEEnum, BindingTime.LOAD_TIME);
+        addEEnumLiteral(bindingTimeEEnum, BindingTime.RUN_TIME);
 
         // Create resource
         createResource(eNS_URI);
