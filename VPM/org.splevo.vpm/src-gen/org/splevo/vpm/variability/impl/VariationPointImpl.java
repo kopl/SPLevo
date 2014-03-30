@@ -15,6 +15,9 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.BindingTime;
+import org.splevo.vpm.variability.Extendibility;
+import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -30,6 +33,9 @@ import org.splevo.vpm.variability.variabilityPackage;
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariants <em>Variants</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getGroup <em>Group</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariabilityType <em>Variability Type</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getBindingTime <em>Binding Time</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getExtendibility <em>Extendibility</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,6 +61,66 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * @ordered
      */
     protected SoftwareElement location;
+
+    /**
+     * The default value of the '{@link #getVariabilityType() <em>Variability Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getVariabilityType()
+     * @generated
+     * @ordered
+     */
+    protected static final VariabilityType VARIABILITY_TYPE_EDEFAULT = VariabilityType.XOR;
+
+    /**
+     * The cached value of the '{@link #getVariabilityType() <em>Variability Type</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getVariabilityType()
+     * @generated
+     * @ordered
+     */
+    protected VariabilityType variabilityType = VARIABILITY_TYPE_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getBindingTime() <em>Binding Time</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getBindingTime()
+     * @generated
+     * @ordered
+     */
+    protected static final BindingTime BINDING_TIME_EDEFAULT = BindingTime.LOADING;
+
+    /**
+     * The cached value of the '{@link #getBindingTime() <em>Binding Time</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getBindingTime()
+     * @generated
+     * @ordered
+     */
+    protected BindingTime bindingTime = BINDING_TIME_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getExtendibility() <em>Extendibility</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getExtendibility()
+     * @generated
+     * @ordered
+     */
+    protected static final Extendibility EXTENDIBILITY_EDEFAULT = Extendibility.OPEN;
+
+    /**
+     * The cached value of the '{@link #getExtendibility() <em>Extendibility</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getExtendibility()
+     * @generated
+     * @ordered
+     */
+    protected Extendibility extendibility = EXTENDIBILITY_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -178,6 +244,72 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * <!-- end-user-doc -->
      * @generated
      */
+    public VariabilityType getVariabilityType() {
+        return variabilityType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setVariabilityType(VariabilityType newVariabilityType) {
+        VariabilityType oldVariabilityType = variabilityType;
+        variabilityType = newVariabilityType == null ? VARIABILITY_TYPE_EDEFAULT : newVariabilityType;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE,
+                    oldVariabilityType, variabilityType));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public BindingTime getBindingTime() {
+        return bindingTime;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setBindingTime(BindingTime newBindingTime) {
+        BindingTime oldBindingTime = bindingTime;
+        bindingTime = newBindingTime == null ? BINDING_TIME_EDEFAULT : newBindingTime;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__BINDING_TIME,
+                    oldBindingTime, bindingTime));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Extendibility getExtendibility() {
+        return extendibility;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setExtendibility(Extendibility newExtendibility) {
+        Extendibility oldExtendibility = extendibility;
+        extendibility = newExtendibility == null ? EXTENDIBILITY_EDEFAULT : newExtendibility;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__EXTENDIBILITY,
+                    oldExtendibility, extendibility));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @SuppressWarnings("unchecked")
     @Override
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -239,6 +371,12 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
             return basicGetLocation();
         case variabilityPackage.VARIATION_POINT__GROUP:
             return getGroup();
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE:
+            return getVariabilityType();
+        case variabilityPackage.VARIATION_POINT__BINDING_TIME:
+            return getBindingTime();
+        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
+            return getExtendibility();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -262,6 +400,15 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         case variabilityPackage.VARIATION_POINT__GROUP:
             setGroup((VariationPointGroup) newValue);
             return;
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE:
+            setVariabilityType((VariabilityType) newValue);
+            return;
+        case variabilityPackage.VARIATION_POINT__BINDING_TIME:
+            setBindingTime((BindingTime) newValue);
+            return;
+        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
+            setExtendibility((Extendibility) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
@@ -283,6 +430,15 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         case variabilityPackage.VARIATION_POINT__GROUP:
             setGroup((VariationPointGroup) null);
             return;
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE:
+            setVariabilityType(VARIABILITY_TYPE_EDEFAULT);
+            return;
+        case variabilityPackage.VARIATION_POINT__BINDING_TIME:
+            setBindingTime(BINDING_TIME_EDEFAULT);
+            return;
+        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
+            setExtendibility(EXTENDIBILITY_EDEFAULT);
+            return;
         }
         super.eUnset(featureID);
     }
@@ -301,8 +457,35 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
             return location != null;
         case variabilityPackage.VARIATION_POINT__GROUP:
             return getGroup() != null;
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE:
+            return variabilityType != VARIABILITY_TYPE_EDEFAULT;
+        case variabilityPackage.VARIATION_POINT__BINDING_TIME:
+            return bindingTime != BINDING_TIME_EDEFAULT;
+        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
+            return extendibility != EXTENDIBILITY_EDEFAULT;
         }
         return super.eIsSet(featureID);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public String toString() {
+        if (eIsProxy())
+            return super.toString();
+
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (variabilityType: ");
+        result.append(variabilityType);
+        result.append(", bindingTime: ");
+        result.append(bindingTime);
+        result.append(", extendibility: ");
+        result.append(extendibility);
+        result.append(')');
+        return result.toString();
     }
 
 } //VariationPointImpl

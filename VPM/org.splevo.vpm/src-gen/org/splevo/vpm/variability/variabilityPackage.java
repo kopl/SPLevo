@@ -4,6 +4,7 @@ package org.splevo.vpm.variability;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -93,13 +94,40 @@ public interface variabilityPackage extends EPackage {
     int VARIATION_POINT__GROUP = 2;
 
     /**
+     * The feature id for the '<em><b>Variability Type</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT__VARIABILITY_TYPE = 3;
+
+    /**
+     * The feature id for the '<em><b>Binding Time</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT__BINDING_TIME = 4;
+
+    /**
+     * The feature id for the '<em><b>Extendibility</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT__EXTENDIBILITY = 5;
+
+    /**
      * The number of structural features of the '<em>Variation Point</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_FEATURE_COUNT = 3;
+    int VARIATION_POINT_FEATURE_COUNT = 6;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariantImpl <em>Variant</em>}' class.
@@ -258,6 +286,36 @@ public interface variabilityPackage extends EPackage {
     int VARIATION_POINT_GROUP_FEATURE_COUNT = 4;
 
     /**
+     * The meta object id for the '{@link org.splevo.vpm.variability.Extendibility <em>Extendibility</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.vpm.variability.Extendibility
+     * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getExtendibility()
+     * @generated
+     */
+    int EXTENDIBILITY = 4;
+
+    /**
+     * The meta object id for the '{@link org.splevo.vpm.variability.VariabilityType <em>Variability Type</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.vpm.variability.VariabilityType
+     * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getVariabilityType()
+     * @generated
+     */
+    int VARIABILITY_TYPE = 5;
+
+    /**
+     * The meta object id for the '{@link org.splevo.vpm.variability.BindingTime <em>Binding Time</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.vpm.variability.BindingTime
+     * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getBindingTime()
+     * @generated
+     */
+    int BINDING_TIME = 6;
+
+    /**
      * Returns the meta object for class '{@link org.splevo.vpm.variability.VariationPoint <em>Variation Point</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -299,6 +357,39 @@ public interface variabilityPackage extends EPackage {
      * @generated
      */
     EReference getVariationPoint_Group();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityType <em>Variability Type</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Variability Type</em>'.
+     * @see org.splevo.vpm.variability.VariationPoint#getVariabilityType()
+     * @see #getVariationPoint()
+     * @generated
+     */
+    EAttribute getVariationPoint_VariabilityType();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.VariationPoint#getBindingTime <em>Binding Time</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Binding Time</em>'.
+     * @see org.splevo.vpm.variability.VariationPoint#getBindingTime()
+     * @see #getVariationPoint()
+     * @generated
+     */
+    EAttribute getVariationPoint_BindingTime();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.VariationPoint#getExtendibility <em>Extendibility</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Extendibility</em>'.
+     * @see org.splevo.vpm.variability.VariationPoint#getExtendibility()
+     * @see #getVariationPoint()
+     * @generated
+     */
+    EAttribute getVariationPoint_Extendibility();
 
     /**
      * Returns the meta object for class '{@link org.splevo.vpm.variability.Variant <em>Variant</em>}'.
@@ -452,6 +543,36 @@ public interface variabilityPackage extends EPackage {
     EReference getVariationPointGroup_Feature();
 
     /**
+     * Returns the meta object for enum '{@link org.splevo.vpm.variability.Extendibility <em>Extendibility</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for enum '<em>Extendibility</em>'.
+     * @see org.splevo.vpm.variability.Extendibility
+     * @generated
+     */
+    EEnum getExtendibility();
+
+    /**
+     * Returns the meta object for enum '{@link org.splevo.vpm.variability.VariabilityType <em>Variability Type</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for enum '<em>Variability Type</em>'.
+     * @see org.splevo.vpm.variability.VariabilityType
+     * @generated
+     */
+    EEnum getVariabilityType();
+
+    /**
+     * Returns the meta object for enum '{@link org.splevo.vpm.variability.BindingTime <em>Binding Time</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for enum '<em>Binding Time</em>'.
+     * @see org.splevo.vpm.variability.BindingTime
+     * @generated
+     */
+    EEnum getBindingTime();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -506,6 +627,30 @@ public interface variabilityPackage extends EPackage {
          * @generated
          */
         EReference VARIATION_POINT__GROUP = eINSTANCE.getVariationPoint_Group();
+
+        /**
+         * The meta object literal for the '<em><b>Variability Type</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute VARIATION_POINT__VARIABILITY_TYPE = eINSTANCE.getVariationPoint_VariabilityType();
+
+        /**
+         * The meta object literal for the '<em><b>Binding Time</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute VARIATION_POINT__BINDING_TIME = eINSTANCE.getVariationPoint_BindingTime();
+
+        /**
+         * The meta object literal for the '<em><b>Extendibility</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute VARIATION_POINT__EXTENDIBILITY = eINSTANCE.getVariationPoint_Extendibility();
 
         /**
          * The meta object literal for the '{@link org.splevo.vpm.variability.impl.VariantImpl <em>Variant</em>}' class.
@@ -625,6 +770,36 @@ public interface variabilityPackage extends EPackage {
          * @generated
          */
         EReference VARIATION_POINT_GROUP__FEATURE = eINSTANCE.getVariationPointGroup_Feature();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.vpm.variability.Extendibility <em>Extendibility</em>}' enum.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.vpm.variability.Extendibility
+         * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getExtendibility()
+         * @generated
+         */
+        EEnum EXTENDIBILITY = eINSTANCE.getExtendibility();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.vpm.variability.VariabilityType <em>Variability Type</em>}' enum.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.vpm.variability.VariabilityType
+         * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getVariabilityType()
+         * @generated
+         */
+        EEnum VARIABILITY_TYPE = eINSTANCE.getVariabilityType();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.vpm.variability.BindingTime <em>Binding Time</em>}' enum.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.vpm.variability.BindingTime
+         * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getBindingTime()
+         * @generated
+         */
+        EEnum BINDING_TIME = eINSTANCE.getBindingTime();
 
     }
 

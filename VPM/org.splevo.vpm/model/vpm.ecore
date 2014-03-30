@@ -17,19 +17,25 @@
           <details key="documentation" value="The variation point group containing the variation point."/>
         </eAnnotations>
       </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="variabilityType" lowerBound="1"
+          eType="#//variability/VariabilityType" defaultValueLiteral="XOR"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="bindingTime" lowerBound="1"
+          eType="#//variability/BindingTime" defaultValueLiteral="Loading"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="extendibility" lowerBound="1"
+          eType="#//variability/Extendibility" defaultValueLiteral="Open"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Variant">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="childFeature" eType="ecore:EClass ../../org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="childFeature" eType="ecore:EClass platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="implementingElements"
           lowerBound="1" upperBound="-1" eType="#//software/SoftwareElement"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="leading" lowerBound="1"
-          eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject">
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="Flag identifying if the variant is one of the leading variantes."/>
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="variantId" lowerBound="1"
-          eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="The external configurable and processable identifier of a variant.&#xD;&#xA;This can be used e.g. to identifier a variant within the realization technique, e.g. a value of a configuration parameter.&#xD;&#xA;All variants of variation points in the same variation point group, that contribute to the same alternative of a variable product feature should have the same variant ID."/>
         </eAnnotations>
@@ -55,14 +61,84 @@
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupId" lowerBound="1"
-          eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="The identifier for the group. &#xD;&#xA;It represents an external, configurable identifier for the group which can be used also for the realization (e.g. as name of a configuration parameter)"/>
         </eAnnotations>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1"
           eType="#//variability/VariationPointModel" eOpposite="#//variability/VariationPointModel/variationPointGroups"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass ../../org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="Extendibility">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The extendibility describes if this variation point is open for extendibility in excess of the product line code base."/>
+      </eAnnotations>
+      <eLiterals name="Closed" literal="Closed">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="All possible variants must be part of the product line code."/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="Open" value="1">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="New variants can be added as extensions in excess of the product line code base."/>
+        </eAnnotations>
+      </eLiterals>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="VariabilityType">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Characteristic how many variants can or must be selected for a variation point as defined in&#xD;&#xA;&quot;A taxonomy of variability techniques&quot; by Svahnberg, Gurp and Bosch available at "/>
+      </eAnnotations>
+      <eLiterals name="XOR">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Exactly one of the available variants must be selected."/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="OR" value="1">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="One or more of the available variants must be selected."/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="OPTXOR" value="2">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="None or one of the available variants must be selected."/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="OPTOR" value="3">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="None, one, or more of the available variants must be selected."/>
+        </eAnnotations>
+      </eLiterals>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="BindingTime">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Defines the required action to decide for a variant (combination)"/>
+      </eAnnotations>
+      <eLiterals name="Implementation">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Source code must modified"/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="Compilation" value="1">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Compilation process must be influenced"/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="Linking" value="2">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Composition / assembly process must be influenced"/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="Loading" value="3">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Configuration must be changed before application start"/>
+        </eAnnotations>
+      </eLiterals>
+      <eLiterals name="Runtime" value="4">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Context / parametrization must be changed before usage"/>
+        </eAnnotations>
+      </eLiterals>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="software" nsURI="http://splevo.org/vpm/1.0/software" nsPrefix="software">
@@ -93,22 +169,22 @@
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SourceLocation">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="filePath" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="filePath" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="The path to the file containing the software element."/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startLine" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EInt">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startLine" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="The line in which the software element's code representation starts."/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startPosition" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EInt">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="The character position (offset) within the complete text file at which the software element's code representation starts."/>
         </eAnnotations>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="endPosition" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EInt">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="endPosition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="The character position (offset) within the complete text file at which the software element's code representation ends."/>
         </eAnnotations>

@@ -3,10 +3,12 @@
 package org.splevo.vpm.variability.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.splevo.vpm.variability.*;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -76,6 +78,44 @@ public class variabilityFactoryImpl extends EFactoryImpl implements variabilityF
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
+    public Object createFromString(EDataType eDataType, String initialValue) {
+        switch (eDataType.getClassifierID()) {
+        case variabilityPackage.EXTENDIBILITY:
+            return createExtendibilityFromString(eDataType, initialValue);
+        case variabilityPackage.VARIABILITY_TYPE:
+            return createVariabilityTypeFromString(eDataType, initialValue);
+        case variabilityPackage.BINDING_TIME:
+            return createBindingTimeFromString(eDataType, initialValue);
+        default:
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public String convertToString(EDataType eDataType, Object instanceValue) {
+        switch (eDataType.getClassifierID()) {
+        case variabilityPackage.EXTENDIBILITY:
+            return convertExtendibilityToString(eDataType, instanceValue);
+        case variabilityPackage.VARIABILITY_TYPE:
+            return convertVariabilityTypeToString(eDataType, instanceValue);
+        case variabilityPackage.BINDING_TIME:
+            return convertBindingTimeToString(eDataType, instanceValue);
+        default:
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public VariationPoint createVariationPoint() {
         VariationPointImpl variationPoint = new VariationPointImpl();
         return variationPoint;
@@ -109,6 +149,72 @@ public class variabilityFactoryImpl extends EFactoryImpl implements variabilityF
     public VariationPointGroup createVariationPointGroup() {
         VariationPointGroupImpl variationPointGroup = new VariationPointGroupImpl();
         return variationPointGroup;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Extendibility createExtendibilityFromString(EDataType eDataType, String initialValue) {
+        Extendibility result = Extendibility.get(initialValue);
+        if (result == null)
+            throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '"
+                    + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String convertExtendibilityToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public VariabilityType createVariabilityTypeFromString(EDataType eDataType, String initialValue) {
+        VariabilityType result = VariabilityType.get(initialValue);
+        if (result == null)
+            throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '"
+                    + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String convertVariabilityTypeToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public BindingTime createBindingTimeFromString(EDataType eDataType, String initialValue) {
+        BindingTime result = BindingTime.get(initialValue);
+        if (result == null)
+            throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '"
+                    + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String convertBindingTimeToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
     }
 
     /**

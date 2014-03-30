@@ -4,6 +4,7 @@ package org.splevo.vpm.variability.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -11,6 +12,9 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.featuremodel.FeatureModelPackage;
 import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.software.impl.SoftwarePackageImpl;
+import org.splevo.vpm.variability.BindingTime;
+import org.splevo.vpm.variability.Extendibility;
+import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -52,6 +56,27 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * @generated
      */
     private EClass variationPointGroupEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EEnum extendibilityEEnum = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EEnum variabilityTypeEEnum = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EEnum bindingTimeEEnum = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -160,6 +185,33 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      */
     public EReference getVariationPoint_Group() {
         return (EReference) variationPointEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getVariationPoint_VariabilityType() {
+        return (EAttribute) variationPointEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getVariationPoint_BindingTime() {
+        return (EAttribute) variationPointEClass.getEStructuralFeatures().get(4);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getVariationPoint_Extendibility() {
+        return (EAttribute) variationPointEClass.getEStructuralFeatures().get(5);
     }
 
     /**
@@ -293,6 +345,33 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
+    public EEnum getExtendibility() {
+        return extendibilityEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EEnum getVariabilityType() {
+        return variabilityTypeEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EEnum getBindingTime() {
+        return bindingTimeEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public variabilityFactory getvariabilityFactory() {
         return (variabilityFactory) getEFactoryInstance();
     }
@@ -321,6 +400,9 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         createEReference(variationPointEClass, VARIATION_POINT__VARIANTS);
         createEReference(variationPointEClass, VARIATION_POINT__LOCATION);
         createEReference(variationPointEClass, VARIATION_POINT__GROUP);
+        createEAttribute(variationPointEClass, VARIATION_POINT__VARIABILITY_TYPE);
+        createEAttribute(variationPointEClass, VARIATION_POINT__BINDING_TIME);
+        createEAttribute(variationPointEClass, VARIATION_POINT__EXTENDIBILITY);
 
         variantEClass = createEClass(VARIANT);
         createEReference(variantEClass, VARIANT__CHILD_FEATURE);
@@ -338,6 +420,11 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         createEAttribute(variationPointGroupEClass, VARIATION_POINT_GROUP__GROUP_ID);
         createEReference(variationPointGroupEClass, VARIATION_POINT_GROUP__MODEL);
         createEReference(variationPointGroupEClass, VARIATION_POINT_GROUP__FEATURE);
+
+        // Create enums
+        extendibilityEEnum = createEEnum(EXTENDIBILITY);
+        variabilityTypeEEnum = createEEnum(VARIABILITY_TYPE);
+        bindingTimeEEnum = createEEnum(BINDING_TIME);
     }
 
     /**
@@ -390,6 +477,15 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
                 this.getVariationPointGroup_VariationPoints(), "group", null, 1, 1, VariationPoint.class,
                 !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
                 IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariationPoint_VariabilityType(), this.getVariabilityType(), "variabilityType", "XOR", 1, 1,
+                VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariationPoint_BindingTime(), this.getBindingTime(), "bindingTime", "Loading", 1, 1,
+                VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariationPoint_Extendibility(), this.getExtendibility(), "extendibility", "Open", 1, 1,
+                VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
 
         initEClass(variantEClass, Variant.class, "Variant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getVariant_ChildFeature(), theFeatureModelPackage.getFeature(), null, "childFeature", null, 0,
@@ -432,6 +528,24 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEReference(getVariationPointGroup_Feature(), theFeatureModelPackage.getFeature(), null, "feature", null, 0,
                 1, VariationPointGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
                 IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        // Initialize enums and add enum literals
+        initEEnum(extendibilityEEnum, Extendibility.class, "Extendibility");
+        addEEnumLiteral(extendibilityEEnum, Extendibility.CLOSED);
+        addEEnumLiteral(extendibilityEEnum, Extendibility.OPEN);
+
+        initEEnum(variabilityTypeEEnum, VariabilityType.class, "VariabilityType");
+        addEEnumLiteral(variabilityTypeEEnum, VariabilityType.XOR);
+        addEEnumLiteral(variabilityTypeEEnum, VariabilityType.OR);
+        addEEnumLiteral(variabilityTypeEEnum, VariabilityType.OPTXOR);
+        addEEnumLiteral(variabilityTypeEEnum, VariabilityType.OPTOR);
+
+        initEEnum(bindingTimeEEnum, BindingTime.class, "BindingTime");
+        addEEnumLiteral(bindingTimeEEnum, BindingTime.IMPLEMENTATION);
+        addEEnumLiteral(bindingTimeEEnum, BindingTime.COMPILATION);
+        addEEnumLiteral(bindingTimeEEnum, BindingTime.LINKING);
+        addEEnumLiteral(bindingTimeEEnum, BindingTime.LOADING);
+        addEEnumLiteral(bindingTimeEEnum, BindingTime.RUNTIME);
 
         // Create resource
         createResource(eNS_URI);

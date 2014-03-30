@@ -12,11 +12,31 @@
       ecorePackage="vpm.ecore#/">
     <nestedGenPackages prefix="variability" basePackage="org.splevo.vpm" disposableProviderFactory="true"
         extensibleProviderFactory="true" fileExtensions="vpm" ecorePackage="vpm.ecore#//variability">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="vpm.ecore#//variability/Extendibility">
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/Extendibility/Closed"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/Extendibility/Open"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="vpm.ecore#//variability/VariabilityType">
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/VariabilityType/XOR"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/VariabilityType/OR"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/VariabilityType/OPTXOR"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/VariabilityType/OPTOR"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="vpm.ecore#//variability/BindingTime">
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Implementation"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Compilation"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Linking"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Loading"/>
+        <genEnumLiterals ecoreEnumLiteral="vpm.ecore#//variability/BindingTime/Runtime"/>
+      </genEnums>
       <genClasses ecoreClass="vpm.ecore#//variability/VariationPoint">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vpm.ecore#//variability/VariationPoint/variants"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference vpm.ecore#//variability/VariationPoint/location"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference vpm.ecore#//variability/VariationPoint/group"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//variability/VariationPoint/variabilityType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//variability/VariationPoint/bindingTime"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//variability/VariationPoint/extendibility"/>
       </genClasses>
       <genClasses ecoreClass="vpm.ecore#//variability/Variant">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
