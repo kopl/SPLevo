@@ -13,6 +13,8 @@ package org.splevo.ui.vpexplorer.explorer;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.PlatformObject;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -69,6 +71,16 @@ public class VPExplorerContent extends PlatformObject {
         this.vpm = vpm;
         if (vpExplorerToRefresh != null) {
             vpExplorerToRefresh.getCommonViewer().refresh();
+
+            AdapterImpl changeListener = new AdapterImpl() {
+                @Override
+                public void notifyChanged(Notification notification) {
+                    vpExplorerToRefresh.getCommonViewer().refresh();
+                }
+            };
+            if (vpm.eResource() != null) {
+                vpm.eResource().eAdapters().add(changeListener);
+            }
         }
     }
 
