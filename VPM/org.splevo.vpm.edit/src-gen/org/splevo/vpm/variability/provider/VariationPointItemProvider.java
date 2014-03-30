@@ -17,9 +17,11 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.variabilityFactory;
 import org.splevo.vpm.variability.variabilityPackage;
@@ -53,6 +55,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
             super.getPropertyDescriptors(object);
 
             addLocationPropertyDescriptor(object);
+            addVariabilityTypePropertyDescriptor(object);
+            addBindingTimePropertyDescriptor(object);
+            addExtendibilityPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -71,6 +76,54 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
                 getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_location_feature",
                         "_UI_VariationPoint_type"), variabilityPackage.Literals.VARIATION_POINT__LOCATION, true, false,
                 true, null, null, null));
+    }
+
+    /**
+     * This adds a property descriptor for the Variability Type feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addVariabilityTypePropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_VariationPoint_variabilityType_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_variabilityType_feature",
+                        "_UI_VariationPoint_type"), variabilityPackage.Literals.VARIATION_POINT__VARIABILITY_TYPE,
+                true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+    }
+
+    /**
+     * This adds a property descriptor for the Binding Time feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addBindingTimePropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_VariationPoint_bindingTime_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_bindingTime_feature",
+                        "_UI_VariationPoint_type"), variabilityPackage.Literals.VARIATION_POINT__BINDING_TIME, true,
+                false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+    }
+
+    /**
+     * This adds a property descriptor for the Extendibility feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addExtendibilityPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_VariationPoint_extendibility_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_extendibility_feature",
+                        "_UI_VariationPoint_type"), variabilityPackage.Literals.VARIATION_POINT__EXTENDIBILITY, true,
+                false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -110,7 +163,12 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPoint"));
+        VariationPoint vp = (VariationPoint) object;
+        if(vp.getVariabilityType() == VariabilityType.XOR || vp.getVariabilityType() == VariabilityType.OPTXOR) {
+            return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPointXOR"));
+        } else {
+            return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPoint"));
+        }
     }
 
     /**
@@ -147,6 +205,11 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         updateChildren(notification);
 
         switch (notification.getFeatureID(VariationPoint.class)) {
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE:
+        case variabilityPackage.VARIATION_POINT__BINDING_TIME:
+        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
+            fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+            return;
         case variabilityPackage.VARIATION_POINT__VARIANTS:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
             return;
