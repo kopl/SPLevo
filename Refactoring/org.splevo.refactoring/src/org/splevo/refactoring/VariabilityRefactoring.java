@@ -25,7 +25,7 @@ public interface VariabilityRefactoring {
      *
      * @return The variability realization technique supported by this refactoring.
      * */
-    public VariabilityRealizationTechnique getSupportedVariabilityRealizationTechnique();
+    public VariabilityRealizationTechnique getVariabilityRealizationTechnique();
 
     /**
      * Refactor a variation point respectively it's variants to a single code base.
@@ -36,11 +36,14 @@ public interface VariabilityRefactoring {
     public void refactor(VariationPoint vp);
 
     /**
-     * Get the human readable realization of the refactoring.
+     * Check if the refactoring can be applied to a specific variation point.
      *
-     * @return A label for the refactoring.
+     * @param variationPoint
+     *            The variation point to check the applicability for.
+     * @return Flag is the refactoring can be applied.
+     *
      */
-    public String getLabel();
+    public boolean canBeAppliedTo(VariationPoint variationPoint);
 
     /**
      * Get the identifier of the refactoring.

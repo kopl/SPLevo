@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.emftext.refactoring.rolemodel">
-      <rolemodel
-            rolemodel_resource="src/org/splevo/refactoring/ifelse/basic/IfElseBasic.rolestext">
-      </rolemodel>
-   </extension>
-   <extension
-         point="org.emftext.refactoring.refspec">
-      <refspec
-            refspec_resource="src/org/splevo/refactoring/ifelse/basic/IfElseBasic.refspec">
-      </refspec>
-   </extension>
-   <extension
-         point="org.emftext.refactoring.rolemapping">
-      <rolemapping
-            rolemapping_resource="src/org/splevo/refactoring/ifelse/basic/IfElseBasic.rolemapping">
-      </rolemapping>
-   </extension>
+   <extension-point id="org.splevo.refactoring.refactoring" name="Variability Refactoring Implementation" schema="schema/org.splevo.refactoring.refactoring.exsd"/>
 
 
 </plugin>
