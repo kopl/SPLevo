@@ -13,10 +13,11 @@ package org.splevo.vrm.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
-import org.splevo.vrm.*;
+import org.splevo.vrm.VariabilityMechanism;
+import org.splevo.vrm.VariabilityRealizationConfiguration;
+import org.splevo.vrm.VariabilityRealizationModel;
+import org.splevo.vrm.vrmPackage;
 
 /**
  * <!-- begin-user-doc --> The <b>Switch</b> for the model's inheritance hierarchy. It supports the
@@ -70,9 +71,9 @@ public class vrmSwitch<T> extends Switch<T> {
     @Override
     protected T doSwitch(int classifierID, EObject theEObject) {
         switch (classifierID) {
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE: {
-            VariabilityRealizationTechnique variabilityRealizationTechnique = (VariabilityRealizationTechnique) theEObject;
-            T result = caseVariabilityRealizationTechnique(variabilityRealizationTechnique);
+        case vrmPackage.VARIABILITY_MECHANISM: {
+            VariabilityMechanism variabilityMechanism = (VariabilityMechanism) theEObject;
+            T result = caseVariabilityMechanism(variabilityMechanism);
             if (result == null)
                 result = defaultCase(theEObject);
             return result;
@@ -98,17 +99,17 @@ public class vrmSwitch<T> extends Switch<T> {
 
     /**
      * Returns the result of interpreting the object as an instance of '
-     * <em>Variability Realization Technique</em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
+     * <em>Variability Mechanism</em>'. <!-- begin-user-doc --> This implementation returns null;
+     * returning a non-null result will terminate the switch. <!-- end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
      * @return the result of interpreting the object as an instance of '
-     *         <em>Variability Realization Technique</em>'.
+     *         <em>Variability Mechanism</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public T caseVariabilityRealizationTechnique(VariabilityRealizationTechnique object) {
+    public T caseVariabilityMechanism(VariabilityMechanism object) {
         return null;
     }
 

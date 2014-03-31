@@ -29,13 +29,13 @@ public interface vrmFactory extends EFactory {
     vrmFactory eINSTANCE = org.splevo.vrm.impl.vrmFactoryImpl.init();
 
     /**
-     * Returns a new object of class '<em>Variability Realization Technique</em>'. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
+     * Returns a new object of class '<em>Variability Mechanism</em>'. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
      * 
-     * @return a new object of class '<em>Variability Realization Technique</em>'.
+     * @return a new object of class '<em>Variability Mechanism</em>'.
      * @generated
      */
-    VariabilityRealizationTechnique createVariabilityRealizationTechnique();
+    VariabilityMechanism createVariabilityMechanism();
 
     /**
      * Returns a new object of class '<em>Variability Realization Configuration</em>'. <!--

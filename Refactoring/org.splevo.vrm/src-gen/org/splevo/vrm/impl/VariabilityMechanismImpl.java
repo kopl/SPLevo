@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2014
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Benjamin Klatt
  */
@@ -20,39 +20,37 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extendibility;
+import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
-import org.splevo.vrm.VariabilityRealizationTechnique;
+import org.splevo.vrm.VariabilityMechanism;
 import org.splevo.vrm.vrmPackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Variability Realization Technique</b></em>'. <!-- end-user-doc -->
+ * <em><b>Variability Mechanism</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl#getRefactoringId <em>
- * Refactoring Id</em>}</li>
- * <li>{@link org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl#getName <em>Name</em>}</li>
- * <li>{@link org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl#getDescription <em>Description
- * </em>}</li>
- * <li>{@link org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl#getSupportedBindingTimes <em>
- * Supported Binding Times</em>}</li>
- * <li>{@link org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl#getSupportedExtendibility <em>
- * Supported Extendibility</em>}</li>
- * <li>{@link org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl#getSupportedVariabilityTypes
- * <em>Supported Variability Types</em>}</li>
+ * <li>{@link org.splevo.vrm.impl.VariabilityMechanismImpl#getRefactoringId <em>Refactoring Id</em>}
+ * </li>
+ * <li>{@link org.splevo.vrm.impl.VariabilityMechanismImpl#getName <em>Name</em>}</li>
+ * <li>{@link org.splevo.vrm.impl.VariabilityMechanismImpl#getDescription <em>Description</em>}</li>
+ * <li>{@link org.splevo.vrm.impl.VariabilityMechanismImpl#getSupportedBindingTimes <em>Supported
+ * Binding Times</em>}</li>
+ * <li>{@link org.splevo.vrm.impl.VariabilityMechanismImpl#getSupportedExtensibilities <em>Supported
+ * Extensibilities</em>}</li>
+ * <li>{@link org.splevo.vrm.impl.VariabilityMechanismImpl#getSupportedVariabilityTypes <em>
+ * Supported Variability Types</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
-public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Container implements
-        VariabilityRealizationTechnique {
+public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container implements VariabilityMechanism {
     /**
      * The default value of the '{@link #getRefactoringId() <em>Refactoring Id</em>}' attribute.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @see #getRefactoringId()
      * @generated
      * @ordered
@@ -62,7 +60,7 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
     /**
      * The cached value of the '{@link #getRefactoringId() <em>Refactoring Id</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @see #getRefactoringId()
      * @generated
      * @ordered
@@ -72,7 +70,7 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     *
+     * 
      * @see #getName()
      * @generated
      * @ordered
@@ -82,7 +80,7 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
     /**
      * The cached value of the '{@link #getName() <em>Name</em>}' attribute. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
+     * 
      * @see #getName()
      * @generated
      * @ordered
@@ -92,7 +90,7 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
     /**
      * The default value of the '{@link #getDescription() <em>Description</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @see #getDescription()
      * @generated
      * @ordered
@@ -102,7 +100,7 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
     /**
      * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute. <!--
      * begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @see #getDescription()
      * @generated
      * @ordered
@@ -112,7 +110,7 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
     /**
      * The cached value of the '{@link #getSupportedBindingTimes() <em>Supported Binding Times</em>}
      * ' attribute list. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @see #getSupportedBindingTimes()
      * @generated
      * @ordered
@@ -120,21 +118,21 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
     protected EList<BindingTime> supportedBindingTimes;
 
     /**
-     * The cached value of the '{@link #getSupportedExtendibility()
-     * <em>Supported Extendibility</em>}' attribute list. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
-     *
-     * @see #getSupportedExtendibility()
+     * The cached value of the '{@link #getSupportedExtensibilities()
+     * <em>Supported Extensibilities</em>}' attribute list. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @see #getSupportedExtensibilities()
      * @generated
      * @ordered
      */
-    protected EList<Extendibility> supportedExtendibility;
+    protected EList<Extensible> supportedExtensibilities;
 
     /**
      * The cached value of the '{@link #getSupportedVariabilityTypes()
      * <em>Supported Variability Types</em>}' attribute list. <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
+     * 
      * @see #getSupportedVariabilityTypes()
      * @generated
      * @ordered
@@ -143,26 +141,26 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
-    protected VariabilityRealizationTechniqueImpl() {
+    protected VariabilityMechanismImpl() {
         super();
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
     protected EClass eStaticClass() {
-        return vrmPackage.Literals.VARIABILITY_REALIZATION_TECHNIQUE;
+        return vrmPackage.Literals.VARIABILITY_MECHANISM;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public String getRefactoringId() {
@@ -171,20 +169,20 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public void setRefactoringId(String newRefactoringId) {
         String oldRefactoringId = refactoringId;
         refactoringId = newRefactoringId;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET,
-                    vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID, oldRefactoringId, refactoringId));
+            eNotify(new ENotificationImpl(this, Notification.SET, vrmPackage.VARIABILITY_MECHANISM__REFACTORING_ID,
+                    oldRefactoringId, refactoringId));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public String getName() {
@@ -193,20 +191,19 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public void setName(String newName) {
         String oldName = name;
         name = newName;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__NAME,
-                    oldName, name));
+            eNotify(new ENotificationImpl(this, Notification.SET, vrmPackage.VARIABILITY_MECHANISM__NAME, oldName, name));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public String getDescription() {
@@ -215,75 +212,75 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public void setDescription(String newDescription) {
         String oldDescription = description;
         description = newDescription;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET,
-                    vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION, oldDescription, description));
+            eNotify(new ENotificationImpl(this, Notification.SET, vrmPackage.VARIABILITY_MECHANISM__DESCRIPTION,
+                    oldDescription, description));
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public EList<BindingTime> getSupportedBindingTimes() {
         if (supportedBindingTimes == null) {
             supportedBindingTimes = new EDataTypeUniqueEList<BindingTime>(BindingTime.class, this,
-                    vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES);
+                    vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_BINDING_TIMES);
         }
         return supportedBindingTimes;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
-    public EList<Extendibility> getSupportedExtendibility() {
-        if (supportedExtendibility == null) {
-            supportedExtendibility = new EDataTypeUniqueEList<Extendibility>(Extendibility.class, this,
-                    vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY);
+    public EList<Extensible> getSupportedExtensibilities() {
+        if (supportedExtensibilities == null) {
+            supportedExtensibilities = new EDataTypeUniqueEList<Extensible>(Extensible.class, this,
+                    vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_EXTENSIBILITIES);
         }
-        return supportedExtendibility;
+        return supportedExtensibilities;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     public EList<VariabilityType> getSupportedVariabilityTypes() {
         if (supportedVariabilityTypes == null) {
             supportedVariabilityTypes = new EDataTypeUniqueEList<VariabilityType>(VariabilityType.class, this,
-                    vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES);
+                    vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_VARIABILITY_TYPES);
         }
         return supportedVariabilityTypes;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID:
+        case vrmPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
             return getRefactoringId();
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__NAME:
+        case vrmPackage.VARIABILITY_MECHANISM__NAME:
             return getName();
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION:
+        case vrmPackage.VARIABILITY_MECHANISM__DESCRIPTION:
             return getDescription();
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_BINDING_TIMES:
             return getSupportedBindingTimes();
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY:
-            return getSupportedExtendibility();
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_EXTENSIBILITIES:
+            return getSupportedExtensibilities();
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_VARIABILITY_TYPES:
             return getSupportedVariabilityTypes();
         }
         return super.eGet(featureID, resolve, coreType);
@@ -291,31 +288,31 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID:
+        case vrmPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
             setRefactoringId((String) newValue);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__NAME:
+        case vrmPackage.VARIABILITY_MECHANISM__NAME:
             setName((String) newValue);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION:
+        case vrmPackage.VARIABILITY_MECHANISM__DESCRIPTION:
             setDescription((String) newValue);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_BINDING_TIMES:
             getSupportedBindingTimes().clear();
             getSupportedBindingTimes().addAll((Collection<? extends BindingTime>) newValue);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY:
-            getSupportedExtendibility().clear();
-            getSupportedExtendibility().addAll((Collection<? extends Extendibility>) newValue);
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_EXTENSIBILITIES:
+            getSupportedExtensibilities().clear();
+            getSupportedExtensibilities().addAll((Collection<? extends Extensible>) newValue);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_VARIABILITY_TYPES:
             getSupportedVariabilityTypes().clear();
             getSupportedVariabilityTypes().addAll((Collection<? extends VariabilityType>) newValue);
             return;
@@ -325,28 +322,28 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID:
+        case vrmPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
             setRefactoringId(REFACTORING_ID_EDEFAULT);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__NAME:
+        case vrmPackage.VARIABILITY_MECHANISM__NAME:
             setName(NAME_EDEFAULT);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION:
+        case vrmPackage.VARIABILITY_MECHANISM__DESCRIPTION:
             setDescription(DESCRIPTION_EDEFAULT);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_BINDING_TIMES:
             getSupportedBindingTimes().clear();
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY:
-            getSupportedExtendibility().clear();
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_EXTENSIBILITIES:
+            getSupportedExtensibilities().clear();
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_VARIABILITY_TYPES:
             getSupportedVariabilityTypes().clear();
             return;
         }
@@ -355,24 +352,24 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID:
+        case vrmPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
             return REFACTORING_ID_EDEFAULT == null ? refactoringId != null : !REFACTORING_ID_EDEFAULT
                     .equals(refactoringId);
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__NAME:
+        case vrmPackage.VARIABILITY_MECHANISM__NAME:
             return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION:
+        case vrmPackage.VARIABILITY_MECHANISM__DESCRIPTION:
             return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_BINDING_TIMES:
             return supportedBindingTimes != null && !supportedBindingTimes.isEmpty();
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY:
-            return supportedExtendibility != null && !supportedExtendibility.isEmpty();
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_EXTENSIBILITIES:
+            return supportedExtensibilities != null && !supportedExtensibilities.isEmpty();
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_VARIABILITY_TYPES:
             return supportedVariabilityTypes != null && !supportedVariabilityTypes.isEmpty();
         }
         return super.eIsSet(featureID);
@@ -380,7 +377,7 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * 
      * @generated
      */
     @Override
@@ -397,12 +394,12 @@ public class VariabilityRealizationTechniqueImpl extends MinimalEObjectImpl.Cont
         result.append(description);
         result.append(", supportedBindingTimes: ");
         result.append(supportedBindingTimes);
-        result.append(", supportedExtendibility: ");
-        result.append(supportedExtendibility);
+        result.append(", supportedExtensibilities: ");
+        result.append(supportedExtensibilities);
         result.append(", supportedVariabilityTypes: ");
         result.append(supportedVariabilityTypes);
         result.append(')');
         return result.toString();
     }
 
-} // VariabilityRealizationTechniqueImpl
+} // VariabilityMechanismImpl

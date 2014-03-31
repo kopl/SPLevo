@@ -12,7 +12,6 @@
 package org.splevo.vrm;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -24,7 +23,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * <ul>
  * <li>{@link org.splevo.vrm.VariabilityRealizationConfiguration#getVariationPoint <em>Variation
  * Point</em>}</li>
- * <li>{@link org.splevo.vrm.VariabilityRealizationConfiguration#getTechnique <em>Technique</em>}</li>
+ * <li>{@link org.splevo.vrm.VariabilityRealizationConfiguration#getMechanism <em>Mechanism</em>}</li>
  * </ul>
  * </p>
  * 
@@ -63,32 +62,28 @@ public interface VariabilityRealizationConfiguration extends EObject {
     void setVariationPoint(VariationPoint value);
 
     /**
-     * Returns the value of the '<em><b>Technique</b></em>' reference. <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Technique</em>' reference isn't clear, there really should be more
-     * of a description here...
-     * </p>
-     * <!-- end-user-doc --> <!-- begin-model-doc --> The realization technique selected for a
-     * variation point. <!-- end-model-doc -->
+     * Returns the value of the '<em><b>Mechanism</b></em>' reference. <!-- begin-user-doc --> <!--
+     * end-user-doc --> <!-- begin-model-doc --> The mechanism configured to realize the variability
+     * of a variation point. <!-- end-model-doc -->
      * 
-     * @return the value of the '<em>Technique</em>' reference.
-     * @see #setTechnique(VariabilityRealizationTechnique)
-     * @see org.splevo.vrm.vrmPackage#getVariabilityRealizationConfiguration_Technique()
+     * @return the value of the '<em>Mechanism</em>' reference.
+     * @see #setMechanism(VariabilityMechanism)
+     * @see org.splevo.vrm.vrmPackage#getVariabilityRealizationConfiguration_Mechanism()
      * @model required="true"
      * @generated
      */
-    VariabilityRealizationTechnique getTechnique();
+    VariabilityMechanism getMechanism();
 
     /**
      * Sets the value of the '
-     * {@link org.splevo.vrm.VariabilityRealizationConfiguration#getTechnique <em>Technique</em>}'
+     * {@link org.splevo.vrm.VariabilityRealizationConfiguration#getMechanism <em>Mechanism</em>}'
      * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param value
-     *            the new value of the '<em>Technique</em>' reference.
-     * @see #getTechnique()
+     *            the new value of the '<em>Mechanism</em>' reference.
+     * @see #getMechanism()
      * @generated
      */
-    void setTechnique(VariabilityRealizationTechnique value);
+    void setMechanism(VariabilityMechanism value);
 
 } // VariabilityRealizationConfiguration

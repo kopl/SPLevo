@@ -13,12 +13,12 @@ package org.splevo.vrm.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.splevo.vrm.*;
+import org.splevo.vrm.VariabilityMechanism;
+import org.splevo.vrm.VariabilityRealizationConfiguration;
+import org.splevo.vrm.VariabilityRealizationModel;
+import org.splevo.vrm.vrmPackage;
 
 /**
  * <!-- begin-user-doc --> The <b>Adapter Factory</b> for the model. It provides an adapter
@@ -73,8 +73,8 @@ public class vrmAdapterFactory extends AdapterFactoryImpl {
      */
     protected vrmSwitch<Adapter> modelSwitch = new vrmSwitch<Adapter>() {
         @Override
-        public Adapter caseVariabilityRealizationTechnique(VariabilityRealizationTechnique object) {
-            return createVariabilityRealizationTechniqueAdapter();
+        public Adapter caseVariabilityMechanism(VariabilityMechanism object) {
+            return createVariabilityMechanismAdapter();
         }
 
         @Override
@@ -107,17 +107,16 @@ public class vrmAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '
-     * {@link org.splevo.vrm.VariabilityRealizationTechnique
-     * <em>Variability Realization Technique</em>}'. <!-- begin-user-doc --> This default
-     * implementation returns null so that we can easily ignore cases; it's useful to ignore a case
-     * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+     * Creates a new adapter for an object of class '{@link org.splevo.vrm.VariabilityMechanism
+     * <em>Variability Mechanism</em>}'. <!-- begin-user-doc --> This default implementation returns
+     * null so that we can easily ignore cases; it's useful to ignore a case when inheritance will
+     * catch all the cases anyway. <!-- end-user-doc -->
      * 
      * @return the new adapter.
-     * @see org.splevo.vrm.VariabilityRealizationTechnique
+     * @see org.splevo.vrm.VariabilityMechanism
      * @generated
      */
-    public Adapter createVariabilityRealizationTechniqueAdapter() {
+    public Adapter createVariabilityMechanismAdapter() {
         return null;
     }
 

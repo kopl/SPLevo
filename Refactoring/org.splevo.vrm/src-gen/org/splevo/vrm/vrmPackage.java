@@ -64,15 +64,14 @@ public interface vrmPackage extends EPackage {
     vrmPackage eINSTANCE = org.splevo.vrm.impl.vrmPackageImpl.init();
 
     /**
-     * The meta object id for the '{@link org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl
-     * <em>Variability Realization Technique</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
+     * The meta object id for the '{@link org.splevo.vrm.impl.VariabilityMechanismImpl
+     * <em>Variability Mechanism</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @see org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl
-     * @see org.splevo.vrm.impl.vrmPackageImpl#getVariabilityRealizationTechnique()
+     * @see org.splevo.vrm.impl.VariabilityMechanismImpl
+     * @see org.splevo.vrm.impl.vrmPackageImpl#getVariabilityMechanism()
      * @generated
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE = 0;
+    int VARIABILITY_MECHANISM = 0;
 
     /**
      * The feature id for the '<em><b>Refactoring Id</b></em>' attribute. <!-- begin-user-doc -->
@@ -81,7 +80,7 @@ public interface vrmPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID = 0;
+    int VARIABILITY_MECHANISM__REFACTORING_ID = 0;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -90,7 +89,7 @@ public interface vrmPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE__NAME = 1;
+    int VARIABILITY_MECHANISM__NAME = 1;
 
     /**
      * The feature id for the '<em><b>Description</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -99,7 +98,7 @@ public interface vrmPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION = 2;
+    int VARIABILITY_MECHANISM__DESCRIPTION = 2;
 
     /**
      * The feature id for the '<em><b>Supported Binding Times</b></em>' attribute list. <!--
@@ -108,16 +107,16 @@ public interface vrmPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES = 3;
+    int VARIABILITY_MECHANISM__SUPPORTED_BINDING_TIMES = 3;
 
     /**
-     * The feature id for the '<em><b>Supported Extendibility</b></em>' attribute list. <!--
+     * The feature id for the '<em><b>Supported Extensibilities</b></em>' attribute list. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY = 4;
+    int VARIABILITY_MECHANISM__SUPPORTED_EXTENSIBILITIES = 4;
 
     /**
      * The feature id for the '<em><b>Supported Variability Types</b></em>' attribute list. <!--
@@ -126,25 +125,25 @@ public interface vrmPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES = 5;
+    int VARIABILITY_MECHANISM__SUPPORTED_VARIABILITY_TYPES = 5;
 
     /**
-     * The number of structural features of the '<em>Variability Realization Technique</em>' class.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int VARIABILITY_REALIZATION_TECHNIQUE_FEATURE_COUNT = 6;
-
-    /**
-     * The number of operations of the '<em>Variability Realization Technique</em>' class. <!--
+     * The number of structural features of the '<em>Variability Mechanism</em>' class. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_TECHNIQUE_OPERATION_COUNT = 0;
+    int VARIABILITY_MECHANISM_FEATURE_COUNT = 6;
+
+    /**
+     * The number of operations of the '<em>Variability Mechanism</em>' class. <!-- begin-user-doc
+     * --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int VARIABILITY_MECHANISM_OPERATION_COUNT = 0;
 
     /**
      * The meta object id for the '
@@ -168,13 +167,13 @@ public interface vrmPackage extends EPackage {
     int VARIABILITY_REALIZATION_CONFIGURATION__VARIATION_POINT = 0;
 
     /**
-     * The feature id for the '<em><b>Technique</b></em>' reference. <!-- begin-user-doc --> <!--
+     * The feature id for the '<em><b>Mechanism</b></em>' reference. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE = 1;
+    int VARIABILITY_REALIZATION_CONFIGURATION__MECHANISM = 1;
 
     /**
      * The number of structural features of the '<em>Variability Realization Configuration</em>'
@@ -241,86 +240,86 @@ public interface vrmPackage extends EPackage {
     int VARIABILITY_REALIZATION_MODEL_OPERATION_COUNT = 0;
 
     /**
-     * Returns the meta object for class '{@link org.splevo.vrm.VariabilityRealizationTechnique
-     * <em>Variability Realization Technique</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * Returns the meta object for class '{@link org.splevo.vrm.VariabilityMechanism
+     * <em>Variability Mechanism</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @return the meta object for class '<em>Variability Realization Technique</em>'.
-     * @see org.splevo.vrm.VariabilityRealizationTechnique
+     * @return the meta object for class '<em>Variability Mechanism</em>'.
+     * @see org.splevo.vrm.VariabilityMechanism
      * @generated
      */
-    EClass getVariabilityRealizationTechnique();
+    EClass getVariabilityMechanism();
 
     /**
      * Returns the meta object for the attribute '
-     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getRefactoringId
-     * <em>Refactoring Id</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the meta object for the attribute '<em>Refactoring Id</em>'.
-     * @see org.splevo.vrm.VariabilityRealizationTechnique#getRefactoringId()
-     * @see #getVariabilityRealizationTechnique()
-     * @generated
-     */
-    EAttribute getVariabilityRealizationTechnique_RefactoringId();
-
-    /**
-     * Returns the meta object for the attribute '
-     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getName <em>Name</em>}'. <!--
+     * {@link org.splevo.vrm.VariabilityMechanism#getRefactoringId <em>Refactoring Id</em>}'. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the attribute '<em>Name</em>'.
-     * @see org.splevo.vrm.VariabilityRealizationTechnique#getName()
-     * @see #getVariabilityRealizationTechnique()
+     * @return the meta object for the attribute '<em>Refactoring Id</em>'.
+     * @see org.splevo.vrm.VariabilityMechanism#getRefactoringId()
+     * @see #getVariabilityMechanism()
      * @generated
      */
-    EAttribute getVariabilityRealizationTechnique_Name();
+    EAttribute getVariabilityMechanism_RefactoringId();
 
     /**
      * Returns the meta object for the attribute '
-     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getDescription <em>Description</em>}'.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link org.splevo.vrm.VariabilityMechanism#getName <em>Name</em>}'. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * 
-     * @return the meta object for the attribute '<em>Description</em>'.
-     * @see org.splevo.vrm.VariabilityRealizationTechnique#getDescription()
-     * @see #getVariabilityRealizationTechnique()
+     * @return the meta object for the attribute '<em>Name</em>'.
+     * @see org.splevo.vrm.VariabilityMechanism#getName()
+     * @see #getVariabilityMechanism()
      * @generated
      */
-    EAttribute getVariabilityRealizationTechnique_Description();
+    EAttribute getVariabilityMechanism_Name();
+
+    /**
+     * Returns the meta object for the attribute '
+     * {@link org.splevo.vrm.VariabilityMechanism#getDescription <em>Description</em>}'. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the attribute '<em>Description</em>'.
+     * @see org.splevo.vrm.VariabilityMechanism#getDescription()
+     * @see #getVariabilityMechanism()
+     * @generated
+     */
+    EAttribute getVariabilityMechanism_Description();
 
     /**
      * Returns the meta object for the attribute list '
-     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getSupportedBindingTimes
+     * {@link org.splevo.vrm.VariabilityMechanism#getSupportedBindingTimes
      * <em>Supported Binding Times</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the meta object for the attribute list '<em>Supported Binding Times</em>'.
-     * @see org.splevo.vrm.VariabilityRealizationTechnique#getSupportedBindingTimes()
-     * @see #getVariabilityRealizationTechnique()
+     * @see org.splevo.vrm.VariabilityMechanism#getSupportedBindingTimes()
+     * @see #getVariabilityMechanism()
      * @generated
      */
-    EAttribute getVariabilityRealizationTechnique_SupportedBindingTimes();
+    EAttribute getVariabilityMechanism_SupportedBindingTimes();
 
     /**
      * Returns the meta object for the attribute list '
-     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getSupportedExtendibility
-     * <em>Supported Extendibility</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * {@link org.splevo.vrm.VariabilityMechanism#getSupportedExtensibilities
+     * <em>Supported Extensibilities</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the attribute list '<em>Supported Extendibility</em>'.
-     * @see org.splevo.vrm.VariabilityRealizationTechnique#getSupportedExtendibility()
-     * @see #getVariabilityRealizationTechnique()
+     * @return the meta object for the attribute list '<em>Supported Extensibilities</em>'.
+     * @see org.splevo.vrm.VariabilityMechanism#getSupportedExtensibilities()
+     * @see #getVariabilityMechanism()
      * @generated
      */
-    EAttribute getVariabilityRealizationTechnique_SupportedExtendibility();
+    EAttribute getVariabilityMechanism_SupportedExtensibilities();
 
     /**
      * Returns the meta object for the attribute list '
-     * {@link org.splevo.vrm.VariabilityRealizationTechnique#getSupportedVariabilityTypes
+     * {@link org.splevo.vrm.VariabilityMechanism#getSupportedVariabilityTypes
      * <em>Supported Variability Types</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @return the meta object for the attribute list '<em>Supported Variability Types</em>'.
-     * @see org.splevo.vrm.VariabilityRealizationTechnique#getSupportedVariabilityTypes()
-     * @see #getVariabilityRealizationTechnique()
+     * @see org.splevo.vrm.VariabilityMechanism#getSupportedVariabilityTypes()
+     * @see #getVariabilityMechanism()
      * @generated
      */
-    EAttribute getVariabilityRealizationTechnique_SupportedVariabilityTypes();
+    EAttribute getVariabilityMechanism_SupportedVariabilityTypes();
 
     /**
      * Returns the meta object for class '{@link org.splevo.vrm.VariabilityRealizationConfiguration
@@ -347,15 +346,15 @@ public interface vrmPackage extends EPackage {
 
     /**
      * Returns the meta object for the reference '
-     * {@link org.splevo.vrm.VariabilityRealizationConfiguration#getTechnique <em>Technique</em>}'.
+     * {@link org.splevo.vrm.VariabilityRealizationConfiguration#getMechanism <em>Mechanism</em>}'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @return the meta object for the reference '<em>Technique</em>'.
-     * @see org.splevo.vrm.VariabilityRealizationConfiguration#getTechnique()
+     * @return the meta object for the reference '<em>Mechanism</em>'.
+     * @see org.splevo.vrm.VariabilityRealizationConfiguration#getMechanism()
      * @see #getVariabilityRealizationConfiguration()
      * @generated
      */
-    EReference getVariabilityRealizationConfiguration_Technique();
+    EReference getVariabilityRealizationConfiguration_Mechanism();
 
     /**
      * Returns the meta object for class '{@link org.splevo.vrm.VariabilityRealizationModel
@@ -416,16 +415,14 @@ public interface vrmPackage extends EPackage {
      */
     interface Literals {
         /**
-         * The meta object literal for the '
-         * {@link org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl
-         * <em>Variability Realization Technique</em>}' class. <!-- begin-user-doc --> <!--
-         * end-user-doc -->
+         * The meta object literal for the '{@link org.splevo.vrm.impl.VariabilityMechanismImpl
+         * <em>Variability Mechanism</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
          * 
-         * @see org.splevo.vrm.impl.VariabilityRealizationTechniqueImpl
-         * @see org.splevo.vrm.impl.vrmPackageImpl#getVariabilityRealizationTechnique()
+         * @see org.splevo.vrm.impl.VariabilityMechanismImpl
+         * @see org.splevo.vrm.impl.vrmPackageImpl#getVariabilityMechanism()
          * @generated
          */
-        EClass VARIABILITY_REALIZATION_TECHNIQUE = eINSTANCE.getVariabilityRealizationTechnique();
+        EClass VARIABILITY_MECHANISM = eINSTANCE.getVariabilityMechanism();
 
         /**
          * The meta object literal for the '<em><b>Refactoring Id</b></em>' attribute feature. <!--
@@ -433,8 +430,7 @@ public interface vrmPackage extends EPackage {
          * 
          * @generated
          */
-        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID = eINSTANCE
-                .getVariabilityRealizationTechnique_RefactoringId();
+        EAttribute VARIABILITY_MECHANISM__REFACTORING_ID = eINSTANCE.getVariabilityMechanism_RefactoringId();
 
         /**
          * The meta object literal for the '<em><b>Name</b></em>' attribute feature. <!--
@@ -442,7 +438,7 @@ public interface vrmPackage extends EPackage {
          * 
          * @generated
          */
-        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__NAME = eINSTANCE.getVariabilityRealizationTechnique_Name();
+        EAttribute VARIABILITY_MECHANISM__NAME = eINSTANCE.getVariabilityMechanism_Name();
 
         /**
          * The meta object literal for the '<em><b>Description</b></em>' attribute feature. <!--
@@ -450,8 +446,7 @@ public interface vrmPackage extends EPackage {
          * 
          * @generated
          */
-        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION = eINSTANCE
-                .getVariabilityRealizationTechnique_Description();
+        EAttribute VARIABILITY_MECHANISM__DESCRIPTION = eINSTANCE.getVariabilityMechanism_Description();
 
         /**
          * The meta object literal for the '<em><b>Supported Binding Times</b></em>' attribute list
@@ -459,17 +454,17 @@ public interface vrmPackage extends EPackage {
          * 
          * @generated
          */
-        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES = eINSTANCE
-                .getVariabilityRealizationTechnique_SupportedBindingTimes();
+        EAttribute VARIABILITY_MECHANISM__SUPPORTED_BINDING_TIMES = eINSTANCE
+                .getVariabilityMechanism_SupportedBindingTimes();
 
         /**
-         * The meta object literal for the '<em><b>Supported Extendibility</b></em>' attribute list
-         * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+         * The meta object literal for the '<em><b>Supported Extensibilities</b></em>' attribute
+         * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
          * 
          * @generated
          */
-        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY = eINSTANCE
-                .getVariabilityRealizationTechnique_SupportedExtendibility();
+        EAttribute VARIABILITY_MECHANISM__SUPPORTED_EXTENSIBILITIES = eINSTANCE
+                .getVariabilityMechanism_SupportedExtensibilities();
 
         /**
          * The meta object literal for the '<em><b>Supported Variability Types</b></em>' attribute
@@ -477,8 +472,8 @@ public interface vrmPackage extends EPackage {
          * 
          * @generated
          */
-        EAttribute VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES = eINSTANCE
-                .getVariabilityRealizationTechnique_SupportedVariabilityTypes();
+        EAttribute VARIABILITY_MECHANISM__SUPPORTED_VARIABILITY_TYPES = eINSTANCE
+                .getVariabilityMechanism_SupportedVariabilityTypes();
 
         /**
          * The meta object literal for the '
@@ -502,13 +497,13 @@ public interface vrmPackage extends EPackage {
                 .getVariabilityRealizationConfiguration_VariationPoint();
 
         /**
-         * The meta object literal for the '<em><b>Technique</b></em>' reference feature. <!--
+         * The meta object literal for the '<em><b>Mechanism</b></em>' reference feature. <!--
          * begin-user-doc --> <!-- end-user-doc -->
          * 
          * @generated
          */
-        EReference VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE = eINSTANCE
-                .getVariabilityRealizationConfiguration_Technique();
+        EReference VARIABILITY_REALIZATION_CONFIGURATION__MECHANISM = eINSTANCE
+                .getVariabilityRealizationConfiguration_Mechanism();
 
         /**
          * The meta object literal for the '

@@ -12,9 +12,7 @@
 package org.splevo.vrm;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**

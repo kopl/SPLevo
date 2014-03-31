@@ -12,17 +12,13 @@
 package org.splevo.vrm.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.splevo.vpm.variability.VariationPoint;
-
+import org.splevo.vrm.VariabilityMechanism;
 import org.splevo.vrm.VariabilityRealizationConfiguration;
-import org.splevo.vrm.VariabilityRealizationTechnique;
 import org.splevo.vrm.vrmPackage;
 
 /**
@@ -33,7 +29,7 @@ import org.splevo.vrm.vrmPackage;
  * <ul>
  * <li>{@link org.splevo.vrm.impl.VariabilityRealizationConfigurationImpl#getVariationPoint <em>
  * Variation Point</em>}</li>
- * <li>{@link org.splevo.vrm.impl.VariabilityRealizationConfigurationImpl#getTechnique <em>Technique
+ * <li>{@link org.splevo.vrm.impl.VariabilityRealizationConfigurationImpl#getMechanism <em>Mechanism
  * </em>}</li>
  * </ul>
  * </p>
@@ -53,14 +49,14 @@ public class VariabilityRealizationConfigurationImpl extends MinimalEObjectImpl.
     protected VariationPoint variationPoint;
 
     /**
-     * The cached value of the '{@link #getTechnique() <em>Technique</em>}' reference. <!--
+     * The cached value of the '{@link #getMechanism() <em>Mechanism</em>}' reference. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @see #getTechnique()
+     * @see #getMechanism()
      * @generated
      * @ordered
      */
-    protected VariabilityRealizationTechnique technique;
+    protected VariabilityMechanism mechanism;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -128,17 +124,17 @@ public class VariabilityRealizationConfigurationImpl extends MinimalEObjectImpl.
      * 
      * @generated
      */
-    public VariabilityRealizationTechnique getTechnique() {
-        if (technique != null && technique.eIsProxy()) {
-            InternalEObject oldTechnique = (InternalEObject) technique;
-            technique = (VariabilityRealizationTechnique) eResolveProxy(oldTechnique);
-            if (technique != oldTechnique) {
+    public VariabilityMechanism getMechanism() {
+        if (mechanism != null && mechanism.eIsProxy()) {
+            InternalEObject oldMechanism = (InternalEObject) mechanism;
+            mechanism = (VariabilityMechanism) eResolveProxy(oldMechanism);
+            if (mechanism != oldMechanism) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE, oldTechnique, technique));
+                            vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__MECHANISM, oldMechanism, mechanism));
             }
         }
-        return technique;
+        return mechanism;
     }
 
     /**
@@ -146,8 +142,8 @@ public class VariabilityRealizationConfigurationImpl extends MinimalEObjectImpl.
      * 
      * @generated
      */
-    public VariabilityRealizationTechnique basicGetTechnique() {
-        return technique;
+    public VariabilityMechanism basicGetMechanism() {
+        return mechanism;
     }
 
     /**
@@ -155,12 +151,12 @@ public class VariabilityRealizationConfigurationImpl extends MinimalEObjectImpl.
      * 
      * @generated
      */
-    public void setTechnique(VariabilityRealizationTechnique newTechnique) {
-        VariabilityRealizationTechnique oldTechnique = technique;
-        technique = newTechnique;
+    public void setMechanism(VariabilityMechanism newMechanism) {
+        VariabilityMechanism oldMechanism = mechanism;
+        mechanism = newMechanism;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET,
-                    vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE, oldTechnique, technique));
+                    vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__MECHANISM, oldMechanism, mechanism));
     }
 
     /**
@@ -175,10 +171,10 @@ public class VariabilityRealizationConfigurationImpl extends MinimalEObjectImpl.
             if (resolve)
                 return getVariationPoint();
             return basicGetVariationPoint();
-        case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE:
+        case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__MECHANISM:
             if (resolve)
-                return getTechnique();
-            return basicGetTechnique();
+                return getMechanism();
+            return basicGetMechanism();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -194,8 +190,8 @@ public class VariabilityRealizationConfigurationImpl extends MinimalEObjectImpl.
         case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__VARIATION_POINT:
             setVariationPoint((VariationPoint) newValue);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE:
-            setTechnique((VariabilityRealizationTechnique) newValue);
+        case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__MECHANISM:
+            setMechanism((VariabilityMechanism) newValue);
             return;
         }
         super.eSet(featureID, newValue);
@@ -212,8 +208,8 @@ public class VariabilityRealizationConfigurationImpl extends MinimalEObjectImpl.
         case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__VARIATION_POINT:
             setVariationPoint((VariationPoint) null);
             return;
-        case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE:
-            setTechnique((VariabilityRealizationTechnique) null);
+        case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__MECHANISM:
+            setMechanism((VariabilityMechanism) null);
             return;
         }
         super.eUnset(featureID);
@@ -229,8 +225,8 @@ public class VariabilityRealizationConfigurationImpl extends MinimalEObjectImpl.
         switch (featureID) {
         case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__VARIATION_POINT:
             return variationPoint != null;
-        case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE:
-            return technique != null;
+        case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION__MECHANISM:
+            return mechanism != null;
         }
         return super.eIsSet(featureID);
     }

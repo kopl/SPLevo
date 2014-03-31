@@ -4,27 +4,27 @@
     <children xmi:type="notation:Node" xmi:id="_DgW-IK3aEeOE365JVqk_oQ" type="4001"/>
     <children xmi:type="notation:Node" xmi:id="_DgXlMK3aEeOE365JVqk_oQ" type="5001">
       <children xmi:type="notation:Node" xmi:id="_BtZNULTNEeOg4c_nOR5jAw" type="2001">
-        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityRealizationTechnique/refactoringId"/>
+        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityMechanism/refactoringId"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_BtZNUbTNEeOg4c_nOR5jAw"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_LOw0QK3aEeOE365JVqk_oQ" type="2001">
-        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityRealizationTechnique/name"/>
+        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityMechanism/name"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_LOw0Qa3aEeOE365JVqk_oQ"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_5NY7ILTMEeOg4c_nOR5jAw" type="2001">
-        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityRealizationTechnique/description"/>
+        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityMechanism/description"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_5NY7IbTMEeOg4c_nOR5jAw"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_R6s_ALgmEeOfq7v8X6SZAg" type="2001">
-        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityRealizationTechnique/supportedBindingTimes"/>
+        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityMechanism/supportedBindingTimes"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_R6s_AbgmEeOfq7v8X6SZAg"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_xYVDgLgmEeOfq7v8X6SZAg" type="2001">
-        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityRealizationTechnique/supportedExtendibility"/>
+        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityMechanism/supportedExtensibilities"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_xYVDgbgmEeOfq7v8X6SZAg"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_iwk6gLgnEeOfq7v8X6SZAg" type="2001">
-        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityRealizationTechnique/supportedVariabilityTypes"/>
+        <element xmi:type="ecore:EAttribute" href="vrm.ecore#//VariabilityMechanism/supportedVariabilityTypes"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_iwk6gbgnEeOfq7v8X6SZAg"/>
       </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_DgXlMa3aEeOE365JVqk_oQ"/>
@@ -37,7 +37,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_DgYMQ63aEeOE365JVqk_oQ"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_DgReka3aEeOE365JVqk_oQ" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="vrm.ecore#//VariabilityRealizationTechnique"/>
+    <element xmi:type="ecore:EClass" href="vrm.ecore#//VariabilityMechanism"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DgRekq3aEeOE365JVqk_oQ" x="30" y="102"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_ZACLwK3aEeOE365JVqk_oQ" type="1001">
@@ -133,7 +133,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_RsUREa3bEeOE365JVqk_oQ" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_RsUREq3bEeOE365JVqk_oQ" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="vrm.ecore#//VariabilityRealizationConfiguration/technique"/>
+    <element xmi:type="ecore:EReference" href="vrm.ecore#//VariabilityRealizationConfiguration/mechanism"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_RsURE63bEeOE365JVqk_oQ" points="[5, -3, 8, 89]$[5, -54, 8, 38]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_RsWGQK3bEeOE365JVqk_oQ" id="(0.5140845070422535,0.08163265306122448)"/>
   </edges>

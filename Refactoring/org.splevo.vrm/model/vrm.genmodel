@@ -11,17 +11,17 @@
   <foreignModel>vrm.ecore</foreignModel>
   <genPackages prefix="vrm" basePackage="org.splevo" disposableProviderFactory="true"
       ecorePackage="vrm.ecore#/">
-    <genClasses ecoreClass="vrm.ecore#//VariabilityRealizationTechnique">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/refactoringId"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/supportedBindingTimes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/supportedExtendibility"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityRealizationTechnique/supportedVariabilityTypes"/>
+    <genClasses ecoreClass="vrm.ecore#//VariabilityMechanism">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityMechanism/refactoringId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityMechanism/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityMechanism/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityMechanism/supportedBindingTimes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityMechanism/supportedExtensibilities"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vrm.ecore#//VariabilityMechanism/supportedVariabilityTypes"/>
     </genClasses>
     <genClasses ecoreClass="vrm.ecore#//VariabilityRealizationConfiguration">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference vrm.ecore#//VariabilityRealizationConfiguration/variationPoint"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference vrm.ecore#//VariabilityRealizationConfiguration/technique"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference vrm.ecore#//VariabilityRealizationConfiguration/mechanism"/>
     </genClasses>
     <genClasses ecoreClass="vrm.ecore#//VariabilityRealizationModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vrm.ecore#//VariabilityRealizationModel/RealizationConfigurations"/>

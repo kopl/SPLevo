@@ -14,12 +14,13 @@ package org.splevo.vrm.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.splevo.vrm.*;
+import org.splevo.vrm.VariabilityMechanism;
+import org.splevo.vrm.VariabilityRealizationConfiguration;
+import org.splevo.vrm.VariabilityRealizationModel;
+import org.splevo.vrm.vrmFactory;
+import org.splevo.vrm.vrmPackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
@@ -61,8 +62,8 @@ public class vrmFactoryImpl extends EFactoryImpl implements vrmFactory {
     @Override
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE:
-            return createVariabilityRealizationTechnique();
+        case vrmPackage.VARIABILITY_MECHANISM:
+            return createVariabilityMechanism();
         case vrmPackage.VARIABILITY_REALIZATION_CONFIGURATION:
             return createVariabilityRealizationConfiguration();
         case vrmPackage.VARIABILITY_REALIZATION_MODEL:
@@ -77,9 +78,9 @@ public class vrmFactoryImpl extends EFactoryImpl implements vrmFactory {
      * 
      * @generated
      */
-    public VariabilityRealizationTechnique createVariabilityRealizationTechnique() {
-        VariabilityRealizationTechniqueImpl variabilityRealizationTechnique = new VariabilityRealizationTechniqueImpl();
-        return variabilityRealizationTechnique;
+    public VariabilityMechanism createVariabilityMechanism() {
+        VariabilityMechanismImpl variabilityMechanism = new VariabilityMechanismImpl();
+        return variabilityMechanism;
     }
 
     /**
