@@ -21,6 +21,7 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.variabilityFactory;
 import org.splevo.vpm.variability.variabilityPackage;
@@ -56,7 +57,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
             addLocationPropertyDescriptor(object);
             addVariabilityTypePropertyDescriptor(object);
             addBindingTimePropertyDescriptor(object);
-            addExtendibilityPropertyDescriptor(object);
+            addExtensibilityPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -110,18 +111,18 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Extendibility feature.
+     * This adds a property descriptor for the Extensibility feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addExtendibilityPropertyDescriptor(Object object) {
+    protected void addExtensibilityPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariationPoint_extendibility_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_extendibility_feature",
-                        "_UI_VariationPoint_type"), variabilityPackage.Literals.VARIATION_POINT__EXTENDIBILITY, true,
+                getString("_UI_VariationPoint_extensibility_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_extensibility_feature",
+                        "_UI_VariationPoint_type"), variabilityPackage.Literals.VARIATION_POINT__EXTENSIBILITY, true,
                 false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
@@ -201,7 +202,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         switch (notification.getFeatureID(VariationPoint.class)) {
         case variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE:
         case variabilityPackage.VARIATION_POINT__BINDING_TIME:
-        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
+        case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
         case variabilityPackage.VARIATION_POINT__VARIANTS:
