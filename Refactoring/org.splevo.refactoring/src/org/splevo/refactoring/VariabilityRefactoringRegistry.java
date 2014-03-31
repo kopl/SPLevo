@@ -41,8 +41,8 @@ public final class VariabilityRefactoringRegistry {
         Collections.sort(refactorings, new Comparator<VariabilityRefactoring>() {
             @Override
             public int compare(VariabilityRefactoring r1, VariabilityRefactoring r2) {
-                String name1 = r1.getVariabilityRealizationTechnique().getName();
-                String name2 = r2.getVariabilityRealizationTechnique().getName();
+                String name1 = r1.getVariabilityMechanism().getName();
+                String name2 = r2.getVariabilityMechanism().getName();
                 return Strings.nullToEmpty(name1).compareTo(name2);
             }
         });

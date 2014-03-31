@@ -12,7 +12,7 @@
 package org.splevo.refactoring;
 
 import org.splevo.vpm.variability.VariationPoint;
-import org.splevo.vrm.VariabilityRealizationTechnique;
+import org.splevo.vrm.VariabilityMechanism;
 
 /**
  * A refactoring to consolidate the variants of a variation point into a single code base using a
@@ -21,11 +21,11 @@ import org.splevo.vrm.VariabilityRealizationTechnique;
 public interface VariabilityRefactoring {
 
     /**
-     * Get the variability realization technique realized by this refactoring.
+     * Get the variability mechanism realized by this refactoring.
      *
-     * @return The variability realization technique supported by this refactoring.
+     * @return The variability mechanism supported by this refactoring.
      * */
-    public VariabilityRealizationTechnique getVariabilityRealizationTechnique();
+    public VariabilityMechanism getVariabilityMechanism();
 
     /**
      * Refactor a variation point respectively it's variants to a single code base.
