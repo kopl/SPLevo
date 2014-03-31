@@ -12,32 +12,32 @@
 package org.splevo.ui.vpexplorer.handler.characteristics.extendibility;
 
 import org.splevo.ui.vpexplorer.handler.characteristics.AbstractChangeCharacteristicHandler;
-import org.splevo.vpm.variability.Extendibility;
+import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Abstract handler for setting the {@link Extendibility} of a {@link VariationPoint}.
+ * Abstract handler for setting the {@link Extensibility} of a {@link VariationPoint}.
  */
-public abstract class AbstractSetExtendibilityHandler extends AbstractChangeCharacteristicHandler {
+public abstract class AbstractSetExtensibilityHandler extends AbstractChangeCharacteristicHandler {
 
     @Override
     protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {
 
-        Extendibility extendibility = getTargetExtendibility();
+        Extensible extendibility = getTargetExtensibility();
 
-        if (extendibility.equals(variationPoint.getExtendibility())) {
+        if (extendibility.equals(variationPoint.getExtensibility())) {
             return false;
         }
 
-        variationPoint.setExtendibility(extendibility);
+        variationPoint.setExtensibility(extendibility);
         return true;
     }
 
     /**
-     * Get the {@link Extendibility} to be set by this handler.
+     * Get the {@link Extensible} to be set by this handler.
      *
      * @return The intended type.
      */
-    protected abstract Extendibility getTargetExtendibility();
+    protected abstract Extensible getTargetExtensibility();
 
 }

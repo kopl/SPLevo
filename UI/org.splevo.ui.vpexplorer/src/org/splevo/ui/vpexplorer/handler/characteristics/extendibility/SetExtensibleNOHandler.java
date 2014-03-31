@@ -11,17 +11,17 @@
  *******************************************************************************/
 package org.splevo.ui.vpexplorer.handler.characteristics.extendibility;
 
-import org.splevo.vpm.variability.Extendibility;
+import org.splevo.vpm.variability.Extensible;
 
 /**
- * Handler to set the {@link Extendibility} of a Variation Point to
- * {@link Extendibility#CLOSED}
+ * Handler to set the {@link Extensible} of a Variation Point to
+ * {@link Extensible#NO}
  */
-public class SetClosedExtendibilityHandler extends AbstractSetExtendibilityHandler {
+public class SetExtensibleNOHandler extends AbstractSetExtensibilityHandler {
 
     @Override
-    protected Extendibility getTargetExtendibility() {
-        return Extendibility.CLOSED;
+    protected Extensible getTargetExtensibility() {
+        return Extensible.NO;
     }
 
 }

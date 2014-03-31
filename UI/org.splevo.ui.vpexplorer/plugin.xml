@@ -96,12 +96,12 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="org.splevo.ui.vpexplorer.handler.characteristics.extendibility.SetClosedExtendibilityHandler"
+            defaultHandler="org.splevo.ui.vpexplorer.handler.characteristics.extendibility.SetExtensibleNOHandler"
             id="org.splevo.ui.vp.characteristics.extendibility.closed"
             name="CLOSED">
       </command>
       <command
-            defaultHandler="org.splevo.ui.vpexplorer.handler.characteristics.extendibility.SetOpenExtendibilityHandler"
+            defaultHandler="org.splevo.ui.vpexplorer.handler.characteristics.extendibility.SetExtensibleYESHandler"
             id="org.splevo.ui.vp.characteristics.extendibility.open"
             name="OPEN">
       </command>
