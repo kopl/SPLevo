@@ -14,13 +14,9 @@ package org.splevo.project.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-
 import org.splevo.project.ProjectPackage;
 import org.splevo.project.QualityGoal;
 import org.splevo.project.SPLProfile;
