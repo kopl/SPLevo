@@ -128,6 +128,29 @@ public class ProjectItemProviderAdapterFactory extends ProjectAdapterFactory
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.project.SPLProfile} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected SPLProfileItemProvider splProfileItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.project.SPLProfile}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createSPLProfileAdapter() {
+        if (splProfileItemProvider == null) {
+            splProfileItemProvider = new SPLProfileItemProvider(this);
+        }
+
+        return splProfileItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -221,7 +244,7 @@ public class ProjectItemProviderAdapterFactory extends ProjectAdapterFactory
     }
 
 	/**
-     * This disposes all of the item providers created by this factory.
+     * This disposes all of the item providers created by this factory. 
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -229,6 +252,7 @@ public class ProjectItemProviderAdapterFactory extends ProjectAdapterFactory
 	public void dispose() {
         if (spLevoProjectItemProvider != null) spLevoProjectItemProvider.dispose();
         if (differOptionItemProvider != null) differOptionItemProvider.dispose();
+        if (splProfileItemProvider != null) splProfileItemProvider.dispose();
     }
 
 }
