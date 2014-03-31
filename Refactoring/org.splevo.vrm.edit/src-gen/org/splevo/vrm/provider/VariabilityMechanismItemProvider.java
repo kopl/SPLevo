@@ -30,25 +30,24 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.splevo.vrm.VariabilityRealizationTechnique;
+import org.splevo.vrm.VariabilityMechanism;
 import org.splevo.vrm.vrmPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.vrm.VariabilityRealizationTechnique}
- * object. <!-- begin-user-doc --> <!-- end-user-doc -->
+ * This is the item provider adapter for a {@link org.splevo.vrm.VariabilityMechanism} object. <!--
+ * begin-user-doc --> <!-- end-user-doc -->
  * 
  * @generated
  */
-public class VariabilityRealizationTechniqueItemProvider extends ItemProviderAdapter implements
-        IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider,
-        IItemPropertySource {
+public class VariabilityMechanismItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
+        IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
      * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
      */
-    public VariabilityRealizationTechniqueItemProvider(AdapterFactory adapterFactory) {
+    public VariabilityMechanismItemProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
@@ -67,7 +66,7 @@ public class VariabilityRealizationTechniqueItemProvider extends ItemProviderAda
             addNamePropertyDescriptor(object);
             addDescriptionPropertyDescriptor(object);
             addSupportedBindingTimesPropertyDescriptor(object);
-            addSupportedExtendibilityPropertyDescriptor(object);
+            addSupportedExtensibilitiesPropertyDescriptor(object);
             addSupportedVariabilityTypesPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
@@ -83,12 +82,10 @@ public class VariabilityRealizationTechniqueItemProvider extends ItemProviderAda
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariabilityRealizationTechnique_refactoringId_feature"),
-                getString("_UI_PropertyDescriptor_description",
-                        "_UI_VariabilityRealizationTechnique_refactoringId_feature",
-                        "_UI_VariabilityRealizationTechnique_type"),
-                vrmPackage.Literals.VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID, true, false, false,
-                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+                getString("_UI_VariabilityMechanism_refactoringId_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariabilityMechanism_refactoringId_feature",
+                        "_UI_VariabilityMechanism_type"), vrmPackage.Literals.VARIABILITY_MECHANISM__REFACTORING_ID,
+                true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -101,11 +98,10 @@ public class VariabilityRealizationTechniqueItemProvider extends ItemProviderAda
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariabilityRealizationTechnique_name_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_VariabilityRealizationTechnique_name_feature",
-                        "_UI_VariabilityRealizationTechnique_type"),
-                vrmPackage.Literals.VARIABILITY_REALIZATION_TECHNIQUE__NAME, true, false, false,
-                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+                getString("_UI_VariabilityMechanism_name_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariabilityMechanism_name_feature",
+                        "_UI_VariabilityMechanism_type"), vrmPackage.Literals.VARIABILITY_MECHANISM__NAME, true, false,
+                false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -118,12 +114,10 @@ public class VariabilityRealizationTechniqueItemProvider extends ItemProviderAda
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariabilityRealizationTechnique_description_feature"),
-                getString("_UI_PropertyDescriptor_description",
-                        "_UI_VariabilityRealizationTechnique_description_feature",
-                        "_UI_VariabilityRealizationTechnique_type"),
-                vrmPackage.Literals.VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION, true, false, false,
-                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+                getString("_UI_VariabilityMechanism_description_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariabilityMechanism_description_feature",
+                        "_UI_VariabilityMechanism_type"), vrmPackage.Literals.VARIABILITY_MECHANISM__DESCRIPTION, true,
+                false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -136,29 +130,27 @@ public class VariabilityRealizationTechniqueItemProvider extends ItemProviderAda
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariabilityRealizationTechnique_supportedBindingTimes_feature"),
+                getString("_UI_VariabilityMechanism_supportedBindingTimes_feature"),
                 getString("_UI_PropertyDescriptor_description",
-                        "_UI_VariabilityRealizationTechnique_supportedBindingTimes_feature",
-                        "_UI_VariabilityRealizationTechnique_type"),
-                vrmPackage.Literals.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES, true, false, false,
+                        "_UI_VariabilityMechanism_supportedBindingTimes_feature", "_UI_VariabilityMechanism_type"),
+                vrmPackage.Literals.VARIABILITY_MECHANISM__SUPPORTED_BINDING_TIMES, true, false, false,
                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
-     * This adds a property descriptor for the Supported Extendibility feature. <!-- begin-user-doc
-     * --> <!-- end-user-doc -->
+     * This adds a property descriptor for the Supported Extensibilities feature. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      */
-    protected void addSupportedExtendibilityPropertyDescriptor(Object object) {
+    protected void addSupportedExtensibilitiesPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariabilityRealizationTechnique_supportedExtendibility_feature"),
+                getString("_UI_VariabilityMechanism_supportedExtensibilities_feature"),
                 getString("_UI_PropertyDescriptor_description",
-                        "_UI_VariabilityRealizationTechnique_supportedExtendibility_feature",
-                        "_UI_VariabilityRealizationTechnique_type"),
-                vrmPackage.Literals.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY, true, false, false,
+                        "_UI_VariabilityMechanism_supportedExtensibilities_feature", "_UI_VariabilityMechanism_type"),
+                vrmPackage.Literals.VARIABILITY_MECHANISM__SUPPORTED_EXTENSIBILITIES, true, false, false,
                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
@@ -172,23 +164,21 @@ public class VariabilityRealizationTechniqueItemProvider extends ItemProviderAda
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariabilityRealizationTechnique_supportedVariabilityTypes_feature"),
+                getString("_UI_VariabilityMechanism_supportedVariabilityTypes_feature"),
                 getString("_UI_PropertyDescriptor_description",
-                        "_UI_VariabilityRealizationTechnique_supportedVariabilityTypes_feature",
-                        "_UI_VariabilityRealizationTechnique_type"),
-                vrmPackage.Literals.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES, true, false, false,
+                        "_UI_VariabilityMechanism_supportedVariabilityTypes_feature", "_UI_VariabilityMechanism_type"),
+                vrmPackage.Literals.VARIABILITY_MECHANISM__SUPPORTED_VARIABILITY_TYPES, true, false, false,
                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
-     * This returns VariabilityRealizationTechnique.gif. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
+     * This returns VariabilityMechanism.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/VariabilityRealizationTechnique"));
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/VariabilityMechanism"));
     }
 
     /**
@@ -199,9 +189,9 @@ public class VariabilityRealizationTechniqueItemProvider extends ItemProviderAda
      */
     @Override
     public String getText(Object object) {
-        String label = ((VariabilityRealizationTechnique) object).getName();
-        return label == null || label.length() == 0 ? getString("_UI_VariabilityRealizationTechnique_type")
-                : getString("_UI_VariabilityRealizationTechnique_type") + " " + label;
+        String label = ((VariabilityMechanism) object).getName();
+        return label == null || label.length() == 0 ? getString("_UI_VariabilityMechanism_type")
+                : getString("_UI_VariabilityMechanism_type") + " " + label;
     }
 
     /**
@@ -215,13 +205,13 @@ public class VariabilityRealizationTechniqueItemProvider extends ItemProviderAda
     public void notifyChanged(Notification notification) {
         updateChildren(notification);
 
-        switch (notification.getFeatureID(VariabilityRealizationTechnique.class)) {
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__REFACTORING_ID:
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__NAME:
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__DESCRIPTION:
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_BINDING_TIMES:
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_EXTENDIBILITY:
-        case vrmPackage.VARIABILITY_REALIZATION_TECHNIQUE__SUPPORTED_VARIABILITY_TYPES:
+        switch (notification.getFeatureID(VariabilityMechanism.class)) {
+        case vrmPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
+        case vrmPackage.VARIABILITY_MECHANISM__NAME:
+        case vrmPackage.VARIABILITY_MECHANISM__DESCRIPTION:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_BINDING_TIMES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_EXTENSIBILITIES:
+        case vrmPackage.VARIABILITY_MECHANISM__SUPPORTED_VARIABILITY_TYPES:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
         }

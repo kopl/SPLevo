@@ -62,7 +62,7 @@ public class VariabilityRealizationConfigurationItemProvider extends ItemProvide
             super.getPropertyDescriptors(object);
 
             addVariationPointPropertyDescriptor(object);
-            addTechniquePropertyDescriptor(object);
+            addMechanismPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -86,20 +86,20 @@ public class VariabilityRealizationConfigurationItemProvider extends ItemProvide
     }
 
     /**
-     * This adds a property descriptor for the Technique feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Mechanism feature. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
      * @generated
      */
-    protected void addTechniquePropertyDescriptor(Object object) {
+    protected void addMechanismPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariabilityRealizationConfiguration_technique_feature"),
+                getString("_UI_VariabilityRealizationConfiguration_mechanism_feature"),
                 getString("_UI_PropertyDescriptor_description",
-                        "_UI_VariabilityRealizationConfiguration_technique_feature",
+                        "_UI_VariabilityRealizationConfiguration_mechanism_feature",
                         "_UI_VariabilityRealizationConfiguration_type"),
-                vrmPackage.Literals.VARIABILITY_REALIZATION_CONFIGURATION__TECHNIQUE, true, false, true, null, null,
+                vrmPackage.Literals.VARIABILITY_REALIZATION_CONFIGURATION__MECHANISM, true, false, true, null, null,
                 null));
     }
 

@@ -81,27 +81,26 @@ public class vrmItemProviderAdapterFactory extends vrmAdapterFactory implements 
     }
 
     /**
-     * This keeps track of the one adapter used for all
-     * {@link org.splevo.vrm.VariabilityRealizationTechnique} instances. <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+     * This keeps track of the one adapter used for all {@link org.splevo.vrm.VariabilityMechanism}
+     * instances. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      */
-    protected VariabilityRealizationTechniqueItemProvider variabilityRealizationTechniqueItemProvider;
+    protected VariabilityMechanismItemProvider variabilityMechanismItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.splevo.vrm.VariabilityRealizationTechnique}. <!--
+     * This creates an adapter for a {@link org.splevo.vrm.VariabilityMechanism}. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      */
     @Override
-    public Adapter createVariabilityRealizationTechniqueAdapter() {
-        if (variabilityRealizationTechniqueItemProvider == null) {
-            variabilityRealizationTechniqueItemProvider = new VariabilityRealizationTechniqueItemProvider(this);
+    public Adapter createVariabilityMechanismAdapter() {
+        if (variabilityMechanismItemProvider == null) {
+            variabilityMechanismItemProvider = new VariabilityMechanismItemProvider(this);
         }
 
-        return variabilityRealizationTechniqueItemProvider;
+        return variabilityMechanismItemProvider;
     }
 
     /**
@@ -249,8 +248,8 @@ public class vrmItemProviderAdapterFactory extends vrmAdapterFactory implements 
      * @generated
      */
     public void dispose() {
-        if (variabilityRealizationTechniqueItemProvider != null)
-            variabilityRealizationTechniqueItemProvider.dispose();
+        if (variabilityMechanismItemProvider != null)
+            variabilityMechanismItemProvider.dispose();
         if (variabilityRealizationConfigurationItemProvider != null)
             variabilityRealizationConfigurationItemProvider.dispose();
         if (variabilityRealizationModelItemProvider != null)
