@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IEditorPart;
 import org.splevo.ui.Activator;
-import org.splevo.ui.jdt.JavaEditorConnector;
+import org.splevo.ui.sourceconnection.jdt.JavaEditorConnector;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SourceLocation;

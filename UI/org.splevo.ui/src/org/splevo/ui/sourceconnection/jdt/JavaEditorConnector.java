@@ -9,7 +9,7 @@
  * Contributors:
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.ui.jdt;
+package org.splevo.ui.sourceconnection.jdt;
 
 import java.util.Iterator;
 

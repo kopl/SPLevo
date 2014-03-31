@@ -1,21 +1,21 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
+ *    Daniel Kojic
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.ui.commands;
+package org.splevo.ui.handler;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -29,34 +29,21 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 
 /**
- * This command cleans a {@link SPLevoProject}. 
- * 
+ * This command cleans a {@link SPLevoProject}.
+ *
  * @author Daniel Kojic
  *
  */
-public class CleanProjectCommand implements IHandler {
+public class CleanProjectHandler extends AbstractHandler {
 
 	/** The logger for this class. */
-	private Logger logger = Logger.getLogger(CleanProjectCommand.class);
+	private Logger logger = Logger.getLogger(CleanProjectHandler.class);
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.IHandler#addHandlerListener(org.eclipse.core.commands.IHandlerListener)
-	 */
-	@Override
-	public void addHandlerListener(IHandlerListener handlerListener) {
-		// Not supported
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.IHandler#dispose()
-	 */
-	@Override
-	public void dispose() {
-		// Not supported
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.IHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	/**
+	 * Open a dialog to verify clean up with user and
+	 * clean project resources accordingly.
+	 *
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -93,33 +80,9 @@ public class CleanProjectCommand implements IHandler {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.IHandler#isEnabled()
-	 */
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.IHandler#isHandled()
-	 */
-	@Override
-	public boolean isHandled() {
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.IHandler#removeHandlerListener(org.eclipse.core.commands.IHandlerListener)
-	 */
-	@Override
-	public void removeHandlerListener(IHandlerListener handlerListener) {
-		// Not supported
-	}
-
 	/**
 	 * Deletes the /models and the /logs folders of the specified {@link SPLevoProject}.
-	 * 
+	 *
 	 * @param project The {@link SPLevoProject}.
 	 */
 	private void cleanProjetcFiles(SPLevoProject project) {
@@ -149,7 +112,7 @@ public class CleanProjectCommand implements IHandler {
 
 	/**
 	 * Deletes the model paths from a {@link SPLevoProject}.
-	 * 
+	 *
 	 * @param project The {@link SPLevoProject}.
 	 */
 	private void cleanProjectMetadata(SPLevoProject project) {

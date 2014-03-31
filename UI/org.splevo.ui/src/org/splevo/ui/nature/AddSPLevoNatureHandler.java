@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,36 +14,30 @@ package org.splevo.ui.nature;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerConfigurationPage;
 
 /**
  * Action to switch a projects SPLevo project nature on and of.
- * 
- * @author Benjamin Klatt
- *
  */
-public class ToggleNatureAction implements IObjectActionDelegate {
+public class AddSPLevoNatureHandler extends AbstractHandler {
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(VPMAnalyzerConfigurationPage.class);
 
-    /** Reference to the selected element. */
-    private ISelection selection;
-
-    /**
-     * {@inheritDoc}
-     */
-    public void run(IAction action) {
-        if (selection instanceof IStructuredSelection) {
+    @Override
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+        ISelection selection = HandlerUtil.getCurrentSelection(event);
+        if (selection != null & selection instanceof IStructuredSelection) {
             for (Iterator<?> it = ((IStructuredSelection) selection).iterator(); it.hasNext();) {
                 Object element = it.next();
                 IProject project = null;
@@ -53,28 +47,20 @@ public class ToggleNatureAction implements IObjectActionDelegate {
                     project = (IProject) ((IAdaptable) element).getAdapter(IProject.class);
                 }
                 if (project != null) {
-                    toggleNature(project);
+                    addSPLevoNature(project);
                 }
             }
         }
-    }
-
-    @Override
-    public void selectionChanged(IAction action, ISelection selection) {
-        this.selection = selection;
-    }
-
-    @Override
-    public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+        return null;
     }
 
     /**
-     * Toggles sample nature on a project.
-     * 
+     * Makes a project a SPLevo project including project file etc.
+     *
      * @param project
-     *            to have sample nature added or removed
+     *            to have SPLevo nature added
      */
-    private void toggleNature(IProject project) {
+    private void addSPLevoNature(IProject project) {
         try {
             IProjectDescription description = project.getDescription();
             String[] natures = description.getNatureIds();

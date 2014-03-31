@@ -27,62 +27,6 @@
       </builder>
    </extension>
    <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            adaptable="true"
-            id="org.splevo.ui.splevoToggleNatureMenu"
-            nameFilter="*"
-            objectClass="org.eclipse.core.resources.IProject">
-         <action
-               class="org.splevo.ui.nature.ToggleNatureAction"
-               enablesFor="+"
-               id="org.splevo.ui.addRemoveNatureAction"
-               label="Add/Remove SPLevo Nature"
-               menubarPath="additions">
-         </action>
-      </objectContribution>
-      <objectContribution
-            adaptable="false"
-            id="org.splevo.ui.openVariationPointLocation"
-            nameFilter="*"
-            objectClass="org.splevo.vpm.variability.VariationPoint">
-         <action
-               class="org.splevo.ui.actions.OpenVariationPointLocationAction"
-               enablesFor="1"
-               icon="icons/jcu_obj.gif"
-               id="org.splevo.ui.openVariationPointLocationAction"
-               label="Open VP Source Code Location"
-               menubarPath="splevo"
-               tooltip="Open the source code location of the Variation Point in the Java code editor.">
-         </action>
-         <menu
-               icon="icons/splevo-project.gif"
-               id="org.splevo.ui"
-               label="SPLevo Menu"
-               path="splevo">
-            <groupMarker
-                  name="SPLevo">
-            </groupMarker>
-            <separator
-                  name="org.splevo.ui">
-            </separator>
-         </menu>
-      </objectContribution>
-      <objectContribution
-            adaptable="true"
-            id="org.splevo.ui.openVariantLocation"
-            nameFilter="*"
-            objectClass="org.splevo.vpm.variability.Variant">
-         <action
-               class="org.splevo.ui.actions.OpenVariantLocationAction"
-               enablesFor="1"
-               id="org.splevo.ui.openVariantLocationAction"
-               label="Open Variant Code Locations"
-               menubarPath="splevo">
-         </action>
-      </objectContribution>
-   </extension>
-   <extension
          id="xmlProblem"
          name="XML Problem"
          point="org.eclipse.core.resources.markers">
@@ -136,12 +80,12 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="org.splevo.ui.commands.CleanProjectCommand"
+            defaultHandler="org.splevo.ui.handler.CleanProjectHandler"
             id="referenceToSPLevoMenu"
             name="SPLevo Menu">
       </command>
       <command
-            defaultHandler="org.splevo.ui.commands.CleanProjectCommand"
+            defaultHandler="org.splevo.ui.handler.CleanProjectHandler"
             id="cleanProjectCommand"
             name="Clean Project">
       </command>
@@ -207,5 +151,90 @@
                                         name="org.splevo.ui.annotations.textmarkerannotation"
                                         markerType="org.splevo.ui.markers.codelocationmarker"/>
     </extension>
+ <extension
+       point="org.eclipse.ui.commands">
+    <command
+          defaultHandler="org.splevo.ui.sourceconnection.handler.OpenVariantLocationHandler"
+          id="org.splevo.ui.sourceconnection.variant"
+          name="Open Variant Source Locations">
+    </command>
+    <command
+          defaultHandler="org.splevo.ui.sourceconnection.handler.OpenVariationPointLocationHandler"
+          id="org.splevo.ui.sourceconnection.variationpoint"
+          name="Open Variation Point Source Location">
+    </command>
+ </extension>
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="popup:org.eclipse.ui.popup.any">
+       <separator
+             name="Source Location Separator">
+       </separator>
+       <command
+             commandId="org.splevo.ui.sourceconnection.variant"
+             icon="icons/jcu_obj.gif"
+             label="Open Source Location"
+             style="push"
+             tooltip="Open the source locations the variant is implemented at.">
+          <visibleWhen
+                checkEnabled="true">
+             <iterate>
+                <instanceof
+                      value="org.splevo.vpm.variability.Variant">
+                </instanceof>
+             </iterate>
+          </visibleWhen>
+       </command>
+       <command
+             commandId="org.splevo.ui.sourceconnection.variationpoint"
+             icon="icons/jcu_obj.gif"
+             label="Open Source Location"
+             style="push"
+             tooltip="Open the source location of the variation point enclosing the variability.">
+          <visibleWhen
+                checkEnabled="true">
+             <iterate>
+                <instanceof
+                      value="org.splevo.vpm.variability.VariationPoint">
+                </instanceof>
+             </iterate>
+          </visibleWhen>
+       </command>
+    </menuContribution>
+ </extension>
+ <extension
+       point="org.eclipse.ui.commands">
+    <command
+          defaultHandler="org.splevo.ui.nature.AddSPLevoNatureHandler"
+          id="org.splevo.ui.nature.addsplevonature"
+          name="Make SPLevo Project">
+    </command>
+ </extension>
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="popup:org.eclipse.ui.popup.any">
+       <command
+             commandId="org.splevo.ui.nature.addsplevonature"
+             icon="icons/kopl_circle_only.png"
+             label="Make SPLevo Project"
+             style="push">
+          <visibleWhen
+                checkEnabled="true">
+             <iterate>
+                <or>
+                   <instanceof
+                         value="org.eclipse.core.resources.IProject">
+                   </instanceof>
+                   <instanceof
+                         value="org.eclipse.core.runtime.IAdaptable">
+                   </instanceof>
+                </or>
+             </iterate>
+          </visibleWhen>
+       </command>
+    </menuContribution>
+ </extension>
 
 </plugin>

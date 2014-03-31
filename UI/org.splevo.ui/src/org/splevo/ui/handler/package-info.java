@@ -4,4 +4,4 @@
  * @author Daniel Kojic
  *
  */
-package org.splevo.ui.commands;
+package org.splevo.ui.handler;
