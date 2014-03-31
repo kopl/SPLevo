@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extendibility;
+import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -35,7 +35,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getGroup <em>Group</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariabilityType <em>Variability Type</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getBindingTime <em>Binding Time</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getExtendibility <em>Extendibility</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getExtensibility <em>Extensibility</em>}</li>
  * </ul>
  * </p>
  *
@@ -103,24 +103,24 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
     protected BindingTime bindingTime = BINDING_TIME_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getExtendibility() <em>Extendibility</em>}' attribute.
+     * The default value of the '{@link #getExtensibility() <em>Extensibility</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getExtendibility()
+     * @see #getExtensibility()
      * @generated
      * @ordered
      */
-    protected static final Extendibility EXTENDIBILITY_EDEFAULT = Extendibility.OPEN;
+    protected static final Extensible EXTENSIBILITY_EDEFAULT = Extensible.NO;
 
     /**
-     * The cached value of the '{@link #getExtendibility() <em>Extendibility</em>}' attribute.
+     * The cached value of the '{@link #getExtensibility() <em>Extensibility</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getExtendibility()
+     * @see #getExtensibility()
      * @generated
      * @ordered
      */
-    protected Extendibility extendibility = EXTENDIBILITY_EDEFAULT;
+    protected Extensible extensibility = EXTENSIBILITY_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -288,8 +288,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * <!-- end-user-doc -->
      * @generated
      */
-    public Extendibility getExtendibility() {
-        return extendibility;
+    public Extensible getExtensibility() {
+        return extensibility;
     }
 
     /**
@@ -297,12 +297,12 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setExtendibility(Extendibility newExtendibility) {
-        Extendibility oldExtendibility = extendibility;
-        extendibility = newExtendibility == null ? EXTENDIBILITY_EDEFAULT : newExtendibility;
+    public void setExtensibility(Extensible newExtensibility) {
+        Extensible oldExtensibility = extensibility;
+        extensibility = newExtensibility == null ? EXTENSIBILITY_EDEFAULT : newExtensibility;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__EXTENDIBILITY,
-                    oldExtendibility, extendibility));
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__EXTENSIBILITY,
+                    oldExtensibility, extensibility));
     }
 
     /**
@@ -375,8 +375,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
             return getVariabilityType();
         case variabilityPackage.VARIATION_POINT__BINDING_TIME:
             return getBindingTime();
-        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
-            return getExtendibility();
+        case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
+            return getExtensibility();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -406,8 +406,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         case variabilityPackage.VARIATION_POINT__BINDING_TIME:
             setBindingTime((BindingTime) newValue);
             return;
-        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
-            setExtendibility((Extendibility) newValue);
+        case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
+            setExtensibility((Extensible) newValue);
             return;
         }
         super.eSet(featureID, newValue);
@@ -436,8 +436,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         case variabilityPackage.VARIATION_POINT__BINDING_TIME:
             setBindingTime(BINDING_TIME_EDEFAULT);
             return;
-        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
-            setExtendibility(EXTENDIBILITY_EDEFAULT);
+        case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
+            setExtensibility(EXTENSIBILITY_EDEFAULT);
             return;
         }
         super.eUnset(featureID);
@@ -461,8 +461,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
             return variabilityType != VARIABILITY_TYPE_EDEFAULT;
         case variabilityPackage.VARIATION_POINT__BINDING_TIME:
             return bindingTime != BINDING_TIME_EDEFAULT;
-        case variabilityPackage.VARIATION_POINT__EXTENDIBILITY:
-            return extendibility != EXTENDIBILITY_EDEFAULT;
+        case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
+            return extensibility != EXTENSIBILITY_EDEFAULT;
         }
         return super.eIsSet(featureID);
     }
@@ -482,8 +482,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         result.append(variabilityType);
         result.append(", bindingTime: ");
         result.append(bindingTime);
-        result.append(", extendibility: ");
-        result.append(extendibility);
+        result.append(", extensibility: ");
+        result.append(extensibility);
         result.append(')');
         return result.toString();
     }

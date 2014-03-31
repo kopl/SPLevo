@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extendibility;
+import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -83,8 +83,8 @@ public class variabilityFactoryImpl extends EFactoryImpl implements variabilityF
     @Override
     public Object createFromString(EDataType eDataType, String initialValue) {
         switch (eDataType.getClassifierID()) {
-        case variabilityPackage.EXTENDIBILITY:
-            return createExtendibilityFromString(eDataType, initialValue);
+        case variabilityPackage.EXTENSIBLE:
+            return createExtensibleFromString(eDataType, initialValue);
         case variabilityPackage.VARIABILITY_TYPE:
             return createVariabilityTypeFromString(eDataType, initialValue);
         case variabilityPackage.BINDING_TIME:
@@ -102,8 +102,8 @@ public class variabilityFactoryImpl extends EFactoryImpl implements variabilityF
     @Override
     public String convertToString(EDataType eDataType, Object instanceValue) {
         switch (eDataType.getClassifierID()) {
-        case variabilityPackage.EXTENDIBILITY:
-            return convertExtendibilityToString(eDataType, instanceValue);
+        case variabilityPackage.EXTENSIBLE:
+            return convertExtensibleToString(eDataType, instanceValue);
         case variabilityPackage.VARIABILITY_TYPE:
             return convertVariabilityTypeToString(eDataType, instanceValue);
         case variabilityPackage.BINDING_TIME:
@@ -158,8 +158,8 @@ public class variabilityFactoryImpl extends EFactoryImpl implements variabilityF
      * <!-- end-user-doc -->
      * @generated
      */
-    public Extendibility createExtendibilityFromString(EDataType eDataType, String initialValue) {
-        Extendibility result = Extendibility.get(initialValue);
+    public Extensible createExtensibleFromString(EDataType eDataType, String initialValue) {
+        Extensible result = Extensible.get(initialValue);
         if (result == null)
             throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '"
                     + eDataType.getName() + "'");
@@ -171,7 +171,7 @@ public class variabilityFactoryImpl extends EFactoryImpl implements variabilityF
      * <!-- end-user-doc -->
      * @generated
      */
-    public String convertExtendibilityToString(EDataType eDataType, Object instanceValue) {
+    public String convertExtensibleToString(EDataType eDataType, Object instanceValue) {
         return instanceValue == null ? null : instanceValue.toString();
     }
 

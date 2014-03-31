@@ -17,7 +17,7 @@ import org.splevo.vpm.software.SoftwareElement;
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getGroup <em>Group</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariabilityType <em>Variability Type</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getBindingTime <em>Binding Time</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.VariationPoint#getExtendibility <em>Extendibility</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.VariationPoint#getExtensibility <em>Extensibility</em>}</li>
  * </ul>
  * </p>
  *
@@ -157,33 +157,33 @@ public interface VariationPoint extends EObject {
     void setBindingTime(BindingTime value);
 
     /**
-     * Returns the value of the '<em><b>Extendibility</b></em>' attribute.
-     * The default value is <code>"Open"</code>.
-     * The literals are from the enumeration {@link org.splevo.vpm.variability.Extendibility}.
+     * Returns the value of the '<em><b>Extensibility</b></em>' attribute.
+     * The default value is <code>"NO"</code>.
+     * The literals are from the enumeration {@link org.splevo.vpm.variability.Extensible}.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Extendibility</em>' attribute isn't clear,
+     * If the meaning of the '<em>Extensibility</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Extendibility</em>' attribute.
-     * @see org.splevo.vpm.variability.Extendibility
-     * @see #setExtendibility(Extendibility)
-     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_Extendibility()
-     * @model default="Open" required="true"
+     * @return the value of the '<em>Extensibility</em>' attribute.
+     * @see org.splevo.vpm.variability.Extensible
+     * @see #setExtensibility(Extensible)
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_Extensibility()
+     * @model default="NO" required="true"
      * @generated
      */
-    Extendibility getExtendibility();
+    Extensible getExtensibility();
 
     /**
-     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getExtendibility <em>Extendibility</em>}' attribute.
+     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getExtensibility <em>Extensibility</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Extendibility</em>' attribute.
-     * @see org.splevo.vpm.variability.Extendibility
-     * @see #getExtendibility()
+     * @param value the new value of the '<em>Extensibility</em>' attribute.
+     * @see org.splevo.vpm.variability.Extensible
+     * @see #getExtensibility()
      * @generated
      */
-    void setExtendibility(Extendibility value);
+    void setExtensibility(Extensible value);
 
 } // VariationPoint

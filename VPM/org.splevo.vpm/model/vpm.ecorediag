@@ -47,7 +47,7 @@
             <layoutConstraint xmi:type="notation:Location" xmi:id="_FC-OIbejEeO-Lc2V-P6Vhw"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_O0nHULejEeO-Lc2V-P6Vhw" type="2001">
-            <element xmi:type="ecore:EAttribute" href="vpm.ecore#//variability/VariationPoint/extendibility"/>
+            <element xmi:type="ecore:EAttribute" href="vpm.ecore#//variability/VariationPoint/extensibility"/>
             <layoutConstraint xmi:type="notation:Location" xmi:id="_O0nHUbejEeO-Lc2V-P6Vhw"/>
           </children>
           <styles xmi:type="notation:DrawerStyle" xmi:id="_mZyoQk6kEeKu0IvcocBLUA"/>
@@ -85,11 +85,11 @@
         <children xmi:type="notation:Node" xmi:id="_HYpRkLeOEeO-Lc2V-P6Vhw" type="4005"/>
         <children xmi:type="notation:Node" xmi:id="_HYpRkbeOEeO-Lc2V-P6Vhw" type="5006">
           <children xmi:type="notation:Node" xmi:id="_Ji8l8LeOEeO-Lc2V-P6Vhw" type="2006">
-            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/Extendibility/Closed"/>
+            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/Extensible/NO"/>
             <layoutConstraint xmi:type="notation:Location" xmi:id="_Ji8l8beOEeO-Lc2V-P6Vhw"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_KhUSsLeOEeO-Lc2V-P6Vhw" type="2006">
-            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/Extendibility/Open"/>
+            <element xmi:type="ecore:EEnumLiteral" href="vpm.ecore#//variability/Extensible/YES"/>
             <layoutConstraint xmi:type="notation:Location" xmi:id="_KhUSsbeOEeO-Lc2V-P6Vhw"/>
           </children>
           <styles xmi:type="notation:DrawerStyle" xmi:id="_HYpRkreOEeO-Lc2V-P6Vhw"/>
@@ -97,7 +97,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_HYpRlLeOEeO-Lc2V-P6Vhw"/>
         </children>
         <styles xmi:type="notation:ShapeStyle" xmi:id="_HYoDcbeOEeO-Lc2V-P6Vhw" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-        <element xmi:type="ecore:EEnum" href="vpm.ecore#//variability/Extendibility"/>
+        <element xmi:type="ecore:EEnum" href="vpm.ecore#//variability/Extensible"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HYoDcreOEeO-Lc2V-P6Vhw" x="739" y="153"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_TV5twLeOEeO-Lc2V-P6Vhw" type="2005">

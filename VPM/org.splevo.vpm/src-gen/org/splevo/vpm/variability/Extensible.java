@@ -19,90 +19,90 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Extendibility</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Extensible</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
  * The extendibility describes if this variation point is open for extendibility in excess of the product line code base.
  * <!-- end-model-doc -->
- * @see org.splevo.vpm.variability.variabilityPackage#getExtendibility()
+ * @see org.splevo.vpm.variability.variabilityPackage#getExtensible()
  * @model
  * @generated
  */
-public enum Extendibility implements Enumerator {
+public enum Extensible implements Enumerator {
     /**
-     * The '<em><b>Closed</b></em>' literal object.
+     * The '<em><b>NO</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #CLOSED_VALUE
+     * @see #NO_VALUE
      * @generated
      * @ordered
      */
-    CLOSED(0, "Closed", "Closed"),
+    NO(0, "NO", "NO"),
 
     /**
-     * The '<em><b>Open</b></em>' literal object.
+     * The '<em><b>YES</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #OPEN_VALUE
+     * @see #YES_VALUE
      * @generated
      * @ordered
      */
-    OPEN(1, "Open", "Open");
+    YES(1, "YES", "YES");
 
     /**
-     * The '<em><b>Closed</b></em>' literal value.
+     * The '<em><b>NO</b></em>' literal value.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
-     * All possible variants must be part of the product line code.
+     * All available variants are included in the software product line.
      * <!-- end-model-doc -->
-     * @see #CLOSED
-     * @model name="Closed"
+     * @see #NO
+     * @model
      * @generated
      * @ordered
      */
-    public static final int CLOSED_VALUE = 0;
+    public static final int NO_VALUE = 0;
 
     /**
-     * The '<em><b>Open</b></em>' literal value.
+     * The '<em><b>YES</b></em>' literal value.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
-     * New variants can be added as extensions in excess of the product line code base.
+     * New variants can be added in excess of the product line code base (typically not done by developers of the software product line).
      * <!-- end-model-doc -->
-     * @see #OPEN
-     * @model name="Open"
+     * @see #YES
+     * @model
      * @generated
      * @ordered
      */
-    public static final int OPEN_VALUE = 1;
+    public static final int YES_VALUE = 1;
 
     /**
-     * An array of all the '<em><b>Extendibility</b></em>' enumerators.
+     * An array of all the '<em><b>Extensible</b></em>' enumerators.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    private static final Extendibility[] VALUES_ARRAY = new Extendibility[] { CLOSED, OPEN, };
+    private static final Extensible[] VALUES_ARRAY = new Extensible[] { NO, YES, };
 
     /**
-     * A public read-only list of all the '<em><b>Extendibility</b></em>' enumerators.
+     * A public read-only list of all the '<em><b>Extensible</b></em>' enumerators.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    public static final List<Extendibility> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+    public static final List<Extensible> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
     /**
-     * Returns the '<em><b>Extendibility</b></em>' literal with the specified literal value.
+     * Returns the '<em><b>Extensible</b></em>' literal with the specified literal value.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    public static Extendibility get(String literal) {
+    public static Extensible get(String literal) {
         for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-            Extendibility result = VALUES_ARRAY[i];
+            Extensible result = VALUES_ARRAY[i];
             if (result.toString().equals(literal)) {
                 return result;
             }
@@ -111,14 +111,14 @@ public enum Extendibility implements Enumerator {
     }
 
     /**
-     * Returns the '<em><b>Extendibility</b></em>' literal with the specified name.
+     * Returns the '<em><b>Extensible</b></em>' literal with the specified name.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    public static Extendibility getByName(String name) {
+    public static Extensible getByName(String name) {
         for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-            Extendibility result = VALUES_ARRAY[i];
+            Extensible result = VALUES_ARRAY[i];
             if (result.getName().equals(name)) {
                 return result;
             }
@@ -127,17 +127,17 @@ public enum Extendibility implements Enumerator {
     }
 
     /**
-     * Returns the '<em><b>Extendibility</b></em>' literal with the specified integer value.
+     * Returns the '<em><b>Extensible</b></em>' literal with the specified integer value.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    public static Extendibility get(int value) {
+    public static Extensible get(int value) {
         switch (value) {
-        case CLOSED_VALUE:
-            return CLOSED;
-        case OPEN_VALUE:
-            return OPEN;
+        case NO_VALUE:
+            return NO;
+        case YES_VALUE:
+            return YES;
         }
         return null;
     }
@@ -169,7 +169,7 @@ public enum Extendibility implements Enumerator {
      * <!-- end-user-doc -->
      * @generated
      */
-    private Extendibility(int value, String name, String literal) {
+    private Extensible(int value, String name, String literal) {
         this.value = value;
         this.name = name;
         this.literal = literal;
@@ -213,4 +213,4 @@ public enum Extendibility implements Enumerator {
         return literal;
     }
 
-} //Extendibility
+} //Extensible
