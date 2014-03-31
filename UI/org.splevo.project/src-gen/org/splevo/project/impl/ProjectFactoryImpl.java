@@ -13,6 +13,7 @@ package org.splevo.project.impl;
 
 import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
@@ -68,12 +69,43 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory {
         switch (eClass.getClassifierID()) {
             case ProjectPackage.SP_LEVO_PROJECT: return createSPLevoProject();
             case ProjectPackage.DIFFER_OPTION: return (EObject)createDifferOption();
+            case ProjectPackage.SPL_PROFILE: return createSPLProfile();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
     }
 
 	/**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Object createFromString(EDataType eDataType, String initialValue) {
+        switch (eDataType.getClassifierID()) {
+            case ProjectPackage.QUALITY_GOAL:
+                return createQualityGoalFromString(eDataType, initialValue);
+            default:
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public String convertToString(EDataType eDataType, Object instanceValue) {
+        switch (eDataType.getClassifierID()) {
+            case ProjectPackage.QUALITY_GOAL:
+                return convertQualityGoalToString(eDataType, instanceValue);
+            default:
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
+
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -91,6 +123,36 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory {
     public Map.Entry<String, String> createDifferOption() {
         DifferOptionImpl differOption = new DifferOptionImpl();
         return differOption;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public SPLProfile createSPLProfile() {
+        SPLProfileImpl splProfile = new SPLProfileImpl();
+        return splProfile;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public QualityGoal createQualityGoalFromString(EDataType eDataType, String initialValue) {
+        QualityGoal result = QualityGoal.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String convertQualityGoalToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
     }
 
     /**

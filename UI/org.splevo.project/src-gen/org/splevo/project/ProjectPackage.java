@@ -13,6 +13,7 @@ package org.splevo.project;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -201,13 +202,22 @@ public interface ProjectPackage extends EPackage {
     int SP_LEVO_PROJECT__DIFFER_OPTIONS = 13;
 
     /**
+     * The feature id for the '<em><b>Spl Profile</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SP_LEVO_PROJECT__SPL_PROFILE = 14;
+
+    /**
      * The number of structural features of the '<em>SP Levo Project</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int SP_LEVO_PROJECT_FEATURE_COUNT = 14;
+	int SP_LEVO_PROJECT_FEATURE_COUNT = 15;
 
 	/**
      * The meta object id for the '{@link org.splevo.project.impl.DifferOptionImpl <em>Differ Option</em>}' class.
@@ -245,6 +255,53 @@ public interface ProjectPackage extends EPackage {
      * @ordered
      */
     int DIFFER_OPTION_FEATURE_COUNT = 2;
+
+    /**
+     * The meta object id for the '{@link org.splevo.project.impl.SPLProfileImpl <em>SPL Profile</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.project.impl.SPLProfileImpl
+     * @see org.splevo.project.impl.ProjectPackageImpl#getSPLProfile()
+     * @generated
+     */
+    int SPL_PROFILE = 2;
+
+    /**
+     * The feature id for the '<em><b>Recommended Refactorer Ids</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPL_PROFILE__RECOMMENDED_REFACTORER_IDS = 0;
+
+    /**
+     * The feature id for the '<em><b>Quality Goals</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPL_PROFILE__QUALITY_GOALS = 1;
+
+    /**
+     * The number of structural features of the '<em>SPL Profile</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SPL_PROFILE_FEATURE_COUNT = 2;
+
+    /**
+     * The meta object id for the '{@link org.splevo.project.QualityGoal <em>Quality Goal</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.project.QualityGoal
+     * @see org.splevo.project.impl.ProjectPackageImpl#getQualityGoal()
+     * @generated
+     */
+    int QUALITY_GOAL = 3;
 
     /**
      * Returns the meta object for class '{@link org.splevo.project.SPLevoProject <em>SP Levo Project</em>}'.
@@ -411,6 +468,17 @@ public interface ProjectPackage extends EPackage {
     EReference getSPLevoProject_DifferOptions();
 
     /**
+     * Returns the meta object for the containment reference '{@link org.splevo.project.SPLevoProject#getSplProfile <em>Spl Profile</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference '<em>Spl Profile</em>'.
+     * @see org.splevo.project.SPLevoProject#getSplProfile()
+     * @see #getSPLevoProject()
+     * @generated
+     */
+    EReference getSPLevoProject_SplProfile();
+
+    /**
      * Returns the meta object for class '{@link java.util.Map.Entry <em>Differ Option</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -443,6 +511,48 @@ public interface ProjectPackage extends EPackage {
      * @generated
      */
     EAttribute getDifferOption_Value();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.project.SPLProfile <em>SPL Profile</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>SPL Profile</em>'.
+     * @see org.splevo.project.SPLProfile
+     * @generated
+     */
+    EClass getSPLProfile();
+
+    /**
+     * Returns the meta object for the attribute list '{@link org.splevo.project.SPLProfile#getRecommendedRefactorerIds <em>Recommended Refactorer Ids</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute list '<em>Recommended Refactorer Ids</em>'.
+     * @see org.splevo.project.SPLProfile#getRecommendedRefactorerIds()
+     * @see #getSPLProfile()
+     * @generated
+     */
+    EAttribute getSPLProfile_RecommendedRefactorerIds();
+
+    /**
+     * Returns the meta object for the attribute list '{@link org.splevo.project.SPLProfile#getQualityGoals <em>Quality Goals</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute list '<em>Quality Goals</em>'.
+     * @see org.splevo.project.SPLProfile#getQualityGoals()
+     * @see #getSPLProfile()
+     * @generated
+     */
+    EAttribute getSPLProfile_QualityGoals();
+
+    /**
+     * Returns the meta object for enum '{@link org.splevo.project.QualityGoal <em>Quality Goal</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for enum '<em>Quality Goal</em>'.
+     * @see org.splevo.project.QualityGoal
+     * @generated
+     */
+    EEnum getQualityGoal();
 
     /**
      * Returns the factory that creates the instances of the model.
@@ -589,6 +699,14 @@ public interface ProjectPackage extends EPackage {
         EReference SP_LEVO_PROJECT__DIFFER_OPTIONS = eINSTANCE.getSPLevoProject_DifferOptions();
 
         /**
+         * The meta object literal for the '<em><b>Spl Profile</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference SP_LEVO_PROJECT__SPL_PROFILE = eINSTANCE.getSPLevoProject_SplProfile();
+
+        /**
          * The meta object literal for the '{@link org.splevo.project.impl.DifferOptionImpl <em>Differ Option</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -613,6 +731,42 @@ public interface ProjectPackage extends EPackage {
          * @generated
          */
         EAttribute DIFFER_OPTION__VALUE = eINSTANCE.getDifferOption_Value();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.project.impl.SPLProfileImpl <em>SPL Profile</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.project.impl.SPLProfileImpl
+         * @see org.splevo.project.impl.ProjectPackageImpl#getSPLProfile()
+         * @generated
+         */
+        EClass SPL_PROFILE = eINSTANCE.getSPLProfile();
+
+        /**
+         * The meta object literal for the '<em><b>Recommended Refactorer Ids</b></em>' attribute list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute SPL_PROFILE__RECOMMENDED_REFACTORER_IDS = eINSTANCE.getSPLProfile_RecommendedRefactorerIds();
+
+        /**
+         * The meta object literal for the '<em><b>Quality Goals</b></em>' attribute list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute SPL_PROFILE__QUALITY_GOALS = eINSTANCE.getSPLProfile_QualityGoals();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.project.QualityGoal <em>Quality Goal</em>}' enum.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.project.QualityGoal
+         * @see org.splevo.project.impl.ProjectPackageImpl#getQualityGoal()
+         * @generated
+         */
+        EEnum QUALITY_GOAL = eINSTANCE.getQualityGoal();
 
 	}
 

@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.splevo.project.ProjectPackage;
+import org.splevo.project.SPLProfile;
 import org.splevo.project.SPLevoProject;
 
 /**
@@ -51,6 +52,7 @@ import org.splevo.project.SPLevoProject;
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDiffingFilterRules <em>Diffing Filter Rules</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDifferIds <em>Differ Ids</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getDifferOptions <em>Differ Options</em>}</li>
+ *   <li>{@link org.splevo.project.impl.SPLevoProjectImpl#getSplProfile <em>Spl Profile</em>}</li>
  * </ul>
  * </p>
  *
@@ -286,6 +288,16 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
      * @ordered
      */
     protected EMap<String, String> differOptions;
+
+    /**
+     * The cached value of the '{@link #getSplProfile() <em>Spl Profile</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getSplProfile()
+     * @generated
+     * @ordered
+     */
+    protected SPLProfile splProfile;
 
     /**
      * <!-- begin-user-doc -->
@@ -561,11 +573,56 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
      * <!-- end-user-doc -->
      * @generated
      */
+    public SPLProfile getSplProfile() {
+        return splProfile;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetSplProfile(SPLProfile newSplProfile, NotificationChain msgs) {
+        SPLProfile oldSplProfile = splProfile;
+        splProfile = newSplProfile;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE, oldSplProfile, newSplProfile);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setSplProfile(SPLProfile newSplProfile) {
+        if (newSplProfile != splProfile) {
+            NotificationChain msgs = null;
+            if (splProfile != null)
+                msgs = ((InternalEObject)splProfile).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE, null, msgs);
+            if (newSplProfile != null)
+                msgs = ((InternalEObject)newSplProfile).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE, null, msgs);
+            msgs = basicSetSplProfile(newSplProfile, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE, newSplProfile, newSplProfile));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
                 return ((InternalEList<?>)getDifferOptions()).basicRemove(otherEnd, msgs);
+            case ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE:
+                return basicSetSplProfile(null, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -607,6 +664,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
                 if (coreType) return getDifferOptions();
                 else return getDifferOptions().map();
+            case ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE:
+                return getSplProfile();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -666,6 +725,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
                 ((EStructuralFeature.Setting)getDifferOptions()).set(newValue);
                 return;
+            case ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE:
+                setSplProfile((SPLProfile)newValue);
+                return;
         }
         super.eSet(featureID, newValue);
     }
@@ -720,6 +782,9 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
                 getDifferOptions().clear();
                 return;
+            case ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE:
+                setSplProfile((SPLProfile)null);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -760,6 +825,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
                 return differIds != null && !differIds.isEmpty();
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
                 return differOptions != null && !differOptions.isEmpty();
+            case ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE:
+                return splProfile != null;
         }
         return super.eIsSet(featureID);
     }

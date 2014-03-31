@@ -67,9 +67,21 @@
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="differOptions" upperBound="-1"
         eType="#//DifferOption" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="splProfile" eType="#//SPLProfile"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DifferOption" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SPLProfile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendedRefactorerIds"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualityGoals" upperBound="-1"
+        eType="#//QualityGoal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QualityGoal">
+    <eLiterals name="REDUCE_REDUNDANCY"/>
+    <eLiterals name="REDUCE_COMPLEXITY" value="1"/>
   </eClassifiers>
 </ecore:EPackage>

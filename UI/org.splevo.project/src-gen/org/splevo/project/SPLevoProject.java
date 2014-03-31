@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.splevo.project.SPLevoProject#getDiffingFilterRules <em>Diffing Filter Rules</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDifferIds <em>Differ Ids</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDifferOptions <em>Differ Options</em>}</li>
+ *   <li>{@link org.splevo.project.SPLevoProject#getSplProfile <em>Spl Profile</em>}</li>
  * </ul>
  * </p>
  *
@@ -353,5 +354,31 @@ public interface SPLevoProject extends EObject {
      * @generated
      */
     EMap<String, String> getDifferOptions();
+
+    /**
+     * Returns the value of the '<em><b>Spl Profile</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Spl Profile</em>' containment reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Spl Profile</em>' containment reference.
+     * @see #setSplProfile(SPLProfile)
+     * @see org.splevo.project.ProjectPackage#getSPLevoProject_SplProfile()
+     * @model containment="true"
+     * @generated
+     */
+    SPLProfile getSplProfile();
+
+    /**
+     * Sets the value of the '{@link org.splevo.project.SPLevoProject#getSplProfile <em>Spl Profile</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Spl Profile</em>' containment reference.
+     * @see #getSplProfile()
+     * @generated
+     */
+    void setSplProfile(SPLProfile value);
 
 } // SPLevoProject

@@ -14,6 +14,7 @@ package org.splevo.project.impl;
 import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -22,6 +23,8 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.splevo.project.ProjectFactory;
 import org.splevo.project.ProjectPackage;
+import org.splevo.project.QualityGoal;
+import org.splevo.project.SPLProfile;
 import org.splevo.project.SPLevoProject;
 
 /**
@@ -44,6 +47,20 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      * @generated
      */
     private EClass differOptionEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass splProfileEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EEnum qualityGoalEEnum = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -246,6 +263,15 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getSPLevoProject_SplProfile() {
+        return (EReference)spLevoProjectEClass.getEStructuralFeatures().get(14);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getDifferOption() {
         return differOptionEClass;
     }
@@ -266,6 +292,42 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      */
     public EAttribute getDifferOption_Value() {
         return (EAttribute)differOptionEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getSPLProfile() {
+        return splProfileEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getSPLProfile_RecommendedRefactorerIds() {
+        return (EAttribute)splProfileEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getSPLProfile_QualityGoals() {
+        return (EAttribute)splProfileEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EEnum getQualityGoal() {
+        return qualityGoalEEnum;
     }
 
     /**
@@ -311,10 +373,18 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_FILTER_RULES);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_IDS);
         createEReference(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_OPTIONS);
+        createEReference(spLevoProjectEClass, SP_LEVO_PROJECT__SPL_PROFILE);
 
         differOptionEClass = createEClass(DIFFER_OPTION);
         createEAttribute(differOptionEClass, DIFFER_OPTION__KEY);
         createEAttribute(differOptionEClass, DIFFER_OPTION__VALUE);
+
+        splProfileEClass = createEClass(SPL_PROFILE);
+        createEAttribute(splProfileEClass, SPL_PROFILE__RECOMMENDED_REFACTORER_IDS);
+        createEAttribute(splProfileEClass, SPL_PROFILE__QUALITY_GOALS);
+
+        // Create enums
+        qualityGoalEEnum = createEEnum(QUALITY_GOAL);
     }
 
 	/**
@@ -362,10 +432,20 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         initEAttribute(getSPLevoProject_DiffingFilterRules(), ecorePackage.getEString(), "diffingFilterRules", "", 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_DifferIds(), ecorePackage.getEString(), "differIds", null, 1, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSPLevoProject_DifferOptions(), this.getDifferOption(), null, "differOptions", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getSPLevoProject_SplProfile(), this.getSPLProfile(), null, "splProfile", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(differOptionEClass, Map.Entry.class, "DifferOption", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getDifferOption_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getDifferOption_Value(), ecorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(splProfileEClass, SPLProfile.class, "SPLProfile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getSPLProfile_RecommendedRefactorerIds(), ecorePackage.getEString(), "recommendedRefactorerIds", null, 0, -1, SPLProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSPLProfile_QualityGoals(), this.getQualityGoal(), "qualityGoals", null, 0, -1, SPLProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        // Initialize enums and add enum literals
+        initEEnum(qualityGoalEEnum, QualityGoal.class, "QualityGoal");
+        addEEnumLiteral(qualityGoalEEnum, QualityGoal.REDUCE_REDUNDANCY);
+        addEEnumLiteral(qualityGoalEEnum, QualityGoal.REDUCE_COMPLEXITY);
 
         // Create resource
         createResource(eNS_URI);

@@ -40,6 +40,15 @@ public interface ProjectFactory extends EFactory {
 	SPLevoProject createSPLevoProject();
 
 	/**
+     * Returns a new object of class '<em>SPL Profile</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>SPL Profile</em>'.
+     * @generated
+     */
+    SPLProfile createSPLProfile();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

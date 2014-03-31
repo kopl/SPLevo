@@ -8,6 +8,10 @@
   <foreignModel>project.ecore</foreignModel>
   <genPackages prefix="Project" basePackage="org.splevo" disposableProviderFactory="true"
       fileExtensions="splevoproject" ecorePackage="project.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="project.ecore#//QualityGoal">
+      <genEnumLiterals ecoreEnumLiteral="project.ecore#//QualityGoal/REDUCE_REDUNDANCY"/>
+      <genEnumLiterals ecoreEnumLiteral="project.ecore#//QualityGoal/REDUCE_COMPLEXITY"/>
+    </genEnums>
     <genClasses ecoreClass="project.ecore#//SPLevoProject">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/description"/>
@@ -23,10 +27,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/diffingFilterRules"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLevoProject/differIds"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference project.ecore#//SPLevoProject/differOptions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference project.ecore#//SPLevoProject/splProfile"/>
     </genClasses>
     <genClasses ecoreClass="project.ecore#//DifferOption">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//DifferOption/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//DifferOption/value"/>
+    </genClasses>
+    <genClasses ecoreClass="project.ecore#//SPLProfile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLProfile/recommendedRefactorerIds"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLProfile/qualityGoals"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
