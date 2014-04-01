@@ -24,6 +24,18 @@
    <extension point="org.eclipse.ui.editors">
       <!-- @generated vpm -->
       <editor
+            id="org.splevo.vpm.realization.presentation.RealizationEditorID"
+            name="%_UI_RealizationEditor_label"
+            icon="icons/full/obj16/RealizationModelFile.gif"
+            extensions="realization"
+            class="org.splevo.vpm.realization.presentation.RealizationEditor"
+            contributorClass="org.splevo.vpm.realization.presentation.RealizationActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated vpm -->
+      <editor
             id="org.splevo.vpm.software.presentation.SoftwareEditorID"
             name="%_UI_SoftwareEditor_label"
             icon="icons/full/obj16/SoftwareModelFile.gif"
@@ -31,6 +43,22 @@
             class="org.splevo.vpm.software.presentation.SoftwareEditor"
             contributorClass="org.splevo.vpm.software.presentation.SoftwareActionBarContributor">
       </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated vpm -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.splevo.vpm.realization.presentation.RealizationModelWizardID"
+            name="%_UI_RealizationModelWizard_label"
+            class="org.splevo.vpm.realization.presentation.RealizationModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/RealizationModelFile.gif">
+         <description>%_UI_RealizationModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
    </extension>
 
    <extension point="org.eclipse.ui.editors">
@@ -60,6 +88,7 @@
       </wizard>
    </extension>
 
+null
 null
 null
 null

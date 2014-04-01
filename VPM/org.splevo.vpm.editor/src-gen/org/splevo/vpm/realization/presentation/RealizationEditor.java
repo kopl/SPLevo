@@ -1,7 +1,19 @@
-package org.splevo.vpm.variability.presentation;
+/**
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Benjamin Klatt
+ */
+package org.splevo.vpm.realization.presentation;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,56 +32,24 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.command.BasicCommandStack;
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CommandStack;
-import org.eclipse.emf.common.command.CommandStackListener;
-import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.ui.MarkerHelper;
-import org.eclipse.emf.common.ui.ViewerPane;
-import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
-import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
-import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
-import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
-import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
-import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
-import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
-import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
-import org.eclipse.emf.edit.ui.util.EditUIUtil;
-import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
-import org.eclipse.featuremodel.provider.FeatureModelItemProviderAdapterFactory;
+
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+
 import org.eclipse.jface.util.LocalSelectionTransfer;
+
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -83,21 +63,29 @@ import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+
 import org.eclipse.swt.SWT;
+
 import org.eclipse.swt.custom.CTabFolder;
+
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
+
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+
 import org.eclipse.swt.graphics.Point;
+
 import org.eclipse.swt.layout.FillLayout;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -105,28 +93,95 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.splevo.vpm.realization.provider.RealizationItemProviderAdapterFactory;
+
 import org.eclipse.ui.dialogs.SaveAsDialog;
+
 import org.eclipse.ui.ide.IGotoMarker;
+
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
+
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+
+import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandStack;
+import org.eclipse.emf.common.command.CommandStackListener;
+
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.ui.MarkerHelper;
+import org.eclipse.emf.common.ui.ViewerPane;
+
+import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
+
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.URI;
+
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+
+import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+
+import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+
+import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
+
+import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
+
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
+
+import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
+
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
+
+import org.splevo.vpm.realization.provider.RealizationItemProviderAdapterFactory;
+
+import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
+
+import org.eclipse.featuremodel.provider.FeatureModelItemProviderAdapterFactory;
+
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+
 import org.splevo.vpm.software.provider.SoftwareItemProviderAdapterFactory;
+
+import org.splevo.vpm.variability.presentation.vpmEditorPlugin;
+
 import org.splevo.vpm.variability.provider.variabilityItemProviderAdapterFactory;
 
 /**
- * This is an example of a variability model editor.
+ * This is an example of a Realization model editor.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class variabilityEditor extends MultiPageEditorPart implements IEditingDomainProvider, ISelectionProvider,
+public class RealizationEditor extends MultiPageEditorPart implements IEditingDomainProvider, ISelectionProvider,
         IMenuListener, IViewerProvider, IGotoMarker {
     /**
      * This keeps track of the editing domain that is used to track all changes to the model.
@@ -286,16 +341,16 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
         public void partActivated(IWorkbenchPart p) {
             if (p instanceof ContentOutline) {
                 if (((ContentOutline) p).getCurrentPage() == contentOutlinePage) {
-                    getActionBarContributor().setActiveEditor(variabilityEditor.this);
+                    getActionBarContributor().setActiveEditor(RealizationEditor.this);
 
                     setCurrentViewer(contentOutlineViewer);
                 }
             } else if (p instanceof PropertySheet) {
                 if (propertySheetPages.contains(((PropertySheet) p).getCurrentPage())) {
-                    getActionBarContributor().setActiveEditor(variabilityEditor.this);
+                    getActionBarContributor().setActiveEditor(RealizationEditor.this);
                     handleActivate();
                 }
-            } else if (p == variabilityEditor.this) {
+            } else if (p == RealizationEditor.this) {
                 handleActivate();
             }
         }
@@ -465,7 +520,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
                         public void run() {
                             removedResources.addAll(visitor.getRemovedResources());
                             if (!isDirty()) {
-                                getSite().getPage().closeEditor(variabilityEditor.this, false);
+                                getSite().getPage().closeEditor(RealizationEditor.this, false);
                             }
                         }
                     });
@@ -475,7 +530,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
                     getSite().getShell().getDisplay().asyncExec(new Runnable() {
                         public void run() {
                             changedResources.addAll(visitor.getChangedResources());
-                            if (getSite().getPage().getActiveEditor() == variabilityEditor.this) {
+                            if (getSite().getPage().getActiveEditor() == RealizationEditor.this) {
                                 handleActivate();
                             }
                         }
@@ -506,7 +561,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
 
         if (!removedResources.isEmpty()) {
             if (handleDirtyConflict()) {
-                getSite().getPage().closeEditor(variabilityEditor.this, false);
+                getSite().getPage().closeEditor(RealizationEditor.this, false);
             } else {
                 removedResources.clear();
                 changedResources.clear();
@@ -622,7 +677,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
      * <!-- end-user-doc -->
      * @generated
      */
-    public variabilityEditor() {
+    public RealizationEditor() {
         super();
         initializeEditingDomain();
     }
@@ -946,7 +1001,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
             // Create a page for the selection tree view.
             //
             {
-                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), variabilityEditor.this) {
+                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), RealizationEditor.this) {
                     @Override
                     public Viewer createViewer(Composite composite) {
                         Tree tree = new Tree(composite, SWT.MULTI);
@@ -981,7 +1036,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
             // Create a page for the parent tree view.
             //
             {
-                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), variabilityEditor.this) {
+                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), RealizationEditor.this) {
                     @Override
                     public Viewer createViewer(Composite composite) {
                         Tree tree = new Tree(composite, SWT.MULTI);
@@ -1010,7 +1065,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
             // This is the page for the list viewer
             //
             {
-                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), variabilityEditor.this) {
+                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), RealizationEditor.this) {
                     @Override
                     public Viewer createViewer(Composite composite) {
                         return new ListViewer(composite);
@@ -1035,7 +1090,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
             // This is the page for the tree viewer
             //
             {
-                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), variabilityEditor.this) {
+                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), RealizationEditor.this) {
                     @Override
                     public Viewer createViewer(Composite composite) {
                         return new TreeViewer(composite);
@@ -1062,7 +1117,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
             // This is the page for the table viewer.
             //
             {
-                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), variabilityEditor.this) {
+                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), RealizationEditor.this) {
                     @Override
                     public Viewer createViewer(Composite composite) {
                         return new TableViewer(composite);
@@ -1105,7 +1160,7 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
             // This is the page for the table tree viewer.
             //
             {
-                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), variabilityEditor.this) {
+                ViewerPane viewerPane = new ViewerPane(getSite().getPage(), RealizationEditor.this) {
                     @Override
                     public Viewer createViewer(Composite composite) {
                         return new TreeViewer(composite);
@@ -1321,8 +1376,8 @@ public class variabilityEditor extends MultiPageEditorPart implements IEditingDo
         PropertySheetPage propertySheetPage = new ExtendedPropertySheetPage(editingDomain) {
             @Override
             public void setSelectionToViewer(List<?> selection) {
-                variabilityEditor.this.setSelectionToViewer(selection);
-                variabilityEditor.this.setFocus();
+                RealizationEditor.this.setSelectionToViewer(selection);
+                RealizationEditor.this.setFocus();
             }
 
             @Override

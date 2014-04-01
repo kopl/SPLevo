@@ -106,6 +106,7 @@ import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.splevo.vpm.realization.provider.RealizationItemProviderAdapterFactory;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
@@ -641,6 +642,7 @@ public class SoftwareEditor extends MultiPageEditorPart implements IEditingDomai
         adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new variabilityItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new SoftwareItemProviderAdapterFactory());
+        adapterFactory.addAdapterFactory(new RealizationItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new FeatureModelItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
