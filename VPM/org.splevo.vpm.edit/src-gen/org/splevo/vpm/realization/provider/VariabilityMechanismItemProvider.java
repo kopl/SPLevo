@@ -1,15 +1,15 @@
-/*******************************************************************************
+/**
  * Copyright (c) 2014
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
- *    Benjamin Klatt - initial API and implementation and/or initial documentation
- *******************************************************************************/
-package org.splevo.vpm.variability.provider;
+ *     Benjamin Klatt
+ */
+package org.splevo.vpm.realization.provider;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,28 +17,27 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IChildCreationExtender;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.splevo.vpm.variability.VariationPointModel;
-import org.splevo.vpm.variability.variabilityFactory;
-import org.splevo.vpm.variability.variabilityPackage;
+import org.splevo.vpm.realization.RealizationPackage;
+import org.splevo.vpm.realization.VariabilityMechanism;
+import org.splevo.vpm.variability.provider.vpmEditPlugin;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.vpm.variability.VariationPointModel} object.
+ * This is the item provider adapter for a {@link org.splevo.vpm.realization.VariabilityMechanism} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class VariationPointModelItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
+public class VariabilityMechanismItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
         IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
      * This constructs an instance from a factory and a notifier.
@@ -46,7 +45,7 @@ public class VariationPointModelItemProvider extends ItemProviderAdapter impleme
      * <!-- end-user-doc -->
      * @generated
      */
-    public VariationPointModelItemProvider(AdapterFactory adapterFactory) {
+    public VariabilityMechanismItemProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
@@ -61,67 +60,54 @@ public class VariationPointModelItemProvider extends ItemProviderAdapter impleme
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addSoftwareElementsPropertyDescriptor(object);
+            addNamePropertyDescriptor(object);
+            addRefactoringIDPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Software Elements feature.
+     * This adds a property descriptor for the Name feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addSoftwareElementsPropertyDescriptor(Object object) {
+    protected void addNamePropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariationPointModel_softwareElements_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_VariationPointModel_softwareElements_feature",
-                        "_UI_VariationPointModel_type"),
-                variabilityPackage.Literals.VARIATION_POINT_MODEL__SOFTWARE_ELEMENTS, true, false, true, null, null,
-                null));
+                getString("_UI_VariabilityMechanism_name_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariabilityMechanism_name_feature",
+                        "_UI_VariabilityMechanism_type"), RealizationPackage.Literals.VARIABILITY_MECHANISM__NAME,
+                true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
-     * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-     * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-     * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+     * This adds a property descriptor for the Refactoring ID feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    @Override
-    public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-        if (childrenFeatures == null) {
-            super.getChildrenFeatures(object);
-            childrenFeatures.add(variabilityPackage.Literals.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS);
-        }
-        return childrenFeatures;
+    protected void addRefactoringIDPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_VariabilityMechanism_refactoringID_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariabilityMechanism_refactoringID_feature",
+                        "_UI_VariabilityMechanism_type"),
+                RealizationPackage.Literals.VARIABILITY_MECHANISM__REFACTORING_ID, true, false, false,
+                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    protected EStructuralFeature getChildFeature(Object object, Object child) {
-        // Check the type of the specified child object and return the proper feature to use for
-        // adding (see {@link AddCommand}) it as a child.
-
-        return super.getChildFeature(object, child);
-    }
-
-    /**
-     * This returns VariationPointModel.gif.
+     * This returns VariabilityMechanism.gif.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     @Override
     public Object getImage(Object object) {
-        return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPointModel"));
+        return overlayImage(object, getResourceLocator().getImage("full/obj16/VariabilityMechanism"));
     }
 
     /**
@@ -132,7 +118,9 @@ public class VariationPointModelItemProvider extends ItemProviderAdapter impleme
      */
     @Override
     public String getText(Object object) {
-        return getString("_UI_VariationPointModel_type");
+        String label = ((VariabilityMechanism) object).getName();
+        return label == null || label.length() == 0 ? getString("_UI_VariabilityMechanism_type")
+                : getString("_UI_VariabilityMechanism_type") + " " + label;
     }
 
     /**
@@ -146,9 +134,10 @@ public class VariationPointModelItemProvider extends ItemProviderAdapter impleme
     public void notifyChanged(Notification notification) {
         updateChildren(notification);
 
-        switch (notification.getFeatureID(VariationPointModel.class)) {
-        case variabilityPackage.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS:
-            fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+        switch (notification.getFeatureID(VariabilityMechanism.class)) {
+        case RealizationPackage.VARIABILITY_MECHANISM__NAME:
+        case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
+            fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
         }
         super.notifyChanged(notification);
@@ -164,10 +153,6 @@ public class VariationPointModelItemProvider extends ItemProviderAdapter impleme
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
         super.collectNewChildDescriptors(newChildDescriptors, object);
-
-        newChildDescriptors.add(createChildParameter(
-                variabilityPackage.Literals.VARIATION_POINT_MODEL__VARIATION_POINT_GROUPS,
-                variabilityFactory.eINSTANCE.createVariationPointGroup()));
     }
 
     /**
@@ -178,7 +163,7 @@ public class VariationPointModelItemProvider extends ItemProviderAdapter impleme
      */
     @Override
     public ResourceLocator getResourceLocator() {
-        return ((IChildCreationExtender) adapterFactory).getResourceLocator();
+        return vpmEditPlugin.INSTANCE;
     }
 
 }

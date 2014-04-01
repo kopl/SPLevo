@@ -20,6 +20,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
@@ -29,15 +30,14 @@ import org.splevo.vpm.variability.variabilityPackage;
 /**
  * This is the item provider adapter for a {@link org.splevo.vpm.variability.VariationPoint} object.
  * <!-- begin-user-doc --> <!-- end-user-doc -->
- *
  * @generated
  */
 public class VariationPointItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
         IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * This constructs an instance from a factory and a notifier.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     public VariationPointItemProvider(AdapterFactory adapterFactory) {
@@ -45,9 +45,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * This returns the property descriptors for the adapted class.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -64,9 +64,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Location feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Location feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     protected void addLocationPropertyDescriptor(Object object) {
@@ -80,9 +80,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Variability Type feature. <!-- begin-user-doc -->
+     * This adds a property descriptor for the Variability Type feature.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @generated
      */
     protected void addVariabilityTypePropertyDescriptor(Object object) {
@@ -96,9 +96,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Binding Time feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Binding Time feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     protected void addBindingTimePropertyDescriptor(Object object) {
@@ -112,9 +112,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Extensibility feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Extensibility feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     protected void addExtensibilityPropertyDescriptor(Object object) {
@@ -141,13 +141,13 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
             childrenFeatures.add(variabilityPackage.Literals.VARIATION_POINT__VARIANTS);
+            childrenFeatures.add(variabilityPackage.Literals.VARIATION_POINT__VARIABILITY_MECHANISM);
         }
         return childrenFeatures;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -198,9 +198,8 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
-     * . <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -214,6 +213,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
         case variabilityPackage.VARIATION_POINT__VARIANTS:
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
             return;
         }
@@ -221,9 +221,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
-     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+     * that can be created under this object.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -232,12 +232,16 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
 
         newChildDescriptors.add(createChildParameter(variabilityPackage.Literals.VARIATION_POINT__VARIANTS,
                 variabilityFactory.eINSTANCE.createVariant()));
+
+        newChildDescriptors.add(createChildParameter(
+                variabilityPackage.Literals.VARIATION_POINT__VARIABILITY_MECHANISM,
+                RealizationFactory.eINSTANCE.createVariabilityMechanism()));
     }
 
     /**
-     * Return the resource locator for this item provider's resources. <!-- begin-user-doc --> <!--
+     * Return the resource locator for this item provider's resources.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override

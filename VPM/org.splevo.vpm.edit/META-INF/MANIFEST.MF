@@ -8,7 +8,8 @@ Bundle-Activator: org.splevo.vpm.variability.provider.vpmEditPlugin$Implementati
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.splevo.vpm.software.provider,
+Export-Package: org.splevo.vpm.realization.provider,
+ org.splevo.vpm.software.provider,
  org.splevo.vpm.variability.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm;visibility:=reexport,

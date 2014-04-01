@@ -1,31 +1,26 @@
-/*******************************************************************************
+/**
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt - initial API and implementation and/or initial documentation
- *******************************************************************************/
-package org.splevo.vpm.software.provider;
+ *     Benjamin Klatt
+ */
+package org.splevo.vpm.realization.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ChangeNotifier;
-import org.eclipse.emf.edit.provider.ChildCreationExtenderManager;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
-import org.eclipse.emf.edit.provider.IChildCreationExtender;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -33,9 +28,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.splevo.vpm.software.SoftwarePackage;
-import org.splevo.vpm.software.util.SoftwareAdapterFactory;
-import org.splevo.vpm.variability.provider.vpmEditPlugin;
+import org.splevo.vpm.realization.util.RealizationAdapterFactory;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -46,8 +39,8 @@ import org.splevo.vpm.variability.provider.vpmEditPlugin;
  * <!-- end-user-doc -->
  * @generated
  */
-public class SoftwareItemProviderAdapterFactory extends SoftwareAdapterFactory implements ComposeableAdapterFactory,
-        IChangeNotifier, IDisposable, IChildCreationExtender {
+public class RealizationItemProviderAdapterFactory extends RealizationAdapterFactory implements
+        ComposeableAdapterFactory, IChangeNotifier, IDisposable {
     /**
      * This keeps track of the root adapter factory that delegates to this adapter factory.
      * <!-- begin-user-doc -->
@@ -65,15 +58,6 @@ public class SoftwareItemProviderAdapterFactory extends SoftwareAdapterFactory i
     protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
     /**
-     * This helps manage the child creation extenders.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected ChildCreationExtenderManager childCreationExtenderManager = new ChildCreationExtenderManager(
-            vpmEditPlugin.INSTANCE, SoftwarePackage.eNS_URI);
-
-    /**
      * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -87,7 +71,7 @@ public class SoftwareItemProviderAdapterFactory extends SoftwareAdapterFactory i
      * <!-- end-user-doc -->
      * @generated
      */
-    public SoftwareItemProviderAdapterFactory() {
+    public RealizationItemProviderAdapterFactory() {
         supportedTypes.add(IEditingDomainItemProvider.class);
         supportedTypes.add(IStructuredItemContentProvider.class);
         supportedTypes.add(ITreeItemContentProvider.class);
@@ -96,26 +80,26 @@ public class SoftwareItemProviderAdapterFactory extends SoftwareAdapterFactory i
     }
 
     /**
-     * This keeps track of the one adapter used for all {@link org.splevo.vpm.software.SourceLocation} instances.
+     * This keeps track of the one adapter used for all {@link org.splevo.vpm.realization.VariabilityMechanism} instances.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected SourceLocationItemProvider sourceLocationItemProvider;
+    protected VariabilityMechanismItemProvider variabilityMechanismItemProvider;
 
     /**
-     * This creates an adapter for a {@link org.splevo.vpm.software.SourceLocation}.
+     * This creates an adapter for a {@link org.splevo.vpm.realization.VariabilityMechanism}.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     @Override
-    public Adapter createSourceLocationAdapter() {
-        if (sourceLocationItemProvider == null) {
-            sourceLocationItemProvider = new SourceLocationItemProvider(this);
+    public Adapter createVariabilityMechanismAdapter() {
+        if (variabilityMechanismItemProvider == null) {
+            variabilityMechanismItemProvider = new VariabilityMechanismItemProvider(this);
         }
 
-        return sourceLocationItemProvider;
+        return variabilityMechanismItemProvider;
     }
 
     /**
@@ -177,33 +161,6 @@ public class SoftwareItemProviderAdapterFactory extends SoftwareAdapterFactory i
     }
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public List<IChildCreationExtender> getChildCreationExtenders() {
-        return childCreationExtenderManager.getChildCreationExtenders();
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Collection<?> getNewChildDescriptors(Object object, EditingDomain editingDomain) {
-        return childCreationExtenderManager.getNewChildDescriptors(object, editingDomain);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public ResourceLocator getResourceLocator() {
-        return childCreationExtenderManager;
-    }
-
-    /**
      * This adds a listener.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -238,14 +195,14 @@ public class SoftwareItemProviderAdapterFactory extends SoftwareAdapterFactory i
     }
 
     /**
-     * This disposes all of the item providers created by this factory. 
+     * This disposes all of the item providers created by this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     public void dispose() {
-        if (sourceLocationItemProvider != null)
-            sourceLocationItemProvider.dispose();
+        if (variabilityMechanismItemProvider != null)
+            variabilityMechanismItemProvider.dispose();
     }
 
 }
