@@ -26,4 +26,12 @@
             genModel="model/vpm.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated vpm -->
+      <package
+            uri="http://splevo.org/vpm/1.0/realization"
+            class="org.splevo.vpm.realization.RealizationPackage"
+            genModel="model/vpm.genmodel"/>
+   </extension>
+
 </plugin>

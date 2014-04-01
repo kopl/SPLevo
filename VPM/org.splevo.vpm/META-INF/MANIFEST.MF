@@ -14,6 +14,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;bundle-version="2.8.1"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.splevo.vpm,
+ org.splevo.vpm.realization,
+ org.splevo.vpm.realization.impl,
+ org.splevo.vpm.realization.util,
  org.splevo.vpm.software,
  org.splevo.vpm.software.impl,
  org.splevo.vpm.software.util,

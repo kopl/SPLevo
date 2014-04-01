@@ -2,6 +2,7 @@ package org.splevo.vpm.variability;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 
 /**
@@ -18,6 +19,7 @@ import org.splevo.vpm.software.SoftwareElement;
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariabilityType <em>Variability Type</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getBindingTime <em>Binding Time</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getExtensibility <em>Extensibility</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}</li>
  * </ul>
  * </p>
  *
@@ -185,5 +187,31 @@ public interface VariationPoint extends EObject {
      * @generated
      */
     void setExtensibility(Extensible value);
+
+    /**
+     * Returns the value of the '<em><b>Variability Mechanism</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Variability Mechanism</em>' containment reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Variability Mechanism</em>' containment reference.
+     * @see #setVariabilityMechanism(VariabilityMechanism)
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_VariabilityMechanism()
+     * @model containment="true"
+     * @generated
+     */
+    VariabilityMechanism getVariabilityMechanism();
+
+    /**
+     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Variability Mechanism</em>' containment reference.
+     * @see #getVariabilityMechanism()
+     * @generated
+     */
+    void setVariabilityMechanism(VariabilityMechanism value);
 
 } // VariationPoint

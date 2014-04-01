@@ -6,6 +6,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.featuremodel.FeatureModelPackage;
+import org.splevo.vpm.realization.RealizationPackage;
+import org.splevo.vpm.realization.impl.RealizationPackageImpl;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SoftwareFactory;
@@ -97,14 +99,19 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
         variabilityPackageImpl thevariabilityPackage = (variabilityPackageImpl) (EPackage.Registry.INSTANCE
                 .getEPackage(variabilityPackage.eNS_URI) instanceof variabilityPackageImpl ? EPackage.Registry.INSTANCE
                 .getEPackage(variabilityPackage.eNS_URI) : variabilityPackage.eINSTANCE);
+        RealizationPackageImpl theRealizationPackage = (RealizationPackageImpl) (EPackage.Registry.INSTANCE
+                .getEPackage(RealizationPackage.eNS_URI) instanceof RealizationPackageImpl ? EPackage.Registry.INSTANCE
+                .getEPackage(RealizationPackage.eNS_URI) : RealizationPackage.eINSTANCE);
 
         // Create package meta-data objects
         theSoftwarePackage.createPackageContents();
         thevariabilityPackage.createPackageContents();
+        theRealizationPackage.createPackageContents();
 
         // Initialize created meta-data
         theSoftwarePackage.initializePackageContents();
         thevariabilityPackage.initializePackageContents();
+        theRealizationPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theSoftwarePackage.freeze();

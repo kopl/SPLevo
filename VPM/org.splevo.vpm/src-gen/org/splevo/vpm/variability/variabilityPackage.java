@@ -121,13 +121,22 @@ public interface variabilityPackage extends EPackage {
     int VARIATION_POINT__EXTENSIBILITY = 5;
 
     /**
+     * The feature id for the '<em><b>Variability Mechanism</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT__VARIABILITY_MECHANISM = 6;
+
+    /**
      * The number of structural features of the '<em>Variation Point</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_FEATURE_COUNT = 6;
+    int VARIATION_POINT_FEATURE_COUNT = 7;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariantImpl <em>Variant</em>}' class.
@@ -392,6 +401,17 @@ public interface variabilityPackage extends EPackage {
     EAttribute getVariationPoint_Extensibility();
 
     /**
+     * Returns the meta object for the containment reference '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference '<em>Variability Mechanism</em>'.
+     * @see org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism()
+     * @see #getVariationPoint()
+     * @generated
+     */
+    EReference getVariationPoint_VariabilityMechanism();
+
+    /**
      * Returns the meta object for class '{@link org.splevo.vpm.variability.Variant <em>Variant</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -651,6 +671,14 @@ public interface variabilityPackage extends EPackage {
          * @generated
          */
         EAttribute VARIATION_POINT__EXTENSIBILITY = eINSTANCE.getVariationPoint_Extensibility();
+
+        /**
+         * The meta object literal for the '<em><b>Variability Mechanism</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference VARIATION_POINT__VARIABILITY_MECHANISM = eINSTANCE.getVariationPoint_VariabilityMechanism();
 
         /**
          * The meta object literal for the '{@link org.splevo.vpm.variability.impl.VariantImpl <em>Variant</em>}' class.

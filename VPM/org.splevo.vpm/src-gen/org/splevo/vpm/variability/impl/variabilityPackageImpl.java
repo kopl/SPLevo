@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.featuremodel.FeatureModelPackage;
+import org.splevo.vpm.realization.RealizationPackage;
+import org.splevo.vpm.realization.impl.RealizationPackageImpl;
 import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.software.impl.SoftwarePackageImpl;
 import org.splevo.vpm.variability.BindingTime;
@@ -134,14 +136,19 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         SoftwarePackageImpl theSoftwarePackage = (SoftwarePackageImpl) (EPackage.Registry.INSTANCE
                 .getEPackage(SoftwarePackage.eNS_URI) instanceof SoftwarePackageImpl ? EPackage.Registry.INSTANCE
                 .getEPackage(SoftwarePackage.eNS_URI) : SoftwarePackage.eINSTANCE);
+        RealizationPackageImpl theRealizationPackage = (RealizationPackageImpl) (EPackage.Registry.INSTANCE
+                .getEPackage(RealizationPackage.eNS_URI) instanceof RealizationPackageImpl ? EPackage.Registry.INSTANCE
+                .getEPackage(RealizationPackage.eNS_URI) : RealizationPackage.eINSTANCE);
 
         // Create package meta-data objects
         thevariabilityPackage.createPackageContents();
         theSoftwarePackage.createPackageContents();
+        theRealizationPackage.createPackageContents();
 
         // Initialize created meta-data
         thevariabilityPackage.initializePackageContents();
         theSoftwarePackage.initializePackageContents();
+        theRealizationPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         thevariabilityPackage.freeze();
@@ -212,6 +219,15 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      */
     public EAttribute getVariationPoint_Extensibility() {
         return (EAttribute) variationPointEClass.getEStructuralFeatures().get(5);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getVariationPoint_VariabilityMechanism() {
+        return (EReference) variationPointEClass.getEStructuralFeatures().get(6);
     }
 
     /**
@@ -403,6 +419,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         createEAttribute(variationPointEClass, VARIATION_POINT__VARIABILITY_TYPE);
         createEAttribute(variationPointEClass, VARIATION_POINT__BINDING_TIME);
         createEAttribute(variationPointEClass, VARIATION_POINT__EXTENSIBILITY);
+        createEReference(variationPointEClass, VARIATION_POINT__VARIABILITY_MECHANISM);
 
         variantEClass = createEClass(VARIANT);
         createEReference(variantEClass, VARIANT__CHILD_FEATURE);
@@ -454,6 +471,8 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         // Obtain other dependent packages
         SoftwarePackage theSoftwarePackage = (SoftwarePackage) EPackage.Registry.INSTANCE
                 .getEPackage(SoftwarePackage.eNS_URI);
+        RealizationPackage theRealizationPackage = (RealizationPackage) EPackage.Registry.INSTANCE
+                .getEPackage(RealizationPackage.eNS_URI);
         FeatureModelPackage theFeatureModelPackage = (FeatureModelPackage) EPackage.Registry.INSTANCE
                 .getEPackage(FeatureModelPackage.eNS_URI);
         EcorePackage theEcorePackage = (EcorePackage) EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
@@ -486,6 +505,9 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEAttribute(getVariationPoint_Extensibility(), this.getExtensible(), "extensibility", "NO", 1, 1,
                 VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
                 !IS_DERIVED, IS_ORDERED);
+        initEReference(getVariationPoint_VariabilityMechanism(), theRealizationPackage.getVariabilityMechanism(), null,
+                "variabilityMechanism", null, 0, 1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+                IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(variantEClass, Variant.class, "Variant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getVariant_ChildFeature(), theFeatureModelPackage.getFeature(), null, "childFeature", null, 0,

@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
@@ -36,6 +37,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariabilityType <em>Variability Type</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getBindingTime <em>Binding Time</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getExtensibility <em>Extensibility</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariabilityMechanism <em>Variability Mechanism</em>}</li>
  * </ul>
  * </p>
  *
@@ -121,6 +123,16 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * @ordered
      */
     protected Extensible extensibility = EXTENSIBILITY_EDEFAULT;
+
+    /**
+     * The cached value of the '{@link #getVariabilityMechanism() <em>Variability Mechanism</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getVariabilityMechanism()
+     * @generated
+     * @ordered
+     */
+    protected VariabilityMechanism variabilityMechanism;
 
     /**
      * <!-- begin-user-doc -->
@@ -310,6 +322,59 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * <!-- end-user-doc -->
      * @generated
      */
+    public VariabilityMechanism getVariabilityMechanism() {
+        return variabilityMechanism;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetVariabilityMechanism(VariabilityMechanism newVariabilityMechanism,
+            NotificationChain msgs) {
+        VariabilityMechanism oldVariabilityMechanism = variabilityMechanism;
+        variabilityMechanism = newVariabilityMechanism;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                    variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, oldVariabilityMechanism,
+                    newVariabilityMechanism);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setVariabilityMechanism(VariabilityMechanism newVariabilityMechanism) {
+        if (newVariabilityMechanism != variabilityMechanism) {
+            NotificationChain msgs = null;
+            if (variabilityMechanism != null)
+                msgs = ((InternalEObject) variabilityMechanism).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                        - variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, null, msgs);
+            if (newVariabilityMechanism != null)
+                msgs = ((InternalEObject) newVariabilityMechanism).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                        - variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, null, msgs);
+            msgs = basicSetVariabilityMechanism(newVariabilityMechanism, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        } else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET,
+                    variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, newVariabilityMechanism,
+                    newVariabilityMechanism));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     @SuppressWarnings("unchecked")
     @Override
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -336,6 +401,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
             return ((InternalEList<?>) getVariants()).basicRemove(otherEnd, msgs);
         case variabilityPackage.VARIATION_POINT__GROUP:
             return basicSetGroup(null, msgs);
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
+            return basicSetVariabilityMechanism(null, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -377,6 +444,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
             return getBindingTime();
         case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
             return getExtensibility();
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
+            return getVariabilityMechanism();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -409,6 +478,9 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
             setExtensibility((Extensible) newValue);
             return;
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
+            setVariabilityMechanism((VariabilityMechanism) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
@@ -439,6 +511,9 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
             setExtensibility(EXTENSIBILITY_EDEFAULT);
             return;
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
+            setVariabilityMechanism((VariabilityMechanism) null);
+            return;
         }
         super.eUnset(featureID);
     }
@@ -463,6 +538,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
             return bindingTime != BINDING_TIME_EDEFAULT;
         case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
             return extensibility != EXTENSIBILITY_EDEFAULT;
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
+            return variabilityMechanism != null;
         }
         return super.eIsSet(featureID);
     }
