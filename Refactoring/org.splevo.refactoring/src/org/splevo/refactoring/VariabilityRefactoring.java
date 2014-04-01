@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.splevo.refactoring;
 
+import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
-import org.splevo.vrm.VariabilityMechanism;
 
 /**
  * A refactoring to consolidate the variants of a variation point into a single code base using a
