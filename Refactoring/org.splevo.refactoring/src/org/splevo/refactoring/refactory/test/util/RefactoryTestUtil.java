@@ -8,17 +8,14 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Daniel Kojic
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.refactory.ifelse.tests;
+package org.splevo.refactoring.refactory.test.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Map;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -33,66 +30,15 @@ import org.emftext.refactoring.registry.rolemapping.IRoleMappingRegistry;
 import org.emftext.refactoring.registry.rolemapping.exceptions.RoleMappingAlreadyRegistered;
 import org.emftext.refactoring.registry.rolemodel.IRoleModelRegistry;
 import org.emftext.refactoring.registry.rolemodel.exceptions.RoleModelAlreadyRegisteredException;
-import org.splevo.jamopp.diffing.JaMoPPDiffer;
-import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
-import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
-import org.splevo.vpm.variability.VariationPointModel;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * Utility class for writing unit tests for refactory based refactorings.
  */
-public final class RefactoringTestUtil {
+public final class RefactoryTestUtil {
 
 
     /** Disabled default constructor to force static utility usage. */
-    private RefactoringTestUtil() {
-    }
-
-    /**
-     * Initialize the variation point model to refactor. Extract, Diff and init VPM.
-     *
-     * @param basePath
-     *            The base path of the code to load (must contain subdirectories a and b)
-     * @return The initialized VPM based on the source code differences.
-     * @throws Exception
-     *             Failed to initialize the model.
-     */
-    public static VariationPointModel initializeVariationPointModel(String basePath) throws Exception {
-        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-        List<String> urisA = Lists.newArrayList(new File(basePath + "a").getAbsolutePath());
-        List<String> urisB = Lists.newArrayList(new File(basePath + "b").getAbsolutePath());
-        NullProgressMonitor monitor = new NullProgressMonitor();
-        ResourceSet setA = extractor.extractSoftwareModel(urisA, monitor, null);
-        ResourceSet setB = extractor.extractSoftwareModel(urisB, monitor, null);
-
-        String ignorePackages = buildIgnorePackages();
-
-        Map<String, String> diffOptions = Maps.newLinkedHashMap();
-        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, ignorePackages);
-
-        JaMoPPDiffer differ = new JaMoPPDiffer();
-        Comparison comparison = differ.doDiff(setA, setB, diffOptions);
-
-        JaMoPPVPMBuilder builder = new JaMoPPVPMBuilder();
-        VariationPointModel vpm = builder.buildVPM(comparison, "leading", "integration");
-        return vpm;
-    }
-
-    /**
-     * Build the configuration string for the packages to ignore.
-     *
-     * @return The regular expressions for the packages to ignore.
-     */
-    private static String buildIgnorePackages() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("java.*");
-        sb.append(System.getProperty("line.separator"));
-        String ignorePackages = sb.toString();
-        return ignorePackages;
-    }
+    private RefactoryTestUtil() { }
 
 	/**
 	 * Registers the role model of the given name.

@@ -4,9 +4,10 @@ STEPS {
 	object methodLeadingObject := MethodLeading from filter(INPUT);
 	object statementsIntegrationObject := IntegrationStatement from filter(INPUT);
 	
-	remove MethodLeading.statements;
+	// move statements into leading
+	move statementsIntegrationObject to MethodLeading.statements;
 	
-	// create ifelse to introduce variability
+	// create if-else to introduce variability
 	create new ifElse:IfElse in methodLeadingObject;
 	create new ifBlock:IfBlock in ifElse;
 	create new elseBlock:ElseBlock in ifElse;

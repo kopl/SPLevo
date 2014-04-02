@@ -20,4 +20,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.emftext.language.java,
  org.hamcrest.core,
- org.emftext.refactoring.graph;bundle-version="0.9.1"
+ org.emftext.refactoring.graph;bundle-version="0.9.1",
+ org.splevo.jamopp.refactoring.java.ifelse

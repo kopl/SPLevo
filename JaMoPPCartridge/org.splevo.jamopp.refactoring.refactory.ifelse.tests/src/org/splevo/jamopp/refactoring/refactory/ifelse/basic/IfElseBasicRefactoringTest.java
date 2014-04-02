@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Daniel Kojic
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.refactory.ifelse.basic;
 
@@ -34,9 +35,11 @@ import org.emftext.refactoring.registry.rolemapping.exceptions.RoleMappingAlread
 import org.emftext.refactoring.registry.rolemodel.exceptions.RoleModelAlreadyRegisteredException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.refactory.ifelse.RefactoryUtil;
-import org.splevo.jamopp.refactoring.refactory.ifelse.tests.RefactoringTestUtil;
+import org.splevo.jamopp.refactoring.refactory.ifelse.IfElseRefactoring;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.refactoring.refactory.test.util.RefactoryTestUtil;
+import org.splevo.refactoring.refactory.util.RefactoryUtil;
+import org.splevo.refactoring.test.util.RefactoringTestUtil;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementType;
@@ -78,9 +81,9 @@ public class IfElseBasicRefactoringTest {
         File refspec = new File(baseDirectory + "IfElseBasic.refspec");
         File roleMapping = new File(baseDirectory + "IfElseBasic.rolemapping");
 
-        RefactoringTestUtil.registerRoleModel(rolesText);
-        RefactoringTestUtil.registerRefSpec(refspec);
-        RefactoringTestUtil.registerRoleMapping(roleMapping);
+        RefactoryTestUtil.registerRoleModel(rolesText);
+        RefactoryTestUtil.registerRefSpec(refspec);
+        RefactoryTestUtil.registerRoleMapping(roleMapping);
     }
 
     /**
@@ -116,7 +119,7 @@ public class IfElseBasicRefactoringTest {
 
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
 
-        IfElseBasicRefactoring refactoring = new IfElseBasicRefactoring();
+        IfElseRefactoring refactoring = new IfElseRefactoring();
         refactoring.refactor(variationPoint);
 
         SoftwareElement locationElement = variationPoint.getLocation();

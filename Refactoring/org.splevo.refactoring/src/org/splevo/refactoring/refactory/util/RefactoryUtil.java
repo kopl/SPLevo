@@ -8,8 +8,9 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Daniel Kojic
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.refactory.ifelse;
+package org.splevo.refactoring.refactory.util;
 
 import java.util.Map;
 
@@ -30,12 +31,12 @@ import org.emftext.refactoring.registry.rolemapping.IRoleMappingRegistry;
 /**
  * Utility for general refactory preparation.
  */
-public class RefactoryUtil {
+public final class RefactoryUtil {
 
     private static Logger logger = Logger.getLogger(RefactoryUtil.class);
 
     /** Disable default constructor to force static utility usage. */
-    private RefactoryUtil() {}
+    private RefactoryUtil() { }
 
     /**
     * Initializes JaMoPP, required packages and factories.

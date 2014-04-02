@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic
+ *******************************************************************************/
 package org.splevo.refactoring.java.ifelse;
 
 import java.util.LinkedList;
@@ -19,6 +30,7 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
@@ -26,9 +38,14 @@ import org.splevo.vpm.variability.VariationPoint;
 
 public class IfElse implements VariabilityRefactoring {
 
+	private static final String REFACTORING_ID = "org.splevo.refactoring.java.ifelse";
+
 	@Override
 	public VariabilityMechanism getVariabilityMechanism() {
-		return null;
+		VariabilityMechanism variabilityMechanism = RealizationFactory.eINSTANCE.createVariabilityMechanism();
+		variabilityMechanism.setName("ifelse");
+		variabilityMechanism.setRefactoringID(REFACTORING_ID);
+		return variabilityMechanism;
 	}
 
 	@Override
@@ -97,7 +114,7 @@ public class IfElse implements VariabilityRefactoring {
 	
 	@Override
 	public String getId() {
-		return "IfElse";
+		return REFACTORING_ID;
 	}
 
 	private StringReference setUpCondition(VariationPoint variationPoint,

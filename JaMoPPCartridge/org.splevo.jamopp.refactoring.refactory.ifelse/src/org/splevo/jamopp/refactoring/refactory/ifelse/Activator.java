@@ -2,6 +2,7 @@ package org.splevo.jamopp.refactoring.refactory.ifelse;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.splevo.refactoring.refactory.util.RefactoryUtil;
 
 /**
  * The activator class controls the plug-in life cycle
