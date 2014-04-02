@@ -36,7 +36,7 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
 
     /**
      * Constructor to set the base directory for internal reference cache.
-     * 
+     *
      * @param cacheDirectories
      *            The absolute paths of directories containing cache files.
      * @param javaClasspath
@@ -49,7 +49,7 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
 
     /**
      * Constructor to set the base directory for internal reference cache.
-     * 
+     *
      * @param cacheDirectories
      *            The absolute paths of directories containing cache files.
      * @param javaClasspath
@@ -71,8 +71,15 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
 
     /**
      * Create a cache enabled resource for file scheme URIs.<br>
+     *
+     * <p>
+     * Depending on how the URI is created, one must call
+     * <code>new File("myRelativePath").getCanonicalPath()</code> before to ensure the URI starts
+     * with file://
+     * </p>
+     *
      * Otherwise a regular JaMoPP resource is created.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
@@ -86,7 +93,7 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
 
     /**
      * Access the internal cache.
-     * 
+     *
      * @return The internally used cache.
      */
     public ReferenceCache getReferenceCache() {
