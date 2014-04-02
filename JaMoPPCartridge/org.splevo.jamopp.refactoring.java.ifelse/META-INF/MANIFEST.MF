@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ifelse
+Bundle-SymbolicName: org.splevo.jamopp.refactoring.java.ifelse;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.splevo.refactoring,
+ org.splevo.jamopp.vpm,
+ org.emftext.language.java,
+ org.splevo.vpm
+Export-Package: org.splevo.refactoring.java.ifelse
