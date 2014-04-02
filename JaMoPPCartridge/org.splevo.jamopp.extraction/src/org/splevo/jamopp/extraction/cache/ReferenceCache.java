@@ -19,36 +19,34 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.JavaClasspath;
-import org.emftext.language.java.commons.Commentable;
+
+import com.google.common.collect.Maps;
 
 /**
  * A file based cache to reuse the proxy resolutions already performed.
- * 
+ *
  * The cache was designed to work with one or more cache files to use it with resource sets
  * containing the resources of one or more software models. For example, during extraction a
  * separate resource set is used per software, but for differencing several software models must be
  * accessed in one resource set.
- * 
+ *
  * Cache files are always named according to {@link #CACHE_FILE_NAME}.
- * 
+ *
  * During initialization, cache files existing in the provided directories are loaded.
  * Subdirectories are not considered.
- * 
+ *
  * When proxies in new resources are resolved and {@link #save()} is triggered, they are stored in a
  * cache file of the first directory provided in the list. If a cache file already exists in the
  * first cache directory, the existing cache is loaded and enhanced with the new cached references.
@@ -60,8 +58,13 @@ public class ReferenceCache {
 
     private static Logger logger = Logger.getLogger(ReferenceCache.class);
 
-    /** Internal counter how many resources have been resolved from cache. */
-    private int notResolvedFromCacheCounter = 0;
+    /**
+     * Internal counter how many references have not been resolved from cache, while their resources
+     * have. This is an indicator for failed proxy resolutions or that the cache was not involved in
+     * the resolution.
+     *
+     */
+    private int notResolvedFromCacheCounterReference = 0;
 
     /**
      * The file the cache will be serialized into.
@@ -77,9 +80,9 @@ public class ReferenceCache {
     /**
      * Constructor to set a list of directories containing cache files. Within these directories,
      * files with the name {@link #CACHE_FILE_NAME} are searched.
-     * 
+     *
      * If a new file must be created, this will be done in the first directory of the list.
-     * 
+     *
      * @param cacheFileDirectories
      *            A list of absolute paths to the directories containing cache files.
      * @param javaClasspath
@@ -92,9 +95,9 @@ public class ReferenceCache {
     /**
      * Constructor to set a list of directories containing cache files. Within these directories,
      * files with the name {@link #CACHE_FILE_NAME} are searched.
-     * 
+     *
      * If a new file must be created, this will be done in the first directory of the list.
-     * 
+     *
      * @param cacheFileDirectories
      *            A list of absolute paths to the directories containing cache files.
      * @param javaClasspath
@@ -112,7 +115,7 @@ public class ReferenceCache {
 
     /**
      * Initialize the cache by loading all cache files available in the configured directory.
-     * 
+     *
      * In addition, register the jar files in the {@link JavaClasspath}.
      */
     private void init() {
@@ -133,115 +136,30 @@ public class ReferenceCache {
     }
 
     /**
-     * Resolves the resource. Will use the cache if the resource has already been resolved and
-     * result is cached.
-     * 
+     * Forces the complete resolving of the resource.
+     *
+     *<p>
+     * <strong>Note:</strong> This should be used for loading the cache only. It is also recommended to call this
+     * method not before all resources are present in the ResourceSet.
+     *</p>
+     *
      * @param resource
      *            Resource to be resolved.
-     * @return A list of this resources target URIs.
      */
-    public List<String> resolve(Resource resource) {
-        String resourceUri = resource.getURI().toString();
-        List<String> cachedList = cacheData.getResourceToTargetURIListMap().get(resourceUri);
-        try {
-            if (cachedList != null) {
-                resolveProxiesFromCache(resource, cachedList);
-            } else {
-                cachedList = resolveProxies(resource);
-                cacheData.getResourceToTargetURIListMap().put(resourceUri, cachedList);
-                notResolvedFromCacheCounter++;
-            }
-        } catch (Exception e) {
-            logger.error("Error during proxy resolving", e);
-        }
-        return cachedList;
-    }
-
-    /**
-     * Resolve the proxies in the resource without any previously cached data.
-     * 
-     * @param resource
-     *            The resource to resolve the proxies in.
-     * @return The list of resolved URIs for this resource.
-     */
-    @SuppressWarnings("unchecked")
-    private List<String> resolveProxies(Resource resource) {
-        List<String> resolvedReferenceTargetURIs = new ArrayList<String>();
-
-        for (Iterator<EObject> elementIt = resource.getAllContents(); elementIt.hasNext();) {
-            InternalEObject nextElement = (InternalEObject) elementIt.next();
-            if (nextElement.eIsProxy()) {
-                throw new RuntimeException("Unexpected containment proxy.");
-            }
-
-            // Non JaMoPP Elements, such as layout information should always be ignored
-            // to be able to extract the code without layout information
-            // but being able to use it afterwards.
-            if (!(nextElement instanceof Commentable)) {
-                continue;
-            }
-
-            List<EReference> eReferences = nextElement.eClass().getEAllReferences();
-            for (EReference eReference : eReferences) {
-                if (eReference.isContainment()) {
-                    continue;
-                }
-                if (eReference.isDerived()) {
-                    continue;
-                }
-
-                Object refValue = nextElement.eGet(eReference, false);
-                if (refValue == null) {
-                    continue;
-                }
-
-                if (refValue instanceof BasicEList) {
-                    BasicEList<EObject> list = (BasicEList<EObject>) refValue;
-                    for (int i = 0; i < list.size(); i++) {
-                        EObject crElement = list.basicGet(i);
-                        resolve(resource, resolvedReferenceTargetURIs, crElement);
-                    }
-                } else if (refValue instanceof EObject) {
-                    EObject crElement = (EObject) refValue;
-                    resolve(resource, resolvedReferenceTargetURIs, crElement);
-                } else {
-                    throw new RuntimeException("Unknown object: " + refValue);
-                }
-            }
-        }
-        return resolvedReferenceTargetURIs;
-    }
-
-    /**
-     * Resolve a model element and store it's new target uri in the list of uris.
-     * 
-     * @param resource
-     *            The resource to use for resolution.
-     * @param targetURIs
-     *            The list of target URIs to fill.
-     * @param crElement
-     *            The element to resolve (might be a proxy)
-     */
-    private void resolve(Resource resource, List<String> targetURIs, EObject crElement) {
-        crElement = EcoreUtil.resolve(crElement, resource);
-        if (crElement.eIsProxy()) {
-            targetURIs.add(null);
-        } else {
-            Resource targetResource = crElement.eResource();
-            targetURIs.add(targetResource.getURI().toString() + "#" + targetResource.getURIFragment(crElement));
-        }
+    public void resolve(Resource resource) {
+        EcoreUtil.resolveAll(resource);
     }
 
     /**
      * Trigger to save all non yet persisted cache entries.<br>
      * These are the entries created for resources that could not be loaded from any existing cache
      * file.
-     * 
+     *
      * If more than one cache file directory was created, the first entry in the list will be used.
-     * 
+     *
      * If the cache file already exists, it will not be overridden, but loaded and the new entries
      * will be added to it.
-     * 
+     *
      */
     public void save() {
 
@@ -262,7 +180,7 @@ public class ReferenceCache {
 
     /**
      * Persist the cache in the file system.
-     * 
+     *
      * @param cacheFile
      *            The file to save to.
      * @param cacheData
@@ -291,7 +209,7 @@ public class ReferenceCache {
 
     /**
      * Load the cache from a file.
-     * 
+     *
      * @param cacheFile
      *            The file to load.
      * @return The cache map loaded from this file.
@@ -329,80 +247,8 @@ public class ReferenceCache {
     }
 
     /**
-     * Try to resolve the proxies in the resource with a list of target URIs.
-     * 
-     * @param resource
-     *            The resource to resolve the proxies in.
-     * @param targetURIList
-     *            The list of target URIs to use for the resolution.
-     */
-    @SuppressWarnings("unchecked")
-    private void resolveProxiesFromCache(Resource resource, List<String> targetURIList) {
-
-        int index = 0;
-        for (Iterator<EObject> elementIt = EcoreUtil.getAllContents(resource, true); elementIt.hasNext();) {
-            InternalEObject nextElement = (InternalEObject) elementIt.next();
-            if (nextElement.eIsProxy()) {
-                throw new RuntimeException("Unexpected containment proxy.");
-            }
-
-            // Non JaMoPP Elements, such as layout information should always be ignored
-            // to be able to extract the code without layout information
-            // but being able to use it afterwards.
-            if (!(nextElement instanceof Commentable)) {
-                continue;
-            }
-
-            EList<EReference> eReferences = nextElement.eClass().getEAllReferences();
-            for (EReference eReference : eReferences) {
-                if (eReference.isContainment()) {
-                    continue;
-                }
-                if (eReference.isDerived()) {
-                    logger.warn("Derived reference skipped");
-                    continue;
-                }
-                if ("layoutInformations".equals(eReference.getName())) {
-                    logger.warn("Layoutinformation reference skipped");
-                    continue;
-                }
-
-                Object refValue = nextElement.eGet(eReference, false);
-                if (refValue == null) {
-                    continue;
-                }
-
-                if (refValue instanceof BasicEList) {
-                    BasicEList<EObject> list = (BasicEList<EObject>) refValue;
-                    for (int i = 0; i < list.size(); i++) {
-                        String targetURI = targetURIList.get(index);
-                        if (targetURI != null) {
-                            EObject targetObject = getTarget(resource, targetURI);
-                            list.set(i, targetObject);
-                        } else {
-                            logger.warn("Element is not resolved (null) in cache: " + targetURI);
-                        }
-                        index++;
-                    }
-                } else if (refValue instanceof EObject) {
-                    String targetURI = targetURIList.get(index);
-                    if (targetURI != null) {
-                        EObject targetObject = getTarget(resource, targetURI);
-                        nextElement.eSet(eReference, targetObject);
-                    } else {
-                        logger.warn("Element is not resolved (targetURI is null) in cache: " + refValue);
-                    }
-                    index++;
-                } else {
-                    throw new RuntimeException("Unknown object: " + refValue);
-                }
-            }
-        }
-    }
-
-    /**
      * Get the target object for a specified URI.
-     * 
+     *
      * @param resource
      *            The resource to use for EObject resolution.
      * @param targetURI
@@ -417,12 +263,86 @@ public class ReferenceCache {
     }
 
     /**
-     * Get the number of resources which's references have not been resolved from cache.
-     * 
+     * Get the internal counter how many references have not been resolved from cache, while their
+     * resources have. This is an indicator for failed proxy resolutions or that the cache was not
+     * involved in the resolution.
+     *
      * @return The counter value.
      */
-    public int getNotResolvedFromCacheCounter() {
-        return notResolvedFromCacheCounter;
+    public int getNotResolvedFromCacheCounterReference() {
+        return notResolvedFromCacheCounterReference;
     }
 
+    /**
+     * Resolve a specific proxy referenced in resource.
+     *
+     * @param resource
+     *            The resource containing the proxy.
+     * @param id
+     *            The id (local fragment uri) of the proxy.
+     * @return The object resolved for the id.
+     */
+    public EObject getEObject(Resource resource, String id) {
+
+        String resourceUri = resource.getURI().toString();
+        LinkedHashMap<String, String> targetUriMap = cacheData.getResourceToTargetURIListMap().get(resourceUri);
+        if (targetUriMap == null) {
+            return null;
+        }
+        String targetURI = targetUriMap.get(id);
+        if (targetURI == null) {
+            return null;
+        }
+
+        return getTarget(resource, targetURI);
+    }
+
+    /**
+     * Check is already present in the cached.
+     *
+     * @param resource
+     *            The resource to check for.
+     * @return True/ False if it is cached or not.
+     */
+    public boolean isCached(Resource resource) {
+        return cacheData.getResourceToTargetURIListMap().containsKey(resource.getURI().toString());
+    }
+
+    /**
+     * Register a resolved {@link EObject} to the cache which has been resolved by EMF without
+     * involving the cache. E.g. by indirectly resolving it without participating the cache.
+     *
+     * @param resource
+     *            The resource containing the proxy / reference
+     * @param fragmentURI
+     *            The fragmentURI if the proxy
+     * @param resolvedElement
+     *            The resolved element
+     */
+    public void registerEObject(Resource resource, String fragmentURI, EObject resolvedElement) {
+
+        String resourceUri = resource.getURI().toString();
+
+        if (resolvedElement.eIsProxy()) {
+            if (isNotLibraryProxy(resolvedElement)) {
+                logger.warn(String.format("Tried to register a proxy in the cache: %s#%s", resourceUri, fragmentURI));
+                return;
+            }
+        }
+
+        LinkedHashMap<String, String> targetURIMap = cacheData.getResourceToTargetURIListMap().get(resourceUri);
+        if (targetURIMap == null) {
+            targetURIMap = Maps.newLinkedHashMap();
+            cacheData.getResourceToTargetURIListMap().put(resourceUri, targetURIMap);
+        }
+
+        Resource targetResource = resolvedElement.eResource();
+        String targetURI = targetResource.getURI().toString() + "#" + targetResource.getURIFragment(resolvedElement);
+        targetURIMap.put(fragmentURI, targetURI);
+        notResolvedFromCacheCounterReference++;
+    }
+
+    private boolean isNotLibraryProxy(EObject resolvedElement) {
+        return !("pathmap".equals(((InternalEObject) resolvedElement).eProxyURI().scheme()));
+    }
 }

@@ -11,68 +11,55 @@
  *******************************************************************************/
 package org.splevo.jamopp.extraction.resource;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 
+import com.google.common.base.Strings;
+
 /***
  * JaMoPP java resource using an internal cache for reference resolving.
+ *
+ * As long as the cache is not explicitly triggered to resolve a resource, proxies will be resolved
+ * when required only.
  */
 public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileResource {
 
     /** The reference cache to resolve proxies. */
     private ReferenceCache referenceCache = null;
 
-    /** Flag if the resource's references should be resolved as soon as doLoad is finished. */
-    private boolean resolveImmediately = true;
-
     /**
      * Constructor to set the reference cache the resource should use for resolving.
-     * 
+     *
      * @param uri
      *            The URI identifying this resource.
      * @param referenceCache
      *            The reference cache to use. If null is provided no cache is used.
      */
     public JavaSourceOrClassFileCachingResource(URI uri, ReferenceCache referenceCache) {
-        this(uri, referenceCache, true);
-    }
-
-    /**
-     * Constructor to set the reference cache the resource should use for resolving.
-     * 
-     * @param uri
-     *            The URI identifying this resource.
-     * @param referenceCache
-     *            The reference cache to use. If null is provided no cache is used.
-     * @param resolveImmediately
-     *            Flag if the resource's references should be resolved as soon as doLoad is
-     *            finished.
-     */
-    public JavaSourceOrClassFileCachingResource(URI uri, ReferenceCache referenceCache, boolean resolveImmediately) {
         super(uri);
         this.referenceCache = referenceCache;
-        this.resolveImmediately = resolveImmediately;
     }
 
-    /**
-     * Adapted loading implementation resolving the references from cache if available after the
-     * resource itself has been loaded.
-     * 
-     * If no cacheDirectory was provided (null value), no caching will be used.
-     * 
-     * {@inheritDoc}
-     */
     @Override
-    protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException {
-        super.doLoad(inputStream, options);
+    public EObject getEObject(String id) {
 
-        if (resolveImmediately && referenceCache != null) {
-            referenceCache.resolve(this);
+        // without a cache trigger default behavior.
+        if (referenceCache == null) {
+            return super.getEObject(id);
         }
+
+        // resource internal ids must be picked up directly to prevent loops
+        if (Strings.isNullOrEmpty(id) || id.charAt(0) == '/') {
+            return super.getEObject(id);
+        }
+
+        EObject resolvedEObject = referenceCache.getEObject(this, id);
+        if (resolvedEObject == null) {
+            resolvedEObject = super.getEObject(id);
+            referenceCache.registerEObject(this, id, resolvedEObject);
+        }
+        return resolvedEObject;
     }
 }

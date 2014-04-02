@@ -161,7 +161,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      */
     private void triggerCacheSave(ResourceSet targetResourceSet) {
         ReferenceCache cache = getReferenceCache(targetResourceSet);
-        logger.debug("Resources not resolved from Cache: " + cache.getNotResolvedFromCacheCounter());
+        logger.debug("References not resolved from Cache: " + cache.getNotResolvedFromCacheCounterReference());
         cache.save();
     }
 
@@ -286,7 +286,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
         factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(directories, javaClasspath,
-                jarPaths, false));
+                jarPaths));
 
         return rs;
     }

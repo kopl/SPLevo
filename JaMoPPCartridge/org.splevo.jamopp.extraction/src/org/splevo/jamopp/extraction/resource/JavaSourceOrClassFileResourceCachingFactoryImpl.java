@@ -31,9 +31,6 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
     /** The reference cache to use. */
     private ReferenceCache referenceCache = null;
 
-    /** Flag if the resource's references should be resolved as soon as doLoad is finished. */
-    private boolean resolveImmediately = true;
-
     /**
      * Constructor to set the base directory for internal reference cache.
      *
@@ -44,7 +41,7 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
      *            the resource factory belongs to.
      */
     public JavaSourceOrClassFileResourceCachingFactoryImpl(List<String> cacheDirectories, JavaClasspath javaClasspath) {
-        this(cacheDirectories, javaClasspath, new ArrayList<String>(), true);
+        this(cacheDirectories, javaClasspath, new ArrayList<String>());
     }
 
     /**
@@ -58,15 +55,11 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
      * @param jarPaths
      *            A list of paths to jar files to be registered in the {@link JavaClasspath} and
      *            stored in the cache.
-     * @param resolveImmediately
-     *            Flag if the resource's references should be resolved as soon as doLoad is
-     *            finished.
      */
     public JavaSourceOrClassFileResourceCachingFactoryImpl(List<String> cacheDirectories, JavaClasspath javaClasspath,
-            List<String> jarPaths, boolean resolveImmediately) {
+            List<String> jarPaths) {
         super();
         referenceCache = new ReferenceCache(cacheDirectories, javaClasspath, jarPaths);
-        this.resolveImmediately = resolveImmediately;
     }
 
     /**
@@ -85,7 +78,7 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl extends JavaSourceO
     @Override
     public Resource createResource(URI uri) {
         if (FILE_URI_SCHEME.equals(uri.scheme())) {
-            return new JavaSourceOrClassFileCachingResource(uri, referenceCache, resolveImmediately);
+            return new JavaSourceOrClassFileCachingResource(uri, referenceCache);
         } else {
             return new JavaSourceOrClassFileResource(uri);
         }
