@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -60,7 +60,7 @@ public class ReferenceCacheTest {
 
     /**
      * Prepare the test.
-     * 
+     *
      * @throws IOException
      *             Failed to create required resources.
      */
@@ -79,7 +79,7 @@ public class ReferenceCacheTest {
     /**
      * Test to create a cache while resolving a resource and reload the same code a second time with
      * references resolved from the cache.
-     * 
+     *
      * @throws IOException
      *             Failed to create the cache directory.
      */
@@ -88,7 +88,7 @@ public class ReferenceCacheTest {
         File cacheDir = folder.newFolder("cacheDir");
         ArrayList<String> cacheFileDirs = Lists.newArrayList(cacheDir.getAbsolutePath());
 
-        String resourcePath = "test/cache/basic/CalculatorSqrt.java";
+        String resourcePath = new File("test/cache/basic/CalculatorSqrt.java").getCanonicalPath();
         String jarPath = "test/cache/basic/lib/jscience.jar";
         String jarPathAbsolute = new File(jarPath).getAbsolutePath();
         List<String> jarPaths = Lists.newArrayList(jarPathAbsolute);
@@ -103,19 +103,19 @@ public class ReferenceCacheTest {
         Resource resource = resourceSet.getResource(URI.createFileURI(resourcePath), true);
         referenceCacheNew.resolve(resource);
 
-        int uncachedProxies = referenceCacheNew.getNotResolvedFromCacheCounter();
+        int uncachedReferences = referenceCacheNew.getNotResolvedFromCacheCounterReference();
 
         assertThat("No cache file created", cacheDir.listFiles().length, is(1));
-        assertThat("Not all references could be resolved from cache", uncachedProxies, is(0));
+        assertThat("Not all references were resolved by the cache", uncachedReferences, is(0));
 
     }
 
     /**
      * Prepare a resource set in the same way as the extractor for extraction (e.g. without layout
      * information).
-     * 
+     *
      * Initialize ("warm up") the cache by parsing the resource the first time.
-     * 
+     *
      * @param rs
      *            The resource set to initialize the cache for.
      * @param resourcePath
@@ -131,7 +131,7 @@ public class ReferenceCacheTest {
 
     /**
      * Configure the resource set in the same manner as the software model extractor.
-     * 
+     *
      * @param cacheFileDirs
      *            The cache directories.
      * @param jarPaths
@@ -151,7 +151,7 @@ public class ReferenceCacheTest {
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(cacheFileDirs, javaClasspath,
-                jarPaths, false));
+                jarPaths));
 
         return rs;
     }
@@ -159,7 +159,7 @@ public class ReferenceCacheTest {
     /**
      * Get the reference cache of the factory registered in a {@link ResourceSet}. The method
      * assumes to have a cache enabled factory registered for .java files.
-     * 
+     *
      * @param resourceSet
      *            The resource set to get the cache from.
      * @return The cache found.
@@ -175,7 +175,7 @@ public class ReferenceCacheTest {
     /**
      * Initialize a fresh resource set prepared by the java JaMoPP software model extractor to be
      * "cache enabled".
-     * 
+     *
      * @param cacheFileDirs
      *            The cache directories.
      * @return The prepared resource set.
