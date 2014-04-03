@@ -12,7 +12,6 @@
 package org.splevo.ui.editors;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,12 +22,8 @@ import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -76,14 +71,12 @@ import org.splevo.ui.editors.listener.DifferCheckBoxListener;
 import org.splevo.ui.editors.listener.GotoTabMouseListener;
 import org.splevo.ui.editors.listener.MarkDirtyListener;
 import org.splevo.ui.editors.listener.ProjectDropListener;
-import org.splevo.ui.jobs.JobUtil;
 import org.splevo.ui.listeners.DiffSourceModelListener;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.InitVPMListener;
+import org.splevo.ui.listeners.OpenVPEditorListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
-import org.splevo.ui.vpexplorer.explorer.VPExplorer;
-import org.splevo.vpm.VPMUtil;
-import org.splevo.vpm.variability.VariationPointModel;
+import org.splevo.ui.util.WorkspaceUtil;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -98,7 +91,7 @@ import com.google.common.base.Splitter;
  */
 public class SPLevoProjectEditor extends EditorPart {
 
-    /** The logger for this class. */
+	/** The logger for this class. */
     private Logger logger = Logger.getLogger(SPLevoProjectEditor.class);
 
     /** The id of the editor. */
@@ -569,7 +562,7 @@ public class SPLevoProjectEditor extends EditorPart {
             @Override
             public void mouseUp(MouseEvent e) {
                 if (splevoProject.getDiffingModelPath() != null && splevoProject.getDiffingModelPath().length() > 0) {
-                    String basePath = getAbsoluteWorkspacePath();
+                    String basePath = WorkspaceUtil.getAbsoluteWorkspacePath();
                     File fileToOpen = new File(basePath + File.separator + splevoProject.getDiffingModelPath());
                     IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
                     IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -586,67 +579,7 @@ public class SPLevoProjectEditor extends EditorPart {
         btnOpenVPM = new Button(processControlContainer, SWT.NONE);
         btnOpenVPM.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
         btnOpenVPM.setBounds(331, 109, 26, 30);
-        btnOpenVPM.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseUp(MouseEvent e) {
-                EList<String> vpmModelPaths = splevoProject.getVpmModelPaths();
-                if (vpmModelPaths.size() > 0) {
-                    String relativePathToLatestVPM = vpmModelPaths.get(vpmModelPaths.size() - 1);
-
-                    try {
-                        // TODO display on left side
-                        openVPExplorer(relativePathToLatestVPM);
-                    } catch (PartInitException e1) {
-                        logger.error("Failed to open the variant explorer.", e1);
-                        openDefaultVPMEditor(relativePathToLatestVPM);
-                    } catch (IOException ioe) {
-                        logger.error("Failed to load variation point model.", ioe);
-                    }
-                }
-            }
-
-            /**
-             * Open the SPLevo specific variation point explorer.
-             *
-             * @param pathToVPM
-             *            Relative path to the VPM to be opened.
-             * @throws PartInitException
-             *             An error occurred during the view creation in the UI.
-             * @throws IOException
-             *             Failed to load the Variation Point Model file.
-             */
-            private void openVPExplorer(String pathToVPM) throws PartInitException, IOException {
-
-                VPExplorer explorer = (VPExplorer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                        .showView(VPExplorer.VIEW_ID);
-
-                ResourceSet resSet = JobUtil.initResourceSet(splevoProject);
-                VariationPointModel vpm = VPMUtil.loadVariationPointModel(new File(pathToVPM), resSet);
-                explorer.getVpExplorerContent().setVpm(vpm);
-            }
-
-            /**
-             * Open the variation point model in the default editor.
-             *
-             * @param pathToVPM
-             *            Relative path to the VPM to be opened.
-             */
-            private void openDefaultVPMEditor(String pathToVPM) {
-
-                String basePath = getAbsoluteWorkspacePath();
-                File fileToOpen = new File(basePath + File.separator + pathToVPM);
-
-                IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
-                IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-
-                try {
-                    IDE.openEditorOnFileStore(page, fileStore);
-                } catch (PartInitException pie) {
-                    logger.error("failed to open vpm file.", pie);
-                }
-            }
-        });
+        btnOpenVPM.addMouseListener(new OpenVPEditorListener(this));
     }
 
     @Override
@@ -824,7 +757,7 @@ public class SPLevoProjectEditor extends EditorPart {
      * @return True if an accessible vpm exists.
      */
     private boolean vpmAvailable() {
-        String basePath = getAbsoluteWorkspacePath();
+        String basePath = WorkspaceUtil.getAbsoluteWorkspacePath();
         return splevoProject.getVpmModelPaths().size() > 0
                 && new File(basePath + splevoProject.getVpmModelPaths().get(0)).canRead();
     }
@@ -835,20 +768,9 @@ public class SPLevoProjectEditor extends EditorPart {
      * @return true if the diff model is available.
      */
     private boolean diffModelAvailable() {
-        String basePath = getAbsoluteWorkspacePath();
+        String basePath = WorkspaceUtil.getAbsoluteWorkspacePath();
         return splevoProject.getDiffingModelPath() != null
                 && new File(basePath + splevoProject.getDiffingModelPath()).canRead();
-    }
-
-    /**
-     * Determine the absolute OS specific path of the workspace.
-     *
-     * @return The absolute path.
-     */
-    private String getAbsoluteWorkspacePath() {
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        String basePath = workspace.getRoot().getRawLocation().toOSString();
-        return basePath;
     }
 
     /**

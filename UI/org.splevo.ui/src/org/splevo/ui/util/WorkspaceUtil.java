@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.ui.util;
 
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.splevo.project.SPLevoProject;
@@ -42,5 +43,16 @@ public final class WorkspaceUtil {
         String absolutePath = root.getLocation().toPortableString() + relativePath;
         return absolutePath;
     }
+
+	/**
+	 * Determine the absolute OS specific path of the workspace.
+	 *
+	 * @return The absolute path.
+	 */
+	public static String getAbsoluteWorkspacePath() {
+	    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+	    String basePath = workspace.getRoot().getRawLocation().toOSString();
+	    return basePath;
+	}
 
 }
