@@ -77,7 +77,7 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
             projectNames = splevoProject.getIntegrationProjects();
             variantName = splevoProject.getVariantNameIntegration();
         }
-        logger.info("Extraction started: " + variantName);
+        logger.info(String.format("Extraction of %s started at %s", variantName, JobUtil.getTimestamp()));
 
         // prepare the target path
         String sourceModelPath = WorkspaceUtil.getSourceModelPathWithinEclipse(splevoProject, variantName);
@@ -126,7 +126,7 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
             throw new UserCanceledException();
         }
 
-        logger.info("Extraction finished: " + variantName);
+        logger.info(String.format("Extraction of %s finished at %s", variantName, JobUtil.getTimestamp()));
     }
 
     /**

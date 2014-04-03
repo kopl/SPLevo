@@ -13,9 +13,6 @@ package org.splevo.ui.jobs;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +41,6 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 	private static final int PROGRESS_DIFFING_DONE = 100;
 
 	private final SPLevoProject splevoProject;
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
 
     /**
      * Constructor for the diffing job.
@@ -66,7 +62,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         ResourceSet integrationModelDir = getBlackboard().getResourceSetIntegration();
         List<String> differIds = splevoProject.getDifferIds();
 
-        logger.info("Diffing started at: " + (dateFormat.format(new Date())));
+        logger.info(String.format("Diffing started at %s", JobUtil.getTimestamp()));
         Comparison comparison = null;
         try {
             final DiffingService diffingService = new DefaultDiffingService();
@@ -75,7 +71,7 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         } catch (final DiffingException e) {
             throw new JobFailedException("Failed to process diffing.", e);
         }
-        logger.info("Diffing finished at: " + (dateFormat.format(new Date())));
+        logger.info(String.format("Diffing finished at %s", JobUtil.getTimestamp()));
         logger.info("Number of differences: " + comparison.getDifferences().size());
 
         // check if the process was canceled

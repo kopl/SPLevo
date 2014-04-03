@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.splevo.ui.jobs;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -24,6 +27,9 @@ import com.google.common.collect.Lists;
  */
 public final class JobUtil {
 
+    /** The date format to use in job logging etc. */
+    private static DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
+
     /** Disabled constructor to use utility class in a static manner. */
     private JobUtil() {
     }
@@ -31,10 +37,10 @@ public final class JobUtil {
     /**
      * Initialize the resource set including preparation by the source model extractors for specific
      * source models.
-     * 
+     *
      * @param splevoProject
      *            The {@link SPLevoProject} to get required configurations from.
-     * 
+     *
      * @return The initialized resource set.
      */
     public static ResourceSetImpl initResourceSet(SPLevoProject splevoProject) {
@@ -50,6 +56,14 @@ public final class JobUtil {
 
         return resourceSet;
     }
-    
-    
+
+    /**
+     * Get the current human readable timestamp. For example, to be used in logging.
+     *
+     * @return The string representation of the timestamp.
+     */
+    public static String getTimestamp() {
+        return (dateFormat.format(new Date()));
+    }
+
 }
