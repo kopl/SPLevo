@@ -312,7 +312,7 @@
     <styles xmi:type="notation:ShapeStyle" xmi:id="_f91mobmnEeO6Af8dQ8uWZA" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13150135" lineColor="4210752"/>
     <styles xmi:type="notation:MultiDiagramLinkStyle" xmi:id="_f91mormnEeO6Af8dQ8uWZA"/>
     <element xmi:type="ecore:EPackage" href="vpm.ecore#//realization"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_f91mo7mnEeO6Af8dQ8uWZA" x="798" y="474" width="236" height="264"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_f91mo7mnEeO6Af8dQ8uWZA" x="798" y="474" width="236" height="267"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_NmmbcU6kEeKu0IvcocBLUA"/>
   <element xmi:type="ecore:EPackage" href="vpm.ecore#/"/>
