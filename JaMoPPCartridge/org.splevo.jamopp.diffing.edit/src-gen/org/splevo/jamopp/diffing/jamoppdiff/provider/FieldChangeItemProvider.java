@@ -16,9 +16,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.DifferenceKind;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -26,7 +25,9 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
+import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.swt.graphics.Image;
+import org.splevo.jamopp.diffing.edit.util.ImageUtil;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
 
@@ -84,17 +85,17 @@ public class FieldChangeItemProvider extends JaMoPPDiffItemProvider implements
 				false, true, null, null, null));
 	}
 
-	/**
-	 * This returns FieldChange.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object getImage(Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/FieldChange"));
-	}
+    /**
+     * This returns ClassChange.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     *{@inheritDoc}
+     * @generated not
+     */
+    @Override
+    public Object getImage(Object object) {
+        Image baseImage = JavaUI.getSharedImages().getImage(org.eclipse.jdt.ui.ISharedImages.IMG_FIELD_DEFAULT);
+        return ImageUtil.overlayChangeType(baseImage, (Diff) object, this);
+    }
 
 	/**
 	 * This returns the label text for the adapted class.
