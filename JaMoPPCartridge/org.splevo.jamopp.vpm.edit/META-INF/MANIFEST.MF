@@ -22,6 +22,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.emftext.commons.layout.edit;visibility:=reexport,
  org.splevo.vpm;visibility:=reexport,
  org.splevo.vpm.edit;visibility:=reexport,
- org.eclipse.jdt.ui,
- org.eclipse.swt;bundle-version="3.102.1"
+ org.eclipse.swt;bundle-version="3.102.1",
+ org.eclipse.emf.edit.ui;bundle-version="2.9.0"
 Bundle-ActivationPolicy: lazy
