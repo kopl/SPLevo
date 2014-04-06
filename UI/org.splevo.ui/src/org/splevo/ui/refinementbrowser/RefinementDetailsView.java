@@ -114,7 +114,7 @@ public class RefinementDetailsView extends Composite {
 
         String headline = "Refinement Infos";
         String linebreak = "\r\n";
-        String subHeadlineReason = "Recommendation Reason: ";
+        String subHeadlineReason = "Source: ";
 
         StringBuilder text = new StringBuilder();
         text.append(headline);
@@ -129,13 +129,17 @@ public class RefinementDetailsView extends Composite {
         StyleRange styleRange = new StyleRange();
         styleRange.start = 0;
         styleRange.length = headline.length();
-        styleRange.fontStyle = SWT.BOLD | SWT.UNDERLINE_DOUBLE;
+        styleRange.fontStyle = SWT.BOLD;
+        styleRange.underline = true;
+        styleRange.underlineStyle = SWT.UNDERLINE_DOUBLE;
         refinementInfoArea.setStyleRange(styleRange);
 
         styleRange = new StyleRange();
         styleRange.start = headline.length() + (2 * linebreak.length());
         styleRange.length = subHeadlineReason.length();
-        styleRange.fontStyle = SWT.UNDERLINE_SQUIGGLE;
+        styleRange.fontStyle = SWT.BOLD;
+        styleRange.underline = true;
+        styleRange.underlineStyle = SWT.UNDERLINE_SINGLE;
         refinementInfoArea.setStyleRange(styleRange);
     }
 
