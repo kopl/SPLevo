@@ -28,6 +28,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.emftext.language.java.commons.Commentable;
+import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwarePackage;
 import org.splevo.vpm.software.provider.JavaSoftwareElementItemProvider;
@@ -114,14 +115,34 @@ public class JaMoPPSoftwareElementItemProvider extends JavaSoftwareElementItemPr
     }
 
     /**
-     * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
+     * This returns the label of the JaMoPPSoftwareElement according to the wrapped JaMoPP element.
+     * Internally, it makes use of the {@link JaMoPPElementUtil} or the registered ItemProvider for
+     * the element of the {@link JaMoPPElementUtil} is not able to provide a label.
      *
-     * @generated
+     * {@inheritDoc}
+     *
+     * @generated not
      */
     @Override
     public String getText(Object object) {
-        return getString("_UI_JaMoPPSoftwareElement_type");
+
+        Commentable jamoppElement = ((JaMoPPSoftwareElement) object).getJamoppElement();
+        String label = JaMoPPElementUtil.getLabel(jamoppElement);
+        if (label != null) {
+            return label;
+        }
+        label = getItemProviderText(jamoppElement);
+        if (label != null) {
+            return label;
+        }
+        return "JaMoPP Element." + jamoppElement.toString();
+    }
+
+    private String getItemProviderText(Object element) {
+        ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(
+                ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+        AdapterFactoryLabelProvider labelProvider = new AdapterFactoryLabelProvider(composedAdapterFactory);
+        return labelProvider.getText(element);
     }
 
     /**
