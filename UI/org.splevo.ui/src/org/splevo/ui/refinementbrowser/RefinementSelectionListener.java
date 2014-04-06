@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,9 +19,6 @@ import org.splevo.vpm.refinement.Refinement;
 
 /**
  * Listener if a refinement has been selected and open it in the refinement detail view.
- * 
- * @author Benjamin Klatt
- * 
  */
 public class RefinementSelectionListener implements ISelectionChangedListener {
 
@@ -30,7 +27,7 @@ public class RefinementSelectionListener implements ISelectionChangedListener {
 
     /**
      * Constructor to set the required references.
-     * 
+     *
      * @param refinementDetailsView
      *            The refinement area to present the details in.
      * @param input
@@ -46,7 +43,7 @@ public class RefinementSelectionListener implements ISelectionChangedListener {
     /**
      * Process the event of a selected refinement. Opens the detailed information about the
      * refinement in the details area.
-     * 
+     *
      * @param event
      *            The selection change event to react on.
      */

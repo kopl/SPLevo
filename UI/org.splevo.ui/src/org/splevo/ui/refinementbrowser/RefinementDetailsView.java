@@ -20,25 +20,35 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.refinement.Refinement;
-import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+
+import com.google.common.base.Strings;
 
 /**
  * Details view to show information about a currently selected refinement.
  */
 public class RefinementDetailsView extends Composite {
 
+    private static final String REFINEMENT_INFO_DEFAULT_TEXT = "Select refinement on the left to review details.";
+
     /** The internal tree viewer to present the refined variation points. */
-    private TreeViewer variationPointTreeViewer = null;
+    private TreeViewer refinementDetailsTreeViewer = null;
+
+    /** The area to present info about a currently selected refinement in. */
+    private StyledText refinementInfoArea = null;
 
     /**
      * Constructor to create the view.
@@ -50,21 +60,33 @@ public class RefinementDetailsView extends Composite {
         super(parent, SWT.FILL);
         setLayout(new FillLayout(SWT.HORIZONTAL));
 
-        variationPointTreeViewer = new TreeViewer(this, SWT.BORDER);
-        variationPointTreeViewer.setLabelProvider(new ViewerLabelProvider());
-        variationPointTreeViewer.setContentProvider(new TreeContentProvider());
+        SashForm sashForm = new SashForm(this, SWT.BORDER | SWT.FILL);
+        sashForm.setSashWidth(1);
+        sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
 
+        refinementDetailsTreeViewer = new TreeViewer(sashForm, SWT.BORDER);
+        refinementDetailsTreeViewer.setLabelProvider(new ViewerLabelProvider());
+        refinementDetailsTreeViewer.setContentProvider(new TreeContentProvider());
+        refinementDetailsTreeViewer.addDoubleClickListener(new ExpandTreeListener());
         initContextMenu();
+
+        refinementInfoArea = new StyledText(sashForm, SWT.WRAP);
+        refinementInfoArea.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        refinementInfoArea.setText(REFINEMENT_INFO_DEFAULT_TEXT);
+
+        sashForm.setWeights(new int[] { 7, 3 });
     }
 
     /**
      * Enables or disables the control.
      *
-     * @param enable <code>true</code> to enable; <code>false</code> to disable.
+     * @param enable
+     *            <code>true</code> to enable; <code>false</code> to disable.
      */
     public void setEnabled(boolean enable) {
-    	variationPointTreeViewer.getControl().setEnabled(enable);
+        refinementDetailsTreeViewer.getControl().setEnabled(enable);
     }
+
     /**
      * Create contents of the details page.
      *
@@ -83,8 +105,38 @@ public class RefinementDetailsView extends Composite {
      *            The refinement to show.
      */
     public void showRefinement(Refinement refinement) {
-    	setEnabled(true);
-        variationPointTreeViewer.setInput(refinement);
+        setEnabled(true);
+        refinementDetailsTreeViewer.setInput(refinement);
+        updateRefinementInfo(refinement);
+    }
+
+    private void updateRefinementInfo(Refinement refinement) {
+
+        String headline = "Refinement Infos";
+        String linebreak = "\r\n";
+        String subHeadlineReason = "Recommendation Reason: ";
+
+        StringBuilder text = new StringBuilder();
+        text.append(headline);
+        text.append(linebreak);
+        text.append(linebreak);
+        text.append(subHeadlineReason);
+        text.append(linebreak);
+        text.append(refinement.getSource());
+
+        refinementInfoArea.setText(text.toString());
+
+        StyleRange styleRange = new StyleRange();
+        styleRange.start = 0;
+        styleRange.length = headline.length();
+        styleRange.fontStyle = SWT.BOLD | SWT.UNDERLINE_DOUBLE;
+        refinementInfoArea.setStyleRange(styleRange);
+
+        styleRange = new StyleRange();
+        styleRange.start = headline.length() + (2 * linebreak.length());
+        styleRange.length = subHeadlineReason.length();
+        styleRange.fontStyle = SWT.UNDERLINE_SQUIGGLE;
+        refinementInfoArea.setStyleRange(styleRange);
     }
 
     /**
@@ -157,32 +209,12 @@ public class RefinementDetailsView extends Composite {
          */
         @Override
         public String getText(Object element) {
-            if (element instanceof VariationPoint) {
-                return buildVariationPointLabel((VariationPoint) element);
+            String label = UIUtil.getItemProviderText(element);
+            if (!Strings.isNullOrEmpty(label)) {
+                return label;
+            } else {
+                return "[UNKNOWN]";
             }
-
-            if (element instanceof Variant) {
-                return "Variant: " + ((Variant) element).getVariantId();
-            }
-
-            if (element instanceof SoftwareElement) {
-                return ((SoftwareElement) element).getLabel();
-            }
-
-            // default label
-            return super.getText(element);
-        }
-
-        /**
-         * Builds the variation point label.
-         *
-         * @param variationPoint
-         *            the element
-         * @return the string
-         */
-        private String buildVariationPointLabel(VariationPoint variationPoint) {
-            SoftwareElement softwareElement = variationPoint.getLocation();
-            return String.format("VariationPoint in %s", softwareElement.getLabel());
         }
     }
 
@@ -200,12 +232,12 @@ public class RefinementDetailsView extends Composite {
 
                 // trigger the action to navigate to the source
                 // location and open the Java Editor at the according location
-                Action action = new OpenSourceInEditorAction(variationPointTreeViewer);
+                Action action = new OpenSourceInEditorAction(refinementDetailsTreeViewer);
                 manager.add(action);
             }
         });
-        Menu menu = menuMgr.createContextMenu(variationPointTreeViewer.getTree());
-        variationPointTreeViewer.getTree().setMenu(menu);
+        Menu menu = menuMgr.createContextMenu(refinementDetailsTreeViewer.getTree());
+        refinementDetailsTreeViewer.getTree().setMenu(menu);
 
     }
 }
