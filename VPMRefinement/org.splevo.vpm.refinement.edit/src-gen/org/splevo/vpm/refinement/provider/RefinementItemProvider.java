@@ -117,16 +117,26 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
 
     /**
      * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc
-     * -->
+     * --> {@inheritDoc}
      *
-     * @generated
+     * @generated not
      */
     @Override
     public String getText(Object object) {
-        RefinementType labelValue = ((Refinement) object).getType();
-        String label = labelValue == null ? null : labelValue.toString();
-        return label == null || label.length() == 0 ? getString("_UI_Refinement_type")
-                : getString("_UI_Refinement_type") + " " + label;
+        if (object instanceof Refinement) {
+            Refinement refinement = (Refinement) object;
+            StringBuilder labelBuilder = new StringBuilder();
+            if (refinement.getType() == RefinementType.GROUPING) {
+                labelBuilder.append("Grouping (");
+            } else {
+                labelBuilder.append("Merge (");
+            }
+            labelBuilder.append(((Refinement) object).getVariationPoints().size());
+            labelBuilder.append(" VPs)");
+            return labelBuilder.toString();
+        } else {
+            throw new RuntimeException("Unknown Refinement Type: " + object.getClass());
+        }
     }
 
     /**
