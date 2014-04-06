@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,9 +20,13 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
@@ -30,9 +34,6 @@ import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * Details view to show information about a currently selected refinement.
- * 
- * @author Benjamin Klatt
- * 
  */
 public class RefinementDetailsView extends Composite {
 
@@ -41,7 +42,7 @@ public class RefinementDetailsView extends Composite {
 
     /**
      * Constructor to create the view.
-     * 
+     *
      * @param parent
      *            The parent ui element to present the view in.
      */
@@ -55,10 +56,10 @@ public class RefinementDetailsView extends Composite {
 
         initContextMenu();
     }
-    
+
     /**
      * Enables or disables the control.
-     * 
+     *
      * @param enable <code>true</code> to enable; <code>false</code> to disable.
      */
     public void setEnabled(boolean enable) {
@@ -66,7 +67,7 @@ public class RefinementDetailsView extends Composite {
     }
     /**
      * Create contents of the details page.
-     * 
+     *
      * @param parent
      *            The parent ui element to create the view in.
      */
@@ -77,7 +78,7 @@ public class RefinementDetailsView extends Composite {
 
     /**
      * Trigger the presentation of a specific refinement in the view.
-     * 
+     *
      * @param refinement
      *            The refinement to show.
      */
@@ -138,10 +139,20 @@ public class RefinementDetailsView extends Composite {
      */
     private static class ViewerLabelProvider extends LabelProvider {
 
+        @Override
+        public Image getImage(Object element) {
+            Image image = UIUtil.getItemProviderImage(element);
+            if (image != null) {
+                return image;
+            } else {
+                return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
+            }
+        }
+
         /**
          * Get the text label for a supplied element. Adapted to interpret the information of the
          * specific type (VariationPoint, Variant, etc.)
-         * 
+         *
          * {@inheritDoc}
          */
         @Override
@@ -164,7 +175,7 @@ public class RefinementDetailsView extends Composite {
 
         /**
          * Builds the variation point label.
-         * 
+         *
          * @param variationPoint
          *            the element
          * @return the string

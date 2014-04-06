@@ -11,7 +11,10 @@
  *******************************************************************************/
 package org.splevo.ui.util;
 
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -25,6 +28,36 @@ public final class UIUtil {
 
     /** Disable constructor for static utility handling. */
     private UIUtil() {
+    }
+
+    /**
+     * Get an icon for an object provided by any EMF ItemProvider registered for the according meta
+     * model element.
+     *
+     * @param element
+     *            The element to search an icon for.
+     * @return The identified icon or null if none exists.
+     */
+    public static Image getItemProviderImage(Object element) {
+        ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(
+                ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+        AdapterFactoryLabelProvider labelProvider = new AdapterFactoryLabelProvider(composedAdapterFactory);
+        return labelProvider.getImage(element);
+    }
+
+    /**
+     * Get the default label for an object provided by any EMF ItemProvider registered for the according meta
+     * model element.
+     *
+     * @param element
+     *            The element to search an icon for.
+     * @return The identified icon or null if none exists.
+     */
+    public static String getItemProviderText(Object element) {
+        ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(
+                ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+        AdapterFactoryLabelProvider labelProvider = new AdapterFactoryLabelProvider(composedAdapterFactory);
+        return labelProvider.getText(element);
     }
 
     /**
