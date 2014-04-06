@@ -2,6 +2,7 @@
  */
 package org.splevo.vpm.variability.provider;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.IChildCreationExtender;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -30,14 +32,15 @@ import org.splevo.vpm.variability.variabilityPackage;
 /**
  * This is the item provider adapter for a {@link org.splevo.vpm.variability.VariationPoint} object.
  * <!-- begin-user-doc --> <!-- end-user-doc -->
+ *
  * @generated
  */
 public class VariationPointItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
         IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier.
-     * <!-- begin-user-doc --> <!--
+     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     *
      * @generated
      */
     public VariationPointItemProvider(AdapterFactory adapterFactory) {
@@ -45,9 +48,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This returns the property descriptors for the adapted class.
-     * <!-- begin-user-doc --> <!--
+     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -64,9 +67,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Location feature.
-     * <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Location feature. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     *
      * @generated
      */
     protected void addLocationPropertyDescriptor(Object object) {
@@ -80,9 +83,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Variability Type feature.
-     * <!-- begin-user-doc -->
+     * This adds a property descriptor for the Variability Type feature. <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     *
      * @generated
      */
     protected void addVariabilityTypePropertyDescriptor(Object object) {
@@ -96,9 +99,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Binding Time feature.
-     * <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Binding Time feature. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     *
      * @generated
      */
     protected void addBindingTimePropertyDescriptor(Object object) {
@@ -112,9 +115,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Extensibility feature.
-     * <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Extensibility feature. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     *
      * @generated
      */
     protected void addExtensibilityPropertyDescriptor(Object object) {
@@ -148,6 +151,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -166,11 +170,29 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     @Override
     public Object getImage(Object object) {
         VariationPoint vp = (VariationPoint) object;
+        Object baseImage;
         if (vp.getVariabilityType() == VariabilityType.XOR || vp.getVariabilityType() == VariabilityType.OPTXOR) {
-            return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPointXOR"));
+            baseImage = overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPointXOR"));
         } else {
-            return overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPoint"));
+            baseImage = overlayImage(object, getResourceLocator().getImage("full/obj16/VariationPoint"));
         }
+        return overlayVariantCount(baseImage, vp.getVariants().size());
+    }
+
+    /**
+     * Compose two images to derive a combined icon.
+     *
+     * @param baseImage
+     *            The base image to combine.
+     * @param count
+     *            The number to select an overlay for.
+     * @return The composed image object.
+     */
+    private Object overlayVariantCount(Object baseImage, int count) {
+        List<Object> images = new ArrayList<Object>(2);
+        images.add(baseImage);
+        images.add(getResourceLocator().getImage("overlay/count-" + count));
+        return new ComposedImage(images);
     }
 
     /**
@@ -198,8 +220,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
+     * . <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -221,9 +244,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-     * that can be created under this object.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
+     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
      * @generated
      */
     @Override
@@ -239,9 +262,9 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * Return the resource locator for this item provider's resources.
-     * <!-- begin-user-doc --> <!--
+     * Return the resource locator for this item provider's resources. <!-- begin-user-doc --> <!--
      * end-user-doc -->
+     *
      * @generated
      */
     @Override
