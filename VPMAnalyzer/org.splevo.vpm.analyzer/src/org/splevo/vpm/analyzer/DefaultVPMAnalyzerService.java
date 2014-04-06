@@ -44,6 +44,7 @@ import com.google.common.collect.Sets;
 public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
 
     private static Logger logger = Logger.getLogger(DefaultVPMAnalyzerService.class);
+    private static final String NEW_LINE = System.getProperty("line.separator");
 
     /**
      * @see org.splevo.vpm.analyzer.VPMAnalyzerService#initVPMGraph(org.splevo.vpm.variability.
@@ -357,10 +358,16 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
             Collection<VariationPoint> mergedVPs, List<VariationPoint> vpsNotMerged) {
         Refinement groupRefinement = RefinementFactory.eINSTANCE.createRefinement();
         groupRefinement.setType(RefinementType.GROUPING);
-        groupRefinement.setSource(originalRefinement.getSource());
         groupRefinement.setRefinementModel(originalRefinement.getRefinementModel());
         groupRefinement.getVariationPoints().addAll(mergedVPs);
         groupRefinement.getVariationPoints().addAll(vpsNotMerged);
+
+        StringBuilder source = new StringBuilder();
+        source.append("Group refinement to connect related VPs that could be partially merged");
+        source.append(NEW_LINE);
+        source.append(originalRefinement.getSource());
+        groupRefinement.setSource(source.toString());
+
         return groupRefinement;
     }
 
@@ -380,11 +387,20 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
             VariationPoint firstVP) {
         Refinement mergeRefinement = RefinementFactory.eINSTANCE.createRefinement();
         mergeRefinement.setType(RefinementType.MERGE);
-        mergeRefinement.setSource(originalRefinement.getSource());
         mergeRefinement.setRefinementModel(originalRefinement.getRefinementModel());
 
         mergeRefinement.getVariationPoints().add(firstVP);
         mergeRefinement.getVariationPoints().addAll(vpsToMergeIn);
+
+        int mergedVPCount = mergeRefinement.getVariationPoints().size();
+        int origVPCount = originalRefinement.getVariationPoints().size();
+
+        StringBuilder source = new StringBuilder();
+        source.append(mergedVPCount + " of " + origVPCount + " VPs detected to mergeable.");
+        source.append(NEW_LINE);
+        source.append(originalRefinement.getSource());
+        mergeRefinement.setSource(source.toString());
+
         return mergeRefinement;
     }
 
