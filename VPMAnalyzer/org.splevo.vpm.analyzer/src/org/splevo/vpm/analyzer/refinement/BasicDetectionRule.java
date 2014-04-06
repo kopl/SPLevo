@@ -198,8 +198,19 @@ public class BasicDetectionRule implements DetectionRule {
         Refinement refinement = RefinementFactory.eINSTANCE.createRefinement();
         refinement.setType(this.getRefinementType());
 
-        Set<Node> nodes = Sets.newLinkedHashSet();
 
+        StringBuilder refinementSource = new StringBuilder();
+        refinementSource.append("Detected Relationship(s): ");
+        boolean first = true;
+        for (String searchedLabel : edgeLabels) {
+            if (!first) {
+                refinementSource.append(", ");
+            }
+            refinementSource.append(searchedLabel);
+            first = false;
+        }
+
+        Set<Node> nodes = Sets.newLinkedHashSet();
         for (RelationshipEdge edge : subgraphEdges) {
             nodes.add(edge.getSourceNode());
             nodes.add(edge.getTargetNode());
@@ -209,7 +220,7 @@ public class BasicDetectionRule implements DetectionRule {
             addVariationPoint(refinement, node);
         }
 
-        refinement.setSource(String.format("Detection Rule: ", edgeLabels.toString()));
+        refinement.setSource(refinementSource.toString());
 
         return refinement;
     }
@@ -245,21 +256,11 @@ public class BasicDetectionRule implements DetectionRule {
         return edge.getRelationshipLabels().containsAll(this.edgeLabels);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.splevo.vpm.analyzer.refinement.DetectionRule#getEdgeLabels()
-     */
     @Override
     public List<String> getEdgeLabels() {
         return this.edgeLabels;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.splevo.vpm.analyzer.refinement.DetectionRule#getRefinementType()
-     */
     @Override
     public RefinementType getRefinementType() {
         return this.refinementType;
