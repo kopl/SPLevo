@@ -252,7 +252,7 @@
           class="org.splevo.ui.perspective.SPLevoPerspectiveFactory"
           icon="icons/kopl_circle_only.png"
           id="org.splevo.ui.perspective"
-          name="SPLevo Perspective">
+          name="SPLevo">
     </perspective>
  </extension>
  <extension
