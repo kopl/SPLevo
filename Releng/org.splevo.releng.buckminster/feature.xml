@@ -66,6 +66,10 @@
          id="org.splevo.jamopp.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.splevo.refactoring.feature"
+         version="0.0.0"/>
+
    <plugin
          id="org.splevo.fm.builder.tests"
          download-size="0"
@@ -170,6 +174,14 @@
 
    <plugin
          id="org.splevo.jamopp.vpm.mergedecider.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.refactoring.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"
