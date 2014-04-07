@@ -1,32 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Refactoring
+Bundle-Name: SPLevo Refactoring
 Bundle-SymbolicName: org.splevo.refactoring;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.splevo.refactoring.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.splevo.refactoring,
- org.splevo.refactoring.refactory.test.util,
- org.splevo.refactoring.refactory.util,
- org.splevo.refactoring.test.util
+Export-Package: org.splevo.refactoring
 Bundle-Vendor: www.splevo.org
 Require-Bundle: org.eclipse.osgi,
  org.eclipse.equinox.registry,
  org.apache.log4j,
  org.splevo.vpm,
- net.sf.eclipsecs.checkstyle,
- org.emftext.language.refactoring.specification,
- org.emftext.refactoring.registry.refactoringspecification,
- org.emftext.refactoring.registry.rolemapping,
- org.emftext.refactoring.registry.rolemodel,
- org.emftext.language.refactoring.rolemapping,
- org.emftext.language.java.resource,
- org.emftext.language.refactoring.roles.resource.rolestext,
- org.emftext.language.refactoring.rolemapping.resource.rolemapping,
- org.emftext.language.refactoring.specification.resource.refspec,
- org.emftext.language.java,
  org.eclipse.emf.compare,
- org.splevo.jamopp.diffing,
- org.splevo.jamopp.extraction,
- org.splevo.jamopp.vpm.builder
+ org.eclipse.core.runtime,
+ com.google.guava

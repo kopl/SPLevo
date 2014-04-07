@@ -35,21 +35,8 @@ public class Activator implements BundleActivator {
     /** The logger for this class. */
     private static Logger logger = Logger.getLogger(Activator.class);
 
-    /** The context. */
-    private static BundleContext context;
-
-    /**
-     * Gets the context.
-     *
-     * @return the context
-     */
-    static BundleContext getContext() {
-        return context;
-    }
-
     @Override
     public void start(BundleContext bundleContext) throws Exception {
-        Activator.context = bundleContext;
         List<VariabilityRefactoring> refactorings = loadRefactorings();
         for (VariabilityRefactoring refactoring : refactorings) {
             VariabilityRefactoringRegistry.registerRefactoring(refactoring);
@@ -144,6 +131,5 @@ public class Activator implements BundleActivator {
 
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
-        Activator.context = null;
     }
 }
