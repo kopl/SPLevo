@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.splevo.refactoring.feature"
-      label="Feature"
+      label="SPLevo Refactoring Feature"
       version="1.0.0.qualifier"
       provider-name="www.splevo.org">
 
