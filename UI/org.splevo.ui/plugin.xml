@@ -262,7 +262,7 @@
        <view
                   id="org.eclipse.jdt.ui.PackageExplorer"
                   minimized="false"
-                  ratio="0.2"
+                  ratio="0.3"
                   relationship="left"
                   relative="org.eclipse.ui.editorss"
                   visible="true">

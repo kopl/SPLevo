@@ -19,6 +19,9 @@ import org.eclipse.ui.IPerspectiveFactory;
  */
 public class SPLevoPerspectiveFactory implements IPerspectiveFactory {
 
+    /** The internal id of the SPLevo perspective. */
+    public static final String SPLEVO_PERSPECTIVE_ID = "org.splevo.ui.perspective";
+
     @Override
     public void createInitialLayout(IPageLayout layout) {
     }

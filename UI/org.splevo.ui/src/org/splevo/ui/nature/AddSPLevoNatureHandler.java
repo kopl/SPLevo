@@ -21,9 +21,16 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.splevo.ui.perspective.SPLevoPerspectiveFactory;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalyzerConfigurationPage;
 
 /**
@@ -51,6 +58,21 @@ public class AddSPLevoNatureHandler extends AbstractHandler {
                 }
             }
         }
+
+        IWorkbench workbench = PlatformUI.getWorkbench();
+        IWorkbenchWindow activeWindow = workbench.getActiveWorkbenchWindow();
+        Shell shell = activeWindow.getShell();
+        boolean switchPerspective = MessageDialog.openConfirm(shell, "Open SPLevo Perspective",
+                "SPLevo projects are associated with a specialized perspective.\n"
+                        + "Do you want to switch to the SPLevo perspective?");
+        if (switchPerspective) {
+            try {
+                workbench.showPerspective(SPLevoPerspectiveFactory.SPLEVO_PERSPECTIVE_ID, activeWindow);
+            } catch (WorkbenchException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 
