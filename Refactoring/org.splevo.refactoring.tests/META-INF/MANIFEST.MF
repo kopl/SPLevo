@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SPLevo Refactoring Test Fragment
+Fragment-Host: org.splevo.refactoring
+Bundle-SymbolicName: org.splevo.refactoring.tests;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: www.splevo.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.runtime,
+ org.splevo.vpm;visibility:=reexport,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.junit;visibility:=reexport,
+ com.google.guava;bundle-version="11.0.2",
+ org.splevo.vpm.refinement;bundle-version="1.0.0",
+ org.eclipse.ui.workbench,
+ org.eclipse.core.resources,
+ org.hamcrest.core
+Bundle-ActivationPolicy: lazy
