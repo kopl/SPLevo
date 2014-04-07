@@ -18,6 +18,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.VariabilityRefactoringRegistry;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -30,11 +32,16 @@ import com.google.common.collect.Lists;
  */
 public class VariationPointPropertySource implements IPropertySource {
 
+    private static final String CATEGORY_REALIZATION = "Variability Realization";
+
+    private static final String CATEGORY_CHARACTERISTICS = "Variability Characteristics";
+
     private static Logger logger = Logger.getLogger(VariationPointPropertySource.class);
 
     private static final String PROPERTY_ID_EXTENSIBILITY = "extensibile";
     private static final String PROPERTY_ID_VARIABILITYTYPE = "variabilitytype";
     private static final String PROPERTY_ID_BINDINGTIME = "bindingtime";
+    private static final String PROPERTY_ID_VARIABILITY_MECHANISM = "variabilitymechanism";
 
     private final VariationPoint vp;
 
@@ -71,13 +78,24 @@ public class VariationPointPropertySource implements IPropertySource {
     @Override
     public IPropertyDescriptor[] getPropertyDescriptors() {
 
-        return new IPropertyDescriptor[] {
-                new ComboBoxPropertyDescriptor(PROPERTY_ID_VARIABILITYTYPE, "Variability Type",
-                        variabilityTypes.toArray(new String[] {})),
-                new ComboBoxPropertyDescriptor(PROPERTY_ID_BINDINGTIME, "Binding Time",
-                        bindingTimes.toArray(new String[] {})),
-                new ComboBoxPropertyDescriptor(PROPERTY_ID_EXTENSIBILITY, "Extensible",
-                        extensibilities.toArray(new String[] {})) };
+        ComboBoxPropertyDescriptor variabilityTypeDescriptor = new ComboBoxPropertyDescriptor(
+                PROPERTY_ID_VARIABILITYTYPE, "Variability Type", variabilityTypes.toArray(new String[] {}));
+        variabilityTypeDescriptor.setCategory(CATEGORY_CHARACTERISTICS);
+
+        ComboBoxPropertyDescriptor bindingTimeDescriptor = new ComboBoxPropertyDescriptor(PROPERTY_ID_BINDINGTIME,
+                "Binding Time", bindingTimes.toArray(new String[] {}));
+        bindingTimeDescriptor.setCategory(CATEGORY_CHARACTERISTICS);
+
+        ComboBoxPropertyDescriptor extensibilityDescriptor = new ComboBoxPropertyDescriptor(PROPERTY_ID_EXTENSIBILITY,
+                "Extensible", extensibilities.toArray(new String[] {}));
+        extensibilityDescriptor.setCategory(CATEGORY_CHARACTERISTICS);
+
+        VariabilityMechanismPropertyDescriptor variabilityMechanismDescriptor = new VariabilityMechanismPropertyDescriptor(
+                PROPERTY_ID_VARIABILITY_MECHANISM, "Variability Mechanism");
+        variabilityMechanismDescriptor.setCategory(CATEGORY_REALIZATION);
+
+        return new IPropertyDescriptor[] { variabilityTypeDescriptor, bindingTimeDescriptor, extensibilityDescriptor,
+                variabilityMechanismDescriptor };
     }
 
     @Override
@@ -90,6 +108,15 @@ public class VariationPointPropertySource implements IPropertySource {
         }
         if (id.equals(PROPERTY_ID_BINDINGTIME)) {
             return vp.getBindingTime().getValue();
+        }
+        if (id.equals(PROPERTY_ID_VARIABILITY_MECHANISM)) {
+            if (vp.getVariabilityMechanism() == null) {
+                return null;
+            }
+
+            String refactoringId = vp.getVariabilityMechanism().getRefactoringID();
+            VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getRefactoringById(refactoringId);
+            return refactoring;
         }
 
         return null;
@@ -115,6 +142,14 @@ public class VariationPointPropertySource implements IPropertySource {
         } else if (id.equals(PROPERTY_ID_BINDINGTIME) && value instanceof Integer) {
             vp.setBindingTime(BindingTime.get((Integer) value));
 
+        } else if (id.equals(PROPERTY_ID_VARIABILITY_MECHANISM)) {
+            if (value == null) {
+                vp.setVariabilityMechanism(null);
+            } else if (value instanceof VariabilityRefactoring) {
+                VariabilityRefactoring refactoring = (VariabilityRefactoring) value;
+                vp.setVariabilityMechanism(refactoring.getVariabilityMechanism());
+            }
+
         } else {
             logger.warn("Unsupported property value set. Property ID: " + id + " Value: " + value);
         }
@@ -130,7 +165,6 @@ public class VariationPointPropertySource implements IPropertySource {
                 logger.error("Failed to save VariationPoint modifications", e);
             }
         }
-
     }
 
 }
