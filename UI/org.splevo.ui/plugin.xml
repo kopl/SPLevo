@@ -268,11 +268,11 @@
                   visible="true">
             </view>
             <view
-                  id="org.splevo.ui.viewer.vpmgraph.VPMGraphViewer"
+                  id="org.splevo.ui.viewer.vpmgraph.VPMGraphViewer:*"
                   minimized="false"
                   relationship="stack"
                   relative="org.eclipse.ui.editorss"
-                  visible="true">
+                  visible="false">
             </view>
             <view
                   id="org.eclipse.ui.console.ConsoleView"
