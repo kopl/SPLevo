@@ -246,5 +246,59 @@
        </adapter>
     </factory>
  </extension>
+ <extension
+       point="org.eclipse.ui.perspectives">
+    <perspective
+          class="org.splevo.ui.perspective.SPLevoPerspectiveFactory"
+          icon="icons/kopl_circle_only.png"
+          id="org.splevo.ui.perspective"
+          name="SPLevo Perspective">
+    </perspective>
+ </extension>
+ <extension
+       point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension
+          targetID="org.splevo.ui.perspective">
+       <view
+                  id="org.eclipse.jdt.ui.PackageExplorer"
+                  minimized="false"
+                  ratio="0.2"
+                  relationship="left"
+                  relative="org.eclipse.ui.editorss"
+                  visible="true">
+            </view>
+            <view
+                  id="org.splevo.ui.viewer.vpmgraph.VPMGraphViewer"
+                  minimized="false"
+                  relationship="stack"
+                  relative="org.eclipse.ui.editorss"
+                  visible="false">
+            </view>
+            <view
+                  id="org.eclipse.ui.console.ConsoleView"
+                  minimized="false"
+                  ratio="0.7"
+                  relationship="bottom"
+                  relative="org.eclipse.ui.editorss"
+                  visible="true">
+            </view>
+            <view
+                  id="org.eclipse.ui.views.PropertySheet"
+                  minimized="false"
+                  ratio="0.7"
+                  relationship="bottom"
+                  relative="org.eclipse.jdt.ui.PackageExplorer"
+                  visible="true">
+            </view>
+            <view
+                  id="org.splevo.ui.vpexplorer"
+                  minimized="false"
+                  ratio="0"
+                  relationship="stack"
+                  relative="org.eclipse.jdt.ui.PackageExplorer"
+                  visible="true">
+            </view>
+    </perspectiveExtension>
+ </extension>
 
 </plugin>
