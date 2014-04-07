@@ -272,7 +272,7 @@
                   minimized="false"
                   relationship="stack"
                   relative="org.eclipse.ui.editorss"
-                  visible="false">
+                  visible="true">
             </view>
             <view
                   id="org.eclipse.ui.console.ConsoleView"
@@ -293,7 +293,13 @@
             <view
                   id="org.splevo.ui.vpexplorer"
                   minimized="false"
-                  ratio="0"
+                  relationship="stack"
+                  relative="org.eclipse.jdt.ui.PackageExplorer"
+                  visible="true">
+            </view>
+            <view
+                  id="org.eclipse.ui.navigator.ProjectExplorer"
+                  minimized="false"
                   relationship="stack"
                   relative="org.eclipse.jdt.ui.PackageExplorer"
                   visible="true">
