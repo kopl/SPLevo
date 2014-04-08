@@ -74,11 +74,11 @@ public class RefinementTypeLabelProvider extends LabelProvider {
 	 */
 	private String getLabelsString(Integer id) {
 		Set<String> labels = labelsToGroupID.get(id);
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for (String label : labels) {
-			result += "[" + label.substring(0, 3) + "] ";
+			result.append("[").append(label.substring(0, 3)).append("] ");
 		}
-		return result;
+		return result.toString();
 	}
 
 	/**
