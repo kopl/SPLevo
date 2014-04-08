@@ -85,9 +85,6 @@ import com.google.common.base.Splitter;
 /**
  * The SPLevo dash board to control the consolidation process as well as editing the SPLevo project
  * configuration.
- *
- * @author Benjamin Klatt
- *
  */
 public class SPLevoProjectEditor extends EditorPart {
 
@@ -106,8 +103,8 @@ public class SPLevoProjectEditor extends EditorPart {
     /** The internal index of the project selection tab. */
     private static final int TABINDEX_PROJECT_SELECTION = 2;
 
-    /** The internal index of the diffing model tab. */
-    private static final int TABINDEX_DIFFING = 3;
+    /** The internal index of the configuration tab. */
+    private static final int TABINDEX_CONFIGURATION = 3;
 
     /** The splevo project manipulated in the editor instance. */
     private SPLevoProject splevoProject = null;
@@ -157,9 +154,6 @@ public class SPLevoProjectEditor extends EditorPart {
 
     /** The text input for the name of the variant to be integrated. */
     private Text inputVariantNameIntegration;
-
-    /** The text input for the path to the diffing model. */
-    private Text diffingModelInput;
 
     /** Button Project Selection. */
     private Button btnSelectSourceProjects;
@@ -211,7 +205,7 @@ public class SPLevoProjectEditor extends EditorPart {
         createProcessControlTab(TABINDEX_PROCESS_CONTROL);
         createProjectInfoTab(TABINDEX_PROJECT_INFOS);
         createProjectSelectionTab(TABINDEX_PROJECT_SELECTION);
-        createDiffingTab(TABINDEX_DIFFING);
+        createConfigurationTab(TABINDEX_CONFIGURATION);
 
         initDataBindings();
 
@@ -220,36 +214,28 @@ public class SPLevoProjectEditor extends EditorPart {
     }
 
     /**
-     * Create the tab to handle the diff model.
+     * Create the tab to handle the process configuration.
      *
      * @param tabIndex
      *            The index of the tab within the parent tab folder.
      */
-    private void createDiffingTab(int tabIndex) {
+    private void createConfigurationTab(int tabIndex) {
 
-        TabItem tbtmDiffingModel = new TabItem(tabFolder, SWT.NONE, tabIndex);
-        tbtmDiffingModel.setText("Diffing");
+        TabItem configurationTab = new TabItem(tabFolder, SWT.NONE, tabIndex);
+        configurationTab.setText("Configuration");
 
         ScrolledComposite scrolledComposite = new ScrolledComposite(tabFolder, SWT.V_SCROLL);
         scrolledComposite.setExpandHorizontal(true);
         scrolledComposite.setExpandVertical(true);
-        Composite composite = new Composite(scrolledComposite, SWT.NONE);
-        scrolledComposite.setContent(composite);
-        tbtmDiffingModel.setControl(scrolledComposite);
 
-        Label lblDiffingModelDescription = new Label(composite, SWT.NONE);
-        lblDiffingModelDescription.setText("The diffing model extracted from the source models.");
-        lblDiffingModelDescription.setBounds(10, 10, 490, 20);
-
-        Label lblDiffingModel = new Label(composite, SWT.NONE);
-        lblDiffingModel.setText("Diffing Model:");
-        lblDiffingModel.setBounds(10, 44, 191, 20);
-
-        diffingModelInput = new Text(composite, SWT.BORDER);
-        diffingModelInput.setBounds(10, 67, 490, 26);
+        Composite composite = new Composite(scrolledComposite, SWT.FILL);
+        composite.setLayout(new GridLayout(1, false));
+        composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
 
         buildDifferConfigurationGroup(composite);
+        scrolledComposite.setContent(composite);
         scrolledComposite.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        configurationTab.setControl(scrolledComposite);
     }
 
     /**
@@ -263,7 +249,9 @@ public class SPLevoProjectEditor extends EditorPart {
     private Group buildDifferConfigurationGroup(Composite composite) {
 
         Group groupDiffers = new Group(composite, SWT.FILL);
-        groupDiffers.setText("Differ");
+        groupDiffers.setText("Difference Analysis");
+        groupDiffers.setLayout(new GridLayout(2, false));
+        groupDiffers.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
 
         List<Button> differCheckBoxes = new LinkedList<Button>();
 
@@ -271,7 +259,7 @@ public class SPLevoProjectEditor extends EditorPart {
 
         int singleHeight = 20;
         int multipleHeight = 100;
-        int yPositionCurrent = 25;
+        int yPositionCurrent = 5;
 
         if (availableDiffers.size() == 1) {
             splevoProject.getDifferIds().add(availableDiffers.get(0).getId());
@@ -280,6 +268,9 @@ public class SPLevoProjectEditor extends EditorPart {
         for (Differ differ : availableDiffers) {
 
             Button checkBox = new Button(groupDiffers, SWT.CHECK);
+            GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+            gridData.horizontalSpan = 2;
+            checkBox.setLayoutData(gridData);
             checkBox.addSelectionListener(new DifferCheckBoxListener(checkBox, differ.getId(), this));
             checkBox.setBounds(10, yPositionCurrent, 450, singleHeight);
             checkBox.setText(differ.getLabel());
@@ -298,11 +289,13 @@ public class SPLevoProjectEditor extends EditorPart {
                 Label configLabel = new Label(groupDiffers, SWT.NONE);
                 configLabel.setBounds(10, yPositionCurrent, 450, singleHeight);
                 configLabel.setText(label + ":");
+                configLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
                 yPositionCurrent = yPositionCurrent + (singleHeight + 3);
 
-                Text configInput = new Text(groupDiffers, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+                Text configInput = new Text(groupDiffers, SWT.BORDER | SWT.V_SCROLL);
                 configInput.setBounds(10, yPositionCurrent, 450, multipleHeight);
+                configInput.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
                 if (currentValue != null) {
                     configInput.setText(currentValue);
                 } else {
@@ -712,10 +705,6 @@ public class SPLevoProjectEditor extends EditorPart {
      */
     public void updateUI() {
 
-        if (splevoProject.getDiffingModelPath() != null) {
-            diffingModelInput.setText(splevoProject.getDiffingModelPath());
-        }
-
         markAsDirty();
         doSave(new NullProgressMonitor());
 
@@ -847,13 +836,6 @@ public class SPLevoProjectEditor extends EditorPart {
         bindingContext.bindValue(observeTextInputVariantNameIntegrationObserveWidget,
                 variantNameIntegrationGetSplevoProjectObserveValue, null, null);
 
-        IObservableValue observeTextDiffingModelInputObserveWidget = WidgetProperties.text(SWT.Modify).observe(
-                diffingModelInput);
-        IObservableValue diffingModelPathSplevoProjectObserveValue = PojoProperties.value("diffingModelPath").observe(
-                splevoProject);
-        diffingModelPathSplevoProjectObserveValue.addChangeListener(markDirtyListener);
-        bindingContext.bindValue(observeTextDiffingModelInputObserveWidget, diffingModelPathSplevoProjectObserveValue,
-                null, null);
         //
         return bindingContext;
     }
