@@ -137,24 +137,40 @@ public class VPMRefinementPage extends WizardPage {
      * @return a Document containing the content of the file at the path.
      */
     private Document createDocumentFromPath(IPath path) {
+    	
+    	if (path == null) {
+    		logger.error("Could not create document as path is null");
+    		return new Document();
+    	}
+    	
         Document document;
-        // IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
         IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
+        
+        if (file == null) {
+        	logger.error("Could not open file at path " + path.toString());
+        	return new Document();
+        }
+        
         String content = null;
-
+        InputStreamReader inputStreamReader = null;
+        
         try {
-            InputStreamReader inputStreamReader = new InputStreamReader(file.getContents(), file.getCharset());
+            inputStreamReader = new InputStreamReader(file.getContents(), file.getCharset());
             content = CharStreams.toString(inputStreamReader);
-            inputStreamReader.close();
-        } catch (UnsupportedEncodingException e2) {
-            // TODO Auto-generated catch block
-            e2.printStackTrace();
-        } catch (IOException e2) {
-            // TODO Auto-generated catch block
-            e2.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            logger.error("Cannot create InputStream reader because of unsupported encoding.", e);
+        } catch (IOException e1) {
+        	logger.error("Cannot read file content.", e1);
         } catch (CoreException e2) {
-            // TODO Auto-generated catch block
-            e2.printStackTrace();
+            logger.error("Cannot read from file.", e2);
+        } finally {
+        	if (inputStreamReader != null) {
+        		try {
+					inputStreamReader.close();
+				} catch (IOException e) {
+					logger.error("Could not close InputStreamReader", e);
+				}
+        	}
         }
 
         document = new Document(content);
