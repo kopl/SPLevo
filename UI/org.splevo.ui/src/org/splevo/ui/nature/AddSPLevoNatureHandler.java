@@ -44,7 +44,7 @@ public class AddSPLevoNatureHandler extends AbstractHandler {
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         ISelection selection = HandlerUtil.getCurrentSelection(event);
-        if (selection != null & selection instanceof IStructuredSelection) {
+        if (selection != null && selection instanceof IStructuredSelection) {
             for (Iterator<?> it = ((IStructuredSelection) selection).iterator(); it.hasNext();) {
                 Object element = it.next();
                 IProject project = null;

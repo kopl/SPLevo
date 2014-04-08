@@ -201,7 +201,7 @@ public final class OpenSourceInEditorAction extends Action {
 	private String getCodeForVariationPoint(VariationPoint vp, Variant exclude) {
 		StringBuilder code = new StringBuilder();
 		for (Variant v : vp.getVariants()) {
-			if (v != null && v.equals(exclude)) {
+			if (v == null || v.equals(exclude)) {
 				continue;
 			}
 

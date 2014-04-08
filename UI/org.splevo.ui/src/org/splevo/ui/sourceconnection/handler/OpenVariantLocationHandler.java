@@ -39,7 +39,7 @@ public class OpenVariantLocationHandler extends AbstractHandler {
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         ISelection curSelection = HandlerUtil.getCurrentSelection(event);
-        if (curSelection != null & curSelection instanceof IStructuredSelection) {
+        if (curSelection != null && curSelection instanceof IStructuredSelection) {
             IStructuredSelection selection = (IStructuredSelection) curSelection;
             if (selection.getFirstElement() instanceof Variant) {
                 openVariant((Variant) selection.getFirstElement());
