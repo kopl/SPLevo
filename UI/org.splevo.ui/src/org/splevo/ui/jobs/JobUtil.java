@@ -27,43 +27,45 @@ import com.google.common.collect.Lists;
  */
 public final class JobUtil {
 
-    /** The date format to use in job logging etc. */
-    private static DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
+	/** Disabled constructor to use utility class in a static manner. */
+	private JobUtil() {
+	}
 
-    /** Disabled constructor to use utility class in a static manner. */
-    private JobUtil() {
-    }
+	/**
+	 * Initialize the resource set including preparation by the source model
+	 * extractors for specific source models.
+	 * 
+	 * @param splevoProject
+	 *            The {@link SPLevoProject} to get required configurations from.
+	 * 
+	 * @return The initialized resource set.
+	 */
+	public static ResourceSetImpl initResourceSet(SPLevoProject splevoProject) {
 
-    /**
-     * Initialize the resource set including preparation by the source model extractors for specific
-     * source models.
-     *
-     * @param splevoProject
-     *            The {@link SPLevoProject} to get required configurations from.
-     *
-     * @return The initialized resource set.
-     */
-    public static ResourceSetImpl initResourceSet(SPLevoProject splevoProject) {
+		ResourceSetImpl resourceSet = new ResourceSetImpl();
 
-        ResourceSetImpl resourceSet = new ResourceSetImpl();
+		List<String> sourceModelPaths = Lists.newArrayList();
+		sourceModelPaths.add(splevoProject.getSourceModelPathLeading());
+		sourceModelPaths.add(splevoProject.getSourceModelPathIntegration());
 
-        List<String> sourceModelPaths = Lists.newArrayList();
-        sourceModelPaths.add(splevoProject.getSourceModelPathLeading());
-        sourceModelPaths.add(splevoProject.getSourceModelPathIntegration());
+		DefaultExtractionService extractionService = new DefaultExtractionService();
+		extractionService.prepareResourceSet(resourceSet, sourceModelPaths);
 
-        DefaultExtractionService extractionService = new DefaultExtractionService();
-        extractionService.prepareResourceSet(resourceSet, sourceModelPaths);
+		return resourceSet;
+	}
 
-        return resourceSet;
-    }
+	/**
+	 * Get the current human readable timestamp. For example, to be used in
+	 * logging.
+	 * 
+	 * @return The string representation of the timestamp.
+	 */
+	public static String getTimestamp() {
 
-    /**
-     * Get the current human readable timestamp. For example, to be used in logging.
-     *
-     * @return The string representation of the timestamp.
-     */
-    public static String getTimestamp() {
-        return (dateFormat.format(new Date()));
-    }
+		/** The date format to use in job logging etc. */
+		DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss:S");
+		
+		return (dateFormat.format(new Date()));
+	}
 
 }
