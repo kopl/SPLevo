@@ -46,7 +46,7 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
 
         Set<Resource> resourceToSave = Sets.newLinkedHashSet();
         ISelection selection = HandlerUtil.getCurrentSelection(event);
-        if (selection != null & selection instanceof IStructuredSelection) {
+        if (selection != null && selection instanceof IStructuredSelection) {
             IStructuredSelection strucSelection = (IStructuredSelection) selection;
             for (Object element : strucSelection.toList()) {
                 if (element instanceof VariationPoint) {
