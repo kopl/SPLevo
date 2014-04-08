@@ -80,6 +80,11 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            defaultHandler="org.splevo.ui.nature.AddSPLevoNatureHandler"
+            id="org.splevo.ui.nature.addsplevonature"
+            name="Make SPLevo Project">
+      </command>
+      <command
             defaultHandler="org.splevo.ui.handler.CleanProjectHandler"
             id="referenceToSPLevoMenu"
             name="SPLevo Menu">
@@ -88,6 +93,16 @@
             defaultHandler="org.splevo.ui.handler.CleanProjectHandler"
             id="cleanProjectCommand"
             name="Clean Project">
+      </command>
+      <command
+            defaultHandler="org.splevo.ui.sourceconnection.handler.OpenVariantLocationHandler"
+            id="org.splevo.ui.sourceconnection.variant"
+            name="Open Variant Source Locations">
+      </command>
+      <command
+            defaultHandler="org.splevo.ui.sourceconnection.handler.OpenVariationPointLocationHandler"
+            id="org.splevo.ui.sourceconnection.variationpoint"
+            name="Open Variation Point Source Location">
       </command>
    </extension>
    <extension
@@ -116,6 +131,61 @@
                label="Clean Project"
                style="push"
                tooltip="Deletes the /models and /logs directories and all SPLevo settings except of the Project Selection, Project Infos, Extractor Selection and Diffing Package Filter Rules.">
+         </command>
+      </menuContribution>
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <separator
+               name="Source Location Separator">
+         </separator>
+         <command
+               commandId="org.splevo.ui.sourceconnection.variant"
+               icon="icons/jcu_obj.gif"
+               label="Open Source Location"
+               style="push"
+               tooltip="Open the source locations the variant is implemented at.">
+            <visibleWhen
+                  checkEnabled="true">
+               <iterate>
+                  <instanceof
+                        value="org.splevo.vpm.variability.Variant">
+                  </instanceof>
+               </iterate>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.splevo.ui.sourceconnection.variationpoint"
+               icon="icons/jcu_obj.gif"
+               label="Open Source Location"
+               style="push"
+               tooltip="Open the source location of the variation point enclosing the variability.">
+            <visibleWhen
+                  checkEnabled="true">
+               <iterate>
+                  <instanceof
+                        value="org.splevo.vpm.variability.VariationPoint">
+                  </instanceof>
+               </iterate>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.splevo.ui.nature.addsplevonature"
+               icon="icons/kopl_circle_only.png"
+               label="Make SPLevo Project"
+               style="push">
+            <visibleWhen
+                  checkEnabled="true">
+               <iterate>
+                  <or>
+                     <instanceof
+                           value="org.eclipse.core.resources.IProject">
+                     </instanceof>
+                     <instanceof
+                           value="org.eclipse.core.runtime.IAdaptable">
+                     </instanceof>
+                  </or>
+               </iterate>
+            </visibleWhen>
          </command>
       </menuContribution>
    </extension>
@@ -151,91 +221,6 @@
                                         name="org.splevo.ui.annotations.textmarkerannotation"
                                         markerType="org.splevo.ui.markers.codelocationmarker"/>
     </extension>
- <extension
-       point="org.eclipse.ui.commands">
-    <command
-          defaultHandler="org.splevo.ui.sourceconnection.handler.OpenVariantLocationHandler"
-          id="org.splevo.ui.sourceconnection.variant"
-          name="Open Variant Source Locations">
-    </command>
-    <command
-          defaultHandler="org.splevo.ui.sourceconnection.handler.OpenVariationPointLocationHandler"
-          id="org.splevo.ui.sourceconnection.variationpoint"
-          name="Open Variation Point Source Location">
-    </command>
- </extension>
- <extension
-       point="org.eclipse.ui.menus">
-    <menuContribution
-          locationURI="popup:org.eclipse.ui.popup.any">
-       <separator
-             name="Source Location Separator">
-       </separator>
-       <command
-             commandId="org.splevo.ui.sourceconnection.variant"
-             icon="icons/jcu_obj.gif"
-             label="Open Source Location"
-             style="push"
-             tooltip="Open the source locations the variant is implemented at.">
-          <visibleWhen
-                checkEnabled="true">
-             <iterate>
-                <instanceof
-                      value="org.splevo.vpm.variability.Variant">
-                </instanceof>
-             </iterate>
-          </visibleWhen>
-       </command>
-       <command
-             commandId="org.splevo.ui.sourceconnection.variationpoint"
-             icon="icons/jcu_obj.gif"
-             label="Open Source Location"
-             style="push"
-             tooltip="Open the source location of the variation point enclosing the variability.">
-          <visibleWhen
-                checkEnabled="true">
-             <iterate>
-                <instanceof
-                      value="org.splevo.vpm.variability.VariationPoint">
-                </instanceof>
-             </iterate>
-          </visibleWhen>
-       </command>
-    </menuContribution>
- </extension>
- <extension
-       point="org.eclipse.ui.commands">
-    <command
-          defaultHandler="org.splevo.ui.nature.AddSPLevoNatureHandler"
-          id="org.splevo.ui.nature.addsplevonature"
-          name="Make SPLevo Project">
-    </command>
- </extension>
- <extension
-       point="org.eclipse.ui.menus">
-    <menuContribution
-          locationURI="popup:org.eclipse.ui.popup.any">
-       <command
-             commandId="org.splevo.ui.nature.addsplevonature"
-             icon="icons/kopl_circle_only.png"
-             label="Make SPLevo Project"
-             style="push">
-          <visibleWhen
-                checkEnabled="true">
-             <iterate>
-                <or>
-                   <instanceof
-                         value="org.eclipse.core.resources.IProject">
-                   </instanceof>
-                   <instanceof
-                         value="org.eclipse.core.runtime.IAdaptable">
-                   </instanceof>
-                </or>
-             </iterate>
-          </visibleWhen>
-       </command>
-    </menuContribution>
- </extension>
  <extension
        point="org.eclipse.core.runtime.adapters">
     <factory
