@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
@@ -12,6 +14,8 @@ import com.google.common.collect.Lists;
  * Use registerRefactoring() to do so.
  */
 public final class VariabilityRefactoringRegistry {
+
+    private static Logger logger = Logger.getLogger(VariabilityRefactoringRegistry.class);
 
     private static List<VariabilityRefactoring> refactorings = Lists.newArrayList();
 
@@ -73,9 +77,19 @@ public final class VariabilityRefactoringRegistry {
      * @return True/false if it is valid or not.
      */
     private static boolean isValid(VariabilityRefactoring refactoring) {
-        if (refactoring == null || refactoring.getId() == null) {
+        if (refactoring == null) {
+            logger.warn("Tried to register null refactoring");
             return false;
         }
+        if (refactoring.getId() == null) {
+            logger.warn("Tried to register refactoring without id " + refactoring);
+            return false;
+        }
+        if (refactoring.getVariabilityMechanism() == null) {
+            logger.warn("Tried to register refactoring without a variability mechanism " + refactoring);
+            return false;
+        }
+
         return true;
     }
 
