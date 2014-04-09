@@ -21,6 +21,8 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.splevo.vpm.realization.RealizationFactory;
+import org.splevo.vpm.realization.VariabilityMechanism;
 
 /**
  * Test case for the {@link VariabilityRefactoringRegistry}
@@ -42,8 +44,12 @@ public class VariabilityRefactoringRegistryTest {
     @Test
     public void test() {
 
+        VariabilityMechanism mechanism = RealizationFactory.eINSTANCE.createVariabilityMechanism();
+        mechanism.setName("TestMechanism");
+
         VariabilityRefactoring refactoring = mock(VariabilityRefactoring.class);
         when(refactoring.getId()).thenReturn("TESTID");
+        when(refactoring.getVariabilityMechanism()).thenReturn(mechanism);
         VariabilityRefactoringRegistry.registerRefactoring(refactoring);
 
         List<VariabilityRefactoring> refactorings = VariabilityRefactoringRegistry.getRefactorings();
