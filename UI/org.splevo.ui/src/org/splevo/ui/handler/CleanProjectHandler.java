@@ -30,9 +30,6 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
 
 /**
  * This command cleans a {@link SPLevoProject}.
- *
- * @author Daniel Kojic
- *
  */
 public class CleanProjectHandler extends AbstractHandler {
 
@@ -74,7 +71,6 @@ public class CleanProjectHandler extends AbstractHandler {
 		cleanProjectMetadata(project);
 
 		// Update UI
-		splevoProjectEditor.enableButtonsIfInformationAvailable();
 		splevoProjectEditor.updateUI("Project cleaned.");
 
 		return null;
