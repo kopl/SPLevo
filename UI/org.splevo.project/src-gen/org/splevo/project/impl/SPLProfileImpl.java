@@ -28,7 +28,7 @@ import org.splevo.project.SPLProfile;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.project.impl.SPLProfileImpl#getRecommendedRefactorerIds <em>Recommended Refactorer Ids</em>}</li>
+ *   <li>{@link org.splevo.project.impl.SPLProfileImpl#getRecommendedRefactoringIds <em>Recommended Refactoring Ids</em>}</li>
  *   <li>{@link org.splevo.project.impl.SPLProfileImpl#getQualityGoals <em>Quality Goals</em>}</li>
  * </ul>
  * </p>
@@ -37,14 +37,14 @@ import org.splevo.project.SPLProfile;
  */
 public class SPLProfileImpl extends EObjectImpl implements SPLProfile {
     /**
-     * The cached value of the '{@link #getRecommendedRefactorerIds() <em>Recommended Refactorer Ids</em>}' attribute list.
+     * The cached value of the '{@link #getRecommendedRefactoringIds() <em>Recommended Refactoring Ids</em>}' attribute list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getRecommendedRefactorerIds()
+     * @see #getRecommendedRefactoringIds()
      * @generated
      * @ordered
      */
-    protected EList<String> recommendedRefactorerIds;
+    protected EList<String> recommendedRefactoringIds;
 
     /**
      * The cached value of the '{@link #getQualityGoals() <em>Quality Goals</em>}' attribute list.
@@ -80,11 +80,11 @@ public class SPLProfileImpl extends EObjectImpl implements SPLProfile {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList<String> getRecommendedRefactorerIds() {
-        if (recommendedRefactorerIds == null) {
-            recommendedRefactorerIds = new EDataTypeUniqueEList<String>(String.class, this, ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORER_IDS);
+    public EList<String> getRecommendedRefactoringIds() {
+        if (recommendedRefactoringIds == null) {
+            recommendedRefactoringIds = new EDataTypeUniqueEList<String>(String.class, this, ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORING_IDS);
         }
-        return recommendedRefactorerIds;
+        return recommendedRefactoringIds;
     }
 
     /**
@@ -107,8 +107,8 @@ public class SPLProfileImpl extends EObjectImpl implements SPLProfile {
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORER_IDS:
-                return getRecommendedRefactorerIds();
+            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORING_IDS:
+                return getRecommendedRefactoringIds();
             case ProjectPackage.SPL_PROFILE__QUALITY_GOALS:
                 return getQualityGoals();
         }
@@ -124,9 +124,9 @@ public class SPLProfileImpl extends EObjectImpl implements SPLProfile {
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORER_IDS:
-                getRecommendedRefactorerIds().clear();
-                getRecommendedRefactorerIds().addAll((Collection<? extends String>)newValue);
+            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORING_IDS:
+                getRecommendedRefactoringIds().clear();
+                getRecommendedRefactoringIds().addAll((Collection<? extends String>)newValue);
                 return;
             case ProjectPackage.SPL_PROFILE__QUALITY_GOALS:
                 getQualityGoals().clear();
@@ -144,8 +144,8 @@ public class SPLProfileImpl extends EObjectImpl implements SPLProfile {
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORER_IDS:
-                getRecommendedRefactorerIds().clear();
+            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORING_IDS:
+                getRecommendedRefactoringIds().clear();
                 return;
             case ProjectPackage.SPL_PROFILE__QUALITY_GOALS:
                 getQualityGoals().clear();
@@ -162,8 +162,8 @@ public class SPLProfileImpl extends EObjectImpl implements SPLProfile {
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORER_IDS:
-                return recommendedRefactorerIds != null && !recommendedRefactorerIds.isEmpty();
+            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORING_IDS:
+                return recommendedRefactoringIds != null && !recommendedRefactoringIds.isEmpty();
             case ProjectPackage.SPL_PROFILE__QUALITY_GOALS:
                 return qualityGoals != null && !qualityGoals.isEmpty();
         }
@@ -180,8 +180,8 @@ public class SPLProfileImpl extends EObjectImpl implements SPLProfile {
         if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (recommendedRefactorerIds: ");
-        result.append(recommendedRefactorerIds);
+        result.append(" (recommendedRefactoringIds: ");
+        result.append(recommendedRefactoringIds);
         result.append(", qualityGoals: ");
         result.append(qualityGoals);
         result.append(')');

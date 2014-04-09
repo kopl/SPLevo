@@ -306,7 +306,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSPLProfile_RecommendedRefactorerIds() {
+    public EAttribute getSPLProfile_RecommendedRefactoringIds() {
         return (EAttribute)splProfileEClass.getEStructuralFeatures().get(0);
     }
 
@@ -378,7 +378,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         createEAttribute(differOptionEClass, DIFFER_OPTION__VALUE);
 
         splProfileEClass = createEClass(SPL_PROFILE);
-        createEAttribute(splProfileEClass, SPL_PROFILE__RECOMMENDED_REFACTORER_IDS);
+        createEAttribute(splProfileEClass, SPL_PROFILE__RECOMMENDED_REFACTORING_IDS);
         createEAttribute(splProfileEClass, SPL_PROFILE__QUALITY_GOALS);
 
         // Create enums
@@ -437,7 +437,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         initEAttribute(getDifferOption_Value(), ecorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(splProfileEClass, SPLProfile.class, "SPLProfile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getSPLProfile_RecommendedRefactorerIds(), ecorePackage.getEString(), "recommendedRefactorerIds", null, 0, -1, SPLProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSPLProfile_RecommendedRefactoringIds(), ecorePackage.getEString(), "recommendedRefactoringIds", null, 0, -1, SPLProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLProfile_QualityGoals(), this.getQualityGoal(), "qualityGoals", null, 0, -1, SPLProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Initialize enums and add enum literals

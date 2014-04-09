@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.splevo.project.SPLProfile#getRecommendedRefactorerIds <em>Recommended Refactorer Ids</em>}</li>
+ *   <li>{@link org.splevo.project.SPLProfile#getRecommendedRefactoringIds <em>Recommended Refactoring Ids</em>}</li>
  *   <li>{@link org.splevo.project.SPLProfile#getQualityGoals <em>Quality Goals</em>}</li>
  * </ul>
  * </p>
@@ -33,20 +33,20 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface SPLProfile extends EObject {
     /**
-     * Returns the value of the '<em><b>Recommended Refactorer Ids</b></em>' attribute list.
+     * Returns the value of the '<em><b>Recommended Refactoring Ids</b></em>' attribute list.
      * The list contents are of type {@link java.lang.String}.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Recommended Refactorer Ids</em>' attribute list isn't clear,
+     * If the meaning of the '<em>Recommended Refactoring Ids</em>' attribute list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Recommended Refactorer Ids</em>' attribute list.
-     * @see org.splevo.project.ProjectPackage#getSPLProfile_RecommendedRefactorerIds()
+     * @return the value of the '<em>Recommended Refactoring Ids</em>' attribute list.
+     * @see org.splevo.project.ProjectPackage#getSPLProfile_RecommendedRefactoringIds()
      * @model
      * @generated
      */
-    EList<String> getRecommendedRefactorerIds();
+    EList<String> getRecommendedRefactoringIds();
 
     /**
      * Returns the value of the '<em><b>Quality Goals</b></em>' attribute list.

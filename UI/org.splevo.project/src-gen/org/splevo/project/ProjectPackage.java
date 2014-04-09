@@ -267,13 +267,13 @@ public interface ProjectPackage extends EPackage {
     int SPL_PROFILE = 2;
 
     /**
-     * The feature id for the '<em><b>Recommended Refactorer Ids</b></em>' attribute list.
+     * The feature id for the '<em><b>Recommended Refactoring Ids</b></em>' attribute list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPL_PROFILE__RECOMMENDED_REFACTORER_IDS = 0;
+    int SPL_PROFILE__RECOMMENDED_REFACTORING_IDS = 0;
 
     /**
      * The feature id for the '<em><b>Quality Goals</b></em>' attribute list.
@@ -523,15 +523,15 @@ public interface ProjectPackage extends EPackage {
     EClass getSPLProfile();
 
     /**
-     * Returns the meta object for the attribute list '{@link org.splevo.project.SPLProfile#getRecommendedRefactorerIds <em>Recommended Refactorer Ids</em>}'.
+     * Returns the meta object for the attribute list '{@link org.splevo.project.SPLProfile#getRecommendedRefactoringIds <em>Recommended Refactoring Ids</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the attribute list '<em>Recommended Refactorer Ids</em>'.
-     * @see org.splevo.project.SPLProfile#getRecommendedRefactorerIds()
+     * @return the meta object for the attribute list '<em>Recommended Refactoring Ids</em>'.
+     * @see org.splevo.project.SPLProfile#getRecommendedRefactoringIds()
      * @see #getSPLProfile()
      * @generated
      */
-    EAttribute getSPLProfile_RecommendedRefactorerIds();
+    EAttribute getSPLProfile_RecommendedRefactoringIds();
 
     /**
      * Returns the meta object for the attribute list '{@link org.splevo.project.SPLProfile#getQualityGoals <em>Quality Goals</em>}'.
@@ -743,12 +743,12 @@ public interface ProjectPackage extends EPackage {
         EClass SPL_PROFILE = eINSTANCE.getSPLProfile();
 
         /**
-         * The meta object literal for the '<em><b>Recommended Refactorer Ids</b></em>' attribute list feature.
+         * The meta object literal for the '<em><b>Recommended Refactoring Ids</b></em>' attribute list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EAttribute SPL_PROFILE__RECOMMENDED_REFACTORER_IDS = eINSTANCE.getSPLProfile_RecommendedRefactorerIds();
+        EAttribute SPL_PROFILE__RECOMMENDED_REFACTORING_IDS = eINSTANCE.getSPLProfile_RecommendedRefactoringIds();
 
         /**
          * The meta object literal for the '<em><b>Quality Goals</b></em>' attribute list feature.

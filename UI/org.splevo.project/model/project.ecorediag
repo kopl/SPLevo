@@ -96,7 +96,7 @@
     <children xmi:type="notation:Node" xmi:id="_UQ4y0LigEeO6Af8dQ8uWZA" type="4001"/>
     <children xmi:type="notation:Node" xmi:id="_UQ6oALigEeO6Af8dQ8uWZA" type="5001">
       <children xmi:type="notation:Node" xmi:id="_Ykc5wLigEeO6Af8dQ8uWZA" type="2001">
-        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLProfile/recommendedRefactorerIds"/>
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLProfile/recommendedRefactoringIds"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_Ykc5wbigEeO6Af8dQ8uWZA"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_9b14QLigEeO6Af8dQ8uWZA" type="2001">

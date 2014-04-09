@@ -34,7 +34,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//DifferOption/value"/>
     </genClasses>
     <genClasses ecoreClass="project.ecore#//SPLProfile">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLProfile/recommendedRefactorerIds"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLProfile/recommendedRefactoringIds"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute project.ecore#//SPLProfile/qualityGoals"/>
     </genClasses>
   </genPackages>

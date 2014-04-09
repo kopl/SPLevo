@@ -75,7 +75,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SPLProfile">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendedRefactorerIds"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendedRefactoringIds"
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualityGoals" upperBound="-1"
         eType="#//QualityGoal"/>
