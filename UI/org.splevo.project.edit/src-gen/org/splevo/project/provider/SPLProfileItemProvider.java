@@ -66,26 +66,26 @@ public class SPLProfileItemProvider
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addRecommendedRefactorerIdsPropertyDescriptor(object);
+            addRecommendedRefactoringIdsPropertyDescriptor(object);
             addQualityGoalsPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Recommended Refactorer Ids feature.
+     * This adds a property descriptor for the Recommended Refactoring Ids feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addRecommendedRefactorerIdsPropertyDescriptor(Object object) {
+    protected void addRecommendedRefactoringIdsPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add
             (createItemPropertyDescriptor
                 (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
                  getResourceLocator(),
-                 getString("_UI_SPLProfile_recommendedRefactorerIds_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_SPLProfile_recommendedRefactorerIds_feature", "_UI_SPLProfile_type"),
-                 ProjectPackage.Literals.SPL_PROFILE__RECOMMENDED_REFACTORER_IDS,
+                 getString("_UI_SPLProfile_recommendedRefactoringIds_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_SPLProfile_recommendedRefactoringIds_feature", "_UI_SPLProfile_type"),
+                 ProjectPackage.Literals.SPL_PROFILE__RECOMMENDED_REFACTORING_IDS,
                  true,
                  false,
                  false,
@@ -150,7 +150,7 @@ public class SPLProfileItemProvider
         updateChildren(notification);
 
         switch (notification.getFeatureID(SPLProfile.class)) {
-            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORER_IDS:
+            case ProjectPackage.SPL_PROFILE__RECOMMENDED_REFACTORING_IDS:
             case ProjectPackage.SPL_PROFILE__QUALITY_GOALS:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
                 return;
