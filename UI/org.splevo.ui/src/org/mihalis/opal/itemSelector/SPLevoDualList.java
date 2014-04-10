@@ -9,7 +9,7 @@
  *     Laurent CARON (laurent.caron at gmail dot com) - initial API and implementation
  *******************************************************************************/
 package org.mihalis.opal.itemSelector;
-
+//begin of custom code
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -1354,3 +1354,4 @@ public class SPLevoDualList extends Composite {
         }
     }
 }
+//end of custom code

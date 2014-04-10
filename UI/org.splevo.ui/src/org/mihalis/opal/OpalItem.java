@@ -9,7 +9,7 @@
  *     Laurent CARON (laurent.caron at gmail dot com) - initial API and implementation
  *******************************************************************************/
 package org.mihalis.opal;
-
+//begin of custom code
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -168,3 +168,4 @@ public abstract class OpalItem {
     }
 
 }
+//end of custom code
