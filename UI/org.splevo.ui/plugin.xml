@@ -291,5 +291,22 @@
             </view>
     </perspectiveExtension>
  </extension>
+ <extension
+       point="org.eclipse.ui.newWizards">
+    <category
+          id="org.splevo.ui.wizards"
+          name="SPLevo">
+    </category>
+    <wizard
+          category="org.splevo.ui.wizards"
+          class="org.splevo.ui.wizards.project.NewConsolidationProjectWizard"
+          finalPerspective="org.splevo.ui.perspective"
+          icon="icons/kopl_circle_only.png"
+          id="org.splevo.ui.wizards.project"
+          name="Consolidation Project"
+          preferredPerspectives="org.splevo.ui.perspective"
+          project="true">
+    </wizard>
+ </extension>
 
 </plugin>
