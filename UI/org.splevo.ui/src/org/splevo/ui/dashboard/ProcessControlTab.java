@@ -45,11 +45,9 @@ import org.splevo.ui.util.WorkspaceUtil;
 /**
  * The tab to control the consolidation process.
  */
-public class ProcessControlTab {
+public class ProcessControlTab extends AbstractDashboardTab {
 
     private static Logger logger = Logger.getLogger(ProcessControlTab.class);
-
-    private SPLevoProjectEditor splevoProjectEditor;
 
     /** Button Diffing. */
     private Button diffingBtn;
@@ -81,7 +79,7 @@ public class ProcessControlTab {
      *            The index of the tab within the parent tab folder.
      */
     public ProcessControlTab(SPLevoProjectEditor splevoProjectEditor, TabFolder tabFolder, int tabIndex) {
-        this.splevoProjectEditor = splevoProjectEditor;
+        super(splevoProjectEditor);
         createTab(tabFolder, tabIndex);
     }
 
@@ -118,7 +116,8 @@ public class ProcessControlTab {
         activityFlow0.setBounds(44, 66, 30, 30);
 
         Button selectProjectBtn = new Button(processControlContainer, SWT.WRAP);
-        selectProjectBtn.addMouseListener(new GotoTabMouseListener(tabFolder, SPLevoProjectEditor.TABINDEX_PROJECT_SELECTION));
+        selectProjectBtn.addMouseListener(new GotoTabMouseListener(tabFolder,
+                SPLevoProjectEditor.TABINDEX_PROJECT_SELECTION));
         selectProjectBtn.setBounds(75, 59, 78, 45);
         selectProjectBtn.setText("Project Selection");
 
@@ -128,7 +127,7 @@ public class ProcessControlTab {
         activityFlow3.setBounds(159, 66, 30, 30);
 
         diffingBtn = new Button(processControlContainer, SWT.WRAP);
-        diffingBtn.addMouseListener(new DiffSourceModelListener(splevoProjectEditor));
+        diffingBtn.addMouseListener(new DiffSourceModelListener(getSplevoProjectEditor()));
         diffingBtn.setBounds(195, 58, 72, 45);
         diffingBtn.setText("Diffing");
 
@@ -138,7 +137,7 @@ public class ProcessControlTab {
         activityFlow4.setBounds(273, 65, 30, 30);
 
         initVpmBtn = new Button(processControlContainer, SWT.WRAP);
-        initVpmBtn.addMouseListener(new InitVPMListener(splevoProjectEditor));
+        initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
         initVpmBtn.setBounds(309, 58, 72, 45);
         initVpmBtn.setText("Init VPM");
 
@@ -148,7 +147,7 @@ public class ProcessControlTab {
         activityFlow5.setBounds(387, 65, 30, 30);
 
         analyzeVPMBtn = new Button(processControlContainer, SWT.WRAP);
-        analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(splevoProjectEditor));
+        analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
         analyzeVPMBtn.setText("Analyze VPM");
         analyzeVPMBtn.setBounds(419, 58, 72, 45);
 
@@ -158,7 +157,7 @@ public class ProcessControlTab {
         label.setBounds(497, 65, 30, 30);
 
         generateFMBtn = new Button(processControlContainer, SWT.WRAP);
-        generateFMBtn.addMouseListener(new GenerateFeatureModelListener(splevoProjectEditor));
+        generateFMBtn.addMouseListener(new GenerateFeatureModelListener(getSplevoProjectEditor()));
         generateFMBtn.setText("Generate Feature Model");
         generateFMBtn.setBounds(528, 58, 118, 45);
 
@@ -169,7 +168,7 @@ public class ProcessControlTab {
 
             @Override
             public void mouseUp(MouseEvent e) {
-                String diffingModelPath = splevoProjectEditor.getSplevoProject().getDiffingModelPath();
+                String diffingModelPath = getSPLevoProject().getDiffingModelPath();
                 if (diffingModelPath != null && diffingModelPath.length() > 0) {
                     String basePath = WorkspaceUtil.getAbsoluteWorkspacePath();
                     File fileToOpen = new File(basePath + File.separator + diffingModelPath);
@@ -188,7 +187,7 @@ public class ProcessControlTab {
         openVPMBtn = new Button(processControlContainer, SWT.NONE);
         openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
         openVPMBtn.setBounds(331, 109, 26, 30);
-        openVPMBtn.addMouseListener(new OpenVPEditorListener(splevoProjectEditor));
+        openVPMBtn.addMouseListener(new OpenVPEditorListener(getSplevoProjectEditor()));
 
     }
 
@@ -226,7 +225,7 @@ public class ProcessControlTab {
      * @return True if an accessible vpm exists.
      */
     private boolean vpmAvailable() {
-        SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
+        SPLevoProject splevoProject = getSPLevoProject();
         String basePath = WorkspaceUtil.getAbsoluteWorkspacePath();
         return splevoProject.getVpmModelPaths().size() > 0
                 && new File(basePath + splevoProject.getVpmModelPaths().get(0)).canRead();
@@ -238,7 +237,7 @@ public class ProcessControlTab {
      * @return true if the diff model is available.
      */
     private boolean diffModelAvailable() {
-        SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
+        SPLevoProject splevoProject = getSPLevoProject();
         String basePath = WorkspaceUtil.getAbsoluteWorkspacePath();
         return splevoProject.getDiffingModelPath() != null
                 && new File(basePath + splevoProject.getDiffingModelPath()).canRead();
@@ -250,7 +249,7 @@ public class ProcessControlTab {
      * @return true, if both input models have more than one project, else false
      */
     private boolean projectsSelected() {
-        SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
+        SPLevoProject splevoProject = getSPLevoProject();
         return splevoProject.getLeadingProjects().size() > 0 && splevoProject.getIntegrationProjects().size() > 0;
     }
 

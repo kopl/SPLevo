@@ -42,7 +42,7 @@ import org.splevo.ui.editors.listener.ProjectDropListener;
 /**
  * Tab for configuring the projects to be consolidated.
  */
-public class ProjectSelectionTab {
+public class ProjectSelectionTab extends AbstractDashboardTab {
 
     /** The available transfer types for the drag and drop support. */
     private Transfer[] transferTypes = new Transfer[] { FileTransfer.getInstance(),
@@ -57,8 +57,6 @@ public class ProjectSelectionTab {
     /** The text input for the name of the variant to be integrated. */
     private Text inputVariantNameIntegration;
 
-    private SPLevoProjectEditor splevoProjectEditor;
-
     /**
      * Create the tab to handle the SPL profile configuration.
      *
@@ -71,7 +69,7 @@ public class ProjectSelectionTab {
      *            The index of the tab within the parent tab folder.
      */
     public ProjectSelectionTab(SPLevoProjectEditor splevoProjectEditor, TabFolder tabFolder, int tabIndex) {
-        this.splevoProjectEditor = splevoProjectEditor;
+        super(splevoProjectEditor);
         createTab(tabFolder, tabIndex);
     }
 
@@ -85,7 +83,7 @@ public class ProjectSelectionTab {
      */
     private void createTab(TabFolder tabFolder, int tabIndex) {
 
-        final SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
+        final SPLevoProject splevoProject = getSPLevoProject();
 
         // SOURCE PROJECT SELECTION TAB
 
@@ -119,7 +117,7 @@ public class ProjectSelectionTab {
         final TableViewer viewerLeadingProjects = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
         viewerLeadingProjects.setContentProvider(ArrayContentProvider.getInstance());
         viewerLeadingProjects.setInput(splevoProject.getLeadingProjects());
-        ProjectDropListener dropListenerLeadingProjects = new ProjectDropListener(splevoProjectEditor,
+        ProjectDropListener dropListenerLeadingProjects = new ProjectDropListener(getSplevoProjectEditor(),
                 viewerLeadingProjects, splevoProject.getLeadingProjects(), inputVariantNameLeading);
         viewerLeadingProjects.addDropSupport(dragNDropOperations, transferTypes, dropListenerLeadingProjects);
 
@@ -137,7 +135,7 @@ public class ProjectSelectionTab {
         final TableViewer viewerIntegrationProjects = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
         viewerIntegrationProjects.setContentProvider(ArrayContentProvider.getInstance());
         viewerIntegrationProjects.setInput(splevoProject.getIntegrationProjects());
-        ProjectDropListener dropListenerIntegrationProjects = new ProjectDropListener(splevoProjectEditor,
+        ProjectDropListener dropListenerIntegrationProjects = new ProjectDropListener(getSplevoProjectEditor(),
                 viewerIntegrationProjects, splevoProject.getIntegrationProjects(), inputVariantNameIntegration);
         viewerIntegrationProjects.addDropSupport(dragNDropOperations, transferTypes, dropListenerIntegrationProjects);
 
@@ -158,7 +156,7 @@ public class ProjectSelectionTab {
             public void mouseUp(MouseEvent e) {
                 splevoProject.getLeadingProjects().clear();
                 viewerLeadingProjects.refresh();
-                splevoProjectEditor.markAsDirty();
+                getSplevoProjectEditor().markAsDirty();
             }
         });
         btnClear.setBounds(366, 63, 30, 30);
@@ -171,7 +169,7 @@ public class ProjectSelectionTab {
             public void mouseUp(MouseEvent e) {
                 splevoProject.getIntegrationProjects().clear();
                 viewerIntegrationProjects.refresh();
-                splevoProjectEditor.markAsDirty();
+                getSplevoProjectEditor().markAsDirty();
             }
         });
         btnClearList.setBounds(786, 63, 30, 30);
@@ -188,9 +186,9 @@ public class ProjectSelectionTab {
     public DataBindingContext initDataBindings() {
         DataBindingContext bindingContext = new DataBindingContext();
 
-        SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
+        SPLevoProject splevoProject = getSPLevoProject();
 
-        MarkDirtyListener markDirtyListener = new MarkDirtyListener(splevoProjectEditor);
+        MarkDirtyListener markDirtyListener = new MarkDirtyListener(getSplevoProjectEditor());
         //
         IObservableValue observeTextInputVariantNameLeadingObserveWidget = WidgetProperties.text(SWT.Modify).observe(
                 inputVariantNameLeading);

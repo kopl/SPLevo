@@ -44,7 +44,7 @@ import org.mihalis.opal.utils.SimpleSelectionAdapter;
  * </dl>
  */
 
-public class DualList extends Composite {
+public class SPLevoDualList extends Composite {
 
 	private static final String DOUBLE_DOWN_IMAGE = "double_down.png";
 	private static final String DOUBLE_UP_IMAGE = "double_up.png";
@@ -90,7 +90,7 @@ public class DualList extends Composite {
 	 *                </ul>
 	 *
 	 */
-	public DualList(final Composite parent, final int style) {
+	public SPLevoDualList(final Composite parent, final int style) {
 		super(parent, style);
 		this.items = new ArrayList<DLItem>();
 		this.selection = new ArrayList<DLItem>();
@@ -116,7 +116,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void mouseDoubleClick(final MouseEvent event) {
-				DualList.this.selectItem();
+				SPLevoDualList.this.selectItem();
 			}
 		});
 	}
@@ -129,7 +129,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void handle(final SelectionEvent e) {
-				DualList.this.selectAll();
+				SPLevoDualList.this.selectAll();
 			}
 		});
 	}
@@ -142,7 +142,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void mouseDoubleClick(final MouseEvent event) {
-				DualList.this.deselectItem();
+				SPLevoDualList.this.deselectItem();
 			}
 		});
 	}
@@ -155,7 +155,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void handle(final SelectionEvent e) {
-				DualList.this.moveSelectionToFirstPosition();
+				SPLevoDualList.this.moveSelectionToFirstPosition();
 			}
 		});
 	}
@@ -168,7 +168,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void handle(final SelectionEvent e) {
-				DualList.this.selectItem();
+				SPLevoDualList.this.selectItem();
 			}
 		});
 	}
@@ -181,7 +181,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void handle(final SelectionEvent e) {
-				DualList.this.moveUpItem();
+				SPLevoDualList.this.moveUpItem();
 			}
 		});
 	}
@@ -194,7 +194,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void handle(final SelectionEvent e) {
-				DualList.this.deselectItem();
+				SPLevoDualList.this.deselectItem();
 			}
 		});
 	}
@@ -207,7 +207,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void handle(final SelectionEvent e) {
-				DualList.this.moveDownItem();
+				SPLevoDualList.this.moveDownItem();
 			}
 		});
 	}
@@ -220,7 +220,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void handle(final SelectionEvent e) {
-				DualList.this.deselectAll();
+				SPLevoDualList.this.deselectAll();
 			}
 		});
 	}
@@ -233,7 +233,7 @@ public class DualList extends Composite {
 			 */
 			@Override
 			public void handle(final SelectionEvent e) {
-				DualList.this.moveSelectionToLastPosition();
+				SPLevoDualList.this.moveSelectionToLastPosition();
 			}
 		});
 	}
@@ -1352,26 +1352,5 @@ public class DualList extends Composite {
         for (DualListSelectionChangedListener listener : dualListSelectionChangedListener) {
             listener.itemsDeSelected(deSelectedItems);
         }
-    }
-
-    /**
-     * Listener notified about newly selected or de-selected items.
-     */
-    interface DualListSelectionChangedListener {
-        /**
-         * Handle items that were moved to the selected item table.
-         *
-         * @param selectedItems
-         *            The items moved.
-         */
-        public void itemsSelected(LinkedHashSet<DLItem> selectedItems);
-
-        /**
-         * Handle items that were removed from the selected item table.
-         *
-         * @param deselectedItems
-         *            The items de-selected.
-         */
-        public void itemsDeSelected(LinkedHashSet<DLItem> deselectedItems);
     }
 }

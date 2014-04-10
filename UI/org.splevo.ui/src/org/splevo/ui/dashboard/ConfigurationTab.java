@@ -40,9 +40,7 @@ import com.google.common.base.Splitter;
  * The dash board tab to configure the consolidation process.
  *
  */
-public class ConfigurationTab {
-
-    private SPLevoProjectEditor splevoProjectEditor;
+public class ConfigurationTab extends AbstractDashboardTab {
 
     /**
      * Create the tab to handle the SPL profile configuration.
@@ -56,7 +54,7 @@ public class ConfigurationTab {
      *            The index of the tab within the parent tab folder.
      */
     public ConfigurationTab(SPLevoProjectEditor splevoProjectEditor, TabFolder tabFolder, int tabIndex) {
-        this.splevoProjectEditor = splevoProjectEditor;
+        super(splevoProjectEditor);
         createTab(tabFolder, tabIndex);
     }
 
@@ -111,7 +109,7 @@ public class ConfigurationTab {
         int yPositionCurrent = 5;
 
         if (availableDiffers.size() == 1) {
-            splevoProjectEditor.getSplevoProject().getDifferIds().add(availableDiffers.get(0).getId());
+            getSPLevoProject().getDifferIds().add(availableDiffers.get(0).getId());
         }
 
         for (Differ differ : availableDiffers) {
@@ -120,11 +118,11 @@ public class ConfigurationTab {
             GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
             gridData.horizontalSpan = 2;
             checkBox.setLayoutData(gridData);
-            checkBox.addSelectionListener(new DifferCheckBoxListener(checkBox, differ.getId(), splevoProjectEditor));
+            checkBox.addSelectionListener(new DifferCheckBoxListener(checkBox, differ.getId(), getSplevoProjectEditor()));
             checkBox.setBounds(10, yPositionCurrent, 450, singleHeight);
             checkBox.setText(differ.getLabel());
             differCheckBoxes.add(checkBox);
-            boolean selected = splevoProjectEditor.getSplevoProject().getDifferIds().contains(differ.getId());
+            boolean selected = getSPLevoProject().getDifferIds().contains(differ.getId());
             checkBox.setSelection(selected);
 
             yPositionCurrent = yPositionCurrent + (singleHeight + 5);
@@ -132,7 +130,7 @@ public class ConfigurationTab {
             for (final String configKey : differ.getAvailableConfigurations().keySet()) {
 
                 String defaultValue = differ.getAvailableConfigurations().get(configKey);
-                String currentValue = splevoProjectEditor.getSplevoProject().getDifferOptions().get(configKey);
+                String currentValue = getSPLevoProject().getDifferOptions().get(configKey);
                 String label = getLabelFromKey(configKey);
 
                 Label configLabel = new Label(groupDiffers, SWT.NONE);
@@ -155,8 +153,8 @@ public class ConfigurationTab {
                     @Override
                     public void modifyText(ModifyEvent event) {
                         Text text = (Text) event.widget;
-                        splevoProjectEditor.getSplevoProject().getDifferOptions().put(configKey, text.getText());
-                        splevoProjectEditor.markAsDirty();
+                        getSPLevoProject().getDifferOptions().put(configKey, text.getText());
+                        getSplevoProjectEditor().markAsDirty();
                     }
                 });
 

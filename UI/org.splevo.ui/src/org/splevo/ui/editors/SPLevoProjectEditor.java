@@ -90,7 +90,7 @@ public class SPLevoProjectEditor extends EditorPart {
         processControlTab = new ProcessControlTab(this, tabFolder, TABINDEX_PROCESS_CONTROL);
         ProjectSelectionTab projectSelectionTab = new ProjectSelectionTab(this, tabFolder, TABINDEX_PROJECT_SELECTION);
         new ConfigurationTab(this, tabFolder, TABINDEX_CONFIGURATION);
-        new SPLProfileTab(tabFolder, TABINDEX_SPL_PROFILE);
+        new SPLProfileTab(this, tabFolder, TABINDEX_SPL_PROFILE);
 
         projectSelectionTab.initDataBindings();
 
