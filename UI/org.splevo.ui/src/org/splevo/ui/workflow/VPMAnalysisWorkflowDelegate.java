@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -163,7 +163,7 @@ public class VPMAnalysisWorkflowDelegate extends
      */
     private void addRefinementDetectionJobs(SequentialJob compositeJob, SPLevoProject splevoProject) {
 
-        DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob(config.getDetectionRules());
+        DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob(config.getDetectionRules(), config.isUseMergeDetection());
         compositeJob.add(createRefinementModelJob);
 
         SaveRefinementModelJob saveRefinementModelJob = new SaveRefinementModelJob(splevoProject, null, FORMAT.CSV);

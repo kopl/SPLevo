@@ -62,6 +62,8 @@ public class ResultHandlingConfigurationPage extends WizardPage {
      */
     private ResultPresentation resultPresentation;
 
+    private boolean useMergeDetection = true;
+
     /**
      * Stores the ID's {@link String} labels.
      */
@@ -72,29 +74,8 @@ public class ResultHandlingConfigurationPage extends WizardPage {
      */
     private Map<Integer, RefinementType> refinementTypeToGroupID;
 
-    /**
-     * The detection rule label.
-     */
-    private Label detectionRuleLabel;
-
-    /**
-     * This component manages the groups.
-     */
-    private Group groupListGroup;
-
-    /**
-     * The {@link Group} that has the components to manage groups.
-     */
-    private Group groupDetailGroup;
-
-    /**
-     * The table that stores all groups.
-     */
+    private Group ruleConfigurationGroup;
     private ListViewer listViewerAnalysis;
-
-    /**
-     * The button that removes groups.
-     */
     private Button removeRuleButton;
 
     /**
@@ -125,6 +106,33 @@ public class ResultHandlingConfigurationPage extends WizardPage {
 
         this.resultPresentation = defaultConfiguration.getPresentation();
         this.detectionRules = defaultConfiguration.getDetectionRules();
+    }
+
+    /**
+     * Create contents of the wizard.
+     *
+     * @param parent
+     *            The parent ui element to place this one into.
+     */
+    public void createControl(Composite parent) {
+        Composite container = new Composite(parent, SWT.NULL);
+        container.setLayout(new FormLayout());
+        setControl(container);
+
+        Group resultPresentationGrp = createResultPresentationGroup(container);
+
+        ruleConfigurationGroup = new Group(container, SWT.NONE);
+        ruleConfigurationGroup.setText("Refinement Detection");
+        ruleConfigurationGroup.setLayout(new FormLayout());
+        FormData ruleConfigGroupFD = createFormDataMargin(resultPresentationGrp);
+        ruleConfigurationGroup.setLayoutData(ruleConfigGroupFD);
+
+        generateRuleComponents(ruleConfigurationGroup);
+
+        ruleConfigGroupFD.height = ruleConfigurationGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+
+        boolean isRefinementBrowser = (this.resultPresentation == ResultPresentation.REFINEMENT_BROWSER);
+        enableRulesDetection(isRefinementBrowser);
     }
 
     /**
@@ -191,55 +199,30 @@ public class ResultHandlingConfigurationPage extends WizardPage {
     }
 
     /**
-     * Create contents of the wizard.
-     *
-     * @param parent
-     *            The parent ui element to place this one into.
-     */
-    public void createControl(Composite parent) {
-        Composite container = new Composite(parent, SWT.NULL);
-        container.setLayout(new FormLayout());
-        setControl(container);
-
-        Group resultPresentationGrp = generateResultPresentationGroup(container);
-
-        generateGroupComponents(container, resultPresentationGrp);
-
-        boolean isRefinementBrowser = this.resultPresentation == ResultPresentation.REFINEMENT_BROWSER;
-        enableRulesDetection(isRefinementBrowser);
-    }
-
-    /**
      * Generates the components that handle (create and add) the groups.
      *
      * @param parent
      *            The parent composite.
-     * @param presentationGroup
+     * @param previousElement
      *            Places the components below this component.
      */
-    private void generateGroupComponents(Composite parent, Group presentationGroup) {
-        detectionRuleLabel = new Label(parent, SWT.NONE);
-        FormData labelFD = new FormData();
-        labelFD.top = new FormAttachment(presentationGroup, 20);
-        labelFD.left = new FormAttachment(0);
-        labelFD.right = new FormAttachment(100);
-        labelFD.height = detectionRuleLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-        detectionRuleLabel.setLayoutData(labelFD);
-        detectionRuleLabel.setText("Detection Rules");
+    private void generateRuleComponents(Composite parent) {
 
-        groupListGroup = new Group(parent, SWT.NONE);
-        GridLayout gridLayout = new GridLayout(2, true);
-        groupListGroup.setLayout(gridLayout);
-        groupListGroup.setText("Rules");
+        Group mergeDetectionGroup = createMergeDetectionGroup(parent);
+
+        Group ruleListGroup = new Group(parent, SWT.NONE);
+        ruleListGroup.setLayout(new GridLayout(2, true));
+        ruleListGroup.setText("Rules");
         FormData groupFD = new FormData();
-        groupFD.top = new FormAttachment(detectionRuleLabel, 10);
+        groupFD.top = new FormAttachment(mergeDetectionGroup, 10);
         groupFD.bottom = new FormAttachment(100);
         groupFD.left = new FormAttachment(0);
         groupFD.right = new FormAttachment(30);
-        groupListGroup.setLayoutData(groupFD);
+        ruleListGroup.setLayoutData(groupFD);
+
         GridData gridData = new GridData();
         gridData.horizontalAlignment = SWT.FILL;
-        listViewerAnalysis = new ListViewer(groupListGroup, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+        listViewerAnalysis = new ListViewer(ruleListGroup, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
         listViewerAnalysis.setContentProvider(ArrayContentProvider.getInstance());
         listViewerAnalysis.setInput(labelsToGroupID.keySet());
         listViewerAnalysis.setLabelProvider(new RefinementTypeLabelProvider(labelsToGroupID, refinementTypeToGroupID));
@@ -251,7 +234,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 rebuildDetailComp();
             }
         });
-        Button addRuleButton = new Button(groupListGroup, SWT.PUSH);
+        Button addRuleButton = new Button(ruleListGroup, SWT.PUSH);
         addRuleButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD));
         addRuleButton.setLayoutData(gridData);
         addRuleButton.addSelectionListener(new SelectionAdapter() {
@@ -269,7 +252,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 update();
             }
         });
-        removeRuleButton = new Button(groupListGroup, SWT.PUSH);
+        removeRuleButton = new Button(ruleListGroup, SWT.PUSH);
         removeRuleButton.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/cross.png"));
         removeRuleButton.setEnabled(false);
         removeRuleButton.setLayoutData(gridData);
@@ -283,24 +266,23 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 listViewerAnalysis.refresh();
                 removeRuleDetailComponents();
                 detailComp.pack();
-                showHowToConfigureRulesInfo();
+                showHowToConfigureRulesInfo(detailComp);
                 update();
             }
         });
 
-        groupDetailGroup = new Group(parent, SWT.NONE);
-        groupDetailGroup.setText("Details");
+        Group ruleDetailGroup = new Group(parent, SWT.NONE);
+        ruleDetailGroup.setText("Details");
         FormData groupDetailFD = new FormData();
-        groupDetailFD.top = new FormAttachment(detectionRuleLabel, 10);
+        groupDetailFD.top = new FormAttachment(mergeDetectionGroup, 10);
         groupDetailFD.bottom = new FormAttachment(100);
-        groupDetailFD.left = new FormAttachment(groupListGroup, 5);
+        groupDetailFD.left = new FormAttachment(ruleListGroup, 5);
         groupDetailFD.right = new FormAttachment(100);
-        groupDetailGroup.setLayoutData(groupDetailFD);
-        groupDetailGroup.setLayout(new RowLayout());
+        ruleDetailGroup.setLayoutData(groupDetailFD);
+        ruleDetailGroup.setLayout(new RowLayout());
 
-        detailComp = new Composite(groupDetailGroup, SWT.NONE);
-        GridLayout detailCompLayout = new GridLayout(3, true);
-        detailComp.setLayout(detailCompLayout);
+        detailComp = new Composite(ruleDetailGroup, SWT.NONE);
+        detailComp.setLayout(new GridLayout(3, true));
     }
 
     /**
@@ -310,17 +292,15 @@ public class ResultHandlingConfigurationPage extends WizardPage {
      *            The parent container.
      * @return The Group.
      */
-    private Group generateResultPresentationGroup(Composite parent) {
-        Label analysisLabel = new Label(parent, SWT.NONE);
-        analysisLabel.setText("Analysis Presentation");
+    private Group createResultPresentationGroup(Composite parent) {
+
         Group resultPresentationGrp = new Group(parent, SWT.NONE);
-        resultPresentationGrp.setText("Choose the view for the analysis results");
+        resultPresentationGrp.setText("Analysis Result Presentation");
         resultPresentationGrp.setLayout(new RowLayout(SWT.HORIZONTAL));
-        FormData resultPresentationFD = new FormData();
-        resultPresentationFD.top = new FormAttachment(analysisLabel, 10);
-        resultPresentationFD.left = new FormAttachment(0);
-        resultPresentationFD.right = new FormAttachment(100);
+        FormData resultPresentationFD = createFormDataMargin(parent);
         resultPresentationGrp.setLayoutData(resultPresentationFD);
+
+        // Button to present result in VPM graph
         Button vpmGraphBtn = new Button(resultPresentationGrp, SWT.RADIO);
         vpmGraphBtn.setText("VPM Graph");
         vpmGraphBtn.setToolTipText("Show VPM Graph only. Refinement detection will be skipped.");
@@ -335,6 +315,8 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 update();
             }
         });
+
+        // Button to present result in VPM browser
         Button refBrowserBtn = new Button(resultPresentationGrp, SWT.RADIO);
         refBrowserBtn.setText("Refinement Browser");
         refBrowserBtn.setToolTipText("Show analysis results in the refinement browser.");
@@ -347,9 +329,83 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 update();
             }
         });
-        resultPresentationFD.height = resultPresentationGrp.computeSize(SWT.DEFAULT, SWT.DEFAULT).y - 15;
         refBrowserBtn.setSelection(!isVPMGraphActivated);
+
+        // recalculate group height
+        resultPresentationFD.height = resultPresentationGrp.computeSize(SWT.DEFAULT, SWT.DEFAULT).y - 15;
+
         return resultPresentationGrp;
+    }
+
+    /**
+     * Create a form data element (layout definition) with a margin to the previous element.
+     *
+     * @param previousElement
+     *            The element to define the margin against.
+     * @return The prepared form data (without a specified height!)
+     */
+    private FormData createFormDataMargin(Control previousElement) {
+        FormData resultPresentationFD = new FormData();
+        if (previousElement != null) {
+            resultPresentationFD.top = new FormAttachment(previousElement, 10);
+        } else {
+            resultPresentationFD.top = new FormAttachment(5);
+        }
+        resultPresentationFD.left = new FormAttachment(0);
+        resultPresentationFD.right = new FormAttachment(100);
+        return resultPresentationFD;
+    }
+
+    /**
+     * Generates a group that allows the user to choose between several result presentation options.
+     *
+     * @param parent
+     *            The parent container.
+     * @return The Group.
+     */
+    private Group createMergeDetectionGroup(Composite parent) {
+
+        Group mergeDetectionGroup = new Group(parent, SWT.NONE);
+        mergeDetectionGroup.setText("MergeDetection");
+        mergeDetectionGroup.setLayout(new FormLayout());
+        FormData mergeDectionFD = createFormDataMargin(null);
+        mergeDetectionGroup.setLayoutData(mergeDectionFD);
+
+        // Button to use merge detection
+        Button yesMergeBtn = new Button(mergeDetectionGroup, SWT.RADIO);
+        yesMergeBtn.setText("yes");
+        yesMergeBtn.setToolTipText("Analyse related VPs if they can be merged.");
+        yesMergeBtn.setSelection(useMergeDetection);
+        yesMergeBtn.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                super.widgetSelected(e);
+                useMergeDetection = true;
+                update();
+            }
+        });
+
+        // Button to not use merge detection
+        Button noMergeBtn = new Button(mergeDetectionGroup, SWT.RADIO);
+        noMergeBtn.setText("no");
+        noMergeBtn.setToolTipText("Detect group refinements only.");
+        noMergeBtn.setSelection(!useMergeDetection);
+        noMergeBtn.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                super.widgetSelected(e);
+                useMergeDetection = false;
+                update();
+            }
+        });
+        FormData noBtnFD = createFormDataMargin(null);
+        noBtnFD.left = new FormAttachment(yesMergeBtn, 10);
+        noMergeBtn.setLayoutData(noBtnFD);
+
+        // recalculate and set group height.
+        mergeDectionFD.height = mergeDetectionGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT).y - 15;
+
+        return mergeDetectionGroup;
     }
 
     /**
@@ -361,8 +417,8 @@ public class ResultHandlingConfigurationPage extends WizardPage {
         }
     }
 
-    private void showHowToConfigureRulesInfo() {
-        Label infoLabel = new Label(detailComp, SWT.NONE);
+    private void showHowToConfigureRulesInfo(Composite parent) {
+        Label infoLabel = new Label(parent, SWT.NONE);
         infoLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
         infoLabel.setText("Select rule on the left to check on configure details.");
     }
@@ -373,42 +429,10 @@ public class ResultHandlingConfigurationPage extends WizardPage {
      * @param id
      *            The group's id.
      */
-    private void buildDetailComponents(final Integer id) {
-        Label organizeLabel = new Label(detailComp, SWT.NONE);
-        organizeLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-        organizeLabel.setText("How to aggregate related variation points?");
-        UIUtil.addExplanation(detailComp, "Use group per default. If a merge is possible, this be detected automatically.");
-
-        Button mergeBtn = new Button(detailComp, SWT.RADIO);
-        mergeBtn.setText("Merge");
-        mergeBtn.setToolTipText("Recommend merging for related variation points.");
-        mergeBtn.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                super.widgetSelected(e);
-                refinementTypeToGroupID.put(id, RefinementType.MERGE);
-                listViewerAnalysis.refresh();
-            }
-        });
-        Button groupBtn = new Button(detailComp, SWT.RADIO);
-        groupBtn.setText("Group");
-        groupBtn.setToolTipText("Recommend grouping for related variation points.");
-        groupBtn.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                super.widgetSelected(e);
-                refinementTypeToGroupID.put(id, RefinementType.GROUPING);
-                listViewerAnalysis.refresh();
-            }
-        });
-        if (refinementTypeToGroupID.get(id).equals(RefinementType.MERGE)) {
-            mergeBtn.setSelection(true);
-        } else {
-            groupBtn.setSelection(true);
-        }
-        Label labelsLabel = new Label(detailComp, SWT.NONE);
+    private void createRuleDetailConfiguration(Composite parent, final Integer id) {
+        Label labelsLabel = new Label(parent, SWT.NONE);
         labelsLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-        labelsLabel.setText("Select the relationship combination to detect:");
+        labelsLabel.setText("Select the relationship combination to detect by this rule:");
         UIUtil.addExplanation(detailComp, "The analyzer specific relationships are considered.");
 
         createAnalyzerSelection(id);
@@ -472,19 +496,29 @@ public class ResultHandlingConfigurationPage extends WizardPage {
     }
 
     /**
+     * Get the configuration if the merge detection should be performed.
+     *
+     * @return True/False if the option is activated or not.
+     */
+    public boolean isUseMergeDetection() {
+        return useMergeDetection;
+    }
+
+    /**
      * Enables or disables the components that are responsible for the group handling.
      *
      * @param enabled
      *            Determines whether to enable or disable the components.
      */
     private void enableRulesDetection(boolean enabled) {
-        recursiveSetEnabled(groupListGroup, enabled);
-        recursiveSetEnabled(groupDetailGroup, enabled);
-        detectionRuleLabel.setEnabled(enabled);
+        recursiveSetEnabled(ruleConfigurationGroup, enabled);
     }
 
     /**
      * Recursively enables or disables the given Control and all it's children.
+     *
+     * Note: Due to a bug, it is not possible to change the color of group labels so they will
+     * remain black.
      *
      * @param ctrl
      *            The control to be en/disabled.
@@ -492,6 +526,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
      *            Determines whether to enable / disable the control.
      */
     private void recursiveSetEnabled(Control ctrl, boolean enabled) {
+
         if (ctrl instanceof Composite) {
             Composite comp = (Composite) ctrl;
             for (Control c : comp.getChildren()) {
@@ -547,10 +582,10 @@ public class ResultHandlingConfigurationPage extends WizardPage {
         Integer selectedID = getSelectedID();
         if (selectedID == null) {
             removeRuleButton.setEnabled(false);
-            showHowToConfigureRulesInfo();
+            showHowToConfigureRulesInfo(detailComp);
         } else {
             removeRuleButton.setEnabled(true);
-            buildDetailComponents(selectedID);
+            createRuleDetailConfiguration(detailComp, selectedID);
         }
         detailComp.pack();
     }

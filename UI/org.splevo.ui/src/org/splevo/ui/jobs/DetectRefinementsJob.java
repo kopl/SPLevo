@@ -35,12 +35,20 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
     /** The detection rules to be applied. */
     private List<DetectionRule> detectionRules;
 
+    /** Option to detect related VPs that can be merged. */
+    private boolean useMergeDetection;
+
     /**
      * Default constructor for the job.
-     * @param detectionRules The detection rules to apply in the job.
+     *
+     * @param detectionRules
+     *            The detection rules to apply in the job.
+     * @param useMergeDetection
+     *            Option to detect related VPs that can be merged.
      */
-    public DetectRefinementsJob(List<DetectionRule> detectionRules) {
+    public DetectRefinementsJob(List<DetectionRule> detectionRules, boolean useMergeDetection) {
         this.detectionRules = detectionRules;
+        this.useMergeDetection = useMergeDetection;
     }
 
     /**
@@ -52,7 +60,7 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
     public void execute(IProgressMonitor monitor) {
 
         List<Refinement> refinements = vpmAnalyzerService.deriveRefinements(getBlackboard().getVpmGraph(),
-                detectionRules);
+                detectionRules, useMergeDetection);
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
@@ -75,7 +83,7 @@ public class DetectRefinementsJob extends AbstractBlackboardInteractingJob<SPLev
         return "Detect Refinements Job";
     }
 
-	@Override
-	public void cleanup(IProgressMonitor arg0) {
-	}
+    @Override
+    public void cleanup(IProgressMonitor arg0) {
+    }
 }

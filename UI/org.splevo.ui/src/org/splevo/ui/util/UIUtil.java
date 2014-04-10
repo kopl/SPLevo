@@ -46,8 +46,8 @@ public final class UIUtil {
     }
 
     /**
-     * Get the default label for an object provided by any EMF ItemProvider registered for the according meta
-     * model element.
+     * Get the default label for an object provided by any EMF ItemProvider registered for the
+     * according meta model element.
      *
      * @param element
      *            The element to search an icon for.
@@ -62,6 +62,8 @@ public final class UIUtil {
 
     /**
      * Adds a Tool-Tip explanation to a given parent composite.
+     *
+     * Note: This makes use of GridData for positioning and might not be applicable at all places.
      *
      * @param parent
      *            The parent.
