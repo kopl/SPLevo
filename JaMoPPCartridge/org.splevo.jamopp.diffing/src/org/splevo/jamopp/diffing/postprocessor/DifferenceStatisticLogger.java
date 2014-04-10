@@ -42,18 +42,18 @@ import com.google.common.collect.Table;
 
 /**
  * Logger for statistics about the identified differences.
- * 
+ *
  * The logger produces a set of csv files containing the details about the loggings identified. Call
  * log(Comparison,String) as central method do produce the logs.
  */
 public class DifferenceStatisticLogger {
-    
+
     /** The class logger for software issues to use. */
     private static Logger logger = Logger.getLogger(DifferenceStatisticLogger.class);
 
     /**
      * Trigger all logs for analyzing the case study.
-     * 
+     *
      * @param comparison
      *            The comparison to get the result infos for.
      * @param logDir
@@ -61,18 +61,18 @@ public class DifferenceStatisticLogger {
      */
     public static void log(Comparison comparison, String logDir) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss");
-        if (!logDir.endsWith("/")) {
-            logDir = logDir + "/";
+        if (!logDir.endsWith(File.separator)) {
+            logDir = logDir + File.separator;
         }
         String runLogDir = logDir + dateFormat.format(new Date());
-        DifferenceStatisticLogger.logDiffingStatistics(comparison, runLogDir + "/log-diffings-statistics.csv");
-        DifferenceStatisticLogger.logDiffings(comparison, runLogDir + "/log-diffings.csv");
-        DifferenceStatisticLogger.logResourceMatchings(comparison, runLogDir + "/log-resource-matches.csv");
+        DifferenceStatisticLogger.logDiffingStatistics(comparison, runLogDir + File.separator + "log-diffings-statistics.csv");
+        DifferenceStatisticLogger.logDiffings(comparison, runLogDir + File.separator + "log-diffings.csv");
+        DifferenceStatisticLogger.logResourceMatchings(comparison, runLogDir + File.separator + "log-resource-matches.csv");
     }
 
     /**
      * Write a log file about matched and unmatched resources.
-     * 
+     *
      * @param comparison
      *            model
      * @param filePath
@@ -129,7 +129,7 @@ public class DifferenceStatisticLogger {
 
     /**
      * Get an identifier of the resource containing the original source element.
-     * 
+     *
      * @param diff
      *            The difference.
      * @return The identifier of the resource.
@@ -152,7 +152,7 @@ public class DifferenceStatisticLogger {
 
     /**
      * Get the string representation of a JaMoPP element.
-     * 
+     *
      * @param element
      *            The element to get the string representation for.
      * @return The formatted code snippet.
@@ -174,7 +174,7 @@ public class DifferenceStatisticLogger {
     /**
      * Get the method a statement is located in. Returns null if there is no method container in the
      * statement's parent tree.
-     * 
+     *
      * @param statement
      *            The statement to get the enclosing method for.
      * @return The method or null if none found.
@@ -195,7 +195,7 @@ public class DifferenceStatisticLogger {
 
     /**
      * Write a log file about matched and unmatched resources.
-     * 
+     *
      * @param comparison
      *            model
      * @param logFilePath
@@ -243,7 +243,7 @@ public class DifferenceStatisticLogger {
 
     /**
      * Write a log file about matched and unmatched resources.
-     * 
+     *
      * @param comparison
      *            model
      * @param logFilePath
@@ -279,7 +279,7 @@ public class DifferenceStatisticLogger {
 
     /**
      * Cut of absolute source directory path.
-     * 
+     *
      * @param resource
      *            the resource to get the relative path for
      * @return the string

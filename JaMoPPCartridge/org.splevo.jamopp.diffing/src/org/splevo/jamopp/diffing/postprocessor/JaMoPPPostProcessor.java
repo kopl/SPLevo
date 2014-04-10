@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.postprocessor;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -319,12 +320,20 @@ public class JaMoPPPostProcessor implements IPostProcessor {
         if (logDir != null && logDir instanceof String) {
             String logDirPath = (String) logDir;
             if (!logDirPath.trim().isEmpty()) {
-                DifferenceStatisticLogger.log(comparison, (String) logDir);
+                DifferenceStatisticLogger.log(comparison, (String) logDir + File.separator + "postcomparison");
             }
         }
 
         if (isCleanUpDerivedCopiesActivated()) {
             cleanUpDerivedCopies(comparison);
+
+            if (logDir != null && logDir instanceof String) {
+                String logDirPath = (String) logDir;
+                if (!logDirPath.trim().isEmpty()) {
+                    DifferenceStatisticLogger.log(comparison, ((String) logDir) + File.separator + "after-derived-copy");
+                }
+            }
+
         }
 
         ComparisonModelCleanUp.cleanMatches(comparison.getMatches());
