@@ -218,13 +218,16 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      * {@inheritDoc}
      */
     @Override
-    public List<Refinement> deriveRefinements(VPMGraph vpmGraph, List<DetectionRule> detectionRules) {
+    public List<Refinement> deriveRefinements(VPMGraph vpmGraph, List<DetectionRule> detectionRules,
+            boolean useMergeDetection) {
 
         List<Refinement> refinements = new ArrayList<Refinement>();
 
         for (DetectionRule rule : detectionRules) {
             List<Refinement> ruleRefinements = rule.detect(vpmGraph);
-            ruleRefinements = mergeDetection(ruleRefinements);
+            if (useMergeDetection) {
+                ruleRefinements = mergeDetection(ruleRefinements);
+            }
             ruleRefinements = filterUnreasonable(ruleRefinements);
 
             refinements.addAll(ruleRefinements);
@@ -280,6 +283,8 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      * @return
      */
     private List<Refinement> mergeDetection(List<Refinement> detectedRefinements) {
+
+        logger.info("Run merge detection");
 
         List<Refinement> refinedRefinements = Lists.newLinkedList();
 

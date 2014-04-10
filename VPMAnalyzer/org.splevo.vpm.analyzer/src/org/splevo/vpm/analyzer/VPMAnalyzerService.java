@@ -69,9 +69,12 @@ public interface VPMAnalyzerService {
      *            The graph containing the relationships.
      * @param detectionRules
      *            The detection rules to apply.
+     * @param useMergeDetection
+     *            Option to detect related VPs that can be merged.
      * @return The identified refinements.
      */
-    public abstract List<Refinement> deriveRefinements(VPMGraph vpmGraph, List<DetectionRule> detectionRules);
+    public abstract List<Refinement> deriveRefinements(VPMGraph vpmGraph, List<DetectionRule> detectionRules,
+            boolean useMergeDetection);
 
     /**
      * Get the list of available variation point analyzers.
