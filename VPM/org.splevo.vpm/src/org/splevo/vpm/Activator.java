@@ -11,20 +11,24 @@
  *******************************************************************************/
 package org.splevo.vpm;
 
+import java.net.URL;
+
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.BundleActivator;
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The Class Activator.
  */
-public class Activator implements BundleActivator {
+public class Activator extends Plugin {
 
     /** The id of the vpm extension extension point. */
     private static final String VPM_EXTENSION_EXTENSION_POINT_ID = "org.splevo.vpm.extension";
@@ -49,7 +53,13 @@ public class Activator implements BundleActivator {
 
     @Override
     public void start(BundleContext bundleContext) throws Exception {
-        Activator.context = bundleContext;
+        // Setup logging
+        URL confURL = getBundle().getEntry("log4j.properties");
+        PropertyConfigurator.configure(FileLocator.toFileURL(confURL).getFile());
+        logger.info("Logging using log4j and configuration " + FileLocator.toFileURL(confURL).getFile());
+
+        super.start(bundleContext);
+
         loadVPMModelExtensions();
     }
 
@@ -82,11 +92,6 @@ public class Activator implements BundleActivator {
                 }
             }
         }
-    }
-
-    @Override
-    public void stop(BundleContext bundleContext) throws Exception {
-        Activator.context = null;
     }
 
 }
