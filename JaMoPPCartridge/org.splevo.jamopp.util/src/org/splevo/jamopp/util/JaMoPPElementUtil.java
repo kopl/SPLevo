@@ -23,6 +23,7 @@ import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
+import org.emftext.language.java.statements.TryBlock;
 
 /**
  * Utility class to handle JaMoPP elements.
@@ -102,6 +103,15 @@ public final class JaMoPPElementUtil {
         } else if (element instanceof Block && element.eContainer() instanceof Method) {
             Method method = (Method) element.eContainer();
             return method.getName() + "()";
+
+        } else if (element instanceof TryBlock) {
+            String containerName = null;
+            if (element.eContainer() instanceof Commentable) {
+                containerName = getLabel((Commentable) element.eContainer());
+            } else {
+                containerName = "" + element.eContainer();
+            }
+            return "try-Block in " + containerName;
 
         } else if (element instanceof NamedElement) {
             return ((NamedElement) element).getName();
