@@ -11,6 +11,7 @@
 package org.mihalis.opal.itemSelector;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -61,6 +62,8 @@ public class DualList extends Composite {
 	private Table selectionTable;
 
 	private List<SelectionListener> eventTable;
+
+    private List<DualListSelectionChangedListener> dualListSelectionChangedListener = new ArrayList<DualListSelectionChangedListener>();
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style
@@ -1173,11 +1176,14 @@ public class DualList extends Composite {
 		if (this.itemsTable.getSelectionCount() == 0) {
 			return;
 		}
+        LinkedHashSet<DLItem> selectedItems = new LinkedHashSet<DLItem>();
 		for (final TableItem tableItem : this.itemsTable.getSelection()) {
 			final DLItem item = (DLItem) tableItem.getData();
 			this.selection.add(item);
 			this.items.remove(item);
+            selectedItems.add(item);
 		}
+        fireItemsSelectedEvent(selectedItems);
 		this.redrawTables();
 	}
 
@@ -1216,11 +1222,14 @@ public class DualList extends Composite {
 		if (this.selectionTable.getSelectionCount() == 0) {
 			return;
 		}
+        LinkedHashSet<DLItem> deSelectedItems = new LinkedHashSet<DLItem>();
 		for (final TableItem tableItem : this.selectionTable.getSelection()) {
 			final DLItem item = (DLItem) tableItem.getData();
 			this.items.add(item);
 			this.selection.remove(item);
+            deSelectedItems.add(item);
 		}
+        fireItemsDeSelectedEvent(deSelectedItems);
 		this.redrawTables();
 	}
 
@@ -1308,4 +1317,61 @@ public class DualList extends Composite {
 		}
 
 	}
+
+    /**
+     * Register a new listener for changed item selections.
+     *
+     * @param listener
+     *            The listener to register (only if not null);
+     */
+    public void addDualListSelectionChangedListener(DualListSelectionChangedListener listener) {
+        if (listener != null) {
+            dualListSelectionChangedListener.add(listener);
+        }
+    }
+
+    /**
+     * Register a new listener for changed item selections.
+     *
+     * @param listener
+     *            The listener to register (only if not null);
+     */
+    public void removeDualListSelectionChangedListener(DualListSelectionChangedListener listener) {
+        if (listener != null && dualListSelectionChangedListener.contains(listener)) {
+            dualListSelectionChangedListener.remove(listener);
+        }
+    }
+
+    private void fireItemsSelectedEvent(LinkedHashSet<DLItem> selectedItems) {
+        for (DualListSelectionChangedListener listener : dualListSelectionChangedListener) {
+            listener.itemsSelected(selectedItems);
+        }
+    }
+
+    private void fireItemsDeSelectedEvent(LinkedHashSet<DLItem> deSelectedItems) {
+        for (DualListSelectionChangedListener listener : dualListSelectionChangedListener) {
+            listener.itemsDeSelected(deSelectedItems);
+        }
+    }
+
+    /**
+     * Listener notified about newly selected or de-selected items.
+     */
+    interface DualListSelectionChangedListener {
+        /**
+         * Handle items that were moved to the selected item table.
+         *
+         * @param selectedItems
+         *            The items moved.
+         */
+        public void itemsSelected(LinkedHashSet<DLItem> selectedItems);
+
+        /**
+         * Handle items that were removed from the selected item table.
+         *
+         * @param deselectedItems
+         *            The items de-selected.
+         */
+        public void itemsDeSelected(LinkedHashSet<DLItem> deselectedItems);
+    }
 }
