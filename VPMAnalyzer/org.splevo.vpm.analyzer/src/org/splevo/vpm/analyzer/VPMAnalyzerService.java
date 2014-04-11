@@ -22,9 +22,6 @@ import org.splevo.vpm.variability.VariationPointModel;
  * Service class to manage the variation point model analysis.
  *
  * The service provides a graph-based composed relationship analysis of a variation point model.
- *
- * @author Benjamin Klatt
- *
  */
 public interface VPMAnalyzerService {
 

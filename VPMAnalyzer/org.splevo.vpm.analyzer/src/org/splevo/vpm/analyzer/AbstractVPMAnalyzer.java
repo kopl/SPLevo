@@ -19,9 +19,6 @@ import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 
 /**
  * An abstract variation point model analyzer providing some common infrastructure.
- *
- * @author Benjamin Klatt
- *
  */
 public abstract class AbstractVPMAnalyzer implements VPMAnalyzer {
 
