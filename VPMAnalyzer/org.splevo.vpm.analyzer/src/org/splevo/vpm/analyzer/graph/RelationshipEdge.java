@@ -12,10 +12,13 @@
 package org.splevo.vpm.analyzer.graph;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.graphstream.graph.implementations.AbstractEdge;
 import org.graphstream.graph.implementations.AbstractNode;
+
+import com.google.common.base.Strings;
 
 /**
  * A variation point relationship edge. It allows to store the type of relationships detected
@@ -24,10 +27,20 @@ import org.graphstream.graph.implementations.AbstractNode;
  */
 public class RelationshipEdge extends AbstractEdge {
 
-    /** The key to store and access the label of a relationship. */
+    /**
+     * The key to store and access the label of a relationship.
+     *
+     * Note: This ID should be used with care. The getter and setter should be prefferred and this
+     * internal id is only for raw graph stream interactions.
+     */
     public static final String RELATIONSHIP_LABEL = "vp.relationship.label";
 
-    /** The key to store and access the info about the relationship. */
+    /**
+     * The key to store and access the info about the relationship.
+     *
+     * Note: This ID should be used with care. The getter and setter should be prefferred and this
+     * internal id is only for raw graph stream interactions.
+     */
     public static final String RELATIONSHIP_INFO = "vp.relationship.info";
 
     /**
@@ -54,11 +67,13 @@ public class RelationshipEdge extends AbstractEdge {
      * Add a relationship label to the edge.
      *
      * @param label
-     *            The label to add.
+     *            The label to add. Null values are ignored.
      */
     @SuppressWarnings("unchecked")
     public void addRelationshipLabel(String label) {
-        getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class).add(label);
+        if (!Strings.isNullOrEmpty(label)) {
+            getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class).add(label);
+        }
     }
 
     /**
@@ -68,18 +83,27 @@ public class RelationshipEdge extends AbstractEdge {
      */
     @SuppressWarnings("unchecked")
     public final List<String> getRelationshipLabels() {
-        return getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class);
+        if (hasAttribute(RelationshipEdge.RELATIONSHIP_LABEL)) {
+            return getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class);
+        } else {
+            return new ArrayList<String>();
+        }
     }
 
     /**
      * Add an additional info about the detected relationship the edge.
      *
      * @param info
-     *            The additional info to add.
+     *            The additional info to add. Null values are ignored.
      */
     @SuppressWarnings("unchecked")
     public void addRelationshipInfo(String info) {
-        getAttribute(RelationshipEdge.RELATIONSHIP_INFO, List.class).add(info);
+        if (!Strings.isNullOrEmpty(info)) {
+            if (!hasAttribute(RelationshipEdge.RELATIONSHIP_INFO)) {
+                setAttribute(RelationshipEdge.RELATIONSHIP_INFO, new LinkedList<String>());
+            }
+            getAttribute(RelationshipEdge.RELATIONSHIP_INFO, List.class).add(info);
+        }
     }
 
     /**
@@ -89,6 +113,10 @@ public class RelationshipEdge extends AbstractEdge {
      */
     @SuppressWarnings("unchecked")
     public final List<String> getRelationshipInfos() {
-        return getAttribute(RelationshipEdge.RELATIONSHIP_INFO, List.class);
+        if (hasAttribute(RelationshipEdge.RELATIONSHIP_INFO)) {
+            return getAttribute(RelationshipEdge.RELATIONSHIP_INFO, List.class);
+        } else {
+            return new ArrayList<String>();
+        }
     }
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.splevo.vpm.analyzer.graph;
 
@@ -11,14 +11,14 @@ import org.graphstream.graph.implementations.AdjacencyListGraph;
 
 /**
  * A variation point model representing graph.
- * 
+ *
  * This uses a custom edge factory to create RelationShip elements.
- * 
+ *
  * yIf multiple analyzer add edges to this graph in parallel, this will result in multiple edges
  * between the same node. It might be necessary to merge those edges latter on.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 public class VPMGraph extends AdjacencyListGraph {
 
@@ -29,7 +29,7 @@ public class VPMGraph extends AdjacencyListGraph {
 
     /**
      * Creates an empty graph.
-     * 
+     *
      * @param id
      *            Unique identifier of the graph.
      * @param strictChecking
@@ -59,7 +59,7 @@ public class VPMGraph extends AdjacencyListGraph {
 
     /**
      * Creates an empty graph with default edge and node capacity.
-     * 
+     *
      * @param id
      *            Unique identifier of the graph.
      * @param strictChecking
@@ -74,7 +74,7 @@ public class VPMGraph extends AdjacencyListGraph {
 
     /**
      * Creates an empty graph with strict checking and without auto-creation.
-     * 
+     *
      * @param id
      *            Unique identifier of the graph.
      */

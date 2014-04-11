@@ -25,6 +25,7 @@ import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -36,6 +37,8 @@ import com.google.common.collect.Sets;
 public class BasicDetectionRule implements DetectionRule {
 
     private Logger logger = Logger.getLogger(BasicDetectionRule.class);
+
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /** The edges that must be match. */
     private List<String> edgeLabels = null;
@@ -198,22 +201,21 @@ public class BasicDetectionRule implements DetectionRule {
         Refinement refinement = RefinementFactory.eINSTANCE.createRefinement();
         refinement.setType(this.getRefinementType());
 
-
         StringBuilder refinementSource = new StringBuilder();
         refinementSource.append("Detected Relationship(s): ");
-        boolean first = true;
-        for (String searchedLabel : edgeLabels) {
-            if (!first) {
-                refinementSource.append(", ");
-            }
-            refinementSource.append(searchedLabel);
-            first = false;
-        }
+
+        Joiner.on(", ").appendTo(refinementSource, edgeLabels);
 
         Set<Node> nodes = Sets.newLinkedHashSet();
         for (RelationshipEdge edge : subgraphEdges) {
+            refinementSource.append(LINE_SEPARATOR);
+            refinementSource.append("-");
             nodes.add(edge.getSourceNode());
             nodes.add(edge.getTargetNode());
+
+            if(edge.getRelationshipInfos() != null) {
+                Joiner.on(LINE_SEPARATOR).appendTo(refinementSource, edge.getRelationshipInfos());
+            }
         }
 
         for (Node node : nodes) {

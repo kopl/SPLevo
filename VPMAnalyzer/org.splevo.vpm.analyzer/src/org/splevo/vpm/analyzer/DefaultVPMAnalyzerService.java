@@ -82,7 +82,6 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      *
      * @see org.splevo.vpm.analyzer.VPMAnalyzerService#mergeGraphs(java.util.List)
      */
-    @SuppressWarnings("unchecked")
     @Override
     public VPMGraph mergeGraphs(List<VPMGraph> graphs) {
 
@@ -110,10 +109,12 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
                     for (String key : edge.getAttributeKeySet()) {
                         mergeEdge.addAttribute(key, edge.getAttribute(key));
                     }
+
                 } else {
-                    List<String> labels = mergeEdge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class);
-                    labels.addAll(edge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class));
-                    mergeEdge.setAttribute(RelationshipEdge.RELATIONSHIP_LABEL, labels);
+                    RelationshipEdge relEdge = (RelationshipEdge) edge;
+                    RelationshipEdge relMergeEdge = (RelationshipEdge) mergeEdge;
+                    relMergeEdge.getRelationshipInfos().addAll(relEdge.getRelationshipInfos());
+                    relMergeEdge.getRelationshipLabels().addAll(relEdge.getRelationshipLabels());
                 }
 
             }
@@ -127,7 +128,6 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      *
      *      {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void mergeGraphEdges(VPMGraph vpmGraph) {
 
@@ -145,9 +145,10 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
                     mergeEdge.addAttribute(key, edge.getAttribute(key));
                 }
             } else {
-                List<String> labels = mergeEdge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class);
-                labels.addAll(edge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class));
-                mergeEdge.setAttribute(RelationshipEdge.RELATIONSHIP_LABEL, labels);
+                RelationshipEdge relEdge = (RelationshipEdge) edge;
+                RelationshipEdge relMergeEdge = (RelationshipEdge) mergeEdge;
+                relMergeEdge.getRelationshipInfos().addAll(relEdge.getRelationshipInfos());
+                relMergeEdge.getRelationshipLabels().addAll(relEdge.getRelationshipLabels());
             }
 
             // remove the old merged node
@@ -155,29 +156,25 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void createGraphEdges(VPMGraph vpmGraph, List<VPMAnalyzerResult> analyzerResults) {
         for (VPMAnalyzerResult analyzerResult : analyzerResults) {
 
             for (VPMEdgeDescriptor edgeDescriptor : analyzerResult.getEdgeDescriptors()) {
 
+                // enrich the merge edge or create a new one
                 String sourceNodeId = edgeDescriptor.getSourceNodeID();
                 String targetNodeId = edgeDescriptor.getTargetNodeID();
-
-                // enrich the merge edge or create a new one
                 String edgeId = buildEdgeId(sourceNodeId, targetNodeId);
                 Edge mergeEdge = vpmGraph.getEdge(edgeId);
+                RelationshipEdge relationShipEdge;
                 if (mergeEdge == null) {
-                    mergeEdge = vpmGraph.addEdge(edgeId, sourceNodeId, targetNodeId);
-                    List<String> labels = new ArrayList<String>();
-                    labels.add(edgeDescriptor.getRelationshipLabel());
-                    mergeEdge.setAttribute(RelationshipEdge.RELATIONSHIP_LABEL, labels);
+                    relationShipEdge = (RelationshipEdge) vpmGraph.addEdge(edgeId, sourceNodeId, targetNodeId);
                 } else {
-                    List<String> labels = mergeEdge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL, List.class);
-                    labels.add(edgeDescriptor.getRelationshipLabel());
-                    mergeEdge.setAttribute(RelationshipEdge.RELATIONSHIP_LABEL, labels);
+                    relationShipEdge = (RelationshipEdge) mergeEdge;
                 }
+                relationShipEdge.addRelationshipLabel(edgeDescriptor.getRelationshipLabel());
+                relationShipEdge.addRelationshipInfo(edgeDescriptor.getRelationshipSubLabel());
             }
         }
     }
