@@ -138,10 +138,10 @@ public class ReferenceCache {
     /**
      * Forces the complete resolving of the resource.
      *
-     *<p>
-     * <strong>Note:</strong> This should be used for loading the cache only. It is also recommended to call this
-     * method not before all resources are present in the ResourceSet.
-     *</p>
+     * <p>
+     * <strong>Note:</strong> This should be used for loading the cache only. It is also recommended
+     * to call this method not before all resources are present in the ResourceSet.
+     * </p>
      *
      * @param resource
      *            Resource to be resolved.
@@ -322,6 +322,11 @@ public class ReferenceCache {
     public void registerEObject(Resource resource, String fragmentURI, EObject resolvedElement) {
 
         String resourceUri = resource.getURI().toString();
+
+        if (resolvedElement == null) {
+            logger.warn(String.format("Tried to register a null element in the cache %s#%s", resourceUri, fragmentURI));
+            return;
+        }
 
         if (resolvedElement.eIsProxy()) {
             if (isNotLibraryProxy(resolvedElement)) {
