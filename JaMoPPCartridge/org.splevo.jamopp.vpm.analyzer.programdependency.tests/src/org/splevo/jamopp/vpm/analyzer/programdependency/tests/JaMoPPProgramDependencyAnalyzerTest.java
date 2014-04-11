@@ -1,7 +1,9 @@
 package org.splevo.jamopp.vpm.analyzer.programdependency.tests;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.BasicConfigurator;
@@ -51,11 +53,13 @@ public class JaMoPPProgramDependencyAnalyzerTest {
         assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
         assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
 
+        // This output should only be used for local test analysis.
+        // It should not be committed to not mess up the build server
         for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
-            logger.debug("Edge Sub Label referred SoftwareElement: " + edgeDescriptor.getRelationshipSubLabel());
+            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
         }
 
-        assertEquals("Wrong edge descriptor count", 10, result.getEdgeDescriptors().size());
+        assertThat("Wrong edge descriptor count", result.getEdgeDescriptors().size(), is(11));
 
     }
 

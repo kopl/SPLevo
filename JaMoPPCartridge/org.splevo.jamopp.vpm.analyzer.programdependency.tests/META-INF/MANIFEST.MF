@@ -7,4 +7,7 @@ Fragment-Host: org.splevo.jamopp.vpm.analyzer.programdependency;bundle-version="
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit;bundle-version="4.11.0",
  org.apache.log4j,
- org.splevo.tests;bundle-version="1.0.0"
+ org.splevo.tests;bundle-version="1.0.0",
+ org.splevo.jamopp.extraction;bundle-version="1.0.0",
+ org.splevo.jamopp.diffing;bundle-version="1.0.0",
+ org.splevo.jamopp.vpm.builder;bundle-version="1.0.0"
