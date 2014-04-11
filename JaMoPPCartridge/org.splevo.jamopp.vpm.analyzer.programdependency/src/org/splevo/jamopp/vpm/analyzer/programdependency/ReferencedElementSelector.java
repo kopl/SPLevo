@@ -26,10 +26,13 @@ import org.emftext.language.java.references.Argumentable;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.Reference;
+import org.emftext.language.java.references.ReferenceableElement;
+import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
+import org.emftext.language.java.types.TypedElement;
 import org.emftext.language.java.variables.LocalVariable;
 
 /**
@@ -39,7 +42,7 @@ import org.emftext.language.java.variables.LocalVariable;
  */
 public class ReferencedElementSelector {
 
-    private static Logger logger = Logger.getLogger(RefereableElementSelector.class);
+    private static Logger logger = Logger.getLogger(ReferencedElementSelector.class);
 
     /**
      * Get the referable child nodes of a JaMoPP element.
@@ -50,35 +53,63 @@ public class ReferencedElementSelector {
      */
     public List<Commentable> getReferencedElements(Commentable commentable) {
         List<Commentable> referencedElements = new ArrayList<Commentable>();
-
-        if (commentable instanceof Return) {
-            Return returnStmt = (Return) commentable;
-            return getReferencedElements((Expression) returnStmt.getReturnValue());
+        if (isNullOrProxy(commentable)) {
+            return referencedElements;
         }
 
         if (commentable instanceof Import) {
             referencedElements.add(commentable);
-            return referencedElements;
-        }
 
-        if (commentable instanceof LocalVariableStatement) {
+        } else if (commentable instanceof Return) {
+            Return returnStmt = (Return) commentable;
+            Expression returnValue = (Expression) returnStmt.getReturnValue();
+            referencedElements.addAll(getReferencedElements(returnValue));
+
+        } else if (commentable instanceof LocalVariableStatement) {
             LocalVariableStatement lvs = (LocalVariableStatement) commentable;
-            LocalVariable var = lvs.getVariable();
-
-            if (var != null) {
+            LocalVariable variable = lvs.getVariable();
+            if (variable != null) {
 
                 // check the variables type
-                referencedElements.addAll(getReferencedElements(var.getTypeReference()));
+                referencedElements.addAll(getReferencedElements(variable.getTypeReference()));
 
                 // check the value
-                referencedElements.addAll(getReferencedElements(var.getInitialValue()));
+                referencedElements.addAll(getReferencedElements(variable.getInitialValue()));
             } else {
                 logger.warn("VariableStatement without variable: " + lvs);
                 // additional local variables must not be checked
                 // as they do not introduce any new references
             }
+            referencedElements.add(lvs.getVariable());
 
-            return referencedElements;
+        } else if (commentable instanceof ExpressionStatement) {
+            ExpressionStatement stmt = (ExpressionStatement) commentable;
+            Expression expression = stmt.getExpression();
+            referencedElements.addAll(getReferencedElements(expression));
+
+        } else if (commentable instanceof IdentifierReference) {
+            IdentifierReference reference = (IdentifierReference) commentable;
+            if (reference.getTarget() != null) {
+                referencedElements.add(reference.getTarget());
+            }
+            Reference next = reference.getNext();
+            referencedElements.addAll(getReferencedElements(next));
+
+        } else if (commentable instanceof MethodCall) {
+            MethodCall methodCall = (MethodCall) commentable;
+            if (methodCall.getTarget() != null) {
+                referencedElements.add(methodCall.getTarget());
+            }
+            for (Expression expression : methodCall.getArguments()) {
+                referencedElements.addAll(getReferencedElements(expression));
+            }
+        }
+
+        for (Commentable element : referencedElements) {
+            if (isNullOrProxy(element)) {
+                referencedElements.remove(element);
+            }
+
         }
 
         return referencedElements;
@@ -91,24 +122,33 @@ public class ReferencedElementSelector {
      *            The expression to analyze.
      * @return The list of identified elements.
      */
-    public List<Commentable> getReferencedElements(Expression expression) {
+    private List<Commentable> getReferencedElements(Expression expression) {
         List<Commentable> referencedElements = new ArrayList<Commentable>();
+        if (isNullOrProxy(expression)) {
+            return referencedElements;
+        }
 
         if (expression instanceof IdentifierReference) {
             IdentifierReference ref = (IdentifierReference) expression;
-            referencedElements.add(ref.getTarget());
-
+            ReferenceableElement target = ref.getTarget();
+            if (!isNullOrProxy(target)) {
+                referencedElements.add(target);
+            }
             // handle next
-            referencedElements.addAll(getReferencedElements(ref.getNext()));
-        }
+            Reference next = ref.getNext();
+            referencedElements.addAll(getReferencedElements(next));
 
-        if (expression instanceof NewConstructorCall) {
+        } else if (expression instanceof NewConstructorCall) {
             NewConstructorCall call = (NewConstructorCall) expression;
-            referencedElements.addAll(getReferencedElements(call.getTypeReference()));
+            TypeReference typeReference = call.getTypeReference();
+            referencedElements.addAll(getReferencedElements(typeReference));
 
             // TODO handle references in anonymous class
             // call.getAnonymousClass()
 
+        } else if (expression instanceof Reference) {
+            Reference reference = (Reference) expression;
+            referencedElements.addAll(getReferencedElements(reference));
         }
 
         return referencedElements;
@@ -121,14 +161,23 @@ public class ReferencedElementSelector {
      *            The reference to analyze.
      * @return The list of identified elements.
      */
-    public List<Commentable> getReferencedElements(Reference reference) {
+    private List<Commentable> getReferencedElements(Reference reference) {
         List<Commentable> referencedElements = new ArrayList<Commentable>();
+        if (isNullOrProxy(reference)) {
+            return referencedElements;
+        }
 
         if (reference instanceof MethodCall) {
             MethodCall call = (MethodCall) reference;
             referencedElements.addAll(getReferencedElements((Argumentable) call));
-            if (call.getTarget() != null) {
-                referencedElements.add(call.getTarget());
+            ReferenceableElement target = call.getTarget();
+            if (target != null) {
+                TypedElement method = (TypedElement) target;
+                TypeReference declaringType = method.getTypeReference();
+                if (!isNullOrProxy(declaringType)) {
+                    referencedElements.add(target);
+                }
+
             }
         }
 
@@ -142,8 +191,11 @@ public class ReferencedElementSelector {
      *            The argumentable element to analyze.
      * @return The list of identified elements.
      */
-    public List<Commentable> getReferencedElements(Argumentable argumentable) {
+    private List<Commentable> getReferencedElements(Argumentable argumentable) {
         List<Commentable> referencedElements = new ArrayList<Commentable>();
+        if (isNullOrProxy(argumentable)) {
+            return referencedElements;
+        }
 
         for (Expression argument : argumentable.getArguments()) {
             referencedElements.addAll(getReferencedElements(argument));
@@ -159,8 +211,11 @@ public class ReferencedElementSelector {
      *            The type reference to analyze.
      * @return The list of identified elements.
      */
-    public List<Commentable> getReferencedElements(TypeReference typeReference) {
+    private List<Commentable> getReferencedElements(TypeReference typeReference) {
         List<Commentable> referencedElements = new ArrayList<Commentable>();
+        if (isNullOrProxy(typeReference)) {
+            return referencedElements;
+        }
 
         Type type = typeReference.getTarget();
 
@@ -173,6 +228,10 @@ public class ReferencedElementSelector {
         }
 
         return referencedElements;
+    }
+
+    private boolean isNullOrProxy(Commentable commentable) {
+        return commentable == null || commentable.eIsProxy();
     }
 
 }

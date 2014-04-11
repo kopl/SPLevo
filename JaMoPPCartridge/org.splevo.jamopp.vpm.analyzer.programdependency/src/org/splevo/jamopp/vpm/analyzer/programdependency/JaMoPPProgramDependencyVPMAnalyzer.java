@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
 import org.graphstream.graph.Node;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
@@ -31,8 +32,10 @@ import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.Table;
 
 /**
  * Variation Point Analyzer identifying references between the software elements of variation points
@@ -54,24 +57,37 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      * Internal map to simplify working with variation points and to reference back to nodes
      * afterwards.
      */
-    private Map<VariationPoint, Node> vp2GraphNodeIndex = null;
+    private Map<VariationPoint, Node> vp2GraphNodeIndex;
 
-    /** The child node traverser identifying the referencable sub elements. */
-    private RefereableElementSelector refereableElementSelector = new RefereableElementSelector();
+    /** Index of which element is referenced by which variation points. */
+    private LinkedHashMultimap<Commentable, VariationPoint> referencedElementsIndex;
 
-    /** The index of variation points and AST nodes. **/
-    private Map<Commentable, VariationPoint> referableElementIndex = Maps.newLinkedHashMap();
+    /**
+     * A table to link:
+     * <code>VariationPoint + a referenced commentable => referring commentable</code><br>
+     * This is used to later lookup which element of a variation point holds the reference to the
+     * referred one.
+     */
+    private Table<VariationPoint, Commentable, Commentable> referringElementIndex;
 
     /** Selector to get elements referenced from the sub elements of a AST node. */
     private ReferencedElementSelector referencedElementSelector = new ReferencedElementSelector();
 
     /**
+     * Analyze variation point dependencies based on program dependencies between them.
+     *
+     * DesignDecision: Using synchronized as analyzer instances are reused and this one is not
+     * thread safe yet.
+     *
      * {@inheritDoc}
      *
      * @see org.splevo.vpm.analyzer.VPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)
      */
     @Override
-    public VPMAnalyzerResult analyze(final VPMGraph vpmGraph) throws VPMAnalyzerException {
+    public synchronized VPMAnalyzerResult analyze(final VPMGraph vpmGraph) throws VPMAnalyzerException {
+
+        referencedElementsIndex = LinkedHashMultimap.create();
+        referringElementIndex = HashBasedTable.create();
 
         VPMAnalyzerResult result = new VPMAnalyzerResult(this);
 
@@ -96,38 +112,67 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     private List<VPMEdgeDescriptor> identifyDependencies(Set<VariationPoint> vps) {
         List<VPMEdgeDescriptor> edges = Lists.newArrayList();
         List<String> edgeRegistry = new ArrayList<String>();
-        for (VariationPoint referringVP : vps) {
-            List<Commentable> jamoppElements = getJamoppElements(referringVP);
-            for (Commentable referringElement : jamoppElements) {
-                List<Commentable> referencedElements = referencedElementSelector
-                        .getReferencedElements(referringElement);
-                for (Commentable referredElement : referencedElements) {
-                    VariationPoint referredVP = referableElementIndex.get(referredElement);
-                    if (referredVP != null && referredVP != referringVP) {
 
-                        String vp1ID = vp2GraphNodeIndex.get(referringVP).getId();
-                        String vp2ID = vp2GraphNodeIndex.get(referredVP).getId();
-                        String sourceLabel = JaMoPPElementUtil.getLabel(referringElement);
-                        String targetLabel = JaMoPPElementUtil.getLabel(referredElement);
-                        logAnalysisInfo(vp1ID, vp2ID, sourceLabel, targetLabel);
+        for (Commentable referencedElement : referencedElementsIndex.keySet()) {
+            Set<VariationPoint> referencingVPs = referencedElementsIndex.get(referencedElement);
+            if (referencingVPs.size() > 1) {
 
-                        Node sourceNode = vp2GraphNodeIndex.get(referredVP);
-                        Node targetNode = vp2GraphNodeIndex.get(referringVP);
-                        VPMEdgeDescriptor edge = buildEdgeDescriptor(sourceNode, targetNode, targetLabel, edgeRegistry);
-                        if (edge != null) {
-                            edges.add(edge);
+                String referencedElementLabel = JaMoPPElementUtil.getLabel(referencedElement);
+
+                // link all pairs of VPs referencing the same Commentable with each other
+                VariationPoint[] vpList = referencingVPs.toArray(new VariationPoint[referencingVPs.size()]);
+                for (int i = 0; i < vpList.length; i++) {
+                    for (int j = i + 1; j < vpList.length; j++) {
+                        VariationPoint vp1 = vpList[i];
+                        VariationPoint vp2 = vpList[j];
+
+                        if (vp1 != null && vp2 != null && vp2 != vp1) {
+
+                            Commentable referringElementVP1 = referringElementIndex.get(vp1, referencedElement);
+                            Commentable referringElementVP2 = referringElementIndex.get(vp2, referencedElement);
+
+                            Node nodeVP1 = vp2GraphNodeIndex.get(vp1);
+                            Node nodeVP2 = vp2GraphNodeIndex.get(vp2);
+
+                            String vp1ID = nodeVP1.getId();
+                            String vp2ID = nodeVP2.getId();
+                            String sourceLabel = JaMoPPElementUtil.getLabel(referringElementVP1);
+                            String targetLabel = JaMoPPElementUtil.getLabel(referringElementVP2);
+
+                            String subLabel;
+
+                            if (referringElementVP1 == referencedElement) {
+                                subLabel = String.format("%s references %s", targetLabel, referencedElementLabel);
+
+                            } else if (referringElementVP2 == referencedElement) {
+                                subLabel = String.format("%s references %s", sourceLabel, referencedElementLabel);
+
+                            } else {
+                                subLabel = String.format("%s and %s share element %s", sourceLabel, targetLabel,
+                                        referencedElementLabel);
+                            }
+
+                            VPMEdgeDescriptor edge = buildEdgeDescriptor(nodeVP1, nodeVP2, subLabel, edgeRegistry);
+                            if (edge != null) {
+                                logAnalysisInfo(vp1ID, vp2ID, sourceLabel, targetLabel);
+                                edges.add(edge);
+                            }
+
                         }
 
                     }
                 }
+
             }
+
         }
+
         return edges;
     }
 
     /**
-     * Index all referable elements realizing on of the variation points variants linked to the
-     * containing variaition point.
+     * Index all referable elements realizing one of the variation points variants linked to the
+     * containing variation point.
      *
      * @param variationPoints
      *            The list of variation points to index the elements of.
@@ -136,24 +181,40 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         for (VariationPoint vp : variationPoints) {
             List<Commentable> jamoppElements = getJamoppElements(vp);
             for (Commentable jamoppElement : jamoppElements) {
-                indexReferableElements(vp, jamoppElement);
+                indexReferncedElements(vp, jamoppElement);
             }
         }
     }
 
     /**
-     * Index all referable (sub-)elements of a JaMoPP element with a reference to the variation
-     * point they are included in.
+     * Index all (sub-)elements of a JaMoPP element that can be referenced by another JaMoPP
+     * element.
+     *
+     * That means:
+     * <ol>
+     * <li>if the element itself can be referenced by another software element it will be included
+     * (e.g. an import or declared class)</li>
+     * <li>if the element references another element, this other element will be included (e.g. a
+     * variable or the import of a used class).</li>
+     * </ol>
      *
      * @param vp
      *            The variation point the element is included.
-     * @param jamoppElement
-     *            The JaMoPP element to analyze for referencable elements.
+     * @param referringElement
+     *            The JaMoPP element to find referenced or referencable elements.
      */
-    private void indexReferableElements(VariationPoint vp, Commentable jamoppElement) {
-        List<Commentable> referableElements = refereableElementSelector.getReferableElements(jamoppElement);
-        for (Commentable commentable : referableElements) {
-            referableElementIndex.put(commentable, vp);
+    private void indexReferncedElements(VariationPoint vp, Commentable referringElement) {
+        List<Commentable> referencedElements = referencedElementSelector.getReferencedElements(referringElement);
+        for (Commentable referencedElement : referencedElements) {
+
+            // filter non source code elements
+            Resource resource = referencedElement.eResource();
+            if (resource != null && "pathmap".equals(resource.getURI().scheme())) {
+                continue;
+            }
+
+            referencedElementsIndex.get(referencedElement).add(vp);
+            referringElementIndex.put(vp, referencedElement, referringElement);
         }
     }
 
