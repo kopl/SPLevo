@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,11 +21,11 @@ import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 
 /**
  * Action to hide the labels of edges.
- * 
+ *
  * This action only manipulates the visible graph by setting or removing the edge labels.
- * 
+ *
  * @author Benjamin Klatt
- * 
+ *
  */
 class HideEdgeLabelAction extends Action {
 
@@ -53,7 +53,7 @@ class HideEdgeLabelAction extends Action {
 
     /**
      * Constructor to set the necessary references.
-     * 
+     *
      * @param vpmGraphView
      *            The graph to manipulate
      */
@@ -88,10 +88,14 @@ class HideEdgeLabelAction extends Action {
 
         } else {
             for (Edge currentEdge : this.vpmGraphView.getVpmGraph().getEdgeSet()) {
-                if (currentEdge.hasAttribute(RelationshipEdge.RELATIONSHIP_LABEL)) {
-                    currentEdge.addAttribute(ATTRIBUTE_KEY_UI_LABEL, currentEdge.getAttribute(RelationshipEdge.RELATIONSHIP_LABEL));
+                RelationshipEdge relEdge = (RelationshipEdge) currentEdge;
+                if (relEdge.getRelationshipLabels().size() > 0) {
+                    StringBuilder labelBuilder = new StringBuilder();
+                    for (String label : relEdge.getRelationshipLabels()) {
+                        labelBuilder.append(label);
+                    }
+                    currentEdge.addAttribute(ATTRIBUTE_KEY_UI_LABEL, labelBuilder.toString());
                 }
-
             }
             setToolTipText(TEXT_SHOW_EDGE_LABELS);
         }

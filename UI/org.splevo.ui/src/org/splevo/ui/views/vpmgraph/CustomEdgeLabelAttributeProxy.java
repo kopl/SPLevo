@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,18 +17,15 @@ import org.graphstream.stream.thread.ThreadProxyPipe;
 /**
  * A proxy to change the edge's labels to the value of a custom
  * attribute if a value is set for it.
- * 
- * @author Benjamin Klatt
- * 
  */
 public class CustomEdgeLabelAttributeProxy extends ThreadProxyPipe {
-    
+
     /** The key of the label attribute to use instead of the ui.label. */
     private String labelKey;
 
     /**
      * The constructor for the edge label.
-     * 
+     *
      * @param graph
      *            The graph to present.
      * @param labelKey
@@ -40,7 +37,7 @@ public class CustomEdgeLabelAttributeProxy extends ThreadProxyPipe {
 
         this.labelKey = labelKey;
     }
-    
+
     @Override
     public void sendEdgeAttributeAdded(String sourceId, long timeId, String edgeId, String attribute, Object value) {
         if (attribute.equals(this.labelKey)) {
