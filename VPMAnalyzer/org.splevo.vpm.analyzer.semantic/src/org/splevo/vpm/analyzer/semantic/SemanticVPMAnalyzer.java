@@ -104,7 +104,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /** The configuration-object for the log indexed terms configuration. */
     private BooleanConfiguration logIndexedTermsConfig = new BooleanConfiguration(Config.CONFIG_ID_LOG_INDEXED_TERMS,
-            Config.LABEL_LOG_INDEXED_TERMS, null, Config.DEFAULT_LOG_INDEXED_TERMS);
+            Config.LABEL_LOG_INDEXED_TERMS, Config.EXPL_LOG_INDEXED_TERMS, Config.DEFAULT_LOG_INDEXED_TERMS);
 
     @Override
     public VPMAnalyzerResult analyze(VPMGraph vpmGraph) {
