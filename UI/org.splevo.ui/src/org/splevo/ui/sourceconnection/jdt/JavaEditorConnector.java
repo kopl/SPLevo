@@ -16,7 +16,6 @@ import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -28,13 +27,13 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.SimpleMarkerAnnotation;
@@ -46,14 +45,23 @@ import org.splevo.vpm.software.SourceLocation;
 import com.google.common.collect.Lists;
 
 /**
- * A connector to open ASTNode elements in the JDT java editor.
+ * A connector to open a {@link JavaSoftwareElement} in the JDT java editor.
+ *
+ * The connector provides three actions to interact with the JDT connector:
+ * <ol>
+ * <li>Open resource file the editor</li>
+ * <li>Reset current highlighting</li>
+ * <li>Set new highlighting</li>
+ * </ol>
+ * Those actions are separated to provide enough control to reset a file and highlight several code
+ * locations with individual messages afterwards.
  */
 public class JavaEditorConnector {
 
+    private static Logger logger = Logger.getLogger(RefinementDetailsView.class);
+
     private static final String LOCATION_ANNOTATION = "org.splevo.ui.annotations.textmarkerannotation";
     private static final String LOCATION_MARKER = "org.splevo.ui.markers.codelocationmarker";
-    /** The logger for this class. */
-    private Logger logger = Logger.getLogger(RefinementDetailsView.class);
 
     /**
      * Open the java editor for a specific source location.
@@ -61,9 +69,9 @@ public class JavaEditorConnector {
      * @param softwareElement
      *            The software element to open in the JDT Java Editor.
      *
-     * @return The opened {@link IEditorPart}
+     * @return The opened editor.
      */
-    public IEditorPart openEditor(JavaSoftwareElement softwareElement) {
+    public ITextEditor openEditor(JavaSoftwareElement softwareElement) {
 
         SourceLocation sourceLocation = softwareElement.getSourceLocation();
         if (sourceLocation != null) {
@@ -85,16 +93,16 @@ public class JavaEditorConnector {
      *            The source region.
      * @param openFileMultipleTimes
      *            The true/false flag if a file can be opened multiple times.
-     * @return The opened {@link IEditorPart}
+     * @return The opened {@link ITextEditor}
      */
-    public IEditorPart openJavaEditor(final SourceLocation sourceLocation, final boolean openFileMultipleTimes) {
+    private ITextEditor openJavaEditor(final SourceLocation sourceLocation, final boolean openFileMultipleTimes) {
 
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IPath location = Path.fromOSString(sourceLocation.getFilePath());
         final IFile inputFile = workspace.getRoot().getFileForLocation(location);
         IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
-        IEditorPart iEditorPart = null;
+        ITextEditor iEditorPart = null;
         if (!openFileMultipleTimes) {
             // Look for an opened editor with the
             // file in it
@@ -103,10 +111,10 @@ public class JavaEditorConnector {
 
                 IEditorPart editorTmp = editorReference.getEditor(false);
 
-                if (editorTmp instanceof AbstractTextEditor) {
-                    AbstractTextEditor abstractTextEditor = (AbstractTextEditor) editorTmp;
+                if (editorTmp instanceof ITextEditor) {
+                    ITextEditor abstractTextEditor = (ITextEditor) editorTmp;
                     if (inputFile.getName().equalsIgnoreCase(abstractTextEditor.getEditorInput().getName())) {
-                        iEditorPart = editorTmp;
+                        iEditorPart = (ITextEditor) editorTmp;
                         break;
                     }
                 }
@@ -115,7 +123,7 @@ public class JavaEditorConnector {
         // If no opened editor, then open a new one
         if (iEditorPart == null) {
             try {
-                iEditorPart = IDE.openEditor(activePage, inputFile, false);
+                iEditorPart = (ITextEditor) IDE.openEditor(activePage, inputFile, false);
             } catch (Exception e) {
                 logger.error(e);
             }
@@ -135,97 +143,109 @@ public class JavaEditorConnector {
      * @param message
      *            The {@link String} message to be displayed.
      */
-    public void highlightInTextEditor(IEditorPart editor, SoftwareElement softwareElement, String message) {
+    public void highlightInTextEditor(ITextEditor editor, SoftwareElement softwareElement, String message) {
         SourceLocation sourceLocation = softwareElement.getSourceLocation();
-        IPath location = Path.fromOSString(sourceLocation.getFilePath());
-        final IFile inputFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
 
         int offset = sourceLocation.getStartPosition();
         int length = sourceLocation.getEndPosition() - offset;
         TextSelection selection = new TextSelection(offset, length);
 
         try {
-            clearAndSetMarkers(editor, message, inputFile, selection);
+            IMarker marker = createMarker(editor, message);
+            createLocationAnnotation(marker, selection, editor);
         } catch (CoreException e) {
             logger.error("Could't clear and create text markers.", e);
         }
     }
 
-    private void clearAndSetMarkers(IEditorPart editor, String message, final IFile inputFile, TextSelection selection)
-            throws CoreException {
-        inputFile.deleteMarkers(LOCATION_MARKER, true, IResource.DEPTH_INFINITE);
-        IMarker marker = createMarker(inputFile, message);
-        resetAndAddNewAnnotation(marker, selection, (AbstractTextEditor) editor);
-    }
-
     /**
-     * Select a specific region in a text editor.
-     *
-     * @param iEditorPart
-     *            The editor to select the text in.
-     * @param startPosition
-     *            The start position of the mark to set.
-     * @param endPosition
-     *            The end position of the mark to set.
-     */
-    public void selectInTextEditor(final IEditorPart iEditorPart, int startPosition, int endPosition) {
-        if (iEditorPart != null) {
-
-            IWorkbenchPartSite site = iEditorPart.getSite();
-            site.getPage().activate(site.getPart());
-
-            AbstractTextEditor abstractTextEditor = (AbstractTextEditor) iEditorPart;
-            abstractTextEditor.selectAndReveal(startPosition, endPosition - startPosition);
-        }
-
-    }
-
-    /**
-     * Adds a annotation with a given marker to the specified {@link IEditorPart}.
+     * Create a new source location annotation.
      *
      * @param marker
-     *            The marker to be displayed on the right side.
+     *            The marker to assign to the annotation.
      * @param selection
-     *            The relevant text selection.
+     *            The selection to highlight.
      * @param editor
-     *            The {@link ITextEditor}.
+     *            The editor to set the annotations in.
      */
-    @SuppressWarnings("unchecked")
-    private void resetAndAddNewAnnotation(IMarker marker, ITextSelection selection, ITextEditor editor) {
+    private void createLocationAnnotation(IMarker marker, ITextSelection selection, ITextEditor editor) {
+
         IDocumentProvider idp = editor.getDocumentProvider();
-        IDocument document = idp.getDocument(editor.getEditorInput());
-        IAnnotationModel iamf = idp.getAnnotationModel(editor.getEditorInput());
+        IEditorInput editorInput = editor.getEditorInput();
+        IDocument document = idp.getDocument(editorInput);
+        IAnnotationModel annotationModel = idp.getAnnotationModel(editorInput);
 
-        Iterator<Annotation> annotationIterator = iamf.getAnnotationIterator();
-        for (Annotation annotation : Lists.newArrayList(annotationIterator)) {
-            if (LOCATION_ANNOTATION.equals(annotation.getType())) {
-                iamf.removeAnnotation(annotation);
-            }
-        }
-
-        SimpleMarkerAnnotation ma = new SimpleMarkerAnnotation(LOCATION_ANNOTATION, marker);
-        iamf.connect(document);
-        iamf.addAnnotation(ma, new Position(selection.getOffset(), selection.getLength()));
-        iamf.disconnect(document);
+        SimpleMarkerAnnotation annotation = new SimpleMarkerAnnotation(LOCATION_ANNOTATION, marker);
+        annotationModel.connect(document);
+        annotationModel.addAnnotation(annotation, new Position(selection.getOffset(), selection.getLength()));
+        annotationModel.disconnect(document);
     }
 
     /**
-     * Creates a marker with a given message to a {@link IResource}.
+     * Remove all existing location highlighting for the file currently opened in an editor.
      *
-     * @param res
-     *            The {@link IResource}.
+     * To gain access to an editor, use {@link JavaEditorConnector#openEditor(JavaSoftwareElement)}.
+     *
+     * @param editor
+     *            The editor to reset the annotations in.
+     */
+    @SuppressWarnings("unchecked")
+    public void resetLocationHighlighting(ITextEditor editor) {
+
+        IDocumentProvider idp = editor.getDocumentProvider();
+        IAnnotationModel annotationModel = idp.getAnnotationModel(editor.getEditorInput());
+
+        Iterator<Annotation> annotationIterator = annotationModel.getAnnotationIterator();
+        for (Annotation annotation : Lists.newArrayList(annotationIterator)) {
+            if (LOCATION_ANNOTATION.equals(annotation.getType())) {
+                annotationModel.removeAnnotation(annotation);
+            }
+        }
+    }
+
+    /**
+     * Highlight a code location with a given message in an editor.
+     *
+     * To gain access to an editor, use {@link JavaEditorConnector#openEditor(JavaSoftwareElement)}.
+     *
+     * To reset existing highlighting, use
+     * {@link JavaEditorConnector#resetLocationHighlighting(ITextEditor)}.<br>
+     * Note: It is up to you to decide when to reset of you want to highlight several locations at
+     * the same time.
+     *
+     * @param editor
+     *            The editor to set the highlighting in.
      * @param message
-     *            The {@link String} message.
-     * @return An {@link IMarker}.
+     *            The message to mark the text with.
+     * @return The marker for the given message.
      * @throws CoreException
      *             Throws {@link CoreException} for invalid resources.
      */
-    private IMarker createMarker(IResource res, String message) throws CoreException {
-        IMarker marker = null;
-        // The id that is defined in the plugin.xml
-        marker = res.createMarker(LOCATION_MARKER);
-        marker.setAttribute(IMarker.MESSAGE, message);
+    private IMarker createMarker(ITextEditor editor, String message) throws CoreException {
+        IFile inputFile = getEditorFile(editor);
+        if (inputFile != null) {
+            IMarker marker = inputFile.createMarker(LOCATION_MARKER);
+            marker.setAttribute(IMarker.MESSAGE, message);
+            return marker;
+        } else {
+            logger.warn("Editor is not handling a file");
+            return null;
+        }
+    }
 
-        return marker;
+    /**
+     * Get the file currently opened in the editor.
+     *
+     * @param editor
+     *            The editor to access the file.
+     * @return The IFile resource or null if non contained or editor is not a file editor.
+     */
+    private IFile getEditorFile(ITextEditor editor) {
+        IFile inputFile = null;
+        if (editor.getEditorInput() instanceof FileEditorInput) {
+            FileEditorInput input = (FileEditorInput) editor.getEditorInput();
+            inputFile = input.getFile();
+        }
+        return inputFile;
     }
 }

@@ -21,7 +21,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.splevo.ui.Activator;
 import org.splevo.ui.sourceconnection.jdt.JavaEditorConnector;
 import org.splevo.vpm.software.JavaSoftwareElement;
@@ -68,7 +68,7 @@ public final class OpenSourceInEditorAction extends Action {
         }
         TreeItem selectedItem = treeViewer.getTree().getSelection()[0];
         Object object = selectedItem.getData();
-        IEditorPart editor = null;
+        ITextEditor editor = null;
 
         if (object instanceof JavaSoftwareElement) {
             JavaSoftwareElement softwareElement = (JavaSoftwareElement) object;
@@ -83,14 +83,16 @@ public final class OpenSourceInEditorAction extends Action {
                 }
             }
             editor = javaEditorConnector.openEditor(softwareElement);
+            javaEditorConnector.resetLocationHighlighting(editor);
             javaEditorConnector.highlightInTextEditor(editor, softwareElement, message);
 
         } else if (object instanceof VariationPoint) {
             VariationPoint vp = (VariationPoint) object;
             if (vp.getLocation() instanceof JavaSoftwareElement) {
                 JavaSoftwareElement softwareElement = (JavaSoftwareElement) vp.getLocation();
-                editor = javaEditorConnector.openEditor(softwareElement);
                 String codeForVariationPoint = getCodeForVariationPoint(vp, null);
+                editor = javaEditorConnector.openEditor(softwareElement);
+                javaEditorConnector.resetLocationHighlighting(editor);
                 javaEditorConnector.highlightInTextEditor(editor, softwareElement, "Variation Point: "
                         + softwareElement.getLabel() + TEXT_AVAILABLE_VARIANTS + codeForVariationPoint);
             }
@@ -99,7 +101,14 @@ public final class OpenSourceInEditorAction extends Action {
             Variant variant = (Variant) object;
             for (SoftwareElement softwareElement : variant.getImplementingElements()) {
                 if (softwareElement instanceof JavaSoftwareElement) {
-                    editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
+
+                    // the editor must be opened only once as
+                    // a variant always belongs to a variation point, which represents
+                    // a single location itself.
+                    if (editor == null) {
+                        editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
+                        javaEditorConnector.resetLocationHighlighting(editor);
+                    }
                     String codeForVariationPoint = getCodeForVariationPoint(variant.getVariationPoint(), variant);
                     javaEditorConnector.highlightInTextEditor(editor, softwareElement,
                             "Variant: " + softwareElement.getLabel() + TEXT_AVAILABLE_VARIANTS + codeForVariationPoint);

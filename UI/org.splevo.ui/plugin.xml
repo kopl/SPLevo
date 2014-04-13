@@ -95,14 +95,9 @@
             name="Clean Project">
       </command>
       <command
-            defaultHandler="org.splevo.ui.sourceconnection.handler.OpenVariantLocationHandler"
-            id="org.splevo.ui.sourceconnection.variant"
-            name="Open Variant Source Locations">
-      </command>
-      <command
-            defaultHandler="org.splevo.ui.sourceconnection.handler.OpenVariationPointLocationHandler"
-            id="org.splevo.ui.sourceconnection.variationpoint"
-            name="Open Variation Point Source Location">
+            defaultHandler="org.splevo.ui.sourceconnection.handler.OpenSourceLocationHandler"
+            id="org.splevo.ui.commands.opensourcelocation"
+            name="Open Source Locations">
       </command>
    </extension>
    <extension
@@ -139,32 +134,22 @@
                name="Source Location Separator">
          </separator>
          <command
-               commandId="org.splevo.ui.sourceconnection.variant"
+               commandId="org.splevo.ui.commands.opensourcelocation"
                icon="icons/jcu_obj.gif"
-               label="Open Source Location"
+               label="Open Source Locations"
                style="push"
-               tooltip="Open the source locations the variant is implemented at.">
+               tooltip="Open the source locations of the variants.">
             <visibleWhen
                   checkEnabled="true">
                <iterate>
-                  <instanceof
-                        value="org.splevo.vpm.variability.Variant">
-                  </instanceof>
-               </iterate>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="org.splevo.ui.sourceconnection.variationpoint"
-               icon="icons/jcu_obj.gif"
-               label="Open Source Location"
-               style="push"
-               tooltip="Open the source location of the variation point enclosing the variability.">
-            <visibleWhen
-                  checkEnabled="true">
-               <iterate>
-                  <instanceof
-                        value="org.splevo.vpm.variability.VariationPoint">
-                  </instanceof>
+                  <or>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
+                     </instanceof>
+                     <instanceof
+                           value="org.splevo.vpm.variability.Variant">
+                     </instanceof>
+                  </or>
                </iterate>
             </visibleWhen>
          </command>
