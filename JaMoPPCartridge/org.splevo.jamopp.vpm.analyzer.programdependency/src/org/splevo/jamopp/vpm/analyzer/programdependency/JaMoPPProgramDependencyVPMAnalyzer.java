@@ -26,6 +26,7 @@ import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerException;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
+import org.splevo.vpm.analyzer.config.BooleanConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.software.SoftwareElement;
@@ -53,6 +54,14 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramDependency";
+
+    // ---------------------------------
+    // CONFIGURATIONS
+    // ---------------------------------
+
+    /** The configuration-object for the log indexed terms configuration. */
+    private BooleanConfiguration filterExternalsConfig = ConfigurationBuilder.createFilterExternalsConfig();
+
     /**
      * Internal map to simplify working with variation points and to reference back to nodes
      * afterwards.
@@ -64,7 +73,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /**
      * A table to link:
-     * <code>VariationPoint + a referenced commentable => referring commentable</code><br>
+     * <code> {@link VariationPoint} + a referenced {@link Commentable} => referring {@link Commentable}</code><br>
      * This is used to later lookup which element of a variation point holds the reference to the
      * referred one.
      */
@@ -208,9 +217,11 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         for (Commentable referencedElement : referencedElements) {
 
             // filter non source code elements
-            Resource resource = referencedElement.eResource();
-            if (resource != null && "pathmap".equals(resource.getURI().scheme())) {
-                continue;
+            if (filterExternalsConfig.getCurrentValue()) {
+                Resource resource = referencedElement.eResource();
+                if (resource != null && "pathmap".equals(resource.getURI().scheme())) {
+                    continue;
+                }
             }
 
             referencedElementsIndex.get(referencedElement).add(vp);
@@ -277,6 +288,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
+        configurations.addConfigurations(ConfigurationBuilder.CONFIG_GROUP_DEPENDENCIES, filterExternalsConfig);
         return configurations;
     }
 
