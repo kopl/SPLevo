@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,9 +35,6 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 /**
  * A viewer for a variation point model graph.
- * 
- * @author Benjamin Klatt
- * 
  */
 public class VPMGraphView extends ViewPart {
 
@@ -65,7 +62,7 @@ public class VPMGraphView extends ViewPart {
 
     /**
      * Show a graph in this view.
-     * 
+     *
      * @param graph
      *            The graph to show.
      */
@@ -75,7 +72,7 @@ public class VPMGraphView extends ViewPart {
 
     /**
      * Create the graph viewer inside the view.
-     * 
+     *
      * @param graph
      *            The graph to show.
      */
@@ -122,7 +119,7 @@ public class VPMGraphView extends ViewPart {
 
     /**
      * Create contents of the view part.
-     * 
+     *
      * @param parent
      *            The parent ui element to create the view in.
      */
@@ -171,7 +168,7 @@ public class VPMGraphView extends ViewPart {
 
     /**
      * Gets the graph to present.
-     * 
+     *
      * @return the vpmGraph
      */
     public VPMGraph getVpmGraph() {

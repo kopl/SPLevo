@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,12 +20,9 @@ import org.splevo.ui.Activator;
 
 /**
  * Action to filter the single nodes without any relationships from a graph.
- * 
+ *
  * This action only manipulates the visible graph by setting or removing the ui.hide attribute from
  * those nodes without any edges.
- * 
- * @author Benjamin Klatt
- * 
  */
 class FilterSingleNodeAction extends Action {
 
@@ -47,7 +44,7 @@ class FilterSingleNodeAction extends Action {
 
     /**
      * Constructor to set the necessary references.
-     * 
+     *
      * @param vpmGraphView
      *            The graph to manipulate
      */

@@ -23,9 +23,6 @@ import org.splevo.vpm.analyzer.graph.RelationshipEdge;
  * Action to hide the labels of edges.
  *
  * This action only manipulates the visible graph by setting or removing the edge labels.
- *
- * @author Benjamin Klatt
- *
  */
 class HideEdgeLabelAction extends Action {
 
