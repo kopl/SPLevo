@@ -165,9 +165,6 @@
                      <instanceof
                            value="org.eclipse.core.resources.IProject">
                      </instanceof>
-                     <instanceof
-                           value="org.eclipse.core.runtime.IAdaptable">
-                     </instanceof>
                   </or>
                </iterate>
             </visibleWhen>
