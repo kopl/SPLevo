@@ -25,6 +25,8 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.TreeNodeContentProvider;
+import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.vpexplorer.explorer.VPExplorer;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SourceLocation;
@@ -46,7 +48,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     /**
      * Index to remember the variation points located in a file.
-     *
+     * 
      * DesignDecision Enable public access to index for accessing this statistic information.
      */
     private static HashMultimap<File, VariationPoint> fileVPIndex = HashMultimap.create();
@@ -62,9 +64,9 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     /**
      * Get the set of {@link VariationPoint}s contained in a file.
-     *
+     * 
      * DesignDecision Enable public access to index for accessing this statistic information.
-     *
+     * 
      * @param file
      *            The file to get the VPs for.
      * @return The set of variation points. At least an empty list but not null.
@@ -75,12 +77,18 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     @Override
     public Object[] getChildren(Object parentElement) {
+        VPExplorer vpexplorer = (VPExplorer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+                .findView("org.splevo.ui.vpexplorer");
 
         if (parentElement instanceof VPExplorerContent) {
             VPExplorerContent vpContent = (VPExplorerContent) parentElement;
             if (vpContent.getVpm() != null) {
-                indexVariationPointLocations(vpContent);
-                return rootFiles.toArray();
+                if (vpexplorer.getShowGrouping()) {
+                    return vpContent.getVpm().getVariationPointGroups().toArray();
+                } else {
+                    indexVariationPointLocations(vpContent);
+                    return rootFiles.toArray();
+                }
             } else {
                 return new Object[0];
             }
@@ -147,7 +155,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     /**
      * Populates the CU locations map with all variation points and the location names of their
      * corresponding CUs.
-     *
+     * 
      * @param vpContent
      *            the VPcontent to be used as population source
      */
