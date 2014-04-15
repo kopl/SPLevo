@@ -31,9 +31,13 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Action to open the currently selected element of a tree viewer in a source editor and higlight
+ * Action to open the currently selected element of a tree viewer in a source editor and highlight
  * it.
+ *
+ * @deprecated Command implementation should be used instead. Legacy code kept until alternative
+ *             code presentation as mouse over has been migrated.
  */
+@Deprecated
 public final class OpenSourceInEditorAction extends Action {
 
     private static final String TEXT_AVAILABLE_VARIANTS = "\n\nAlternative Variants:\n\n";

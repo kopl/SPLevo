@@ -11,9 +11,6 @@
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -28,8 +25,10 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.splevo.ui.Activator;
 import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
@@ -42,6 +41,7 @@ import com.google.common.base.Strings;
  */
 public class RefinementDetailsView extends Composite {
 
+    private static final String COMMAND_ID_OPENSOURCELOCATION = "org.splevo.ui.commands.opensourcelocation";
     private static final String REFINEMENT_INFO_DEFAULT_TEXT = "Select refinement on the left to review details.";
 
     /** The internal tree viewer to present the refined variation points. */
@@ -55,26 +55,29 @@ public class RefinementDetailsView extends Composite {
      *
      * @param parent
      *            The parent ui element to present the view in.
+     * @param site
+     *            The site of the workbench the view is located at. E.g. used to register selection
+     *            listeners.
      */
-    public RefinementDetailsView(Composite parent) {
+    public RefinementDetailsView(SashForm parent, IWorkbenchPartSite site) {
         super(parent, SWT.FILL);
         setLayout(new FillLayout(SWT.HORIZONTAL));
 
-        SashForm sashForm = new SashForm(this, SWT.BORDER | SWT.FILL);
+        SashForm sashForm = new SashForm(this, SWT.FILL);
         sashForm.setSashWidth(1);
         sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
 
-        refinementDetailsTreeViewer = new TreeViewer(sashForm, SWT.BORDER);
-        refinementDetailsTreeViewer.setLabelProvider(new ViewerLabelProvider());
-        refinementDetailsTreeViewer.setContentProvider(new TreeContentProvider());
+        refinementDetailsTreeViewer = new TreeViewer(sashForm, SWT.MULTI);
+        refinementDetailsTreeViewer.setLabelProvider(new RefinementDetailsLabelProvider());
+        refinementDetailsTreeViewer.setContentProvider(new RefinementDetailsTreeContentProvider());
         refinementDetailsTreeViewer.addDoubleClickListener(new ExpandTreeListener());
-        initContextMenu();
+        initContextMenu(refinementDetailsTreeViewer, site);
 
         refinementInfoArea = new StyledText(sashForm, SWT.WRAP);
         refinementInfoArea.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         refinementInfoArea.setText(REFINEMENT_INFO_DEFAULT_TEXT);
 
-        sashForm.setWeights(new int[] { 7, 3 });
+        sashForm.setWeights(new int[] { 5, 5 });
     }
 
     /**
@@ -147,7 +150,7 @@ public class RefinementDetailsView extends Composite {
      * The content provider for the tree providing access to the variation points and their child
      * elements.
      */
-    private static class TreeContentProvider implements ITreeContentProvider {
+    private static class RefinementDetailsTreeContentProvider implements ITreeContentProvider {
 
         /** The refinement to display in the tree. */
         private Refinement refinement = null;
@@ -193,7 +196,7 @@ public class RefinementDetailsView extends Composite {
     /**
      * Label Provider for a variation point element.
      */
-    private static class ViewerLabelProvider extends LabelProvider {
+    private static class RefinementDetailsLabelProvider extends LabelProvider {
 
         @Override
         public Image getImage(Object element) {
@@ -224,24 +227,27 @@ public class RefinementDetailsView extends Composite {
 
     /**
      * initialize the context menu.
+     *
+     * DesignDecision Menu created programmatically instead of extension point to prevent context
+     * menu mess up by other plugins.
+     *
+     * DesignDecision Reused command for common look and feel of context menu item for complete
+     * application
+     *
+     * @param viewer
+     *            The viewer to register menu for.
+     * @param site
+     *            The workbench part to link the selection provider.
      */
-    private void initContextMenu() {
+    private void initContextMenu(TreeViewer viewer, IWorkbenchPartSite site) {
 
-        MenuManager menuMgr = new MenuManager();
-        menuMgr.setRemoveAllWhenShown(true);
-        menuMgr.addMenuListener(new IMenuListener() {
-
-            @Override
-            public void menuAboutToShow(IMenuManager manager) {
-
-                // trigger the action to navigate to the source
-                // location and open the Java Editor at the according location
-                Action action = new OpenSourceInEditorAction(refinementDetailsTreeViewer);
-                manager.add(action);
-            }
-        });
-        Menu menu = menuMgr.createContextMenu(refinementDetailsTreeViewer.getTree());
-        refinementDetailsTreeViewer.getTree().setMenu(menu);
+        MenuManager menuManager = new MenuManager();
+        menuManager.setRemoveAllWhenShown(true);
+        menuManager.addMenuListener(new CommandActionMenuListener(COMMAND_ID_OPENSOURCELOCATION, Activator
+                .getImageDescriptor("icons/jcu_obj.gif")));
+        Menu menu = menuManager.createContextMenu(viewer.getTree());
+        viewer.getTree().setMenu(menu);
+        site.setSelectionProvider(viewer);
 
     }
 }

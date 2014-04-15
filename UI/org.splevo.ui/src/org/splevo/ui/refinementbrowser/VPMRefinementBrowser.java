@@ -96,13 +96,13 @@ public class VPMRefinementBrowser extends EditorPart {
         RefinementSelectionListener listener = new RefinementSelectionListener(detailsView, input, toolkit);
         refinementListView.addSelectionChangedListener(listener);
 
-        sashForm.setWeights(new int[] { 3, 7 });
+        sashForm.setWeights(new int[] { 2, 8 });
 
         initContextMenu();
     }
 
     private void createRefinementDetails(SashForm sashForm) {
-        detailsView = new RefinementDetailsView(sashForm);
+        detailsView = new RefinementDetailsView(sashForm, getSite());
     }
 
     private void createRefinementListView(SashForm sashForm) {

@@ -10,7 +10,7 @@
  *    Christian Busch
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.ui.refinementbrowser;
+package org.splevo.ui.wizards.vpmanalysis;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;

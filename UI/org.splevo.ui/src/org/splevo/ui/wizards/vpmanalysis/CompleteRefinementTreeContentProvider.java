@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,8 +8,9 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Christian Busch
  *******************************************************************************/
-package org.splevo.ui.refinementbrowser;
+package org.splevo.ui.wizards.vpmanalysis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,6 @@ import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * The Content provider for the refinement tree.
- * 
- * @author Christian Busch - based heavily on work of Benjamin Klatt
- * 
  */
 public class CompleteRefinementTreeContentProvider implements ITreeContentProvider {
 
@@ -49,7 +47,7 @@ public class CompleteRefinementTreeContentProvider implements ITreeContentProvid
     /**
      * Return the child elements of the selected tree node. First check the type of the selected
      * element, then return the type specific children.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override

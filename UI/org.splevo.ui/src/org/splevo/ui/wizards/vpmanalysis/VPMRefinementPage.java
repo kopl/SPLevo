@@ -48,8 +48,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.splevo.ui.refinementbrowser.CompleteRefinementTreeContentProvider;
-import org.splevo.ui.refinementbrowser.CompleteRefinementTreeLabelProvider;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;

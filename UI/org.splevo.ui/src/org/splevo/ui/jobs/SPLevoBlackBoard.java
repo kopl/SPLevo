@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,7 +29,6 @@ import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 
 /**
  * The SPLevoBlackBoard providing access to the models to be processed.
- *
  */
 public class SPLevoBlackBoard extends Blackboard<Object> implements VPMGraphProvider, RefinementModelProvider {
 
