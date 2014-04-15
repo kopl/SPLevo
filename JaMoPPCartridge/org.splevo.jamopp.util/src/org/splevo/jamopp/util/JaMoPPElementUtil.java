@@ -19,6 +19,7 @@ import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Block;
+import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
@@ -81,6 +82,14 @@ public final class JaMoPPElementUtil {
         } else if (element instanceof LocalVariableStatement) {
             LocalVariableStatement statement = (LocalVariableStatement) element;
             return "Variable Declaration: " + statement.getVariable().getName();
+
+        } else if (element instanceof ExpressionStatement) {
+            ExpressionStatement statement = (ExpressionStatement) element;
+            String expressionType = statement.getExpression().getType().getClass().getSimpleName();
+            if (expressionType.endsWith("Impl")) {
+                expressionType = expressionType.substring(0, (expressionType.length() - 4));
+            }
+            return String.format("Expression Statement (%s)", expressionType);
 
         } else if (element instanceof Return) {
             return "Return Statement";
