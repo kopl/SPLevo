@@ -14,6 +14,7 @@ package org.splevo.jamopp.util;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.members.Method;
@@ -85,11 +86,16 @@ public final class JaMoPPElementUtil {
 
         } else if (element instanceof ExpressionStatement) {
             ExpressionStatement statement = (ExpressionStatement) element;
-            String expressionType = statement.getExpression().getType().getClass().getSimpleName();
-            if (expressionType.endsWith("Impl")) {
-                expressionType = expressionType.substring(0, (expressionType.length() - 4));
+            Expression expression = statement.getExpression();
+            if (expression.getType() != null) {
+                String expressionType = statement.getExpression().getType().getClass().getSimpleName();
+                if (expressionType.endsWith("Impl")) {
+                    expressionType = expressionType.substring(0, (expressionType.length() - 4));
+                }
+                return String.format("Expression Statement (%s)", expressionType);
+            } else {
+                return "Expression Statement (void)";
             }
-            return String.format("Expression Statement (%s)", expressionType);
 
         } else if (element instanceof Return) {
             return "Return Statement";
