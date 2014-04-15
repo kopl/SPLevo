@@ -23,9 +23,9 @@ import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.refactoring.rolemapping.RoleMapping;
 import org.emftext.refactoring.interpreter.IRefactorer;
 import org.emftext.refactoring.interpreter.RefactorerFactory;
+import org.splevo.jamopp.refactoring.refactory.util.RefactoryUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
-import org.splevo.refactoring.refactory.util.RefactoryUtil;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -48,6 +48,7 @@ public class IfElseRefactoring implements VariabilityRefactoring {
         ClassMethod leadingMethod = (ClassMethod) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         List<EObject> integrationStatements = getVariantElements(variationPoint);
 
+        // TODO: adapt to new input system
         List<EObject> inputList = new LinkedList<EObject>();
         inputList.add(leadingMethod);
         inputList.addAll(integrationStatements);

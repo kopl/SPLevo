@@ -5,24 +5,21 @@ Bundle-SymbolicName: org.splevo.jamopp.refactoring.refactory.ifelse
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: www.splevo.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.splevo.refactoring,
- org.emftext.language.refactoring.roles,
- org.emftext.refactoring.registry.rolemodel,
- org.emftext.language.refactoring.specification,
- org.emftext.refactoring.registry.refactoringspecification,
- org.emftext.language.refactoring.rolemapping,
- org.emftext.refactoring.registry.rolemapping,
+Bundle-Activator: org.splevo.jamopp.refactoring.refactory.ifelse.Activator
+Require-Bundle: org.eclipse.osgi,
+ org.apache.log4j,
+ org.eclipse.emf.ecore,
  org.emftext.language.java,
  org.splevo.jamopp.vpm,
- org.emftext.language.java.resource,
- org.emftext.language.refactoring.rolemapping.resource.rolemapping,
- org.emftext.language.refactoring.roles.resource.rolestext,
- org.emftext.language.refactoring.specification.resource.refspec,
+ org.emftext.language.refactoring.rolemapping,
  org.emftext.refactoring.specification.interpreter,
- org.emftext.refactoring.util,
- org.emftext.refactoring.indexconnector,
- org.apache.log4j;bundle-version="1.2.15",
- org.eclipse.swt;bundle-version="3.102.1",
- org.eclipse.osgi;bundle-version="3.9.1",
- org.splevo.vpm;bundle-version="1.0.0"
-Bundle-Activator: org.splevo.jamopp.refactoring.refactory.ifelse.Activator
+ org.splevo.refactoring,
+ org.splevo.vpm,
+ org.emftext.refactoring.registry.rolemodel,
+ org.emftext.refactoring.registry.refactoringspecification,
+ org.emftext.language.refactoring.specification,
+ org.emftext.refactoring.registry.rolemapping,
+ org.emftext.language.java.resource,
+ org.emftext.language.refactoring.roles.resource.rolestext,
+ org.emftext.language.refactoring.rolemapping.resource.rolemapping,
+ org.emftext.language.refactoring.specification.resource.refspec
