@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
 import org.graphstream.graph.Node;
@@ -73,14 +74,15 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /**
      * A table to link:
-     * <code> {@link VariationPoint} + a referenced {@link Commentable} => referring {@link Commentable}</code><br>
+     * <code> {@link VariationPoint} + a referenced {@link Commentable} => referring {@link Commentable}</code>
+     * <br>
      * This is used to later lookup which element of a variation point holds the reference to the
      * referred one.
      */
     private Table<VariationPoint, Commentable, Commentable> referringElementIndex;
 
     /** Selector to get elements referenced from the sub elements of a AST node. */
-    private ReferencedElementSelector referencedElementSelector = new ReferencedElementSelector();
+    private ReferencedElementSelector referencedElementSelector = new DefaultReferencedElementSelector();
 
     /**
      * Analyze variation point dependencies based on program dependencies between them.
@@ -135,38 +137,42 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                         VariationPoint vp1 = vpList[i];
                         VariationPoint vp2 = vpList[j];
 
-                        if (vp1 != null && vp2 != null && vp2 != vp1) {
+                        if (vp1 == null || vp2 == null || vp2 == vp1) {
+                            continue;
+                        }
 
-                            Commentable referringElementVP1 = referringElementIndex.get(vp1, referencedElement);
-                            Commentable referringElementVP2 = referringElementIndex.get(vp2, referencedElement);
+                        Commentable refElementVP1 = referringElementIndex.get(vp1, referencedElement);
+                        Commentable refElementVP2 = referringElementIndex.get(vp2, referencedElement);
 
-                            Node nodeVP1 = vp2GraphNodeIndex.get(vp1);
-                            Node nodeVP2 = vp2GraphNodeIndex.get(vp2);
+                        Node nodeVP1 = vp2GraphNodeIndex.get(vp1);
+                        Node nodeVP2 = vp2GraphNodeIndex.get(vp2);
 
-                            String vp1ID = nodeVP1.getId();
-                            String vp2ID = nodeVP2.getId();
-                            String sourceLabel = JaMoPPElementUtil.getLabel(referringElementVP1);
-                            String targetLabel = JaMoPPElementUtil.getLabel(referringElementVP2);
+                        String vp1ID = nodeVP1.getId();
+                        String vp2ID = nodeVP2.getId();
+                        String sourceLabel = JaMoPPElementUtil.getLabel(refElementVP1);
+                        String targetLabel = JaMoPPElementUtil.getLabel(refElementVP2);
 
-                            String subLabel;
+                        boolean ignoreReference = ignoreReference(refElementVP1, refElementVP2, referencedElement);
+                        if (ignoreReference) {
+                            continue;
+                        }
 
-                            if (referringElementVP1 == referencedElement) {
-                                subLabel = String.format("%s references %s", targetLabel, referencedElementLabel);
+                        String subLabel;
+                        if (refElementVP1 == referencedElement) {
+                            subLabel = String.format("%s references %s", targetLabel, referencedElementLabel);
 
-                            } else if (referringElementVP2 == referencedElement) {
-                                subLabel = String.format("%s references %s", sourceLabel, referencedElementLabel);
+                        } else if (refElementVP2 == referencedElement) {
+                            subLabel = String.format("%s references %s", sourceLabel, referencedElementLabel);
 
-                            } else {
-                                subLabel = String.format("%s and %s share element %s", sourceLabel, targetLabel,
-                                        referencedElementLabel);
-                            }
+                        } else {
+                            subLabel = String.format("%s and %s share references to %s", sourceLabel, targetLabel,
+                                    referencedElementLabel);
+                        }
 
-                            VPMEdgeDescriptor edge = buildEdgeDescriptor(nodeVP1, nodeVP2, subLabel, edgeRegistry);
-                            if (edge != null) {
-                                logAnalysisInfo(vp1ID, vp2ID, sourceLabel, targetLabel);
-                                edges.add(edge);
-                            }
-
+                        VPMEdgeDescriptor edge = buildEdgeDescriptor(nodeVP1, nodeVP2, subLabel, edgeRegistry);
+                        if (edge != null) {
+                            logAnalysisInfo(vp1ID, vp2ID, sourceLabel, targetLabel, subLabel);
+                            edges.add(edge);
                         }
 
                     }
@@ -177,6 +183,60 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         }
 
         return edges;
+    }
+
+    /**
+     * Check if the reference between the two referring and the referenced element should be ignored
+     * or not.
+     *
+     * If one of the source elements specifies the target, the reference must be included.
+     *
+     * @param source1
+     *            The first referring element.
+     * @param source2
+     *            The second referring element.
+     * @param target
+     *            The reference target.
+     * @return True if the reference should be ignored, false if it must be considered.
+     */
+    private boolean ignoreReference(Commentable source1, Commentable source2, Commentable target) {
+
+        if (source1 == source2) {
+            return true;
+        }
+        // TODO Implement ignore check
+        if (isParentOf(source1, target)) {
+            return false;
+        }
+        if (isParentOf(source2, target)) {
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if a candidate is in the container hierarchy of the child.
+     *
+     * @param parentCandidate
+     *            The candidate to check.
+     * @param child
+     *            The child to prove the hierarchy of.
+     * @return True/false depending on parent relationship exists or not.
+     */
+    private boolean isParentOf(Commentable parentCandidate, Commentable child) {
+
+        EObject container = child;
+        while (container != null) {
+
+            if (container == parentCandidate) {
+                return true;
+            }
+
+            container = container.eContainer();
+        }
+
+        return false;
     }
 
     /**
