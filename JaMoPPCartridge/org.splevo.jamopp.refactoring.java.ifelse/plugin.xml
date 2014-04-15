@@ -4,7 +4,7 @@
    <extension
          point="org.splevo.refactoring.refactoring">
       <VariabilityRefactoring
-            refactoring.class="org.splevo.refactoring.java.ifelse.IfElse">
+            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoring">
       </VariabilityRefactoring>
    </extension>
 

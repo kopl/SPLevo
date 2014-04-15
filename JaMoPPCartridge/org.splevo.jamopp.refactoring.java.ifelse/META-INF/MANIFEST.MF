@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.splevo.refactoring,
  org.splevo.jamopp.vpm,
  org.emftext.language.java,
- org.splevo.vpm
-Export-Package: org.splevo.refactoring.java.ifelse
+ org.splevo.vpm,
+ com.google.guava;bundle-version="12.0.0",
+ org.apache.log4j;bundle-version="1.2.15"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
