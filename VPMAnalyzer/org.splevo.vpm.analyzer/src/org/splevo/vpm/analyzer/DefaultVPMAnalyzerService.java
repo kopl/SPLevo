@@ -33,7 +33,7 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
-import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -291,7 +291,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
             // The indexes are used to
             // i) build groups of refinements to merge
             // ii) fast lookup of which group a VP currently belongs to
-            ArrayListMultimap<VariationPoint, VariationPoint> mergeVPBuckets = ArrayListMultimap.create();
+            LinkedHashMultimap<VariationPoint, VariationPoint> mergeVPBuckets = LinkedHashMultimap.create();
             LinkedHashMap<VariationPoint, VariationPoint> invertedBucketIndex = Maps.newLinkedHashMap();
 
             VariationPoint[] vpArray = variationPoints.toArray(new VariationPoint[] {});
@@ -299,21 +299,35 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
             // iterate over all pairs
             // the inner loop ensures no double check is performed
             for (int i = 0; i < vpArray.length; i++) {
+                VariationPoint vp1 = vpArray[i];
+
                 for (int j = i + 1; j < vpArray.length; j++) {
 
-                    VariationPoint vpRef = vpArray[i];
-                    VariationPoint vpComp = vpArray[j];
+                    VariationPoint vp2 = vpArray[j];
 
-                    if (vpRef == vpComp) {
+                    if (vp1 == vp2) {
                         logger.error("Comparing a VP with itself should not happen");
                         continue;
                     }
 
-                    if (canBeMerged(vpRef, vpComp)) {
-                        VariationPoint bucketKey = chooseBucket(mergeVPBuckets, invertedBucketIndex, vpRef, vpComp);
-                        mergeVPBuckets.get(bucketKey).add(vpComp);
-                        invertedBucketIndex.put(vpComp, bucketKey);
+                    if (canBeMerged(vp1, vp2)) {
+                        VariationPoint bucketKey = chooseBucket(mergeVPBuckets, invertedBucketIndex, vp1, vp2);
+
+                        invertedBucketIndex.put(vp2, bucketKey);
+                        mergeVPBuckets.get(bucketKey).add(vp2);
+                        invertedBucketIndex.put(vp1, bucketKey);
+                        mergeVPBuckets.get(bucketKey).add(vp1);
                     }
+                }
+            }
+
+            // check if the same vp is contained in several buckets
+            List<VariationPoint> vpHits = Lists.newArrayList();
+            for (VariationPoint vp : mergeVPBuckets.values()) {
+                if (vpHits.contains(vp)) {
+                    logger.error("VP contained twice: " + vp);
+                } else {
+                    vpHits.add(vp);
                 }
             }
 
@@ -385,7 +399,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      *            The leading variation point of the mergeable ones.
      * @return The prepared merge refinement.
      */
-    private Refinement buildMergeRefinementForBucket(Refinement originalRefinement, List<VariationPoint> vpsToMergeIn,
+    private Refinement buildMergeRefinementForBucket(Refinement originalRefinement, Set<VariationPoint> vpsToMergeIn,
             VariationPoint firstVP) {
         Refinement mergeRefinement = RefinementFactory.eINSTANCE.createRefinement();
         mergeRefinement.setType(RefinementType.MERGE);
@@ -406,20 +420,96 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         return mergeRefinement;
     }
 
-    private VariationPoint chooseBucket(ArrayListMultimap<VariationPoint, VariationPoint> mergeVPBuckets,
+    /**
+     * Choose in which bucket of merge able variation points a variation point should be inserted.
+     *
+     * possible options are:
+     * <ul>
+     * <li>The reference VP AND VP under study are both already in one or more buckets</li>
+     * <li>The reference VP is already in one or more buckets</li>
+     * <li>The VP under study is already in one or more buckets</li>
+     * <li>None is in a bucket so a new one is created.</li>
+     * </ul>
+     *
+     * FIXME: The bucket selection also merges existing buckets which is not efficient at the moment
+     * due to a lot of iterations
+     *
+     * DesignDecision If mergeable VPs are already located in different buckets, they are merged
+     * because mergeability is defined as a transitive relationship!
+     *
+     *
+     * @param mergeVPBuckets
+     *            The map of existing buckets.
+     * @param invertedBucketIndex
+     *            The inverted index in which bucket a vp is located in.
+     * @param vpReference
+     *            The variation point the variation point under study is checked for mergeability.
+     * @param vpUnderStudy
+     *            The variation point under study that can be merged with the reference variation
+     *            point with.
+     * @return The key of the bucket the vp under study should be put into.
+     */
+    private VariationPoint chooseBucket(LinkedHashMultimap<VariationPoint, VariationPoint> mergeVPBuckets,
             LinkedHashMap<VariationPoint, VariationPoint> invertedBucketIndex, VariationPoint vpReference,
-            VariationPoint vpCompare) {
-        VariationPoint bucketKey = null;
-        if (mergeVPBuckets.containsValue(vpReference)) {
-            bucketKey = invertedBucketIndex.get(vpReference);
+            VariationPoint vpUnderStudy) {
 
-        } else if (mergeVPBuckets.containsValue(vpCompare)) {
-            bucketKey = invertedBucketIndex.get(vpCompare);
+        VariationPoint bucketKeyReference = invertedBucketIndex.get(vpReference);
+        VariationPoint bucketKeyUnderStudy = invertedBucketIndex.get(vpUnderStudy);
+        boolean referenceIsInBucket = bucketKeyReference != null;
+        boolean underStudyIsInBucket = bucketKeyUnderStudy != null;
+
+        if (referenceIsInBucket && underStudyIsInBucket) {
+            return mergeBuckets(mergeVPBuckets, vpUnderStudy, vpReference);
+
+        } else if (referenceIsInBucket) {
+            return bucketKeyReference;
+
+        } else if (underStudyIsInBucket) {
+            return bucketKeyUnderStudy;
 
         } else {
-            bucketKey = vpReference;
+            return vpReference;
         }
-        return bucketKey;
+    }
+
+    /**
+     * Merge buckets that contain at least on of the provided {@link VariationPoint}s.
+     *
+     * The merge is valid as the mergeability is assumed to be a transitive relationship.
+     *
+     * @param vpBuckets
+     *            The buckets of variation points that can be merged.
+     * @param vp1
+     *            The first vp to check the buckets for.
+     * @param vp2
+     *            The second vp to check the buckets for.
+     * @return
+     */
+    private VariationPoint mergeBuckets(LinkedHashMultimap<VariationPoint, VariationPoint> vpBuckets,
+            VariationPoint vp1, VariationPoint vp2) {
+
+        List<VariationPoint> mergedBucketVPs = Lists.newArrayList();
+        List<VariationPoint> toBeRemoved = Lists.newArrayList();
+        VariationPoint newBucketKey = null;
+
+        for (VariationPoint key : vpBuckets.keySet()) {
+            Set<VariationPoint> vpList = vpBuckets.get(key);
+            if ((vpList.contains(vp2)) || (vpList.contains(vp1))) {
+                if (newBucketKey == null) {
+                    newBucketKey = key;
+                }
+                mergedBucketVPs.addAll(vpList);
+                toBeRemoved.add(key);
+            }
+        }
+
+        if (mergedBucketVPs.size() > 0) {
+            for (VariationPoint removeKey : toBeRemoved) {
+                vpBuckets.removeAll(removeKey);
+            }
+            vpBuckets.putAll(newBucketKey, mergedBucketVPs);
+        }
+        return newBucketKey;
     }
 
     /**
@@ -434,6 +524,10 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      * @return True, if the variation points can be merged. False if not or undecidable.
      */
     private boolean canBeMerged(VariationPoint vp1, VariationPoint vp2) {
+
+        if (vp1 == null || vp2 == null) {
+            logger.error("Mergeability checked for at least one VP being null");
+        }
 
         for (MergeDecider decider : MergeDeciderRegistry.getMergeDecider()) {
             boolean checkResult = decider.canBeMerged(vp1, vp2);
