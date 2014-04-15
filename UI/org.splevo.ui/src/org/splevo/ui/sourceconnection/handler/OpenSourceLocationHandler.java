@@ -84,7 +84,7 @@ public class OpenSourceLocationHandler extends AbstractHandler {
      *            The variant to show the code for.
      * @param
      */
-    private void openVariant(Variant variant, List<String> filesResetBefore) {
+    private void openVariant(Variant variant, List<String> filesOpen) {
 
         String message = String.format("Implementation of Variant %s", variant.getVariantId());
 
@@ -93,14 +93,20 @@ public class OpenSourceLocationHandler extends AbstractHandler {
 
                 ITextEditor editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
 
-                String filePath = softwareElement.getSourceLocation().getFilePath();
-                if (!filesResetBefore.contains(filePath)) {
-                    javaEditorConnector.resetLocationHighlighting(editor);
-                    filesResetBefore.add(filePath);
-                }
+                prepareEditorIfFileNotOpenBefore(filesOpen, softwareElement, editor);
 
                 javaEditorConnector.highlightInTextEditor(editor, softwareElement, message);
             }
+        }
+    }
+
+    private void prepareEditorIfFileNotOpenBefore(List<String> filesResetBefore, SoftwareElement softwareElement,
+            ITextEditor editor) {
+        String filePath = softwareElement.getSourceLocation().getFilePath();
+        if (!filesResetBefore.contains(filePath)) {
+            javaEditorConnector.resetLocationHighlighting(editor);
+            filesResetBefore.add(filePath);
+            javaEditorConnector.jumpToLocation(editor, softwareElement.getSourceLocation());
         }
     }
 

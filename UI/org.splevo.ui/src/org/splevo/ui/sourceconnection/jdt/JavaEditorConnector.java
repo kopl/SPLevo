@@ -234,6 +234,18 @@ public class JavaEditorConnector {
     }
 
     /**
+     * Jump to a specific location (offset) in an editor.
+     *
+     * @param editor
+     *            The editor to select the position in.
+     * @param location
+     *            The location to jump to.
+     */
+    public void jumpToLocation(ITextEditor editor, SourceLocation location) {
+        editor.selectAndReveal(location.getStartPosition(), 0);
+    }
+
+    /**
      * Get the file currently opened in the editor.
      *
      * @param editor
