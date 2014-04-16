@@ -99,7 +99,10 @@ public class SourceEditorConnector {
         List<String> elementCodes = Lists.newLinkedList();
         if (variant != null) {
             for (SoftwareElement e : variant.getImplementingElements()) {
-                elementCodes.add(appendCodeForSourceLocation(e.getSourceLocation()));
+                String code = appendCodeForSourceLocation(e.getSourceLocation());
+                if (code != null) {
+                    elementCodes.add(code);
+                }
             }
         }
         return elementCodes;
