@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,11 +31,10 @@ import org.splevo.project.SPLevoProjectUtil;
 
 /**
  * Builder for the SPLevo project nature.
- * 
+ *
  * The builder uses internal visitors to react on incremental and full builds.
- * 
- * @author Benjamin Klatt
- * 
+ *
+ * Basic checks for project validity are performed.
  */
 public class SPLevoBuilder extends IncrementalProjectBuilder {
 
@@ -50,7 +49,7 @@ public class SPLevoBuilder extends IncrementalProjectBuilder {
 
     /**
      * Create a marker for a specific file.
-     * 
+     *
      * @param file
      *            The file to mark.
      * @param message
@@ -94,7 +93,7 @@ public class SPLevoBuilder extends IncrementalProjectBuilder {
 
     /***
      * Check a resource of being a valid SPLevo project file.
-     * 
+     *
      * @param resource
      *            The resource to check.
      */
@@ -117,7 +116,7 @@ public class SPLevoBuilder extends IncrementalProjectBuilder {
 
     /**
      * Reset the markers of the file.
-     * 
+     *
      * @param file
      *            The file to reset the markers for
      */
@@ -131,7 +130,7 @@ public class SPLevoBuilder extends IncrementalProjectBuilder {
 
     /**
      * Perform a full build of the project.
-     * 
+     *
      * @param monitor
      *            The monitor to report the progress to.
      * @throws CoreException
@@ -147,7 +146,7 @@ public class SPLevoBuilder extends IncrementalProjectBuilder {
 
     /**
      * Perform an incremental build of the project.
-     * 
+     *
      * @param delta
      *            The modified resource
      * @param monitor
@@ -162,9 +161,6 @@ public class SPLevoBuilder extends IncrementalProjectBuilder {
 
     /**
      * Visitor for incremental builds of a project with SPLevo nature.
-     * 
-     * @author Benjamin Klatt
-     * 
      */
     class SPLevoProjectFileDeltaVisitor implements IResourceDeltaVisitor {
         /**
@@ -194,9 +190,6 @@ public class SPLevoBuilder extends IncrementalProjectBuilder {
 
     /**
      * Visitor for full builds.
-     * 
-     * @author Benjamin Klatt
-     * 
      */
     class SPLevoProjectFileResourceVisitor implements IResourceVisitor {
 
