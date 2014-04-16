@@ -16,7 +16,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.wb.swt.ResourceManager;
 import org.graphstream.graph.Node;
-import org.splevo.ui.Activator;
+import org.splevo.ui.SPLevoUIPlugin;
 
 /**
  * Action to filter the single nodes without any relationships from a graph.
@@ -52,7 +52,7 @@ class FilterSingleNodeAction extends Action {
         super("Filter Single Nodes Action", IAction.AS_CHECK_BOX);
         this.vpmGraphView = vpmGraphView;
         setToolTipText("Show single nodes without relationships");
-        setImageDescriptor(ResourceManager.getPluginImageDescriptor(Activator.PLUGIN_ID, ICON_ACTIVE));
+        setImageDescriptor(ResourceManager.getPluginImageDescriptor(SPLevoUIPlugin.PLUGIN_ID, ICON_ACTIVE));
         setChecked(false);
     }
 

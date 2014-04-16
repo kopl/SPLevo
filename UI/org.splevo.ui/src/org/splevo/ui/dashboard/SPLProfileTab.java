@@ -37,7 +37,7 @@ import org.splevo.project.ProjectFactory;
 import org.splevo.project.SPLProfile;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringRegistry;
-import org.splevo.ui.Activator;
+import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.vpm.realization.VariabilityMechanism;
 
@@ -181,7 +181,7 @@ public class SPLProfileTab extends AbstractDashboardTab {
     private void createHeader(Composite composite) {
         final Header header = new Header(composite, SWT.NONE);
         header.setTitle("SPL Profile");
-        header.setImage(ResourceManager.getPluginImage(Activator.PLUGIN_ID, "icons/configure.png"));
+        header.setImage(ResourceManager.getPluginImage(SPLevoUIPlugin.PLUGIN_ID, "icons/configure.png"));
         header.setDescription("Product-Line parameters as overarching company or project guidelines.");
         header.setLayoutData(new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_BEGINNING, true, false));
     }

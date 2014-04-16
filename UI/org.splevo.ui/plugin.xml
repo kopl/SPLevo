@@ -27,17 +27,6 @@
       </builder>
    </extension>
    <extension
-         id="xmlProblem"
-         name="XML Problem"
-         point="org.eclipse.core.resources.markers">
-      <super
-            type="org.eclipse.core.resources.problemmarker">
-      </super>
-      <persistent
-            value="true">
-      </persistent>
-   </extension>
-   <extension
          point="org.eclipse.ui.ide.projectNatureImages">
       <image
             icon="icons/splevo.gif"
@@ -177,10 +166,17 @@
 	<super type="org.eclipse.core.resources.marker"/>
 	<persistent value="true"/>
 	</extension>
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="org.splevo.ui.sourceconnection.jdt.VariantLinkQuickFixGenerator"
+            markerType="org.splevo.ui.markers.codelocationmarker">
+      </markerResolutionGenerator>
+   </extension>
 	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
 		id="annotationspecification" name="SPLevoAnnotation">
 	<specification annotationType="org.splevo.ui.annotations.textmarkerannotation"
-			label="SPLevo Annotation"
+			label="Variation Point Variant"
 			icon="icons/kopl_circle_only.png"
 			verticalRulerPreferenceKey="highlight.rulers.vertical"
              textPreferenceKey="highlight.text"

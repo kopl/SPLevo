@@ -28,7 +28,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.splevo.ui.Activator;
+import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
@@ -243,7 +243,7 @@ public class RefinementDetailsView extends Composite {
 
         MenuManager menuManager = new MenuManager();
         menuManager.setRemoveAllWhenShown(true);
-        menuManager.addMenuListener(new CommandActionMenuListener(COMMAND_ID_OPENSOURCELOCATION, Activator
+        menuManager.addMenuListener(new CommandActionMenuListener(COMMAND_ID_OPENSOURCELOCATION, SPLevoUIPlugin
                 .getImageDescriptor("icons/jcu_obj.gif")));
         Menu menu = menuManager.createContextMenu(viewer.getTree());
         viewer.getTree().setMenu(menu);

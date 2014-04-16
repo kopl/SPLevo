@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,32 +17,36 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle.
  */
-public class Activator extends AbstractUIPlugin {
+public class SPLevoUIPlugin extends AbstractUIPlugin {
 
     /** The logger for this class. */
-    private Logger logger = Logger.getLogger(Activator.class);
+    private Logger logger = Logger.getLogger(SPLevoUIPlugin.class);
 
     /** The plug-in ID. **/
     public static final String PLUGIN_ID = "org.splevo.ui"; //$NON-NLS-1$
 
     /** The shared instance. **/
-    private static Activator plugin;
+    private static SPLevoUIPlugin plugin;
+
+    /** Pre-loaded representation of the KoPL icon. */
+    public static final Image KOPL_ICON = getImageDescriptor("icons/kopl_circle_only.png").createImage();
 
     /**
      * The constructor.
      */
-    public Activator() {
+    public SPLevoUIPlugin() {
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
      */
     public void start(BundleContext context) throws Exception {
@@ -57,7 +61,7 @@ public class Activator extends AbstractUIPlugin {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
      */
     public void stop(BundleContext context) throws Exception {
@@ -67,16 +71,16 @@ public class Activator extends AbstractUIPlugin {
 
     /**
      * Returns the shared instance.
-     * 
+     *
      * @return the shared instance
      */
-    public static Activator getDefault() {
+    public static SPLevoUIPlugin getDefault() {
         return plugin;
     }
 
     /**
      * Returns an image descriptor for the image file at the given plug-in relative path.
-     * 
+     *
      * @param path
      *            the path
      * @return the image descriptor

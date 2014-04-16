@@ -41,11 +41,15 @@ import org.splevo.ui.refinementbrowser.RefinementDetailsView;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SourceLocation;
+import org.splevo.vpm.variability.Variant;
 
 import com.google.common.collect.Lists;
 
 /**
  * A connector to open a {@link JavaSoftwareElement} in the JDT java editor.
+ *
+ * It is recommended to use the SourceEditorConnector. Using this java editor specific
+ * connector directly should be done if you really need this direct access.
  *
  * The connector provides three actions to interact with the JDT connector:
  * <ol>
@@ -60,8 +64,9 @@ public class JavaEditorConnector {
 
     private static Logger logger = Logger.getLogger(RefinementDetailsView.class);
 
-    private static final String LOCATION_ANNOTATION = "org.splevo.ui.annotations.textmarkerannotation";
-    private static final String LOCATION_MARKER = "org.splevo.ui.markers.codelocationmarker";
+    public static final String LOCATION_ANNOTATION = "org.splevo.ui.annotations.textmarkerannotation";
+    public static final String LOCATION_MARKER = "org.splevo.ui.markers.codelocationmarker";
+    public static final String LOCATION_MARKER_VARIANT = "org.splevo.ui.markers.codelocationmarker.variant";
 
     /**
      * Open the java editor for a specific source location.
@@ -77,7 +82,7 @@ public class JavaEditorConnector {
         if (sourceLocation != null) {
             return openJavaEditor(sourceLocation, true);
         } else {
-            logger.warn("No SourceRegion accessible.");
+            logger.warn("No source location accessible.");
         }
 
         return null;
@@ -137,13 +142,18 @@ public class JavaEditorConnector {
      * Supports multiple highlighting.
      *
      * @param editor
-     *            The {@link IEditorPart}.
+     *            The {@link IEditorPart} to highlight.
      * @param softwareElement
      *            The {@link SoftwareElement} to be highlighted.
      * @param message
      *            The {@link String} message to be displayed.
+     * @param variant
+     *            The {@link Variant} to set for the marker as attribute with the id
+     *            {@link JavaEditorConnector#LOCATION_MARKER_VARIANT}. If null provided, the
+     *            attribute is not set.
      */
-    public void highlightInTextEditor(ITextEditor editor, SoftwareElement softwareElement, String message) {
+    public void highlightInTextEditor(ITextEditor editor, SoftwareElement softwareElement, String message,
+            Variant variant) {
         SourceLocation sourceLocation = softwareElement.getSourceLocation();
 
         int offset = sourceLocation.getStartPosition();
@@ -151,7 +161,7 @@ public class JavaEditorConnector {
         TextSelection selection = new TextSelection(offset, length);
 
         try {
-            IMarker marker = createMarker(editor, message);
+            IMarker marker = createMarker(editor, message, variant);
             createLocationAnnotation(marker, selection, editor);
         } catch (CoreException e) {
             logger.error("Could't clear and create text markers.", e);
@@ -221,11 +231,14 @@ public class JavaEditorConnector {
      * @throws CoreException
      *             Throws {@link CoreException} for invalid resources.
      */
-    private IMarker createMarker(ITextEditor editor, String message) throws CoreException {
+    private IMarker createMarker(ITextEditor editor, String message, Variant variant) throws CoreException {
         IFile inputFile = getEditorFile(editor);
         if (inputFile != null) {
             IMarker marker = inputFile.createMarker(LOCATION_MARKER);
             marker.setAttribute(IMarker.MESSAGE, message);
+            if (variant != null) {
+                marker.setAttribute(LOCATION_MARKER_VARIANT, VariantRegistry.register(variant));
+            }
             return marker;
         } else {
             logger.warn("Editor is not handling a file");

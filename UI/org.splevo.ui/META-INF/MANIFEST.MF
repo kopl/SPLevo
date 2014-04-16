@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SPLevo UI
 Bundle-SymbolicName: org.splevo.ui; singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.splevo.ui.Activator
+Bundle-Activator: org.splevo.ui.SPLevoUIPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.splevo.project,
  org.eclipse.core.databinding.beans,
@@ -37,7 +37,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.splevo.ui.vpexplorer;bundle-version="1.0.0",
  org.eclipse.ui.navigator;bundle-version="3.5.300",
  org.eclipse.emf.edit.ui;bundle-version="2.9.0",
- org.splevo.refactoring;bundle-version="1.0.0"
+ org.splevo.refactoring;bundle-version="1.0.0",
+ org.apache.commons.lang;bundle-version="2.6.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

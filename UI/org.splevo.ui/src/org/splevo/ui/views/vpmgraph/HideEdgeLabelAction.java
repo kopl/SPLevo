@@ -16,7 +16,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.wb.swt.ResourceManager;
 import org.graphstream.graph.Edge;
-import org.splevo.ui.Activator;
+import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 
 /**
@@ -58,7 +58,7 @@ class HideEdgeLabelAction extends Action {
         super("Hide Edge Label Action", IAction.AS_CHECK_BOX);
         this.vpmGraphView = vpmGraphView;
         setToolTipText(TEXT_HIDE_EDGE_LABELS);
-        setImageDescriptor(ResourceManager.getPluginImageDescriptor(Activator.PLUGIN_ID, ICON_ACTIVE));
+        setImageDescriptor(ResourceManager.getPluginImageDescriptor(SPLevoUIPlugin.PLUGIN_ID, ICON_ACTIVE));
         setChecked(false);
     }
 
