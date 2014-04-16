@@ -18,6 +18,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ToggleGroupsAction;
 
 /**
@@ -47,7 +48,7 @@ public class VPExplorer extends CommonNavigator {
 
     /**
      * Access the static content element.
-     * 
+     *
      * @return The singleton content element.
      */
     public VPExplorerContent getVpExplorerContent() {
@@ -56,7 +57,7 @@ public class VPExplorer extends CommonNavigator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.eclipse.ui.navigator.CommonNavigator#createPartControl(org.eclipse.swt.widgets.Composite)
      */
@@ -67,6 +68,7 @@ public class VPExplorer extends CommonNavigator {
         IActionBars actionBars = getViewSite().getActionBars();
         IMenuManager dropDownMenu = actionBars.getMenuManager();
         IToolBarManager toolBar = actionBars.getToolBarManager();
+        toolBar.insertBefore(toolBar.getItems()[0].getId(), new ExpandAllAction(this));
         dropDownMenu.add(action);
         toolBar.add(action);
     }
@@ -81,7 +83,7 @@ public class VPExplorer extends CommonNavigator {
 
     /**
      * Returns if groupings should be shown.
-     * 
+     *
      * @return true, if groupings should be shown.
      */
     public boolean getShowGrouping() {
