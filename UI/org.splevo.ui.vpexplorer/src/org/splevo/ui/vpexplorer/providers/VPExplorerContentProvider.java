@@ -48,7 +48,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     /**
      * Index to remember the variation points located in a file.
-     * 
+     *
      * DesignDecision Enable public access to index for accessing this statistic information.
      */
     private static HashMultimap<File, VariationPoint> fileVPIndex = HashMultimap.create();
@@ -64,9 +64,9 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     /**
      * Get the set of {@link VariationPoint}s contained in a file.
-     * 
+     *
      * DesignDecision Enable public access to index for accessing this statistic information.
-     * 
+     *
      * @param file
      *            The file to get the VPs for.
      * @return The set of variation points. At least an empty list but not null.
@@ -155,13 +155,13 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     /**
      * Populates the CU locations map with all variation points and the location names of their
      * corresponding CUs.
-     * 
+     *
      * @param vpContent
      *            the VPcontent to be used as population source
      */
     private void indexVariationPointLocations(VPExplorerContent vpContent) {
 
-        fileVPIndex.clear();
+        clearIndexes();
 
         String workspacePath = getNormalizedWorkspacePath();
 
@@ -196,6 +196,13 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
             }
         }
+    }
+
+    private void clearIndexes() {
+        fileVPIndex.clear();
+        rootFiles.clear();
+        vpFileIndex.clear();
+        subFileIndex.clear();
     }
 
     private String getNormalizedWorkspacePath() {
