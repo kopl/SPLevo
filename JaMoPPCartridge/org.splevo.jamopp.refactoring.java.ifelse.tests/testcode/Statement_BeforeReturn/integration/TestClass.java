@@ -3,10 +3,10 @@ package org.splevo.refactoring.tests.testcases;
 public class TestClass {
 
     public int someMethod() {
-        int i = 0;
+        System.out.println(1);
 
-        i++;
-        
-        return i;
+        System.out.println(2);
+
+        return 0;
     }
 }

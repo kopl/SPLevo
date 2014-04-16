@@ -11,28 +11,37 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse;
 
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.expressions.AssignmentExpression;
+import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.operators.OperatorsFactory;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
+import org.emftext.language.java.statements.ExpressionStatement;
+import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.BindingTime;
+import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
-
-import com.google.common.collect.Lists;
 
 /**
  * Refactoring a variation point into a single code base aligned with the leading variant using if
@@ -53,6 +62,8 @@ public class IfElseRefactoring implements VariabilityRefactoring {
     @Override
     public void refactor(VariationPoint variationPoint) {
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+
+        // merge imports
         if (jamoppElement instanceof CompilationUnit) {
             CompilationUnit compilationUnit = (CompilationUnit) jamoppElement;
             for (Variant variant : variationPoint.getVariants()) {
@@ -67,33 +78,70 @@ public class IfElseRefactoring implements VariabilityRefactoring {
             return;
         }
 
-        StatementListContainer leadingMethod = (StatementListContainer) jamoppElement;
-        leadingMethod.getContainingCompilationUnit().getImports().add(SPLConfigurationUtil.getRequiringImport());
+        StatementListContainer leadingMainContainer = (StatementListContainer) jamoppElement;
+
+        // add import to access spl configurations
+        leadingMainContainer.getContainingCompilationUnit().getImports().add(SPLConfigurationUtil.getRequiringImport());
 
         Condition previousCondition = null;
+        Set<String> localVariableSet = new HashSet<String>();
+
+        // process all variants
         for (Variant variant : variationPoint.getVariants()) {
+            // store position of integration statements in int method
             int indexVariantPositionInMethod = getIndexOfStatementInMethod(variant);
 
-            if (variant.getLeading()) {
-                for (SoftwareElement se : variant.getImplementingElements()) {
-                    Statement variantStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                    leadingMethod.getStatements().remove(variantStatement);
-                }
-            }
-
+            // create condition
             Condition currentCondition = StatementsFactory.eINSTANCE.createCondition();
             currentCondition.setCondition(SPLConfigurationUtil.generateVariantMatchingExpression(variationPoint
                     .getGroup().getGroupId(), variant.getVariantId()));
             Block currentBlock = StatementsFactory.eINSTANCE.createBlock();
             currentCondition.setStatement(currentBlock);
 
+            // delete leading variant statements from leading method
+            if (variant.getLeading()) {
+                for (SoftwareElement se : variant.getImplementingElements()) {
+                    Statement variantStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                    leadingMainContainer.getStatements().remove(variantStatement);
+                }
+            }
+
+            // fill if block
+            for (SoftwareElement se : variant.getImplementingElements()) {
+                Statement variantStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
+
+                if (variantStatement instanceof LocalVariableStatement) {
+                    LocalVariableStatement localVariableStatement = (LocalVariableStatement) variantStatement;
+                    LocalVariable variable = localVariableStatement.getVariable();
+
+                    // rename variable if necessary
+                    if (localVariableSet.add(variable.getName())) {
+                        leadingMainContainer.getStatements()
+                                .add(indexVariantPositionInMethod++, localVariableStatement);
+
+                    }
+
+                    ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
+                    AssignmentExpression assignmentExpression = ExpressionsFactory.eINSTANCE
+                            .createAssignmentExpression();
+                    assignmentExpression.setAssignmentOperator(OperatorsFactory.eINSTANCE.createAssignment());
+                    assignmentExpression.setValue(variable.getInitialValue());
+                    expressionStatement.setExpression(assignmentExpression);
+                    variable.setInitialValue(null);
+
+                    currentBlock.getStatements().add(expressionStatement);
+                } else {
+                    currentBlock.getStatements().add(variantStatement);
+                }
+            }
+
+            // prepare for next interation
             if (previousCondition == null) {
-                leadingMethod.getStatements().add(indexVariantPositionInMethod, currentCondition);
+                leadingMainContainer.getStatements().add(indexVariantPositionInMethod, currentCondition);
             } else {
                 previousCondition.setElseStatement(currentCondition);
             }
             previousCondition = currentCondition;
-            filllBlockWithStatementsFromVariant(variant, currentBlock);
         }
     }
 
@@ -113,15 +161,30 @@ public class IfElseRefactoring implements VariabilityRefactoring {
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
-        if (variationPoint.getVariants().size() == 0) {
+        // verify variability characteristics
+        if (variationPoint.getBindingTime() == BindingTime.COMPILE_TIME
+                || variationPoint.getBindingTime() == BindingTime.LOAD_TIME) {
+            return false;
+        }
+        if (variationPoint.getExtensibility() == Extensible.YES) {
+            return false;
+        }
+        if (!variationPoint.getVariabilityMechanism().getRefactoringID().equals(REFACTORING_ID)) {
             return false;
         }
 
-        if (jamoppElement instanceof StatementListContainer) {
+        // verify that the variation point's location is jamopp specific
+        if (!(variationPoint.getLocation() instanceof JaMoPPSoftwareElement)) {
+            return false;
+        }
+
+        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+
+        // verify that in case of a CompilationUnit all variants are imports
+        if (jamoppElement instanceof CompilationUnit) {
             for (Variant variant : variationPoint.getVariants()) {
-                for (SoftwareElement se : variant.getImplementingElements()) {
-                    if (se instanceof JaMoPPSoftwareElement) {
+                for (SoftwareElement softwareElement : variant.getImplementingElements()) {
+                    if (((JaMoPPSoftwareElement) softwareElement).getJamoppElement() instanceof Import) {
                         continue;
                     }
                     return false;
@@ -129,20 +192,30 @@ public class IfElseRefactoring implements VariabilityRefactoring {
             }
         }
 
-        if (jamoppElement instanceof CompilationUnit) {
-            LinkedList<SoftwareElement> elementsToCheckForType = Lists.newLinkedList();
-
+        // check for common variables of different types
+        if (jamoppElement instanceof StatementListContainer) {
+            Map<String, Set<Class<?>>> localVariableMap = new HashMap<String, Set<Class<?>>>();
             for (Variant variant : variationPoint.getVariants()) {
-                elementsToCheckForType.addAll(variant.getImplementingElements());
+                for (SoftwareElement softwareElement : variant.getImplementingElements()) {
+                    Commentable variantElement = ((JaMoPPSoftwareElement) softwareElement).getJamoppElement();
+                    if (!(variantElement instanceof LocalVariableStatement)) {
+                        continue;
+                    }
+                    LocalVariable variable = ((LocalVariableStatement) variantElement).getVariable();
+                    if (!localVariableMap.containsKey(variable.getName())) {
+                        Set<Class<?>> hashSet = new HashSet<Class<?>>();
+                        hashSet.add(variable.getTypeReference().getTarget().getClass());
+                        localVariableMap.put(variable.getName(), hashSet);
+                    } else {
+                        boolean typeWasNew = localVariableMap.get(variable.getName()).add(
+                                variable.getTypeReference().getTarget().getClass());
+                        if (typeWasNew) {
+                            return false;
+                        }
+                    }
+                }
             }
 
-            for (SoftwareElement softwareElement : elementsToCheckForType) {
-                if (softwareElement instanceof JaMoPPSoftwareElement
-                        || ((JaMoPPSoftwareElement) softwareElement).getJamoppElement() instanceof Import) {
-                    continue;
-                }
-                return false;
-            }
         }
 
         return true;
@@ -151,12 +224,5 @@ public class IfElseRefactoring implements VariabilityRefactoring {
     @Override
     public String getId() {
         return REFACTORING_ID;
-    }
-
-    private void filllBlockWithStatementsFromVariant(Variant variant, Block ifBlock) {
-        for (SoftwareElement se : variant.getImplementingElements()) {
-            Statement variantStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
-            ifBlock.getStatements().add(variantStatement);
-        }
     }
 }

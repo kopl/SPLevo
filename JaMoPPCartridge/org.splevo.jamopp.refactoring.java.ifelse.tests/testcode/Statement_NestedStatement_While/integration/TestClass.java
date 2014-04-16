@@ -3,8 +3,9 @@ package org.splevo.refactoring.tests.testcases;
 public class TestClass{
 
     public void someMethod() {
-        if(true) {
-            int i = 0;
+        while(true) {
+            System.out.println(i);
+            i++;
         }
     }
 }

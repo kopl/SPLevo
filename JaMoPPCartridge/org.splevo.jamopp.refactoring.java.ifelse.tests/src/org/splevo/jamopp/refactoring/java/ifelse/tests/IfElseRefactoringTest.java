@@ -33,9 +33,14 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.statements.Block;
+import org.emftext.language.java.statements.Break;
+import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
+import org.emftext.language.java.statements.LocalVariableStatement;
+import org.emftext.language.java.statements.NormalSwitchCase;
 import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.statements.TryBlock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -50,6 +55,9 @@ import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.refinement.VPMRefinementService;
 import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.BindingTime;
+import org.splevo.vpm.variability.Extensible;
+import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -116,6 +124,9 @@ public class IfElseRefactoringTest {
         assertThat(((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement(),
                 instanceOf(CompilationUnit.class));
 
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
                 objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
@@ -135,7 +146,7 @@ public class IfElseRefactoringTest {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testImportMerge() throws Exception {
+    public void testMergeImports() throws Exception {
         // init vpm
         VariationPointModel vpm = initializeVariationPointModel("MergeImports");
         performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
@@ -144,6 +155,9 @@ public class IfElseRefactoringTest {
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         assertThat(((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement(),
                 instanceOf(CompilationUnit.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
 
         // excute test
         objectUnderTest.refactor(variationPoint);
@@ -180,9 +194,15 @@ public class IfElseRefactoringTest {
         performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
                 vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
         assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        assertThat("Wrong VariationPoint location.",
+                ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement(),
+                instanceOf(ClassMethod.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
 
         // verification
-        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         assertThat("Refactoring cannot be applied to this variation point.",
                 objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
     }
@@ -217,10 +237,13 @@ public class IfElseRefactoringTest {
         assertThat("Wrong VariationPoint location.",
                 ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement(),
                 instanceOf(ClassMethod.class));
-        
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
         // execute test
         objectUnderTest.refactor(variationPoint);
-        
+
         // verification
         ClassMethod cm = (ClassMethod) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat(cm.getStatements().size(), equalTo(1));
@@ -257,26 +280,29 @@ public class IfElseRefactoringTest {
         assertThat("Wrong VariationPoint location.",
                 ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement(),
                 instanceOf(ClassMethod.class));
-        
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
         // extract information for later verification
         EList<SoftwareElement> implementingElements = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0)
                 .getVariants().get(0).getImplementingElements();
-        
+
         Statement firstStatement = (Statement) ((JaMoPPSoftwareElement) implementingElements.get(0)).getJamoppElement();
         Statement secondStatement = (Statement) ((JaMoPPSoftwareElement) implementingElements.get(1))
                 .getJamoppElement();
-        
+
         // execute test
         objectUnderTest.refactor(variationPoint);
-        
+
         // verification
         ClassMethod cm = (ClassMethod) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         Condition condition = (Condition) cm.getStatements().get(0);
-        
+
         assertThat(condition.getStatement(), instanceOf(Block.class));
         assertThat(condition.getElseStatement(), nullValue());
         assertThat(condition.getCondition(), notNullValue());
-        
+
         Block ifBlock = (Block) condition.getStatement();
         assertThat(ifBlock.getStatements().size(), equalTo(2));
         assertThat(ifBlock.getStatements().get(0), equalTo(firstStatement));
@@ -313,6 +339,9 @@ public class IfElseRefactoringTest {
                 ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement(),
                 instanceOf(ClassMethod.class));
 
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
                 objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
@@ -347,6 +376,9 @@ public class IfElseRefactoringTest {
         assertThat("Wrong VariationPoint location.",
                 ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement(),
                 instanceOf(ClassMethod.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
 
         // extract information for later verification
         VariationPoint firstVariationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
@@ -395,6 +427,9 @@ public class IfElseRefactoringTest {
         assertThat("Wrong VariationPoint location.",
                 ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement(),
                 instanceOf(ClassMethod.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
 
         // extract information for later verification
         VariationPoint firstVariationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
@@ -446,6 +481,9 @@ public class IfElseRefactoringTest {
         Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
                 objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
@@ -479,6 +517,9 @@ public class IfElseRefactoringTest {
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
 
         // extract information for later verification
         ClassMethod cm = (ClassMethod) variationPointLocation;
@@ -520,6 +561,9 @@ public class IfElseRefactoringTest {
         Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
         // extract information for later verification
         VariationPoint firstVariationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         ClassMethod cm = (ClassMethod) variationPointLocation;
@@ -546,6 +590,7 @@ public class IfElseRefactoringTest {
      * <ul>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:Condition</li>
      * </ul>
      * 
      * <strong>Leading Variant</strong><br>
@@ -561,13 +606,16 @@ public class IfElseRefactoringTest {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementNestedStatement() throws Exception {
+    public void testCanBeAppliedForCaseStatementNestedStatementCondition() throws Exception {
         // init vpm
-        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement");
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_Condition");
         assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -579,6 +627,7 @@ public class IfElseRefactoringTest {
      * <ul>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:Condition</li>
      * </ul>
      * 
      * <strong>Leading Variant</strong><br>
@@ -594,13 +643,16 @@ public class IfElseRefactoringTest {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testNestedBlockForCaseStatementNestedStatement() throws Exception {
+    public void testNestedBlockForCaseStatementNestedStatementCondition() throws Exception {
         // init vpm
-        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement");
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_Condition");
         assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
 
         // extract information for later verification
         Block leadingIfBlock = (Block) variationPointLocation;
@@ -620,6 +672,7 @@ public class IfElseRefactoringTest {
      * <ul>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:Condition</li>
      * </ul>
      * 
      * <strong>Leading Variant</strong><br>
@@ -635,13 +688,16 @@ public class IfElseRefactoringTest {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementNestedStatement() throws Exception {
+    public void testConditionForCaseStatementNestedStatementCondition() throws Exception {
         // init vpm
-        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement");
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_Condition");
         assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
 
         // extract information for later verification
         Block leadingIfBlock = (Block) variationPointLocation;
@@ -653,6 +709,687 @@ public class IfElseRefactoringTest {
 
         // verification
         Condition condition = (Condition) leadingIfBlock.getStatements().get(1);
+        assertThat(condition.getCondition(), notNullValue());
+        assertThat(condition.getElseStatement(), nullValue());
+        assertThat(condition.getStatement(), instanceOf(Block.class));
+
+        Block generatedBlock = (Block) condition.getStatement();
+        assertThat(generatedBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedBlock.getStatements().get(0), equalTo(integrationStatement));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:For</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a single for loop. The for loop has one statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement at the end of the for loop block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the refactoring can be applied.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testCanBeAppliedForCaseStatementNestedStatementFor() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_For");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // verification
+        assertThat("Refactoring cannot be applied to this variation point.",
+                objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:For</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a single for loop. The for loop has one statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement at the end of the for loop block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the leading for block contains the right statements.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testNestedBlockForCaseStatementNestedStatementFor() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_For");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        Block leadingForBlock = (Block) variationPointLocation;
+        Statement leadingStatement = leadingForBlock.getStatements().get(0);
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        assertThat(leadingForBlock.getStatements().size(), equalTo(2));
+        assertThat(leadingForBlock.getStatements().get(0), equalTo(leadingStatement));
+        assertThat(leadingForBlock.getStatements().get(1), instanceOf(Condition.class));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:For</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a single for loop. The for loop has one statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement at the end of the for loop block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Verifies the condition that was created during refactoring.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testConditionForCaseStatementNestedStatementFor() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_For");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        Block leadingForBlock = (Block) variationPointLocation;
+        Statement integrationStatement = (Statement) ((JaMoPPSoftwareElement) variationPoint.getVariants().get(0)
+                .getImplementingElements().get(0)).getJamoppElement();
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        Condition condition = (Condition) leadingForBlock.getStatements().get(1);
+        assertThat(condition.getCondition(), notNullValue());
+        assertThat(condition.getElseStatement(), nullValue());
+        assertThat(condition.getStatement(), instanceOf(Block.class));
+
+        Block generatedBlock = (Block) condition.getStatement();
+        assertThat(generatedBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedBlock.getStatements().get(0), equalTo(integrationStatement));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:While</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a single while loop. The for loop has one statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement at the end of the while loop block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the refactoring can be applied.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testCanBeAppliedForCaseStatementNestedStatementWhile() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_While");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // verification
+        assertThat("Refactoring cannot be applied to this variation point.",
+                objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:While</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a single while loop. The for loop has one statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement at the end of the while loop block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the leading while block contains the right statements.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testNestedBlockForCaseStatementNestedStatementWhile() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_While");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        Block leadingForBlock = (Block) variationPointLocation;
+        Statement leadingStatement = leadingForBlock.getStatements().get(0);
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        assertThat(leadingForBlock.getStatements().size(), equalTo(2));
+        assertThat(leadingForBlock.getStatements().get(0), equalTo(leadingStatement));
+        assertThat(leadingForBlock.getStatements().get(1), instanceOf(Condition.class));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:While</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a single while loop. The for loop has one statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement at the end of the while loop block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Verifies the condition that was created during refactoring.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testConditionForCaseStatementNestedStatementWhile() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_While");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        Block leadingForBlock = (Block) variationPointLocation;
+        Statement integrationStatement = (Statement) ((JaMoPPSoftwareElement) variationPoint.getVariants().get(0)
+                .getImplementingElements().get(0)).getJamoppElement();
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        Condition condition = (Condition) leadingForBlock.getStatements().get(1);
+        assertThat(condition.getCondition(), notNullValue());
+        assertThat(condition.getElseStatement(), nullValue());
+        assertThat(condition.getStatement(), instanceOf(Block.class));
+
+        Block generatedBlock = (Block) condition.getStatement();
+        assertThat(generatedBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedBlock.getStatements().get(0), equalTo(integrationStatement));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:Try</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a try-catch. Both, the try and the catch block have one
+     * statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement at the end of the try block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the refactoring can be applied.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testCanBeAppliedForCaseStatementNestedStatementTry() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_Try");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(TryBlock.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // verification
+        assertThat("Refactoring cannot be applied to this variation point.",
+                objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:Try</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a try-catch. Both, the try and the catch block have one
+     * statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement at the end of the try block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the leading try block contains the right statements.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testNestedBlockForCaseStatementNestedStatementTry() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_Try");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(TryBlock.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        TryBlock leadingTryBlock = (TryBlock) variationPointLocation;
+        Statement leadingStatement = leadingTryBlock.getStatements().get(0);
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        assertThat(leadingTryBlock.getStatements().size(), equalTo(2));
+        assertThat(leadingTryBlock.getStatements().get(0), equalTo(leadingStatement));
+        assertThat(leadingTryBlock.getStatements().get(1), instanceOf(Condition.class));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:Try</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a try-catch. Both, the try and the catch block have one
+     * statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement at the end of the try block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Verifies the condition that was created during refactoring.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testConditionForCaseStatementNestedStatementTry() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_Try");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(TryBlock.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        TryBlock leadingTryBlock = (TryBlock) variationPointLocation;
+        Statement integrationStatement = (Statement) ((JaMoPPSoftwareElement) variationPoint.getVariants().get(0)
+                .getImplementingElements().get(0)).getJamoppElement();
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        Condition condition = (Condition) leadingTryBlock.getStatements().get(1);
+        assertThat(condition.getCondition(), notNullValue());
+        assertThat(condition.getElseStatement(), nullValue());
+        assertThat(condition.getStatement(), instanceOf(Block.class));
+
+        Block generatedBlock = (Block) condition.getStatement();
+        assertThat(generatedBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedBlock.getStatements().get(0), equalTo(integrationStatement));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:Catch</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a try-catch. Both, the try and the catch block have one
+     * statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with another exception being thrown in the catch block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the refactoring can be applied.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testCanBeAppliedForCaseStatementNestedStatementCatch() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_Catch");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(CatchBlock.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // verification
+        assertThat("Refactoring cannot be applied to this variation point.",
+                objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:Catch</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a try-catch. Both, the try and the catch block have one
+     * statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with another exception being thrown in the catch block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the leading catch block contains the right statements.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testNestedBlockForCaseStatementNestedStatementCatch() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_Catch");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(CatchBlock.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        CatchBlock leadingCatchBlock = (CatchBlock) variationPointLocation;
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        assertThat(leadingCatchBlock.getStatements().size(), equalTo(1));
+        assertThat(leadingCatchBlock.getStatements().get(0), instanceOf(Condition.class));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:Catch</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a try-catch. Both, the try and the catch block have one
+     * statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with another exception being thrown in the catch block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Verifies the condition that was created during refactoring.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testConditionForCaseStatementNestedStatementCatch() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_Catch");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(CatchBlock.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        CatchBlock leadingCatchBlock = (CatchBlock) variationPointLocation;
+        Statement leadingStatement = (Statement) ((JaMoPPSoftwareElement) variationPoint.getVariants().get(0)
+                .getImplementingElements().get(0)).getJamoppElement();
+        Statement integrationStatement = (Statement) ((JaMoPPSoftwareElement) variationPoint.getVariants().get(1)
+                .getImplementingElements().get(0)).getJamoppElement();
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        Condition condition = (Condition) leadingCatchBlock.getStatements().get(0);
+        assertThat(condition.getCondition(), notNullValue());
+        assertThat(condition.getStatement(), instanceOf(Block.class));
+        assertThat(condition.getElseStatement(), instanceOf(Condition.class));
+
+        Condition elseCondition = (Condition) condition.getElseStatement();
+        assertThat(elseCondition.getCondition(), notNullValue());
+        assertThat(elseCondition.getStatement(), instanceOf(Block.class));
+        assertThat(elseCondition.getElseStatement(), nullValue());
+
+        Block generatedIfBlock = (Block) condition.getStatement();
+        assertThat(generatedIfBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedIfBlock.getStatements().get(0), equalTo(leadingStatement));
+
+        Block generatedElseBlock = (Block) elseCondition.getStatement();
+        assertThat(generatedElseBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedElseBlock.getStatements().get(0), equalTo(integrationStatement));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:SwitchCase</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a single switch case with one case that has one statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement in the case block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the refactoring can be applied.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testCanBeAppliedForCaseStatementNestedStatementSwitchCase() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_SwitchCase");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(NormalSwitchCase.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // verification
+        assertThat("Refactoring cannot be applied to this variation point.",
+                objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:SwitchCase</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a single switch case with one case that has one statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement in the case block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the leading switch case contains the right statements.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testNestedBlockForCaseStatementNestedStatementSwitchCase() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_SwitchCase");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(NormalSwitchCase.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        NormalSwitchCase switchCase = (NormalSwitchCase) variationPointLocation;
+        Statement leadingStatement = switchCase.getStatements().get(0);
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        assertThat(switchCase.getStatements().size(), equalTo(3));
+        assertThat(switchCase.getStatements().get(0), equalTo(leadingStatement));
+        assertThat(switchCase.getStatements().get(1), instanceOf(Condition.class));
+        assertThat(switchCase.getStatements().get(2), instanceOf(Break.class));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:NestedStatement</li>
+     * <li>NestedStatement:SwitchCase</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains a single switch case with one case that has one statement.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as leading variant but with one additional statement in the case block.
+     * 
+     * <strong>Test Details</strong><br>
+     * Verifies the condition that was created during refactoring.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testConditionForCaseStatementNestedStatementSwitchCase() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedStatement_SwitchCase");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(NormalSwitchCase.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        NormalSwitchCase normalSwitchCase = (NormalSwitchCase) variationPointLocation;
+        Statement integrationStatement = (Statement) ((JaMoPPSoftwareElement) variationPoint.getVariants().get(0)
+                .getImplementingElements().get(0)).getJamoppElement();
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        Condition condition = (Condition) normalSwitchCase.getStatements().get(1);
         assertThat(condition.getCondition(), notNullValue());
         assertThat(condition.getElseStatement(), nullValue());
         assertThat(condition.getStatement(), instanceOf(Block.class));
@@ -693,6 +1430,9 @@ public class IfElseRefactoringTest {
         Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
                 objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
@@ -728,6 +1468,9 @@ public class IfElseRefactoringTest {
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
 
         // extract information for later verification
         ClassMethod leadingMethod = (ClassMethod) variationPointLocation;
@@ -773,6 +1516,9 @@ public class IfElseRefactoringTest {
         Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
         // extract information for later verification
         ClassMethod leadingMethod = (ClassMethod) variationPointLocation;
         EList<SoftwareElement> implementingElements = variationPoint.getVariants().get(0).getImplementingElements();
@@ -794,6 +1540,150 @@ public class IfElseRefactoringTest {
         assertThat(generatedBlock.getStatements().size(), equalTo(2));
         assertThat(generatedBlock.getStatements().get(0), equalTo(integrationMethodCall1));
         assertThat(generatedBlock.getStatements().get(1), equalTo(integrationMethodCall2));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:StartMethod</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains 4 statements.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as in leading but with a different initialization of the first statement.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the refactoring can be applied.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testCanBeAppliedForCaseReusedStatementSameType() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("ReusedStatementSameType");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // verification
+        assertThat("Refactoring cannot be applied to this variation point.",
+                objectUnderTest.canBeAppliedTo(variationPoint), equalTo(true));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:StartMethod</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains 4 statements.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as in leading but with a different initialization of the first statement.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the leading method's statements are correct. The local variable should have
+     * been split into initialization and assertion. The method body should contain the variable
+     * initializtion directly.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testFirstStatementForCaseStatementReusedStatementSameType() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("ReusedStatementSameType");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        ClassMethod leadingMethod = (ClassMethod) variationPointLocation;
+        LocalVariableStatement leadingStatement0 = (LocalVariableStatement) leadingMethod.getStatements().get(0);
+        Statement leadingStatement1 = leadingMethod.getStatements().get(1);
+        Statement leadingStatement2 = leadingMethod.getStatements().get(2);
+
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        assertThat(leadingMethod.getStatements().size(), equalTo(4));
+        assertThat(leadingMethod.getStatements().get(0), instanceOf(LocalVariableStatement.class));
+
+        LocalVariableStatement generatedLocalVariable = (LocalVariableStatement) leadingMethod.getStatements().get(0);
+        assertThat(generatedLocalVariable.getVariable().getName(), equalTo(leadingStatement0.getVariable().getName()));
+
+        assertThat(leadingMethod.getStatements().get(1), instanceOf(Condition.class));
+        assertThat(leadingMethod.getStatements().get(2), equalTo(leadingStatement1));
+        assertThat(leadingMethod.getStatements().get(3), equalTo(leadingStatement2));
+    }
+
+    /**
+     * <strong>Test-case</strong><br>
+     * <ul>
+     * <li>GranularityType:Statement</li>
+     * <li>Localization:StartMethod</li>
+     * </ul>
+     * 
+     * <strong>Leading Variant</strong><br>
+     * Class with method that contains 4 statements.
+     * 
+     * <strong>Integration Variant</strong><br>
+     * Same as in leading but with a different initialization of the first statement.
+     * 
+     * <strong>Test Details</strong><br>
+     * Tests whether the generated condition was built correctly.
+     * 
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testConditionForCaseStatementReusedStatementSameType() throws Exception {
+        // init vpm
+        VariationPointModel vpm = initializeVariationPointModel("ReusedStatementSameType");
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), equalTo(1));
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        Commentable variationPointLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
+
+        // set up variation point
+        setUpVariationPointForXOR(variationPoint);
+
+        // extract information for later verification
+        ClassMethod leadingMethod = (ClassMethod) variationPointLocation;
+        
+        // execute test
+        objectUnderTest.refactor(variationPoint);
+
+        // verification
+        Condition condition = (Condition) leadingMethod.getStatements().get(1);
+
+        assertThat(condition.getCondition(), notNullValue());
+        assertThat(condition.getStatement(), instanceOf(Block.class));
+        assertThat(condition.getElseStatement(), instanceOf(Condition.class));
+
+        Block generatedIfBlock = (Block) condition.getStatement();
+        assertThat(generatedIfBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedIfBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
+
+        Condition elseCondition = (Condition) condition.getElseStatement();
+        Block generatedElseBlock = (Block) elseCondition.getStatement();
+        assertThat(generatedElseBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedElseBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
     }
 
     /**
@@ -865,5 +1755,12 @@ public class IfElseRefactoringTest {
 
         VPMRefinementService refinementService = new VPMRefinementService();
         refinementService.applyRefinements(Lists.newArrayList(refinement), vpm);
+    }
+
+    private void setUpVariationPointForXOR(VariationPoint variationPoint) {
+        variationPoint.setBindingTime(BindingTime.RUN_TIME);
+        variationPoint.setExtensibility(Extensible.NO);
+        variationPoint.setVariabilityMechanism(objectUnderTest.getVariabilityMechanism());
+        variationPoint.setVariabilityType(VariabilityType.XOR);
     }
 }
