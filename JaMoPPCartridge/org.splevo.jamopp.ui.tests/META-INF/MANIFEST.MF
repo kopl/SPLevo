@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests for the JaMoPP SPLevo UI Extensions
+Bundle-SymbolicName: org.splevo.jamopp.ui.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Fragment-Host: org.splevo.jamopp.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit
