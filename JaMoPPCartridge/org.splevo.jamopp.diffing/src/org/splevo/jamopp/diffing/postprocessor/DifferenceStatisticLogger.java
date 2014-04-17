@@ -85,15 +85,15 @@ public class DifferenceStatisticLogger {
             FileUtils.forceMkdir(logFile.getParentFile());
 
             writer = new BufferedWriter(new FileWriter(logFile));
-            writer.write("ChangeKind ; ChangeType ; Containing Resource; Changed Element; Container Element \n");
+            writer.write("ChangeKind , ChangeType , Containing Resource, Changed Element, Container Element \n");
             for (Diff diff : comparison.getDifferences()) {
                 String containingResource = getContainingResource(diff);
                 String changeKind = diff.getKind().getLiteral();
 
                 if (diff instanceof CompilationUnitChange) {
                     CompilationUnitChange change = (CompilationUnitChange) diff;
-                    writer.write(changeKind + ";CompilationUnitChange;" + containingResource + ";"
-                            + change.getChangedCompilationUnit().getName() + ";\n");
+                    writer.write(changeKind + ",CompilationUnitChange," + containingResource + ","
+                            + change.getChangedCompilationUnit().getName() + ",\n");
                 } else if (diff instanceof StatementChange) {
                     StatementChange change = (StatementChange) diff;
 
@@ -108,10 +108,10 @@ public class DifferenceStatisticLogger {
                     } else {
                         containingElement = "" + statement.eContainer();
                     }
-                    writer.write(changeKind + ";StatementChange;" + containingResource + ";" + statement + ";"
+                    writer.write(changeKind + ",StatementChange," + containingResource + "," + statement + ","
                             + containingElement + "\n");
                 } else {
-                    writer.write(changeKind + ";" + diff.getClass().getSimpleName() + ";" + containingResource + "\n");
+                    writer.write(changeKind + "," + diff.getClass().getSimpleName() + "," + containingResource + "\n");
                 }
             }
         } catch (IOException e) {
@@ -221,11 +221,11 @@ public class DifferenceStatisticLogger {
             FileUtils.forceMkdir(logFile.getParentFile());
 
             writer = new BufferedWriter(new FileWriter(logFile));
-            writer.write("Type ; Kind ; Count \n");
+            writer.write("Type , Kind , Count \n");
             for (Class rowKey : statistics.rowKeySet()) {
                 Map<DifferenceKind, Integer> row = statistics.row(rowKey);
                 for (DifferenceKind kind : row.keySet()) {
-                    writer.write(rowKey.getSimpleName() + ";" + kind.getLiteral() + ";" + row.get(kind) + "\n");
+                    writer.write(rowKey.getSimpleName() + "," + kind.getLiteral() + "," + row.get(kind) + "\n");
                 }
             }
         } catch (IOException e) {
@@ -262,7 +262,7 @@ public class DifferenceStatisticLogger {
                 if ("pathmap:/javaclass/java.lang.Object.java".equals(left)) {
                     continue;
                 }
-                writer.write(left + ";" + right + "\n");
+                writer.write(left + "," + right + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
