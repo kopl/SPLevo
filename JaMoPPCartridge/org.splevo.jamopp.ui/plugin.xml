@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonFilter
+            class="org.splevo.jamopp.ui.vpexplorer.filter.ImportOnlyVPFilter"
+            description="Show only VariationPoints which are about variying imports"
+            id="org.splevo.jamopp.ui.vpexplorer.filter.Imports"
+            name="VariationPoints: Imports Only">
+      </commonFilter>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="org.splevo.ui.vpexplorer">
+         <includes>
+            <contentExtension
+                  pattern="org.splevo.jamopp.ui.vpexplorer.filter.*">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+
+</plugin>
