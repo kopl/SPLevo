@@ -9,6 +9,18 @@
             id="org.splevo.jamopp.ui.vpexplorer.filter.Imports"
             name="VariationPoints: Imports Only">
       </commonFilter>
+      <commonFilter
+            class="org.splevo.jamopp.ui.vpexplorer.filter.CompilationUnitOnlyVPFilter"
+            description="Show only VariationPoints which are about variying Compilation Units (class, import, etc)"
+            id="org.splevo.jamopp.ui.vpexplorer.filter.CompilationUnit"
+            name="VariationPoints: CompilationUnit Only">
+      </commonFilter>
+      <commonFilter
+            class="org.splevo.jamopp.ui.vpexplorer.filter.StatementOnlyVPFilter"
+            description="Show only VariationPoints which are about variying statements (including loops and conditions. excluding classifiers)"
+            id="org.splevo.jamopp.ui.vpexplorer.filter.Statement"
+            name="VariationPoints: Statement Only">
+      </commonFilter>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">

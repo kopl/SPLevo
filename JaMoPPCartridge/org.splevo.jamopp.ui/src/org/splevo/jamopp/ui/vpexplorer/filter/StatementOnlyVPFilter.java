@@ -11,22 +11,28 @@
  *******************************************************************************/
 package org.splevo.jamopp.ui.vpexplorer.filter;
 
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.statements.Statement;
 
 /**
- * Viewer content filter for variation points with variants containing Import statements only.
+ * Viewer content filter for variation points with variants implemented by statements (excluding
+ * classifiers) only.
  */
-public class ImportOnlyVPFilter extends AbstractJaMoPPVPFilter {
+public class StatementOnlyVPFilter extends AbstractJaMoPPVPFilter {
 
     @Override
     protected Class<?> getExpectedLocationClass() {
-        return CompilationUnit.class;
+        return null;
     }
 
     @Override
     protected Class<?> getImplementingElementClass() {
-        return Import.class;
+        return Statement.class;
+    }
+
+    @Override
+    protected Class<?> getExcludeImplementingElementClass() {
+        return ConcreteClassifier.class;
     }
 
 }

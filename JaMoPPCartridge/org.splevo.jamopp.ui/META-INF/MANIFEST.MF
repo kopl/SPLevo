@@ -8,6 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.splevo.ui,
  org.emftext.language.java,
  org.splevo.ui.vpexplorer,
- org.eclipse.jface;bundle-version="3.9.1",
- org.splevo.vpm;bundle-version="1.0.0",
- org.splevo.jamopp.vpm;bundle-version="1.0.0"
+ org.eclipse.jface,
+ org.splevo.vpm,
+ org.splevo.jamopp.vpm,
+ com.google.guava

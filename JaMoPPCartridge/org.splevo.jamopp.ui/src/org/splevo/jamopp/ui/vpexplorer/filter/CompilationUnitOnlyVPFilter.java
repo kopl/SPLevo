@@ -12,12 +12,11 @@
 package org.splevo.jamopp.ui.vpexplorer.filter;
 
 import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.imports.Import;
 
 /**
- * Viewer content filter for variation points with variants containing Import statements only.
+ * Viewer content filter for variation points with variants containing Compilation Units only.
  */
-public class ImportOnlyVPFilter extends AbstractJaMoPPVPFilter {
+public class CompilationUnitOnlyVPFilter extends AbstractJaMoPPVPFilter {
 
     @Override
     protected Class<?> getExpectedLocationClass() {
@@ -26,7 +25,7 @@ public class ImportOnlyVPFilter extends AbstractJaMoPPVPFilter {
 
     @Override
     protected Class<?> getImplementingElementClass() {
-        return Import.class;
+        return CompilationUnit.class;
     }
 
 }
