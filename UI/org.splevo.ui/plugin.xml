@@ -91,7 +91,7 @@
       <command
             defaultHandler="org.splevo.ui.sourceconnection.handler.CopyContainingFilenameHandler"
             id="org.splevo.ui.vp.copyfilename"
-            name="Copy Containing Filename">
+            name="Copy Containing Filename(s)">
       </command>
    </extension>
    <extension
@@ -150,7 +150,7 @@
          <command
                commandId="org.splevo.ui.vp.copyfilename"
                icon="icons/copy.gif"
-               label="Copy Containing Filename"
+               label="Copy Containing Filename(s)"
                style="push"
                tooltip="Open the name of the file containing the variation point.">
             <visibleWhen
