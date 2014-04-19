@@ -32,11 +32,13 @@ import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.types.TypeReference;
 import org.splevo.diffing.postprocessor.ComparisonModelCleanUp;
 import org.splevo.jamopp.diffing.diff.JaMoPPChangeFactory;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
+import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -173,13 +175,10 @@ public class JaMoPPPostProcessor implements IPostProcessor {
             parentMatch = getParentMatch(parentMatch);
             while (parentMatch != null) {
 
-                if (parentMatch.getDifferences().size() > 0) {
-                    EObject left = parentMatch.getLeft();
-                    EObject right = parentMatch.getRight();
-                    if ((left instanceof Statement || right instanceof Statement) && noClassElement(left, right)) {
-                        diffsToRemove.add(diff);
-                        break;
-                    }
+                if (parentMatch.getDifferences().size() > 0 && atLeastOneStatement(parentMatch)
+                        && notJustStatementChangesInStatementContainer(parentMatch) && noClassElement(parentMatch)) {
+                    diffsToRemove.add(diff);
+                    break;
                 }
 
                 parentMatch = getParentMatch(parentMatch);
@@ -192,15 +191,40 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     }
 
     /**
-     * Check that non of the provided elements is a class element.
+     * Check that the matching elements are not both statement list containers and the contained
+     * diffs are all statements contained in those containers.
      *
-     * @param left
-     *            The first element to check.
-     * @param right
-     *            The second element to check.
+     * @param match
+     *            The match element to check left and right for.
      * @return True if none of them is a class element.
      */
-    private boolean noClassElement(EObject left, EObject right) {
+    private boolean notJustStatementChangesInStatementContainer(Match parentMatch) {
+
+        if (parentMatch.getRight() instanceof StatementListContainer) {
+            for (Diff diff : parentMatch.getAllDifferences()) {
+                if (!(diff instanceof StatementChange)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean atLeastOneStatement(Match parentMatch) {
+        return parentMatch.getLeft() instanceof Statement || parentMatch.getRight() instanceof Statement;
+    }
+
+    /**
+     * Check that none of the provided match's left or right elements is a class element.
+     *
+     * @param match
+     *            The match element to check left and right for.
+     * @return True if none of them is a class element.
+     */
+    private boolean noClassElement(Match parentMatch) {
+        EObject left = parentMatch.getLeft();
+        EObject right = parentMatch.getRight();
         return !(isClassElement(left) || isClassElement(right));
     }
 
@@ -330,7 +354,8 @@ public class JaMoPPPostProcessor implements IPostProcessor {
             if (logDir != null && logDir instanceof String) {
                 String logDirPath = (String) logDir;
                 if (!logDirPath.trim().isEmpty()) {
-                    DifferenceStatisticLogger.log(comparison, ((String) logDir) + File.separator + "after-derived-copy");
+                    DifferenceStatisticLogger
+                            .log(comparison, ((String) logDir) + File.separator + "after-derived-copy");
                 }
             }
 

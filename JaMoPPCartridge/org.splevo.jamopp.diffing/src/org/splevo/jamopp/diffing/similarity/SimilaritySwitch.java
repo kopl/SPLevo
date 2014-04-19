@@ -66,6 +66,7 @@ import org.emftext.language.java.modifiers.util.ModifiersSwitch;
 import org.emftext.language.java.operators.AssignmentOperator;
 import org.emftext.language.java.operators.EqualityOperator;
 import org.emftext.language.java.operators.util.OperatorsSwitch;
+import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.util.ParametersSwitch;
 import org.emftext.language.java.references.ElementReference;
@@ -75,6 +76,7 @@ import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.references.util.ReferencesSwitch;
+import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.Conditional;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.Jump;
@@ -1089,6 +1091,22 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          */
         @Override
         public Boolean caseThrow(Throw throwStatement1) {
+            return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean caseCatchBlock(CatchBlock catchBlock1) {
+
+            CatchBlock catchBlock2 = (CatchBlock) compareElement;
+
+            OrdinaryParameter catchedException1 = catchBlock1.getParameter();
+            OrdinaryParameter catchedException2 = catchBlock2.getParameter();
+
+            Boolean exceptionSimilarity = similarityChecker.isSimilar(catchedException1, catchedException2);
+            if (exceptionSimilarity == Boolean.FALSE) {
+                return exceptionSimilarity;
+            }
+
             return Boolean.TRUE;
         }
 
