@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.util;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -34,6 +35,30 @@ public final class JaMoPPElementUtil {
 
     /** Disable constructor for utility class. */
     private JaMoPPElementUtil() {
+    }
+
+    /**
+     * Check if a candidate is in the container hierarchy of the child.
+     *
+     * @param parentCandidate
+     *            The candidate to check.
+     * @param child
+     *            The child to prove the hierarchy of.
+     * @return True/false depending on parent relationship exists or not.
+     */
+    public static boolean isParentOf(Commentable parentCandidate, Commentable child) {
+
+        EObject container = child;
+        while (container != null) {
+
+            if (container == parentCandidate) {
+                return true;
+            }
+
+            container = container.eContainer();
+        }
+
+        return false;
     }
 
     /**
