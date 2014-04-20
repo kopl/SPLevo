@@ -64,4 +64,29 @@ public class VariableUsageTest {
         assertThat("Wrong number of dependencies", result.getEdgeDescriptors().size(), is(1));
 
     }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testVariableUsageIgnoredSharedVariables() throws Exception {
+
+        String relativePathA = BASE_PATH + "a";
+        String relativePathB = BASE_PATH + "b";
+        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+
+        JaMoPPProgramDependencyVPMAnalyzer analyzer = new JaMoPPProgramDependencyVPMAnalyzer();
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
+            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
+        }
+
+        assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(2));
+        assertThat("Wrong number of dependencies", result.getEdgeDescriptors().size(), is(1));
+
+    }
 }
