@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.extraction.resource;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
@@ -25,6 +26,9 @@ import com.google.common.base.Strings;
  * when required only.
  */
 public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileResource {
+
+    @SuppressWarnings("unused")
+    private static Logger logger = Logger.getLogger(JavaSourceOrClassFileCachingResource.class);
 
     /** The reference cache to resolve proxies. */
     private ReferenceCache referenceCache = null;
@@ -58,7 +62,13 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
         EObject resolvedEObject = referenceCache.getEObject(this, id);
         if (resolvedEObject == null) {
             resolvedEObject = super.getEObject(id);
-            referenceCache.registerEObject(this, id, resolvedEObject);
+            if (resolvedEObject != null) {
+                referenceCache.registerEObject(this, id, resolvedEObject);
+// TODO https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-276
+// Disabled to reduce logging output
+//            } else {
+//                logger.warn(String.format("Reference not resolved %s#%s", getURI().toString(), id));
+            }
         }
         return resolvedEObject;
     }
