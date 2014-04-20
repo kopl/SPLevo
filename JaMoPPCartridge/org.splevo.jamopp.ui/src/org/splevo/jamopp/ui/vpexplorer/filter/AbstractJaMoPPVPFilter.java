@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.splevo.jamopp.ui.vpexplorer.filter;
 
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.emftext.language.java.commons.Commentable;
@@ -23,6 +25,8 @@ import org.splevo.vpm.variability.VariationPoint;
  * Filter which checks the type of the variation point location as well of the implementing
  * elements.
  *
+ * If all variation points of a parent element are filtered, the parent element is filtered as well.
+ *
  * A concrete filter must provide the classes to search for.
  */
 public abstract class AbstractJaMoPPVPFilter extends ViewerFilter {
@@ -30,11 +34,24 @@ public abstract class AbstractJaMoPPVPFilter extends ViewerFilter {
     @Override
     public boolean select(Viewer viewer, Object parentElement, Object element) {
 
-        if (!(element instanceof VariationPoint)) {
+        if (element instanceof Variant || element instanceof Commentable) {
             return true;
-        }
+        } else if (element instanceof VariationPoint) {
+            return select((VariationPoint) element);
 
-        VariationPoint variationPoint = (VariationPoint) element;
+        } else {
+            StructuredViewer sviewer = (StructuredViewer) viewer;
+            ITreeContentProvider provider = (ITreeContentProvider) sviewer.getContentProvider();
+            for (Object child : provider.getChildren(element)) {
+                if (select(viewer, element, child)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private boolean select(VariationPoint variationPoint) {
 
         if (!isValidLocation(variationPoint)) {
             return false;

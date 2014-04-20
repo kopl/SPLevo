@@ -16,6 +16,12 @@
             name="VariationPoints: CompilationUnit Only">
       </commonFilter>
       <commonFilter
+            class="org.splevo.jamopp.ui.vpexplorer.filter.MethodOnlyVPFilter"
+            description="Show only VariationPoints which are about variying method declarations"
+            id="org.splevo.jamopp.ui.vpexplorer.filter.Methods"
+            name="VariationPoints: Method Only">
+      </commonFilter>
+      <commonFilter
             class="org.splevo.jamopp.ui.vpexplorer.filter.StatementOnlyVPFilter"
             description="Show only VariationPoints which are about variying statements (including loops and conditions. excluding classifiers)"
             id="org.splevo.jamopp.ui.vpexplorer.filter.Statement"
