@@ -30,6 +30,7 @@ import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
 import org.emftext.language.java.statements.Condition;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
@@ -155,6 +156,40 @@ public class StatementTest {
                 fail("Unexpected condition value: " + value);
             }
         }
+    }
+
+    /**
+     * Test insertion of a new separate if statement
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Ignore
+    @Test
+    public void testIfIfStatementDiff() throws Exception {
+
+        File testFileA = new File(basePath + "a/IfIfStatements.java");
+        File testFileB = new File(basePath + "b/IfIfStatements.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Wrong number of differences", differences.size(), is(1));
+
+        Diff diff = differences.get(0);
+        assertThat("StatementChange expected", diff, instanceOf(StatementChange.class));
+        StatementChange stmtChange = (StatementChange) diff;
+        assertThat("Wrong changed statement type", stmtChange.getChangedStatement(), instanceOf(Condition.class));
+
+        assertThat("Wrong difference type", stmtChange.getKind(), is(DifferenceKind.ADD));
+        Condition condition = (Condition) stmtChange.getChangedStatement();
+        EqualityExpression exp = (EqualityExpression) condition.getCondition();
+//        DecimalIntegerLiteral value = (DecimalIntegerLiteral) exp.getChildren().get(1);
+//        assertThat("Wrong condition for add", value.getDecimalValue(), is(equalTo(BigInteger.valueOf(1))));
     }
 
     /**
