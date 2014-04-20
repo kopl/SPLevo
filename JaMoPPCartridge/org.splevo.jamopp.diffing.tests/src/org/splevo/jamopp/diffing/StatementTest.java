@@ -11,18 +11,27 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.math.BigInteger;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.emftext.language.java.expressions.EqualityExpression;
+import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
+import org.emftext.language.java.statements.Condition;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
 import com.google.common.collect.Sets;
 
@@ -105,7 +114,87 @@ public class StatementTest {
 
         EList<Diff> differences = comparison.getDifferences();
 
-        assertThat("Wrong number of differences", differences.size(), is(5));
+        assertThat("Wrong number of differences", differences.size(), is(4));
+    }
+
+    /**
+     * Test insertion of new statements
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testIfElseStatementDiff() throws Exception {
+
+        File testFileA = new File(basePath + "a/IfElseStatements.java");
+        File testFileB = new File(basePath + "b/IfElseStatements.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Wrong number of differences", differences.size(), is(2));
+
+        for (Diff diff : differences) {
+            assertThat("StatementChange expected", diff, instanceOf(StatementChange.class));
+            StatementChange stmtChange = (StatementChange) diff;
+            assertThat("Wrong changed statement type", stmtChange.getChangedStatement(), instanceOf(Condition.class));
+
+            Condition condition = (Condition) stmtChange.getChangedStatement();
+            EqualityExpression exp = (EqualityExpression) condition.getCondition();
+            DecimalIntegerLiteral value = (DecimalIntegerLiteral) exp.getChildren().get(1);
+
+            if (diff.getKind() == DifferenceKind.ADD) {
+                assertThat("Wrong condition for add", value.getDecimalValue(), is(equalTo(BigInteger.valueOf(54))));
+            } else if (diff.getKind() == DifferenceKind.DELETE) {
+                assertThat("Wrong condition for add", value.getDecimalValue(), is(equalTo(BigInteger.valueOf(2))));
+            } else {
+                fail("Unexpected condition value: " + value);
+            }
+        }
+    }
+
+    /**
+     * Test insertion of new statements
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testIfElseMultipleStatementDiff() throws Exception {
+
+        File testFileA = new File(basePath + "a/IfElseMultipleStatements.java");
+        File testFileB = new File(basePath + "b/IfElseMultipleStatements.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Wrong number of differences", differences.size(), is(2));
+
+        for (Diff diff : differences) {
+            assertThat("StatementChange expected", diff, instanceOf(StatementChange.class));
+            StatementChange stmtChange = (StatementChange) diff;
+            assertThat("Wrong changed statement type", stmtChange.getChangedStatement(), instanceOf(Condition.class));
+
+            Condition condition = (Condition) stmtChange.getChangedStatement();
+            EqualityExpression exp = (EqualityExpression) condition.getCondition();
+            DecimalIntegerLiteral value = (DecimalIntegerLiteral) exp.getChildren().get(1);
+
+            if (diff.getKind() == DifferenceKind.ADD) {
+                assertThat("Wrong condition for add", value.getDecimalValue(), is(equalTo(BigInteger.valueOf(54))));
+            } else if (diff.getKind() == DifferenceKind.DELETE) {
+                assertThat("Wrong condition for add", value.getDecimalValue(), is(equalTo(BigInteger.valueOf(2))));
+            } else {
+                fail("Unexpected condition value: " + value);
+            }
+        }
     }
 
     /**

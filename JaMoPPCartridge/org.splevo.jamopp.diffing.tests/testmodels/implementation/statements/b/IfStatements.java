@@ -61,14 +61,4 @@ public class IfStatements {
         it = (umlPredecessors != null) ? umlPredecessors.iterator() : null;
     }
 
-    public void elseIf(int a) {
-        if (a == 1) {
-            System.out.println("1");
-        } else if (a == 54) {
-            System.out.println("54");
-        } else if (a == 2) {
-            System.out.println("2");
-        }
-    }
-
 }
