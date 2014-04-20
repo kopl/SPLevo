@@ -32,13 +32,13 @@ import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.types.TypeReference;
 import org.splevo.diffing.postprocessor.ComparisonModelCleanUp;
 import org.splevo.jamopp.diffing.diff.JaMoPPChangeFactory;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
+import org.splevo.jamopp.util.JaMoPPElementUtil;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -171,12 +171,11 @@ public class JaMoPPPostProcessor implements IPostProcessor {
         Set<Diff> diffsToRemove = new HashSet<Diff>();
         for (Diff diff : comparison.getDifferences()) {
 
-            Match parentMatch = diff.getMatch();
-            parentMatch = getParentMatch(parentMatch);
+            Match parentMatch = getParentMatch(diff.getMatch());
             while (parentMatch != null) {
 
-                if (parentMatch.getDifferences().size() > 0 && atLeastOneStatement(parentMatch)
-                        && notJustStatementChangesInStatementContainer(parentMatch) && noClassElement(parentMatch)) {
+                if (parentMatch.getDifferences().size() > 0 && atLeastOneDiffIsStatement(parentMatch)
+                        && oneIsParent(parentMatch, diff) && noClassElement(parentMatch)) {
                     diffsToRemove.add(diff);
                     break;
                 }
@@ -190,28 +189,39 @@ public class JaMoPPPostProcessor implements IPostProcessor {
         }
     }
 
-    /**
-     * Check that the matching elements are not both statement list containers and the contained
-     * diffs are all statements contained in those containers.
-     *
-     * @param match
-     *            The match element to check left and right for.
-     * @return True if none of them is a class element.
-     */
-    private boolean notJustStatementChangesInStatementContainer(Match parentMatch) {
+    private boolean oneIsParent(Match parentMatch, Diff diff) {
 
-        if (parentMatch.getRight() instanceof StatementListContainer) {
-            for (Diff diff : parentMatch.getAllDifferences()) {
-                if (!(diff instanceof StatementChange)) {
+        if (!(diff instanceof StatementChange)) {
+            return false;
+        }
+        Statement childStmt = ((StatementChange) diff).getChangedStatement();
+
+        for (Diff parentDiff : parentMatch.getDifferences()) {
+            if (parentDiff instanceof StatementChange) {
+
+                Statement parentStmt = ((StatementChange) parentDiff).getChangedStatement();
+                if (JaMoPPElementUtil.isParentOf(parentStmt, childStmt)) {
                     return true;
                 }
+
+                // test opposite statement to support ADDs and DELETEs
+                if (parentMatch.getRight() == parentStmt) {
+                    if (JaMoPPElementUtil.isParentOf((Statement) parentMatch.getLeft(), childStmt)) {
+                        return true;
+                    }
+                } else if (parentMatch.getLeft() == parentStmt) {
+                    if (JaMoPPElementUtil.isParentOf((Statement) parentMatch.getRight(), childStmt)) {
+                        return true;
+                    }
+                }
+
             }
         }
 
         return false;
     }
 
-    private boolean atLeastOneStatement(Match parentMatch) {
+    private boolean atLeastOneDiffIsStatement(Match parentMatch) {
         return parentMatch.getLeft() instanceof Statement || parentMatch.getRight() instanceof Statement;
     }
 
