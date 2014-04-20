@@ -27,6 +27,8 @@ import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
+import org.emftext.language.java.references.MethodCall;
+import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
 import org.emftext.language.java.statements.Condition;
 import org.junit.BeforeClass;
@@ -164,7 +166,6 @@ public class StatementTest {
      * @throws Exception
      *             Identifies a failed diffing.
      */
-    @Ignore
     @Test
     public void testIfIfStatementDiff() throws Exception {
 
@@ -187,9 +188,10 @@ public class StatementTest {
 
         assertThat("Wrong difference type", stmtChange.getKind(), is(DifferenceKind.ADD));
         Condition condition = (Condition) stmtChange.getChangedStatement();
-        EqualityExpression exp = (EqualityExpression) condition.getCondition();
-//        DecimalIntegerLiteral value = (DecimalIntegerLiteral) exp.getChildren().get(1);
-//        assertThat("Wrong condition for add", value.getDecimalValue(), is(equalTo(BigInteger.valueOf(1))));
+        MethodCall call1 = (MethodCall) condition.getCondition();
+        MethodCall call2 = (MethodCall) call1.getNext();
+        StringReference stringRef =  (StringReference) call2.getArguments().get(0);
+        assertThat("wrong condition in changed Statement", stringRef.getValue(), is("b"));
     }
 
     /**
