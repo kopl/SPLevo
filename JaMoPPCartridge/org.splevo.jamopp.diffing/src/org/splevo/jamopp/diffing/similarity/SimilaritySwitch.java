@@ -938,6 +938,11 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
                 }
             }
 
+            Boolean nextSimilarity = similarityChecker.isSimilar(call1.getNext(), call2.getNext());
+            if (nextSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+
             return Boolean.TRUE;
         }
 
