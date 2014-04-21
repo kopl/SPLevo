@@ -32,6 +32,8 @@ import org.emftext.language.java.commons.util.CommonsSwitch;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.containers.util.ContainersSwitch;
+import org.emftext.language.java.expressions.AdditiveExpression;
+import org.emftext.language.java.expressions.AdditiveExpressionChild;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.EqualityExpression;
@@ -415,6 +417,27 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             Boolean valueSimilarity = similarityChecker.isSimilar(value1, value2);
             if (valueSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
+            }
+
+            return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean caseAdditiveExpression(AdditiveExpression exp1) {
+            AdditiveExpression exp2 = (AdditiveExpression) compareElement;
+
+            EList<AdditiveExpressionChild> children1 = exp1.getChildren();
+            EList<AdditiveExpressionChild> children2 = exp2.getChildren();
+
+            if (children1.size() != children2.size()) {
+                return Boolean.FALSE;
+            }
+
+            for (int i = 0; i < children1.size(); i++) {
+                Boolean childSimilarity = similarityChecker.isSimilar(children1.get(i), children2.get(i));
+                if (childSimilarity == Boolean.FALSE) {
+                    return Boolean.FALSE;
+                }
             }
 
             return Boolean.TRUE;
