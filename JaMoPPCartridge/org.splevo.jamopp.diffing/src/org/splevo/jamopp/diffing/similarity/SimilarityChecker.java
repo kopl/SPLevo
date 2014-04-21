@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Checker for the similarity of two elements specific for the java application model.
@@ -27,7 +28,6 @@ import org.eclipse.emf.ecore.EObject;
 public class SimilarityChecker {
 
     /** The logger for this class. */
-    @SuppressWarnings("unused")
     private Logger logger = Logger.getLogger(SimilarityChecker.class);
 
     private Map<Pattern, String> classifierNormalizations = null;
@@ -77,7 +77,7 @@ public class SimilarityChecker {
      *            Flag if the position of statement elements should be considered or not.
      * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
      */
-    public Boolean isSimilar(final EObject element1, final EObject element2, boolean checkStatementPosition) {
+    public Boolean isSimilar(EObject element1, EObject element2, boolean checkStatementPosition) {
 
         // check that either both or none of them is null
         if (element1 == element2) {
@@ -86,6 +86,18 @@ public class SimilarityChecker {
 
         if (onlyOneIsNull(element1, element2)) {
             return Boolean.FALSE;
+        }
+
+        // if a proxy is present try to resolve it
+        // the other element is used as a context.
+        // TODO Clarify why it can happen that one proxy is resolved and the other is not
+        // further notes available with the issue https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-279
+        if (element2.eIsProxy() && !element1.eIsProxy()) {
+            element2 = EcoreUtil.resolve(element2, element1);
+            logger.info("Proxy element1 resolved on the fly? " + element2.eIsProxy());
+        } else if (element1.eIsProxy() && !element2.eIsProxy()) {
+            element1 = EcoreUtil.resolve(element1, element2);
+            logger.info("Proxy element2 resolved on the fly? " + element1.eIsProxy());
         }
 
         // check the elements to be of the same type
