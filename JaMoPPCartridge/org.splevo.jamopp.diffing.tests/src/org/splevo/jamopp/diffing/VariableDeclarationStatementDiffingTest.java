@@ -133,4 +133,26 @@ public class VariableDeclarationStatementDiffingTest {
         assertThat("Wrong number of differences", differences.size(), is(1));
     }
 
+    /**
+     * Test the correct detection of a new local variable declaration in a method.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStringInitialization() throws Exception {
+
+        File fileLeading = new File(BASE_PATH + "a/StringInitialization.java");
+        File fileIntegration = new File(BASE_PATH + "b/StringInitialization.java");
+
+        ResourceSet rsLeading = TestUtil.loadResourceSet(Sets.newHashSet(fileLeading));
+        ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(fileIntegration));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+
+        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.DIFF_OPTIONS);
+        EList<Diff> differences = comparison.getDifferences();
+        assertThat("Wrong number of differences", differences.size(), is(0));
+    }
+
 }
