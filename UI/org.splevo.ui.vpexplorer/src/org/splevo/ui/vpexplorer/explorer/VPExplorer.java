@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction;
+import org.splevo.ui.vpexplorer.explorer.actions.SelectVisibleAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ToggleGroupsAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction.MODE;
 
@@ -70,9 +71,11 @@ public class VPExplorer extends CommonNavigator {
         IMenuManager dropDownMenu = actionBars.getMenuManager();
         IToolBarManager toolBar = actionBars.getToolBarManager();
         if (toolBar.getItems().length > 0) {
+            toolBar.insertBefore(toolBar.getItems()[0].getId(), new SelectVisibleAction(this));
             toolBar.insertBefore(toolBar.getItems()[0].getId(), new ExpandAllAction(this));
             toolBar.insertBefore(toolBar.getItems()[0].getId(), new ExpandAllAction(this, MODE.VARIATIONPOINT));
         } else {
+            toolBar.add(new SelectVisibleAction(this));
             toolBar.add(new ExpandAllAction(this));
             toolBar.add(new ExpandAllAction(this, MODE.VARIATIONPOINT));
         }
