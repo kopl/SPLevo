@@ -330,9 +330,21 @@ public class ReferenceCache {
 
         if (resolvedElement.eIsProxy()) {
             if (isNotLibraryProxy(resolvedElement)) {
-                logger.warn(String.format("Tried to register a proxy in the cache: %s#%s", resourceUri, fragmentURI));
+                logger.warn(String.format("Tried to register a non-library proxy in the cache: %s#%s", resourceUri,
+                        fragmentURI));
                 return;
             }
+        }
+
+        String targetURI;
+        Resource targetResource = resolvedElement.eResource();
+        if (targetResource != null) {
+            targetURI = targetResource.getURI().toString() + "#" + targetResource.getURIFragment(resolvedElement);
+        } else if (resolvedElement.eIsProxy()) {
+            targetURI = ((InternalEObject) resolvedElement).eProxyURI().toString();
+        } else {
+            logger.error("Unable to identify target URI of resolved element: " + resolvedElement);
+            return;
         }
 
         LinkedHashMap<String, String> targetURIMap = cacheData.getResourceToTargetURIListMap().get(resourceUri);
@@ -341,8 +353,6 @@ public class ReferenceCache {
             cacheData.getResourceToTargetURIListMap().put(resourceUri, targetURIMap);
         }
 
-        Resource targetResource = resolvedElement.eResource();
-        String targetURI = targetResource.getURI().toString() + "#" + targetResource.getURIFragment(resolvedElement);
         targetURIMap.put(fragmentURI, targetURI);
         notResolvedFromCacheCounterReference++;
     }
