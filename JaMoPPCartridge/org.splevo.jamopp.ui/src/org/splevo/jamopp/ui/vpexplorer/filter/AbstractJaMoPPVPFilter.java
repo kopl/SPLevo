@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.splevo.jamopp.ui.vpexplorer.filter;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -76,16 +78,22 @@ public abstract class AbstractJaMoPPVPFilter extends ViewerFilter {
      */
     private boolean validImplementationElements(VariationPoint variationPoint) {
 
-        Class<?> includeClass = getImplementingElementClass();
+        List<Class<?>> includeClasses = getImplementingElementClass();
         Class<?> excludeClass = getExcludeImplementingElementClass();
 
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement implementingElement : variant.getImplementingElements()) {
                 JaMoPPSoftwareElement jamoppElement = (JaMoPPSoftwareElement) implementingElement;
-                if (!includeClass.isAssignableFrom(jamoppElement.getJamoppElement().getClass())) {
-                    return false;
+                boolean isIncludeElement = false;
+                for (Class<?> includeClass : includeClasses) {
+                    if (includeClass.isAssignableFrom(jamoppElement.getJamoppElement().getClass())) {
+                        isIncludeElement = true;
+                        break;
+                    }
                 }
-                if (excludeClass != null && excludeClass.isAssignableFrom(jamoppElement.getJamoppElement().getClass())) {
+                if (!isIncludeElement
+                        || (excludeClass != null && excludeClass.isAssignableFrom(jamoppElement.getJamoppElement()
+                                .getClass()))) {
                     return false;
                 }
             }
@@ -120,7 +128,7 @@ public abstract class AbstractJaMoPPVPFilter extends ViewerFilter {
      *
      * @return The class expected for the elements.
      */
-    protected abstract Class<?> getImplementingElementClass();
+    protected abstract List<Class<?>> getImplementingElementClass();
 
     /**
      * Get the class to exclude from allowed implementing elements.

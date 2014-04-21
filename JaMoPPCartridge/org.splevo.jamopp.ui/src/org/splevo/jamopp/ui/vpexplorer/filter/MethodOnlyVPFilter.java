@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.splevo.jamopp.ui.vpexplorer.filter;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.emftext.language.java.members.Method;
 
 /**
@@ -24,8 +27,10 @@ public class MethodOnlyVPFilter extends AbstractJaMoPPVPFilter {
     }
 
     @Override
-    protected Class<?> getImplementingElementClass() {
-        return Method.class;
+    protected List<Class<?>> getImplementingElementClass() {
+        LinkedList<Class<?>> classes = new LinkedList<Class<?>>();
+        classes.add(Method.class);
+        return classes;
     }
 
 }

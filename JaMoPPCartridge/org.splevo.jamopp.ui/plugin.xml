@@ -16,6 +16,18 @@
             name="VariationPoints: CompilationUnit Only">
       </commonFilter>
       <commonFilter
+            class="org.splevo.jamopp.ui.vpexplorer.filter.EnumerationOnlyVPFilter"
+            description="Show only VariationPoints which are about variying Enumeration declarations"
+            id="org.splevo.jamopp.ui.vpexplorer.filter.Enumerations"
+            name="VariationPoints: Enumeration Only">
+      </commonFilter>
+      <commonFilter
+            class="org.splevo.jamopp.ui.vpexplorer.filter.FieldOnlyVPFilter"
+            description="Show only VariationPoints which are about variying field declarations"
+            id="org.splevo.jamopp.ui.vpexplorer.filter.Fields"
+            name="VariationPoints: Field Only">
+      </commonFilter>
+      <commonFilter
             class="org.splevo.jamopp.ui.vpexplorer.filter.MethodOnlyVPFilter"
             description="Show only VariationPoints which are about variying method declarations"
             id="org.splevo.jamopp.ui.vpexplorer.filter.Methods"

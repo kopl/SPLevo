@@ -14,14 +14,13 @@ package org.splevo.jamopp.ui.vpexplorer.filter;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.classifiers.Enumeration;
+import org.emftext.language.java.members.EnumConstant;
 
 /**
- * Viewer content filter for variation points with variants implemented by statements (excluding
- * classifiers) only.
+ * Viewer content filter for variation points with variants containing Import statements only.
  */
-public class StatementOnlyVPFilter extends AbstractJaMoPPVPFilter {
+public class EnumerationOnlyVPFilter extends AbstractJaMoPPVPFilter {
 
     @Override
     protected Class<?> getExpectedLocationClass() {
@@ -31,13 +30,9 @@ public class StatementOnlyVPFilter extends AbstractJaMoPPVPFilter {
     @Override
     protected List<Class<?>> getImplementingElementClass() {
         LinkedList<Class<?>> classes = new LinkedList<Class<?>>();
-        classes.add(Statement.class);
+        classes.add(Enumeration.class);
+        classes.add(EnumConstant.class);
         return classes;
-    }
-
-    @Override
-    protected Class<?> getExcludeImplementingElementClass() {
-        return ConcreteClassifier.class;
     }
 
 }
