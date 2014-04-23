@@ -6,8 +6,8 @@ public class ConditionMatchUnaryExpression {
 
     public String doSth(List<String> a) {
 
-        if(!(String.CASE_INSENSITIVE_ORDER.equals(a.iterator().next()))
-                && a.size() == ("test".length() + 1)) {
+        if(!(String.CASE_INSENSITIVE_ORDER.equals(a.iterator().next())
+                && a.size() == ("test".length() + 1))) {
             return "existing conditional";
         }
 
