@@ -32,8 +32,12 @@ import org.emftext.language.java.commons.util.CommonsSwitch;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.containers.util.ContainersSwitch;
+import org.emftext.language.java.expressions.AndExpression;
+import org.emftext.language.java.expressions.AndExpressionChild;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.AssignmentExpressionChild;
+import org.emftext.language.java.expressions.ConditionalAndExpression;
+import org.emftext.language.java.expressions.ConditionalAndExpressionChild;
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.Expression;
@@ -430,27 +434,17 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             // check operator equality
             EList<EqualityOperator> operators1 = exp1.getEqualityOperators();
             EList<EqualityOperator> operators2 = exp2.getEqualityOperators();
-            if (operators1.size() != operators2.size()) {
+            Boolean operatorSimilarity = similarityChecker.areSimilar(operators1, operators2);
+            if (operatorSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
-            }
-            for (int i = 0; i < operators1.size(); i++) {
-                Boolean childSimilarity = similarityChecker.isSimilar(operators1.get(i), operators2.get(i));
-                if (childSimilarity == Boolean.FALSE) {
-                    return Boolean.FALSE;
-                }
             }
 
             // check expression equality
             EList<EqualityExpressionChild> children1 = exp1.getChildren();
             EList<EqualityExpressionChild> children2 = exp2.getChildren();
-            if (children1.size() != children2.size()) {
+            Boolean childSimilarity = similarityChecker.areSimilar(children1, children2);
+            if (childSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
-            }
-            for (int i = 0; i < children1.size(); i++) {
-                Boolean childSimilarity = similarityChecker.isSimilar(children1.get(i), children2.get(i));
-                if (childSimilarity == Boolean.FALSE) {
-                    return Boolean.FALSE;
-                }
             }
 
             return Boolean.TRUE;
@@ -464,27 +458,49 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             // check operator equality
             EList<RelationOperator> operators1 = exp1.getRelationOperators();
             EList<RelationOperator> operators2 = exp2.getRelationOperators();
-            if (operators1.size() != operators2.size()) {
+            Boolean operatorSimilarity = similarityChecker.areSimilar(operators1, operators2);
+            if (operatorSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
-            }
-            for (int i = 0; i < operators1.size(); i++) {
-                Boolean childSimilarity = similarityChecker.isSimilar(operators1.get(i), operators2.get(i));
-                if (childSimilarity == Boolean.FALSE) {
-                    return Boolean.FALSE;
-                }
             }
 
             // check expression equality
             EList<RelationExpressionChild> children1 = exp1.getChildren();
             EList<RelationExpressionChild> children2 = exp2.getChildren();
-            if (children1.size() != children2.size()) {
+            Boolean childSimilarity = similarityChecker.areSimilar(children1, children2);
+            if (childSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
             }
-            for (int i = 0; i < children1.size(); i++) {
-                Boolean childSimilarity = similarityChecker.isSimilar(children1.get(i), children2.get(i));
-                if (childSimilarity == Boolean.FALSE) {
-                    return Boolean.FALSE;
-                }
+
+            return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean caseAndExpression(AndExpression exp1) {
+
+            AndExpression exp2 = (AndExpression) compareElement;
+
+            // check expression equality
+            EList<AndExpressionChild> children1 = exp1.getChildren();
+            EList<AndExpressionChild> children2 = exp2.getChildren();
+            Boolean childSimilarity = similarityChecker.areSimilar(children1, children2);
+            if (childSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+
+            return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean caseConditionalAndExpression(ConditionalAndExpression exp1) {
+
+            ConditionalAndExpression exp2 = (ConditionalAndExpression) compareElement;
+
+            // check expression equality
+            EList<ConditionalAndExpressionChild> children1 = exp1.getChildren();
+            EList<ConditionalAndExpressionChild> children2 = exp2.getChildren();
+            Boolean childSimilarity = similarityChecker.areSimilar(children1, children2);
+            if (childSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
             }
 
             return Boolean.TRUE;

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -54,6 +55,33 @@ public class SimilarityChecker {
     }
 
     /**
+     * Check two object lists if they are similar.
+     *
+     * The elements is compared pairwise and it is the responsibility of the provided list
+     * implementations to return them in an appropriate order by calling get(i) with a increasing
+     * index i.
+     *
+     * @param elements1
+     *            The first list of elements to check.
+     * @param elements2
+     *            The second list of elements to check.
+     * @return TRUE, if they are all similar; FALSE if a different number of elements is submitted or at least one pair of elements is not similar to each other.
+     */
+    public Boolean areSimilar(final List<? extends EObject> elements1, final List<? extends EObject> elements2) {
+        if (elements1.size() != elements2.size()) {
+            return Boolean.FALSE;
+        }
+        for (int i = 0; i < elements1.size(); i++) {
+            Boolean childSimilarity = isSimilar(elements1.get(i), elements2.get(i));
+            if (childSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
      * Check two objects if they are similar.
      *
      * @param element1
@@ -91,7 +119,8 @@ public class SimilarityChecker {
         // if a proxy is present try to resolve it
         // the other element is used as a context.
         // TODO Clarify why it can happen that one proxy is resolved and the other is not
-        // further notes available with the issue https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-279
+        // further notes available with the issue
+        // https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-279
         if (element2.eIsProxy() && !element1.eIsProxy()) {
             element2 = EcoreUtil.resolve(element2, element1);
             logger.info("Proxy element1 resolved on the fly? " + element2.eIsProxy());
