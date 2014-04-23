@@ -30,9 +30,10 @@ import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
+import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
+import org.emftext.language.java.statements.Return;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
@@ -118,6 +119,34 @@ public class StatementTest {
         EList<Diff> differences = comparison.getDifferences();
 
         assertThat("Wrong number of differences", differences.size(), is(4));
+    }
+
+    /**
+     * Test insertion of new statements
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testConditionMatchRelationExpression() throws Exception {
+
+        File testFileA = new File(basePath + "a/ConditionMatchRelationExpression.java");
+        File testFileB = new File(basePath + "b/ConditionMatchRelationExpression.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Wrong number of differences", differences.size(), is(1));
+        assertThat("Wrong number of differences", differences.get(0).getKind(), is(DifferenceKind.ADD));
+
+        Condition cond = (Condition) ((StatementChange) differences.get(0)).getChangedStatement();
+        Return returnStmnt = (Return) ((Block) cond.getStatement()).getStatements().get(0);
+        StringReference returnValue = (StringReference) returnStmnt.getReturnValue();
+        assertThat("Wrong condition detected in change", returnValue.getValue(), equalTo("new conditional"));
     }
 
     /**
