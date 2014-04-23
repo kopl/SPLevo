@@ -106,6 +106,28 @@ public class StatementTest {
      *             Identifies a failed diffing.
      */
     @Test
+    public void testSynchronizedDiff() throws Exception {
+
+        File testFileA = new File(basePath + "a/Synchronized.java");
+        File testFileB = new File(basePath + "b/Synchronized.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Wrong number of differences", differences.size(), is(1));
+    }
+
+    /**
+     * Test insertion of new statements
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
     public void testIfStatementDiff() throws Exception {
 
         File testFileA = new File(basePath + "a/IfStatements.java");
