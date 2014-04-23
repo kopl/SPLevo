@@ -1163,7 +1163,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             }
 
             if (checkStatementPosition) {
-                if (differentPredecessor(statement1, statement2)) {
+                if (differentPredecessor(statement1, statement2) && differentSuccessor(statement1, statement2)) {
                     return Boolean.FALSE;
                 }
             }
@@ -1286,7 +1286,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          *            The second statement to check.
          * @return True if their successor differ, false if not.
          */
-        private boolean differentSuccessor(ExpressionStatement statement1, ExpressionStatement statement2) {
+        private boolean differentSuccessor(Statement statement1, Statement statement2) {
             Statement pred1 = getSuccessor(statement1);
             Statement pred2 = getSuccessor(statement2);
             Boolean similarity = similarityChecker.isSimilar(pred1, pred2, false);
