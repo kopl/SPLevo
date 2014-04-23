@@ -38,6 +38,21 @@ public final class JaMoPPElementUtil {
     }
 
     /**
+     * Get the first container of an element which is not an expression.
+     *
+     * @param element
+     *            The element to get an appropriate container for.
+     * @return The first non expression container, which can be null as well!
+     */
+    public static EObject getNonExpressionContainer(Commentable element) {
+        EObject container = element.eContainer();
+        while (container instanceof Expression) {
+            container = container.eContainer();
+        }
+        return container;
+    }
+
+    /**
      * Check if a candidate is in the container hierarchy of the child.
      *
      * @param parentCandidate
