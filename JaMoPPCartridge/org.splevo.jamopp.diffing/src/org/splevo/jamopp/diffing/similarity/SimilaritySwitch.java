@@ -38,6 +38,8 @@ import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.ConditionalAndExpression;
 import org.emftext.language.java.expressions.ConditionalAndExpressionChild;
+import org.emftext.language.java.expressions.ConditionalOrExpression;
+import org.emftext.language.java.expressions.ConditionalOrExpressionChild;
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.Expression;
@@ -491,6 +493,17 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
         }
 
         @Override
+        public Boolean caseConditionalOrExpression(ConditionalOrExpression exp1) {
+
+            ConditionalOrExpression exp2 = (ConditionalOrExpression) compareElement;
+
+            // check expression equality
+            EList<ConditionalOrExpressionChild> children1 = exp1.getChildren();
+            EList<ConditionalOrExpressionChild> children2 = exp2.getChildren();
+            return similarityChecker.areSimilar(children1, children2);
+        }
+
+        @Override
         public Boolean caseConditionalAndExpression(ConditionalAndExpression exp1) {
 
             ConditionalAndExpression exp2 = (ConditionalAndExpression) compareElement;
@@ -498,12 +511,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             // check expression equality
             EList<ConditionalAndExpressionChild> children1 = exp1.getChildren();
             EList<ConditionalAndExpressionChild> children2 = exp2.getChildren();
-            Boolean childSimilarity = similarityChecker.areSimilar(children1, children2);
-            if (childSimilarity == Boolean.FALSE) {
-                return Boolean.FALSE;
-            }
-
-            return Boolean.TRUE;
+            return similarityChecker.areSimilar(children1, children2);
         }
 
         @Override
