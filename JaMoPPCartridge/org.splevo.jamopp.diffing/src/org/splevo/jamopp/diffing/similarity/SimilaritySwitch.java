@@ -45,6 +45,8 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.RelationExpression;
 import org.emftext.language.java.expressions.RelationExpressionChild;
+import org.emftext.language.java.expressions.UnaryExpression;
+import org.emftext.language.java.expressions.UnaryExpressionChild;
 import org.emftext.language.java.expressions.util.ExpressionsSwitch;
 import org.emftext.language.java.generics.util.GenericsSwitch;
 import org.emftext.language.java.imports.ClassifierImport;
@@ -74,6 +76,7 @@ import org.emftext.language.java.modifiers.util.ModifiersSwitch;
 import org.emftext.language.java.operators.AssignmentOperator;
 import org.emftext.language.java.operators.EqualityOperator;
 import org.emftext.language.java.operators.RelationOperator;
+import org.emftext.language.java.operators.UnaryOperator;
 import org.emftext.language.java.operators.util.OperatorsSwitch;
 import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.parameters.Parameter;
@@ -490,6 +493,25 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             }
 
             return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean caseUnaryExpression(UnaryExpression exp1) {
+
+            UnaryExpression exp2 = (UnaryExpression) compareElement;
+
+            // check operator equality
+            EList<UnaryOperator> operators1 = exp1.getOperators();
+            EList<UnaryOperator> operators2 = exp2.getOperators();
+            Boolean operatorSimilarity = similarityChecker.areSimilar(operators1, operators2);
+            if (operatorSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+
+            // check expression equality
+            UnaryExpressionChild child1 = exp1.getChild();
+            UnaryExpressionChild child2 = exp2.getChild();
+            return similarityChecker.isSimilar(child1, child2);
         }
 
         @Override
