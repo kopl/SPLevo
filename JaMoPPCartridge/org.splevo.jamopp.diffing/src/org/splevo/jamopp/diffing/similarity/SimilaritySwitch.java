@@ -37,6 +37,8 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.expressions.RelationExpression;
+import org.emftext.language.java.expressions.RelationExpressionChild;
 import org.emftext.language.java.expressions.util.ExpressionsSwitch;
 import org.emftext.language.java.generics.util.GenericsSwitch;
 import org.emftext.language.java.imports.ClassifierImport;
@@ -65,6 +67,7 @@ import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.modifiers.util.ModifiersSwitch;
 import org.emftext.language.java.operators.AssignmentOperator;
 import org.emftext.language.java.operators.EqualityOperator;
+import org.emftext.language.java.operators.RelationOperator;
 import org.emftext.language.java.operators.util.OperatorsSwitch;
 import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.parameters.Parameter;
@@ -440,6 +443,40 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             // check expression equality
             EList<EqualityExpressionChild> children1 = exp1.getChildren();
             EList<EqualityExpressionChild> children2 = exp2.getChildren();
+            if (children1.size() != children2.size()) {
+                return Boolean.FALSE;
+            }
+            for (int i = 0; i < children1.size(); i++) {
+                Boolean childSimilarity = similarityChecker.isSimilar(children1.get(i), children2.get(i));
+                if (childSimilarity == Boolean.FALSE) {
+                    return Boolean.FALSE;
+                }
+            }
+
+            return Boolean.TRUE;
+        }
+
+        @Override
+        public Boolean caseRelationExpression(RelationExpression exp1) {
+
+            RelationExpression exp2 = (RelationExpression) compareElement;
+
+            // check operator equality
+            EList<RelationOperator> operators1 = exp1.getRelationOperators();
+            EList<RelationOperator> operators2 = exp2.getRelationOperators();
+            if (operators1.size() != operators2.size()) {
+                return Boolean.FALSE;
+            }
+            for (int i = 0; i < operators1.size(); i++) {
+                Boolean childSimilarity = similarityChecker.isSimilar(operators1.get(i), operators2.get(i));
+                if (childSimilarity == Boolean.FALSE) {
+                    return Boolean.FALSE;
+                }
+            }
+
+            // check expression equality
+            EList<RelationExpressionChild> children1 = exp1.getChildren();
+            EList<RelationExpressionChild> children2 = exp2.getChildren();
             if (children1.size() != children2.size()) {
                 return Boolean.FALSE;
             }
@@ -865,10 +902,13 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
                 // in another container than the reference itself.
                 // Otherwise such a situation would lead to endless loops
                 // e.g. for for "(Iterator i = c.iterator(); i.hasNext(); ) {"
-                EObject container1 = target1.eContainer();
-                EObject container2 = target2.eContainer();
-                if (container1 != ref1.eContainer() && container2 != ref2.eContainer()) {
-                    Boolean containerSimilarity = similarityChecker.isSimilar(container1, container2);
+                // Attention: The reference could be encapsulated by an expression!
+                EObject ref1Container = JaMoPPElementUtil.getNonExpressionContainer(ref1);
+                EObject ref2Container = JaMoPPElementUtil.getNonExpressionContainer(ref2);
+                EObject target1Container = target1.eContainer();
+                EObject target2Container = target2.eContainer();
+                if (target1Container != ref1Container && target2Container != ref2Container) {
+                    Boolean containerSimilarity = similarityChecker.isSimilar(target1Container, target2Container);
                     if (containerSimilarity == Boolean.FALSE) {
                         return Boolean.FALSE;
                     }
