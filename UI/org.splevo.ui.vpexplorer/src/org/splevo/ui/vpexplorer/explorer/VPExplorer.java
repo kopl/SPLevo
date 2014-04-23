@@ -71,13 +71,13 @@ public class VPExplorer extends CommonNavigator {
         IMenuManager dropDownMenu = actionBars.getMenuManager();
         IToolBarManager toolBar = actionBars.getToolBarManager();
         if (toolBar.getItems().length > 0) {
-            toolBar.insertBefore(toolBar.getItems()[0].getId(), new SelectVisibleAction(this));
             toolBar.insertBefore(toolBar.getItems()[0].getId(), new ExpandAllAction(this));
             toolBar.insertBefore(toolBar.getItems()[0].getId(), new ExpandAllAction(this, MODE.VARIATIONPOINT));
+            toolBar.insertBefore(toolBar.getItems()[0].getId(), new SelectVisibleAction(this));
         } else {
-            toolBar.add(new SelectVisibleAction(this));
             toolBar.add(new ExpandAllAction(this));
             toolBar.add(new ExpandAllAction(this, MODE.VARIATIONPOINT));
+            toolBar.add(new SelectVisibleAction(this));
         }
         dropDownMenu.add(action);
         toolBar.add(action);
