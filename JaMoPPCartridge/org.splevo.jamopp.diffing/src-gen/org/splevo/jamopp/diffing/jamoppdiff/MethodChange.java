@@ -17,6 +17,10 @@ import org.emftext.language.java.members.Method;
  * A representation of the model object '<em><b>Method Change</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * A changed method declaration.
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>

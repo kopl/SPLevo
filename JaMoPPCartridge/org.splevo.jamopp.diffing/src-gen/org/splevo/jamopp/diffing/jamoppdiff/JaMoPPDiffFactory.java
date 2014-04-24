@@ -84,6 +84,15 @@ public interface JaMoPPDiffFactory extends EFactory {
     MethodChange createMethodChange();
 
     /**
+     * Returns a new object of class '<em>Constructor Change</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Constructor Change</em>'.
+     * @generated
+     */
+    ConstructorChange createConstructorChange();
+
+    /**
      * Returns a new object of class '<em>Enum Change</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -14,6 +14,7 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.splevo.jamopp.diffing.jamoppdiff.*;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
@@ -158,6 +159,17 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
                 result = defaultCase(theEObject);
             return result;
         }
+        case JaMoPPDiffPackage.CONSTRUCTOR_CHANGE: {
+            ConstructorChange constructorChange = (ConstructorChange) theEObject;
+            T result = caseConstructorChange(constructorChange);
+            if (result == null)
+                result = caseJaMoPPDiff(constructorChange);
+            if (result == null)
+                result = caseDiff(constructorChange);
+            if (result == null)
+                result = defaultCase(theEObject);
+            return result;
+        }
         case JaMoPPDiffPackage.ENUM_CHANGE: {
             EnumChange enumChange = (EnumChange) theEObject;
             T result = caseEnumChange(enumChange);
@@ -298,6 +310,21 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseMethodChange(MethodChange object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Constructor Change</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Constructor Change</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseConstructorChange(ConstructorChange object) {
         return null;
     }
 

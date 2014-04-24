@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.splevo.jamopp.diffing.jamoppdiff.*;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
@@ -83,6 +84,8 @@ public class JaMoPPDiffFactoryImpl extends EFactoryImpl implements JaMoPPDiffFac
             return createPackageChange();
         case JaMoPPDiffPackage.METHOD_CHANGE:
             return createMethodChange();
+        case JaMoPPDiffPackage.CONSTRUCTOR_CHANGE:
+            return createConstructorChange();
         case JaMoPPDiffPackage.ENUM_CHANGE:
             return createEnumChange();
         case JaMoPPDiffPackage.COMPILATION_UNIT_CHANGE:
@@ -152,6 +155,16 @@ public class JaMoPPDiffFactoryImpl extends EFactoryImpl implements JaMoPPDiffFac
     public MethodChange createMethodChange() {
         MethodChangeImpl methodChange = new MethodChangeImpl();
         return methodChange;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ConstructorChange createConstructorChange() {
+        ConstructorChangeImpl constructorChange = new ConstructorChangeImpl();
+        return constructorChange;
     }
 
     /**

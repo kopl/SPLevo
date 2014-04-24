@@ -56,6 +56,7 @@ import org.emftext.language.java.variables.VariablesPackage;
 
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
@@ -122,6 +123,13 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
      * @generated
      */
     private EClass methodChangeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass constructorChangeEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -349,6 +357,24 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getConstructorChange() {
+        return constructorChangeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getConstructorChange_ChangedConstructor() {
+        return (EReference) constructorChangeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getEnumChange() {
         return enumChangeEClass;
     }
@@ -447,6 +473,9 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
         methodChangeEClass = createEClass(METHOD_CHANGE);
         createEReference(methodChangeEClass, METHOD_CHANGE__CHANGED_METHOD);
 
+        constructorChangeEClass = createEClass(CONSTRUCTOR_CHANGE);
+        createEReference(constructorChangeEClass, CONSTRUCTOR_CHANGE__CHANGED_CONSTRUCTOR);
+
         enumChangeEClass = createEClass(ENUM_CHANGE);
         createEReference(enumChangeEClass, ENUM_CHANGE__CHANGED_ENUM);
 
@@ -507,6 +536,7 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
         fieldChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
         packageChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
         methodChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
+        constructorChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
         enumChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
         compilationUnitChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
         interfaceChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
@@ -550,6 +580,12 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
         initEReference(getMethodChange_ChangedMethod(), theMembersPackage.getMethod(), null, "changedMethod", null, 1,
                 1, MethodChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
                 !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(constructorChangeEClass, ConstructorChange.class, "ConstructorChange", !IS_ABSTRACT, !IS_INTERFACE,
+                IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getConstructorChange_ChangedConstructor(), theMembersPackage.getConstructor(), null,
+                "changedConstructor", null, 1, 1, ConstructorChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(enumChangeEClass, EnumChange.class, "EnumChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);

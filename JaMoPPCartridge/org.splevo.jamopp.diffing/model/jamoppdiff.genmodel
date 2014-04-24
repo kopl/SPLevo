@@ -30,6 +30,9 @@
     <genClasses ecoreClass="jamoppdiff.ecore#//MethodChange">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference jamoppdiff.ecore#//MethodChange/changedMethod"/>
     </genClasses>
+    <genClasses ecoreClass="jamoppdiff.ecore#//ConstructorChange">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference jamoppdiff.ecore#//ConstructorChange/changedConstructor"/>
+    </genClasses>
     <genClasses ecoreClass="jamoppdiff.ecore#//EnumChange">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference jamoppdiff.ecore#//EnumChange/changedEnum"/>
     </genClasses>

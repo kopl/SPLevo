@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,7 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.util.ContainersSwitch;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.util.ImportsSwitch;
+import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.util.MembersSwitch;
@@ -27,6 +28,7 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.util.StatementsSwitch;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
@@ -100,6 +102,13 @@ public class JaMoPPChangeFactory extends ComposedSwitch<Diff> {
             MethodChange methodChange = JaMoPPDiffFactory.eINSTANCE.createMethodChange();
             methodChange.setChangedMethod(method);
             return methodChange;
+        }
+
+        @Override
+        public Diff caseConstructor(Constructor constructor) {
+            ConstructorChange change = JaMoPPDiffFactory.eINSTANCE.createConstructorChange();
+            change.setChangedConstructor(constructor);
+            return change;
         }
     }
 

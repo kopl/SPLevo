@@ -882,6 +882,124 @@ public interface JaMoPPDiffPackage extends EPackage {
     int METHOD_CHANGE_FEATURE_COUNT = JA_MO_PP_DIFF_FEATURE_COUNT + 1;
 
     /**
+     * The meta object id for the '{@link org.splevo.jamopp.diffing.jamoppdiff.impl.ConstructorChangeImpl <em>Constructor Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.jamopp.diffing.jamoppdiff.impl.ConstructorChangeImpl
+     * @see org.splevo.jamopp.diffing.jamoppdiff.impl.JaMoPPDiffPackageImpl#getConstructorChange()
+     * @generated
+     */
+    int CONSTRUCTOR_CHANGE = 7;
+
+    /**
+     * The feature id for the '<em><b>Match</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__MATCH = JA_MO_PP_DIFF__MATCH;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__REQUIRES = JA_MO_PP_DIFF__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Refines</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__REFINES = JA_MO_PP_DIFF__REFINES;
+
+    /**
+     * The feature id for the '<em><b>Refined By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__KIND = JA_MO_PP_DIFF__KIND;
+
+    /**
+     * The feature id for the '<em><b>Source</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__SOURCE = JA_MO_PP_DIFF__SOURCE;
+
+    /**
+     * The feature id for the '<em><b>State</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__STATE = JA_MO_PP_DIFF__STATE;
+
+    /**
+     * The feature id for the '<em><b>Equivalence</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__EQUIVALENCE = JA_MO_PP_DIFF__EQUIVALENCE;
+
+    /**
+     * The feature id for the '<em><b>Conflict</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__CONFLICT = JA_MO_PP_DIFF__CONFLICT;
+
+    /**
+     * The feature id for the '<em><b>Changed Constructor</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE__CHANGED_CONSTRUCTOR = JA_MO_PP_DIFF_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Constructor Change</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONSTRUCTOR_CHANGE_FEATURE_COUNT = JA_MO_PP_DIFF_FEATURE_COUNT + 1;
+
+    /**
      * The meta object id for the '{@link org.splevo.jamopp.diffing.jamoppdiff.impl.EnumChangeImpl <em>Enum Change</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -889,7 +1007,7 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @see org.splevo.jamopp.diffing.jamoppdiff.impl.JaMoPPDiffPackageImpl#getEnumChange()
      * @generated
      */
-    int ENUM_CHANGE = 7;
+    int ENUM_CHANGE = 8;
 
     /**
      * The feature id for the '<em><b>Match</b></em>' container reference.
@@ -1007,7 +1125,7 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @see org.splevo.jamopp.diffing.jamoppdiff.impl.JaMoPPDiffPackageImpl#getCompilationUnitChange()
      * @generated
      */
-    int COMPILATION_UNIT_CHANGE = 8;
+    int COMPILATION_UNIT_CHANGE = 9;
 
     /**
      * The feature id for the '<em><b>Match</b></em>' container reference.
@@ -1125,7 +1243,7 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @see org.splevo.jamopp.diffing.jamoppdiff.impl.JaMoPPDiffPackageImpl#getInterfaceChange()
      * @generated
      */
-    int INTERFACE_CHANGE = 9;
+    int INTERFACE_CHANGE = 10;
 
     /**
      * The feature id for the '<em><b>Match</b></em>' container reference.
@@ -1372,6 +1490,27 @@ public interface JaMoPPDiffPackage extends EPackage {
     EReference getMethodChange_ChangedMethod();
 
     /**
+     * Returns the meta object for class '{@link org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange <em>Constructor Change</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Constructor Change</em>'.
+     * @see org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange
+     * @generated
+     */
+    EClass getConstructorChange();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange#getChangedConstructor <em>Changed Constructor</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Changed Constructor</em>'.
+     * @see org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange#getChangedConstructor()
+     * @see #getConstructorChange()
+     * @generated
+     */
+    EReference getConstructorChange_ChangedConstructor();
+
+    /**
      * Returns the meta object for class '{@link org.splevo.jamopp.diffing.jamoppdiff.EnumChange <em>Enum Change</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1573,6 +1712,24 @@ public interface JaMoPPDiffPackage extends EPackage {
          * @generated
          */
         EReference METHOD_CHANGE__CHANGED_METHOD = eINSTANCE.getMethodChange_ChangedMethod();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.jamopp.diffing.jamoppdiff.impl.ConstructorChangeImpl <em>Constructor Change</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.jamopp.diffing.jamoppdiff.impl.ConstructorChangeImpl
+         * @see org.splevo.jamopp.diffing.jamoppdiff.impl.JaMoPPDiffPackageImpl#getConstructorChange()
+         * @generated
+         */
+        EClass CONSTRUCTOR_CHANGE = eINSTANCE.getConstructorChange();
+
+        /**
+         * The meta object literal for the '<em><b>Changed Constructor</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CONSTRUCTOR_CHANGE__CHANGED_CONSTRUCTOR = eINSTANCE.getConstructorChange_ChangedConstructor();
 
         /**
          * The meta object literal for the '{@link org.splevo.jamopp.diffing.jamoppdiff.impl.EnumChangeImpl <em>Enum Change</em>}' class.
