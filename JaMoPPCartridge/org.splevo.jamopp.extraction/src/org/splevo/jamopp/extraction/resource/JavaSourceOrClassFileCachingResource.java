@@ -64,10 +64,6 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
             resolvedEObject = super.getEObject(id);
             if (resolvedEObject != null) {
                 referenceCache.registerEObject(this, id, resolvedEObject);
-// TODO https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-276
-// Disabled to reduce logging output
-//            } else {
-//                logger.warn(String.format("Reference not resolved %s#%s", getURI().toString(), id));
             }
         }
         return resolvedEObject;
