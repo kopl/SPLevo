@@ -18,6 +18,7 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Block;
@@ -153,6 +154,10 @@ public final class JaMoPPElementUtil {
 
         } else if (element instanceof Method) {
             Method method = (Method) element;
+            return method.getName() + "()";
+
+        } else if (element instanceof Constructor) {
+            Constructor method = (Constructor) element;
             return method.getName() + "()";
 
         } else if (element instanceof Block && element.eContainer() instanceof Method) {
