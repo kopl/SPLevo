@@ -11,12 +11,14 @@ import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Statement;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
@@ -148,6 +150,20 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
     @Override
     public VariationPoint caseMethodChange(MethodChange change) {
         Method changedElement = change.getChangedMethod();
+        return buildKindSpecificVariationPoint(change, changedElement);
+    }
+
+    /**
+     * Handle constructor changes.<br>
+     * VP references the changed constructor.<br>
+     *
+     * @param change
+     *            The constructor change diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseConstructorChange(ConstructorChange change) {
+        Constructor changedElement = change.getChangedConstructor();
         return buildKindSpecificVariationPoint(change, changedElement);
     }
 
