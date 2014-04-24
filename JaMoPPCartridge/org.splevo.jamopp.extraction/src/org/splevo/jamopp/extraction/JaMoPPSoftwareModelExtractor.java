@@ -285,8 +285,10 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
-        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(directories, javaClasspath,
-                jarPaths));
+        JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
+                directories, javaClasspath, jarPaths);
+        factoryMap.put("java", factory);
+        factoryMap.put("class", factory);
 
         return rs;
     }
@@ -311,7 +313,10 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
-        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(sourceModelPaths, javaClasspath));
+        JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
+                sourceModelPaths, javaClasspath);
+        factoryMap.put("java", factory);
+        factoryMap.put("class", factory);
     }
 
 }
