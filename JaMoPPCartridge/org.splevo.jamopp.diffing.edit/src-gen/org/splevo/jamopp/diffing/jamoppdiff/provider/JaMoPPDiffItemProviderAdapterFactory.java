@@ -41,375 +41,395 @@ import org.splevo.jamopp.diffing.jamoppdiff.util.JaMoPPDiffAdapterFactory;
  * <!-- end-user-doc -->
  * @generated
  */
-public class JaMoPPDiffItemProviderAdapterFactory extends
-		JaMoPPDiffAdapterFactory implements ComposeableAdapterFactory,
-		IChangeNotifier, IDisposable {
-	/**
-	 * This keeps track of the root adapter factory that delegates to this adapter factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ComposedAdapterFactory parentAdapterFactory;
+public class JaMoPPDiffItemProviderAdapterFactory extends JaMoPPDiffAdapterFactory implements
+        ComposeableAdapterFactory, IChangeNotifier, IDisposable {
+    /**
+     * This keeps track of the root adapter factory that delegates to this adapter factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ComposedAdapterFactory parentAdapterFactory;
 
-	/**
-	 * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected IChangeNotifier changeNotifier = new ChangeNotifier();
+    /**
+     * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
-	/**
-	 * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected Collection<Object> supportedTypes = new ArrayList<Object>();
+    /**
+     * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
-	/**
-	 * This constructs an instance.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public JaMoPPDiffItemProviderAdapterFactory() {
-		supportedTypes.add(IEditingDomainItemProvider.class);
-		supportedTypes.add(IStructuredItemContentProvider.class);
-		supportedTypes.add(ITreeItemContentProvider.class);
-		supportedTypes.add(IItemLabelProvider.class);
-		supportedTypes.add(IItemPropertySource.class);
-	}
+    /**
+     * This constructs an instance.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public JaMoPPDiffItemProviderAdapterFactory() {
+        supportedTypes.add(IEditingDomainItemProvider.class);
+        supportedTypes.add(IStructuredItemContentProvider.class);
+        supportedTypes.add(ITreeItemContentProvider.class);
+        supportedTypes.add(IItemLabelProvider.class);
+        supportedTypes.add(IItemPropertySource.class);
+    }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.StatementChange} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected StatementChangeItemProvider statementChangeItemProvider;
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.StatementChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected StatementChangeItemProvider statementChangeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.StatementChange}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createStatementChangeAdapter() {
-		if (statementChangeItemProvider == null) {
-			statementChangeItemProvider = new StatementChangeItemProvider(this);
-		}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.StatementChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createStatementChangeAdapter() {
+        if (statementChangeItemProvider == null) {
+            statementChangeItemProvider = new StatementChangeItemProvider(this);
+        }
 
-		return statementChangeItemProvider;
-	}
+        return statementChangeItemProvider;
+    }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.ImportChange} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ImportChangeItemProvider importChangeItemProvider;
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.ImportChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ImportChangeItemProvider importChangeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ImportChange}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createImportChangeAdapter() {
-		if (importChangeItemProvider == null) {
-			importChangeItemProvider = new ImportChangeItemProvider(this);
-		}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ImportChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createImportChangeAdapter() {
+        if (importChangeItemProvider == null) {
+            importChangeItemProvider = new ImportChangeItemProvider(this);
+        }
 
-		return importChangeItemProvider;
-	}
+        return importChangeItemProvider;
+    }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.ClassChange} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ClassChangeItemProvider classChangeItemProvider;
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.ClassChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ClassChangeItemProvider classChangeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ClassChange}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createClassChangeAdapter() {
-		if (classChangeItemProvider == null) {
-			classChangeItemProvider = new ClassChangeItemProvider(this);
-		}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ClassChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createClassChangeAdapter() {
+        if (classChangeItemProvider == null) {
+            classChangeItemProvider = new ClassChangeItemProvider(this);
+        }
 
-		return classChangeItemProvider;
-	}
+        return classChangeItemProvider;
+    }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.FieldChange} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected FieldChangeItemProvider fieldChangeItemProvider;
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.FieldChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected FieldChangeItemProvider fieldChangeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.FieldChange}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createFieldChangeAdapter() {
-		if (fieldChangeItemProvider == null) {
-			fieldChangeItemProvider = new FieldChangeItemProvider(this);
-		}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.FieldChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createFieldChangeAdapter() {
+        if (fieldChangeItemProvider == null) {
+            fieldChangeItemProvider = new FieldChangeItemProvider(this);
+        }
 
-		return fieldChangeItemProvider;
-	}
+        return fieldChangeItemProvider;
+    }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.PackageChange} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected PackageChangeItemProvider packageChangeItemProvider;
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.PackageChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected PackageChangeItemProvider packageChangeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.PackageChange}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createPackageChangeAdapter() {
-		if (packageChangeItemProvider == null) {
-			packageChangeItemProvider = new PackageChangeItemProvider(this);
-		}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.PackageChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createPackageChangeAdapter() {
+        if (packageChangeItemProvider == null) {
+            packageChangeItemProvider = new PackageChangeItemProvider(this);
+        }
 
-		return packageChangeItemProvider;
-	}
+        return packageChangeItemProvider;
+    }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.MethodChange} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected MethodChangeItemProvider methodChangeItemProvider;
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.MethodChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected MethodChangeItemProvider methodChangeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.MethodChange}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createMethodChangeAdapter() {
-		if (methodChangeItemProvider == null) {
-			methodChangeItemProvider = new MethodChangeItemProvider(this);
-		}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.MethodChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createMethodChangeAdapter() {
+        if (methodChangeItemProvider == null) {
+            methodChangeItemProvider = new MethodChangeItemProvider(this);
+        }
 
-		return methodChangeItemProvider;
-	}
+        return methodChangeItemProvider;
+    }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.EnumChange} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected EnumChangeItemProvider enumChangeItemProvider;
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ConstructorChangeItemProvider constructorChangeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.EnumChange}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createEnumChangeAdapter() {
-		if (enumChangeItemProvider == null) {
-			enumChangeItemProvider = new EnumChangeItemProvider(this);
-		}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createConstructorChangeAdapter() {
+        if (constructorChangeItemProvider == null) {
+            constructorChangeItemProvider = new ConstructorChangeItemProvider(this);
+        }
 
-		return enumChangeItemProvider;
-	}
+        return constructorChangeItemProvider;
+    }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected CompilationUnitChangeItemProvider compilationUnitChangeItemProvider;
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.EnumChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected EnumChangeItemProvider enumChangeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createCompilationUnitChangeAdapter() {
-		if (compilationUnitChangeItemProvider == null) {
-			compilationUnitChangeItemProvider = new CompilationUnitChangeItemProvider(
-					this);
-		}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.EnumChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createEnumChangeAdapter() {
+        if (enumChangeItemProvider == null) {
+            enumChangeItemProvider = new EnumChangeItemProvider(this);
+        }
 
-		return compilationUnitChangeItemProvider;
-	}
+        return enumChangeItemProvider;
+    }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected InterfaceChangeItemProvider interfaceChangeItemProvider;
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected CompilationUnitChangeItemProvider compilationUnitChangeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createInterfaceChangeAdapter() {
-		if (interfaceChangeItemProvider == null) {
-			interfaceChangeItemProvider = new InterfaceChangeItemProvider(this);
-		}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createCompilationUnitChangeAdapter() {
+        if (compilationUnitChangeItemProvider == null) {
+            compilationUnitChangeItemProvider = new CompilationUnitChangeItemProvider(this);
+        }
 
-		return interfaceChangeItemProvider;
-	}
+        return compilationUnitChangeItemProvider;
+    }
 
-	/**
-	 * This returns the root adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ComposeableAdapterFactory getRootAdapterFactory() {
-		return parentAdapterFactory == null ? this : parentAdapterFactory
-				.getRootAdapterFactory();
-	}
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected InterfaceChangeItemProvider interfaceChangeItemProvider;
 
-	/**
-	 * This sets the composed adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setParentAdapterFactory(
-			ComposedAdapterFactory parentAdapterFactory) {
-		this.parentAdapterFactory = parentAdapterFactory;
-	}
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createInterfaceChangeAdapter() {
+        if (interfaceChangeItemProvider == null) {
+            interfaceChangeItemProvider = new InterfaceChangeItemProvider(this);
+        }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isFactoryForType(Object type) {
-		return supportedTypes.contains(type) || super.isFactoryForType(type);
-	}
+        return interfaceChangeItemProvider;
+    }
 
-	/**
-	 * This implementation substitutes the factory itself as the key for the adapter.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter adapt(Notifier notifier, Object type) {
-		return super.adapt(notifier, this);
-	}
+    /**
+     * This returns the root adapter factory that contains this factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ComposeableAdapterFactory getRootAdapterFactory() {
+        return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object adapt(Object object, Object type) {
-		if (isFactoryForType(type)) {
-			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class<?>)
-					|| (((Class<?>) type).isInstance(adapter))) {
-				return adapter;
-			}
-		}
+    /**
+     * This sets the composed adapter factory that contains this factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
+        this.parentAdapterFactory = parentAdapterFactory;
+    }
 
-		return null;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public boolean isFactoryForType(Object type) {
+        return supportedTypes.contains(type) || super.isFactoryForType(type);
+    }
 
-	/**
-	 * This adds a listener.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void addListener(INotifyChangedListener notifyChangedListener) {
-		changeNotifier.addListener(notifyChangedListener);
-	}
+    /**
+     * This implementation substitutes the factory itself as the key for the adapter.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter adapt(Notifier notifier, Object type) {
+        return super.adapt(notifier, this);
+    }
 
-	/**
-	 * This removes a listener.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void removeListener(INotifyChangedListener notifyChangedListener) {
-		changeNotifier.removeListener(notifyChangedListener);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Object adapt(Object object, Object type) {
+        if (isFactoryForType(type)) {
+            Object adapter = super.adapt(object, type);
+            if (!(type instanceof Class<?>) || (((Class<?>) type).isInstance(adapter))) {
+                return adapter;
+            }
+        }
 
-	/**
-	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void fireNotifyChanged(Notification notification) {
-		changeNotifier.fireNotifyChanged(notification);
+        return null;
+    }
 
-		if (parentAdapterFactory != null) {
-			parentAdapterFactory.fireNotifyChanged(notification);
-		}
-	}
+    /**
+     * This adds a listener.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void addListener(INotifyChangedListener notifyChangedListener) {
+        changeNotifier.addListener(notifyChangedListener);
+    }
 
-	/**
-	 * This disposes all of the item providers created by this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void dispose() {
-		if (statementChangeItemProvider != null)
-			statementChangeItemProvider.dispose();
-		if (importChangeItemProvider != null)
-			importChangeItemProvider.dispose();
-		if (classChangeItemProvider != null)
-			classChangeItemProvider.dispose();
-		if (fieldChangeItemProvider != null)
-			fieldChangeItemProvider.dispose();
-		if (packageChangeItemProvider != null)
-			packageChangeItemProvider.dispose();
-		if (methodChangeItemProvider != null)
-			methodChangeItemProvider.dispose();
-		if (enumChangeItemProvider != null)
-			enumChangeItemProvider.dispose();
-		if (compilationUnitChangeItemProvider != null)
-			compilationUnitChangeItemProvider.dispose();
-		if (interfaceChangeItemProvider != null)
-			interfaceChangeItemProvider.dispose();
-	}
+    /**
+     * This removes a listener.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void removeListener(INotifyChangedListener notifyChangedListener) {
+        changeNotifier.removeListener(notifyChangedListener);
+    }
+
+    /**
+     * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void fireNotifyChanged(Notification notification) {
+        changeNotifier.fireNotifyChanged(notification);
+
+        if (parentAdapterFactory != null) {
+            parentAdapterFactory.fireNotifyChanged(notification);
+        }
+    }
+
+    /**
+     * This disposes all of the item providers created by this factory. 
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void dispose() {
+        if (statementChangeItemProvider != null)
+            statementChangeItemProvider.dispose();
+        if (importChangeItemProvider != null)
+            importChangeItemProvider.dispose();
+        if (classChangeItemProvider != null)
+            classChangeItemProvider.dispose();
+        if (fieldChangeItemProvider != null)
+            fieldChangeItemProvider.dispose();
+        if (packageChangeItemProvider != null)
+            packageChangeItemProvider.dispose();
+        if (methodChangeItemProvider != null)
+            methodChangeItemProvider.dispose();
+        if (constructorChangeItemProvider != null)
+            constructorChangeItemProvider.dispose();
+        if (enumChangeItemProvider != null)
+            enumChangeItemProvider.dispose();
+        if (compilationUnitChangeItemProvider != null)
+            compilationUnitChangeItemProvider.dispose();
+        if (interfaceChangeItemProvider != null)
+            interfaceChangeItemProvider.dispose();
+    }
 
 }

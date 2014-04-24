@@ -32,17 +32,16 @@ import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ClassChange}
- * object. <!-- begin-user-doc --> <!-- end-user-doc -->
- *
+ * This is the item provider adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ClassChange} object.
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
  * @generated
  */
 public class ClassChangeItemProvider extends JaMoPPDiffItemProvider implements IEditingDomainItemProvider,
         IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * This constructs an instance from a factory and a notifier.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     public ClassChangeItemProvider(AdapterFactory adapterFactory) {
@@ -50,9 +49,9 @@ public class ClassChangeItemProvider extends JaMoPPDiffItemProvider implements I
     }
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * This returns the property descriptors for the adapted class.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -66,9 +65,9 @@ public class ClassChangeItemProvider extends JaMoPPDiffItemProvider implements I
     }
 
     /**
-     * This adds a property descriptor for the Changed Class feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Changed Class feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     protected void addChangedClassPropertyDescriptor(Object object) {
@@ -109,9 +108,8 @@ public class ClassChangeItemProvider extends JaMoPPDiffItemProvider implements I
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
-     * . <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -121,9 +119,9 @@ public class ClassChangeItemProvider extends JaMoPPDiffItemProvider implements I
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
-     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+     * that can be created under this object.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override

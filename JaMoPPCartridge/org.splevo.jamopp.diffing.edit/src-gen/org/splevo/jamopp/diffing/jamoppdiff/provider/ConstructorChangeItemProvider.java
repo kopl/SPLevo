@@ -1,14 +1,13 @@
-/*******************************************************************************
+/**
  * Copyright (c) 2014
- *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt - initial API and implementation and/or initial documentation
- *******************************************************************************/
+ *     Benjamin Klatt - initial API and implementation and/or initial documentation
+ */
 package org.splevo.jamopp.diffing.jamoppdiff.provider;
 
 import java.util.Collection;
@@ -28,16 +27,16 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.swt.graphics.Image;
 import org.splevo.jamopp.diffing.edit.util.ImageUtil;
+import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
-import org.splevo.jamopp.diffing.jamoppdiff.PackageChange;
 
 /**
- * This is the item provider adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.PackageChange} object.
+ * This is the item provider adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class PackageChangeItemProvider extends JaMoPPDiffItemProvider implements IEditingDomainItemProvider,
+public class ConstructorChangeItemProvider extends JaMoPPDiffItemProvider implements IEditingDomainItemProvider,
         IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
      * This constructs an instance from a factory and a notifier.
@@ -45,7 +44,7 @@ public class PackageChangeItemProvider extends JaMoPPDiffItemProvider implements
      * <!-- end-user-doc -->
      * @generated
      */
-    public PackageChangeItemProvider(AdapterFactory adapterFactory) {
+    public ConstructorChangeItemProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
@@ -60,25 +59,27 @@ public class PackageChangeItemProvider extends JaMoPPDiffItemProvider implements
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addChangedPackagePropertyDescriptor(object);
+            addChangedConstructorPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Changed Package feature.
+     * This adds a property descriptor for the Changed Constructor feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addChangedPackagePropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add(createItemPropertyDescriptor(
-                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-                getResourceLocator(),
-                getString("_UI_PackageChange_changedPackage_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_PackageChange_changedPackage_feature",
-                        "_UI_PackageChange_type"), JaMoPPDiffPackage.Literals.PACKAGE_CHANGE__CHANGED_PACKAGE, true,
-                false, true, null, null, null));
+    protected void addChangedConstructorPropertyDescriptor(Object object) {
+        itemPropertyDescriptors
+                .add(createItemPropertyDescriptor(
+                        ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                        getResourceLocator(),
+                        getString("_UI_ConstructorChange_changedConstructor_feature"),
+                        getString("_UI_PropertyDescriptor_description",
+                                "_UI_ConstructorChange_changedConstructor_feature", "_UI_ConstructorChange_type"),
+                        JaMoPPDiffPackage.Literals.CONSTRUCTOR_CHANGE__CHANGED_CONSTRUCTOR, true, false, true, null,
+                        null, null));
     }
 
     /**
@@ -89,7 +90,7 @@ public class PackageChangeItemProvider extends JaMoPPDiffItemProvider implements
      */
     @Override
     public Object getImage(Object object) {
-        Image baseImage = JavaUI.getSharedImages().getImage(org.eclipse.jdt.ui.ISharedImages.IMG_OBJS_PACKAGE);
+        Image baseImage = JavaUI.getSharedImages().getImage(org.eclipse.jdt.ui.ISharedImages.IMG_FIELD_PUBLIC);
         return ImageUtil.overlayChangeType(baseImage, (Diff) object, this);
     }
 
@@ -101,10 +102,10 @@ public class PackageChangeItemProvider extends JaMoPPDiffItemProvider implements
      */
     @Override
     public String getText(Object object) {
-        DifferenceKind labelValue = ((PackageChange) object).getKind();
+        DifferenceKind labelValue = ((ConstructorChange) object).getKind();
         String label = labelValue == null ? null : labelValue.toString();
-        return label == null || label.length() == 0 ? getString("_UI_PackageChange_type")
-                : getString("_UI_PackageChange_type") + " " + label;
+        return label == null || label.length() == 0 ? getString("_UI_ConstructorChange_type")
+                : getString("_UI_ConstructorChange_type") + " " + label;
     }
 
     /**

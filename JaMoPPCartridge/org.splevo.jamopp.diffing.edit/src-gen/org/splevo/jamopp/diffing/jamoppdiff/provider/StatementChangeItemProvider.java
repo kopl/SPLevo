@@ -30,18 +30,17 @@ import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
 /**
- * This is the item provider adapter for a
- * {@link org.splevo.jamopp.diffing.jamoppdiff.StatementChange} object. <!-- begin-user-doc --> <!--
+ * This is the item provider adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.StatementChange} object.
+ * <!-- begin-user-doc --> <!--
  * end-user-doc -->
- *
  * @generated
  */
 public class StatementChangeItemProvider extends JaMoPPDiffItemProvider implements IEditingDomainItemProvider,
         IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * This constructs an instance from a factory and a notifier.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     public StatementChangeItemProvider(AdapterFactory adapterFactory) {
@@ -49,9 +48,9 @@ public class StatementChangeItemProvider extends JaMoPPDiffItemProvider implemen
     }
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * This returns the property descriptors for the adapted class.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -65,9 +64,9 @@ public class StatementChangeItemProvider extends JaMoPPDiffItemProvider implemen
     }
 
     /**
-     * This adds a property descriptor for the Changed Statement feature. <!-- begin-user-doc -->
+     * This adds a property descriptor for the Changed Statement feature.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @generated
      */
     protected void addChangedStatementPropertyDescriptor(Object object) {
@@ -109,9 +108,8 @@ public class StatementChangeItemProvider extends JaMoPPDiffItemProvider implemen
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
-     * . <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -121,9 +119,9 @@ public class StatementChangeItemProvider extends JaMoPPDiffItemProvider implemen
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
-     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+     * that can be created under this object.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
