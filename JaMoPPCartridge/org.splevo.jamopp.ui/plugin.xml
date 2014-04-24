@@ -34,10 +34,10 @@
             name="VariationPoints: Field Only">
       </commonFilter>
       <commonFilter
-            class="org.splevo.jamopp.ui.vpexplorer.filter.MethodOnlyVPFilter"
-            description="Show only VariationPoints which are about variying method declarations"
+            class="org.splevo.jamopp.ui.vpexplorer.filter.MethodConstructorOnlyVPFilter"
+            description="Show only VariationPoints which are about variying method or constructor declarations"
             id="org.splevo.jamopp.ui.vpexplorer.filter.Methods"
-            name="VariationPoints: Method Only">
+            name="VariationPoints: Method/Constructor Only">
       </commonFilter>
       <commonFilter
             class="org.splevo.jamopp.ui.vpexplorer.filter.StatementOnlyVPFilter"

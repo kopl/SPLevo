@@ -14,12 +14,13 @@ package org.splevo.jamopp.ui.vpexplorer.filter;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Method;
 
 /**
  * Viewer content filter for variation points with variants containing Import statements only.
  */
-public class MethodOnlyVPFilter extends AbstractJaMoPPVPFilter {
+public class MethodConstructorOnlyVPFilter extends AbstractJaMoPPVPFilter {
 
     @Override
     protected Class<?> getExpectedLocationClass() {
@@ -30,6 +31,7 @@ public class MethodOnlyVPFilter extends AbstractJaMoPPVPFilter {
     protected List<Class<?>> getImplementingElementClass() {
         LinkedList<Class<?>> classes = new LinkedList<Class<?>>();
         classes.add(Method.class);
+        classes.add(Constructor.class);
         return classes;
     }
 
