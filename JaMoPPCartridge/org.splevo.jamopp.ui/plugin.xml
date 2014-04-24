@@ -10,6 +10,12 @@
             name="VariationPoints: Imports Only">
       </commonFilter>
       <commonFilter
+            class="org.splevo.jamopp.ui.vpexplorer.filter.ClassOnlyVPFilter"
+            description="Show only VariationPoints which are about variying class signature declarations"
+            id="org.splevo.jamopp.ui.vpexplorer.filter.Class"
+            name="VariationPoints: Class Signature Only">
+      </commonFilter>
+      <commonFilter
             class="org.splevo.jamopp.ui.vpexplorer.filter.CompilationUnitOnlyVPFilter"
             description="Show only VariationPoints which are about variying Compilation Units (class, import, etc)"
             id="org.splevo.jamopp.ui.vpexplorer.filter.CompilationUnit"
