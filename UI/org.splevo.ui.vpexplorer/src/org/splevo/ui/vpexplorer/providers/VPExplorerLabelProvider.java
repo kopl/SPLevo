@@ -41,15 +41,12 @@ public class VPExplorerLabelProvider extends LabelProvider {
 
         if (element instanceof File) {
             File file = (File) element;
-            if (file.isDirectory()) {
-                return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER);
-            } else if (file.getName().endsWith(".java")) {
-                return JavaUI.getSharedImages().getImage(org.eclipse.jdt.ui.ISharedImages.IMG_OBJS_CUNIT);
-            } else {
-                return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
-            }
+            return getImageForFile(file);
         } else if (element instanceof VPExplorerContent) {
             return null;
+        } else if (element instanceof FileWrapper) {
+            File file = ((FileWrapper) element).getFile();
+            return getImageForFile(file);
         }
 
         Image image = getItemProviderImage(element);
@@ -59,6 +56,16 @@ public class VPExplorerLabelProvider extends LabelProvider {
 
         logger.warn("Unsupported tree node element");
         return null;
+    }
+
+    private Image getImageForFile(File file) {
+        if (file.isDirectory()) {
+            return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER);
+        } else if (file.getName().endsWith(".java")) {
+            return JavaUI.getSharedImages().getImage(org.eclipse.jdt.ui.ISharedImages.IMG_OBJS_CUNIT);
+        } else {
+            return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
+        }
     }
 
     private Image getItemProviderImage(Object element) {
@@ -95,6 +102,19 @@ public class VPExplorerLabelProvider extends LabelProvider {
                 return file.getPath();
             }
 
+        } else if (element instanceof FileWrapper) {
+            File file = ((FileWrapper) element).getFile();
+            String label = file.getName();
+            if (label != null && label.length() > 0) {
+
+                // Decide whether the number of VPs should be displayed. This would make another
+                // public static method in VPExplorerContentProvider necessary.
+                return label;
+
+            } else {
+                return file.getPath();
+            }
+
         } else if (element instanceof VPExplorerContent) {
             return null;
         }
@@ -104,7 +124,7 @@ public class VPExplorerLabelProvider extends LabelProvider {
 
     /**
      * Builds the variation point label.
-     *
+     * 
      * @param variationPoint
      *            the element
      * @return the string

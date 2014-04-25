@@ -14,6 +14,9 @@ package org.splevo.ui.vpexplorer.providers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +38,8 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -48,7 +53,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     /**
      * Index to remember the variation points located in a file.
-     *
+     * 
      * DesignDecision Enable public access to index for accessing this statistic information.
      */
     private static HashMultimap<File, VariationPoint> fileVPIndex = HashMultimap.create();
@@ -59,14 +64,17 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     /** Index to remember the subfiles registered as containing variation points. */
     private HashMultimap<File, File> subFileIndex = HashMultimap.create();
 
+    /** Index to remember the files and subfiles corresponding to a group. */
+    private HashMultimap<VariationPointGroup, File> groupFileIndex = HashMultimap.create();
+
     /** Pointers to the files on the root level. */
-    private List<File> rootFiles = Lists.newArrayList();
+    private Set<File> rootFiles = new HashSet<File>();
 
     /**
      * Get the set of {@link VariationPoint}s contained in a file.
-     *
+     * 
      * DesignDecision Enable public access to index for accessing this statistic information.
-     *
+     * 
      * @param file
      *            The file to get the VPs for.
      * @return The set of variation points. At least an empty list but not null.
@@ -100,13 +108,39 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
             children.addAll(subFileIndex.get(parentFile));
             return children.toArray();
 
+        } else if (parentElement instanceof FileWrapper) {
+            FileWrapper wrapper = (FileWrapper) parentElement;
+            File parentFile = wrapper.getFile();
+            List<Object> children = Lists.newArrayList();
+
+            Collection<File> childFileInGroup = (Collections2.filter(subFileIndex.get(parentFile),
+                    Predicates.in(groupFileIndex.get(wrapper.getGroup()))));
+
+            for (File file : childFileInGroup) {
+                children.add(new FileWrapper(file, wrapper.getGroup()));
+            }
+            Collection<VariationPoint> childVPInGroup = (Collections2.filter(fileVPIndex.get(parentFile),
+                    Predicates.in(wrapper.getGroup().getVariationPoints())));
+            children.addAll(childVPInGroup);
+
+            return children.toArray();
+
         } else if (parentElement instanceof VariationPointModel) {
             VariationPointModel vpm = (VariationPointModel) parentElement;
             return vpm.getVariationPointGroups().toArray();
 
         } else if (parentElement instanceof VariationPointGroup) {
             VariationPointGroup group = (VariationPointGroup) parentElement;
-            return group.getVariationPoints().toArray();
+            Collection<FileWrapper> childFiles = new LinkedList<FileWrapper>();
+            if (vpexplorer.getShowGrouping()) {
+                Collection<File> files = Collections2.filter(rootFiles, Predicates.in(groupFileIndex.get(group)));
+                for (File file : files) {
+                    childFiles.add(new FileWrapper(file, group));
+                }
+                return childFiles.toArray();
+            } else {
+                return group.getVariationPoints().toArray();
+            }
 
         } else if (parentElement instanceof VariationPoint) {
             return ((VariationPoint) parentElement).getVariants().toArray();
@@ -155,7 +189,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     /**
      * Populates the CU locations map with all variation points and the location names of their
      * corresponding CUs.
-     *
+     * 
      * @param vpContent
      *            the VPcontent to be used as population source
      */
@@ -173,6 +207,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
                 File sourceFile = new File(location.getFilePath());
                 vpFileIndex.put(vp, sourceFile);
                 fileVPIndex.put(sourceFile, vp);
+                groupFileIndex.put(vpGroup, sourceFile);
 
                 File parentFile = sourceFile.getParentFile();
                 File childFile = sourceFile;
@@ -188,11 +223,13 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
                     }
 
                     subFileIndex.get(parentFile).add(childFile);
+                    groupFileIndex.put(vpGroup, childFile);
 
                     childFile = parentFile;
                     parentFile = parentFile.getParentFile();
                 }
                 rootFiles.add(childFile);
+                groupFileIndex.put(vpGroup, childFile);
 
             }
         }
@@ -203,6 +240,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
         rootFiles.clear();
         vpFileIndex.clear();
         subFileIndex.clear();
+        groupFileIndex.clear();
     }
 
     private String getNormalizedWorkspacePath() {
