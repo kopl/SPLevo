@@ -234,6 +234,34 @@ public class StatementTest {
      *             Identifies a failed diffing.
      */
     @Test
+    public void testConditionMatchInstanceOfExpression() throws Exception {
+
+        File testFileA = new File(basePath + "a/ConditionMatchInstanceOfExpression.java");
+        File testFileB = new File(basePath + "b/ConditionMatchInstanceOfExpression.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Wrong number of differences", differences.size(), is(1));
+        assertThat("Wrong number of differences", differences.get(0).getKind(), is(DifferenceKind.ADD));
+
+        Condition cond = (Condition) ((StatementChange) differences.get(0)).getChangedStatement();
+        Return returnStmnt = (Return) ((Block) cond.getStatement()).getStatements().get(0);
+        StringReference returnValue = (StringReference) returnStmnt.getReturnValue();
+        assertThat("Wrong condition detected in change", returnValue.getValue(), equalTo("new instanceof conditional"));
+    }
+
+    /**
+     * Test insertion of new statements
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
     public void testConditionMatchOrExpression() throws Exception {
 
         File testFileA = new File(basePath + "a/ConditionMatchOrExpression.java");
