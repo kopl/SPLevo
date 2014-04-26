@@ -96,7 +96,7 @@
           <styles xmi:type="notation:SortingStyle" xmi:id="_HYpRk7eOEeO-Lc2V-P6Vhw"/>
           <styles xmi:type="notation:FilteringStyle" xmi:id="_HYpRlLeOEeO-Lc2V-P6Vhw"/>
         </children>
-        <styles xmi:type="notation:ShapeStyle" xmi:id="_HYoDcbeOEeO-Lc2V-P6Vhw" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+        <styles xmi:type="notation:ShapeStyle" xmi:id="_HYoDcbeOEeO-Lc2V-P6Vhw" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
         <element xmi:type="ecore:EEnum" href="vpm.ecore#//variability/Extensible"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HYoDcreOEeO-Lc2V-P6Vhw" x="643" y="3"/>
       </children>
@@ -123,7 +123,7 @@
           <styles xmi:type="notation:SortingStyle" xmi:id="_TV6747eOEeO-Lc2V-P6Vhw"/>
           <styles xmi:type="notation:FilteringStyle" xmi:id="_TV675LeOEeO-Lc2V-P6Vhw"/>
         </children>
-        <styles xmi:type="notation:ShapeStyle" xmi:id="_TV5twbeOEeO-Lc2V-P6Vhw" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+        <styles xmi:type="notation:ShapeStyle" xmi:id="_TV5twbeOEeO-Lc2V-P6Vhw" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
         <element xmi:type="ecore:EEnum" href="vpm.ecore#//variability/VariabilityType"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_TV5twreOEeO-Lc2V-P6Vhw" x="643" y="105"/>
       </children>
@@ -146,7 +146,7 @@
           <styles xmi:type="notation:SortingStyle" xmi:id="_rSseE7eOEeO-Lc2V-P6Vhw"/>
           <styles xmi:type="notation:FilteringStyle" xmi:id="_rSseFLeOEeO-Lc2V-P6Vhw"/>
         </children>
-        <styles xmi:type="notation:ShapeStyle" xmi:id="_rSrP8beOEeO-Lc2V-P6Vhw" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+        <styles xmi:type="notation:ShapeStyle" xmi:id="_rSrP8beOEeO-Lc2V-P6Vhw" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
         <element xmi:type="ecore:EEnum" href="vpm.ecore#//variability/BindingTime"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_rSrP8reOEeO-Lc2V-P6Vhw" x="799" y="3"/>
       </children>
