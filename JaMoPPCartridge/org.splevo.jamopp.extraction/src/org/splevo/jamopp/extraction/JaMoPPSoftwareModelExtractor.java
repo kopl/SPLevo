@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.extraction.SoftwareModelExtractor;
@@ -288,7 +289,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
                 directories, javaClasspath, jarPaths);
         factoryMap.put("java", factory);
-        factoryMap.put("class", factory);
+        factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());
 
         return rs;
     }
@@ -316,7 +317,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
                 sourceModelPaths, javaClasspath);
         factoryMap.put("java", factory);
-        factoryMap.put("class", factory);
+        factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());
     }
 
 }
