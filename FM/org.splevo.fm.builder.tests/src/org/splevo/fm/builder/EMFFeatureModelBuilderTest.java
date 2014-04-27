@@ -57,7 +57,7 @@ public class EMFFeatureModelBuilderTest {
         VariationPointModel vpm = SPLevoTestUtil.loadGCDVPMModel();
 
         EMFFeatureModelBuilder builder = new EMFFeatureModelBuilder();
-        FeatureModel fm = builder.build(vpm, "TestFeature");
+        FeatureModel fm = builder.build(vpm, "TestFeature").getModel();
 
         assertNotNull("No Feature Model Created", fm);
         assertNotNull("No root feature created", fm.getRoot());

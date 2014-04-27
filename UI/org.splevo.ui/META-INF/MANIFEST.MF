@@ -38,7 +38,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.navigator;bundle-version="3.5.300",
  org.eclipse.emf.edit.ui;bundle-version="2.9.0",
  org.splevo.refactoring;bundle-version="1.0.0",
- org.apache.commons.lang;bundle-version="2.6.0"
+ org.apache.commons.lang;bundle-version="2.6.0",
+ org.eclipse.featuremodel.diagrameditor
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

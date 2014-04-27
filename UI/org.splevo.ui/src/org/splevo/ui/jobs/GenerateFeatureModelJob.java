@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Daniel Kojic
  *******************************************************************************/
 package org.splevo.ui.jobs;
 
@@ -15,7 +16,16 @@ import java.io.File;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.ui.URIEditorInput;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.featuremodel.FeatureModel;
+import org.eclipse.featuremodel.diagrameditor.FMEDiagramEditor;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.splevo.fm.builder.FeatureModelBuilderService;
+import org.splevo.fm.builder.FeatureModelWrapper;
 import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -26,7 +36,7 @@ import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 
 /**
- * Job to generate a feature model from a variation point model.
+ * Job to generate a feature model from a variation point model and opens the diagram if possible.
  */
 public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
@@ -35,7 +45,7 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
 
     /**
      * Constructor to set the reference to the SPLevo project.
-     *
+     * 
      * @param splevoProject
      *            The SPLevo project to exchange data with.
      */
@@ -57,8 +67,23 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
         for (String builderId : service.getAvailableBuilders().keySet()) {
             ids.add(builderId);
         }
+
+        // build model
         String targetPath = getModelFilePath(splevoProject);
-        service.buildAndSaveModels(ids, vpm, splevoProject.getName(), targetPath);
+        List<FeatureModelWrapper<FeatureModel>> buildAndSaveModels = service.buildAndSaveModels(ids, vpm,
+                splevoProject.getName(), targetPath);
+
+        // open diagram editor in ui thread
+        for (final FeatureModelWrapper<FeatureModel> modelWrapper : buildAndSaveModels) {
+            if (modelWrapper.isCanBeDisplayed()) {
+                Display.getDefault().asyncExec(new Runnable() {
+                    @Override
+                    public void run() {
+                        openFeatureDiagram(modelWrapper);
+                    }
+                });
+            }
+        }
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
@@ -69,10 +94,26 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
         // finish run
         monitor.done();
     }
+    
+    /**
+     * Opens the diagram file to a corresponding model.
+     * 
+     * @param modelWrapper The {@link FeatureModelWrapper} containing the model.
+     */
+    private void openFeatureDiagram(FeatureModelWrapper<FeatureModel> modelWrapper) {
+        IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                .getActivePage();
+        try {
+            URI diagramURI = modelWrapper.getModel().eResource().getURI().trimFileExtension().appendFileExtension("featurediagram");
+            activePage.openEditor(new URIEditorInput(diagramURI), FMEDiagramEditor.DIAGRAM_EDITOR_ID);
+        } catch (PartInitException e) {
+            logger.error("Cannot open Feature Diagram View.", e);
+        }
+    }
 
     /**
      * Return the Feature Model file path.
-     *
+     * 
      * @param splevoProject
      *            The {@link SPLevoProject} to get the workspace from.
      * @return the absolute path to the file.

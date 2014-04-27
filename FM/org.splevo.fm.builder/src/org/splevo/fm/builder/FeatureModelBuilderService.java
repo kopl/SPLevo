@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.featuremodel.FeatureModel;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import com.google.common.collect.Lists;
@@ -66,23 +67,23 @@ public class FeatureModelBuilderService {
      * @param targetPath
      *            The path of the base directory to save the models to. If null is provided the save
      *            will not be triggered.
-     * @return The list of build feature models.
+     * @return A list with {@link FeatureModelWrapper}s containing the feature models.
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public List<Object> buildAndSaveModels(List<String> builderIds, VariationPointModel vpm, String rootNodeName,
-            String targetPath) {
-        List<Object> featureModels = Lists.newArrayList();
+    public List<FeatureModelWrapper<FeatureModel>> buildAndSaveModels(List<String> builderIds, 
+            VariationPointModel vpm, String rootNodeName, String targetPath) {
+        List<FeatureModelWrapper<FeatureModel>> featureModels = Lists.newArrayList();
         for (String id : builderIds) {
             FeatureModelBuilder currentBuilder = getAvailableBuilders().get(id);
-            if (currentBuilder == builder) {
+            if (currentBuilder == null) {
                 logger.warn(String.format(MSG_BUILDER_NOT_AVAILABLE, id));
                 continue;
             }
 
-            Object featureModel = currentBuilder.build(vpm, rootNodeName);
-            featureModels.add(featureModel);
+            FeatureModelWrapper featureModelWrapper = currentBuilder.build(vpm, rootNodeName);
+            featureModels.add(featureModelWrapper);
             if (targetPath != null) {
-                currentBuilder.save(featureModel, targetPath);
+                currentBuilder.save(featureModelWrapper.getModel(), targetPath);
             }
         }
         return featureModels;

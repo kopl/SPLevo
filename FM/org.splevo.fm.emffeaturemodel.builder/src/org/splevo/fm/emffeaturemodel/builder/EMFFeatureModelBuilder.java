@@ -16,6 +16,7 @@ import org.eclipse.featuremodel.Group;
 import org.eclipse.featuremodel.diagrameditor.FMEDiagramEditor;
 import org.eclipse.featuremodel.diagrameditor.FMEDiagramEditorUtil;
 import org.splevo.fm.builder.FeatureModelBuilder;
+import org.splevo.fm.builder.FeatureModelWrapper;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -39,10 +40,10 @@ public class EMFFeatureModelBuilder implements FeatureModelBuilder<FeatureModel>
      *            The variation point model to make use of.
      * @param rootFeatureName
      *            The name of the feature models root element.
-     * @return The prepared feature model.
+     * @return A {@link FeatureModelWrapper} containing the prepared feature model.
      */
     @Override
-    public FeatureModel build(VariationPointModel vpm, String rootFeatureName) {
+    public FeatureModelWrapper<FeatureModel> build(VariationPointModel vpm, String rootFeatureName) {
 
         FeatureModel fm = initFeatureModel(vpm, rootFeatureName);
 
@@ -67,7 +68,7 @@ public class EMFFeatureModelBuilder implements FeatureModelBuilder<FeatureModel>
 
         }
 
-        return fm;
+        return new FeatureModelWrapper<FeatureModel>(fm, true);
     }
 
     /**

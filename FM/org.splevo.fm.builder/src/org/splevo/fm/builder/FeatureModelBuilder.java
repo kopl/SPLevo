@@ -8,18 +8,20 @@
  *
  * Contributors:
  *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *    Daniel Kojic - adapted for usage with the feature model wrapper
  *******************************************************************************/
 package org.splevo.fm.builder;
 
+import org.eclipse.featuremodel.FeatureModel;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * Interface to build a specific feature model from a provided Comparison model.
  *
  * @param <Model>
- *            The specific type of the model, the builder is able to produce.
+ *            The specific type of the feature model, the builder is able to produce.
  */
-public interface FeatureModelBuilder<Model> {
+public interface FeatureModelBuilder<Model extends FeatureModel> {
 
     /**
      * Get the identifier of this builder. This should be unique in your installation.
@@ -43,9 +45,9 @@ public interface FeatureModelBuilder<Model> {
      *
      * @param rootFeatureName
      *            The name of the feature models root element.
-     * @return The prepared feature model.
+     * @return A {@link FeatureModelWrapper} containing the prepared feature model.
      */
-    public Model build(VariationPointModel vpm, String rootFeatureName);
+    public FeatureModelWrapper<FeatureModel> build(VariationPointModel vpm, String rootFeatureName);
 
     /**
      * Save a feature model of the builder's specific model type.
