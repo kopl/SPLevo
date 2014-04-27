@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.ui.jobs;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -20,6 +21,9 @@ import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMAnalyzerService;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
+
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Lists;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 
@@ -78,18 +82,41 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
         // number of subgraphs
         ConnectedComponents cc = new ConnectedComponents();
         cc.init(vpmGraph);
-        this.logger.info("VPM Analysis Result: #Subgraphs: " + cc.getConnectedComponentsCount());
+        String subgraphDegrees = getSubgraphDegrees(vpmGraph);
 
-        this.logger.info("VPM Analysis Result: #Edges: " + vpmGraph.getEdgeCount());
+        logger.info("VPM Analysis Result: #Nodes: " + vpmGraph.getNodeCount());
+        logger.info("VPM Analysis Result: #Edges: " + vpmGraph.getEdgeCount());
+        logger.info("VPM Analysis Result: #Subgraphs: " + cc.getConnectedComponentsCount());
+        logger.info("VPM Analysis Result: #SingleNodes: " + cc.getConnectedComponentsCount(0, 2));
+        logger.info("VPM Analysis Result: Subgraph Degrees (Degree:SubGraphCount): [" + subgraphDegrees + "]");
 
-        // number of nodes without relationships
-        int singleNodeCounter = 0;
+    }
+
+    /**
+     * Get a string containing the degrees of identified subgraphs and how many subgraphs exist for
+     * a specific degree.
+     *
+     * @param vpmGraph
+     *            The graph to analyze the subgraphs for.
+     * @return The formated string of degree statistics [Size:SubGraphCount].
+     */
+    private String getSubgraphDegrees(VPMGraph vpmGraph) {
+
+        LinkedHashMultimap<Integer, Node> degreeStatistics = LinkedHashMultimap.create();
         for (Node node : vpmGraph.getNodeSet()) {
-            if (node.getDegree() == 0) {
-                singleNodeCounter++;
-            }
+            degreeStatistics.get(node.getDegree()).add(node);
         }
-        this.logger.info("VPM Analysis Result: #SingleNodes " + singleNodeCounter + " of " + vpmGraph.getNodeCount());
+
+        StringBuilder degreePrint = new StringBuilder();
+        List<Integer> degrees = Lists.newLinkedList(degreeStatistics.keySet());
+        Collections.sort(degrees);
+        for (Integer degree : degrees) {
+            if (degreePrint.length() > 0) {
+                degreePrint.append("|");
+            }
+            degreePrint.append(degree + ":" + degreeStatistics.get(degree).size());
+        }
+        return degreePrint.toString();
     }
 
     @Override
