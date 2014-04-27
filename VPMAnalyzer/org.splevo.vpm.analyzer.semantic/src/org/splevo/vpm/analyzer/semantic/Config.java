@@ -52,13 +52,13 @@ public final class Config {
     public static final String CONFIG_ID_LOG_INDEXED_TERMS = CONFIG_ID_BASE + "LOG_INDEXED_TERMS";
 
     /** The configuration label for the log indexed terms configuration. */
-    public static final String LABEL_LOG_INDEXED_TERMS = "Log indexed terms";
+    public static final String LABEL_LOG_INDEXED_TERMS = "Indexed terms log path";
 
     /** The explanation for the log indexed terms configuration. */
-    public static final String EXPL_LOG_INDEXED_TERMS = "Dump all indexed terms to the log file (info level).";
+    public static final String EXPL_LOG_INDEXED_TERMS = "If a path is defined, all indexed terms are dump to a log file in this path's directory.";
 
     /** The default configuration for the log indexed terms configuration. */
-    public static final boolean DEFAULT_LOG_INDEXED_TERMS = true;
+    public static final String DEFAULT_LOG_INDEXED_TERMS = "";
 
     // --------------------------
     // Camel Case

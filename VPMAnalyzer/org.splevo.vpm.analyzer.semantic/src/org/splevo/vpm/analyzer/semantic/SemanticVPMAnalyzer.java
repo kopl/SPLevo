@@ -12,14 +12,21 @@
  *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.SlowCompositeReaderWrapper;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
@@ -46,7 +53,9 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 
@@ -103,8 +112,8 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             new Range(1, -1), 0);
 
     /** The configuration-object for the log indexed terms configuration. */
-    private BooleanConfiguration logIndexedTermsConfig = new BooleanConfiguration(Config.CONFIG_ID_LOG_INDEXED_TERMS,
-            Config.LABEL_LOG_INDEXED_TERMS, Config.EXPL_LOG_INDEXED_TERMS, Config.DEFAULT_LOG_INDEXED_TERMS);
+    private StringConfiguration logIndexedTermsConfig = new StringConfiguration(Config.CONFIG_ID_LOG_INDEXED_TERMS,
+            Config.LABEL_LOG_INDEXED_TERMS, Config.EXPL_LOG_INDEXED_TERMS, Config.DEFAULT_LOG_INDEXED_TERMS, true);
 
     @Override
     public VPMAnalyzerResult analyze(VPMGraph vpmGraph) {
@@ -124,7 +133,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             return null;
         }
 
-        if (logIndexedTermsConfig.getCurrentValue()) {
+        if (!Strings.isNullOrEmpty(logIndexedTermsConfig.getCurrentValue())) {
             logIndexedTerms();
         }
 
@@ -142,9 +151,37 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     }
 
     private void logIndexedTerms() {
-        List<String> indexedTerms = getTermsFromIndex();
-        String terms = Joiner.on(", ").skipNulls().join(indexedTerms);
-        logger.info("INDEXED TERMS (" + indexedTerms.size() + "): " + (terms.length() > 0 ? terms : "NO TERMS"));
+
+        Map<String, Integer> indexedTerms = getTermsFromIndex();
+
+        List<String> lines = Lists.newLinkedList();
+        lines.add("Term,VPCount");
+        for (String term : indexedTerms.keySet()) {
+            lines.add(term + "," + indexedTerms.get(term));
+        }
+
+        String logDirectory = getCurrentLogSubDirectory();
+        File logFile = new File(logDirectory + "indexed-terms.csv");
+
+        try {
+            FileUtils.writeLines(logFile, lines);
+        } catch (IOException e) {
+            logger.error("Failed to write term log", e);
+        }
+    }
+
+    /**
+     * Get the current run specific log directory. A timestamp specific sub directory of the
+     * configured path will be used.
+     *
+     * @return The base log directory concatenated with a timestamp specific sub directory.
+     */
+    private String getCurrentLogSubDirectory() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+        Calendar cal = Calendar.getInstance();
+        String timeStamp = dateFormat.format(cal.getTime());
+        String logDirectory = logIndexedTermsConfig.getCurrentValue() + File.separator + timeStamp + File.separator;
+        return logDirectory;
     }
 
     private void cleanUp() {
@@ -155,8 +192,8 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         }
     }
 
-    private List<String> getTermsFromIndex() {
-        List<String> indexedTerms = Lists.newArrayList();
+    private Map<String, Integer> getTermsFromIndex() {
+        Map<String, Integer> indexedTerms = Maps.newLinkedHashMap();
         try {
             DirectoryReader indexReader = indexer.getIndexReader();
             Terms terms = SlowCompositeReaderWrapper.wrap(indexReader).terms(Indexer.INDEX_CONTENT);
@@ -168,8 +205,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             BytesRef byteRef = null;
 
             while ((byteRef = termEnum.next()) != null) {
-                String term = new String(byteRef.bytes, byteRef.offset, byteRef.length);
-                indexedTerms.add(term);
+                String term = byteRef.utf8ToString();
+                int count = indexReader.docFreq(new Term(Indexer.INDEX_CONTENT, byteRef));
+                indexedTerms.put(term, Integer.valueOf(count));
             }
             indexReader.close();
         } catch (Exception e) {
