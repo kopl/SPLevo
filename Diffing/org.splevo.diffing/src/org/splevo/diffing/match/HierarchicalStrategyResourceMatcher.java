@@ -62,14 +62,14 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Constructor to specify pattern mappings to handle possible renaming.
-     * 
+     *
      * @param uriNormalizationPatterns
      *            A map with entries having a key representing a regular expression to match and a
      *            replacement string to set in case of a match.
      * @param fileNameNormalizationPatterns
      *            A map with entries having a key of a regular expression to match and a replacement
      *            string to set in case of a match.
-     * 
+     *
      */
     public HierarchicalStrategyResourceMatcher(Map<Pattern, String> uriNormalizationPatterns,
             Map<Pattern, String> fileNameNormalizationPatterns) {
@@ -126,10 +126,10 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
     /**
      * Create matches for the left and right candidates. A match is only created if a pair is the
      * best match for both sides.
-     * 
+     *
      * Internally, indexes are build to identify the total number of matches and the best matches
      * for both candidate lists.
-     * 
+     *
      * @param leftCandidates
      *            The left candidates to search matches for.
      * @param rightCandidates
@@ -146,7 +146,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
         // mappings for a resource to it's best matches
         // This is implemented as multimap to support renaming and derived copies.
         // in such a case, an original resource might map two times:
-        // To the still existing same class as well as the modified, extending copy
+        // To the still existing same class as well as the modified, derived copy
         // see SPLEVO-181 for details {@link https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-181}
         LinkedListMultimap<Resource, Resource> bestMatchIndexLeft = LinkedListMultimap.create();
         LinkedListMultimap<Resource, Resource> bestMatchIndexRight = LinkedListMultimap.create();
@@ -181,15 +181,15 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Create match elements for valid best matching pairs.
-     * 
+     *
      * For the best match of each left resource, create a match element if this match-pair is also
      * best available match for the right resource in the pair.
-     * 
+     *
      * This supports original resources matched to one or more new resources.<br>
      * This is required to support renaming and derived copies as described in the according Jira
      * Issue:<br>
      * SPLEVO-181 for details {@link https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-181}
-     * 
+     *
      * TODO: Check if a match should be prevented if it is only 1<br>
      * 1 means only the filename is the same. The resources are expected to be located relative
      * folders and the URI is an absolute uri. On the other hand, the path to the root folder might
@@ -197,7 +197,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
      * subfolderleft/resource.xmi vs. differentsubfolder/resource.xmi<br>
      * vs.<br>
      * rootfolderlef/resource.xmi vs rootsfolderright/resource.xmi<br>
-     * 
+     *
      * @param bestMatchCountIndex
      *            The best match qualifiers for each resource (left and right).
      * @param bestMatchIndexLeft
@@ -226,7 +226,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Remove a resource entry from the index for all segments it has been registered for.
-     * 
+     *
      * @param index
      *            The index to clean.
      * @param resource
@@ -241,7 +241,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Count the number of matching segments for two resources.
-     * 
+     *
      * <p>
      * The segment comparison starts from the end of the resources' URIs except of the filename.<br>
      * The filename is expected to match for the resources provided to this method (including
@@ -250,7 +250,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
      * beginning of the URIs / the locations where the implementations are stored, are expected to
      * be different anyway.
      * </p>
-     * 
+     *
      * @param leftResource
      *            The left resource to compare the uri.
      * @param rightResource
@@ -292,9 +292,9 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Remove the last element of an array.
-     * 
+     *
      * In case of an empty array or null provided, also an empty array will be returned.
-     * 
+     *
      * @param array
      *            The array to remove the last element of.
      * @return A copy of the original array without it's last element.
@@ -311,7 +311,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
      * To apply a java package renaming normalization that also manifests in the source directories,
      * the normalization pattern provided as string containing "." characters must be mapped to the
      * array of URI segment strings.
-     * 
+     *
      * This is done by merging the URI segments with "." as glue character. As a result also the
      * directory segments of the URI representing the absolute path of the source directory are
      * joined with a dot. Later on, when the joined string is split again using "." as split
@@ -321,10 +321,10 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
      * split into three segments when the absolute segment string is split again. if this becomes an
      * issue later on, the logic of this method must be adapted. However, any character potentially
      * lead to the same problem as different file systems also allow for different directory names.
-     * 
+     *
      * Note: The last segment representing the filename will be preserved even if it contains a dot
      * e.g. to separate the file extension.
-     * 
+     *
      * @param segmentsLeft
      *            The source array to process.
      * @return The resulting array after processing.
@@ -347,7 +347,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
 
     /**
      * Index a set of resources according to their last segment.
-     * 
+     *
      * @param resources
      *            The resources to index.
      * @param index
