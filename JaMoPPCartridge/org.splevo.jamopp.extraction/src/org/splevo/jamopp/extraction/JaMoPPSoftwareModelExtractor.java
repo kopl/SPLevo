@@ -289,6 +289,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
                 directories, javaClasspath, jarPaths);
         factoryMap.put("java", factory);
+        // DesignDecision No caching for byte code resources to improve performance
         factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());
 
         return rs;
@@ -317,6 +318,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
                 sourceModelPaths, javaClasspath);
         factoryMap.put("java", factory);
+        // DesignDecision No caching for byte code resources to improve performance
         factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());
     }
 
