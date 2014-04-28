@@ -18,8 +18,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.featuremodel.FeatureModel;
-import org.eclipse.featuremodel.diagrameditor.FMEDiagramEditor;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -70,11 +69,11 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
 
         // build model
         String targetPath = getModelFilePath(splevoProject);
-        List<FeatureModelWrapper<FeatureModel>> buildAndSaveModels = service.buildAndSaveModels(ids, vpm,
+        List<FeatureModelWrapper<Object>> buildAndSaveModels = service.buildAndSaveModels(ids, vpm,
                 splevoProject.getName(), targetPath);
 
         // open diagram editor in ui thread
-        for (final FeatureModelWrapper<FeatureModel> modelWrapper : buildAndSaveModels) {
+        for (final FeatureModelWrapper<Object> modelWrapper : buildAndSaveModels) {
             if (modelWrapper.isCanBeDisplayed()) {
                 Display.getDefault().asyncExec(new Runnable() {
                     @Override
@@ -100,14 +99,17 @@ public class GenerateFeatureModelJob extends AbstractBlackboardInteractingJob<SP
      * 
      * @param modelWrapper The {@link FeatureModelWrapper} containing the model.
      */
-    private void openFeatureDiagram(FeatureModelWrapper<FeatureModel> modelWrapper) {
+    private void openFeatureDiagram(FeatureModelWrapper<Object> modelWrapper) {
         IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                 .getActivePage();
         try {
-            URI diagramURI = modelWrapper.getModel().eResource().getURI().trimFileExtension().appendFileExtension("featurediagram");
-            activePage.openEditor(new URIEditorInput(diagramURI), FMEDiagramEditor.DIAGRAM_EDITOR_ID);
+            EObject model = (EObject) modelWrapper.getModel();
+            URI diagramURI = model.eResource().getURI().trimFileExtension().appendFileExtension("featurediagram");
+            activePage.openEditor(new URIEditorInput(diagramURI), "org.eclipse.featuremodel.diagrameditor.diagrameditor");
         } catch (PartInitException e) {
             logger.error("Cannot open Feature Diagram View.", e);
+        } catch (ClassCastException e) {
+            logger.error("Invalid model type.", e);
         }
     }
 

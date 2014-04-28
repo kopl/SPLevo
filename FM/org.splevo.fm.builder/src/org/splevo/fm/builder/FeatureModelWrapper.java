@@ -1,20 +1,18 @@
 package org.splevo.fm.builder;
 
-import org.eclipse.featuremodel.FeatureModel;
-
 /**
- * This is a wrapper class for {@link FeatureModel}s.
+ * This is a wrapper class for feature models.
  * 
  * @param <Model>
  *            The model which is to be wrapped.
  */
-public class FeatureModelWrapper<Model extends FeatureModel> {
+public class FeatureModelWrapper<Model> {
 
     private boolean canBeDisplayed;
     private Model model;
 
     /**
-     * Initializes the wrapper with a given {@link FeatureModel} and a tag indicating whether the
+     * Initializes the wrapper with a given model and a tag indicating whether the
      * model can be shown in the UI.
      * 
      * @param model

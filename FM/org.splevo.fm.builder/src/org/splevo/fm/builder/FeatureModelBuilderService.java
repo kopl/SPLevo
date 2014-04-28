@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.featuremodel.FeatureModel;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import com.google.common.collect.Lists;
@@ -70,9 +69,9 @@ public class FeatureModelBuilderService {
      * @return A list with {@link FeatureModelWrapper}s containing the feature models.
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public List<FeatureModelWrapper<FeatureModel>> buildAndSaveModels(List<String> builderIds, 
+    public List<FeatureModelWrapper<Object>> buildAndSaveModels(List<String> builderIds, 
             VariationPointModel vpm, String rootNodeName, String targetPath) {
-        List<FeatureModelWrapper<FeatureModel>> featureModels = Lists.newArrayList();
+        List<FeatureModelWrapper<Object>> featureModels = Lists.newArrayList();
         for (String id : builderIds) {
             FeatureModelBuilder currentBuilder = getAvailableBuilders().get(id);
             if (currentBuilder == null) {
@@ -80,10 +79,10 @@ public class FeatureModelBuilderService {
                 continue;
             }
 
-            FeatureModelWrapper featureModelWrapper = currentBuilder.build(vpm, rootNodeName);
-            featureModels.add(featureModelWrapper);
+            FeatureModelWrapper modelWrapper = currentBuilder.build(vpm, rootNodeName);
+            featureModels.add(modelWrapper);
             if (targetPath != null) {
-                currentBuilder.save(featureModelWrapper.getModel(), targetPath);
+                currentBuilder.save(modelWrapper.getModel(), targetPath);
             }
         }
         return featureModels;

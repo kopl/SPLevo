@@ -12,7 +12,6 @@
  *******************************************************************************/
 package org.splevo.fm.builder;
 
-import org.eclipse.featuremodel.FeatureModel;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -21,7 +20,7 @@ import org.splevo.vpm.variability.VariationPointModel;
  * @param <Model>
  *            The specific type of the feature model, the builder is able to produce.
  */
-public interface FeatureModelBuilder<Model extends FeatureModel> {
+public interface FeatureModelBuilder<Model> {
 
     /**
      * Get the identifier of this builder. This should be unique in your installation.
@@ -47,7 +46,7 @@ public interface FeatureModelBuilder<Model extends FeatureModel> {
      *            The name of the feature models root element.
      * @return A {@link FeatureModelWrapper} containing the prepared feature model.
      */
-    public FeatureModelWrapper<FeatureModel> build(VariationPointModel vpm, String rootFeatureName);
+    public FeatureModelWrapper<Model> build(VariationPointModel vpm, String rootFeatureName);
 
     /**
      * Save a feature model of the builder's specific model type.
