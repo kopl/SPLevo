@@ -16,13 +16,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.ContainersFactory;
+import org.emftext.language.java.expressions.ConditionalOrExpression;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportsFactory;
@@ -40,7 +43,7 @@ import org.emftext.language.java.references.StringReference;
 public final class SPLConfigurationUtil {
 
     private static final String CONFIGURATION_READER_CLASS_NAME = "SPLConfigReader";
-    private static final String CONFIGURATION_READER_READ_CONFIG_METHOD_NAME = "getConfig";
+    private static final String CONFIGURATION_READER_READ_CONFIG_METHOD_NAME = "getConfigs";
 
     /** The logger used by this class. */
     private static Logger logger = Logger.getLogger(SPLConfigurationUtil.class);
@@ -79,39 +82,53 @@ public final class SPLConfigurationUtil {
     /**
      * Creates an expression that matches a property of a given name with a given string.
      * 
-     * @param propertyName
+     * @param variationPointID
      *            The propertie's {@link String} name.
-     * @param matchWith
+     * @param variantID
      *            The {@link String} to compare to.
      * @return The generated {@link Expression}.
      */
-    public static Expression generateVariantMatchingExpression(String propertyName, String matchWith) {
-        // CONFIGURATION_READER_CLASS_NAME
+    public static IdentifierReference generateSingleVariantMatchingExpression(String variationPointID, String variantID) {
         IdentifierReference configReaderReference = ReferencesFactory.eINSTANCE.createIdentifierReference();
         configReaderReference.setTarget(generateConfigReaderClassifier());
 
-        // CONFIGURATION_READER_CLASS_NAME.CONFIGURATION_READER_READ_CONFIG_METHOD_NAME(propertyName)
-        MethodCall readConfigMethodCall = ReferencesFactory.eINSTANCE.createMethodCall();
+        MethodCall readConfigMethodCall = getReadConfigMethodCall(
+				variationPointID, configReaderReference);
+
+        MethodCall containsMethodCall = ReferencesFactory.eINSTANCE.createMethodCall();
+        ClassMethod containsMethod = MembersFactory.eINSTANCE.createClassMethod();
+        containsMethod.setName("contains");
+        containsMethodCall.setTarget(containsMethod);
+        StringReference matchWithRef = ReferencesFactory.eINSTANCE.createStringReference();
+        matchWithRef.setValue(variantID);
+        containsMethodCall.getArguments().add(matchWithRef);
+        readConfigMethodCall.setNext(containsMethodCall);
+
+        return configReaderReference;
+    }
+
+    public static Expression generateVariantMatchingExpression(String variationPointID, Set<String> variantIDs) {
+    	ConditionalOrExpression conditionalOrExpression = ExpressionsFactory.eINSTANCE.createConditionalOrExpression();
+    	
+		for (String variantID : variantIDs) {
+			conditionalOrExpression.getChildren().add(generateSingleVariantMatchingExpression(variationPointID, variantID));
+		}
+    	
+		return conditionalOrExpression;
+    }
+
+	private static MethodCall getReadConfigMethodCall(String variationPointID,
+			IdentifierReference configReaderReference) {
+		MethodCall readConfigMethodCall = ReferencesFactory.eINSTANCE.createMethodCall();
         ClassMethod readConfigMethod = MembersFactory.eINSTANCE.createClassMethod();
         readConfigMethod.setName(CONFIGURATION_READER_READ_CONFIG_METHOD_NAME);
         readConfigMethodCall.setTarget(readConfigMethod);
         StringReference propertyNameRef = ReferencesFactory.eINSTANCE.createStringReference();
-        propertyNameRef.setValue(propertyName);
+        propertyNameRef.setValue(variationPointID);
         readConfigMethodCall.getArguments().add(propertyNameRef);
         configReaderReference.setNext(readConfigMethodCall);
-
-        // CONFIGURATION_READER_CLASS_NAME.CONFIGURATION_READER_READ_CONFIG_METHOD_NAME(propertyName).equals(matchWith)
-        MethodCall equalsMethodCall = ReferencesFactory.eINSTANCE.createMethodCall();
-        ClassMethod equalsMethod = MembersFactory.eINSTANCE.createClassMethod();
-        equalsMethod.setName("equals");
-        equalsMethodCall.setTarget(equalsMethod);
-        readConfigMethodCall.setNext(equalsMethodCall);
-        StringReference matchWithRef = ReferencesFactory.eINSTANCE.createStringReference();
-        matchWithRef.setValue(matchWith);
-        equalsMethodCall.getArguments().add(matchWithRef);
-
-        return configReaderReference;
-    }
+		return readConfigMethodCall;
+	}
 
     /**
      * Creates a Java SPL properties file with the given key value configs at a specified path.

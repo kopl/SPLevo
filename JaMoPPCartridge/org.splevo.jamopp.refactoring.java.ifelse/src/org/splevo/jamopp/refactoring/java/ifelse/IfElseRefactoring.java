@@ -18,12 +18,21 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.AssignmentExpression;
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.expressions.NestedExpression;
+import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.instantiations.InstantiationsFactory;
+import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.operators.OperatorsFactory;
+import org.emftext.language.java.references.ReferencesFactory;
+import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
@@ -31,6 +40,9 @@ import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.statements.Throw;
+import org.emftext.language.java.types.ClassifierReference;
+import org.emftext.language.java.types.TypesFactory;
 import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
@@ -96,7 +108,7 @@ public class IfElseRefactoring implements VariabilityRefactoring {
 
         // check for common variables of different types
         if (jamoppElement instanceof StatementListContainer) {
-            Map<String, Set<Class<?>>> localVariableMap = new HashMap<String, Set<Class<?>>>();
+            Map<String, Set<java.lang.Class<?>>> localVariableMap = new HashMap<String, Set<java.lang.Class<?>>>();
             for (Variant variant : variationPoint.getVariants()) {
                 for (SoftwareElement softwareElement : variant.getImplementingElements()) {
                     Commentable variantElement = ((JaMoPPSoftwareElement) softwareElement).getJamoppElement();
@@ -105,7 +117,7 @@ public class IfElseRefactoring implements VariabilityRefactoring {
                     }
                     LocalVariable variable = ((LocalVariableStatement) variantElement).getVariable();
                     if (!localVariableMap.containsKey(variable.getName())) {
-                        Set<Class<?>> hashSet = new HashSet<Class<?>>();
+                        Set<java.lang.Class<?>> hashSet = new HashSet<java.lang.Class<?>>();
                         hashSet.add(variable.getTypeReference().getTarget().getClass());
                         localVariableMap.put(variable.getName(), hashSet);
                     } else {
@@ -154,15 +166,17 @@ public class IfElseRefactoring implements VariabilityRefactoring {
 
         Condition previousCondition = null;
         Set<String> localVariableSet = new HashSet<String>();
+        VariabilityType variabilityType = variationPoint.getVariabilityType();
 
         // process all variants
-        for (Variant variant : variationPoint.getVariants()) {
+        for (int i = 0; i < variationPoint.getVariants().size(); i++) {
+        	Variant variant = variationPoint.getVariants().get(i);
             // store position of integration statements in int method
             int indexVariantPositionInMethod = getIndexOfStatementInMethod(variant);
 
             // create condition
             Condition currentCondition = StatementsFactory.eINSTANCE.createCondition();
-            currentCondition.setCondition(SPLConfigurationUtil.generateVariantMatchingExpression(variationPoint
+            currentCondition.setCondition(SPLConfigurationUtil.generateSingleVariantMatchingExpression(variationPoint
                     .getGroup().getGroupId(), variant.getVariantId()));
             Block currentBlock = StatementsFactory.eINSTANCE.createBlock();
             currentCondition.setStatement(currentBlock);
@@ -206,20 +220,87 @@ public class IfElseRefactoring implements VariabilityRefactoring {
                     currentBlock.getStatements().add(variantStatement);
                 }
             }
-
-            // If variabilitytype or: add condition to if block
-            // If variabilitytype xor: add condition to else statement
-            VariabilityType variabilityType = variationPoint.getVariabilityType();
-            if (previousCondition == null || variabilityType == VariabilityType.OR
-                    || variabilityType == VariabilityType.OPTOR) {
-                leadingMainContainer.getStatements().add(indexVariantPositionInMethod, currentCondition);
-            } else if (variabilityType == VariabilityType.XOR || variabilityType == VariabilityType.OPTXOR) {
-                previousCondition.setElseStatement(currentCondition);
-            }
+            
+            // set condition depending in variability type
+            if(previousCondition == null) {
+            	leadingMainContainer.getStatements().add(indexVariantPositionInMethod, currentCondition);
+            } else {
+				switch(variabilityType){
+				case OR:
+					leadingMainContainer.getStatements().add(indexVariantPositionInMethod++, currentCondition);
+					if((variationPoint.getVariants().size() - 1) == i) {
+						leadingMainContainer.getStatements().add(indexVariantPositionInMethod++, getMandatoryORVerificationCondition(variationPoint));
+					}
+					break;
+				case OPTOR:
+					leadingMainContainer.getStatements().add(indexVariantPositionInMethod++, currentCondition);
+					break;
+				case XOR:
+					previousCondition.setElseStatement(currentCondition);
+					if((variationPoint.getVariants().size() - 1) == i) {
+						currentCondition.setElseStatement(getBlockThrowingARuntimeException());
+					}
+					break;
+				case OPTXOR:
+					previousCondition.setElseStatement(currentCondition);
+					break;
+				}
+			}
 
             // update previous condition
             previousCondition = currentCondition;
         }
+
+    }
+
+    /**
+     * Creates a block with a throw statement. It throws a RuntimeException with a message saying
+     * that the SPL is configured wrong.
+     * 
+     * @return The generated {@link Block}.
+     */
+    private Statement getBlockThrowingARuntimeException() {
+        Class createdClass = ClassifiersFactory.eINSTANCE.createClass();
+        createdClass.setName("RuntimeException");
+        ClassifierReference createdClassifierReference = TypesFactory.eINSTANCE.createClassifierReference();
+        createdClassifierReference.setTarget(createdClass);
+        NewConstructorCall createdNewConstructorCall = InstantiationsFactory.eINSTANCE.createNewConstructorCall();
+        createdNewConstructorCall.setTypeReference(createdClassifierReference);
+        StringReference argument = ReferencesFactory.eINSTANCE.createStringReference();
+        argument.setValue("Invalid SPL configuration.");
+        createdNewConstructorCall.getArguments().add(argument);
+        Throw createdThrow = StatementsFactory.eINSTANCE.createThrow();
+        createdThrow.setThrowable(createdNewConstructorCall);
+        Block block = StatementsFactory.eINSTANCE.createBlock();
+        block.getStatements().add(createdThrow);
+        return block;
+    }
+
+    /**
+     * Creates a condition that verifies whether at least one variant of a variation point is defined in the configuration.
+     * 
+     * @param variationPoint The {@link VariationPoint}.
+     * @return The {@link Condition}.
+     */
+    private Condition getMandatoryORVerificationCondition(VariationPoint variationPoint) {
+    	Condition condition = StatementsFactory.eINSTANCE.createCondition();
+    	condition.setStatement(getBlockThrowingARuntimeException());
+    	
+    	Set<String> variantNames = new HashSet<String>();
+    	for (Variant variant : variationPoint.getVariants()) {
+			variantNames.add(variant.getVariantId());
+		}
+    	Expression variantsMatchingExpression = SPLConfigurationUtil.generateVariantMatchingExpression(variationPoint.getGroup().getGroupId(), variantNames);
+
+    	UnaryExpression unaryExpression = ExpressionsFactory.eINSTANCE.createUnaryExpression();
+    	unaryExpression.getOperators().add(OperatorsFactory.eINSTANCE.createNegate());
+    	NestedExpression nestedExpression = ExpressionsFactory.eINSTANCE.createNestedExpression();
+		nestedExpression.setExpression(variantsMatchingExpression);
+		unaryExpression.setChild(nestedExpression);
+    	
+		condition.setCondition(unaryExpression);
+    	
+    	return condition;
     }
 
     /**
