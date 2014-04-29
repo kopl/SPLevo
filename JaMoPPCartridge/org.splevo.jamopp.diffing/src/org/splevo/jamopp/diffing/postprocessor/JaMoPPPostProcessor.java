@@ -29,6 +29,7 @@ import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.postprocessor.IPostProcessor;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Statement;
@@ -87,10 +88,17 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      */
     public static final String OPTION_DIFF_CLEANUP_DERIVED_COPIES = "JaMoPP.Differ.Derived.Copy.Cleanup";
 
+    /**
+     * Option to ignore import deletes which are not really deleted but no real edit operation as
+     * the copy still extends the original class.
+     */
+    public static final String OPTION_DIFF_CLEANUP_DERIVED_COPIES_CLEAN_IMPORTS = "JaMoPP.Differ.Derived.Copy.Cleanup.Imports";
+
     /** Default constructor setting the post processors default options. */
     public JaMoPPPostProcessor() {
         options.put(OPTION_DIFF_STATISTICS_LOG_DIR, null);
         options.put(OPTION_DIFF_CLEANUP_DERIVED_COPIES, null);
+        options.put(OPTION_DIFF_CLEANUP_DERIVED_COPIES_CLEAN_IMPORTS, "true");
     }
 
     /**
@@ -114,7 +122,6 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      */
     @Override
     public void postMatch(Comparison comparison, Monitor monitor) {
-
     }
 
     /**
@@ -392,6 +399,23 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     }
 
     /**
+     * Check if the option to clean up derived copies is activated in the diffing options.
+     *
+     * @return True if derived copies should be detected and cleaned up.
+     */
+    private boolean isCleanUpDerivedCopiesCleanImportsActivated() {
+        boolean cleanUpDerivedImportsActive = false;
+        Object cleanUpDerivedCopies = options.get(OPTION_DIFF_CLEANUP_DERIVED_COPIES_CLEAN_IMPORTS);
+        if (cleanUpDerivedCopies != null && cleanUpDerivedCopies instanceof String) {
+            String cleanUpDerivedCopiesString = (String) cleanUpDerivedCopies;
+            if (!cleanUpDerivedCopiesString.trim().isEmpty()) {
+                cleanUpDerivedImportsActive = true;
+            }
+        }
+        return cleanUpDerivedImportsActive;
+    }
+
+    /**
      * <p>
      * Clean up false positive deletes of any members that are available in the copy due to an
      * existing extends relationship between left and right models.
@@ -413,6 +437,8 @@ public class JaMoPPPostProcessor implements IPostProcessor {
     private void cleanUpDerivedCopies(Comparison comparison) {
 
         List<Diff> falsePositivesToRemove = Lists.newArrayList();
+
+        boolean cleanImportsActivated = isCleanUpDerivedCopiesCleanImportsActivated();
 
         int counterClasses = 0;
         int counterImports = 0;
@@ -436,10 +462,11 @@ public class JaMoPPPostProcessor implements IPostProcessor {
                     falsePositivesToRemove.add(change);
                     counterClasses++;
 
-                    List<ImportChange> importsToIgnore = identifyParentImportDeletes(change);
-                    falsePositivesToRemove.addAll(importsToIgnore);
-                    counterImports += importsToIgnore.size();
-
+                    if (cleanImportsActivated) {
+                        List<ImportChange> importsToIgnore = identifyParentImportDeletes(change);
+                        falsePositivesToRemove.addAll(importsToIgnore);
+                        counterImports += importsToIgnore.size();
+                    }
                 }
             }
         }
@@ -503,7 +530,7 @@ public class JaMoPPPostProcessor implements IPostProcessor {
      * The derived copy typically is a sub match of the match between the BaseClass and the
      * BaseClassCustom (in the example above). However, differences identified are typically
      * registered for the primary match of the original source. This seems to happen because the
-     * comparison model returns a single match only when asked for a match of an EObject:
+     * comparison model returns a single side match only when asked for a match of an EObject:
      * {@link Comparison#getMatch(EObject)}.
      * </p>
      * <p>
@@ -573,14 +600,17 @@ public class JaMoPPPostProcessor implements IPostProcessor {
             return false;
         }
 
-        Match extendedClassMatch = comparison.getMatch(classExtends.getTarget());
-        if (extendedClassMatch != null) {
-            if (extendedClassMatch.getRight() == originalClass) {
-                logger.debug("Derived Copy Detected: " + originalClass.getName());
-                return true;
-            }
+        // The extended class and the original class must be manually matched,
+        // as they represent the same class in case of a derived copy, but result
+        // from different source models. So their instances are not the same any
+        Class superClass = (Class) classExtends.getPureClassifierReference().getTarget();
+        if (!superClass.getQualifiedName().equals(originalClass.getQualifiedName())) {
+            return false;
         }
-        return false;
+
+        logger.debug("Derived Copy Detected: " + originalClass.getQualifiedName());
+
+        return true;
     }
 
     /**
