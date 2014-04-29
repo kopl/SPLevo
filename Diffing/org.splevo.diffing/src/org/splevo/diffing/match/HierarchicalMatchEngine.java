@@ -226,15 +226,24 @@ public class HierarchicalMatchEngine implements IMatchEngine {
                 if (equalityStrategy.areEqual(leftElement, rightElement)) {
                     rightElementsInScope.remove(rightElement);
                     match.setRight(rightElement);
-                    List<Match> subMatches = match(comparison, leftElement.eContents(), rightElement.eContents(),
-                            monitor);
-                    match.getSubmatches().addAll(subMatches);
-
                     break;
                 }
             }
 
             matches.add(match);
+        }
+
+        // TODO Check if this is still necessary, yet duplicate matched resources are cleaned up
+        matches = equalityStrategy.filterDuplicateMatches(matches);
+
+        // create sub matches
+        for (Match match : matches) {
+            EObject right = match.getRight();
+            EObject left = match.getLeft();
+            if (left != null && right != null) {
+                List<Match> subMatches = match(comparison, left.eContents(), right.eContents(), monitor);
+                match.getSubmatches().addAll(subMatches);
+            }
         }
 
         List<Match> rightOnlyMatches = createMatchesForRightElements(rightElementsInScope);
@@ -339,6 +348,19 @@ public class HierarchicalMatchEngine implements IMatchEngine {
          * @return True if they can be assumed as equal, false if not.
          */
         public boolean areEqual(EObject left, EObject right);
+
+        /**
+         * Filter a list of matches for duplicate matching elements. This is a hook method called
+         * after a left and right child elements have been matched (if possible). If the equality
+         * strategy allowed for duplicated matches first, this method can be used to clean them up
+         * afterwards.
+         *
+         *
+         * @param matches
+         *            The list of matches to filter the duplicates in.
+         * @return The filtered list.
+         */
+        public List<Match> filterDuplicateMatches(List<Match> matches);
     }
 
     /**

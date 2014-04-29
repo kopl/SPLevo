@@ -28,12 +28,15 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.splevo.diffing.util.NormalizationUtil;
 
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
 /**
@@ -221,7 +224,51 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
             }
         }
 
+        mappings = filterDuplicateMappings(mappings);
+
         return mappings;
+    }
+
+    /**
+     * Filter duplicate matched compilation units and classes due to derived copy matches.
+     *
+     * Otherwise the EMF Compare engine would register original elements which are intended to be
+     * identified as deleted, have matches due to the orginal class that must be present and they
+     * matched to.
+     *
+     * {@inheritDoc}
+     */
+    private List<MatchResource> filterDuplicateMappings(List<MatchResource> matches) {
+
+        List<MatchResource> filteredMatches = Lists.newLinkedList(matches);
+
+        // index used to identify duplicate original elements (e.g. for DerivedCopy detection)
+        Multimap<Resource, MatchResource> rightMatchedIndex = LinkedHashMultimap.create();
+        for (MatchResource match : matches) {
+            Resource right = match.getRight();
+            if (right != null) {
+                rightMatchedIndex.get((Resource) right).add(match);
+            }
+        }
+
+        // For duplicate matches keep only those with the same name
+        for (Resource right : rightMatchedIndex.keySet()) {
+            if (rightMatchedIndex.get(right).size() > 1) {
+                String rightName = right.getURI().lastSegment();
+
+                for (MatchResource match : rightMatchedIndex.get(right)) {
+                    Resource left = (Resource) match.getLeft();
+
+                    String leftName = Strings.nullToEmpty(left.getURI().lastSegment());
+                    if (leftName.equals(rightName)) {
+                        filteredMatches.remove(match);
+                    }
+                }
+            }
+        }
+
+        return filteredMatches;
+
     }
 
     /**
