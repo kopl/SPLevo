@@ -86,7 +86,6 @@ public class DerivedCopyFilter {
 
         List<Diff> falsePositivesToRemove = Lists.newArrayList();
 
-
         int counterClasses = 0;
         int counterImports = 0;
         int counterMethods = 0;
@@ -139,8 +138,6 @@ public class DerivedCopyFilter {
             diff.getMatch().getDifferences().remove(diff);
         }
     }
-
-
 
     private List<Diff> identifyParentMethodDeletes(ClassChange change) {
 
@@ -204,10 +201,20 @@ public class DerivedCopyFilter {
             for (int i = 0; i < origParameters.size(); i++) {
                 Parameter copiedParam = copiedParameters.get(i);
                 Parameter origParam = origParameters.get(i);
-                Classifier copiedType = copiedParam.getTypeReference().getPureClassifierReference().getTarget();
-                Classifier origType = origParam.getTypeReference().getPureClassifierReference().getTarget();
-                if (!copiedType.getName().equals(origType.getName())) {
-                    continue;
+                TypeReference copiedTypeRef = copiedParam.getTypeReference();
+                TypeReference origTypeRef = origParam.getTypeReference();
+
+                if (copiedTypeRef.getPureClassifierReference() != null
+                        && origTypeRef.getPureClassifierReference() != null) {
+                    Classifier copiedType = copiedTypeRef.getPureClassifierReference().getTarget();
+                    Classifier origType = origTypeRef.getPureClassifierReference().getTarget();
+                    if (!copiedType.getName().equals(origType.getName())) {
+                        continue;
+                    }
+                } else {
+                    if (origTypeRef.getTarget().eClass() != copiedTypeRef.getTarget().eClass()) {
+                        continue;
+                    }
                 }
             }
 
@@ -320,7 +327,6 @@ public class DerivedCopyFilter {
         }
         return ignoreImports;
     }
-
 
     private Match findCompilationUnitParentMatch(ClassChange change) {
         Match cuMatch = change.getMatch();
