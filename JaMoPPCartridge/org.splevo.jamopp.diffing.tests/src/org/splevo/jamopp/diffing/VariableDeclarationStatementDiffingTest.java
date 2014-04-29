@@ -79,7 +79,7 @@ public class VariableDeclarationStatementDiffingTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.DIFF_OPTIONS);
+        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.getDiffOptions());
         EList<Diff> differences = comparison.getDifferences();
         for (Diff diff : differences) {
             logger.debug(diff.getKind() + ": " + TestUtil.printDiff(diff));
@@ -125,7 +125,7 @@ public class VariableDeclarationStatementDiffingTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.DIFF_OPTIONS);
+        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.getDiffOptions());
         EList<Diff> differences = comparison.getDifferences();
         for (Diff diff : differences) {
             logger.debug(diff.getKind() + ": " + TestUtil.printDiff(diff));
@@ -150,7 +150,7 @@ public class VariableDeclarationStatementDiffingTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.DIFF_OPTIONS);
+        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.getDiffOptions());
         EList<Diff> differences = comparison.getDifferences();
         assertThat("Wrong number of differences", differences.size(), is(0));
     }

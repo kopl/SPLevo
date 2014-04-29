@@ -55,7 +55,7 @@ public class MethodDeclarationTest {
         ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
-        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.getDiffOptions());
 
         EList<Diff> differences = comparison.getDifferences();
 
@@ -83,7 +83,7 @@ public class MethodDeclarationTest {
         ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
-        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.getDiffOptions());
 
         EList<Diff> differences = comparison.getDifferences();
 

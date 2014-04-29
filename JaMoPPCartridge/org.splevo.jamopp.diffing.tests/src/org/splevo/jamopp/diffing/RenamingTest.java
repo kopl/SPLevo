@@ -70,7 +70,7 @@ public class RenamingTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);

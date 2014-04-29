@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -54,7 +54,7 @@ public class FieldDeclarationTest {
         ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
-        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.DIFF_OPTIONS);
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.getDiffOptions());
 
         EList<Diff> differences = comparison.getDifferences();
 
@@ -82,7 +82,7 @@ public class FieldDeclarationTest {
         ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
-        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.DIFF_OPTIONS);
+        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.getDiffOptions());
 
         EList<Diff> differences = comparison.getDifferences();
 
@@ -110,7 +110,7 @@ public class FieldDeclarationTest {
         ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
-        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.DIFF_OPTIONS);
+        Comparison comparison = differ.doDiff(rsLeading, rsIntegration, TestUtil.getDiffOptions());
 
         EList<Diff> differences = comparison.getDifferences();
 

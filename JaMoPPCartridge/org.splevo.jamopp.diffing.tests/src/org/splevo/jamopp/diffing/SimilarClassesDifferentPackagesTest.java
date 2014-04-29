@@ -63,7 +63,7 @@ public class SimilarClassesDifferentPackagesTest {
         TestUtil.setUp();
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
-        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         assertThat("Wrong number of matched resources", comparison.getMatchedResources().size(), is(2));

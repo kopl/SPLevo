@@ -63,16 +63,21 @@ public abstract class TestUtil {
     /** The logger for the test utility. */
     private static Logger logger = Logger.getLogger(TestUtil.class);
 
-    /** The default options to be used in the tests. */
-    public static final Map<String, String> DIFF_OPTIONS = new LinkedHashMap<String, String>();
-    static {
+    /**
+     * Get the default options to be used in the tests.
+     *
+     * @return A fresh map of diff options.
+     */
+    public static final Map<String, String> getDiffOptions() {
+        Map<String, String> diffOptions = new LinkedHashMap<String, String>();
         StringBuilder builder = new StringBuilder();
         builder.append("java.*");
         builder.append(System.getProperty("line.separator"));
         builder.append("org.jscience.*");
         builder.append(System.getProperty("line.separator"));
         builder.append("javolution.*");
-        DIFF_OPTIONS.put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, builder.toString());
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, builder.toString());
+        return diffOptions;
     }
 
     /**
@@ -146,11 +151,11 @@ public abstract class TestUtil {
         } else if (diff instanceof CompilationUnitChange) {
             CompilationUnitChange change = (CompilationUnitChange) diff;
             changedElement = change.getChangedCompilationUnit();
-        
+
         } else if (diff instanceof ClassChange) {
             ClassChange change = (ClassChange) diff;
             changedElement = change.getChangedClass();
-            
+
         } else {
             logger.warn("Unexpected diff class" + diff.getClass().getSimpleName());
         }

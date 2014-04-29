@@ -75,7 +75,7 @@ public class ClassDeclarationTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
         diffOptions.put(JaMoPPDiffer.OPTION_JAMOPP_IGNORE_FILES, "");
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
@@ -137,7 +137,7 @@ public class ClassDeclarationTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
         diffOptions.put(JaMoPPDiffer.OPTION_JAMOPP_IGNORE_FILES, "");
         Comparison comparison = differ.doDiff(setB, setA, diffOptions);
 

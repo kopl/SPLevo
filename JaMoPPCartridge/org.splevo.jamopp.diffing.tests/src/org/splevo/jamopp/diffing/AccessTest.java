@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -55,7 +55,7 @@ public class AccessTest {
         ResourceSet rsIntegration = TestUtil.loadResourceSet(Sets.newHashSet(TEST_FILE_2));
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
-        Comparison comparision = differ.doDiff(rsLeading, rsIntegration, TestUtil.DIFF_OPTIONS);
+        Comparison comparision = differ.doDiff(rsLeading, rsIntegration, TestUtil.getDiffOptions());
 
         EList<Diff> differences = comparision.getDifferences();
         assertEquals("Wrong number of differences detected", 0, differences.size());

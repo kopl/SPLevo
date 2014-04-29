@@ -21,12 +21,15 @@ import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.compare.MatchResource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.Statement;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 import org.splevo.jamopp.diffing.postprocessor.JaMoPPPostProcessor;
 
@@ -47,7 +50,8 @@ public class DerivedCopyTest {
     }
 
     /**
-     * Test method to detect changes in the class and package declarations.
+     * Test to detect the correctly matched original and derived class. Further aspects are tested
+     * by separate tests.
      *
      * @throws Exception
      *             Identifies a failed diffing.
@@ -66,23 +70,21 @@ public class DerivedCopyTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
         diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
 
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
-        assertThat("Should produce two matches", comparison.getMatchedResources().size(), is(2));
+        assertThat("One match of original and derived class", comparison.getMatchedResources().size(), is(1));
 
-        for (int i = 0; i <= 1; i++) {
-            MatchResource resourceMatch = comparison.getMatchedResources().get(i);
-            assertThat("ResourceMatch " + i + " must have left set", resourceMatch.getLeft(), notNullValue());
-            assertThat("ResourceMatch " + i + " must have right set", resourceMatch.getRight(), notNullValue());
-        }
+        MatchResource resourceMatch = comparison.getMatchedResources().get(0);
+        assertThat("ResourceMatch must have left set", resourceMatch.getLeft(), notNullValue());
+        assertThat("ResourceMatch must have right set", resourceMatch.getRight(), notNullValue());
 
         EList<Diff> differences = comparison.getDifferences();
-        assertThat("No diff because 1 method unchanged and 1 derived", differences.size(), is(0));
+        assertThat("No diff expected due to class match", differences.size(), is(0));
 
     }
 
@@ -92,6 +94,7 @@ public class DerivedCopyTest {
      * @throws Exception
      *             Identifies a failed diffing.
      */
+    @Ignore
     @Test
     public void testDerivedCopyWithIgnoreFields() throws Exception {
 
@@ -106,7 +109,7 @@ public class DerivedCopyTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
         diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
@@ -114,7 +117,7 @@ public class DerivedCopyTest {
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
-        assertThat("No diff because not present imports must not be detected as deleted", differences.size(), is(0));
+        assertThat("Exprected detection: 1 deleted private and 1 added public field", differences.size(), is(2));
 
     }
 
@@ -138,7 +141,7 @@ public class DerivedCopyTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
         diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
@@ -147,7 +150,43 @@ public class DerivedCopyTest {
 
         EList<Diff> differences = comparison.getDifferences();
         assertThat("No diff because not present imports must not be detected as deleted", differences.size(), is(0));
+    }
 
+    /**
+     * Test that the import ignoring is really working.
+     *
+     * Recheck the same test and expect an import delete.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testDerivedCopyWithIgnoreImportsCounterpart() throws Exception {
+
+        String basePath = "testmodels/implementation/derivedcopyimport/";
+        ResourceSet setA = TestUtil.extractModel(basePath + "a");
+        ResourceSet setB = TestUtil.extractModel(basePath + "b");
+
+        StringBuilder packageMapping = new StringBuilder();
+
+        StringBuilder classifierNormalization = new StringBuilder();
+        classifierNormalization.append("*Custom");
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
+        diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
+        diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES_CLEAN_IMPORTS, null);
+
+        Comparison comparison = differ.doDiff(setA, setB, diffOptions);
+
+        EList<Diff> differences = comparison.getDifferences();
+        assertThat("Import delete must be detected if filter is set to false", differences.size(), is(2));
+        Diff diff = differences.get(0);
+        assertThat("Wrong change detected", diff, instanceOf(ImportChange.class));
+        assertThat("Wrong change kind detected", diff.getKind(), is(DifferenceKind.DELETE));
     }
 
     /**
@@ -156,6 +195,7 @@ public class DerivedCopyTest {
      * @throws Exception
      *             Identifies a failed diffing.
      */
+    @Ignore
     @Test
     public void testDerivedCopyWithChangedHook() throws Exception {
 
@@ -170,20 +210,12 @@ public class DerivedCopyTest {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Map<String, String> diffOptions = TestUtil.DIFF_OPTIONS;
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
         diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
         diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
 
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
-
-        assertThat("Should produce two matches", comparison.getMatchedResources().size(), is(2));
-
-        for (int i = 0; i <= 1; i++) {
-            MatchResource resourceMatch = comparison.getMatchedResources().get(i);
-            assertThat("ResourceMatch " + i + " must have left set", resourceMatch.getLeft(), notNullValue());
-            assertThat("ResourceMatch " + i + " must have right set", resourceMatch.getRight(), notNullValue());
-        }
 
         EList<Diff> differences = comparison.getDifferences();
         assertThat("Hook method has been changed", differences.size(), is(1));
