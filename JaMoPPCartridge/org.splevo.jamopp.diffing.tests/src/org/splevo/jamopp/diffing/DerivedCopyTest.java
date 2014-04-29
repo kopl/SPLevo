@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.Map;
 
@@ -24,12 +25,14 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.compare.MatchResource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.emftext.language.java.statements.ExpressionStatement;
-import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.members.Field;
+import org.emftext.language.java.members.Method;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
+import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 import org.splevo.jamopp.diffing.postprocessor.JaMoPPPostProcessor;
 
@@ -94,7 +97,6 @@ public class DerivedCopyTest {
      * @throws Exception
      *             Identifies a failed diffing.
      */
-    @Ignore
     @Test
     public void testDerivedCopyWithIgnoreFields() throws Exception {
 
@@ -117,6 +119,23 @@ public class DerivedCopyTest {
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
+
+        for (Diff diff : differences) {
+            if (diff.getKind() == DifferenceKind.DELETE) {
+                assertThat("DELETE of wrong type detected", diff, instanceOf(FieldChange.class));
+                Field field = ((FieldChange) diff).getChangedField();
+                assertThat("Unexpected field detected as DELETE", field.getName(), is("oldField"));
+
+            } else if (diff.getKind() == DifferenceKind.ADD) {
+                assertThat("DELETE of wrong type detected", diff, instanceOf(FieldChange.class));
+                Field field = ((FieldChange) diff).getChangedField();
+                assertThat("Unexpected method detected as ADD", field.getName(), is("newField"));
+
+            } else {
+                fail("Change of unexpected kind detected");
+            }
+        }
+
         assertThat("Exprected detection: 1 deleted private and 1 added public field", differences.size(), is(2));
 
     }
@@ -190,16 +209,20 @@ public class DerivedCopyTest {
     }
 
     /**
-     * Test method to detect changes in the class and package declarations.
+     * Test method for a derived copy scenarios with derived, overloaded and not visible methods.
+     * <ul>
+     * <li>1 method derived</li>
+     * <li>1 method overridden</li>
+     * <li>1 method not visible</li>
+     * </ul>
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
-    @Ignore
     @Test
-    public void testDerivedCopyWithChangedHook() throws Exception {
+    public void testDerivedCopyWithChangedMethod() throws Exception {
 
-        String basePath = "testmodels/implementation/derivedcopyhook/";
+        String basePath = "testmodels/implementation/derivedcopymethod/";
         ResourceSet setA = TestUtil.extractModel(basePath + "a");
         ResourceSet setB = TestUtil.extractModel(basePath + "b");
 
@@ -218,11 +241,82 @@ public class DerivedCopyTest {
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
-        assertThat("Hook method has been changed", differences.size(), is(1));
-        assertThat("Wrong difference type detected", differences.get(0), instanceOf(StatementChange.class));
-        StatementChange change = (StatementChange) differences.get(0);
-        Statement changedStatement = change.getChangedStatement();
-        assertThat("Wrong changed statement", changedStatement, instanceOf(ExpressionStatement.class));
 
+        for (Diff diff : differences) {
+            if (diff.getKind() == DifferenceKind.ADD) {
+                assertThat("ADD of wrong type detected", diff, instanceOf(StatementChange.class));
+            } else if (diff.getKind() == DifferenceKind.DELETE) {
+                assertThat("DELETE of wrong type detected", diff, instanceOf(MethodChange.class));
+                Method method = ((MethodChange) diff).getChangedMethod();
+                assertThat("Unexpected method detected as DELETE", method.getName(), is("doPrivate"));
+            } else {
+                fail("Change of unexpected kind detected");
+            }
+        }
+
+        assertThat("Wrong number of differences", differences.size(), is(2));
+    }
+
+    /**
+     * Test that the derived method delete is not filtered if anyway.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testDerivedCopyWithChangedMethodCounterpart() throws Exception {
+
+        String basePath = "testmodels/implementation/derivedcopymethod/";
+        ResourceSet setA = TestUtil.extractModel(basePath + "a");
+        ResourceSet setB = TestUtil.extractModel(basePath + "b");
+
+        StringBuilder packageMapping = new StringBuilder();
+
+        StringBuilder classifierNormalization = new StringBuilder();
+        classifierNormalization.append("*Custom");
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
+        diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
+        diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES_CLEAN_METHODS, null);
+
+        Comparison comparison = differ.doDiff(setA, setB, diffOptions);
+
+        EList<Diff> differences = comparison.getDifferences();
+        assertThat("Wrong number of differences", differences.size(), is(3));
+    }
+
+    /**
+     * Test that the derived method delete is not filtered if anyway.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testDerivedCopyWithIgnoreConstructor() throws Exception {
+
+        String basePath = "testmodels/implementation/derivedcopyconstructor/";
+        ResourceSet setA = TestUtil.extractModel(basePath + "a");
+        ResourceSet setB = TestUtil.extractModel(basePath + "b");
+
+        StringBuilder packageMapping = new StringBuilder();
+
+        StringBuilder classifierNormalization = new StringBuilder();
+        classifierNormalization.append("*Custom");
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+
+        Map<String, String> diffOptions = TestUtil.getDiffOptions();
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_PACKAGE_NORMALIZATION, packageMapping.toString());
+        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_CLASSIFIER_NORMALIZATION, classifierNormalization.toString());
+        diffOptions.put(JaMoPPPostProcessor.OPTION_DIFF_CLEANUP_DERIVED_COPIES, "true");
+
+        Comparison comparison = differ.doDiff(setA, setB, diffOptions);
+
+        EList<Diff> differences = comparison.getDifferences();
+        assertThat("There should be no differences", differences.size(), is(0));
     }
 }
