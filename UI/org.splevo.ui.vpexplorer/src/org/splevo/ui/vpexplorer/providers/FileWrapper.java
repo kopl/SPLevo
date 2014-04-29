@@ -10,20 +10,32 @@ import org.splevo.vpm.variability.VariationPointGroup;
  */
 public class FileWrapper {
 
+    private final Object parent;
     private final File file;
     private final VariationPointGroup group;
 
     /**
      * The standard constructor of the FileWrapper class.
      * 
+     * @param parent
+     *            The parent object of this FileWrapper.
      * @param file
      *            The file to be wrapped.
      * @param group
      *            The group of the file to be wrapped.
      */
-    public FileWrapper(File file, VariationPointGroup group) {
+    public FileWrapper(Object parent, File file, VariationPointGroup group) {
+        this.parent = parent;
         this.file = file;
         this.group = group;
+    }
+
+    /**
+     * 
+     * @return the parent object.
+     */
+    public Object getParent() {
+        return parent;
     }
 
     /**

@@ -117,7 +117,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
                     Predicates.in(groupFileIndex.get(wrapper.getGroup()))));
 
             for (File file : childFileInGroup) {
-                children.add(new FileWrapper(file, wrapper.getGroup()));
+                children.add(new FileWrapper(wrapper, file, wrapper.getGroup()));
             }
             Collection<VariationPoint> childVPInGroup = (Collections2.filter(fileVPIndex.get(parentFile),
                     Predicates.in(wrapper.getGroup().getVariationPoints())));
@@ -135,7 +135,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
             if (vpexplorer.getShowGrouping()) {
                 Collection<File> files = Collections2.filter(rootFiles, Predicates.in(groupFileIndex.get(group)));
                 for (File file : files) {
-                    childFiles.add(new FileWrapper(file, group));
+                    childFiles.add(new FileWrapper(group, file, group));
                 }
                 return childFiles.toArray();
             } else {
@@ -162,6 +162,8 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     public Object getParent(Object element) {
         if (element instanceof VariationPoint) {
             return vpFileIndex.get((VariationPoint) element);
+        } else if (element instanceof VariationPoint) {
+            return vpFileIndex.get((VariationPoint) element);
         } else if (element instanceof Variant) {
             return ((Variant) element).getVariationPoint();
         } else if (element instanceof SoftwareElement) {
@@ -171,6 +173,12 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
                 return null;
             } else {
                 return ((File) element).getParentFile();
+            }
+        } else if (element instanceof FileWrapper) {
+            if (rootFiles.contains(((FileWrapper) element).getFile())) {
+                return null;
+            } else {
+                return ((FileWrapper) element).getParent();
             }
         }
         return null;
