@@ -123,10 +123,8 @@ public class SimilarityChecker {
         // https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-279
         if (element2.eIsProxy() && !element1.eIsProxy()) {
             element2 = EcoreUtil.resolve(element2, element1);
-            logger.info("Proxy element1 resolved on the fly? " + element2.eIsProxy());
         } else if (element1.eIsProxy() && !element2.eIsProxy()) {
             element1 = EcoreUtil.resolve(element1, element2);
-            logger.info("Proxy element2 resolved on the fly? " + element1.eIsProxy());
         }
 
         // check the elements to be of the same type
