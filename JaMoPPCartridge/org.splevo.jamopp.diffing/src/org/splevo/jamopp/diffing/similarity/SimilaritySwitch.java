@@ -104,7 +104,6 @@ import org.emftext.language.java.statements.SynchronizedBlock;
 import org.emftext.language.java.statements.Throw;
 import org.emftext.language.java.statements.util.StatementsSwitch;
 import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.Int;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.Type;
@@ -113,7 +112,6 @@ import org.emftext.language.java.types.util.TypesSwitch;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.Variable;
 import org.emftext.language.java.variables.util.VariablesSwitch;
-import org.splevo.diffing.match.HierarchicalMatchEngine;
 import org.splevo.diffing.util.NormalizationUtil;
 import org.splevo.jamopp.diffing.util.JaMoPPModelUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
@@ -232,9 +230,9 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
     /**
      * Similarity decision for array elements.
      * <p>
-     * All array elements are strongly typed. They have no identifying attributes. Their location is
-     * implicitly checked by the {@link HierarchicalMatchEngine} and the runtime type is checked by
-     * the outer {@link SimilarityChecker}. So nothing to check here.
+     * All array elements are strongly typed. They have no identifying attributes. Their location
+     * and runtime type are assumed to be checked before this switch is called. So nothing to check
+     * here.
      */
     private class ArraysSimilaritySwitch extends ArraysSwitch<Boolean> {
         @Override
@@ -402,9 +400,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      * Similarity decisions for expression elements.
      * <p>
      * All expression elements are strong typed with no identifying attributes or non-containment
-     * references. While their location is checked by the used {@link HierarchicalMatchEngine} and
-     * the runtime types are checked by the wrapping {@link SimilarityChecker} all elements that
-     * arrive here can be assumed to similar.
+     * references.
+     * Their location and runtime types are assumed to be checked before this switch is called.
      * </p>
      */
     private class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> {
@@ -959,9 +956,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      * Similarity decisions for modifier elements.
      * <p>
      * All modifier elements are strong typed with no identifying attributes or non-containment
-     * references. While their location is checked by the used {@link HierarchicalMatchEngine} and
-     * the runtime types are checked by the wrapping {@link SimilarityChecker} all elements that
-     * arrive here can be assumed to similar.
+     * references.
+     * Their location and runtime types are assumed to be checked before this switch is called.
      * </p>
      */
     private class ModifiersSimilaritySwitch extends ModifiersSwitch<Boolean> {
@@ -975,9 +971,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      * Similarity decisions for operator elements.
      * <p>
      * All operator elements are strong typed with no identifying attributes or non-containment
-     * references. While their location is checked by the used {@link HierarchicalMatchEngine} and
-     * the runtime types are checked by the wrapping {@link SimilarityChecker} all elements that
-     * arrive here can be assumed to similar.
+     * references.
+     * Their location and runtime types are assumed to be checked before this switch is called.
      * </p>
      */
     private class OperatorsSimilaritySwitch extends OperatorsSwitch<Boolean> {

@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public class SimilarityChecker {
 
     /** The logger for this class. */
+    @SuppressWarnings("unused")
     private Logger logger = Logger.getLogger(SimilarityChecker.class);
 
     private Map<Pattern, String> classifierNormalizations = null;
