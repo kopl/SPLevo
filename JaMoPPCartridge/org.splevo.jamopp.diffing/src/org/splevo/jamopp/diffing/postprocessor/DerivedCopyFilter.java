@@ -91,6 +91,10 @@ public class DerivedCopyFilter {
         int counterMethods = 0;
         int counterFields = 0;
 
+        int counterTotalImports = 0;
+        int counterTotalMethods = 0;
+        int counterTotalFields = 0;
+
         // CLASS CHANGES
         // find class changes about changed extends / default extends
         // Identify the super and the sub class
@@ -127,15 +131,42 @@ public class DerivedCopyFilter {
                         falsePositivesToRemove.addAll(methodsToIgnore);
                         counterMethods += methodsToIgnore.size();
                     }
+
+                    counterTotalImports += countTotalImports(change);
+                    counterTotalFields += countTotalFields(change);
+                    counterTotalMethods += countTotalMethods(change);
                 }
             }
         }
 
-        logger.debug(String.format("Derived Copy Cleanup: Classes: %s, Imports: %s, Fields: %s, Methods: %s",
-                counterClasses, counterImports, counterFields, counterMethods));
+        logger.debug(String.format("Derived Copy Cleanup: Classes: %s, Imports: %s/%s, Fields: %s/%s, Methods: %s/%s",
+                counterClasses, counterImports, counterTotalImports, counterFields, counterTotalFields, counterMethods,
+                counterTotalMethods));
 
         for (Diff diff : falsePositivesToRemove) {
             diff.getMatch().getDifferences().remove(diff);
+        }
+    }
+
+    private int countTotalMethods(ClassChange change) {
+        Class originalClass = (Class) change.getMatch().getRight();
+        int methodCount = originalClass.getMethods().size();
+        int constructorCount = originalClass.getConstructors().size();
+        return methodCount + constructorCount;
+    }
+
+    private int countTotalFields(ClassChange change) {
+        Class originalClass = (Class) change.getMatch().getRight();
+        return originalClass.getFields().size();
+    }
+
+    private int countTotalImports(ClassChange change) {
+        Match cuMatch = findCompilationUnitParentMatch(change);
+        if (cuMatch.getRight() != null) {
+            CompilationUnit cu = (CompilationUnit) cuMatch.getRight();
+            return cu.getImports().size();
+        } else {
+            return 0;
         }
     }
 
