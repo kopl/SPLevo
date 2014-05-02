@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,10 +53,10 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
     private ListMultimap<String, Resource> filenameResourcesIndexRight = ArrayListMultimap.create();
 
     /** Patterns to replace with the defined target string in the URIs string representations. */
-    private Map<Pattern, String> uriNormalizationPatterns = Maps.newHashMap();
+    private LinkedHashMap<Pattern, String> uriNormalizationPatterns = Maps.newLinkedHashMap();
 
     /** Patterns to replace with the defined target string in the URIs string representations. */
-    private Map<Pattern, String> filenameNormalizationPatterns = Maps.newHashMap();
+    private LinkedHashMap<Pattern, String> filenameNormalizationPatterns = Maps.newLinkedHashMap();
 
     /**
      * Constructor for default matching strategy without any renaming processing.
@@ -74,8 +75,8 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
      *            string to set in case of a match.
      *
      */
-    public HierarchicalStrategyResourceMatcher(Map<Pattern, String> uriNormalizationPatterns,
-            Map<Pattern, String> fileNameNormalizationPatterns) {
+    public HierarchicalStrategyResourceMatcher(LinkedHashMap<Pattern, String> uriNormalizationPatterns,
+            LinkedHashMap<Pattern, String> fileNameNormalizationPatterns) {
         this.uriNormalizationPatterns = uriNormalizationPatterns;
         this.filenameNormalizationPatterns = fileNameNormalizationPatterns;
     }
@@ -378,6 +379,7 @@ public class HierarchicalStrategyResourceMatcher extends StrategyResourceMatcher
      */
     private String[] processRenamingNormalizations(String[] segmentsLeft) {
         String leftFilename = segmentsLeft[segmentsLeft.length - 1];
+
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < segmentsLeft.length - 1; i++) {
             if (i > 0) {

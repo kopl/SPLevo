@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.diffing.util;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -63,8 +64,9 @@ public final class NormalizationUtil {
      *            The list of normalizations to apply.
      * @return The normalized name space string.
      */
-    public static String normalizeNamespace(String namespace, Map<Pattern, String> normalizations) {
+    public static String normalizeNamespace(String namespace, LinkedHashMap<Pattern, String> normalizations) {
         namespace = Strings.nullToEmpty(namespace);
+
         for (Pattern pattern : normalizations.keySet()) {
             String replacement = normalizations.get(pattern);
             namespace = pattern.matcher(namespace).replaceAll(replacement);
@@ -81,12 +83,12 @@ public final class NormalizationUtil {
      *            The (file extension) suffix to be ignored and preserved by the normalization.
      * @return The prepared normalization pattern map.
      */
-    public static Map<Pattern, String> loadRemoveNormalizations(String configString, String suffix) {
+    public static LinkedHashMap<Pattern, String> loadRemoveNormalizations(String configString, String suffix) {
 
         suffix = Strings.nullToEmpty(suffix);
         configString = Strings.nullToEmpty(configString);
 
-        Map<Pattern, String> normalizations = Maps.newHashMap();
+        LinkedHashMap<Pattern, String> normalizations = Maps.newLinkedHashMap();
         Iterable<String> entries = Splitter.on(LINE_SEPARATOR).omitEmptyStrings().trimResults().split(configString);
         for (String entry : entries) {
             if (entry.startsWith("*")) {
@@ -112,10 +114,10 @@ public final class NormalizationUtil {
      *            The normalization pattern configuration string.
      * @return The prepared normalization pattern map.
      */
-    public static Map<Pattern, String> loadReplaceNormalizations(String configString) {
+    public static LinkedHashMap<Pattern, String> loadReplaceNormalizations(String configString) {
         String normalizations = Strings.nullToEmpty(configString);
         Iterable<String> entries = Splitter.on(LINE_SEPARATOR).omitEmptyStrings().trimResults().split(normalizations);
-        Map<Pattern, String> uriNormalizationPatterns = Maps.newHashMap();
+        LinkedHashMap<Pattern, String> uriNormalizationPatterns = Maps.newLinkedHashMap();
         for (String entry : entries) {
             List<String> pair = Lists.newArrayList(Splitter.on("|").trimResults().split(entry));
             if (pair.size() != 2) {
