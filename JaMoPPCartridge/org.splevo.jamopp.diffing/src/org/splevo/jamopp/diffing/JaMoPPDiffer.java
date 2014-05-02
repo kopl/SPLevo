@@ -13,6 +13,7 @@ package org.splevo.jamopp.diffing;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -365,11 +366,11 @@ public class JaMoPPDiffer implements Differ {
      */
     private SimilarityChecker initSimilarityChecker(Map<String, String> diffingOptions) {
         String configString = diffingOptions.get(OPTION_JAVA_CLASSIFIER_NORMALIZATION);
-        Map<Pattern, String> classifierNorms = NormalizationUtil.loadRemoveNormalizations(configString, null);
-        Map<Pattern, String> compUnitNorms = NormalizationUtil.loadRemoveNormalizations(configString, ".java");
+        LinkedHashMap<Pattern, String> classifierNorms = NormalizationUtil.loadRemoveNormalizations(configString, null);
+        LinkedHashMap<Pattern, String> compUnitNorms = NormalizationUtil.loadRemoveNormalizations(configString, ".java");
 
         String configStringPackage = diffingOptions.get(OPTION_JAVA_PACKAGE_NORMALIZATION);
-        Map<Pattern, String> packageNorms = NormalizationUtil.loadReplaceNormalizations(configStringPackage);
+        LinkedHashMap<Pattern, String> packageNorms = NormalizationUtil.loadReplaceNormalizations(configStringPackage);
 
         return new SimilarityChecker(classifierNorms, compUnitNorms, packageNorms);
     }
@@ -395,12 +396,16 @@ public class JaMoPPDiffer implements Differ {
      * @return The prepared resource matcher.
      */
     private HierarchicalStrategyResourceMatcher initResourceMatcher(Map<String, String> diffingOptions) {
+
         String packageNormConfig = diffingOptions.get(OPTION_JAVA_PACKAGE_NORMALIZATION);
-        Map<Pattern, String> uriNormalizations = NormalizationUtil.loadReplaceNormalizations(packageNormConfig);
+        LinkedHashMap<Pattern, String> uriNormalizations = NormalizationUtil.loadReplaceNormalizations(packageNormConfig);
+
         String classNormConfig = diffingOptions.get(OPTION_JAVA_CLASSIFIER_NORMALIZATION);
-        Map<Pattern, String> fileNormalizations = NormalizationUtil.loadRemoveNormalizations(classNormConfig, ".java");
+        LinkedHashMap<Pattern, String> fileNormalizations = NormalizationUtil.loadRemoveNormalizations(classNormConfig, ".java");
+
         HierarchicalStrategyResourceMatcher resourceMatcher = new HierarchicalStrategyResourceMatcher(
                 uriNormalizations, fileNormalizations);
+
         return resourceMatcher;
     }
 

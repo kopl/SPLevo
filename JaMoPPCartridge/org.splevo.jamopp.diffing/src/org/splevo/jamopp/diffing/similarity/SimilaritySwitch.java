@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -160,8 +161,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      *            A list of package normalization patterns.
      */
     public SimilaritySwitch(EObject compareElement, boolean checkStatementPosition,
-            Map<Pattern, String> classifierNormalizations, Map<Pattern, String> compilationUnitNormalizations,
-            Map<Pattern, String> packageNormalizations) {
+            LinkedHashMap<Pattern, String> classifierNormalizations, LinkedHashMap<Pattern, String> compilationUnitNormalizations,
+            LinkedHashMap<Pattern, String> packageNormalizations) {
         this.similarityChecker = new SimilarityChecker(classifierNormalizations, compilationUnitNormalizations,
                 packageNormalizations);
         this.compareElement = compareElement;
@@ -315,9 +316,9 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      */
     private class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> {
 
-        private Map<Pattern, String> compilationUnitNormalizations = null;
+        private LinkedHashMap<Pattern, String> compilationUnitNormalizations = null;
 
-        private Map<Pattern, String> packageNormalizations = null;
+        private LinkedHashMap<Pattern, String> packageNormalizations = null;
 
         /**
          * Constructor to set the required configurations.
@@ -328,8 +329,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * @param packageNormalizations
          *            A list of package normalization patterns.
          */
-        public ContainersSimilaritySwitch(Map<Pattern, String> compilationUnitNormalizations,
-                Map<Pattern, String> packageNormalizations) {
+        public ContainersSimilaritySwitch(LinkedHashMap<Pattern, String> compilationUnitNormalizations,
+                LinkedHashMap<Pattern, String> packageNormalizations) {
             this.compilationUnitNormalizations = compilationUnitNormalizations;
             this.packageNormalizations = packageNormalizations;
         }

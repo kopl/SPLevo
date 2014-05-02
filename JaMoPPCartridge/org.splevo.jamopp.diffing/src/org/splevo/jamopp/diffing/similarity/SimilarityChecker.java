@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
@@ -32,9 +32,9 @@ public class SimilarityChecker {
     @SuppressWarnings("unused")
     private Logger logger = Logger.getLogger(SimilarityChecker.class);
 
-    private Map<Pattern, String> classifierNormalizations = null;
-    private Map<Pattern, String> compilationUnitNormalizations = null;
-    private Map<Pattern, String> packageNormalizations = null;
+    private LinkedHashMap<Pattern, String> classifierNormalizations = null;
+    private LinkedHashMap<Pattern, String> compilationUnitNormalizations = null;
+    private LinkedHashMap<Pattern, String> packageNormalizations = null;
 
     /**
      * Constructor to set the required configurations.
@@ -48,8 +48,8 @@ public class SimilarityChecker {
      * @param packageNormalizations
      *            The normalizations to replace expressions.
      */
-    public SimilarityChecker(Map<Pattern, String> classifierNormalizations,
-            Map<Pattern, String> compilationUnitNormalizations, Map<Pattern, String> packageNormalizations) {
+    public SimilarityChecker(LinkedHashMap<Pattern, String> classifierNormalizations,
+            LinkedHashMap<Pattern, String> compilationUnitNormalizations, LinkedHashMap<Pattern, String> packageNormalizations) {
         this.classifierNormalizations = classifierNormalizations;
         this.compilationUnitNormalizations = compilationUnitNormalizations;
         this.packageNormalizations = packageNormalizations;
