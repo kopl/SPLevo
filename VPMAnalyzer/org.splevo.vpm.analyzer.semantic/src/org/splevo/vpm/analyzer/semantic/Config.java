@@ -113,7 +113,7 @@ public final class Config {
     public static final String DEFAULT_STOP_WORDS = "get set is";
 
     /**
-     * Default stop words according to Host et al. "The Programmer � s Lexicon , Volume I The Verbs"
+     * Default stop words according to Host et al. "The Programmer ��� s Lexicon , Volume I The Verbs"
      */
     public static final String DEFAULT_STOP_WORDS_HOST = "accept action add check clear close create do dump end equals find generate get handle has hash init initialize insert is load make new next parse print process read remove reset run set size start to update validate visit write";
 
@@ -140,4 +140,21 @@ public final class Config {
     /** The default configuration for the minimum similarity configuration. */
     public static final int DEFAULT_SHARED_TERM_MINIMUM = 1;
 
+    // --------------------------
+    // Feature Terms
+    // --------------------------
+    
+    /** Identifier for the configuration of the feature terms. */
+    public static final String CONFIG_ID_FEATURE_TERMS = CONFIG_ID_BASE + "FEATURE_TERMS";
+
+    /** The configuration label for the feature terms configuration. */
+    public static final String LABEL_FEATURE_TERMS = "Feature Terms";
+
+    /** The explanation for the feature terms configuration. */
+    public static final String EXPL_FEATURE_TERMS = "Feature Terms will not be split or normalized during analysis. "
+            + "Such terms should reflect semantics (e.g. feature names) that can be related to specific features. "
+            + "Put in words separated by whitespace.";
+
+    /** The default configuration for the feature terms configuration. */
+    public static final String DEFAULT_FEATURE_TERMS = "";
 }

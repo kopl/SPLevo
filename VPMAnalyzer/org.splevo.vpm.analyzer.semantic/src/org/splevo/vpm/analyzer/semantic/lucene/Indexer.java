@@ -15,6 +15,7 @@ package org.splevo.vpm.analyzer.semantic.lucene;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -80,6 +81,9 @@ public final class Indexer {
 
     /** Option which stemming to use. */
     private Stemming stemming;
+    
+    /** Option which words to preserve during tokenization. */
+    private Set<String> featureTermSet;
 
     /**
      * Define the Field-Type the text gets added to the index. To allow term extraction,
@@ -165,6 +169,20 @@ public final class Indexer {
      */
     public DirectoryReader getIndexReader() throws IOException {
         return DirectoryReader.open(directory);
+    }
+
+    /**
+     * @return the featureTermSet
+     */
+    public Set<String> getFeatureTermSet() {
+        return featureTermSet;
+    }
+
+    /**
+     * @param featureTermSet the featureTermSet to set
+     */
+    public void setFeatureTermSet(Set<String> featureTermSet) {
+        this.featureTermSet = featureTermSet;
     }
 
     /**
@@ -271,11 +289,11 @@ public final class Indexer {
      */
     private PerFieldAnalyzerWrapper createAnalzyerWrapper() {
         Map<String, Analyzer> analyzerPerField = new HashMap<String, Analyzer>();
-        analyzerPerField.put(Indexer.INDEX_CONTENT, new LuceneCodeAnalyzer(stopWords, splitCamelCase, stemming));
+        analyzerPerField.put(Indexer.INDEX_CONTENT, new LuceneCodeAnalyzer(stopWords, splitCamelCase, stemming, featureTermSet));
         analyzerPerField.put(Indexer.INDEX_COMMENT, new StandardAnalyzer(LUCENE_VERSION));
 
         PerFieldAnalyzerWrapper aWrapper = new PerFieldAnalyzerWrapper(new LuceneCodeAnalyzer(stopWords,
-                splitCamelCase, stemming), analyzerPerField);
+                splitCamelCase, stemming, featureTermSet), analyzerPerField);
         return aWrapper;
     }
 }
