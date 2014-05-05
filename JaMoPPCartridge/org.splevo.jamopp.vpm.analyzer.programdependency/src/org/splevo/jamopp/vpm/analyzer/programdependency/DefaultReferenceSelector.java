@@ -34,15 +34,16 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypedElement;
 import org.emftext.language.java.variables.LocalVariable;
+import org.splevo.jamopp.util.JaMoPPElementUtil;
 
 /**
  * A provider for the program structure analyzer to return information specific for JaMoPPSoftware
  * elements
  *
  */
-public class DefaultReferencedElementSelector implements ReferencedElementSelector {
+public class DefaultReferenceSelector implements ReferenceSelector {
 
-    private static Logger logger = Logger.getLogger(DefaultReferencedElementSelector.class);
+    private static Logger logger = Logger.getLogger(DefaultReferenceSelector.class);
 
     /* (non-Javadoc)
      * @see org.splevo.jamopp.vpm.analyzer.programdependency.ReferencedElementSelector#getReferencedElements(org.emftext.language.java.commons.Commentable)
@@ -229,6 +230,42 @@ public class DefaultReferencedElementSelector implements ReferencedElementSelect
 
     private boolean isNullOrProxy(Commentable commentable) {
         return commentable == null || commentable.eIsProxy();
+    }
+
+    /**
+     * Check if the reference between the two referring and the referenced element should be ignored
+     * or not.
+     *
+     * If one of the source elements specifies the target, the reference must be included.
+     *
+     * @param source1
+     *            The first referring element.
+     * @param source2
+     *            The second referring element.
+     * @param target
+     *            The reference target.
+     * @return True if the reference should be ignored, false if it must be considered.
+     */
+    public boolean ignoreReference(Commentable source1, Commentable source2, Commentable target) {
+
+        if (source1 == source2) {
+            return true;
+        }
+
+        if (JaMoPPElementUtil.isParentOf(source1, target)) {
+            return false;
+        }
+        if (JaMoPPElementUtil.isParentOf(source2, target)) {
+            return false;
+        }
+
+        // TODO Implement ignore check
+        boolean filterSharedVariable = true;
+        if (filterSharedVariable) {
+
+        }
+
+        return false;
     }
 
 }
