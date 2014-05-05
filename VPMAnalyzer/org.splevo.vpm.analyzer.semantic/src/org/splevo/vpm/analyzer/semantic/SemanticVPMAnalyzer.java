@@ -274,7 +274,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             this.indexer.setStopWords(stopWords.split(" "));
         }
 
-        if (featureTerms != null) {
+        if (featureTerms != null && featureTerms.length() > 0) {
             this.indexer.setFeatureTermSet(new HashSet<String>(Arrays.asList(featureTerms.split(" "))));
         }
 
