@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.splevo.jamopp.vpm.analyzer.programdependency;
 
+import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelectorRegistry;
 import org.splevo.vpm.analyzer.config.BooleanConfiguration;
+import org.splevo.vpm.analyzer.config.ChoiceConfiguration;
 
 /**
  * Utility class for creating the analyzers configuration.
@@ -26,6 +28,11 @@ public final class ConfigurationBuilder {
     public static final String EXPL_FILTER_EXTERNAL_DEPENDENCIES = "Filter shared dependencies to software elements (e.g. classes or methods) located in external libraries (jar files).";
     public static final boolean DEFAULT_FILTER_EXTERNAL_DEPENDENCIES = true;
 
+    public static final String CONFIG_ID_REFERENCE_SELECTOR = CONFIG_ID_BASE + "REFERENCE_SELECTOR";
+    public static final String LABEL_REFERENCE_SELECTOR = "Reference Selector";
+    public static final String EXPL_REFERENCE_SELECTOR = "Choose the selector to decide about which references between software elments should be considered.";
+    public static final String DEFAULT_REFERENCE_SELECTOR = ReferenceSelectorRegistry.DEFAULT_SELECTOR;
+
     /** Disable constructor for static utility usage. */
     private ConfigurationBuilder() {
     }
@@ -38,6 +45,16 @@ public final class ConfigurationBuilder {
     public static BooleanConfiguration createFilterExternalsConfig() {
         return new BooleanConfiguration(CONFIG_ID_FILTER_EXTERNAL_DEPENDENCIES, LABEL_FILTER_EXTERNAL_DEPENDENCIES,
                 EXPL_FILTER_EXTERNAL_DEPENDENCIES, DEFAULT_FILTER_EXTERNAL_DEPENDENCIES);
+    }
+
+    /**
+     * Create the configuration object to chose the reference selector to use.
+     *
+     * @return The prepared configuration object.
+     */
+    public static ChoiceConfiguration createReferenceSelectorConfig() {
+        return new ChoiceConfiguration(CONFIG_ID_REFERENCE_SELECTOR, LABEL_REFERENCE_SELECTOR, EXPL_REFERENCE_SELECTOR,
+                DEFAULT_REFERENCE_SELECTOR, ReferenceSelectorRegistry.getAvailableSelectorIds());
     }
 
 }

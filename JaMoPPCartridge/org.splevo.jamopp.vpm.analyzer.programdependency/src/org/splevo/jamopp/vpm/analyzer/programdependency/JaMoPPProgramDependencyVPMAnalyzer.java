@@ -21,12 +21,15 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
 import org.graphstream.graph.Node;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
+import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelector;
+import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelectorRegistry;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerException;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.config.BooleanConfiguration;
+import org.splevo.vpm.analyzer.config.ChoiceConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.software.SoftwareElement;
@@ -71,6 +74,9 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The configuration-object for filtering shared dependencies to external elements. */
     private BooleanConfiguration filterExternalsConfig = ConfigurationBuilder.createFilterExternalsConfig();
 
+    /** The configuration-object for the reference selector to use. */
+    private ChoiceConfiguration referenceSelectorConfig = ConfigurationBuilder.createReferenceSelectorConfig();
+
     /**
      * Internal map to simplify working with variation points and to reference back to nodes
      * afterwards.
@@ -89,9 +95,6 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     private Table<VariationPoint, Commentable, Commentable> referringElementIndex;
 
-    /** Selector to get elements referenced from the sub elements of a AST node. */
-    private ReferenceSelector referenceSelector = new DefaultReferenceSelector();
-
     /**
      * Analyze variation point dependencies based on program dependencies between them.
      *
@@ -105,17 +108,17 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public synchronized VPMAnalyzerResult analyze(final VPMGraph vpmGraph) throws VPMAnalyzerException {
 
+        String selectorId = referenceSelectorConfig.getCurrentValue();
+        ReferenceSelector referenceSelector = ReferenceSelectorRegistry.getReferenceSelector(selectorId);
         referencedElementsIndex = LinkedHashMultimap.create();
         referringElementIndex = HashBasedTable.create();
 
-        VPMAnalyzerResult result = new VPMAnalyzerResult(this);
-
         vp2GraphNodeIndex = buildGraphNodeIndex(vpmGraph);
-        indexReferencedElements(vp2GraphNodeIndex.keySet());
+        indexReferencedElements(vp2GraphNodeIndex.keySet(), referenceSelector);
+        List<VPMEdgeDescriptor> descriptors = identifyDependencies(vp2GraphNodeIndex.keySet(), referenceSelector);
 
-        List<VPMEdgeDescriptor> descriptors = identifyDependencies(vp2GraphNodeIndex.keySet());
+        VPMAnalyzerResult result = new VPMAnalyzerResult(this);
         result.getEdgeDescriptors().addAll(descriptors);
-
         return result;
     }
 
@@ -126,14 +129,17 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      *
      * @param vps
      *            The variation points to search related ones for.
+     * @param referenceSelector
+     *            The selector for the references to consider.
      * @return The list of identified edge descriptors.
      */
-    private List<VPMEdgeDescriptor> identifyDependencies(Set<VariationPoint> vps) {
+    private List<VPMEdgeDescriptor> identifyDependencies(Set<VariationPoint> vps, ReferenceSelector referenceSelector) {
         List<VPMEdgeDescriptor> edges = Lists.newArrayList();
         List<String> edgeRegistry = new ArrayList<String>();
 
         for (Commentable element : referencedElementsIndex.keySet()) {
-            List<VPMEdgeDescriptor> vpEdges = identifyRelatedVPsForReferencedElement(edgeRegistry, element);
+            List<VPMEdgeDescriptor> vpEdges = identifyRelatedVPsForReferencedElement(edgeRegistry, element,
+                    referenceSelector);
             edges.addAll(vpEdges);
         }
 
@@ -141,7 +147,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     }
 
     private List<VPMEdgeDescriptor> identifyRelatedVPsForReferencedElement(List<String> edgeRegistry,
-            Commentable referencedElement) {
+            Commentable referencedElement, ReferenceSelector referenceSelector) {
 
         List<VPMEdgeDescriptor> referencedElementEdges = Lists.newArrayList();
 
@@ -161,7 +167,8 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                     Commentable refElementVP1 = referringElementIndex.get(vp1, referencedElement);
                     Commentable refElementVP2 = referringElementIndex.get(vp2, referencedElement);
 
-                    boolean ignoreReference = referenceSelector.ignoreReference(refElementVP1, refElementVP2, referencedElement);
+                    boolean ignoreReference = referenceSelector.ignoreReference(refElementVP1, refElementVP2,
+                            referencedElement);
                     if (ignoreReference) {
                         continue;
                     }
@@ -210,12 +217,14 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      *
      * @param variationPoints
      *            The set of variation points to index the implementing elements of.
+     * @param referenceSelector
+     *            The selector for the references to consider.
      */
-    private void indexReferencedElements(Set<VariationPoint> variationPoints) {
+    private void indexReferencedElements(Set<VariationPoint> variationPoints, ReferenceSelector referenceSelector) {
         for (VariationPoint vp : variationPoints) {
             List<Commentable> jamoppElements = getJamoppElements(vp);
             for (Commentable jamoppElement : jamoppElements) {
-                indexReferencedElements(vp, jamoppElement);
+                indexReferencedElements(vp, jamoppElement, referenceSelector);
             }
         }
     }
@@ -233,8 +242,11 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      *            The variation point the element is included.
      * @param referringElement
      *            The JaMoPP element to find referenced or referencable elements.
+     * @param referenceSelector
+     *            The selector for the references to consider.
      */
-    private void indexReferencedElements(VariationPoint vp, Commentable referringElement) {
+    private void indexReferencedElements(VariationPoint vp, Commentable referringElement,
+            ReferenceSelector referenceSelector) {
         List<Commentable> referencedElements = referenceSelector.getReferencedElements(referringElement);
         for (Commentable referencedElement : referencedElements) {
 
@@ -310,7 +322,8 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
-        configurations.addConfigurations(ConfigurationBuilder.CONFIG_GROUP_DEPENDENCIES, filterExternalsConfig);
+        configurations.addConfigurations(ConfigurationBuilder.CONFIG_GROUP_DEPENDENCIES, filterExternalsConfig,
+                referenceSelectorConfig);
         return configurations;
     }
 

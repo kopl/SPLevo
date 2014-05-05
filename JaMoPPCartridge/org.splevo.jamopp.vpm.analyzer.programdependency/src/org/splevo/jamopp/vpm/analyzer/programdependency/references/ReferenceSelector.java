@@ -9,7 +9,7 @@
  * Contributors:
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.jamopp.vpm.analyzer.programdependency;
+package org.splevo.jamopp.vpm.analyzer.programdependency.references;
 
 import java.util.List;
 
