@@ -60,6 +60,29 @@ public class JaMoPPMergeDeciderTest {
      *             identifies a failed test.
      */
     @Test
+    public void testDeclaredVariableChanged() throws Exception {
+
+        String basePath = "testcode/DeclaredVariableChanged/";
+
+        VariationPointModel vpm = initializeVariationPointModel(basePath);
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), is(2));
+
+        VariationPoint vp1 = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        VariationPoint vp2 = vpm.getVariationPointGroups().get(1).getVariationPoints().get(0);
+
+        JaMoPPMergeDecider decider = new JaMoPPMergeDecider();
+        Boolean mergeDecision = decider.canBeMerged(vp1, vp2);
+        assertThat("Wrong merge decision", mergeDecision, is(Boolean.FALSE));
+    }
+
+    /**
+     * Test that two variation points describing changed imports in the same class are decided
+     * correctly to be mergeable.
+     *
+     * @throws Exception
+     *             identifies a failed test.
+     */
+    @Test
     public void testMergedDecisionImports() throws Exception {
 
         String basePath = "testcode/import/";
