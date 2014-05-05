@@ -13,8 +13,6 @@
 package org.splevo.vpm.analyzer.semantic.lucene;
 
 import java.io.Reader;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -22,9 +20,7 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
-import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.miscellaneous.LengthFilter;
-import org.apache.lucene.analysis.miscellaneous.WordDelimiterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.util.Version;
@@ -89,24 +85,8 @@ public class LuceneCodeAnalyzer extends Analyzer {
     @SuppressWarnings("resource")
     @Override
     protected TokenStreamComponents createComponents(String field, Reader reader) {
-        Tokenizer tokenizer;
-        TokenStream currentStream;
-        if (false) {
-            tokenizer = new CodeTokenizer(reader, splitCamelCase, featureTermSet);
-            currentStream = new LowerCaseFilter(LUCENE_VERSION, tokenizer);
-        } else {
-            tokenizer = new WhitespaceTokenizer(LUCENE_VERSION, reader);
-            Map<String, String> args = new HashMap<String, String>();
-            args.put("generateWordParts", "1");
-            args.put("generateNumberParts", "0");
-            args.put("catenateWords", "0");
-            args.put("catenateNumbers", "0");
-            args.put("catenateAll", "0");
-            args.put("splitOnCaseChange", splitCamelCase ? "1" : "0");
-            currentStream = new WordDelimiterFilterFactory(args).create(tokenizer);
-            currentStream = new LowerCaseFilter(LUCENE_VERSION, currentStream);
-        }
-
+        Tokenizer tokenizer = new CodeTokenizer(reader, splitCamelCase, featureTermSet);
+        TokenStream currentStream = new LowerCaseFilter(LUCENE_VERSION, tokenizer);
         currentStream = new LengthFilter(LUCENE_VERSION, currentStream, 3, Integer.MAX_VALUE);
         currentStream = new StopFilter(LUCENE_VERSION, currentStream, stopWords);
         currentStream = Stemming.wrapStemmingFilter(currentStream, stemming);

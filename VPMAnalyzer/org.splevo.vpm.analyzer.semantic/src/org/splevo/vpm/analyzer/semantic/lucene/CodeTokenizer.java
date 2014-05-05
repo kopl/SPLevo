@@ -43,7 +43,7 @@ public class CodeTokenizer extends Tokenizer {
      * @param splitCamelCase
      *            Determines whether to split camel case words or not.
      */
-    protected CodeTokenizer(Reader input, boolean splitCamelCase) {
+    public CodeTokenizer(Reader input, boolean splitCamelCase) {
         super(input);
         this.splitCamelCase = splitCamelCase;
     }
@@ -58,7 +58,7 @@ public class CodeTokenizer extends Tokenizer {
      * @param featureTermSet
      *            The {@link Set} containing the feature terms as {@link String}.
      */
-    protected CodeTokenizer(Reader input, boolean splitCamelCase, Set<String> featureTermSet) {
+    public CodeTokenizer(Reader input, boolean splitCamelCase, Set<String> featureTermSet) {
         this(input, splitCamelCase);
         this.featureTermSet = featureTermSet;
     }
@@ -81,6 +81,10 @@ public class CodeTokenizer extends Tokenizer {
         if (sb.length() > 0) {
             String textWithoutNumericValues = sb.toString().replaceAll("[0-9]", "");
             tokens = new LinkedList<String>(Arrays.asList(textWithoutNumericValues.split("\\s")));
+        }
+
+        if (tokens.size() == 0) {
+            return false;
         }
 
         String token = tokens.getFirst();
@@ -106,7 +110,7 @@ public class CodeTokenizer extends Tokenizer {
         tokens.remove(token);
         tokens.remove("");
 
-        return tokens.size() > 0;
+        return true;
     }
 
     private String containsFeatureTerm(String token) {
