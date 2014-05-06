@@ -36,7 +36,7 @@ public abstract class AbstractJaMoPPVPFilter extends ViewerFilter {
     @Override
     public boolean select(Viewer viewer, Object parentElement, Object element) {
 
-        if (element instanceof Variant || element instanceof Commentable) {
+        if (element instanceof Variant || element instanceof Commentable || element instanceof SoftwareElement) {
             return true;
         } else if (element instanceof VariationPoint) {
             return select((VariationPoint) element);
