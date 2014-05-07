@@ -14,6 +14,7 @@ package org.splevo.ui.wizards.vpmanalysis;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.listeners.WorkflowListenerUtil;
@@ -45,7 +46,7 @@ public class VPMAnalysisWizard extends Wizard {
 
     /**
      * Constructor to make the basic wizard settings.
-     *
+     * 
      * @param configuration
      *            The workflow configuration to be filled on finished and to get required
      *            information from.
@@ -67,6 +68,24 @@ public class VPMAnalysisWizard extends Wizard {
         addPage(resultHandlingPage);
         addPage(vpmRefinementPage);
 
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.jface.wizard.Wizard#canFinish()
+     */
+    @Override
+    public boolean canFinish() {
+        boolean canFinish = super.canFinish();
+        IWizardPage currentPage = getContainer().getCurrentPage();
+
+        // true if the current page may support ending the wizard with a click on finish.
+        boolean currentPageSupportsFinish = currentPage.equals(vpmRefinementPage)
+                || currentPage.equals(resultHandlingPage);
+
+        canFinish &= currentPageSupportsFinish;
+        return canFinish;
     }
 
     /**
@@ -152,10 +171,10 @@ public class VPMAnalysisWizard extends Wizard {
 
     /**
      * Get the workflow configuration managed by the wizard.
-     *
-     * Whenever this is accessed, the wizard first synchronizes the configuration
-     * with the current ui settings.
-     *
+     * 
+     * Whenever this is accessed, the wizard first synchronizes the configuration with the current
+     * ui settings.
+     * 
      * @return The workflow configuration.
      */
     public VPMAnalysisWorkflowConfiguration getAnalysisWorkflowConfiguration() {
