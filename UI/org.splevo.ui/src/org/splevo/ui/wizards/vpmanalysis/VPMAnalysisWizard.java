@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Christian Busch
  *******************************************************************************/
 package org.splevo.ui.wizards.vpmanalysis;
 
