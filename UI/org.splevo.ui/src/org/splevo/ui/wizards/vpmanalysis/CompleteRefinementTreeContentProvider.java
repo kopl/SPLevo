@@ -47,19 +47,23 @@ public class CompleteRefinementTreeContentProvider implements ITreeContentProvid
     /**
      * Return the child elements of the selected tree node. First check the type of the selected
      * element, then return the type specific children.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override
     public Object[] getChildren(final Object parentElement) {
         if (parentElement instanceof Refinement) {
             return ((Refinement) parentElement).getVariationPoints().toArray();
+
         } else if (parentElement instanceof VariationPoint) {
             return ((VariationPoint) parentElement).getVariants().toArray();
+
         } else if (parentElement instanceof Variant) {
             return ((Variant) parentElement).getImplementingElements().toArray();
+
         } else {
-            return new Object[] {};
+            return new Object[0];
+
         }
     }
 
@@ -70,14 +74,7 @@ public class CompleteRefinementTreeContentProvider implements ITreeContentProvid
 
     @Override
     public boolean hasChildren(final Object element) {
-        // TODO: cleanup when ui is tested
-        // if (element instanceof VPMRefinementAnalyzer) {
-        // return !refinements.get(element).isEmpty();
-        // }
-        if (element instanceof Refinement || element instanceof VariationPoint) {
-            return true;
-        }
-        return false;
+        return getChildren(element).length > 0;
     }
 
 }
