@@ -44,3 +44,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
  lib/opencsv-2.3.jar,
  lib/opal-0.9.9c.jar
+Export-Package: org.splevo.ui.nature

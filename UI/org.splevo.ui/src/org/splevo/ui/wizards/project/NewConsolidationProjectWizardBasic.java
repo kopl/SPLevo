@@ -32,11 +32,11 @@ import org.splevo.ui.nature.SPLevoNature;
 /**
  * Wizard to create a new SPLevo consolidation project.
  */
-public class NewConsolidationProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
+public class NewConsolidationProjectWizardBasic extends Wizard implements INewWizard, IExecutableExtension {
 
-    private static final String WIZARD_NAME = "New Consolidation Project Wizard";
+    private static final String WIZARD_NAME = "New Basic Consolidation Project Wizard";
 
-    private static Logger logger = Logger.getLogger(NewConsolidationProjectWizard.class);
+    private static Logger logger = Logger.getLogger(NewConsolidationProjectWizardBasic.class);
 
     private WizardNewProjectCreationPage projectCreationPage;
     private IConfigurationElement configurationElement;
@@ -44,7 +44,7 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
     /**
      * Constructor preparing the wizard infrastructure.
      */
-    public NewConsolidationProjectWizard() {
+    public NewConsolidationProjectWizardBasic() {
         setWindowTitle(WIZARD_NAME);
     }
 
@@ -52,8 +52,8 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
     public void addPages() {
         super.addPages();
 
-        projectCreationPage = new WizardNewProjectCreationPage("Consolidation Project Wizard");
-        projectCreationPage.setTitle("Consolidation Project");
+        projectCreationPage = new WizardNewProjectCreationPage("Basic Consolidation Project Wizard");
+        projectCreationPage.setTitle("Basic Consolidation Project");
         projectCreationPage
                 .setDescription("Create a new project for consolidating project copies into a variable product line.");
 
