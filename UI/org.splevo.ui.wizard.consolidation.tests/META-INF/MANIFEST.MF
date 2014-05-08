@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SPLevo Consolidation Wizard Test Fragment
+Bundle-SymbolicName: org.splevo.ui.wizard.consolidation.tests;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Fragment-Host: org.splevo.ui.wizard.consolidation
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit,
+ org.mockito
