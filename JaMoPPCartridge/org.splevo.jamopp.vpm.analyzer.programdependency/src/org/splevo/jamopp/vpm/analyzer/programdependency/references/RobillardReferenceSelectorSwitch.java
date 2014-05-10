@@ -317,10 +317,11 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
 
         @Override
         public List<Commentable> caseNewConstructorCall(NewConstructorCall call) {
-            ArrayList<Commentable> refElements = Lists.newArrayList((Commentable) call.getType());
+            ArrayList<Commentable> refElements = Lists.newArrayList();
             for (Expression expression : call.getArguments()) {
                 refElements.addAll(parentSwitch.doSwitch(expression));
             }
+            refElements.addAll(parentSwitch.doSwitch(call.getTypeReference()));
             return refElements;
         }
     }
