@@ -88,7 +88,7 @@ public class JaMoPPMergeDecider implements MergeDecider {
 
         Commentable loc1 = getJaMoPPLocation(vp1);
         Commentable loc2 = getJaMoPPLocation(vp2);
-
+        // Not only statements but also nested statement container must be handled
         if (!(loc1 instanceof Method) || !(loc2 instanceof Method)) {
             return false;
         }
@@ -133,7 +133,7 @@ public class JaMoPPMergeDecider implements MergeDecider {
     }
 
     private boolean statementIsFirstOrDirectFollower(int lastPosition, int position) {
-        return lastPosition == -1 || lastPosition == position - 1;
+        return lastPosition == -1 || Math.abs(lastPosition - position) == 1;
     }
 
     /**
