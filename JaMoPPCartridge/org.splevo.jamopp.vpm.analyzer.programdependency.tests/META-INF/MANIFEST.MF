@@ -10,4 +10,6 @@ Require-Bundle: org.junit;bundle-version="4.11.0",
  org.splevo.tests;bundle-version="1.0.0",
  org.splevo.jamopp.extraction;bundle-version="1.0.0",
  org.splevo.jamopp.diffing;bundle-version="1.0.0",
- org.splevo.jamopp.vpm.builder;bundle-version="1.0.0"
+ org.splevo.jamopp.vpm.builder;bundle-version="1.0.0",
+ org.splevo.vpm.refinement;bundle-version="1.0.0",
+ org.splevo.jamopp.vpm.mergedecider;bundle-version="1.0.0"
