@@ -107,6 +107,14 @@
       </command>
    </extension>
    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.splevo.ui.vpexplorer.handler.vpmedit.DeleteVariationPointHandler"
+            id="org.splevo.ui.vp.edit.delete"
+            name="Delete">
+      </command>
+   </extension>
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any">
@@ -192,6 +200,24 @@
             <command
                   commandId="org.splevo.ui.vp.characteristics.extendibility.open"
                   label="Open"
+                  style="push">
+            </command>
+         </menu>
+         <menu
+               id="org.splevo.ui.vp.edit"
+               label="Edit">
+            <visibleWhen
+                  checkEnabled="true">
+               <iterate>
+                  <instanceof
+                        value="org.splevo.vpm.variability.VariationPoint">
+                  </instanceof>
+               </iterate>
+            </visibleWhen>
+            <command
+                  commandId="org.splevo.ui.vp.edit.delete"
+                  icon="icons/delete_obj.gif"
+                  label="Delete"
                   style="push">
             </command>
          </menu>
