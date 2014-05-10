@@ -137,7 +137,7 @@ public class DefaultReferenceSelectorSwitch extends ComposedSwitch<List<Commenta
 
         @Override
         public List<Commentable> caseMethodCall(MethodCall methodCall) {
-            ArrayList<Commentable> refElements = Lists.newArrayList((Commentable) methodCall.getTarget());
+            ArrayList<Commentable> refElements = Lists.newArrayList();
             for (Expression expression : methodCall.getArguments()) {
                 refElements.addAll(parentSwitch.doSwitch(expression));
             }
@@ -168,7 +168,12 @@ public class DefaultReferenceSelectorSwitch extends ComposedSwitch<List<Commenta
 
         @Override
         public List<Commentable> caseNewConstructorCall(NewConstructorCall call) {
-            return parentSwitch.doSwitch(call.getTypeReference());
+            ArrayList<Commentable> refElements = Lists.newArrayList();
+            for (Expression expression : call.getArguments()) {
+                refElements.addAll(parentSwitch.doSwitch(expression));
+            }
+            refElements.addAll(parentSwitch.doSwitch(call.getTypeReference()));
+            return refElements;
         }
     }
 
