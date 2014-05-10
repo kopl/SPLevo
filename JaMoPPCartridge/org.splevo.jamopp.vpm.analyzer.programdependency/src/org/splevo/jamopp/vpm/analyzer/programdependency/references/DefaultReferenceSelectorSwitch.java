@@ -20,7 +20,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.expressions.util.ExpressionsSwitch;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.util.ImportsSwitch;
@@ -57,9 +59,10 @@ public class DefaultReferenceSelectorSwitch extends ComposedSwitch<List<Commenta
 
     /** Constructor to set up the sub switches. */
     public DefaultReferenceSelectorSwitch() {
+        addSwitch(new StatementsReferencedElementsSwitch(this));
+        addSwitch(new ExpressionsReferencedElementsSwitch(this));
         addSwitch(new MembersReferencedElementsSwitch(this));
         addSwitch(new ImportReferencedElementsSwitch());
-        addSwitch(new StatementsReferencedElementsSwitch(this));
         addSwitch(new ReferencesReferencedElementsSwitch(this));
         addSwitch(new InstantiationsReferencedElementsSwitch(this));
         addSwitch(new TypesReferencedElementsSwitch());
@@ -215,6 +218,26 @@ public class DefaultReferenceSelectorSwitch extends ComposedSwitch<List<Commenta
         @Override
         public List<Commentable> caseExpressionStatement(ExpressionStatement stmt) {
             return parentSwitch.doSwitch(stmt.getExpression());
+        }
+    }
+
+    /**
+     * Switch to decide about referenced elements for statement elements.
+     */
+    private class ExpressionsReferencedElementsSwitch extends ExpressionsSwitch<List<Commentable>> {
+
+        private DefaultReferenceSelectorSwitch parentSwitch;
+
+        public ExpressionsReferencedElementsSwitch(DefaultReferenceSelectorSwitch parentSwitch) {
+            this.parentSwitch = parentSwitch;
+        }
+
+        @Override
+        public List<Commentable> caseAssignmentExpression(AssignmentExpression exp) {
+            ArrayList<Commentable> refElements = Lists.newArrayList();
+            refElements.addAll(parentSwitch.doSwitch(exp.getChild()));
+            refElements.addAll(parentSwitch.doSwitch(exp.getValue()));
+            return refElements;
         }
     }
 
