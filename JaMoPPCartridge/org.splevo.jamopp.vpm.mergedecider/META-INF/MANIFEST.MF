@@ -11,3 +11,4 @@ Require-Bundle: org.splevo.vpm.analyzer,
  org.splevo.jamopp.vpm,
  org.apache.log4j;visibility:=reexport,
  org.splevo.jamopp.util;bundle-version="1.0.0"
+Export-Package: org.splevo.jamopp.vpm.mergedecider
