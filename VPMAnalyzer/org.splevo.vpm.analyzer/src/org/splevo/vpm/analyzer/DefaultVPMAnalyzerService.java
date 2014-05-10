@@ -13,8 +13,8 @@ package org.splevo.vpm.analyzer;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -36,6 +36,7 @@ import org.splevo.vpm.variability.VariationPointModel;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
 /**
@@ -291,8 +292,8 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
             // The indexes are used to
             // i) build groups of refinements to merge
             // ii) fast lookup of which group a VP currently belongs to
-            LinkedHashMultimap<VariationPoint, VariationPoint> mergeVPBuckets = LinkedHashMultimap.create();
-            LinkedHashMap<VariationPoint, VariationPoint> invertedBucketIndex = Maps.newLinkedHashMap();
+            Multimap<VariationPoint, VariationPoint> mergeVPBuckets = LinkedHashMultimap.create();
+            Map<VariationPoint, VariationPoint> invertedBucketIndex = Maps.newIdentityHashMap();
 
             VariationPoint[] vpArray = variationPoints.toArray(new VariationPoint[] {});
 
@@ -321,15 +322,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
                 }
             }
 
-            // check if the same vp is contained in several buckets
-            List<VariationPoint> vpHits = Lists.newArrayList();
-            for (VariationPoint vp : mergeVPBuckets.values()) {
-                if (vpHits.contains(vp)) {
-                    logger.error("VP contained twice: " + vp);
-                } else {
-                    vpHits.add(vp);
-                }
-            }
+            checkDistinctBuckets(mergeVPBuckets);
 
             // if no merges detected move on to the next
             if (mergeVPBuckets.size() == 0) {
@@ -341,8 +334,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
 
             // create a merge refinement per bucket
             for (VariationPoint bucketKey : mergeVPBuckets.keySet()) {
-                Refinement mergeRefinement = buildMergeRefinementForBucket(origRefinement,
-                        mergeVPBuckets.get(bucketKey), bucketKey);
+                Refinement mergeRefinement = buildMergeRefinementForBucket(origRefinement, mergeVPBuckets, bucketKey);
                 vpsNotMerged.removeAll(mergeRefinement.getVariationPoints());
                 refinedRefinements.add(mergeRefinement);
             }
@@ -356,6 +348,24 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         }
 
         return refinedRefinements;
+    }
+
+    /**
+     * Check if the same vp is contained in several buckets which would indicate an error.
+     *
+     * @param buckets The buckets to check.
+     */
+    private void checkDistinctBuckets(Multimap<VariationPoint, VariationPoint> buckets) {
+
+        Map<VariationPoint, VariationPoint> vpHits = Maps.newLinkedHashMap();
+        for (VariationPoint key : buckets.keySet()) {
+            for (VariationPoint vp : buckets.get(key)) {
+                if (vpHits.containsKey(vp)) {
+                    logger.error("VP contained in more than one merge bucket");
+                }
+                vpHits.put(vp, key);
+            }
+        }
     }
 
     /**
@@ -393,20 +403,20 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      *
      * @param originalRefinement
      *            The original refinement to derive the merge from.
-     * @param vpsToMergeIn
-     *            The VPs to merge with the leading one.
-     * @param firstVP
+     * @param buckets
+     *            The the buckets to choose the one to process.
+     * @param key
      *            The leading variation point of the mergeable ones.
      * @return The prepared merge refinement.
      */
-    private Refinement buildMergeRefinementForBucket(Refinement originalRefinement, Set<VariationPoint> vpsToMergeIn,
-            VariationPoint firstVP) {
+    private Refinement buildMergeRefinementForBucket(Refinement originalRefinement,
+            Multimap<VariationPoint, VariationPoint> buckets, VariationPoint key) {
         Refinement mergeRefinement = RefinementFactory.eINSTANCE.createRefinement();
         mergeRefinement.setType(RefinementType.MERGE);
         mergeRefinement.setRefinementModel(originalRefinement.getRefinementModel());
 
-        mergeRefinement.getVariationPoints().add(firstVP);
-        mergeRefinement.getVariationPoints().addAll(vpsToMergeIn);
+        mergeRefinement.getVariationPoints().add(key);
+        mergeRefinement.getVariationPoints().addAll(buckets.get(key));
 
         int mergedVPCount = mergeRefinement.getVariationPoints().size();
         int origVPCount = originalRefinement.getVariationPoints().size();
@@ -431,9 +441,6 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      * <li>None is in a bucket so a new one is created.</li>
      * </ul>
      *
-     * FIXME: The bucket selection also merges existing buckets which is not efficient at the moment
-     * due to a lot of iterations
-     *
      * DesignDecision If mergeable VPs are already located in different buckets, they are merged
      * because mergeability is defined as a transitive relationship!
      *
@@ -449,8 +456,8 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      *            point with.
      * @return The key of the bucket the vp under study should be put into.
      */
-    private VariationPoint chooseBucket(LinkedHashMultimap<VariationPoint, VariationPoint> mergeVPBuckets,
-            LinkedHashMap<VariationPoint, VariationPoint> invertedBucketIndex, VariationPoint vpReference,
+    private VariationPoint chooseBucket(Multimap<VariationPoint, VariationPoint> mergeVPBuckets,
+            final Map<VariationPoint, VariationPoint> invertedBucketIndex, VariationPoint vpReference,
             VariationPoint vpUnderStudy) {
 
         VariationPoint bucketKeyReference = invertedBucketIndex.get(vpReference);
@@ -459,7 +466,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         boolean underStudyIsInBucket = bucketKeyUnderStudy != null;
 
         if (referenceIsInBucket && underStudyIsInBucket) {
-            return mergeBuckets(mergeVPBuckets, vpUnderStudy, vpReference);
+            return mergeBuckets(mergeVPBuckets, bucketKeyReference, bucketKeyUnderStudy, invertedBucketIndex);
 
         } else if (referenceIsInBucket) {
             return bucketKeyReference;
@@ -473,43 +480,37 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
     }
 
     /**
-     * Merge buckets that contain at least on of the provided {@link VariationPoint}s.
+     * Merge buckets and update inverted index for the merged VPs.
      *
-     * The merge is valid as the mergeability is assumed to be a transitive relationship.
+     * If the bucket identifying keys are the same, nothing will be performed.
      *
      * @param vpBuckets
      *            The buckets of variation points that can be merged.
      * @param vp1
      *            The first vp to check the buckets for.
-     * @param vp2
+     * @param mergInKey
      *            The second vp to check the buckets for.
-     * @return
+     * @param invertedBucketIndex
+     *            The index to update.
+     * @return The surviving key.
      */
-    private VariationPoint mergeBuckets(LinkedHashMultimap<VariationPoint, VariationPoint> vpBuckets,
-            VariationPoint vp1, VariationPoint vp2) {
+    private VariationPoint mergeBuckets(Multimap<VariationPoint, VariationPoint> vpBuckets,
+            VariationPoint survivingKey, VariationPoint mergInKey,
+            Map<VariationPoint, VariationPoint> invertedBucketIndex) {
 
-        List<VariationPoint> mergedBucketVPs = Lists.newArrayList();
-        List<VariationPoint> toBeRemoved = Lists.newArrayList();
-        VariationPoint newBucketKey = null;
-
-        for (VariationPoint key : vpBuckets.keySet()) {
-            Set<VariationPoint> vpList = vpBuckets.get(key);
-            if ((vpList.contains(vp2)) || (vpList.contains(vp1))) {
-                if (newBucketKey == null) {
-                    newBucketKey = key;
-                }
-                mergedBucketVPs.addAll(vpList);
-                toBeRemoved.add(key);
-            }
+        if (survivingKey == mergInKey) {
+            return survivingKey;
         }
 
-        if (mergedBucketVPs.size() > 0) {
-            for (VariationPoint removeKey : toBeRemoved) {
-                vpBuckets.removeAll(removeKey);
-            }
-            vpBuckets.putAll(newBucketKey, mergedBucketVPs);
+        Collection<VariationPoint> mergeInVPs = vpBuckets.get(mergInKey);
+        for (VariationPoint mergeInVP : mergeInVPs) {
+            invertedBucketIndex.put(mergeInVP, survivingKey);
         }
-        return newBucketKey;
+
+        vpBuckets.get(survivingKey).addAll(mergeInVPs);
+        vpBuckets.removeAll(mergInKey);
+
+        return survivingKey;
     }
 
     /**
