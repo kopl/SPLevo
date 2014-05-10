@@ -167,4 +167,62 @@ public class MergeDetectionTest {
         assertThat("Wrong type of refinement", refinements.get(0).getType(), is(RefinementType.MERGE));
     }
 
+    /**
+     * Test special case of interconnected subgroups of mergeable variation points.
+     *
+     * <strong>Test Input</strong><br>
+     * Test the merge detection for a group of variation points with
+     * <ul>
+     * <li>two subgroups all VPs related to each other</li>
+     * <li>a single relationship between the groups</li>
+     * <li>but all VPs are transitive mergeable with each other</li>
+     * </ul>
+     * Special condition: The connecting VP edge must be added to the graph before the second interrelated group
+     *
+     * <strong>Test Result</strong><br>
+     * One refinement: - a merge containing VP1, VP2 and VP3
+     *
+     * @throws Exception
+     *             An unexpected failure during the test execution.
+     */
+    @Test
+    public void testTransitiveMerge() throws Exception {
+
+        VPMGraph graph = new VPMGraph("VPMGraph");
+        VariationPoint vp1 = VPMAnalyzerTestUtil.createNodeWithVP(graph, "VP1").getAttribute(VPMGraph.VARIATIONPOINT);
+        VariationPoint vp2 = VPMAnalyzerTestUtil.createNodeWithVP(graph, "VP2").getAttribute(VPMGraph.VARIATIONPOINT);
+        VariationPoint vp3 = VPMAnalyzerTestUtil.createNodeWithVP(graph, "VP3").getAttribute(VPMGraph.VARIATIONPOINT);
+        VariationPoint vp4 = VPMAnalyzerTestUtil.createNodeWithVP(graph, "VP4").getAttribute(VPMGraph.VARIATIONPOINT);
+
+        VPMAnalyzerResult resultCS = new VPMAnalyzerResult(new CodeLocationVPMAnalyzer());
+        resultCS.getEdgeDescriptors().add(new VPMEdgeDescriptor("CodeStructure", "Method", "VP1", "VP2"));
+        resultCS.getEdgeDescriptors().add(new VPMEdgeDescriptor("CodeStructure", "Method", "VP1", "VP4"));
+        resultCS.getEdgeDescriptors().add(new VPMEdgeDescriptor("CodeStructure", "Method", "VP3", "VP4"));
+        List<VPMAnalyzerResult> results = Lists.newArrayList(resultCS);
+
+        DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
+        service.createGraphEdges(graph, results);
+
+        MergeDecider mergeDecider = mock(MergeDecider.class);
+        when(mergeDecider.canBeMerged(vp1, vp2)).thenReturn(Boolean.TRUE);
+        when(mergeDecider.canBeMerged(vp1, vp3)).thenReturn(Boolean.FALSE);
+        when(mergeDecider.canBeMerged(vp1, vp4)).thenReturn(Boolean.FALSE);
+        when(mergeDecider.canBeMerged(vp2, vp3)).thenReturn(Boolean.TRUE);
+        when(mergeDecider.canBeMerged(vp2, vp4)).thenReturn(Boolean.FALSE);
+        when(mergeDecider.canBeMerged(vp3, vp4)).thenReturn(Boolean.TRUE);
+        when(mergeDecider.canBeMerged(vp2, vp1)).thenReturn(Boolean.TRUE);
+        when(mergeDecider.canBeMerged(vp3, vp1)).thenReturn(Boolean.FALSE);
+        when(mergeDecider.canBeMerged(vp4, vp1)).thenReturn(Boolean.FALSE);
+        when(mergeDecider.canBeMerged(vp3, vp2)).thenReturn(Boolean.TRUE);
+        when(mergeDecider.canBeMerged(vp4, vp2)).thenReturn(Boolean.FALSE);
+        when(mergeDecider.canBeMerged(vp4, vp3)).thenReturn(Boolean.TRUE);
+        MergeDeciderRegistry.registerMergeDecider(mergeDecider);
+
+        DetectionRule rule = new BasicDetectionRule(Lists.newArrayList("CodeStructure"), RefinementType.GROUPING);
+        List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true);
+
+        assertThat("Wrong number of refinements", refinements.size(), is(1));
+        assertThat("Wrong type of refinement", refinements.get(0).getType(), is(RefinementType.MERGE));
+    }
+
 }
