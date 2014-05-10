@@ -11,9 +11,6 @@
  *******************************************************************************/
 package org.splevo.ui.dashboard;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -31,8 +28,10 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.wb.swt.ResourceManager;
 import org.mihalis.opal.header.Header;
 import org.mihalis.opal.itemSelector.DLItem;
-import org.mihalis.opal.itemSelector.DualListSelectionChangedListener;
-import org.mihalis.opal.itemSelector.SPLevoDualList;
+import org.mihalis.opal.itemSelector.DLItem.LAST_ACTION;
+import org.mihalis.opal.itemSelector.DualList;
+import org.mihalis.opal.itemSelector.SelectionChangeEvent;
+import org.mihalis.opal.itemSelector.SelectionChangeListener;
 import org.splevo.project.ProjectFactory;
 import org.splevo.project.SPLProfile;
 import org.splevo.refactoring.VariabilityRefactoring;
@@ -40,8 +39,6 @@ import org.splevo.refactoring.VariabilityRefactoringRegistry;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.vpm.realization.VariabilityMechanism;
-
-import com.google.common.collect.Lists;
 
 /**
  * The product line configuration tab container. This is a pojo to create and manage the tab for
@@ -108,62 +105,40 @@ public class SPLProfileTab extends AbstractDashboardTab {
         selectionInfo.setText("Select the variability mechanisms to be used in the target product line.\r\n"
                 + "Left: available ones, Right: selected ones. The order defines the priority");
 
-        final SPLevoDualList dl = new SPLevoDualList(mechanismGroup, SWT.BORDER | SWT.BACKGROUND);
+        final DualList dl = new DualList(mechanismGroup, SWT.BORDER | SWT.BACKGROUND);
         dl.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
-        final List<DLItem> refactoringList = Lists.newArrayList();
-        List<Integer> selectedIds = Lists.newArrayList();
+        int index = 0;
         for (VariabilityRefactoring refactoring : VariabilityRefactoringRegistry.getRefactorings()) {
             VariabilityMechanism mechanism = refactoring.getVariabilityMechanism();
             DLItem item = new DLItem(mechanism.getName());
             item.setData(SPLPROFILE_CONFIG_ID_REFACTORING_DATA, refactoring);
-            refactoringList.add(item);
+            dl.add(item);
             if (getSPLProfile().getRecommendedRefactoringIds().contains(refactoring.getId())) {
-                selectedIds.add(refactoringList.indexOf(item));
+                dl.select(index);
             }
+            index++;
         }
 
-        dl.setItems(refactoringList);
-        for (Integer index : selectedIds) {
-            dl.select(index.intValue());
-        }
-
-        dl.addDualListSelectionChangedListener(new DualListSelectionChangedListener() {
+        dl.addSelectionChangeListener(new SelectionChangeListener() {
 
             @Override
-            public void itemsSelected(LinkedHashSet<DLItem> selectedItems) {
+            public void widgetSelected(SelectionChangeEvent e) {
 
                 boolean modified = false;
 
-                for (DLItem item : selectedItems) {
+                for (final DLItem item : e.getItems()) {
                     Object data = item.getData(SPLPROFILE_CONFIG_ID_REFACTORING_DATA);
                     if (data instanceof VariabilityRefactoring) {
                         VariabilityRefactoring refactoring = (VariabilityRefactoring) data;
                         EList<String> recommendedRefactoringIds = getSPLProfile().getRecommendedRefactoringIds();
                         if (!recommendedRefactoringIds.contains(refactoring.getId())) {
-                            recommendedRefactoringIds.add(refactoring.getId());
-                            modified = true;
-                        }
-                    }
-                }
 
-                if (modified) {
-                    getSplevoProjectEditor().markAsDirty();
-                }
+                            if (item.getLastAction() == LAST_ACTION.SELECTION) {
+                                recommendedRefactoringIds.add(refactoring.getId());
+                            } else {
+                                recommendedRefactoringIds.remove(refactoring.getId());
+                            }
 
-            }
-
-            @Override
-            public void itemsDeSelected(LinkedHashSet<DLItem> deSelectedItems) {
-
-                boolean modified = false;
-
-                for (DLItem item : deSelectedItems) {
-                    Object data = item.getData(SPLPROFILE_CONFIG_ID_REFACTORING_DATA);
-                    if (data instanceof VariabilityRefactoring) {
-                        VariabilityRefactoring refactoring = (VariabilityRefactoring) data;
-                        EList<String> recommendedRefactoringIds = getSPLProfile().getRecommendedRefactoringIds();
-                        if (recommendedRefactoringIds.contains(refactoring.getId())) {
-                            recommendedRefactoringIds.remove(refactoring.getId());
                             modified = true;
                         }
                     }
