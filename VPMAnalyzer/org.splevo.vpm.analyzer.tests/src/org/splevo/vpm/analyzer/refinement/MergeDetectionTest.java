@@ -115,9 +115,11 @@ public class MergeDetectionTest {
         DetectionRule rule = new BasicDetectionRule(Lists.newArrayList("CodeStructure"), RefinementType.GROUPING);
         List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true);
 
-        assertThat("Wrong number of refinements", refinements.size(), is(2));
-        assertThat("Wrong type of first refinement", refinements.get(0).getType(), is(RefinementType.MERGE));
-        assertThat("Wrong type of second refinement", refinements.get(1).getType(), is(RefinementType.GROUPING));
+        assertThat("Wrong number of top level refinements", refinements.size(), is(1));
+        assertThat("Top level refinement must be grouping", refinements.get(0).getType(), is(RefinementType.GROUPING));
+        assertThat("Sub refinement expected", refinements.get(0).getSubRefinements().size(), is(1));
+        assertThat("Wron sub refinement type", refinements.get(0).getSubRefinements().get(0).getType(),
+                is(RefinementType.MERGE));
     }
 
     /**
@@ -177,7 +179,8 @@ public class MergeDetectionTest {
      * <li>a single relationship between the groups</li>
      * <li>but all VPs are transitive mergeable with each other</li>
      * </ul>
-     * Special condition: The connecting VP edge must be added to the graph before the second interrelated group
+     * Special condition: The connecting VP edge must be added to the graph before the second
+     * interrelated group
      *
      * <strong>Test Result</strong><br>
      * One refinement: - a merge containing VP1, VP2 and VP3
