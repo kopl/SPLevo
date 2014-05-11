@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.splevo.vpm.refinement.*;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
@@ -14,13 +15,12 @@ import org.splevo.vpm.refinement.RefinementType;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
- * 
  * @generated
  */
 public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFactory {
     /**
-     * Creates the default factory implementation. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public static RefinementFactory init() {
@@ -37,8 +37,8 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
     }
 
     /**
-     * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public RefinementFactoryImpl() {
@@ -47,7 +47,6 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -64,7 +63,6 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -79,7 +77,6 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -94,7 +91,6 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public Refinement createRefinement() {
@@ -104,7 +100,6 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public RefinementModel createRefinementModel() {
@@ -114,7 +109,6 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public RefinementType createRefinementTypeFromString(EDataType eDataType, String initialValue) {
@@ -127,7 +121,6 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String convertRefinementTypeToString(EDataType eDataType, Object instanceValue) {
@@ -136,7 +129,6 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public RefinementPackage getRefinementPackage() {
@@ -145,7 +137,6 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @deprecated
      * @generated
      */

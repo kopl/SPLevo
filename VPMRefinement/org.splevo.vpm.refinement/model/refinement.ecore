@@ -24,8 +24,8 @@
         <details key="documentation" value="The variation points to be merged."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refinementModel" lowerBound="1"
-        eType="#//RefinementModel" eOpposite="#//RefinementModel/refinements">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinementModel" eType="#//RefinementModel"
+        eOpposite="#//RefinementModel/refinements">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The analyzer that led to this refinement."/>
       </eAnnotations>
@@ -33,6 +33,18 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="A textual explanation why the refinement is recommended."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Refinement"
+        eOpposite="#//Refinement/subRefinements">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The parent refinement to be executed when child refinements have been processed."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subRefinements" upperBound="-1"
+        eType="#//Refinement" containment="true" eOpposite="#//Refinement/parent">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Sub refinements to be processed in advance to this refinement."/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

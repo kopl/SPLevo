@@ -22,7 +22,7 @@ public class VPMRefinementService {
 
     /**
      * Apply a list of refinements to a variation point model.
-     * 
+     *
      * @param refinements
      *            The refinements to be applied.
      * @param vpm
@@ -33,8 +33,9 @@ public class VPMRefinementService {
 
         for (Refinement refinement : refinements) {
 
-            switch (refinement.getType()) {
+            applyRefinements(refinement.getSubRefinements(), vpm);
 
+            switch (refinement.getType()) {
             case GROUPING:
                 applyGrouping(vpm, refinement);
                 break;
@@ -59,9 +60,9 @@ public class VPMRefinementService {
      * VariationPoints, contributing to the same child feature, the ASTNode references are merged
      * into one of the Variant elements. It is ensured, that this Variant element is contained in
      * the surviving VariationPoint. Finally,
-     * 
+     *
      * the remaining empty Variant and VariationPoint elements are removed from the model.
-     * 
+     *
      * @param vpm
      *            The variation point model to refine.
      * @param refinement
@@ -105,19 +106,33 @@ public class VPMRefinementService {
 
     /**
      * Refine the variation point model by applying a refinement.
-     * 
+     *
+     * The group of the first variation point is kept as surviving group.<br>
+     * The variation points of all others are moved to this group and the other groups are removed.
+     *
+     * Sub refinements are also triggered.
+     *
      * @param vpm
      *            The variation point model to refine.
      * @param refinement
      *            The refinement to apply.
      */
     private void applyGrouping(VariationPointModel vpm, Refinement refinement) {
-        // The group of the first variation point is kept as surviving
-        // group
-        // The variation points of all others are moved to this group
-        // and the other groups are removed.
-        VariationPointGroup survivingGroup = refinement.getVariationPoints().get(0).getGroup();
-        for (VariationPoint vp : refinement.getVariationPoints()) {
+
+        EList<VariationPoint> variationPoints = refinement.getVariationPoints();
+        for (Refinement subRef : refinement.getSubRefinements()) {
+            if (subRef.getVariationPoints().size() > 0) {
+                VariationPoint subRefRepresentingVP = subRef.getVariationPoints().get(0);
+                variationPoints.add(subRefRepresentingVP);
+            }
+        }
+
+        if (variationPoints.size() == 0) {
+            throw new RuntimeException("Tried to apply completely empty grouping.");
+        }
+
+        VariationPointGroup survivingGroup = variationPoints.get(0).getGroup();
+        for (VariationPoint vp : variationPoints) {
             if (!vp.getGroup().equals(survivingGroup)) {
                 VariationPointGroup oldGroup = vp.getGroup();
                 vp.setGroup(survivingGroup);

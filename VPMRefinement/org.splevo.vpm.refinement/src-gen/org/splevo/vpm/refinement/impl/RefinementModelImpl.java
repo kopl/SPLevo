@@ -21,18 +21,16 @@ import org.splevo.vpm.refinement.RefinementPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.splevo.vpm.refinement.impl.RefinementModelImpl#getRefinements <em>Refinements
- * </em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementModelImpl#getRefinements <em>Refinements</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class RefinementModelImpl extends EObjectImpl implements RefinementModel {
     /**
-     * The cached value of the '{@link #getRefinements() <em>Refinements</em>}' containment
-     * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The cached value of the '{@link #getRefinements() <em>Refinements</em>}' containment reference list.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #getRefinements()
      * @generated
      * @ordered
@@ -41,7 +39,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected RefinementModelImpl() {
@@ -50,7 +47,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -60,7 +56,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList<Refinement> getRefinements() {
@@ -73,7 +68,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @SuppressWarnings("unchecked")
@@ -88,7 +82,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -102,7 +95,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -116,7 +108,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @SuppressWarnings("unchecked")
@@ -133,7 +124,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -148,7 +138,6 @@ public class RefinementModelImpl extends EObjectImpl implements RefinementModel 
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override

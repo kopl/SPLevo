@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.splevo.vpm.realization.RealizationPackage;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
@@ -18,40 +19,36 @@ import org.splevo.vpm.variability.variabilityPackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!-- end-user-doc -->
- * 
  * @generated
  */
 public class RefinementPackageImpl extends EPackageImpl implements RefinementPackage {
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     private EClass refinementEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     private EClass refinementModelEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     private EEnum refinementTypeEEnum = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
-     * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package package URI
-     * value.
-     * <p>
-     * Note: the correct way to create the package is via the static factory method {@link #init
-     * init()}, which also performs initialization of the package, or returns the registered
-     * package, if one already exists. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+     * package URI value.
+     * <p>Note: the correct way to create the package is via the static
+     * factory method {@link #init init()}, which also performs
+     * initialization of the package, or returns the registered package,
+     * if one already exists.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see org.eclipse.emf.ecore.EPackage.Registry
      * @see org.splevo.vpm.refinement.RefinementPackage#eNS_URI
      * @see #init()
@@ -63,20 +60,16 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     private static boolean isInited = false;
 
     /**
-     * Creates, registers, and initializes the <b>Package</b> for this model, and for any others
-     * upon which it depends.
+     * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
      * 
-     * <p>
-     * This method is used to initialize {@link RefinementPackage#eINSTANCE} when that field is
-     * accessed. Clients should not invoke it directly. Instead, they should simply access that
-     * field to obtain the package. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * <p>This method is used to initialize {@link RefinementPackage#eINSTANCE} when that field is accessed.
+     * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #eNS_URI
      * @see #createPackageContents()
      * @see #initializePackageContents()
@@ -95,6 +88,7 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
         // Initialize simple dependencies
         variabilityPackage.eINSTANCE.eClass();
         SoftwarePackage.eINSTANCE.eClass();
+        RealizationPackage.eINSTANCE.eClass();
 
         // Create package meta-data objects
         theRefinementPackage.createPackageContents();
@@ -112,7 +106,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EClass getRefinement() {
@@ -121,7 +114,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EAttribute getRefinement_Type() {
@@ -130,7 +122,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EReference getRefinement_VariationPoints() {
@@ -139,7 +130,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EReference getRefinement_RefinementModel() {
@@ -148,7 +138,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EAttribute getRefinement_Source() {
@@ -156,8 +145,25 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
     }
 
     /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getRefinement_Parent() {
+        return (EReference) refinementEClass.getEStructuralFeatures().get(4);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getRefinement_SubRefinements() {
+        return (EReference) refinementEClass.getEStructuralFeatures().get(5);
+    }
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EClass getRefinementModel() {
@@ -166,7 +172,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EReference getRefinementModel_Refinements() {
@@ -175,7 +180,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EEnum getRefinementType() {
@@ -184,7 +188,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public RefinementFactory getRefinementFactory() {
@@ -193,15 +196,14 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     private boolean isCreated = false;
 
     /**
-     * Creates the meta-model objects for the package. This method is guarded to have no affect on
-     * any invocation but its first. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Creates the meta-model objects for the package.  This method is
+     * guarded to have no affect on any invocation but its first.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public void createPackageContents() {
@@ -218,6 +220,8 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
         createEReference(refinementEClass, REFINEMENT__VARIATION_POINTS);
         createEReference(refinementEClass, REFINEMENT__REFINEMENT_MODEL);
         createEAttribute(refinementEClass, REFINEMENT__SOURCE);
+        createEReference(refinementEClass, REFINEMENT__PARENT);
+        createEReference(refinementEClass, REFINEMENT__SUB_REFINEMENTS);
 
         // Create enums
         refinementTypeEEnum = createEEnum(REFINEMENT_TYPE);
@@ -225,15 +229,14 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     private boolean isInitialized = false;
 
     /**
-     * Complete the initialization of the package and its meta-model. This method is guarded to have
-     * no affect on any invocation but its first. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Complete the initialization of the package and its meta-model.  This
+     * method is guarded to have no affect on any invocation but its first.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public void initializePackageContents() {
@@ -271,11 +274,17 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
                 "variationPoints", null, 0, -1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
                 !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getRefinement_RefinementModel(), this.getRefinementModel(),
-                this.getRefinementModel_Refinements(), "refinementModel", null, 1, 1, Refinement.class, !IS_TRANSIENT,
+                this.getRefinementModel_Refinements(), "refinementModel", null, 0, 1, Refinement.class, !IS_TRANSIENT,
                 !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
                 !IS_DERIVED, IS_ORDERED);
         initEAttribute(getRefinement_Source(), ecorePackage.getEString(), "source", null, 0, 1, Refinement.class,
                 !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getRefinement_Parent(), this.getRefinement(), this.getRefinement_SubRefinements(), "parent",
+                null, 0, 1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+                !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getRefinement_SubRefinements(), this.getRefinement(), this.getRefinement_Parent(),
+                "subRefinements", null, 0, -1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+                IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Initialize enums and add enum literals
         initEEnum(refinementTypeEEnum, RefinementType.class, "RefinementType");

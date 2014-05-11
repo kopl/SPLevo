@@ -9,37 +9,36 @@ import org.eclipse.emf.common.util.Enumerator;
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '<em><b>Type</b></em>
  * ', and utility methods for working with them. <!-- end-user-doc -->
- * 
  * @see org.splevo.vpm.refinement.RefinementPackage#getRefinementType()
  * @model
  * @generated
  */
 public enum RefinementType implements Enumerator {
     /**
-     * The '<em><b>MERGE</b></em>' literal object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The '<em><b>MERGE</b></em>' literal object.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #MERGE_VALUE
      * @generated
      * @ordered
      */
     MERGE(0, "MERGE", "MERGE"), /**
-     * The '<em><b>GROUPING</b></em>' literal object. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #GROUPING_VALUE
-     * @generated
-     * @ordered
-     */
+                                 * The '<em><b>GROUPING</b></em>' literal object. <!--
+                                 * begin-user-doc --> <!-- end-user-doc -->
+                                 * 
+                                 * @see #GROUPING_VALUE
+                                 * @generated
+                                 * @ordered
+                                 */
     GROUPING(1, "GROUPING", "GROUPING");
 
     /**
-     * The '<em><b>MERGE</b></em>' literal value. <!-- begin-user-doc -->
+     * The '<em><b>MERGE</b></em>' literal value.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>MERGE</b></em>' literal object isn't clear, there really should be
      * more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * 
      * @see #MERGE
      * @model
      * @generated
@@ -48,13 +47,13 @@ public enum RefinementType implements Enumerator {
     public static final int MERGE_VALUE = 0;
 
     /**
-     * The '<em><b>GROUPING</b></em>' literal value. <!-- begin-user-doc -->
+     * The '<em><b>GROUPING</b></em>' literal value.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>GROUPING</b></em>' literal object isn't clear, there really should
      * be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * 
      * @see #GROUPING
      * @model
      * @generated
@@ -63,17 +62,17 @@ public enum RefinementType implements Enumerator {
     public static final int GROUPING_VALUE = 1;
 
     /**
-     * An array of all the '<em><b>Type</b></em>' enumerators. <!-- begin-user-doc --> <!--
+     * An array of all the '<em><b>Type</b></em>' enumerators.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     private static final RefinementType[] VALUES_ARRAY = new RefinementType[] { MERGE, GROUPING, };
 
     /**
-     * A public read-only list of all the '<em><b>Type</b></em>' enumerators. <!-- begin-user-doc
+     * A public read-only list of all the '<em><b>Type</b></em>' enumerators.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static final List<RefinementType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -95,9 +94,9 @@ public enum RefinementType implements Enumerator {
     }
 
     /**
-     * Returns the '<em><b>Type</b></em>' literal with the specified name. <!-- begin-user-doc -->
+     * Returns the '<em><b>Type</b></em>' literal with the specified name.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public static RefinementType getByName(String name) {
@@ -128,28 +127,25 @@ public enum RefinementType implements Enumerator {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     private final int value;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     private final String name;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     private final String literal;
 
     /**
-     * Only this class can construct instances. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Only this class can construct instances.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private RefinementType(int value, String name, String literal) {
@@ -160,7 +156,6 @@ public enum RefinementType implements Enumerator {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public int getValue() {
@@ -169,7 +164,6 @@ public enum RefinementType implements Enumerator {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getName() {
@@ -178,7 +172,6 @@ public enum RefinementType implements Enumerator {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getLiteral() {

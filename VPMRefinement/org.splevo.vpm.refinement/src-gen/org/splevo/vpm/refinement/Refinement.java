@@ -18,20 +18,23 @@ import org.splevo.vpm.variability.VariationPoint;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Refinement</b></em>'. <!--
  * end-user-doc -->
- * 
- * <!-- begin-model-doc --> A refinement identifies a refinement within a variation point model.
+ *
+ * <!-- begin-model-doc -->
+ * A refinement identifies a refinement within a variation point model.
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.splevo.vpm.refinement.Refinement#getType <em>Type</em>}</li>
- * <li>{@link org.splevo.vpm.refinement.Refinement#getVariationPoints <em>Variation Points</em>}</li>
- * <li>{@link org.splevo.vpm.refinement.Refinement#getRefinementModel <em>Refinement Model</em>}</li>
- * <li>{@link org.splevo.vpm.refinement.Refinement#getSource <em>Source</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getType <em>Type</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getVariationPoints <em>Variation Points</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getRefinementModel <em>Refinement Model</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getSource <em>Source</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getSubRefinements <em>Sub Refinements</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement()
  * @model
  * @generated
@@ -54,11 +57,9 @@ public interface Refinement extends EObject {
     RefinementType getType();
 
     /**
-     * Sets the value of the '{@link org.splevo.vpm.refinement.Refinement#getType <em>Type</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Type</em>' attribute.
+     * Sets the value of the '{@link org.splevo.vpm.refinement.Refinement#getType <em>Type</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Type</em>' attribute.
      * @see org.splevo.vpm.refinement.RefinementType
      * @see #getType()
      * @generated
@@ -120,14 +121,56 @@ public interface Refinement extends EObject {
     String getSource();
 
     /**
-     * Sets the value of the '{@link org.splevo.vpm.refinement.Refinement#getSource <em>Source</em>}
-     * ' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Source</em>' attribute.
+     * Sets the value of the '{@link org.splevo.vpm.refinement.Refinement#getSource <em>Source</em>}' attribute.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @param value the new value of the '<em>Source</em>' attribute.
      * @see #getSource()
      * @generated
      */
     void setSource(String value);
+
+    /**
+     * Returns the value of the '<em><b>Parent</b></em>' container reference.
+     * It is bidirectional and its opposite is '{@link org.splevo.vpm.refinement.Refinement#getSubRefinements <em>Sub Refinements</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * The parent refinement to be executed when child refinements have been processed.
+     * <!-- end-model-doc -->
+     * @return the value of the '<em>Parent</em>' container reference.
+     * @see #setParent(Refinement)
+     * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement_Parent()
+     * @see org.splevo.vpm.refinement.Refinement#getSubRefinements
+     * @model opposite="subRefinements" transient="false"
+     * @generated
+     */
+    Refinement getParent();
+
+    /**
+     * Sets the value of the '{@link org.splevo.vpm.refinement.Refinement#getParent <em>Parent</em>}' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Parent</em>' container reference.
+     * @see #getParent()
+     * @generated
+     */
+    void setParent(Refinement value);
+
+    /**
+     * Returns the value of the '<em><b>Sub Refinements</b></em>' containment reference list.
+     * The list contents are of type {@link org.splevo.vpm.refinement.Refinement}.
+     * It is bidirectional and its opposite is '{@link org.splevo.vpm.refinement.Refinement#getParent <em>Parent</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * Sub refinements to be processed in advance to this refinement.
+     * <!-- end-model-doc -->
+     * @return the value of the '<em>Sub Refinements</em>' containment reference list.
+     * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement_SubRefinements()
+     * @see org.splevo.vpm.refinement.Refinement#getParent
+     * @model opposite="parent" containment="true"
+     * @generated
+     */
+    EList<Refinement> getSubRefinements();
 
 } // Refinement

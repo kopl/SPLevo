@@ -11,8 +11,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementPackage;
@@ -25,22 +27,22 @@ import org.splevo.vpm.variability.VariationPoint;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getType <em>Type</em>}</li>
- * <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getVariationPoints <em>Variation Points
- * </em>}</li>
- * <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getRefinementModel <em>Refinement Model
- * </em>}</li>
- * <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getVariationPoints <em>Variation Points</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getRefinementModel <em>Refinement Model</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getSubRefinements <em>Sub Refinements</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class RefinementImpl extends EObjectImpl implements Refinement {
     /**
-     * The default value of the '{@link #getType() <em>Type</em>}' attribute. <!-- begin-user-doc
+     * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @see #getType()
      * @generated
      * @ordered
@@ -48,9 +50,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     protected static final RefinementType TYPE_EDEFAULT = RefinementType.GROUPING;
 
     /**
-     * The cached value of the '{@link #getType() <em>Type</em>}' attribute. <!-- begin-user-doc -->
+     * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @see #getType()
      * @generated
      * @ordered
@@ -58,9 +60,8 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     protected RefinementType type = TYPE_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getVariationPoints() <em>Variation Points</em>}' reference
-     * list. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The cached value of the '{@link #getVariationPoints() <em>Variation Points</em>}' reference list.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @see #getVariationPoints()
      * @generated
      * @ordered
@@ -78,9 +79,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     protected static final String SOURCE_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getSource() <em>Source</em>}' attribute. <!-- begin-user-doc
+     * The cached value of the '{@link #getSource() <em>Source</em>}' attribute.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @see #getSource()
      * @generated
      * @ordered
@@ -88,8 +89,17 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     protected String source = SOURCE_EDEFAULT;
 
     /**
+     * The cached value of the '{@link #getSubRefinements() <em>Sub Refinements</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getSubRefinements()
+     * @generated
+     * @ordered
+     */
+    protected EList<Refinement> subRefinements;
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected RefinementImpl() {
@@ -98,7 +108,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -108,7 +117,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public RefinementType getType() {
@@ -117,7 +125,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setType(RefinementType newType) {
@@ -129,7 +136,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EList<VariationPoint> getVariationPoints() {
@@ -142,7 +148,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public RefinementModel getRefinementModel() {
@@ -153,7 +158,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public NotificationChain basicSetRefinementModel(RefinementModel newRefinementModel, NotificationChain msgs) {
@@ -164,7 +168,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setRefinementModel(RefinementModel newRefinementModel) {
@@ -188,7 +191,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public String getSource() {
@@ -197,7 +199,6 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setSource(String newSource) {
@@ -209,10 +210,68 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
+    public Refinement getParent() {
+        if (eContainerFeatureID() != RefinementPackage.REFINEMENT__PARENT)
+            return null;
+        return (Refinement) eInternalContainer();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetParent(Refinement newParent, NotificationChain msgs) {
+        msgs = eBasicSetContainer((InternalEObject) newParent, RefinementPackage.REFINEMENT__PARENT, msgs);
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setParent(Refinement newParent) {
+        if (newParent != eInternalContainer()
+                || (eContainerFeatureID() != RefinementPackage.REFINEMENT__PARENT && newParent != null)) {
+            if (EcoreUtil.isAncestor(this, newParent))
+                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+            NotificationChain msgs = null;
+            if (eInternalContainer() != null)
+                msgs = eBasicRemoveFromContainer(msgs);
+            if (newParent != null)
+                msgs = ((InternalEObject) newParent).eInverseAdd(this, RefinementPackage.REFINEMENT__SUB_REFINEMENTS,
+                        Refinement.class, msgs);
+            msgs = basicSetParent(newParent, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        } else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, RefinementPackage.REFINEMENT__PARENT, newParent,
+                    newParent));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList<Refinement> getSubRefinements() {
+        if (subRefinements == null) {
+            subRefinements = new EObjectContainmentWithInverseEList<Refinement>(Refinement.class, this,
+                    RefinementPackage.REFINEMENT__SUB_REFINEMENTS, RefinementPackage.REFINEMENT__PARENT);
+        }
+        return subRefinements;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
+    @SuppressWarnings("unchecked")
     @Override
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
@@ -220,13 +279,18 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
             if (eInternalContainer() != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             return basicSetRefinementModel((RefinementModel) otherEnd, msgs);
+        case RefinementPackage.REFINEMENT__PARENT:
+            if (eInternalContainer() != null)
+                msgs = eBasicRemoveFromContainer(msgs);
+            return basicSetParent((Refinement) otherEnd, msgs);
+        case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
+            return ((InternalEList<InternalEObject>) (InternalEList<?>) getSubRefinements()).basicAdd(otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -234,13 +298,16 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
         switch (featureID) {
         case RefinementPackage.REFINEMENT__REFINEMENT_MODEL:
             return basicSetRefinementModel(null, msgs);
+        case RefinementPackage.REFINEMENT__PARENT:
+            return basicSetParent(null, msgs);
+        case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
+            return ((InternalEList<?>) getSubRefinements()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -249,13 +316,15 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
         case RefinementPackage.REFINEMENT__REFINEMENT_MODEL:
             return eInternalContainer().eInverseRemove(this, RefinementPackage.REFINEMENT_MODEL__REFINEMENTS,
                     RefinementModel.class, msgs);
+        case RefinementPackage.REFINEMENT__PARENT:
+            return eInternalContainer().eInverseRemove(this, RefinementPackage.REFINEMENT__SUB_REFINEMENTS,
+                    Refinement.class, msgs);
         }
         return super.eBasicRemoveFromContainerFeature(msgs);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -269,13 +338,16 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
             return getRefinementModel();
         case RefinementPackage.REFINEMENT__SOURCE:
             return getSource();
+        case RefinementPackage.REFINEMENT__PARENT:
+            return getParent();
+        case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
+            return getSubRefinements();
         }
         return super.eGet(featureID, resolve, coreType);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @SuppressWarnings("unchecked")
@@ -295,13 +367,19 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
         case RefinementPackage.REFINEMENT__SOURCE:
             setSource((String) newValue);
             return;
+        case RefinementPackage.REFINEMENT__PARENT:
+            setParent((Refinement) newValue);
+            return;
+        case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
+            getSubRefinements().clear();
+            getSubRefinements().addAll((Collection<? extends Refinement>) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -319,13 +397,18 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
         case RefinementPackage.REFINEMENT__SOURCE:
             setSource(SOURCE_EDEFAULT);
             return;
+        case RefinementPackage.REFINEMENT__PARENT:
+            setParent((Refinement) null);
+            return;
+        case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
+            getSubRefinements().clear();
+            return;
         }
         super.eUnset(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -339,13 +422,16 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
             return getRefinementModel() != null;
         case RefinementPackage.REFINEMENT__SOURCE:
             return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
+        case RefinementPackage.REFINEMENT__PARENT:
+            return getParent() != null;
+        case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
+            return subRefinements != null && !subRefinements.isEmpty();
         }
         return super.eIsSet(featureID);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
