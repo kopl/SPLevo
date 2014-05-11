@@ -118,8 +118,8 @@ public class ProcessControlTab extends AbstractDashboardTab {
         Button selectProjectBtn = new Button(processControlContainer, SWT.WRAP);
         selectProjectBtn.addMouseListener(new GotoTabMouseListener(tabFolder,
                 SPLevoProjectEditor.TABINDEX_PROJECT_SELECTION));
-        selectProjectBtn.setBounds(75, 59, 78, 45);
         selectProjectBtn.setText("Project Selection");
+        selectProjectBtn.setBounds(75, 59, 78, 45);
 
         Label activityFlow3 = new Label(processControlContainer, SWT.NONE);
         activityFlow3.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
@@ -128,8 +128,8 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
         diffingBtn = new Button(processControlContainer, SWT.WRAP);
         diffingBtn.addMouseListener(new DiffSourceModelListener(getSplevoProjectEditor()));
-        diffingBtn.setBounds(195, 58, 72, 45);
         diffingBtn.setText("Diffing");
+        diffingBtn.setBounds(195, 58, 72, 45);
 
         Label activityFlow4 = new Label(processControlContainer, SWT.NONE);
         activityFlow4.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
@@ -138,8 +138,8 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
         initVpmBtn = new Button(processControlContainer, SWT.WRAP);
         initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
-        initVpmBtn.setBounds(309, 58, 72, 45);
         initVpmBtn.setText("Init VPM");
+        initVpmBtn.setBounds(309, 58, 72, 45);
 
         Label activityFlow5 = new Label(processControlContainer, SWT.NONE);
         activityFlow5.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
