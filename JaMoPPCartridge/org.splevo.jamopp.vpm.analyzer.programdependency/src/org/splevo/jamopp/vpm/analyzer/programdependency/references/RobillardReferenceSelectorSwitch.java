@@ -20,9 +20,12 @@ import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.containers.util.ContainersSwitch;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.CastExpression;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.util.ExpressionsSwitch;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.util.InstantiationsSwitch;
@@ -74,6 +77,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
         addSwitch(new ReferencesReferencedElementsSwitch(this));
         addSwitch(new InstantiationsReferencedElementsSwitch(this));
         addSwitch(new ExpressionsReferencedElementsSwitch(this));
+        addSwitch(new ContainersReferencedElementsSwitch(this));
     }
 
     /**
@@ -94,6 +98,23 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
         }
 
         return elements;
+    }
+
+    /**
+     * Switch to decide about referenced elements for member elements.
+     */
+    private class ContainersReferencedElementsSwitch extends ContainersSwitch<List<Commentable>> {
+
+        private RobillardReferenceSelectorSwitch parentSwitch;
+
+        public ContainersReferencedElementsSwitch(RobillardReferenceSelectorSwitch parentSwitch) {
+            this.parentSwitch = parentSwitch;
+        }
+
+        @Override
+        public List<Commentable> caseCompilationUnit(CompilationUnit cu) {
+            return parentSwitch.doSwitch(cu.getContainedClass());
+        }
     }
 
     /**
@@ -137,11 +158,13 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
         }
 
         /**
-         * Return the constructor itself and scan the included statements for additional references.
+         * Scan the statements contained in the constructor as done for methods. However, the
+         * constructor itself is not respected by Robillard. Instead, constructor calls are treated
+         * as part of the "create" relationship.
          */
         @Override
         public List<Commentable> caseConstructor(Constructor constructor) {
-            ArrayList<Commentable> refElements = Lists.newArrayList((Commentable) constructor);
+            ArrayList<Commentable> refElements = Lists.newArrayList();
             for (Statement statement : constructor.getStatements()) {
                 refElements.addAll(parentSwitch.doSwitch(statement));
             }
@@ -169,6 +192,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
         public List<Commentable> caseField(Field field) {
             ArrayList<Commentable> refElements = Lists.newArrayList((Commentable) field);
             refElements.addAll(field.getAdditionalFields());
+            refElements.addAll(parentSwitch.doSwitch(field.getInitialValue()));
             return refElements;
         }
     }
@@ -186,7 +210,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
 
         @Override
         public List<Commentable> caseReturn(Return returnStmt) {
-            ArrayList<Commentable> refElements = Lists.newArrayList((Commentable) returnStmt);
+            ArrayList<Commentable> refElements = Lists.newArrayList();
             refElements.addAll(parentSwitch.doSwitch(returnStmt.getReturnValue()));
             return refElements;
         }
@@ -214,25 +238,24 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
             return parentSwitch.doSwitch(stmt.getExpression());
         }
 
+        /**
+         * Robillard et al do not consider references to variables. So the variable itself is not
+         * indexed. They also do not care about the type of the declaration. Thus, only the intial
+         * value is considered as it might contained a class instantiation or another reference.
+         */
         @Override
         public List<Commentable> caseLocalVariableStatement(LocalVariableStatement lvs) {
             ArrayList<Commentable> refElements = Lists.newArrayList();
 
             LocalVariable variable = lvs.getVariable();
             if (variable != null) {
-                // variables themselves are not considered by robillards algorithm
-                // refElements.add(lvs.getVariable());
-                refElements.addAll(parentSwitch.doSwitch(variable.getTypeReference()));
                 refElements.addAll(parentSwitch.doSwitch(variable.getInitialValue()));
-                // variables themselves are not considered by robillards algorithm
-                // refElements.addAll(variable.getAdditionalLocalVariables());
             } else {
                 logger.warn("VariableStatement without variable: " + lvs);
             }
 
             return refElements;
         }
-
 
     }
 
@@ -259,6 +282,13 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
         public List<Commentable> caseCastExpression(CastExpression exp) {
             ArrayList<Commentable> refElements = Lists.newArrayList();
             refElements.add(exp.getAlternativeType());
+            return refElements;
+        }
+
+        @Override
+        public List<Commentable> caseInstanceOfExpression(InstanceOfExpression iof) {
+            ArrayList<Commentable> refElements = Lists.newArrayList();
+            refElements.add(iof.getTypeReference().getTarget());
             return refElements;
         }
 
@@ -321,7 +351,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
             for (Expression expression : call.getArguments()) {
                 refElements.addAll(parentSwitch.doSwitch(expression));
             }
-            refElements.addAll(parentSwitch.doSwitch(call.getTypeReference()));
+            refElements.add(call.getTypeReference().getTarget());
             return refElements;
         }
     }
