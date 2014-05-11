@@ -247,13 +247,24 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         List<Refinement> filteredRefinements = Lists.newLinkedList();
 
         for (Refinement refinement : ruleRefinements) {
-            if (isGroupingOfAlllreadyGroupedVPs(refinement)) {
+            boolean connectingRefinement = isConnectingRefinement(refinement);
+            if (!connectingRefinement && isGroupingOfAlllreadyGroupedVPs(refinement)) {
                 continue;
             }
             filteredRefinements.add(refinement);
         }
 
         return filteredRefinements;
+    }
+
+    private boolean isConnectingRefinement(Refinement refinement) {
+        boolean connectingRefinement = false;
+        if (refinement.getSubRefinements().size() > 1) {
+            connectingRefinement = true;
+        } else if (refinement.getSubRefinements().size() == 1 && refinement.getVariationPoints().size() > 0) {
+            connectingRefinement = true;
+        }
+        return connectingRefinement;
     }
 
     private boolean isGroupingOfAlllreadyGroupedVPs(Refinement refinement) {
@@ -289,71 +300,108 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         for (Refinement origRefinement : detectedRefinements) {
             EList<VariationPoint> variationPoints = origRefinement.getVariationPoints();
 
-            // The indexes are used to
-            // i) build groups of refinements to merge
-            // ii) fast lookup of which group a VP currently belongs to
-            Multimap<VariationPoint, VariationPoint> mergeVPBuckets = LinkedHashMultimap.create();
-            Map<VariationPoint, VariationPoint> invertedBucketIndex = Maps.newIdentityHashMap();
-
-            VariationPoint[] vpArray = variationPoints.toArray(new VariationPoint[] {});
-
-            // iterate over all pairs
-            // the inner loop ensures no double check is performed
-            for (int i = 0; i < vpArray.length; i++) {
-                VariationPoint vp1 = vpArray[i];
-
-                for (int j = i + 1; j < vpArray.length; j++) {
-
-                    VariationPoint vp2 = vpArray[j];
-
-                    if (vp1 == vp2) {
-                        logger.error("Comparing a VP with itself should not happen");
-                        continue;
-                    }
-
-                    if (canBeMerged(vp1, vp2)) {
-                        VariationPoint bucketKey = chooseBucket(mergeVPBuckets, invertedBucketIndex, vp1, vp2);
-
-                        invertedBucketIndex.put(vp2, bucketKey);
-                        mergeVPBuckets.get(bucketKey).add(vp2);
-                        invertedBucketIndex.put(vp1, bucketKey);
-                        mergeVPBuckets.get(bucketKey).add(vp1);
-                    }
-                }
-            }
-
+            Multimap<VariationPoint, VariationPoint> mergeVPBuckets = identifyMergeableVPs(variationPoints);
             checkDistinctBuckets(mergeVPBuckets);
 
-            // if no merges detected move on to the next
             if (mergeVPBuckets.size() == 0) {
                 refinedRefinements.add(origRefinement);
-                continue;
+            } else {
+                Refinement updatedRefinements = createMergeRefinements(origRefinement, mergeVPBuckets);
+                refinedRefinements.add(updatedRefinements);
             }
 
-            List<VariationPoint> vpsNotMerged = Lists.newArrayList(origRefinement.getVariationPoints());
-
-            // create a merge refinement per bucket
-            for (VariationPoint bucketKey : mergeVPBuckets.keySet()) {
-                Refinement mergeRefinement = buildMergeRefinementForBucket(origRefinement, mergeVPBuckets, bucketKey);
-                vpsNotMerged.removeAll(mergeRefinement.getVariationPoints());
-                refinedRefinements.add(mergeRefinement);
-            }
-
-            // add a grouping if more than one refinement is left
-            if (vpsNotMerged.size() > 0 || refinedRefinements.size() > 1) {
-                Refinement groupRefinement = buildOverarchingGroupRefinement(origRefinement, mergeVPBuckets.keySet(),
-                        vpsNotMerged);
-                refinedRefinements.add(groupRefinement);
-            }
         }
 
         return refinedRefinements;
     }
 
     /**
+     * Create merge refinements for the variation points that can be merged as well as an connecting
+     * group refinement to replace the original refinement.
+     *
+     * @param origRefinement
+     *            The original group refinement.
+     * @param mergeVPBuckets
+     *            The buckets of mergeable variation points.
+     * @return The list of refinements to further.
+     */
+    private Refinement createMergeRefinements(Refinement origRefinement,
+            Multimap<VariationPoint, VariationPoint> mergeVPBuckets) {
+
+        List<Refinement> newRefinements = Lists.newArrayList();
+
+        // create a merge refinement per bucket
+        List<VariationPoint> vpsNotMerged = Lists.newArrayList(origRefinement.getVariationPoints());
+        for (VariationPoint bucketKey : mergeVPBuckets.keySet()) {
+            Refinement mergeRefinement = buildMergeRefinementForBucket(origRefinement, mergeVPBuckets, bucketKey);
+            vpsNotMerged.removeAll(mergeRefinement.getVariationPoints());
+            newRefinements.add(mergeRefinement);
+        }
+
+        boolean mergesToConnectOrUnmergedVPs = vpsNotMerged.size() > 0 || newRefinements.size() > 1;
+        if (mergesToConnectOrUnmergedVPs) {
+            Refinement connectingRefinement = buildConnectingGroupRefinement(origRefinement, vpsNotMerged);
+            connectingRefinement.getSubRefinements().addAll(newRefinements);
+            return connectingRefinement;
+
+        } else if (newRefinements.size() == 1) {
+            return newRefinements.get(0);
+
+        } else {
+            logger.error("Tried to merge an empty VP set.");
+            return null;
+        }
+    }
+
+    /**
+     * Identify the mergeable variation points of a refinement and collect them in buckets for each
+     * mergeable sub group.
+     *
+     * @param variationPoints
+     *            The variation points to check.
+     * @return The buckets per merge able group identified by one of the contained VPs.
+     */
+    private Multimap<VariationPoint, VariationPoint> identifyMergeableVPs(EList<VariationPoint> variationPoints) {
+        // The indexes are used to
+        // i) build groups of refinements to merge
+        // ii) fast lookup of which group a VP currently belongs to
+        Multimap<VariationPoint, VariationPoint> mergeVPBuckets = LinkedHashMultimap.create();
+        Map<VariationPoint, VariationPoint> invertedBucketIndex = Maps.newIdentityHashMap();
+
+        VariationPoint[] vpArray = variationPoints.toArray(new VariationPoint[] {});
+
+        // iterate over all pairs
+        // the inner loop ensures no double check is performed
+        for (int i = 0; i < vpArray.length; i++) {
+            VariationPoint vp1 = vpArray[i];
+
+            for (int j = i + 1; j < vpArray.length; j++) {
+
+                VariationPoint vp2 = vpArray[j];
+
+                if (vp1 == vp2) {
+                    logger.error("Comparing a VP with itself should not happen");
+                    continue;
+                }
+
+                if (canBeMerged(vp1, vp2)) {
+                    VariationPoint bucketKey = chooseBucket(mergeVPBuckets, invertedBucketIndex, vp1, vp2);
+
+                    invertedBucketIndex.put(vp2, bucketKey);
+                    mergeVPBuckets.get(bucketKey).add(vp2);
+                    invertedBucketIndex.put(vp1, bucketKey);
+                    mergeVPBuckets.get(bucketKey).add(vp1);
+                }
+            }
+        }
+        return mergeVPBuckets;
+    }
+
+    /**
      * Check if the same vp is contained in several buckets which would indicate an error.
      *
-     * @param buckets The buckets to check.
+     * @param buckets
+     *            The buckets to check.
      */
     private void checkDistinctBuckets(Multimap<VariationPoint, VariationPoint> buckets) {
 
@@ -380,12 +428,10 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      *            The VPs not merged.
      * @return The prepared group refinement.
      */
-    private Refinement buildOverarchingGroupRefinement(Refinement originalRefinement,
-            Collection<VariationPoint> mergedVPs, List<VariationPoint> vpsNotMerged) {
+    private Refinement buildConnectingGroupRefinement(Refinement originalRefinement, List<VariationPoint> vpsNotMerged) {
         Refinement groupRefinement = RefinementFactory.eINSTANCE.createRefinement();
         groupRefinement.setType(RefinementType.GROUPING);
         groupRefinement.setRefinementModel(originalRefinement.getRefinementModel());
-        groupRefinement.getVariationPoints().addAll(mergedVPs);
         groupRefinement.getVariationPoints().addAll(vpsNotMerged);
 
         StringBuilder source = new StringBuilder();
@@ -422,7 +468,10 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         int origVPCount = originalRefinement.getVariationPoints().size();
 
         StringBuilder source = new StringBuilder();
-        source.append(mergedVPCount + " of " + origVPCount + " VPs detected to mergeable.");
+        source.append(mergedVPCount);
+        source.append(" of ");
+        source.append(origVPCount);
+        source.append(" VPs detected to mergeable.");
         source.append(NEW_LINE);
         source.append(originalRefinement.getSource());
         mergeRefinement.setSource(source.toString());
