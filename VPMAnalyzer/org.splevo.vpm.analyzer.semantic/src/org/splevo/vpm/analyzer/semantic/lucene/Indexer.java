@@ -81,7 +81,7 @@ public final class Indexer {
 
     /** Option which stemming to use. */
     private Stemming stemming;
-    
+
     /** Option which words to preserve during tokenization. */
     private Set<String> featureTermSet;
 
@@ -153,7 +153,7 @@ public final class Indexer {
      *
      * @return The singleton instance.
      */
-    public static Indexer getInstance() {
+    public static synchronized Indexer getInstance() {
         // Return singleton, create new if not existing.
         if (instance == null) {
             instance = new Indexer();
