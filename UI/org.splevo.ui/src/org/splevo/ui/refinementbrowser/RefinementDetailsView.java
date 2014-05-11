@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser;
 
+import java.util.List;
+
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -35,6 +37,7 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 
 /**
  * Details view to show information about a currently selected refinement.
@@ -161,14 +164,23 @@ public class RefinementDetailsView extends Composite {
         }
 
         @Override
-        public Object[] getElements(Object inputElement) {
-            return refinement.getVariationPoints().toArray();
+        public Object[] getElements(Object element) {
+            List<Object> children = Lists.newLinkedList();
+            children.addAll(refinement.getSubRefinements());
+            children.addAll(refinement.getVariationPoints());
+            return children.toArray();
         }
 
         @Override
         public Object[] getChildren(Object parentElement) {
+
             if (parentElement instanceof Refinement) {
-                return ((Refinement) parentElement).getVariationPoints().toArray();
+                Refinement parentRefinement = (Refinement) parentElement;
+                List<Object> children = Lists.newLinkedList();
+                children.addAll(parentRefinement.getSubRefinements());
+                children.addAll(parentRefinement.getVariationPoints());
+                return children.toArray();
+
             } else if (parentElement instanceof VariationPoint) {
                 return ((VariationPoint) parentElement).getVariants().toArray();
             } else if (parentElement instanceof Variant) {

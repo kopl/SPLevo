@@ -46,17 +46,25 @@ public class RefinementTreeContentProvider implements ITreeContentProvider {
 
     @Override
     public Object[] getChildren(Object parentElement) {
+        if (parentElement instanceof Refinement) {
+            Refinement refinement = (Refinement) parentElement;
+            return refinement.getSubRefinements().toArray();
+        }
         return null;
     }
 
     @Override
     public Object getParent(Object element) {
+        if (element instanceof Refinement) {
+            Refinement refinement = (Refinement) element;
+            return refinement.getParent();
+        }
         return null;
     }
 
     @Override
     public boolean hasChildren(Object element) {
-        return false;
+        return getChildren(element).length > 0;
     }
 
 }
