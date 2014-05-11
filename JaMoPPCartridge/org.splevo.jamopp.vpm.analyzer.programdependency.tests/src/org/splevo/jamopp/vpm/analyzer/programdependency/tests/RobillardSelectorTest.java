@@ -16,7 +16,6 @@ import static org.junit.Assert.assertThat;
 
 import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.splevo.jamopp.vpm.analyzer.programdependency.ConfigurationBuilder;
 import org.splevo.jamopp.vpm.analyzer.programdependency.JaMoPPProgramDependencyVPMAnalyzer;
@@ -129,11 +128,10 @@ public class RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed diffing.
      */
-    @Ignore
     @Test
-    public void testClassCheck() throws Exception {
+    public void testNewConstructorCall() throws Exception {
 
-        String testBasePath = BASE_PATH + "ClassCheck/";
+        String testBasePath = BASE_PATH + "NewConstructorCall/";
 
         String relativePathA = testBasePath + "a";
         String relativePathB = testBasePath + "b";
@@ -146,8 +144,60 @@ public class RobillardSelectorTest {
             logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
         }
 
-        assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(3));
-        assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(2));
+        assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(2));
+        assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(1));
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testInstanceOf() throws Exception {
+
+        String testBasePath = BASE_PATH + "InstanceOf/";
+
+        String relativePathA = testBasePath + "a";
+        String relativePathB = testBasePath + "b";
+        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+
+        JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
+            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
+        }
+
+        assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(2));
+        assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(1));
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testClassCast() throws Exception {
+
+        String testBasePath = BASE_PATH + "ClassCast/";
+
+        String relativePathA = testBasePath + "a";
+        String relativePathB = testBasePath + "b";
+        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+
+        JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
+            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
+        }
+
+        assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(2));
+        assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(1));
     }
 
     private JaMoPPProgramDependencyVPMAnalyzer createRobillardConfiguredAnalyzer() {
