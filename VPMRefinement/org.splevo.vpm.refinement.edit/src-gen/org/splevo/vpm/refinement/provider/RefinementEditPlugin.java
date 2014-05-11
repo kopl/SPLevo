@@ -9,29 +9,29 @@ import org.eclipse.featuremodel.provider.FeatureModelEditPlugin;
 import org.splevo.vpm.variability.provider.vpmEditPlugin;
 
 /**
- * This is the central singleton for the Refinement edit plugin. <!-- begin-user-doc --> <!--
+ * This is the central singleton for the Refinement edit plugin.
+ * <!-- begin-user-doc --> <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public final class RefinementEditPlugin extends EMFPlugin {
     /**
-     * Keep track of the singleton. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Keep track of the singleton.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public static final RefinementEditPlugin INSTANCE = new RefinementEditPlugin();
 
     /**
-     * Keep track of the singleton. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Keep track of the singleton.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     private static Implementation plugin;
 
     /**
-     * Create the instance. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Create the instance.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public RefinementEditPlugin() {
@@ -40,9 +40,9 @@ public final class RefinementEditPlugin extends EMFPlugin {
     }
 
     /**
-     * Returns the singleton instance of the Eclipse plugin. <!-- begin-user-doc --> <!--
+     * Returns the singleton instance of the Eclipse plugin.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the singleton instance.
      * @generated
      */
@@ -52,9 +52,9 @@ public final class RefinementEditPlugin extends EMFPlugin {
     }
 
     /**
-     * Returns the singleton instance of the Eclipse plugin. <!-- begin-user-doc --> <!--
+     * Returns the singleton instance of the Eclipse plugin.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @return the singleton instance.
      * @generated
      */
@@ -63,15 +63,15 @@ public final class RefinementEditPlugin extends EMFPlugin {
     }
 
     /**
-     * The actual implementation of the Eclipse <b>Plugin</b>. <!-- begin-user-doc --> <!--
+     * The actual implementation of the Eclipse <b>Plugin</b>.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public static class Implementation extends EclipsePlugin {
         /**
-         * Creates an instance. <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
+         * Creates an instance.
+         * <!-- begin-user-doc --> <!-- end-user-doc -->
          * @generated
          */
         public Implementation() {

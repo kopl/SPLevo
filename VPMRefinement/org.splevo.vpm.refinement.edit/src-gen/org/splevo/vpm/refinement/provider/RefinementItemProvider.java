@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -28,6 +29,7 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementType;
 
@@ -116,6 +118,37 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
     }
 
     /**
+     * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate
+     * feature for an {@link org.eclipse.emf.edit.command.AddCommand},
+     * {@link org.eclipse.emf.edit.command.RemoveCommand} or
+     * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    @Override
+    public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+        if (childrenFeatures == null) {
+            super.getChildrenFeatures(object);
+            childrenFeatures.add(RefinementPackage.Literals.REFINEMENT__SUB_REFINEMENTS);
+        }
+        return childrenFeatures;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     *
+     * @generated
+     */
+    @Override
+    protected EStructuralFeature getChildFeature(Object object, Object child) {
+        // Check the type of the specified child object and return the proper feature to use for
+        // adding (see {@link AddCommand}) it as a child.
+
+        return super.getChildFeature(object, child);
+    }
+
+    /**
      * This returns the label text for the adapted class. <!-- begin-user-doc --> <!-- end-user-doc
      * --> {@inheritDoc}
      *
@@ -127,12 +160,17 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
             Refinement refinement = (Refinement) object;
             StringBuilder labelBuilder = new StringBuilder();
             if (refinement.getType() == RefinementType.GROUPING) {
-                labelBuilder.append("Grouping (");
+                labelBuilder.append("Grouping");
             } else {
-                labelBuilder.append("Merge (");
+                labelBuilder.append("Merge");
             }
-            labelBuilder.append(((Refinement) object).getVariationPoints().size());
-            labelBuilder.append(" VPs)");
+
+            labelBuilder.append(" (");
+            labelBuilder.append(refinement.getSubRefinements().size());
+            labelBuilder.append("/");
+            labelBuilder.append(refinement.getVariationPoints().size());
+            labelBuilder.append(")");
+
             return labelBuilder.toString();
         } else {
             throw new RuntimeException("Unknown Refinement Type: " + object.getClass());
@@ -179,6 +217,9 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
         case RefinementPackage.REFINEMENT__SOURCE:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
+        case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
+            fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+            return;
         }
         super.notifyChanged(notification);
     }
@@ -192,6 +233,9 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
     @Override
     protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
         super.collectNewChildDescriptors(newChildDescriptors, object);
+
+        newChildDescriptors.add(createChildParameter(RefinementPackage.Literals.REFINEMENT__SUB_REFINEMENTS,
+                RefinementFactory.eINSTANCE.createRefinement()));
     }
 
     /**
