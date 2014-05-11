@@ -108,6 +108,7 @@ import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.splevo.vpm.realization.provider.RealizationItemProviderAdapterFactory;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
@@ -123,8 +124,8 @@ import org.splevo.vpm.software.provider.SoftwareItemProviderAdapterFactory;
 import org.splevo.vpm.variability.provider.variabilityItemProviderAdapterFactory;
 
 /**
- * This is an example of a Refinement model editor. <!-- begin-user-doc --> <!-- end-user-doc -->
- * 
+ * This is an example of a Refinement model editor.
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
  * @generated
  */
 public class RefinementEditor extends MultiPageEditorPart implements IEditingDomainProvider, ISelectionProvider,
@@ -138,45 +139,45 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     protected AdapterFactoryEditingDomain editingDomain;
 
     /**
-     * This is the one adapter factory used for providing views of the model. <!-- begin-user-doc
+     * This is the one adapter factory used for providing views of the model.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected ComposedAdapterFactory adapterFactory;
 
     /**
-     * This is the content outline page. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is the content outline page.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected IContentOutlinePage contentOutlinePage;
 
     /**
-     * This is a kludge... <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is a kludge...
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected IStatusLineManager contentOutlineStatusLineManager;
 
     /**
-     * This is the content outline page's viewer. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is the content outline page's viewer.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected TreeViewer contentOutlineViewer;
 
     /**
-     * This is the property sheet page. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is the property sheet page.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected List<PropertySheetPage> propertySheetPages = new ArrayList<PropertySheetPage>();
 
     /**
-     * This is the viewer that shadows the selection in the content outline. The parent relation
-     * must be correctly defined for this to work. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is the viewer that shadows the selection in the content outline.
+     * The parent relation must be correctly defined for this to work.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected TreeViewer selectionViewer;
@@ -184,22 +185,22 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     /**
      * This inverts the roll of parent and child in the content provider and show parents as a tree.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected TreeViewer parentViewer;
 
     /**
-     * This shows how a tree view works. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This shows how a tree view works.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected TreeViewer treeViewer;
 
     /**
-     * This shows how a list view works. A list viewer doesn't support icons. <!-- begin-user-doc
+     * This shows how a list view works.
+     * A list viewer doesn't support icons.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected ListViewer listViewer;
@@ -213,55 +214,53 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     protected TableViewer tableViewer;
 
     /**
-     * This shows how a tree view with columns works. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This shows how a tree view with columns works.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected TreeViewer treeViewerWithColumns;
 
     /**
-     * This keeps track of the active viewer pane, in the book. <!-- begin-user-doc --> <!--
+     * This keeps track of the active viewer pane, in the book.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     protected ViewerPane currentViewerPane;
 
     /**
-     * This keeps track of the active content viewer, which may be either one of the viewers in the
-     * pages or the content outline viewer. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This keeps track of the active content viewer, which may be either one of the viewers in the pages or the content outline viewer.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected Viewer currentViewer;
 
     /**
-     * This listens to which ever viewer is active. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This listens to which ever viewer is active.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected ISelectionChangedListener selectionChangedListener;
 
     /**
-     * This keeps track of all the {@link org.eclipse.jface.viewers.ISelectionChangedListener}s that
-     * are listening to this editor. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This keeps track of all the {@link org.eclipse.jface.viewers.ISelectionChangedListener}s that are listening to this editor.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
     /**
-     * This keeps track of the selection of the editor as a whole. <!-- begin-user-doc --> <!--
+     * This keeps track of the selection of the editor as a whole.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     protected ISelection editorSelection = StructuredSelection.EMPTY;
 
     /**
-     * The MarkerHelper is responsible for creating workspace resource markers presented in
-     * Eclipse's Problems View. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * The MarkerHelper is responsible for creating workspace resource markers presented
+     * in Eclipse's Problems View.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected MarkerHelper markerHelper = new EditUIMarkerHelper();
@@ -308,40 +307,40 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     };
 
     /**
-     * Resources that have been removed since last activation. <!-- begin-user-doc --> <!--
+     * Resources that have been removed since last activation.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
     /**
-     * Resources that have been changed since last activation. <!-- begin-user-doc --> <!--
+     * Resources that have been changed since last activation.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     protected Collection<Resource> changedResources = new ArrayList<Resource>();
 
     /**
-     * Resources that have been saved. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Resources that have been saved.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected Collection<Resource> savedResources = new ArrayList<Resource>();
 
     /**
-     * Map to store the diagnostic associated with a resource. <!-- begin-user-doc --> <!--
+     * Map to store the diagnostic associated with a resource.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     protected Map<Resource, Diagnostic> resourceToDiagnosticMap = new LinkedHashMap<Resource, Diagnostic>();
 
     /**
-     * Controls whether the problem indication should be updated. <!-- begin-user-doc --> <!--
+     * Controls whether the problem indication should be updated.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     protected boolean updateProblemIndication = true;
@@ -403,8 +402,8 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     };
 
     /**
-     * This listens for workspace changes. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This listens for workspace changes.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected IResourceChangeListener resourceChangeListener = new IResourceChangeListener() {
@@ -476,9 +475,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     };
 
     /**
-     * Handles activation of the editor or it's associated views. <!-- begin-user-doc --> <!--
+     * Handles activation of the editor or it's associated views.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     protected void handleActivate() {
@@ -509,9 +508,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * Handles what to do with changed resources on activation. <!-- begin-user-doc --> <!--
+     * Handles what to do with changed resources on activation.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     protected void handleChangedResources() {
@@ -547,7 +546,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     /**
      * Updates the problems indication with the information described in the specified diagnostic.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected void updateProblemIndication() {
@@ -594,9 +592,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * Shows a dialog that asks if conflicting changes should be discarded. <!-- begin-user-doc -->
+     * Shows a dialog that asks if conflicting changes should be discarded.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected boolean handleDirtyConflict() {
@@ -605,8 +603,8 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This creates a model editor. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This creates a model editor.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public RefinementEditor() {
@@ -615,9 +613,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This sets up the editing domain for the model editor. <!-- begin-user-doc --> <!--
+     * This sets up the editing domain for the model editor.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     protected void initializeEditingDomain() {
@@ -631,14 +629,14 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
         adapterFactory.addAdapterFactory(new FeatureModelItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new variabilityItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new SoftwareItemProviderAdapterFactory());
+        adapterFactory.addAdapterFactory(new RealizationItemProviderAdapterFactory());
         adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
         // Create the command stack that will notify this editor as commands are executed.
         //
         BasicCommandStack commandStack = new BasicCommandStack();
 
-        // Add a listener to set the most recent command's affected objects to be the selection of
-        // the viewer with focus.
+        // Add a listener to set the most recent command's affected objects to be the selection of the viewer with focus.
         //
         commandStack.addCommandStackListener(new CommandStackListener() {
             public void commandStackChanged(final EventObject event) {
@@ -671,9 +669,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This is here for the listener to be able to call it. <!-- begin-user-doc --> <!--
+     * This is here for the listener to be able to call it.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -682,9 +680,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This sets the selection into whichever viewer is active. <!-- begin-user-doc --> <!--
+     * This sets the selection into whichever viewer is active.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public void setSelectionToViewer(Collection<?> collection) {
@@ -708,9 +706,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     /**
      * This returns the editing domain as required by the {@link IEditingDomainProvider} interface.
      * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}
-     * and for supporting {@link org.eclipse.emf.edit.ui.action.CommandAction}. <!-- begin-user-doc
+     * and for supporting {@link org.eclipse.emf.edit.ui.action.CommandAction}.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EditingDomain getEditingDomain() {
@@ -719,13 +717,11 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public class ReverseAdapterFactoryContentProvider extends AdapterFactoryContentProvider {
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         public ReverseAdapterFactoryContentProvider(AdapterFactory adapterFactory) {
@@ -734,7 +730,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         @Override
@@ -745,7 +740,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         @Override
@@ -756,7 +750,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         @Override
@@ -767,7 +760,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
         /**
          * <!-- begin-user-doc --> <!-- end-user-doc -->
-         * 
          * @generated
          */
         @Override
@@ -778,7 +770,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setCurrentViewerPane(ViewerPane viewerPane) {
@@ -792,9 +783,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This makes sure that one content viewer, either for the current page or the outline view, if
-     * it has focus, is the current one. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This makes sure that one content viewer, either for the current page or the outline view, if it has focus,
+     * is the current one.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public void setCurrentViewer(Viewer viewer) {
@@ -846,9 +837,8 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This creates a context menu for the viewer and adds a listener as well registering the menu
-     * for extension. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This creates a context menu for the viewer and adds a listener as well registering the menu for extension.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected void createContextMenuFor(StructuredViewer viewer) {
@@ -868,9 +858,8 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This is the method called to load a resource into the editing domain's resource set based on
-     * the editor's input. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public void createModel() {
@@ -894,9 +883,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * Returns a diagnostic describing the errors and warnings listed in the resource and the
-     * specified exception (if any). <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * Returns a diagnostic describing the errors and warnings listed in the resource
+     * and the specified exception (if any).
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
@@ -915,9 +904,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This is the method used by the framework to install your own controls. <!-- begin-user-doc
+     * This is the method used by the framework to install your own controls.
+     * <!-- begin-user-doc
      * --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -1162,9 +1151,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * If there is just one page in the multi-page editor part, this hides the single tab at the
-     * bottom. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * If there is just one page in the multi-page editor part,
+     * this hides the single tab at the bottom.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected void hideTabs() {
@@ -1179,9 +1168,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * If there is more than one page in the multi-page editor part, this shows the tabs at the
-     * bottom. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * If there is more than one page in the multi-page editor part,
+     * this shows the tabs at the bottom.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected void showTabs() {
@@ -1196,8 +1185,8 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This is used to track the active viewer. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is used to track the active viewer.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -1210,9 +1199,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This is how the framework determines which interfaces we implement. <!-- begin-user-doc -->
+     * This is how the framework determines which interfaces we implement.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     @SuppressWarnings("rawtypes")
@@ -1230,9 +1219,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This accesses a cached version of the content outliner. <!-- begin-user-doc --> <!--
+     * This accesses a cached version of the content outliner.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public IContentOutlinePage getContentOutlinePage() {
@@ -1295,9 +1284,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This accesses a cached version of the property sheet. <!-- begin-user-doc --> <!--
+     * This accesses a cached version of the property sheet.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     public IPropertySheetPage getPropertySheetPage() {
@@ -1334,8 +1323,7 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
                 //
                 Object selectedElement = selectedElements.next();
 
-                // If it's the selection viewer, then we want it to select the same selection as
-                // this selection.
+                // If it's the selection viewer, then we want it to select the same selection as this selection.
                 //
                 if (currentViewerPane.getViewer() == selectionViewer) {
                     ArrayList<Object> selectionList = new ArrayList<Object>();
@@ -1384,8 +1372,7 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
         saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
         saveOptions.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
 
-        // Do the work within an operation because this is a long running activity that modifies the
-        // workbench.
+        // Do the work within an operation because this is a long running activity that modifies the workbench.
         //
         WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
             // This is the method that gets invoked when the operation runs.
@@ -1433,10 +1420,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This returns whether something has been persisted to the URI of the specified resource. The
-     * implementation uses the URI converter from the editor's resource set to try to open an input
-     * stream. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This returns whether something has been persisted to the URI of the specified resource.
+     * The implementation uses the URI converter from the editor's resource set to try to open an input stream.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     protected boolean isPersisted(Resource resource) {
@@ -1454,9 +1440,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This always returns true because it is not currently supported. <!-- begin-user-doc --> <!--
+     * This always returns true because it is not currently supported.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -1465,8 +1451,8 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This also changes the editor's input. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This also changes the editor's input.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -1484,7 +1470,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected void doSaveAs(URI uri, IEditorInput editorInput) {
@@ -1498,7 +1483,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void gotoMarker(IMarker marker) {
@@ -1509,8 +1493,8 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This is called during startup. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This is called during startup.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -1526,7 +1510,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -1539,9 +1522,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This implements {@link org.eclipse.jface.viewers.ISelectionProvider}. <!-- begin-user-doc -->
+     * This implements {@link org.eclipse.jface.viewers.ISelectionProvider}.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void addSelectionChangedListener(ISelectionChangedListener listener) {
@@ -1549,9 +1532,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This implements {@link org.eclipse.jface.viewers.ISelectionProvider}. <!-- begin-user-doc -->
+     * This implements {@link org.eclipse.jface.viewers.ISelectionProvider}.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void removeSelectionChangedListener(ISelectionChangedListener listener) {
@@ -1559,9 +1542,8 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to return this editor's
-     * overall selection. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to return this editor's overall selection.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public ISelection getSelection() {
@@ -1569,10 +1551,10 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to set this editor's
-     * overall selection. Calling this result will notify the listeners. <!-- begin-user-doc -->
+     * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to set this editor's overall selection.
+     * Calling this result will notify the listeners.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setSelection(ISelection selection) {
@@ -1586,7 +1568,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public void setStatusLineManager(ISelection selection) {
@@ -1619,9 +1600,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This looks up a string in the plugin's plugin.properties file. <!-- begin-user-doc --> <!--
+     * This looks up a string in the plugin's plugin.properties file.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     * 
      * @generated
      */
     private static String getString(String key) {
@@ -1629,9 +1610,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This looks up a string in plugin.properties, making a substitution. <!-- begin-user-doc -->
+     * This looks up a string in plugin.properties, making a substitution.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     private static String getString(String key, Object s1) {
@@ -1639,9 +1620,8 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * This implements {@link org.eclipse.jface.action.IMenuListener} to help fill the context menus
-     * with contributions from the Edit menu. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
+     * This implements {@link org.eclipse.jface.action.IMenuListener} to help fill the context menus with contributions from the Edit menu.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     public void menuAboutToShow(IMenuManager menuManager) {
@@ -1650,7 +1630,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public EditingDomainActionBarContributor getActionBarContributor() {
@@ -1659,7 +1638,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public IActionBars getActionBars() {
@@ -1668,7 +1646,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     public AdapterFactory getAdapterFactory() {
@@ -1677,7 +1654,6 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @generated
      */
     @Override
@@ -1706,9 +1682,9 @@ public class RefinementEditor extends MultiPageEditorPart implements IEditingDom
     }
 
     /**
-     * Returns whether the outline view should be presented to the user. <!-- begin-user-doc -->
+     * Returns whether the outline view should be presented to the user.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * 
      * @generated
      */
     protected boolean showOutlineView() {
