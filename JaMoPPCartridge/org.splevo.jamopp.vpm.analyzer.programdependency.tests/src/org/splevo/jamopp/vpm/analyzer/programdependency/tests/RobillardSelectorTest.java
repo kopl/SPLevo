@@ -53,11 +53,7 @@ public class RobillardSelectorTest {
     @Test
     public void testMethodCall() throws Exception {
 
-        String testBasePath = BASE_PATH + "MethodCall/";
-
-        String relativePathA = testBasePath + "a";
-        String relativePathB = testBasePath + "b";
-        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "MethodCall/");
 
         JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
@@ -79,11 +75,7 @@ public class RobillardSelectorTest {
     @Test
     public void testReadField() throws Exception {
 
-        String testBasePath = BASE_PATH + "ReadField/";
-
-        String relativePathA = testBasePath + "a";
-        String relativePathB = testBasePath + "b";
-        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ReadField/");
 
         JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
@@ -105,21 +97,13 @@ public class RobillardSelectorTest {
     @Test
     public void testNestedStatements() throws Exception {
 
-        String testBasePath = BASE_PATH + "NestedStatements/";
-
-        String relativePathA = testBasePath + "a";
-        String relativePathB = testBasePath + "b";
-        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "NestedStatements/");
 
         JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
 
-        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
-            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
-        }
-
-        assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(6));
-        assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(3));
+        assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(10));
+        assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(5));
     }
 
     /**
@@ -131,18 +115,10 @@ public class RobillardSelectorTest {
     @Test
     public void testWriteField() throws Exception {
 
-        String testBasePath = BASE_PATH + "WriteField/";
-
-        String relativePathA = testBasePath + "a";
-        String relativePathB = testBasePath + "b";
-        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "WriteField/");
 
         JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
-
-        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
-            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
-        }
 
         assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(4));
         assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(2));
@@ -157,18 +133,10 @@ public class RobillardSelectorTest {
     @Test
     public void testNewConstructorCall() throws Exception {
 
-        String testBasePath = BASE_PATH + "NewConstructorCall/";
-
-        String relativePathA = testBasePath + "a";
-        String relativePathB = testBasePath + "b";
-        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "NewConstructorCall/");
 
         JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
-
-        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
-            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
-        }
 
         assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(2));
         assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(1));
@@ -183,18 +151,10 @@ public class RobillardSelectorTest {
     @Test
     public void testInstanceOf() throws Exception {
 
-        String testBasePath = BASE_PATH + "InstanceOf/";
-
-        String relativePathA = testBasePath + "a";
-        String relativePathB = testBasePath + "b";
-        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "InstanceOf/");
 
         JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
-
-        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
-            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
-        }
 
         assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(2));
         assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(1));
@@ -209,18 +169,10 @@ public class RobillardSelectorTest {
     @Test
     public void testClassCast() throws Exception {
 
-        String testBasePath = BASE_PATH + "ClassCast/";
-
-        String relativePathA = testBasePath + "a";
-        String relativePathB = testBasePath + "b";
-        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ClassCast/");
 
         JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);
-
-        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
-            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
-        }
 
         assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(2));
         assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(1));

@@ -49,6 +49,23 @@ public final class TestUtil {
     }
 
     /**
+     * Initialize a variation point model graph to be analyzed.<br>
+     * The two code copies are assumed to be in sub directories named "a" and "b" of the provided
+     * base path.
+     *
+     * The base path itself must be relative to the unit test working directory.
+     *
+     * @param testBasePath
+     *            The relative base path ending with a "/".
+     * @return The loaded VPM graph resulting from extraction, difference analysis and VPM initialization.
+     * @throws Exception
+     *             Graph preparation failed.
+     */
+    public static VPMGraph prepareVPMGraph(String testBasePath) throws Exception {
+        return prepareVPMGraph(testBasePath + "a", testBasePath + "b");
+    }
+
+    /**
      * Initialize a variation point model graph to be analyzed based on the code provided at two
      * paths (paths relative to the unit test working directory.)
      *
@@ -56,7 +73,7 @@ public final class TestUtil {
      *            Version a of the source code.
      * @param relativePathB
      *            Version b of the source code.
-     * @return The loaded VPM graph resulting from extractio, diffing and VPM initialization.
+     * @return The loaded VPM graph resulting from extraction, difference analysis and VPM initialization.
      * @throws Exception
      *             Graph preparation failed.
      */
