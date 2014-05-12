@@ -25,6 +25,7 @@ import org.emftext.language.java.containers.util.ContainersSwitch;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.CastExpression;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.expressions.ExpressionList;
 import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.util.ExpressionsSwitch;
 import org.emftext.language.java.instantiations.NewConstructorCall;
@@ -41,10 +42,12 @@ import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.references.util.ReferencesSwitch;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
+import org.emftext.language.java.statements.ForLoop;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
+import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.statements.util.StatementsSwitch;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.variables.LocalVariable;
@@ -225,6 +228,23 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
         }
 
         @Override
+        public java.util.List<Commentable> caseForLoop(ForLoop loop) {
+            ArrayList<Commentable> refElements = Lists.newArrayList();
+            refElements.addAll(parentSwitch.doSwitch(loop.getInit()));
+            refElements.addAll(parentSwitch.doSwitch(loop.getCondition()));
+            refElements.addAll(parentSwitch.doSwitch(loop.getStatement()));
+            return refElements;
+        }
+
+        @Override
+        public List<Commentable> caseWhileLoop(WhileLoop loop) {
+            ArrayList<Commentable> refElements = Lists.newArrayList();
+            refElements.addAll(parentSwitch.doSwitch(loop.getCondition()));
+            refElements.addAll(parentSwitch.doSwitch(loop.getStatement()));
+            return refElements;
+        }
+
+        @Override
         public List<Commentable> caseStatementListContainer(StatementListContainer container) {
             ArrayList<Commentable> refElements = Lists.newArrayList();
             for (Statement statement : container.getStatements()) {
@@ -268,6 +288,15 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
 
         public ExpressionsReferencedElementsSwitch(RobillardReferenceSelectorSwitch parentSwitch) {
             this.parentSwitch = parentSwitch;
+        }
+
+        @Override
+        public List<Commentable> caseExpressionList(ExpressionList exp) {
+            ArrayList<Commentable> refElements = Lists.newArrayList();
+            for (Expression expression : exp.getExpressions()) {
+                refElements.addAll(parentSwitch.doSwitch(expression));
+            }
+            return refElements;
         }
 
         @Override
