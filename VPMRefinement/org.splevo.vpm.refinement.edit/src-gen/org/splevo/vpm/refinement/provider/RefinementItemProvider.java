@@ -42,9 +42,9 @@ import org.splevo.vpm.refinement.RefinementType;
 public class RefinementItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
         IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
     /**
-     * This constructs an instance from a factory and a notifier. <!-- begin-user-doc --> <!--
+     * This constructs an instance from a factory and a notifier.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     public RefinementItemProvider(AdapterFactory adapterFactory) {
@@ -52,9 +52,9 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
     }
 
     /**
-     * This returns the property descriptors for the adapted class. <!-- begin-user-doc --> <!--
+     * This returns the property descriptors for the adapted class.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -70,9 +70,9 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
     }
 
     /**
-     * This adds a property descriptor for the Type feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Type feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     protected void addTypePropertyDescriptor(Object object) {
@@ -85,9 +85,9 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
     }
 
     /**
-     * This adds a property descriptor for the Variation Points feature. <!-- begin-user-doc -->
+     * This adds a property descriptor for the Variation Points feature.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     *
      * @generated
      */
     protected void addVariationPointsPropertyDescriptor(Object object) {
@@ -101,9 +101,9 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
     }
 
     /**
-     * This adds a property descriptor for the Source feature. <!-- begin-user-doc --> <!--
+     * This adds a property descriptor for the Source feature.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     protected void addSourcePropertyDescriptor(Object object) {
@@ -131,13 +131,13 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
             childrenFeatures.add(RefinementPackage.Literals.REFINEMENT__SUB_REFINEMENTS);
+            childrenFeatures.add(RefinementPackage.Literals.REFINEMENT__REASONS);
         }
         return childrenFeatures;
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
      * @generated
      */
     @Override
@@ -203,9 +203,8 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
 
     /**
      * This handles model notifications by calling {@link #updateChildren} to update any cached
-     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}
-     * . <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -218,6 +217,7 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
         case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
+        case RefinementPackage.REFINEMENT__REASONS:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
             return;
         }
@@ -225,9 +225,9 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
     }
 
     /**
-     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children that
-     * can be created under this object. <!-- begin-user-doc --> <!-- end-user-doc -->
-     *
+     * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+     * that can be created under this object.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
     @Override
@@ -236,12 +236,15 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
 
         newChildDescriptors.add(createChildParameter(RefinementPackage.Literals.REFINEMENT__SUB_REFINEMENTS,
                 RefinementFactory.eINSTANCE.createRefinement()));
+
+        newChildDescriptors.add(createChildParameter(RefinementPackage.Literals.REFINEMENT__REASONS,
+                RefinementFactory.eINSTANCE.createRefinementReason()));
     }
 
     /**
-     * Return the resource locator for this item provider's resources. <!-- begin-user-doc --> <!--
+     * Return the resource locator for this item provider's resources.
+     * <!-- begin-user-doc --> <!--
      * end-user-doc -->
-     *
      * @generated
      */
     @Override

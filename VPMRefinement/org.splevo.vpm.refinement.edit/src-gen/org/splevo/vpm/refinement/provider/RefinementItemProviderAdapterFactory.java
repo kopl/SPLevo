@@ -114,6 +114,29 @@ public class RefinementItemProviderAdapterFactory extends RefinementAdapterFacto
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.vpm.refinement.RefinementReason} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected RefinementReasonItemProvider refinementReasonItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.vpm.refinement.RefinementReason}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createRefinementReasonAdapter() {
+        if (refinementReasonItemProvider == null) {
+            refinementReasonItemProvider = new RefinementReasonItemProvider(this);
+        }
+
+        return refinementReasonItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -212,6 +235,8 @@ public class RefinementItemProviderAdapterFactory extends RefinementAdapterFacto
             refinementModelItemProvider.dispose();
         if (refinementItemProvider != null)
             refinementItemProvider.dispose();
+        if (refinementReasonItemProvider != null)
+            refinementReasonItemProvider.dispose();
     }
 
 }
