@@ -32,6 +32,7 @@ import org.splevo.vpm.variability.VariationPoint;
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getSource <em>Source</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getParent <em>Parent</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getSubRefinements <em>Sub Refinements</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getReasons <em>Reasons</em>}</li>
  * </ul>
  * </p>
  *
@@ -172,5 +173,23 @@ public interface Refinement extends EObject {
      * @generated
      */
     EList<Refinement> getSubRefinements();
+
+    /**
+     * Returns the value of the '<em><b>Reasons</b></em>' containment reference list.
+     * The list contents are of type {@link org.splevo.vpm.refinement.RefinementReason}.
+     * It is bidirectional and its opposite is '{@link org.splevo.vpm.refinement.RefinementReason#getRefinement <em>Refinement</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Reasons</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Reasons</em>' containment reference list.
+     * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement_Reasons()
+     * @see org.splevo.vpm.refinement.RefinementReason#getRefinement
+     * @model opposite="refinement" containment="true"
+     * @generated
+     */
+    EList<RefinementReason> getReasons();
 
 } // Refinement

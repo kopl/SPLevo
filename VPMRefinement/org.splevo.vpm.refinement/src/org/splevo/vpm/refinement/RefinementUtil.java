@@ -13,7 +13,9 @@ package org.splevo.vpm.refinement;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -23,6 +25,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.splevo.vpm.variability.VariationPoint;
+
+import com.google.common.collect.Lists;
 
 /**
  * Utility class to handle VariationPointModel models.
@@ -88,5 +93,27 @@ public class RefinementUtil {
         resource.getContents().add(refinementModel);
 
         resource.save(Collections.EMPTY_MAP);
+    }
+
+    /**
+     * Get all reasons with source and target contained in a list of variation points.
+     *
+     * @param originalRefinement
+     *            The refinement to get the reasons from.
+     * @param vps
+     *            The variation points to check against.
+     * @return The list of reasons.
+     */
+    public static List<RefinementReason> getReasons(Refinement originalRefinement, Collection<VariationPoint> vps) {
+
+        List<RefinementReason> reasons = Lists.newArrayList();
+
+        for (RefinementReason reason : originalRefinement.getReasons()) {
+            if (vps.contains(reason.getSource()) && vps.contains(reason.getTarget())) {
+                reasons.add(reason);
+            }
+        }
+
+        return reasons;
     }
 }

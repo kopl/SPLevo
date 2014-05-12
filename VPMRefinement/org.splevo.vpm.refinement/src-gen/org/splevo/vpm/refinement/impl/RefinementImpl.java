@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementPackage;
+import org.splevo.vpm.refinement.RefinementReason;
 import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -33,6 +34,7 @@ import org.splevo.vpm.variability.VariationPoint;
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getSubRefinements <em>Sub Refinements</em>}</li>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getReasons <em>Reasons</em>}</li>
  * </ul>
  * </p>
  *
@@ -97,6 +99,16 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
      * @ordered
      */
     protected EList<Refinement> subRefinements;
+
+    /**
+     * The cached value of the '{@link #getReasons() <em>Reasons</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getReasons()
+     * @generated
+     * @ordered
+     */
+    protected EList<RefinementReason> reasons;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -268,6 +280,19 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     }
 
     /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList<RefinementReason> getReasons() {
+        if (reasons == null) {
+            reasons = new EObjectContainmentWithInverseEList<RefinementReason>(RefinementReason.class, this,
+                    RefinementPackage.REFINEMENT__REASONS, RefinementPackage.REFINEMENT_REASON__REFINEMENT);
+        }
+        return reasons;
+    }
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
@@ -285,6 +310,8 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
             return basicSetParent((Refinement) otherEnd, msgs);
         case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
             return ((InternalEList<InternalEObject>) (InternalEList<?>) getSubRefinements()).basicAdd(otherEnd, msgs);
+        case RefinementPackage.REFINEMENT__REASONS:
+            return ((InternalEList<InternalEObject>) (InternalEList<?>) getReasons()).basicAdd(otherEnd, msgs);
         }
         return super.eInverseAdd(otherEnd, featureID, msgs);
     }
@@ -302,6 +329,8 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
             return basicSetParent(null, msgs);
         case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
             return ((InternalEList<?>) getSubRefinements()).basicRemove(otherEnd, msgs);
+        case RefinementPackage.REFINEMENT__REASONS:
+            return ((InternalEList<?>) getReasons()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -342,6 +371,8 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
             return getParent();
         case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
             return getSubRefinements();
+        case RefinementPackage.REFINEMENT__REASONS:
+            return getReasons();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -374,6 +405,10 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
             getSubRefinements().clear();
             getSubRefinements().addAll((Collection<? extends Refinement>) newValue);
             return;
+        case RefinementPackage.REFINEMENT__REASONS:
+            getReasons().clear();
+            getReasons().addAll((Collection<? extends RefinementReason>) newValue);
+            return;
         }
         super.eSet(featureID, newValue);
     }
@@ -403,6 +438,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
         case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
             getSubRefinements().clear();
             return;
+        case RefinementPackage.REFINEMENT__REASONS:
+            getReasons().clear();
+            return;
         }
         super.eUnset(featureID);
     }
@@ -426,6 +464,8 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
             return getParent() != null;
         case RefinementPackage.REFINEMENT__SUB_REFINEMENTS:
             return subRefinements != null && !subRefinements.isEmpty();
+        case RefinementPackage.REFINEMENT__REASONS:
+            return reasons != null && !reasons.isEmpty();
         }
         return super.eIsSet(featureID);
     }

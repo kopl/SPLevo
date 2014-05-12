@@ -142,13 +142,77 @@ public interface RefinementPackage extends EPackage {
     int REFINEMENT__SUB_REFINEMENTS = 5;
 
     /**
+     * The feature id for the '<em><b>Reasons</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REFINEMENT__REASONS = 6;
+
+    /**
      * The number of structural features of the '<em>Refinement</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int REFINEMENT_FEATURE_COUNT = 6;
+    int REFINEMENT_FEATURE_COUNT = 7;
+
+    /**
+     * The meta object id for the '{@link org.splevo.vpm.refinement.impl.RefinementReasonImpl <em>Reason</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.vpm.refinement.impl.RefinementReasonImpl
+     * @see org.splevo.vpm.refinement.impl.RefinementPackageImpl#getRefinementReason()
+     * @generated
+     */
+    int REFINEMENT_REASON = 2;
+
+    /**
+     * The feature id for the '<em><b>Source</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REFINEMENT_REASON__SOURCE = 0;
+
+    /**
+     * The feature id for the '<em><b>Target</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REFINEMENT_REASON__TARGET = 1;
+
+    /**
+     * The feature id for the '<em><b>Refinement</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REFINEMENT_REASON__REFINEMENT = 2;
+
+    /**
+     * The feature id for the '<em><b>Reason</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REFINEMENT_REASON__REASON = 3;
+
+    /**
+     * The number of structural features of the '<em>Reason</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REFINEMENT_REASON_FEATURE_COUNT = 4;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.refinement.RefinementType <em>Type</em>}' enum.
@@ -157,7 +221,7 @@ public interface RefinementPackage extends EPackage {
      * @see org.splevo.vpm.refinement.impl.RefinementPackageImpl#getRefinementType()
      * @generated
      */
-    int REFINEMENT_TYPE = 2;
+    int REFINEMENT_TYPE = 3;
 
     /**
      * Returns the meta object for class '{@link org.splevo.vpm.refinement.Refinement <em>Refinement</em>}'.
@@ -231,6 +295,71 @@ public interface RefinementPackage extends EPackage {
      * @generated
      */
     EReference getRefinement_SubRefinements();
+
+    /**
+     * Returns the meta object for the containment reference list '{@link org.splevo.vpm.refinement.Refinement#getReasons <em>Reasons</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Reasons</em>'.
+     * @see org.splevo.vpm.refinement.Refinement#getReasons()
+     * @see #getRefinement()
+     * @generated
+     */
+    EReference getRefinement_Reasons();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.vpm.refinement.RefinementReason <em>Reason</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Reason</em>'.
+     * @see org.splevo.vpm.refinement.RefinementReason
+     * @generated
+     */
+    EClass getRefinementReason();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.vpm.refinement.RefinementReason#getSource <em>Source</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Source</em>'.
+     * @see org.splevo.vpm.refinement.RefinementReason#getSource()
+     * @see #getRefinementReason()
+     * @generated
+     */
+    EReference getRefinementReason_Source();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.vpm.refinement.RefinementReason#getTarget <em>Target</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Target</em>'.
+     * @see org.splevo.vpm.refinement.RefinementReason#getTarget()
+     * @see #getRefinementReason()
+     * @generated
+     */
+    EReference getRefinementReason_Target();
+
+    /**
+     * Returns the meta object for the container reference '{@link org.splevo.vpm.refinement.RefinementReason#getRefinement <em>Refinement</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the container reference '<em>Refinement</em>'.
+     * @see org.splevo.vpm.refinement.RefinementReason#getRefinement()
+     * @see #getRefinementReason()
+     * @generated
+     */
+    EReference getRefinementReason_Refinement();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.refinement.RefinementReason#getReason <em>Reason</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Reason</em>'.
+     * @see org.splevo.vpm.refinement.RefinementReason#getReason()
+     * @see #getRefinementReason()
+     * @generated
+     */
+    EAttribute getRefinementReason_Reason();
 
     /**
      * Returns the meta object for class '{@link org.splevo.vpm.refinement.RefinementModel <em>Model</em>}'.
@@ -337,6 +466,56 @@ public interface RefinementPackage extends EPackage {
          * @generated
          */
         EReference REFINEMENT__SUB_REFINEMENTS = eINSTANCE.getRefinement_SubRefinements();
+
+        /**
+         * The meta object literal for the '<em><b>Reasons</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference REFINEMENT__REASONS = eINSTANCE.getRefinement_Reasons();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.vpm.refinement.impl.RefinementReasonImpl <em>Reason</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.vpm.refinement.impl.RefinementReasonImpl
+         * @see org.splevo.vpm.refinement.impl.RefinementPackageImpl#getRefinementReason()
+         * @generated
+         */
+        EClass REFINEMENT_REASON = eINSTANCE.getRefinementReason();
+
+        /**
+         * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference REFINEMENT_REASON__SOURCE = eINSTANCE.getRefinementReason_Source();
+
+        /**
+         * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference REFINEMENT_REASON__TARGET = eINSTANCE.getRefinementReason_Target();
+
+        /**
+         * The meta object literal for the '<em><b>Refinement</b></em>' container reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference REFINEMENT_REASON__REFINEMENT = eINSTANCE.getRefinementReason_Refinement();
+
+        /**
+         * The meta object literal for the '<em><b>Reason</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute REFINEMENT_REASON__REASON = eINSTANCE.getRefinementReason_Reason();
 
         /**
          * The meta object literal for the '

@@ -47,9 +47,21 @@
         <details key="documentation" value="Sub refinements to be processed in advance to this refinement."/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reasons" upperBound="-1"
+        eType="#//RefinementReason" containment="true" eOpposite="#//RefinementReason/refinement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="RefinementType">
     <eLiterals name="MERGE"/>
     <eLiterals name="GROUPING" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RefinementReason">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.splevo.vpm/model/vpm.ecore#//variability/VariationPoint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.splevo.vpm/model/vpm.ecore#//variability/VariationPoint"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinement" lowerBound="1"
+        eType="#//Refinement" eOpposite="#//Refinement/reasons"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reason" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

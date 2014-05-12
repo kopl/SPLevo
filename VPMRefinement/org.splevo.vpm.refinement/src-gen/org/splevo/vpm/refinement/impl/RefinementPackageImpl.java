@@ -7,12 +7,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.splevo.vpm.realization.RealizationPackage;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementPackage;
+import org.splevo.vpm.refinement.RefinementReason;
 import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.variability.variabilityPackage;
@@ -27,6 +29,13 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
      * @generated
      */
     private EClass refinementEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass refinementReasonEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -163,6 +172,60 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
     }
 
     /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getRefinement_Reasons() {
+        return (EReference) refinementEClass.getEStructuralFeatures().get(6);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getRefinementReason() {
+        return refinementReasonEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getRefinementReason_Source() {
+        return (EReference) refinementReasonEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getRefinementReason_Target() {
+        return (EReference) refinementReasonEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getRefinementReason_Refinement() {
+        return (EReference) refinementReasonEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getRefinementReason_Reason() {
+        return (EAttribute) refinementReasonEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
@@ -222,6 +285,13 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
         createEAttribute(refinementEClass, REFINEMENT__SOURCE);
         createEReference(refinementEClass, REFINEMENT__PARENT);
         createEReference(refinementEClass, REFINEMENT__SUB_REFINEMENTS);
+        createEReference(refinementEClass, REFINEMENT__REASONS);
+
+        refinementReasonEClass = createEClass(REFINEMENT_REASON);
+        createEReference(refinementReasonEClass, REFINEMENT_REASON__SOURCE);
+        createEReference(refinementReasonEClass, REFINEMENT_REASON__TARGET);
+        createEReference(refinementReasonEClass, REFINEMENT_REASON__REFINEMENT);
+        createEAttribute(refinementReasonEClass, REFINEMENT_REASON__REASON);
 
         // Create enums
         refinementTypeEEnum = createEEnum(REFINEMENT_TYPE);
@@ -252,6 +322,7 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
         // Obtain other dependent packages
         variabilityPackage thevariabilityPackage = (variabilityPackage) EPackage.Registry.INSTANCE
                 .getEPackage(variabilityPackage.eNS_URI);
+        EcorePackage theEcorePackage = (EcorePackage) EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
         // Create type parameters
 
@@ -285,6 +356,24 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
         initEReference(getRefinement_SubRefinements(), this.getRefinement(), this.getRefinement_Parent(),
                 "subRefinements", null, 0, -1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
                 IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getRefinement_Reasons(), this.getRefinementReason(), this.getRefinementReason_Refinement(),
+                "reasons", null, 0, -1, Refinement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+                !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(refinementReasonEClass, RefinementReason.class, "RefinementReason", !IS_ABSTRACT, !IS_INTERFACE,
+                IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getRefinementReason_Source(), thevariabilityPackage.getVariationPoint(), null, "source", null,
+                1, 1, RefinementReason.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+                IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getRefinementReason_Target(), thevariabilityPackage.getVariationPoint(), null, "target", null,
+                1, 1, RefinementReason.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+                IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getRefinementReason_Refinement(), this.getRefinement(), this.getRefinement_Reasons(),
+                "refinement", null, 1, 1, RefinementReason.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+                !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getRefinementReason_Reason(), theEcorePackage.getEString(), "reason", null, 1, 1,
+                RefinementReason.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+                !IS_DERIVED, IS_ORDERED);
 
         // Initialize enums and add enum literals
         initEEnum(refinementTypeEEnum, RefinementType.class, "RefinementType");

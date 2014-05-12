@@ -28,6 +28,15 @@ public interface RefinementFactory extends EFactory {
     Refinement createRefinement();
 
     /**
+     * Returns a new object of class '<em>Reason</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Reason</em>'.
+     * @generated
+     */
+    RefinementReason createRefinementReason();
+
+    /**
      * Returns a new object of class '<em>Model</em>'.
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @return a new object of class '<em>Model</em>'.

@@ -23,6 +23,13 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//Refinement/source"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference refinement.ecore#//Refinement/parent"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference refinement.ecore#//Refinement/subRefinements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference refinement.ecore#//Refinement/reasons"/>
+    </genClasses>
+    <genClasses ecoreClass="refinement.ecore#//RefinementReason">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference refinement.ecore#//RefinementReason/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference refinement.ecore#//RefinementReason/target"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference refinement.ecore#//RefinementReason/refinement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute refinement.ecore#//RefinementReason/reason"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

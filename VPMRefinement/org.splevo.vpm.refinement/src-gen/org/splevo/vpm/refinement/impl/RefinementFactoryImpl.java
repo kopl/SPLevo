@@ -56,6 +56,8 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
             return createRefinementModel();
         case RefinementPackage.REFINEMENT:
             return createRefinement();
+        case RefinementPackage.REFINEMENT_REASON:
+            return createRefinementReason();
         default:
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -96,6 +98,16 @@ public class RefinementFactoryImpl extends EFactoryImpl implements RefinementFac
     public Refinement createRefinement() {
         RefinementImpl refinement = new RefinementImpl();
         return refinement;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public RefinementReason createRefinementReason() {
+        RefinementReasonImpl refinementReason = new RefinementReasonImpl();
+        return refinementReason;
     }
 
     /**
