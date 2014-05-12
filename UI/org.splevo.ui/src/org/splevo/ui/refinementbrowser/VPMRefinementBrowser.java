@@ -93,8 +93,8 @@ public class VPMRefinementBrowser extends EditorPart {
         createRefinementDetails(sashForm);
 
         // The listener must be added after the two connected required widgets have been created
-        RefinementSelectionListener listener = new RefinementSelectionListener(detailsView, input, toolkit);
-        refinementListView.addSelectionChangedListener(listener);
+        refinementListView.addSelectionChangedListener(new RefinementSelectionListener(detailsView));
+        refinementListView.addSelectionChangedListener(new RefinementInfoSelectionListener(detailsView));
 
         sashForm.setWeights(new int[] { 2, 8 });
 

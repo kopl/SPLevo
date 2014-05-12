@@ -47,6 +47,8 @@ public class RefinementDetailsView extends Composite {
     private static final String COMMAND_ID_OPENSOURCELOCATION = "org.splevo.ui.commands.opensourcelocation";
     private static final String REFINEMENT_INFO_DEFAULT_TEXT = "Select refinement on the left to review details.";
 
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
     /** The internal tree viewer to present the refined variation points. */
     private TreeViewer refinementDetailsTreeViewer = null;
 
@@ -74,6 +76,7 @@ public class RefinementDetailsView extends Composite {
         refinementDetailsTreeViewer.setLabelProvider(new RefinementDetailsLabelProvider());
         refinementDetailsTreeViewer.setContentProvider(new RefinementDetailsTreeContentProvider());
         refinementDetailsTreeViewer.addDoubleClickListener(new ExpandTreeListener());
+        refinementDetailsTreeViewer.addSelectionChangedListener(new RefinementInfoSelectionListener(this));
         initContextMenu(refinementDetailsTreeViewer, site);
 
         refinementInfoArea = new StyledText(sashForm, SWT.WRAP);
@@ -113,40 +116,44 @@ public class RefinementDetailsView extends Composite {
     public void showRefinement(Refinement refinement) {
         setEnabled(true);
         refinementDetailsTreeViewer.setInput(refinement);
-        updateRefinementInfo(refinement);
     }
 
-    private void updateRefinementInfo(Refinement refinement) {
+    /**
+     * Display an info about a refinement.<br>
+     *
+     * Allows for setting headline and sub headline which will have a specific styling.
+     *
+     * @param headline
+     *            A headline to be displayed
+     * @param subHeadline
+     *            A sub headline to be displayed
+     * @param info
+     *            The text to display.
+     */
+    public void displayRefinementInfo(String headline, String subHeadline, String info) {
 
-        String headline = "Refinement Infos";
-        String linebreak = "\r\n";
-        String subHeadlineReason = "Source: ";
+        refinementInfoArea.setText(headline + LINE_SEPARATOR + LINE_SEPARATOR + subHeadline + LINE_SEPARATOR + info);
 
-        StringBuilder text = new StringBuilder();
-        text.append(headline);
-        text.append(linebreak);
-        text.append(linebreak);
-        text.append(subHeadlineReason);
-        text.append(linebreak);
-        text.append(refinement.getSource());
+        if (!Strings.isNullOrEmpty(headline)) {
 
-        refinementInfoArea.setText(text.toString());
+            StyleRange styleRange = new StyleRange();
+            styleRange.start = 0;
+            styleRange.length = headline.length();
+            styleRange.fontStyle = SWT.BOLD;
+            styleRange.underline = true;
+            styleRange.underlineStyle = SWT.UNDERLINE_DOUBLE;
+            refinementInfoArea.setStyleRange(styleRange);
 
-        StyleRange styleRange = new StyleRange();
-        styleRange.start = 0;
-        styleRange.length = headline.length();
-        styleRange.fontStyle = SWT.BOLD;
-        styleRange.underline = true;
-        styleRange.underlineStyle = SWT.UNDERLINE_DOUBLE;
-        refinementInfoArea.setStyleRange(styleRange);
-
-        styleRange = new StyleRange();
-        styleRange.start = headline.length() + (2 * linebreak.length());
-        styleRange.length = subHeadlineReason.length();
-        styleRange.fontStyle = SWT.BOLD;
-        styleRange.underline = true;
-        styleRange.underlineStyle = SWT.UNDERLINE_SINGLE;
-        refinementInfoArea.setStyleRange(styleRange);
+            if (!Strings.isNullOrEmpty(subHeadline)) {
+                styleRange = new StyleRange();
+                styleRange.start = headline.length() + (2 * LINE_SEPARATOR.length());
+                styleRange.length = subHeadline.length();
+                styleRange.fontStyle = SWT.BOLD;
+                styleRange.underline = true;
+                styleRange.underlineStyle = SWT.UNDERLINE_SINGLE;
+                refinementInfoArea.setStyleRange(styleRange);
+            }
+        }
     }
 
     /**

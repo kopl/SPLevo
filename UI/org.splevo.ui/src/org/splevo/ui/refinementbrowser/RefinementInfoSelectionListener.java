@@ -15,11 +15,14 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementReason;
 
 /**
- * Listener if a refinement has been selected and open it in the refinement detail view.
+ * Listener to update the refinement info panel.
  */
-public class RefinementSelectionListener implements ISelectionChangedListener {
+public class RefinementInfoSelectionListener implements ISelectionChangedListener {
+
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /** The composite to present the Refinement details in. */
     private RefinementDetailsView refinementDetailView;
@@ -30,7 +33,7 @@ public class RefinementSelectionListener implements ISelectionChangedListener {
      * @param refinementDetailsView
      *            The refinement area to present the details in.
      */
-    public RefinementSelectionListener(RefinementDetailsView refinementDetailsView) {
+    public RefinementInfoSelectionListener(RefinementDetailsView refinementDetailsView) {
         this.refinementDetailView = refinementDetailsView;
     }
 
@@ -51,8 +54,21 @@ public class RefinementSelectionListener implements ISelectionChangedListener {
             return;
         }
 
-        Refinement refinement = (Refinement) selectedElement;
+        String headline = "Refinement Infos";
+        String subHeadlineReason = "Source: ";
 
-        refinementDetailView.showRefinement(refinement);
+        Refinement refinement = (Refinement) selectedElement;
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(refinement.getSource());
+        buffer.append(LINE_SEPARATOR);
+
+        for (RefinementReason reason : refinement.getReasons()) {
+            buffer.append(LINE_SEPARATOR);
+            buffer.append(reason.getReason());
+        }
+
+        String text = buffer.toString();
+
+        refinementDetailView.displayRefinementInfo(headline, subHeadlineReason, text);
     }
 }
