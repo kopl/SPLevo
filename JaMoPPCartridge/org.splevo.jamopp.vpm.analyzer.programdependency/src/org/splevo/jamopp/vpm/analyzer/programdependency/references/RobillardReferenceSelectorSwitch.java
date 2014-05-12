@@ -40,6 +40,7 @@ import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.references.util.ReferencesSwitch;
+import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.ForLoop;
@@ -47,6 +48,7 @@ import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
+import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.statements.util.StatementsSwitch;
 import org.emftext.language.java.types.TypeReference;
@@ -215,6 +217,28 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Commen
         public List<Commentable> caseReturn(Return returnStmt) {
             ArrayList<Commentable> refElements = Lists.newArrayList();
             refElements.addAll(parentSwitch.doSwitch(returnStmt.getReturnValue()));
+            return refElements;
+        }
+
+        @Override
+        public List<Commentable> caseTryBlock(TryBlock block) {
+            ArrayList<Commentable> refElements = Lists.newArrayList();
+            for (Statement statement : block.getStatements()) {
+                refElements.addAll(parentSwitch.doSwitch(statement));
+            }
+            for (CatchBlock catchBlock : block.getCatcheBlocks()) {
+                refElements.addAll(parentSwitch.doSwitch(catchBlock));
+            }
+            return refElements;
+        }
+
+        @Override
+        public List<Commentable> caseCatchBlock(CatchBlock block) {
+            ArrayList<Commentable> refElements = Lists.newArrayList();
+            refElements.addAll(parentSwitch.doSwitch(block.getParameter()));
+            for (Statement statement : block.getStatements()) {
+                refElements.addAll(parentSwitch.doSwitch(statement));
+            }
             return refElements;
         }
 
