@@ -62,6 +62,7 @@ import org.splevo.vpm.analyzer.VPMAnalyzerUtil;
  */
 public class RobillardReferenceSelector implements ReferenceSelector {
 
+    @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(RobillardReferenceSelector.class);
 
     private RobillardReferenceSelectorSwitch selectorSwitch = new RobillardReferenceSelectorSwitch();
@@ -100,10 +101,6 @@ public class RobillardReferenceSelector implements ReferenceSelector {
         if (JaMoPPElementUtil.isParentOf(source2, target)) {
             return false;
         }
-
-
-
-        logger.info("Robillard Reference Selector invoked");
 
         return false;
     }
