@@ -22,6 +22,7 @@ import org.splevo.vpm.analyzer.graph.RelationshipEdge;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
+import org.splevo.vpm.refinement.RefinementReason;
 import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -37,8 +38,6 @@ import com.google.common.collect.Sets;
 public class BasicDetectionRule implements DetectionRule {
 
     private Logger logger = Logger.getLogger(BasicDetectionRule.class);
-
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /** The edges that must be match. */
     private List<String> edgeLabels = null;
@@ -113,8 +112,6 @@ public class BasicDetectionRule implements DetectionRule {
     @Override
     public List<Refinement> detect(final VPMGraph vpmGraph) {
 
-        List<Refinement> refinements = Lists.newArrayList();
-
         Map<Node, Integer> nodeSubgraphIndex = Maps.newLinkedHashMap();
         ArrayListMultimap<Integer, Node> subgraphNodeIndex = ArrayListMultimap.create();
         ArrayListMultimap<Integer, RelationshipEdge> subgraphEdgeIndex = ArrayListMultimap.create();
@@ -162,6 +159,7 @@ public class BasicDetectionRule implements DetectionRule {
 
         logger.info("Subgraph Count: " + subgraphEdgeIndex.keySet().size());
 
+        List<Refinement> refinements = Lists.newArrayList();
         for (Integer subgraphId : subgraphEdgeIndex.keySet()) {
             List<RelationshipEdge> subgraphEdges = subgraphEdgeIndex.get(subgraphId);
             Refinement refinement = buildRefinementForEdges(subgraphEdges);
@@ -206,45 +204,25 @@ public class BasicDetectionRule implements DetectionRule {
 
         Joiner.on(", ").appendTo(refinementSource, edgeLabels);
 
-        Set<Node> nodes = Sets.newLinkedHashSet();
+        Set<VariationPoint> refinedVPs = Sets.newLinkedHashSet();
         for (RelationshipEdge edge : subgraphEdges) {
-            refinementSource.append(LINE_SEPARATOR);
-            refinementSource.append("-");
-            nodes.add(edge.getSourceNode());
-            nodes.add(edge.getTargetNode());
+            VariationPoint sourceVP = VPMGraph.getVP(edge.getSourceNode());
+            VariationPoint targetVP = VPMGraph.getVP(edge.getTargetNode());
+            refinedVPs.add(sourceVP);
+            refinedVPs.add(targetVP);
 
-            if(edge.getRelationshipInfos() != null) {
-                Joiner.on(LINE_SEPARATOR).appendTo(refinementSource, edge.getRelationshipInfos());
-            }
+            RefinementReason reason = RefinementFactory.eINSTANCE.createRefinementReason();
+            reason.setSource(sourceVP);
+            reason.setTarget(targetVP);
+            reason.setReason(Joiner.on(", ").join(edge.getRelationshipInfos()));
+            refinement.getReasons().add(reason);
         }
 
-        for (Node node : nodes) {
-            addVariationPoint(refinement, node);
-        }
+        refinement.getVariationPoints().addAll(refinedVPs);
 
         refinement.setSource(refinementSource.toString());
 
         return refinement;
-    }
-
-    /**
-     * Add the variation point of a node to the refinement.
-     *
-     * DesignDecision: No duplicate checking to improve performance
-     *
-     * Note: Adding two nodes with the same VariationPoint would lead to assign the variation point
-     * twice to the refinement. There is no duplicate checking done here, because this has shown to
-     * lead to a significant performance loss at this point.
-     *
-     *
-     * @param refinement
-     *            The refinement to add the vp to.
-     * @param node
-     *            The node to get the vp from.
-     */
-    private void addVariationPoint(Refinement refinement, Node node) {
-        VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
-        refinement.getVariationPoints().add(vp);
     }
 
     /**

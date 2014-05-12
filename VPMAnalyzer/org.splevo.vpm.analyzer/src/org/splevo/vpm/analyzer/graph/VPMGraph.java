@@ -8,6 +8,7 @@ import org.graphstream.graph.EdgeFactory;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.AbstractNode;
 import org.graphstream.graph.implementations.AdjacencyListGraph;
+import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * A variation point model representing graph.
@@ -80,6 +81,17 @@ public class VPMGraph extends AdjacencyListGraph {
      */
     public VPMGraph(String id) {
         this(id, true, false);
+    }
+
+    /**
+     * Get the variation point stored in a node.
+     *
+     * @param node
+     *            The node to get the VP for.
+     * @return The VP or null if none available.
+     */
+    public static VariationPoint getVP(Node node) {
+        return node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
     }
 
     @Override

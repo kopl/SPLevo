@@ -28,7 +28,9 @@ import org.splevo.vpm.analyzer.mergedecider.MergeDeciderRegistry;
 import org.splevo.vpm.analyzer.refinement.DetectionRule;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
+import org.splevo.vpm.refinement.RefinementReason;
 import org.splevo.vpm.refinement.RefinementType;
+import org.splevo.vpm.refinement.RefinementUtil;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -61,13 +63,6 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         int nodeIndex = 0;
         for (VariationPointGroup vpGroup : vpm.getVariationPointGroups()) {
             for (VariationPoint vp : vpGroup.getVariationPoints()) {
-
-                // At this time, the referenced ASTNode might be a proxy.
-                // To prevent issues in the later processing, it is important
-                // to resolve the proxy here before pushing the variation point
-                // into the graph node.
-                // EcoreUtil.resolveAll(vp);
-
                 String nodeID = "VP" + (nodeIndex++);
                 Node n = graph.addNode(nodeID);
                 n.addAttribute(VPMGraph.GS_LABEL, nodeID);
@@ -439,6 +434,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
         source.append(NEW_LINE);
         source.append(originalRefinement.getSource());
         groupRefinement.setSource(source.toString());
+        groupRefinement.getReasons().addAll(originalRefinement.getReasons());
 
         return groupRefinement;
     }
@@ -463,6 +459,9 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
 
         mergeRefinement.getVariationPoints().add(key);
         mergeRefinement.getVariationPoints().addAll(buckets.get(key));
+        List<RefinementReason> reasons = RefinementUtil.getReasons(originalRefinement, buckets.get(key));
+        originalRefinement.getReasons().removeAll(reasons);
+        mergeRefinement.getReasons().addAll(reasons);
 
         int mergedVPCount = mergeRefinement.getVariationPoints().size();
         int origVPCount = originalRefinement.getVariationPoints().size();

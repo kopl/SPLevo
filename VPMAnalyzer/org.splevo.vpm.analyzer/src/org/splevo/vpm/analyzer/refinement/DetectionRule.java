@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,15 +19,12 @@ import org.splevo.vpm.refinement.RefinementType;
 
 /**
  * A detection rule to derive refinement recommendations from a set of VPMRelationshipEdge labels.
- * 
- * @author Benjamin Klatt
- * 
  */
 public interface DetectionRule {
 
     /**
      * Check if a RelationShipEdge matches the conditions of this detection rule.
-     * 
+     *
      * @param vpmGraph
      *            The graph containing the edges to detect refinements from.
      * @return True if the rule matched, false if not.
