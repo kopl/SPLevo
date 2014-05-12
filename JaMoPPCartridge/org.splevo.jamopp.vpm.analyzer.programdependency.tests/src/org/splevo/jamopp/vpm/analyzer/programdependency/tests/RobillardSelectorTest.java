@@ -103,6 +103,32 @@ public class RobillardSelectorTest {
      *             Identifies a failed diffing.
      */
     @Test
+    public void testNestedStatements() throws Exception {
+
+        String testBasePath = BASE_PATH + "NestedStatements/";
+
+        String relativePathA = testBasePath + "a";
+        String relativePathB = testBasePath + "b";
+        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+
+        JaMoPPProgramDependencyVPMAnalyzer analyzer = createRobillardConfiguredAnalyzer();
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
+            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
+        }
+
+        assertThat("Wrong number of graph nodes", graph.getNodeSet().size(), is(6));
+        assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(3));
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
     public void testWriteField() throws Exception {
 
         String testBasePath = BASE_PATH + "WriteField/";
