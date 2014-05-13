@@ -31,7 +31,7 @@ public interface ReferenceSelector {
      *            The JaMoPP element to study.
      * @return The list of reasonable elements.
      */
-    public List<Commentable> getReferencedElements(Commentable commentable);
+    public List<Reference> getReferencedElements(Commentable commentable);
 
     /**
      * Check if the reference between the two referring and the referenced element should be ignored
@@ -46,5 +46,12 @@ public interface ReferenceSelector {
      * @return True if the reference should be ignored, false if it must be considered.
      */
     public boolean ignoreReference(Commentable source1, Commentable source2, Commentable target);
+
+    /**
+     * Get a representation of statistics about not ignored references tracked during the process.
+     *
+     * @return A formatted string of any statistics about not ignored references.
+     */
+    public String generateStatistics();
 
 }

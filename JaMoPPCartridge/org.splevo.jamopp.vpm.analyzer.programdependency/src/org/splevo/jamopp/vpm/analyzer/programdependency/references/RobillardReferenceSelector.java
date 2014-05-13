@@ -16,8 +16,15 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.members.Field;
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerUtil;
+
+import com.google.common.collect.LinkedHashMultiset;
+import com.google.common.collect.Multiset;
 
 /**
  * A reference selector implementing the references defined by:<br>
@@ -62,22 +69,38 @@ import org.splevo.vpm.analyzer.VPMAnalyzerUtil;
  */
 public class RobillardReferenceSelector implements ReferenceSelector {
 
-    @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(RobillardReferenceSelector.class);
 
-    private RobillardReferenceSelectorSwitch selectorSwitch = new RobillardReferenceSelectorSwitch();
+    private Multiset<String> statistics = LinkedHashMultiset.create();
+
+    private RobillardReferenceSelectorSwitch selectorSwitch;
+
+    private boolean sharedAccess = false;
+
+    /**
+     * Constructor requiring to set the mode to run in.
+     *
+     * @param extendedMode
+     *            Flag to decide about running in default or Robillard original mode.
+     * @param sharedAccess
+     *            Flag to considered shared access to referenced elements.
+     */
+    public RobillardReferenceSelector(boolean extendedMode, boolean sharedAccess) {
+        this.sharedAccess = sharedAccess;
+        selectorSwitch = new RobillardReferenceSelectorSwitch(extendedMode);
+    }
 
     @Override
-    public List<Commentable> getReferencedElements(Commentable commentable) {
+    public List<Reference> getReferencedElements(Commentable commentable) {
         if (VPMAnalyzerUtil.isNullOrProxy(commentable)) {
-            return new ArrayList<Commentable>();
+            return new ArrayList<Reference>();
         }
 
-        List<Commentable> referencedElements = selectorSwitch.doSwitch(commentable);
+        List<Reference> referencedElements = selectorSwitch.doSwitch(commentable);
 
-        for (Commentable element : referencedElements) {
-            if (VPMAnalyzerUtil.isNullOrProxy(element)) {
-                referencedElements.remove(element);
+        for (Reference reference : referencedElements) {
+            if (VPMAnalyzerUtil.isNullOrProxy(reference.getTarget())) {
+                referencedElements.remove(reference);
             }
         }
 
@@ -95,14 +118,57 @@ public class RobillardReferenceSelector implements ReferenceSelector {
         if (source1 == source2) {
             return true;
         }
-        if (JaMoPPElementUtil.isParentOf(source1, target)) {
-            return false;
-        }
-        if (JaMoPPElementUtil.isParentOf(source2, target)) {
-            return false;
+
+        boolean source1IsParent = JaMoPPElementUtil.isParentOf(source1, target);
+        boolean source2IsParent = JaMoPPElementUtil.isParentOf(source2, target);
+
+        String trackingID = null;
+
+        if (source1IsParent && source2IsParent) {
+            logger.error("Unexpected Nested sources");
+            trackingID = "NESTED SOURCES: " + getElementTypeID(target);
+        } else if (source1IsParent) {
+            trackingID = getElementTypeID(source2) + "->" + getElementTypeID(target);
+        } else if (source2IsParent) {
+            trackingID = getElementTypeID(source1) + "->" + getElementTypeID(target);
+        } else if (sharedAccess) {
+            trackingID = String.format("SHARED: %s & %s -> %s", getElementTypeID(source1), getElementTypeID(source2),
+                    getElementTypeID(target));
+        } else {
+            return true;
         }
 
+        statistics.add(trackingID);
+
         return false;
+    }
+
+    /**
+     * Get an identifier for the type of an element.
+     *
+     * @param element
+     *            The element to get the type identifier for.
+     * @return The type identifier.
+     */
+    private String getElementTypeID(Commentable element) {
+        if (element instanceof org.emftext.language.java.classifiers.Class) {
+            return "Class";
+        } else if (element instanceof Field) {
+            return "Field";
+        } else if (element instanceof Method) {
+            return "Method";
+        } else if (element instanceof Statement) {
+            return "Statement";
+        } else if (element instanceof LocalVariable) {
+            return "Variable";
+        }
+
+        return element.getClass().getSimpleName();
+    }
+
+    @Override
+    public String generateStatistics() {
+        return statistics.toString();
     }
 
 }

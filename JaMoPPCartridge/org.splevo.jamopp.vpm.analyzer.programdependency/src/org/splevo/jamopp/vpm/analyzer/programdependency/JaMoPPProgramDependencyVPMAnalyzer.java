@@ -17,10 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
 import org.graphstream.graph.Node;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
+import org.splevo.jamopp.vpm.analyzer.programdependency.references.Reference;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelector;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelectorRegistry;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
@@ -63,6 +65,8 @@ import com.google.common.collect.Table;
  *
  */
 public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
+
+    private static Logger logger = Logger.getLogger(JaMoPPProgramDependencyVPMAnalyzer.class);
 
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramDependency";
@@ -116,6 +120,8 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         vp2GraphNodeIndex = buildGraphNodeIndex(vpmGraph);
         indexReferencedElements(vp2GraphNodeIndex.keySet(), referenceSelector);
         List<VPMEdgeDescriptor> descriptors = identifyDependencies(vp2GraphNodeIndex.keySet(), referenceSelector);
+
+        logger.debug("Statistics: " + referenceSelector.generateStatistics());
 
         VPMAnalyzerResult result = new VPMAnalyzerResult(this);
         result.getEdgeDescriptors().addAll(descriptors);
@@ -247,19 +253,19 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     private void indexReferencedElements(VariationPoint vp, Commentable referringElement,
             ReferenceSelector referenceSelector) {
-        List<Commentable> referencedElements = referenceSelector.getReferencedElements(referringElement);
-        for (Commentable referencedElement : referencedElements) {
+        List<Reference> referencedElements = referenceSelector.getReferencedElements(referringElement);
+        for (Reference reference : referencedElements) {
 
             // filter external elements (i.e. contained in binary resources)
             if (filterExternalsConfig.getCurrentValue()) {
-                Resource resource = referencedElement.eResource();
+                Resource resource = reference.getTarget().eResource();
                 if (resource != null && "pathmap".equals(resource.getURI().scheme())) {
                     continue;
                 }
             }
 
-            referencedElementsIndex.get(referencedElement).add(vp);
-            referringElementIndex.put(vp, referencedElement, referringElement);
+            referencedElementsIndex.get(reference.getTarget()).add(vp);
+            referringElementIndex.put(vp, reference.getTarget(), reference.getSource());
         }
     }
 

@@ -18,11 +18,13 @@ package org.splevo.jamopp.vpm.analyzer.programdependency.references;
  */
 public class ReferenceSelectorRegistry {
 
-    public static final String DEFAULT_SELECTOR = "Default";
     public static final String ROBILLARD_SELECTOR = "Robillard";
+    public static final String ROBILLARD_EXTENDED_SELECTOR = "Robillard Extended";
+    public static final String ROBILLARD_EXTENDED_SHARED_ACCESS_SELECTOR = "Robillard Extended (SharedAccess)";
+
 
     /**
-     * Get the reference selector for a specific selecor id.
+     * Get the reference selector for a specific selector id.
      *
      * @param id
      *            The id to get the selector for.
@@ -30,10 +32,13 @@ public class ReferenceSelectorRegistry {
      */
     public static ReferenceSelector getReferenceSelector(String id) {
 
-        if (DEFAULT_SELECTOR.equals(id)) {
-            return new DefaultReferenceSelector();
-        } else if (ROBILLARD_SELECTOR.equals(id)) {
-            return new RobillardReferenceSelector();
+        if (ROBILLARD_SELECTOR.equals(id)) {
+            return new RobillardReferenceSelector(false, false);
+        } else if (ROBILLARD_EXTENDED_SELECTOR.equals(id)) {
+            return new RobillardReferenceSelector(true, false);
+
+        } else if (ROBILLARD_EXTENDED_SHARED_ACCESS_SELECTOR.equals(id)) {
+            return new RobillardReferenceSelector(true, true);
         } else {
             throw new IllegalArgumentException("Non existing reference selector requested: " + id);
         }
@@ -46,6 +51,6 @@ public class ReferenceSelectorRegistry {
      * @return An array of the unique ids.
      */
     public static String[] getAvailableSelectorIds() {
-        return new String[] { DEFAULT_SELECTOR, ROBILLARD_SELECTOR };
+        return new String[] { ROBILLARD_EXTENDED_SELECTOR, ROBILLARD_SELECTOR };
     }
 }

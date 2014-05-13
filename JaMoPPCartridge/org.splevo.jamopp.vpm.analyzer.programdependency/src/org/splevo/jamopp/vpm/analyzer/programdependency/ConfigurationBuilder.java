@@ -31,7 +31,7 @@ public final class ConfigurationBuilder {
     public static final String CONFIG_ID_REFERENCE_SELECTOR = CONFIG_ID_BASE + "REFERENCE_SELECTOR";
     public static final String LABEL_REFERENCE_SELECTOR = "Reference Selector";
     public static final String EXPL_REFERENCE_SELECTOR = "Choose the selector to decide about which references between software elments should be considered.";
-    public static final String DEFAULT_REFERENCE_SELECTOR = ReferenceSelectorRegistry.DEFAULT_SELECTOR;
+    public static final String DEFAULT_REFERENCE_SELECTOR = ReferenceSelectorRegistry.ROBILLARD_EXTENDED_SELECTOR;
 
     /** Disable constructor for static utility usage. */
     private ConfigurationBuilder() {
