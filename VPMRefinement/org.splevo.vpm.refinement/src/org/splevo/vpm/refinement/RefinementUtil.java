@@ -96,7 +96,12 @@ public class RefinementUtil {
     }
 
     /**
-     * Get all reasons with source and target contained in a list of variation points.
+     * Get all reasons relevant for the merge.
+     *
+     * Two possible cases:<br>
+     * 1. Source and target contained in a list of variation points: move reason
+     * 2. Source or target contained in a list of variation points: copy reason
+     *
      *
      * @param originalRefinement
      *            The refinement to get the reasons from.
@@ -109,8 +114,16 @@ public class RefinementUtil {
         List<RefinementReason> reasons = Lists.newArrayList();
 
         for (RefinementReason reason : originalRefinement.getReasons()) {
-            if (vps.contains(reason.getSource()) && vps.contains(reason.getTarget())) {
+            boolean isSourceContained = vps.contains(reason.getSource());
+            boolean isTargetContained = vps.contains(reason.getTarget());
+            if (isSourceContained && isTargetContained) {
                 reasons.add(reason);
+            } else if (isSourceContained || isTargetContained) {
+                RefinementReason copy = RefinementFactory.eINSTANCE.createRefinementReason();
+                copy.setReason(reason.getReason());
+                copy.setSource(reason.getSource());
+                copy.setTarget(reason.getTarget());
+                reasons.add(copy);
             }
         }
 
