@@ -6,8 +6,7 @@ public class A {
         System.out.println(myVar.toString());
     }
 
-    public void newCastingMethod(Object obj) {
-        Object castedValue = (B) obj;
+    public void newVariableTypeMethod() {
+        Object castedValue = new B();
     }
-
 }

@@ -1,21 +1,18 @@
 package org.splevo.jamopp.vpm.analyzer.programdependency.tests;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.vpm.analyzer.programdependency.JaMoPPProgramDependencyVPMAnalyzer;
 import org.splevo.tests.SPLevoTestUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
-import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 /**
@@ -23,9 +20,6 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
  */
 public class JaMoPPProgramDependencyAnalyzerTest {
 
-    private static Logger logger = Logger.getLogger(JaMoPPProgramDependencyAnalyzerTest.class);
-
-    /** An instance of the analyzer for general tests. */
     private final JaMoPPProgramDependencyVPMAnalyzer analyzer = new JaMoPPProgramDependencyVPMAnalyzer();
 
     /**
@@ -43,23 +37,9 @@ public class JaMoPPProgramDependencyAnalyzerTest {
     public void testAnalyze() throws Exception {
 
         VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
+        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
 
-        int originalNodeCount = graph.getNodeCount();
-        int originalEdgeCount = graph.getEdgeCount();
-
-        VPMAnalyzerResult result = analyzer.analyze(graph);
-
-        assertNotNull("The analyzer result must not be null", result);
-        assertEquals("The graph's node count should not have been changed.", originalNodeCount, graph.getNodeCount());
-        assertEquals("The graph's edge count should not have been changed.", originalEdgeCount, graph.getEdgeCount());
-
-        // This output should only be used for local test analysis.
-        // It should not be committed to not mess up the build server
-        for (VPMEdgeDescriptor edgeDescriptor : result.getEdgeDescriptors()) {
-            logger.debug("Edge Sub Label: " + edgeDescriptor.getRelationshipSubLabel());
-        }
-
-        assertThat("Wrong edge descriptor count", result.getEdgeDescriptors().size(), is(11));
+        assertThat("Wrong edge descriptor count", result.getEdgeDescriptors().size(), is(10));
 
     }
 
