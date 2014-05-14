@@ -62,7 +62,7 @@ public class JaMoPPSoftwareModelExtractorTest {
     @Test
     public void testExtractSoftwareModel() throws SoftwareModelExtractionException {
 
-        String testProjectPath = "test/project/calculator-jscience";
+        String testProjectPath = "testcode/project/calculator-jscience";
 
         JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
         List<String> projectPaths = Lists.newArrayList(new File(testProjectPath).getAbsolutePath());
