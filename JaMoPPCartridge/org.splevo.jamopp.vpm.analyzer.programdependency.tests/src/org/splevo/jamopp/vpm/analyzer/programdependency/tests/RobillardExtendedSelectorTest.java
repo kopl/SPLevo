@@ -207,6 +207,22 @@ public class RobillardExtendedSelectorTest {
      *             Identifies a failed diffing.
      */
     @Test
+    public void testInstanceOfInterface() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InstanceOfInterface/");
+        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependencyCount(result, 1);
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
     public void testClassCreate() throws Exception {
 
         VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ClassCreate/");
@@ -226,6 +242,22 @@ public class RobillardExtendedSelectorTest {
     public void testClassCast() throws Exception {
 
         VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ClassCast/");
+        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependencyCount(result, 1);
+    }
+
+    /**
+     * Test to detect dependency between a new interface and a cast to it.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testInterfaceCast() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InterfaceCast/");
         VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
 
         assertNodeCount(graph, 2);
