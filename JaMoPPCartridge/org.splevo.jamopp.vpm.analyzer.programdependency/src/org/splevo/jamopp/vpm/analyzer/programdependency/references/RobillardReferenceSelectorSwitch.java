@@ -19,6 +19,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -163,9 +165,18 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             this.parentSwitch = parentSwitch;
         }
 
+        /**
+         * Process all classifiers contained in a compilation unit. If a specific element should be
+         * included or not (depending on the selectors current mode) is decided in the according
+         * case method to not duplicate the elements' type checks.
+         */
         @Override
         public List<Reference> caseCompilationUnit(CompilationUnit cu) {
-            return parentSwitch.doSwitch(cu.getContainedClass());
+            List<Reference> references = Lists.newArrayList();
+            for (ConcreteClassifier cc : cu.getClassifiers()) {
+                references.addAll(parentSwitch.doSwitch(cc));
+            }
+            return references;
         }
     }
 
@@ -207,6 +218,26 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             }
 
             return references;
+        }
+
+        @Override
+        public List<Reference> caseInterface(Interface interfaceObject) {
+
+            if (extendedMode) {
+                ArrayList<Reference> references = Lists.newArrayList();
+                references.add(new Reference(interfaceObject, interfaceObject));
+                for (Member member : interfaceObject.getMembers()) {
+                    references.addAll(parentSwitch.doSwitch(member));
+                }
+
+                for (TypeReference typeRef : interfaceObject.getExtends()) {
+                    references.add(new Reference(interfaceObject, typeRef.getTarget()));
+                }
+                return references;
+            } else {
+                return null;
+            }
+
         }
     }
 
