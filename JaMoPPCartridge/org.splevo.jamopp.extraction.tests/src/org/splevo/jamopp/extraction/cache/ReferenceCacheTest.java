@@ -88,8 +88,8 @@ public class ReferenceCacheTest {
         File cacheDir = folder.newFolder("cacheDir");
         ArrayList<String> cacheFileDirs = Lists.newArrayList(cacheDir.getAbsolutePath());
 
-        String resourcePath = new File("test/cache/basic/CalculatorSqrt.java").getCanonicalPath();
-        String jarPath = "test/cache/basic/lib/jscience.jar";
+        String resourcePath = new File("testcode/cache/basic/CalculatorSqrt.java").getCanonicalPath();
+        String jarPath = "testcode/cache/basic/lib/jscience.jar";
         String jarPathAbsolute = new File(jarPath).getAbsolutePath();
         List<String> jarPaths = Lists.newArrayList(jarPathAbsolute);
 
