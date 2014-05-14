@@ -18,24 +18,18 @@ import org.splevo.vpm.variability.VariationPointModel;
 public class SPLevoTestUtil {
 
     /** Source path to the native calculator implementation. */
-    public static final File NATIVE_DIR = new File(
-            "../org.splevo.tests/testmodels/implementation/gcd/native");
+    private static final File NATIVE_DIR = new File("testmodels/implementation/gcd/native");
 
     /** Source path to the jscience based calculator implementation. */
-    public static final File JSCIENCE_DIR = new File(
-            "../org.splevo.tests/testmodels/implementation/gcd/jscience");
-
-    /** Source path to the class without an interface. */
-    public static final File INTERFACE_IMPLEMENT_TEST_DIR_1 = new File(
-            "../org.splevo.tests/testmodels/implementation/interface.import.test/basic");
-
-    /** Source path to the class implementing the java.io.Serializable interface. */
-    public static final File INTERFACE_IMPLEMENT_TEST_DIR_2 = new File(
-            "../org.splevo.tests/testmodels/implementation/interface.import.test/serializable");
+    private static final File JSCIENCE_DIR = new File("testmodels/implementation/gcd/jscience");
 
     /**
      * Load the variation point model graph for the GCD example.
      *
+     * NOTE: Using this method requires to copy the testmodels directory in the appropriate test. It
+     * is recommended to use more specific tests!!
+     *
+     * @deprecated Recommended to use ore specific fine granular tests.
      * @return The loaded graph.
      * @throws Exception
      *             Identifies a failed diffing.
@@ -50,6 +44,11 @@ public class SPLevoTestUtil {
 
     /**
      * Load the vpm model for the common GCD test example.
+     *
+     * NOTE: Using this method requires to copy the testmodels directory in the appropriate test. It
+     * is recommended to use more specific tests!!
+     *
+     * @deprecated Recommended to use ore specific fine granular tests.
      *
      * @return The loaded model.
      * @throws Exception
@@ -72,7 +71,7 @@ public class SPLevoTestUtil {
      * @throws Exception
      *             Identifies a failed diffing.
      */
-    public static Comparison loadGCDDiffModel() throws Exception {
+    private static Comparison loadGCDDiffModel() throws Exception {
 
         StringBuilder ignorePackages = new StringBuilder();
         ignorePackages.append("java.*");
@@ -86,29 +85,7 @@ public class SPLevoTestUtil {
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        Comparison diffModel = differ.doDiff(NATIVE_DIR.toURI(), JSCIENCE_DIR.toURI(),
-                diffOptions);
-
-        return diffModel;
-    }
-
-    /**
-     * Load the diffing model.
-     *
-     * @param leadingModel
-     * @param integrationModel
-     * @return The resulting comparison model.
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    public static Comparison loadInterfaceImplementsDiffModel() throws Exception {
-
-        Map<String, String> diffOptions = new LinkedHashMap<String, String>();
-        diffOptions.put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, "java.*");
-
-        JaMoPPDiffer differ = new JaMoPPDiffer();
-        Comparison diffModel = differ.doDiff(INTERFACE_IMPLEMENT_TEST_DIR_1.toURI(),
-                INTERFACE_IMPLEMENT_TEST_DIR_2.toURI(), diffOptions);
+        Comparison diffModel = differ.doDiff(NATIVE_DIR.toURI(), JSCIENCE_DIR.toURI(), diffOptions);
 
         return diffModel;
     }
