@@ -62,7 +62,11 @@ public class VariabilityRefactoringService {
         }
 
         try {
-            variationPointModel.eResource().save(null);
+            if (variationPointModel.eResource() != null) {
+                variationPointModel.eResource().save(null);
+            } else {
+                logger.info("Variation Point Model without a resource");
+            }
         } catch (IOException e) {
             result.setStatus(Status.FAILED);
             logger.error("Failed to save Variation Point Model", e);
