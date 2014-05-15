@@ -1,6 +1,14 @@
 package org.splevo.refactoring;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.splevo.refactoring.RecommenderResult.Status;
+import org.splevo.vpm.realization.VariabilityMechanism;
+import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -8,15 +16,74 @@ import org.splevo.vpm.variability.VariationPointModel;
  * defined variation points and consolidating their implementations by introducing variability
  * mechanisms.
  */
-public interface VariabilityRefactoringService {
+public class VariabilityRefactoringService {
+
+    private static Logger logger = Logger.getLogger(VariabilityRefactoringService.class);
 
     /**
      * Perform refactoring according to the the configured {@link VariationPointModel}.
      *
      * @param variationPointModel
-     *            The {@link VariationPointModel} containing the variation points with the
-     *            intended variability mechanism.
+     *            The {@link VariationPointModel} containing the variation points with the intended
+     *            variability mechanism.
      * @return The ResourceSet referencing the refactored software.
      */
-    public ResourceSet refactor(VariationPointModel variationPointModel);
+    public ResourceSet refactor(VariationPointModel variationPointModel) {
+        throw new UnsupportedOperationException("The refactoring is not yet implemented");
+    }
+
+    /**
+     * Auto assign the highest prioritized and matching variability mechanism to each not yet
+     * assigned variation point.
+     *
+     * @param variationPointModel
+     *            The variation point model to assign the vps in.
+     * @param refactorings
+     *            The prioritized list of refactorings to be considered by the recommender.
+     * @return The result of the recommendation run.
+     */
+    public RecommenderResult recommendMechanisms(VariationPointModel variationPointModel,
+            List<VariabilityRefactoring> refactorings) {
+        RecommenderResult result = new RecommenderResult();
+
+        for (VariationPointGroup group : variationPointModel.getVariationPointGroups()) {
+            for (VariationPoint vp : group.getVariationPoints()) {
+                if (vp.getVariabilityMechanism() == null) {
+
+                    VariabilityRefactoring bestRefactoring = getBestMatchingRefactoring(vp, refactorings);
+                    if (bestRefactoring == null) {
+                        result.getUnassignedVariationPoints().add(vp);
+                        continue;
+                    }
+                    VariabilityMechanism mechanism = bestRefactoring.getVariabilityMechanism();
+                    vp.setVariabilityMechanism(mechanism);
+                }
+            }
+        }
+
+        try {
+            variationPointModel.eResource().save(null);
+        } catch (IOException e) {
+            result.setStatus(Status.FAILED);
+            logger.error("Failed to save Variation Point Model", e);
+        }
+
+        return result;
+    }
+
+    /**
+     * Get the best matching refactoring from a priorized list of refactorings.
+     *
+     * @param vp
+     *            The vp to decide a refactoring for.
+     * @param refactorings
+     *            The priorized list of refactorings. Higher priorized first.
+     * @return The best matching refactoring. Null if none could be found.
+     */
+    private VariabilityRefactoring getBestMatchingRefactoring(VariationPoint vp,
+            List<VariabilityRefactoring> refactorings) {
+        VariabilityRefactoring bestRefactoring = refactorings.get(0);
+        return bestRefactoring;
+    }
+
 }
