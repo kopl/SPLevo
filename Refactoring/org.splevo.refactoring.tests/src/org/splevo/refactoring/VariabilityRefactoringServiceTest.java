@@ -19,6 +19,10 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.PatternLayout;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -33,6 +37,15 @@ import com.google.common.collect.Lists;
  * Tests for the variability refactoring service.
  */
 public class VariabilityRefactoringServiceTest {
+
+    /**
+     * Prepare the test. Initializes a log4j logging environment.
+     */
+    @BeforeClass
+    public static void setUp() {
+        BasicConfigurator.resetConfiguration();
+        BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
+    }
 
     /**
      * Test that the recommendation recommends reasonable refactorings.
