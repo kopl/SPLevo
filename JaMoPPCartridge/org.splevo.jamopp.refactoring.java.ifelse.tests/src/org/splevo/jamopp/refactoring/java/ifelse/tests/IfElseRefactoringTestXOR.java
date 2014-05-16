@@ -1111,7 +1111,7 @@ public class IfElseRefactoringTestXOR {
      * statement.
      * 
      * <strong>Integration Variant</strong><br>
-     * Same as leading variant but with another exception being thrown in the catch block.
+     * Same as leading variant but with a different exception being thrown in the catch block.
      * 
      * <strong>Test Details</strong><br>
      * Tests whether the refactoring can be applied.
@@ -1153,7 +1153,7 @@ public class IfElseRefactoringTestXOR {
      * statement.
      * 
      * <strong>Integration Variant</strong><br>
-     * Same as leading variant but with another exception being thrown in the catch block.
+     * Same as leading variant but with a different exception being thrown in the catch block.
      * 
      * <strong>Test Details</strong><br>
      * Tests whether the leading catch block contains the right statements.
@@ -1201,7 +1201,7 @@ public class IfElseRefactoringTestXOR {
      * statement.
      * 
      * <strong>Integration Variant</strong><br>
-     * Same as leading variant but with another exception being thrown in the catch block.
+     * Same as leading variant but with a different exception being thrown in the catch block.
      * 
      * <strong>Test Details</strong><br>
      * Verifies the condition that was created during refactoring.
@@ -1243,7 +1243,7 @@ public class IfElseRefactoringTestXOR {
         Condition elseCondition = (Condition) condition.getElseStatement();
         assertThat(elseCondition.getCondition(), notNullValue());
         assertThat(elseCondition.getStatement(), instanceOf(Block.class));
-        assertThat(elseCondition.getElseStatement(), nullValue());
+        assertThat(elseCondition.getElseStatement(), instanceOf(Block.class));
 
         Block generatedIfBlock = (Block) condition.getStatement();
         assertThat(generatedIfBlock.getStatements().size(), equalTo(1));

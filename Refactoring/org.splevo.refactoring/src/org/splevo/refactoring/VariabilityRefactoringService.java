@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.refactoring.RecommenderResult.Status;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
@@ -22,20 +24,40 @@ public class VariabilityRefactoringService {
 
     /**
      * Perform refactoring according to the the configured {@link VariationPointModel}.
-     *
+     * 
      * @param variationPointModel
      *            The {@link VariationPointModel} containing the variation points with the intended
      *            variability mechanism.
      * @return The ResourceSet referencing the refactored software.
      */
     public ResourceSet refactor(VariationPointModel variationPointModel) {
-        throw new UnsupportedOperationException("The refactoring is not yet implemented");
+        ResourceSetImpl resourceSetImpl = new ResourceSetImpl();
+        for (VariationPointGroup vpGroup : variationPointModel.getVariationPointGroups()) {
+            for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
+                // get refactoing, check if applicable and apply
+                String refactoringID = variationPoint.getVariabilityMechanism().getRefactoringID();
+                VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getRefactoringById(refactoringID);
+                if (!refactoring.canBeAppliedTo(variationPoint)) {
+                    logger.warn("Recommended refactoring cannot be applied to this variation point.");
+                    continue;
+                }
+                refactoring.refactor(variationPoint);
+
+                // add resource to the new set if not yet contained
+                Resource vpLocationResource = variationPoint.getLocation().eResource();
+                if (!resourceSetImpl.getResources().contains(vpLocationResource)) {
+                    resourceSetImpl.getResources().add(vpLocationResource);
+                }
+            }
+        }
+
+        return resourceSetImpl;
     }
 
     /**
      * Auto assign the highest prioritized and matching variability mechanism to each not yet
      * assigned variation point.
-     *
+     * 
      * @param variationPointModel
      *            The variation point model to assign the vps in.
      * @param refactorings
@@ -77,7 +99,7 @@ public class VariabilityRefactoringService {
 
     /**
      * Get the best matching refactoring from a priorized list of refactorings.
-     *
+     * 
      * @param vp
      *            The vp to decide a refactoring for.
      * @param refactorings

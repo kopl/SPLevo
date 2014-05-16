@@ -1183,9 +1183,10 @@ public class IfElseRefactoringTestOR {
         objectUnderTest.refactor(variationPoint);
 
         // verification
-        assertThat(leadingCatchBlock.getStatements().size(), equalTo(2));
+        assertThat(leadingCatchBlock.getStatements().size(), equalTo(3));
         assertThat(leadingCatchBlock.getStatements().get(0), instanceOf(Condition.class));
         assertThat(leadingCatchBlock.getStatements().get(1), instanceOf(Condition.class));
+        assertThat(leadingCatchBlock.getStatements().get(2), instanceOf(Condition.class));
     }
 
     /**
@@ -1646,7 +1647,7 @@ public class IfElseRefactoringTestOR {
         objectUnderTest.refactor(variationPoint);
 
         // verification
-        assertThat(leadingMethod.getStatements().size(), equalTo(5));
+        assertThat(leadingMethod.getStatements().size(), equalTo(6));
         assertThat(leadingMethod.getStatements().get(0), instanceOf(LocalVariableStatement.class));
 
         LocalVariableStatement generatedLocalVariable = (LocalVariableStatement) leadingMethod.getStatements().get(0);
@@ -1654,8 +1655,9 @@ public class IfElseRefactoringTestOR {
 
         assertThat(leadingMethod.getStatements().get(1), instanceOf(Condition.class));
         assertThat(leadingMethod.getStatements().get(2), instanceOf(Condition.class));
-        assertThat(leadingMethod.getStatements().get(3), equalTo(leadingStatement1));
-        assertThat(leadingMethod.getStatements().get(4), equalTo(leadingStatement2));
+        assertThat(leadingMethod.getStatements().get(3), instanceOf(Condition.class));
+        assertThat(leadingMethod.getStatements().get(4), equalTo(leadingStatement1));
+        assertThat(leadingMethod.getStatements().get(5), equalTo(leadingStatement2));
     }
 
     /**
