@@ -87,10 +87,23 @@ public class SPLProfileTab extends AbstractDashboardTab {
         composite.setLayoutData(new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_BEGINNING, true, false));
 
         createHeader(composite);
+        createQualityGoalGroup(composite);
         createMechanismGroup(composite);
 
         scrolledComposite.setContent(composite);
         scrolledComposite.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
+    }
+
+    private void createQualityGoalGroup(Composite composite) {
+        Group qualityGoalGroup = new Group(composite, SWT.FILL);
+        qualityGoalGroup.setText("Quality Goals");
+        qualityGoalGroup.setFont(getModifiedFont(qualityGoalGroup, SWT.BOLD));
+        qualityGoalGroup.setLayout(new GridLayout(1, false));
+        qualityGoalGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+
+        Label selectionInfo = new Label(qualityGoalGroup, SWT.NONE);
+        selectionInfo.setText("Area for specifying SPL quality goals relevant for the consolidation process.");
 
     }
 
