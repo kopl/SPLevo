@@ -208,6 +208,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         if (vpmAvailable()) {
             openVPMBtn.setEnabled(true);
             analyzeVPMBtn.setEnabled(true);
+            startRefactoringBtn.setEnabled(true);
             generateFMBtn.setEnabled(true);
         } else {
             return;
@@ -258,6 +259,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         buttons.add(generateFMBtn);
         buttons.add(initVpmBtn);
         buttons.add(analyzeVPMBtn);
+        buttons.add(startRefactoringBtn);
         buttons.add(openVPMBtn);
 
         for (Button button : buttons) {

@@ -120,17 +120,6 @@ public class SPLProfileTab extends AbstractDashboardTab {
 
         final DualList dl = new DualList(mechanismGroup, SWT.BORDER | SWT.BACKGROUND);
         dl.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
-        int index = 0;
-        for (VariabilityRefactoring refactoring : VariabilityRefactoringRegistry.getRefactorings()) {
-            VariabilityMechanism mechanism = refactoring.getVariabilityMechanism();
-            DLItem item = new DLItem(mechanism.getName());
-            item.setData(SPLPROFILE_CONFIG_ID_REFACTORING_DATA, refactoring);
-            dl.add(item);
-            if (getSPLProfile().getRecommendedRefactoringIds().contains(refactoring.getId())) {
-                dl.select(index);
-            }
-            index++;
-        }
 
         dl.addSelectionChangeListener(new SelectionChangeListener() {
 
@@ -163,6 +152,18 @@ public class SPLProfileTab extends AbstractDashboardTab {
 
             }
         });
+
+        int index = 0;
+        for (VariabilityRefactoring refactoring : VariabilityRefactoringRegistry.getRefactorings()) {
+            VariabilityMechanism mechanism = refactoring.getVariabilityMechanism();
+            DLItem item = new DLItem(mechanism.getName());
+            item.setData(SPLPROFILE_CONFIG_ID_REFACTORING_DATA, refactoring);
+            dl.add(item);
+            if (getSPLProfile().getRecommendedRefactoringIds().contains(refactoring.getId())) {
+                dl.select(index);
+            }
+            index++;
+        }
 
     }
 
