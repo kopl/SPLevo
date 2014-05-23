@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Statement;
@@ -161,6 +162,8 @@ public class RobillardReferenceSelector implements ReferenceSelector {
             return "Statement";
         } else if (element instanceof LocalVariable) {
             return "Variable";
+        } else if (element instanceof Import) {
+            return "Import";
         }
 
         return element.getClass().getSimpleName();

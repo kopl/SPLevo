@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
 import org.emftext.language.java.commons.Commentable;
@@ -323,7 +324,16 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             for (AdditionalField addField : field.getAdditionalFields()) {
                 refElements.add(new Reference(addField, addField));
             }
-            // refElements.addAll(parentSwitch.doSwitch(field.getInitialValue()));
+            if (extendedMode) {
+                Expression initialValue = field.getInitialValue();
+                refElements.addAll(parentSwitch.doSwitch(initialValue));
+                Type type = field.getTypeReference().getTarget();
+                refElements.add(new Reference(field, type));
+                Import importDecl = checkForImport(field, type);
+                if (importDecl != null) {
+                    refElements.add(new Reference(field, importDecl));
+                }
+            }
             return refElements;
         }
     }
@@ -549,13 +559,21 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             boolean isFieldClassOrMethod = target instanceof Field
                     || target instanceof org.emftext.language.java.classifiers.Class || target instanceof Method;
             boolean isVariable = target instanceof LocalVariable || target instanceof AdditionalLocalVariable;
+            boolean isEnumeration = target instanceof Enumeration;
+            boolean isInterface = target instanceof Interface;
             if (!isFieldClassOrMethod) {
-                if (!(extendedMode && isVariable)) {
+                if (!(extendedMode && (isVariable || isEnumeration || isInterface))) {
                     return Lists.newArrayList();
                 }
             }
 
             ArrayList<Reference> refElements = Lists.newArrayList(new Reference(reference, target));
+            if (extendedMode && target instanceof Type) {
+                Import importDecl = checkForImport(reference, (Type) target);
+                if (importDecl != null) {
+                    refElements.add(new Reference(reference, importDecl));
+                }
+            }
             if (reference.getNext() != null) {
                 List<Reference> nextRereferences = parentSwitch.doSwitch(reference.getNext());
                 updateSource(reference, nextRereferences);
