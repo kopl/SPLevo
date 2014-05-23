@@ -100,8 +100,8 @@ public class RobillardExtendedSelectorTest {
         VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "ImportReferenceMethod/");
         VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
 
-        assertNodeCount(graph, 7);
-        assertDependencyCount(result, 4);
+        assertNodeCount(graph, 9);
+        assertDependencyCount(result, 5);
     }
 
     /**

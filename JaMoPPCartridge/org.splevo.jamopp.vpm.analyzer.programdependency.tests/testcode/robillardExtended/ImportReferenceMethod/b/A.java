@@ -2,6 +2,7 @@ package org.splevo.jamopp.vpm.analyzer.programdependency.tests;
 
 
 import java.util.Currency;
+import java.util.Formatter.BigDecimalLayoutForm;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Properties;
@@ -25,6 +26,11 @@ public class A {
 
     // 1 method parameter type to import
     public void newMethodParameterToImport(Currency cur) {
+    }
+
+    // 1 statement var creation referencing to an import
+    public void newStatementToEnumerationImport() {
+        BigDecimalLayoutForm form = BigDecimalLayoutForm.DECIMAL_FLOAT;
     }
 
 }
