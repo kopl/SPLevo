@@ -121,7 +121,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         indexReferencedElements(vp2GraphNodeIndex.keySet(), referenceSelector);
         List<VPMEdgeDescriptor> descriptors = identifyDependencies(vp2GraphNodeIndex.keySet(), referenceSelector);
 
-        logger.debug("Statistics: " + referenceSelector.generateStatistics());
+        logger.debug("Statistics: \n" + referenceSelector.generateStatistics());
 
         VPMAnalyzerResult result = new VPMAnalyzerResult(this);
         result.getEdgeDescriptors().addAll(descriptors);
