@@ -88,6 +88,23 @@ public class RobillardExtendedSelectorTest {
     }
 
     /**
+     * Test to detect dependencies between method signature and an import declaration referring to the
+     * same type.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testMethodImportReferences() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "MethodImportReferences/");
+        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+
+        assertNodeCount(graph, 8);
+        assertDependencyCount(result, 4);
+    }
+
+    /**
      * Test to detect dependencies between statements and an import declaration referring to the
      * same type.
      *
@@ -95,13 +112,30 @@ public class RobillardExtendedSelectorTest {
      *             Identifies a failed diffing.
      */
     @Test
-    public void testImportReferenceMethod() throws Exception {
+    public void testStatementImportReferences() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "ImportReferenceMethod/");
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportReferences/");
         VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
 
-        assertNodeCount(graph, 9);
-        assertDependencyCount(result, 5);
+        assertNodeCount(graph, 5);
+        assertDependencyCount(result, 3);
+    }
+
+    /**
+     * Test to detect dependencies between field declarations and an import declaration referring to the
+     * same type.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testFieldImportReferences() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldImportReferences/");
+        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+
+        assertNodeCount(graph, 4);
+        assertDependencyCount(result, 2);
     }
 
     /**
