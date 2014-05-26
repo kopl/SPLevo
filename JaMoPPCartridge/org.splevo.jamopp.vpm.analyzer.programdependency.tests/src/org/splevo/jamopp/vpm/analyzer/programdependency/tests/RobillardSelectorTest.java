@@ -11,11 +11,14 @@
  *******************************************************************************/
 package org.splevo.jamopp.vpm.analyzer.programdependency.tests;
 
-import static org.splevo.jamopp.vpm.analyzer.programdependency.tests.TestUtil.assertDependencyCount;
+import static org.splevo.jamopp.vpm.analyzer.programdependency.tests.TestUtil.assertDependency;
 import static org.splevo.jamopp.vpm.analyzer.programdependency.tests.TestUtil.assertNodeCount;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.splevo.jamopp.vpm.analyzer.programdependency.JaMoPPProgramDependencyVPMAnalyzer;
+import org.splevo.jamopp.vpm.analyzer.programdependency.references.DependencyType;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
@@ -26,28 +29,72 @@ public class RobillardSelectorTest {
 
     private static final String BASE_PATH = "testcode/robillard/";
 
+
+    protected JaMoPPProgramDependencyVPMAnalyzer analyzer = null;
+
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
     @BeforeClass
-    public static void setUp() {
+    public static void setUpInfrastructure() {
         TestUtil.initLogging();
     }
 
     /**
+     * Setup the analyzer in the extended mode.
+     */
+    @Before
+    public void setUpAnalyzer() {
+        analyzer = TestUtil.configureRobillardAnalyzer(false, false);
+    }
+
+
+    /**
      * Test method to detect changes in the class and package declarations.
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testMethodCall() throws Exception {
+    public void testClassSupertypeClass() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "MethodCall/");
-        VPMAnalyzerResult result = TestUtil.analyze(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ClassSupertypeClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.ClassSuperTypeClass, 1);
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementCallsMethod() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "StatementCallsMethod/basic/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 3);
-        assertDependencyCount(result, 1);
+        assertDependency(result, DependencyType.StatementCallsMethod, 1);
+    }
+
+    /**
+     * Test the detection of a dependency between a statement calling a constructor.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementCallsMethodConstructor() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "StatementCallsMethod/constructor/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementCallsMethod, 1);
     }
 
     /**
@@ -57,13 +104,61 @@ public class RobillardSelectorTest {
      *             Identifies a failed diffing.
      */
     @Test
-    public void testReadField() throws Exception {
+    public void testStatementChecksClassInstanceOf() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ReadField/");
-        VPMAnalyzerResult result = TestUtil.analyze(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "StatementChecksClass/InstanceOf/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementChecksClass, 1);
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementChecksClassClassCast() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "StatementChecksClass/ClassCast/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementChecksClass, 1);
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementCreatesClass() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "StatementCreatesClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementCreatesClass, 1);
+    }
+
+    /**
+     * Test method to detect changes in the class and package declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementReadsField() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "StatementReadsField/basic/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 4);
-        assertDependencyCount(result, 2);
+        assertDependency(result, DependencyType.StatementReadsField, 2);
     }
 
     /**
@@ -73,13 +168,13 @@ public class RobillardSelectorTest {
      *             Identifies a failed diffing.
      */
     @Test
-    public void testNestedStatements() throws Exception {
+    public void testStatementReadsFieldNested() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "NestedStatements/");
-        VPMAnalyzerResult result = TestUtil.analyze(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "StatementReadsField/nested/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 10);
-        assertDependencyCount(result, 5);
+        assertDependency(result, DependencyType.StatementReadsField, 5);
     }
 
     /**
@@ -89,76 +184,12 @@ public class RobillardSelectorTest {
      *             Identifies a failed diffing.
      */
     @Test
-    public void testWriteField() throws Exception {
+    public void testStatementWritesField() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "WriteField/");
-        VPMAnalyzerResult result = TestUtil.analyze(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "StatementWritesField/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 4);
-        assertDependencyCount(result, 2);
-    }
-
-    /**
-     * Test method to detect changes in the class and package declarations.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testNewConstructorCall() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "NewConstructorCall/");
-        VPMAnalyzerResult result = TestUtil.analyze(graph);
-
-        assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
-    }
-
-    /**
-     * Test method to detect changes in the class and package declarations.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testInstanceOf() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "InstanceOf/");
-        VPMAnalyzerResult result = TestUtil.analyze(graph);
-
-        assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
-    }
-
-    /**
-     * Test method to detect changes in the class and package declarations.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testClassCreate() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ClassCreate/");
-        VPMAnalyzerResult result = TestUtil.analyze(graph);
-
-        assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
-    }
-
-    /**
-     * Test method to detect changes in the class and package declarations.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testClassCast() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ClassCast/");
-        VPMAnalyzerResult result = TestUtil.analyze(graph);
-
-        assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
+        assertDependency(result, DependencyType.StatementWritesField, 2);
     }
 }

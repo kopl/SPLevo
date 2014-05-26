@@ -11,147 +11,94 @@
  *******************************************************************************/
 package org.splevo.jamopp.vpm.analyzer.programdependency.tests;
 
-import static org.splevo.jamopp.vpm.analyzer.programdependency.tests.TestUtil.assertDependencyCount;
+import static org.splevo.jamopp.vpm.analyzer.programdependency.tests.TestUtil.assertDependency;
 import static org.splevo.jamopp.vpm.analyzer.programdependency.tests.TestUtil.assertNodeCount;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.splevo.jamopp.vpm.analyzer.programdependency.references.DependencyType;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 /**
  * Unit test to prove the dependency analysis using the extended Robillard dependency selector mode.
  *
+ * <strong>Note:</strong><br>
+ * The test is derived from the basic robillard selector test as it must pass the same tests with
+ * the analyzer configured in extended mode. For this, it also overwrites the analyzer
+ * initialization.
+ *
  * The extended mode must pass the same tests as the basic Robillard test plus additional types of
  * dependencies.
  */
-public class RobillardExtendedSelectorTest {
+public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
 
-    private static final String BASE_PATH = "testcode/robillard/";
     private static final String BASE_PATH_EXTENDED = "testcode/robillardExtended/";
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
     @BeforeClass
-    public static void setUp() {
+    public static void setUpInfrastructure() {
         TestUtil.initLogging();
     }
 
     /**
-     * Test to detect dependencies between statements and an import declaration referring to the
-     * same type.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
+     * Setup the analyzer in the extended mode.
      */
-    @Test
-    public void testReadVariable() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "ReadVariable/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
-
-        assertNodeCount(graph, 8);
-        assertDependencyCount(result, 4);
+    @Before
+    @Override
+    public void setUpAnalyzer() {
+        analyzer = TestUtil.configureRobillardAnalyzer(true, false);
     }
 
     /**
-     * Test method writing a new value to a variable.
+     * Test the dependency detection between a field and an class import declaration.
      *
      * @throws Exception
-     *             Identifies a failed diffing.
+     *             Identifies a failed processing.
      */
     @Test
-    public void testWriteVariable() throws Exception {
+    public void testFieldImportClass() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "WriteVariable/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
-
-        assertNodeCount(graph, 4);
-        assertDependencyCount(result, 2);
-    }
-
-    /**
-     * Test method writing a new value to a variable.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testModifyVariable() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "ModifyVariable/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
-
-        assertNodeCount(graph, 8);
-        assertDependencyCount(result, 4);
-    }
-
-    /**
-     * Test to detect dependencies between method signature and an import declaration referring to the
-     * same type.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testMethodImportReferences() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "MethodImportReferences/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
-
-        assertNodeCount(graph, 8);
-        assertDependencyCount(result, 4);
-    }
-
-    /**
-     * Test to detect dependencies between statements and an import declaration referring to the
-     * same type.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testStatementImportReferences() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportReferences/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
-
-        assertNodeCount(graph, 5);
-        assertDependencyCount(result, 3);
-    }
-
-    /**
-     * Test to detect dependencies between field declarations and an import declaration referring to the
-     * same type.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testFieldImportReferences() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldImportReferences/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
-
-        assertNodeCount(graph, 4);
-        assertDependencyCount(result, 2);
-    }
-
-    /**
-     * Test method to detect changes in the class and package declarations.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testMethodCall() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "MethodCall/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldImportClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 3);
-        assertDependencyCount(result, 1);
+        assertDependency(result, DependencyType.FieldImportClass, 2);
+    }
+
+    /**
+     * Test the dependency detection between a field and an enumeration import declaration.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Test
+    public void testFieldImportEnumeration() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldImportEnumeration/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 3);
+        assertDependency(result, DependencyType.FieldImportEnumeration, 2);
+    }
+
+    /**
+     * Test the dependency detection between a field and an interface import declaration.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Test
+    public void testFieldImportInterface() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldImportInterface/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.FieldImportInterface, 1);
     }
 
     /**
@@ -161,125 +108,129 @@ public class RobillardExtendedSelectorTest {
      *             Identifies a failed diffing.
      */
     @Test
-    public void testReadField() throws Exception {
+    public void testStatementChecksInterfaceInstanceOf() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ReadField/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementChecksInterface/InstanceOf/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementChecksInterface, 1);
+    }
+
+    /**
+     * Test to detect dependencies between statements and an import declaration referring to the
+     * same type.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementReadsVariable() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementReadsVariable/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 8);
+        assertDependency(result, DependencyType.StatementReadsVariable, 4);
+    }
+
+    /**
+     * Test method writing a new value to a variable.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementWritesVariable() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementWritesVariable/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 4);
-        assertDependencyCount(result, 2);
+        assertDependency(result, DependencyType.StatementWritesVariable, 2);
     }
 
     /**
-     * Test method to detect changes in the class and package declarations.
+     * Test statements modifying variables (regular and additional variables).
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testNestedStatements() throws Exception {
+    public void testStatementModifiesField() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "NestedStatements/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
-
-        assertNodeCount(graph, 10);
-        assertDependencyCount(result, 5);
-    }
-
-    /**
-     * Test method to detect changes in the class and package declarations.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testWriteField() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "WriteField/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementModifiesField/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 4);
-        assertDependencyCount(result, 2);
+        assertDependency(result, DependencyType.StatementModifiesField, 2);
     }
 
     /**
-     * Test method to detect changes in the class and package declarations.
+     * Test statements modifying variables (regular and additional variables).
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testNewConstructorCall() throws Exception {
+    public void testStatementModifiesVariable() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "NewConstructorCall/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementModifiesVariable/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
-        assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
+        assertNodeCount(graph, 8);
+        assertDependency(result, DependencyType.StatementModifiesVariable, 4);
     }
 
     /**
-     * Test method to detect changes in the class and package declarations.
+     * Test to detect dependencies between method signature and an import declaration referring to
+     * the same type.
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testInstanceOf() throws Exception {
+    public void testStatementImportInterface() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "InstanceOf/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportInterface/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
+        assertDependency(result, DependencyType.StatementImportInterface, 1);
     }
 
     /**
-     * Test method to detect changes in the class and package declarations.
+     * Test to detect dependencies between method signature and an import declaration referring to
+     * the same type.
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testInstanceOfInterface() throws Exception {
+    public void testStatementImportClass() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InstanceOfInterface/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
+        assertDependency(result, DependencyType.StatementImportClass, 1);
     }
 
     /**
-     * Test method to detect changes in the class and package declarations.
+     * Test to detect dependencies between method signature and an import declaration referring to
+     * the same type.
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testClassCreate() throws Exception {
+    public void testStatementImportEnumeration() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ClassCreate/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
-
-        assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
-    }
-
-    /**
-     * Test method to detect changes in the class and package declarations.
-     *
-     * @throws Exception
-     *             Identifies a failed diffing.
-     */
-    @Test
-    public void testClassCast() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "ClassCast/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportEnumeration/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
+        assertDependency(result, DependencyType.StatementImportEnumeration, 1);
     }
 
     /**
@@ -289,12 +240,12 @@ public class RobillardExtendedSelectorTest {
      *             Identifies a failed diffing.
      */
     @Test
-    public void testInterfaceCast() throws Exception {
+    public void testStatementChecksInterfaceCast() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InterfaceCast/");
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementChecksInterface/Cast/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 2);
-        assertDependencyCount(result, 1);
+        assertDependency(result, DependencyType.StatementChecksInterface, 1);
     }
 }

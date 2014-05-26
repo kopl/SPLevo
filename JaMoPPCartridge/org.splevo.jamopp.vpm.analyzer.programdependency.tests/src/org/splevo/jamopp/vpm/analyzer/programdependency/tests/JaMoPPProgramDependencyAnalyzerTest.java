@@ -20,7 +20,7 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
  */
 public class JaMoPPProgramDependencyAnalyzerTest {
 
-    private final JaMoPPProgramDependencyVPMAnalyzer analyzer = new JaMoPPProgramDependencyVPMAnalyzer();
+    private final JaMoPPProgramDependencyVPMAnalyzer analyzer = TestUtil.configureRobillardAnalyzer(true, false);
 
     /**
      * Test method for
@@ -34,10 +34,10 @@ public class JaMoPPProgramDependencyAnalyzerTest {
      *             Identifies the test input graph could not be read.
      */
     @Test
-    public void testAnalyze() throws Exception {
+    public void testAnalyzeGCD() throws Exception {
 
         VPMGraph graph = SPLevoTestUtil.loadGCDVPMGraph();
-        VPMAnalyzerResult result = TestUtil.analyzeExtended(graph);
+        VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertThat("Wrong edge descriptor count", result.getEdgeDescriptors().size(), is(10));
 

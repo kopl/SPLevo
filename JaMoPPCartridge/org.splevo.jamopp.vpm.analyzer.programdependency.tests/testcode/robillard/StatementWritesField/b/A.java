@@ -7,7 +7,6 @@ public class A {
     private int fieldNestedReference = 0;
 
     public void doUnchanged() {
-        System.out.println(myVar.toString());
     }
 
     public void newMethodFieldDirectReference() {

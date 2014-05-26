@@ -2,12 +2,11 @@ package org.splevo.jamopp.vpm.analyzer.programdependency.tests;
 
 
 import java.util.Formatter.BigDecimalLayoutForm;
-import java.util.Map;
 
 public class A {
 
-    private Object form = BigDecimalLayoutForm.DECIMAL_FLOAT;
+    private BigDecimalLayoutForm fieldType = null;
 
-    public Map<String,String> options = null;
+    private Object fieldValue = BigDecimalLayoutForm.DECIMAL_FLOAT;
 
 }

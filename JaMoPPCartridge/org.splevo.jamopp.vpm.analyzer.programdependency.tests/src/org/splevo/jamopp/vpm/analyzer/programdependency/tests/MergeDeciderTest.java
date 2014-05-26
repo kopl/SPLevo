@@ -38,13 +38,13 @@ import com.google.common.collect.Lists;
 /**
  * Unit test to prove the mapping options of the diffing.
  */
-public class FieldChangeStatementTest {
+public class MergeDeciderTest {
 
-    private static final String BASE_PATH = "testcode/FieldChangeStatement/";
+    private static final String BASE_PATH = "testcode/mergedecider/";
 
     /** The logger for this class. */
     @SuppressWarnings("unused")
-    private Logger logger = Logger.getLogger(FieldChangeStatementTest.class);
+    private Logger logger = Logger.getLogger(MergeDeciderTest.class);
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -70,11 +70,9 @@ public class FieldChangeStatementTest {
      *             Identifies a failed diffing.
      */
     @Test
-    public void testVariableUsage() throws Exception {
+    public void testStatements() throws Exception {
 
-        String relativePathA = BASE_PATH + "a";
-        String relativePathB = BASE_PATH + "b";
-        VPMGraph graph = TestUtil.prepareVPMGraph(relativePathA, relativePathB);
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "Statements/");
 
         MergeDeciderRegistry.registerMergeDecider(new JaMoPPMergeDecider());
 

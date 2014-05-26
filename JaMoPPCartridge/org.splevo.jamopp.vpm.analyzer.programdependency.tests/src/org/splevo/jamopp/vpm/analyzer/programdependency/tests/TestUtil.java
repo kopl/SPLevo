@@ -13,9 +13,11 @@ package org.splevo.jamopp.vpm.analyzer.programdependency.tests;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -27,18 +29,22 @@ import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.analyzer.programdependency.ConfigurationBuilder;
 import org.splevo.jamopp.vpm.analyzer.programdependency.JaMoPPProgramDependencyVPMAnalyzer;
+import org.splevo.jamopp.vpm.analyzer.programdependency.references.DependencyType;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelectorRegistry;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
 import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.VPMAnalyzerException;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
+import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
 import org.splevo.vpm.analyzer.config.ChoiceConfiguration;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multiset;
 
 /**
  * Utilities for {@link JaMoPPProgramDependencyAnalyzerTest} cases.
@@ -124,36 +130,6 @@ public final class TestUtil {
     }
 
     /**
-     * Analyze a graph with a program dependency analyzer in ROBILLARD EXTENDED MODE.
-     *
-     * @param graph
-     *            The graph to analyze.
-     * @return The analysis result.
-     * @throws VPMAnalyzerException
-     *             An error during analysis.
-     */
-    public static VPMAnalyzerResult analyzeExtended(VPMGraph graph) throws VPMAnalyzerException {
-        JaMoPPProgramDependencyVPMAnalyzer analyzer = configureRobillardAnalyzer(true, false);
-        VPMAnalyzerResult result = analyzer.analyze(graph);
-        return result;
-    }
-
-    /**
-     * Analyze a graph with a program dependency analyzer in basic ROBILLARD MODE.
-     *
-     * @param graph
-     *            The graph to analyze.
-     * @return The analysis result.
-     * @throws VPMAnalyzerException
-     *             An error during analysis.
-     */
-    public static VPMAnalyzerResult analyze(VPMGraph graph) throws VPMAnalyzerException {
-        JaMoPPProgramDependencyVPMAnalyzer analyzer = configureRobillardAnalyzer(false, false);
-        VPMAnalyzerResult result = analyzer.analyze(graph);
-        return result;
-    }
-
-    /**
      * Assert the number of detected dependencies in a result object.
      *
      * @param result
@@ -163,6 +139,70 @@ public final class TestUtil {
      */
     public static void assertDependencyCount(VPMAnalyzerResult result, int count) {
         assertThat("Wrong number of relationships", result.getEdgeDescriptors().size(), is(count));
+    }
+
+    /**
+     * Convenience method to check detected dependencies if only one type is expected.
+     *
+     * @param result
+     *            The result to check
+     * @param type
+     *            The expected type
+     * @param count
+     *            The expected amount of the type
+     */
+    public static void assertDependency(VPMAnalyzerResult result, DependencyType type, Integer count) {
+        Map<DependencyType, Integer> dependencies = Maps.newHashMap();
+        dependencies.put(type, count);
+        assertDependencies(result, dependencies);
+    }
+
+    /**
+     * Convenience method to check dependencies.
+     *
+     * @param result
+     *            The result to check.
+     * @param dependencies
+     *            The expected dependencies and their count.
+     */
+    public static void assertDependencies(VPMAnalyzerResult result, Map<DependencyType, Integer> dependencies) {
+        assertEdgeInfos(result, JaMoPPProgramDependencyVPMAnalyzer.EDGE_INFO_DEPENDENCY_TYPE, dependencies);
+    }
+
+    /**
+     * Check that an expected number of edge descriptors with a specific result are contained in the
+     * result object.
+     *
+     * All edges contained in the result will be checked for an relation ship info identified by the
+     * submitted infoKey.
+     *
+     * First, it is checked that no info value has been detected which was not expected.<br>
+     * Then, it is checked that all expected info values are detected in the expected amount.
+     *
+     * @param result
+     *            The result to prove.
+     * @param infoKey
+     *            The key of the info to check.
+     * @param infoValues
+     *            The info values to check with the expected occurrences.
+     */
+    public static void assertEdgeInfos(VPMAnalyzerResult result, String infoKey, Map<?, Integer> infoValues) {
+        Multiset<Object> detectedInfoValues = HashMultiset.create();
+        for (VPMEdgeDescriptor edge : result.getEdgeDescriptors()) {
+            detectedInfoValues.add(edge.getRelationShipInfos().get(infoKey));
+        }
+
+        for (Object detectedInfo : detectedInfoValues.elementSet()) {
+            if (!infoValues.containsKey(detectedInfo)) {
+                fail("Unexpected value: " + detectedInfo);
+            }
+        }
+
+        for (Object expectedValue : infoValues.keySet()) {
+            int is = detectedInfoValues.count(expectedValue);
+            int expected = infoValues.get(expectedValue);
+            assertThat("Wrong count for " + expectedValue, is, is(expected));
+        }
     }
 
     /**
@@ -187,7 +227,7 @@ public final class TestUtil {
      *
      * @return The ready to use analyzer.
      */
-    private static JaMoPPProgramDependencyVPMAnalyzer configureRobillardAnalyzer(boolean extendedMode,
+    public static JaMoPPProgramDependencyVPMAnalyzer configureRobillardAnalyzer(boolean extendedMode,
             boolean sharedAccess) {
         JaMoPPProgramDependencyVPMAnalyzer analyzer = new JaMoPPProgramDependencyVPMAnalyzer();
 
