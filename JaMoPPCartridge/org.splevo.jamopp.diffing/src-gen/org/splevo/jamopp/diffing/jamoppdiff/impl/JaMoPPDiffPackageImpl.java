@@ -11,49 +11,28 @@
 package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.compare.ComparePackage;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.emftext.language.java.annotations.AnnotationsPackage;
-
 import org.emftext.language.java.arrays.ArraysPackage;
-
 import org.emftext.language.java.classifiers.ClassifiersPackage;
-
 import org.emftext.language.java.commons.CommonsPackage;
-
 import org.emftext.language.java.containers.ContainersPackage;
-
 import org.emftext.language.java.expressions.ExpressionsPackage;
-
 import org.emftext.language.java.generics.GenericsPackage;
-
 import org.emftext.language.java.imports.ImportsPackage;
-
 import org.emftext.language.java.instantiations.InstantiationsPackage;
-
 import org.emftext.language.java.literals.LiteralsPackage;
-
 import org.emftext.language.java.members.MembersPackage;
-
 import org.emftext.language.java.modifiers.ModifiersPackage;
-
 import org.emftext.language.java.operators.OperatorsPackage;
-
 import org.emftext.language.java.parameters.ParametersPackage;
-
 import org.emftext.language.java.references.ReferencesPackage;
-
 import org.emftext.language.java.statements.StatementsPackage;
-
 import org.emftext.language.java.types.TypesPackage;
-
 import org.emftext.language.java.variables.VariablesPackage;
-
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;

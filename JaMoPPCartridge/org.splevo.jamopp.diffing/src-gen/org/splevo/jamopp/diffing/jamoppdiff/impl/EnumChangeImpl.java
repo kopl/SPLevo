@@ -11,14 +11,10 @@
 package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.emftext.language.java.classifiers.Enumeration;
-
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
 

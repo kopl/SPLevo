@@ -11,7 +11,6 @@
 package org.splevo.jamopp.diffing.jamoppdiff;
 
 import org.eclipse.emf.compare.ComparePackage;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
