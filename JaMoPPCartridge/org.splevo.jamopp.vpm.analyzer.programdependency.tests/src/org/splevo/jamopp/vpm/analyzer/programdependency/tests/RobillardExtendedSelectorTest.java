@@ -61,9 +61,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testFieldCallsMethod() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldCallsMethod/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.FieldCallsMethod, 1);
     }
 
     /**
@@ -73,9 +78,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testFieldCreatesClass() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldCreatesClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.FieldCreatesClass, 1);
     }
 
     /**
@@ -132,9 +142,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testFieldReadsField() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldReadsField/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.FieldReadsField, 1);
     }
 
     /**
@@ -143,9 +158,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testFieldTypedClass() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldTypedClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.FieldTypedClass, 1);
     }
 
     /**
@@ -154,9 +174,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testFieldTypedEnumeration() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldTypedEnumeration/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.FieldTypedEnumeration, 1);
     }
 
     /**
@@ -165,9 +190,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testFieldTypedInterface() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "FieldTypedInterface/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.FieldTypedInterface, 1);
     }
 
     /**
