@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.splevo.vpm.analyzer;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 /**
  * A descriptor for a variation point model graph (VPMGraph) edge.
  *
@@ -26,6 +30,9 @@ public class VPMEdgeDescriptor {
     /** An addition label to further describe the identified relationship. */
     private String relationshipSubLabel = null;
 
+    /** A map to store additional infos by the analyzer. */
+    private Map<String, Object> relationShipInfos = Maps.newLinkedHashMap();
+
     /** The node to start the edge at. */
     private String sourceNodeID = null;
 
@@ -36,14 +43,17 @@ public class VPMEdgeDescriptor {
     public VPMEdgeDescriptor() {
     }
 
-
     /**
      * Instantiates a new VPM edge descriptor.
      *
-     * @param relationshipLabel the relationship label
-     * @param relationshipSubLabel the relationship sub label
-     * @param sourceNodeID the source node id
-     * @param targetNodeID the target node id
+     * @param relationshipLabel
+     *            the relationship label
+     * @param relationshipSubLabel
+     *            the relationship sub label
+     * @param sourceNodeID
+     *            the source node id
+     * @param targetNodeID
+     *            the target node id
      */
     public VPMEdgeDescriptor(String relationshipLabel, String relationshipSubLabel, String sourceNodeID,
             String targetNodeID) {
@@ -53,8 +63,6 @@ public class VPMEdgeDescriptor {
         this.targetNodeID = targetNodeID;
     }
 
-
-
     /**
      * Gets the main edge label for the type of identified relationship.
      *
@@ -63,8 +71,6 @@ public class VPMEdgeDescriptor {
     public String getRelationshipLabel() {
         return relationshipLabel;
     }
-
-
 
     /**
      * Sets the main edge label for the type of identified relationship.
@@ -76,8 +82,6 @@ public class VPMEdgeDescriptor {
         this.relationshipLabel = relationshipLabel;
     }
 
-
-
     /**
      * Gets the an addition label to further describe the identified relationship.
      *
@@ -86,8 +90,6 @@ public class VPMEdgeDescriptor {
     public String getRelationshipSubLabel() {
         return relationshipSubLabel;
     }
-
-
 
     /**
      * Sets the an addition label to further describe the identified relationship.
@@ -99,7 +101,17 @@ public class VPMEdgeDescriptor {
         this.relationshipSubLabel = relationshipSubLabel;
     }
 
-
+    /**
+     * Get the map to store additional infos to the relation ship. This can be used internally by
+     * the analyzer or by any other edge analyzing code.
+     *
+     * It must not be assumed that this information will be presented to the user.
+     *
+     * @return The map to store additional info to the edge.
+     */
+    public Map<String, Object> getRelationShipInfos() {
+        return relationShipInfos;
+    }
 
     /**
      * Gets the node id to start the edge at.
@@ -109,7 +121,6 @@ public class VPMEdgeDescriptor {
     public String getSourceNodeID() {
         return sourceNodeID;
     }
-
 
     /**
      * Sets the node id to start the edge at.
@@ -121,8 +132,6 @@ public class VPMEdgeDescriptor {
         this.sourceNodeID = sourceNodeID;
     }
 
-
-
     /**
      * Gets the node id to connect the edge to.
      *
@@ -131,7 +140,6 @@ public class VPMEdgeDescriptor {
     public String getTargetNodeID() {
         return targetNodeID;
     }
-
 
     /**
      * Sets the node id to connect the edge to.
