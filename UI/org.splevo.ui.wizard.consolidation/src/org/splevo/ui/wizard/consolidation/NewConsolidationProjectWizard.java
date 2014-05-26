@@ -56,8 +56,9 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
         projectCreationPage.setTitle("Consolidation Project");
         projectCreationPage
                 .setDescription("Create a new project for consolidating project copies into a variable product line.");
-
+       
         addPage(projectCreationPage);
+        addPage(new ProjectsSelectionWizardPage());
     }
 
     @Override
