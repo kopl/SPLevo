@@ -11,14 +11,22 @@
  *******************************************************************************/
 package org.splevo.jamopp.util;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.classifiers.Enumeration;
+import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.extensions.members.ConstructorExtension;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.instantiations.NewConstructorCall;
+import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Constructor;
+import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Block;
@@ -28,6 +36,9 @@ import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.TryBlock;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.variables.AdditionalLocalVariable;
+import org.emftext.language.java.variables.LocalVariable;
 
 /**
  * Utility class to handle JaMoPP elements.
@@ -123,7 +134,16 @@ public final class JaMoPPElementUtil {
 
         } else if (element instanceof LocalVariableStatement) {
             LocalVariableStatement statement = (LocalVariableStatement) element;
-            return "Variable Declaration: " + statement.getVariable().getName();
+            LocalVariable variable = statement.getVariable();
+
+            StringBuilder labelBuilder = new StringBuilder("Variable Declaration (");
+            labelBuilder.append(variable.getName());
+            for (AdditionalLocalVariable addVar : variable.getAdditionalLocalVariables()) {
+                labelBuilder.append(", ");
+                labelBuilder.append(addVar.getName());
+            }
+            labelBuilder.append(") :");
+            return labelBuilder.toString();
 
         } else if (element instanceof ExpressionStatement) {
             ExpressionStatement statement = (ExpressionStatement) element;
@@ -196,6 +216,87 @@ public final class JaMoPPElementUtil {
         }
 
         return -1;
+    }
+
+    /**
+     * Get the import declaration for a type in the compilation unit of a JaMoPP element.
+     *
+     * @param referenceElement
+     *            The element to inspect the container of.
+     * @param type
+     *            The type to search the import for.
+     * @return The Import declaration or null if none found.
+     */
+    public static Import checkForImport(Commentable referenceElement, Type type) {
+        CompilationUnit cu = referenceElement.getContainingCompilationUnit();
+        EList<ClassifierImport> imports = cu.getChildrenByType(ClassifierImport.class);
+        for (ClassifierImport importDecl : imports) {
+            if (importDecl.getClassifier().equals(type)) {
+                return importDecl;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get a human readable label for the type of an element.
+     *
+     * @param element
+     *            The element to get the type label for.
+     * @return The type identifier.
+     */
+    public static String getTypeLabel(Commentable element) {
+        if (element instanceof Enumeration) {
+            return "Enumeration";
+        } else if (element instanceof org.emftext.language.java.classifiers.Class) {
+            return "Class";
+        } else if (element instanceof Interface) {
+            return "Interface";
+        } else if (element instanceof Field || element instanceof AdditionalField) {
+            return "Field";
+        } else if (element instanceof Method || element instanceof Constructor) {
+            return "Method";
+        } else if (element instanceof Statement) {
+            return "Statement";
+        } else if (element instanceof LocalVariable || element instanceof AdditionalLocalVariable) {
+            return "Variable";
+
+        } else if (element instanceof ClassifierImport) {
+            return getTypeLabel(((ClassifierImport) element).getClassifier());
+
+        }
+
+        throw new IllegalArgumentException("Unhandled Element: " + element.getClass().getSimpleName());
+        // return element.getClass().getSimpleName();
+    }
+
+    /**
+     * Get the constructor matching a given constructor call.
+     *
+     * The call itself does not have an explicit reference, thus the members of the referenced type
+     * are scanned for a constructor with arguments matching the given call.
+     *
+     * In case of an implicit constructor call, null will be returned. Only explicit constructors
+     * are returned.
+     *
+     * @param call
+     *            The call to search the constructor for.
+     * @return The constructor or null if none found.
+     */
+    public static Constructor getConstructor(NewConstructorCall call) {
+
+        Type type = call.getReferencedType();
+        if (type instanceof ConcreteClassifier) {
+            for (Constructor constructor : ((ConcreteClassifier) type).getConstructors()) {
+
+                // TODO: Allow for none perfect matches such as varying parameter lengths
+                boolean constructorForCall = ConstructorExtension.isConstructorForCall(constructor, call, true);
+                if (constructorForCall) {
+                    return constructor;
+                }
+            }
+        }
+        return null;
     }
 
 }
