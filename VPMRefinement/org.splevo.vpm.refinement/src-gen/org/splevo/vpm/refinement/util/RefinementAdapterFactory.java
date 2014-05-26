@@ -15,10 +15,10 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.splevo.vpm.refinement.*;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementPackage;
+import org.splevo.vpm.refinement.RefinementReason;
 
 /**
  * <!-- begin-user-doc --> The <b>Adapter Factory</b> for the model. It provides an adapter

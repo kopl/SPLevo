@@ -13,19 +13,14 @@ package org.splevo.vpm.refinement.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementReason;
-
 import org.splevo.vpm.variability.VariationPoint;
 
 /**

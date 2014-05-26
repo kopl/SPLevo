@@ -6,11 +6,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.splevo.vpm.refinement.*;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementPackage;
+import org.splevo.vpm.refinement.RefinementReason;
 import org.splevo.vpm.refinement.RefinementType;
 
 /**

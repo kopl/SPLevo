@@ -12,7 +12,6 @@
 package org.splevo.vpm.refinement;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
