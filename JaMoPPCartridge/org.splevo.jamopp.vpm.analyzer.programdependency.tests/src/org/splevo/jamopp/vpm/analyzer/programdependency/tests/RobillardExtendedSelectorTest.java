@@ -16,6 +16,7 @@ import static org.splevo.jamopp.vpm.analyzer.programdependency.tests.TestUtil.as
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.DependencyType;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
@@ -51,6 +52,30 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     @Override
     public void setUpAnalyzer() {
         analyzer = TestUtil.configureRobillardAnalyzer(true, false);
+    }
+
+    /**
+     * Test the dependency detection for a field declaration calling an added method
+     * to initialize it's value.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testFieldCallsMethod() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a field declaration creating an instance of
+     * an added class to initialize it's value.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testFieldCreatesClass() throws Exception {
     }
 
     /**
@@ -102,6 +127,193 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
+     * Test the dependency detection for a field reading another field (e.g. instance field reads constant etc.)
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testFieldReadsField() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a field typed with a specific class
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testFieldTypedClass() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a field typed with an enumeration
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testFieldTypedEnumeration() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a field typed with an interface
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testFieldTypedInterface() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a class having a specific interface as super type.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testInterfaceSupertypeClass() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for an enumeration having an interface as super type
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testInterfaceSupertypeEnumeration() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for an interface extending another interface
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testInterfaceSupertypeInterface() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a method with an class return type matching an import.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testMethodImportClass() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a method with an enumeration return type matching an import.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testMethodImportEnumeration() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a method with an interface return type matching an import.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testMethodImportInterface() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a method with a return type matching an added class.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testMethodTypedClass() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a method with a return type matching an added enumeration.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testMethodTypedEnumeration() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a method with a return type matching an added interface.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testMethodTypedInterface() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a parameter typed with an added class.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testParameterTypedClass() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a parameter typed with an added enumeration.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testParameterTypedEnumeration() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a parameter typed with an added interface.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testParameterTypedInterface() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a statement checking a values type for an added enumeration.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testStatementChecksEnumeration() throws Exception {
+    }
+
+    /**
      * Test method to detect changes in the class and package declarations.
      *
      * @throws Exception
@@ -118,36 +330,54 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test to detect dependencies between statements and an import declaration referring to the
-     * same type.
+     * Test to detect dependencies between method signature and an import declaration referring to
+     * the same type.
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testStatementReadsVariable() throws Exception {
+    public void testStatementImportClass() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementReadsVariable/");
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportClass/");
         VPMAnalyzerResult result = analyzer.analyze(graph);
 
-        assertNodeCount(graph, 8);
-        assertDependency(result, DependencyType.StatementReadsVariable, 4);
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementImportClass, 1);
     }
 
     /**
-     * Test method writing a new value to a variable.
+     * Test to detect dependencies between method signature and an import declaration referring to
+     * the same type.
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testStatementWritesVariable() throws Exception {
+    public void testStatementImportEnumeration() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementWritesVariable/");
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportEnumeration/");
         VPMAnalyzerResult result = analyzer.analyze(graph);
 
-        assertNodeCount(graph, 4);
-        assertDependency(result, DependencyType.StatementWritesVariable, 2);
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementImportEnumeration, 1);
+    }
+
+    /**
+     * Test to detect dependencies between method signature and an import declaration referring to
+     * the same type.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementImportInterface() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportInterface/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementImportInterface, 1);
     }
 
     /**
@@ -183,54 +413,72 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test to detect dependencies between method signature and an import declaration referring to
-     * the same type.
+     * Test to detect dependencies between statements and an import declaration referring to the
+     * same type.
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testStatementImportInterface() throws Exception {
+    public void testStatementReadsVariable() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportInterface/");
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementReadsVariable/");
         VPMAnalyzerResult result = analyzer.analyze(graph);
 
-        assertNodeCount(graph, 2);
-        assertDependency(result, DependencyType.StatementImportInterface, 1);
+        assertNodeCount(graph, 8);
+        assertDependency(result, DependencyType.StatementReadsVariable, 4);
     }
 
     /**
-     * Test to detect dependencies between method signature and an import declaration referring to
-     * the same type.
+     * Test the dependency detection for a statement declaring one or more variables typed
+     * with an added class.
      *
      * @throws Exception
-     *             Identifies a failed diffing.
+     *             Identifies a failed processing.
      */
+    @Ignore
     @Test
-    public void testStatementImportClass() throws Exception {
-
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportClass/");
-        VPMAnalyzerResult result = analyzer.analyze(graph);
-
-        assertNodeCount(graph, 2);
-        assertDependency(result, DependencyType.StatementImportClass, 1);
+    public void testStatementTypedClass() throws Exception {
     }
 
     /**
-     * Test to detect dependencies between method signature and an import declaration referring to
-     * the same type.
+     * Test the dependency detection for a statement declaring one or more variables typed
+     * with an added enumeration.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testStatementTypedEnumeration() throws Exception {
+    }
+
+    /**
+     * Test the dependency detection for a statement declaring one or more variables typed
+     * with an added interface.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Ignore
+    @Test
+    public void testStatementTypedInterface() throws Exception {
+    }
+
+    /**
+     * Test method writing a new value to a variable.
      *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testStatementImportEnumeration() throws Exception {
+    public void testStatementWritesVariable() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementImportEnumeration/");
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementWritesVariable/");
         VPMAnalyzerResult result = analyzer.analyze(graph);
 
-        assertNodeCount(graph, 2);
-        assertDependency(result, DependencyType.StatementImportEnumeration, 1);
+        assertNodeCount(graph, 4);
+        assertDependency(result, DependencyType.StatementWritesVariable, 2);
     }
 
     /**
