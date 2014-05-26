@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
 import org.emftext.language.java.commons.Commentable;
@@ -247,6 +248,10 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
                 references.add(new Reference(classObject, extendsReference.getTarget(), ReferenceType.SuperType));
             }
 
+            for (TypeReference implementsReference : classObject.getImplements()) {
+                references.add(new Reference(classObject, implementsReference.getTarget(), ReferenceType.SuperType));
+            }
+
             references.add(new Reference(classObject));
             return references;
         }
@@ -270,7 +275,27 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             } else {
                 return null;
             }
+        }
 
+        @Override
+        public List<Reference> caseEnumeration(Enumeration enumeration) {
+
+            if (extendedMode) {
+                ArrayList<Reference> references = Lists.newArrayList();
+                for (Member member : enumeration.getMembers()) {
+                    references.addAll(parentSwitch.doSwitch(member));
+                }
+                updateType(ReferenceType.Declares, references);
+
+                for (TypeReference typeRef : enumeration.getImplements()) {
+                    references.add(new Reference(enumeration, typeRef.getTarget(), ReferenceType.SuperType));
+                }
+
+                references.add(new Reference(enumeration));
+                return references;
+            } else {
+                return null;
+            }
         }
     }
 
@@ -360,31 +385,31 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
         @Override
         public List<Reference> caseField(Field field) {
 
-            ArrayList<Reference> refElements = Lists.newArrayList();
+            ArrayList<Reference> references = Lists.newArrayList();
 
             if (extendedMode) {
 
                 // values
                 Expression initialValue = field.getInitialValue();
-                refElements.addAll(parentSwitch.doSwitch(initialValue));
-                updateSource(field, refElements);
+                references.addAll(parentSwitch.doSwitch(initialValue));
+                updateSource(field, references);
 
                 // type
                 Type type = field.getTypeReference().getTarget();
-                refElements.add(new Reference(field, type, ReferenceType.Typed));
+                references.add(new Reference(field, type, ReferenceType.Typed));
                 Import importDecl = JaMoPPElementUtil.checkForImport(field, type);
                 if (importDecl != null) {
-                    refElements.add(new Reference(field, importDecl, ReferenceType.Import));
+                    references.add(new Reference(field, importDecl, ReferenceType.Import));
                 }
 
             }
 
             // element itself
-            refElements.add(new Reference(field));
+            references.add(new Reference(field));
             for (AdditionalField addField : field.getAdditionalFields()) {
-                refElements.add(new Reference(addField));
+                references.add(new Reference(addField));
             }
-            return refElements;
+            return references;
         }
     }
 
