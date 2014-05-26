@@ -34,18 +34,19 @@ public interface ReferenceSelector {
     public List<Reference> getReferencedElements(Commentable commentable);
 
     /**
-     * Check if the reference between the two referring and the referenced element should be ignored
-     * or not.
+     * Get the identifier for the type of dependency derived from the given references.
      *
-     * @param source1
-     *            The first referring element.
-     * @param source2
-     *            The second referring element.
+     * If the given references do not represent a valid dependency null is returned.
+     *
+     * @param reference1
+     *            The first reference to the target element.
+     * @param reference2
+     *            The second reference to the target element.
      * @param target
-     *            The reference target.
-     * @return True if the reference should be ignored, false if it must be considered.
+     *            The referenced element.
+     * @return The type of the identified dependency.
      */
-    public boolean ignoreReference(Commentable source1, Commentable source2, Commentable target);
+    public DependencyType getDependencyType(Reference reference1, Reference reference2, Commentable target);
 
     /**
      * Get a representation of statistics about not ignored references tracked during the process.

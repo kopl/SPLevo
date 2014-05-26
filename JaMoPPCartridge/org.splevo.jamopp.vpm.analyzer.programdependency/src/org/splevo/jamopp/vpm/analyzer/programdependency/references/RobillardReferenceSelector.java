@@ -16,11 +16,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.imports.Import;
-import org.emftext.language.java.members.Field;
-import org.emftext.language.java.members.Method;
-import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerUtil;
 
@@ -97,15 +92,15 @@ public class RobillardReferenceSelector implements ReferenceSelector {
             return new ArrayList<Reference>();
         }
 
-        List<Reference> referencedElements = selectorSwitch.doSwitch(commentable);
+        List<Reference> references = selectorSwitch.doSwitch(commentable);
 
-        for (Reference reference : referencedElements) {
+        for (Reference reference : references) {
             if (VPMAnalyzerUtil.isNullOrProxy(reference.getTarget())) {
-                referencedElements.remove(reference);
+                references.remove(reference);
             }
         }
 
-        return referencedElements;
+        return references;
     }
 
     /**
@@ -114,59 +109,34 @@ public class RobillardReferenceSelector implements ReferenceSelector {
      * {@inheritDoc}
      */
     @Override
-    public boolean ignoreReference(Commentable source1, Commentable source2, Commentable target) {
+    public DependencyType getDependencyType(Reference reference1, Reference reference2, Commentable target) {
 
-        if (source1 == source2) {
-            return true;
+        if (reference1.getSource() == reference2.getSource()) {
+            return DependencyType.IGNORE;
         }
 
-        boolean source1IsParent = JaMoPPElementUtil.isParentOf(source1, target);
-        boolean source2IsParent = JaMoPPElementUtil.isParentOf(source2, target);
+        boolean source1IsParent = JaMoPPElementUtil.isParentOf(reference1.getSource(), target);
+        boolean source2IsParent = JaMoPPElementUtil.isParentOf(reference2.getSource(), target);
 
-        String trackingID = null;
+        DependencyType dependencyType = null;
 
         if (source1IsParent && source2IsParent) {
             logger.error("Unexpected Nested sources");
-            trackingID = "NESTED SOURCES: " + getElementTypeID(target);
+            return DependencyType.IGNORE;
         } else if (source1IsParent) {
-            trackingID = getElementTypeID(source2) + "->" + getElementTypeID(target);
+            dependencyType = reference2.getDependencyType();
         } else if (source2IsParent) {
-            trackingID = getElementTypeID(source1) + "->" + getElementTypeID(target);
+            dependencyType = reference1.getDependencyType();
         } else if (sharedAccess) {
-            trackingID = String.format("SHARED: %s & %s -> %s", getElementTypeID(source1), getElementTypeID(source2),
-                    getElementTypeID(target));
+            logger.info(String.format("SHARED: %s & %s", reference1.getType(), reference2.getType()));
+            dependencyType = DependencyType.SHARED;
         } else {
-            return true;
+            return DependencyType.IGNORE;
         }
 
-        statistics.add(trackingID);
+        statistics.add(dependencyType.toString());
 
-        return false;
-    }
-
-    /**
-     * Get an identifier for the type of an element.
-     *
-     * @param element
-     *            The element to get the type identifier for.
-     * @return The type identifier.
-     */
-    private String getElementTypeID(Commentable element) {
-        if (element instanceof org.emftext.language.java.classifiers.Class) {
-            return "Class";
-        } else if (element instanceof Field) {
-            return "Field";
-        } else if (element instanceof Method) {
-            return "Method";
-        } else if (element instanceof Statement) {
-            return "Statement";
-        } else if (element instanceof LocalVariable) {
-            return "Variable";
-        } else if (element instanceof Import) {
-            return "Import";
-        }
-
-        return element.getClass().getSimpleName();
+        return dependencyType;
     }
 
     @Override

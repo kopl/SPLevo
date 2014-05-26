@@ -15,12 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
 import org.emftext.language.java.commons.Commentable;
@@ -32,7 +30,6 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionList;
 import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.util.ExpressionsSwitch;
-import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.util.ImportsSwitch;
 import org.emftext.language.java.instantiations.NewConstructorCall;
@@ -65,6 +62,7 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
+import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerUtil;
 
 import com.google.common.collect.Lists;
@@ -80,6 +78,10 @@ import com.google.common.collect.Lists;
  * contained statements and expressions respectively the elements referenced by them are indexed.
  * The JaMoPP model explicitly classifies constructors. They are assumed to be treat the same way as
  * methods. For fields, also the additional fields must be respected.
+ *
+ * DesignDecision Minimum Reference Granularity: To fine grained elements (e.g. expressions and
+ * references) are processed but the next parent element on an upper level (minimum statement)
+ * updates the references source afterwards.
  */
 public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Reference>> {
 
@@ -124,15 +126,37 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
         }
     }
 
-    private Import checkForImport(Commentable source, Type type) {
-        CompilationUnit cu = source.getContainingCompilationUnit();
-        EList<ClassifierImport> imports = cu.getChildrenByType(ClassifierImport.class);
-        for (ClassifierImport importDecl : imports) {
-            if (importDecl.getClassifier().equals(type)) {
-                return importDecl;
+    /**
+     * Update the reference type of a list of references.
+     *
+     * @param type
+     *            The new type to set.
+     * @param references
+     *            The references to update.
+     */
+    private void updateType(ReferenceType type, List<Reference> references) {
+        for (Reference reference : references) {
+            reference.setType(type);
+        }
+    }
+
+    /**
+     * Update the reference type of a list of references but only those references having the old
+     * type set.
+     *
+     * @param oldType
+     *            The old type to replace.
+     * @param newType
+     *            The new type to set.
+     * @param references
+     *            The references to update.
+     */
+    private void updateType(ReferenceType oldType, ReferenceType newType, List<Reference> references) {
+        for (Reference reference : references) {
+            if (reference.getType() == oldType) {
+                reference.setType(newType);
             }
         }
-        return null;
     }
 
     /**
@@ -188,7 +212,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
 
         @Override
         public List<Reference> caseImport(Import importDecl) {
-            return Lists.newArrayList(new Reference(importDecl, importDecl));
+            return Lists.newArrayList(new Reference(importDecl));
         }
 
     }
@@ -207,17 +231,23 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
         @Override
         public List<Reference> caseClass(Class classObject) {
 
-            ArrayList<Reference> references = Lists.newArrayList(new Reference(classObject, classObject));
+            ArrayList<Reference> references = Lists.newArrayList();
 
             for (Member member : classObject.getMembers()) {
+
+                if (member instanceof Field || member instanceof Method || member instanceof Constructor) {
+                    references.add(new Reference(classObject, member, ReferenceType.Declares));
+                }
+
                 references.addAll(parentSwitch.doSwitch(member));
             }
 
             TypeReference extendsReference = classObject.getExtends();
             if (extendsReference != null) {
-                references.add(new Reference(classObject, extendsReference.getTarget()));
+                references.add(new Reference(classObject, extendsReference.getTarget(), ReferenceType.SuperType));
             }
 
+            references.add(new Reference(classObject));
             return references;
         }
 
@@ -226,14 +256,16 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
 
             if (extendedMode) {
                 ArrayList<Reference> references = Lists.newArrayList();
-                references.add(new Reference(interfaceObject, interfaceObject));
                 for (Member member : interfaceObject.getMembers()) {
                     references.addAll(parentSwitch.doSwitch(member));
                 }
+                updateType(ReferenceType.Declares, references);
 
                 for (TypeReference typeRef : interfaceObject.getExtends()) {
-                    references.add(new Reference(interfaceObject, typeRef.getTarget()));
+                    references.add(new Reference(interfaceObject, typeRef.getTarget(), ReferenceType.SuperType));
                 }
+
+                references.add(new Reference(interfaceObject));
                 return references;
             } else {
                 return null;
@@ -260,11 +292,12 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
          */
         @Override
         public List<Reference> caseConstructor(Constructor constructor) {
-            ArrayList<Reference> refElements = Lists.newArrayList();
+            ArrayList<Reference> references = Lists.newArrayList();
             for (Statement statement : constructor.getStatements()) {
-                refElements.addAll(parentSwitch.doSwitch(statement));
+                references.addAll(parentSwitch.doSwitch(statement));
             }
-            return refElements;
+            references.add(new Reference(constructor));
+            return references;
         }
 
         /**
@@ -272,44 +305,50 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
          */
         @Override
         public List<Reference> caseClassMethod(ClassMethod method) {
-            ArrayList<Reference> refElements = Lists.newArrayList(new Reference(method, method));
+            ArrayList<Reference> references = Lists.newArrayList();
 
             if (extendedMode) {
                 for (Parameter parameter : method.getParameters()) {
-                    refElements.addAll(parentSwitch.doSwitch(parameter));
+                    references.addAll(parentSwitch.doSwitch(parameter));
                 }
+                updateType(ReferenceType.Declares, references);
 
                 Type type = method.getTypeReference().getTarget();
-                Import importDecl = checkForImport(method, type);
+                Import importDecl = JaMoPPElementUtil.checkForImport(method, type);
                 if (importDecl != null) {
-                    refElements.add(new Reference(method, importDecl));
+                    references.add(new Reference(method, importDecl, ReferenceType.Import));
                 }
-                updateSource(method, refElements);
+                updateSource(method, references);
             }
 
             for (Statement statement : method.getStatements()) {
-                refElements.addAll(parentSwitch.doSwitch(statement));
+                references.addAll(parentSwitch.doSwitch(statement));
             }
-            return refElements;
+
+            references.add(new Reference(method));
+            return references;
         }
 
         @Override
         public List<Reference> caseMethod(Method method) {
-            ArrayList<Reference> refElements = Lists.newArrayList(new Reference(method, method));
+            ArrayList<Reference> references = Lists.newArrayList();
 
             if (extendedMode) {
                 for (Parameter parameter : method.getParameters()) {
-                    refElements.addAll(parentSwitch.doSwitch(parameter));
+                    references.addAll(parentSwitch.doSwitch(parameter));
                 }
+                // TODO
 
                 Type type = method.getTypeReference().getTarget();
-                Import importDecl = checkForImport(method, type);
+                Import importDecl = JaMoPPElementUtil.checkForImport(method, type);
                 if (importDecl != null) {
-                    refElements.add(new Reference(method, importDecl));
+                    references.add(new Reference(method, importDecl, ReferenceType.Import));
                 }
-                updateSource(method, refElements);
+                updateSource(method, references);
             }
-            return refElements;
+
+            references.add(new Reference(method));
+            return references;
         }
 
         /**
@@ -320,19 +359,30 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
          */
         @Override
         public List<Reference> caseField(Field field) {
-            ArrayList<Reference> refElements = Lists.newArrayList(new Reference(field, field));
-            for (AdditionalField addField : field.getAdditionalFields()) {
-                refElements.add(new Reference(addField, addField));
-            }
+
+            ArrayList<Reference> refElements = Lists.newArrayList();
+
             if (extendedMode) {
+
+                // values
                 Expression initialValue = field.getInitialValue();
                 refElements.addAll(parentSwitch.doSwitch(initialValue));
+                updateSource(field, refElements);
+
+                // type
                 Type type = field.getTypeReference().getTarget();
-                refElements.add(new Reference(field, type));
-                Import importDecl = checkForImport(field, type);
+                refElements.add(new Reference(field, type, ReferenceType.Typed));
+                Import importDecl = JaMoPPElementUtil.checkForImport(field, type);
                 if (importDecl != null) {
-                    refElements.add(new Reference(field, importDecl));
+                    refElements.add(new Reference(field, importDecl, ReferenceType.Import));
                 }
+
+            }
+
+            // element itself
+            refElements.add(new Reference(field));
+            for (AdditionalField addField : field.getAdditionalFields()) {
+                refElements.add(new Reference(addField));
             }
             return refElements;
         }
@@ -443,15 +493,15 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             List<Reference> refElements = parentSwitch.doSwitch(variable.getInitialValue());
             updateSource(lvs, refElements);
             if (extendedMode) {
-                refElements.add(new Reference(lvs, variable));
+                refElements.add(new Reference(lvs, variable, ReferenceType.Declares));
                 for (AdditionalLocalVariable var : variable.getAdditionalLocalVariables()) {
-                    refElements.add(new Reference(lvs, var));
+                    refElements.add(new Reference(lvs, var, ReferenceType.Declares));
                 }
                 Type varType = variable.getTypeReference().getTarget();
-                refElements.add(new Reference(lvs, varType));
-                Import importDecl = checkForImport(lvs, varType);
+                refElements.add(new Reference(lvs, varType, ReferenceType.Typed));
+                Import importDecl = JaMoPPElementUtil.checkForImport(lvs, varType);
                 if (importDecl != null) {
-                    refElements.add(new Reference(lvs, importDecl));
+                    refElements.add(new Reference(lvs, importDecl, ReferenceType.Import));
                 }
             }
             return refElements;
@@ -481,23 +531,24 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
 
         @Override
         public List<Reference> caseAssignmentExpression(AssignmentExpression exp) {
-            ArrayList<Reference> refElements = Lists.newArrayList();
-            refElements.addAll(parentSwitch.doSwitch(exp.getChild()));
-            refElements.addAll(parentSwitch.doSwitch(exp.getValue()));
-            return refElements;
+            ArrayList<Reference> references = Lists.newArrayList();
+            references.addAll(parentSwitch.doSwitch(exp.getChild()));
+            updateType(ReferenceType.Reads, ReferenceType.Writes, references);
+            references.addAll(parentSwitch.doSwitch(exp.getValue()));
+            return references;
         }
 
         @Override
         public List<Reference> caseCastExpression(CastExpression exp) {
             ArrayList<Reference> refElements = Lists.newArrayList();
-            refElements.add(new Reference(exp, exp.getAlternativeType()));
+            refElements.add(new Reference(exp, exp.getAlternativeType(), ReferenceType.Checks));
             return refElements;
         }
 
         @Override
         public List<Reference> caseInstanceOfExpression(InstanceOfExpression iof) {
             ArrayList<Reference> refElements = Lists.newArrayList();
-            refElements.add(new Reference(iof, iof.getTypeReference().getTarget()));
+            refElements.add(new Reference(iof, iof.getTypeReference().getTarget(), ReferenceType.Checks));
             return refElements;
         }
     }
@@ -518,10 +569,10 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
         public List<Reference> caseParameter(Parameter parameter) {
             ArrayList<Reference> refElements = Lists.newArrayList();
             Type type = parameter.getTypeReference().getTarget();
-            refElements.add(new Reference(parameter, type));
-            Import importDecl = checkForImport(parameter, type);
+            refElements.add(new Reference(parameter, type, ReferenceType.Typed));
+            Import importDecl = JaMoPPElementUtil.checkForImport(parameter, type);
             if (importDecl != null) {
-                refElements.add(new Reference(parameter, importDecl));
+                refElements.add(new Reference(parameter, importDecl, ReferenceType.Import));
             }
             return refElements;
         }
@@ -544,7 +595,8 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
          */
         @Override
         public List<Reference> caseMethodCall(MethodCall call) {
-            ArrayList<Reference> refElements = Lists.newArrayList(new Reference(call, call.getTarget()));
+            ArrayList<Reference> refElements = Lists.newArrayList(new Reference(call, call.getTarget(),
+                    ReferenceType.Calls));
             for (Expression expression : call.getArguments()) {
                 refElements.addAll(parentSwitch.doSwitch(expression));
             }
@@ -553,33 +605,50 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
         }
 
         @Override
-        public List<Reference> caseIdentifierReference(IdentifierReference reference) {
+        public List<Reference> caseIdentifierReference(IdentifierReference identifierRef) {
 
-            ReferenceableElement target = reference.getTarget();
-            boolean isFieldClassOrMethod = target instanceof Field
-                    || target instanceof org.emftext.language.java.classifiers.Class || target instanceof Method;
-            boolean isVariable = target instanceof LocalVariable || target instanceof AdditionalLocalVariable;
-            boolean isEnumeration = target instanceof Enumeration;
-            boolean isInterface = target instanceof Interface;
-            if (!isFieldClassOrMethod) {
-                if (!(extendedMode && (isVariable || isEnumeration || isInterface))) {
-                    return Lists.newArrayList();
+            ArrayList<Reference> references = Lists.newArrayList();
+            ReferenceableElement target = identifierRef.getTarget();
+
+            if (target instanceof Field || target instanceof AdditionalField) {
+                if (identifierRef.getNext() == null) {
+                    references.add(new Reference(identifierRef, target, ReferenceType.Reads));
+                } else if (identifierRef.getNext() instanceof MethodCall
+                        || (identifierRef.getNext() instanceof IdentifierReference && (((IdentifierReference) identifierRef
+                                .getNext()).getTarget() instanceof Field || ((IdentifierReference) identifierRef
+                                .getNext()).getTarget() instanceof AdditionalField))) {
+                    references.add(new Reference(identifierRef, target, ReferenceType.Modifies));
                 }
+
+            } else if (target instanceof Method) {
+                references.add(new Reference(identifierRef, target, ReferenceType.Calls));
+
+            } else if (extendedMode) {
+
+                if (target instanceof Type) {
+                    Import importDecl = JaMoPPElementUtil.checkForImport(identifierRef, (Type) target);
+                    if (importDecl != null) {
+                        references.add(new Reference(identifierRef, importDecl, ReferenceType.Import));
+                    }
+                } else if (target instanceof LocalVariable || target instanceof AdditionalLocalVariable
+                        || target instanceof Parameter) {
+
+                    if (identifierRef.getNext() == null) {
+                        references.add(new Reference(identifierRef, target, ReferenceType.Reads));
+                    } else if (identifierRef.getNext() instanceof MethodCall
+                            || (identifierRef.getNext() instanceof IdentifierReference
+                                    && ((IdentifierReference) identifierRef.getNext()).getTarget() instanceof Field || ((IdentifierReference) identifierRef
+                                        .getNext()).getTarget() instanceof AdditionalField)) {
+                        references.add(new Reference(identifierRef, target, ReferenceType.Modifies));
+                    }
+                }
+
             }
 
-            ArrayList<Reference> refElements = Lists.newArrayList(new Reference(reference, target));
-            if (extendedMode && target instanceof Type) {
-                Import importDecl = checkForImport(reference, (Type) target);
-                if (importDecl != null) {
-                    refElements.add(new Reference(reference, importDecl));
-                }
+            if (identifierRef.getNext() != null) {
+                references.addAll(parentSwitch.doSwitch(identifierRef.getNext()));
             }
-            if (reference.getNext() != null) {
-                List<Reference> nextRereferences = parentSwitch.doSwitch(reference.getNext());
-                updateSource(reference, nextRereferences);
-                refElements.addAll(nextRereferences);
-            }
-            return refElements;
+            return references;
         }
     }
 
@@ -596,19 +665,25 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
 
         @Override
         public List<Reference> caseNewConstructorCall(NewConstructorCall call) {
-            ArrayList<Reference> refElements = Lists.newArrayList();
+            List<Reference> references = Lists.newArrayList();
             for (Expression expression : call.getArguments()) {
-                refElements.addAll(parentSwitch.doSwitch(expression));
+                references.addAll(parentSwitch.doSwitch(expression));
             }
-            Type type = call.getTypeReference().getTarget();
-            refElements.add(new Reference(call, type));
+
+            Constructor constructor = JaMoPPElementUtil.getConstructor(call);
+            if (constructor != null) {
+                references.add(new Reference(call, constructor, ReferenceType.Calls));
+            }
+
+            Type type = call.getReferencedType();
+            references.add(new Reference(call, type, ReferenceType.Creates));
             if (extendedMode) {
-                Import importDecl = checkForImport(call, type);
+                Import importDecl = JaMoPPElementUtil.checkForImport(call, type);
                 if (importDecl != null) {
-                    refElements.add(new Reference(call, importDecl));
+                    references.add(new Reference(call, importDecl, ReferenceType.Import));
                 }
             }
-            return refElements;
+            return references;
         }
     }
 }

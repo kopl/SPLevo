@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.splevo.jamopp.vpm.analyzer.programdependency.references;
 
+import org.apache.log4j.Logger;
 import org.emftext.language.java.commons.Commentable;
+import org.splevo.jamopp.util.JaMoPPElementUtil;
 
 /**
  * A reference between two JaMoPP elements (e.g. a MethodCall referencing a Method).
@@ -21,11 +23,35 @@ import org.emftext.language.java.commons.Commentable;
  */
 public class Reference {
 
-    /** The source. */
-    private Commentable source = null;
+    private static Logger logger = Logger.getLogger(Reference.class);
 
-    /** The target. */
+    private Commentable source = null;
     private Commentable target = null;
+    private ReferenceType type = null;
+
+    /**
+     * Creating a self reference element.
+     *
+     * @param self
+     *            The single element.
+     */
+    public Reference(Commentable self) {
+        this(self, self, ReferenceType.SELF);
+    }
+
+    /**
+     * Creating a default reference.
+     *
+     * @deprecated A constructor with an explicit reference should be used instead.
+     *
+     * @param source
+     *            The source element.
+     * @param target
+     *            The target element.
+     */
+    public Reference(Commentable source, Commentable target) {
+        this(source, target, ReferenceType.DEFAULT);
+    }
 
     /**
      * Setting the source and target of the reference object.
@@ -34,10 +60,13 @@ public class Reference {
      *            The element that is referencing.
      * @param target
      *            The element that is referenced.
+     * @param type
+     *            The specific type of the reference.
      */
-    public Reference(Commentable source, Commentable target) {
+    public Reference(Commentable source, Commentable target, ReferenceType type) {
         this.source = source;
         this.target = target;
+        this.type = type;
     }
 
     /**
@@ -66,6 +95,49 @@ public class Reference {
      */
     public Commentable getTarget() {
         return target;
+    }
+
+    /**
+     * Get the type of the reference.
+     *
+     * @return The type.
+     */
+    public ReferenceType getType() {
+        return type;
+    }
+
+    /**
+     * Get the dependency type of the reference. The type is derived from the source and target
+     * elements as well as the reference type between them.
+     *
+     * {@inheritDoc}
+     */
+    public DependencyType getDependencyType() {
+
+        String typeID = String.format("%s%s%s", JaMoPPElementUtil.getTypeLabel(source), type.name(),
+                JaMoPPElementUtil.getTypeLabel(target));
+
+        try {
+            return DependencyType.valueOf(typeID);
+        } catch (Exception e) {
+            logger.error("Reference with unknown DependencyType: " + typeID);
+            return DependencyType.IGNORE;
+        }
+    }
+
+    /**
+     * Set the type of the reference.
+     *
+     * @param type
+     *            The new type to set.
+     */
+    public void setType(ReferenceType type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Reference[%s]", getDependencyType());
     }
 
 }

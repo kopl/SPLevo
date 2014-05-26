@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
 import org.graphstream.graph.Node;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
+import org.splevo.jamopp.vpm.analyzer.programdependency.references.DependencyType;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.Reference;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelector;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelectorRegistry;
@@ -71,6 +72,9 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The relationship label of the analyzer. */
     public static final String RELATIONSHIP_LABEL_PROGRAM_STRUCTURE = "ProgramDependency";
 
+    /** Key of the edge descriptor info containing the dependency type. */
+    public static final String EDGE_INFO_DEPENDENCY_TYPE = "dependency.type";
+
     // ---------------------------------
     // CONFIGURATIONS
     // ---------------------------------
@@ -97,7 +101,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      * This is used to later lookup which element of a variation point holds the reference to the
      * referred one.
      */
-    private Table<VariationPoint, Commentable, Commentable> referringElementIndex;
+    private Table<VariationPoint, Commentable, Reference> referringElementIndex;
 
     /**
      * Analyze variation point dependencies based on program dependencies between them.
@@ -170,12 +174,12 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                         continue;
                     }
 
-                    Commentable refElementVP1 = referringElementIndex.get(vp1, referencedElement);
-                    Commentable refElementVP2 = referringElementIndex.get(vp2, referencedElement);
+                    Reference referenceVP1 = referringElementIndex.get(vp1, referencedElement);
+                    Reference referenceVP2 = referringElementIndex.get(vp2, referencedElement);
 
-                    boolean ignoreReference = referenceSelector.ignoreReference(refElementVP1, refElementVP2,
+                    DependencyType dependencyType = referenceSelector.getDependencyType(referenceVP1, referenceVP2,
                             referencedElement);
-                    if (ignoreReference) {
+                    if (dependencyType == DependencyType.IGNORE) {
                         continue;
                     }
 
@@ -183,14 +187,15 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                     Node nodeVP2 = vp2GraphNodeIndex.get(vp2);
                     String vp1ID = nodeVP1.getId();
                     String vp2ID = nodeVP2.getId();
-                    String sourceLabel = JaMoPPElementUtil.getLabel(refElementVP1);
-                    String targetLabel = JaMoPPElementUtil.getLabel(refElementVP2);
+                    String sourceLabel = JaMoPPElementUtil.getLabel(referenceVP1.getSource());
+                    String targetLabel = JaMoPPElementUtil.getLabel(referenceVP2.getSource());
 
-                    String subLabel = getSubLabel(referencedElement, refElementVP1, refElementVP2, sourceLabel,
-                            targetLabel);
+                    String subLabel = getSubLabel(referencedElement, referenceVP1.getSource(),
+                            referenceVP2.getSource(), sourceLabel, targetLabel);
 
                     VPMEdgeDescriptor edge = buildEdgeDescriptor(nodeVP1, nodeVP2, subLabel, edgeRegistry);
                     if (edge != null) {
+                        edge.getRelationShipInfos().put(EDGE_INFO_DEPENDENCY_TYPE, dependencyType);
                         logAnalysisInfo(vp1ID, vp2ID, sourceLabel, targetLabel, subLabel);
                         referencedElementEdges.add(edge);
                     }
@@ -265,7 +270,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
             }
 
             referencedElementsIndex.get(reference.getTarget()).add(vp);
-            referringElementIndex.put(vp, reference.getTarget(), reference.getSource());
+            referringElementIndex.put(vp, reference.getTarget(), reference);
         }
     }
 
