@@ -15,25 +15,44 @@ package de.devboost.featuremapper.splevo.builder;
 import org.featuremapper.models.feature.FeatureModel;
 import org.featuremapper.models.featuremapping.FeatureMappingModel;
 
+/**
+ * A container class for all models representing a complete FeatureMapper model.
+ */
 public class FeatureMapperModelSet {
 
-	private FeatureMappingModel mappingModel;
+    private FeatureMappingModel mappingModel;
+    private FeatureModel featureModel;
 
-	private FeatureModel featureModel;
+    /**
+     * Constructor for immediate wrapper initialization.
+     *
+     * @param featureModel
+     *            The model specifying the feature themselves.
+     * @param mappingModel
+     *            The model mapping the features to their implementing code.
+     */
+    public FeatureMapperModelSet(FeatureModel featureModel, FeatureMappingModel mappingModel) {
+        super();
+        this.featureModel = featureModel;
+        this.mappingModel = mappingModel;
+    }
 
-	public FeatureMapperModelSet(FeatureModel featureModel,
-			FeatureMappingModel mappingModel) {
-		super();
-		this.featureModel = featureModel;
-		this.mappingModel = mappingModel;
-	}
+    /**
+     * Get the model mapping features to their implementation.
+     *
+     * @return The wrapped mapping model.
+     */
+    public FeatureMappingModel getMappingModel() {
+        return mappingModel;
+    }
 
-	public FeatureMappingModel getMappingModel() {
-		return mappingModel;
-	}
-
-	public FeatureModel getFeatureModel() {
-		return featureModel;
-	}
+    /**
+     * Get the model specifying the features themselves.
+     *
+     * @return The feature describing model.
+     */
+    public FeatureModel getFeatureModel() {
+        return featureModel;
+    }
 
 }
