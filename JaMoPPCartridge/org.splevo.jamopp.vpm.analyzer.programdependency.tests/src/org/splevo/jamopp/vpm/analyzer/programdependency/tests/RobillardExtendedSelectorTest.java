@@ -206,9 +206,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
-    public void testInterfaceSupertypeClass() throws Exception {
+    public void testInterfaceSuperTypeClass() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InterfaceSupertypeClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.InterfaceSuperTypeClass, 1);
     }
 
     /**
@@ -217,9 +222,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
-    public void testInterfaceSupertypeEnumeration() throws Exception {
+    public void testInterfaceSuperTypeEnumeration() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InterfaceSupertypeEnumeration/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.InterfaceSuperTypeEnumeration, 1);
     }
 
     /**
@@ -228,9 +238,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
-    public void testInterfaceSupertypeInterface() throws Exception {
+    public void testInterfaceSuperTypeInterface() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InterfaceSuperTypeInterface/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.InterfaceSuperTypeInterface, 1);
     }
 
     /**
@@ -239,9 +254,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testMethodImportClass() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "MethodImportClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.MethodImportClass, 1);
     }
 
     /**
@@ -250,9 +270,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testMethodImportEnumeration() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "MethodImportEnumeration/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.MethodImportEnumeration, 1);
     }
 
     /**
@@ -261,9 +286,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testMethodImportInterface() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "MethodImportInterface/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.MethodImportInterface, 1);
     }
 
     /**
@@ -275,6 +305,12 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     @Ignore
     @Test
     public void testMethodTypedClass() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "MethodTypedClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.MethodTypedClass, 1);
     }
 
     /**
