@@ -86,24 +86,6 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     private ChoiceConfiguration referenceSelectorConfig = ConfigurationBuilder.createReferenceSelectorConfig();
 
     /**
-     * Internal map to simplify working with variation points and to reference back to nodes
-     * afterwards.
-     */
-    private Map<VariationPoint, Node> vp2GraphNodeIndex;
-
-    /** Index of which element is referenced by which variation points. */
-    private LinkedHashMultimap<Commentable, VariationPoint> referencedElementsIndex;
-
-    /**
-     * A table to link:
-     * <code> {@link VariationPoint} + a referenced {@link Commentable} => referring {@link Commentable}</code>
-     * <br>
-     * This is used to later lookup which element of a variation point holds the reference to the
-     * referred one.
-     */
-    private Table<VariationPoint, Commentable, Reference> referringElementIndex;
-
-    /**
      * Analyze variation point dependencies based on program dependencies between them.
      *
      * DesignDecision: Using synchronized as analyzer instances are reused and this one is not
@@ -118,12 +100,10 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
         String selectorId = referenceSelectorConfig.getCurrentValue();
         ReferenceSelector referenceSelector = ReferenceSelectorRegistry.getReferenceSelector(selectorId);
-        referencedElementsIndex = LinkedHashMultimap.create();
-        referringElementIndex = HashBasedTable.create();
 
-        vp2GraphNodeIndex = buildGraphNodeIndex(vpmGraph);
-        indexReferencedElements(vp2GraphNodeIndex.keySet(), referenceSelector);
-        List<VPMEdgeDescriptor> descriptors = identifyDependencies(vp2GraphNodeIndex.keySet(), referenceSelector);
+        VPReferenceIndex index = indexVPReferences(vpmGraph, referenceSelector);
+
+        List<VPMEdgeDescriptor> descriptors = identifyDependencies(referenceSelector, index);
 
         logger.debug("Statistics: \n" + referenceSelector.generateStatistics());
 
@@ -132,24 +112,31 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         return result;
     }
 
+    private VPReferenceIndex indexVPReferences(final VPMGraph vpmGraph, ReferenceSelector referenceSelector) {
+        VPReferenceIndex index = new VPReferenceIndex();
+        indexGraphNodes(vpmGraph, index);
+        indexReferencedElements(referenceSelector, index);
+        return index;
+    }
+
     /**
      * Identify the dependencies between the variation points based on referring and referred
      * elements.<br>
      * Build and return an edge descriptor for each of those pairs.
      *
-     * @param vps
-     *            The variation points to search related ones for.
      * @param referenceSelector
      *            The selector for the references to consider.
+     * @param index
+     *            The index containing previously identified elemente references.
      * @return The list of identified edge descriptors.
      */
-    private List<VPMEdgeDescriptor> identifyDependencies(Set<VariationPoint> vps, ReferenceSelector referenceSelector) {
+    private List<VPMEdgeDescriptor> identifyDependencies(ReferenceSelector referenceSelector, VPReferenceIndex index) {
         List<VPMEdgeDescriptor> edges = Lists.newArrayList();
         List<String> edgeRegistry = new ArrayList<String>();
 
-        for (Commentable element : referencedElementsIndex.keySet()) {
+        for (Commentable element : index.referencedElementsIndex.keySet()) {
             List<VPMEdgeDescriptor> vpEdges = identifyRelatedVPsForReferencedElement(edgeRegistry, element,
-                    referenceSelector);
+                    referenceSelector, index);
             edges.addAll(vpEdges);
         }
 
@@ -157,11 +144,11 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     }
 
     private List<VPMEdgeDescriptor> identifyRelatedVPsForReferencedElement(List<String> edgeRegistry,
-            Commentable referencedElement, ReferenceSelector referenceSelector) {
+            Commentable referencedElement, ReferenceSelector referenceSelector, VPReferenceIndex index) {
 
         List<VPMEdgeDescriptor> referencedElementEdges = Lists.newArrayList();
 
-        Set<VariationPoint> referencingVPs = referencedElementsIndex.get(referencedElement);
+        Set<VariationPoint> referencingVPs = index.referencedElementsIndex.get(referencedElement);
         if (referencingVPs.size() > 1) {
 
             VariationPoint[] vpList = referencingVPs.toArray(new VariationPoint[referencingVPs.size()]);
@@ -174,8 +161,8 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                         continue;
                     }
 
-                    Reference referenceVP1 = referringElementIndex.get(vp1, referencedElement);
-                    Reference referenceVP2 = referringElementIndex.get(vp2, referencedElement);
+                    Reference referenceVP1 = index.referringElementIndex.get(vp1, referencedElement);
+                    Reference referenceVP2 = index.referringElementIndex.get(vp2, referencedElement);
 
                     DependencyType dependencyType = referenceSelector.getDependencyType(referenceVP1, referenceVP2,
                             referencedElement);
@@ -183,8 +170,8 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                         continue;
                     }
 
-                    Node nodeVP1 = vp2GraphNodeIndex.get(vp1);
-                    Node nodeVP2 = vp2GraphNodeIndex.get(vp2);
+                    Node nodeVP1 = index.vp2GraphNodeIndex.get(vp1);
+                    Node nodeVP2 = index.vp2GraphNodeIndex.get(vp2);
                     String vp1ID = nodeVP1.getId();
                     String vp2ID = nodeVP2.getId();
                     String sourceLabel = JaMoPPElementUtil.getLabel(referenceVP1.getSource());
@@ -231,11 +218,12 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      * @param referenceSelector
      *            The selector for the references to consider.
      */
-    private void indexReferencedElements(Set<VariationPoint> variationPoints, ReferenceSelector referenceSelector) {
+    private void indexReferencedElements(ReferenceSelector referenceSelector, VPReferenceIndex index) {
+        Set<VariationPoint> variationPoints = index.vp2GraphNodeIndex.keySet();
         for (VariationPoint vp : variationPoints) {
             List<Commentable> jamoppElements = getJamoppElements(vp);
             for (Commentable jamoppElement : jamoppElements) {
-                indexReferencedElements(vp, jamoppElement, referenceSelector);
+                indexReferencedElements(vp, jamoppElement, referenceSelector, index);
             }
         }
     }
@@ -255,9 +243,11 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      *            The JaMoPP element to find referenced or referencable elements.
      * @param referenceSelector
      *            The selector for the references to consider.
+     * @param index
+     *            The index to fill with the variation point's references.
      */
     private void indexReferencedElements(VariationPoint vp, Commentable referringElement,
-            ReferenceSelector referenceSelector) {
+            ReferenceSelector referenceSelector, VPReferenceIndex index) {
         List<Reference> referencedElements = referenceSelector.getReferencedElements(referringElement);
         for (Reference reference : referencedElements) {
 
@@ -269,8 +259,8 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                 }
             }
 
-            referencedElementsIndex.get(reference.getTarget()).add(vp);
-            referringElementIndex.put(vp, reference.getTarget(), reference);
+            index.referencedElementsIndex.get(reference.getTarget()).add(vp);
+            index.referringElementIndex.put(vp, reference.getTarget(), reference);
         }
     }
 
@@ -319,15 +309,12 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      *            The graph to index.
      * @return The prepared inverted index.
      */
-    private Map<VariationPoint, Node> buildGraphNodeIndex(VPMGraph vpmGraph) {
-        Map<VariationPoint, Node> index = new LinkedHashMap<VariationPoint, Node>();
+    private void indexGraphNodes(VPMGraph vpmGraph, VPReferenceIndex index) {
 
         for (Node node : vpmGraph.getNodeSet()) {
             VariationPoint vp = node.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
-            index.put(vp, node);
+            index.vp2GraphNodeIndex.put(vp, node);
         }
-
-        return index;
     }
 
     @Override
@@ -346,6 +333,37 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public String getRelationshipLabel() {
         return RELATIONSHIP_LABEL_PROGRAM_STRUCTURE;
+    }
+
+    /**
+     * An index data structure for tracking and analyzing variation point element references.
+     */
+    private class VPReferenceIndex {
+
+        /**
+         * Index which graph node contains a specific variation point.
+         */
+        private final Map<VariationPoint, Node> vp2GraphNodeIndex = new LinkedHashMap<VariationPoint, Node>();
+
+        /**
+         * The index which element is referenced by which variation points.
+         */
+        private final LinkedHashMultimap<Commentable, VariationPoint> referencedElementsIndex = LinkedHashMultimap
+                .create();
+
+        /**
+         * Index for references per variation point and referenced element.
+         *
+         * A table to link:
+         * <code> {@link VariationPoint} + a referenced {@link Commentable} => referring {@link Commentable}</code>
+         * <br>
+         * This is used to later lookup which element of a variation point holds the reference to
+         * the referred one.
+         *
+         * @return The index structure.
+         */
+        private final Table<VariationPoint, Commentable, Reference> referringElementIndex = HashBasedTable.create();;
+
     }
 
 }
