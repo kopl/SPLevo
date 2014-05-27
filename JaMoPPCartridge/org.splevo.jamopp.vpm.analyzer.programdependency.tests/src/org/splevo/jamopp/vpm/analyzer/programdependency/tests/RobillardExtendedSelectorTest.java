@@ -55,8 +55,8 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a field declaration calling an added method
-     * to initialize it's value.
+     * Test the dependency detection for a field declaration calling an added method to initialize
+     * it's value.
      *
      * @throws Exception
      *             Identifies a failed processing.
@@ -72,8 +72,8 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a field declaration creating an instance of
-     * an added class to initialize it's value.
+     * Test the dependency detection for a field declaration creating an instance of an added class
+     * to initialize it's value.
      *
      * @throws Exception
      *             Identifies a failed processing.
@@ -137,7 +137,8 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a field reading another field (e.g. instance field reads constant etc.)
+     * Test the dependency detection for a field reading another field (e.g. instance field reads
+     * constant etc.)
      *
      * @throws Exception
      *             Identifies a failed processing.
@@ -265,7 +266,8 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a method with an enumeration return type matching an import.
+     * Test the dependency detection for a method with an enumeration return type matching an
+     * import.
      *
      * @throws Exception
      *             Identifies a failed processing.
@@ -345,14 +347,19 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a parameter typed with an added class.
+     * Test the dependency detection for a changed method's parameter typed with a changed class.
      *
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testParameterTypedClass() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "ParameterTypedClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.ParameterTypedClass, 1);
     }
 
     /**
@@ -361,9 +368,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testParameterTypedEnumeration() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "ParameterTypedEnumeration/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.ParameterTypedEnumeration, 1);
     }
 
     /**
@@ -372,13 +384,19 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testParameterTypedInterface() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "ParameterTypedInterface/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.ParameterTypedInterface, 1);
     }
 
     /**
-     * Test the dependency detection for a statement checking a values type for an added enumeration.
+     * Test the dependency detection for a statement checking a values type for an added
+     * enumeration.
      *
      * @throws Exception
      *             Identifies a failed processing.
@@ -505,8 +523,8 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a statement declaring one or more variables typed
-     * with an added class.
+     * Test the dependency detection for a statement declaring one or more variables typed with an
+     * added class.
      *
      * @throws Exception
      *             Identifies a failed processing.
@@ -517,8 +535,8 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a statement declaring one or more variables typed
-     * with an added enumeration.
+     * Test the dependency detection for a statement declaring one or more variables typed with an
+     * added enumeration.
      *
      * @throws Exception
      *             Identifies a failed processing.
@@ -529,8 +547,8 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a statement declaring one or more variables typed
-     * with an added interface.
+     * Test the dependency detection for a statement declaring one or more variables typed with an
+     * added interface.
      *
      * @throws Exception
      *             Identifies a failed processing.
