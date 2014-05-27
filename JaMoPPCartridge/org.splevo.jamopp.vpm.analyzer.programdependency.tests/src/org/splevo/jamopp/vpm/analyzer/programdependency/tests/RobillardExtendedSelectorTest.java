@@ -395,15 +395,36 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a statement checking a values type for an added
-     * enumeration.
+     * Test the dependency detection for a statement casting an object to a changed enumeration.
      *
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
-    public void testStatementChecksEnumeration() throws Exception {
+    public void testStatementChecksEnumerationCast() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementChecksEnumeration/Cast/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementChecksEnumeration, 1);
+    }
+
+    /**
+     * Test the dependency detection for a statement checking an object if it is an instance of a
+     * changed enumeration.
+     *
+     * @throws Exception
+     *             Identifies a failed processing.
+     */
+    @Test
+    public void testStatementChecksEnumerationInstanceOf() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementChecksEnumeration/InstanceOf/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementChecksEnumeration, 1);
     }
 
     /**
