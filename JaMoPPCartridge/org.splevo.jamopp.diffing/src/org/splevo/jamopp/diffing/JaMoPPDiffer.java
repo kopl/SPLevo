@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.commons.layout.LayoutPackage;
 import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.commons.Commentable;
 import org.splevo.diffing.Differ;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
@@ -221,6 +222,37 @@ public class JaMoPPDiffer implements Differ {
     }
 
     /**
+     * Diffing JaMoPP elements directly.<br>
+     *
+     * Note: This method does not take any differ specific configurations (e.g. ignore packages) into
+     * account.
+     *
+     * {@inheritDoc}
+     *
+     * @return null if no supported source models available.
+     * @throws DiffingNotSupportedException
+     *             Thrown if no reasonable JaMoPP model is contained in the resource sets.
+     */
+    public Comparison doDiff(Commentable rightElement, Commentable leftElement, Map<String, String> diffingOptions)
+            throws DiffingException, DiffingNotSupportedException {
+
+        List<String> ignorePackages = Lists.newArrayList();
+        PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
+
+        EMFCompare comparator = initCompare(packageIgnoreChecker, diffingOptions);
+
+        // Compare the two models
+        // In comparison, the left side is always the changed one.
+        // push in the integration model first
+        IComparisonScope scope = new JavaModelMatchScope(leftElement, rightElement, packageIgnoreChecker);
+
+        Comparison comparisonModel = comparator.compare(scope);
+
+        return comparisonModel;
+
+    }
+
+    /**
      * Build the list of package ignore patterns from the provided diffing options.
      *
      * @param diffingOptions
@@ -367,7 +399,8 @@ public class JaMoPPDiffer implements Differ {
     private SimilarityChecker initSimilarityChecker(Map<String, String> diffingOptions) {
         String configString = diffingOptions.get(OPTION_JAVA_CLASSIFIER_NORMALIZATION);
         LinkedHashMap<Pattern, String> classifierNorms = NormalizationUtil.loadRemoveNormalizations(configString, null);
-        LinkedHashMap<Pattern, String> compUnitNorms = NormalizationUtil.loadRemoveNormalizations(configString, ".java");
+        LinkedHashMap<Pattern, String> compUnitNorms = NormalizationUtil
+                .loadRemoveNormalizations(configString, ".java");
 
         String configStringPackage = diffingOptions.get(OPTION_JAVA_PACKAGE_NORMALIZATION);
         LinkedHashMap<Pattern, String> packageNorms = NormalizationUtil.loadReplaceNormalizations(configStringPackage);
@@ -398,10 +431,12 @@ public class JaMoPPDiffer implements Differ {
     private HierarchicalStrategyResourceMatcher initResourceMatcher(Map<String, String> diffingOptions) {
 
         String packageNormConfig = diffingOptions.get(OPTION_JAVA_PACKAGE_NORMALIZATION);
-        LinkedHashMap<Pattern, String> uriNormalizations = NormalizationUtil.loadReplaceNormalizations(packageNormConfig);
+        LinkedHashMap<Pattern, String> uriNormalizations = NormalizationUtil
+                .loadReplaceNormalizations(packageNormConfig);
 
         String classNormConfig = diffingOptions.get(OPTION_JAVA_CLASSIFIER_NORMALIZATION);
-        LinkedHashMap<Pattern, String> fileNormalizations = NormalizationUtil.loadRemoveNormalizations(classNormConfig, ".java");
+        LinkedHashMap<Pattern, String> fileNormalizations = NormalizationUtil.loadRemoveNormalizations(classNormConfig,
+                ".java");
 
         HierarchicalStrategyResourceMatcher resourceMatcher = new HierarchicalStrategyResourceMatcher(
                 uriNormalizations, fileNormalizations);
