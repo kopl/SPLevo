@@ -16,7 +16,6 @@ import static org.splevo.jamopp.vpm.analyzer.programdependency.tests.TestUtil.as
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.DependencyType;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
@@ -544,15 +543,20 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
-     * Test the dependency detection for a statement declaring one or more variables typed with an
-     * added class.
+     * Test the dependency detection for a statement declaring one or more variables typed with a
+     * changed class.
      *
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testStatementTypedClass() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementTypedClass/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementTypedClass, 1);
     }
 
     /**
@@ -562,9 +566,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testStatementTypedEnumeration() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementTypedEnumeration/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementTypedEnumeration, 1);
     }
 
     /**
@@ -574,9 +583,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testStatementTypedInterface() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementTypedInterface/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementTypedInterface, 1);
     }
 
     /**
