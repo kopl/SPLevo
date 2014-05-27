@@ -22,6 +22,7 @@ import org.featuremapper.models.featuremapping.FeatureMappingModel;
 import org.featuremapper.models.featuremapping.FeatureRef;
 import org.featuremapper.models.featuremapping.Mapping;
 import org.featuremapper.models.featuremapping.SolutionModelRef;
+import org.splevo.fm.builder.FeatureModelWrapper;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.vpm.variability.Variant;
@@ -37,6 +38,7 @@ import de.devboost.featuremapper.splevo.builder.FeatureMapperModelSet;
 import de.devboost.featuremapper.splevo.builder.FeatureMapperModelsBuilder;
 import de.devboost.natspec.annotations.TextSyntax;
 
+// CHECKSTYLE:OFF
 public class FeatureMapperBuilderTestSupport {
 
 	private variabilityFactory factory = variabilityFactory.eINSTANCE;
@@ -80,7 +82,7 @@ public class FeatureMapperBuilderTestSupport {
 		res.setURI(uri);
 		res.getContents().add(jamoppClass);
 		softwareEntity.setJamoppElement(jamoppClass);
-		aVariant.getSoftwareEntities().add(softwareEntity);
+		aVariant.getImplementingElements().add(softwareEntity);
 		// variantToEntityMap.put(variantA.getVariantId(), jamoppClass);
 		point.getVariants().add(aVariant);
 	}
@@ -89,8 +91,8 @@ public class FeatureMapperBuilderTestSupport {
 	public FeatureMapperModelSet theModelsBuilderWillGenerate(
 			VariationPointModel vpm) {
 		FeatureMapperModelsBuilder builder = new FeatureMapperModelsBuilder();
-		FeatureMapperModelSet featureModelSet = builder.build(vpm,
-				"RootFeature");
+		FeatureModelWrapper<FeatureMapperModelSet> fmWrapper = builder.build(vpm, "RootFeature");
+		FeatureMapperModelSet featureModelSet = fmWrapper.getModel();
 		return featureModelSet;
 	}
 

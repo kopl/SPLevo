@@ -4,6 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @generated
+ */
 public class FeatureMapperModelsBuilderTest {
 
 	protected FeatureMapperBuilderTestSupport featureMapperBuilderTestSupport = null;
