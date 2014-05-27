@@ -22,6 +22,7 @@ import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
+import org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange;
 import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
 import org.splevo.jamopp.diffing.jamoppdiff.PackageChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
@@ -122,6 +123,19 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
     @Override
     public VariationPoint caseClassChange(ClassChange change) {
         org.emftext.language.java.classifiers.Class changedElement = change.getChangedClass();
+        return buildKindSpecificVariationPoint(change, changedElement);
+    }
+
+    /**
+     * Handle class changes.
+     *
+     * @param change
+     *            The class change diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseInterfaceChange(InterfaceChange change) {
+        org.emftext.language.java.classifiers.Interface changedElement = change.getChangedInterface();
         return buildKindSpecificVariationPoint(change, changedElement);
     }
 
