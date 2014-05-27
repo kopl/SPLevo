@@ -28,6 +28,7 @@ import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
+import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.ExpressionStatement;
@@ -260,6 +261,8 @@ public final class JaMoPPElementUtil {
             return "Statement";
         } else if (element instanceof LocalVariable || element instanceof AdditionalLocalVariable) {
             return "Variable";
+        } else if (element instanceof Parameter) {
+            return "Parameter";
 
         } else if (element instanceof ClassifierImport) {
             return getTypeLabel(((ClassifierImport) element).getClassifier());
