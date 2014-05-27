@@ -302,7 +302,6 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testMethodTypedClass() throws Exception {
 
@@ -319,9 +318,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testMethodTypedEnumeration() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "MethodTypedEnumeration/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.MethodTypedEnumeration, 1);
     }
 
     /**
@@ -330,9 +334,14 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
      * @throws Exception
      *             Identifies a failed processing.
      */
-    @Ignore
     @Test
     public void testMethodTypedInterface() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "MethodTypedInterface/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.MethodTypedInterface, 1);
     }
 
     /**
