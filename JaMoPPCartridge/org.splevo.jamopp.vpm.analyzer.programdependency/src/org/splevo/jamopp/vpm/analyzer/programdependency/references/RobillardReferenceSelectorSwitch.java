@@ -348,7 +348,13 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
         }
 
         /**
-         * Reference collection for all type of methods (interface + class). {@inheritDoc}
+         * Reference collection for all type of methods (interface + class).
+         *
+         * Return types are referenced by the method. Parameters are not, as no nested dependencies
+         * are considered (e.g. changed method with changed parameter inside does not make sense on
+         * the granularity level currently inspected).
+         *
+         * {@inheritDoc}
          */
         @Override
         public List<Reference> caseMethod(Method method) {
@@ -358,7 +364,6 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
                 for (Parameter parameter : method.getParameters()) {
                     references.addAll(parentSwitch.doSwitch(parameter));
                 }
-                updateSource(method, references);
 
                 Type type = method.getTypeReference().getTarget();
                 references.add(new Reference(method, type, ReferenceType.Typed));
