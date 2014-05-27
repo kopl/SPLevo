@@ -110,12 +110,24 @@ public class Reference {
      * Get the dependency type of the reference. The type is derived from the source and target
      * elements as well as the reference type between them.
      *
+     * DesignDecision Reverse ID build order for SuperType dependencies <strong>Special Case
+     * SuperType reference</strong>: For super type dependencies, the ID is build in the reverse
+     * order. For example: InterfaceSuperTypeClass if the class C implements the interface I. This
+     * is necessary to have reasonable source->target roles if several sub types
+     * implementing/extending the same super type.
+     *
      * {@inheritDoc}
      */
     public DependencyType getDependencyType() {
 
-        String typeID = String.format("%s%s%s", JaMoPPElementUtil.getTypeLabel(source), type.name(),
-                JaMoPPElementUtil.getTypeLabel(target));
+        String typeID = null;
+        if (type == ReferenceType.SuperType) {
+            typeID = String.format("%s%s%s", JaMoPPElementUtil.getTypeLabel(target), type.name(),
+                    JaMoPPElementUtil.getTypeLabel(source));
+        } else {
+            typeID = String.format("%s%s%s", JaMoPPElementUtil.getTypeLabel(source), type.name(),
+                    JaMoPPElementUtil.getTypeLabel(target));
+        }
 
         try {
             return DependencyType.valueOf(typeID);
