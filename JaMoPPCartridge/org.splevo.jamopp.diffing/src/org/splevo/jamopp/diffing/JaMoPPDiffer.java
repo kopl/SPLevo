@@ -230,11 +230,8 @@ public class JaMoPPDiffer implements Differ {
      * {@inheritDoc}
      *
      * @return null if no supported source models available.
-     * @throws DiffingNotSupportedException
-     *             Thrown if no reasonable JaMoPP model is contained in the resource sets.
      */
-    public Comparison doDiff(Commentable rightElement, Commentable leftElement, Map<String, String> diffingOptions)
-            throws DiffingException, DiffingNotSupportedException {
+    public Comparison doDiff(Commentable rightElement, Commentable leftElement, Map<String, String> diffingOptions) {
 
         List<String> ignorePackages = Lists.newArrayList();
         PackageIgnoreChecker packageIgnoreChecker = new PackageIgnoreChecker(ignorePackages);
