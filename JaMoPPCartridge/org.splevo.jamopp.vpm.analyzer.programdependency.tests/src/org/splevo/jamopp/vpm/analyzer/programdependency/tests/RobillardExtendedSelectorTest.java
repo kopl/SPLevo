@@ -209,7 +209,7 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     @Test
     public void testInterfaceSuperTypeClass() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InterfaceSupertypeClass/");
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InterfaceSuperTypeClass/");
         VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 2);
@@ -225,7 +225,7 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     @Test
     public void testInterfaceSuperTypeEnumeration() throws Exception {
 
-        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InterfaceSupertypeEnumeration/");
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "InterfaceSuperTypeEnumeration/");
         VPMAnalyzerResult result = analyzer.analyze(graph);
 
         assertNodeCount(graph, 2);
