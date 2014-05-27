@@ -39,6 +39,7 @@ import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Field;
+import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.util.MembersSwitch;
@@ -326,25 +327,18 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
         }
 
         /**
-         * Return the method itself and scan the included statements for additional references.
+         * References for class specific methods which include implemented method bodies (a list of
+         * statements). This method uses the common caseMethod() implementation and processes all
+         * contained statements in addition.
+         *
+         * {@inheritDoc}
          */
         @Override
         public List<Reference> caseClassMethod(ClassMethod method) {
             ArrayList<Reference> references = Lists.newArrayList();
 
-            if (extendedMode) {
-                for (Parameter parameter : method.getParameters()) {
-                    references.addAll(parentSwitch.doSwitch(parameter));
-                }
-                updateType(ReferenceType.Declares, references);
-
-                Type type = method.getTypeReference().getTarget();
-                Import importDecl = JaMoPPElementUtil.checkForImport(method, type);
-                if (importDecl != null) {
-                    references.add(new Reference(method, importDecl, ReferenceType.Import));
-                }
-                updateSource(method, references);
-            }
+            List<Reference> commonMethodReferences = caseMethod(method);
+            references.addAll(commonMethodReferences);
 
             for (Statement statement : method.getStatements()) {
                 references.addAll(parentSwitch.doSwitch(statement));
@@ -354,6 +348,9 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             return references;
         }
 
+        /**
+         * Reference collection for all type of methods (interface + class). {@inheritDoc}
+         */
         @Override
         public List<Reference> caseMethod(Method method) {
             ArrayList<Reference> references = Lists.newArrayList();
@@ -362,14 +359,14 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
                 for (Parameter parameter : method.getParameters()) {
                     references.addAll(parentSwitch.doSwitch(parameter));
                 }
-                // TODO
+                updateSource(method, references);
 
                 Type type = method.getTypeReference().getTarget();
+                references.add(new Reference(method, type, ReferenceType.Typed));
                 Import importDecl = JaMoPPElementUtil.checkForImport(method, type);
                 if (importDecl != null) {
                     references.add(new Reference(method, importDecl, ReferenceType.Import));
                 }
-                updateSource(method, references);
             }
 
             references.add(new Reference(method));
