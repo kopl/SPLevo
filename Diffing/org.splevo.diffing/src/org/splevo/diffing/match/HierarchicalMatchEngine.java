@@ -115,9 +115,9 @@ public class HierarchicalMatchEngine implements IMatchEngine {
         if (left instanceof ResourceSet || right instanceof ResourceSet) {
             match(comparison, scope, (ResourceSet) left, (ResourceSet) right, monitor);
         } else if (left instanceof Resource || right instanceof Resource) {
-            match(comparison, scope, (Resource) left, (Resource) right, monitor);
+            match(comparison, (Resource) left, (Resource) right, monitor);
         } else if (left instanceof EObject || right instanceof EObject) {
-            match(comparison, scope, (EObject) left, (EObject) right, monitor);
+            match(comparison, (EObject) left, (EObject) right, monitor);
         } else {
             throw new IllegalArgumentException("Unhandled type of elements to match. (" + left + ", " + right + ")");
         }
@@ -197,6 +197,28 @@ public class HierarchicalMatchEngine implements IMatchEngine {
     }
 
     /**
+     * Build the matches for two given EObjects. The elements will be pushed into the regular match
+     * process for sub elements.
+     *
+     * @param comparison
+     *            The comparison model to feed.
+     * @param left
+     *            The changed element.
+     * @param right
+     *            The original element.
+     * @param monitor
+     *            The progress monitor.
+     */
+    protected void match(Comparison comparison, final EObject left, final EObject right, Monitor monitor) {
+
+        List<EObject> leftElements = Lists.newArrayList(left);
+        List<EObject> rightElements = Lists.newArrayList(right);
+
+        List<Match> matches = match(comparison, leftElements, rightElements, monitor);
+        comparison.getMatches().addAll(matches);
+    }
+
+    /**
      * Create matches for the provided elements and trigger a match process for the child elements
      * in case of a match.
      *
@@ -226,7 +248,8 @@ public class HierarchicalMatchEngine implements IMatchEngine {
                 if (equalityStrategy.areEqual(leftElement, rightElement)) {
                     rightElementsInScope.remove(rightElement);
                     match.setRight(rightElement);
-                    List<Match> subMatches = match(comparison, leftElement.eContents(), rightElement.eContents(), monitor);
+                    List<Match> subMatches = match(comparison, leftElement.eContents(), rightElement.eContents(),
+                            monitor);
                     match.getSubmatches().addAll(subMatches);
                     break;
                 }
