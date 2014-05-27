@@ -15,6 +15,7 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.classifiers.Enumeration;
+import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.util.ContainersSwitch;
@@ -32,6 +33,7 @@ import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
+import org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffFactory;
 import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
 import org.splevo.jamopp.diffing.jamoppdiff.PackageChange;
@@ -82,6 +84,13 @@ public class JaMoPPChangeFactory extends ComposedSwitch<Diff> {
             EnumChange enumChange = JaMoPPDiffFactory.eINSTANCE.createEnumChange();
             enumChange.setChangedEnum(object);
             return enumChange;
+        }
+
+        @Override
+        public Diff caseInterface(Interface object) {
+            InterfaceChange interfaceChange = JaMoPPDiffFactory.eINSTANCE.createInterfaceChange();
+            interfaceChange.setChangedInterface(object);
+            return interfaceChange;
         }
 
     }
