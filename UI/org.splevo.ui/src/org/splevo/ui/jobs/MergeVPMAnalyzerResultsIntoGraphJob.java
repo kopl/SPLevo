@@ -13,6 +13,7 @@ package org.splevo.ui.jobs;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.graphstream.algorithm.ConnectedComponents;
@@ -24,6 +25,7 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 
@@ -82,13 +84,18 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
         // number of subgraphs
         ConnectedComponents cc = new ConnectedComponents();
         cc.init(vpmGraph);
-        String subgraphDegrees = getSubgraphDegrees(vpmGraph);
 
-        logger.info("VPM Analysis Result: #Nodes: " + vpmGraph.getNodeCount());
-        logger.info("VPM Analysis Result: #Edges: " + vpmGraph.getEdgeCount());
+        int nodeCount = vpmGraph.getNodeCount();
+        int edgeCount = vpmGraph.getEdgeCount();
+        String clusterDegrees = getClusterDegrees(cc, nodeCount);
+        String nodeDegrees = getNodeDegrees(vpmGraph);
+
+        logger.info("VPM Analysis Result: #Nodes: " + nodeCount);
+        logger.info("VPM Analysis Result: #Edges: " + edgeCount);
         logger.info("VPM Analysis Result: #Subgraphs: " + cc.getConnectedComponentsCount());
-        logger.info("VPM Analysis Result: #SingleNodes: " + cc.getConnectedComponentsCount(0, 2));
-        logger.info("VPM Analysis Result: Subgraph Degrees (Degree:SubGraphCount): [" + subgraphDegrees + "]");
+        logger.info("VPM Analysis Result: #SingleNodes: " + cc.getConnectedComponentsCount(1, 2));
+        logger.info("VPM Analysis Result: Node Degrees (#EdgesPerNode:#Instances): [" + nodeDegrees + "]");
+        logger.info("VPM Analysis Result: Cluster Degrees (NodesPerSubgraph:#Instances): [" + clusterDegrees + "]");
 
     }
 
@@ -100,7 +107,7 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
      *            The graph to analyze the subgraphs for.
      * @return The formated string of degree statistics [Size:SubGraphCount].
      */
-    private String getSubgraphDegrees(VPMGraph vpmGraph) {
+    private String getNodeDegrees(VPMGraph vpmGraph) {
 
         LinkedHashMultimap<Integer, Node> degreeStatistics = LinkedHashMultimap.create();
         for (Node node : vpmGraph.getNodeSet()) {
@@ -115,6 +122,39 @@ public class MergeVPMAnalyzerResultsIntoGraphJob extends AbstractBlackboardInter
                 degreePrint.append("|");
             }
             degreePrint.append(degree + ":" + degreeStatistics.get(degree).size());
+        }
+        return degreePrint.toString();
+    }
+
+    /**
+     * Get a string containing the degrees of detected subgraphs and how many subgraphs exist for a
+     * specific degree.
+     *
+     * @param cc
+     *            An analysis container providing structure information about the graph.
+     * @param maxDegree
+     *            The maximum degree to search for.
+     * @return The formated string of degree statistics [Size:SubGraphCount].
+     */
+    private String getClusterDegrees(ConnectedComponents cc, int maxDegree) {
+
+        Map<Integer, Integer> degreeStatistics = Maps.newLinkedHashMap();
+
+        for (int degree = 1; degree <= maxDegree; degree++) {
+            int degreeCount = cc.getConnectedComponentsCount(degree, degree + 1);
+            if (degreeCount != 0) {
+                degreeStatistics.put(degree, degreeCount);
+            }
+        }
+
+        StringBuilder degreePrint = new StringBuilder();
+        // List<Integer> degrees = Lists.newLinkedList(degreeStatistics.keySet());
+        // Collections.sort(degrees);
+        for (Integer degree : degreeStatistics.keySet()) {
+            if (degreePrint.length() > 0) {
+                degreePrint.append("|");
+            }
+            degreePrint.append(degree + ":" + degreeStatistics.get(degree));
         }
         return degreePrint.toString();
     }
