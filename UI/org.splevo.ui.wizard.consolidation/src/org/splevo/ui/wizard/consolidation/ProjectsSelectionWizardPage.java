@@ -19,6 +19,8 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
@@ -31,7 +33,7 @@ import org.eclipse.swt.widgets.Text;
  * @author Radoslav Yankov
  */
 public class ProjectsSelectionWizardPage extends WizardPage {
-    
+
     /**
      * Constructor preparing the wizard page infrastructure.
      */
@@ -43,63 +45,74 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
     @Override
     public void createControl(Composite parent) {
-        Composite container = new Composite(parent, SWT.NONE);                     
-        container.setLayout(null);
-    
-        Label leadingProjectsLabel = new Label(container, SWT.NONE);        
-        leadingProjectsLabel.setBounds(10, 10, 106, 20);
+        GridLayout layout = new GridLayout(4, false);
+        layout.verticalSpacing = 15;
+        layout.horizontalSpacing = 10;
+
+        Composite container = new Composite(parent, SWT.NONE);
+        container.setLayout(layout);
+
+        GridData gridDataSpanCells = new GridData(GridData.FILL_HORIZONTAL);
+        gridDataSpanCells.horizontalSpan = 2;
+        gridDataSpanCells.grabExcessHorizontalSpace = true;
+
+        Label leadingProjectsLabel = new Label(container, SWT.NONE);
         leadingProjectsLabel.setText("Leading projects:");
-        
+        leadingProjectsLabel.setLayoutData(gridDataSpanCells);
+
         Label integrationProjectsLabel = new Label(container, SWT.NONE);
-        integrationProjectsLabel.setBounds(255, 10, 106, 20);
         integrationProjectsLabel.setText("Integration projects:");
-        
+        integrationProjectsLabel.setLayoutData(gridDataSpanCells);
+
+        GridData gridDataSecondRow = new GridData(GridData.FILL_HORIZONTAL);
+
         Label leadingProjectsVariantNameLabel = new Label(container, SWT.NONE);
-        leadingProjectsVariantNameLabel.setBounds(10, 50, 80, 20);
-        leadingProjectsVariantNameLabel.setText("Variant name:");                
-        
+        leadingProjectsVariantNameLabel.setText("Variant name:");
+
         Text leadingProjectsVariantNameField = new Text(container, SWT.BORDER);
-        leadingProjectsVariantNameField.setBounds(92, 48, 150, 20); 
-        
+        leadingProjectsVariantNameField.setLayoutData(gridDataSecondRow);
+
         Label integrationProjectsVariantNameLabel = new Label(container, SWT.NONE);
-        integrationProjectsVariantNameLabel.setBounds(255, 50, 80, 20);
         integrationProjectsVariantNameLabel.setText("Variant name:");
-        
+
         Text integrationProjectsVariantNameField = new Text(container, SWT.BORDER);
-        integrationProjectsVariantNameField.setBounds(335, 48, 150, 20);        
+        integrationProjectsVariantNameField.setLayoutData(gridDataSecondRow);
         
         Label projectsLabel1 = new Label(container, SWT.NONE);
-        projectsLabel1.setBounds(10, 80, 80, 20);
         projectsLabel1.setText("Projects:");
+        projectsLabel1.setLayoutData(gridDataSpanCells);
         
         Label projectsLabel2 = new Label(container, SWT.NONE);
-        projectsLabel2.setBounds(255, 80, 80, 20);
         projectsLabel2.setText("Projects:");
+        projectsLabel2.setLayoutData(gridDataSpanCells);
+        
+        GridData gridDataLastRow = new GridData(SWT.FILL, SWT.FILL, true, true);
+        gridDataLastRow.horizontalSpan = 2;        
         
         TableViewer leadingProjectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
         leadingProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
         leadingProjectsTableViewer.setInput(getProjectsFromWorkspace());
         
         Table leadingProjectsTable = leadingProjectsTableViewer.getTable();
-        leadingProjectsTable.setBounds(10, 100, 230, 300);
+        leadingProjectsTable.setLayoutData(gridDataLastRow);
         
         TableViewer integrationProjectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
         integrationProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
         integrationProjectsTableViewer.setInput(getProjectsFromWorkspace());
         
         Table integrationProjectsTable = integrationProjectsTableViewer.getTable();
-        integrationProjectsTable.setBounds(255, 100, 230, 300);
-        
+        integrationProjectsTable.setLayoutData(gridDataLastRow);            
+
         setControl(container);
         setPageComplete(false);
-      }   
-    
+    }
+
     private IProject[] getProjectsFromWorkspace() {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
-        
-        IProject[] projects = root.getProjects();
-        
+
+        IProject[] projects = root.getProjects();      
+
         return projects;
     }
 }
