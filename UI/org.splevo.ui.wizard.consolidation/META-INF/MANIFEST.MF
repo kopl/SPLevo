@@ -11,4 +11,5 @@ Require-Bundle: org.apache.log4j,
  org.eclipse.core.runtime,
  org.eclipse.jface,
  org.eclipse.ui.ide,
- org.eclipse.ui
+ org.eclipse.ui,
+ org.splevo.project
