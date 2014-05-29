@@ -16,13 +16,16 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
@@ -33,6 +36,9 @@ import org.eclipse.swt.widgets.Text;
  * @author Radoslav Yankov
  */
 public class ProjectsSelectionWizardPage extends WizardPage {
+    
+    private Text leadingProjectsVariantNameField;
+    private Text integrationProjectsVariantNameField;
 
     /**
      * Constructor preparing the wizard page infrastructure.
@@ -40,7 +46,9 @@ public class ProjectsSelectionWizardPage extends WizardPage {
     public ProjectsSelectionWizardPage() {
         super("Projects Selection Page");
         setTitle("Projects selection");
-        setDescription("Define the projects to be consolidated.");
+        setDescription("Define the projects to be consolidated.");     
+        
+        setPageComplete(false);
     }
 
     @Override
@@ -69,14 +77,40 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         Label leadingProjectsVariantNameLabel = new Label(container, SWT.NONE);
         leadingProjectsVariantNameLabel.setText("Variant name:");
 
-        Text leadingProjectsVariantNameField = new Text(container, SWT.BORDER);
+        leadingProjectsVariantNameField = new Text(container, SWT.BORDER);
         leadingProjectsVariantNameField.setLayoutData(gridDataSecondRow);
+        leadingProjectsVariantNameField.addListener(SWT.Modify, new Listener() {
 
+            @Override
+            public void handleEvent(Event event) {
+                if (getLeadingProjectsVariantName() != null 
+                        && !getLeadingProjectsVariantName().equals("") && getIntegrationProjectsVariantName() != null
+                        && !getIntegrationProjectsVariantName().equals("")) {
+                    setPageComplete(true);
+                } else {
+                    setPageComplete(false);
+                }
+            }            
+        });
+        
         Label integrationProjectsVariantNameLabel = new Label(container, SWT.NONE);
         integrationProjectsVariantNameLabel.setText("Variant name:");
 
-        Text integrationProjectsVariantNameField = new Text(container, SWT.BORDER);
+        integrationProjectsVariantNameField = new Text(container, SWT.BORDER);
         integrationProjectsVariantNameField.setLayoutData(gridDataSecondRow);
+        integrationProjectsVariantNameField.addListener(SWT.Modify, new Listener() {
+
+            @Override
+            public void handleEvent(Event event) {
+                if (getLeadingProjectsVariantName() != null 
+                        && !getLeadingProjectsVariantName().equals("") && getIntegrationProjectsVariantName() != null
+                        && !getIntegrationProjectsVariantName().equals("")) {
+                    setPageComplete(true);
+                } else {
+                    setPageComplete(false);
+                }
+            }            
+        });
         
         Label projectsLabel1 = new Label(container, SWT.NONE);
         projectsLabel1.setText("Projects:");
@@ -90,6 +124,13 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         gridDataLastRow.horizontalSpan = 2;        
         
         TableViewer leadingProjectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
+        leadingProjectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
+            @Override
+            public String getText(Object element) {
+                IProject project = (IProject) element;
+                return project.getName();
+            }
+        });
         leadingProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
         leadingProjectsTableViewer.setInput(getProjectsFromWorkspace());
         
@@ -97,14 +138,20 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         leadingProjectsTable.setLayoutData(gridDataLastRow);
         
         TableViewer integrationProjectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
+        integrationProjectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
+            @Override
+            public String getText(Object element) {
+                IProject project = (IProject) element;
+                return project.getName();
+            }
+        });
         integrationProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
         integrationProjectsTableViewer.setInput(getProjectsFromWorkspace());
         
         Table integrationProjectsTable = integrationProjectsTableViewer.getTable();
         integrationProjectsTable.setLayoutData(gridDataLastRow);            
-
-        setControl(container);
-        setPageComplete(false);
+        
+        setControl(container);        
     }
 
     private IProject[] getProjectsFromWorkspace() {
@@ -114,5 +161,23 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         IProject[] projects = root.getProjects();      
 
         return projects;
+    }
+
+    /**
+     * Get the value of the field for variant name of leading projects.
+     * 
+     * @return variant name field value for leading projects
+     */
+    public String getLeadingProjectsVariantName() {
+        return leadingProjectsVariantNameField.getText().trim();
+    }
+
+    /**
+     * Get the value of the field for variant name of integration projects.
+     * 
+     * @return variant name field value for integration projects
+     */
+    public String getIntegrationProjectsVariantName() {
+        return integrationProjectsVariantNameField.getText().trim();
     }
 }
