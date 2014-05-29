@@ -41,7 +41,9 @@ import org.splevo.vpm.variability.VariationPoint;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.LinkedHashMultiset;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multiset;
 import com.google.common.collect.Table;
 
 /**
@@ -99,13 +101,12 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     public synchronized VPMAnalyzerResult analyze(final VPMGraph vpmGraph) throws VPMAnalyzerException {
 
         String selectorId = referenceSelectorConfig.getCurrentValue();
+        logger.info("ReferenceSelector Mode: " + selectorId);
         ReferenceSelector referenceSelector = ReferenceSelectorRegistry.getReferenceSelector(selectorId);
 
         VPReferenceIndex index = indexVPReferences(vpmGraph, referenceSelector);
 
         List<VPMEdgeDescriptor> descriptors = identifyDependencies(referenceSelector, index);
-
-        logger.debug("Statistics: \n" + referenceSelector.generateStatistics());
 
         VPMAnalyzerResult result = new VPMAnalyzerResult(this);
         result.getEdgeDescriptors().addAll(descriptors);
@@ -127,28 +128,42 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
      * @param referenceSelector
      *            The selector for the references to consider.
      * @param index
-     *            The index containing previously identified elemente references.
+     *            The index containing previously identified element references.
      * @return The list of identified edge descriptors.
      */
     private List<VPMEdgeDescriptor> identifyDependencies(ReferenceSelector referenceSelector, VPReferenceIndex index) {
         List<VPMEdgeDescriptor> edges = Lists.newArrayList();
         List<String> edgeRegistry = new ArrayList<String>();
+        Multiset<String> statistics = LinkedHashMultiset.create();
 
         for (Commentable element : index.referencedElementsIndex.keySet()) {
             List<VPMEdgeDescriptor> vpEdges = identifyRelatedVPsForReferencedElement(edgeRegistry, element,
-                    referenceSelector, index);
+                    referenceSelector, index, statistics);
             edges.addAll(vpEdges);
         }
 
+        printStatistics(statistics);
         return edges;
     }
 
+    private void printStatistics(Multiset<String> statistics) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Statistics:");
+        for (String type : statistics.elementSet()) {
+            builder.append("\n");
+            builder.append(type + "\t" + statistics.count(type));
+        }
+        logger.debug(builder.toString());
+    }
+
     private List<VPMEdgeDescriptor> identifyRelatedVPsForReferencedElement(List<String> edgeRegistry,
-            Commentable referencedElement, ReferenceSelector referenceSelector, VPReferenceIndex index) {
+            Commentable referencedElement, ReferenceSelector referenceSelector, VPReferenceIndex index,
+            Multiset<String> statistics) {
 
         List<VPMEdgeDescriptor> referencedElementEdges = Lists.newArrayList();
 
         Set<VariationPoint> referencingVPs = index.referencedElementsIndex.get(referencedElement);
+
         if (referencingVPs.size() > 1) {
 
             VariationPoint[] vpList = referencingVPs.toArray(new VariationPoint[referencingVPs.size()]);
@@ -161,11 +176,28 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                         continue;
                     }
 
-                    Reference referenceVP1 = index.referringElementIndex.get(vp1, referencedElement);
-                    Reference referenceVP2 = index.referringElementIndex.get(vp2, referencedElement);
-
-                    DependencyType dependencyType = referenceSelector.getDependencyType(referenceVP1, referenceVP2,
-                            referencedElement);
+                    // every VP can have more than one reference to a referenced element
+                    // so we need to search for acceptable ones
+                    // To track statistics about the analysis, we must scan all dependencies even
+                    // if the first one would be enough for identifying a dependency.
+                    // FIXME: Implementation must be cleaned up
+                    DependencyType dependencyType = DependencyType.IGNORE;
+                    Reference referenceVP1 = null;
+                    Reference referenceVP2 = null;
+                    outer: for (Reference refVP1 : index.getIndexedReferences(vp1, referencedElement)) {
+                        for (Reference refVP2 : index.getIndexedReferences(vp2, referencedElement)) {
+                            DependencyType type = referenceSelector
+                                    .getDependencyType(refVP1, refVP2, referencedElement);
+                            if (type != DependencyType.IGNORE) {
+                                statistics.add(type.toString());
+                                dependencyType = type;
+                                referenceVP1 = refVP1;
+                                referenceVP2 = refVP2;
+                                break outer;
+                            }
+                        }
+                    }
+                    // if we did not find a reasonable VP dependency continue with the next VP pair.
                     if (dependencyType == DependencyType.IGNORE) {
                         continue;
                     }
@@ -174,6 +206,10 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                     Node nodeVP2 = index.vp2GraphNodeIndex.get(vp2);
                     String vp1ID = nodeVP1.getId();
                     String vp2ID = nodeVP2.getId();
+
+                    // the source of the second VP forms the target label as we know
+                    // talk about source and target of the VP relationship and no longer about
+                    // dependencies between the software elements.
                     String sourceLabel = JaMoPPElementUtil.getLabel(referenceVP1.getSource());
                     String targetLabel = JaMoPPElementUtil.getLabel(referenceVP2.getSource());
 
@@ -189,6 +225,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                 }
             }
         }
+
         return referencedElementEdges;
     }
 
@@ -260,7 +297,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
             }
 
             index.referencedElementsIndex.get(reference.getTarget()).add(vp);
-            index.referringElementIndex.put(vp, reference.getTarget(), reference);
+            index.getIndexedReferences(vp, reference.getTarget()).add(reference);
         }
     }
 
@@ -352,7 +389,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                 .create();
 
         /**
-         * Index for references per variation point and referenced element.
+         * Index for references per variation point and referenced element (target).
          *
          * A table to link:
          * <code> {@link VariationPoint} + a referenced {@link Commentable} => referring {@link Commentable}</code>
@@ -362,7 +399,26 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
          *
          * @return The index structure.
          */
-        private final Table<VariationPoint, Commentable, Reference> referringElementIndex = HashBasedTable.create();;
+        private final Table<VariationPoint, Commentable, List<Reference>> referringElementIndex = HashBasedTable
+                .create();
+
+        /**
+         * Get the list of indexed references. It will always return at least an empty list to work
+         * with.
+         *
+         * @param vp
+         *            The referencing variation point containg the source element.
+         * @param target
+         *            The referenced target element.
+         * @return The list of connecting references (never null).
+         */
+        public List<Reference> getIndexedReferences(VariationPoint vp, Commentable target) {
+            List<Reference> references = referringElementIndex.get(vp, target);
+            if (references == null) {
+                referringElementIndex.put(vp, target, new ArrayList<Reference>());
+            }
+            return referringElementIndex.get(vp, target);
+        }
 
     }
 

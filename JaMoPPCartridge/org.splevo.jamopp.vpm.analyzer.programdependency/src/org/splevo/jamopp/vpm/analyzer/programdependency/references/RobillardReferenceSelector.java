@@ -19,9 +19,6 @@ import org.emftext.language.java.commons.Commentable;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerUtil;
 
-import com.google.common.collect.LinkedHashMultiset;
-import com.google.common.collect.Multiset;
-
 /**
  * A reference selector implementing the references defined by:<br>
  * Robillard, M. R., & Murphy, G. C. (2002).<br>
@@ -66,8 +63,6 @@ import com.google.common.collect.Multiset;
 public class RobillardReferenceSelector implements ReferenceSelector {
 
     private static Logger logger = Logger.getLogger(RobillardReferenceSelector.class);
-
-    private Multiset<String> statistics = LinkedHashMultiset.create();
 
     private RobillardReferenceSelectorSwitch selectorSwitch;
 
@@ -134,14 +129,7 @@ public class RobillardReferenceSelector implements ReferenceSelector {
             return DependencyType.IGNORE;
         }
 
-        statistics.add(dependencyType.toString());
-
         return dependencyType;
-    }
-
-    @Override
-    public String generateStatistics() {
-        return statistics.toString();
     }
 
 }

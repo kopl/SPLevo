@@ -48,11 +48,4 @@ public interface ReferenceSelector {
      */
     public DependencyType getDependencyType(Reference reference1, Reference reference2, Commentable target);
 
-    /**
-     * Get a representation of statistics about not ignored references tracked during the process.
-     *
-     * @return A formatted string of any statistics about not ignored references.
-     */
-    public String generateStatistics();
-
 }
