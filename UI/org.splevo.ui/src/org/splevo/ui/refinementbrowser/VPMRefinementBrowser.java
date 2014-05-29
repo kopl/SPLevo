@@ -24,6 +24,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -95,6 +96,8 @@ public class VPMRefinementBrowser extends EditorPart {
         // The listener must be added after the two connected required widgets have been created
         refinementListView.addSelectionChangedListener(new RefinementSelectionListener(detailsView));
         refinementListView.addSelectionChangedListener(new RefinementInfoSelectionListener(detailsView));
+        IActionBars actionBars = getEditorSite().getActionBars();
+        refinementListView.addSelectionChangedListener(new RefinementActionBarListener(actionBars));
 
         sashForm.setWeights(new int[] { 2, 8 });
 
