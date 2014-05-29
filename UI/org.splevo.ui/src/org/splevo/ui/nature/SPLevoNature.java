@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -46,7 +46,7 @@ public class SPLevoNature implements IProjectNature {
     /**
      * Configure the project. This creates and initializes a SPLevo project file and opens the
      * associated editor.
-     * 
+     *
      * @throws CoreException
      *             identifies the configuration could not be performed successfully.
      */
@@ -71,19 +71,21 @@ public class SPLevoNature implements IProjectNature {
 
         // init the default directory structure of a SPLevo project.
         String splevoProjectFileName = project.getName() + "." + SPLevoProjectUtil.SPLEVO_FILE_EXTENSION;
-        SPLevoProject projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();
-        projectConfiguration.setWorkspace("/" + project.getName() + "/");
-        projectConfiguration.setName(project.getName());
-        try {
-            File filePath = new File(project.getFullPath().toString() + File.separator + splevoProjectFileName);
-            SPLevoProjectUtil.save(projectConfiguration, filePath);
-            project.refreshLocal(-1, new NullProgressMonitor());
-            IFile file = project.getFile(splevoProjectFileName);
-            IFileEditorInput inputFile = new FileEditorInput(file);
-            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-            page.openEditor(inputFile, SPLevoProjectEditor.ID);
-        } catch (IOException e) {
-            e.printStackTrace();
+        File filePath = new File(project.getFullPath().toString() + File.separator + splevoProjectFileName);
+        if (!filePath.exists()) {
+            SPLevoProject projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();
+            projectConfiguration.setWorkspace("/" + project.getName() + "/");
+            projectConfiguration.setName(project.getName());
+            try {
+                SPLevoProjectUtil.save(projectConfiguration, filePath);
+                project.refreshLocal(-1, new NullProgressMonitor());
+                IFile file = project.getFile(splevoProjectFileName);
+                IFileEditorInput inputFile = new FileEditorInput(file);
+                IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                page.openEditor(inputFile, SPLevoProjectEditor.ID);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
