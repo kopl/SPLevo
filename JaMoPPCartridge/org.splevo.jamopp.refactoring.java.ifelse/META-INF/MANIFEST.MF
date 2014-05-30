@@ -8,5 +8,6 @@ Require-Bundle: org.splevo.refactoring,
  org.emftext.language.java,
  org.splevo.vpm,
  com.google.guava,
- org.apache.log4j
+ org.apache.log4j,
+ org.splevo.jamopp.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

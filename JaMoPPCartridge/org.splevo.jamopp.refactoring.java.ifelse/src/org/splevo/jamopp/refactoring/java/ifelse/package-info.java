@@ -1,5 +1,4 @@
-
 /**
- * Stores refactorings based on Java that introduce if-else variability at runtime.
+ * Contains JaMoPP refactorings that introduce variability using the if-else mechanism.
  */
 package org.splevo.jamopp.refactoring.java.ifelse;

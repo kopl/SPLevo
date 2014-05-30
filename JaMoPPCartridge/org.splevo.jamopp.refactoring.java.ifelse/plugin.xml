@@ -4,9 +4,16 @@
    <extension
          point="org.splevo.refactoring.refactoring">
       <VariabilityRefactoring
-            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoring">
+            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoringAllXOR">
       </VariabilityRefactoring>
    </extension>
-
-
+   <extension
+         point="org.splevo.refactoring.refactoring">
+      <VariabilityRefactoring
+            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoringAllOR">
+      </VariabilityRefactoring>
+   </extension>
+   
+   
+   
 </plugin>

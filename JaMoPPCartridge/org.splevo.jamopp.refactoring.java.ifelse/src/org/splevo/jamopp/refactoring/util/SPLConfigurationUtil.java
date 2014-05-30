@@ -11,14 +11,8 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.util;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -29,12 +23,12 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportsFactory;
-import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MembersFactory;
+import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.references.IdentifierReference;
-import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferencesFactory;
-import org.emftext.language.java.references.StringReference;
+import org.emftext.language.java.types.TypesFactory;
 
 /**
  * This class provides utility methods when it comes to the configuration of the SPL which is to be
@@ -42,11 +36,7 @@ import org.emftext.language.java.references.StringReference;
  */
 public final class SPLConfigurationUtil {
 
-    private static final String CONFIGURATION_READER_CLASS_NAME = "SPLConfigReader";
-    private static final String CONFIGURATION_READER_READ_CONFIG_METHOD_NAME = "getConfigs";
-
-    /** The logger used by this class. */
-    private static Logger logger = Logger.getLogger(SPLConfigurationUtil.class);
+    private static final String CONFIGURATION_READER_CLASS_NAME = "SPLConfig";
 
     /**
      * Force static access with a private constructor.
@@ -59,7 +49,7 @@ public final class SPLConfigurationUtil {
      * 
      * @return The {@link Import}.
      */
-    public static Import getRequiringImport() {
+    public static Import getSPLConfigClassImport() {
         ClassifierImport generatedImport = ImportsFactory.eINSTANCE.createClassifierImport();
         Class classifier = generateConfigReaderClassifier();
         generatedImport.setClassifier(classifier);
@@ -80,7 +70,8 @@ public final class SPLConfigurationUtil {
     }
 
     /**
-     * Creates an expression that matches a property of a given name with a given string.
+     * Creates an expression reflecting the configuration of the specified variant as boolean. This
+     * can be used in an if-condition.
      * 
      * @param variationPointID
      *            The propertie's {@link String} name.
@@ -89,78 +80,38 @@ public final class SPLConfigurationUtil {
      * @return The generated {@link Expression}.
      */
     public static IdentifierReference generateSingleVariantMatchingExpression(String variationPointID, String variantID) {
+        Field field = MembersFactory.eINSTANCE.createField();
+        field.setName(variantID);
+        field.setTypeReference(TypesFactory.eINSTANCE.createBoolean());
+        field.addModifier(ModifiersFactory.eINSTANCE.createPublic());
+        field.addModifier(ModifiersFactory.eINSTANCE.createStatic());
+        IdentifierReference identifierReference = ReferencesFactory.eINSTANCE.createIdentifierReference();
+        identifierReference.setTarget(field);
+
         IdentifierReference configReaderReference = ReferencesFactory.eINSTANCE.createIdentifierReference();
         configReaderReference.setTarget(generateConfigReaderClassifier());
-
-        MethodCall readConfigMethodCall = getReadConfigMethodCall(
-				variationPointID, configReaderReference);
-
-        MethodCall containsMethodCall = ReferencesFactory.eINSTANCE.createMethodCall();
-        ClassMethod containsMethod = MembersFactory.eINSTANCE.createClassMethod();
-        containsMethod.setName("contains");
-        containsMethodCall.setTarget(containsMethod);
-        StringReference matchWithRef = ReferencesFactory.eINSTANCE.createStringReference();
-        matchWithRef.setValue(variantID);
-        containsMethodCall.getArguments().add(matchWithRef);
-        readConfigMethodCall.setNext(containsMethodCall);
+        configReaderReference.setNext(identifierReference);
 
         return configReaderReference;
     }
 
-    public static Expression generateVariantMatchingExpression(String variationPointID, Set<String> variantIDs) {
-    	ConditionalOrExpression conditionalOrExpression = ExpressionsFactory.eINSTANCE.createConditionalOrExpression();
-    	
-		for (String variantID : variantIDs) {
-			conditionalOrExpression.getChildren().add(generateSingleVariantMatchingExpression(variationPointID, variantID));
-		}
-    	
-		return conditionalOrExpression;
-    }
-
-	private static MethodCall getReadConfigMethodCall(String variationPointID,
-			IdentifierReference configReaderReference) {
-		MethodCall readConfigMethodCall = ReferencesFactory.eINSTANCE.createMethodCall();
-        ClassMethod readConfigMethod = MembersFactory.eINSTANCE.createClassMethod();
-        readConfigMethod.setName(CONFIGURATION_READER_READ_CONFIG_METHOD_NAME);
-        readConfigMethodCall.setTarget(readConfigMethod);
-        StringReference propertyNameRef = ReferencesFactory.eINSTANCE.createStringReference();
-        propertyNameRef.setValue(variationPointID);
-        readConfigMethodCall.getArguments().add(propertyNameRef);
-        configReaderReference.setNext(readConfigMethodCall);
-		return readConfigMethodCall;
-	}
-
     /**
-     * Creates a Java SPL properties file with the given key value configs at a specified path.
+     * Creates the following expression: id1 || id2 || ... This can be used in an if-condition.
      * 
-     * @param path
-     *            The file path.
-     * @param configs
-     *            The properties.
-     * @throws IOException
-     *             Thrown if properties file cannot be saved.
+     * @param variationPointID
+     *            The propertie's {@link String} name.
+     * @param variantIDs
+     *            The variant {@link String} IDs in a {@link Set}.
+     * @return The generated {@link Expression}.
      */
-    public void createSPLPropertiesFile(String path, Map<String, String> configs) throws IOException {
-        Properties prop = new Properties();
-        OutputStream output = null;
+    public static Expression generateVariantMatchingExpression(String variationPointID, Set<String> variantIDs) {
+        ConditionalOrExpression conditionalOrExpression = ExpressionsFactory.eINSTANCE.createConditionalOrExpression();
 
-        try {
-            output = new FileOutputStream(path);
-            for (String key : configs.keySet()) {
-                prop.setProperty(key, configs.get(key));
-            }
-            prop.store(output, null);
-
-        } catch (IOException e) {
-            logger.error("Cannot save properties file at location: " + path, e);
-        } finally {
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    logger.error("Cannot close output stream.", e);
-                }
-            }
+        for (String variantID : variantIDs) {
+            conditionalOrExpression.getChildren().add(
+                    generateSingleVariantMatchingExpression(variationPointID, variantID));
         }
+
+        return conditionalOrExpression;
     }
 }
