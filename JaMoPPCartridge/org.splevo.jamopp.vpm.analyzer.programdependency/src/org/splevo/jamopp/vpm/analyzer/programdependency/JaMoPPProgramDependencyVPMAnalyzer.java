@@ -134,7 +134,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     private List<VPMEdgeDescriptor> identifyDependencies(ReferenceSelector referenceSelector, VPReferenceIndex index) {
         List<VPMEdgeDescriptor> edges = Lists.newArrayList();
         List<String> edgeRegistry = new ArrayList<String>();
-        Multiset<String> statistics = LinkedHashMultiset.create();
+        Multiset<DependencyType> statistics = LinkedHashMultiset.create();
 
         for (Commentable element : index.referencedElementsIndex.keySet()) {
             List<VPMEdgeDescriptor> vpEdges = identifyRelatedVPsForReferencedElement(edgeRegistry, element,
@@ -146,10 +146,10 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         return edges;
     }
 
-    private void printStatistics(Multiset<String> statistics) {
+    private void printStatistics(Multiset<DependencyType> statistics) {
         StringBuilder builder = new StringBuilder();
         builder.append("Statistics:");
-        for (String type : statistics.elementSet()) {
+        for (DependencyType type : statistics.elementSet()) {
             builder.append("\n");
             builder.append(type + "\t" + statistics.count(type));
         }
@@ -158,7 +158,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
     private List<VPMEdgeDescriptor> identifyRelatedVPsForReferencedElement(List<String> edgeRegistry,
             Commentable referencedElement, ReferenceSelector referenceSelector, VPReferenceIndex index,
-            Multiset<String> statistics) {
+            Multiset<DependencyType> statistics) {
 
         List<VPMEdgeDescriptor> referencedElementEdges = Lists.newArrayList();
 
@@ -184,16 +184,15 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                     DependencyType dependencyType = DependencyType.IGNORE;
                     Reference referenceVP1 = null;
                     Reference referenceVP2 = null;
-                    outer: for (Reference refVP1 : index.getIndexedReferences(vp1, referencedElement)) {
+                    for (Reference refVP1 : index.getIndexedReferences(vp1, referencedElement)) {
                         for (Reference refVP2 : index.getIndexedReferences(vp2, referencedElement)) {
                             DependencyType type = referenceSelector
                                     .getDependencyType(refVP1, refVP2, referencedElement);
                             if (type != DependencyType.IGNORE) {
-                                statistics.add(type.toString());
+                                statistics.add(type);
                                 dependencyType = type;
                                 referenceVP1 = refVP1;
                                 referenceVP2 = refVP2;
-                                break outer;
                             }
                         }
                     }

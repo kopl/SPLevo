@@ -439,9 +439,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
                 refElements.addAll(parentSwitch.doSwitch(statement));
             }
             for (CatchBlock catchBlock : block.getCatcheBlocks()) {
-                for (Statement statement : catchBlock.getStatements()) {
-                    refElements.addAll(parentSwitch.doSwitch(statement));
-                }
+                refElements.addAll(caseCatchBlock(catchBlock));
             }
             return refElements;
         }
@@ -458,6 +456,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             for (Statement statement : block.getStatements()) {
                 references.addAll(parentSwitch.doSwitch(statement));
             }
+            references.addAll(parentSwitch.doSwitch(block.getParameter()));
             return references;
         }
 
@@ -639,7 +638,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             if (target instanceof Field || target instanceof AdditionalField) {
                 if (identifierRef.getNext() == null) {
                     references.add(new Reference(identifierRef, target, ReferenceType.Reads));
-                } else if (identifierRef.getNext() instanceof MethodCall
+                } else if (extendedMode && identifierRef.getNext() instanceof MethodCall
                         || (identifierRef.getNext() instanceof IdentifierReference && (((IdentifierReference) identifierRef
                                 .getNext()).getTarget() instanceof Field || ((IdentifierReference) identifierRef
                                 .getNext()).getTarget() instanceof AdditionalField))) {
