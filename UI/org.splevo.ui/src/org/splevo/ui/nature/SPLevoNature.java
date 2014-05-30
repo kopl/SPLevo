@@ -19,6 +19,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IFileEditorInput;
@@ -72,13 +74,15 @@ public class SPLevoNature implements IProjectNature {
         // init the default directory structure of a SPLevo project.
         String splevoProjectFileName = project.getName() + "." + SPLevoProjectUtil.SPLEVO_FILE_EXTENSION;
         File filePath = new File(project.getFullPath().toString() + File.separator + splevoProjectFileName);
-        if (!filePath.exists()) {
+        String workspaceRoot = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
+        File absolutePath = new File(workspaceRoot + filePath.toString());
+        if (!absolutePath.exists()) {
             SPLevoProject projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();
             projectConfiguration.setWorkspace("/" + project.getName() + "/");
             projectConfiguration.setName(project.getName());
             try {
                 SPLevoProjectUtil.save(projectConfiguration, filePath);
-                project.refreshLocal(-1, new NullProgressMonitor());
+                project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
                 IFile file = project.getFile(splevoProjectFileName);
                 IFileEditorInput inputFile = new FileEditorInput(file);
                 IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
