@@ -35,19 +35,20 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.TryBlock;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoring;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoringAllXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * Test the java if-else refactoring implementation for XOR variability.
  */
-public class IfElseRefactoringTestOR {
+public class IfElseRefactoringAllXORTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -61,7 +62,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:MethodBody</li>
      * <li>Localization:EntireMethod</li>
      * </ul>
@@ -70,7 +71,7 @@ public class IfElseRefactoringTestOR {
      * Has an empty method body.
      * 
      * <strong>Integration Variant</strong><br>
-     * Same Method as in leading but with two statements.
+     * Method with contents.
      * 
      * <strong>Test Details</strong><br>
      * Tests whether refactoring can be applied.
@@ -79,9 +80,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseMethodBodyEntireMethodOR() throws Exception {
+    public void testCanBeAppliedForCaseMethodBodyEntireMethodOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("MethodBody_EntireMethod");
@@ -94,7 +95,7 @@ public class IfElseRefactoringTestOR {
                 instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -104,7 +105,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:MethodBody</li>
      * <li>Localization:EntireMethod</li>
      * </ul>
@@ -113,7 +114,7 @@ public class IfElseRefactoringTestOR {
      * Has an empty method body.
      * 
      * <strong>Integration Variant</strong><br>
-     * Same Method as in leading but with two statements.
+     * Method with contents.
      * 
      * <strong>Test Details</strong><br>
      * Tests whether the body of the leading method has the correct statements.
@@ -122,9 +123,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testMethodBodyForCaseMethodBodyEntireMethodOR() throws Exception {
+    public void testMethodBodyForCaseMethodBodyEntireMethodOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("MethodBody_EntireMethod");
@@ -137,7 +138,7 @@ public class IfElseRefactoringTestOR {
                 instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // execute test
         objectUnderTest.refactor(variationPoint);
@@ -151,7 +152,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:MethodBody</li>
      * <li>Localization:EntireMethod</li>
      * </ul>
@@ -169,9 +170,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseMethodBodyEntireMethodOR() throws Exception {
+    public void testConditionForCaseMethodBodyEntireMethodOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("MethodBody_EntireMethod");
@@ -184,7 +185,7 @@ public class IfElseRefactoringTestOR {
                 instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         EList<SoftwareElement> implementingElements = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0)
@@ -214,7 +215,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:BeforeReturn</li>
      * </ul>
@@ -233,9 +234,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementBeforeReturnOR() throws Exception {
+    public void testCanBeAppliedForCaseStatementBeforeReturnOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_BeforeReturn");
@@ -246,7 +247,7 @@ public class IfElseRefactoringTestOR {
                 instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -256,7 +257,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:BeforeReturn</li>
      * </ul>
@@ -275,9 +276,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testMethodStatementsForCaseStatementBeforeReturnOR() throws Exception {
+    public void testMethodStatementsForCaseStatementBeforeReturnOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_BeforeReturn");
@@ -288,7 +289,7 @@ public class IfElseRefactoringTestOR {
                 instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         VariationPoint firstVariationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
@@ -311,7 +312,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:BeforeReturn</li>
      * </ul>
@@ -330,9 +331,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementBeforeReturnOR() throws Exception {
+    public void testConditionForCaseStatementBeforeReturnOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_BeforeReturn");
@@ -343,7 +344,7 @@ public class IfElseRefactoringTestOR {
                 instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         VariationPoint firstVariationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
@@ -369,7 +370,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:EndMethod</li>
      * </ul>
@@ -388,9 +389,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementEndMethodOR() throws Exception {
+    public void testCanBeAppliedForCaseStatementEndMethodOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_EndMethod");
@@ -400,7 +401,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -410,7 +411,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:EndMethod</li>
      * </ul>
@@ -429,9 +430,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testFirstStatementForCaseStatementEndMethodOR() throws Exception {
+    public void testFirstStatementForCaseStatementEndMethodOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_EndMethod");
@@ -441,7 +442,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         ClassMethod cm = (ClassMethod) variationPointLocation;
@@ -457,7 +458,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:EndMethod</li>
      * </ul>
@@ -476,9 +477,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementEndMethodOR() throws Exception {
+    public void testConditionForCaseStatementEndMethodOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_EndMethod");
@@ -488,7 +489,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         VariationPoint firstVariationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
@@ -514,7 +515,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:Condition</li>
@@ -533,9 +534,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementNestedStatementConditionOR() throws Exception {
+    public void testCanBeAppliedForCaseStatementNestedStatementConditionOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil
@@ -546,7 +547,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -556,7 +557,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:Condition</li>
@@ -575,9 +576,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testNestedBlockForCaseStatementNestedStatementConditionOR() throws Exception {
+    public void testNestedBlockForCaseStatementNestedStatementConditionOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil
@@ -588,7 +589,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         Block leadingIfBlock = (Block) variationPointLocation;
@@ -606,7 +607,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:Condition</li>
@@ -625,9 +626,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementNestedStatementConditionOR() throws Exception {
+    public void testConditionForCaseStatementNestedStatementConditionOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil
@@ -638,7 +639,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         Block leadingIfBlock = (Block) variationPointLocation;
@@ -662,7 +663,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:For</li>
@@ -681,9 +682,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementNestedStatementForOR() throws Exception {
+    public void testCanBeAppliedForCaseStatementNestedStatementForOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_For");
@@ -693,7 +694,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -703,7 +704,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:For</li>
@@ -722,9 +723,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testNestedBlockForCaseStatementNestedStatementForOR() throws Exception {
+    public void testNestedBlockForCaseStatementNestedStatementForOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_For");
@@ -734,7 +735,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         Block leadingForBlock = (Block) variationPointLocation;
@@ -752,7 +753,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:For</li>
@@ -771,9 +772,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementNestedStatementForOR() throws Exception {
+    public void testConditionForCaseStatementNestedStatementForOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_For");
@@ -783,7 +784,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         Block leadingForBlock = (Block) variationPointLocation;
@@ -807,7 +808,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:While</li>
@@ -826,9 +827,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementNestedStatementWhileOR() throws Exception {
+    public void testCanBeAppliedForCaseStatementNestedStatementWhileOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_While");
@@ -838,7 +839,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -848,7 +849,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:While</li>
@@ -867,9 +868,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testNestedBlockForCaseStatementNestedStatementWhileOR() throws Exception {
+    public void testNestedBlockForCaseStatementNestedStatementWhileOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_While");
@@ -879,7 +880,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         Block leadingForBlock = (Block) variationPointLocation;
@@ -897,7 +898,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:While</li>
@@ -916,9 +917,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementNestedStatementWhileOR() throws Exception {
+    public void testConditionForCaseStatementNestedStatementWhileOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_While");
@@ -928,7 +929,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(Block.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         Block leadingForBlock = (Block) variationPointLocation;
@@ -952,7 +953,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:Try</li>
@@ -972,9 +973,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementNestedStatementTryOR() throws Exception {
+    public void testCanBeAppliedForCaseStatementNestedStatementTryOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_Try");
@@ -984,7 +985,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(TryBlock.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -994,7 +995,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:Try</li>
@@ -1014,9 +1015,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testNestedBlockForCaseStatementNestedStatementTryOR() throws Exception {
+    public void testNestedBlockForCaseStatementNestedStatementTryOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_Try");
@@ -1026,7 +1027,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(TryBlock.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         TryBlock leadingTryBlock = (TryBlock) variationPointLocation;
@@ -1044,7 +1045,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:Try</li>
@@ -1064,9 +1065,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementNestedStatementTryOR() throws Exception {
+    public void testConditionForCaseStatementNestedStatementTryOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_Try");
@@ -1076,7 +1077,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(TryBlock.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         TryBlock leadingTryBlock = (TryBlock) variationPointLocation;
@@ -1100,7 +1101,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:Catch</li>
@@ -1111,7 +1112,7 @@ public class IfElseRefactoringTestOR {
      * statement.
      * 
      * <strong>Integration Variant</strong><br>
-     * Same as leading variant but with another exception being thrown in the catch block.
+     * Same as leading variant but with a different exception being thrown in the catch block.
      * 
      * <strong>Test Details</strong><br>
      * Tests whether the refactoring can be applied.
@@ -1120,9 +1121,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementNestedStatementCatchOR() throws Exception {
+    public void testCanBeAppliedForCaseStatementNestedStatementCatchOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_Catch");
@@ -1132,7 +1133,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(CatchBlock.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -1142,7 +1143,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:Catch</li>
@@ -1153,7 +1154,7 @@ public class IfElseRefactoringTestOR {
      * statement.
      * 
      * <strong>Integration Variant</strong><br>
-     * Same as leading variant but with another exception being thrown in the catch block.
+     * Same as leading variant but with a different exception being thrown in the catch block.
      * 
      * <strong>Test Details</strong><br>
      * Tests whether the leading catch block contains the right statements.
@@ -1162,9 +1163,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testNestedBlockForCaseStatementNestedStatementCatchOR() throws Exception {
+    public void testNestedBlockForCaseStatementNestedStatementCatchOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_Catch");
@@ -1174,7 +1175,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(CatchBlock.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         CatchBlock leadingCatchBlock = (CatchBlock) variationPointLocation;
@@ -1183,16 +1184,14 @@ public class IfElseRefactoringTestOR {
         objectUnderTest.refactor(variationPoint);
 
         // verification
-        assertThat(leadingCatchBlock.getStatements().size(), equalTo(3));
+        assertThat(leadingCatchBlock.getStatements().size(), equalTo(1));
         assertThat(leadingCatchBlock.getStatements().get(0), instanceOf(Condition.class));
-        assertThat(leadingCatchBlock.getStatements().get(1), instanceOf(Condition.class));
-        assertThat(leadingCatchBlock.getStatements().get(2), instanceOf(Condition.class));
     }
 
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:Catch</li>
@@ -1203,7 +1202,7 @@ public class IfElseRefactoringTestOR {
      * statement.
      * 
      * <strong>Integration Variant</strong><br>
-     * Same as leading variant but with another exception being thrown in the catch block.
+     * Same as leading variant but with a different exception being thrown in the catch block.
      * 
      * <strong>Test Details</strong><br>
      * Verifies the condition that was created during refactoring.
@@ -1212,9 +1211,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementNestedStatementCatchOR() throws Exception {
+    public void testConditionForCaseStatementNestedStatementCatchOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_NestedStatement_Catch");
@@ -1224,7 +1223,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(CatchBlock.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         CatchBlock leadingCatchBlock = (CatchBlock) variationPointLocation;
@@ -1237,29 +1236,29 @@ public class IfElseRefactoringTestOR {
         objectUnderTest.refactor(variationPoint);
 
         // verification
-        Condition condition1 = (Condition) leadingCatchBlock.getStatements().get(0);
-        assertThat(condition1.getCondition(), notNullValue());
-        assertThat(condition1.getStatement(), instanceOf(Block.class));
-        assertThat(condition1.getElseStatement(), nullValue());
+        Condition condition = (Condition) leadingCatchBlock.getStatements().get(0);
+        assertThat(condition.getCondition(), notNullValue());
+        assertThat(condition.getStatement(), instanceOf(Block.class));
+        assertThat(condition.getElseStatement(), instanceOf(Condition.class));
 
-        Condition condition2 = (Condition) leadingCatchBlock.getStatements().get(1);
-        assertThat(condition2.getCondition(), notNullValue());
-        assertThat(condition2.getStatement(), instanceOf(Block.class));
-        assertThat(condition2.getElseStatement(), nullValue());
+        Condition elseCondition = (Condition) condition.getElseStatement();
+        assertThat(elseCondition.getCondition(), notNullValue());
+        assertThat(elseCondition.getStatement(), instanceOf(Block.class));
+        assertThat(elseCondition.getElseStatement(), nullValue());
 
-        Block generatedIfBlock1 = (Block) condition1.getStatement();
-        assertThat(generatedIfBlock1.getStatements().size(), equalTo(1));
-        assertThat(generatedIfBlock1.getStatements().get(0), equalTo(leadingStatement));
+        Block generatedIfBlock = (Block) condition.getStatement();
+        assertThat(generatedIfBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedIfBlock.getStatements().get(0), equalTo(leadingStatement));
 
-        Block generatedElseBlock2 = (Block) condition2.getStatement();
-        assertThat(generatedElseBlock2.getStatements().size(), equalTo(1));
-        assertThat(generatedElseBlock2.getStatements().get(0), equalTo(integrationStatement));
+        Block generatedElseBlock = (Block) elseCondition.getStatement();
+        assertThat(generatedElseBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedElseBlock.getStatements().get(0), equalTo(integrationStatement));
     }
 
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:SwitchCase</li>
@@ -1278,9 +1277,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementNestedStatementSwitchCaseOR() throws Exception {
+    public void testCanBeAppliedForCaseStatementNestedStatementSwitchCaseOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil
@@ -1291,7 +1290,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(NormalSwitchCase.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -1301,7 +1300,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:SwitchCase</li>
@@ -1320,9 +1319,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testNestedBlockForCaseStatementNestedStatementSwitchCaseOR() throws Exception {
+    public void testNestedBlockForCaseStatementNestedStatementSwitchCaseOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil
@@ -1333,7 +1332,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(NormalSwitchCase.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         NormalSwitchCase switchCase = (NormalSwitchCase) variationPointLocation;
@@ -1352,7 +1351,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:NestedStatement</li>
      * <li>NestedStatement:SwitchCase</li>
@@ -1371,9 +1370,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementNestedStatementSwitchCaseOR() throws Exception {
+    public void testConditionForCaseStatementNestedStatementSwitchCaseOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil
@@ -1384,7 +1383,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(NormalSwitchCase.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         NormalSwitchCase normalSwitchCase = (NormalSwitchCase) variationPointLocation;
@@ -1408,7 +1407,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:StartMethod</li>
      * </ul>
@@ -1427,9 +1426,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseStatementStartMethodOR() throws Exception {
+    public void testCanBeAppliedForCaseStatementStartMethodOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_StartMethod");
@@ -1441,7 +1440,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -1451,7 +1450,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:StartMethod</li>
      * </ul>
@@ -1470,9 +1469,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testFirstStatementForCaseStatementStartMethodOR() throws Exception {
+    public void testFirstStatementForCaseStatementStartMethodOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_StartMethod");
@@ -1484,7 +1483,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         ClassMethod leadingMethod = (ClassMethod) variationPointLocation;
@@ -1502,7 +1501,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:StartMethod</li>
      * </ul>
@@ -1521,9 +1520,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementStartMethodOR() throws Exception {
+    public void testConditionForCaseStatementStartMethodOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("Statement_StartMethod");
@@ -1535,7 +1534,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         ClassMethod leadingMethod = (ClassMethod) variationPointLocation;
@@ -1563,7 +1562,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:StartMethod</li>
      * </ul>
@@ -1581,9 +1580,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testCanBeAppliedForCaseReusedStatementSameTypeOR() throws Exception {
+    public void testCanBeAppliedForCaseReusedStatementSameTypeOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("ReusedStatementSameType");
@@ -1593,7 +1592,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // verification
         assertThat("Refactoring cannot be applied to this variation point.",
@@ -1603,7 +1602,7 @@ public class IfElseRefactoringTestOR {
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:StartMethod</li>
      * </ul>
@@ -1623,9 +1622,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testFirstStatementForCaseStatementReusedStatementSameTypeOR() throws Exception {
+    public void testFirstStatementForCaseStatementReusedStatementSameTypeOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("ReusedStatementSameType");
@@ -1635,11 +1634,10 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         ClassMethod leadingMethod = (ClassMethod) variationPointLocation;
-        LocalVariableStatement leadingStatement0 = (LocalVariableStatement) leadingMethod.getStatements().get(0);
         Statement leadingStatement1 = leadingMethod.getStatements().get(1);
         Statement leadingStatement2 = leadingMethod.getStatements().get(2);
 
@@ -1647,23 +1645,21 @@ public class IfElseRefactoringTestOR {
         objectUnderTest.refactor(variationPoint);
 
         // verification
-        assertThat(leadingMethod.getStatements().size(), equalTo(6));
+        assertThat(leadingMethod.getStatements().size(), equalTo(4));
         assertThat(leadingMethod.getStatements().get(0), instanceOf(LocalVariableStatement.class));
 
         LocalVariableStatement generatedLocalVariable = (LocalVariableStatement) leadingMethod.getStatements().get(0);
-        assertThat(generatedLocalVariable.getVariable().getName(), equalTo(leadingStatement0.getVariable().getName()));
+        assertThat(generatedLocalVariable.getVariable().getName(), equalTo("a"));
 
         assertThat(leadingMethod.getStatements().get(1), instanceOf(Condition.class));
-        assertThat(leadingMethod.getStatements().get(2), instanceOf(Condition.class));
-        assertThat(leadingMethod.getStatements().get(3), instanceOf(Condition.class));
-        assertThat(leadingMethod.getStatements().get(4), equalTo(leadingStatement1));
-        assertThat(leadingMethod.getStatements().get(5), equalTo(leadingStatement2));
+        assertThat(leadingMethod.getStatements().get(2), equalTo(leadingStatement1));
+        assertThat(leadingMethod.getStatements().get(3), equalTo(leadingStatement2));
     }
 
     /**
      * <strong>Test-case</strong><br>
      * <ul>
-     * <li>VariabilityType:OR</li>
+     * <li>VariabilityType:OPTXOR</li>
      * <li>GranularityType:Statement</li>
      * <li>Localization:StartMethod</li>
      * </ul>
@@ -1681,9 +1677,9 @@ public class IfElseRefactoringTestOR {
      *             An unexpected failure during the test execution.
      */
     @Test
-    public void testConditionForCaseStatementReusedStatementSameTypeOR() throws Exception {
+    public void testConditionForCaseStatementReusedStatementSameTypeOPTXOR() throws Exception {
         // init test object
-        VariabilityRefactoring objectUnderTest = new IfElseRefactoring();
+        VariabilityRefactoring objectUnderTest = new IfElseRefactoringAllXOR();
 
         // init vpm
         VariationPointModel vpm = RefactoringTestUtil.initializeVariationPointModel("ReusedStatementSameType");
@@ -1693,7 +1689,7 @@ public class IfElseRefactoringTestOR {
         assertThat("Wrong VariationPoint location.", variationPointLocation, instanceOf(ClassMethod.class));
 
         // set up variation point
-        RefactoringTestUtil.setUpVariationPointForIfElseOR(variationPoint);
+        RefactoringTestUtil.setUpVariationPointForIfElseRefactoring(variationPoint, VariabilityType.OPTXOR);
 
         // extract information for later verification
         ClassMethod leadingMethod = (ClassMethod) variationPointLocation;
@@ -1702,24 +1698,19 @@ public class IfElseRefactoringTestOR {
         objectUnderTest.refactor(variationPoint);
 
         // verification
-        Condition condition1 = (Condition) leadingMethod.getStatements().get(1);
+        Condition condition = (Condition) leadingMethod.getStatements().get(1);
 
-        assertThat(condition1.getCondition(), notNullValue());
-        assertThat(condition1.getStatement(), instanceOf(Block.class));
-        assertThat(condition1.getElseStatement(), nullValue());
+        assertThat(condition.getCondition(), notNullValue());
+        assertThat(condition.getStatement(), instanceOf(Block.class));
+        assertThat(condition.getElseStatement(), instanceOf(Condition.class));
 
-        Block generatedIfBlock1 = (Block) condition1.getStatement();
-        assertThat(generatedIfBlock1.getStatements().size(), equalTo(1));
-        assertThat(generatedIfBlock1.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        Block generatedIfBlock = (Block) condition.getStatement();
+        assertThat(generatedIfBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedIfBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
 
-        Condition condition2 = (Condition) leadingMethod.getStatements().get(2);
-
-        assertThat(condition2.getCondition(), notNullValue());
-        assertThat(condition2.getStatement(), instanceOf(Block.class));
-        assertThat(condition2.getElseStatement(), nullValue());
-
-        Block generatedIfBlock2 = (Block) condition2.getStatement();
-        assertThat(generatedIfBlock2.getStatements().size(), equalTo(1));
-        assertThat(generatedIfBlock2.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        Condition elseCondition = (Condition) condition.getElseStatement();
+        Block generatedElseBlock = (Block) elseCondition.getStatement();
+        assertThat(generatedElseBlock.getStatements().size(), equalTo(1));
+        assertThat(generatedElseBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
     }
 }

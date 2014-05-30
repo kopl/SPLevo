@@ -20,7 +20,7 @@ import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoring;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoringAllXOR;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
@@ -115,28 +115,19 @@ public class RefactoringTestUtil {
     }
 
     /**
-     * Sets up a variation point: use ifelse to introduce XOR variability.
+     * Sets up a variation point: uses the if-else refactoring to introduce variability of a
+     * specified type.
      * 
      * @param variationPoint
      *            The {@link VariationPoint}.
+     * @param variabilityType
+     *            The variability type.
      */
-    public static void setUpVariationPointForIfElseXOR(VariationPoint variationPoint) {
+    public static void setUpVariationPointForIfElseRefactoring(VariationPoint variationPoint,
+            VariabilityType variabilityType) {
         variationPoint.setBindingTime(BindingTime.RUN_TIME);
         variationPoint.setExtensibility(Extensible.NO);
-        variationPoint.setVariabilityMechanism(new IfElseRefactoring().getVariabilityMechanism());
-        variationPoint.setVariabilityType(VariabilityType.XOR);
-    }
-
-    /**
-     * Sets up a variation point: use ifelse to introduce OR variability.
-     * 
-     * @param variationPoint
-     *            The {@link VariationPoint}.
-     */
-    public static void setUpVariationPointForIfElseOR(VariationPoint variationPoint) {
-        variationPoint.setBindingTime(BindingTime.RUN_TIME);
-        variationPoint.setExtensibility(Extensible.NO);
-        variationPoint.setVariabilityMechanism(new IfElseRefactoring().getVariabilityMechanism());
-        variationPoint.setVariabilityType(VariabilityType.OR);
+        variationPoint.setVariabilityMechanism(new IfElseRefactoringAllXOR().getVariabilityMechanism());
+        variationPoint.setVariabilityType(variabilityType);
     }
 }
