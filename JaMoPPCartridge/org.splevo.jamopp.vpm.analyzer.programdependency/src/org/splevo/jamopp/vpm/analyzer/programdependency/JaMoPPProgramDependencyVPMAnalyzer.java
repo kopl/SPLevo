@@ -101,7 +101,6 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     public synchronized VPMAnalyzerResult analyze(final VPMGraph vpmGraph) throws VPMAnalyzerException {
 
         String selectorId = referenceSelectorConfig.getCurrentValue();
-        logger.info("ReferenceSelector Mode: " + selectorId);
         ReferenceSelector referenceSelector = ReferenceSelectorRegistry.getReferenceSelector(selectorId);
 
         VPReferenceIndex index = indexVPReferences(vpmGraph, referenceSelector);
@@ -110,6 +109,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
         VPMAnalyzerResult result = new VPMAnalyzerResult(this);
         result.getEdgeDescriptors().addAll(descriptors);
+        logger.info("ReferenceSelector Mode: " + selectorId);
         return result;
     }
 
