@@ -86,7 +86,6 @@ public final class RefactoringUtil {
         StatementListContainer vpLocation = (StatementListContainer) jamoppElement;
 
         int posVariability = RefactoringUtil.getVariabilityPosition(variationPoint);
-        RefactoringUtil.deleteVariableElements(variationPoint);
 
         Set<VariationPoint> relatedVPs = getVPsWithSameLocation(variationPoint);
         HashMap<Variant, List<Statement>> variantStatements = new HashMap<Variant, List<Statement>>();

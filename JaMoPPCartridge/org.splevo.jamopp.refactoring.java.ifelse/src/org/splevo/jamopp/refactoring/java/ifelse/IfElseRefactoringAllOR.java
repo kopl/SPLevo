@@ -107,6 +107,8 @@ public class IfElseRefactoringAllOR implements VariabilityRefactoring {
             return;
         }
 
+        RefactoringUtil.deleteVariableElements(variationPoint);
+
         if (RefactoringUtil.containsVarsSameNameDiffType(variationPoint)) {
             RefactoringUtil.extractVariableStatementsIntoMethods(variationPoint);
         }
@@ -117,7 +119,6 @@ public class IfElseRefactoringAllOR implements VariabilityRefactoring {
 
         int indexBeginVariant = RefactoringUtil.getVariabilityPosition(variationPoint);
         int indexEndVariant = indexBeginVariant;
-        RefactoringUtil.deleteVariableElements(variationPoint);
 
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
 
