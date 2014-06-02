@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -32,24 +33,26 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE.SharedImages;
 
 /**
  * Second page of the New Consolidation Project Wizard in which leading and integration projects
  * have to be specified.
- * 
+ *
  * @author Radoslav Yankov
  */
 public class ProjectsSelectionWizardPage extends WizardPage {
-    
+
     private Text leadingProjectsVariantNameField;
-    private Text integrationProjectsVariantNameField; 
-    
+    private Text integrationProjectsVariantNameField;
+
     private Table leadingProjectsTable;
     private Table integrationProjectsTable;
-    
+
     private boolean isLeadingProjectsVariantNameFieldFilled;
     private boolean isIntegrationProjectsVariantNameFieldFilled;
-    
+
     private int chosenLeadingProjectsCount = 0;
     private int chosenIntegrationProjectsCount = 0;
 
@@ -59,8 +62,8 @@ public class ProjectsSelectionWizardPage extends WizardPage {
     public ProjectsSelectionWizardPage() {
         super("Projects Selection Page");
         setTitle("Projects selection");
-        setDescription("Define the projects to be consolidated.");     
-        
+        setDescription("Define the projects to be consolidated.");
+
         setPageComplete(false);
     }
 
@@ -96,17 +99,16 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
             @Override
             public void handleEvent(Event event) {
-                if (getLeadingProjectsVariantName() != null 
-                        && !getLeadingProjectsVariantName().equals("")) {
+                if (getLeadingProjectsVariantName() != null && !getLeadingProjectsVariantName().equals("")) {
                     isLeadingProjectsVariantNameFieldFilled = true;
                 } else {
                     isLeadingProjectsVariantNameFieldFilled = false;
                 }
-                
+
                 setPageComplete(isProjectSelectionPageComplete());
-            }            
+            }
         });
-        
+
         Label integrationProjectsVariantNameLabel = new Label(container, SWT.NONE);
         integrationProjectsVariantNameLabel.setText("Variant name:");
 
@@ -116,28 +118,27 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
             @Override
             public void handleEvent(Event event) {
-                if (getIntegrationProjectsVariantName() != null
-                        && !getIntegrationProjectsVariantName().equals("")) {
+                if (getIntegrationProjectsVariantName() != null && !getIntegrationProjectsVariantName().equals("")) {
                     isIntegrationProjectsVariantNameFieldFilled = true;
                 } else {
                     isIntegrationProjectsVariantNameFieldFilled = false;
                 }
-                
+
                 setPageComplete(isProjectSelectionPageComplete());
-            }            
+            }
         });
-        
+
         Label projectsLabel1 = new Label(container, SWT.NONE);
         projectsLabel1.setText("Projects:");
         projectsLabel1.setLayoutData(gridDataSpanCells);
-        
+
         Label projectsLabel2 = new Label(container, SWT.NONE);
         projectsLabel2.setText("Projects:");
         projectsLabel2.setLayoutData(gridDataSpanCells);
-        
+
         GridData gridDataLastRow = new GridData(SWT.FILL, SWT.FILL, true, true);
-        gridDataLastRow.horizontalSpan = 2;        
-        
+        gridDataLastRow.horizontalSpan = 2;
+
         TableViewer leadingProjectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
         leadingProjectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
             @Override
@@ -147,73 +148,78 @@ public class ProjectsSelectionWizardPage extends WizardPage {
             }
         });
         leadingProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-        leadingProjectsTableViewer.setInput(getProjectsFromWorkspace());          
-        
+        leadingProjectsTableViewer.setInput(getProjectsFromWorkspace());
+
         leadingProjectsTable = leadingProjectsTableViewer.getTable();
-        leadingProjectsTable.setLayoutData(gridDataLastRow);          
+        leadingProjectsTable.setLayoutData(gridDataLastRow);
         leadingProjectsTable.addListener(SWT.Selection, new Listener() {
 
             @Override
             public void handleEvent(Event event) {
                 if (event.detail == SWT.CHECK) {
-                    TableItem  tableItem = (TableItem) event.item;
+                    TableItem tableItem = (TableItem) event.item;
                     boolean isChecked = tableItem.getChecked();
-                    
+
                     if (isChecked) {
                         chosenLeadingProjectsCount++;
                     } else {
                         chosenLeadingProjectsCount--;
                     }
-                    
+
                     setPageComplete(isProjectSelectionPageComplete());
-                }                                 
-            }            
+                }
+            }
         });
-        
+
         TableViewer integrationProjectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
         integrationProjectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
                 IProject project = (IProject) element;
                 return project.getName();
-            }                       
+            }
+
+            @Override
+            public Image getImage(Object element) {
+                return PlatformUI.getWorkbench().getSharedImages().getImage(SharedImages.IMG_OBJ_PROJECT);
+            }
         });
         integrationProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
         integrationProjectsTableViewer.setInput(getProjectsFromWorkspace());
-        
+
         integrationProjectsTable = integrationProjectsTableViewer.getTable();
-        integrationProjectsTable.setLayoutData(gridDataLastRow);  
+        integrationProjectsTable.setLayoutData(gridDataLastRow);
         integrationProjectsTable.addListener(SWT.Selection, new Listener() {
 
             @Override
             public void handleEvent(Event event) {
                 if (event.detail == SWT.CHECK) {
-                    TableItem  tableItem = (TableItem) event.item;
+                    TableItem tableItem = (TableItem) event.item;
                     boolean isChecked = tableItem.getChecked();
-                    
+
                     if (isChecked) {
                         chosenIntegrationProjectsCount++;
                     } else {
-                       chosenIntegrationProjectsCount--;
+                        chosenIntegrationProjectsCount--;
                     }
-                    
+
                     setPageComplete(isProjectSelectionPageComplete());
-                }                
-            }            
+                }
+            }
         });
-        
-        setControl(container);        
+
+        setControl(container);
     }
 
     private IProject[] getProjectsFromWorkspace() {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
 
-        IProject[] projects = root.getProjects();      
+        IProject[] projects = root.getProjects();
 
         return projects;
     }
-    
+
     private boolean isProjectSelectionPageComplete() {
         if (isLeadingProjectsVariantNameFieldFilled && isIntegrationProjectsVariantNameFieldFilled
                 && chosenLeadingProjectsCount > 0 && chosenIntegrationProjectsCount > 0) {
@@ -224,7 +230,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
     /**
      * Get the value of the field for variant name of leading projects.
-     * 
+     *
      * @return variant name field value for leading projects
      */
     public String getLeadingProjectsVariantName() {
@@ -233,7 +239,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
     /**
      * Get the value of the field for variant name of integration projects.
-     * 
+     *
      * @return variant name field value for integration projects
      */
     public String getIntegrationProjectsVariantName() {
@@ -242,26 +248,26 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
     /**
      * Get the names of the chosen leading projects.
-     * 
+     *
      * @return List with the names of the chosen leading projects.
      */
-    public List<String> getChosenLeadingProjectsNames() {                
+    public List<String> getChosenLeadingProjectsNames() {
         return getChosenProjectsNames(leadingProjectsTable);
     }
 
     /**
      * Get the names of the chosen integration projects.
-     * 
+     *
      * @return List with the names of the chosen integration projects.
      */
-    public List<String> getChosenIntegrationProjectsNames() {       
+    public List<String> getChosenIntegrationProjectsNames() {
         return getChosenProjectsNames(integrationProjectsTable);
     }
-    
+
     private List<String> getChosenProjectsNames(Table projectsTable) {
         TableItem[] allProjects = projectsTable.getItems();
         List<String> chosenProjectsNames = new ArrayList<String>();
-        
+
         for (TableItem project : allProjects) {
             if (project.getChecked()) {
                 chosenProjectsNames.add(project.getText());
