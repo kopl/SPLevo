@@ -95,7 +95,16 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
             projectConfiguration.setWorkspace("/" + project.getName() + "/");
             projectConfiguration.setName(project.getName());   
             projectConfiguration.setVariantNameLeading(projectsSelectionWizardPage.getLeadingProjectsVariantName());
-            projectConfiguration.setVariantNameIntegration(projectsSelectionWizardPage.getIntegrationProjectsVariantName());
+            projectConfiguration.setVariantNameIntegration(projectsSelectionWizardPage.
+                    getIntegrationProjectsVariantName());                         
+            
+            for (String chosenLeadingProjectName : projectsSelectionWizardPage.getChosenLeadingProjectsNames()) {   
+                projectConfiguration.getLeadingProjects().add(chosenLeadingProjectName);
+            }
+            
+            for (String chosenIntegrationProjectName : projectsSelectionWizardPage.getChosenIntegrationProjectsNames()) { 
+                projectConfiguration.getIntegrationProjects().add(chosenIntegrationProjectName);
+            }
             
             try {
                 SPLevoProjectUtil.save(projectConfiguration, filePath);
