@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -27,6 +30,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -38,7 +42,16 @@ import org.eclipse.swt.widgets.Text;
 public class ProjectsSelectionWizardPage extends WizardPage {
     
     private Text leadingProjectsVariantNameField;
-    private Text integrationProjectsVariantNameField;
+    private Text integrationProjectsVariantNameField; 
+    
+    private Table leadingProjectsTable;
+    private Table integrationProjectsTable;
+    
+    private boolean isLeadingProjectsVariantNameFieldFilled;
+    private boolean isIntegrationProjectsVariantNameFieldFilled;
+    
+    private int chosenLeadingProjectsCount = 0;
+    private int chosenIntegrationProjectsCount = 0;
 
     /**
      * Constructor preparing the wizard page infrastructure.
@@ -84,12 +97,13 @@ public class ProjectsSelectionWizardPage extends WizardPage {
             @Override
             public void handleEvent(Event event) {
                 if (getLeadingProjectsVariantName() != null 
-                        && !getLeadingProjectsVariantName().equals("") && getIntegrationProjectsVariantName() != null
-                        && !getIntegrationProjectsVariantName().equals("")) {
-                    setPageComplete(true);
+                        && !getLeadingProjectsVariantName().equals("")) {
+                    isLeadingProjectsVariantNameFieldFilled = true;
                 } else {
-                    setPageComplete(false);
+                    isLeadingProjectsVariantNameFieldFilled = false;
                 }
+                
+                setPageComplete(isProjectSelectionPageComplete());
             }            
         });
         
@@ -102,13 +116,14 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
             @Override
             public void handleEvent(Event event) {
-                if (getLeadingProjectsVariantName() != null 
-                        && !getLeadingProjectsVariantName().equals("") && getIntegrationProjectsVariantName() != null
+                if (getIntegrationProjectsVariantName() != null
                         && !getIntegrationProjectsVariantName().equals("")) {
-                    setPageComplete(true);
+                    isIntegrationProjectsVariantNameFieldFilled = true;
                 } else {
-                    setPageComplete(false);
+                    isIntegrationProjectsVariantNameFieldFilled = false;
                 }
+                
+                setPageComplete(isProjectSelectionPageComplete());
             }            
         });
         
@@ -132,10 +147,28 @@ public class ProjectsSelectionWizardPage extends WizardPage {
             }
         });
         leadingProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-        leadingProjectsTableViewer.setInput(getProjectsFromWorkspace());
+        leadingProjectsTableViewer.setInput(getProjectsFromWorkspace());          
         
-        Table leadingProjectsTable = leadingProjectsTableViewer.getTable();
-        leadingProjectsTable.setLayoutData(gridDataLastRow);
+        leadingProjectsTable = leadingProjectsTableViewer.getTable();
+        leadingProjectsTable.setLayoutData(gridDataLastRow);          
+        leadingProjectsTable.addListener(SWT.Selection, new Listener() {
+
+            @Override
+            public void handleEvent(Event event) {
+                if (event.detail == SWT.CHECK) {
+                    TableItem  tableItem = (TableItem) event.item;
+                    boolean isChecked = tableItem.getChecked();
+                    
+                    if (isChecked) {
+                        chosenLeadingProjectsCount++;
+                    } else {
+                        chosenLeadingProjectsCount--;
+                    }
+                    
+                    setPageComplete(isProjectSelectionPageComplete());
+                }                                 
+            }            
+        });
         
         TableViewer integrationProjectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
         integrationProjectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
@@ -143,13 +176,31 @@ public class ProjectsSelectionWizardPage extends WizardPage {
             public String getText(Object element) {
                 IProject project = (IProject) element;
                 return project.getName();
-            }
+            }                       
         });
         integrationProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
         integrationProjectsTableViewer.setInput(getProjectsFromWorkspace());
         
-        Table integrationProjectsTable = integrationProjectsTableViewer.getTable();
-        integrationProjectsTable.setLayoutData(gridDataLastRow);            
+        integrationProjectsTable = integrationProjectsTableViewer.getTable();
+        integrationProjectsTable.setLayoutData(gridDataLastRow);  
+        integrationProjectsTable.addListener(SWT.Selection, new Listener() {
+
+            @Override
+            public void handleEvent(Event event) {
+                if (event.detail == SWT.CHECK) {
+                    TableItem  tableItem = (TableItem) event.item;
+                    boolean isChecked = tableItem.getChecked();
+                    
+                    if (isChecked) {
+                        chosenIntegrationProjectsCount++;
+                    } else {
+                       chosenIntegrationProjectsCount--;
+                    }
+                    
+                    setPageComplete(isProjectSelectionPageComplete());
+                }                
+            }            
+        });
         
         setControl(container);        
     }
@@ -161,6 +212,14 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         IProject[] projects = root.getProjects();      
 
         return projects;
+    }
+    
+    private boolean isProjectSelectionPageComplete() {
+        if (isLeadingProjectsVariantNameFieldFilled && isIntegrationProjectsVariantNameFieldFilled
+                && chosenLeadingProjectsCount > 0 && chosenIntegrationProjectsCount > 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -179,5 +238,35 @@ public class ProjectsSelectionWizardPage extends WizardPage {
      */
     public String getIntegrationProjectsVariantName() {
         return integrationProjectsVariantNameField.getText().trim();
+    }
+
+    /**
+     * Get the names of the chosen leading projects.
+     * 
+     * @return List with the names of the chosen leading projects.
+     */
+    public List<String> getChosenLeadingProjectsNames() {                
+        return getChosenProjectsNames(leadingProjectsTable);
+    }
+
+    /**
+     * Get the names of the chosen integration projects.
+     * 
+     * @return List with the names of the chosen integration projects.
+     */
+    public List<String> getChosenIntegrationProjectsNames() {       
+        return getChosenProjectsNames(integrationProjectsTable);
+    }
+    
+    private List<String> getChosenProjectsNames(Table projectsTable) {
+        TableItem[] allProjects = projectsTable.getItems();
+        List<String> chosenProjectsNames = new ArrayList<String>();
+        
+        for (TableItem project : allProjects) {
+            if (project.getChecked()) {
+                chosenProjectsNames.add(project.getText());
+            }
+        }
+        return chosenProjectsNames;
     }
 }
