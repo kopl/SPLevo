@@ -64,6 +64,9 @@ public class VPExplorerContent extends PlatformObject {
     /**
      * Set the variation point model wrapped by the content.
      *
+     * DesignDecision: When a VPM is set, the content wrapper registers for any modifications of the
+     * EMF resource containing the VPM model.
+     *
      * @param vpm
      *            The vpm to present.
      */
