@@ -12,4 +12,6 @@ Require-Bundle: org.apache.log4j,
  org.eclipse.jface,
  org.eclipse.ui.ide,
  org.eclipse.ui,
- org.splevo.project
+ org.splevo.project,
+ org.eclipse.jdt.ui
+Import-Package: org.eclipse.jdt.internal.ui.packageview

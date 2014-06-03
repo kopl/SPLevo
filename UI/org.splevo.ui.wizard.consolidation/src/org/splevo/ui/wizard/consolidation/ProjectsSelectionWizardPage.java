@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -33,8 +34,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE.SharedImages;
 
 /**
  * Second page of the New Consolidation Project Wizard in which leading and integration projects
@@ -42,6 +41,7 @@ import org.eclipse.ui.ide.IDE.SharedImages;
  *
  * @author Radoslav Yankov
  */
+@SuppressWarnings("restriction")
 public class ProjectsSelectionWizardPage extends WizardPage {
 
     private Text leadingProjectsVariantNameField;
@@ -181,7 +181,9 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
             @Override
             public Image getImage(Object element) {
-                return PlatformUI.getWorkbench().getSharedImages().getImage(SharedImages.IMG_OBJ_PROJECT);
+                JavaUILabelProvider provider = new JavaUILabelProvider();
+                return provider.getImage(element);
+                //return PlatformUI.getWorkbench().getSharedImages().getImage(SharedImages.IMG_OBJ_PROJECT);
             }
         });
         integrationProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
