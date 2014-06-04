@@ -80,22 +80,14 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         gridDataSpanCells.horizontalSpan = 2;
         gridDataSpanCells.grabExcessHorizontalSpace = true;
 
-        Label leadingProjectsLabel = new Label(container, SWT.NONE);
-        leadingProjectsLabel.setText("Leading projects:");
-        leadingProjectsLabel.setLayoutData(gridDataSpanCells);
-
-        Label integrationProjectsLabel = new Label(container, SWT.NONE);
-        integrationProjectsLabel.setText("Integration projects:");
-        integrationProjectsLabel.setLayoutData(gridDataSpanCells);
+        createLabel(container, "Leading projects:", gridDataSpanCells);
+        createLabel(container, "Integration projects:", gridDataSpanCells);        
 
         GridData gridDataSecondRow = new GridData(GridData.FILL_HORIZONTAL);
 
-        Label leadingProjectsVariantNameLabel = new Label(container, SWT.NONE);
-        leadingProjectsVariantNameLabel.setText("Variant name:");
+        createLabel(container, "Variant name:", null);        
 
-        leadingProjectsVariantNameField = new Text(container, SWT.BORDER);
-        leadingProjectsVariantNameField.setLayoutData(gridDataSecondRow);
-        leadingProjectsVariantNameField.addListener(SWT.Modify, new Listener() {
+        leadingProjectsVariantNameField = createVariantNameField(container, gridDataSecondRow, new Listener() {
 
             @Override
             public void handleEvent(Event event) {
@@ -108,14 +100,12 @@ public class ProjectsSelectionWizardPage extends WizardPage {
                 setPageComplete(isProjectSelectionPageComplete());
             }
         });
+        
 
-        Label integrationProjectsVariantNameLabel = new Label(container, SWT.NONE);
-        integrationProjectsVariantNameLabel.setText("Variant name:");
+        createLabel(container, "Variant name:", null);        
 
-        integrationProjectsVariantNameField = new Text(container, SWT.BORDER);
-        integrationProjectsVariantNameField.setLayoutData(gridDataSecondRow);
-        integrationProjectsVariantNameField.addListener(SWT.Modify, new Listener() {
-
+        integrationProjectsVariantNameField = createVariantNameField(container, gridDataSecondRow, new Listener() {
+           
             @Override
             public void handleEvent(Event event) {
                 if (getIntegrationProjectsVariantName() != null && !getIntegrationProjectsVariantName().equals("")) {
@@ -127,32 +117,14 @@ public class ProjectsSelectionWizardPage extends WizardPage {
                 setPageComplete(isProjectSelectionPageComplete());
             }
         });
-
-        Label projectsLabel1 = new Label(container, SWT.NONE);
-        projectsLabel1.setText("Projects:");
-        projectsLabel1.setLayoutData(gridDataSpanCells);
-
-        Label projectsLabel2 = new Label(container, SWT.NONE);
-        projectsLabel2.setText("Projects:");
-        projectsLabel2.setLayoutData(gridDataSpanCells);
+        
+        createLabel(container, "Projects:", gridDataSpanCells);
+        createLabel(container, "Projects:", gridDataSpanCells);        
 
         GridData gridDataLastRow = new GridData(SWT.FILL, SWT.FILL, true, true);
-        gridDataLastRow.horizontalSpan = 2;
+        gridDataLastRow.horizontalSpan = 2;       
 
-        TableViewer leadingProjectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
-        leadingProjectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
-            @Override
-            public String getText(Object element) {
-                IProject project = (IProject) element;
-                return project.getName();
-            }
-        });
-        leadingProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-        leadingProjectsTableViewer.setInput(getProjectsFromWorkspace());
-
-        leadingProjectsTable = leadingProjectsTableViewer.getTable();
-        leadingProjectsTable.setLayoutData(gridDataLastRow);
-        leadingProjectsTable.addListener(SWT.Selection, new Listener() {
+        leadingProjectsTable = createProjectsTable(container, gridDataLastRow, new Listener() {
 
             @Override
             public void handleEvent(Event event) {
@@ -169,29 +141,9 @@ public class ProjectsSelectionWizardPage extends WizardPage {
                     setPageComplete(isProjectSelectionPageComplete());
                 }
             }
-        });
+        });        
 
-        TableViewer integrationProjectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
-        integrationProjectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
-            @Override
-            public String getText(Object element) {
-                IProject project = (IProject) element;
-                return project.getName();
-            }
-
-            @Override
-            public Image getImage(Object element) {
-                JavaUILabelProvider provider = new JavaUILabelProvider();
-                return provider.getImage(element);
-                //return PlatformUI.getWorkbench().getSharedImages().getImage(SharedImages.IMG_OBJ_PROJECT);
-            }
-        });
-        integrationProjectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-        integrationProjectsTableViewer.setInput(getProjectsFromWorkspace());
-
-        integrationProjectsTable = integrationProjectsTableViewer.getTable();
-        integrationProjectsTable.setLayoutData(gridDataLastRow);
-        integrationProjectsTable.addListener(SWT.Selection, new Listener() {
+        integrationProjectsTable = createProjectsTable(container, gridDataLastRow, new Listener() {
 
             @Override
             public void handleEvent(Event event) {
@@ -208,11 +160,69 @@ public class ProjectsSelectionWizardPage extends WizardPage {
                     setPageComplete(isProjectSelectionPageComplete());
                 }
             }
-        });
+        });        
 
         setControl(container);
     }
+    
+    private void createLabel(Composite container, String labelText, GridData layoutData) {
+        Label label = new Label(container, SWT.NONE);
+        label.setText(labelText);
+        
+        if (layoutData != null) {
+            label.setLayoutData(layoutData);
+        }
+    }
+        
+    private Text createVariantNameField(Composite container, GridData layoutData, Listener listener) {
+        Text variantNameField = new Text(container, SWT.BORDER);
+        variantNameField.setLayoutData(layoutData);
+        variantNameField.addListener(SWT.Modify, listener);
+        
+        return variantNameField;
+    }
+    
+    private Table createProjectsTable(Composite container, GridData layoutData, Listener listener) {
+        Table projectsTable = createProjectsTableViewer(container).getTable();
+        projectsTable.setLayoutData(layoutData);
+        projectsTable.addListener(SWT.Selection, listener);
+        
+        return projectsTable;
+    }
+    
+    /**
+     * Create a table viewer with check box elements.
+     * 
+     * @param container Container in which the table viewer will be created.
+     * @return The created table viewer.
+     */
+    private TableViewer createProjectsTableViewer(Composite container) {
+        TableViewer projectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
+        projectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
+            
+            @Override
+            public String getText(Object element) {
+                IProject project = (IProject) element;
+                return project.getName();
+            }
+            
+            @Override
+            public Image getImage(Object element) {
+                JavaUILabelProvider provider = new JavaUILabelProvider();
+                return provider.getImage(element);
+            }
+        });
+        projectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
+        projectsTableViewer.setInput(getProjectsFromWorkspace());
+        
+        return projectsTableViewer;
+    }
 
+    /**
+     * Get all projects that are currently in the workspace.
+     * 
+     * @return List with all projects from the workspace.
+     */
     private IProject[] getProjectsFromWorkspace() {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
@@ -222,6 +232,10 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         return projects;
     }
 
+    /**
+     * @return true if all fields are filled and at least one leading and one integration project is
+     *         chosen, otherwise false.
+     */
     private boolean isProjectSelectionPageComplete() {
         if (isLeadingProjectsVariantNameFieldFilled && isIntegrationProjectsVariantNameFieldFilled
                 && chosenLeadingProjectsCount > 0 && chosenIntegrationProjectsCount > 0) {
@@ -266,6 +280,13 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         return getChosenProjectsNames(integrationProjectsTable);
     }
 
+    /**
+     * Get the names of the projects the user has chosen.
+     * 
+     * @param projectsTable
+     *            The table where the projects are placed.
+     * @return List with the names of the chosen projects.
+     */
     private List<String> getChosenProjectsNames(Table projectsTable) {
         TableItem[] allProjects = projectsTable.getItems();
         List<String> chosenProjectsNames = new ArrayList<String>();
