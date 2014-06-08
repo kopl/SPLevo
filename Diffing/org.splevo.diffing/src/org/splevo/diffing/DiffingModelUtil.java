@@ -33,9 +33,9 @@ public class DiffingModelUtil {
     /**
      * Load diff model from the standard xmi file. The concrete file extension is determined from
      * the given file name.
-     * 
-     * 
-     * @param modelFile
+     *
+     *
+     * @param filePath
      *            The file object pointing to the diff model file
      * @param rs
      *            The resource set to load the model into.
@@ -43,17 +43,23 @@ public class DiffingModelUtil {
      * @throws IOException
      *             Identifies that the file could not be loaded
      */
-    public static Comparison loadModel(File modelFile, ResourceSet rs) throws IOException {
+    public static Comparison loadModel(File filePath, ResourceSet rs) throws IOException {
 
         // load the required meta class packages
         ComparePackage.eINSTANCE.eClass();
 
         // register the factory to be able to read xmi files
-        String fileExtension = getFileExtension(modelFile);
+        String fileExtension = getFileExtension(filePath);
         Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(fileExtension, new XMIResourceFactoryImpl());
 
         // load the resource and resolve the proxies
-        Resource r = rs.createResource(URI.createPlatformResourceURI(modelFile.getPath(), true));
+        URI uri = null;
+        if (filePath.isAbsolute()) {
+            uri = URI.createFileURI(filePath.getPath());
+        } else {
+            uri = URI.createPlatformResourceURI(filePath.getPath(), false);
+        }
+        Resource r = rs.createResource(uri);
         r.load(null);
 
         EObject model = r.getContents().get(0);
@@ -67,7 +73,7 @@ public class DiffingModelUtil {
 
     /**
      * Get the file extension of a file.
-     * 
+     *
      * @param file
      *            The file object to get the extension for.
      * @return The file extension or null if none found.
@@ -83,7 +89,10 @@ public class DiffingModelUtil {
 
     /**
      * Save a project model to a specified file.
-     * 
+     *
+     * If the file path is absolute, it will be used as it is.
+     * If not, a PlatformResourceURI is build (i.e. with the scheme platform:/resource/
+     *
      * @param comparisonModel
      *            The model to save.
      * @param filePath
@@ -95,14 +104,18 @@ public class DiffingModelUtil {
 
         String fileExtension = getFileExtension(filePath);
 
-        // Files.createParentDirs(filePath);
-
         // try to write to the project file
         ResourceSet resSet = new ResourceSetImpl();
         Map<String, Object> m = resSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
         m.put(fileExtension, new XMIResourceFactoryImpl());
 
-        final Resource resource = resSet.createResource(URI.createPlatformResourceURI(filePath.getPath(), false));
+        URI uri = null;
+        if (filePath.isAbsolute()) {
+            uri = URI.createFileURI(filePath.getPath());
+        } else {
+            uri = URI.createPlatformResourceURI(filePath.getPath(), false);
+        }
+        final Resource resource = resSet.createResource(uri);
         resource.getContents().add(comparisonModel);
 
         resource.save(Collections.EMPTY_MAP);
