@@ -12,6 +12,7 @@
 package org.splevo.ui.jobs;
 
 import java.io.File;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -37,6 +38,9 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
      */
     private int targetVPMIndex = -1;
 
+    /** Option to let EMF Text resources load layout information. */
+    private boolean loadLayoutInformation = false;
+
     /**
      * Constructor to set a reference to the splevoproject.
      *
@@ -51,14 +55,21 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     /**
      * Constructor to set a reference to the splevo project and the index of the vpm to be loaded.
      *
+     * By default, the job configures EMF Text resources to not load layout information. This allows
+     * to speed up model loading. However, this can issue problems when layout information are
+     * necessary such as printing the model. Make sure to activate this option in such cases.
+     *
      * @param splevoProject
      *            The reference to the splevo project.
      * @param targetVPMIndex
      *            The index of the VPM to load.
+     * @param loadLayoutInformation
+     *            Option to let EMF Text resources load layout information.
      */
-    public LoadVPMJob(SPLevoProject splevoProject, int targetVPMIndex) {
+    public LoadVPMJob(SPLevoProject splevoProject, int targetVPMIndex, boolean loadLayoutInformation) {
         this.splevoProject = splevoProject;
         this.targetVPMIndex = targetVPMIndex;
+        this.loadLayoutInformation = loadLayoutInformation;
     }
 
     @Override
@@ -74,6 +85,10 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         }
 
         ResourceSet resourceSet = JobUtil.initResourceSet(splevoProject);
+        if (!loadLayoutInformation) {
+            Map<Object, Object> loadOptions = resourceSet.getLoadOptions();
+            loadOptions.put("DISABLE_LAYOUT_INFORMATION_RECORDING", Boolean.TRUE);
+        }
 
         VariationPointModel vpm;
         try {
