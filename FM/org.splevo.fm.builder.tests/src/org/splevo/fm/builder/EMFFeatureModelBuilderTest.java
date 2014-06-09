@@ -51,6 +51,7 @@ public class EMFFeatureModelBuilderTest {
      * @throws Exception
      *             Failed to read the variation point model.
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void testBuildFeatureModel() throws Exception {
 
