@@ -79,7 +79,7 @@ public class RefinementDetailsView extends Composite {
         refinementDetailsTreeViewer.addSelectionChangedListener(new RefinementInfoSelectionListener(this));
         initContextMenu(refinementDetailsTreeViewer, site);
 
-        refinementInfoArea = new StyledText(sashForm, SWT.WRAP);
+        refinementInfoArea = new StyledText(sashForm, SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
         refinementInfoArea.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         refinementInfoArea.setText(REFINEMENT_INFO_DEFAULT_TEXT);
 
