@@ -87,6 +87,9 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The configuration-object for the reference selector to use. */
     private ChoiceConfiguration referenceSelectorConfig = ConfigurationBuilder.createReferenceSelectorConfig();
 
+    /** If not null, a specific dependency type to focus on. */
+    private ChoiceConfiguration desiredDependencyTypeConfig = ConfigurationBuilder.createDesiredDependencyTypeConfig();
+
     /**
      * Analyze variation point dependencies based on program dependencies between them.
      *
@@ -188,7 +191,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                         for (Reference refVP2 : index.getIndexedReferences(vp2, referencedElement)) {
                             DependencyType type = referenceSelector
                                     .getDependencyType(refVP1, refVP2, referencedElement);
-                            if (type != DependencyType.IGNORE) {
+                            if (isDesiredType(type)) {
                                 statistics.add(type);
                                 dependencyType = type;
                                 referenceVP1 = refVP1;
@@ -226,6 +229,30 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         }
 
         return referencedElementEdges;
+    }
+
+    /**
+     * Check if a dependency type is desired to be analyzed.
+     *
+     * If the type is ignore, or a desired type is configured but not matched, false will be
+     * returned -- true otherwise.
+     *
+     * @param type
+     *            The type to check.
+     * @return True if the type is desired.
+     */
+    private boolean isDesiredType(DependencyType type) {
+
+        if (type == DependencyType.IGNORE) {
+            return false;
+        }
+
+        String desiredType = desiredDependencyTypeConfig.getCurrentValue();
+        if (desiredType == desiredDependencyTypeConfig.getDefaultValue()) {
+            return true;
+        }
+
+        return type == DependencyType.valueOf(desiredType);
     }
 
     private String getSubLabel(Commentable referencedElement, Commentable refElementVP1, Commentable refElementVP2,
@@ -357,7 +384,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
         configurations.addConfigurations(ConfigurationBuilder.CONFIG_GROUP_DEPENDENCIES, filterExternalsConfig,
-                referenceSelectorConfig);
+                referenceSelectorConfig, desiredDependencyTypeConfig);
         return configurations;
     }
 
