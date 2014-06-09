@@ -34,6 +34,7 @@ public class VPMRefinementServiceTest {
     /**
      * Initialize test infrastructure and requirements.
      */
+    @SuppressWarnings("deprecation")
     @Before
     public void setUp() {
         BasicConfigurator.resetConfiguration();
