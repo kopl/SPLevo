@@ -33,6 +33,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+/**
+ * Test for the diffing model utilities.
+ *
+ */
 public class DiffingModelUtilTest {
 
     private TemporaryFolder folder = null;
@@ -62,9 +66,15 @@ public class DiffingModelUtilTest {
     /** Clean up afterwards. */
     @After
     public void tearDown() {
-        //folder.delete();
+        folder.delete();
     }
 
+    /**
+     * Test to load a diff model and check for an existing content.
+     *
+     * @throws IOException
+     *             indicates a failed loading.
+     */
     @Test
     public void testLoadModel() throws IOException {
 
@@ -79,9 +89,14 @@ public class DiffingModelUtilTest {
 
     }
 
+    /**
+     * Save a model and ensure the model file exists afterwards.
+     *
+     * @throws IOException
+     *             The model file could not be successfully writte.
+     */
     @Test
     public void testSave() throws IOException {
-
 
         File modelFilePath = new File(folder.getRoot().getAbsolutePath() + File.separator + "testmodelsave.diff");
 
