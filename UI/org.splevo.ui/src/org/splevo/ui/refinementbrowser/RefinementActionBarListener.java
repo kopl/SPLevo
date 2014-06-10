@@ -45,6 +45,7 @@ public class RefinementActionBarListener implements ISelectionChangedListener {
             int groupCount = 0;
             int mergeCount = 0;
             int subMergeCount = 0;
+            int vpCount = 0;
 
             Iterator<?> iterator = ((IStructuredSelection) selection).iterator();
             while (iterator.hasNext()) {
@@ -61,11 +62,12 @@ public class RefinementActionBarListener implements ISelectionChangedListener {
                             mergeCount++;
                         }
                     }
+                    vpCount += refinement.getVariationPoints().size();
                 }
             }
 
-            String messageText = "Groupings: %s, Merges: %s, SubMerges: %s selected";
-            String message = String.format(messageText, groupCount, mergeCount, subMergeCount);
+            String messageText = "Groupings: %s, SubMerges: %s | Merges: %s | VPs: %s";
+            String message = String.format(messageText, groupCount, mergeCount, subMergeCount, vpCount);
             actionBars.getStatusLineManager().setMessage(message);
         }
     }
