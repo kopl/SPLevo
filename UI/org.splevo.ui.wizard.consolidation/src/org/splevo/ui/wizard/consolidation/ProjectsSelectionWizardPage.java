@@ -113,9 +113,9 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
         Composite innerContainer = new Composite(container, SWT.NONE);
         innerContainer.setLayout(new GridLayout(1, false));
-        GridData singleColumn = new GridData(SWT.FILL, SWT.FILL, true, true);
-        singleColumn.horizontalSpan = 2;
-        innerContainer.setLayoutData(singleColumn);
+        GridData twoColumns = new GridData(SWT.FILL, SWT.FILL, true, true);
+        twoColumns.horizontalSpan = 2;
+        innerContainer.setLayoutData(twoColumns);
 
         Label label = new Label(innerContainer, SWT.NONE);
         label.setText("Projects:");
