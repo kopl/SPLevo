@@ -44,17 +44,11 @@ import org.eclipse.swt.widgets.Text;
 @SuppressWarnings("restriction")
 public class ProjectsSelectionWizardPage extends WizardPage {
 
-    private Text leadingProjectsVariantNameField;
-    private Text integrationProjectsVariantNameField;
+    private Text leadingVariantNameField;
+    private Text integrationVariantNameField;
 
     private Table leadingProjectsTable;
     private Table integrationProjectsTable;
-
-    private boolean isLeadingProjectsVariantNameFieldFilled;
-    private boolean isIntegrationProjectsVariantNameFieldFilled;
-
-    private int chosenLeadingProjectsCount = 0;
-    private int chosenIntegrationProjectsCount = 0;
 
     /**
      * Constructor preparing the wizard page infrastructure.
@@ -81,131 +75,74 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         gridDataSpanCells.grabExcessHorizontalSpace = true;
 
         createLabel(container, "Leading projects:", gridDataSpanCells);
-        createLabel(container, "Integration projects:", gridDataSpanCells);        
+        createLabel(container, "Integration projects:", gridDataSpanCells);
 
         GridData gridDataSecondRow = new GridData(GridData.FILL_HORIZONTAL);
 
-        createLabel(container, "Variant name:", null);        
+        createLabel(container, "Variant name:", null);
+        leadingVariantNameField = createVariantNameField(container, gridDataSecondRow, new CheckPageCompletedListener());
 
-        leadingProjectsVariantNameField = createVariantNameField(container, gridDataSecondRow, new Listener() {
+        createLabel(container, "Variant name:", null);
+        integrationVariantNameField = createVariantNameField(container, gridDataSecondRow,
+                new CheckPageCompletedListener());
 
-            @Override
-            public void handleEvent(Event event) {
-                if (getLeadingProjectsVariantName() != null && !getLeadingProjectsVariantName().equals("")) {
-                    isLeadingProjectsVariantNameFieldFilled = true;
-                } else {
-                    isLeadingProjectsVariantNameFieldFilled = false;
-                }
-
-                setPageComplete(isProjectSelectionPageComplete());
-            }
-        });
-        
-
-        createLabel(container, "Variant name:", null);        
-
-        integrationProjectsVariantNameField = createVariantNameField(container, gridDataSecondRow, new Listener() {
-           
-            @Override
-            public void handleEvent(Event event) {
-                if (getIntegrationProjectsVariantName() != null && !getIntegrationProjectsVariantName().equals("")) {
-                    isIntegrationProjectsVariantNameFieldFilled = true;
-                } else {
-                    isIntegrationProjectsVariantNameFieldFilled = false;
-                }
-
-                setPageComplete(isProjectSelectionPageComplete());
-            }
-        });
-        
-        createLabel(container, "Projects:", gridDataSpanCells);
-        createLabel(container, "Projects:", gridDataSpanCells);        
-
-        GridData gridDataLastRow = new GridData(SWT.FILL, SWT.FILL, true, true);
-        gridDataLastRow.horizontalSpan = 2;       
-
-        leadingProjectsTable = createProjectsTable(container, gridDataLastRow, new Listener() {
-
-            @Override
-            public void handleEvent(Event event) {
-                if (event.detail == SWT.CHECK) {
-                    TableItem tableItem = (TableItem) event.item;
-                    boolean isChecked = tableItem.getChecked();
-
-                    if (isChecked) {
-                        chosenLeadingProjectsCount++;
-                    } else {
-                        chosenLeadingProjectsCount--;
-                    }
-
-                    setPageComplete(isProjectSelectionPageComplete());
-                }
-            }
-        });        
-
-        integrationProjectsTable = createProjectsTable(container, gridDataLastRow, new Listener() {
-
-            @Override
-            public void handleEvent(Event event) {
-                if (event.detail == SWT.CHECK) {
-                    TableItem tableItem = (TableItem) event.item;
-                    boolean isChecked = tableItem.getChecked();
-
-                    if (isChecked) {
-                        chosenIntegrationProjectsCount++;
-                    } else {
-                        chosenIntegrationProjectsCount--;
-                    }
-
-                    setPageComplete(isProjectSelectionPageComplete());
-                }
-            }
-        });        
+        leadingProjectsTable = createProjectsTable(container, new CheckPageCompletedListener());
+        integrationProjectsTable = createProjectsTable(container, new CheckPageCompletedListener());
 
         setControl(container);
     }
-    
+
     private void createLabel(Composite container, String labelText, GridData layoutData) {
         Label label = new Label(container, SWT.NONE);
         label.setText(labelText);
-        
+
         if (layoutData != null) {
             label.setLayoutData(layoutData);
         }
     }
-        
+
     private Text createVariantNameField(Composite container, GridData layoutData, Listener listener) {
         Text variantNameField = new Text(container, SWT.BORDER);
         variantNameField.setLayoutData(layoutData);
         variantNameField.addListener(SWT.Modify, listener);
-        
+
         return variantNameField;
     }
-    
-    private Table createProjectsTable(Composite container, GridData layoutData, Listener listener) {
-        Table projectsTable = createProjectsTableViewer(container).getTable();
-        projectsTable.setLayoutData(layoutData);
+
+    private Table createProjectsTable(Composite container, Listener listener) {
+
+        Composite innerContainer = new Composite(container, SWT.NONE);
+        innerContainer.setLayout(new GridLayout(1, false));
+        GridData singleColumn = new GridData(SWT.FILL, SWT.FILL, true, true);
+        singleColumn.horizontalSpan = 2;
+        innerContainer.setLayoutData(singleColumn);
+
+        Label label = new Label(innerContainer, SWT.NONE);
+        label.setText("Projects:");
+
+        Table projectsTable = createProjectsTableViewer(innerContainer).getTable();
         projectsTable.addListener(SWT.Selection, listener);
-        
+
         return projectsTable;
     }
-    
+
     /**
      * Create a table viewer with check box elements.
-     * 
-     * @param container Container in which the table viewer will be created.
+     *
+     * @param container
+     *            Container in which the table viewer will be created.
      * @return The created table viewer.
      */
     private TableViewer createProjectsTableViewer(Composite container) {
         TableViewer projectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
         projectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
-            
+
             @Override
             public String getText(Object element) {
                 IProject project = (IProject) element;
                 return project.getName();
             }
-            
+
             @Override
             public Image getImage(Object element) {
                 JavaUILabelProvider provider = new JavaUILabelProvider();
@@ -214,13 +151,13 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         });
         projectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
         projectsTableViewer.setInput(getProjectsFromWorkspace());
-        
+
         return projectsTableViewer;
     }
 
     /**
      * Get all projects that are currently in the workspace.
-     * 
+     *
      * @return List with all projects from the workspace.
      */
     private IProject[] getProjectsFromWorkspace() {
@@ -237,11 +174,28 @@ public class ProjectsSelectionWizardPage extends WizardPage {
      *         chosen, otherwise false.
      */
     private boolean isProjectSelectionPageComplete() {
-        if (isLeadingProjectsVariantNameFieldFilled && isIntegrationProjectsVariantNameFieldFilled
-                && chosenLeadingProjectsCount > 0 && chosenIntegrationProjectsCount > 0) {
-            return true;
+        boolean isLeadingProjectSelected = atLeastOneItemSelected(leadingProjectsTable);
+        boolean isIntergrationProjectSelected = atLeastOneItemSelected(integrationProjectsTable);
+        boolean isIntegrationVariantNameFilled = isNotEmpty(integrationVariantNameField);
+        boolean isLeadingVariantNameFilled = isNotEmpty(leadingVariantNameField);
+
+        return isLeadingVariantNameFilled && isIntegrationVariantNameFilled && isLeadingProjectSelected
+                && isIntergrationProjectSelected;
+    }
+
+    private boolean isNotEmpty(Text textField) {
+        return textField.getText() != null && textField.getText().trim().length() > 0;
+    }
+
+    private boolean atLeastOneItemSelected(Table table) {
+        boolean leadingProjectSelected = false;
+        for (TableItem item : table.getItems()) {
+            if (item.getChecked()) {
+                leadingProjectSelected = true;
+                break;
+            }
         }
-        return false;
+        return leadingProjectSelected;
     }
 
     /**
@@ -250,7 +204,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
      * @return variant name field value for leading projects
      */
     public String getLeadingProjectsVariantName() {
-        return leadingProjectsVariantNameField.getText().trim();
+        return leadingVariantNameField.getText().trim();
     }
 
     /**
@@ -259,7 +213,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
      * @return variant name field value for integration projects
      */
     public String getIntegrationProjectsVariantName() {
-        return integrationProjectsVariantNameField.getText().trim();
+        return integrationVariantNameField.getText().trim();
     }
 
     /**
@@ -282,7 +236,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
 
     /**
      * Get the names of the projects the user has chosen.
-     * 
+     *
      * @param projectsTable
      *            The table where the projects are placed.
      * @return List with the names of the chosen projects.
@@ -297,5 +251,15 @@ public class ProjectsSelectionWizardPage extends WizardPage {
             }
         }
         return chosenProjectsNames;
+    }
+
+    /**
+     * Listener to react on events and trigger the page to check it's completeness.
+     */
+    private class CheckPageCompletedListener implements Listener {
+        @Override
+        public void handleEvent(Event event) {
+            setPageComplete(isProjectSelectionPageComplete());
+        }
     }
 }
