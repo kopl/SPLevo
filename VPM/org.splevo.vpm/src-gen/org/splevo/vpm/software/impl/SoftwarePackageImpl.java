@@ -268,6 +268,9 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
 
         addEOperation(softwareElementEClass, this.getSourceLocation(), "getSourceLocation", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+        addEOperation(softwareElementEClass, theEcorePackage.getEObject(), "getWrappedElement", 0, 1, IS_UNIQUE,
+                IS_ORDERED);
+
         initEClass(javaSoftwareElementEClass, JavaSoftwareElement.class, "JavaSoftwareElement", IS_ABSTRACT,
                 !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

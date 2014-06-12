@@ -38,22 +38,24 @@ public enum BindingTime implements Enumerator {
      * @generated
      * @ordered
      */
-    COMPILE_TIME(0, "CompileTime", "CompileTime"), /**
-                                                    * The '<em><b>Load Time</b></em>' literal object.
-                                                    * <!-- begin-user-doc -->
-                                                    * <!-- end-user-doc -->
-                                                    * @see #LOAD_TIME_VALUE
-                                                    * @generated
-                                                    * @ordered
-                                                    */
-    LOAD_TIME(3, "LoadTime", "LoadTime"), /**
-                                           * The '<em><b>Run Time</b></em>' literal object.
-                                           * <!-- begin-user-doc -->
-                                           * <!-- end-user-doc -->
-                                           * @see #RUN_TIME_VALUE
-                                           * @generated
-                                           * @ordered
-                                           */
+    COMPILE_TIME(0, "CompileTime", "CompileTime"),
+    /**
+     * The '<em><b>Load Time</b></em>' literal object.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #LOAD_TIME_VALUE
+     * @generated
+     * @ordered
+     */
+    LOAD_TIME(3, "LoadTime", "LoadTime"),
+    /**
+     * The '<em><b>Run Time</b></em>' literal object.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #RUN_TIME_VALUE
+     * @generated
+     * @ordered
+     */
     RUN_TIME(4, "RunTime", "RunTime");
 
     /**

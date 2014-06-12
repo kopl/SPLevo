@@ -1,6 +1,7 @@
 package org.splevo.vpm.software.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwarePackage;
@@ -60,5 +61,16 @@ public abstract class JavaSoftwareElementImpl extends MinimalEObjectImpl.Contain
      * @generated not
      */
     public abstract SourceLocation getSourceLocation();
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EObject getWrappedElement() {
+        // TODO: implement this method
+        // Ensure that you remove @generated or mark it @generated NOT
+        throw new UnsupportedOperationException();
+    }
 
 } //JavaSoftwareElementImpl

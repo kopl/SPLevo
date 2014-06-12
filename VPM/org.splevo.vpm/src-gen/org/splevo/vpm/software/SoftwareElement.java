@@ -52,4 +52,16 @@ public interface SoftwareElement extends EObject {
      * @generated
      */
     SourceLocation getSourceLocation();
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * Access the original model element wrapped by this software element.
+     * This reference should be used with care as it may trigger resolving effort.
+     * <!-- end-model-doc -->
+     * @model kind="operation"
+     * @generated
+     */
+    EObject getWrappedElement();
 } // SoftwareElement

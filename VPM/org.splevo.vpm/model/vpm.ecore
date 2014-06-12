@@ -153,6 +153,11 @@
           <details key="documentation" value="Get the source location of the software elements implementation."/>
         </eAnnotations>
       </eOperations>
+      <eOperations name="getWrappedElement" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="Access the original model element wrapped by this software element.&#xD;&#xA;This reference should be used with care as it may trigger resolving effort."/>
+        </eAnnotations>
+      </eOperations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="JavaSoftwareElement" abstract="true"
         eSuperTypes="#//software/SoftwareElement">

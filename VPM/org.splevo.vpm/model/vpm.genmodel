@@ -65,6 +65,7 @@
         <genOperations ecoreOperation="vpm.ecore#//software/SoftwareElement/getLabel"/>
         <genOperations ecoreOperation="vpm.ecore#//software/SoftwareElement/getName"/>
         <genOperations ecoreOperation="vpm.ecore#//software/SoftwareElement/getSourceLocation"/>
+        <genOperations ecoreOperation="vpm.ecore#//software/SoftwareElement/getWrappedElement"/>
       </genClasses>
       <genClasses image="false" ecoreClass="vpm.ecore#//software/JavaSoftwareElement"/>
       <genClasses ecoreClass="vpm.ecore#//software/SourceLocation">
