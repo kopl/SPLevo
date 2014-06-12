@@ -15,7 +15,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.splevo.vpm.realization.*;
 import org.splevo.vpm.realization.RealizationPackage;
 import org.splevo.vpm.realization.VariabilityMechanism;
 

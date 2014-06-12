@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.splevo.vpm.realization.*;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.RealizationPackage;
 import org.splevo.vpm.realization.VariabilityMechanism;

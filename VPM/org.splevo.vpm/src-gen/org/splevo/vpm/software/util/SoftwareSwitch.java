@@ -3,7 +3,6 @@ package org.splevo.vpm.software.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.splevo.vpm.software.*;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SoftwarePackage;
