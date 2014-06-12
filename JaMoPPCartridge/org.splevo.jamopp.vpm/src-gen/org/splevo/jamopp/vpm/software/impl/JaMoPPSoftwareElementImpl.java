@@ -13,6 +13,7 @@ package org.splevo.jamopp.vpm.software.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.emftext.language.java.commons.Commentable;
@@ -215,6 +216,16 @@ public class JaMoPPSoftwareElementImpl extends JavaSoftwareElementImpl implement
         location.setEndPosition(locationMap.getCharEnd(element));
 
         return location;
+    }
+
+    /**
+     * <!-- begin-user-doc --> {@inheritDoc} <!-- end-user-doc -->
+     *
+     * @generated not
+     */
+    @Override
+    public EObject getWrappedElement() {
+        return getJamoppElement();
     }
 
 } // JaMoPPSoftwareElementImpl
