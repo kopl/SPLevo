@@ -50,10 +50,11 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
 
     private static Logger logger = Logger.getLogger(NewConsolidationProjectWizard.class);
 
-    private WizardNewProjectCreationPage projectCreationPage;
-    private ProjectsSelectionWizardPage projectsSelectionWizardPage;
+    private WizardNewProjectCreationPage projectCreationPage;    
     
     private IConfigurationElement configurationElement;
+    
+    private SPLevoProject projectConfiguration;
 
     /**
      * Constructor preparing the wizard infrastructure.
@@ -68,13 +69,14 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
 
         projectCreationPage = new WizardNewProjectCreationPage("Consolidation Project Wizard");
         projectCreationPage.setTitle("Consolidation Project");
-        projectCreationPage
-                .setDescription("Create a new project for consolidating project copies into a variable product line.");
+        projectCreationPage.setDescription("Create a new project for consolidating project "
+                + "copies into a variable product line.");                
         
-        projectsSelectionWizardPage = new ProjectsSelectionWizardPage();
-       
+        projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();                
+      
         addPage(projectCreationPage);
-        addPage(projectsSelectionWizardPage);
+        addPage(new ProjectsSelectionWizardPage(projectConfiguration));
+        addPage(new PackageScopeDefinitionWizardPage(projectConfiguration)); 
     }
 
     @Override
@@ -90,21 +92,9 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
                      
             String splevoProjectFileName = project.getName() + "." + SPLevoProjectUtil.SPLEVO_FILE_EXTENSION;
             File filePath = new File(project.getFullPath().toString() + File.separator + splevoProjectFileName);            
-           
-            SPLevoProject projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();
+                       
             projectConfiguration.setWorkspace("/" + project.getName() + "/");
-            projectConfiguration.setName(project.getName());   
-            projectConfiguration.setVariantNameLeading(projectsSelectionWizardPage.getLeadingProjectsVariantName());
-            projectConfiguration.setVariantNameIntegration(projectsSelectionWizardPage.
-                    getIntegrationProjectsVariantName());                         
-            
-            for (String chosenLeadingProjectName : projectsSelectionWizardPage.getChosenLeadingProjectsNames()) {   
-                projectConfiguration.getLeadingProjects().add(chosenLeadingProjectName);
-            }
-            
-            for (String chosenIntegrationProjectName : projectsSelectionWizardPage.getChosenIntegrationProjectsNames()) { 
-                projectConfiguration.getIntegrationProjects().add(chosenIntegrationProjectName);
-            }
+            projectConfiguration.setName(project.getName());            
             
             try {
                 SPLevoProjectUtil.save(projectConfiguration, filePath);
