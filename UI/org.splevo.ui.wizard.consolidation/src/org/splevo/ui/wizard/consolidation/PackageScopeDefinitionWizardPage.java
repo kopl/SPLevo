@@ -12,24 +12,23 @@
 package org.splevo.ui.wizard.consolidation;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -43,23 +42,23 @@ import org.splevo.project.SPLevoProject;
  * 
  * @author Radoslav Yankov
  */
-@SuppressWarnings("restriction")
-public class PackageScopeDefinitionWizardPage extends WizardPage { 
-    
+public class PackageScopeDefinitionWizardPage extends WizardPage {
+
     private SPLevoProject projectConfiguration;
-    
+
     private CheckboxTreeViewer checkboxTreeViewer;
-   
+
     /**
      * Constructor preparing the wizard page infrastructure.
      * 
-     * @param projectConfiguration The SPLevo project model.
+     * @param projectConfiguration
+     *            The SPLevo project model.
      */
-    public PackageScopeDefinitionWizardPage(SPLevoProject projectConfiguration) {        
+    public PackageScopeDefinitionWizardPage(SPLevoProject projectConfiguration) {
         super("Package Scope Definition Page");
         setTitle("Package Scope Definition");
-        setDescription("Select the java packages to be ignored.");    
-        
+        setDescription("Select the java packages to be ignored.");
+
         this.projectConfiguration = projectConfiguration;
     }
 
@@ -67,121 +66,125 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     public void createControl(Composite parent) {
         GridLayout layout = new GridLayout();
         layout.verticalSpacing = 15;
-        
+
         Composite container = new Composite(parent, SWT.NONE);
         container.setLayout(layout);
-        
+
         Label label = new Label(container, SWT.NONE);
-        label.setText("Select java packages to ignore:");                
-        
+        label.setText("Select java packages to ignore:");
+
         checkboxTreeViewer = new CheckboxTreeViewer(container, SWT.BORDER);
         checkboxTreeViewer.setContentProvider(new ITreeContentProvider() {
-            
+
             @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {               
+            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
             }
-            
+
             @Override
-            public void dispose() {               
+            public void dispose() {
             }
-            
+
             @Override
             public boolean hasChildren(Object element) {
-                IPackageFragment packageFragment = (IPackageFragment) element;
-                boolean hasChildren = false;
-                try {
-                    hasChildren = packageFragment.hasChildren();
-                } catch (JavaModelException e) {                    
-                    e.printStackTrace();
-                }                
-                return hasChildren;
+                if (element instanceof IPackageFragment) {
+                    IPackageFragment packageFragment = (IPackageFragment) element;
+                    boolean hasChildren = false;
+                    try {
+                        hasChildren = packageFragment.hasChildren();
+                    } catch (JavaModelException e) {
+                        e.printStackTrace();
+                    }
+                    return hasChildren;
+                }
+
+                return false;
             }
-                       
+
             @Override
             public Object getParent(Object element) {
-                IPackageFragment packageFragment = (IPackageFragment) element;                
-                return packageFragment.getParent();                
+                if (element instanceof IPackageFragment) {
+                    IPackageFragment packageFragment = (IPackageFragment) element;
+                    return packageFragment.getParent();
+                }
+
+                return null;
             }
-            
+
             @Override
             public Object[] getElements(Object inputElement) {
-                return (IPackageFragment[]) inputElement;
+                if (inputElement instanceof IPackageFragment[]) {
+                    return (IPackageFragment[]) inputElement;
+                }
+                return null;
             }
-            
+
             @Override
             public Object[] getChildren(Object parentElement) {
-                IPackageFragment packageFragment = (IPackageFragment) parentElement;
-                Object[] children = null;
-                try {
-                    children = packageFragment.getChildren();
-                } catch (JavaModelException e) {                    
-                    e.printStackTrace();
+                if (parentElement instanceof IPackageFragment) {
+                    IPackageFragment packageFragment = (IPackageFragment) parentElement;                   
+                    List<IPackageFragment> result = new LinkedList<IPackageFragment>();
+                    try {
+                        for (IJavaElement javaElement : packageFragment.getChildren()) {
+                            if (javaElement instanceof IPackageFragment) {
+                                result.add((IPackageFragment) javaElement);
+                            }
+                        }
+                    } catch (JavaModelException e) {
+                        e.printStackTrace();
+                    }
+                    return result.toArray();
                 }
-                return children;
-            }
-        });  
-        
-        checkboxTreeViewer.setLabelProvider(new ColumnLabelProvider() {
-
-            @Override
-            public String getText(Object element) {
-                IPackageFragment project = (IPackageFragment) element;
-                return project.getElementName();
-            }
-
-            @Override
-            public Image getImage(Object element) {
-                JavaUILabelProvider provider = new JavaUILabelProvider();
-                return provider.getImage(element);
+                return null;
             }
         });
-        
+
         Tree tree = checkboxTreeViewer.getTree();
         tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-                        
+
         setControl(container);
     }
-    
+
     @Override
-    public void setVisible(boolean visible) {       
+    public void setVisible(boolean visible) {
         super.setVisible(visible);
-        
+
         if (visible) {
-            checkboxTreeViewer.setInput(getJavaPackages());            
+            checkboxTreeViewer.setInput(getJavaPackages());
         }
     }
-    
-    private IPackageFragment[] getJavaPackages() {         
+
+    private IPackageFragment[] getJavaPackages() {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
-        
+
         List<String> chosenProjectsNames = new ArrayList<String>();
         chosenProjectsNames.addAll(projectConfiguration.getLeadingProjects());
         chosenProjectsNames.addAll(projectConfiguration.getIntegrationProjects());
-        
+
         List<IProject> allChosenProjects = new ArrayList<IProject>();
-        
+
         for (String chosenProjectName : chosenProjectsNames) {
-            allChosenProjects.add(root.getProject(chosenProjectName));       
+            allChosenProjects.add(root.getProject(chosenProjectName));
         }
-        
+
         List<IPackageFragment> javaPackages = new ArrayList<IPackageFragment>();
-        
-        for (IProject project : allChosenProjects) {           
+
+        for (IProject project : allChosenProjects) {
             try {
                 for (IPackageFragment packageFragment : JavaCore.create(project).getPackageFragments()) {
-                    if (packageFragment.getKind() == IPackageFragmentRoot.K_SOURCE) {
+                    if (packageFragment.getKind() == IPackageFragmentRoot.K_SOURCE
+                            && !javaPackages.contains(packageFragment)) {
                         javaPackages.add(packageFragment);
-                    }                    
+                    }
                 }
-            } catch (JavaModelException e) {                
+            } catch (JavaModelException e) {
                 e.printStackTrace();
-            }                       
-        } 
-        
+            }
+        }
+
         IPackageFragment[] packageFragments = new IPackageFragment[javaPackages.size()];
         packageFragments = javaPackages.toArray(packageFragments);
-        
+
         return packageFragments;
     }
 }
