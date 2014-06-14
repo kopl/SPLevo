@@ -159,12 +159,13 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         setControl(container);
     }
     
-    /**
-     * Set the input of the tree viewer which is responsible for the visualization of the java
-     * packages of the chosen projects.
-     */
-    public void setTreeViewerInput() {
-        checkboxTreeViewer.setInput(getJavaPackages());
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+
+        if (visible) {
+            checkboxTreeViewer.setInput(getJavaPackages());
+        }
     }
 
     private IPackageFragment[] getJavaPackages() {
