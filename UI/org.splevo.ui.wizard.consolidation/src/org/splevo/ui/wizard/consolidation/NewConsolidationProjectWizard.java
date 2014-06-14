@@ -25,9 +25,10 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.IPageChangeProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -79,8 +80,11 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
         addPage(new ProjectsSelectionWizardPage(projectConfiguration));
         addPage(new PackageScopeDefinitionWizardPage(projectConfiguration)); 
         
-        WizardDialog wizardDialog = (WizardDialog) getContainer();
-        wizardDialog.addPageChangedListener(new NewConsolidationProjectWizardPageChangedListener());
+        IWizardContainer wizardContainer = this.getContainer();
+        if (wizardContainer instanceof IPageChangeProvider) {
+            IPageChangeProvider pageChangeProvider = (IPageChangeProvider) wizardContainer;
+            pageChangeProvider.addPageChangedListener(new NewConsolidationProjectWizardPageChangedListener());
+        }
     }
 
     @Override
