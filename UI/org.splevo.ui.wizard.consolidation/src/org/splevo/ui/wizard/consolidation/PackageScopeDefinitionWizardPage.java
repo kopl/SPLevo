@@ -24,11 +24,14 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -42,6 +45,7 @@ import org.splevo.project.SPLevoProject;
  * 
  * @author Radoslav Yankov
  */
+@SuppressWarnings("restriction")
 public class PackageScopeDefinitionWizardPage extends WizardPage {
 
     private SPLevoProject projectConfiguration;
@@ -88,15 +92,8 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
             public boolean hasChildren(Object element) {
                 if (element instanceof IPackageFragment) {
                     IPackageFragment packageFragment = (IPackageFragment) element;
-                    boolean hasChildren = false;
-                    try {
-                        hasChildren = packageFragment.hasChildren();
-                    } catch (JavaModelException e) {
-                        e.printStackTrace();
-                    }
-                    return hasChildren;
+                    return getChildren(packageFragment).length > 0;
                 }
-
                 return false;
             }
 
@@ -137,20 +134,37 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
                 return null;
             }
         });
+        
+        checkboxTreeViewer.setLabelProvider(new ColumnLabelProvider() {
+
+            @Override
+            public String getText(Object element) {
+                if (element instanceof IPackageFragment) {
+                    IPackageFragment packageFragment = (IPackageFragment) element;
+                    return packageFragment.getElementName();
+                }                
+                return null;
+            }
+
+            @Override
+            public Image getImage(Object element) {
+                JavaUILabelProvider provider = new JavaUILabelProvider();
+                return provider.getImage(element);               
+            }
+        });
 
         Tree tree = checkboxTreeViewer.getTree();
         tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         setControl(container);
     }
-
-    @Override
-    public void setVisible(boolean visible) {
-        super.setVisible(visible);
-
-        if (visible) {
-            checkboxTreeViewer.setInput(getJavaPackages());
-        }
+    
+    /**
+     * Set the input of the tree viewer which is responsible for the visualization of the java
+     * packages of the chosen projects.
+     */
+    public void setTreeViewerInput() {
+        checkboxTreeViewer.setInput(getJavaPackages());
     }
 
     private IPackageFragment[] getJavaPackages() {
