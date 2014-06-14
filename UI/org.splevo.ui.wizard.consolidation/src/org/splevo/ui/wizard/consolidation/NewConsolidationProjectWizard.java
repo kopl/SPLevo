@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -60,7 +61,7 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
      * Constructor preparing the wizard infrastructure.
      */
     public NewConsolidationProjectWizard() {
-        setWindowTitle(WIZARD_NAME);
+        setWindowTitle(WIZARD_NAME);        
     }
 
     @Override
@@ -77,6 +78,9 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
         addPage(projectCreationPage);
         addPage(new ProjectsSelectionWizardPage(projectConfiguration));
         addPage(new PackageScopeDefinitionWizardPage(projectConfiguration)); 
+        
+        WizardDialog wizardDialog = (WizardDialog) getContainer();
+        wizardDialog.addPageChangedListener(new NewConsolidationProjectWizardPageChangedListener());
     }
 
     @Override
@@ -164,7 +168,6 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
                 }
             }
         }
-
         return newProject;
     }
 
