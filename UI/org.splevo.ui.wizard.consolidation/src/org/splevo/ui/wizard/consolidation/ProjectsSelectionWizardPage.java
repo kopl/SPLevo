@@ -22,7 +22,6 @@ import org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -97,8 +96,11 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         setControl(container);
     }
     
-    @Override
-    public IWizardPage getNextPage() {
+    /**
+     * Set variant names and the chosen leading and integration projects to the SPLevo project
+     * configuration
+     */
+    public void setSPLevoProjectConfiguration() {
         projectConfiguration.setVariantNameLeading(leadingVariantNameField.getText().trim());
         projectConfiguration.setVariantNameIntegration(integrationVariantNameField.getText().trim());
         
@@ -108,9 +110,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         
         for (String chosenIntegrationProjectName : getChosenProjectsNames(integrationProjectsTable)) {   
             projectConfiguration.getIntegrationProjects().add(chosenIntegrationProjectName);
-        }
-        
-        return super.getNextPage();
+        }                
     }
 
     private void createLabel(Composite container, String labelText, GridData layoutData) {
