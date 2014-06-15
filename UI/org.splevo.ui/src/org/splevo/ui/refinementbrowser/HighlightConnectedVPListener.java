@@ -30,8 +30,8 @@ import org.splevo.vpm.variability.VariationPoint;
 import com.google.common.collect.Sets;
 
 /**
- * Listener to highlight direct connected variation points for a
- * variation point selected in the refinement view.
+ * Listener to highlight direct connected variation points for a variation point selected in the
+ * refinement view.
  */
 public class HighlightConnectedVPListener implements ISelectionChangedListener {
 
@@ -39,18 +39,18 @@ public class HighlightConnectedVPListener implements ISelectionChangedListener {
     public void selectionChanged(SelectionChangedEvent event) {
 
         TreeViewer treeViewer = RefinementBrowserUtil.getTreeViewer(event);
-        VariationPoint selectedVP = getSelectedVP(event);
+        Set<VariationPoint> selectedVPs = getSelectedVP(event);
         Refinement refinement = RefinementBrowserUtil.getRefinement(treeViewer);
-        if (treeViewer == null || selectedVP == null || refinement == null) {
+        if (treeViewer == null || selectedVPs.size() < 1 || refinement == null) {
             return;
         }
 
-        Set<VariationPoint> connectedVPs = getDirectConnectedVPs(selectedVP, refinement);
+        Set<VariationPoint> connectedVPs = getDirectConnectedVPs(selectedVPs, refinement);
 
-        highlightConnectedTreeNodes(treeViewer, selectedVP, connectedVPs);
+        highlightConnectedTreeNodes(treeViewer, selectedVPs, connectedVPs);
     }
 
-    private void highlightConnectedTreeNodes(TreeViewer treeViewer, VariationPoint selectedVP,
+    private void highlightConnectedTreeNodes(TreeViewer treeViewer, Set<VariationPoint> selectedVPs,
             Set<VariationPoint> connectedVPs) {
 
         Font fontBold = getFont(treeViewer, SWT.BOLD);
@@ -58,7 +58,7 @@ public class HighlightConnectedVPListener implements ISelectionChangedListener {
         Font fontNormal = getFont(treeViewer, SWT.NORMAL);
 
         for (TreeItem treeItem : treeViewer.getTree().getItems()) {
-            if (selectedVP.equals(treeItem.getData())) {
+            if (selectedVPs.contains(treeItem.getData())) {
                 treeItem.setFont(fontBoldItalic);
             } else if (connectedVPs.contains(treeItem.getData())) {
                 treeItem.setFont(fontBold);
@@ -68,12 +68,12 @@ public class HighlightConnectedVPListener implements ISelectionChangedListener {
         }
     }
 
-    private Set<VariationPoint> getDirectConnectedVPs(VariationPoint selectedVP, Refinement refinement) {
+    private Set<VariationPoint> getDirectConnectedVPs(Set<VariationPoint> selectedVPs, Refinement refinement) {
         Set<VariationPoint> connectedVPs = Sets.newLinkedHashSet();
         for (RefinementReason reason : refinement.getReasons()) {
-            if (reason.getSource() == selectedVP) {
+            if (selectedVPs.contains(reason.getSource()) && !selectedVPs.contains(reason.getTarget())) {
                 connectedVPs.add(reason.getTarget());
-            } else if (reason.getTarget() == selectedVP) {
+            } else if (selectedVPs.contains(reason.getTarget()) && !selectedVPs.contains(reason.getSource())) {
                 connectedVPs.add(reason.getSource());
             }
         }
@@ -91,13 +91,14 @@ public class HighlightConnectedVPListener implements ISelectionChangedListener {
         return styledFont;
     }
 
-    private VariationPoint getSelectedVP(SelectionChangedEvent event) {
-        Object selectedElement = ((StructuredSelection) event.getSelection()).getFirstElement();
-        if (selectedElement instanceof VariationPoint) {
-            return (VariationPoint) selectedElement;
-        } else {
-            return null;
+    private Set<VariationPoint> getSelectedVP(SelectionChangedEvent event) {
+        Set<VariationPoint> vps = Sets.newLinkedHashSet();
+        for (Object selectedElement : ((StructuredSelection) event.getSelection()).toList()) {
+            if (selectedElement instanceof VariationPoint) {
+                vps.add((VariationPoint) selectedElement);
+            }
         }
+        return vps;
     }
 
 }
