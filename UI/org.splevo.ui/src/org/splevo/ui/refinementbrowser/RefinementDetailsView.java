@@ -247,7 +247,7 @@ public class RefinementDetailsView extends Composite {
     /**
      * initialize the context menu.
      *
-     * DesignDecision Menu created programmatically instead of extension point to prevent context
+     * DesignDecision Menu created programaticaly instead of extension point to prevent context
      * menu mess up by other plugins.
      *
      * DesignDecision Reused command for common look and feel of context menu item for complete
@@ -264,6 +264,8 @@ public class RefinementDetailsView extends Composite {
         menuManager.setRemoveAllWhenShown(true);
         menuManager.addMenuListener(new CommandActionMenuListener(COMMAND_ID_OPENSOURCELOCATION, SPLevoUIPlugin
                 .getImageDescriptor("icons/jcu_obj.gif")));
+        menuManager.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan", SPLevoUIPlugin
+                .getImageDescriptor("icons/kopl_circle_only.png")));
         Menu menu = menuManager.createContextMenu(viewer.getTree());
         viewer.getTree().setMenu(menu);
         site.setSelectionProvider(viewer);

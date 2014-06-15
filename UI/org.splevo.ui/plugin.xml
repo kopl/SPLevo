@@ -93,6 +93,11 @@
             id="org.splevo.ui.vp.copyfilename"
             name="Copy Containing Filename(s)">
       </command>
+      <command
+            defaultHandler="org.splevo.ui.refinementbrowser.ArgoUMLVariantScanHandler"
+            id="org.splevo.ui.commands.argouml.variantscan"
+            name="ArgoUML Variant Scan">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
