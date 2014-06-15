@@ -93,15 +93,12 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
     /**
      * Analyze variation point dependencies based on program dependencies between them.
      *
-     * DesignDecision: Using synchronized as analyzer instances are reused and this one is not
-     * thread safe yet.
-     *
      * {@inheritDoc}
      *
      * @see org.splevo.vpm.analyzer.VPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)
      */
     @Override
-    public synchronized VPMAnalyzerResult analyze(final VPMGraph vpmGraph) throws VPMAnalyzerException {
+    public VPMAnalyzerResult analyze(final VPMGraph vpmGraph) throws VPMAnalyzerException {
 
         String selectorId = referenceSelectorConfig.getCurrentValue();
         ReferenceSelector referenceSelector = ReferenceSelectorRegistry.getReferenceSelector(selectorId);
