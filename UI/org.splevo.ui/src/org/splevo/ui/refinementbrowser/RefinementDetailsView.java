@@ -77,6 +77,7 @@ public class RefinementDetailsView extends Composite {
         refinementDetailsTreeViewer.setContentProvider(new RefinementDetailsTreeContentProvider());
         refinementDetailsTreeViewer.addDoubleClickListener(new ExpandTreeListener());
         refinementDetailsTreeViewer.addSelectionChangedListener(new RefinementInfoSelectionListener(this));
+        refinementDetailsTreeViewer.addSelectionChangedListener(new HighlightConnectedVPListener());
         initContextMenu(refinementDetailsTreeViewer, site);
 
         refinementInfoArea = new StyledText(sashForm, SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
