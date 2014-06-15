@@ -38,9 +38,9 @@ public class HighlightConnectedVPListener implements ISelectionChangedListener {
     @Override
     public void selectionChanged(SelectionChangedEvent event) {
 
-        TreeViewer treeViewer = getTreeViewer(event);
+        TreeViewer treeViewer = RefinementBrowserUtil.getTreeViewer(event);
         VariationPoint selectedVP = getSelectedVP(event);
-        Refinement refinement = getRefinement(treeViewer);
+        Refinement refinement = RefinementBrowserUtil.getRefinement(treeViewer);
         if (treeViewer == null || selectedVP == null || refinement == null) {
             return;
         }
@@ -91,31 +91,10 @@ public class HighlightConnectedVPListener implements ISelectionChangedListener {
         return styledFont;
     }
 
-    private Refinement getRefinement(TreeViewer treeViewer) {
-        if (treeViewer == null) {
-            return null;
-        }
-        Object input = treeViewer.getInput();
-        if (input instanceof Refinement) {
-            return (Refinement) input;
-        } else {
-            return null;
-        }
-    }
-
     private VariationPoint getSelectedVP(SelectionChangedEvent event) {
         Object selectedElement = ((StructuredSelection) event.getSelection()).getFirstElement();
         if (selectedElement instanceof VariationPoint) {
             return (VariationPoint) selectedElement;
-        } else {
-            return null;
-        }
-    }
-
-    private TreeViewer getTreeViewer(SelectionChangedEvent event) {
-        Object source = event.getSource();
-        if (source instanceof TreeViewer) {
-            return (TreeViewer) source;
         } else {
             return null;
         }

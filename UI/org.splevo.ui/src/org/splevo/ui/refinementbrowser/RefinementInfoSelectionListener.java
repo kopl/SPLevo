@@ -14,8 +14,10 @@ package org.splevo.ui.refinementbrowser;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementReason;
+import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * Listener to update the refinement info panel.
@@ -23,6 +25,8 @@ import org.splevo.vpm.refinement.RefinementReason;
 public class RefinementInfoSelectionListener implements ISelectionChangedListener {
 
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    private static final String HEADLINE = "Refinement Infos";
+    private static final String SUBHEADLINE = "Source: ";
 
     /** The composite to present the Refinement details in. */
     private RefinementDetailsView refinementDetailView;
@@ -50,14 +54,42 @@ public class RefinementInfoSelectionListener implements ISelectionChangedListene
         Object selectedElement = ((StructuredSelection) event.getSelection()).getFirstElement();
 
         // break if the event is not about an refinement
-        if (!(selectedElement instanceof Refinement)) {
-            return;
+        String info = null;
+        if (selectedElement instanceof Refinement) {
+            info = getRelationshipSourceInfo((Refinement) selectedElement);
+        } else if (selectedElement instanceof VariationPoint) {
+            info = getRelationshipSourceInfo((VariationPoint) selectedElement, event);
         }
 
-        String headline = "Refinement Infos";
-        String subHeadlineReason = "Source: ";
+        if (info != null) {
+            refinementDetailView.displayRefinementInfo(HEADLINE, SUBHEADLINE, info);
+        }
+    }
 
-        Refinement refinement = (Refinement) selectedElement;
+    private String getRelationshipSourceInfo(VariationPoint vp, SelectionChangedEvent event) {
+
+        TreeViewer treeViewer = RefinementBrowserUtil.getTreeViewer(event);
+        if (treeViewer == null) {
+            return null;
+        }
+        Refinement refinement = RefinementBrowserUtil.getRefinement(treeViewer);
+
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(refinement.getSource());
+        buffer.append(LINE_SEPARATOR);
+
+        for (RefinementReason reason : refinement.getReasons()) {
+            if (reason.getSource().equals(vp) || reason.getTarget().equals(vp)) {
+                buffer.append(LINE_SEPARATOR);
+                buffer.append(reason.getReason());
+            }
+        }
+
+        String text = buffer.toString();
+        return text;
+    }
+
+    private String getRelationshipSourceInfo(Refinement refinement) {
         StringBuilder buffer = new StringBuilder();
         buffer.append(refinement.getSource());
         buffer.append(LINE_SEPARATOR);
@@ -68,7 +100,6 @@ public class RefinementInfoSelectionListener implements ISelectionChangedListene
         }
 
         String text = buffer.toString();
-
-        refinementDetailView.displayRefinementInfo(headline, subHeadlineReason, text);
+        return text;
     }
 }
