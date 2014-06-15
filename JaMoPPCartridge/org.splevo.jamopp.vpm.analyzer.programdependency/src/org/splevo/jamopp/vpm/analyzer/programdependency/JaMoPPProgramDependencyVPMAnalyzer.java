@@ -180,6 +180,7 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
                     // so we need to search for acceptable ones
                     // To track statistics about the analysis, we must scan all dependencies even
                     // if the first one would be enough for identifying a dependency.
+                    // if more than one reference exists between two VPs, the last one will be kept
                     // FIXME: Implementation must be cleaned up
                     DependencyType dependencyType = DependencyType.IGNORE;
                     Reference referenceVP1 = null;
