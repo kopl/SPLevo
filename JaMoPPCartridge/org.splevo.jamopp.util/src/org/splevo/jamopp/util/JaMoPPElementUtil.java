@@ -181,8 +181,8 @@ public final class JaMoPPElementUtil {
             Constructor method = (Constructor) element;
             return method.getName() + "()";
 
-        } else if (element instanceof Block && element.eContainer() instanceof Method) {
-            Method method = (Method) element.eContainer();
+        } else if (element instanceof Block && getContainingMethod(element) != null) {
+            Method method = getContainingMethod(element);
             return method.getName() + "()";
 
         } else if (element instanceof TryBlock) {
@@ -199,6 +199,18 @@ public final class JaMoPPElementUtil {
         }
 
         return "JaMoPP Element " + element.getClass().getSimpleName();
+    }
+
+    private static Method getContainingMethod(Commentable element) {
+        EObject container = element.eContainer();
+        while (container != null) {
+            if (container instanceof Method) {
+                return (Method) container;
+            } else {
+                container = container.eContainer();
+            }
+        }
+        return null;
     }
 
     /**
