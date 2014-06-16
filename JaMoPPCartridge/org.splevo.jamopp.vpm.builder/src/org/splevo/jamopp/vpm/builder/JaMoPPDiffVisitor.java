@@ -16,11 +16,14 @@ import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.types.TypeReference;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange;
 import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
@@ -123,6 +126,32 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
     @Override
     public VariationPoint caseClassChange(ClassChange change) {
         org.emftext.language.java.classifiers.Class changedElement = change.getChangedClass();
+        return buildKindSpecificVariationPoint(change, changedElement);
+    }
+
+    /**
+     * Handle implements changes.
+     *
+     * @param change
+     *            The class change diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseImplementsChange(ImplementsChange change) {
+        TypeReference changedElement = change.getChangedReference();
+        return buildKindSpecificVariationPoint(change, changedElement);
+    }
+
+    /**
+     * Handle extends changes.
+     *
+     * @param change
+     *            The class change diff element.
+     * @return The prepared variation point.
+     */
+    @Override
+    public VariationPoint caseExtendsChange(ExtendsChange change) {
+        TypeReference changedElement = change.getChangedReference();
         return buildKindSpecificVariationPoint(change, changedElement);
     }
 
