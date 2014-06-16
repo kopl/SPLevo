@@ -12,23 +12,24 @@
 package org.splevo.ui.wizard.consolidation;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider;
-import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jdt.ui.ISharedImages;
+import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -36,7 +37,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.splevo.project.SPLevoProject;
 
 /**
@@ -45,12 +47,12 @@ import org.splevo.project.SPLevoProject;
  * 
  * @author Radoslav Yankov
  */
-@SuppressWarnings("restriction")
 public class PackageScopeDefinitionWizardPage extends WizardPage {
 
     private SPLevoProject projectConfiguration;
 
-    private CheckboxTreeViewer checkboxTreeViewer;
+    private TableViewer packagesTableViewer;
+    private Table packagesTable;
 
     /**
      * Constructor preparing the wizard page infrastructure.
@@ -77,98 +79,98 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         Label label = new Label(container, SWT.NONE);
         label.setText("Select java packages to ignore:");
 
-        checkboxTreeViewer = new CheckboxTreeViewer(container, SWT.BORDER);
-        checkboxTreeViewer.setContentProvider(new ITreeContentProvider() {
-
-            @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            }
-
-            @Override
-            public void dispose() {
-            }
-
-            @Override
-            public boolean hasChildren(Object element) {
-                if (element instanceof IPackageFragment) {
-                    IPackageFragment packageFragment = (IPackageFragment) element;
-                    return getChildren(packageFragment).length > 0;
-                }
-                return false;
-            }
-
-            @Override
-            public Object getParent(Object element) {
-                if (element instanceof IPackageFragment) {
-                    IPackageFragment packageFragment = (IPackageFragment) element;
-                    return packageFragment.getParent();
-                }
-
-                return null;
-            }
-
-            @Override
-            public Object[] getElements(Object inputElement) {
-                if (inputElement instanceof IPackageFragment[]) {
-                    return (IPackageFragment[]) inputElement;
-                }
-                return null;
-            }
-
-            @Override
-            public Object[] getChildren(Object parentElement) {
-                if (parentElement instanceof IPackageFragment) {
-                    IPackageFragment packageFragment = (IPackageFragment) parentElement;                   
-                    List<IPackageFragment> result = new LinkedList<IPackageFragment>();
-                    try {
-                        for (IJavaElement javaElement : packageFragment.getChildren()) {
-                            if (javaElement instanceof IPackageFragment) {
-                                result.add((IPackageFragment) javaElement);
-                            }
-                        }
-                    } catch (JavaModelException e) {
-                        e.printStackTrace();
-                    }
-                    return result.toArray();
-                }
-                return null;
-            }
-        });
-        
-        checkboxTreeViewer.setLabelProvider(new ColumnLabelProvider() {
-
-            @Override
-            public String getText(Object element) {
-                if (element instanceof IPackageFragment) {
-                    IPackageFragment packageFragment = (IPackageFragment) element;
-                    return packageFragment.getElementName();
-                }                
-                return null;
-            }
-
-            @Override
-            public Image getImage(Object element) {
-                JavaUILabelProvider provider = new JavaUILabelProvider();
-                return provider.getImage(element);               
-            }
-        });
-
-        Tree tree = checkboxTreeViewer.getTree();
-        tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        packagesTable = createPackagesTableViewer(container).getTable();
+        packagesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         setControl(container);
     }
-    
+
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
 
         if (visible) {
-            checkboxTreeViewer.setInput(getJavaPackages());
+            packagesTableViewer.setInput(getJavaPackages());
         }
     }
 
+    /**
+     * Create a table viewer with check box elements.
+     * 
+     * @param container
+     *            Container in which the table viewer will be created.
+     * @return The created table viewer.
+     */
+    private TableViewer createPackagesTableViewer(Composite container) {
+        packagesTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
+        packagesTableViewer.setLabelProvider(new ColumnLabelProvider() {
+
+            @Override
+            public String getText(Object element) {
+                if (element instanceof IPackageFragment) {
+                    return ((IPackageFragment) element).getElementName();
+                }
+                return null;
+            }
+
+            @Override
+            public Image getImage(Object element) {
+                return JavaUI.getSharedImages().getImage(ISharedImages.IMG_OBJS_PACKAGE);
+            }
+        });
+        packagesTableViewer.setContentProvider(ArrayContentProvider.getInstance());
+
+        return packagesTableViewer;
+    }
+
+    /**
+     * Get the names of the packages the user has chosen.
+     * 
+     * @return List with the names of the chosen packages or a empty list if the user has not chosen
+     *         any packages.
+     */
+    public List<String> getChosenPackages() {
+        TableItem[] allPackages = packagesTable.getItems();
+        List<String> chosenPackagesNames = new ArrayList<String>();
+
+        for (TableItem project : allPackages) {
+            if (project.getChecked()) {
+                chosenPackagesNames.add(project.getText());
+            }
+        }
+        return chosenPackagesNames;
+    }
+
     private IPackageFragment[] getJavaPackages() {
+
+        List<IPackageFragment> javaPackages = new ArrayList<IPackageFragment>();
+
+        for (IProject project : getAllChosenProjects()) {
+            try {
+                if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
+
+                    for (IPackageFragment packageFragment : JavaCore.create(project).getPackageFragments()) {
+                        if (!packageFragment.getElementName().equals("")) {
+                            javaPackages.add(packageFragment);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } 
+        
+        removeDuplicates(javaPackages);
+
+        IPackageFragment[] packages = new IPackageFragment[javaPackages.size()];
+        packages = javaPackages.toArray(packages);
+
+        orderPackagesByName(packages);
+
+        return packages;
+    }
+
+    private List<IProject> getAllChosenProjects() {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
 
@@ -182,24 +184,34 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
             allChosenProjects.add(root.getProject(chosenProjectName));
         }
 
-        List<IPackageFragment> javaPackages = new ArrayList<IPackageFragment>();
+        return allChosenProjects;
+    }
+    
+    private void removeDuplicates(List<IPackageFragment> javaPackages) {
+        SortedSet<IPackageFragment> javaPackagesSet = new TreeSet<IPackageFragment>(new Comparator<IPackageFragment>() {
 
-        for (IProject project : allChosenProjects) {
-            try {
-                for (IPackageFragment packageFragment : JavaCore.create(project).getPackageFragments()) {
-                    if (packageFragment.getKind() == IPackageFragmentRoot.K_SOURCE
-                            && !javaPackages.contains(packageFragment)) {
-                        javaPackages.add(packageFragment);
-                    }
-                }
-            } catch (JavaModelException e) {
-                e.printStackTrace();
+            @Override
+            public int compare(IPackageFragment packageFragment1, IPackageFragment packageFragment2) {
+                return packageFragment1.getElementName().compareTo(packageFragment2.getElementName());
             }
+        });
+
+        Iterator<IPackageFragment> iterator = javaPackages.iterator();
+        while (iterator.hasNext()) {
+            javaPackagesSet.add(iterator.next());
         }
 
-        IPackageFragment[] packageFragments = new IPackageFragment[javaPackages.size()];
-        packageFragments = javaPackages.toArray(packageFragments);
+        javaPackages.clear();
+        javaPackages.addAll(javaPackagesSet);
+    }
+    
+    private void orderPackagesByName(IPackageFragment[] packages) {
+        Arrays.sort(packages, new Comparator<IPackageFragment>() {
 
-        return packageFragments;
+            @Override
+            public int compare(IPackageFragment packageFragment1, IPackageFragment packageFragment2) {
+                return packageFragment1.getElementName().compareTo(packageFragment2.getElementName());
+            }
+        });
     }
 }
