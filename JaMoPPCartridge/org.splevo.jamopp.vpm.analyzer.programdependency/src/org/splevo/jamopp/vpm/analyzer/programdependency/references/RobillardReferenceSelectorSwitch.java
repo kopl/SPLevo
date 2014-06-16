@@ -61,6 +61,7 @@ import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.statements.util.StatementsSwitch;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
+import org.emftext.language.java.types.util.TypesSwitch;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
@@ -107,6 +108,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
         addSwitch(new InstantiationsReferencedElementsSwitch(this));
         addSwitch(new ExpressionsReferencedElementsSwitch(this));
         addSwitch(new ContainersReferencedElementsSwitch(this));
+        addSwitch(new TypesReferencedElementsSwitch(this));
         if (extendedMode) {
             addSwitch(new ImportReferencedElementsSwitch());
             addSwitch(new ParametersReferencedElementsSwitch(this));
@@ -181,7 +183,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
     }
 
     /**
-     * Switch to decide about referenced elements for member elements.
+     * Switch to decide about referenced elements for container elements.
      */
     private class ContainersReferencedElementsSwitch extends ContainersSwitch<List<Reference>> {
 
@@ -204,6 +206,29 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             }
             return references;
         }
+    }
+
+    /**
+     * Switch to decide about referenced elements for type elements.
+     */
+    private class TypesReferencedElementsSwitch extends TypesSwitch<List<Reference>> {
+
+        @SuppressWarnings("unused")
+        private RobillardReferenceSelectorSwitch parentSwitch;
+
+        public TypesReferencedElementsSwitch(RobillardReferenceSelectorSwitch parentSwitch) {
+            this.parentSwitch = parentSwitch;
+        }
+
+        @Override
+        public List<Reference> caseTypeReference(TypeReference reference) {
+            List<Reference> references = Lists.newArrayList();
+            Commentable refererrer = (Commentable) reference.eContainer();
+            Type target = reference.getTarget();
+            references.add(new Reference(refererrer, target, ReferenceType.SuperType));
+            return references;
+        }
+
     }
 
     /**
@@ -638,7 +663,8 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             if (target instanceof Field || target instanceof AdditionalField) {
                 if (identifierRef.getNext() == null) {
                     references.add(new Reference(identifierRef, target, ReferenceType.Reads));
-                } else if (extendedMode && identifierRef.getNext() instanceof MethodCall
+                } else if (extendedMode
+                        && identifierRef.getNext() instanceof MethodCall
                         || (identifierRef.getNext() instanceof IdentifierReference && (((IdentifierReference) identifierRef
                                 .getNext()).getTarget() instanceof Field || ((IdentifierReference) identifierRef
                                 .getNext()).getTarget() instanceof AdditionalField))) {
