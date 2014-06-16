@@ -14,6 +14,7 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.splevo.jamopp.diffing.jamoppdiff.*;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
@@ -203,6 +204,28 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
                 result = defaultCase(theEObject);
             return result;
         }
+        case JaMoPPDiffPackage.IMPLEMENTS_CHANGE: {
+            ImplementsChange implementsChange = (ImplementsChange) theEObject;
+            T result = caseImplementsChange(implementsChange);
+            if (result == null)
+                result = caseJaMoPPDiff(implementsChange);
+            if (result == null)
+                result = caseDiff(implementsChange);
+            if (result == null)
+                result = defaultCase(theEObject);
+            return result;
+        }
+        case JaMoPPDiffPackage.EXTENDS_CHANGE: {
+            ExtendsChange extendsChange = (ExtendsChange) theEObject;
+            T result = caseExtendsChange(extendsChange);
+            if (result == null)
+                result = caseJaMoPPDiff(extendsChange);
+            if (result == null)
+                result = caseDiff(extendsChange);
+            if (result == null)
+                result = defaultCase(theEObject);
+            return result;
+        }
         default:
             return defaultCase(theEObject);
         }
@@ -370,6 +393,36 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseInterfaceChange(InterfaceChange object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Implements Change</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Implements Change</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseImplementsChange(ImplementsChange object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Extends Change</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Extends Change</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseExtendsChange(ExtendsChange object) {
         return null;
     }
 

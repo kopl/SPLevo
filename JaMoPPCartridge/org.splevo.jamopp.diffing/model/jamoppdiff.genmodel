@@ -42,5 +42,11 @@
     <genClasses ecoreClass="jamoppdiff.ecore#//InterfaceChange">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference jamoppdiff.ecore#//InterfaceChange/changedInterface"/>
     </genClasses>
+    <genClasses ecoreClass="jamoppdiff.ecore#//ImplementsChange">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference jamoppdiff.ecore#//ImplementsChange/changedReference"/>
+    </genClasses>
+    <genClasses ecoreClass="jamoppdiff.ecore#//ExtendsChange">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference jamoppdiff.ecore#//ExtendsChange/changedReference"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

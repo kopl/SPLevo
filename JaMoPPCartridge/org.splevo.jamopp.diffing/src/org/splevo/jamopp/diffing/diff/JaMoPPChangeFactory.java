@@ -27,11 +27,15 @@ import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.util.StatementsSwitch;
+import org.emftext.language.java.types.TypeReference;
+import org.emftext.language.java.types.util.TypesSwitch;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffFactory;
@@ -53,6 +57,46 @@ public class JaMoPPChangeFactory extends ComposedSwitch<Diff> {
         addSwitch(new MembersChangeFactory());
         addSwitch(new StatementsChangeFactory());
         addSwitch(new ContainersChangeFactory());
+        addSwitch(new TypesChangeFactory());
+    }
+
+    /**
+     * Sub switch to create import change elements.
+     */
+    private class TypesChangeFactory extends TypesSwitch<Diff> {
+        @Override
+        public Diff caseTypeReference(TypeReference object) {
+            Diff diff = null;
+            EObject container = object.eContainer();
+            if (container instanceof org.emftext.language.java.classifiers.Class) {
+                diff = handleReferenceInClass(object, (org.emftext.language.java.classifiers.Class) container);
+            } else if (container instanceof Interface) {
+                diff = handleDifferenceInInterface(object, (Interface) container);
+            }
+            return diff;
+        }
+
+        private Diff handleDifferenceInInterface(TypeReference object, Interface interf) {
+            if (interf.getExtends().contains(object)) {
+                ExtendsChange change = JaMoPPDiffFactory.eINSTANCE.createExtendsChange();
+                change.setChangedReference(object);
+                return change;
+            }
+            return null;
+        }
+
+        private Diff handleReferenceInClass(TypeReference object, org.emftext.language.java.classifiers.Class clazz) {
+            if (clazz.getExtends() == object) {
+                ExtendsChange change = JaMoPPDiffFactory.eINSTANCE.createExtendsChange();
+                change.setChangedReference(object);
+                return change;
+            } else if (clazz.getImplements() != null && clazz.getImplements().contains(object)) {
+                ImplementsChange change = JaMoPPDiffFactory.eINSTANCE.createImplementsChange();
+                change.setChangedReference(object);
+                return change;
+            }
+            return null;
+        }
     }
 
     /**

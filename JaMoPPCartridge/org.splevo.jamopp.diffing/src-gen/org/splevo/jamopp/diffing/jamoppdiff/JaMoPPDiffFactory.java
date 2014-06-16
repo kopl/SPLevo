@@ -120,6 +120,24 @@ public interface JaMoPPDiffFactory extends EFactory {
     InterfaceChange createInterfaceChange();
 
     /**
+     * Returns a new object of class '<em>Implements Change</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Implements Change</em>'.
+     * @generated
+     */
+    ImplementsChange createImplementsChange();
+
+    /**
+     * Returns a new object of class '<em>Extends Change</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Extends Change</em>'.
+     * @generated
+     */
+    ExtendsChange createExtendsChange();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

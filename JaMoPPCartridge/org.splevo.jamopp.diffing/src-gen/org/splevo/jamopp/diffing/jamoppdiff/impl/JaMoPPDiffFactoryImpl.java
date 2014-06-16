@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.splevo.jamopp.diffing.jamoppdiff.*;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
@@ -92,6 +93,10 @@ public class JaMoPPDiffFactoryImpl extends EFactoryImpl implements JaMoPPDiffFac
             return createCompilationUnitChange();
         case JaMoPPDiffPackage.INTERFACE_CHANGE:
             return createInterfaceChange();
+        case JaMoPPDiffPackage.IMPLEMENTS_CHANGE:
+            return createImplementsChange();
+        case JaMoPPDiffPackage.EXTENDS_CHANGE:
+            return createExtendsChange();
         default:
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -195,6 +200,26 @@ public class JaMoPPDiffFactoryImpl extends EFactoryImpl implements JaMoPPDiffFac
     public InterfaceChange createInterfaceChange() {
         InterfaceChangeImpl interfaceChange = new InterfaceChangeImpl();
         return interfaceChange;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ImplementsChange createImplementsChange() {
+        ImplementsChangeImpl implementsChange = new ImplementsChangeImpl();
+        return implementsChange;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ExtendsChange createExtendsChange() {
+        ExtendsChangeImpl extendsChange = new ExtendsChangeImpl();
+        return extendsChange;
     }
 
     /**

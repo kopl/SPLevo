@@ -37,7 +37,9 @@ import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
 import org.splevo.jamopp.diffing.jamoppdiff.EnumChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.InterfaceChange;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiff;
@@ -130,6 +132,20 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
      * @generated
      */
     private EClass interfaceChangeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass implementsChangeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass extendsChangeEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -408,6 +424,42 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getImplementsChange() {
+        return implementsChangeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getImplementsChange_ChangedReference() {
+        return (EReference) implementsChangeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getExtendsChange() {
+        return extendsChangeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getExtendsChange_ChangedReference() {
+        return (EReference) extendsChangeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public JaMoPPDiffFactory getJaMoPPDiffFactory() {
         return (JaMoPPDiffFactory) getEFactoryInstance();
     }
@@ -463,6 +515,12 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
 
         interfaceChangeEClass = createEClass(INTERFACE_CHANGE);
         createEReference(interfaceChangeEClass, INTERFACE_CHANGE__CHANGED_INTERFACE);
+
+        implementsChangeEClass = createEClass(IMPLEMENTS_CHANGE);
+        createEReference(implementsChangeEClass, IMPLEMENTS_CHANGE__CHANGED_REFERENCE);
+
+        extendsChangeEClass = createEClass(EXTENDS_CHANGE);
+        createEReference(extendsChangeEClass, EXTENDS_CHANGE__CHANGED_REFERENCE);
     }
 
     /**
@@ -502,6 +560,7 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
                 .getEPackage(MembersPackage.eNS_URI);
         ContainersPackage theContainersPackage = (ContainersPackage) EPackage.Registry.INSTANCE
                 .getEPackage(ContainersPackage.eNS_URI);
+        TypesPackage theTypesPackage = (TypesPackage) EPackage.Registry.INSTANCE.getEPackage(TypesPackage.eNS_URI);
 
         // Create type parameters
 
@@ -519,6 +578,8 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
         enumChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
         compilationUnitChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
         interfaceChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
+        implementsChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
+        extendsChangeEClass.getESuperTypes().add(this.getJaMoPPDiff());
 
         // Initialize classes and features; add operations and parameters
         initEClass(jaMoPPDiffEClass, JaMoPPDiff.class, "JaMoPPDiff", IS_ABSTRACT, !IS_INTERFACE,
@@ -582,6 +643,18 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getInterfaceChange_ChangedInterface(), theClassifiersPackage.getInterface(), null,
                 "changedInterface", null, 1, 1, InterfaceChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(implementsChangeEClass, ImplementsChange.class, "ImplementsChange", !IS_ABSTRACT, !IS_INTERFACE,
+                IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getImplementsChange_ChangedReference(), theTypesPackage.getTypeReference(), null,
+                "changedReference", null, 0, 1, ImplementsChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(extendsChangeEClass, ExtendsChange.class, "ExtendsChange", !IS_ABSTRACT, !IS_INTERFACE,
+                IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getExtendsChange_ChangedReference(), theTypesPackage.getTypeReference(), null,
+                "changedReference", null, 0, 1, ExtendsChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
                 !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource

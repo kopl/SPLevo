@@ -29,6 +29,7 @@ import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.types.TypeReference;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
+import org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
@@ -102,40 +103,44 @@ public class DerivedCopyFilter {
         // ignore added references similar to the sub class
         for (Diff diff : comparison.getDifferences()) {
 
+            Match derivedCopyClassMatch = null;
+
             if (diff instanceof ClassChange) {
-
-                ClassChange change = (ClassChange) diff;
-
-                boolean derivedCopyDetected = false;
-
-                derivedCopyDetected = checkDerivedCopyPattern(comparison, change);
-
-                if (derivedCopyDetected) {
-                    falsePositivesToRemove.add(change);
-                    counterClasses++;
-
-                    if (cleanImports) {
-                        List<ImportChange> importsToIgnore = identifyParentImportDeletes(change);
-                        falsePositivesToRemove.addAll(importsToIgnore);
-                        counterImports += importsToIgnore.size();
-                    }
-
-                    if (cleanFields) {
-                        List<Diff> fieldsToIgnore = identifyParentFieldDeletes(change);
-                        falsePositivesToRemove.addAll(fieldsToIgnore);
-                        counterFields += fieldsToIgnore.size();
-                    }
-
-                    if (cleanMethods) {
-                        List<Diff> methodsToIgnore = identifyParentMethodDeletes(change);
-                        falsePositivesToRemove.addAll(methodsToIgnore);
-                        counterMethods += methodsToIgnore.size();
-                    }
-
-                    counterTotalImports += countTotalImports(change);
-                    counterTotalFields += countTotalFields(change);
-                    counterTotalMethods += countTotalMethods(change);
+                if (checkDerivedCopyPattern(comparison, (ClassChange) diff)) {
+                    derivedCopyClassMatch = diff.getMatch();
                 }
+            } else if (diff instanceof ExtendsChange) {
+                if (checkDerivedCopyPattern(comparison, (ExtendsChange) diff)) {
+                    derivedCopyClassMatch = diff.getMatch();
+                }
+            }
+
+            if (derivedCopyClassMatch != null) {
+                falsePositivesToRemove.add(diff);
+                counterClasses++;
+
+                if (cleanImports) {
+                    List<ImportChange> importsToIgnore = identifyParentImportDeletes(diff);
+                    falsePositivesToRemove.addAll(importsToIgnore);
+                    counterImports += importsToIgnore.size();
+                }
+
+                if (cleanFields) {
+                    List<Diff> fieldsToIgnore = identifyParentFieldDeletes(derivedCopyClassMatch);
+                    falsePositivesToRemove.addAll(fieldsToIgnore);
+                    counterFields += fieldsToIgnore.size();
+                }
+
+                if (cleanMethods) {
+                    List<Diff> methodsToIgnore = identifyParentMethodDeletes(derivedCopyClassMatch);
+                    falsePositivesToRemove.addAll(methodsToIgnore);
+                    counterMethods += methodsToIgnore.size();
+                }
+
+                Class originalClass = (Class) derivedCopyClassMatch.getRight();
+                counterTotalImports += countTotalImports(diff);
+                counterTotalFields += countTotalFields(originalClass);
+                counterTotalMethods += countTotalMethods(originalClass);
             }
         }
 
@@ -148,19 +153,17 @@ public class DerivedCopyFilter {
         }
     }
 
-    private int countTotalMethods(ClassChange change) {
-        Class originalClass = (Class) change.getMatch().getRight();
+    private int countTotalMethods(Class originalClass) {
         int methodCount = originalClass.getMethods().size();
         int constructorCount = originalClass.getConstructors().size();
         return methodCount + constructorCount;
     }
 
-    private int countTotalFields(ClassChange change) {
-        Class originalClass = (Class) change.getMatch().getRight();
+    private int countTotalFields(Class originalClass) {
         return originalClass.getFields().size();
     }
 
-    private int countTotalImports(ClassChange change) {
+    private int countTotalImports(Diff change) {
         Match cuMatch = findCompilationUnitParentMatch(change);
         if (cuMatch.getRight() != null) {
             CompilationUnit cu = (CompilationUnit) cuMatch.getRight();
@@ -170,12 +173,12 @@ public class DerivedCopyFilter {
         }
     }
 
-    private List<Diff> identifyParentMethodDeletes(ClassChange change) {
+    private List<Diff> identifyParentMethodDeletes(Match classMatch) {
 
-        Class copiedClass = (Class) change.getMatch().getLeft();
+        Class copiedClass = (Class) classMatch.getLeft();
         List<Diff> changesToIgnore = Lists.newLinkedList();
 
-        for (Diff diff : change.getMatch().getDifferences()) {
+        for (Diff diff : classMatch.getDifferences()) {
 
             if (diff.getKind() != DifferenceKind.DELETE) {
                 continue;
@@ -254,11 +257,18 @@ public class DerivedCopyFilter {
         return false;
     }
 
-    private List<Diff> identifyParentFieldDeletes(ClassChange change) {
+    /**
+     * Find all field deletes within a match of a class.
+     *
+     * @param classMatch
+     *            The match to check for field deletes
+     * @return The list of field deletes.
+     */
+    private List<Diff> identifyParentFieldDeletes(Match classMatch) {
 
         List<Diff> changesToIgnore = Lists.newLinkedList();
 
-        for (Diff diff : change.getMatch().getDifferences()) {
+        for (Diff diff : classMatch.getDifferences()) {
 
             if (diff.getKind() != DifferenceKind.DELETE) {
                 continue;
@@ -291,7 +301,7 @@ public class DerivedCopyFilter {
      *            The change to get the enclosing compilation unit change for.
      * @return The list of import deletes to ignore.
      */
-    private List<ImportChange> identifyParentImportDeletes(ClassChange change) {
+    private List<ImportChange> identifyParentImportDeletes(Diff change) {
 
         Match cuMatch = findCompilationUnitParentMatch(change);
 
@@ -359,7 +369,7 @@ public class DerivedCopyFilter {
         return ignoreImports;
     }
 
-    private Match findCompilationUnitParentMatch(ClassChange change) {
+    private Match findCompilationUnitParentMatch(Diff change) {
         Match cuMatch = change.getMatch();
         while (cuMatch != null && !(cuMatch.getRight() instanceof CompilationUnit)) {
             cuMatch = getParentMatch(cuMatch);
@@ -408,6 +418,47 @@ public class DerivedCopyFilter {
         Class originalClass = (Class) change.getMatch().getRight();
         Class changedClass = change.getChangedClass();
         TypeReference classExtends = changedClass.getExtends();
+
+        if (classExtends == null) {
+            return false;
+        }
+
+        // The extended class and the original class must be manually matched,
+        // as they represent the same class in case of a derived copy, but result
+        // from different source models. So their instances are not the same any
+        Class superClass = (Class) classExtends.getPureClassifierReference().getTarget();
+        if (!superClass.getQualifiedName().equals(originalClass.getQualifiedName())) {
+            return false;
+        }
+
+        logger.debug("Derived Copy Detected: " + originalClass.getQualifiedName());
+
+        return true;
+    }
+
+    /**
+     * Check a {@link ExtendsChange} if it is part of a derived copy pattern.
+     *
+     * Check if the extended class matches to the same class as the one containing the extends
+     * relationship. This is an indicator for a derived copy pattern.
+     *
+     * If the class does not extend any specific class but only the default object class, this does
+     * not identify a pattern match and false will be returned.
+     *
+     * @param comparison
+     *            The comparison model to look up matches.
+     * @param change
+     *            The class change to analyze.
+     * @return True if a derived copy pattern is detected.
+     */
+    private boolean checkDerivedCopyPattern(Comparison comparison, ExtendsChange change) {
+
+        if (!(change.getMatch().getRight() instanceof Class)) {
+            return false;
+        }
+
+        Class originalClass = (Class) change.getMatch().getRight();
+        TypeReference classExtends = change.getChangedReference();
 
         if (classExtends == null) {
             return false;

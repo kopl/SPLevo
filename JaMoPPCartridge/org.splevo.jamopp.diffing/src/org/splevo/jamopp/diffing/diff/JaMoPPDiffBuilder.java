@@ -131,6 +131,13 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
     public void referenceChange(Match match, EReference reference, EObject value, DifferenceKind kind,
             DifferenceSource source) {
 
+        // a changed default extends relationship is always
+        // coupled with another change. As the default extends is implicit, a change to it must not
+        // be made explicit.
+        if ("defaultExtends".equals(reference.getName())) {
+            return;
+        }
+
         // handle containment changes as typical ADD / DELETE cases for
         // custom elements.
         if (reference.isContainment()) {
@@ -150,10 +157,8 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
                 || value instanceof Method || value instanceof Constructor || value instanceof Variable
                 || value instanceof AdditionalLocalVariable || value instanceof ClassifierReference
                 || value instanceof Final || value instanceof CatchBlock
-                || value instanceof NamespaceClassifierReference
-                || value instanceof PackageReference
-                || value instanceof IdentifierReference
-                || value instanceof PrimitiveType) {
+                || value instanceof NamespaceClassifierReference || value instanceof PackageReference
+                || value instanceof IdentifierReference || value instanceof PrimitiveType) {
             Match nextParent = nextResonableMatch(match);
             if (nextParent != null) {
                 EObject parentObject = null;

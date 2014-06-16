@@ -1353,6 +1353,242 @@ public interface JaMoPPDiffPackage extends EPackage {
     int INTERFACE_CHANGE_FEATURE_COUNT = JA_MO_PP_DIFF_FEATURE_COUNT + 1;
 
     /**
+     * The meta object id for the '{@link org.splevo.jamopp.diffing.jamoppdiff.impl.ImplementsChangeImpl <em>Implements Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.jamopp.diffing.jamoppdiff.impl.ImplementsChangeImpl
+     * @see org.splevo.jamopp.diffing.jamoppdiff.impl.JaMoPPDiffPackageImpl#getImplementsChange()
+     * @generated
+     */
+    int IMPLEMENTS_CHANGE = 11;
+
+    /**
+     * The feature id for the '<em><b>Match</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__MATCH = JA_MO_PP_DIFF__MATCH;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__REQUIRES = JA_MO_PP_DIFF__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Refines</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__REFINES = JA_MO_PP_DIFF__REFINES;
+
+    /**
+     * The feature id for the '<em><b>Refined By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__KIND = JA_MO_PP_DIFF__KIND;
+
+    /**
+     * The feature id for the '<em><b>Source</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__SOURCE = JA_MO_PP_DIFF__SOURCE;
+
+    /**
+     * The feature id for the '<em><b>State</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__STATE = JA_MO_PP_DIFF__STATE;
+
+    /**
+     * The feature id for the '<em><b>Equivalence</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__EQUIVALENCE = JA_MO_PP_DIFF__EQUIVALENCE;
+
+    /**
+     * The feature id for the '<em><b>Conflict</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__CONFLICT = JA_MO_PP_DIFF__CONFLICT;
+
+    /**
+     * The feature id for the '<em><b>Changed Reference</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE__CHANGED_REFERENCE = JA_MO_PP_DIFF_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Implements Change</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int IMPLEMENTS_CHANGE_FEATURE_COUNT = JA_MO_PP_DIFF_FEATURE_COUNT + 1;
+
+    /**
+     * The meta object id for the '{@link org.splevo.jamopp.diffing.jamoppdiff.impl.ExtendsChangeImpl <em>Extends Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.jamopp.diffing.jamoppdiff.impl.ExtendsChangeImpl
+     * @see org.splevo.jamopp.diffing.jamoppdiff.impl.JaMoPPDiffPackageImpl#getExtendsChange()
+     * @generated
+     */
+    int EXTENDS_CHANGE = 12;
+
+    /**
+     * The feature id for the '<em><b>Match</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__MATCH = JA_MO_PP_DIFF__MATCH;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__REQUIRES = JA_MO_PP_DIFF__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Required By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
+
+    /**
+     * The feature id for the '<em><b>Refines</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__REFINES = JA_MO_PP_DIFF__REFINES;
+
+    /**
+     * The feature id for the '<em><b>Refined By</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
+
+    /**
+     * The feature id for the '<em><b>Kind</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__KIND = JA_MO_PP_DIFF__KIND;
+
+    /**
+     * The feature id for the '<em><b>Source</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__SOURCE = JA_MO_PP_DIFF__SOURCE;
+
+    /**
+     * The feature id for the '<em><b>State</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__STATE = JA_MO_PP_DIFF__STATE;
+
+    /**
+     * The feature id for the '<em><b>Equivalence</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__EQUIVALENCE = JA_MO_PP_DIFF__EQUIVALENCE;
+
+    /**
+     * The feature id for the '<em><b>Conflict</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__CONFLICT = JA_MO_PP_DIFF__CONFLICT;
+
+    /**
+     * The feature id for the '<em><b>Changed Reference</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE__CHANGED_REFERENCE = JA_MO_PP_DIFF_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the '<em>Extends Change</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EXTENDS_CHANGE_FEATURE_COUNT = JA_MO_PP_DIFF_FEATURE_COUNT + 1;
+
+    /**
      * Returns the meta object for class '{@link org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiff <em>Ja Mo PP Diff</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1573,6 +1809,48 @@ public interface JaMoPPDiffPackage extends EPackage {
     EReference getInterfaceChange_ChangedInterface();
 
     /**
+     * Returns the meta object for class '{@link org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange <em>Implements Change</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Implements Change</em>'.
+     * @see org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange
+     * @generated
+     */
+    EClass getImplementsChange();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange#getChangedReference <em>Changed Reference</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Changed Reference</em>'.
+     * @see org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange#getChangedReference()
+     * @see #getImplementsChange()
+     * @generated
+     */
+    EReference getImplementsChange_ChangedReference();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange <em>Extends Change</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Extends Change</em>'.
+     * @see org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange
+     * @generated
+     */
+    EClass getExtendsChange();
+
+    /**
+     * Returns the meta object for the reference '{@link org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange#getChangedReference <em>Changed Reference</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Changed Reference</em>'.
+     * @see org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange#getChangedReference()
+     * @see #getExtendsChange()
+     * @generated
+     */
+    EReference getExtendsChange_ChangedReference();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1784,6 +2062,42 @@ public interface JaMoPPDiffPackage extends EPackage {
          * @generated
          */
         EReference INTERFACE_CHANGE__CHANGED_INTERFACE = eINSTANCE.getInterfaceChange_ChangedInterface();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.jamopp.diffing.jamoppdiff.impl.ImplementsChangeImpl <em>Implements Change</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.jamopp.diffing.jamoppdiff.impl.ImplementsChangeImpl
+         * @see org.splevo.jamopp.diffing.jamoppdiff.impl.JaMoPPDiffPackageImpl#getImplementsChange()
+         * @generated
+         */
+        EClass IMPLEMENTS_CHANGE = eINSTANCE.getImplementsChange();
+
+        /**
+         * The meta object literal for the '<em><b>Changed Reference</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference IMPLEMENTS_CHANGE__CHANGED_REFERENCE = eINSTANCE.getImplementsChange_ChangedReference();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.jamopp.diffing.jamoppdiff.impl.ExtendsChangeImpl <em>Extends Change</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.jamopp.diffing.jamoppdiff.impl.ExtendsChangeImpl
+         * @see org.splevo.jamopp.diffing.jamoppdiff.impl.JaMoPPDiffPackageImpl#getExtendsChange()
+         * @generated
+         */
+        EClass EXTENDS_CHANGE = eINSTANCE.getExtendsChange();
+
+        /**
+         * The meta object literal for the '<em><b>Changed Reference</b></em>' reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference EXTENDS_CHANGE__CHANGED_REFERENCE = eINSTANCE.getExtendsChange_ChangedReference();
 
     }
 
