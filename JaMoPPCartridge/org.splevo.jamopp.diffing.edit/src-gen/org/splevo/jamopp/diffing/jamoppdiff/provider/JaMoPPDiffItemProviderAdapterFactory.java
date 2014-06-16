@@ -312,6 +312,52 @@ public class JaMoPPDiffItemProviderAdapterFactory extends JaMoPPDiffAdapterFacto
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ImplementsChangeItemProvider implementsChangeItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createImplementsChangeAdapter() {
+        if (implementsChangeItemProvider == null) {
+            implementsChangeItemProvider = new ImplementsChangeItemProvider(this);
+        }
+
+        return implementsChangeItemProvider;
+    }
+
+    /**
+     * This keeps track of the one adapter used for all {@link org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ExtendsChangeItemProvider extendsChangeItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.jamopp.diffing.jamoppdiff.ExtendsChange}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createExtendsChangeAdapter() {
+        if (extendsChangeItemProvider == null) {
+            extendsChangeItemProvider = new ExtendsChangeItemProvider(this);
+        }
+
+        return extendsChangeItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -430,6 +476,10 @@ public class JaMoPPDiffItemProviderAdapterFactory extends JaMoPPDiffAdapterFacto
             compilationUnitChangeItemProvider.dispose();
         if (interfaceChangeItemProvider != null)
             interfaceChangeItemProvider.dispose();
+        if (implementsChangeItemProvider != null)
+            implementsChangeItemProvider.dispose();
+        if (extendsChangeItemProvider != null)
+            extendsChangeItemProvider.dispose();
     }
 
 }
