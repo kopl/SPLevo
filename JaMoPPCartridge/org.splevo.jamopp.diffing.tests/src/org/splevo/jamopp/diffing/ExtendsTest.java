@@ -102,10 +102,6 @@ public class ExtendsTest {
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
-        for (Diff diff : differences) {
-            System.out.println(diff.getClass().getSimpleName());
-        }
-
         assertThat("Wrong number of differences", differences.size(), is(4));
 
         for (Diff diffElement : differences) {

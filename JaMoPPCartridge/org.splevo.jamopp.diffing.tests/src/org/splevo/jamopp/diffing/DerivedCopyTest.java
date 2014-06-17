@@ -26,12 +26,10 @@ import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.compare.MatchResource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.members.Field;
-import org.emftext.language.java.members.Method;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.FieldChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
-import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 import org.splevo.jamopp.diffing.postprocessor.JaMoPPPostProcessor;
 
@@ -244,16 +242,12 @@ public class DerivedCopyTest {
         for (Diff diff : differences) {
             if (diff.getKind() == DifferenceKind.ADD) {
                 assertThat("ADD of wrong type detected", diff, instanceOf(StatementChange.class));
-            } else if (diff.getKind() == DifferenceKind.DELETE) {
-                assertThat("DELETE of wrong type detected", diff, instanceOf(MethodChange.class));
-                Method method = ((MethodChange) diff).getChangedMethod();
-                assertThat("Unexpected method detected as DELETE", method.getName(), is("doPrivate"));
             } else {
-                fail("Change of unexpected kind detected");
+                fail("Change of unexpected kind detected: " + diff.getKind());
             }
         }
 
-        assertThat("Wrong number of differences", differences.size(), is(2));
+        assertThat("Wrong number of differences", differences.size(), is(1));
     }
 
     /**
