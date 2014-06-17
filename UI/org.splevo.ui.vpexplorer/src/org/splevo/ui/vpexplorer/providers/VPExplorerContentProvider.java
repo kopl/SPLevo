@@ -85,72 +85,30 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     @Override
     public Object[] getChildren(Object parentElement) {
-        VPExplorer vpexplorer = (VPExplorer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                .findView("org.splevo.ui.vpexplorer");
 
         if (parentElement instanceof VPExplorerContent) {
-            VPExplorerContent vpContent = (VPExplorerContent) parentElement;
-            if (vpContent.getVpm() != null) {
-                if (vpexplorer.getShowGrouping()) {
-                    return vpContent.getVpm().getVariationPointGroups().toArray();
-                } else {
-                    indexVariationPointLocations(vpContent);
-                    return rootFiles.toArray();
-                }
-            } else {
-                return new Object[0];
-            }
+            return getChildren((VPExplorerContent) parentElement);
 
         } else if (parentElement instanceof File) {
-            File parentFile = (File) parentElement;
-            List<Object> children = Lists.newArrayList();
-            children.addAll(fileVPIndex.get(parentFile));
-            children.addAll(subFileIndex.get(parentFile));
-            return children.toArray();
+            return getChildren((File) parentElement);
 
         } else if (parentElement instanceof FileWrapper) {
-            FileWrapper wrapper = (FileWrapper) parentElement;
-            File parentFile = wrapper.getFile();
-            List<Object> children = Lists.newArrayList();
-
-            Collection<File> childFileInGroup = (Collections2.filter(subFileIndex.get(parentFile),
-                    Predicates.in(groupFileIndex.get(wrapper.getGroup()))));
-
-            for (File file : childFileInGroup) {
-                children.add(new FileWrapper(wrapper, file, wrapper.getGroup()));
-            }
-            Collection<VariationPoint> childVPInGroup = (Collections2.filter(fileVPIndex.get(parentFile),
-                    Predicates.in(wrapper.getGroup().getVariationPoints())));
-            children.addAll(childVPInGroup);
-
-            return children.toArray();
+            return getChildren((FileWrapper) parentElement);
 
         } else if (parentElement instanceof VariationPointModel) {
-            VariationPointModel vpm = (VariationPointModel) parentElement;
-            return vpm.getVariationPointGroups().toArray();
+            return getChildren((VariationPointModel) parentElement);
 
         } else if (parentElement instanceof VariationPointGroup) {
-            VariationPointGroup group = (VariationPointGroup) parentElement;
-            Collection<FileWrapper> childFiles = new LinkedList<FileWrapper>();
-            if (vpexplorer.getShowGrouping()) {
-                Collection<File> files = Collections2.filter(rootFiles, Predicates.in(groupFileIndex.get(group)));
-                for (File file : files) {
-                    childFiles.add(new FileWrapper(group, file, group));
-                }
-                return childFiles.toArray();
-            } else {
-                return group.getVariationPoints().toArray();
-            }
+            return getChildren((VariationPointGroup) parentElement);
 
         } else if (parentElement instanceof VariationPoint) {
-            return ((VariationPoint) parentElement).getVariants().toArray();
+            return getChildren((VariationPoint) parentElement);
 
         } else if (parentElement instanceof Variant) {
-            EList<SoftwareElement> implementingElements = ((Variant) parentElement).getImplementingElements();
-            return implementingElements.toArray();
+            return getChildren((Variant) parentElement);
 
         } else if (parentElement instanceof SoftwareElement) {
-            return new Object[0];
+            return getChildren((SoftwareElement) parentElement); 
 
         } else {
             logger.warn("Unhandled Parent Element: " + parentElement.getClass().getSimpleName());
@@ -158,11 +116,116 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
         return new Object[0];
     }
 
+    /**
+     * @param parentElement
+     * @return
+     */
+    private Object[] getChildren(VPExplorerContent parentElement) {
+        VPExplorer vpexplorer = (VPExplorer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+                .findView("org.splevo.ui.vpexplorer");
+        
+        if (parentElement.getVpm() != null) {
+            if (vpexplorer.getShowGrouping()) {
+                return parentElement.getVpm().getVariationPointGroups().toArray();
+            } else {
+                indexVariationPointLocations(parentElement);
+                return rootFiles.toArray();
+            }
+        } else {
+            return new Object[0];
+        }
+    }
+
+    /**
+     * @param parentElement
+     * @return
+     */
+    private Object[] getChildren(File parentElement) {
+        File parentFile = (File) parentElement;
+        List<Object> children = Lists.newArrayList();
+        children.addAll(fileVPIndex.get(parentFile));
+        children.addAll(subFileIndex.get(parentFile));
+        return children.toArray();
+    }
+
+    /**
+     * @param parentElement
+     * @return
+     */
+    private Object[] getChildren(FileWrapper parentElement) {
+        File parentFile = parentElement.getFile();
+        List<Object> children = Lists.newArrayList();
+
+        Collection<File> childFileInGroup = (Collections2.filter(subFileIndex.get(parentFile),
+                Predicates.in(groupFileIndex.get(parentElement.getGroup()))));
+
+        for (File file : childFileInGroup) {
+            children.add(new FileWrapper(parentElement, file, parentElement.getGroup()));
+        }
+        Collection<VariationPoint> childVPInGroup = (Collections2.filter(fileVPIndex.get(parentFile),
+                Predicates.in(parentElement.getGroup().getVariationPoints())));
+        children.addAll(childVPInGroup);
+
+        return children.toArray();
+    }
+
+    /**
+     * @param parentElement
+     * @return
+     */
+    private Object[] getChildren(VariationPointModel parentElement) {
+        return parentElement.getVariationPointGroups().toArray();
+    }
+
+    /**
+     * @param parentElement
+     * @return
+     */
+    private Object[] getChildren(VariationPointGroup parentElement) {
+        VPExplorer vpexplorer = (VPExplorer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+                .findView("org.splevo.ui.vpexplorer");
+
+        VariationPointGroup group = (VariationPointGroup) parentElement;
+        Collection<FileWrapper> childFiles = new LinkedList<FileWrapper>();
+        if (vpexplorer.getShowGrouping()) {
+            Collection<File> files = Collections2.filter(rootFiles, Predicates.in(groupFileIndex.get(group)));
+            for (File file : files) {
+                childFiles.add(new FileWrapper(group, file, group));
+            }
+            return childFiles.toArray();
+        } else {
+            return group.getVariationPoints().toArray();
+        }
+    }
+
+    /**
+     * @param parentElement
+     * @return
+     */
+    private Object[] getChildren(VariationPoint parentElement) {
+        return parentElement.getVariants().toArray();
+    }
+
+    /**
+     * @param parentElement
+     * @return
+     */
+    private Object[] getChildren(Variant parentElement) {
+        EList<SoftwareElement> implementingElements = parentElement.getImplementingElements();
+        return implementingElements.toArray();
+    }
+    
+    /**
+     * @param parentElement
+     * @return
+     */
+    private Object[] getChildren(SoftwareElement parentElement) {
+        return new Object[0];
+    }
+
     @Override
     public Object getParent(Object element) {
         if (element instanceof VariationPoint) {
-            return vpFileIndex.get((VariationPoint) element);
-        } else if (element instanceof VariationPoint) {
             return vpFileIndex.get((VariationPoint) element);
         } else if (element instanceof Variant) {
             return ((Variant) element).getVariationPoint();
