@@ -178,6 +178,22 @@ public class RobillardSelectorTest {
     }
 
     /**
+     * Test to detect read dependencies between statements and a field using the this command.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementReadsFieldThis() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "StatementReadsField/this/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementReadsField, 1);
+    }
+
+    /**
      * Test method to detect changes in the class and package declarations.
      *
      * @throws Exception
