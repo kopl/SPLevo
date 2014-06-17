@@ -55,6 +55,8 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
     private IConfigurationElement configurationElement;
     
     private SPLevoProject projectConfiguration;
+    
+    private PackageScopeDefinitionWizardPage packageScopeDefinitionWizardPage;
 
     /**
      * Constructor preparing the wizard infrastructure.
@@ -72,11 +74,12 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
         projectCreationPage.setDescription("Create a new project for consolidating project "
                 + "copies into a variable product line.");                
         
-        projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();                
+        projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();  
+        packageScopeDefinitionWizardPage = new PackageScopeDefinitionWizardPage(projectConfiguration);
       
         addPage(projectCreationPage);
         addPage(new ProjectsSelectionWizardPage(projectConfiguration));
-        addPage(new PackageScopeDefinitionWizardPage(projectConfiguration));        
+        addPage(packageScopeDefinitionWizardPage);        
     }
 
     @Override
@@ -94,7 +97,9 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
             File filePath = new File(project.getFullPath().toString() + File.separator + splevoProjectFileName);            
                        
             projectConfiguration.setWorkspace("/" + project.getName() + "/");
-            projectConfiguration.setName(project.getName());            
+            projectConfiguration.setName(project.getName());   
+            
+            packageScopeDefinitionWizardPage.setChosenPackages();
             
             try {
                 SPLevoProjectUtil.save(projectConfiguration, filePath);
