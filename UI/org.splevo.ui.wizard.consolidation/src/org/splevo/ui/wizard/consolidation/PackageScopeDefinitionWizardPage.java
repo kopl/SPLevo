@@ -39,6 +39,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.project.SPLevoProject;
 
 /**
@@ -122,6 +123,23 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
 
         return packagesTableViewer;
     }
+    
+    /**
+     * Set the chosen packages to the SPLevo project configuration.
+     */
+    public void setChosenPackages() {
+        List<String> chosenPackages = getChosenPackages();
+        
+        String packagesString = "";
+        
+        if (chosenPackages.size() > 0) {
+            for (String chosenPackage : chosenPackages) {
+                packagesString = packagesString.concat(chosenPackage + "\n");
+            }  
+            projectConfiguration.getDifferOptions().put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, 
+                    packagesString.trim());
+        }
+    }
 
     /**
      * Get the names of the packages the user has chosen.
@@ -129,7 +147,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
      * @return List with the names of the chosen packages or a empty list if the user has not chosen
      *         any packages.
      */
-    public List<String> getChosenPackages() {
+    private List<String> getChosenPackages() {
         TableItem[] allPackages = packagesTable.getItems();
         List<String> chosenPackagesNames = new ArrayList<String>();
 
