@@ -543,6 +543,23 @@ public class RobillardExtendedSelectorTest extends RobillardSelectorTest {
     }
 
     /**
+     * Test to detect dependencies between statements and an import declaration referring to the
+     * same type.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testStatementReadsVariableAsAttribute() throws Exception {
+
+        VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH_EXTENDED + "StatementReadsVariableAsAttribute/");
+        VPMAnalyzerResult result = analyzer.analyze(graph);
+
+        assertNodeCount(graph, 2);
+        assertDependency(result, DependencyType.StatementReadsVariable, 1);
+    }
+
+    /**
      * Test the dependency detection for a statement declaring one or more variables typed with a
      * changed class.
      *
