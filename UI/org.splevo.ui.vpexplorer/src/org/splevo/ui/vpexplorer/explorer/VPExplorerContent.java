@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -35,21 +36,21 @@ public class VPExplorerContent extends PlatformObject {
     /**
      * The {@link VPExplorer} instance to refresh when the vpm to display is changed.
      */
-    private VPExplorer vpExplorerToRefresh;
+    private CommonNavigator navigatorToRefresh;
 
     /**
      * Constructor to bound the content wrapper to a specific explorer.
      *
-     * @param vpExplorer
+     * @param navigator
      *            The explorer to notify about input changes.
      */
-    public VPExplorerContent(VPExplorer vpExplorer) {
-        if (vpExplorer == null) {
+    public VPExplorerContent(CommonNavigator navigator) {
+        if (navigator == null) {
             logger.warn("Tried to register null as VPExplorer");
             throw new IllegalArgumentException("Tried to register null as VPExplorer");
         }
 
-        this.vpExplorerToRefresh = vpExplorer;
+        this.navigatorToRefresh = navigator;
     }
 
     /**
@@ -72,13 +73,13 @@ public class VPExplorerContent extends PlatformObject {
      */
     public void setVpm(VariationPointModel vpm) {
         this.vpm = vpm;
-        if (vpExplorerToRefresh != null) {
-            vpExplorerToRefresh.getCommonViewer().refresh();
+        if (navigatorToRefresh != null) {
+            navigatorToRefresh.getCommonViewer().refresh();
 
             AdapterImpl changeListener = new AdapterImpl() {
                 @Override
                 public void notifyChanged(Notification notification) {
-                    vpExplorerToRefresh.getCommonViewer().refresh();
+                    navigatorToRefresh.getCommonViewer().refresh();
                 }
             };
             if (vpm.eResource() != null) {

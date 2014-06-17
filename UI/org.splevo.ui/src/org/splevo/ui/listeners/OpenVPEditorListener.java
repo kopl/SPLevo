@@ -152,7 +152,7 @@ public class OpenVPEditorListener extends MouseAdapter {
                     IWorkbenchWindow activeWorkbench = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
                     IViewPart viewPart = activeWorkbench.getActivePage().showView(VPExplorer.VIEW_ID);
                     final VPExplorer explorer = (VPExplorer) viewPart;
-                    explorer.getVpExplorerContent().setVpm(vpm);
+                    explorer.setVPM(vpm);
                 } catch (PartInitException e) {
                     logger.error("Could not create the VP explorer view", e);
                 }

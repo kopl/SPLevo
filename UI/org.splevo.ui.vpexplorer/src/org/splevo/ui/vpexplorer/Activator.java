@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.splevo.ui.vpexplorer.explorer.ExplorerMediator;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -28,6 +29,8 @@ public class Activator extends AbstractUIPlugin {
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(Activator.class);
+    
+    public static final ExplorerMediator EXPLORER_MEDIATOR = new ExplorerMediator();
 
     /** The plug-in ID. **/
     public static final String PLUGIN_ID = "org.splevo.ui.vpexplorer"; //$NON-NLS-1$

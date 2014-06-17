@@ -18,10 +18,12 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction;
+import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction.MODE;
 import org.splevo.ui.vpexplorer.explorer.actions.SelectVisibleAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ToggleGroupsAction;
-import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction.MODE;
+import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * The VPExplorer displays a VP model in a tree structure.
@@ -33,6 +35,8 @@ public class VPExplorer extends CommonNavigator {
 
     private VPExplorerContent vpExplorerContent;
 
+    private ExplorerMediator mediator;
+
     private boolean showGrouping = false;
 
     /**
@@ -40,6 +44,8 @@ public class VPExplorer extends CommonNavigator {
      */
     public VPExplorer() {
         vpExplorerContent = new VPExplorerContent(this);
+        mediator = Activator.EXPLORER_MEDIATOR;
+        mediator.registerVPExplorer(this);
     }
 
     @Override
@@ -50,7 +56,7 @@ public class VPExplorer extends CommonNavigator {
 
     /**
      * Access the static content element.
-     *
+     * 
      * @return The singleton content element.
      */
     public VPExplorerContent getVpExplorerContent() {
@@ -59,7 +65,7 @@ public class VPExplorer extends CommonNavigator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.eclipse.ui.navigator.CommonNavigator#createPartControl(org.eclipse.swt.widgets.Composite)
      */
@@ -93,10 +99,33 @@ public class VPExplorer extends CommonNavigator {
 
     /**
      * Returns if groupings should be shown.
-     *
+     * 
      * @return true, if groupings should be shown.
      */
     public boolean getShowGrouping() {
         return showGrouping;
     }
+
+    /**
+     * Sets the vpm.
+     * 
+     * @param vpm
+     *            the new vpm
+     */
+    public void setVPM(VariationPointModel vpm) {
+        vpExplorerContent.setVpm(vpm);
+        mediator.updateVPM();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.navigator.CommonNavigator#dispose()
+     */
+    @Override
+    public void dispose() {
+        mediator.deregisterVPGRoupingExplorer();
+        super.dispose();
+    }
+
 }

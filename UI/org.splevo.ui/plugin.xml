@@ -278,9 +278,9 @@
             <view
                   id="org.eclipse.ui.views.PropertySheet"
                   minimized="false"
-                  ratio="0.7"
-                  relationship="bottom"
-                  relative="org.eclipse.jdt.ui.PackageExplorer"
+                  ratio="0.3"
+                  relationship="left"
+                  relative="org.eclipse.ui.console.ConsoleView"
                   visible="true">
             </view>
             <view

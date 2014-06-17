@@ -10,6 +10,14 @@
             id="org.splevo.ui.vpexplorer"
             name="Variation Point Explorer">
       </view>
+      <view
+            category="org.splevo.ui"
+            class="org.splevo.ui.vpexplorer.explorer.VPGroupingExplorer"
+            icon="icons/kopl_circle_only.png"
+            id="org.splevo.ui.vpxplorer.grouping"
+            name="Variation Point Grouping Explorer"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
@@ -24,16 +32,32 @@
             </contentExtension>
          </includes>
       </viewerContentBinding>
+      <viewer
+            viewerId="org.splevo.ui.vpxplorer.grouping">
+      </viewer>
+      <viewerContentBinding
+            viewerId="org.splevo.ui.vpxplorer.grouping">
+         <includes>
+            <contentExtension
+                  pattern="org.splevo.ui.vpexplorer.vpExplorerGroupingContent">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="org.eclipse.ui.resourcePerspective">
+            targetID="org.splevo.ui.perspective">
          <view
                id="org.splevo.ui.vpexplorer"
-               ratio="0.5"
-               relationship="left"
-               relative="org.eclipse.ui.editorss">
+               relationship="stack"
+               relative="org.eclipse.jdt.ui.PackageExplorer">
+         </view>
+         <view
+               id="org.splevo.ui.vpxplorer.grouping"
+               ratio="0.7"
+               relationship="bottom"
+               relative="org.eclipse.jdt.ui.PackageExplorer">
          </view>
       </perspectiveExtension>
    </extension>
@@ -44,6 +68,17 @@
             id="org.splevo.ui.vpexplorer.vpExplorerContent"
             labelProvider="org.splevo.ui.vpexplorer.providers.VPExplorerLabelProvider"
             name="VP Explorer Content">
+         <triggerPoints>
+            <instanceof
+                  value="org.splevo.ui.vpexplorer.explorer.VPExplorerContent">
+            </instanceof>
+         </triggerPoints>
+      </navigatorContent>
+      <navigatorContent
+            contentProvider="org.splevo.ui.vpexplorer.providers.VPGroupingExplorerContentProvider"
+            id="org.splevo.ui.vpexplorer.vpExplorerGroupingContent"
+            labelProvider="org.splevo.ui.vpexplorer.providers.VPExplorerLabelProvider"
+            name="VP Explorer Grouping Content">
          <triggerPoints>
             <instanceof
                   value="org.splevo.ui.vpexplorer.explorer.VPExplorerContent">
