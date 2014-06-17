@@ -12,6 +12,7 @@
 package org.splevo.jamopp.diffing.postprocessor;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
@@ -35,6 +36,7 @@ import org.splevo.jamopp.diffing.jamoppdiff.ImportChange;
 import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * Filters for false positives resulting from derived copy instances and could be clearly identified
@@ -85,7 +87,7 @@ public class DerivedCopyFilter {
      */
     public void cleanUpDerivedCopies(Comparison comparison) {
 
-        List<Diff> falsePositivesToRemove = Lists.newArrayList();
+        Set<Diff> falsePositivesToRemove = Sets.newLinkedHashSet();
 
         int counterClasses = 0;
         int counterImports = 0;
