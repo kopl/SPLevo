@@ -651,6 +651,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
                 refElements.addAll(parentSwitch.doSwitch(expression));
             }
             updateSource(call, refElements);
+            refElements.addAll(parentSwitch.doSwitch(call.getNext()));
             return refElements;
         }
 
@@ -734,6 +735,8 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
                     references.add(new Reference(call, importDecl, ReferenceType.Import));
                 }
             }
+
+            references.addAll(parentSwitch.doSwitch(call.getNext()));
             return references;
         }
     }
