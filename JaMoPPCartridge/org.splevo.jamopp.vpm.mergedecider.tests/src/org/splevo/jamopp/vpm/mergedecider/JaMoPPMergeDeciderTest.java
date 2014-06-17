@@ -132,6 +132,38 @@ public class JaMoPPMergeDeciderTest {
      *             identifies a failed test.
      */
     @Test
+    public void testUnmergeableStatementsConditionalDevider() throws Exception {
+
+        String basePath = "testcode/unmergeable-statements-conditional/";
+
+        VariationPointModel vpm = initializeVariationPointModel(basePath);
+        assertThat("Wrong number of vpm groups", vpm.getVariationPointGroups().size(), is(4));
+
+        VariationPoint vp1 = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        VariationPoint vp2 = vpm.getVariationPointGroups().get(1).getVariationPoints().get(0);
+        VariationPoint vp3 = vpm.getVariationPointGroups().get(2).getVariationPoints().get(0);
+        VariationPoint vp4 = vpm.getVariationPointGroups().get(3).getVariationPoints().get(0);
+
+        assertThat("Wrong number of variants", vp1.getVariants().size(), is(2));
+        assertThat("Wrong number of variants", vp2.getVariants().size(), is(1));
+        assertThat("Wrong number of variants", vp3.getVariants().size(), is(1));
+        assertThat("Wrong number of variants", vp4.getVariants().size(), is(1));
+
+        JaMoPPMergeDecider decider = new JaMoPPMergeDecider();
+//        assertThat("Wrong merge decision 1-2", decider.canBeMerged(vp1, vp2), is(Boolean.TRUE));
+//        assertThat("Wrong merge decision 1-4", decider.canBeMerged(vp1, vp4), is(Boolean.TRUE));
+//        assertThat("Wrong merge decision 2-3", decider.canBeMerged(vp2, vp3), is(Boolean.FALSE));
+        assertThat("Wrong merge decision 3-4", decider.canBeMerged(vp3, vp4), is(Boolean.FALSE));
+
+    }
+
+    /**
+     * Test that two VPs of changed statements with another statement in between can not be merged.
+     *
+     * @throws Exception
+     *             identifies a failed test.
+     */
+    @Test
     public void testMergeableStatements() throws Exception {
 
         String basePath = "testcode/mergeable-statements/";
