@@ -47,6 +47,7 @@ import org.emftext.language.java.parameters.util.ParametersSwitch;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferenceableElement;
+import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.references.util.ReferencesSwitch;
 import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.Condition;
@@ -654,6 +655,11 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
             updateSource(call, refElements);
             refElements.addAll(parentSwitch.doSwitch(call.getNext()));
             return refElements;
+        }
+
+        @Override
+        public List<Reference> caseSelfReference(SelfReference self) {
+            return parentSwitch.doSwitch(self.getNext());
         }
 
         @Override
