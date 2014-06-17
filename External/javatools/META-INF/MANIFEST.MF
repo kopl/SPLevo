@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Wrapper Plugin for Javatool Libraries
+Bundle-SymbolicName: javatools
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: lib/javatools.jar,
+ .
+Export-Package: javatools.administrative,
+ javatools.database,
+ javatools.datatypes,
+ javatools.filehandlers,
+ javatools.parsers,
+ javatools.test,
+ javatools.util
