@@ -20,8 +20,10 @@ import java.util.TreeMap;
 import org.apache.log4j.Logger;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.types.Type;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.analyzer.mergedecider.MergeDecider;
@@ -95,13 +97,20 @@ public class JaMoPPMergeDecider implements MergeDecider {
 
         ArrayListMultimap<String, Statement> variantStatements = ArrayListMultimap.create();
 
-        ArrayListMultimap<String, Statement> vp1VariantStatements = collectVariantStatements(vp1);
-        variantStatements.putAll(vp1VariantStatements);
-        ArrayListMultimap<String, Statement> vp2VariantStatements = collectVariantStatements(vp2);
-        variantStatements.putAll(vp2VariantStatements);
+        variantStatements.putAll(collectVariantStatements(vp1));
+        variantStatements.putAll(collectVariantStatements(vp2));
+
+        // only if more than one statement exists for at least one variant,
+        // the algorithm can make a decision if the VPs can be merged or not.
+        // Otherwise the result is false or undecidable (so better false)
+        boolean variantsHaveOnlyStatement = true;
 
         for (String variantId : variantStatements.keySet()) {
             List<Statement> statements = variantStatements.get(variantId);
+
+            if (statements.size() > 1) {
+                variantsHaveOnlyStatement = false;
+            }
 
             TreeMap<Integer, Statement> positionIndex = indexStatementPosition(statements);
 
@@ -120,7 +129,7 @@ public class JaMoPPMergeDecider implements MergeDecider {
 
         }
 
-        return true;
+        return !variantsHaveOnlyStatement;
     }
 
     private TreeMap<Integer, Statement> indexStatementPosition(List<Statement> statements) {
@@ -161,7 +170,8 @@ public class JaMoPPMergeDecider implements MergeDecider {
     }
 
     /**
-     * True if the variation points have distinct variants only.
+     * True if the variation points have distinct variants only. This is only valid for elements not
+     * aware about their order.
      *
      * This check assumes that the VPs location has already be proven to be the same.
      *
@@ -174,10 +184,38 @@ public class JaMoPPMergeDecider implements MergeDecider {
     // TODO: Check if it's valid to assume distinct variants for two vps is sufficient to merge them
     private boolean checkDistinctVariants(VariationPoint vp1, VariationPoint vp2) {
 
-        Set<String> vp1Ids = getVariantIds(vp1);
-        Set<String> vp2Ids = getVariantIds(vp2);
+        if (hasOrderIndepentElementsOnly(vp1) && hasOrderIndepentElementsOnly(vp2)) {
+            Set<String> vp1Ids = getVariantIds(vp1);
+            Set<String> vp2Ids = getVariantIds(vp2);
 
-        return Collections.disjoint(vp1Ids, vp2Ids);
+            return Collections.disjoint(vp1Ids, vp2Ids);
+        } else {
+            return false;
+        }
+
+    }
+
+    private boolean hasOrderIndepentElementsOnly(VariationPoint vp) {
+        for (Variant v : vp.getVariants()) {
+            for (SoftwareElement element : v.getImplementingElements()) {
+                if (element instanceof JaMoPPSoftwareElement) {
+                    JaMoPPSoftwareElement jamoppElement = (JaMoPPSoftwareElement) element;
+                    if (!isOrderIndependent(jamoppElement.getJamoppElement())) {
+                        return false;
+                    }
+                } else {
+                    // if it is not a jamopp element it could not be decided
+                    // so better return false
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean isOrderIndependent(Commentable jamoppElement) {
+        return (jamoppElement instanceof Type) || (jamoppElement instanceof CompilationUnit)
+                || (jamoppElement instanceof Member);
     }
 
     /**
