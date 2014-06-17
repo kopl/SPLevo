@@ -592,6 +592,7 @@ public class RobillardReferenceSelectorSwitch extends ComposedSwitch<List<Refere
         public List<Reference> caseCastExpression(CastExpression exp) {
             ArrayList<Reference> refElements = Lists.newArrayList();
             refElements.add(new Reference(exp, exp.getAlternativeType(), ReferenceType.Checks));
+            refElements.addAll(parentSwitch.doSwitch(exp.getChild()));
             return refElements;
         }
 
