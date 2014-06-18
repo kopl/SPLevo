@@ -67,7 +67,7 @@ public class RefinementActionBarListener implements ISelectionChangedListener {
             }
 
             String messageText = "Groupings: %s, SubMerges: %s | Merges: %s | VPs: %s";
-            String message = String.format(messageText, groupCount, mergeCount, subMergeCount, vpCount);
+            String message = String.format(messageText, groupCount, subMergeCount, mergeCount, vpCount);
             actionBars.getStatusLineManager().setMessage(message);
         }
     }
