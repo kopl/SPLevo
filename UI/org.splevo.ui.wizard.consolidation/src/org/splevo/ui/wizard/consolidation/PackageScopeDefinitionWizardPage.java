@@ -12,7 +12,7 @@
 package org.splevo.ui.wizard.consolidation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -23,8 +23,12 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.PackageFragment;
 import org.eclipse.jdt.ui.ISharedImages;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -36,7 +40,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
@@ -48,6 +54,7 @@ import org.splevo.project.SPLevoProject;
  * 
  * @author Radoslav Yankov
  */
+@SuppressWarnings("restriction")
 public class PackageScopeDefinitionWizardPage extends WizardPage {
 
     private SPLevoProject projectConfiguration;
@@ -81,8 +88,26 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         label.setText("Select java packages to ignore:");
 
         packagesTable = createPackagesTableViewer(container).getTable();
-        packagesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
+        packagesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true)); 
+        packagesTable.addListener(SWT.Selection, new Listener() {
+            
+            @Override
+            public void handleEvent(Event event) { 
+                if (event.item instanceof TableItem) {
+                    TableItem tableItem = (TableItem) event.item;
+                    if (tableItem.getChecked()) {
+                        for (String subPackageName : getSubPackagesNames(tableItem.getText())) {
+                            for (TableItem javaPackage : packagesTable.getItems()) {
+                                if (subPackageName.equals(javaPackage.getText())) {
+                                    javaPackage.setChecked(true);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }                              
+            }
+        });
         setControl(container);
     }
 
@@ -119,7 +144,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
                 return JavaUI.getSharedImages().getImage(ISharedImages.IMG_OBJS_PACKAGE);
             }
         });
-        packagesTableViewer.setContentProvider(ArrayContentProvider.getInstance());
+        packagesTableViewer.setContentProvider(ArrayContentProvider.getInstance());        
 
         return packagesTableViewer;
     }
@@ -151,19 +176,19 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         TableItem[] allPackages = packagesTable.getItems();
         List<String> chosenPackagesNames = new ArrayList<String>();
 
-        for (TableItem project : allPackages) {
-            if (project.getChecked()) {
-                chosenPackagesNames.add(project.getText());
-            }
+        for (TableItem javaPackage : allPackages) {
+            if (javaPackage.getChecked()) {
+                chosenPackagesNames.add(javaPackage.getText());
+            }                        
         }
         return chosenPackagesNames;
     }
 
-    private IPackageFragment[] getJavaPackages() {
+    private List<IPackageFragment> getJavaPackages() {
 
         List<IPackageFragment> javaPackages = new ArrayList<IPackageFragment>();
 
-        for (IProject project : getAllChosenProjects()) {
+        for (IProject project: getAllChosenProjects()) {
             try {
                 if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
 
@@ -178,14 +203,10 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
             }
         } 
         
-        removeDuplicates(javaPackages);
+        removeDuplicates(javaPackages);        
+        orderPackagesByName(javaPackages);
 
-        IPackageFragment[] packages = new IPackageFragment[javaPackages.size()];
-        packages = javaPackages.toArray(packages);
-
-        orderPackagesByName(packages);
-
-        return packages;
+        return javaPackages;
     }
 
     private List<IProject> getAllChosenProjects() {
@@ -223,13 +244,54 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         javaPackages.addAll(javaPackagesSet);
     }
     
-    private void orderPackagesByName(IPackageFragment[] packages) {
-        Arrays.sort(packages, new Comparator<IPackageFragment>() {
+    private void orderPackagesByName(List<IPackageFragment> packages) {
+        Collections.sort(packages, new Comparator<IPackageFragment>() {
 
             @Override
             public int compare(IPackageFragment packageFragment1, IPackageFragment packageFragment2) {
                 return packageFragment1.getElementName().compareTo(packageFragment2.getElementName());
             }
         });
+    }
+    
+    private List<String> getSubPackagesNames(String packageName) {
+        IPackageFragment javaPackage = null;
+        List<String> subPackagesNames = new ArrayList<String>();
+        
+        for (IPackageFragment packageFragment : getJavaPackages()) {
+            if (packageFragment.getElementName().equals(packageName)) {
+                javaPackage = packageFragment;
+                break;
+            }
+        }
+        
+        if (javaPackage != null) {
+            IJavaElement[] packageChildren = null;
+            try {
+                packageChildren = ((IPackageFragmentRoot) javaPackage.getParent()).getChildren();
+            } catch (JavaModelException e) {                
+                e.printStackTrace();
+            }
+            String[] names = ((PackageFragment) javaPackage).names;
+            
+            int namesLength = names.length;
+            
+            newPackage: for (int i = 0, length = packageChildren.length; i < length; i++) {
+                String[] otherNames = ((PackageFragment) packageChildren[i]).names;
+                
+                if (otherNames.length <= namesLength) {
+                    continue;
+                }
+                
+                for (int j = 0; j < namesLength; j++) {
+                    if (!names[j].equals(otherNames[j])) {
+                        continue newPackage;
+                    }
+                }
+                subPackagesNames.add(packageChildren[i].getElementName());
+            }
+
+        }
+        return subPackagesNames;
     }
 }
