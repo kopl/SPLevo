@@ -2,8 +2,14 @@ SPLevo
 ======
 
 SPLevo is a software development tool supporting the consolidation of customized product copies into a Software Product Line.
-It is developed as an open source project by the KoPL project team: 
+It is developed as an open source project by the KoPL project team: [http://www.kopl-project.org](http://www.kopl-project.org)
 
+Getting Started
+===
+
+* **Quick Start Guide**<br>To start right away giving SPLevo a try, we provide a [Quick Start Guide](https://github.com/kopl/SPLevo/wiki/Quick%20Start%20Guide)
+* **Developer Guide**<br>If you are more interested in the technology behind the tool, you might want to check out the [Development Guide](https://github.com/kopl/SPLevo/wiki/Development%20Guide) 
+* **Wiki**<br>For anything else take a look at our [wiki](https://github.com/kopl/SPLevo/wiki) or feel fee to [contact us](http://www.kopl-project.org/).
 
 Installation
 ====
