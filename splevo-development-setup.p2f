@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?p2f version='1.0.0'?>
+<p2f version='1.0.0'>
+  <ius size='10'>
+    <iu id='org.apache.log4j' name='Apache Jakarta log4j Plug-in' version='1.2.15.v201012070815'>
+      <repositories size='4'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/'/>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/'/>
+        <repository location='http://download.eclipse.org/releases/kepler'/>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='net.sf.eclipsecs.feature.group' name='Eclipse Checkstyle Plug-in' version='5.7.0.201402131929'>
+      <repositories size='1'>
+        <repository location='http://eclipse-cs.sf.net/update/'/>
+      </repositories>
+    </iu>
+    <iu id='epp.package.modeling' name='Eclipse Modeling Tools' version='2.0.2.20140224-0000'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/releases/kepler'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.featuremodel.feature.feature.group' name='EMF Feature Meta Model' version='0.8.0'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/'/>
+      </repositories>
+    </iu>
+    <iu id='org.eclipse.featuremodel.diagrameditor.feature.feature.group' name='Feature Diagram Editor' version='0.8.0'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/'/>
+      </repositories>
+    </iu>
+    <iu id='com.google.guava' name='Guava: Google Core Libraries for Java' version='15.0.0.v201403281430'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/'/>
+      </repositories>
+    </iu>
+    <iu id='org.emftext.language.java.ui.feature.group' name='JaMoPP - Java Model Editor' version='1.4.1.v201406161320'>
+      <repositories size='1'>
+        <repository location='http://jamopp.org/update_trunk'/>
+      </repositories>
+    </iu>
+    <iu id='org.emftext.language.java.feature.group' name='JaMoPP - Java Model Parser and Printer' version='1.4.1.v201406161320'>
+      <repositories size='1'>
+        <repository location='http://jamopp.org/update_trunk'/>
+      </repositories>
+    </iu>
+    <iu id='org.emftext.language.java.jdt.feature.group' name='JaMoPP - Java Model Parser and Printer (Eclipse JDT Integration)' version='1.4.1.v201406161320'>
+      <repositories size='1'>
+        <repository location='http://jamopp.org/update_trunk'/>
+      </repositories>
+    </iu>
+    <iu id='de.uka.ipd.sdq.workflow.feature.core.feature.group' name='Palladio Workflow Engine Core' version='2.0.3.201402262026'>
+      <repositories size='1'>
+        <repository location='http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.3/'/>
+      </repositories>
+    </iu>
+  </ius>
+</p2f>
