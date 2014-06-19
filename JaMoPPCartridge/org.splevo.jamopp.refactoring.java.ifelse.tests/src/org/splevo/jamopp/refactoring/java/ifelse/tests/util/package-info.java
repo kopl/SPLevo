@@ -1,4 +1,4 @@
 /**
- * Offers utility classes for refactoring tests on jamopp based models.
+ * Offers utility classes for JaMoPP refactoring tests.
  */
 package org.splevo.jamopp.refactoring.java.ifelse.tests.util;

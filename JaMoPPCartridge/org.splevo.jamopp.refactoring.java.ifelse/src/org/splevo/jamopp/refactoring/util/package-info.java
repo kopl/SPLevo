@@ -1,4 +1,4 @@
 /**
- * Offers utility classes for jamopp refactorings.
+ * Offers utility classes for JaMoPP refactorings.
  */
 package org.splevo.jamopp.refactoring.util;
