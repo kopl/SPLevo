@@ -4,13 +4,19 @@
    <extension
          point="org.splevo.refactoring.refactoring">
       <VariabilityRefactoring
-            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoringAllXOR">
+            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.or.IfElseStaticConfigClassImportOR">
       </VariabilityRefactoring>
    </extension>
    <extension
          point="org.splevo.refactoring.refactoring">
       <VariabilityRefactoring
-            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.IfElseRefactoringAllOR">
+            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.or.IfElseStaticConfigClassConstructorOR">
+      </VariabilityRefactoring>
+   </extension>
+   <extension
+         point="org.splevo.refactoring.refactoring">
+      <VariabilityRefactoring
+            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.or.IfElseStaticConfigClassStatementOR">
       </VariabilityRefactoring>
    </extension>
    
