@@ -1,3 +1,6 @@
+
+<div style="float:right"><script type="text/javascript" src="http://www.ohloh.net/p/717104/widgets/project_factoids_stats.js"></script></div>
+
 SPLevo
 ======
 
