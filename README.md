@@ -12,8 +12,10 @@ SPLevo is still under development, but the latest version integrated in Eclipse 
 http://sdqweb.ipd.kit.edu/eclipse/splevo/nightly/
 
 The update site provides access to:
-# The SPLevo Core
-# Technology Cartridges
-# (SPLevo Utiltities)
+
+* The SPLevo Core
+* Technology Cartridges
+* (SPLevo Utiltities)
+
 The later provides access to a small tool called SPLevo Metrics View but is not required to use SPLevo.
 The only technology cartridge available so far, is the JaMoPP Java Catridge which you should installed because there is no reasonable thing to do without any technology supported at all.
