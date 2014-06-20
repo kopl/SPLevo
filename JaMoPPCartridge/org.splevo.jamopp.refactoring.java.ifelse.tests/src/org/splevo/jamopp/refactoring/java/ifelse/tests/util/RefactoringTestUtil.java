@@ -18,6 +18,10 @@ import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
+import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementFactory;
+import org.splevo.vpm.refinement.RefinementType;
+import org.splevo.vpm.refinement.VPMRefinementService;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -85,9 +89,9 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generated a variation point according to the Constructor_AddTwoParam test case. The
-     * location is a class. There are two variants, each having a constructor. The leading variant
-     * has an int parameter, the integration an int and a short parameter.
+     * Generated a variation point according to the Constructor_AddTwoParam test case. The location
+     * is a class. There are two variants, each having a constructor. The leading variant has an int
+     * parameter, the integration an int and a short parameter.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -100,10 +104,59 @@ public final class RefactoringTestUtil {
         assert (vpm.getVariationPointGroups().size() == 1);
         assert (vpm.getVariationPointGroups().get(0).getVariationPoints().size() == 1);
         assert (vpm.getVariationPointGroups().get(0).getVariationPoints().get(0).getVariants().size() == 2);
-        
+
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         setUpVariationPoint(variationPoint, variabilityType);
-        
+
+        return variationPoint;
+    }
+
+    /**
+     * Generated a variation point according to the Import_TwoDistinct test case. The location is a
+     * compilation unit. There are two variants, each having a distinct import: an ArrayList and a
+     * LinkedList.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getImportTwoDistinctCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Import_TwoDistinct");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assert (vpm.getVariationPointGroups().size() == 1);
+        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().size() == 1);
+        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().get(0).getVariants().size() == 2);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generated a variation point according to the Import_CommonMultiple test case. The location is a
+     * compilation unit. There are two variants, each having three imports whereas they share two common imports.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getImportCommonMultipleCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Import_CommonMultiple");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assert (vpm.getVariationPointGroups().size() == 1);
+        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().size() == 1);
+        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().get(0).getVariants().size() == 2);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
         return variationPoint;
     }
 
@@ -186,18 +239,18 @@ public final class RefactoringTestUtil {
         return ignorePackages;
     }
 
-    // private static void performRefinement(VariationPointModel vpm, RefinementType refinementType,
-    // VariationPoint... variationPoints) {
-    // Refinement refinement = RefinementFactory.eINSTANCE.createRefinement();
-    // refinement.setType(refinementType);
-    //
-    // for (VariationPoint variationPoint : variationPoints) {
-    // refinement.getVariationPoints().add(variationPoint);
-    // }
-    //
-    // VPMRefinementService refinementService = new VPMRefinementService();
-    // refinementService.applyRefinements(Lists.newArrayList(refinement), vpm);
-    // }
+    private static void performRefinement(VariationPointModel vpm, RefinementType refinementType,
+            VariationPoint... variationPoints) {
+        Refinement refinement = RefinementFactory.eINSTANCE.createRefinement();
+        refinement.setType(refinementType);
+
+        for (VariationPoint variationPoint : variationPoints) {
+            refinement.getVariationPoints().add(variationPoint);
+        }
+
+        VPMRefinementService refinementService = new VPMRefinementService();
+        refinementService.applyRefinements(Lists.newArrayList(refinement), vpm);
+    }
 
     private static void setUpVariationPoint(VariationPoint variationPoint, VariabilityType variabilityType) {
         variationPoint.setBindingTime(BindingTime.COMPILE_TIME);

@@ -1,32 +1,22 @@
-/*******************************************************************************
- * Copyright (c) 2014
- * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Daniel Kojic - initial API and implementation and initial documentation
- *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
-import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.containers.ContainersFactory;
+import org.emftext.language.java.imports.ClassifierImport;
+import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.members.MembersFactory;
-import org.emftext.language.java.types.Int;
-import org.emftext.language.java.types.Short;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassConstructorOPTOR;
+import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassImportOPTOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -35,10 +25,9 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassConstructorOPTOR} class.
+ * Contains the tests for the {@link IfElseStaticConfigClassImportOPTOR} class.
  */
-public class IfElseStaticConfigClassConstructorOPTORTest {
-
+public class IfElseStaticConfigClassImportOPTORTest {
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
@@ -72,15 +61,15 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      */
     @Test
     public void testIfCanBeAppliedWithValidVP() {
-        Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
-        Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
+        Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
+        Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
+        Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
         VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(true));
+        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
 
     /**
@@ -107,15 +96,15 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      */
     @Test
     public void testIfCanBeAppliedWithInvalidBindingTime() {
-        Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
-        Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
+        Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
+        Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
+        Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
         VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.LOAD_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
 
     /**
@@ -142,15 +131,15 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      */
     @Test
     public void testIfCanBeAppliedWithInvalidExtensibility() {
-        Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
-        Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
+        Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
+        Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
+        Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
         VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.YES,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
 
     /**
@@ -177,20 +166,20 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      */
     @Test
     public void testIfCanBeAppliedWithInvalidVarType() {
-        Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
-        Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
+        Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
+        Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
+        Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
         VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
 
     /**
      * <strong>Description</strong><br/>
-     * Location of a variation point for this refactoring must be a class.
+     * Location of a variation point for this refactoring must be a compilation unit.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -213,14 +202,14 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
     @Test
     public void testIfCanBeAppliedWithInvalidLocation() {
         Commentable location = ClassifiersFactory.eINSTANCE.createInterface();
-        Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
-        Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
+        Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
+        Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
         VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
 
     /**
@@ -247,20 +236,20 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      */
     @Test
     public void testIfCanBeAppliedWithInvalidVariantElements() {
-        Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
+        Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
+        Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
         Commentable implEl2 = MembersFactory.eINSTANCE.createClassMethod();
         VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
 
     /**
      * <strong>Description</strong><br/>
-     * Merges constructors, each with one param of a different type.
+     * Merges imports. The base must contain the imports from all variants.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -273,31 +262,34 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * Variation point Internals:<br/>
      * <ul>
      * <li>Location: Class</li>
-     * <li>Variant 1: Constructor with int parameter</li>
-     * <li>Variant 2: Constructor with short parameter</li>
+     * <li>Variant 1: Import: ArrayList</li>
+     * <li>Variant 2: Import: LinkedList</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
-     * Both constructors must be contained in the base after the refactoring.
-     * @throws Exception 
+     * The base must contain two imports: the linkedlist and arraylist import.
+     * 
+     * @throws Exception An unexpected error occured. 
      */
     @Test
-    public void testRefactorCaseConstructorExistingOneParam() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getConstructorExistingOneParamCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+    public void testRefactorCaseImportTwoDistinct() throws Exception {
+        VariationPoint vp = RefactoringTestUtil.getImportTwoDistinctCase(VariabilityType.OPTOR);
+        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
         refactoring.refactor(vp);
-        
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
-        assertThat(vpLocation.getConstructors().size(), is(2));
-        assertThat(vpLocation.getConstructors().get(0).getParameters().size(), is(1));
-        assertThat(vpLocation.getConstructors().get(1).getParameters().size(), is(1));
-        assertThat(vpLocation.getConstructors().get(0).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
-        assertThat(vpLocation.getConstructors().get(1).getParameters().get(0).getTypeReference(), instanceOf(Short.class));
+
+        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        assertThat(vpLocation.getImports().size(), equalTo(2));
+        assertThat(vpLocation.getImports().get(0), instanceOf(ClassifierImport.class));
+        assertThat(vpLocation.getImports().get(1), instanceOf(ClassifierImport.class));
+        assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(0))
+                .getClassifier().getName(), equalTo("ArrayList"));
+        assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(1))
+                .getClassifier().getName(), equalTo("LinkedList"));
     }
 
     /**
      * <strong>Description</strong><br/>
-     * Merges constructors, one constructor has one parameter, the other has two.
+     * Merges imports. The base must contain the imports from all variants.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -310,26 +302,34 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * Variation point Internals:<br/>
      * <ul>
      * <li>Location: Class</li>
-     * <li>Variant 1: Constructor with an int parameter</li>
-     * <li>Variant 2: Constructor with an int and a short parameter</li>
+     * <li>Variant 1: 3 Imports: a,b,c</li>
+     * <li>Variant 2: 3 Imports: b,c,d</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
-     * Both constructors must be contained in the base after the refactoring.
-     * @throws Exception 
+     * The base must contain four imports: a,b,c and d.
+     * 
+     * @throws Exception An unexpected error occured. 
      */
     @Test
-    public void testRefactorCaseConstructorAddTwoParam() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getConstructorAddTwoParamCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+    public void testRefactorCaseImportCommonMultiple() throws Exception {
+        VariationPoint vp = RefactoringTestUtil.getImportCommonMultipleCase(VariabilityType.OPTOR);
+        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
         refactoring.refactor(vp);
-        
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
-        assertThat(vpLocation.getConstructors().size(), is(2));
-        assertThat(vpLocation.getConstructors().get(0).getParameters().size(), is(1));
-        assertThat(vpLocation.getConstructors().get(1).getParameters().size(), is(2));
-        assertThat(vpLocation.getConstructors().get(0).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
-        assertThat(vpLocation.getConstructors().get(1).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
-        assertThat(vpLocation.getConstructors().get(1).getParameters().get(1).getTypeReference(), instanceOf(Short.class));
+
+        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        assertThat(vpLocation.getImports().size(), equalTo(4));
+        assertThat(vpLocation.getImports().get(0), instanceOf(ClassifierImport.class));
+        assertThat(vpLocation.getImports().get(1), instanceOf(ClassifierImport.class));
+        assertThat(vpLocation.getImports().get(2), instanceOf(ClassifierImport.class));
+        assertThat(vpLocation.getImports().get(3), instanceOf(ClassifierImport.class));
+        assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(0))
+                .getClassifier().getName(), equalTo("a"));
+        assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(1))
+                .getClassifier().getName(), equalTo("b"));
+        assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(2))
+                .getClassifier().getName(), equalTo("c"));
+        assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(3))
+                .getClassifier().getName(), equalTo("d"));
     }
 }
