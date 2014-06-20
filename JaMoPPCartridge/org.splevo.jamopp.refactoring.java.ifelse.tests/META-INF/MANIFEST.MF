@@ -12,4 +12,5 @@ Require-Bundle: org.apache.log4j,
  org.splevo.refactoring,
  org.splevo.jamopp.extraction,
  org.splevo.jamopp.diffing,
- org.splevo.jamopp.vpm.builder
+ org.splevo.jamopp.vpm.builder,
+ org.mockito;bundle-version="1.9.5"

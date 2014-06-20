@@ -321,11 +321,11 @@ public final class RefactoringUtil {
      * @param <T> The type.
      * @return <code>true</code> if all elements implement the given type; <code>false</code> otherwise.
      */
-    public static <T> boolean allImplementingElementsOfType(VariationPoint variationPoint, java.lang.Class<T> type) {
+    public static <T> boolean allImplementingElementsOfType(VariationPoint variationPoint, java.lang.Class<T> c) {
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Commentable commentable = ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (!(commentable.getClass().isAssignableFrom(type))) {
+                if (!(c.isInstance(commentable))) {
                     return false;
                 }
             }
