@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
@@ -78,7 +78,7 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
 
         boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
-        boolean correctLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement() instanceof Class;
+        boolean correctLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement() instanceof Method;
         boolean allImplementingElementsAreStatements = 
                 RefactoringUtil.allImplementingElementsOfType(variationPoint, Statement.class);
         boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreStatements;

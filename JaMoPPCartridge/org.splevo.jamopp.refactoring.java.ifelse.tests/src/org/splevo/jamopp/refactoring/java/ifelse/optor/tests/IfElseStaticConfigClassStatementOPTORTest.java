@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.anyOf;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
@@ -35,11 +36,14 @@ import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
+import org.emftext.language.java.statements.ForLoop;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.statements.Switch;
 import org.emftext.language.java.statements.TryBlock;
+import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.types.Int;
 import org.emftext.language.java.types.Short;
 import org.emftext.language.java.variables.LocalVariable;
@@ -319,12 +323,6 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         // verify extracted methods and their contents
         ClassMethod firstVariantSpecificMethod = (ClassMethod) containingClass.getMethods().get(1);
         ClassMethod secondVariantSpecificMethod = (ClassMethod) containingClass.getMethods().get(2);
-        // Order does not matter. Swaps methods if in different order.
-        if (!firstVariantSpecificMethod.getName().endsWith(vp.getVariants().get(0).getVariantId())) {
-            ClassMethod tmp = firstVariantSpecificMethod;
-            firstVariantSpecificMethod = secondVariantSpecificMethod;
-            secondVariantSpecificMethod = tmp;
-        }
         assertThat(firstVariantSpecificMethod.getStatements().size(), equalTo(2));
         assertThat(secondVariantSpecificMethod.getStatements().size(), equalTo(2));
         assertThat(firstVariantSpecificMethod.getStatements().get(0), instanceOf(LocalVariableStatement.class));
@@ -333,8 +331,10 @@ public class IfElseStaticConfigClassStatementOPTORTest {
                 .get(0)).getVariable();
         LocalVariable firstVariableSecondVariant = ((LocalVariableStatement) secondVariantSpecificMethod
                 .getStatements().get(0)).getVariable();
-        assertThat(firstVariableFirstVariant.getTypeReference().getTarget(), instanceOf(Int.class));
-        assertThat(firstVariableSecondVariant.getTypeReference().getTarget(), instanceOf(Short.class));
+        assertThat(firstVariableFirstVariant.getTypeReference().getTarget(),
+                anyOf(instanceOf(Int.class), instanceOf(Short.class)));
+        assertThat(firstVariableSecondVariant.getTypeReference().getTarget(),
+                anyOf(instanceOf(Int.class), instanceOf(Short.class)));
 
         // verify vp location contents
         assertThat(vpLocation.getStatements().size(), equalTo(2));
@@ -534,6 +534,58 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
+     * Checks whether the refactoring handles nested variability (try-block) correctly.
+     * 
+     * <strong>Input</strong><br/>
+     * Variation point Characteristics:<br/>
+     * <ul>
+     * <li>Binding Time: Compile</li>
+     * <li>Variability Type: OPTOR</li>
+     * <li>Extensible: No</li>
+     * </ul>
+     * 
+     * Variation point Internals:<br/>
+     * <ul>
+     * <li>Location: Class</li>
+     * <li>Variant 1: try-catch with one statement in the try-block</li>
+     * <li>Variant 2: try-catch with a different statement in the try-block</li>
+     * </ul>
+     * 
+     * <strong>Expected Output</strong><br/>
+     * The location contains the try-catch. While the try stays unchanged, the catch-block has two
+     * conditions that each has the according statement in its if block.
+     * 
+     * @throws Exception
+     *             An unexpected error occurred.
+     */
+    @Test
+    public void testRefactorCaseNestedTry() throws Exception {
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedTryCase(VariabilityType.OPTOR);
+        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        refactoring.refactor(vp);
+
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+                .getJamoppElement();
+
+        ClassMethod method = (ClassMethod) vpLocation.eContainer();
+        assertThat(method.getStatements().size(), equalTo(1));
+        assertThat(method.getStatements().get(0), instanceOf(TryBlock.class));
+
+        assertThat(vpLocation.getStatements().size(), equalTo(2));
+        assertThat(vpLocation.getStatements().get(0), instanceOf(Condition.class));
+        assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
+
+        Condition cond1 = (Condition) vpLocation.getStatements().get(0);
+        Condition cond2 = (Condition) vpLocation.getStatements().get(1);
+
+        assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
+        assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
+        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
+        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+    }
+
+    /**
+     * <strong>Description</strong><br/>
      * Checks whether the refactoring handles nested variability (catch-block) correctly.
      * 
      * <strong>Input</strong><br/>
@@ -553,7 +605,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      * 
      * <strong>Expected Output</strong><br/>
      * The location contains the try-catch. While the try stays unchanged, the catch-block has two
-     * conditions that each has the relevant statement in its if block.
+     * conditions that each has the according statement in its if block.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -566,12 +618,220 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
-        
+
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
         assertThat(method.getStatements().size(), equalTo(1));
         assertThat(method.getStatements().get(0), instanceOf(TryBlock.class));
-        
+
         assertThat(vpLocation.getStatements().size(), equalTo(2));
+        assertThat(vpLocation.getStatements().get(0), instanceOf(Condition.class));
+        assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
+
+        Condition cond1 = (Condition) vpLocation.getStatements().get(0);
+        Condition cond2 = (Condition) vpLocation.getStatements().get(1);
+
+        assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
+        assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
+        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
+        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+    }
+
+    /**
+     * <strong>Description</strong><br/>
+     * Checks whether the refactoring handles nested variability (condition-if-block) correctly.
+     * 
+     * <strong>Input</strong><br/>
+     * Variation point Characteristics:<br/>
+     * <ul>
+     * <li>Binding Time: Compile</li>
+     * <li>Variability Type: OPTOR</li>
+     * <li>Extensible: No</li>
+     * </ul>
+     * 
+     * Variation point Internals:<br/>
+     * <ul>
+     * <li>Location: Class</li>
+     * <li>Variant 1: condition with one statement in the if-block</li>
+     * <li>Variant 2: condition with a different statement in the if-block</li>
+     * </ul>
+     * 
+     * <strong>Expected Output</strong><br/>
+     * The location contains the condition. The if-block has two conditions that each has the
+     * according statement in its if block.
+     * 
+     * @throws Exception
+     *             An unexpected error occurred.
+     */
+    @Test
+    public void testRefactorCaseNestedCondition() throws Exception {
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedConditionCase(VariabilityType.OPTOR);
+        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        refactoring.refactor(vp);
+
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+                .getJamoppElement();
+
+        ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
+        assertThat(method.getStatements().size(), equalTo(1));
+        assertThat(method.getStatements().get(0), instanceOf(Condition.class));
+
+        assertThat(vpLocation.getStatements().size(), equalTo(2));
+        assertThat(vpLocation.getStatements().get(0), instanceOf(Condition.class));
+        assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
+
+        Condition cond1 = (Condition) vpLocation.getStatements().get(0);
+        Condition cond2 = (Condition) vpLocation.getStatements().get(1);
+
+        assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
+        assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
+        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
+        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+    }
+
+    /**
+     * <strong>Description</strong><br/>
+     * Checks whether the refactoring handles nested variability (for-block) correctly.
+     * 
+     * <strong>Input</strong><br/>
+     * Variation point Characteristics:<br/>
+     * <ul>
+     * <li>Binding Time: Compile</li>
+     * <li>Variability Type: OPTOR</li>
+     * <li>Extensible: No</li>
+     * </ul>
+     * 
+     * Variation point Internals:<br/>
+     * <ul>
+     * <li>Location: Class</li>
+     * <li>Variant 1: for containing one statement</li>
+     * <li>Variant 2: for containing a different statement</li>
+     * </ul>
+     * 
+     * <strong>Expected Output</strong><br/>
+     * The location contains the for. The for contains two conditions that each has the according
+     * statement in its if block.
+     * 
+     * @throws Exception
+     *             An unexpected error occurred.
+     */
+    @Test
+    public void testRefactorCaseNestedFor() throws Exception {
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedForCase(VariabilityType.OPTOR);
+        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        refactoring.refactor(vp);
+
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+                .getJamoppElement();
+
+        ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
+        assertThat(method.getStatements().size(), equalTo(1));
+        assertThat(method.getStatements().get(0), instanceOf(ForLoop.class));
+
+        assertThat(vpLocation.getStatements().size(), equalTo(2));
+        assertThat(vpLocation.getStatements().get(0), instanceOf(Condition.class));
+        assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
+
+        Condition cond1 = (Condition) vpLocation.getStatements().get(0);
+        Condition cond2 = (Condition) vpLocation.getStatements().get(1);
+
+        assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
+        assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
+        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
+        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+    }
+
+    /**
+     * <strong>Description</strong><br/>
+     * Checks whether the refactoring handles nested variability (while-block) correctly.
+     * 
+     * <strong>Input</strong><br/>
+     * Variation point Characteristics:<br/>
+     * <ul>
+     * <li>Binding Time: Compile</li>
+     * <li>Variability Type: OPTOR</li>
+     * <li>Extensible: No</li>
+     * </ul>
+     * 
+     * Variation point Internals:<br/>
+     * <ul>
+     * <li>Location: Class</li>
+     * <li>Variant 1: for containing one statement</li>
+     * <li>Variant 2: for containing a different statement</li>
+     * </ul>
+     * 
+     * <strong>Expected Output</strong><br/>
+     * The location contains the while. The while contains two conditions that each has the
+     * according statement in its if block.
+     * 
+     * @throws Exception
+     *             An unexpected error occurred.
+     */
+    @Test
+    public void testRefactorCaseNestedWhile() throws Exception {
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedWhileCase(VariabilityType.OPTOR);
+        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        refactoring.refactor(vp);
+
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+                .getJamoppElement();
+
+        ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
+        assertThat(method.getStatements().size(), equalTo(1));
+        assertThat(method.getStatements().get(0), instanceOf(WhileLoop.class));
+
+        assertThat(vpLocation.getStatements().size(), equalTo(2));
+        assertThat(vpLocation.getStatements().get(0), instanceOf(Condition.class));
+        assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
+
+        Condition cond1 = (Condition) vpLocation.getStatements().get(0);
+        Condition cond2 = (Condition) vpLocation.getStatements().get(1);
+
+        assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
+        assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
+        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
+        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+    }
+
+    /**
+     * <strong>Description</strong><br/>
+     * Checks whether the refactoring handles nested variability (switch-case) correctly.
+     * 
+     * <strong>Input</strong><br/>
+     * Variation point Characteristics:<br/>
+     * <ul>
+     * <li>Binding Time: Compile</li>
+     * <li>Variability Type: OPTOR</li>
+     * <li>Extensible: No</li>
+     * </ul>
+     * 
+     * Variation point Internals:<br/>
+     * <ul>
+     * <li>Location: Class</li>
+     * <li>Variant 1: case block containing one statement</li>
+     * <li>Variant 2: case block containing a different statement</li>
+     * </ul>
+     * 
+     * <strong>Expected Output</strong><br/>
+     * The location contains the switch-case. The only case block contains two conditions that each
+     * has the according statement in its if block.
+     * 
+     * @throws Exception
+     *             An unexpected error occurred.
+     */
+    @Test
+    public void testRefactorCaseNestedSwitchCase() throws Exception {
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedSwitchCaseCase(VariabilityType.OPTOR);
+        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        refactoring.refactor(vp);
+
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+                .getJamoppElement();
+
+        ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
+        assertThat(method.getStatements().size(), equalTo(1));
+        assertThat(method.getStatements().get(0), instanceOf(Switch.class));
+
+        assertThat(vpLocation.getStatements().size(), equalTo(3));
         assertThat(vpLocation.getStatements().get(0), instanceOf(Condition.class));
         assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
 

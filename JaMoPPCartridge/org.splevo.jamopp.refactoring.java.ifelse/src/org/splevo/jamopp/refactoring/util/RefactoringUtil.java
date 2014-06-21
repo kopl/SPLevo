@@ -23,12 +23,13 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.LocalVariableStatement;
+import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.TypesFactory;
+import org.emftext.language.java.types.Void;
 import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
@@ -60,18 +61,19 @@ public final class RefactoringUtil {
     public static void extractVariantsIntoMethods(VariationPoint variationPoint) {
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
+        Class parentClass = findContainingClassRec(vpLocation);
 
         HashMap<Variant, List<Statement>> variantStatements = buildVariantStatementMap(variationPoint);
 
         vpLocation.getStatements().clear();
         variationPoint.getVariants().clear();
-        
+        TypeReference returnType = getReturnType(vpLocation);
+
         for (Variant variant : variantStatements.keySet()) {
             List<Statement> statements = variantStatements.get(variant);
 
             ClassMethod method = MembersFactory.eINSTANCE.createClassMethod();
             method.setName("extracted" + variant.getVariantId());
-            TypeReference returnType = getReturnType(vpLocation);
             method.getStatements().addAll(statements);
             method.setTypeReference(returnType);
 
@@ -79,28 +81,40 @@ public final class RefactoringUtil {
 
             MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
             methodCall.setTarget(method);
-            ExpressionStatement exprStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
-            exprStatement.setExpression(methodCall);
+
+            Statement statement = null;
+            if (returnType == null || returnType.getTarget() instanceof Void) {
+                ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
+                expressionStatement.setExpression(methodCall);
+                statement = expressionStatement;
+            } else {
+                Return returnStatement = StatementsFactory.eINSTANCE.createReturn();
+                returnStatement.setReturnValue(methodCall);
+                statement = returnStatement;
+            }
+
             JaMoPPSoftwareElement newJaMoPPElement = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
-            newJaMoPPElement.setJamoppElement(exprStatement);
-            vpLocation.getStatements().add(exprStatement);
+            newJaMoPPElement.setJamoppElement(statement);
+            vpLocation.getStatements().add(statement);
 
             Variant newVariant = RefactoringUtil.cloneVariant(variant, variationPoint);
             newVariant.getImplementingElements().add(newJaMoPPElement);
             variationPoint.getVariants().add(newVariant);
+
+            parentClass.getMembers().add(method);
         }
     }
 
     private static HashMap<Variant, List<Statement>> buildVariantStatementMap(VariationPoint variationPoint) {
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
-        
+
         HashMap<Variant, List<Statement>> variantStatements = new HashMap<Variant, List<Statement>>();
-        int posVariability = RefactoringUtil.getVariabilityPosition(variationPoint);
-        
+
         Set<VariationPoint> relatedVPs = getVPsWithSameLocation(variationPoint);
-        
+
         for (VariationPoint relatedVP : relatedVPs) {
+            int posVariability = RefactoringUtil.getVariabilityPosition(relatedVP);
             for (Variant variant : relatedVP.getVariants()) {
                 List<Statement> statements;
                 if (!variantStatements.containsKey(variant)) {
@@ -120,14 +134,33 @@ public final class RefactoringUtil {
     }
 
     private static TypeReference getReturnType(StatementListContainer vpLocation) {
-        EObject container = vpLocation.eContainer();
+        ClassMethod method = findContainingMethodRec(vpLocation);
+        if (method != null) {
+            return method.getTypeReference();
+        }
+        return null;
+    }
+
+    private static ClassMethod findContainingMethodRec(StatementListContainer vpLocation) {
+        EObject container = vpLocation;
         while (container != null) {
             if (container instanceof ClassMethod) {
-                return ((ClassMethod) container).getTypeReference();
+                return ((ClassMethod) container);
             }
             container = container.eContainer();
         }
-        return TypesFactory.eINSTANCE.createVoid();
+        return null;
+    }
+
+    private static Class findContainingClassRec(StatementListContainer vpLocation) {
+        EObject container = vpLocation;
+        while (container != null) {
+            if (container instanceof Class) {
+                return ((Class) container);
+            }
+            container = container.eContainer();
+        }
+        return null;
     }
 
     private static List<Statement> getImplementingStatements(Variant variant) {
@@ -157,7 +190,8 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Checks whether a variation point's variants contain variables with equal names but different types.
+     * Checks whether a variation point's variants contain variables with equal names but different
+     * types.
      * 
      * @param variationPoint
      *            The {@link VariationPoint}.
@@ -182,7 +216,8 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Deletes the statements in a variation point's location that are variable (occur in a variant).
+     * Deletes the statements in a variation point's location that are variable (occur in a
+     * variant).
      * 
      * @param variationPoint
      *            The {@link VariationPoint}.
@@ -222,8 +257,8 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Extracts the initial value expression from a local variable into a independent statement and sets the variable's initial
-     * value to <code>null</code>.
+     * Extracts the initial value expression from a local variable into a independent statement and
+     * sets the variable's initial value to <code>null</code>.
      * 
      * @param variable
      *            The {@link LocalVariable}.
@@ -249,8 +284,10 @@ public final class RefactoringUtil {
     /**
      * Checks whether a class has a constructor with equal parameters.
      * 
-     * @param c The {@link Class}.
-     * @param constructor The {@link Constructor} to compare with.
+     * @param c
+     *            The {@link Class}.
+     * @param constructor
+     *            The {@link Constructor} to compare with.
      * @return <code>true</code> if such a constructor is found; <code>false</code> otherwise.
      */
     public static boolean hasConstructorWithSameParameters(Class c, Constructor constructor) {
@@ -275,9 +312,11 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Generates a condition with an empty if-block. Matches the SPL configuration with the given variant id within the condition.
+     * Generates a condition with an empty if-block. Matches the SPL configuration with the given
+     * variant id within the condition.
      * 
-     * @param variantId The variant id as {@link String}.
+     * @param variantId
+     *            The variant id as {@link String}.
      * @return The generated {@link Condition}.
      */
     public static Condition generateVariantIDMatchingConditionWithEmptyIfBlock(String variantId) {
@@ -289,11 +328,15 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Fills the if-block of a given condition with the statements that are contained in the given variant (as implementing elements).
+     * Fills the if-block of a given condition with the statements that are contained in the given
+     * variant (as implementing elements).
      * 
-     * @param variant The {@link Variant}.
-     * @param currentCondition The {@link Condition} to be filled.
-     * @param localVariableStatements A {@link Map} that stores the local variables to their names that were found.
+     * @param variant
+     *            The {@link Variant}.
+     * @param currentCondition
+     *            The {@link Condition} to be filled.
+     * @param localVariableStatements
+     *            A {@link Map} that stores the local variables to their names that were found.
      */
     public static void fillIfBlockWithVariantElements(Variant variant, Condition currentCondition,
             Map<String, LocalVariableStatement> localVariableStatements) {
@@ -314,12 +357,17 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Checks whether all implementing elements of a variation point's variants are of a certain type.
+     * Checks whether all implementing elements of a variation point's variants are of a certain
+     * type.
      * 
-     * @param variationPoint The {@link VariationPoint}.
-     * @param type The type's {@link java.lang.Class}.
-     * @param <T> The type.
-     * @return <code>true</code> if all elements implement the given type; <code>false</code> otherwise.
+     * @param variationPoint
+     *            The {@link VariationPoint}.
+     * @param c
+     *            The type's {@link java.lang.Class}.
+     * @param <T>
+     *            The type.
+     * @return <code>true</code> if all elements implement the given type; <code>false</code>
+     *         otherwise.
      */
     public static <T> boolean allImplementingElementsOfType(VariationPoint variationPoint, java.lang.Class<T> c) {
         for (Variant variant : variationPoint.getVariants()) {
