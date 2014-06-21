@@ -29,7 +29,7 @@ public class SPLevoTestUtil {
      * NOTE: Using this method requires to copy the testmodels directory in the appropriate test. It
      * is recommended to use more specific tests!!
      *
-     * @deprecated Recommended to use ore specific fine granular tests.
+     * @deprecated Recommended to use more specific fine-grained tests.
      * @return The loaded graph.
      * @throws Exception
      *             Identifies a failed diffing.
@@ -48,7 +48,7 @@ public class SPLevoTestUtil {
      * NOTE: Using this method requires to copy the testmodels directory in the appropriate test. It
      * is recommended to use more specific tests!!
      *
-     * @deprecated Recommended to use ore specific fine granular tests.
+     * @deprecated Recommended to use more specific fine-grained tests.
      *
      * @return The loaded model.
      * @throws Exception
