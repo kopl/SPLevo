@@ -64,7 +64,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * <ul>
      * <li>Location: Class</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -75,7 +75,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
         Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
@@ -85,7 +85,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * The method should check for the correct binding time: compile.
+     * The method checks whether the method handles an incorrect binding time correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -99,7 +99,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * <ul>
      * <li>Location: Class</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -110,7 +110,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
         Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.LOAD_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
@@ -120,7 +120,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * The method should check for the correct extensibility: no.
+     * The method checks whether the method handles an incorrect extensibility correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -134,7 +134,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * <ul>
      * <li>Location: Class</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -145,7 +145,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
         Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.YES,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.YES,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
@@ -155,7 +155,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * The method should check for the correct variability type: optor.
+     * The method checks whether the method handles an incorrect variability type correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -169,7 +169,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * <ul>
      * <li>Location: Class</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -180,7 +180,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
         Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
@@ -190,7 +190,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * Location of a variation point for this refactoring must be a class.
+     * The method checks whether the method handles an incorrect variation point location correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -204,7 +204,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * <ul>
      * <li>Location: Interface</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -215,7 +215,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createInterface();
         Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
         Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
@@ -225,7 +225,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * Location of a variation point for this refactoring must be a class.
+     * The method checks whether the method handles incorrect variant elements correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -237,9 +237,9 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * 
      * Variation point Internals:<br/>
      * <ul>
-     * <li>Location: Interface</li>
+     * <li>Location: Class</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -250,7 +250,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
         Commentable implEl2 = MembersFactory.eINSTANCE.createClassMethod();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
@@ -279,20 +279,23 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * 
      * <strong>Expected Output</strong><br/>
      * Both constructors must be contained in the base after the refactoring.
-     * @throws Exception 
+     * 
+     * @throws Exception
+     *             An unexpected exception occurred.
      */
     @Test
     public void testRefactorCaseConstructorExistingOneParam() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConstructorExistingOneParamCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
         refactoring.refactor(vp);
-        
+
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getConstructors().size(), is(2));
         assertThat(vpLocation.getConstructors().get(0).getParameters().size(), is(1));
         assertThat(vpLocation.getConstructors().get(1).getParameters().size(), is(1));
         assertThat(vpLocation.getConstructors().get(0).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
-        assertThat(vpLocation.getConstructors().get(1).getParameters().get(0).getTypeReference(), instanceOf(Short.class));
+        assertThat(vpLocation.getConstructors().get(1).getParameters().get(0).getTypeReference(),
+                instanceOf(Short.class));
     }
 
     /**
@@ -316,20 +319,23 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
      * 
      * <strong>Expected Output</strong><br/>
      * Both constructors must be contained in the base after the refactoring.
-     * @throws Exception 
+     * 
+     * @throws Exception
+     *             An unexpected exception occurred.
      */
     @Test
     public void testRefactorCaseConstructorAddTwoParam() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConstructorAddTwoParamCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
         refactoring.refactor(vp);
-        
+
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getConstructors().size(), is(2));
         assertThat(vpLocation.getConstructors().get(0).getParameters().size(), is(1));
         assertThat(vpLocation.getConstructors().get(1).getParameters().size(), is(2));
         assertThat(vpLocation.getConstructors().get(0).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
         assertThat(vpLocation.getConstructors().get(1).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
-        assertThat(vpLocation.getConstructors().get(1).getParameters().get(1).getTypeReference(), instanceOf(Short.class));
+        assertThat(vpLocation.getConstructors().get(1).getParameters().get(1).getTypeReference(),
+                instanceOf(Short.class));
     }
 }

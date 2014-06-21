@@ -62,9 +62,9 @@ public class IfElseStaticConfigClassImportOPTORTest {
      * 
      * Variation point Internals:<br/>
      * <ul>
-     * <li>Location: Class</li>
+     * <li>Location: Compilation Unit</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -75,7 +75,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
         Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
         Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
         Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
@@ -85,7 +85,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * The method should check for the correct binding time: compile.
+     * The method checks whether the method handles an incorrect binding time correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -97,9 +97,9 @@ public class IfElseStaticConfigClassImportOPTORTest {
      * 
      * Variation point Internals:<br/>
      * <ul>
-     * <li>Location: Class</li>
+     * <li>Location: Compilation Unit</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -110,7 +110,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
         Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
         Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
         Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.LOAD_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
@@ -120,7 +120,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * The method should check for the correct extensibility: no.
+     * The method checks whether the method handles an incorrect extensibility correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -132,9 +132,9 @@ public class IfElseStaticConfigClassImportOPTORTest {
      * 
      * Variation point Internals:<br/>
      * <ul>
-     * <li>Location: Class</li>
+     * <li>Location: Compilation Unit</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -145,7 +145,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
         Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
         Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
         Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.YES,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.YES,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
@@ -155,7 +155,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * The method should check for the correct variability type: optor.
+     * The method checks whether the method handles an incorrect variability type correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -167,9 +167,9 @@ public class IfElseStaticConfigClassImportOPTORTest {
      * 
      * Variation point Internals:<br/>
      * <ul>
-     * <li>Location: Class</li>
+     * <li>Location: Compilation Unit</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -180,7 +180,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
         Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
         Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
         Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
@@ -190,7 +190,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * Location of a variation point for this refactoring must be a compilation unit.
+     * The method checks whether the method handles an incorrect variation point location correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -204,7 +204,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
      * <ul>
      * <li>Location: Interface</li>
      * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
+     * <li>Variant 2: Has a constructor</li>
      * </ul>
      * 
      * <strong>Expected Output</strong><br/>
@@ -215,7 +215,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createInterface();
         Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
         Commentable implEl2 = ImportsFactory.eINSTANCE.createClassifierImport();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
@@ -225,7 +225,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
 
     /**
      * <strong>Description</strong><br/>
-     * Location of a variation point for this refactoring must be a class.
+     * The method checks whether the method handles incorrect variant elements correctly.
      * 
      * <strong>Input</strong><br/>
      * Variation point Characteristics:<br/>
@@ -237,7 +237,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
      * 
      * Variation point Internals:<br/>
      * <ul>
-     * <li>Location: Interface</li>
+     * <li>Location: Compilation Unit</li>
      * <li>Variant 1: Has a constructor</li>
      * <li>Variant 1: Has a constructor</li>
      * </ul>
@@ -250,7 +250,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
         Commentable location = ContainersFactory.eINSTANCE.createCompilationUnit();
         Commentable implEl1 = ImportsFactory.eINSTANCE.createClassifierImport();
         Commentable implEl2 = MembersFactory.eINSTANCE.createClassMethod();
-        VariationPoint vpMock = RefactoringTestUtil.generateSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
         IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();

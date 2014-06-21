@@ -44,7 +44,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generated a variation point according to the Statement_Default test case. The location is a
+     * Generates a variation point according to the Statement_Default test case. The location is a
      * method. In the integration variant, there is one additional statement.
      * 
      * @param variabilityType
@@ -66,7 +66,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generated a variation point according to the Constructor_ExistingOneParam test case. The
+     * Generates a variation point according to the Constructor_ExistingOneParam test case. The
      * location is a class. There are two variants, each having a constructor. The leading variant
      * has an int parameter, the integration a short parameter.
      * 
@@ -78,9 +78,7 @@ public final class RefactoringTestUtil {
      */
     public static VariationPoint getConstructorExistingOneParamCase(VariabilityType variabilityType) throws Exception {
         VariationPointModel vpm = initializeVariationPointModel("Constructor_ExistingOneParam");
-        assert (vpm.getVariationPointGroups().size() == 1);
-        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().size() == 1);
-        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().get(0).getVariants().size() == 2);
+        assertVariationPointStructure(vpm);
 
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         setUpVariationPoint(variationPoint, variabilityType);
@@ -89,7 +87,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generated a variation point according to the Constructor_AddTwoParam test case. The location
+     * Generates a variation point according to the Constructor_AddTwoParam test case. The location
      * is a class. There are two variants, each having a constructor. The leading variant has an int
      * parameter, the integration an int and a short parameter.
      * 
@@ -101,9 +99,7 @@ public final class RefactoringTestUtil {
      */
     public static VariationPoint getConstructorAddTwoParamCase(VariabilityType variabilityType) throws Exception {
         VariationPointModel vpm = initializeVariationPointModel("Constructor_AddTwoParam");
-        assert (vpm.getVariationPointGroups().size() == 1);
-        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().size() == 1);
-        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().get(0).getVariants().size() == 2);
+        assertVariationPointStructure(vpm);
 
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         setUpVariationPoint(variationPoint, variabilityType);
@@ -112,7 +108,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generated a variation point according to the Import_TwoDistinct test case. The location is a
+     * Generates a variation point according to the Import_TwoDistinct test case. The location is a
      * compilation unit. There are two variants, each having a distinct import: an ArrayList and a
      * LinkedList.
      * 
@@ -126,9 +122,7 @@ public final class RefactoringTestUtil {
         VariationPointModel vpm = initializeVariationPointModel("Import_TwoDistinct");
         performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
                 vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
-        assert (vpm.getVariationPointGroups().size() == 1);
-        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().size() == 1);
-        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().get(0).getVariants().size() == 2);
+        assertVariationPointStructure(vpm);
 
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         setUpVariationPoint(variationPoint, variabilityType);
@@ -137,8 +131,9 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generated a variation point according to the Import_CommonMultiple test case. The location is a
-     * compilation unit. There are two variants, each having three imports whereas they share two common imports.
+     * Generates a variation point according to the Import_CommonMultiple test case. The location is
+     * a compilation unit. There are two variants, each having three imports whereas they share two
+     * common imports.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -150,9 +145,7 @@ public final class RefactoringTestUtil {
         VariationPointModel vpm = initializeVariationPointModel("Import_CommonMultiple");
         performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
                 vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
-        assert (vpm.getVariationPointGroups().size() == 1);
-        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().size() == 1);
-        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().get(0).getVariants().size() == 2);
+        assertVariationPointStructure(vpm);
 
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         setUpVariationPoint(variationPoint, variabilityType);
@@ -161,7 +154,233 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generated a variation point mock with a given variability type, extensibility, binding time,
+     * Generates a variation point according to the Statement_LocalVariableDiffTypes test case. The
+     * location is a compilation unit. There are two variants, each having three statements where
+     * the first statement is a local variable declaration. In the first variant, it is an int, in
+     * the second, it is a short.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementLocalVarDiffTypesCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_LocalVariableDiffTypes");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0), vpm.getVariationPointGroups().get(2)
+                        .getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Statement_LocalVariableEqualType test case. The
+     * location is a compilation unit. There are two variants, each having three statements where
+     * the first statement is a local variable declaration of the same type, but with different
+     * initial values (1 and 2).
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementLocalVarEqualTypeCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_LocalVariableEqualType");
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Statement_NestedCatch test case. The location is
+     * a compilation unit. There are two variants, each having a different statement in a catch
+     * block.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementNestedCatchCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedCatch");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Statement_NestedCondition test case. The
+     * location is a compilation unit. There are two variants, each having a different statement in
+     * a condition's if block.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementNestedConditionCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedCondition");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Statement_NestedFor test case. The location is a
+     * compilation unit. There are two variants, each having a different statement in a for block.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementNestedForCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedFor");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Statement_NestedSwitchCase test case. The
+     * location is a compilation unit. There are two variants, each having a different statement in
+     * a case block.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementNestedSwitchCaseCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedSwitchCase");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Statement_NestedTry test case. The location is a
+     * compilation unit. There are two variants, each having a different statement in a try block.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementNestedTryCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedTry");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Statement_NestedWhile test case. The location is
+     * a compilation unit. There are two variants, each having a different statement in a while
+     * block.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementNestedWhileCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_NestedWhile");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Statement_OneAdd test case. The location is a
+     * compilation unit. There are two variants. The first variant has one statement and the second
+     * has two where the first is similar to the statement in the first variant.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementOneAddCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_OneAdd");
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Statement_OneEither test case. The location is a
+     * compilation unit. There are two variants, each having one different statement.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementOneEitherCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_OneEither");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point mock with a given variability type, extensibility, binding time,
      * location and two variants, each with one element.
      * 
      * @param varType
@@ -171,14 +390,14 @@ public final class RefactoringTestUtil {
      * @param bt
      *            The {@link BindingTime}.
      * @param location
-     *            The vp location.
+     *            The variation point location.
      * @param implEl1
      *            The implementing element of the first variant.
      * @param implEl2
      *            The implementing element of the second variant.
      * @return The {@link VariationPoint}.
      */
-    public static VariationPoint generateSimpleVPMock(VariabilityType varType, Extensible extensible, BindingTime bt,
+    public static VariationPoint getSimpleVPMock(VariabilityType varType, Extensible extensible, BindingTime bt,
             Commentable location, Commentable implEl1, Commentable implEl2) {
         VariationPoint vpMock = mock(VariationPoint.class);
 
@@ -204,6 +423,12 @@ public final class RefactoringTestUtil {
         when(vpMock.getLocation()).thenReturn(locationElement);
         when(vpMock.getVariants()).thenReturn(variants);
         return vpMock;
+    }
+
+    private static void assertVariationPointStructure(VariationPointModel vpm) {
+        assert (vpm.getVariationPointGroups().size() == 1);
+        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().size() == 1);
+        assert (vpm.getVariationPointGroups().get(0).getVariationPoints().get(0).getVariants().size() == 2);
     }
 
     private static VariationPointModel initializeVariationPointModel(String folderName) throws Exception {
