@@ -40,8 +40,6 @@ public class JaMoPPSoftwareElementImplTest {
     /** Source path to the original implementation. */
     private static final File TEST_FILE = new File("testcode/ExampleClass.java");
 
-    private static final int NEW_LINE_LENGTH = System.getProperty("line.separator").length();
-
     /** The class of the test code. */
     private ConcreteClassifier exampleClass = null;
 
@@ -79,8 +77,8 @@ public class JaMoPPSoftwareElementImplTest {
         SourceLocation location = softwareElement.getSourceLocation();
 
         assertThat("Wrong start line", location.getStartLine(), is(4));
-        assertThat("Wrong start position", location.getStartPosition(), is(28 + 3 * NEW_LINE_LENGTH));
-        assertThat("Wrong end position", location.getEndPosition(), is(54 + 3 * NEW_LINE_LENGTH));
+        assertThat("Wrong start position", location.getStartPosition(), is(31));
+        assertThat("Wrong end position", location.getEndPosition(), is(57));
     }
 
     /**
@@ -99,8 +97,8 @@ public class JaMoPPSoftwareElementImplTest {
         SourceLocation location = softwareElement.getSourceLocation();
 
         assertThat("Wrong start line", location.getStartLine(), is(6));
-        assertThat("Wrong start position", location.getStartPosition(), is(56 + 5 * NEW_LINE_LENGTH));
-        assertThat("Wrong end position", location.getEndPosition(), is(114 + 7 * NEW_LINE_LENGTH));
+        assertThat("Wrong start position", location.getStartPosition(), is(61));
+        assertThat("Wrong end position", location.getEndPosition(), is(121));
     }
 
     /**
