@@ -17,3 +17,4 @@
 *.jpg binary
 *.gif binary
 *.class binary
+*.jar binary
