@@ -106,7 +106,7 @@ public final class Config {
     public static final String LABEL_STOP_WORDS = "Stop-Words";
 
     /** The explanation for the stop word configuration. */
-    public static final String EXPL_STOP_WORDS = "Terms to filter and not detect any relationships for. "
+    public static final String EXPL_STOP_WORDS = "Terms to filter and not detect any relationships for. Stop words are filtered before stemming is applied."
             + "Put in words separated by whitespace.";
 
     /** The stop-word list for the analyzers. */
@@ -143,7 +143,7 @@ public final class Config {
     // --------------------------
     // Feature Terms
     // --------------------------
-    
+
     /** Identifier for the configuration of the feature terms. */
     public static final String CONFIG_ID_FEATURE_TERMS = CONFIG_ID_BASE + "FEATURE_TERMS";
 
