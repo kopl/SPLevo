@@ -40,7 +40,7 @@ public final class WorkspaceUtil {
         String basePath = splevoProject.getWorkspace() + "models/sourcemodels/";
         String relativePath = basePath + variantName;
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        String absolutePath = root.getLocation().toPortableString() + relativePath;
+        String absolutePath = root.getLocation().toPortableString() + "/" + relativePath;
         return absolutePath;
     }
 
@@ -51,7 +51,7 @@ public final class WorkspaceUtil {
 	 */
 	public static String getAbsoluteWorkspacePath() {
 	    IWorkspace workspace = ResourcesPlugin.getWorkspace();
-	    String basePath = workspace.getRoot().getRawLocation().toOSString();
+	    String basePath = workspace.getRoot().getRawLocation().toOSString() + "/";
 	    return basePath;
 	}
 

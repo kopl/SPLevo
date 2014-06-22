@@ -50,19 +50,19 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
 
     private static Logger logger = Logger.getLogger(NewConsolidationProjectWizard.class);
 
-    private WizardNewProjectCreationPage projectCreationPage;    
-    
+    private WizardNewProjectCreationPage projectCreationPage;
+
     private IConfigurationElement configurationElement;
-    
+
     private SPLevoProject projectConfiguration;
-    
+
     private PackageScopeDefinitionWizardPage packageScopeDefinitionWizardPage;
 
     /**
      * Constructor preparing the wizard infrastructure.
      */
     public NewConsolidationProjectWizard() {
-        setWindowTitle(WIZARD_NAME);        
+        setWindowTitle(WIZARD_NAME);
     }
 
     @Override
@@ -72,14 +72,14 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
         projectCreationPage = new WizardNewProjectCreationPage("Consolidation Project Wizard");
         projectCreationPage.setTitle("Consolidation Project");
         projectCreationPage.setDescription("Create a new project for consolidating project "
-                + "copies into a variable product line.");                
-        
-        projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();  
+                + "copies into a variable product line.");
+
+        projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();
         packageScopeDefinitionWizardPage = new PackageScopeDefinitionWizardPage(projectConfiguration);
-      
+
         addPage(projectCreationPage);
         addPage(new ProjectsSelectionWizardPage(projectConfiguration));
-        addPage(packageScopeDefinitionWizardPage);        
+        addPage(packageScopeDefinitionWizardPage);
     }
 
     @Override
@@ -92,15 +92,15 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
 
         try {
             IProject project = createBaseProject(name, nonDefaultLocation);
-                     
+
             String splevoProjectFileName = project.getName() + "." + SPLevoProjectUtil.SPLEVO_FILE_EXTENSION;
-            File filePath = new File(project.getFullPath().toString() + File.separator + splevoProjectFileName);            
-                       
-            projectConfiguration.setWorkspace("/" + project.getName() + "/");
-            projectConfiguration.setName(project.getName());   
-            
+            File filePath = new File(project.getFullPath().toString() + File.separator + splevoProjectFileName);
+
+            projectConfiguration.setWorkspace(project.getName() + "/");
+            projectConfiguration.setName(project.getName());
+
             packageScopeDefinitionWizardPage.setChosenPackages();
-            
+
             try {
                 SPLevoProjectUtil.save(projectConfiguration, filePath);
                 project.refreshLocal(-1, new NullProgressMonitor());
@@ -111,7 +111,7 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
             addNature(project);
         } catch (CoreException e) {
             logger.error("Failed to create consolidation project", e);

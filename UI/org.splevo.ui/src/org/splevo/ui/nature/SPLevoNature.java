@@ -78,7 +78,7 @@ public class SPLevoNature implements IProjectNature {
         File absolutePath = new File(workspaceRoot + filePath.toString());
         if (!absolutePath.exists()) {
             SPLevoProject projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();
-            projectConfiguration.setWorkspace("/" + project.getName() + "/");
+            projectConfiguration.setWorkspace(project.getName() + "/");
             projectConfiguration.setName(project.getName());
             try {
                 SPLevoProjectUtil.save(projectConfiguration, filePath);
