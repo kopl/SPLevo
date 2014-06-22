@@ -27,7 +27,7 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
  * <li>Splits at whitespace characters according to the regex <code>\s</code></li>
  * <li>Splits camel case terms</li>
  * </ul>
- * 
+ *
  * Has a list of terms that will be sustained during the splitting process.
  */
 public class CodeTokenizer extends Tokenizer {
@@ -37,7 +37,7 @@ public class CodeTokenizer extends Tokenizer {
 
     /**
      * Default constructor.
-     * 
+     *
      * @param input
      *            The {@link Reader}.
      * @param splitCamelCase
@@ -50,7 +50,7 @@ public class CodeTokenizer extends Tokenizer {
 
     /**
      * Initializes the tokenizer with a list of feature terms that won't be split.
-     * 
+     *
      * @param input
      *            The {@link Reader}.
      * @param splitCamelCase
@@ -80,7 +80,7 @@ public class CodeTokenizer extends Tokenizer {
         // remove numeric values and split at whitespaces
         if (sb.length() > 0) {
             String textWithoutNumericValues = sb.toString().replaceAll("[0-9]", "");
-            tokens = new LinkedList<String>(Arrays.asList(textWithoutNumericValues.split("\\s")));
+            tokens = new LinkedList<String>(Arrays.asList(textWithoutNumericValues.split("[^\\p{Alpha}[\\s]]")));
         }
 
         if (tokens.size() == 0) {

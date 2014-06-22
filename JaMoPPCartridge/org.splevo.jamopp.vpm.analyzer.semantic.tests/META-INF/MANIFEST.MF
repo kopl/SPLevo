@@ -6,4 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: www.splevo.org
 Fragment-Host: org.splevo.jamopp.vpm.analyzer.semantic;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.junit;bundle-version="4.11.0"
+Require-Bundle: org.junit;bundle-version="4.11.0",
+ org.splevo.jamopp.extraction,
+ org.apache.log4j
