@@ -28,7 +28,7 @@ public class VPGroupingExplorer extends CommonNavigator {
 
     /** The mediator. */
     private ExplorerMediator mediator = Activator.EXPLORER_MEDIATOR;
-    
+
     /** The vp explorer content. */
     private VPExplorerContent vpExplorerContent;
 
@@ -40,7 +40,9 @@ public class VPGroupingExplorer extends CommonNavigator {
         mediator.registerVPGroupingExplorer(this);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.ui.navigator.CommonNavigator#getInitialInput()
      */
     @Override
@@ -58,18 +60,20 @@ public class VPGroupingExplorer extends CommonNavigator {
         return vpExplorerContent;
     }
 
-    
     /**
      * Sets the vpm.
-     *
-     * @param vpm the new vpm
+     * 
+     * @param vpm
+     *            the new vpm
      */
     public void setVPM(VariationPointModel vpm) {
         this.vpExplorerContent.setVpm(vpm);
-//        this.getCommonViewer().refresh();
+        // this.getCommonViewer().refresh();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.ui.navigator.CommonNavigator#dispose()
      */
     @Override

@@ -41,8 +41,7 @@ public class ExplorerMediator {
     }
 
     /**
-     * Deregisters the VP explorer. Will have no effect if no VP explorer was registered
-     * beforehand.
+     * Deregisters the VP explorer. Will have no effect if no VP explorer was registered beforehand.
      */
     public void deregisterVPExplorer() {
         vpExplorer = null;

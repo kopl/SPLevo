@@ -19,8 +19,9 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 
 /**
+ * This TreeNodeContentProvider expects a VPExplorerContent as input and will return its groupings
+ * and variation points.
  * 
- *
  */
 public class VPGroupingExplorerContentProvider extends TreeNodeContentProvider {
 
@@ -30,7 +31,7 @@ public class VPGroupingExplorerContentProvider extends TreeNodeContentProvider {
     public Object[] getElements(Object inputElement) {
         return this.getChildren(inputElement);
     }
-    
+
     @Override
     public boolean hasChildren(Object element) {
         return getChildren(element).length > 0;
@@ -83,6 +84,7 @@ public class VPGroupingExplorerContentProvider extends TreeNodeContentProvider {
             return getParent((VariationPoint) element);
 
         } else {
+            logger.warn("Unhandled Element in method getParent: " + element.getClass().getSimpleName());
             return null;
         }
     }
