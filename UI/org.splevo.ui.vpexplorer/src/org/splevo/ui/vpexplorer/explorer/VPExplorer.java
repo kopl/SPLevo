@@ -114,7 +114,7 @@ public class VPExplorer extends CommonNavigator {
      */
     public void setVPM(VariationPointModel vpm) {
         vpExplorerContent.setVpm(vpm);
-        mediator.updateVPM();
+        mediator.vpmAssigned();
     }
 
     /*
@@ -124,7 +124,7 @@ public class VPExplorer extends CommonNavigator {
      */
     @Override
     public void dispose() {
-        mediator.deregisterVPGRoupingExplorer();
+        mediator.deregisterVPExplorer();
         super.dispose();
     }
 

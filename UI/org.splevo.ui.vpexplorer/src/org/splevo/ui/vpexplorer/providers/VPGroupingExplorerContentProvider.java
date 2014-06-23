@@ -27,6 +27,16 @@ public class VPGroupingExplorerContentProvider extends TreeNodeContentProvider {
     private static Logger logger = Logger.getLogger(VPGroupingExplorerContentProvider.class);
 
     @Override
+    public Object[] getElements(Object inputElement) {
+        return this.getChildren(inputElement);
+    }
+    
+    @Override
+    public boolean hasChildren(Object element) {
+        return getChildren(element).length > 0;
+    }
+
+    @Override
     public Object[] getChildren(Object parentElement) {
 
         if (parentElement instanceof VPExplorerContent) {
@@ -59,5 +69,33 @@ public class VPGroupingExplorerContentProvider extends TreeNodeContentProvider {
 
     private Object[] getChildren(VariationPoint parentElement) {
         return new Object[0];
+    }
+
+    @Override
+    public Object getParent(Object element) {
+        if (element instanceof VPExplorerContent) {
+            return getParent((VPExplorerContent) element);
+
+        } else if (element instanceof VariationPointGroup) {
+            return getParent((VariationPointGroup) element);
+
+        } else if (element instanceof VariationPoint) {
+            return getParent((VariationPoint) element);
+
+        } else {
+            return null;
+        }
+    }
+
+    private Object getParent(VPExplorerContent element) {
+        return null;
+    }
+
+    private Object getParent(VariationPointGroup element) {
+        return null;
+    }
+
+    private Object getParent(VariationPoint element) {
+        return element.getGroup();
     }
 }

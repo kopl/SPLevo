@@ -14,7 +14,7 @@
             category="org.splevo.ui"
             class="org.splevo.ui.vpexplorer.explorer.VPGroupingExplorer"
             icon="icons/kopl_circle_only.png"
-            id="org.splevo.ui.vpxplorer.grouping"
+            id="org.splevo.ui.vpgroupingexplorer"
             name="Variation Point Grouping Explorer"
             restorable="true">
       </view>
@@ -33,10 +33,10 @@
          </includes>
       </viewerContentBinding>
       <viewer
-            viewerId="org.splevo.ui.vpxplorer.grouping">
+            viewerId="org.splevo.ui.vpgroupingexplorer">
       </viewer>
       <viewerContentBinding
-            viewerId="org.splevo.ui.vpxplorer.grouping">
+            viewerId="org.splevo.ui.vpgroupingexplorer">
          <includes>
             <contentExtension
                   pattern="org.splevo.ui.vpexplorer.vpExplorerGroupingContent">
@@ -54,7 +54,7 @@
                relative="org.eclipse.jdt.ui.PackageExplorer">
          </view>
          <view
-               id="org.splevo.ui.vpxplorer.grouping"
+               id="org.splevo.ui.vpgroupingexplorer"
                ratio="0.7"
                relationship="bottom"
                relative="org.eclipse.jdt.ui.PackageExplorer">

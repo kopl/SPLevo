@@ -24,7 +24,7 @@ import org.splevo.vpm.variability.VariationPointModel;
 public class VPGroupingExplorer extends CommonNavigator {
 
     /** Id to reference the view inside eclipse. */
-    public static final String VIEW_ID = "org.splevo.ui.vpxplorer.grouping";
+    public static final String VIEW_ID = "org.splevo.ui.vpgroupingexplorer";
 
     /** The mediator. */
     private ExplorerMediator mediator = Activator.EXPLORER_MEDIATOR;

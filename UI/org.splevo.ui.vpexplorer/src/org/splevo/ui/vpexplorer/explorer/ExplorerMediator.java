@@ -30,8 +30,6 @@ public class ExplorerMediator {
     private VPExplorer vpExplorer;
     private VPGroupingExplorer vpGroupingExplorer;
 
-    private boolean shouldUpdateVPM = false;
-
     /**
      * Registers the VP explorer at this mediator.
      * 
@@ -58,9 +56,6 @@ public class ExplorerMediator {
      */
     public void registerVPGroupingExplorer(VPGroupingExplorer groupingExplorer) {
         this.vpGroupingExplorer = groupingExplorer;
-        if (shouldUpdateVPM) {
-            updateVPM();
-        }
     }
 
     /**
@@ -74,12 +69,11 @@ public class ExplorerMediator {
     /**
      * Sends the VPM of the VP explorer to the VP grouping explorer.
      */
-    public void updateVPM() {
+    public void vpmAssigned() {
         if (vpExplorer != null) {
             if (vpGroupingExplorer != null) {
                 vpGroupingExplorer.setVPM(vpExplorer.getVpExplorerContent().getVpm());
             } else {
-                shouldUpdateVPM = true;
                 openVPGroupingExplorer(vpExplorer.getVpExplorerContent().getVpm());
             }
         } else {
@@ -88,7 +82,7 @@ public class ExplorerMediator {
     }
 
     private void openVPGroupingExplorer(final VariationPointModel vpm) {
-        Display.getDefault().asyncExec(new Runnable() {
+        Display.getDefault().syncExec(new Runnable() {
             @Override
             public void run() {
                 try {
