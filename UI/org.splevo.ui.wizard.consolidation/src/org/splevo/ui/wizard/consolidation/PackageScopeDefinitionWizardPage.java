@@ -23,12 +23,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.core.PackageFragment;
 import org.eclipse.jdt.ui.ISharedImages;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -54,7 +50,6 @@ import org.splevo.project.SPLevoProject;
  * 
  * @author Radoslav Yankov
  */
-@SuppressWarnings("restriction")
 public class PackageScopeDefinitionWizardPage extends WizardPage {
 
     private SPLevoProject projectConfiguration;
@@ -71,7 +66,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     public PackageScopeDefinitionWizardPage(SPLevoProject projectConfiguration) {
         super("Package Scope Definition Page");
         setTitle("Package Scope Definition");
-        setDescription("Select the java packages to be ignored.");
+        setDescription("Select java packages which you want to be ignored.");
 
         this.projectConfiguration = projectConfiguration;
     }
@@ -85,27 +80,42 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         container.setLayout(layout);
 
         Label label = new Label(container, SWT.NONE);
-        label.setText("Select java packages to ignore:");
+        label.setText("Select java packages to be ignored:");
 
         packagesTable = createPackagesTableViewer(container).getTable();
-        packagesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true)); 
+        packagesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         packagesTable.addListener(SWT.Selection, new Listener() {
-            
+
             @Override
-            public void handleEvent(Event event) { 
+            public void handleEvent(Event event) {
                 if (event.item instanceof TableItem) {
                     TableItem tableItem = (TableItem) event.item;
-                    if (tableItem.getChecked()) {
-                        for (String subPackageName : getSubPackagesNames(tableItem.getText())) {
-                            for (TableItem javaPackage : packagesTable.getItems()) {
-                                if (subPackageName.equals(javaPackage.getText())) {
-                                    javaPackage.setChecked(true);
-                                    break;
-                                }
-                            }
+                    for (TableItem packageTableItem : findPackagesInTable(getSubPackages(
+                            tableItem.getText()))) {                       
+                        if (tableItem.getChecked()) {                             
+                            tableItem.setChecked(true);                          
+                            packageTableItem.setChecked(true);                           
+                        } else if (!tableItem.getChecked()) {                             
+                            tableItem.setChecked(false);
+                            tableItem.setGrayed(false);
+                            packageTableItem.setChecked(false);                                                        
                         }
                     }
-                }                              
+                    
+                    for (TableItem parentPackageTableItem : findPackagesInTable(getParentPackages(tableItem.getText()))) {
+                        List<TableItem> subPackagesTableItems = findPackagesInTable(getSubPackages(
+                                parentPackageTableItem.getText()));                        
+                        if (getCountOfCheckedItems(subPackagesTableItems) == subPackagesTableItems.size()) {
+                            parentPackageTableItem.setChecked(true);                            
+                        } else if (getCountOfCheckedItems(subPackagesTableItems) > 0) {                         
+                            parentPackageTableItem.setChecked(true);
+                            parentPackageTableItem.setGrayed(true);
+                        } else {                           
+                            parentPackageTableItem.setChecked(false);
+                            parentPackageTableItem.setGrayed(false);
+                        }
+                    }
+                }
             }
         });
         setControl(container);
@@ -116,7 +126,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         super.setVisible(visible);
 
         if (visible) {
-            packagesTableViewer.setInput(getJavaPackages());
+            packagesTableViewer.setInput(getJavaPackages()); 
         }
     }
 
@@ -177,13 +187,19 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         List<String> chosenPackagesNames = new ArrayList<String>();
 
         for (TableItem javaPackage : allPackages) {
-            if (javaPackage.getChecked()) {
+            if (javaPackage.getChecked() && !javaPackage.getGrayed()) {
                 chosenPackagesNames.add(javaPackage.getText());
             }                        
         }
         return chosenPackagesNames;
     }
 
+    /**
+     * Get all java packages which are in the class path of the chosen projects without duplicates
+     * and ordered by name.
+     * 
+     * @return List with all java packages.
+     */
     private List<IPackageFragment> getJavaPackages() {
 
         List<IPackageFragment> javaPackages = new ArrayList<IPackageFragment>();
@@ -209,6 +225,11 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         return javaPackages;
     }
 
+    /**
+     * Get all chosen projects on previous page.
+     * 
+     * @return List with all chosen projects.
+     */
     private List<IProject> getAllChosenProjects() {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
@@ -226,14 +247,13 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         return allChosenProjects;
     }
     
+    /**
+     * Remove duplicates from the give packages list.
+     * 
+     * @param javaPackages The packages list which has to be checked for duplicates.
+     */
     private void removeDuplicates(List<IPackageFragment> javaPackages) {
-        SortedSet<IPackageFragment> javaPackagesSet = new TreeSet<IPackageFragment>(new Comparator<IPackageFragment>() {
-
-            @Override
-            public int compare(IPackageFragment packageFragment1, IPackageFragment packageFragment2) {
-                return packageFragment1.getElementName().compareTo(packageFragment2.getElementName());
-            }
-        });
+        SortedSet<IPackageFragment> javaPackagesSet = new TreeSet<IPackageFragment>(new PackagesComparator());
 
         Iterator<IPackageFragment> iterator = javaPackages.iterator();
         while (iterator.hasNext()) {
@@ -244,54 +264,109 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         javaPackages.addAll(javaPackagesSet);
     }
     
+    /**
+     * Oder the given packages list by name (ascending).
+     * 
+     * @param packages The packages list which has to be ordered.
+     */
     private void orderPackagesByName(List<IPackageFragment> packages) {
-        Collections.sort(packages, new Comparator<IPackageFragment>() {
-
-            @Override
-            public int compare(IPackageFragment packageFragment1, IPackageFragment packageFragment2) {
-                return packageFragment1.getElementName().compareTo(packageFragment2.getElementName());
-            }
-        });
+        Collections.sort(packages, new PackagesComparator());
     }
     
-    private List<String> getSubPackagesNames(String packageName) {
-        IPackageFragment javaPackage = null;
-        List<String> subPackagesNames = new ArrayList<String>();
+    /**
+     * Get all sub packages of the given package specified by name.
+     * 
+     * @param packageName Name of the package.
+     * @return All sub packages of the given package.
+     */
+    private List<IPackageFragment> getSubPackages(String packageName) {        
+        List<IPackageFragment> subPackages = new ArrayList<IPackageFragment>();
         
-        for (IPackageFragment packageFragment : getJavaPackages()) {
-            if (packageFragment.getElementName().equals(packageName)) {
-                javaPackage = packageFragment;
-                break;
+        for (IPackageFragment javaPackage : getJavaPackages()) {
+            if (javaPackage.getElementName().startsWith(packageName) 
+                    && !javaPackage.getElementName().equals(packageName)) {
+                subPackages.add(javaPackage);
+            } 
+        }                
+        return subPackages;
+    }
+    
+    /**
+     * Get all parent packages of the given package specified by name, ordered by name descending.
+     * 
+     * @param packageName Name of the package.
+     * @return All parent packages of the given package.
+     */
+    private List<IPackageFragment> getParentPackages(String packageName) {
+        List<IPackageFragment> parentPackages = new ArrayList<IPackageFragment>();
+        
+        String[] split = packageName.split("\\.");        
+        
+        for (IPackageFragment javaPackage : getJavaPackages()) {
+            String parentName = "";
+            for (int  i = 0; i < split.length - 1; i++) {                  
+                if (i == 0) {
+                    parentName = parentName.concat(split[i]);
+                } else {
+                    parentName = parentName.concat("." + split[i]);
+                }                                        
+                if (javaPackage.getElementName().equals(parentName)) {
+                    parentPackages.add(javaPackage);
+                }
             }
         }
         
-        if (javaPackage != null) {
-            IJavaElement[] packageChildren = null;
-            try {
-                packageChildren = ((IPackageFragmentRoot) javaPackage.getParent()).getChildren();
-            } catch (JavaModelException e) {                
-                e.printStackTrace();
-            }
-            String[] names = ((PackageFragment) javaPackage).names;
-            
-            int namesLength = names.length;
-            
-            newPackage: for (int i = 0, length = packageChildren.length; i < length; i++) {
-                String[] otherNames = ((PackageFragment) packageChildren[i]).names;
-                
-                if (otherNames.length <= namesLength) {
-                    continue;
+        Collections.sort(parentPackages, Collections.reverseOrder(new PackagesComparator()));
+        
+        return parentPackages;
+    }
+    
+    /**
+     * Find the given packages in the table.
+     * 
+     * @param packages List with packages which has to be found.
+     * @return The found packages as table items.
+     */
+    private List<TableItem> findPackagesInTable(List<IPackageFragment> packages) {
+        List<TableItem> packagesAsTableItems = new ArrayList<TableItem>();
+        
+        for (IPackageFragment packageFragment : packages) {            
+            for (TableItem javaPackage : packagesTable.getItems()) {
+                if (packageFragment.getElementName().equals(javaPackage.getText())) {
+                    packagesAsTableItems.add(javaPackage);
+                    break;
                 }
-                
-                for (int j = 0; j < namesLength; j++) {
-                    if (!names[j].equals(otherNames[j])) {
-                        continue newPackage;
-                    }
-                }
-                subPackagesNames.add(packageChildren[i].getElementName());
             }
+        }
+        return packagesAsTableItems;
+    }
+    
+    /**
+     * Get the count of the checked items.
+     * 
+     * @param tableItems The table items.
+     * @return Count of the checked table items.
+     */
+    private int getCountOfCheckedItems(List<TableItem> tableItems) {
+        List<TableItem> chechedItems = new ArrayList<TableItem>();
+        
+        for (TableItem tableItem : tableItems) {
+            if (tableItem.getChecked()) {
+                chechedItems.add(tableItem);
+            }
+        }
+        
+        return chechedItems.size();
+    }
+    
+    /**
+     * Comparator which compares the names of packages.
+     */
+    private class PackagesComparator implements Comparator<IPackageFragment> {
 
-        }
-        return subPackagesNames;
+        @Override
+        public int compare(IPackageFragment packageFragment1, IPackageFragment packageFragment2) {
+            return packageFragment1.getElementName().compareTo(packageFragment2.getElementName());
+        }   
     }
 }
