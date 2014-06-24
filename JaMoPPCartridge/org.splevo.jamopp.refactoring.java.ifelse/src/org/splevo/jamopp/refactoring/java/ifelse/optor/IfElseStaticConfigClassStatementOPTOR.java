@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.LocalVariableStatement;
+import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
@@ -52,7 +54,10 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
-        vpLocation.getContainingCompilationUnit().getImports().add(SPLConfigurationUtil.getSPLConfigClassImport());
+        ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();
+        if(!RefactoringUtil.containsImport(vpLocation.getContainingCompilationUnit(), splConfImport)) {
+            vpLocation.getContainingCompilationUnit().getImports().add(splConfImport);
+        }
 
         int indexBeginVariant = RefactoringUtil.getVariabilityPosition(vp);
         int indexEndVariant = indexBeginVariant;
@@ -76,14 +81,22 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
         boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
         boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
+        
+        if(!correctCharacteristics) {
+            return false;
+        }
 
         boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         boolean correctLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement() instanceof Method;
         boolean allImplementingElementsAreStatements = 
                 RefactoringUtil.allImplementingElementsOfType(variationPoint, Statement.class);
         boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreStatements;
-
-        return correctCharacteristics && correctInput;
+        
+        if(!correctInput) {
+            return false;
+        }
+        
+        return !RefactoringUtil.hasImplementingElementsOfType(variationPoint, Return.class);
     }
 
     @Override

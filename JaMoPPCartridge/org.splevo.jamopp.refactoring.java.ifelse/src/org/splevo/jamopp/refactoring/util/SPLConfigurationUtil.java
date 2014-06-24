@@ -15,15 +15,12 @@ import java.util.List;
 
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.expressions.ConditionalOrExpression;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.NestedExpression;
 import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.imports.ClassifierImport;
-import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.instantiations.InstantiationsFactory;
 import org.emftext.language.java.instantiations.NewConstructorCall;
@@ -51,7 +48,7 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public final class SPLConfigurationUtil {
 
-    private static final String CONFIG_FIELD_NAME = "Config";
+    private static final String CONFIG_FIELD_NAME = "CONFIG";
     private static final String CONFIGURATION_READER_CLASS_NAME = "SPLConfig";
 
     /**
@@ -63,25 +60,21 @@ public final class SPLConfigurationUtil {
     /**
      * Generates the import element that is needed to use the configuration reader.
      * 
-     * @return The {@link Import}.
+     * @return The {@link ClassifierImport}.
      */
-    public static Import getSPLConfigClassImport() {
+    public static ClassifierImport getSPLConfigClassImport() {
         ClassifierImport generatedImport = ImportsFactory.eINSTANCE.createClassifierImport();
         Class classifier = generateConfigReaderClassifier();
+        generatedImport.getNamespaces().add("org");
+        generatedImport.getNamespaces().add("splevo");
+        generatedImport.getNamespaces().add("config");
         generatedImport.setClassifier(classifier);
         return generatedImport;
     }
 
     private static Class generateConfigReaderClassifier() {
-        CompilationUnit cu = ContainersFactory.eINSTANCE.createCompilationUnit();
-        cu.setName("org.splevo.spl.configuration" + CONFIGURATION_READER_CLASS_NAME + ".java");
-        cu.getNamespaces().add("org");
-        cu.getNamespaces().add("splevo");
-        cu.getNamespaces().add("spl");
-        cu.getNamespaces().add("configuration");
         Class classifier = ClassifiersFactory.eINSTANCE.createClass();
         classifier.setName(CONFIGURATION_READER_CLASS_NAME);
-        cu.getClassifiers().add(classifier);
         return classifier;
     }
 

@@ -12,8 +12,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.imports.ClassifierImport;
+import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Constructor;
+import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.Parametrizable;
@@ -31,7 +35,6 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.Void;
 import org.emftext.language.java.variables.LocalVariable;
-import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.vpm.software.SoftwareElement;
@@ -61,7 +64,7 @@ public final class RefactoringUtil {
     public static void extractVariantsIntoMethods(VariationPoint variationPoint) {
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
-        Class parentClass = findContainingClassRec(vpLocation);
+        Class parentClass = findContainingUnitByType(vpLocation, Class.class);
 
         HashMap<Variant, List<Statement>> variantStatements = buildVariantStatementMap(variationPoint);
 
@@ -134,29 +137,19 @@ public final class RefactoringUtil {
     }
 
     private static TypeReference getReturnType(StatementListContainer vpLocation) {
-        ClassMethod method = findContainingMethodRec(vpLocation);
+        ClassMethod method = findContainingUnitByType(vpLocation, ClassMethod.class);
         if (method != null) {
             return method.getTypeReference();
         }
         return null;
     }
 
-    private static ClassMethod findContainingMethodRec(StatementListContainer vpLocation) {
+    @SuppressWarnings("unchecked")
+    private static <T> T findContainingUnitByType(StatementListContainer vpLocation, java.lang.Class<T> type) {
         EObject container = vpLocation;
         while (container != null) {
-            if (container instanceof ClassMethod) {
-                return ((ClassMethod) container);
-            }
-            container = container.eContainer();
-        }
-        return null;
-    }
-
-    private static Class findContainingClassRec(StatementListContainer vpLocation) {
-        EObject container = vpLocation;
-        while (container != null) {
-            if (container instanceof Class) {
-                return ((Class) container);
+            if (type.isAssignableFrom(container.getClass())) {
+                return ((T) container);
             }
             container = container.eContainer();
         }
@@ -246,13 +239,15 @@ public final class RefactoringUtil {
         for (Variant variant : variationPoint.getVariants()) {
             Statement firstImplementingElement = (Statement) ((JaMoPPSoftwareElement) variant.getImplementingElements()
                     .get(0)).getJamoppElement();
-            int position = JaMoPPElementUtil.getPositionInContainer(firstImplementingElement);
-            if (position == -1) {
+            EObject container = firstImplementingElement;
+            if (container.eContainer() == null) {
                 continue;
             }
-            return position;
+            while (container.eContainer() != null && !(container.eContainer() instanceof Member)) {
+                container = container.eContainer();
+            }
+            return ((StatementListContainer) container.eContainer()).getStatements().indexOf(container);
         }
-
         return -1;
     }
 
@@ -303,8 +298,12 @@ public final class RefactoringUtil {
         if (p2.getParameters().size() != p1.getParameters().size()) {
             return false;
         }
-        for (Parameter param : p2.getParameters()) {
-            if (!p1.getParameters().contains(param)) {
+        for (int i = 0; i < p1.getParameters().size(); i++) {
+            Parameter p1Param = p1.getParameters().get(i);
+            Parameter p2Param = p2.getParameters().get(i);
+
+            if (!p1Param.getTypeReference().getTarget().getClassClass()
+                    .equals(p2Param.getTypeReference().getTarget().getClassClass())) {
                 return false;
             }
         }
@@ -379,5 +378,57 @@ public final class RefactoringUtil {
             }
         }
         return true;
+    }
+
+    /**
+     * Checks whether a variation point's variants have an element of a certain type.
+     * 
+     * @param variationPoint
+     *            The {@link VariationPoint}.
+     * @param c
+     *            The type's {@link java.lang.Class}.
+     * @param <T>
+     *            The type.
+     * @return <code>true</code> a element was found; <code>false</code> otherwise.
+     */
+    public static <T> boolean hasImplementingElementsOfType(VariationPoint variationPoint, java.lang.Class<T> c) {
+        for (Variant variant : variationPoint.getVariants()) {
+            for (SoftwareElement se : variant.getImplementingElements()) {
+                Commentable commentable = ((JaMoPPSoftwareElement) se).getJamoppElement();
+                if (c.isInstance(commentable)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether a classifier import is already contained in a compilation unit.
+     * 
+     * @param cu
+     *            The {@link CompilationUnit}.
+     * @param i
+     *            The {@link ClassifierImport}.
+     * @return <code>true</code> if contained; <code>false</code> otherwise.
+     */
+    public static boolean containsImport(CompilationUnit cu, ClassifierImport i) {
+        for (Import currentI : cu.getImports()) {
+            if (!(currentI instanceof ClassifierImport)) {
+                continue;
+            }
+            if (currentI.getNamespaces().size() != i.getNamespaces().size()) {
+                continue;
+            }
+            for (int x = 0; x < cu.getNamespaces().size(); x++) {
+                if (!currentI.getNamespaces().get(x).equals(i.getNamespaces().get(x))) {
+                    continue;
+                }
+            }
+            if (((ClassifierImport) currentI).getClassifier().getName().equals(i.getClassifier().getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
