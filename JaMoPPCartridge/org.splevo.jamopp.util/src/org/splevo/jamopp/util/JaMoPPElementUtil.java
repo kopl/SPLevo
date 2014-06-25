@@ -279,10 +279,11 @@ public final class JaMoPPElementUtil {
         } else if (element instanceof ClassifierImport) {
             return getTypeLabel(((ClassifierImport) element).getClassifier());
 
+        } else {
+            int implLength = 4;
+            String className = element.getClass().getSimpleName();
+            return className.substring(0, className.length() - implLength);
         }
-
-        throw new IllegalArgumentException("Unhandled Element: " + element.getClass().getSimpleName());
-        // return element.getClass().getSimpleName();
     }
 
     /**
