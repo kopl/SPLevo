@@ -97,6 +97,8 @@ public class DerivedCopyFilter {
         int counterTotalMethods = 0;
         int counterTotalFields = 0;
 
+        Set<Class> alreadyProcessedOrigin = Sets.newLinkedHashSet();
+
         // CLASS CHANGES
         // find class changes about changed extends / default extends
         // Identify the super and the sub class
@@ -118,6 +120,13 @@ public class DerivedCopyFilter {
 
             if (derivedCopyClassMatch != null) {
                 falsePositivesToRemove.add(diff);
+
+                Class originClass = (Class) diff.getMatch().getRight();
+                if (alreadyProcessedOrigin.contains(originClass)) {
+                    continue;
+                }
+                alreadyProcessedOrigin.add(originClass);
+
                 counterClasses++;
 
                 if (cleanImports) {

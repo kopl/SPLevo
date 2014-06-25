@@ -21,7 +21,7 @@ import org.splevo.vpm.variability.VariationPointModel;
 /**
  * A wrapper for the content to be displayed in the VP explorer.<br>
  * The wrapper is necessary to actively change what is displayed in the explorer.
- * 
+ *
  * DesignDecision: Register explorer component and not viewer to be refreshed. The explorer itself
  * is registered to refresh it's CommonViewer whenever the VPM to display is changed. It's not
  * possible to register the common viewer itself as it is not instantiated and available when the
@@ -40,7 +40,7 @@ public class VPExplorerContent extends PlatformObject {
 
     /**
      * Constructor to bound the content wrapper to a specific explorer.
-     * 
+     *
      * @param navigator
      *            The explorer to notify about input changes.
      */
@@ -55,7 +55,7 @@ public class VPExplorerContent extends PlatformObject {
 
     /**
      * Access the variation point model wrapped by the content.
-     * 
+     *
      * @return The vpm to present.
      */
     public VariationPointModel getVpm() {
@@ -64,10 +64,10 @@ public class VPExplorerContent extends PlatformObject {
 
     /**
      * Set the variation point model wrapped by the content.
-     * 
+     *
      * DesignDecision: When a VPM is set, the content wrapper registers for any modifications of the
      * EMF resource containing the VPM model.
-     * 
+     *
      * @param vpm
      *            The vpm to present.
      */
