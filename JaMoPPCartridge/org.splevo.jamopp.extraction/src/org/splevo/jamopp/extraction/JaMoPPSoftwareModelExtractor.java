@@ -37,9 +37,6 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     public static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
     private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
 
-    /** Use the reference resolution caching */
-    private boolean useCache = true;
-
     /**
      * Extract the source model of a list of java projects. One project is the main project while a
      * list of additional projects to analyze can be specified. The reason for one main project is,
@@ -63,8 +60,8 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
      *
      * <p>
-     * If the targetUri is null, the extracted model will not be persisted and the resourceSet of
-     * the last projectURI will be returned.
+     * If the sourceModelPath is null, the extractor will not use a cache file for
+     * improved reference resolving.
      * </p>
      * {@inheritDoc}
      */
@@ -72,7 +69,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor, String sourceModelPath)
             throws SoftwareModelExtractionException {
 
-        if (useCache && sourceModelPath != null) {
+        if (sourceModelPath != null) {
             logger.info("Use cache file: " + sourceModelPath);
         }
 
