@@ -60,8 +60,8 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
      *
      * <p>
-     * If the sourceModelPath is null, the extractor will not use a cache file for
-     * improved reference resolving.
+     * If the sourceModelPath is null, the extractor will not use a cache file for improved
+     * reference resolving.
      * </p>
      * {@inheritDoc}
      */
@@ -76,8 +76,8 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
      *
      * <p>
-     * If the sourceModelPath is null, the extractor will not use a cache file for
-     * improved reference resolving.
+     * If the sourceModelPath is null, the extractor will not use a cache file for improved
+     * reference resolving.
      * </p>
      *
      *
@@ -88,14 +88,15 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * @param sourceModelPath
      *            The absolute path to the directory to store information for extracted source model
      *            in.
-     *            @param extractLayoutInfo Option to extract layout information.
+     * @param extractLayoutInfo
+     *            Option to extract layout information.
      * @return The set of resources containing the extracted model.
      * @throws SoftwareModelExtractionException
      *             Identifies the extraction was not successful.
      *
      */
-    public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor, String sourceModelPath, boolean extractLayoutInfo)
-            throws SoftwareModelExtractionException {
+    public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor,
+            String sourceModelPath, boolean extractLayoutInfo) throws SoftwareModelExtractionException {
 
         if (sourceModelPath != null) {
             logger.info("Use cache file: " + sourceModelPath);

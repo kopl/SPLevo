@@ -116,24 +116,13 @@ public class DerivedCopyTest {
         Comparison comparison = differ.doDiff(setA, setB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
+        assertThat("Exprected detection: 1 added public field", differences.size(), is(1));
 
-        for (Diff diff : differences) {
-            if (diff.getKind() == DifferenceKind.DELETE) {
-                assertThat("DELETE of wrong type detected", diff, instanceOf(FieldChange.class));
-                Field field = ((FieldChange) diff).getChangedField();
-                assertThat("Unexpected field detected as DELETE", field.getName(), is("oldField"));
-
-            } else if (diff.getKind() == DifferenceKind.ADD) {
-                assertThat("DELETE of wrong type detected", diff, instanceOf(FieldChange.class));
-                Field field = ((FieldChange) diff).getChangedField();
-                assertThat("Unexpected method detected as ADD", field.getName(), is("newField"));
-
-            } else {
-                fail("Change of unexpected kind detected");
-            }
-        }
-
-        assertThat("Exprected detection: 1 deleted private and 1 added public field", differences.size(), is(2));
+        Diff diff = differences.get(0);
+        assertThat(diff.getKind(), is(DifferenceKind.ADD));
+        assertThat(diff, instanceOf(FieldChange.class));
+        Field field = ((FieldChange) diff).getChangedField();
+        assertThat(field.getName(), is("newField"));
 
     }
 
