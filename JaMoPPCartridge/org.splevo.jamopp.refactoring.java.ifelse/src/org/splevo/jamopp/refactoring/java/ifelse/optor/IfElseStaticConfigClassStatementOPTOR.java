@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.imports.ClassifierImport;
-import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
@@ -45,7 +44,7 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
     @Override
     public void refactor(VariationPoint vp) {
-        RefactoringUtil.deleteVariableElements(vp);
+        RefactoringUtil.deleteVariableStatements(vp);
 
         if (RefactoringUtil.containsVarsSameNameDiffType(vp)) {
             RefactoringUtil.extractVariantsIntoMethods(vp);
@@ -87,7 +86,7 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         }
 
         boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
-        boolean correctLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement() instanceof Method;
+        boolean correctLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement() instanceof StatementListContainer;
         boolean allImplementingElementsAreStatements = 
                 RefactoringUtil.allImplementingElementsOfType(variationPoint, Statement.class);
         boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreStatements;

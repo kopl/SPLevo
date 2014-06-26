@@ -15,9 +15,12 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.instantiations.Initializable;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Constructor;
+import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
+import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.Parametrizable;
@@ -209,13 +212,38 @@ public final class RefactoringUtil {
     }
 
     /**
+     * Checks whether a variation point has fields with equal names but different types.
+     * 
+     * @param variationPoint
+     *            The {@link VariationPoint}.
+     * @return <code>true</code> if the vp has variables with equal name but different types; <code>false</code> otherwise.
+     */
+    public static boolean containsFieldsSameNameDiffType(VariationPoint variationPoint) {
+        HashMap<String, Type> namedVariables = new HashMap<String, Type>();
+        for (Variant variant : variationPoint.getVariants()) {
+            for (SoftwareElement se : variant.getImplementingElements()) {
+                Commentable currentElement = ((JaMoPPSoftwareElement) se).getJamoppElement();
+                if (currentElement instanceof Field) {
+                    Field field = (Field) currentElement;
+                    Type fieldType = field.getTypeReference().getTarget();
+                    Type oldValue = namedVariables.put(field.getName(), fieldType);
+                    if (oldValue != null && !oldValue.getClass().equals(fieldType.getClass())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Deletes the statements in a variation point's location that are variable (occur in a
      * variant).
      * 
      * @param variationPoint
      *            The {@link VariationPoint}.
      */
-    public static void deleteVariableElements(VariationPoint variationPoint) {
+    public static void deleteVariableStatements(VariationPoint variationPoint) {
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
         for (Variant variant : variationPoint.getVariants()) {
@@ -223,6 +251,26 @@ public final class RefactoringUtil {
                 for (SoftwareElement se : variant.getImplementingElements()) {
                     Statement variantStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
                     vpLocation.getStatements().remove(variantStatement);
+                }
+            }
+        }
+    }
+
+    /**
+     * Deletes the members in a variation point's location that are variable (occur in a
+     * variant).
+     * 
+     * @param variationPoint
+     *            The {@link VariationPoint}.
+     */
+    public static void deleteVariableMembers(VariationPoint variationPoint) {
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint
+                .getLocation()).getJamoppElement();
+        for (Variant variant : variationPoint.getVariants()) {
+            if (variant.getLeading()) {
+                for (SoftwareElement se : variant.getImplementingElements()) {
+                    Member variantMember = (Member) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                    vpLocation.getMembers().remove(variantMember);
                 }
             }
         }
@@ -252,17 +300,17 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Extracts the initial value expression from a local variable into a independent statement and
-     * sets the variable's initial value to <code>null</code>.
+     * Extracts the initial value expression from a given element into a independent statement and
+     * sets the element's initial value to <code>null</code>.
      * 
-     * @param variable
+     * @param initializable
      *            The {@link LocalVariable}.
      * @return The extracted assignment as {@link ExpressionStatement}.
      */
-    public static ExpressionStatement extractAssignment(LocalVariable variable) {
+    public static ExpressionStatement extractAssignment(Initializable initializable) {
         ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
-        expressionStatement.setExpression(variable.getInitialValue());
-        variable.setInitialValue(null);
+        expressionStatement.setExpression(initializable.getInitialValue());
+        initializable.setInitialValue(null);
 
         return expressionStatement;
     }
@@ -420,7 +468,7 @@ public final class RefactoringUtil {
             if (currentI.getNamespaces().size() != i.getNamespaces().size()) {
                 continue;
             }
-            for (int x = 0; x < cu.getNamespaces().size(); x++) {
+            for (int x = 0; x < i.getNamespaces().size(); x++) {
                 if (!currentI.getNamespaces().get(x).equals(i.getNamespaces().get(x))) {
                     continue;
                 }

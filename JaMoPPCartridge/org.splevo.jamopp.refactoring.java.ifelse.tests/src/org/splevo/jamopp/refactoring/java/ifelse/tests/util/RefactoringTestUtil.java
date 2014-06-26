@@ -12,7 +12,12 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.members.Field;
+import org.emftext.language.java.types.ClassifierReference;
+import org.emftext.language.java.types.TypesFactory;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
@@ -380,6 +385,47 @@ public final class RefactoringTestUtil {
     }
 
     /**
+     * Generates a variation point according to the Field_Default test case. The location is a
+     * class. There are two variants, whereas the first has one field and the second has the same
+     * field and one additional field.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getFieldDefaultCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Field_Default");
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Field_DifferentInitialValues test case. The location is a
+     * class. There are two variants, whereas both variants have one field that differs in its initial value.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getFieldDifferentInitialValuesCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Field_DifferentInitialValues");
+        assertVariationPointStructure(vpm);
+        
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+        
+        return variationPoint;
+    }
+
+    /**
      * Generates a variation point mock with a given variability type, extensibility, binding time,
      * location and two variants, each with one element.
      * 
@@ -423,6 +469,25 @@ public final class RefactoringTestUtil {
         when(vpMock.getLocation()).thenReturn(locationElement);
         when(vpMock.getVariants()).thenReturn(variants);
         return vpMock;
+    }
+    
+    /**
+     * Generates a mock for a field with test values.
+     * 
+     * @return The {@link Field} mock.
+     */
+    public static Field getFieldMock(){
+        Field field = mock(Field.class);
+        
+        Class createdClass = ClassifiersFactory.eINSTANCE.createClass();
+        createdClass.setName("MyClass");
+        ClassifierReference classRef = TypesFactory.eINSTANCE.createClassifierReference();
+        classRef.setTarget(createdClass);
+        
+        when(field.getTypeReference()).thenReturn(classRef).thenReturn(classRef);
+        when(field.getName()).thenReturn("a").thenReturn("b");
+        
+        return field;
     }
 
     private static void assertVariationPointStructure(VariationPointModel vpm) {
