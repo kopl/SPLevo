@@ -15,7 +15,7 @@
             class="org.splevo.ui.vpexplorer.explorer.VPGroupingExplorer"
             icon="icons/kopl_circle_only.png"
             id="org.splevo.ui.vpgroupingexplorer"
-            name="Variation Point Grouping Explorer"
+            name="Feature Outline"
             restorable="true">
       </view>
    </extension>
