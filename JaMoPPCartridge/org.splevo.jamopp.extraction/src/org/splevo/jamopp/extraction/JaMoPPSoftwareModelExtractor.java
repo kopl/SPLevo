@@ -68,7 +68,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     @Override
     public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor, String sourceModelPath)
             throws SoftwareModelExtractionException {
-        return extractSoftwareModel(projectPaths, monitor, sourceModelPath, true);
+        return extractSoftwareModel(projectPaths, monitor, sourceModelPath, false);
     }
 
     /**
@@ -302,6 +302,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         Map<Object, Object> options = rs.getLoadOptions();
         options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, disableLayoutOption);
         options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
+        options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
 
@@ -339,6 +340,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         Map<Object, Object> options = rs.getLoadOptions();
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
+        options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();

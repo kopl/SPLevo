@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.util.ContainersSwitch;
+import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.references.PackageReference;
 import org.emftext.language.java.references.util.ReferencesSwitch;
@@ -108,8 +109,12 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
         public Boolean defaultCase(EObject object) {
             if (object.eContainer() != null) {
                 return composedDoSwitch(object.eContainer());
+
+            } else if (object instanceof Field && "length".equals(((Field) object).getName())) {
+                    return Boolean.TRUE;
+
             } else {
-                logger.warn("A member element without a container: " + object);
+                logger.warn("An unexpected member element without a container: " + object);
                 return Boolean.TRUE;
             }
         }
@@ -153,10 +158,9 @@ public class IgnoreSwitch extends ComposedSwitch<Boolean> {
     private class ReferencesIgnoreSwitch extends ReferencesSwitch<Boolean> {
 
         /**
-         * If the container is not null, apply the switch to the container.
-         * If an element without a container is found log this exceptional case.
-         * Except for PackagesReferences as they are the only reference elements
-         * allowed to exist on the top level.
+         * If the container is not null, apply the switch to the container. If an element without a
+         * container is found log this exceptional case. Except for PackagesReferences as they are
+         * the only reference elements allowed to exist on the top level.
          *
          * {@inheritDoc}
          */
