@@ -24,8 +24,14 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.ISelectionService;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.variability.Variant;
@@ -50,13 +56,17 @@ public class ArgoUMLVariantScanHandler extends AbstractHandler {
     public Object execute(ExecutionEvent event) throws ExecutionException {
 
         ISelection curSelection = HandlerUtil.getCurrentSelection(event);
-        if (curSelection != null && curSelection instanceof IStructuredSelection) {
+        curSelection = convertTreeSelection(curSelection);
+
+        if (curSelection instanceof IStructuredSelection) {
             IStructuredSelection selection = (IStructuredSelection) curSelection;
 
             List<VariationPoint> vps = Lists.newArrayList();
             for (Object selectedItem : selection.toList()) {
                 if (selectedItem instanceof VariationPoint) {
                     vps.add((VariationPoint) selectedItem);
+                } else if (selectedItem instanceof Refinement) {
+                    vps.addAll(((Refinement) selectedItem).getVariationPoints());
                 }
             }
 
@@ -64,6 +74,16 @@ public class ArgoUMLVariantScanHandler extends AbstractHandler {
 
         }
         return null;
+    }
+
+    private ISelection convertTreeSelection(ISelection curSelection) {
+        if (curSelection instanceof TreeSelection && ((TreeSelection) curSelection).isEmpty()) {
+            IWorkbench wb = PlatformUI.getWorkbench();
+            IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+            ISelectionService selectionService = win.getSelectionService();
+            curSelection = selectionService.getSelection();
+        }
+        return curSelection;
     }
 
     private void scanForIncludedFeatures(List<VariationPoint> vps) {
