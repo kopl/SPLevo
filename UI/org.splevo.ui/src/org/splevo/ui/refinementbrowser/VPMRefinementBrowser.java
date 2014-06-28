@@ -99,7 +99,6 @@ public class VPMRefinementBrowser extends EditorPart {
         refinementListView.addSelectionChangedListener(new RefinementInfoSelectionListener(detailsView));
         IActionBars actionBars = getEditorSite().getActionBars();
         refinementListView.addSelectionChangedListener(new RefinementActionBarListener(actionBars));
-        getSite().setSelectionProvider(refinementListView);
 
         sashForm.setWeights(new int[] { 2, 8 });
 
