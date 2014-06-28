@@ -2,7 +2,7 @@ package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.members.Constructor;
+import org.emftext.language.java.members.ClassMethod;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
@@ -16,13 +16,14 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> The code base class must contain all constructors from the variants. Therefore,
- * this refactoring merges the constructors from all variants into the base.
+ * <h1>Summary</h1> The code base container must contain all methods from the variants. Therefore,
+ * this refactoring merges the methods from all variants into the base, if there are no
+ * interferences.
  */
-public class IfElseStaticConfigClassConstructorOPTOR implements VariabilityRefactoring {
+public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Constructor";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassConstructorOPTOR";
+    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Method";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassMethodOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -41,10 +42,8 @@ public class IfElseStaticConfigClassConstructorOPTOR implements VariabilityRefac
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Constructor constructor = (Constructor) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (!RefactoringUtil.hasConflictingConstructor(vpLocation, constructor)) {
-                    vpLocation.getMembers().add(constructor);
-                }
+                ClassMethod currentMethod = (ClassMethod) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                vpLocation.getMembers().add(currentMethod);
             }
         }
     }
@@ -63,11 +62,15 @@ public class IfElseStaticConfigClassConstructorOPTOR implements VariabilityRefac
         boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         boolean correctLocation = jamoppElement instanceof Class;
-        boolean allImplementingElementsAreConstructors = RefactoringUtil.allImplementingElementsOfType(variationPoint,
-                Constructor.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreConstructors;
+        boolean allImplementingElementsAreFields = RefactoringUtil.allImplementingElementsOfType(variationPoint,
+                ClassMethod.class);
+        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreFields;
 
-        return correctInput;
+        if (!correctInput) {
+            return false;
+        }
+
+        return !RefactoringUtil.hasConflictingMethods(variationPoint);
     }
 
     @Override
