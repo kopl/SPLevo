@@ -275,7 +275,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
             super.handleEvent(event);
         } 
     }
-    
+     
     /**
      * Listener to react on events and trigger the page to check its completeness and to
      * set the integration projects variant name if it has not been already set.
