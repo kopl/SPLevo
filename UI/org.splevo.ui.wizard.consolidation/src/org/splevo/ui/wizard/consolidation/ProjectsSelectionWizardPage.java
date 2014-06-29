@@ -273,7 +273,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
                 leadingVariantNameField.setText(chosenLeadingProjects.get(chosenLeadingProjects.size() - 1));
             }
             super.handleEvent(event);
-        }
+        } 
     }
     
     /**
