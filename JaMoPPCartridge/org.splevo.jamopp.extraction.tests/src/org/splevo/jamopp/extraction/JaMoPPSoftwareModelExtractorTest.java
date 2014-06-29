@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.extraction;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -27,7 +28,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.modifiers.Public;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.extraction.SoftwareModelExtractionException;
@@ -88,6 +91,33 @@ public class JaMoPPSoftwareModelExtractorTest {
 
         int expectedTestClasses = 3;
         assertThat(projectResourceCount, equalTo(expectedTestClasses));
+    }
+
+    /**
+     * Test the extractors option to extract layout informations.
+     *
+     * @throws SoftwareModelExtractionException
+     *             for any exception during the extraction process.
+     */
+    @Test
+    public void testExtractLayoutInformation() throws SoftwareModelExtractionException {
+
+        String testProjectPath = "testcode/layoutinformation";
+
+        JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
+        List<String> projectPaths = Lists.newArrayList(new File(testProjectPath).getAbsolutePath());
+
+        ResourceSet resourceSet = extractor.extractSoftwareModel(projectPaths, new NullProgressMonitor(), null, true);
+
+        assertThat(resourceSet, notNullValue());
+
+        Resource resource = resourceSet.getResources().get(0);
+        CompilationUnit cu = (CompilationUnit) resource.getContents().get(0);
+        ConcreteClassifier classA = cu.getClassifiers().get(0);
+        Public publicModifier = (Public) classA.getAnnotationsAndModifiers().get(0);
+        String comment = publicModifier.getLayoutInformations().get(0).getHiddenTokenText();
+
+        assertThat(comment, containsString("Test Comment"));
     }
 
     /**

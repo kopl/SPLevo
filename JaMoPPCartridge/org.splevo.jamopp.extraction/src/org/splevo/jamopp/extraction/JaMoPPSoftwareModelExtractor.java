@@ -37,9 +37,6 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     public static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
     private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
 
-    /** Use the reference resolution caching */
-    private boolean useCache = true;
-
     /**
      * Extract the source model of a list of java projects. One project is the main project while a
      * list of additional projects to analyze can be specified. The reason for one main project is,
@@ -63,23 +60,52 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
      *
      * <p>
-     * If the targetUri is null, the extracted model will not be persisted and the resourceSet of
-     * the last projectURI will be returned.
+     * If the sourceModelPath is null, the extractor will not use a cache file for improved
+     * reference resolving.
      * </p>
      * {@inheritDoc}
      */
     @Override
     public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor, String sourceModelPath)
             throws SoftwareModelExtractionException {
+        return extractSoftwareModel(projectPaths, monitor, sourceModelPath, false);
+    }
 
-        if (useCache && sourceModelPath != null) {
+    /**
+     * Extract all java files and referenced resources to a file named according to
+     * {@link JaMoPPSoftwareModelExtractor#XMI_FILE_SEGMENT} within the provided targetURI.
+     *
+     * <p>
+     * If the sourceModelPath is null, the extractor will not use a cache file for improved
+     * reference resolving.
+     * </p>
+     *
+     *
+     * @param projectPaths
+     *            Source Paths of the projects to be extracted.
+     * @param monitor
+     *            The monitor to report the progress to.
+     * @param sourceModelPath
+     *            The absolute path to the directory to store information for extracted source model
+     *            in.
+     * @param extractLayoutInfo
+     *            Option to extract layout information.
+     * @return The set of resources containing the extracted model.
+     * @throws SoftwareModelExtractionException
+     *             Identifies the extraction was not successful.
+     *
+     */
+    public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor,
+            String sourceModelPath, boolean extractLayoutInfo) throws SoftwareModelExtractionException {
+
+        if (sourceModelPath != null) {
             logger.info("Use cache file: " + sourceModelPath);
         }
 
         // TODO: Refactor Code for more intuitive
         // loading-resolving-caching-workflow
         List<String> jarFiles = getAllJarFiles(projectPaths);
-        ResourceSet targetResourceSet = setUpResourceSet(sourceModelPath, jarFiles);
+        ResourceSet targetResourceSet = setUpResourceSet(sourceModelPath, jarFiles, extractLayoutInfo);
 
         List<Resource> resources = Lists.newArrayList();
 
@@ -266,14 +292,17 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      *
      * @return The initialized resource set.
      */
-    private ResourceSet setUpResourceSet(String sourceModelDirectory, List<String> jarPaths) {
+    private ResourceSet setUpResourceSet(String sourceModelDirectory, List<String> jarPaths, boolean extractLayoutInfo) {
 
         ResourceSet rs = new ResourceSetImpl();
 
+        Boolean disableLayoutOption = extractLayoutInfo ? Boolean.FALSE : Boolean.TRUE;
+
         // further resource set enhancement for the extraction specific needs
         Map<Object, Object> options = rs.getLoadOptions();
-        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
-        options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
+        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, disableLayoutOption);
+        options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
+        options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
 
@@ -311,6 +340,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         Map<Object, Object> options = rs.getLoadOptions();
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
+        options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();

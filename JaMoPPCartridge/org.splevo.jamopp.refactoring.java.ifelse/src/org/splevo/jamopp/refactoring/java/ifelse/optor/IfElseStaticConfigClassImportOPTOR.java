@@ -53,6 +53,10 @@ public class IfElseStaticConfigClassImportOPTOR implements VariabilityRefactorin
         boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
         boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
 
+        if (!correctCharacteristics) {
+            return false;
+        }
+
         boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         boolean correctLocation = jamoppElement instanceof CompilationUnit;
@@ -60,7 +64,7 @@ public class IfElseStaticConfigClassImportOPTOR implements VariabilityRefactorin
                 Import.class);
         boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreImports;
 
-        return correctCharacteristics && correctInput;
+        return correctInput;
     }
 
     @Override

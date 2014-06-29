@@ -24,7 +24,6 @@ import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Constructor;
-import org.emftext.language.java.members.Field;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.types.TypeReference;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
@@ -97,6 +96,8 @@ public class DerivedCopyFilter {
         int counterTotalMethods = 0;
         int counterTotalFields = 0;
 
+        Set<Class> alreadyProcessedOrigin = Sets.newLinkedHashSet();
+
         // CLASS CHANGES
         // find class changes about changed extends / default extends
         // Identify the super and the sub class
@@ -118,6 +119,13 @@ public class DerivedCopyFilter {
 
             if (derivedCopyClassMatch != null) {
                 falsePositivesToRemove.add(diff);
+
+                Class originClass = (Class) diff.getMatch().getRight();
+                if (alreadyProcessedOrigin.contains(originClass)) {
+                    continue;
+                }
+                alreadyProcessedOrigin.add(originClass);
+
                 counterClasses++;
 
                 if (cleanImports) {
@@ -273,10 +281,7 @@ public class DerivedCopyFilter {
             }
 
             if (diff instanceof FieldChange) {
-                Field changedField = ((FieldChange) diff).getChangedField();
-                if (changedField.isPublic() || changedField.isProtected()) {
-                    changesToIgnore.add(diff);
-                }
+                changesToIgnore.add(diff);
             }
         }
 

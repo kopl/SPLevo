@@ -32,6 +32,7 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.vpm.refinement.Refinement;
 
@@ -192,6 +193,8 @@ public class VPMRefinementBrowser extends EditorPart {
                 manager.add(action);
             }
         });
+        menuMgr.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan", SPLevoUIPlugin
+                .getImageDescriptor("icons/kopl_circle_only.png")));
         Menu menu = menuMgr.createContextMenu(refinementListView.getTree());
         refinementListView.getTree().setMenu(menu);
     }

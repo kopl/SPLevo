@@ -26,21 +26,8 @@
  * </tr>
  * <tr>
  *   <td>Supported Elements</td>
- *   <td><ul><li>Import</li><li>Constructor</li><li>Statement</li></ul></td>
+ *   <td><ul><li>Class</li><li>Condition</li><li>Class</li><li>Constructor</li><li>Enumeration</li><li>Field</li><li>Import</li><li>Interface</li><li>Method</li><li>Statement</li></ul></td>
  * </tr>
  * </table>
- * 
- * <h2>Alternative Refactorings</h2>
- * <ul>
- * <li>org.splevo.jamopp.refactoring.java.ifelse.optxor</li>
- * <li>org.splevo.jamopp.refactoring.java.ifelse.or</li>
- * <li>org.splevo.jamopp.refactoring.java.ifelse.xor</li>
- * </ul>
- * <h2>Limitations</h2>
- * Variable Class-, Interface- and Enumeration Signatures are not supported since they can neither co-exist, nor can they be handled by If-Else constructs.
- * 
- * Methods are not supported because methods with equal names but varying return types cannot be realized using If-Else constructs.
- * 
- * Fields are not supported since in case of equal names but different types, they cannot co-exist, nor varied by If-Else constructs.
  */
 package org.splevo.jamopp.refactoring.java.ifelse.optor;

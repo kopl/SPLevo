@@ -15,7 +15,7 @@
             class="org.splevo.ui.vpexplorer.explorer.VPGroupingExplorer"
             icon="icons/kopl_circle_only.png"
             id="org.splevo.ui.vpgroupingexplorer"
-            name="Variation Point Grouping Explorer"
+            name="Feature Outline"
             restorable="true">
       </view>
    </extension>
@@ -150,6 +150,15 @@
       </command>
    </extension>
    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.splevo.ui.vpexplorer.handler.vpmedit.RenameVariationPointGroupHandler"
+            description="Renames the selected Variation Point Group."
+            id="org.splevo.ui.vpexplorer.rename.vpgroup"
+            name="Rename">
+      </command>
+   </extension>
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any">
@@ -256,6 +265,28 @@
                   style="push">
             </command>
          </menu>
+         <separator
+               name="VP Group"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.splevo.ui.vpexplorer.rename.vpgroup"
+               label="Rename"
+               style="push"
+               tooltip="Renames the currently selected Variation Point Group">
+            <visibleWhen>
+               <and>
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPointGroup">
+                     </instanceof>
+                  </iterate>
+               </and>
+            </visibleWhen>
+         </command>
       </menuContribution>
    </extension>
 
