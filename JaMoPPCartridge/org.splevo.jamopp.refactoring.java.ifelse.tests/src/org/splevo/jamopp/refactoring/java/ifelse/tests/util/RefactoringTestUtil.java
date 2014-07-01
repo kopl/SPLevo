@@ -1,9 +1,14 @@
 package org.splevo.jamopp.refactoring.java.ifelse.tests.util;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +20,12 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.emftext.language.java.members.Field;
+import org.emftext.language.java.references.IdentifierReference;
+import org.emftext.language.java.references.MethodCall;
+import org.emftext.language.java.references.Reference;
+import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
@@ -365,8 +375,8 @@ public final class RefactoringTestUtil {
      * @throws Exception
      *             In case of an unexpected error.
      */
-    public static VariationPoint getFieldDefaultCase(VariabilityType variabilityType) throws Exception {
-        VariationPointModel vpm = initializeVariationPointModel("Field_Default");
+    public static VariationPoint getFieldAddCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Field_Add");
         assertVariationPointStructure(vpm);
 
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
@@ -416,7 +426,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Condition_AddStatement test case.
+     * Generates a variation point according to the Condition_DifferentElseStatement test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -424,8 +434,8 @@ public final class RefactoringTestUtil {
      * @throws Exception
      *             In case of an unexpected error.
      */
-    public static VariationPoint getConditionAddStatementCase(VariabilityType variabilityType) throws Exception {
-        VariationPointModel vpm = initializeVariationPointModel("Condition_AddStatement");
+    public static VariationPoint getConditionDifferentElseStatementCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Condition_DifferentElseStatement");
         performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
                 vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
         assertVariationPointStructure(vpm);
@@ -499,6 +509,27 @@ public final class RefactoringTestUtil {
         when(field.getName()).thenReturn("a").thenReturn("b");
 
         return field;
+    }
+
+    /**
+     * Asserts the structure of the System.out.plintln() expressions used in the tests and returns the value of the
+     * argument in the println method.
+     * 
+     * @param statement The System.out.plintln() {@link ExpressionStatement}.
+     * @return The value as {@link BigInteger}.
+     */
+    public static BigInteger getValueOfSysoExpression(ExpressionStatement statement) {
+        assertThat(statement, instanceOf(ExpressionStatement.class));
+        Reference out = ((IdentifierReference) ((ExpressionStatement) statement).getExpression()).getNext();
+        assertThat(out, notNullValue());
+        Reference println = out.getNext();
+        assertThat(println, notNullValue());
+        assertThat(println, instanceOf(MethodCall.class));
+        assertThat(((MethodCall) println).getArguments().size(), equalTo(1));
+        assertThat(((MethodCall) println).getArguments().get(0), instanceOf(DecimalIntegerLiteral.class));
+
+        BigInteger value = ((DecimalIntegerLiteral) ((MethodCall) println).getArguments().get(0)).getDecimalValue();
+        return value;
     }
 
     private static void assertVariationPointStructure(VariationPointModel vpm) {
