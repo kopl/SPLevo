@@ -9,8 +9,8 @@ import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * This refctoring annotates a variation point's location with a comment of the following content:
- * "FIXME: Variability could not be handled". This refactoring can be used to annotate variation
+ * This refctoring annotates a variation point's location with a fixme comment with the following
+ * content: "Variability could not be handled". This refactoring can be used to annotate variation
  * points that cannot be provessed.
  */
 public class CommentRefactoring implements VariabilityRefactoring {

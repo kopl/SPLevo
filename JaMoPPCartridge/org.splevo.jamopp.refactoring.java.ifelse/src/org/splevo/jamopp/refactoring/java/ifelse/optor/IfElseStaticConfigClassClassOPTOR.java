@@ -24,7 +24,8 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassClassOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Class";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassClassOPTOR";
+    private static final String REFACTORING_ID = 
+            "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassClassOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {

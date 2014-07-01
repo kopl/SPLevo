@@ -396,14 +396,23 @@ public class IfElseStaticConfigClassFieldOPTORTest {
 
         assertThat(exprStatement1.getExpression(), instanceOf(AssignmentExpression.class));
         assertThat(exprStatement2.getExpression(), instanceOf(AssignmentExpression.class));
-        assertThat(((AssignmentExpression) exprStatement1.getExpression()).getValue(), instanceOf(DecimalIntegerLiteral.class));
-        assertThat(((AssignmentExpression) exprStatement2.getExpression()).getValue(), instanceOf(DecimalIntegerLiteral.class));
+        assertThat(((AssignmentExpression) exprStatement1.getExpression()).getValue(),
+                instanceOf(DecimalIntegerLiteral.class));
+        assertThat(((AssignmentExpression) exprStatement2.getExpression()).getValue(),
+                instanceOf(DecimalIntegerLiteral.class));
 
-        assertThat(((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement1.getExpression()).getValue()).getDecimalValue(),
+        assertThat(
+                ((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement1.getExpression()).getValue())
+                        .getDecimalValue(),
                 anyOf(equalTo(BigInteger.valueOf(0)), equalTo(BigInteger.valueOf(1))));
-        assertThat(((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement2.getExpression()).getValue()).getDecimalValue(),
+        assertThat(
+                ((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement2.getExpression()).getValue())
+                        .getDecimalValue(),
                 anyOf(equalTo(BigInteger.valueOf(0)), equalTo(BigInteger.valueOf(1))));
-        assertThat(((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement1.getExpression()).getValue()).getDecimalValue(),
-                not(equalTo(((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement2.getExpression()).getValue()).getDecimalValue())));
+        assertThat(
+                ((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement1.getExpression()).getValue())
+                        .getDecimalValue(),
+                not(equalTo(((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement2.getExpression()).getValue())
+                        .getDecimalValue())));
     }
 }

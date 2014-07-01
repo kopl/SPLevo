@@ -434,9 +434,11 @@ public class IfElseStaticConfigClassStatementOPTORTest {
                         .getValue(),
                 instanceOf(DecimalIntegerLiteral.class));
 
-        DecimalIntegerLiteral firstAssignmentExpr = (DecimalIntegerLiteral) ((AssignmentExpression) ((ExpressionStatement) firstCondIfBlockStatements
+        DecimalIntegerLiteral firstAssignmentExpr = 
+                (DecimalIntegerLiteral) ((AssignmentExpression) ((ExpressionStatement) firstCondIfBlockStatements
                 .get(0)).getExpression()).getValue();
-        DecimalIntegerLiteral secondAssignmentExpr = (DecimalIntegerLiteral) ((AssignmentExpression) ((ExpressionStatement) secondCondIfBlockStatements
+        DecimalIntegerLiteral secondAssignmentExpr = 
+                (DecimalIntegerLiteral) ((AssignmentExpression) ((ExpressionStatement) secondCondIfBlockStatements
                 .get(0)).getExpression()).getValue();
 
         assertThat(firstAssignmentExpr.getDecimalValue(),
