@@ -28,7 +28,9 @@ import org.apache.log4j.PatternLayout;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
+import org.emftext.language.java.literals.NullLiteral;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MembersFactory;
@@ -225,7 +227,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
      */
     @Test
     public void testIfCanBeAppliedWithInvalidLocation() {
-        Commentable location = ClassifiersFactory.eINSTANCE.createInterface();
+        Commentable location = MembersFactory.eINSTANCE.createClassMethod();
         Commentable implEl1 = MembersFactory.eINSTANCE.createField();
         Commentable implEl2 = MembersFactory.eINSTANCE.createField();
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
@@ -365,7 +367,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
         }
 
         assertThat(field.getName(), equalTo("a"));
-        assertThat(field.getInitialValue(), nullValue());
+        assertThat(field.getInitialValue(), instanceOf(NullLiteral.class));
 
         assertThat(block.getModifiers().size(), equalTo(1));
         assertThat(block.getModifiers().get(0), instanceOf(Static.class));
@@ -392,14 +394,16 @@ public class IfElseStaticConfigClassFieldOPTORTest {
         ExpressionStatement exprStatement2 = (ExpressionStatement) ((Block) cond2.getStatement()).getStatements()
                 .get(0);
 
-        assertThat(exprStatement1.getExpression(), instanceOf(DecimalIntegerLiteral.class));
-        assertThat(exprStatement2.getExpression(), instanceOf(DecimalIntegerLiteral.class));
+        assertThat(exprStatement1.getExpression(), instanceOf(AssignmentExpression.class));
+        assertThat(exprStatement2.getExpression(), instanceOf(AssignmentExpression.class));
+        assertThat(((AssignmentExpression) exprStatement1.getExpression()).getValue(), instanceOf(DecimalIntegerLiteral.class));
+        assertThat(((AssignmentExpression) exprStatement2.getExpression()).getValue(), instanceOf(DecimalIntegerLiteral.class));
 
-        assertThat(((DecimalIntegerLiteral) exprStatement1.getExpression()).getDecimalValue(),
+        assertThat(((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement1.getExpression()).getValue()).getDecimalValue(),
                 anyOf(equalTo(BigInteger.valueOf(0)), equalTo(BigInteger.valueOf(1))));
-        assertThat(((DecimalIntegerLiteral) exprStatement2.getExpression()).getDecimalValue(),
+        assertThat(((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement2.getExpression()).getValue()).getDecimalValue(),
                 anyOf(equalTo(BigInteger.valueOf(0)), equalTo(BigInteger.valueOf(1))));
-        assertThat(((DecimalIntegerLiteral) exprStatement1.getExpression()).getDecimalValue(),
-                not(equalTo(((DecimalIntegerLiteral) exprStatement2.getExpression()).getDecimalValue())));
+        assertThat(((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement1.getExpression()).getValue()).getDecimalValue(),
+                not(equalTo(((DecimalIntegerLiteral) ((AssignmentExpression) exprStatement2.getExpression()).getValue()).getDecimalValue())));
     }
 }

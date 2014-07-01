@@ -11,11 +11,11 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
 
+import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.anyOf;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
@@ -27,7 +27,9 @@ import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
+import org.emftext.language.java.literals.NullLiteral;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.references.IdentifierReference;
@@ -401,14 +403,15 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         assertThat(vpLocation.getStatements().get(2), instanceOf(Condition.class));
         assertThat(vpLocation.getStatements().get(3), instanceOf(ExpressionStatement.class));
 
-        assertSysoExpression((ExpressionStatement) vpLocation.getStatements().get(3), 1);
+        BigInteger val = getValueOfSysoExpression((ExpressionStatement) vpLocation.getStatements().get(3));
+        assertThat(val, equalTo(BigInteger.valueOf(1)));
 
         LocalVariableStatement localVarStat = (LocalVariableStatement) vpLocation.getStatements().get(0);
         Condition firstCond = (Condition) vpLocation.getStatements().get(1);
         Condition secondCond = (Condition) vpLocation.getStatements().get(2);
 
         assertThat(localVarStat.getVariable().getName(), equalTo("a"));
-        assertThat(localVarStat.getVariable().getInitialValue(), nullValue());
+        assertThat(localVarStat.getVariable().getInitialValue(), instanceOf(NullLiteral.class));
 
         assertThat(firstCond.getStatement(), instanceOf(Block.class));
         assertThat(secondCond.getStatement(), instanceOf(Block.class));
@@ -419,21 +422,28 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         assertThat(firstCondIfBlockStatements.get(0), instanceOf(ExpressionStatement.class));
         assertThat(secondCondIfBlockStatements.get(0), instanceOf(ExpressionStatement.class));
         assertThat(((ExpressionStatement) firstCondIfBlockStatements.get(0)).getExpression(),
-                instanceOf(DecimalIntegerLiteral.class));
+                instanceOf(AssignmentExpression.class));
         assertThat(((ExpressionStatement) secondCondIfBlockStatements.get(0)).getExpression(),
+                instanceOf(AssignmentExpression.class));
+        assertThat(
+                ((AssignmentExpression) ((ExpressionStatement) firstCondIfBlockStatements.get(0)).getExpression())
+                        .getValue(),
+                instanceOf(DecimalIntegerLiteral.class));
+        assertThat(
+                ((AssignmentExpression) ((ExpressionStatement) secondCondIfBlockStatements.get(0)).getExpression())
+                        .getValue(),
                 instanceOf(DecimalIntegerLiteral.class));
 
-        DecimalIntegerLiteral firstAssignmentExpr = (DecimalIntegerLiteral) ((ExpressionStatement) firstCondIfBlockStatements
-                .get(0)).getExpression();
-        DecimalIntegerLiteral secondAssignmentExpr = (DecimalIntegerLiteral) ((ExpressionStatement) secondCondIfBlockStatements
-                .get(0)).getExpression();
-        if (!firstAssignmentExpr.getDecimalValue().equals(BigInteger.valueOf(1))) {
-            DecimalIntegerLiteral tmp = firstAssignmentExpr;
-            firstAssignmentExpr = secondAssignmentExpr;
-            secondAssignmentExpr = tmp;
-        }
-        assertThat(firstAssignmentExpr.getDecimalValue(), equalTo(BigInteger.valueOf(1)));
-        assertThat(secondAssignmentExpr.getDecimalValue(), equalTo(BigInteger.valueOf(2)));
+        DecimalIntegerLiteral firstAssignmentExpr = (DecimalIntegerLiteral) ((AssignmentExpression) ((ExpressionStatement) firstCondIfBlockStatements
+                .get(0)).getExpression()).getValue();
+        DecimalIntegerLiteral secondAssignmentExpr = (DecimalIntegerLiteral) ((AssignmentExpression) ((ExpressionStatement) secondCondIfBlockStatements
+                .get(0)).getExpression()).getValue();
+
+        assertThat(firstAssignmentExpr.getDecimalValue(),
+                anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(secondAssignmentExpr.getDecimalValue(),
+                anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(firstAssignmentExpr.getDecimalValue(), not(equalTo(secondAssignmentExpr.getDecimalValue())));
     }
 
     /**
@@ -474,13 +484,17 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         assertThat(vpLocation.getStatements().get(0), instanceOf(ExpressionStatement.class));
         assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
 
-        assertSysoExpression((ExpressionStatement) vpLocation.getStatements().get(0), 1);
-
         Condition cond = (Condition) vpLocation.getStatements().get(1);
         assertThat(cond.getStatement(), instanceOf(Block.class));
         assertThat(((Block) cond.getStatement()).getStatements().size(), equalTo(1));
 
-        assertSysoExpression((ExpressionStatement) ((Block) cond.getStatement()).getStatements().get(0), 2);
+        BigInteger val1 = getValueOfSysoExpression((ExpressionStatement) vpLocation.getStatements().get(0));
+        BigInteger val2 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond.getStatement()).getStatements()
+                .get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
@@ -528,8 +542,14 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
 
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+        BigInteger val1 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements()
+                .get(0));
+        BigInteger val2 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements()
+                .get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
@@ -580,8 +600,15 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements()
+                .get(0));
+        BigInteger val2 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements()
+                .get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
@@ -632,8 +659,15 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements()
+                .get(0));
+        BigInteger val2 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements()
+                .get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
@@ -684,8 +718,15 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements()
+                .get(0));
+        BigInteger val2 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements()
+                .get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
@@ -736,8 +777,15 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements()
+                .get(0));
+        BigInteger val2 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements()
+                .get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
@@ -788,8 +836,15 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements()
+                .get(0));
+        BigInteger val2 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements()
+                .get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
@@ -840,11 +895,18 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements()
+                .get(0));
+        BigInteger val2 = getValueOfSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements()
+                .get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
-    private void assertSysoExpression(ExpressionStatement statement, int printArg) {
+    private BigInteger getValueOfSysoExpression(ExpressionStatement statement) {
         assertThat(statement, instanceOf(ExpressionStatement.class));
         Reference out = ((IdentifierReference) ((ExpressionStatement) statement).getExpression()).getNext();
         assertThat(out, notNullValue());
@@ -853,7 +915,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         assertThat(println, instanceOf(MethodCall.class));
         assertThat(((MethodCall) println).getArguments().size(), equalTo(1));
         assertThat(((MethodCall) println).getArguments().get(0), instanceOf(DecimalIntegerLiteral.class));
-        assertThat(((DecimalIntegerLiteral) ((MethodCall) println).getArguments().get(0)).getDecimalValue(),
-                equalTo(BigInteger.valueOf(printArg)));
+
+        BigInteger value = ((DecimalIntegerLiteral) ((MethodCall) println).getArguments().get(0)).getDecimalValue();
+        return value;
     }
 }

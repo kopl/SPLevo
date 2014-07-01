@@ -49,8 +49,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_Default test case. The location is a
-     * method. In the integration variant, there is one additional statement.
+     * Generates a variation point according to the Statement_Default test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -71,9 +70,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Constructor_ExistingOneParam test case. The
-     * location is a class. There are two variants, each having a constructor. The leading variant
-     * has an int parameter, the integration a short parameter.
+     * Generates a variation point according to the Constructor_ExistingOneParam test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -92,9 +89,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Constructor_AddTwoParam test case. The location
-     * is a class. There are two variants, each having a constructor. The leading variant has an int
-     * parameter, the integration an int and a short parameter.
+     * Generates a variation point according to the Constructor_AddTwoParam test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -113,9 +108,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Import_TwoDistinct test case. The location is a
-     * compilation unit. There are two variants, each having a distinct import: an ArrayList and a
-     * LinkedList.
+     * Generates a variation point according to the Import_TwoDistinct test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -136,9 +129,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Import_CommonMultiple test case. The location is
-     * a compilation unit. There are two variants, each having three imports whereas they share two
-     * common imports.
+     * Generates a variation point according to the Import_CommonMultiple test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -159,10 +150,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_LocalVariableDiffTypes test case. The
-     * location is a compilation unit. There are two variants, each having three statements where
-     * the first statement is a local variable declaration. In the first variant, it is an int, in
-     * the second, it is a short.
+     * Generates a variation point according to the Statement_LocalVariableDiffTypes test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -184,10 +172,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_LocalVariableEqualType test case. The
-     * location is a compilation unit. There are two variants, each having three statements where
-     * the first statement is a local variable declaration of the same type, but with different
-     * initial values (1 and 2).
+     * Generates a variation point according to the Statement_LocalVariableEqualType test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -206,9 +191,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_NestedCatch test case. The location is
-     * a compilation unit. There are two variants, each having a different statement in a catch
-     * block.
+     * Generates a variation point according to the Statement_NestedCatch test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -229,9 +212,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_NestedCondition test case. The
-     * location is a compilation unit. There are two variants, each having a different statement in
-     * a condition's if block.
+     * Generates a variation point according to the Statement_NestedCondition test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -252,8 +233,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_NestedFor test case. The location is a
-     * compilation unit. There are two variants, each having a different statement in a for block.
+     * Generates a variation point according to the Statement_NestedFor test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -274,9 +254,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_NestedSwitchCase test case. The
-     * location is a compilation unit. There are two variants, each having a different statement in
-     * a case block.
+     * Generates a variation point according to the Statement_NestedSwitchCase test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -297,8 +275,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_NestedTry test case. The location is a
-     * compilation unit. There are two variants, each having a different statement in a try block.
+     * Generates a variation point according to the Statement_NestedTry test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -319,9 +296,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_NestedWhile test case. The location is
-     * a compilation unit. There are two variants, each having a different statement in a while
-     * block.
+     * Generates a variation point according to the Statement_NestedWhile test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -342,9 +317,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_OneAdd test case. The location is a
-     * compilation unit. There are two variants. The first variant has one statement and the second
-     * has two where the first is similar to the statement in the first variant.
+     * Generates a variation point according to the Statement_OneAdd test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -363,8 +336,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Statement_OneEither test case. The location is a
-     * compilation unit. There are two variants, each having one different statement.
+     * Generates a variation point according to the Statement_OneEither test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -385,9 +357,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Field_Default test case. The location is a
-     * class. There are two variants, whereas the first has one field and the second has the same
-     * field and one additional field.
+     * Generates a variation point according to the Field_Default test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -406,9 +376,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Field_DifferentInitialValues test case. The
-     * location is a class. There are two variants, whereas both variants have one field that
-     * differs in its initial value.
+     * Generates a variation point according to the Field_DifferentInitialValues test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -427,9 +395,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Condition_AddCond test case. The location is a
-     * condition. There are two variants, whereas the first has 2 linked conditions and the second
-     * has 3 linked conditions where the middle was added.
+     * Generates a variation point according to the Condition_AddCond test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
@@ -450,9 +416,7 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Generates a variation point according to the Condition_AddStatement test case. The location
-     * is a condition. There are two variants, whereas both have a condition which differ in its
-     * else statement.
+     * Generates a variation point according to the Condition_AddStatement test case.
      * 
      * @param variabilityType
      *            The {@link VariabilityType} the variation point will have.
