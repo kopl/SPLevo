@@ -43,9 +43,8 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
     @Override
     public void refactor(VariationPoint vp) {
-        RefactoringUtil.deleteVariableStatements(vp);
-
-        if (RefactoringUtil.hasConflictingLocalVariables(vp)) {
+        boolean hasConflictingVariables = RefactoringUtil.hasConflictingLocalVariables(vp);
+        if (hasConflictingVariables) {
             RefactoringUtil.extractVariantsIntoMethods(vp);
         }
 
@@ -63,6 +62,11 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
         for (Variant variant : variants) {
             int indexBeginVariant = RefactoringUtil.getVariabilityPosition(vpLocation, variant);
+
+            if (variant.getLeading()) {
+                RefactoringUtil.deleteVariableStatements(vp);
+            }
+
             if (indexBeginVariant < posBeforeFirstCond) {
                 posBeforeFirstCond = indexBeginVariant;
             }
@@ -72,15 +76,18 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
             RefactoringUtil.fillIfBlockWithVariantElements(variant, currentCondition, localVariableStatements);
 
-            vpLocation.getStatements().add(indexBeginVariant, currentCondition);
+            if (indexBeginVariant != -1) {
+                vpLocation.getStatements().add(indexBeginVariant, currentCondition);
+            } else {
+                vpLocation.getStatements().add(currentCondition);
+            }
         }
 
-        for (LocalVariableStatement localVarStat : localVariableStatements.values()) {
-            RefactoringUtil.removeFinalAndAddCommentIfApplicable(localVarStat.getVariable());
-            vpLocation.getStatements().add(posBeforeFirstCond++, localVarStat);
+        if (posBeforeFirstCond != -1) {
+            vpLocation.getStatements().addAll(posBeforeFirstCond, localVariableStatements.values());
+        } else {
+            vpLocation.getStatements().addAll(localVariableStatements.values());
         }
-
-        vpLocation.getStatements().addAll(posBeforeFirstCond, localVariableStatements.values());
     }
 
     @Override

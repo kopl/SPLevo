@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
-import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
@@ -27,8 +26,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Condition";
-    private static final String REFACTORING_ID = 
-            "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassConditionOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassConditionOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -101,11 +99,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
                 Statement.class);
         boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreStatements;
 
-        if (!correctInput) {
-            return false;
-        }
-
-        return !RefactoringUtil.hasImplementingElementsOfType(variationPoint, Return.class);
+        return correctInput;
     }
 
     @Override

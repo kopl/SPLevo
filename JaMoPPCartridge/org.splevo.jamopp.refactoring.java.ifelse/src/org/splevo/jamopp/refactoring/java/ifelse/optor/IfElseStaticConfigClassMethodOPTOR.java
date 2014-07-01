@@ -62,9 +62,9 @@ public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactorin
         boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         boolean correctLocation = jamoppElement instanceof Class;
-        boolean allImplementingElementsAreFields = RefactoringUtil.allImplementingElementsOfType(variationPoint,
+        boolean allImplementingElementsAreMethods = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 ClassMethod.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreFields;
+        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreMethods;
 
         if (!correctInput) {
             return false;
