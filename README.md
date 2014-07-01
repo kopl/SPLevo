@@ -8,9 +8,12 @@ It is developed as an open source project by the KoPL project team: [http://www.
 Getting Started
 ===
 
-* **Quick Start Guide**<br>To start right away giving SPLevo a try, we provide a [Quick Start Guide](https://github.com/kopl/SPLevo/wiki/Quick%20Start%20Guide)
-* **Developer Guide**<br>If you are more interested in the technology behind the tool, you might want to check out the [Development Guide](https://github.com/kopl/SPLevo/wiki/Developer-Guide) 
-* **Wiki**<br>For anything else take a look at our [wiki](https://github.com/kopl/SPLevo/wiki) or feel fee to [contact us](http://www.kopl-project.org/).
+* **[Quick Start Guide](https://github.com/kopl/SPLevo/wiki/Quick%20Start%20Guide)**  
+To start right away using SPLevo check out this quick start
+* **[Development Guide](https://github.com/kopl/SPLevo/wiki/Developer-Guide)**  
+If you are interested in the technology behind SPLevo, check out the developer guide
+* **Wiki & More**  
+For anything else take a look at our [wiki](https://github.com/kopl/SPLevo/wiki) or feel fee to [contact us](http://www.kopl-project.org/).
 
 Installation
 ====
