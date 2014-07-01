@@ -160,7 +160,7 @@ public class StatementChangeImpl extends JaMoPPDiffImpl implements StatementChan
             return changedStatement != null;
         }
         if(featureID == 13) {
-            System.out.println(JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT);
+            System.err.println(JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT);
         }
         return super.eIsSet(featureID);
     }
