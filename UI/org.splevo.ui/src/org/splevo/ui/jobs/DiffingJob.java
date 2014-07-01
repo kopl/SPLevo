@@ -38,9 +38,9 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
     private static final int PROGRESS_DIFF_MODEL_SAVE_DONE = 20;
-	private static final int PROGRESS_DIFFING_DONE = 100;
+    private static final int PROGRESS_DIFFING_DONE = 100;
 
-	private final SPLevoProject splevoProject;
+    private final SPLevoProject splevoProject;
 
     /**
      * Constructor for the diffing job.
@@ -85,24 +85,18 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             return;
         }
 
-        logger.info("Place Diff Model on Blackboard");
-        getBlackboard().setDiffModel(comparison);
-
         logger.info("Save Diff Model");
         try {
             // TODO Do not save a technology specific diff model.
-            String targetPath = null;
-            if (splevoProject.getDifferIds().contains("org.splevo.jamopp.differ")) {
-                targetPath = "models/diffmodel/diffModel.jamoppdiff";
-            } else {
-                targetPath = "models/diffmodel/diffModel.java2kdmdiff";
-            }
-            targetPath = splevoProject.getWorkspace() + targetPath;
+            String targetPath = splevoProject.getWorkspace() + "models/diffmodel/diffModel.jamoppdiff";
             DiffingModelUtil.save(comparison, new File(targetPath));
             this.splevoProject.setDiffingModelPath(targetPath);
         } catch (final IOException e) {
             throw new JobFailedException("Failed to save diff model.", e);
         }
+
+        logger.info("Place Diff Model on Blackboard");
+        getBlackboard().setDiffModel(comparison);
 
         monitor.worked(PROGRESS_DIFF_MODEL_SAVE_DONE);
         refreshWorkspace(monitor);
