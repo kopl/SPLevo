@@ -99,6 +99,46 @@ public final class RefactoringTestUtil {
     }
 
     /**
+     * Generates a variation point according to the Method_AddSameParam test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getMethodAddSameParamCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Method_AddSameParam");
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Method_AddDifferentParam test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getMethodAddDifferentParamCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Method_AddDifferentParam");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
      * Generates a variation point according to the Constructor_AddTwoParam test case.
      * 
      * @param variabilityType
@@ -434,10 +474,91 @@ public final class RefactoringTestUtil {
      * @throws Exception
      *             In case of an unexpected error.
      */
-    public static VariationPoint getConditionDifferentElseStatementCase(VariabilityType variabilityType) throws Exception {
+    public static VariationPoint getConditionDifferentElseStatementCase(VariabilityType variabilityType)
+            throws Exception {
         VariationPointModel vpm = initializeVariationPointModel("Condition_DifferentElseStatement");
         performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
                 vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Class_Merge test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getClassMergeCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Class_Merge");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Interface_Merge test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getInterfaceMergeCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Interface_Merge");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Enumeration_Add test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getEnumerationAddCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Enumeration_Add");
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Enumeration_AddEnumConstant test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getEnumerationAddEnumConstantCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Enumeration_AddEnumConstant");
         assertVariationPointStructure(vpm);
 
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
@@ -512,10 +633,11 @@ public final class RefactoringTestUtil {
     }
 
     /**
-     * Asserts the structure of the System.out.plintln() expressions used in the tests and returns the value of the
-     * argument in the println method.
+     * Asserts the structure of the System.out.plintln() expressions used in the tests and returns
+     * the value of the argument in the println method.
      * 
-     * @param statement The System.out.plintln() {@link ExpressionStatement}.
+     * @param statement
+     *            The System.out.plintln() {@link ExpressionStatement}.
      * @return The value as {@link BigInteger}.
      */
     public static BigInteger getValueOfSysoExpression(ExpressionStatement statement) {
