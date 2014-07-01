@@ -74,8 +74,9 @@
             name="Make SPLevo Project">
       </command>
       <command
-            id="referenceToSPLevoMenu"
-            name="SPLevo Menu">
+            defaultHandler="org.splevo.ui.handler.CleanProjectHandler"
+            id="org.splevo.ui.menu.default"
+            name="SPLevo Menu Default">
       </command>
       <command
             defaultHandler="org.splevo.ui.handler.CleanProjectHandler"
@@ -109,12 +110,12 @@
             allPopups="false"
             locationURI="toolbar:org.eclipse.ui.main.toolbar">
          <toolbar
-               id="org.splevo.ui.toolbar1"
+               id="org.splevo.ui.splevo"
                label="SPLevo">
             <command
-                  commandId="referenceToSPLevoMenu"
+                  commandId="org.splevo.ui.menu.default"
                   icon="icons/kopl_circle_only.png"
-                  id="referenceToSPLevoMenu"
+                  id="org.splevo.ui.menu"
                   label="SPLevo Menu"
                   style="pulldown">
             </command>
@@ -122,7 +123,7 @@
       </menuContribution>
       <menuContribution
             allPopups="true"
-            locationURI="menu:referenceToSPLevoMenu">
+            locationURI="menu:org.splevo.ui.menu">
          <command
                commandId="cleanProjectCommand"
                icon="icons/bin.png"
