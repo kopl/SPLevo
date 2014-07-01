@@ -48,6 +48,10 @@ public class InitVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         logger.info("Get comparison model");
         Comparison comparison = getBlackboard().getDiffModel();
 
+        if (comparison == null) {
+            throw new JobFailedException("No Diff model available on blackboard");
+        }
+
         logger.info("Build initial VPM model");
         Map<String, Object> builderOptions = new LinkedHashMap<String, Object>();
         DefaultVPMBuilderService builderService = new DefaultVPMBuilderService();
