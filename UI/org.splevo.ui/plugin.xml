@@ -74,7 +74,6 @@
             name="Make SPLevo Project">
       </command>
       <command
-            defaultHandler="org.splevo.ui.handler.CleanProjectHandler"
             id="referenceToSPLevoMenu"
             name="SPLevo Menu">
       </command>
@@ -97,6 +96,11 @@
             defaultHandler="org.splevo.ui.refinementbrowser.ArgoUMLVariantScanHandler"
             id="org.splevo.ui.commands.argouml.variantscan"
             name="ArgoUML Variant Scan">
+      </command>
+      <command
+            defaultHandler="org.splevo.ui.handler.OpenDiffModelHandler"
+            id="org.splevo.ui.opendiffmodel"
+            name="Open Diff Model">
       </command>
    </extension>
    <extension
@@ -125,6 +129,14 @@
                label="Clean Project"
                style="push"
                tooltip="Deletes the /models and /logs directories and all SPLevo settings except of the Project Selection, Project Infos, Extractor Selection and Diffing Package Filter Rules.">
+         </command>
+         <command
+               commandId="org.splevo.ui.opendiffmodel"
+               disabledIcon="icons/open-diff-model-disabled.gif"
+               icon="icons/open-diff-model.gif"
+               label="Open Diff Model"
+               style="push"
+               tooltip="Open the difference model">
          </command>
       </menuContribution>
       <menuContribution

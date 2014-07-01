@@ -85,6 +85,9 @@ public class DiffingJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             return;
         }
 
+        logger.info("Place Diff Model on Blackboard");
+        getBlackboard().setDiffModel(comparison);
+
         logger.info("Save Diff Model");
         try {
             // TODO Do not save a technology specific diff model.
