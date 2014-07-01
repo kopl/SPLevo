@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.splevo.ui.dashboard;
 
+import java.util.List;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -39,6 +41,8 @@ import org.splevo.refactoring.VariabilityRefactoringRegistry;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.vpm.realization.VariabilityMechanism;
+
+import com.google.common.collect.Lists;
 
 /**
  * The product line configuration tab container. This is a pojo to create and manage the tab for
@@ -153,18 +157,24 @@ public class SPLProfileTab extends AbstractDashboardTab {
             }
         });
 
-        int index = 0;
+        List<DLItem> items = Lists.newArrayList();
         for (VariabilityRefactoring refactoring : VariabilityRefactoringRegistry.getRefactorings()) {
             VariabilityMechanism mechanism = refactoring.getVariabilityMechanism();
             DLItem item = new DLItem(mechanism.getName());
             item.setData(SPLPROFILE_CONFIG_ID_REFACTORING_DATA, refactoring);
-            dl.add(item);
-            if (getSPLProfile().getRecommendedRefactoringIds().contains(refactoring.getId())) {
-                dl.select(index);
-            }
-            index++;
+            items.add(item);
         }
-
+        dl.setItems(items);
+        for (int i = 0; i < dl.getItemsAsList().size(); i++) {
+            DLItem item = dl.getItemsAsList().get(i);
+            VariabilityRefactoring refactoring = (VariabilityRefactoring) item
+                    .getData(SPLPROFILE_CONFIG_ID_REFACTORING_DATA);
+            if (getSPLProfile().getRecommendedRefactoringIds().contains(refactoring.getId())) {
+                dl.select(i);
+            }
+        }
+        dl.redraw();
+        dl.update();
     }
 
     private void createHeader(Composite composite) {

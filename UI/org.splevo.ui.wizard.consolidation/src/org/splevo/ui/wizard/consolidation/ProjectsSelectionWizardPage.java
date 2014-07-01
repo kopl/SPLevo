@@ -91,8 +91,8 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         createLabel(container, "Variant name:", null);
         integrationVariantNameField = createVariantNameField(container, new CheckPageCompletedListener());
 
-        leadingProjectsTable = createProjectsTable(container, new CheckPageCompletedListener());
-        integrationProjectsTable = createProjectsTable(container, new CheckPageCompletedListener());
+        leadingProjectsTable = createProjectsTable(container, new LeadingProjectsTableListener());
+        integrationProjectsTable = createProjectsTable(container, new IntegrationProjectsTableListener());
 
         setControl(container);
     }
@@ -199,6 +199,18 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         boolean isIntergrationProjectSelected = isAtLeastOneItemSelected(integrationProjectsTable);
         boolean isIntegrationVariantNameFilled = isNotEmpty(integrationVariantNameField);
         boolean isLeadingVariantNameFilled = isNotEmpty(leadingVariantNameField);
+        
+        if (!isLeadingProjectSelected) {
+            this.setErrorMessage("At least one leading project must be chosen.");
+        } else if (!isIntergrationProjectSelected) {
+            this.setErrorMessage("At least one integration project must be chosen.");
+        } else if (!isLeadingVariantNameFilled) {
+            this.setErrorMessage("Leading projects variant name must be specified.");
+        } else if (!isIntegrationVariantNameFilled) {
+            this.setErrorMessage("Integration projects variant name must be specified.");
+        } else {
+            this.setErrorMessage(null);          
+        }
 
         return isLeadingVariantNameFilled && isIntegrationVariantNameFilled && isLeadingProjectSelected
                 && isIntergrationProjectSelected;
@@ -243,8 +255,40 @@ public class ProjectsSelectionWizardPage extends WizardPage {
      */
     private class CheckPageCompletedListener implements Listener {
         @Override
-        public void handleEvent(Event event) {
+        public void handleEvent(Event event) {            
             setPageComplete(isProjectSelectionPageComplete());
+        }
+    }
+    
+    /**
+     * Listener to react on events and trigger the page to check its completeness and to
+     * set the leading projects variant name if it has not been already set.
+     */
+    private class LeadingProjectsTableListener extends CheckPageCompletedListener {
+        
+        @Override
+        public void handleEvent(Event event) {
+            if (!isNotEmpty(leadingVariantNameField)) {
+                List<String> chosenLeadingProjects = getChosenProjectsNames(leadingProjectsTable);
+                leadingVariantNameField.setText(chosenLeadingProjects.get(chosenLeadingProjects.size() - 1));
+            }
+            super.handleEvent(event);
+        } 
+    }
+     
+    /**
+     * Listener to react on events and trigger the page to check its completeness and to
+     * set the integration projects variant name if it has not been already set.
+     */
+    private class IntegrationProjectsTableListener extends CheckPageCompletedListener {
+        
+        @Override
+        public void handleEvent(Event event) {
+            if (!isNotEmpty(integrationVariantNameField)) {
+                List<String> chosenIntegrationProjects = getChosenProjectsNames(integrationProjectsTable);
+                integrationVariantNameField.setText(chosenIntegrationProjects.get(chosenIntegrationProjects.size() - 1));
+            }
+            super.handleEvent(event);
         }
     }
 }

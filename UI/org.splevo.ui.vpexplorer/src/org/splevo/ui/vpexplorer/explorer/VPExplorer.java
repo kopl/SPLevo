@@ -12,8 +12,6 @@
 package org.splevo.ui.vpexplorer.explorer;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
@@ -22,7 +20,6 @@ import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction.MODE;
 import org.splevo.ui.vpexplorer.explorer.actions.SelectVisibleAction;
-import org.splevo.ui.vpexplorer.explorer.actions.ToggleGroupsAction;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -70,11 +67,9 @@ public class VPExplorer extends CommonNavigator {
      * org.eclipse.ui.navigator.CommonNavigator#createPartControl(org.eclipse.swt.widgets.Composite)
      */
     @Override
-    public void createPartControl(Composite aParent) {
-        super.createPartControl(aParent);
-        Action action = new ToggleGroupsAction(this);
+    public void createPartControl(Composite parent) {
+        super.createPartControl(parent);
         IActionBars actionBars = getViewSite().getActionBars();
-        IMenuManager dropDownMenu = actionBars.getMenuManager();
         IToolBarManager toolBar = actionBars.getToolBarManager();
         if (toolBar.getItems().length > 0) {
             toolBar.insertBefore(toolBar.getItems()[0].getId(), new ExpandAllAction(this));
@@ -85,8 +80,6 @@ public class VPExplorer extends CommonNavigator {
             toolBar.add(new ExpandAllAction(this, MODE.VARIATIONPOINT));
             toolBar.add(new SelectVisibleAction(this));
         }
-        dropDownMenu.add(action);
-        toolBar.add(action);
     }
 
     /**
