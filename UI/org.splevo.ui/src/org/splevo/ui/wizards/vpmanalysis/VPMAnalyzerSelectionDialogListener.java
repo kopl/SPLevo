@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -22,6 +22,8 @@ import org.splevo.vpm.analyzer.DefaultVPMAnalyzerService;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerService;
 
+import com.google.common.collect.Lists;
+
 /**
  * Listener to open a dialog for selecting a vpm analysis to be performed.
  */
@@ -29,14 +31,15 @@ public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
 
     /** The wizard page to update. */
     private VPMAnalyzerConfigurationPage page = null;
-    
+
     /** The analyzer service to work with. */
     private VPMAnalyzerService vpmAnalyzerService = new DefaultVPMAnalyzerService();
 
     /**
      * Constructor requiring a reference to the listed to be filled.
-     * 
-     * @param page The page to open.
+     *
+     * @param page
+     *            The page to open.
      */
     public VPMAnalyzerSelectionDialogListener(VPMAnalyzerConfigurationPage page) {
         this.page = page;
@@ -44,7 +47,7 @@ public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
 
     /**
      * Mouse handler to open the dialog.
-     * 
+     *
      * @param e
      *            The mouse event to process.
      */
@@ -52,7 +55,10 @@ public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
     public void mouseUp(MouseEvent e) {
 
         Shell shell = e.widget.getDisplay().getShells()[0];
-        List<VPMAnalyzer> availableAnalyzer = vpmAnalyzerService.getAvailableAnalyzers();
+        List<VPMAnalyzer> availableAnalyzer = Lists.newArrayList(vpmAnalyzerService.getAvailableAnalyzers());
+
+        availableAnalyzer.removeAll(page.getAnalyzers());
+
 
         ElementListSelectionDialog dialog = new ElementListSelectionDialog(shell, new VPMAnalyzerLabelProvider());
         dialog.setTitle("VPM Analyzer Selection");
@@ -68,5 +74,4 @@ public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
             }
         }
     }
-
 }
