@@ -2,9 +2,7 @@
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
 
   <rm:locator searchPathRef="localresources" failOnError="false"/>
-  <rm:locator searchPathRef="localresources-ci" failOnError="false"/>
   <rm:locator searchPathRef="localresources-ci-github" failOnError="false"/>
-  <rm:locator searchPathRef="emfcompare" failOnError="false" />
   <rm:locator searchPathRef="guava" failOnError="false" />
   <rm:locator searchPathRef="jamopp" failOnError="false" />
   <rm:locator searchPathRef="emftext" failOnError="false" />
@@ -15,13 +13,6 @@
   <rm:locator searchPathRef="kepler" failOnError="false" />
   <rm:locator searchPathRef="palladio-commons" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
 
-  <rm:searchPath name="emfcompare">
-	  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-	 	<rm:property key="buckminster.source" value="false"/>
-	    <rm:property key="buckminster.mutable" value="false"/>
-	  	<rm:uri format="http://download.eclipse.org/modeling/emf/compare/updates/releases/"/>
-	  </rm:provider>
-  </rm:searchPath>
   <rm:searchPath name="guava">
 	  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
 	 	<rm:property key="buckminster.source" value="false"/>
@@ -75,7 +66,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/"/>
+      <rm:uri format="http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/"/>
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="kepler">
@@ -172,90 +163,6 @@
     </rm:provider>
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
       <rm:uri format="file:///{0}/External/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-  </rm:searchPath>
-
-
-  <!-- Subdirectory lookup for improved Jenkins CI checkout -->
-  <rm:searchPath name="localresources-ci">
-
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/Diffing/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/Extraction/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/FM/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/JaMoPPCartridge/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/Refactoring/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/Releng/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/UI/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/Utilities/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/VPM/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/VPMAnalyzer/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/VPMBuilder/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/VPMRefinement/{1}/">
-        <bc:propertyRef key="workspace.root"/>
-        <bc:propertyRef key="buckminster.component"/>
-      </rm:uri>
-    </rm:provider>
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/trunk/External/{1}/">
         <bc:propertyRef key="workspace.root"/>
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
