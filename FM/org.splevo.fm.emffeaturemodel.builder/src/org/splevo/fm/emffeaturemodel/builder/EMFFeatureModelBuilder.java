@@ -17,6 +17,7 @@ import org.eclipse.featuremodel.diagrameditor.FMEDiagramEditor;
 import org.eclipse.featuremodel.diagrameditor.FMEDiagramEditorUtil;
 import org.splevo.fm.builder.FeatureModelBuilder;
 import org.splevo.fm.builder.FeatureModelWrapper;
+import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -55,7 +56,11 @@ public class EMFFeatureModelBuilder implements FeatureModelBuilder<FeatureModel>
             vpFeature.getChildren().add(group);
 
             Set<String> variantIds = new HashSet<String>();
+            VariabilityType variabilityType = null;
             for (VariationPoint variationPoint : variationPointGroup.getVariationPoints()) {
+                if (variabilityType == null) {
+                    variabilityType = variationPoint.getVariabilityType();
+                }
                 for (Variant variant : variationPoint.getVariants()) {
                     variantIds.add(variant.getVariantId());
                 }
@@ -65,10 +70,32 @@ public class EMFFeatureModelBuilder implements FeatureModelBuilder<FeatureModel>
                 Feature vFeature = createVariantFeature(variantId);
                 group.getFeatures().add(vFeature);
             }
+            setGroupCharacteristics(group, variantIds, variabilityType);
 
         }
 
         return new FeatureModelWrapper<FeatureModel>(fm, true);
+    }
+
+    private void setGroupCharacteristics(Group group, Set<String> variantIds, VariabilityType variabilityType) {
+        if (isOptional(variabilityType)) {
+            group.setLower(0);
+        } else {
+            group.setLower(1);
+        }
+        if (isAlternative(variabilityType)) {
+            group.setUpper(1);
+        } else {
+            group.setUpper(variantIds.size());
+        }
+    }
+
+    private boolean isAlternative(VariabilityType variabilityType) {
+        return variabilityType == VariabilityType.XOR || variabilityType == VariabilityType.OPTXOR;
+    }
+
+    private boolean isOptional(VariabilityType variabilityType) {
+        return variabilityType == VariabilityType.OPTOR || variabilityType == VariabilityType.OPTXOR;
     }
 
     /**
