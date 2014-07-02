@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ package org.splevo.ui.workflow;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.jobs.OpenVPMJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveVPMJob;
 import org.splevo.ui.jobs.SetRefinementsJob;
@@ -72,6 +73,9 @@ public class VPMRefinementWorkflowDelegate extends
         String targetPath = splevoProject.getWorkspace() + "models/vpms/" + modelNamePrefix + "-vpm.vpm";
         SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
         jobSequence.add(saveVPMJob);
+
+        // open the model
+        jobSequence.add(new OpenVPMJob());
 
         // return the prepared workflow
         return jobSequence;

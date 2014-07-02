@@ -22,6 +22,7 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.DiffingJob;
 import org.splevo.ui.jobs.ExtractionJob;
 import org.splevo.ui.jobs.InitVPMJob;
+import org.splevo.ui.jobs.OpenVPMJob;
 import org.splevo.ui.jobs.RefreshWorkspaceJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveVPMJob;
@@ -89,10 +90,6 @@ public class InitVPMWorkflowDelegate
         final DiffingJob diffingJob = new DiffingJob(splevoProject);
         jobSequence.add(diffingJob);
 
-		// load the diff model
-//		LoadDiffingModelJob loadDiffJob = new LoadDiffingModelJob(splevoProject);
-//		jobSequence.add(loadDiffJob);
-
 		// init the vpm
 		InitVPMJob initVPMJob = new InitVPMJob(splevoProject);
 		jobSequence.add(initVPMJob);
@@ -102,6 +99,9 @@ public class InitVPMWorkflowDelegate
 				+ "models/vpms/initial-vpm.vpm";
 		SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
 		jobSequence.add(saveVPMJob);
+
+		// open the model
+		jobSequence.add(new OpenVPMJob());
 
 		// return the prepared workflow
 		return jobSequence;
