@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.splevo.vpm.refinement
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.apache.log4j,
- org.eclipse.emf.compare,
  org.splevo.tests,
  org.eclipse.emf.ecore.xmi,
  org.junit
