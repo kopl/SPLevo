@@ -22,6 +22,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
 
 import com.google.common.collect.Sets;
 
@@ -53,6 +54,14 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
                     boolean changed = changeVariationPointCharacteristic((VariationPoint) element);
                     if (changed) {
                         resourceToSave.add(((VariationPoint) element).eResource());
+                    }
+                } else if (element instanceof VariationPointGroup) {
+                    VariationPointGroup group = (VariationPointGroup) element;
+                    for (VariationPoint vp : group.getVariationPoints()) {
+                        boolean changed = changeVariationPointCharacteristic(vp);
+                        if (changed) {
+                            resourceToSave.add(vp.eResource());
+                        }
                     }
                 }
             }
