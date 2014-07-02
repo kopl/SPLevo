@@ -253,12 +253,12 @@
             </visibleWhen>
             <command
                   commandId="org.splevo.ui.vp.characteristics.extendibility.closed"
-                  label="Closed"
+                  label="NO"
                   style="push">
             </command>
             <command
                   commandId="org.splevo.ui.vp.characteristics.extendibility.open"
-                  label="Open"
+                  label="YES"
                   style="push">
             </command>
          </menu>
