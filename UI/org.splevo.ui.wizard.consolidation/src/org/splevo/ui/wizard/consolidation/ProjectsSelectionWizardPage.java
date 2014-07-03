@@ -190,7 +190,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         return projects;
     }
 
-    /**
+    /** 
      * @return true if all fields are filled and at least one leading and one integration project is
      *         chosen, otherwise false.
      */
