@@ -19,7 +19,7 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.listeners.WorkflowListenerUtil;
-import org.splevo.ui.refinementbrowser.OpenRefinementEditorRunnable;
+import org.splevo.ui.refinementbrowser.OpenRefinementBrowserRunnable;
 import org.splevo.ui.views.vpmgraph.OpenVPMGraphViewerRunnable;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentation;
@@ -135,7 +135,7 @@ public class VPMAnalysisWizard extends Wizard {
      */
     private void runAnalysisAndOpenRefinementEditor() {
         final SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
-        Runnable openRefinementEditorRunnable = new OpenRefinementEditorRunnable(
+        Runnable openRefinementEditorRunnable = new OpenRefinementBrowserRunnable(
                 analysisWorkflowConfiguration.getSplevoProjectEditor(), spLevoBlackBoard);
         VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(analysisWorkflowConfiguration,
                 spLevoBlackBoard, true);

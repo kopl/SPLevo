@@ -9,13 +9,14 @@
  * Contributors:
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.ui.refinementbrowser;
+package org.splevo.ui.refinementbrowser.action;
 
 import java.util.List;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.TreeItem;
+import org.splevo.ui.refinementbrowser.RefinementDetailsView;
 import org.splevo.vpm.refinement.Refinement;
 
 /**

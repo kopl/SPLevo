@@ -9,11 +9,12 @@
  * Contributors:
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.ui.refinementbrowser;
+package org.splevo.ui.refinementbrowser.listener;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.splevo.ui.refinementbrowser.RefinementDetailsView;
 import org.splevo.vpm.refinement.Refinement;
 
 /**

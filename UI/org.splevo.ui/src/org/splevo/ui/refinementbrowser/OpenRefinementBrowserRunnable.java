@@ -22,9 +22,9 @@ import org.splevo.vpm.refinement.Refinement;
 /**
  * Task to open the refinement editor with the results of a a list of recommended refinements.
  */
-public class OpenRefinementEditorRunnable implements Runnable {
+public class OpenRefinementBrowserRunnable implements Runnable {
 
-    private static Logger logger = Logger.getLogger(OpenRefinementEditorRunnable.class);
+    private static Logger logger = Logger.getLogger(OpenRefinementBrowserRunnable.class);
 
     private SPLevoProjectEditor splevoProjectEditor;
     private RefinementModelProvider refinementModelProvider;
@@ -37,7 +37,7 @@ public class OpenRefinementEditorRunnable implements Runnable {
      * @param refinementModelProvider
      *            The provider for the refinements to display.
      */
-    public OpenRefinementEditorRunnable(SPLevoProjectEditor splevoProjectEditor,
+    public OpenRefinementBrowserRunnable(SPLevoProjectEditor splevoProjectEditor,
             RefinementModelProvider refinementModelProvider) {
         this.refinementModelProvider = refinementModelProvider;
         this.splevoProjectEditor = splevoProjectEditor;

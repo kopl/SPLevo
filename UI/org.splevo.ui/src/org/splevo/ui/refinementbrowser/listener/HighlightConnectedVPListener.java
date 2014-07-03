@@ -9,7 +9,7 @@
  * Contributors:
  *    Benjamin Klatt
  *******************************************************************************/
-package org.splevo.ui.refinementbrowser;
+package org.splevo.ui.refinementbrowser.listener;
 
 import java.util.Set;
 
@@ -23,6 +23,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TreeItem;
+import org.splevo.ui.refinementbrowser.RefinementBrowserUtil;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementReason;
 import org.splevo.vpm.variability.VariationPoint;

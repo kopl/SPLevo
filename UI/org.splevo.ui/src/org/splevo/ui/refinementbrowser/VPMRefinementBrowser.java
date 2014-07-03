@@ -34,6 +34,13 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
+import org.splevo.ui.refinementbrowser.action.ApplyRefinementsAction;
+import org.splevo.ui.refinementbrowser.action.DeleteRefinementAction;
+import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
+import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
+import org.splevo.ui.refinementbrowser.listener.RefinementActionBarListener;
+import org.splevo.ui.refinementbrowser.listener.RefinementInfoSelectionListener;
+import org.splevo.ui.refinementbrowser.listener.RefinementSelectionListener;
 import org.splevo.vpm.refinement.Refinement;
 
 /***
