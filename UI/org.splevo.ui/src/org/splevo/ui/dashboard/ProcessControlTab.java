@@ -30,7 +30,7 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.InitVPMListener;
-import org.splevo.ui.listeners.OpenVPEditorListener;
+import org.splevo.ui.listeners.OpenVPMListener;
 import org.splevo.ui.listeners.StartRefactoringListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
 import org.splevo.ui.util.WorkspaceUtil;
@@ -131,7 +131,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         openVPMBtn = new Button(processControlContainer, SWT.NONE);
         openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
         openVPMBtn.setBounds(xOffset + indentSubButton, 109, 26, 30);
-        openVPMBtn.addMouseListener(new OpenVPEditorListener(getSplevoProjectEditor()));
+        openVPMBtn.addMouseListener(new OpenVPMListener(getSplevoProjectEditor()));
 
         xOffset += analyzeVPMBtn.getBounds().width + offset;
 

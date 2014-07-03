@@ -24,28 +24,28 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.util.VPMUIUtil;
 
 /**
- * Mouse adapter to listen for events which trigger the extraction of the source projects.
+ * Mouse adapter to open the latest variation point model of a SPLevo project.
  */
-public class OpenVPEditorListener extends MouseAdapter {
+public class OpenVPMListener extends MouseAdapter {
 
     /** The logger for this class. */
-    private Logger logger = Logger.getLogger(OpenVPEditorListener.class);
+    private Logger logger = Logger.getLogger(OpenVPMListener.class);
 
     /** The internal reference to the splevo project editor to work with. */
     private SPLevoProjectEditor splevoProjectEditor = null;
 
     /**
-     * A listener to open the VPExplorer with a reasonable user feedback. It always openes the
-     * latest vpm of the SPLevo project under control of a splevoProjectEditor.
+     * A listener to open latest variation point model of the SPLevo project under control with a
+     * reasonable user feedback.
      *
-     * The editor is bound to the vpm instead of the splevo project or the vpm itself, as both might
-     * been target of change between the listener intialization and assignment to the editor and the
-     * click by the user.
+     * The listener is bound to the editor instead of the splevo project or the vpm itself, as both
+     * might been target of change between the listener initialization, assignment to the editor,
+     * and the user interaction.
      *
      * @param splevoProjectEditor
      *            The reference to the splevo project editor.
      */
-    public OpenVPEditorListener(SPLevoProjectEditor splevoProjectEditor) {
+    public OpenVPMListener(SPLevoProjectEditor splevoProjectEditor) {
         this.splevoProjectEditor = splevoProjectEditor;
     }
 
