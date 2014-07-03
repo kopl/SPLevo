@@ -49,26 +49,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Input is a variation point that is tailored to this refactoring.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Compilation Unit</li>
-     * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 2: Has a constructor</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>true</code>
+     * Tests whether the canBeApplied method returns true for applicable variation points.
      */
     @Test
     public void testIfCanBeAppliedWithValidVP() {
@@ -84,26 +65,8 @@ public class IfElseStaticConfigClassImportOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles an incorrect binding time correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Load</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Compilation Unit</li>
-     * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 2: Has a constructor</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have a binding
+     * time that is not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidBindingTime() {
@@ -119,26 +82,8 @@ public class IfElseStaticConfigClassImportOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles an incorrect extensibility correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: Yes</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Compilation Unit</li>
-     * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 2: Has a constructor</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have a
+     * extensibility that is not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidExtensibility() {
@@ -154,26 +99,8 @@ public class IfElseStaticConfigClassImportOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles an incorrect variability type correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Compilation Unit</li>
-     * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 2: Has a constructor</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have a
+     * variability type that is not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidVarType() {
@@ -189,26 +116,8 @@ public class IfElseStaticConfigClassImportOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles an incorrect variation point location correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Interface</li>
-     * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 2: Has a constructor</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have a location
+     * that is not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidLocation() {
@@ -224,26 +133,8 @@ public class IfElseStaticConfigClassImportOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles incorrect variant elements correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Compilation Unit</li>
-     * <li>Variant 1: Has a constructor</li>
-     * <li>Variant 1: Has a constructor</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have variants
+     * with implementing elements that are not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidVariantElements() {
@@ -259,28 +150,11 @@ public class IfElseStaticConfigClassImportOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Merges imports. The base must contain the imports from all variants.
+     * Tests whether the refactoring adds a missing import correctly from the integration variant
+     * into the base.
      * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: Import: ArrayList</li>
-     * <li>Variant 2: Import: LinkedList</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The base must contain two imports: the linkedlist and arraylist import.
-     * 
-     * @throws Exception An unexpected error occured. 
+     * @throws Exception
+     *             In case of an unexpected exception.
      */
     @Test
     public void testRefactorCaseImportTwoDistinct() throws Exception {
@@ -289,9 +163,13 @@ public class IfElseStaticConfigClassImportOPTORTest {
         refactoring.refactor(vp);
 
         CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+
+        // location has two classifier imports
         assertThat(vpLocation.getImports().size(), equalTo(2));
         assertThat(vpLocation.getImports().get(0), instanceOf(ClassifierImport.class));
         assertThat(vpLocation.getImports().get(1), instanceOf(ClassifierImport.class));
+
+        // assert correct import classifier
         assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(0))
                 .getClassifier().getName(), equalTo("ArrayList"));
         assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(1))
@@ -299,28 +177,10 @@ public class IfElseStaticConfigClassImportOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Merges imports. The base must contain the imports from all variants.
+     * Tests whether the refactoring merges imports correctly in case of duplicates.
      * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: 3 Imports: a,b,c</li>
-     * <li>Variant 2: 3 Imports: b,c,d</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The base must contain four imports: a,b,c and d.
-     * 
-     * @throws Exception An unexpected error occured. 
+     * @throws Exception
+     *             In case of an unexpected exception.
      */
     @Test
     public void testRefactorCaseImportCommonMultiple() throws Exception {

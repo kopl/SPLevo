@@ -133,12 +133,12 @@
       <command
             defaultHandler="org.splevo.ui.vpexplorer.handler.characteristics.extendibility.SetExtensibleNOHandler"
             id="org.splevo.ui.vp.characteristics.extendibility.closed"
-            name="CLOSED">
+            name="NO">
       </command>
       <command
             defaultHandler="org.splevo.ui.vpexplorer.handler.characteristics.extendibility.SetExtensibleYESHandler"
             id="org.splevo.ui.vp.characteristics.extendibility.open"
-            name="OPEN">
+            name="YES">
       </command>
    </extension>
    <extension
@@ -172,9 +172,14 @@
             <visibleWhen
                   checkEnabled="true">
                <iterate>
-                  <instanceof
-                        value="org.splevo.vpm.variability.VariationPoint">
-                  </instanceof>
+                  <or>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
+                     </instanceof>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPointGroup">
+                     </instanceof>
+                  </or>
                </iterate>
             </visibleWhen>
             <command
@@ -204,9 +209,14 @@
             <visibleWhen
                   checkEnabled="true">
                <iterate>
-                  <instanceof
-                        value="org.splevo.vpm.variability.VariationPoint">
-                  </instanceof>
+                  <or>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
+                     </instanceof>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPointGroup">
+                     </instanceof>
+                  </or>
                </iterate>
             </visibleWhen>
             <command
@@ -227,23 +237,28 @@
          </menu>
          <menu
                id="org.splevo.ui.vp.characteristics.extendibility"
-               label="Extendibility">
+               label="Extensible">
             <visibleWhen
                   checkEnabled="true">
                <iterate>
-                  <instanceof
-                        value="org.splevo.vpm.variability.VariationPoint">
-                  </instanceof>
+                  <or>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
+                     </instanceof>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPointGroup">
+                     </instanceof>
+                  </or>
                </iterate>
             </visibleWhen>
             <command
                   commandId="org.splevo.ui.vp.characteristics.extendibility.closed"
-                  label="Closed"
+                  label="NO"
                   style="push">
             </command>
             <command
                   commandId="org.splevo.ui.vp.characteristics.extendibility.open"
-                  label="Open"
+                  label="YES"
                   style="push">
             </command>
          </menu>

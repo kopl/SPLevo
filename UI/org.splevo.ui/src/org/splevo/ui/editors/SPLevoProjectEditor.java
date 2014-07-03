@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -33,6 +34,7 @@ import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.dashboard.ConfigurationTab;
 import org.splevo.ui.dashboard.ProcessControlTab;
 import org.splevo.ui.dashboard.ProjectSelectionTab;
@@ -232,5 +234,10 @@ public class SPLevoProjectEditor extends EditorPart {
 
         processControlTab.enableButtonsIfInformationAvailable();
 
+    }
+
+    @Override
+    public Image getTitleImage() {
+        return SPLevoUIPlugin.KOPL_ICON;
     }
 }

@@ -8,10 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.splevo.refactoring
 Bundle-Vendor: www.splevo.org
-Require-Bundle: org.eclipse.osgi,
- org.eclipse.equinox.registry,
- org.apache.log4j,
+Require-Bundle: org.apache.log4j,
  org.splevo.vpm;visibility:=reexport,
- org.eclipse.emf.compare,
  org.eclipse.core.runtime,
  com.google.guava

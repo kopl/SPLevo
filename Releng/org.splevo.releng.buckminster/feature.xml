@@ -19,11 +19,10 @@
 
    <url>
       <discovery label="Palladio Workflow Engine" url="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.3/"/>
-      <discovery label="Eclipse Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/"/>
+      <discovery label="Eclipse Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/"/>
       <discovery label="EMFFeatureModel" url="http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/"/>
       <discovery label="JaMoPP" url="http://jamopp.org/update_trunk"/>
       <discovery label="Google Guava" url="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
-      <discovery label="EMF Compare" url="http://download.eclipse.org/modeling/emf/compare/updates/releases/"/>
    </url>
 
    <includes
@@ -198,6 +197,22 @@
 
    <plugin
          id="org.splevo.diffing.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.jamopp.refactoring.java.ifelse.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.splevo.ui.wizard.consolidation.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"

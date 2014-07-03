@@ -21,7 +21,7 @@ public class SetLoadTimeHandler extends AbstractSetBindingTimeHandler {
 
     @Override
     protected BindingTime getTargetBindingTime() {
-        return BindingTime.COMPILE_TIME;
+        return BindingTime.LOAD_TIME;
     }
 
 }

@@ -24,7 +24,8 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassClassOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Class";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassClassOPTOR";
+    private static final String REFACTORING_ID = 
+            "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassClassOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -63,9 +64,9 @@ public class IfElseStaticConfigClassClassOPTOR implements VariabilityRefactoring
         boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         boolean correctLocation = jamoppElement instanceof MemberContainer;
-        boolean allImplementingElementsAreFields = RefactoringUtil.allImplementingElementsOfType(variationPoint,
+        boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Class.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreFields;
+        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreClasses;
 
         if (!correctInput) {
             return false;

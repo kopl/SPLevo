@@ -4,12 +4,11 @@ Bundle-Name: SPLevo Diffing
 Bundle-SymbolicName: org.splevo.diffing;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.apache.log4j;bundle-version="1.2.15",
- org.eclipse.emf.ecore;bundle-version="2.7.0",
- org.eclipse.emf.ecore.xmi;bundle-version="2.7.0",
- org.eclipse.emf.compare;bundle-version="3.0.1";visibility:=reexport,
- com.google.guava;bundle-version="[11.0.0,14.0.0]",
- org.eclipse.core.runtime;bundle-version="3.8.0"
+Require-Bundle: org.apache.log4j,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.compare;bundle-version="2.1.0";visibility:=reexport,
+ com.google.guava;bundle-version="[11.0.0,14.0.0]";visibility:=reexport,
+ org.eclipse.core.runtime
 Export-Package: org.splevo.diffing,
  org.splevo.diffing.match,
  org.splevo.diffing.postprocessor,

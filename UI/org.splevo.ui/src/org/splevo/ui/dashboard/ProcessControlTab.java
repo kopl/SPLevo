@@ -28,12 +28,9 @@ import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.editors.listener.GotoTabMouseListener;
-import org.splevo.ui.listeners.DiffSourceModelListener;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.InitVPMListener;
-import org.splevo.ui.listeners.OpenDiffModelListener;
-import org.splevo.ui.listeners.OpenVPEditorListener;
+import org.splevo.ui.listeners.OpenVPMListener;
 import org.splevo.ui.listeners.StartRefactoringListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
 import org.splevo.ui.util.WorkspaceUtil;
@@ -42,9 +39,6 @@ import org.splevo.ui.util.WorkspaceUtil;
  * The tab to control the consolidation process.
  */
 public class ProcessControlTab extends AbstractDashboardTab {
-
-    /** Button Diffing. */
-    private Button diffingBtn;
 
     /** Button Init VPM. */
     private Button initVpmBtn;
@@ -57,9 +51,6 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
     /** Button Generate feature model. */
     private Button generateFMBtn;
-
-    /** Button Open Diff. */
-    private Button openDiffBtn;
 
     /** Button Open VPM. */
     private Button openVPMBtn;
@@ -99,59 +90,32 @@ public class ProcessControlTab extends AbstractDashboardTab {
         Label lblSplevoDashboard = new Label(processControlContainer, SWT.NONE);
         lblSplevoDashboard.setAlignment(SWT.CENTER);
         lblSplevoDashboard.setFont(SWTResourceManager.getFont("Arial", 14, SWT.BOLD));
-        lblSplevoDashboard.setBounds(76, 10, 570, 30);
+        lblSplevoDashboard.setBounds(0, 10, 550, 30);
         lblSplevoDashboard.setText("SPLevo Dashboard");
+
+        int xOffset = 20;
+        int offsetActivityStart = 24;
+        int offset = 5;
+        int offsetFlow = 30 + offset;
+        int indentSubButton = 22;
 
         Label activityStart = new Label(processControlContainer, SWT.NONE);
         activityStart.setAlignment(SWT.CENTER);
         activityStart.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bullet_green.png"));
-        activityStart.setBounds(20, 66, 30, 30);
+        activityStart.setBounds(xOffset, 66, 30, 30);
+        xOffset += offsetActivityStart;
 
-        Label activityFlow0 = new Label(processControlContainer, SWT.NONE);
-        activityFlow0.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
-        activityFlow0.setAlignment(SWT.CENTER);
-        activityFlow0.setBounds(44, 66, 30, 30);
-
-        Button selectProjectBtn = new Button(processControlContainer, SWT.WRAP);
-        selectProjectBtn.addMouseListener(new GotoTabMouseListener(tabFolder,
-                SPLevoProjectEditor.TABINDEX_PROJECT_SELECTION));
-        selectProjectBtn.setText("Project Selection");
-        selectProjectBtn.setBounds(75, 59, 78, 45);
-
-        Label activityFlow3 = new Label(processControlContainer, SWT.NONE);
-        activityFlow3.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
-        activityFlow3.setAlignment(SWT.CENTER);
-        activityFlow3.setBounds(159, 66, 30, 30);
-
-        diffingBtn = new Button(processControlContainer, SWT.WRAP);
-        diffingBtn.addMouseListener(new DiffSourceModelListener(getSplevoProjectEditor()));
-        diffingBtn.setText("Diffing");
-        diffingBtn.setBounds(195, 58, 72, 45);
-
-        openDiffBtn = new Button(processControlContainer, SWT.NONE);
-        openDiffBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
-        openDiffBtn.setBounds(221, 109, 26, 30);
-        openDiffBtn.addMouseListener(new OpenDiffModelListener(getSplevoProjectEditor()));
-
-        Label activityFlow4 = new Label(processControlContainer, SWT.NONE);
-        activityFlow4.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
-        activityFlow4.setAlignment(SWT.CENTER);
-        activityFlow4.setBounds(273, 65, 30, 30);
+        addActivityFlowButton(processControlContainer, xOffset);
+        xOffset += offsetFlow;
 
         initVpmBtn = new Button(processControlContainer, SWT.WRAP);
         initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
         initVpmBtn.setText("Init VPM");
-        initVpmBtn.setBounds(309, 58, 72, 45);
+        initVpmBtn.setBounds(xOffset, 58, 72, 45);
+        xOffset += initVpmBtn.getBounds().width + offset;
 
-        openVPMBtn = new Button(processControlContainer, SWT.NONE);
-        openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
-        openVPMBtn.setBounds(331, 109, 26, 30);
-        openVPMBtn.addMouseListener(new OpenVPEditorListener(getSplevoProjectEditor()));
-
-        Label activityFlow5 = new Label(processControlContainer, SWT.NONE);
-        activityFlow5.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
-        activityFlow5.setAlignment(SWT.CENTER);
-        activityFlow5.setBounds(387, 65, 30, 30);
+        addActivityFlowButton(processControlContainer, xOffset);
+        xOffset += offsetFlow;
 
         analyzeVPMBtn = new Button(processControlContainer, SWT.WRAP);
         analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
@@ -161,29 +125,41 @@ public class ProcessControlTab extends AbstractDashboardTab {
                 e.gc.drawImage(circleImage, 51, 24);
             }
         });
-        analyzeVPMBtn.setText("Analyze VPM");
-        analyzeVPMBtn.setBounds(420, 58, 70, 45);
+        analyzeVPMBtn.setText("Refine VPM");
+        analyzeVPMBtn.setBounds(xOffset, 58, 72, 45);
 
-        Label activityFlow6 = new Label(processControlContainer, SWT.NONE);
-        activityFlow6.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
-        activityFlow6.setAlignment(SWT.CENTER);
-        activityFlow6.setBounds(495, 65, 30, 30);
+        openVPMBtn = new Button(processControlContainer, SWT.NONE);
+        openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
+        openVPMBtn.setBounds(xOffset + indentSubButton, 109, 26, 30);
+        openVPMBtn.addMouseListener(new OpenVPMListener(getSplevoProjectEditor()));
+
+        xOffset += analyzeVPMBtn.getBounds().width + offset;
+
+        addActivityFlowButton(processControlContainer, xOffset);
+        xOffset += offsetFlow;
 
         startRefactoringBtn = new Button(processControlContainer, SWT.WRAP);
         startRefactoringBtn.addMouseListener(new StartRefactoringListener(getSplevoProjectEditor()));
-        startRefactoringBtn.setText("Start Refactoring");
-        startRefactoringBtn.setBounds(532, 58, 93, 45);
+        startRefactoringBtn.setText("Refactor Copies");
+        startRefactoringBtn.setBounds(xOffset, 58, 72, 45);
+        xOffset += startRefactoringBtn.getBounds().width + offset;
 
-        Label activityFlow7 = new Label(processControlContainer, SWT.NONE);
-        activityFlow7.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
-        activityFlow7.setAlignment(SWT.CENTER);
-        activityFlow7.setBounds(630, 65, 30, 30);
+        addActivityFlowButton(processControlContainer, xOffset);
+        xOffset += offsetFlow;
 
         generateFMBtn = new Button(processControlContainer, SWT.WRAP);
         generateFMBtn.addMouseListener(new GenerateFeatureModelListener(getSplevoProjectEditor()));
-        generateFMBtn.setText("Generate Feature Model");
-        generateFMBtn.setBounds(670, 58, 118, 45);
+        generateFMBtn.setText("Export SPL");
+        generateFMBtn.setBounds(xOffset, 58, 72, 45);
+        xOffset += generateFMBtn.getBounds().width + offset;
 
+    }
+
+    private void addActivityFlowButton(Composite container, int xOffset) {
+        Label iconLabel = new Label(container, SWT.NONE);
+        iconLabel.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
+        iconLabel.setAlignment(SWT.CENTER);
+        iconLabel.setBounds(xOffset, 66, 30, 30);
     }
 
     /**
@@ -193,14 +169,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         disableAllButtonsExceptProjectSelection();
 
         if (projectsSelected()) {
-            diffingBtn.setEnabled(true);
-        } else {
-            return;
-        }
-
-        if (diffModelAvailable()) {
             initVpmBtn.setEnabled(true);
-            openDiffBtn.setEnabled(true);
         } else {
             return;
         }
@@ -228,18 +197,6 @@ public class ProcessControlTab extends AbstractDashboardTab {
     }
 
     /**
-     * Check if a diff model is set in the project file and if it can be read.
-     *
-     * @return true if the diff model is available.
-     */
-    private boolean diffModelAvailable() {
-        SPLevoProject splevoProject = getSPLevoProject();
-        String basePath = WorkspaceUtil.getAbsoluteWorkspacePath();
-        return splevoProject.getDiffingModelPath() != null
-                && new File(basePath + splevoProject.getDiffingModelPath()).canRead();
-    }
-
-    /**
      * Checks if both input models have more than one project.
      *
      * @return true, if both input models have more than one project, else false
@@ -254,8 +211,6 @@ public class ProcessControlTab extends AbstractDashboardTab {
      */
     private void disableAllButtonsExceptProjectSelection() {
         List<Button> buttons = new ArrayList<Button>();
-        buttons.add(diffingBtn);
-        buttons.add(openDiffBtn);
         buttons.add(generateFMBtn);
         buttons.add(initVpmBtn);
         buttons.add(analyzeVPMBtn);

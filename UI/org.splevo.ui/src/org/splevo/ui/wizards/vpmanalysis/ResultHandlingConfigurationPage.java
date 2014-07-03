@@ -626,8 +626,4 @@ public class ResultHandlingConfigurationPage extends WizardPage {
                 || (resultPresentation == ResultPresentation.REFINEMENT_BROWSER && !labelsToGroupID.isEmpty());
     }
 
-    @Override
-    public boolean canFlipToNextPage() {
-        return resultPresentation == ResultPresentation.REFINEMENT_BROWSER && !labelsToGroupID.isEmpty();
-    }
 }

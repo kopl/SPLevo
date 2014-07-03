@@ -4,19 +4,7 @@
    <extension
          point="org.splevo.refactoring.refactoring">
       <VariabilityRefactoring
-            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassConstructorOPTOR">
-      </VariabilityRefactoring>
-   </extension>
-   <extension
-         point="org.splevo.refactoring.refactoring">
-      <VariabilityRefactoring
-            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassImportOPTOR">
-      </VariabilityRefactoring>
-   </extension>
-   <extension
-         point="org.splevo.refactoring.refactoring">
-      <VariabilityRefactoring
-            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassStatementOPTOR">
+            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassOPTOR">
       </VariabilityRefactoring>
    </extension>
    

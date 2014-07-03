@@ -31,6 +31,10 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
+import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
+import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
+import org.splevo.ui.refinementbrowser.listener.HighlightConnectedVPListener;
+import org.splevo.ui.refinementbrowser.listener.RefinementInfoSelectionListener;
 import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
@@ -70,9 +74,9 @@ public class RefinementDetailsView extends Composite {
 
         SashForm sashForm = new SashForm(this, SWT.FILL);
         sashForm.setSashWidth(1);
-        sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
+        sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
-        refinementDetailsTreeViewer = new TreeViewer(sashForm, SWT.MULTI);
+        refinementDetailsTreeViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.BORDER);
         refinementDetailsTreeViewer.setLabelProvider(new RefinementDetailsLabelProvider());
         refinementDetailsTreeViewer.setContentProvider(new RefinementDetailsTreeContentProvider());
         refinementDetailsTreeViewer.addDoubleClickListener(new ExpandTreeListener());

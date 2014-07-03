@@ -18,9 +18,11 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
@@ -30,10 +32,19 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
+import org.splevo.ui.refinementbrowser.action.ApplyRefinementsAction;
+import org.splevo.ui.refinementbrowser.action.CancelAction;
+import org.splevo.ui.refinementbrowser.action.DeleteRefinementAction;
+import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
+import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
+import org.splevo.ui.refinementbrowser.listener.RefinementActionBarListener;
+import org.splevo.ui.refinementbrowser.listener.RefinementInfoSelectionListener;
+import org.splevo.ui.refinementbrowser.listener.RefinementSelectionListener;
 import org.splevo.vpm.refinement.Refinement;
 
 /***
@@ -83,9 +94,9 @@ public class VPMRefinementBrowser extends EditorPart {
         form.setText("SPLevo Refinement Browser");
         toolkit.decorateFormHeading(form);
         form.getMenuManager().add(new ApplyRefinementsAction(this, "Apply Refinements"));
-        createFormContent(form.getBody());
+        form.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
-        SashForm sashForm = new SashForm(form.getBody(), SWT.BORDER | SWT.FILL);
+        SashForm sashForm = new SashForm(form.getBody(), SWT.FILL);
         sashForm.setSashWidth(1);
         sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
         toolkit.adapt(sashForm);
@@ -102,6 +113,13 @@ public class VPMRefinementBrowser extends EditorPart {
 
         sashForm.setWeights(new int[] { 2, 8 });
 
+        ToolBarManager manager = (ToolBarManager) form.getToolBarManager();
+        manager.add(new ApplyRefinementsAction(this, "Apply Refinements"));
+        manager.add(new CancelAction(this, "Cancel and close"));
+        IMenuService menuService = (IMenuService) getSite().getService(IMenuService.class);
+        menuService.populateContributionManager(manager, "popup:formsToolBar");
+        manager.update(true);
+
         initContextMenu();
     }
 
@@ -116,16 +134,6 @@ public class VPMRefinementBrowser extends EditorPart {
         refinementListView.setAutoExpandLevel(2);
         refinementListView.setInput(input.getRefinements());
         refinementListView.addDoubleClickListener(new ExpandTreeListener());
-    }
-
-    /**
-     * Create the form body providing the real content.
-     *
-     * @param parent
-     *            The parent ui element to create the form in.
-     */
-    private void createFormContent(Composite parent) {
-        form.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
     }
 
     /**
@@ -197,5 +205,10 @@ public class VPMRefinementBrowser extends EditorPart {
                 .getImageDescriptor("icons/kopl_circle_only.png")));
         Menu menu = menuMgr.createContextMenu(refinementListView.getTree());
         refinementListView.getTree().setMenu(menu);
+    }
+
+    @Override
+    public Image getTitleImage() {
+        return SPLevoUIPlugin.getImageDescriptor("icons/refinement-browser.gif").createImage();
     }
 }

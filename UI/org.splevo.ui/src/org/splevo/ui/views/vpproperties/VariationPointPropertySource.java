@@ -101,13 +101,13 @@ public class VariationPointPropertySource implements IPropertySource {
     @Override
     public Object getPropertyValue(Object id) {
         if (id.equals(PROPERTY_ID_VARIABILITYTYPE)) {
-            return vp.getVariabilityType().getValue();
+            return variabilityTypes.indexOf(vp.getVariabilityType().getName());
         }
         if (id.equals(PROPERTY_ID_EXTENSIBILITY)) {
-            return vp.getExtensibility().getValue();
+            return extensibilities.indexOf(vp.getExtensibility().getName());
         }
         if (id.equals(PROPERTY_ID_BINDINGTIME)) {
-            return vp.getBindingTime().getValue();
+            return bindingTimes.indexOf(vp.getBindingTime().getName());
         }
         if (id.equals(PROPERTY_ID_VARIABILITY_MECHANISM)) {
             if (vp.getVariabilityMechanism() == null) {
@@ -134,13 +134,16 @@ public class VariationPointPropertySource implements IPropertySource {
     @Override
     public void setPropertyValue(Object id, Object value) {
         if (id.equals(PROPERTY_ID_VARIABILITYTYPE) && value instanceof Integer) {
-            vp.setVariabilityType(VariabilityType.get((Integer) value));
+            VariabilityType type = VariabilityType.getByName(variabilityTypes.get((Integer) value));
+            vp.setVariabilityType(type);
 
         } else if (id.equals(PROPERTY_ID_EXTENSIBILITY) && value instanceof Integer) {
-            vp.setExtensibility(Extensible.get((Integer) value));
+            Extensible extensibility = Extensible.getByName(extensibilities.get((Integer) value));
+            vp.setExtensibility(extensibility);
 
         } else if (id.equals(PROPERTY_ID_BINDINGTIME) && value instanceof Integer) {
-            vp.setBindingTime(BindingTime.get((Integer) value));
+            BindingTime bindingTime = BindingTime.getByName(bindingTimes.get((Integer) value));
+            vp.setBindingTime(bindingTime);
 
         } else if (id.equals(PROPERTY_ID_VARIABILITY_MECHANISM)) {
             if (value == null) {

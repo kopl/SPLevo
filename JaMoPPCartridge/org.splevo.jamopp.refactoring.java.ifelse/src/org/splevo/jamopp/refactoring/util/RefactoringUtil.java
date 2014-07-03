@@ -98,25 +98,22 @@ public final class RefactoringUtil {
             method.getStatements().addAll(statements);
             method.setTypeReference(returnType);
 
-            vpLocation.getClassClass().getMembers().add(method);
-
             MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
             methodCall.setTarget(method);
 
-            Statement statement = null;
+            Statement variantInvokingStatement = null;
             if (returnType == null || returnType.getTarget() instanceof Void) {
                 ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
                 expressionStatement.setExpression(methodCall);
-                statement = expressionStatement;
+                variantInvokingStatement = expressionStatement;
             } else {
                 Return returnStatement = StatementsFactory.eINSTANCE.createReturn();
                 returnStatement.setReturnValue(methodCall);
-                statement = returnStatement;
+                variantInvokingStatement = returnStatement;
             }
 
             JaMoPPSoftwareElement newJaMoPPElement = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
-            newJaMoPPElement.setJamoppElement(statement);
-            vpLocation.getStatements().add(statement);
+            newJaMoPPElement.setJamoppElement(variantInvokingStatement);
 
             Variant newVariant = RefactoringUtil.cloneVariant(variant, variationPoint);
             newVariant.getImplementingElements().add(newJaMoPPElement);
@@ -187,6 +184,8 @@ public final class RefactoringUtil {
 
         if (pos == 0) {
             return pos;
+        } else if (eObject.eContainer() == null) {
+            return -1;
         }
 
         // get pos by determinign previous element in the vp location
@@ -463,6 +462,7 @@ public final class RefactoringUtil {
                 }
                 Class c = (Class) member;
                 if (isFirst) {
+                    isFirst = false;
                     extendsRefs = c.getExtends();
                     implementsRefs = c.getImplements();
                 } else {
@@ -498,6 +498,7 @@ public final class RefactoringUtil {
                 }
                 Interface c = (Interface) member;
                 if (isFirst) {
+                    isFirst = false;
                     extendsRef = c.getExtends();
                 } else {
                     if (!EcoreUtil.equals(extendsRef, c.getExtends())) {
@@ -552,7 +553,7 @@ public final class RefactoringUtil {
                     implementsList = enumeration.getImplements();
                     continue;
                 }
-                if (EcoreUtil.equals(implementsList, enumeration.getImplements())) {
+                if (!EcoreUtil.equals(implementsList, enumeration.getImplements())) {
                     return true;
                 }
             }
@@ -568,14 +569,19 @@ public final class RefactoringUtil {
      * @return <code>true</code> if conflicting elements are found; <code>false</code> otherwise.
      */
     public static boolean hasConflictingMethods(VariationPoint variationPoint) {
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        List<Method> methods = new LinkedList<Method>();
+
+        for (Variant variant : variationPoint.getVariants()) {
+            methods.addAll(getImplementingElements(variant, Method.class));
+        }
+
         TypeReference retType = null;
-        for (Method cMethod : vpLocation.getMethods()) {
+        for (Method method : methods) {
             if (retType == null) {
-                retType = cMethod.getTypeReference();
+                retType = method.getTypeReference();
                 continue;
             }
-            if (!EcoreUtil.equals(cMethod.getTypeReference(), retType)) {
+            if (!EcoreUtil.equals(method.getTypeReference(), retType)) {
                 return true;
             }
         }
@@ -588,26 +594,49 @@ public final class RefactoringUtil {
 
         HashMap<Variant, List<Statement>> variantStatements = new HashMap<Variant, List<Statement>>();
 
-        Set<VariationPoint> relatedVPs = getVPsWithSameLocation(variationPoint);
+        Set<VariationPoint> vpsWithSameLocation = getVPsWithSameLocation(variationPoint);
 
-        for (VariationPoint relatedVP : relatedVPs) {
+        for (VariationPoint relatedVP : vpsWithSameLocation) {
+            Collection<Statement> nonVariableStatements = EcoreUtil.copyAll(getNonVariableStatements(variationPoint));
             for (Variant variant : relatedVP.getVariants()) {
                 int posVariability = RefactoringUtil.getVariabilityPosition(vpLocation, variant);
                 List<Statement> statements;
                 if (!variantStatements.containsKey(variant)) {
                     statements = new LinkedList<Statement>();
-                    Collection<Statement> copies = EcoreUtil.copyAll(vpLocation.getStatements());
+                    Collection<Statement> copies = EcoreUtil.copyAll(nonVariableStatements);
                     statements.addAll(copies);
                     variantStatements.put(variant, statements);
                 } else {
                     statements = variantStatements.get(variant);
                 }
 
-                List<Statement> variableStatements = getImplementingElements(variant, Statement.class);
+                Collection<Statement> variableStatements = EcoreUtil.copyAll(getImplementingElements(variant,
+                        Statement.class));
                 statements.addAll(posVariability, variableStatements);
             }
         }
         return variantStatements;
+    }
+
+    private static List<Statement> getNonVariableStatements(VariationPoint variationPoint) {
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+                .getLocation()).getJamoppElement();
+        Variant leading = null;
+
+        for (Variant variant : variationPoint.getVariants()) {
+            if (variant.getLeading()) {
+                leading = variant;
+            }
+        }
+
+        if (leading == null) {
+            return vpLocation.getStatements();
+        }
+
+        List<Statement> fixedStatements = new LinkedList<Statement>(vpLocation.getStatements());
+        fixedStatements.removeAll(getImplementingElements(leading, Statement.class));
+
+        return fixedStatements;
     }
 
     private static TypeReference getReturnType(StatementListContainer vpLocation) {

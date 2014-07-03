@@ -11,11 +11,10 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
 
+import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
@@ -27,12 +26,12 @@ import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
+import org.emftext.language.java.literals.NullLiteral;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.MembersFactory;
-import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
-import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
@@ -72,26 +71,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Input is a variation point that is tailored to this refactoring.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: One statement</li>
-     * <li>Variant 2: One statement</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>true</code>
+     * Tests whether the canBeApplied method returns true for applicable variation points.
      */
     @Test
     public void testIfCanBeAppliedWithValidVP() {
@@ -107,26 +87,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles an incorrect binding time correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Load</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: One statement</li>
-     * <li>Variant 2: One statement</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have a binding
+     * time that is not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidBindingTime() {
@@ -142,26 +104,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles an incorrect extensibility correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: Yes</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: One statement</li>
-     * <li>Variant 2: One statement</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have a
+     * extensibility that is not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidExtensibility() {
@@ -177,26 +121,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles an incorrect variability type correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: One statement</li>
-     * <li>Variant 2: One statement</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have a
+     * variability type that is not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidVarType() {
@@ -212,26 +138,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles an incorrect variation point location correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Interface</li>
-     * <li>Variant 1: One statement</li>
-     * <li>Variant 2: One statement</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have a location
+     * that is not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidLocation() {
@@ -247,26 +155,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * The method checks whether the method handles incorrect variant elements correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: One statement</li>
-     * <li>Variant 2: One method</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * <code>false</code>
+     * Tests whether the canBeApplied method returns false for variation points that have variants
+     * with implementing elements that are not supported by the refactoring.
      */
     @Test
     public void testIfCanBeAppliedWithInvalidVariantElements() {
@@ -282,31 +172,12 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Checks whether the refactoring extracts the variant-specific methods and introduces the if
-     * correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: 3 statements, first local variable of type int</li>
-     * <li>Variant 2: 3 statements, first local variable of type short</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains two conditions and all the original statements got extracted into
-     * variant-specific methods.
+     * Variants contain conflicting local variables (same name different type). Tests whether the
+     * refactoring extracts the whole method body into varint-specific methods and introduces if
+     * statements correctly to call those methods.
      * 
      * @throws Exception
-     *             An unexpected error occurred.
+     *             In case of an unexpected exception.
      */
     @Test
     public void testRefactorCaseLocalVariableDiffTypes() throws Exception {
@@ -359,30 +230,10 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Checks whether the refactoring for the case of variables of the same type that are shared
-     * among multiple variants. Local variable declarations must be split into declaration and
-     * assignment if they have an initial value. The declaration must be moved in front of the first
-     * if while the assignment must be contained in the variant-specific if.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: 2 statements, first is a local variable with initial value of 1</li>
-     * <li>Variant 2: 2 statements, first is a local variable with initial value of 2</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains two conditions and all the original statements got extracted into
-     * variant-specific methods.
+     * Variants have shared local variables with equal types and different initial values. Local
+     * variable declarations must be split into declaration and assignment. The declaration must be
+     * moved to the front of the first if while the assignment must be contained in the
+     * variant-specific if.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -395,69 +246,70 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
+        // vp location has 4 statements: the variable, two conditions (one per variant) and the
+        // common statement
         assertThat(vpLocation.getStatements().size(), equalTo(4));
         assertThat(vpLocation.getStatements().get(0), instanceOf(LocalVariableStatement.class));
         assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
         assertThat(vpLocation.getStatements().get(2), instanceOf(Condition.class));
         assertThat(vpLocation.getStatements().get(3), instanceOf(ExpressionStatement.class));
 
-        assertSysoExpression((ExpressionStatement) vpLocation.getStatements().get(3), 1);
+        // assert correct value of the common statement
+        BigInteger val = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) vpLocation.getStatements()
+                .get(3));
+        assertThat(val, equalTo(BigInteger.valueOf(1)));
 
         LocalVariableStatement localVarStat = (LocalVariableStatement) vpLocation.getStatements().get(0);
         Condition firstCond = (Condition) vpLocation.getStatements().get(1);
         Condition secondCond = (Condition) vpLocation.getStatements().get(2);
 
+        // assert correct variable name and initial value
         assertThat(localVarStat.getVariable().getName(), equalTo("a"));
-        assertThat(localVarStat.getVariable().getInitialValue(), nullValue());
+        assertThat(localVarStat.getVariable().getInitialValue(), instanceOf(NullLiteral.class));
 
+        // both conditions must have an if-block
         assertThat(firstCond.getStatement(), instanceOf(Block.class));
         assertThat(secondCond.getStatement(), instanceOf(Block.class));
+
         EList<Statement> firstCondIfBlockStatements = ((Block) firstCond.getStatement()).getStatements();
         EList<Statement> secondCondIfBlockStatements = ((Block) secondCond.getStatement()).getStatements();
+
+        // conditions have the correct contents: the expression statement
         assertThat(firstCondIfBlockStatements.size(), equalTo(1));
         assertThat(secondCondIfBlockStatements.size(), equalTo(1));
         assertThat(firstCondIfBlockStatements.get(0), instanceOf(ExpressionStatement.class));
         assertThat(secondCondIfBlockStatements.get(0), instanceOf(ExpressionStatement.class));
         assertThat(((ExpressionStatement) firstCondIfBlockStatements.get(0)).getExpression(),
-                instanceOf(DecimalIntegerLiteral.class));
+                instanceOf(AssignmentExpression.class));
         assertThat(((ExpressionStatement) secondCondIfBlockStatements.get(0)).getExpression(),
+                instanceOf(AssignmentExpression.class));
+        assertThat(
+                ((AssignmentExpression) ((ExpressionStatement) firstCondIfBlockStatements.get(0)).getExpression())
+                        .getValue(),
+                instanceOf(DecimalIntegerLiteral.class));
+        assertThat(
+                ((AssignmentExpression) ((ExpressionStatement) secondCondIfBlockStatements.get(0)).getExpression())
+                        .getValue(),
                 instanceOf(DecimalIntegerLiteral.class));
 
-        DecimalIntegerLiteral firstAssignmentExpr = (DecimalIntegerLiteral) ((ExpressionStatement) firstCondIfBlockStatements
-                .get(0)).getExpression();
-        DecimalIntegerLiteral secondAssignmentExpr = (DecimalIntegerLiteral) ((ExpressionStatement) secondCondIfBlockStatements
-                .get(0)).getExpression();
-        if (!firstAssignmentExpr.getDecimalValue().equals(BigInteger.valueOf(1))) {
-            DecimalIntegerLiteral tmp = firstAssignmentExpr;
-            firstAssignmentExpr = secondAssignmentExpr;
-            secondAssignmentExpr = tmp;
-        }
-        assertThat(firstAssignmentExpr.getDecimalValue(), equalTo(BigInteger.valueOf(1)));
-        assertThat(secondAssignmentExpr.getDecimalValue(), equalTo(BigInteger.valueOf(2)));
+        // assert correct assignment values
+        DecimalIntegerLiteral firstAssignmentExpr = (DecimalIntegerLiteral) ((AssignmentExpression) ((ExpressionStatement) firstCondIfBlockStatements
+                .get(0)).getExpression()).getValue();
+        DecimalIntegerLiteral secondAssignmentExpr = (DecimalIntegerLiteral) ((AssignmentExpression) ((ExpressionStatement) secondCondIfBlockStatements
+                .get(0)).getExpression()).getValue();
+
+        assertThat(firstAssignmentExpr.getDecimalValue(),
+                anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(secondAssignmentExpr.getDecimalValue(),
+                anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(firstAssignmentExpr.getDecimalValue(), not(equalTo(secondAssignmentExpr.getDecimalValue())));
     }
 
     /**
      * <strong>Description</strong><br/>
      * Two variants that both share a statement. The Integration variant has one additional
-     * statement at the end.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: 1 statement</li>
-     * <li>Variant 2: 2 statements, first is equal to the other variant.</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains the common statement, followed by a condition.
+     * statement at the end. The refactoring should introduce a condition that executes the
+     * integration variant's statement if configured.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -470,41 +322,32 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
+        // location has two statements: the common expression statement and the condition for the
+        // integration variant
         assertThat(vpLocation.getStatements().size(), equalTo(2));
         assertThat(vpLocation.getStatements().get(0), instanceOf(ExpressionStatement.class));
         assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
 
-        assertSysoExpression((ExpressionStatement) vpLocation.getStatements().get(0), 1);
-
+        // verify the contents of the condition
         Condition cond = (Condition) vpLocation.getStatements().get(1);
         assertThat(cond.getStatement(), instanceOf(Block.class));
         assertThat(((Block) cond.getStatement()).getStatements().size(), equalTo(1));
 
-        assertSysoExpression((ExpressionStatement) ((Block) cond.getStatement()).getStatements().get(0), 2);
+        // assert correct values of the SYSO expressions
+        BigInteger val1 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) vpLocation.getStatements()
+                .get(0));
+        BigInteger val2 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond
+                .getStatement()).getStatements().get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
      * <strong>Description</strong><br/>
-     * Two variants that both have a different statements. Conditions must be introduced to decide
-     * between the statements.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: 1 statement</li>
-     * <li>Variant 2: 1 statement</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains two conditions, each having the according statement in it's if block.
+     * Two variants that both have one different statement. Two conditions should be introduced that
+     * execute the statements as configured.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -517,10 +360,12 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
+        // location has two conditions (one per variant)
         assertThat(vpLocation.getStatements().size(), equalTo(2));
         assertThat(vpLocation.getStatements().get(0), instanceOf(Condition.class));
         assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
 
+        // assert condition contents (the statements)
         Condition cond1 = (Condition) vpLocation.getStatements().get(0);
         Condition cond2 = (Condition) vpLocation.getStatements().get(1);
         assertThat(cond1.getStatement(), instanceOf(Block.class));
@@ -528,32 +373,20 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
 
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+        // assert the SYSO values
+        BigInteger val1 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond1
+                .getStatement()).getStatements().get(0));
+        BigInteger val2 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond2
+                .getStatement()).getStatements().get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Checks whether the refactoring handles nested variability (try-block) correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: try-catch with one statement in the try-block</li>
-     * <li>Variant 2: try-catch with a different statement in the try-block</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains the try-catch. While the try stays unchanged, the catch-block has two
-     * conditions that each has the according statement in its if block.
+     * Two variants that both have one different statement in a nested block (try). Two conditions
+     * should be introduced in the block that execute the statements as configured.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -580,32 +413,20 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond1
+                .getStatement()).getStatements().get(0));
+        BigInteger val2 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond2
+                .getStatement()).getStatements().get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Checks whether the refactoring handles nested variability (catch-block) correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: try-catch with one statement in the catch-block</li>
-     * <li>Variant 2: try-catch with a different statement in the catch-block</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains the try-catch. While the try stays unchanged, the catch-block has two
-     * conditions that each has the according statement in its if block.
+     * Two variants that both have one different statement in a nested block (catch). Two conditions
+     * should be introduced in the block that execute the statements as configured.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -632,32 +453,20 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond1
+                .getStatement()).getStatements().get(0));
+        BigInteger val2 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond2
+                .getStatement()).getStatements().get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Checks whether the refactoring handles nested variability (condition-if-block) correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: condition with one statement in the if-block</li>
-     * <li>Variant 2: condition with a different statement in the if-block</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains the condition. The if-block has two conditions that each has the
-     * according statement in its if block.
+     * Two variants that both have one different statement in a nested block (if-block). Two
+     * conditions should be introduced in the block that execute the statements as configured.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -684,32 +493,20 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond1
+                .getStatement()).getStatements().get(0));
+        BigInteger val2 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond2
+                .getStatement()).getStatements().get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Checks whether the refactoring handles nested variability (for-block) correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: for containing one statement</li>
-     * <li>Variant 2: for containing a different statement</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains the for. The for contains two conditions that each has the according
-     * statement in its if block.
+     * Two variants that both have one different statement in a nested block (for). Two conditions
+     * should be introduced in the block that execute the statements as configured.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -736,32 +533,20 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond1
+                .getStatement()).getStatements().get(0));
+        BigInteger val2 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond2
+                .getStatement()).getStatements().get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Checks whether the refactoring handles nested variability (while-block) correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: for containing one statement</li>
-     * <li>Variant 2: for containing a different statement</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains the while. The while contains two conditions that each has the
-     * according statement in its if block.
+     * Two variants that both have one different statement in a nested block (while). Two conditions
+     * should be introduced in the block that execute the statements as configured.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -788,32 +573,20 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
+
+        BigInteger val1 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond1
+                .getStatement()).getStatements().get(0));
+        BigInteger val2 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond2
+                .getStatement()).getStatements().get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 
     /**
-     * <strong>Description</strong><br/>
-     * Checks whether the refactoring handles nested variability (switch-case) correctly.
-     * 
-     * <strong>Input</strong><br/>
-     * Variation point Characteristics:<br/>
-     * <ul>
-     * <li>Binding Time: Compile</li>
-     * <li>Variability Type: OPTOR</li>
-     * <li>Extensible: No</li>
-     * </ul>
-     * 
-     * Variation point Internals:<br/>
-     * <ul>
-     * <li>Location: Class</li>
-     * <li>Variant 1: case block containing one statement</li>
-     * <li>Variant 2: case block containing a different statement</li>
-     * </ul>
-     * 
-     * <strong>Expected Output</strong><br/>
-     * The location contains the switch-case. The only case block contains two conditions that each
-     * has the according statement in its if block.
+     * Two variants that both have one different statement in a nested block (case). Two conditions
+     * should be introduced in the block that execute the statements as configured.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -840,20 +613,14 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         assertThat(((Block) cond1.getStatement()).getStatements().size(), equalTo(1));
         assertThat(((Block) cond2.getStatement()).getStatements().size(), equalTo(1));
-        assertSysoExpression((ExpressionStatement) ((Block) cond1.getStatement()).getStatements().get(0), 1);
-        assertSysoExpression((ExpressionStatement) ((Block) cond2.getStatement()).getStatements().get(0), 2);
-    }
 
-    private void assertSysoExpression(ExpressionStatement statement, int printArg) {
-        assertThat(statement, instanceOf(ExpressionStatement.class));
-        Reference out = ((IdentifierReference) ((ExpressionStatement) statement).getExpression()).getNext();
-        assertThat(out, notNullValue());
-        Reference println = out.getNext();
-        assertThat(println, notNullValue());
-        assertThat(println, instanceOf(MethodCall.class));
-        assertThat(((MethodCall) println).getArguments().size(), equalTo(1));
-        assertThat(((MethodCall) println).getArguments().get(0), instanceOf(DecimalIntegerLiteral.class));
-        assertThat(((DecimalIntegerLiteral) ((MethodCall) println).getArguments().get(0)).getDecimalValue(),
-                equalTo(BigInteger.valueOf(printArg)));
+        BigInteger val1 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond1
+                .getStatement()).getStatements().get(0));
+        BigInteger val2 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) ((Block) cond2
+                .getStatement()).getStatements().get(0));
+
+        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(val1, not(equalTo(val2)));
     }
 }

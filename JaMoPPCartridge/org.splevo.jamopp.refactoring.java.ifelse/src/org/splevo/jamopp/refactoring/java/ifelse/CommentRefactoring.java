@@ -8,6 +8,11 @@ import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
 
+/**
+ * This refctoring annotates a variation point's location with a fixme comment with the following
+ * content: "Variability could not be handled". This refactoring can be used to annotate variation
+ * points that cannot be provessed.
+ */
 public class CommentRefactoring implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "Comment Refactoring";
@@ -27,7 +32,6 @@ public class CommentRefactoring implements VariabilityRefactoring {
         Commentable vpLocation = ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         RefactoringUtil.addCommentBefore(vpLocation, COMMENT_TEXT);
     }
-
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
