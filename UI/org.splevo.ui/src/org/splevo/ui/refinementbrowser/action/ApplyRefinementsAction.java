@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,11 +15,13 @@ import java.util.List;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.listeners.WorkflowListenerUtil;
 import org.splevo.ui.refinementbrowser.VPMRefinementBrowser;
 import org.splevo.ui.workflow.VPMRefinementWorkflowConfiguration;
@@ -84,6 +86,11 @@ public class ApplyRefinementsAction extends Action {
         IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
         IWorkbenchPage page = window.getActivePage();
         page.closeEditor(vpmRefinementBrowser, false);
+    }
+
+    @Override
+    public ImageDescriptor getImageDescriptor() {
+        return SPLevoUIPlugin.getImageDescriptor("icons/apply-refinements.gif");
     }
 
     /**
