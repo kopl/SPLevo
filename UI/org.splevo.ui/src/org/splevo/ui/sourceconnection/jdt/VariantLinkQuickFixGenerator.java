@@ -33,7 +33,7 @@ public class VariantLinkQuickFixGenerator implements IMarkerResolutionGenerator 
     public IMarkerResolution[] getResolutions(IMarker marker) {
 
         try {
-            Object variantKey = marker.getAttribute(JavaEditorConnector.LOCATION_MARKER_VARIANT);
+            Object variantKey = marker.getAttribute(JavaEditorConnector.LOCATION_MARKER_ATTRIBUTE_VARIANT);
 
             if (variantKey instanceof String) {
                 Variant variant = VariantRegistry.get((String) variantKey);

@@ -64,9 +64,11 @@ public class JavaEditorConnector {
 
     private static Logger logger = Logger.getLogger(RefinementDetailsView.class);
 
-    public static final String LOCATION_ANNOTATION = "org.splevo.ui.annotations.textmarkerannotation";
-    public static final String LOCATION_MARKER = "org.splevo.ui.markers.codelocationmarker";
-    public static final String LOCATION_MARKER_VARIANT = "org.splevo.ui.markers.codelocationmarker.variant";
+    public static final String LOCATION_ANNOTATION_VARIANT_MULTIPLE = "org.splevo.ui.annotations.variant.multiple";
+    public static final String LOCATION_ANNOTATION_VARIANT_SINGLE = "org.splevo.ui.annotations.variant.single";
+    public static final String LOCATION_MARKER = "org.splevo.ui.markers.codelocationmarker.variant";
+    public static final String LOCATION_MARKER_VARIANT_SINGLE = "org.splevo.ui.markers.codelocation.variant.single";
+    public static final String LOCATION_MARKER_ATTRIBUTE_VARIANT = "org.splevo.ui.markers.attribute.variant";
 
     /**
      * Open the java editor for a specific source location.
@@ -147,8 +149,8 @@ public class JavaEditorConnector {
      *            The {@link String} message to be displayed.
      * @param variant
      *            The {@link Variant} to set for the marker as attribute with the id
-     *            {@link JavaEditorConnector#LOCATION_MARKER_VARIANT}. If null provided, the
-     *            attribute is not set.
+     *            {@link JavaEditorConnector#LOCATION_MARKER_ATTRIBUTE_VARIANT}. If null provided,
+     *            the attribute is not set.
      */
     public void highlightInTextEditor(ITextEditor editor, String message, Variant variant) {
 
@@ -172,7 +174,7 @@ public class JavaEditorConnector {
 
         try {
             IMarker marker = createMarker(editor, message, variant);
-            createLocationAnnotation(marker, selection, editor);
+            createLocationAnnotation(marker, selection, editor, variant);
         } catch (CoreException e) {
             logger.error("Could't clear and create text markers.", e);
         }
@@ -188,18 +190,30 @@ public class JavaEditorConnector {
      *            The selection to highlight.
      * @param editor
      *            The editor to set the annotations in.
+     * @param variant
+     *            The variant to decide about the marker presentation.
      */
-    private void createLocationAnnotation(IMarker marker, ITextSelection selection, ITextEditor editor) {
+    private void createLocationAnnotation(IMarker marker, ITextSelection selection, ITextEditor editor, Variant variant) {
 
         IDocumentProvider idp = editor.getDocumentProvider();
         IEditorInput editorInput = editor.getEditorInput();
         IDocument document = idp.getDocument(editorInput);
         IAnnotationModel annotationModel = idp.getAnnotationModel(editorInput);
 
-        SimpleMarkerAnnotation annotation = new SimpleMarkerAnnotation(marker);
+        String annotationType = getAnnotationType(variant);
+        SimpleMarkerAnnotation annotation = new SimpleMarkerAnnotation(annotationType, marker);
         annotationModel.connect(document);
         annotationModel.addAnnotation(annotation, new Position(selection.getOffset(), selection.getLength()));
         annotationModel.disconnect(document);
+    }
+
+    private String getAnnotationType(Variant variant) {
+        int variantCount = variant.getVariationPoint().getVariants().size();
+        if (variantCount == 1) {
+            return LOCATION_ANNOTATION_VARIANT_SINGLE;
+        } else {
+            return LOCATION_ANNOTATION_VARIANT_MULTIPLE;
+        }
     }
 
     /**
@@ -218,10 +232,15 @@ public class JavaEditorConnector {
 
         Iterator<Annotation> annotationIterator = annotationModel.getAnnotationIterator();
         for (Annotation annotation : Lists.newArrayList(annotationIterator)) {
-            if (LOCATION_ANNOTATION.equals(annotation.getType())) {
+            if (isCodeLocationAnnotation(annotation)) {
                 annotationModel.removeAnnotation(annotation);
             }
         }
+    }
+
+    private boolean isCodeLocationAnnotation(Annotation annotation) {
+        return LOCATION_ANNOTATION_VARIANT_MULTIPLE.equals(annotation.getType())
+                || LOCATION_ANNOTATION_VARIANT_SINGLE.equals(annotation.getType());
     }
 
     /**
@@ -248,7 +267,7 @@ public class JavaEditorConnector {
             IMarker marker = inputFile.createMarker(LOCATION_MARKER);
             marker.setAttribute(IMarker.MESSAGE, message);
             if (variant != null) {
-                marker.setAttribute(LOCATION_MARKER_VARIANT, VariantRegistry.register(variant));
+                marker.setAttribute(LOCATION_MARKER_ATTRIBUTE_VARIANT, VariantRegistry.register(variant));
             }
             return marker;
         } else {
