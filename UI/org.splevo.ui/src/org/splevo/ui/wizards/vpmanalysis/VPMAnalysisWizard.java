@@ -170,4 +170,5 @@ public class VPMAnalysisWizard extends Wizard {
         updateConfiguration();
         return analysisWorkflowConfiguration;
     }
+
 }
