@@ -198,19 +198,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         boolean isLeadingProjectSelected = isAtLeastOneItemSelected(leadingProjectsTable);
         boolean isIntergrationProjectSelected = isAtLeastOneItemSelected(integrationProjectsTable);
         boolean isIntegrationVariantNameFilled = isNotEmpty(integrationVariantNameField);
-        boolean isLeadingVariantNameFilled = isNotEmpty(leadingVariantNameField);
-        
-        if (!isLeadingProjectSelected) {
-            this.setErrorMessage("At least one leading project must be chosen.");
-        } else if (!isIntergrationProjectSelected) {
-            this.setErrorMessage("At least one integration project must be chosen.");
-        } else if (!isLeadingVariantNameFilled) {
-            this.setErrorMessage("Leading projects variant name must be specified.");
-        } else if (!isIntegrationVariantNameFilled) {
-            this.setErrorMessage("Integration projects variant name must be specified.");
-        } else {
-            this.setErrorMessage(null);          
-        }
+        boolean isLeadingVariantNameFilled = isNotEmpty(leadingVariantNameField);                
 
         return isLeadingVariantNameFilled && isIntegrationVariantNameFilled && isLeadingProjectSelected
                 && isIntergrationProjectSelected;
