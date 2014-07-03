@@ -98,7 +98,13 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
             return GROUP_ID_TOPLEVEL;
         }
 
-        return softwareElement.getLabel();
+        String label = softwareElement.getLabel();
+        if (label.endsWith("()")) {
+            label = label.substring(0, label.length() - 2);
+        } else if (label.lastIndexOf(".") != -1) {
+            label = label.substring(0, label.lastIndexOf("."));
+        }
+        return label;
     }
 
     /**
