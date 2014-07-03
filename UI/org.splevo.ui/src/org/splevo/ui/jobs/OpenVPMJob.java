@@ -12,6 +12,7 @@
 package org.splevo.ui.jobs;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.splevo.project.SPLevoProject;
 import org.splevo.ui.util.VPMUIUtil;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -23,13 +24,37 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
  */
 public class OpenVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
+    private SPLevoProject splevoProject = null;
+    private String vpmPath = null;
+
+    /** Default constructor to load the vpm to open from the blackboard. */
+    public OpenVPMJob() {
+    }
+
+    /**
+     * Constructor to set vpm path and project context to load the vpm from file.
+     *
+     * @param splevoProject
+     *            The project context to use.
+     * @param vpmPath
+     *            The absolute path to the model to load.
+     */
+    public OpenVPMJob(SPLevoProject splevoProject, String vpmPath) {
+        this.splevoProject = splevoProject;
+        this.vpmPath = vpmPath;
+    }
+
     @Override
     public void execute(IProgressMonitor monitor) throws JobFailedException {
 
-        VariationPointModel vpm = getBlackboard().getVariationPointModel();
-
-        logger.info("Trigger Job to Open VP Explorer");
-        VPMUIUtil.openVPExplorer(vpm);
+        if (splevoProject != null && vpmPath != null) {
+            logger.info("Trigger Job to Open VPM from file");
+            VPMUIUtil.openVPExplorer(splevoProject, vpmPath);
+        } else {
+            logger.info("Trigger Job to Open VPm from Blackboard");
+            VariationPointModel vpm = getBlackboard().getVariationPointModel();
+            VPMUIUtil.openVPExplorer(vpm);
+        }
 
         // finish run
         monitor.done();

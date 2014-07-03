@@ -48,8 +48,8 @@ import com.google.common.collect.Lists;
 /**
  * A connector to open a {@link JavaSoftwareElement} in the JDT java editor.
  *
- * It is recommended to use the SourceEditorConnector. Using this java editor specific
- * connector directly should be done if you really need this direct access.
+ * It is recommended to use the SourceEditorConnector. Using this java editor specific connector
+ * directly should be done if you really need this direct access.
  *
  * The connector provides three actions to interact with the JDT connector:
  * <ol>
@@ -143,8 +143,6 @@ public class JavaEditorConnector {
      *
      * @param editor
      *            The {@link IEditorPart} to highlight.
-     * @param softwareElement
-     *            The {@link SoftwareElement} to be highlighted.
      * @param message
      *            The {@link String} message to be displayed.
      * @param variant
@@ -152,12 +150,24 @@ public class JavaEditorConnector {
      *            {@link JavaEditorConnector#LOCATION_MARKER_VARIANT}. If null provided, the
      *            attribute is not set.
      */
-    public void highlightInTextEditor(ITextEditor editor, SoftwareElement softwareElement, String message,
-            Variant variant) {
-        SourceLocation sourceLocation = softwareElement.getSourceLocation();
+    public void highlightInTextEditor(ITextEditor editor, String message, Variant variant) {
 
-        int offset = sourceLocation.getStartPosition();
-        int length = sourceLocation.getEndPosition() - offset;
+        int start = Integer.MAX_VALUE;
+        int end = 0;
+        for (SoftwareElement softwareElement : variant.getImplementingElements()) {
+            SourceLocation sourceLocation = softwareElement.getSourceLocation();
+            int startElement = sourceLocation.getStartPosition();
+            int endElement = sourceLocation.getEndPosition();
+            if (startElement < start) {
+                start = startElement;
+            }
+            if (endElement > end) {
+                end = endElement;
+            }
+        }
+
+        int offset = start;
+        int length = end - start;
         TextSelection selection = new TextSelection(offset, length);
 
         try {
@@ -166,6 +176,7 @@ public class JavaEditorConnector {
         } catch (CoreException e) {
             logger.error("Could't clear and create text markers.", e);
         }
+
     }
 
     /**
