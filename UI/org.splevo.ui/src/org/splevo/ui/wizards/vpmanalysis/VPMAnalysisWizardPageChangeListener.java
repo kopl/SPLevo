@@ -13,16 +13,9 @@ package org.splevo.ui.wizards.vpmanalysis;
 
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.splevo.ui.jobs.SPLevoBlackBoard;
-import org.splevo.ui.listeners.WorkflowListenerUtil;
-import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
-import org.splevo.ui.workflow.VPMAnalysisWorkflowDelegate;
 import org.splevo.vpm.analyzer.VPMAnalyzer;
-import org.splevo.vpm.refinement.Refinement;
 
 /**
  * Listener to react on page transitions of the analysis wizard.
@@ -57,27 +50,6 @@ public class VPMAnalysisWizardPageChangeListener implements IPageChangedListener
             if (analyzers != null) {
                 resultPage.setSelectedAnalyzers(analyzers);
             }
-
-        } else if (selectedPage instanceof VPMRefinementPage) {
-
-            final VPMRefinementPage refinementPage = (VPMRefinementPage) selectedPage;
-            refinementPage.reset();
-            refinementPage.setMessage("Variation Point Analysis in progress ...", DialogPage.INFORMATION);
-
-            VPMAnalysisWorkflowConfiguration config = vpmAnalysisWizard.getAnalysisWorkflowConfiguration();
-            final SPLevoBlackBoard blackBoard = new SPLevoBlackBoard();
-            VPMAnalysisWorkflowDelegate delegate = new VPMAnalysisWorkflowDelegate(config, blackBoard, true);
-
-            Runnable uiProcess = new Runnable() {
-                @Override
-                public void run() {
-                    EList<Refinement> refinements = blackBoard.getRefinementModel().getRefinements();
-                    refinementPage.setRefinements(refinements);
-                }
-            };
-
-            WorkflowListenerUtil.runWorkflowAndRunUITask(delegate, "Refine VPM", uiProcess);
-
         }
     }
 }

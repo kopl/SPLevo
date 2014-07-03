@@ -15,7 +15,6 @@ package org.splevo.ui.wizards.vpmanalysis;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.listeners.WorkflowListenerUtil;
@@ -39,15 +38,12 @@ public class VPMAnalysisWizard extends Wizard {
     /** Wizard page to configure the result handling. */
     private ResultHandlingConfigurationPage resultHandlingPage = null;
 
-    /** Wizard page to browse and modify the result of the VPM analysis */
-    private VPMRefinementPage vpmRefinementPage;
-
     /** The configuration object to be filled. */
     private VPMAnalysisWorkflowConfiguration analysisWorkflowConfiguration = null;
 
     /**
      * Constructor to make the basic wizard settings.
-     * 
+     *
      * @param configuration
      *            The workflow configuration to be filled on finished and to get required
      *            information from.
@@ -63,30 +59,29 @@ public class VPMAnalysisWizard extends Wizard {
     public void addPages() {
         analyzerPage = new VPMAnalyzerConfigurationPage();
         resultHandlingPage = new ResultHandlingConfigurationPage(this.analysisWorkflowConfiguration);
-        vpmRefinementPage = new VPMRefinementPage();
 
         addPage(analyzerPage);
         addPage(resultHandlingPage);
-        addPage(vpmRefinementPage);
 
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.wizard.Wizard#canFinish()
      */
     @Override
     public boolean canFinish() {
-        boolean canFinish = super.canFinish();
-        IWizardPage currentPage = getContainer().getCurrentPage();
 
-        // true if the current page may support ending the wizard with a click on finish.
-        boolean currentPageSupportsFinish = currentPage.equals(vpmRefinementPage)
-                || currentPage.equals(resultHandlingPage);
+        if (analyzerPage.getAnalyzers().size() < 1) {
+            return false;
+        }
 
-        canFinish &= currentPageSupportsFinish;
-        return canFinish;
+        if (resultHandlingPage.getDetectionRules().size() < 1) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -117,13 +112,6 @@ public class VPMAnalysisWizard extends Wizard {
                 logger.error("Invalid result handling option");
                 break;
             }
-        }
-
-        if (getContainer().getCurrentPage().equals(vpmRefinementPage)) {
-            // TODO Christian B: Implement refinement application workflow
-            logger.error("Refinement Page FINISH handling not yet implemented");
-            throw new UnsupportedOperationException(
-                    "The result processing of the refinement page is not yet implemented");
         }
 
         return true;
@@ -172,10 +160,10 @@ public class VPMAnalysisWizard extends Wizard {
 
     /**
      * Get the workflow configuration managed by the wizard.
-     * 
+     *
      * Whenever this is accessed, the wizard first synchronizes the configuration with the current
      * ui settings.
-     * 
+     *
      * @return The workflow configuration.
      */
     public VPMAnalysisWorkflowConfiguration getAnalysisWorkflowConfiguration() {
