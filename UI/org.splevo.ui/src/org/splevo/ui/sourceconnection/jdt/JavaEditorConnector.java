@@ -185,7 +185,7 @@ public class JavaEditorConnector {
         IDocument document = idp.getDocument(editorInput);
         IAnnotationModel annotationModel = idp.getAnnotationModel(editorInput);
 
-        SimpleMarkerAnnotation annotation = new SimpleMarkerAnnotation(LOCATION_ANNOTATION, marker);
+        SimpleMarkerAnnotation annotation = new SimpleMarkerAnnotation(marker);
         annotationModel.connect(document);
         annotationModel.addAnnotation(annotation, new Position(selection.getOffset(), selection.getLength()));
         annotationModel.disconnect(document);
