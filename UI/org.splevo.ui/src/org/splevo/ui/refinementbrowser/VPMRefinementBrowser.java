@@ -92,7 +92,7 @@ public class VPMRefinementBrowser extends EditorPart {
         form.getMenuManager().add(new ApplyRefinementsAction(this, "Apply Refinements"));
         createFormContent(form.getBody());
 
-        SashForm sashForm = new SashForm(form.getBody(), SWT.BORDER | SWT.FILL);
+        SashForm sashForm = new SashForm(form.getBody(), SWT.FILL);
         sashForm.setSashWidth(1);
         sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
         toolkit.adapt(sashForm);

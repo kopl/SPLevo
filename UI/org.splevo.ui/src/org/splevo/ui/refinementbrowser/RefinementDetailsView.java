@@ -74,9 +74,9 @@ public class RefinementDetailsView extends Composite {
 
         SashForm sashForm = new SashForm(this, SWT.FILL);
         sashForm.setSashWidth(1);
-        sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
+        sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
-        refinementDetailsTreeViewer = new TreeViewer(sashForm, SWT.MULTI);
+        refinementDetailsTreeViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.BORDER);
         refinementDetailsTreeViewer.setLabelProvider(new RefinementDetailsLabelProvider());
         refinementDetailsTreeViewer.setContentProvider(new RefinementDetailsTreeContentProvider());
         refinementDetailsTreeViewer.addDoubleClickListener(new ExpandTreeListener());
