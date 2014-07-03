@@ -40,13 +40,14 @@
             class="org.splevo.ui.editors.SPLevoProjectEditor"
             default="true"
             extensions="splevoproject"
-            icon="icons/splevo-project.gif"
+            icon="icons/kopl_circle_only.png"
             id="org.splevo.ui.editors.SPLevoProjectEditor"
             name="SPLevo Dashboard">
       </editor>
       <editor
             class="org.splevo.ui.refinementbrowser.VPMRefinementBrowser"
             default="false"
+            icon="icons/refinement-browser.gif"
             id="org.splevo.ui.editor.VPMRefinementEditor"
             name="VPM Refinement Browser">
       </editor>
