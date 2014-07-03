@@ -56,9 +56,9 @@ class VartiantLinkQuickFix implements IMarkerResolution2 {
     public String getDescription() {
 
         StringBuilder desc = new StringBuilder();
-        desc.append("<b>Double click to jump to the alternative variant implementation</b>");
+        desc.append("<b>Double click to jump to the alternative variant implementation</b><br/>");
         for (String code : SourceEditorConnector.getCodeForVariant(variant)) {
-            desc.append("<br/><br/><code>");
+            desc.append("<br/><code>");
             desc.append(code);
             desc.append("</code>");
         }
