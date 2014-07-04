@@ -101,6 +101,7 @@ public class InitVPMWorkflowDelegate extends
         // FIXME: Use the model from blackboard if JaMoPP location info can be loaded on demand
         // Some services, such as the "Open Source Location" action in the VPExplorer
         // need the detailed location information.
+        // jobSequence.add(new OpenVPMJob());
         jobSequence.add(new OpenVPMJob(splevoProject, targetPath));
 
         // return the prepared workflow
