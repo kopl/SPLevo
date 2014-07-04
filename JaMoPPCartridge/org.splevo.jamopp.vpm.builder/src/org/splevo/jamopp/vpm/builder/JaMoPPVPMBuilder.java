@@ -46,13 +46,7 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
         for (Diff diff : comparisonModel.getDifferences()) {
             VariationPoint vp = jamoppDiffVisitor.doSwitch(diff);
             if (vp != null) {
-                VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
-
-                // set the group id to the class of the software entity
-                // except it is a block surrounded by a method
-                String groupID = buildGroupID(vp.getLocation());
-                group.setGroupId(groupID);
-                group.getVariationPoints().add(vp);
+                VariationPointGroup group = createGroup(vp);
                 vpm.getVariationPointGroups().add(group);
             } else {
                 logger.warn("null VariationPoint created: " + diff);
@@ -61,6 +55,14 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
 
         return vpm;
 
+    }
+
+    private VariationPointGroup createGroup(VariationPoint vp) {
+        VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
+        String groupID = buildGroupID(vp.getLocation());
+        group.setGroupId(groupID);
+        group.getVariationPoints().add(vp);
+        return group;
     }
 
     /**
@@ -99,6 +101,10 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
         }
 
         String label = softwareElement.getLabel();
+        return improveLabel(label);
+    }
+
+    private String improveLabel(String label) {
         if (label.endsWith("()")) {
             label = label.substring(0, label.length() - 2);
         } else if (label.lastIndexOf(".") != -1) {
