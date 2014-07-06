@@ -93,12 +93,25 @@ public class ProcessControlTab extends AbstractDashboardTab {
         mainContainer.setLayout(layout);
 
         Label lblSplevoDashboard = new Label(mainContainer, SWT.NONE);
-        GridData d = new GridData(SWT.CENTER, SWT.TOP, false, false, 9, 1);
+        GridData d = new GridData(SWT.CENTER, SWT.CENTER, false, false, 9, 1);
         d.heightHint = lblSplevoDashboard.computeSize(SWT.DEFAULT, SWT.DEFAULT).y * 2;
         lblSplevoDashboard.setLayoutData(d);
         lblSplevoDashboard.setFont(SWTResourceManager.getFont("Arial", 14, SWT.BOLD));
         lblSplevoDashboard.setText("SPLevo Dashboard");
 
+        Composite filler1 = new Composite(mainContainer, SWT.NONE);
+        GridData layoutData = new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1);
+        layoutData.heightHint = 0;
+        filler1.setLayoutData(layoutData);
+        
+        final Image circleImage = ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_circle.png");
+        Label circleLbl = new Label(mainContainer, SWT.NONE);
+        circleLbl.setImage(circleImage);
+        circleLbl.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
+
+        Composite filler2 = new Composite(mainContainer, SWT.NONE);
+        filler2.setLayoutData(layoutData);
+        
         Label activityStart = new Label(mainContainer, SWT.NONE);
         activityStart.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bullet_green.png"));
 
@@ -113,9 +126,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
         analyzeVPMBtn = new Button(mainContainer, SWT.WRAP);
         analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
-        final Image circleImage = ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_circle.png");
         analyzeVPMBtn.setText("Refine\nVPM");
-        analyzeVPMBtn.setImage(circleImage);
         getGridDataForButtons(analyzeVPMBtn);
 
         addActivityFlowButton(mainContainer);
@@ -132,19 +143,20 @@ public class ProcessControlTab extends AbstractDashboardTab {
         generateFMBtn.setText("Export\nSPL");
         getGridDataForButtons(generateFMBtn);
 
-        Composite filler = new Composite(mainContainer, SWT.NONE);
-        filler.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1));
+        Composite filler3 = new Composite(mainContainer, SWT.NONE);
+        filler3.setLayoutData(layoutData);
 
         openVPMBtn = new Button(mainContainer, SWT.NONE);
         openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/splevo.gif"));
         openVPMBtn.addMouseListener(new OpenVPMListener(getSplevoProjectEditor()));
-        openVPMBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false));
+        openVPMBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
         openVPMBtn.setAlignment(SWT.CENTER);
     }
 
     private void getGridDataForButtons(Button button) {
         GridData gridData = new GridData();
         gridData.widthHint = button.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+        gridData.heightHint = button.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
         button.setLayoutData(gridData);
     }
 
@@ -213,5 +225,4 @@ public class ProcessControlTab extends AbstractDashboardTab {
             button.setEnabled(false);
         }
     }
-
 }
