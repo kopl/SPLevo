@@ -36,8 +36,8 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> The code base class must contain all fields from the variants. Therefore, this
- * refactoring merges the fields from all variants into the base.
+ * The code base class must contain all fields from the variants. Therefore, this refactoring merges
+ * the fields from all variants into the base.
  */
 public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring {
 

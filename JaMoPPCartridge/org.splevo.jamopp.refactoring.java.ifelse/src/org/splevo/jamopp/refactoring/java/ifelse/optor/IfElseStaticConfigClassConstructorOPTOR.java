@@ -16,7 +16,7 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> The code base class must contain all constructors from the variants. Therefore,
+ * The code base class must contain all constructors from the variants. Therefore,
  * this refactoring merges the constructors from all variants into the base.
  */
 public class IfElseStaticConfigClassConstructorOPTOR implements VariabilityRefactoring {

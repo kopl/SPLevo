@@ -21,7 +21,7 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Refactors variability in if-else chains.
+ * Refactors variable else-statements.
  */
 public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefactoring {
 

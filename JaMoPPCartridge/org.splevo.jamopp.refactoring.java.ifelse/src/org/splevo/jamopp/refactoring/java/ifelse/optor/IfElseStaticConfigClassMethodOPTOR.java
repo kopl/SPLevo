@@ -16,9 +16,8 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> The code base container must contain all methods from the variants. Therefore,
- * this refactoring merges the methods from all variants into the base, if there are no
- * interferences.
+ * The code base container must contain all methods from the variants. Therefore, this refactoring
+ * merges the methods from all variants into the base, if there are no interferences.
  */
 public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactoring {
 

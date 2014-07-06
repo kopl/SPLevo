@@ -16,8 +16,8 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> To allow for a complete single code base, all dependencies must be reflected and
- * thus the refactoring must carry over all imports.
+ * To allow for a complete single code base, all dependencies must be reflected and thus the
+ * refactoring must carry over all imports.
  */
 public class IfElseStaticConfigClassImportOPTOR implements VariabilityRefactoring {
 

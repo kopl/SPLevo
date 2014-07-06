@@ -21,9 +21,9 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> The code base container must contain all enumerations from the variants.
- * Therefore, this refactoring merges the enumerations from all variants into the base, if there are
- * no interferences.
+ * The code base container must contain all enumerations from the variants. Therefore, this
+ * refactoring merges the enumerations from all variants into the base, if there are no
+ * interferences.
  */
 public class IfElseStaticConfigClassEnumerationOPTOR implements VariabilityRefactoring {
 

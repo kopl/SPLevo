@@ -23,10 +23,10 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> Introduces If-Else Statements that check the configuration in the If-condition
- * to decide which variant's statements to execute. Common variables with equal types will be
- * merged. In case of common variables with different types, the whole method gets extracted into
- * variant-specific methods. Throws an exception if no variant was selected in the configuration.
+ * Introduces If-Else Statements that check the configuration in the If-condition to decide which
+ * variant's statements to execute. Common variables with equal types will be merged. In case of
+ * common variables with different types, the whole method gets extracted into variant-specific
+ * methods. Throws an exception if no variant was selected in the configuration.
  */
 public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefactoring {
 
