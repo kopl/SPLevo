@@ -106,27 +106,31 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
         initVpmBtn = new Button(mainContainer, SWT.WRAP);
         initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
-        initVpmBtn.setText("Init VPM");
+        initVpmBtn.setText("Init\nVPM");
+        getGridDataForButtons(initVpmBtn);
 
         addActivityFlowButton(mainContainer);
 
         analyzeVPMBtn = new Button(mainContainer, SWT.WRAP);
         analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
         final Image circleImage = ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_circle.png");
-        analyzeVPMBtn.setText("Refine VPM");
+        analyzeVPMBtn.setText("Refine\nVPM");
         analyzeVPMBtn.setImage(circleImage);
+        getGridDataForButtons(analyzeVPMBtn);
 
         addActivityFlowButton(mainContainer);
 
         startRefactoringBtn = new Button(mainContainer, SWT.WRAP);
         startRefactoringBtn.addMouseListener(new StartRefactoringListener(getSplevoProjectEditor()));
-        startRefactoringBtn.setText("Refactor Copies");
+        startRefactoringBtn.setText("Refactor\nCopies");
+        getGridDataForButtons(startRefactoringBtn);
 
         addActivityFlowButton(mainContainer);
 
         generateFMBtn = new Button(mainContainer, SWT.WRAP);
         generateFMBtn.addMouseListener(new GenerateFeatureModelListener(getSplevoProjectEditor()));
-        generateFMBtn.setText("Export SPL");
+        generateFMBtn.setText("Export\nSPL");
+        getGridDataForButtons(generateFMBtn);
 
         Composite filler = new Composite(mainContainer, SWT.NONE);
         filler.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1));
@@ -135,6 +139,13 @@ public class ProcessControlTab extends AbstractDashboardTab {
         openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/splevo.gif"));
         openVPMBtn.addMouseListener(new OpenVPMListener(getSplevoProjectEditor()));
         openVPMBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false));
+        openVPMBtn.setAlignment(SWT.CENTER);
+    }
+
+    private void getGridDataForButtons(Button button) {
+        GridData gridData = new GridData();
+        gridData.widthHint = button.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+        button.setLayoutData(gridData);
     }
 
     private void addActivityFlowButton(Composite container) {
