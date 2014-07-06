@@ -64,7 +64,7 @@
         </children>
         <styles xmi:type="notation:ShapeStyle" xmi:id="_8vh_EQUDEeS959l5r32jrg" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
         <element xmi:type="ecore:EClass" href="platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8vh_EgUDEeS959l5r32jrg" x="127" y="5"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8vh_EgUDEeS959l5r32jrg" x="115" y="5"/>
       </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_5WdKdgUDEeS959l5r32jrg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_5WdKdwUDEeS959l5r32jrg"/>
