@@ -18,7 +18,7 @@ import org.splevo.vpm.software.SoftwareElement;
  *   <li>{@link org.splevo.vpm.variability.Variant#getChildFeature <em>Child Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getImplementingElements <em>Implementing Elements</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getLeading <em>Leading</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.Variant#getVariantId <em>Variant Id</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.Variant#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getVariationPoint <em>Variation Point</em>}</li>
  * </ul>
  * </p>
@@ -96,7 +96,7 @@ public interface Variant extends EObject {
     void setLeading(Boolean value);
 
     /**
-     * Returns the value of the '<em><b>Variant Id</b></em>' attribute.
+     * Returns the value of the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
@@ -104,23 +104,23 @@ public interface Variant extends EObject {
      * This can be used e.g. to identifier a variant within the realization technique, e.g. a value of a configuration parameter.
      * All variants of variation points in the same variation point group, that contribute to the same alternative of a variable product feature should have the same variant ID.
      * <!-- end-model-doc -->
-     * @return the value of the '<em>Variant Id</em>' attribute.
-     * @see #setVariantId(String)
-     * @see org.splevo.vpm.variability.variabilityPackage#getVariant_VariantId()
+     * @return the value of the '<em>Id</em>' attribute.
+     * @see #setId(String)
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariant_Id()
      * @model required="true"
      * @generated
      */
-    String getVariantId();
+    String getId();
 
     /**
-     * Sets the value of the '{@link org.splevo.vpm.variability.Variant#getVariantId <em>Variant Id</em>}' attribute.
+     * Sets the value of the '{@link org.splevo.vpm.variability.Variant#getId <em>Id</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Variant Id</em>' attribute.
-     * @see #getVariantId()
+     * @param value the new value of the '<em>Id</em>' attribute.
+     * @see #getId()
      * @generated
      */
-    void setVariantId(String value);
+    void setId(String value);
 
     /**
      * Returns the value of the '<em><b>Variation Point</b></em>' container reference.

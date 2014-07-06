@@ -54,7 +54,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
             if (variant.getLeading()) {
                 hasLeadingVariant = true;
             }
-            Condition varCond = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant.getVariantId());
+            Condition varCond = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant.getId());
 
             if (vp.getVariants().indexOf(variant) == 0) {
                 vpLocation.setElseStatement(varCond);

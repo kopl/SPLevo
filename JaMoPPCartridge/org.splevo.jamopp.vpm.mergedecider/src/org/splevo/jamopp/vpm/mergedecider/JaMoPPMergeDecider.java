@@ -163,7 +163,7 @@ public class JaMoPPMergeDecider implements MergeDecider {
                 }
 
                 Statement statement = (Statement) jamoppElement;
-                variantStatements.get(variant.getVariantId()).add(statement);
+                variantStatements.get(variant.getId()).add(statement);
             }
         }
         return variantStatements;
@@ -228,7 +228,7 @@ public class JaMoPPMergeDecider implements MergeDecider {
     private Set<String> getVariantIds(VariationPoint vp) {
         Set<String> vpIds = Sets.newLinkedHashSet();
         for (Variant variant : vp.getVariants()) {
-            vpIds.add(variant.getVariantId());
+            vpIds.add(variant.getId());
         }
         return vpIds;
     }

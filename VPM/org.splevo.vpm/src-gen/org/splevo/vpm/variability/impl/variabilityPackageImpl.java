@@ -271,7 +271,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getVariant_VariantId() {
+    public EAttribute getVariant_Id() {
         return (EAttribute) variantEClass.getEStructuralFeatures().get(3);
     }
 
@@ -334,7 +334,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getVariationPointGroup_GroupId() {
+    public EAttribute getVariationPointGroup_Id() {
         return (EAttribute) variationPointGroupEClass.getEStructuralFeatures().get(1);
     }
 
@@ -425,7 +425,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         createEReference(variantEClass, VARIANT__CHILD_FEATURE);
         createEReference(variantEClass, VARIANT__IMPLEMENTING_ELEMENTS);
         createEAttribute(variantEClass, VARIANT__LEADING);
-        createEAttribute(variantEClass, VARIANT__VARIANT_ID);
+        createEAttribute(variantEClass, VARIANT__ID);
         createEReference(variantEClass, VARIANT__VARIATION_POINT);
 
         variationPointModelEClass = createEClass(VARIATION_POINT_MODEL);
@@ -434,7 +434,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 
         variationPointGroupEClass = createEClass(VARIATION_POINT_GROUP);
         createEReference(variationPointGroupEClass, VARIATION_POINT_GROUP__VARIATION_POINTS);
-        createEAttribute(variationPointGroupEClass, VARIATION_POINT_GROUP__GROUP_ID);
+        createEAttribute(variationPointGroupEClass, VARIATION_POINT_GROUP__ID);
         createEReference(variationPointGroupEClass, VARIATION_POINT_GROUP__MODEL);
         createEReference(variationPointGroupEClass, VARIATION_POINT_GROUP__FEATURE);
 
@@ -518,8 +518,8 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
                 !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getVariant_Leading(), theEcorePackage.getEBooleanObject(), "leading", null, 1, 1, Variant.class,
                 !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getVariant_VariantId(), theEcorePackage.getEString(), "variantId", null, 1, 1, Variant.class,
-                !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariant_Id(), theEcorePackage.getEString(), "id", null, 1, 1, Variant.class, !IS_TRANSIENT,
+                !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVariant_VariationPoint(), this.getVariationPoint(), this.getVariationPoint_Variants(),
                 "variationPoint", null, 1, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
                 !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -540,7 +540,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
                 this.getVariationPoint_Group(), "variationPoints", null, 1, -1, VariationPointGroup.class,
                 !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
                 IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getVariationPointGroup_GroupId(), theEcorePackage.getEString(), "groupId", null, 1, 1,
+        initEAttribute(getVariationPointGroup_Id(), theEcorePackage.getEString(), "id", null, 1, 1,
                 VariationPointGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
                 IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVariationPointGroup_Model(), this.getVariationPointModel(),

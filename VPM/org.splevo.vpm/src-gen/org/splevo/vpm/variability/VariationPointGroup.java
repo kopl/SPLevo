@@ -18,7 +18,7 @@ import org.eclipse.featuremodel.Feature;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getVariationPoints <em>Variation Points</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getGroupId <em>Group Id</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getFeature <em>Feature</em>}</li>
  * </ul>
@@ -47,30 +47,30 @@ public interface VariationPointGroup extends EObject {
     EList<VariationPoint> getVariationPoints();
 
     /**
-     * Returns the value of the '<em><b>Group Id</b></em>' attribute.
+     * Returns the value of the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * <!-- begin-model-doc -->
      * The identifier for the group. 
      * It represents an external, configurable identifier for the group which can be used also for the realization (e.g. as name of a configuration parameter)
      * <!-- end-model-doc -->
-     * @return the value of the '<em>Group Id</em>' attribute.
-     * @see #setGroupId(String)
-     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointGroup_GroupId()
+     * @return the value of the '<em>Id</em>' attribute.
+     * @see #setId(String)
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointGroup_Id()
      * @model required="true"
      * @generated
      */
-    String getGroupId();
+    String getId();
 
     /**
-     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointGroup#getGroupId <em>Group Id</em>}' attribute.
+     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPointGroup#getId <em>Id</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Group Id</em>' attribute.
-     * @see #getGroupId()
+     * @param value the new value of the '<em>Id</em>' attribute.
+     * @see #getId()
      * @generated
      */
-    void setGroupId(String value);
+    void setId(String value);
 
     /**
      * Returns the value of the '<em><b>Model</b></em>' container reference.

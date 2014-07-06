@@ -424,7 +424,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
         integrationVariant = variabilityFactory.eINSTANCE.createVariant();
         integrationVariant.getImplementingElements().add(softwareElement);
         integrationVariant.setLeading(leading);
-        integrationVariant.setVariantId(variantID);
+        integrationVariant.setId(variantID);
         return integrationVariant;
     }
 

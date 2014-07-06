@@ -60,7 +60,7 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
     private VariationPointGroup createGroup(VariationPoint vp) {
         VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
         String groupID = buildGroupID(vp.getLocation());
-        group.setGroupId(groupID);
+        group.setId(groupID);
         group.getVariationPoints().add(vp);
         return group;
     }

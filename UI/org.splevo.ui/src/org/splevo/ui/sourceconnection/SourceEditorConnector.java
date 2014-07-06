@@ -66,7 +66,7 @@ public class SourceEditorConnector {
      */
     public static void openVariant(Variant variant, List<String> filesOpen) {
 
-        String message = String.format("Implementation of Variant %s", variant.getVariantId());
+        String message = String.format("Implementation of Variant %s", variant.getId());
 
         ITextEditor editor = null;
         for (SoftwareElement softwareElement : variant.getImplementingElements()) {

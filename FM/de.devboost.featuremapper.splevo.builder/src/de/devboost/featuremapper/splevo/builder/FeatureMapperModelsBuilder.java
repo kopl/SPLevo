@@ -105,7 +105,7 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 
             for (VariationPoint variationPoint : variationPointGroup.getVariationPoints()) {
                 for (Variant variant : variationPoint.getVariants()) {
-                    Feature vFeature = createVariantFeature(variant.getVariantId());
+                    Feature vFeature = createVariantFeature(variant.getId());
                     group.getChildFeatures().add(vFeature);
 
                     EList<SoftwareElement> softwareEntities = variant.getImplementingElements();
@@ -185,7 +185,7 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
         parentFeature.getGroups().add(group);
 
         Feature feature = FeatureFactory.eINSTANCE.createFeature();
-        feature.setName(variationPointGroup.getGroupId());
+        feature.setName(variationPointGroup.getId());
         // feature.setId(EcoreUtil.generateUUID());
         group.getChildFeatures().add(feature);
 
