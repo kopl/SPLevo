@@ -29,7 +29,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getChildFeature <em>Child Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getImplementingElements <em>Implementing Elements</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getLeading <em>Leading</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getVariantId <em>Variant Id</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getVariationPoint <em>Variation Point</em>}</li>
  * </ul>
  * </p>
@@ -78,24 +78,24 @@ public class VariantImpl extends MinimalEObjectImpl.Container implements Variant
     protected Boolean leading = LEADING_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getVariantId() <em>Variant Id</em>}' attribute.
+     * The default value of the '{@link #getId() <em>Id</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getVariantId()
+     * @see #getId()
      * @generated
      * @ordered
      */
-    protected static final String VARIANT_ID_EDEFAULT = null;
+    protected static final String ID_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getVariantId() <em>Variant Id</em>}' attribute.
+     * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getVariantId()
+     * @see #getId()
      * @generated
      * @ordered
      */
-    protected String variantId = VARIANT_ID_EDEFAULT;
+    protected String id = ID_EDEFAULT;
 
     /**
      * <!-- begin-user-doc -->
@@ -196,8 +196,8 @@ public class VariantImpl extends MinimalEObjectImpl.Container implements Variant
      * <!-- end-user-doc -->
      * @generated
      */
-    public String getVariantId() {
-        return variantId;
+    public String getId() {
+        return id;
     }
 
     /**
@@ -205,12 +205,11 @@ public class VariantImpl extends MinimalEObjectImpl.Container implements Variant
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setVariantId(String newVariantId) {
-        String oldVariantId = variantId;
-        variantId = newVariantId;
+    public void setId(String newId) {
+        String oldId = id;
+        id = newId;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIANT__VARIANT_ID, oldVariantId,
-                    variantId));
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIANT__ID, oldId, id));
     }
 
     /**
@@ -320,8 +319,8 @@ public class VariantImpl extends MinimalEObjectImpl.Container implements Variant
             return getImplementingElements();
         case variabilityPackage.VARIANT__LEADING:
             return getLeading();
-        case variabilityPackage.VARIANT__VARIANT_ID:
-            return getVariantId();
+        case variabilityPackage.VARIANT__ID:
+            return getId();
         case variabilityPackage.VARIANT__VARIATION_POINT:
             return getVariationPoint();
         }
@@ -347,8 +346,8 @@ public class VariantImpl extends MinimalEObjectImpl.Container implements Variant
         case variabilityPackage.VARIANT__LEADING:
             setLeading((Boolean) newValue);
             return;
-        case variabilityPackage.VARIANT__VARIANT_ID:
-            setVariantId((String) newValue);
+        case variabilityPackage.VARIANT__ID:
+            setId((String) newValue);
             return;
         case variabilityPackage.VARIANT__VARIATION_POINT:
             setVariationPoint((VariationPoint) newValue);
@@ -374,8 +373,8 @@ public class VariantImpl extends MinimalEObjectImpl.Container implements Variant
         case variabilityPackage.VARIANT__LEADING:
             setLeading(LEADING_EDEFAULT);
             return;
-        case variabilityPackage.VARIANT__VARIANT_ID:
-            setVariantId(VARIANT_ID_EDEFAULT);
+        case variabilityPackage.VARIANT__ID:
+            setId(ID_EDEFAULT);
             return;
         case variabilityPackage.VARIANT__VARIATION_POINT:
             setVariationPoint((VariationPoint) null);
@@ -398,8 +397,8 @@ public class VariantImpl extends MinimalEObjectImpl.Container implements Variant
             return implementingElements != null && !implementingElements.isEmpty();
         case variabilityPackage.VARIANT__LEADING:
             return LEADING_EDEFAULT == null ? leading != null : !LEADING_EDEFAULT.equals(leading);
-        case variabilityPackage.VARIANT__VARIANT_ID:
-            return VARIANT_ID_EDEFAULT == null ? variantId != null : !VARIANT_ID_EDEFAULT.equals(variantId);
+        case variabilityPackage.VARIANT__ID:
+            return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
         case variabilityPackage.VARIANT__VARIATION_POINT:
             return getVariationPoint() != null;
         }
@@ -419,8 +418,8 @@ public class VariantImpl extends MinimalEObjectImpl.Container implements Variant
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (leading: ");
         result.append(leading);
-        result.append(", variantId: ");
-        result.append(variantId);
+        result.append(", id: ");
+        result.append(id);
         result.append(')');
         return result.toString();
     }

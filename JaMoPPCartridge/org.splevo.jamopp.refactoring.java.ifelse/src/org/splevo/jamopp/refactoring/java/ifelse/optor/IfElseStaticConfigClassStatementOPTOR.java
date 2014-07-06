@@ -73,7 +73,7 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
             }
 
             Condition currentCondition = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant
-                    .getVariantId());
+                    .getId());
 
             RefactoringUtil.fillIfBlockWithVariantElements(variant, currentCondition, localVariableStatements);
 

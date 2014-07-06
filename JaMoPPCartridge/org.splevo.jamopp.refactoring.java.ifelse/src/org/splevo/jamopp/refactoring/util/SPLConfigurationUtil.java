@@ -139,7 +139,7 @@ public final class SPLConfigurationUtil {
         unaryExpression.setChild(nestedExpression);
 
         for (Variant currentVariant : variants) {
-            conditionalOrExpression.getChildren().add(generateConfigMatchingExpression(currentVariant.getVariantId()));
+            conditionalOrExpression.getChildren().add(generateConfigMatchingExpression(currentVariant.getId()));
         }
 
         return unaryExpression;

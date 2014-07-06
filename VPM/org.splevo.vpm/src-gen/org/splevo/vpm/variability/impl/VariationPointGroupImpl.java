@@ -28,7 +28,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getVariationPoints <em>Variation Points</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getGroupId <em>Group Id</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getModel <em>Model</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getFeature <em>Feature</em>}</li>
  * </ul>
@@ -48,24 +48,24 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
     protected EList<VariationPoint> variationPoints;
 
     /**
-     * The default value of the '{@link #getGroupId() <em>Group Id</em>}' attribute.
+     * The default value of the '{@link #getId() <em>Id</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getGroupId()
+     * @see #getId()
      * @generated
      * @ordered
      */
-    protected static final String GROUP_ID_EDEFAULT = null;
+    protected static final String ID_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getGroupId() <em>Group Id</em>}' attribute.
+     * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getGroupId()
+     * @see #getId()
      * @generated
      * @ordered
      */
-    protected String groupId = GROUP_ID_EDEFAULT;
+    protected String id = ID_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getFeature() <em>Feature</em>}' reference.
@@ -115,8 +115,8 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
      * <!-- end-user-doc -->
      * @generated
      */
-    public String getGroupId() {
-        return groupId;
+    public String getId() {
+        return id;
     }
 
     /**
@@ -124,12 +124,12 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setGroupId(String newGroupId) {
-        String oldGroupId = groupId;
-        groupId = newGroupId;
+    public void setId(String newId) {
+        String oldId = id;
+        id = newId;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID,
-                    oldGroupId, groupId));
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_GROUP__ID, oldId,
+                    id));
     }
 
     /**
@@ -278,8 +278,8 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
         switch (featureID) {
         case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
             return getVariationPoints();
-        case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
-            return getGroupId();
+        case variabilityPackage.VARIATION_POINT_GROUP__ID:
+            return getId();
         case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
             return getModel();
         case variabilityPackage.VARIATION_POINT_GROUP__FEATURE:
@@ -303,8 +303,8 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
             getVariationPoints().clear();
             getVariationPoints().addAll((Collection<? extends VariationPoint>) newValue);
             return;
-        case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
-            setGroupId((String) newValue);
+        case variabilityPackage.VARIATION_POINT_GROUP__ID:
+            setId((String) newValue);
             return;
         case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
             setModel((VariationPointModel) newValue);
@@ -327,8 +327,8 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
         case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
             getVariationPoints().clear();
             return;
-        case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
-            setGroupId(GROUP_ID_EDEFAULT);
+        case variabilityPackage.VARIATION_POINT_GROUP__ID:
+            setId(ID_EDEFAULT);
             return;
         case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
             setModel((VariationPointModel) null);
@@ -350,8 +350,8 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
         switch (featureID) {
         case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
             return variationPoints != null && !variationPoints.isEmpty();
-        case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
-            return GROUP_ID_EDEFAULT == null ? groupId != null : !GROUP_ID_EDEFAULT.equals(groupId);
+        case variabilityPackage.VARIATION_POINT_GROUP__ID:
+            return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
         case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
             return getModel() != null;
         case variabilityPackage.VARIATION_POINT_GROUP__FEATURE:
@@ -371,8 +371,8 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
             return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (groupId: ");
-        result.append(groupId);
+        result.append(" (id: ");
+        result.append(id);
         result.append(')');
         return result.toString();
     }

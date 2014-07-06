@@ -189,7 +189,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
 
         for (String id : variantIds) {
             Variant v = variabilityFactory.eINSTANCE.createVariant();
-            v.setVariantId(id);
+            v.setId(id);
             v.getImplementingElements().add(mock(SoftwareElement.class));
             if (vp.getVariants().size() == 0) {
                 v.setLeading(true);

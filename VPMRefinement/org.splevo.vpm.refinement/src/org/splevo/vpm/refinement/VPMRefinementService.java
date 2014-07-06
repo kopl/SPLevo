@@ -75,11 +75,11 @@ public class VPMRefinementService {
         HashMap<String, Variant> variantMap = new HashMap<String, Variant>();
         for (VariationPoint vp : refinement.getVariationPoints()) {
             for (Variant variant : vp.getVariants()) {
-                if (variantMap.containsKey(variant.getVariantId())) {
+                if (variantMap.containsKey(variant.getId())) {
                     EList<SoftwareElement> swElements = variant.getImplementingElements();
-                    variantMap.get(variant.getVariantId()).getImplementingElements().addAll(swElements);
+                    variantMap.get(variant.getId()).getImplementingElements().addAll(swElements);
                 } else {
-                    variantMap.put(variant.getVariantId(), variant);
+                    variantMap.put(variant.getId(), variant);
                 }
             }
 

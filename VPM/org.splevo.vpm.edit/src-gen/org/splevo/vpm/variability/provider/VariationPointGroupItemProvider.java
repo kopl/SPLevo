@@ -62,26 +62,26 @@ public class VariationPointGroupItemProvider extends ItemProviderAdapter impleme
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addGroupIdPropertyDescriptor(object);
+            addIdPropertyDescriptor(object);
             addFeaturePropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Group Id feature.
+     * This adds a property descriptor for the Id feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addGroupIdPropertyDescriptor(Object object) {
+    protected void addIdPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariationPointGroup_groupId_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_VariationPointGroup_groupId_feature",
-                        "_UI_VariationPointGroup_type"), variabilityPackage.Literals.VARIATION_POINT_GROUP__GROUP_ID,
-                true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+                getString("_UI_VariationPointGroup_id_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariationPointGroup_id_feature",
+                        "_UI_VariationPointGroup_type"), variabilityPackage.Literals.VARIATION_POINT_GROUP__ID, true,
+                false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -149,7 +149,7 @@ public class VariationPointGroupItemProvider extends ItemProviderAdapter impleme
      */
     @Override
     public String getText(Object object) {
-        String label = ((VariationPointGroup) object).getGroupId();
+        String label = ((VariationPointGroup) object).getId();
         return label == null || label.length() == 0 ? getString("_UI_VariationPointGroup_type")
                 : getString("_UI_VariationPointGroup_type") + " " + label;
     }
@@ -166,7 +166,7 @@ public class VariationPointGroupItemProvider extends ItemProviderAdapter impleme
         updateChildren(notification);
 
         switch (notification.getFeatureID(VariationPointGroup.class)) {
-        case variabilityPackage.VARIATION_POINT_GROUP__GROUP_ID:
+        case variabilityPackage.VARIATION_POINT_GROUP__ID:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
         case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:

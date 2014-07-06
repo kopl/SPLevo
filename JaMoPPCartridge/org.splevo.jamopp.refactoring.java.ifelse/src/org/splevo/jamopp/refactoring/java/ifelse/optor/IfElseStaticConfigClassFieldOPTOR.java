@@ -123,7 +123,7 @@ public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring
                 }
 
                 expressionsToName.get(fieldCpy.getName()).add(fieldCpy.getInitialValue());
-                variantIDToExpression.put(fieldCpy.getInitialValue(), variant.getVariantId());
+                variantIDToExpression.put(fieldCpy.getInitialValue(), variant.getId());
             }
         }
     }

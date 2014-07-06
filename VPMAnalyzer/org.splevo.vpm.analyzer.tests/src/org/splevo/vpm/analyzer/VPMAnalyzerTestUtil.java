@@ -55,7 +55,7 @@ public final class VPMAnalyzerTestUtil {
         Node node = createNode(graph, label);
         VariationPoint vp = variabilityFactory.eINSTANCE.createVariationPoint();
         VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
-        group.setGroupId(label);
+        group.setId(label);
         vp.setGroup(group);
         node.addAttribute(VPMGraph.VARIATIONPOINT, vp);
         return node;

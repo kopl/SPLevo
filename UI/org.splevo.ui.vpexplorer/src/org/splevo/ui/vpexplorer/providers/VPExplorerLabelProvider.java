@@ -79,11 +79,11 @@ public class VPExplorerLabelProvider extends LabelProvider {
     public String getText(Object element) {
 
         if (element instanceof VariationPointGroup) {
-            return ((VariationPointGroup) element).getGroupId();
+            return ((VariationPointGroup) element).getId();
         } else if (element instanceof VariationPoint) {
             return buildVariationPointLabel((VariationPoint) element);
         } else if (element instanceof Variant) {
-            return "Variant: " + ((Variant) element).getVariantId();
+            return "Variant: " + ((Variant) element).getId();
         } else if (element instanceof SoftwareElement) {
             return ((SoftwareElement) element).getLabel();
         } else if (element instanceof File) {

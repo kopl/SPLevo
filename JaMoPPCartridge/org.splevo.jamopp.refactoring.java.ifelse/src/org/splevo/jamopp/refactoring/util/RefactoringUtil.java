@@ -94,7 +94,7 @@ public final class RefactoringUtil {
             List<Statement> statements = variantStatements.get(variant);
 
             ClassMethod method = MembersFactory.eINSTANCE.createClassMethod();
-            method.setName("extracted" + variant.getVariantId());
+            method.setName("extracted" + variant.getId());
             method.getStatements().addAll(statements);
             method.setTypeReference(returnType);
 
@@ -689,7 +689,7 @@ public final class RefactoringUtil {
     private static Variant cloneVariant(Variant variant, VariationPoint parentVariationPoint) {
         Variant newVariant = variabilityFactory.eINSTANCE.createVariant();
         newVariant.setVariationPoint(parentVariationPoint);
-        newVariant.setVariantId(variant.getVariantId());
+        newVariant.setId(variant.getId());
         newVariant.setLeading(variant.getLeading());
         newVariant.setChildFeature(variant.getChildFeature());
         return newVariant;

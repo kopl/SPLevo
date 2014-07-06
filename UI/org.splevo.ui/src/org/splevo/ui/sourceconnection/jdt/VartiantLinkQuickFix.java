@@ -40,7 +40,7 @@ class VartiantLinkQuickFix implements IMarkerResolution2 {
 
     @Override
     public String getLabel() {
-        return String.format("Alternative Variant: %s", variant.getVariantId());
+        return String.format("Alternative Variant: %s", variant.getId());
     }
 
     /**

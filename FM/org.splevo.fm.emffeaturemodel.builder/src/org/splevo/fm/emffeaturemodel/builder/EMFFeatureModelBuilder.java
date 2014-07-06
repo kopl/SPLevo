@@ -62,7 +62,7 @@ public class EMFFeatureModelBuilder implements FeatureModelBuilder<FeatureModel>
                     variabilityType = variationPoint.getVariabilityType();
                 }
                 for (Variant variant : variationPoint.getVariants()) {
-                    variantIds.add(variant.getVariantId());
+                    variantIds.add(variant.getId());
                 }
             }
 
@@ -129,7 +129,7 @@ public class EMFFeatureModelBuilder implements FeatureModelBuilder<FeatureModel>
         parentFeature.getChildren().add(group);
 
         Feature feature = FeatureModelFactory.eINSTANCE.createFeature();
-        feature.setName(variationPointGroup.getGroupId());
+        feature.setName(variationPointGroup.getId());
         feature.setId(EcoreUtil.generateUUID());
         group.getFeatures().add(feature);
 
