@@ -487,7 +487,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEClass(variationPointEClass, VariationPoint.class, "VariationPoint", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getVariationPoint_Variants(), this.getVariant(), this.getVariant_VariationPoint(), "variants",
-                null, 0, -1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+                null, 1, -1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
                 !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVariationPoint_Location(), theSoftwarePackage.getSoftwareElement(), null, "location", null,
                 1, 1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
@@ -537,7 +537,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEClass(variationPointGroupEClass, VariationPointGroup.class, "VariationPointGroup", !IS_ABSTRACT,
                 !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getVariationPointGroup_VariationPoints(), this.getVariationPoint(),
-                this.getVariationPoint_Group(), "variationPoints", null, 0, -1, VariationPointGroup.class,
+                this.getVariationPoint_Group(), "variationPoints", null, 1, -1, VariationPointGroup.class,
                 !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
                 IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getVariationPointGroup_GroupId(), theEcorePackage.getEString(), "groupId", null, 1, 1,

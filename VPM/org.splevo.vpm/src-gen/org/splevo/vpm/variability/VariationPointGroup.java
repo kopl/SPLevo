@@ -41,7 +41,7 @@ public interface VariationPointGroup extends EObject {
      * @return the value of the '<em>Variation Points</em>' containment reference list.
      * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointGroup_VariationPoints()
      * @see org.splevo.vpm.variability.VariationPoint#getGroup
-     * @model opposite="group" containment="true"
+     * @model opposite="group" containment="true" required="true"
      * @generated
      */
     EList<VariationPoint> getVariationPoints();
