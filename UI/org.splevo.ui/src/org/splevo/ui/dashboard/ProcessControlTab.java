@@ -54,7 +54,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
     private Button generateFMBtn;
 
     /** Button Open VPM. */
-    private Label openVPMBtn;
+    private Button openVPMBtn;
 
     /**
      * Create the tab to handle the SPL profile configuration.
@@ -107,15 +107,15 @@ public class ProcessControlTab extends AbstractDashboardTab {
         initVpmBtn = new Button(mainContainer, SWT.WRAP);
         initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
         initVpmBtn.setText("Init VPM");
-        
+
         addActivityFlowButton(mainContainer);
-        
+
         analyzeVPMBtn = new Button(mainContainer, SWT.WRAP);
         analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
         final Image circleImage = ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_circle.png");
         analyzeVPMBtn.setText("Refine VPM");
         analyzeVPMBtn.setImage(circleImage);
-        
+
         addActivityFlowButton(mainContainer);
 
         startRefactoringBtn = new Button(mainContainer, SWT.WRAP);
@@ -130,9 +130,9 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
         Composite filler = new Composite(mainContainer, SWT.NONE);
         filler.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1));
-        
-        openVPMBtn = new Label(mainContainer, SWT.NONE);
-        openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
+
+        openVPMBtn = new Button(mainContainer, SWT.NONE);
+        openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/splevo.gif"));
         openVPMBtn.addMouseListener(new OpenVPMListener(getSplevoProjectEditor()));
         openVPMBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false));
     }
