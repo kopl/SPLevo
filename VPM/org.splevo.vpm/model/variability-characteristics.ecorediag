@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_G7G_EAUAEeS959l5r32jrg" type="EcoreTools" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_G7G_EgUAEeS959l5r32jrg" type="1002">
+    <children xmi:type="notation:Node" xmi:id="_G7G_FgUAEeS959l5r32jrg" type="4006"/>
+    <children xmi:type="notation:Node" xmi:id="_G7G_FwUAEeS959l5r32jrg" type="5003">
+      <children xmi:type="notation:Node" xmi:id="_tp6VsAUBEeS959l5r32jrg" type="2005">
+        <children xmi:type="notation:Node" xmi:id="_tp6VswUBEeS959l5r32jrg" type="4005"/>
+        <children xmi:type="notation:Node" xmi:id="_tqAcUAUBEeS959l5r32jrg" type="5006">
+          <styles xmi:type="notation:DrawerStyle" xmi:id="_tqAcUQUBEeS959l5r32jrg"/>
+          <styles xmi:type="notation:SortingStyle" xmi:id="_tqAcUgUBEeS959l5r32jrg"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_tqAcUwUBEeS959l5r32jrg"/>
+        </children>
+        <styles xmi:type="notation:ShapeStyle" xmi:id="_tp6VsQUBEeS959l5r32jrg" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
+        <element xmi:type="ecore:EEnum" href="vpm.ecore#//variability/Extensible"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tp6VsgUBEeS959l5r32jrg" x="323" y="3"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_tqAcVAUBEeS959l5r32jrg" type="2005">
+        <children xmi:type="notation:Node" xmi:id="_tqAcVwUBEeS959l5r32jrg" type="4005"/>
+        <children xmi:type="notation:Node" xmi:id="_tqAcWAUBEeS959l5r32jrg" type="5006">
+          <styles xmi:type="notation:DrawerStyle" xmi:id="_tqAcWQUBEeS959l5r32jrg"/>
+          <styles xmi:type="notation:SortingStyle" xmi:id="_tqAcWgUBEeS959l5r32jrg"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_tqAcWwUBEeS959l5r32jrg"/>
+        </children>
+        <styles xmi:type="notation:ShapeStyle" xmi:id="_tqAcVQUBEeS959l5r32jrg" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
+        <element xmi:type="ecore:EEnum" href="vpm.ecore#//variability/VariabilityType"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tqAcVgUBEeS959l5r32jrg" x="5" y="3"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_tqAcXAUBEeS959l5r32jrg" type="2005">
+        <children xmi:type="notation:Node" xmi:id="_tqAcXwUBEeS959l5r32jrg" type="4005"/>
+        <children xmi:type="notation:Node" xmi:id="_tqAcYAUBEeS959l5r32jrg" type="5006">
+          <styles xmi:type="notation:DrawerStyle" xmi:id="_tqAcYQUBEeS959l5r32jrg"/>
+          <styles xmi:type="notation:SortingStyle" xmi:id="_tqAcYgUBEeS959l5r32jrg"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_tqAcYwUBEeS959l5r32jrg"/>
+        </children>
+        <styles xmi:type="notation:ShapeStyle" xmi:id="_tqAcXQUBEeS959l5r32jrg" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
+        <element xmi:type="ecore:EEnum" href="vpm.ecore#//variability/BindingTime"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tqAcXgUBEeS959l5r32jrg" x="163" y="3"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_G7G_GAUAEeS959l5r32jrg"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_G7G_GQUAEeS959l5r32jrg"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_G7G_GgUAEeS959l5r32jrg"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_G7G_EwUAEeS959l5r32jrg" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13150135" lineColor="4210752"/>
+    <styles xmi:type="notation:MultiDiagramLinkStyle" xmi:id="_G7G_FAUAEeS959l5r32jrg"/>
+    <element xmi:type="ecore:EPackage" href="vpm.ecore#//variability"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_G7G_FQUAEeS959l5r32jrg" width="489" height="207"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_G7G_EQUAEeS959l5r32jrg"/>
+  <element xmi:type="ecore:EPackage" href="vpm.ecore#/"/>
+</notation:Diagram>
