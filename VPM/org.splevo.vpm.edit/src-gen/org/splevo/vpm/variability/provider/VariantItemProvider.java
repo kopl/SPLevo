@@ -62,8 +62,8 @@ public class VariantItemProvider extends ItemProviderAdapter implements IEditing
 
             addChildFeaturePropertyDescriptor(object);
             addImplementingElementsPropertyDescriptor(object);
-            addLeadingPropertyDescriptor(object);
             addIdPropertyDescriptor(object);
+            addLeadingPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -174,8 +174,8 @@ public class VariantItemProvider extends ItemProviderAdapter implements IEditing
         updateChildren(notification);
 
         switch (notification.getFeatureID(Variant.class)) {
-        case variabilityPackage.VARIANT__LEADING:
         case variabilityPackage.VARIANT__ID:
+        case variabilityPackage.VARIANT__LEADING:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
         }

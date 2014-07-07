@@ -167,22 +167,22 @@ public interface variabilityPackage extends EPackage {
     int VARIANT__IMPLEMENTING_ELEMENTS = 1;
 
     /**
-     * The feature id for the '<em><b>Leading</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int VARIANT__LEADING = 2;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIANT__ID = 3;
+    int VARIANT__ID = 2;
+
+    /**
+     * The feature id for the '<em><b>Leading</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIANT__LEADING = 3;
 
     /**
      * The feature id for the '<em><b>Variation Point</b></em>' container reference.

@@ -159,7 +159,7 @@
       </eOperations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="JavaSoftwareElement" abstract="true"
-        eSuperTypes="#//software/SoftwareElement">
+        interface="true" eSuperTypes="#//software/SoftwareElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="A software element written in the Java programming language."/>
       </eAnnotations>

@@ -74,10 +74,10 @@ public interface SoftwarePackage extends EPackage {
     int SOFTWARE_ELEMENT_FEATURE_COUNT = 0;
 
     /**
-     * The meta object id for the '{@link org.splevo.vpm.software.impl.JavaSoftwareElementImpl <em>Java Software Element</em>}' class.
+     * The meta object id for the '{@link org.splevo.vpm.software.JavaSoftwareElement <em>Java Software Element</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.splevo.vpm.software.impl.JavaSoftwareElementImpl
+     * @see org.splevo.vpm.software.JavaSoftwareElement
      * @see org.splevo.vpm.software.impl.SoftwarePackageImpl#getJavaSoftwareElement()
      * @generated
      */
@@ -254,10 +254,10 @@ public interface SoftwarePackage extends EPackage {
         EClass SOFTWARE_ELEMENT = eINSTANCE.getSoftwareElement();
 
         /**
-         * The meta object literal for the '{@link org.splevo.vpm.software.impl.JavaSoftwareElementImpl <em>Java Software Element</em>}' class.
+         * The meta object literal for the '{@link org.splevo.vpm.software.JavaSoftwareElement <em>Java Software Element</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see org.splevo.vpm.software.impl.JavaSoftwareElementImpl
+         * @see org.splevo.vpm.software.JavaSoftwareElement
          * @see org.splevo.vpm.software.impl.SoftwarePackageImpl#getJavaSoftwareElement()
          * @generated
          */

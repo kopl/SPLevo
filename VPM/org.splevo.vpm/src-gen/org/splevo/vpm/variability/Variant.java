@@ -17,8 +17,8 @@ import org.splevo.vpm.software.SoftwareElement;
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.Variant#getChildFeature <em>Child Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getImplementingElements <em>Implementing Elements</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.Variant#getLeading <em>Leading</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getId <em>Id</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.Variant#getLeading <em>Leading</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.Variant#getVariationPoint <em>Variation Point</em>}</li>
  * </ul>
  * </p>

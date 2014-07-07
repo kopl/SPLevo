@@ -263,7 +263,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * @generated
      */
     public EAttribute getVariant_Leading() {
-        return (EAttribute) variantEClass.getEStructuralFeatures().get(2);
+        return (EAttribute) variantEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -272,7 +272,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * @generated
      */
     public EAttribute getVariant_Id() {
-        return (EAttribute) variantEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) variantEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -424,8 +424,8 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         variantEClass = createEClass(VARIANT);
         createEReference(variantEClass, VARIANT__CHILD_FEATURE);
         createEReference(variantEClass, VARIANT__IMPLEMENTING_ELEMENTS);
-        createEAttribute(variantEClass, VARIANT__LEADING);
         createEAttribute(variantEClass, VARIANT__ID);
+        createEAttribute(variantEClass, VARIANT__LEADING);
         createEReference(variantEClass, VARIANT__VARIATION_POINT);
 
         variationPointModelEClass = createEClass(VARIATION_POINT_MODEL);
@@ -516,10 +516,10 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEReference(getVariant_ImplementingElements(), theSoftwarePackage.getSoftwareElement(), null,
                 "implementingElements", null, 1, -1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
                 !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getVariant_Leading(), theEcorePackage.getEBooleanObject(), "leading", null, 1, 1, Variant.class,
-                !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getVariant_Id(), theEcorePackage.getEString(), "id", null, 1, 1, Variant.class, !IS_TRANSIENT,
                 !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariant_Leading(), theEcorePackage.getEBooleanObject(), "leading", null, 1, 1, Variant.class,
+                !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVariant_VariationPoint(), this.getVariationPoint(), this.getVariationPoint_Variants(),
                 "variationPoint", null, 1, 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
                 !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
