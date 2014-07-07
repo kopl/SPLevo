@@ -156,7 +156,6 @@ public class ProcessControlTab extends AbstractDashboardTab {
     private void getGridDataForButtons(Button button) {
         GridData gridData = new GridData();
         gridData.widthHint = button.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
-        gridData.heightHint = button.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
         button.setLayoutData(gridData);
     }
 
