@@ -17,7 +17,9 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -37,6 +39,18 @@ public class SPLevoUIPlugin extends AbstractUIPlugin {
 
     /** Pre-loaded representation of the KoPL icon. */
     public static final Image KOPL_ICON = getImageDescriptor("icons/kopl_circle_only.png").createImage();
+
+    /** KoPL logo color orange. */
+    public static final Color COLOR_ORANGE = new Color(Display.getCurrent(), 234, 103, 40);
+
+    /** KoPL logo color light blue. */
+    public static final Color COLOR_LIGHT_BLUE = new Color(Display.getCurrent(), 196, 211, 219);
+
+    /** KoPL logo color dark blue. */
+    public static final Color COLOR_DARK_BLUE = new Color(Display.getCurrent(), 35, 72, 92);
+
+    /** KoPL logo color medium blue. */
+    public static final Color COLOR_MEDIUM_BLUE = new Color(Display.getCurrent(), 120, 143, 154);
 
     /**
      * The constructor.
