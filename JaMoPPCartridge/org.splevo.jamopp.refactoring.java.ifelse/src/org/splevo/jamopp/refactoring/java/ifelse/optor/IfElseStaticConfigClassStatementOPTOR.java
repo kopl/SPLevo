@@ -44,13 +44,13 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
     @Override
     public void refactor(VariationPoint vp) {
-        boolean hasConflictingVariables = RefactoringUtil.hasConflictingLocalVariables(vp);
-        if (hasConflictingVariables) {
-            RefactoringUtil.extractVariantsIntoMethods(vp);
-        }
-
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
+
+        if (RefactoringUtil.hasImplementingElementsOfType(vp, Return.class)) {
+            RefactoringUtil
+                    .addCommentBefore(vpLocation, "FIXME: Introduces optional variability for return statement.");
+        }
 
         ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();
         if (!RefactoringUtil.containsImport(vpLocation.getContainingCompilationUnit(), splConfImport)) {
@@ -72,8 +72,8 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
                 posBeforeFirstCond = indexBeginVariant;
             }
 
-            Condition currentCondition = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant
-                    .getId());
+            Condition currentCondition = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant.getId(), vp
+                    .getGroup().getId());
 
             RefactoringUtil.fillIfBlockWithVariantElements(variant, currentCondition, localVariableStatements);
 
@@ -87,7 +87,7 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         if (posBeforeFirstCond != -1) {
             vpLocation.getStatements().addAll(posBeforeFirstCond, localVariableStatements.values());
         } else {
-            vpLocation.getStatements().addAll(localVariableStatements.values());
+            vpLocation.getStatements().addAll(0, localVariableStatements.values());
         }
     }
 
@@ -112,7 +112,10 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
             return false;
         }
 
-        return !RefactoringUtil.hasImplementingElementsOfType(variationPoint, Return.class);
+        boolean hasConflictingVariables = RefactoringUtil.hasConflictingLocalVariables(variationPoint);
+        boolean hasConstructorCalls = RefactoringUtil.hasConstructorCalls(variationPoint);
+
+        return !hasConflictingVariables && !hasConstructorCalls;
     }
 
     @Override

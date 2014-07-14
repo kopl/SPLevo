@@ -43,7 +43,7 @@ public class IfElseStaticConfigClassConstructorOPTOR implements VariabilityRefac
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Constructor constructor = (Constructor) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (!RefactoringUtil.hasConflictingConstructor(vpLocation, constructor)) {
+                if (!RefactoringUtil.hasConstructorWithEqualParameters(vpLocation, constructor)) {
                     vpLocation.getMembers().add(constructor);
                 }
             }

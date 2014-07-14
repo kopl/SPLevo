@@ -2,10 +2,13 @@ package org.splevo.jamopp.refactoring.java.ifelse;
 
 import org.emftext.language.java.commons.Commentable;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
+import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
+import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -17,7 +20,7 @@ public class CommentRefactoring implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "Comment Refactoring";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.CommentRefactoring";
-    private static final String COMMENT_TEXT = "/*FIXME: Variability could not be handled*/";
+    private static final String COMMENT_TEXT = "FIXME: Variability could not be handled\n";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -30,6 +33,15 @@ public class CommentRefactoring implements VariabilityRefactoring {
     @Override
     public void refactor(VariationPoint vp) {
         Commentable vpLocation = ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        StringBuilder sb = new StringBuilder();
+        sb.append(COMMENT_TEXT + "\n");
+        for (Variant variant : vp.getVariants()) {
+            sb.append("Variant: " + variant.getId() + "\n");
+            for (SoftwareElement se : variant.getImplementingElements()) {
+                String label = JaMoPPElementUtil.getLabel(((JaMoPPSoftwareElement) se).getJamoppElement());
+                sb.append(label + "\n");
+            }
+        }
         RefactoringUtil.addCommentBefore(vpLocation, COMMENT_TEXT);
     }
 

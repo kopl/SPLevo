@@ -4,6 +4,5 @@ public class TestClass {
 
     protected void someMethod() {
         int a = 1;
-        System.out.println(1);
     }
 }

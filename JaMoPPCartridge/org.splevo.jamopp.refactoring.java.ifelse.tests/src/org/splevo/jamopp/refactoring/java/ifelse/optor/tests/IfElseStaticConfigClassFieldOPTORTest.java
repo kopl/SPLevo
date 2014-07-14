@@ -34,7 +34,6 @@ import org.emftext.language.java.literals.NullLiteral;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MembersFactory;
-import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
@@ -172,7 +171,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
      *             In case of an unexpected exception.
      */
     @Test
-    public void testRefactorCaseFieldDefault() throws Exception {
+    public void testRefactorCaseFieldAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getFieldAddCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassFieldOPTOR refactoring = new IfElseStaticConfigClassFieldOPTOR();
         refactoring.refactor(vp);
@@ -196,7 +195,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
 
     /**
      * Tests whether the refactoring merges common fields with different initial values correctly.
-     * Refactoring should build a static block to do the initializations.
+     * Refactoring should build a block to do the initializations.
      * 
      * @throws Exception
      *             An unexpected exception occurred.
@@ -230,8 +229,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
         assertThat(field.getInitialValue(), instanceOf(NullLiteral.class));
 
         // correct static block
-        assertThat(block.getModifiers().size(), equalTo(1));
-        assertThat(block.getModifiers().get(0), instanceOf(Static.class));
+        assertThat(block.getModifiers().size(), equalTo(0));
         assertThat(block.getStatements().size(), equalTo(2));
         assertThat(block.getStatements().get(0), instanceOf(Condition.class));
         assertThat(block.getStatements().get(1), instanceOf(Condition.class));

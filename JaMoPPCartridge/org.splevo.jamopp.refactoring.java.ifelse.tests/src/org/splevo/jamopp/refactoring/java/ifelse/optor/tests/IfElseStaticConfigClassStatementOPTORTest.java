@@ -23,15 +23,12 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.emf.common.util.EList;
-import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
-import org.emftext.language.java.literals.NullLiteral;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.MembersFactory;
-import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
@@ -43,9 +40,6 @@ import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.Switch;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.statements.WhileLoop;
-import org.emftext.language.java.types.Int;
-import org.emftext.language.java.types.Short;
-import org.emftext.language.java.variables.LocalVariable;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassConstructorOPTOR;
@@ -172,61 +166,18 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * Variants contain conflicting local variables (same name different type). Tests whether the
-     * refactoring extracts the whole method body into varint-specific methods and introduces if
-     * statements correctly to call those methods.
+     * Tests whether the canBeApplied method returns false for variation points that have variants
+     * that contain conflicting local variables (same name different type).
      * 
      * @throws Exception
      *             In case of an unexpected exception.
      */
     @Test
-    public void testRefactorCaseLocalVariableDiffTypes() throws Exception {
+    public void testIfCanBeAppliedWithVariableDiffTypes() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementLocalVarDiffTypesCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
 
-        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
-        Class containingClass = (Class) vpLocation.eContainer();
-
-        // must have three methods
-        assertThat(containingClass.getMethods().size(), equalTo(3));
-
-        // verify extracted methods and their contents
-        ClassMethod firstVariantSpecificMethod = (ClassMethod) containingClass.getMethods().get(1);
-        ClassMethod secondVariantSpecificMethod = (ClassMethod) containingClass.getMethods().get(2);
-        assertThat(firstVariantSpecificMethod.getStatements().size(), equalTo(2));
-        assertThat(secondVariantSpecificMethod.getStatements().size(), equalTo(2));
-        assertThat(firstVariantSpecificMethod.getStatements().get(0), instanceOf(LocalVariableStatement.class));
-        assertThat(secondVariantSpecificMethod.getStatements().get(0), instanceOf(LocalVariableStatement.class));
-        LocalVariable firstVariableFirstVariant = ((LocalVariableStatement) firstVariantSpecificMethod.getStatements()
-                .get(0)).getVariable();
-        LocalVariable firstVariableSecondVariant = ((LocalVariableStatement) secondVariantSpecificMethod
-                .getStatements().get(0)).getVariable();
-        assertThat(firstVariableFirstVariant.getTypeReference().getTarget(),
-                anyOf(instanceOf(Int.class), instanceOf(Short.class)));
-        assertThat(firstVariableSecondVariant.getTypeReference().getTarget(),
-                anyOf(instanceOf(Int.class), instanceOf(Short.class)));
-
-        // verify vp location contents
-        assertThat(vpLocation.getStatements().size(), equalTo(2));
-        assertThat(vpLocation.getStatements().get(0), instanceOf(Condition.class));
-        assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
-        Condition firstCond = (Condition) vpLocation.getStatements().get(0);
-        Condition secondCond = (Condition) vpLocation.getStatements().get(1);
-        assertThat(((Block) firstCond.getStatement()).getStatements().size(), equalTo(1));
-        assertThat(((Block) secondCond.getStatement()).getStatements().size(), equalTo(1));
-        assertThat(((Block) firstCond.getStatement()).getStatements().get(0), instanceOf(ExpressionStatement.class));
-        assertThat(((Block) secondCond.getStatement()).getStatements().get(0), instanceOf(ExpressionStatement.class));
-        ExpressionStatement statementInFirstIf = (ExpressionStatement) ((Block) firstCond.getStatement())
-                .getStatements().get(0);
-        ExpressionStatement statementInSecondIf = (ExpressionStatement) ((Block) secondCond.getStatement())
-                .getStatements().get(0);
-        assertThat(statementInFirstIf.getExpression(), instanceOf(MethodCall.class));
-        assertThat(statementInSecondIf.getExpression(), instanceOf(MethodCall.class));
-        assertThat((ClassMethod) ((MethodCall) statementInFirstIf.getExpression()).getTarget(),
-                equalTo(firstVariantSpecificMethod));
-        assertThat((ClassMethod) ((MethodCall) statementInSecondIf.getExpression()).getTarget(),
-                equalTo(secondVariantSpecificMethod));
+        assertThat(refactoring.canBeAppliedTo(vp), equalTo(false));
     }
 
     /**
@@ -248,16 +199,10 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         // vp location has 4 statements: the variable, two conditions (one per variant) and the
         // common statement
-        assertThat(vpLocation.getStatements().size(), equalTo(4));
+        assertThat(vpLocation.getStatements().size(), equalTo(3));
         assertThat(vpLocation.getStatements().get(0), instanceOf(LocalVariableStatement.class));
         assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
         assertThat(vpLocation.getStatements().get(2), instanceOf(Condition.class));
-        assertThat(vpLocation.getStatements().get(3), instanceOf(ExpressionStatement.class));
-
-        // assert correct value of the common statement
-        BigInteger val = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) vpLocation.getStatements()
-                .get(3));
-        assertThat(val, equalTo(BigInteger.valueOf(1)));
 
         LocalVariableStatement localVarStat = (LocalVariableStatement) vpLocation.getStatements().get(0);
         Condition firstCond = (Condition) vpLocation.getStatements().get(1);
@@ -265,7 +210,9 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         // assert correct variable name and initial value
         assertThat(localVarStat.getVariable().getName(), equalTo("a"));
-        assertThat(localVarStat.getVariable().getInitialValue(), instanceOf(NullLiteral.class));
+        assertThat(localVarStat.getVariable().getInitialValue(), instanceOf(DecimalIntegerLiteral.class));
+        assertThat(((DecimalIntegerLiteral) localVarStat.getVariable().getInitialValue()).getDecimalValue(),
+                equalTo(BigInteger.valueOf(0)));
 
         // both conditions must have an if-block
         assertThat(firstCond.getStatement(), instanceOf(Block.class));

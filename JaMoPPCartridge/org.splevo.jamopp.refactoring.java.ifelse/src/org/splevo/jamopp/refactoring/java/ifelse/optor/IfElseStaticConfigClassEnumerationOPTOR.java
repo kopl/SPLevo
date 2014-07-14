@@ -3,7 +3,7 @@ package org.splevo.jamopp.refactoring.java.ifelse.optor;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.emftext.language.java.classifiers.ClassifiersFactory;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.EnumConstant;
@@ -44,7 +44,6 @@ public class IfElseStaticConfigClassEnumerationOPTOR implements VariabilityRefac
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
         Enumeration enumeration = null;
-        String enumerationName = null;
         Map<String, EnumConstant> constantToName = new HashMap<String, EnumConstant>();
 
         boolean hasLeadingVariant = false;
@@ -56,25 +55,21 @@ public class IfElseStaticConfigClassEnumerationOPTOR implements VariabilityRefac
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Enumeration currentEnum = (Enumeration) ((JaMoPPSoftwareElement) se).getJamoppElement();
 
-                if (enumerationName == null) {
-                    enumerationName = currentEnum.getName();
+                for (EnumConstant constant : currentEnum.getConstants()) {
+                    constantToName.put(constant.getName(), EcoreUtil.copy(constant));
                 }
 
                 if (variant.getLeading()) {
                     enumeration = currentEnum;
+                    continue;
                 }
-
-                for (EnumConstant constant : currentEnum.getConstants()) {
-                    constantToName.put(constant.getName(), constant);
+                if (enumeration == null) {
+                    enumeration = EcoreUtil.copy(currentEnum);
                 }
             }
         }
 
-        if (enumeration == null) {
-            enumeration = ClassifiersFactory.eINSTANCE.createEnumeration();
-            enumeration.setName(enumerationName);
-        }
-
+        enumeration.getConstants().clear();
         enumeration.getConstants().addAll(constantToName.values());
 
         if (!hasLeadingVariant) {

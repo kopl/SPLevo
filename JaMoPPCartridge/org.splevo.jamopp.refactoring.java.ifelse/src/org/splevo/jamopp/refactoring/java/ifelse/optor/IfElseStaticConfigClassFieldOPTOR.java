@@ -15,7 +15,6 @@ import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.literals.NullLiteral;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MemberContainer;
-import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.operators.OperatorsFactory;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.ReferencesFactory;
@@ -74,16 +73,17 @@ public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring
 
             RefactoringUtil.removeFinalAndAddCommentIfApplicable(field);
 
-            if (initialValues.size() > 1) {
+            if (initialValues.size() > 1 && hasDifferentValues(initialValues)) {
                 NullLiteral nullLiteral = LiteralsFactory.eINSTANCE.createNullLiteral();
                 field.setInitialValue(nullLiteral);
 
-                Block staticBlock = StatementsFactory.eINSTANCE.createBlock();
-                staticBlock.getModifiers().add(ModifiersFactory.eINSTANCE.createStatic());
+                Block initializingBlock = StatementsFactory.eINSTANCE.createBlock();
 
                 for (Expression value : initialValues) {
                     String variantId = variantIDToExpression.get(value);
-                    Condition condition = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variantId);
+                    String groupId = vp.getGroup().getId();
+                    Condition condition = RefactoringUtil
+                            .generateConditionVariantIDWithEmptyIfBlock(variantId, groupId);
                     AssignmentExpression assignmentExpr = ExpressionsFactory.eINSTANCE.createAssignmentExpression();
                     assignmentExpr.setValue(value);
                     assignmentExpr.setAssignmentOperator(OperatorsFactory.eINSTANCE.createAssignment());
@@ -93,11 +93,26 @@ public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring
                     ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
                     expressionStatement.setExpression(assignmentExpr);
                     ((Block) condition.getStatement()).getStatements().add(expressionStatement);
-                    staticBlock.getStatements().add(condition);
+                    initializingBlock.getStatements().add(condition);
                 }
-                vpLocation.getMembers().add(++fieldPos, staticBlock);
+                vpLocation.getMembers().add(++fieldPos, initializingBlock);
             }
         }
+    }
+
+    private boolean hasDifferentValues(List<Expression> initialValues) {
+        Expression firstValue = null;
+        for (int i = 0; i < initialValues.size(); i++) {
+            if (firstValue == null) {
+                firstValue = initialValues.get(i);
+                continue;
+            }
+            if (EcoreUtil.equals(firstValue, initialValues.get(i))) {
+                continue;
+            }
+            return true;
+        }
+        return false;
     }
 
     private void fillMaps(VariationPoint vp, Map<String, Field> fieldsToName,

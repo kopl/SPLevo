@@ -1,66 +1,72 @@
 package org.splevo.jamopp.refactoring.util;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.commons.layout.LayoutInformation;
+import org.emftext.language.java.arrays.ArrayInitializationValue;
+import org.emftext.language.java.arrays.ArrayInitializer;
+import org.emftext.language.java.arrays.ArrayInstantiationByValues;
+import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
+import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.AssignmentExpression;
+import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.instantiations.ExplicitConstructorCall;
+import org.emftext.language.java.literals.BooleanLiteral;
+import org.emftext.language.java.literals.CharacterLiteral;
+import org.emftext.language.java.literals.DecimalDoubleLiteral;
+import org.emftext.language.java.literals.DecimalFloatLiteral;
+import org.emftext.language.java.literals.DecimalIntegerLiteral;
+import org.emftext.language.java.literals.DecimalLongLiteral;
+import org.emftext.language.java.literals.Literal;
 import org.emftext.language.java.literals.LiteralsFactory;
-import org.emftext.language.java.literals.NullLiteral;
-import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
-import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Final;
 import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.operators.OperatorsFactory;
 import org.emftext.language.java.references.IdentifierReference;
-import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.LocalVariableStatement;
-import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.Void;
+import org.emftext.language.java.types.TypesFactory;
 import org.emftext.language.java.variables.LocalVariable;
+import org.emftext.language.java.variables.Variable;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
-import org.splevo.vpm.variability.VariationPointGroup;
-import org.splevo.vpm.variability.VariationPointModel;
-import org.splevo.vpm.variability.variabilityFactory;
 
 /**
  * Provides utility methods for the refactorings.
@@ -68,59 +74,6 @@ import org.splevo.vpm.variability.variabilityFactory;
 public final class RefactoringUtil {
 
     private RefactoringUtil() {
-    }
-
-    /**
-     * For each variant of a variation point, this method takes all common and variable statements
-     * and extracts them into separate, variant-specific methods, which will be added to the parent
-     * class. Clears the variation point's location afterwards. Finally, clears all variants and
-     * adds new variants that represent the extracted methods.
-     * 
-     * @param variationPoint
-     *            The {@link VariationPoint}.
-     */
-    public static void extractVariantsIntoMethods(VariationPoint variationPoint) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
-                .getLocation()).getJamoppElement();
-        Class parentClass = findContainingUnitByType(vpLocation, Class.class);
-
-        HashMap<Variant, List<Statement>> variantStatements = buildVariantStatementMap(variationPoint);
-
-        vpLocation.getStatements().clear();
-        variationPoint.getVariants().clear();
-        TypeReference returnType = getReturnType(vpLocation);
-
-        for (Variant variant : variantStatements.keySet()) {
-            List<Statement> statements = variantStatements.get(variant);
-
-            ClassMethod method = MembersFactory.eINSTANCE.createClassMethod();
-            method.setName("extracted" + variant.getId());
-            method.getStatements().addAll(statements);
-            method.setTypeReference(returnType);
-
-            MethodCall methodCall = ReferencesFactory.eINSTANCE.createMethodCall();
-            methodCall.setTarget(method);
-
-            Statement variantInvokingStatement = null;
-            if (returnType == null || returnType.getTarget() instanceof Void) {
-                ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
-                expressionStatement.setExpression(methodCall);
-                variantInvokingStatement = expressionStatement;
-            } else {
-                Return returnStatement = StatementsFactory.eINSTANCE.createReturn();
-                returnStatement.setReturnValue(methodCall);
-                variantInvokingStatement = returnStatement;
-            }
-
-            JaMoPPSoftwareElement newJaMoPPElement = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
-            newJaMoPPElement.setJamoppElement(variantInvokingStatement);
-
-            Variant newVariant = RefactoringUtil.cloneVariant(variant, variationPoint);
-            newVariant.getImplementingElements().add(newJaMoPPElement);
-            variationPoint.getVariants().add(newVariant);
-
-            parentClass.getMembers().add(method);
-        }
     }
 
     /**
@@ -173,49 +126,42 @@ public final class RefactoringUtil {
      * @return The position. -1 if it could not be calculated.
      */
     public static int getVariabilityPosition(StatementListContainer vpLocation, Variant variant) {
-        // try to get pos in container
-        Commentable firstElement = ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0))
+        Statement firstImplElement = (Statement) ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0))
                 .getJamoppElement();
-        EObject eObject = firstElement;
-        while (eObject.eContainer() != null && !(eObject.eContainer() instanceof StatementListContainer)) {
-            eObject = eObject.eContainer();
-        }
-        int pos = JaMoPPElementUtil.getPositionInContainer((Statement) eObject);
 
-        if (pos == 0) {
-            return pos;
-        } else if (eObject.eContainer() == null) {
-            return -1;
+        Statement prevElement = null;
+
+        int positionCurrElement = JaMoPPElementUtil.getPositionInContainer(firstImplElement);
+        if (variant.getLeading() || positionCurrElement == 0 || positionCurrElement == -1) {
+            return positionCurrElement;
         }
 
-        // get pos by determinign previous element in the vp location
-        StatementListContainer container = (StatementListContainer) eObject.eContainer();
-        Statement prevStatement = container.getStatements().get(pos - 1);
-        for (Statement statement : vpLocation.getStatements()) {
-            if (!(statement instanceof Condition) || !(((Condition) statement).getStatement() instanceof Block)) {
-                continue;
+        int positionPrevElement = positionCurrElement - 1;
+
+        do {
+            prevElement = ((StatementListContainer) firstImplElement.eContainer()).getStatements().get(
+                    positionPrevElement);
+
+            for (int i = 0; i < vpLocation.getStatements().size(); i++) {
+                Statement statement = vpLocation.getStatements().get(i);
+                // current element equal?
+                if (EcoreUtil.equals(statement, prevElement)) {
+                    return i + 1;
+                }
+
+                // search element in a variability-if
+                if (statement instanceof Condition && ((Condition) statement).getStatement() instanceof Block
+                        && ((Block) ((Condition) statement).getStatement()).getStatements().size() > 0) {
+                    Block block = (Block) ((Condition) statement).getStatement();
+                    Statement lastStatementPreviousIfBlock = block.getStatements()
+                            .get(block.getStatements().size() - 1);
+                    if (EcoreUtil.equals(lastStatementPreviousIfBlock, prevElement)) {
+                        return i + 1;
+                    }
+                }
             }
-            Block block = (Block) ((Condition) statement).getStatement();
-            Statement lastBlockStatement = block.getStatements().get(block.getStatements().size() - 1);
-            if (prevStatement instanceof LocalVariableStatement
-                    && lastBlockStatement instanceof ExpressionStatement
-                    && ((ExpressionStatement) lastBlockStatement).getExpression() instanceof AssignmentExpression
-                    && EcoreUtil.equals(((LocalVariableStatement) prevStatement).getVariable().getInitialValue(),
-                            ((AssignmentExpression) ((ExpressionStatement) lastBlockStatement).getExpression())
-                                    .getValue())) {
-                return vpLocation.getStatements().indexOf(statement) + 1;
-            }
-            if (EcoreUtil.equals(lastBlockStatement, prevStatement)) {
-                return vpLocation.getStatements().indexOf(statement) + 1;
-            }
-        }
-
-        // if pos too large (because other vp not yet processed), use size
-        if (pos > vpLocation.getStatements().size()) {
-            return vpLocation.getStatements().size();
-        }
-
-        return pos;
+        } while (--positionPrevElement >= 0);
+        return 0;
     }
 
     /**
@@ -227,34 +173,58 @@ public final class RefactoringUtil {
      * @return The extracted assignment as {@link ExpressionStatement}.
      */
     public static ExpressionStatement extractAssignment(LocalVariable variable) {
+        removeFinalAndAddCommentIfApplicable(variable);
+
         IdentifierReference varRef = ReferencesFactory.eINSTANCE.createIdentifierReference();
         varRef.setTarget(variable);
 
+        NamespaceClassifierReference nsClassifierRef = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
+        nsClassifierRef.setTarget(variable.getContainingConcreteClassifier());
+        NamespaceClassifierReference nsClassifierRef1 = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
+        nsClassifierRef1.setTarget(variable.getContainingConcreteClassifier());
+
         AssignmentExpression assignmentExpression = ExpressionsFactory.eINSTANCE.createAssignmentExpression();
-        assignmentExpression.setValue(variable.getInitialValue());
+
+        if (variable.getInitialValue() instanceof ArrayInstantiationByValues) {
+            EList<ArrayInitializationValue> initialValues = ((ArrayInstantiationByValues) variable.getInitialValue())
+                    .getArrayInitializer().getInitialValues();
+            ArrayInstantiationByValuesTyped arrayInstantiationByValuesTyped = ArraysFactory.eINSTANCE
+                    .createArrayInstantiationByValuesTyped();
+            ArrayInitializer arrayInitializer = ArraysFactory.eINSTANCE.createArrayInitializer();
+            arrayInitializer.getInitialValues().addAll(initialValues);
+            arrayInstantiationByValuesTyped.setArrayInitializer(arrayInitializer);
+            arrayInstantiationByValuesTyped.setTypeReference(nsClassifierRef);
+            assignmentExpression.setValue(arrayInstantiationByValuesTyped);
+            variable.setTypeReference(nsClassifierRef1);
+        } else {
+            assignmentExpression.setValue(variable.getInitialValue());
+        }
+
         assignmentExpression.setAssignmentOperator(OperatorsFactory.eINSTANCE.createAssignment());
         assignmentExpression.setChild(varRef);
 
         ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
         expressionStatement.setExpression(assignmentExpression);
 
-        NullLiteral nullLiteral = LiteralsFactory.eINSTANCE.createNullLiteral();
-        variable.setInitialValue(nullLiteral);
+        Literal defaultValue = getDefaultValueForType(variable);
+        variable.setInitialValue(defaultValue);
 
         return expressionStatement;
     }
 
     /**
-     * Generates a condition with an empty if-block. Matches the SPL configuration with the given
-     * variant id within the condition.
+     * Generates a condition with an empty if-block. Matches the SPL configuration attribute with
+     * the given name (from the group ID) with the given variant id within the condition.
      * 
      * @param variantId
      *            The variant id as {@link String}.
+     * @param groupID
+     *            The group id as {@link String}.
      * @return The generated {@link Condition}.
      */
-    public static Condition generateConditionVariantIDWithEmptyIfBlock(String variantId) {
+    public static Condition generateConditionVariantIDWithEmptyIfBlock(String variantId, String groupID) {
         Condition currentCondition = StatementsFactory.eINSTANCE.createCondition();
-        currentCondition.setCondition(SPLConfigurationUtil.generateConfigMatchingExpression(variantId));
+        currentCondition.setCondition(SPLConfigurationUtil.generateConfigMatchingExpression(variantId, groupID));
 
         Block currentBlock = StatementsFactory.eINSTANCE.createBlock();
         currentCondition.setStatement(currentBlock);
@@ -288,6 +258,21 @@ public final class RefactoringUtil {
                 ExpressionStatement extractedAssignment = RefactoringUtil.extractAssignment(variable);
                 statementCpy = extractedAssignment;
             }
+            // in case the variable is common among all variants and it has no initialization and it
+            // is assigned in variants, assign default value.
+            if (statementCpy instanceof ExpressionStatement
+                    && ((ExpressionStatement) statementCpy).getExpression() instanceof AssignmentExpression
+                    && ((AssignmentExpression) ((ExpressionStatement) statementCpy)
+                            .getExpression()).getChild() instanceof IdentifierReference
+                    && ((IdentifierReference) ((AssignmentExpression) ((ExpressionStatement) statementCpy)
+                            .getExpression()).getChild()).getTarget() instanceof LocalVariable) {
+                LocalVariable variable = (LocalVariable) ((IdentifierReference) ((AssignmentExpression) 
+                        ((ExpressionStatement) statementCpy).getExpression()).getChild()).getTarget();
+                if (variable.getInitialValue() == null) {
+                    variable.setInitialValue(getDefaultValueForType(variable));
+                }
+                removeFinalAndAddCommentIfApplicable(variable);
+            }
 
             ((Block) currentCondition.getStatement()).getStatements().add(statementCpy);
         }
@@ -316,29 +301,6 @@ public final class RefactoringUtil {
             }
         }
         return true;
-    }
-
-    /**
-     * Checks whether a variation point's variants have an element of a certain type.
-     * 
-     * @param variationPoint
-     *            The {@link VariationPoint}.
-     * @param c
-     *            The type's {@link java.lang.Class}.
-     * @param <T>
-     *            The type.
-     * @return <code>true</code> a element was found; <code>false</code> otherwise.
-     */
-    public static <T> boolean hasImplementingElementsOfType(VariationPoint variationPoint, java.lang.Class<T> c) {
-        for (Variant variant : variationPoint.getVariants()) {
-            for (SoftwareElement se : variant.getImplementingElements()) {
-                Commentable commentable = ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (c.isInstance(commentable)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -371,16 +333,16 @@ public final class RefactoringUtil {
         LayoutInformation layoutInformation = getFirstLayoutInformation(vpLocation);
         String finalComment = layoutInformation.getHiddenTokenText();
         if (finalComment.length() == 0) {
-            finalComment = comment + "\n";
+            finalComment = "/* " + comment + " */\n";
         } else {
-            finalComment += "\n" + comment + "\n";
+            finalComment = "\n/* " + comment + " */\n" + finalComment;
         }
         layoutInformation.setHiddenTokenText(finalComment);
     }
 
     /**
-     * Removes the final modifier of an element (if existing) and adds a comment to the element:
-     * "\/* FIXME: Removed final modifier to introduce variability. *\/"
+     * Removes the final modifier of an element (if existing) and adds a comment with a fix-me tag
+     * to the element: "\/* Removed final modifier to introduce variability. *\/"
      * 
      * @param modifieable
      *            The {@link Modifiable} element.
@@ -389,8 +351,8 @@ public final class RefactoringUtil {
         for (Modifier modifier : modifieable.getModifiers()) {
             if (modifier instanceof Final) {
                 modifieable.removeModifier(Final.class);
-                RefactoringUtil.addCommentBefore(modifieable,
-                        "/* FIXME: Removed final modifier to introduce variability. */");
+                RefactoringUtil
+                        .addCommentBefore(modifieable, "FIXME: Removed final modifier to introduce variability.");
                 break;
             }
         }
@@ -405,9 +367,28 @@ public final class RefactoringUtil {
      *            The {@link Constructor} to compare with.
      * @return <code>true</code> if such a constructor is found; <code>false</code> otherwise.
      */
-    public static boolean hasConflictingConstructor(Class c, Constructor constructor) {
+    public static boolean hasConstructorWithEqualParameters(Class c, Constructor constructor) {
         for (Constructor vpConstructor : c.getConstructors()) {
             if (EcoreUtil.equals(constructor.getParameters(), vpConstructor.getParameters())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether a class has a method with the same name and equal parameters.
+     * 
+     * @param c
+     *            The {@link Class}.
+     * @param method
+     *            The {@link Method} to compare with.
+     * @return <code>true</code> if such a method is found; <code>false</code> otherwise.
+     */
+    public static boolean hasMethodWithEqualParameters(Class c, Method method) {
+        for (Method vpMethod : c.getMethods()) {
+            if (method.getName().equals(vpMethod.getName())
+                    && EcoreUtil.equals(method.getParameters(), vpMethod.getParameters())) {
                 return true;
             }
         }
@@ -588,75 +569,97 @@ public final class RefactoringUtil {
         return false;
     }
 
-    private static HashMap<Variant, List<Statement>> buildVariantStatementMap(VariationPoint variationPoint) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
-                .getLocation()).getJamoppElement();
-
-        HashMap<Variant, List<Statement>> variantStatements = new HashMap<Variant, List<Statement>>();
-
-        Set<VariationPoint> vpsWithSameLocation = getVPsWithSameLocation(variationPoint);
-
-        for (VariationPoint relatedVP : vpsWithSameLocation) {
-            Collection<Statement> nonVariableStatements = EcoreUtil.copyAll(getNonVariableStatements(variationPoint));
-            for (Variant variant : relatedVP.getVariants()) {
-                int posVariability = RefactoringUtil.getVariabilityPosition(vpLocation, variant);
-                List<Statement> statements;
-                if (!variantStatements.containsKey(variant)) {
-                    statements = new LinkedList<Statement>();
-                    Collection<Statement> copies = EcoreUtil.copyAll(nonVariableStatements);
-                    statements.addAll(copies);
-                    variantStatements.put(variant, statements);
-                } else {
-                    statements = variantStatements.get(variant);
-                }
-
-                Collection<Statement> variableStatements = EcoreUtil.copyAll(getImplementingElements(variant,
-                        Statement.class));
-                statements.addAll(posVariability, variableStatements);
-            }
-        }
-        return variantStatements;
-    }
-
-    private static List<Statement> getNonVariableStatements(VariationPoint variationPoint) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
-                .getLocation()).getJamoppElement();
-        Variant leading = null;
-
+    /**
+     * Checks whether a variation point's variants have constructor calls.
+     * 
+     * @param variationPoint
+     *            The {@link VariationPoint}.
+     * @return <code>true</code> if {@link ExplicitConstructorCall}s are contained;
+     *         <code>false</code> otherwise.
+     */
+    public static boolean hasConstructorCalls(VariationPoint variationPoint) {
         for (Variant variant : variationPoint.getVariants()) {
-            if (variant.getLeading()) {
-                leading = variant;
+            List<Statement> implementingElements = getImplementingElements(variant, Statement.class);
+            for (Statement statement : implementingElements) {
+                if (!(statement instanceof ExpressionStatement)) {
+                    continue;
+                }
+                Expression expression = ((ExpressionStatement) statement).getExpression();
+                if (expression instanceof ExplicitConstructorCall) {
+                    return true;
+                }
             }
         }
-
-        if (leading == null) {
-            return vpLocation.getStatements();
-        }
-
-        List<Statement> fixedStatements = new LinkedList<Statement>(vpLocation.getStatements());
-        fixedStatements.removeAll(getImplementingElements(leading, Statement.class));
-
-        return fixedStatements;
+        return false;
     }
 
-    private static TypeReference getReturnType(StatementListContainer vpLocation) {
-        ClassMethod method = findContainingUnitByType(vpLocation, ClassMethod.class);
-        if (method != null) {
-            return method.getTypeReference();
-        }
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> T findContainingUnitByType(EObject element, java.lang.Class<T> type) {
-        EObject container = element;
-        while (container != null) {
-            if (type.isAssignableFrom(container.getClass())) {
-                return ((T) container);
+    /**
+     * Checks whether a variation point's variants have an element of a certain type.
+     * 
+     * @param variationPoint
+     *            The {@link VariationPoint}.
+     * @param c
+     *            The type's {@link java.lang.Class}.
+     * @param <T>
+     *            The type.
+     * @return <code>true</code> a element was found; <code>false</code> otherwise.
+     */
+    public static <T> boolean hasImplementingElementsOfType(VariationPoint variationPoint, java.lang.Class<T> c) {
+        for (Variant variant : variationPoint.getVariants()) {
+            for (SoftwareElement se : variant.getImplementingElements()) {
+                Commentable commentable = ((JaMoPPSoftwareElement) se).getJamoppElement();
+                if (c.isAssignableFrom(commentable.getClass())) {
+                    return true;
+                }
+                TreeIterator<EObject> it = commentable.eAllContents();
+                while (it.hasNext()) {
+                    EObject eObject = it.next();
+                    if (c.isAssignableFrom(eObject.getClass())) {
+                        return true;
+                    }
+                }
             }
-            container = container.eContainer();
         }
-        return null;
+        return false;
+    }
+
+    private static Literal getDefaultValueForType(Variable variable) {
+        if (variable.getTypeReference() == null) {
+            return LiteralsFactory.eINSTANCE.createNullLiteral();
+        }
+
+        Type type = variable.getTypeReference().getTarget();
+        if (type instanceof org.emftext.language.java.types.Boolean) {
+            BooleanLiteral literal = LiteralsFactory.eINSTANCE.createBooleanLiteral();
+            literal.setValue(false);
+            return literal;
+        } else if (type instanceof org.emftext.language.java.types.Char) {
+            CharacterLiteral literal = LiteralsFactory.eINSTANCE.createCharacterLiteral();
+            literal.setValue(Character.MIN_VALUE);
+            return literal;
+        } else if (type instanceof org.emftext.language.java.types.Double) {
+            DecimalDoubleLiteral literal = LiteralsFactory.eINSTANCE.createDecimalDoubleLiteral();
+            literal.setDecimalValue(0);
+            return literal;
+        } else if (type instanceof org.emftext.language.java.types.Float) {
+            DecimalFloatLiteral literal = LiteralsFactory.eINSTANCE.createDecimalFloatLiteral();
+            literal.setDecimalValue(0);
+            return literal;
+        } else if (type instanceof org.emftext.language.java.types.Int) {
+            DecimalIntegerLiteral literal = LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();
+            literal.setDecimalValue(BigInteger.valueOf(0));
+            return literal;
+        } else if (type instanceof org.emftext.language.java.types.Long) {
+            DecimalLongLiteral literal = LiteralsFactory.eINSTANCE.createDecimalLongLiteral();
+            literal.setDecimalValue(BigInteger.valueOf(0));
+            return literal;
+        } else if (type instanceof org.emftext.language.java.types.Short) {
+            DecimalIntegerLiteral literal = LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral();
+            literal.setDecimalValue(BigInteger.valueOf(0));
+            return literal;
+        } else {
+            return LiteralsFactory.eINSTANCE.createNullLiteral();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -667,32 +670,6 @@ public final class RefactoringUtil {
             elements.add(element);
         }
         return elements;
-    }
-
-    private static Set<VariationPoint> getVPsWithSameLocation(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
-        StatementListContainer vpLocation = (StatementListContainer) jamoppElement;
-        Set<VariationPoint> relatedVPs = new HashSet<VariationPoint>();
-        VariationPointModel model = variationPoint.getGroup().getModel();
-        for (VariationPointGroup group : model.getVariationPointGroups()) {
-            for (VariationPoint vp : group.getVariationPoints()) {
-                Commentable currentVPElement = ((JaMoPPSoftwareElement) variationPoint.getLocation())
-                        .getJamoppElement();
-                if (currentVPElement == vpLocation) {
-                    relatedVPs.add(vp);
-                }
-            }
-        }
-        return relatedVPs;
-    }
-
-    private static Variant cloneVariant(Variant variant, VariationPoint parentVariationPoint) {
-        Variant newVariant = variabilityFactory.eINSTANCE.createVariant();
-        newVariant.setVariationPoint(parentVariationPoint);
-        newVariant.setId(variant.getId());
-        newVariant.setLeading(variant.getLeading());
-        newVariant.setChildFeature(variant.getChildFeature());
-        return newVariant;
     }
 
     private static LayoutInformation getFirstLayoutInformation(final Commentable commentable) {

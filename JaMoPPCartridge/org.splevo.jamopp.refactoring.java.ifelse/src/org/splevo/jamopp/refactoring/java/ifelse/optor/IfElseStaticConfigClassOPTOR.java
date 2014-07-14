@@ -3,6 +3,7 @@ package org.splevo.jamopp.refactoring.java.ifelse.optor;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -13,6 +14,8 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
 
+    private static Logger logger = Logger.getLogger(IfElseStaticConfigClassOPTOR.class);
+    
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR)";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassOPTOR";
 
@@ -48,6 +51,7 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             if (refactoring.canBeAppliedTo(vp)) {
                 refactoring.refactor(vp);
+                logger.info("Refactored with: " + refactoring.getVariabilityMechanism().getName());
             }
         }
     }
