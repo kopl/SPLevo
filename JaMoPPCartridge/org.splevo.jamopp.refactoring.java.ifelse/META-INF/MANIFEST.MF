@@ -9,5 +9,6 @@ Require-Bundle: org.splevo.refactoring,
  org.splevo.vpm,
  com.google.guava,
  org.apache.log4j,
- org.splevo.jamopp.util
+ org.splevo.jamopp.util,
+ org.splevo.jamopp.diffing
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

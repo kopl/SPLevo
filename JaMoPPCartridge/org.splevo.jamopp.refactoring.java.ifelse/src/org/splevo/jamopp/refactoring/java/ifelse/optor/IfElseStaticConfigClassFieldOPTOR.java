@@ -71,7 +71,7 @@ public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring
             int fieldPos = positionToField.get(field);
             vpLocation.getMembers().add(fieldPos, field);
 
-            RefactoringUtil.removeFinalAndAddCommentIfApplicable(field);
+            RefactoringUtil.removeFinalIfApplicable(field);
 
             if (initialValues.size() > 1 && hasDifferentValues(initialValues)) {
                 NullLiteral nullLiteral = LiteralsFactory.eINSTANCE.createNullLiteral();

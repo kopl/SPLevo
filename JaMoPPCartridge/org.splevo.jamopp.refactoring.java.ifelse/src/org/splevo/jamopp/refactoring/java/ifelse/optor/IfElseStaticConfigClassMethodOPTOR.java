@@ -1,6 +1,5 @@
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
-import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.Method;
@@ -36,7 +35,7 @@ public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactorin
 
     @Override
     public void refactor(VariationPoint vp) {
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
         for (Variant variant : vp.getVariants()) {
             if (variant.getLeading()) {

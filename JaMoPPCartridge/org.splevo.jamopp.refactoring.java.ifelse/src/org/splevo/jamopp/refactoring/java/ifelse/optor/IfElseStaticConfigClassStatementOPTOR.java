@@ -31,8 +31,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Statement";
-    private static final String REFACTORING_ID = 
-            "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassStatementOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassStatementOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -58,18 +57,14 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         }
 
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
-        int posBeforeFirstCond = Integer.MAX_VALUE;
         EList<Variant> variants = vp.getVariants();
 
-        for (Variant variant : variants) {
-            int indexBeginVariant = RefactoringUtil.getVariabilityPosition(vpLocation, variant);
+        int variabilityPosition = RefactoringUtil.getVariabilityPosition(vp);
+        int currentVariabilityPosition = variabilityPosition;
 
+        for (Variant variant : variants) {
             if (variant.getLeading()) {
                 RefactoringUtil.deleteVariableStatements(vp);
-            }
-
-            if (indexBeginVariant < posBeforeFirstCond) {
-                posBeforeFirstCond = indexBeginVariant;
             }
 
             Condition currentCondition = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant.getId(), vp
@@ -77,17 +72,13 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
             RefactoringUtil.fillIfBlockWithVariantElements(variant, currentCondition, localVariableStatements);
 
-            if (indexBeginVariant != -1) {
-                vpLocation.getStatements().add(indexBeginVariant, currentCondition);
-            } else {
-                vpLocation.getStatements().add(currentCondition);
-            }
+            vpLocation.getStatements().add(currentVariabilityPosition++, currentCondition);
         }
 
-        if (posBeforeFirstCond != -1) {
-            vpLocation.getStatements().addAll(posBeforeFirstCond, localVariableStatements.values());
-        } else {
-            vpLocation.getStatements().addAll(0, localVariableStatements.values());
+        for (String key : localVariableStatements.keySet()) {
+            if (!RefactoringUtil.hasVariableWithSameName(vpLocation, key)) {
+                vpLocation.getStatements().add(variabilityPosition++, localVariableStatements.get(key));
+            }
         }
     }
 

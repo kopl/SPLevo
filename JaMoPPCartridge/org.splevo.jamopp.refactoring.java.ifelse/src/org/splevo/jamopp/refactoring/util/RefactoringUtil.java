@@ -12,11 +12,14 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.commons.layout.LayoutInformation;
+import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.arrays.ArrayInitializationValue;
 import org.emftext.language.java.arrays.ArrayInitializer;
+import org.emftext.language.java.arrays.ArrayInstantiation;
 import org.emftext.language.java.arrays.ArrayInstantiationByValues;
 import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
 import org.emftext.language.java.arrays.ArraysFactory;
@@ -28,6 +31,7 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.instantiations.ExplicitConstructorCall;
 import org.emftext.language.java.literals.BooleanLiteral;
@@ -45,6 +49,7 @@ import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Final;
+import org.emftext.language.java.modifiers.Modifiable;
 import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.operators.OperatorsFactory;
 import org.emftext.language.java.references.IdentifierReference;
@@ -56,22 +61,25 @@ import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
-import org.emftext.language.java.types.TypesFactory;
 import org.emftext.language.java.variables.LocalVariable;
 import org.emftext.language.java.variables.Variable;
+import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.collect.Maps;
+
 /**
  * Provides utility methods for the refactorings.
  */
 public final class RefactoringUtil {
+
+    private static JaMoPPDiffer jaMoPPDiffer = new JaMoPPDiffer();
 
     private RefactoringUtil() {
     }
@@ -116,8 +124,7 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Calculates the position of the variable elements in the variation point's location for a
-     * variant.
+     * TODO
      * 
      * @param vpLocation
      *            The variation point's location.
@@ -125,43 +132,147 @@ public final class RefactoringUtil {
      *            The {@link Variant}.
      * @return The position. -1 if it could not be calculated.
      */
-    public static int getVariabilityPosition(StatementListContainer vpLocation, Variant variant) {
-        Statement firstImplElement = (Statement) ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0))
-                .getJamoppElement();
+    public static int getVariabilityPosition(VariationPoint variationPoint) {
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+                .getLocation()).getJamoppElement();
 
-        Statement prevElement = null;
-
-        int positionCurrElement = JaMoPPElementUtil.getPositionInContainer(firstImplElement);
-        if (variant.getLeading() || positionCurrElement == 0 || positionCurrElement == -1) {
-            return positionCurrElement;
+        // if the variation point has a leading variant, return its position in
+        // its parent container
+        for (Variant variant : variationPoint.getVariants()) {
+            if (variant.getLeading()) {
+                Statement firstLeadingImplElement = (Statement) ((JaMoPPSoftwareElement) variant
+                        .getImplementingElements().get(0)).getJamoppElement();
+                return JaMoPPElementUtil.getPositionInContainer(firstLeadingImplElement);
+            }
         }
 
-        int positionPrevElement = positionCurrElement - 1;
+        // get the first implementing element of the first variant and get its
+        // position in its parent container
+        Statement firstImplElement = (Statement) ((JaMoPPSoftwareElement) variationPoint.getVariants().get(0)
+                .getImplementingElements().get(0)).getJamoppElement();
+        StatementListContainer integrationContainer = (StatementListContainer) firstImplElement.eContainer();
+        int posFirstElementInIntegrationContainer = JaMoPPElementUtil.getPositionInContainer(firstImplElement);
 
-        do {
-            prevElement = ((StatementListContainer) firstImplElement.eContainer()).getStatements().get(
-                    positionPrevElement);
+        List<Statement> precedingElements = integrationContainer.getStatements().subList(0,
+                posFirstElementInIntegrationContainer);
 
-            for (int i = 0; i < vpLocation.getStatements().size(); i++) {
-                Statement statement = vpLocation.getStatements().get(i);
-                // current element equal?
-                if (EcoreUtil.equals(statement, prevElement)) {
-                    return i + 1;
-                }
+        if (precedingElements.size() == 0) {
+            return 0;
+        }
 
-                // search element in a variability-if
-                if (statement instanceof Condition && ((Condition) statement).getStatement() instanceof Block
-                        && ((Block) ((Condition) statement).getStatement()).getStatements().size() > 0) {
-                    Block block = (Block) ((Condition) statement).getStatement();
-                    Statement lastStatementPreviousIfBlock = block.getStatements()
-                            .get(block.getStatements().size() - 1);
-                    if (EcoreUtil.equals(lastStatementPreviousIfBlock, prevElement)) {
-                        return i + 1;
+        int pos = getEndPositionOfFirstGroupOccurence(vpLocation, precedingElements, integrationContainer);
+
+        if (pos == -1) {
+            // no occurences found - must be at beginning
+            return 0;
+        }
+
+        return pos + 1;
+    }
+
+    private static int getEndPositionOfFirstGroupOccurence(StatementListContainer vpLocation,
+            List<Statement> precedingElements, StatementListContainer integrationContainer) {
+        int currentIndexPreElements = 0;
+
+        HashMap<String, Expression> initialValuesToVarName = new HashMap<String, Expression>();
+        for (int i = 0; i < vpLocation.getStatements().size(); i++) {
+            Statement vpLocationStatement = vpLocation.getStatements().get(i);
+            Statement precedingElement = precedingElements.get(currentIndexPreElements);
+            
+            boolean statementsEqual = areEqual(vpLocationStatement, precedingElement);
+
+            if (statementsEqual) {
+                currentIndexPreElements++;
+            } else if (areLocalVariableStatementsWithSameName(vpLocationStatement, precedingElement)) {
+                LocalVariable variable = ((LocalVariableStatement) vpLocationStatement).getVariable();
+                initialValuesToVarName.put(variable.getName(), variable.getInitialValue());
+                continue;
+            } else if (vpLocationStatement instanceof Condition
+                    && ((Condition) vpLocationStatement).getStatement() instanceof Block) {
+                Block block = (Block) ((Condition) vpLocationStatement).getStatement();
+                boolean hadVariableElement = false;
+                for (Statement blockStatement : block.getStatements()) {
+                    if (currentIndexPreElements == precedingElements.size()) {
+                        return i;
+                    }
+                    if (areEqual(blockStatement, precedingElements.get(currentIndexPreElements))
+                            || isMatchingAssingment(initialValuesToVarName, blockStatement)) {
+                        currentIndexPreElements++;
+                        hadVariableElement = true;
                     }
                 }
+                if (!hadVariableElement) {
+                    currentIndexPreElements = 0;
+                    continue;
+                }
+            } else if (!containsEqualStatement(integrationContainer, vpLocationStatement)) {
+                continue;
+            } else {
+                currentIndexPreElements = 0;
+                continue;
             }
-        } while (--positionPrevElement >= 0);
-        return 0;
+
+            if (currentIndexPreElements == precedingElements.size()) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private static boolean isMatchingAssingment(HashMap<String, Expression> initialValuesToVarName, Statement currentEl) {
+        if (currentEl instanceof ExpressionStatement
+                && ((ExpressionStatement) currentEl).getExpression() instanceof AssignmentExpression
+                && ((AssignmentExpression) ((ExpressionStatement) currentEl).getExpression()).getChild() instanceof IdentifierReference
+                && ((IdentifierReference) ((AssignmentExpression) ((ExpressionStatement) currentEl).getExpression())
+                        .getChild()).getTarget() instanceof LocalVariableStatement) {
+            LocalVariableStatement localVarStat = (LocalVariableStatement) ((IdentifierReference) ((AssignmentExpression) ((ExpressionStatement) currentEl)
+                    .getExpression()).getChild()).getTarget();
+            Expression initialValue = initialValuesToVarName.get(localVarStat.getVariable().getName());
+            if (initialValue != null) {
+                if (EcoreUtil.equals(initialValue, localVarStat.getVariable().getInitialValue())) {
+                    initialValuesToVarName.remove(localVarStat.getVariable().getName());
+                    return true;
+                }
+                if (initialValue instanceof ArrayInstantiation) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean areLocalVariableStatementsWithSameName(Statement vpLocationStatement,
+            Statement precedingElement) {
+        return vpLocationStatement instanceof LocalVariableStatement
+                && precedingElement instanceof LocalVariableStatement
+                && ((LocalVariableStatement) vpLocationStatement).getVariable().getName()
+                        .equals(((LocalVariableStatement) precedingElement).getVariable().getName());
+    }
+
+    private static boolean containsEqualStatement(StatementListContainer container, Statement statement) {
+        for (Statement vpLocationStatement : container.getStatements()) {
+            boolean statementsEqual = areEqual(statement, vpLocationStatement);
+            if (statementsEqual) {
+                return true;
+            }
+            
+            if (vpLocationStatement instanceof Condition
+                    && ((Condition) vpLocationStatement).getStatement() instanceof Block) {
+                Block block = (Block) ((Condition) vpLocationStatement).getStatement();
+                if (containsEqualStatement(block, statement)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean areEqual(Statement s1, Statement s2) {
+        Map<String, String> settings = Maps.newHashMap();
+        Comparison diff = jaMoPPDiffer.doDiff(s1, s2, settings);
+        return diff.getDifferences().size() == 0;
     }
 
     /**
@@ -173,15 +284,11 @@ public final class RefactoringUtil {
      * @return The extracted assignment as {@link ExpressionStatement}.
      */
     public static ExpressionStatement extractAssignment(LocalVariable variable) {
-        removeFinalAndAddCommentIfApplicable(variable);
-
+        if (variable.getInitialValue() == null) {
+            return null;
+        }
         IdentifierReference varRef = ReferencesFactory.eINSTANCE.createIdentifierReference();
-        varRef.setTarget(variable);
-
-        NamespaceClassifierReference nsClassifierRef = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
-        nsClassifierRef.setTarget(variable.getContainingConcreteClassifier());
-        NamespaceClassifierReference nsClassifierRef1 = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
-        nsClassifierRef1.setTarget(variable.getContainingConcreteClassifier());
+        varRef.setTarget(EcoreUtil.copy(variable));
 
         AssignmentExpression assignmentExpression = ExpressionsFactory.eINSTANCE.createAssignmentExpression();
 
@@ -193,9 +300,10 @@ public final class RefactoringUtil {
             ArrayInitializer arrayInitializer = ArraysFactory.eINSTANCE.createArrayInitializer();
             arrayInitializer.getInitialValues().addAll(initialValues);
             arrayInstantiationByValuesTyped.setArrayInitializer(arrayInitializer);
-            arrayInstantiationByValuesTyped.setTypeReference(nsClassifierRef);
+            arrayInstantiationByValuesTyped.setTypeReference(EcoreUtil.copy(variable.getTypeReference()));
+            ArrayDimension arrayDimension = ArraysFactory.eINSTANCE.createArrayDimension();
+            arrayInstantiationByValuesTyped.getArrayDimensionsBefore().add(arrayDimension);
             assignmentExpression.setValue(arrayInstantiationByValuesTyped);
-            variable.setTypeReference(nsClassifierRef1);
         } else {
             assignmentExpression.setValue(variable.getInitialValue());
         }
@@ -206,10 +314,29 @@ public final class RefactoringUtil {
         ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
         expressionStatement.setExpression(assignmentExpression);
 
-        Literal defaultValue = getDefaultValueForType(variable);
+        Literal defaultValue = getDefaultValueForVariable(variable);
         variable.setInitialValue(defaultValue);
 
         return expressionStatement;
+    }
+
+    public static boolean replaceLocalVariableStatementWithExpressionStatement(LocalVariableStatement statement) {
+        ExpressionStatement extractedAssignment = extractAssignment(statement.getVariable());
+        StatementListContainer parentContainer = (StatementListContainer) statement.eContainer();
+
+        if (parentContainer == null) {
+            return false;
+        }
+
+        int pos = parentContainer.getStatements().indexOf(statement);
+
+        parentContainer.getStatements().remove(pos);
+
+        if (extractedAssignment != null) {
+            parentContainer.getStatements().add(pos, extractedAssignment);
+        }
+
+        return true;
     }
 
     /**
@@ -246,35 +373,96 @@ public final class RefactoringUtil {
     public static void fillIfBlockWithVariantElements(Variant variant, Condition currentCondition,
             Map<String, LocalVariableStatement> localVariableStatements) {
         for (SoftwareElement se : variant.getImplementingElements()) {
-            Statement statementCpy = EcoreUtil.copy((Statement) ((JaMoPPSoftwareElement) se).getJamoppElement());
-            if (statementCpy instanceof LocalVariableStatement) {
-                LocalVariableStatement localVariableStatement = (LocalVariableStatement) statementCpy;
-                LocalVariable variable = localVariableStatement.getVariable();
+            Statement statement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
+            Statement stmtCpy = EcoreUtil.copy(statement);
 
+            searchAndHandleLocalVariables(stmtCpy, localVariableStatements);
+            ensureInitialValueAndNonFinalVariableUsage(stmtCpy);
+
+            if (stmtCpy instanceof LocalVariableStatement) {
+                LocalVariableStatement localVarStat = (LocalVariableStatement) stmtCpy;
+                LocalVariable variable = localVarStat.getVariable();
+                removeFinalIfApplicable(variable);
+                stmtCpy = extractAssignment(variable);
+                variable.setInitialValue(getDefaultValueForVariable(variable));
                 if (!localVariableStatements.containsKey(variable.getName())) {
-                    localVariableStatements.put(variable.getName(), localVariableStatement);
+                    localVariableStatements.put(variable.getName(), localVarStat);
                 }
-
-                ExpressionStatement extractedAssignment = RefactoringUtil.extractAssignment(variable);
-                statementCpy = extractedAssignment;
-            }
-            // in case the variable is common among all variants and it has no initialization and it
-            // is assigned in variants, assign default value.
-            if (statementCpy instanceof ExpressionStatement
-                    && ((ExpressionStatement) statementCpy).getExpression() instanceof AssignmentExpression
-                    && ((AssignmentExpression) ((ExpressionStatement) statementCpy)
-                            .getExpression()).getChild() instanceof IdentifierReference
-                    && ((IdentifierReference) ((AssignmentExpression) ((ExpressionStatement) statementCpy)
-                            .getExpression()).getChild()).getTarget() instanceof LocalVariable) {
-                LocalVariable variable = (LocalVariable) ((IdentifierReference) ((AssignmentExpression) 
-                        ((ExpressionStatement) statementCpy).getExpression()).getChild()).getTarget();
-                if (variable.getInitialValue() == null) {
-                    variable.setInitialValue(getDefaultValueForType(variable));
-                }
-                removeFinalAndAddCommentIfApplicable(variable);
             }
 
-            ((Block) currentCondition.getStatement()).getStatements().add(statementCpy);
+            if (stmtCpy != null) {
+                ((Block) currentCondition.getStatement()).getStatements().add(stmtCpy);
+            }
+        }
+    }
+
+    private static LocalVariable getVariableIfIsChildOgAssignmentStatement(Statement stmtCpy) {
+        if (stmtCpy instanceof ExpressionStatement
+                && ((ExpressionStatement) stmtCpy).getExpression() instanceof AssignmentExpression
+                && ((AssignmentExpression) ((ExpressionStatement) stmtCpy).getExpression()).getChild() instanceof IdentifierReference
+                && ((IdentifierReference) ((AssignmentExpression) ((ExpressionStatement) stmtCpy).getExpression())
+                        .getChild()).getTarget() instanceof LocalVariable) {
+            LocalVariable variable = (LocalVariable) ((IdentifierReference) ((AssignmentExpression) ((ExpressionStatement) stmtCpy)
+                    .getExpression()).getChild()).getTarget();
+            return variable;
+        }
+        return null;
+    }
+
+    private static void ensureInitialValueAndNonFinalVariableUsage(Statement stmtCpy) {
+        LocalVariable variable = getVariableIfIsChildOgAssignmentStatement(stmtCpy);
+        if (variable == null) {
+            return;
+        }
+
+        if (variable.getInitialValue() == null) {
+            variable.setInitialValue(getDefaultValueForVariable(variable));
+        }
+        removeFinalIfApplicable(variable);
+
+        TreeIterator<Object> contents = EcoreUtil.getAllContents(stmtCpy.eContents());
+        while (contents.hasNext()) {
+            Object next = contents.next();
+            if (!(next instanceof Statement)) {
+                continue;
+            }
+            LocalVariable referencedVariable = getVariableIfIsChildOgAssignmentStatement((Statement) next);
+            if (referencedVariable == null) {
+                continue;
+            }
+            if (referencedVariable.getInitialValue() == null) {
+                referencedVariable.setInitialValue(getDefaultValueForVariable(variable));
+            }
+            removeFinalIfApplicable(referencedVariable);
+        }
+    }
+
+    private static void searchAndHandleLocalVariables(Statement statement,
+            Map<String, LocalVariableStatement> localVariableStatements) {
+        TreeIterator<Object> allContents = EcoreUtil.getAllContents(statement.eContents(), true);
+        while (allContents.hasNext()) {
+            Object next = allContents.next();
+            if (next instanceof LocalVariableStatement) {
+                handleLocalVariable(localVariableStatements, (LocalVariableStatement) next);
+            }
+        }
+    }
+
+    private static void handleLocalVariable(Map<String, LocalVariableStatement> localVariableStatements,
+            LocalVariableStatement localVariableStatement) {
+        LocalVariableStatement localVarStat = (LocalVariableStatement) localVariableStatement;
+        LocalVariable variable = localVarStat.getVariable();
+
+        replaceLocalVariableStatementWithExpressionStatement(localVarStat);
+
+        removeFinalIfApplicable(variable);
+
+        variable.setInitialValue(getDefaultValueForVariable(variable));
+
+        String varName = variable.getName();
+
+        if (!localVariableStatements.containsKey(varName)) {
+            localVariableStatements.put(varName, localVarStat);
         }
     }
 
@@ -347,12 +535,10 @@ public final class RefactoringUtil {
      * @param modifieable
      *            The {@link Modifiable} element.
      */
-    public static void removeFinalAndAddCommentIfApplicable(AnnotableAndModifiable modifieable) {
+    public static void removeFinalIfApplicable(AnnotableAndModifiable modifieable) {
         for (Modifier modifier : modifieable.getModifiers()) {
             if (modifier instanceof Final) {
                 modifieable.removeModifier(Final.class);
-                RefactoringUtil
-                        .addCommentBefore(modifieable, "FIXME: Removed final modifier to introduce variability.");
                 break;
             }
         }
@@ -379,14 +565,14 @@ public final class RefactoringUtil {
     /**
      * Checks whether a class has a method with the same name and equal parameters.
      * 
-     * @param c
+     * @param memberContainer
      *            The {@link Class}.
      * @param method
      *            The {@link Method} to compare with.
      * @return <code>true</code> if such a method is found; <code>false</code> otherwise.
      */
-    public static boolean hasMethodWithEqualParameters(Class c, Method method) {
-        for (Method vpMethod : c.getMethods()) {
+    public static boolean hasMethodWithEqualParameters(MemberContainer memberContainer, Method method) {
+        for (Method vpMethod : memberContainer.getMethods()) {
             if (method.getName().equals(vpMethod.getName())
                     && EcoreUtil.equals(method.getParameters(), vpMethod.getParameters())) {
                 return true;
@@ -623,7 +809,7 @@ public final class RefactoringUtil {
         return false;
     }
 
-    private static Literal getDefaultValueForType(Variable variable) {
+    private static Literal getDefaultValueForVariable(Variable variable) {
         if (variable.getTypeReference() == null) {
             return LiteralsFactory.eINSTANCE.createNullLiteral();
         }
@@ -708,5 +894,20 @@ public final class RefactoringUtil {
         });
 
         return layoutInfos;
+    }
+
+    public static boolean hasVariableWithSameName(StatementListContainer vpLocation, String key) {
+        for (Statement statement : vpLocation.getStatements()) {
+            if (!(statement instanceof LocalVariableStatement)) {
+                continue;
+            }
+
+            boolean hasEqualName = ((LocalVariableStatement) statement).getVariable().getName().equals(key);
+
+            if (hasEqualName) {
+                return true;
+            }
+        }
+        return false;
     }
 }
