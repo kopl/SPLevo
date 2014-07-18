@@ -75,6 +75,46 @@ public class JaMoPPElementComparisonTest {
         assertThat(diff, instanceOf(StatementChange.class));
     }
 
+//    @Test
+//    public void testDoDiff1() throws Exception {
+//        
+//        TestUtil.setUp();
+//        ResourceSet setA = TestUtil.extractModel(BASE_PATH + "c");
+//        ResourceSet setB = TestUtil.extractModel(BASE_PATH + "d");
+//        
+//        ClassMethod methodA = searchMethodElement(setA);
+//        ClassMethod methodB = searchMethodElement(setB);
+//        
+//        // START: simulate refactoring
+//        Statement statement = methodB.getStatements().get(0);
+//        Condition currentCondition = StatementsFactory.eINSTANCE.createCondition();
+//        BooleanLiteral booleanLiteral = LiteralsFactory.eINSTANCE.createBooleanLiteral();
+//        booleanLiteral.setValue(true);
+//        currentCondition.setCondition(booleanLiteral);
+//        Block currentBlock = StatementsFactory.eINSTANCE.createBlock();
+//        currentCondition.setStatement(currentBlock);
+//        methodB.getStatements().remove(statement);
+//        currentBlock.getStatements().add(statement);
+//        // STOP: simulate refactoring
+//        
+//        JaMoPPDiffer differ = new JaMoPPDiffer();
+//        
+//        Map<String, String> diffOptions = Maps.newHashMap();
+//        Comparison comparison = differ.doDiff(methodA, methodB, diffOptions);
+//        
+//        EList<Diff> differences = comparison.getDifferences();
+//        for (Diff diffElement : differences) {
+//            logger.debug(diffElement.getClass().getSimpleName());
+//            if (diffElement instanceof StatementChange) {
+//                StatementChange change = (StatementChange) diffElement;
+//                logger.debug(TestUtil.printDiff(change));
+//            }
+//        }
+//        assertThat("Exactly one change should exist", differences.size(), is(1));
+//        Diff diff = differences.get(0);
+//        assertThat(diff, instanceOf(StatementChange.class));
+//    }
+
     /**
      * Get a {@link ClassMethod} element out of a resource set assuming there is only one resource in the set
      * containing exactly one method.
