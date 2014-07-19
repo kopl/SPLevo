@@ -24,14 +24,8 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.emftext.language.java.literals.BooleanLiteral;
-import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.members.ClassMethod;
-import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.StatementsFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
@@ -90,31 +84,18 @@ public class JaMoPPElementComparisonTest {
     @Test
     public void testNotMatchingStatements() throws Exception {
 
-        TestUtil.setUp();
         ResourceSet setA = TestUtil.extractModel(BASE_PATH + "NotMatchingStatements/a");
         ResourceSet setB = TestUtil.extractModel(BASE_PATH + "NotMatchingStatements/b");
 
         ClassMethod methodA = searchMethodElement(setA);
         ClassMethod methodB = searchMethodElement(setB);
-
-        // Wrap a copy of the statement from method b into a condition and add it to then end of
-        // method a
-        Statement statement = methodB.getStatements().get(0);
-        Condition currentCondition = StatementsFactory.eINSTANCE.createCondition();
-        BooleanLiteral booleanLiteral = LiteralsFactory.eINSTANCE.createBooleanLiteral();
-        booleanLiteral.setValue(true);
-        currentCondition.setCondition(booleanLiteral);
-        Block currentBlock = StatementsFactory.eINSTANCE.createBlock();
-        currentCondition.setStatement(currentBlock);
-        currentBlock.getStatements().add(EcoreUtil.copy(statement));
-        EList<Statement> statements = methodA.getStatements();
-        statements.add(currentCondition);
-
-        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Statement statementA = methodA.getStatements().get(0);
+        Statement statementB = methodB.getStatements().get(0);
 
         // here we match a expression statement with a condition which should result in diffs
+        JaMoPPDiffer differ = new JaMoPPDiffer();
         Map<String, String> diffOptions = Maps.newHashMap();
-        Comparison comparison = differ.doDiff(statements.get(0), statements.get(1), diffOptions);
+        Comparison comparison = differ.doDiff(statementA, statementB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
         assertThat("Exactly two changes should exist", differences.size(), is(2));

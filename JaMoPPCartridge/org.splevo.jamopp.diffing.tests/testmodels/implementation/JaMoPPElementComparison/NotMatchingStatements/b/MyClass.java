@@ -1,7 +1,9 @@
 public class MyClass {
 
     public void doSth() {
-        System.out.println(1);
+        if(true) {
+            System.out.println(1);
+        }
     }
 
 }
