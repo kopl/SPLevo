@@ -81,7 +81,7 @@ public class ClassDeclarationTest {
 
         EList<Diff> differences = comparison.getDifferences();
         for (Diff diffElement : differences) {
-            logger.debug(diffElement.getClass().getSimpleName());
+            logger.debug(diffElement.getKind() + " | " + diffElement.getClass().getSimpleName() + " | " + diffElement.getMatch().getLeft());
             // logger.debug(TestUtil.printDiff(diffElement));
         }
 

@@ -17,7 +17,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.compare.Comparison;
@@ -33,6 +32,7 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
@@ -45,21 +45,26 @@ public class JaMoPPElementComparisonTest {
 
     private static final String BASE_PATH = "testmodels/implementation/JaMoPPElementComparison/";
 
-    /** The logger for this class. */
-    private Logger logger = Logger.getLogger(JaMoPPElementComparisonTest.class);
+    /**
+     * Initialize the required test infrastructure.
+     */
+    @BeforeClass
+    public static void setUp() {
+        TestUtil.setUp();
+    }
 
     /**
      * Test method to detect changes in the class and package declarations.
-     * 
+     *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testDoDiff() throws Exception {
+    public void testMethodsWithChangedBody() throws Exception {
 
         TestUtil.setUp();
-        ResourceSet setA = TestUtil.extractModel(BASE_PATH + "a");
-        ResourceSet setB = TestUtil.extractModel(BASE_PATH + "b");
+        ResourceSet setA = TestUtil.extractModel(BASE_PATH + "MethodsWithChangedBody/a");
+        ResourceSet setB = TestUtil.extractModel(BASE_PATH + "MethodsWithChangedBody/b");
 
         ClassMethod methodA = searchMethodElement(setA);
         ClassMethod methodB = searchMethodElement(setB);
@@ -70,13 +75,6 @@ public class JaMoPPElementComparisonTest {
         Comparison comparison = differ.doDiff(methodA, methodB, diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
-        for (Diff diffElement : differences) {
-            logger.debug(diffElement.getClass().getSimpleName());
-            if (diffElement instanceof StatementChange) {
-                StatementChange change = (StatementChange) diffElement;
-                logger.debug(TestUtil.printDiff(change));
-            }
-        }
         assertThat("Exactly one change should exist", differences.size(), is(1));
         Diff diff = differences.get(0);
         assertThat(diff, instanceOf(StatementChange.class));
@@ -85,16 +83,16 @@ public class JaMoPPElementComparisonTest {
     /**
      * Tests whether the differ finds differences of two different statements in case the model of
      * one statement was artificially modified.
-     * 
+     *
      * @throws Exception
      *             Identifies a failed diffing.
      */
     @Test
-    public void testDoDiff1() throws Exception {
+    public void testNotMatchingStatements() throws Exception {
 
         TestUtil.setUp();
-        ResourceSet setA = TestUtil.extractModel(BASE_PATH + "c");
-        ResourceSet setB = TestUtil.extractModel(BASE_PATH + "d");
+        ResourceSet setA = TestUtil.extractModel(BASE_PATH + "NotMatchingStatements/a");
+        ResourceSet setB = TestUtil.extractModel(BASE_PATH + "NotMatchingStatements/b");
 
         ClassMethod methodA = searchMethodElement(setA);
         ClassMethod methodB = searchMethodElement(setB);
@@ -109,23 +107,16 @@ public class JaMoPPElementComparisonTest {
         Block currentBlock = StatementsFactory.eINSTANCE.createBlock();
         currentCondition.setStatement(currentBlock);
         currentBlock.getStatements().add(EcoreUtil.copy(statement));
-        methodA.getStatements().add(currentCondition);
+        EList<Statement> statements = methodA.getStatements();
+        statements.add(currentCondition);
 
         JaMoPPDiffer differ = new JaMoPPDiffer();
 
-        // here we match a expressionstatement with a condition which should result in diffs
+        // here we match a expression statement with a condition which should result in diffs
         Map<String, String> diffOptions = Maps.newHashMap();
-        Comparison comparison = differ.doDiff(methodA.getStatements().get(0), methodA.getStatements().get(1),
-                diffOptions);
+        Comparison comparison = differ.doDiff(statements.get(0), statements.get(1), diffOptions);
 
         EList<Diff> differences = comparison.getDifferences();
-        for (Diff diffElement : differences) {
-            logger.debug(diffElement.getClass().getSimpleName());
-            if (diffElement instanceof StatementChange) {
-                StatementChange change = (StatementChange) diffElement;
-                logger.debug(TestUtil.printDiff(change));
-            }
-        }
         assertThat("Exactly two changes should exist", differences.size(), is(2));
         Diff diff1 = differences.get(0);
         assertThat(diff1, instanceOf(StatementChange.class));
@@ -136,7 +127,7 @@ public class JaMoPPElementComparisonTest {
     /**
      * Get a {@link ClassMethod} element out of a resource set assuming there is only one resource
      * in the set containing exactly one method.
-     * 
+     *
      * @param resourceSet
      *            The set to search in.
      * @return The first method found.
