@@ -99,7 +99,7 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
             projectConfiguration.setWorkspace(project.getName() + "/");
             projectConfiguration.setName(project.getName());
 
-            packageScopeDefinitionWizardPage.setChosenPackages();
+           // packageScopeDefinitionWizardPage.setChosenPackages();
 
             try {
                 SPLevoProjectUtil.save(projectConfiguration, filePath);
@@ -109,7 +109,7 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
                 IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                 page.openEditor(inputFile, SPLevoProjectEditor.ID);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Failed to save SPLevo project configuration file", e);
             }
 
             addNature(project);
