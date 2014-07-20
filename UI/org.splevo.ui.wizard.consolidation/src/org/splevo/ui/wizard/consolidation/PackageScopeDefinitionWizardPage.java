@@ -25,24 +25,17 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.ui.ISharedImages;
-import org.eclipse.jdt.ui.JavaUI;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
-import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.wizard.consolidation.provider.PackageLabelProvider;
 
 /**
  * Third page of the New Consolidation Project Wizard in which java packages to be ignored have to
@@ -53,10 +46,8 @@ import org.splevo.project.SPLevoProject;
 public class PackageScopeDefinitionWizardPage extends WizardPage {
 
     private SPLevoProject projectConfiguration;
-
-    private TableViewer packagesTableViewer;
-    private Table packagesTable;
-
+    private CheckboxTreeViewer packagesTreeViewer;    
+ 
     /**
      * Constructor preparing the wizard page infrastructure.
      * 
@@ -82,42 +73,8 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         Label label = new Label(container, SWT.NONE);
         label.setText("Select java packages to be ignored:");
 
-        packagesTable = createPackagesTableViewer(container).getTable();
-        packagesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        packagesTable.addListener(SWT.Selection, new Listener() {
+        packagesTreeViewer = createPackagesTreeViewer(container);
 
-            @Override
-            public void handleEvent(Event event) {
-                if (event.item instanceof TableItem) {
-                    TableItem tableItem = (TableItem) event.item;
-                    for (TableItem packageTableItem : findPackagesInTable(getSubPackages(
-                            tableItem.getText()))) {                       
-                        if (tableItem.getChecked()) {                             
-                            tableItem.setChecked(true);                          
-                            packageTableItem.setChecked(true);                           
-                        } else if (!tableItem.getChecked()) {                             
-                            tableItem.setChecked(false);
-                            tableItem.setGrayed(false);
-                            packageTableItem.setChecked(false);                                                        
-                        }
-                    }
-                    
-                    for (TableItem parentPackageTableItem : findPackagesInTable(getParentPackages(tableItem.getText()))) {
-                        List<TableItem> subPackagesTableItems = findPackagesInTable(getSubPackages(
-                                parentPackageTableItem.getText()));                        
-                        if (getCountOfCheckedItems(subPackagesTableItems) == subPackagesTableItems.size()) {
-                            parentPackageTableItem.setChecked(true);                            
-                        } else if (getCountOfCheckedItems(subPackagesTableItems) > 0) {                         
-                            parentPackageTableItem.setChecked(true);
-                            parentPackageTableItem.setGrayed(true);
-                        } else {                           
-                            parentPackageTableItem.setChecked(false);
-                            parentPackageTableItem.setGrayed(false);
-                        }
-                    }
-                }
-            }
-        });
         setControl(container);
     }
 
@@ -125,75 +82,27 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     public void setVisible(boolean visible) {
         super.setVisible(visible);
 
-        if (visible) {
-            packagesTableViewer.setInput(getJavaPackages()); 
+        if (visible) {            
+           packagesTreeViewer.setInput(getRootpackages()); 
         }
-    }
+    }        
 
     /**
-     * Create a table viewer with check box elements.
+     * Create a check box tree viewer for the packages.
      * 
      * @param container
-     *            Container in which the table viewer will be created.
-     * @return The created table viewer.
+     *            Container in which the tree viewer will be created.
+     * @return The created tree viewer.
      */
-    private TableViewer createPackagesTableViewer(Composite container) {
-        packagesTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
-        packagesTableViewer.setLabelProvider(new ColumnLabelProvider() {
+    private CheckboxTreeViewer createPackagesTreeViewer(Composite container) {
+        packagesTreeViewer = new CheckboxTreeViewer(container); 
+        packagesTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        packagesTreeViewer.setLabelProvider(new PackageLabelProvider());
+        packagesTreeViewer.setContentProvider(new PackagesTreeContentProvider());        
 
-            @Override
-            public String getText(Object element) {
-                if (element instanceof IPackageFragment) {
-                    return ((IPackageFragment) element).getElementName();
-                }
-                return null;
-            }
-
-            @Override
-            public Image getImage(Object element) {
-                return JavaUI.getSharedImages().getImage(ISharedImages.IMG_OBJS_PACKAGE);
-            }
-        });
-        packagesTableViewer.setContentProvider(ArrayContentProvider.getInstance());        
-
-        return packagesTableViewer;
+        return packagesTreeViewer;
     }
     
-    /**
-     * Set the chosen packages to the SPLevo project configuration.
-     */
-    public void setChosenPackages() {
-        List<String> chosenPackages = getChosenPackages();
-        
-        String packagesString = "";
-        
-        if (chosenPackages.size() > 0) {
-            for (String chosenPackage : chosenPackages) {
-                packagesString = packagesString.concat(chosenPackage + "\n");
-            }  
-            projectConfiguration.getDifferOptions().put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, 
-                    packagesString.trim());
-        }
-    }
-
-    /**
-     * Get the names of the packages the user has chosen.
-     * 
-     * @return List with the names of the chosen packages or a empty list if the user has not chosen
-     *         any packages.
-     */
-    private List<String> getChosenPackages() {
-        TableItem[] allPackages = packagesTable.getItems();
-        List<String> chosenPackagesNames = new ArrayList<String>();
-
-        for (TableItem javaPackage : allPackages) {
-            if (javaPackage.getChecked() && !javaPackage.getGrayed()) {
-                chosenPackagesNames.add(javaPackage.getText());
-            }                        
-        }
-        return chosenPackagesNames;
-    }
-
     /**
      * Get all java packages which are in the class path of the chosen projects without duplicates
      * and ordered by name.
@@ -226,7 +135,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     }
 
     /**
-     * Get all chosen projects on previous page.
+     * Get all chosen projects the user has chosen on the previous page.
      * 
      * @return List with all chosen projects.
      */
@@ -274,93 +183,69 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     }
     
     /**
-     * Get all sub packages of the given package specified by name.
-     * 
-     * @param packageName Name of the package.
-     * @return All sub packages of the given package.
+     * Get all root packages which have to be shown in the tree.
+     *  
+     * @return Array with all root packages.
      */
-    private List<IPackageFragment> getSubPackages(String packageName) {        
+    private IPackageFragment[] getRootpackages() {
+        List<IPackageFragment> rootPackages = new ArrayList<IPackageFragment>();
+        
+        for (IPackageFragment javaPackage : getJavaPackages()) {
+            if (getParentPackage(javaPackage) == null) {
+                rootPackages.add(javaPackage);
+            } 
+        } 
+        
+        return rootPackages.toArray(new IPackageFragment[rootPackages.size()]);
+    }
+    
+    /**
+     * Get all sub packages of the given package .
+     * 
+     * @param parentPackage
+     *            The package whose sub packages have to be found.
+     * @return Array with all sub packages of the given package or null if there are no sub
+     *         packages.
+     */
+    private IPackageFragment[] getSubPackages(IPackageFragment parentPackage) {        
         List<IPackageFragment> subPackages = new ArrayList<IPackageFragment>();
         
         for (IPackageFragment javaPackage : getJavaPackages()) {
-            if (javaPackage.getElementName().startsWith(packageName) 
-                    && !javaPackage.getElementName().equals(packageName)) {
+            if (javaPackage.getElementName().startsWith(parentPackage.getElementName()) 
+                    && !javaPackage.getElementName().equals(parentPackage.getElementName())) {
                 subPackages.add(javaPackage);
             } 
-        }                
-        return subPackages;
+        } 
+        
+        if (subPackages.size() > 0) {
+            return subPackages.toArray(new IPackageFragment[subPackages.size()]);
+        }
+        
+        return null;        
     }
     
     /**
-     * Get all parent packages of the given package specified by name, ordered by name descending.
+     * Get the parent package of the given package.
      * 
-     * @param packageName Name of the package.
-     * @return All parent packages of the given package.
+     * @param childPackage
+     *            The package whose parent is to be found.
+     * @return The parent package of the given package or null there is no parent package.
      */
-    private List<IPackageFragment> getParentPackages(String packageName) {
-        List<IPackageFragment> parentPackages = new ArrayList<IPackageFragment>();
-        
-        String[] split = packageName.split("\\.");        
-        
-        for (IPackageFragment javaPackage : getJavaPackages()) {
-            String parentName = "";
-            for (int  i = 0; i < split.length - 1; i++) {                  
-                if (i == 0) {
-                    parentName = parentName.concat(split[i]);
-                } else {
-                    parentName = parentName.concat("." + split[i]);
-                }                                        
-                if (javaPackage.getElementName().equals(parentName)) {
-                    parentPackages.add(javaPackage);
+    private IPackageFragment getParentPackage(IPackageFragment childPackage) {
+        String childPackageName = childPackage.getElementName();
+        if (childPackageName.contains(".")) {
+            String parentPackageName = childPackageName.substring(0, childPackageName.lastIndexOf("."));            
+            for (IPackageFragment javaPackage : getJavaPackages()) {
+                if (javaPackage.getElementName().equals(parentPackageName)) {
+                    return javaPackage;                
                 }
-            }
-        }
-        
-        Collections.sort(parentPackages, Collections.reverseOrder(new PackagesComparator()));
-        
-        return parentPackages;
+            }     
+        }                           
+        return null;
     }
-    
+
     /**
-     * Find the given packages in the table.
-     * 
-     * @param packages List with packages which has to be found.
-     * @return The found packages as table items.
-     */
-    private List<TableItem> findPackagesInTable(List<IPackageFragment> packages) {
-        List<TableItem> packagesAsTableItems = new ArrayList<TableItem>();
-        
-        for (IPackageFragment packageFragment : packages) {            
-            for (TableItem javaPackage : packagesTable.getItems()) {
-                if (packageFragment.getElementName().equals(javaPackage.getText())) {
-                    packagesAsTableItems.add(javaPackage);
-                    break;
-                }
-            }
-        }
-        return packagesAsTableItems;
-    }
-    
-    /**
-     * Get the count of the checked items.
-     * 
-     * @param tableItems The table items.
-     * @return Count of the checked table items.
-     */
-    private int getCountOfCheckedItems(List<TableItem> tableItems) {
-        List<TableItem> chechedItems = new ArrayList<TableItem>();
-        
-        for (TableItem tableItem : tableItems) {
-            if (tableItem.getChecked()) {
-                chechedItems.add(tableItem);
-            }
-        }
-        
-        return chechedItems.size();
-    }
-    
-    /**
-     * Comparator which compares the names of packages.
+     * Comparator which compares the names of two packages.
      */
     private class PackagesComparator implements Comparator<IPackageFragment> {
 
@@ -368,5 +253,60 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         public int compare(IPackageFragment packageFragment1, IPackageFragment packageFragment2) {
             return packageFragment1.getElementName().compareTo(packageFragment2.getElementName());
         }   
+    }
+    
+    /**
+     *Content provider for the packages tree viewer.
+     */
+    private class PackagesTreeContentProvider implements ITreeContentProvider {
+
+        @Override
+        public void dispose() {            
+        }
+
+        @Override
+        public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {           
+        }
+
+        @Override
+        public Object[] getElements(Object inputElement) {
+            if (inputElement instanceof IPackageFragment[]) {
+                return (IPackageFragment[]) inputElement;
+            }
+            return new Object[0];                            
+            }        
+
+        @Override
+        public Object[] getChildren(Object parentElement) {
+            if (parentElement instanceof IPackageFragment) {
+                IPackageFragment[] subPackages = getSubPackages((IPackageFragment) parentElement);
+                
+                if (subPackages != null) {
+                    return subPackages;
+                }
+                return new Object[0];
+            }            
+            return new Object[0];
+        }
+
+        @Override
+        public Object getParent(Object element) {
+            if (element instanceof IPackageFragment) {
+                IPackageFragment parentPackage = getParentPackage((IPackageFragment) element);
+                if (parentPackage != null) {
+                    return parentPackage;
+                }
+                return new Object[0];
+            }            
+            return new Object[0];
+        }
+
+        @Override
+        public boolean hasChildren(Object element) {
+            if (element instanceof IPackageFragment) {                
+                return getSubPackages((IPackageFragment) element) != null;
+            }            
+            return false;           
+        }        
     }
 }
