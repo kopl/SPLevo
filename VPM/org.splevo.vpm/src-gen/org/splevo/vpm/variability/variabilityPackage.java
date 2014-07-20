@@ -167,22 +167,22 @@ public interface variabilityPackage extends EPackage {
     int VARIANT__IMPLEMENTING_ELEMENTS = 1;
 
     /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIANT__ID = 2;
+
+    /**
      * The feature id for the '<em><b>Leading</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIANT__LEADING = 2;
-
-    /**
-     * The feature id for the '<em><b>Variant Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int VARIANT__VARIANT_ID = 3;
+    int VARIANT__LEADING = 3;
 
     /**
      * The feature id for the '<em><b>Variation Point</b></em>' container reference.
@@ -259,13 +259,13 @@ public interface variabilityPackage extends EPackage {
     int VARIATION_POINT_GROUP__VARIATION_POINTS = 0;
 
     /**
-     * The feature id for the '<em><b>Group Id</b></em>' attribute.
+     * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_GROUP__GROUP_ID = 1;
+    int VARIATION_POINT_GROUP__ID = 1;
 
     /**
      * The feature id for the '<em><b>Model</b></em>' container reference.
@@ -455,15 +455,15 @@ public interface variabilityPackage extends EPackage {
     EAttribute getVariant_Leading();
 
     /**
-     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.Variant#getVariantId <em>Variant Id</em>}'.
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.Variant#getId <em>Id</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Variant Id</em>'.
-     * @see org.splevo.vpm.variability.Variant#getVariantId()
+     * @return the meta object for the attribute '<em>Id</em>'.
+     * @see org.splevo.vpm.variability.Variant#getId()
      * @see #getVariant()
      * @generated
      */
-    EAttribute getVariant_VariantId();
+    EAttribute getVariant_Id();
 
     /**
      * Returns the meta object for the container reference '{@link org.splevo.vpm.variability.Variant#getVariationPoint <em>Variation Point</em>}'.
@@ -530,15 +530,15 @@ public interface variabilityPackage extends EPackage {
     EReference getVariationPointGroup_VariationPoints();
 
     /**
-     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.VariationPointGroup#getGroupId <em>Group Id</em>}'.
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.VariationPointGroup#getId <em>Id</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Group Id</em>'.
-     * @see org.splevo.vpm.variability.VariationPointGroup#getGroupId()
+     * @return the meta object for the attribute '<em>Id</em>'.
+     * @see org.splevo.vpm.variability.VariationPointGroup#getId()
      * @see #getVariationPointGroup()
      * @generated
      */
-    EAttribute getVariationPointGroup_GroupId();
+    EAttribute getVariationPointGroup_Id();
 
     /**
      * Returns the meta object for the container reference '{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}'.
@@ -715,12 +715,12 @@ public interface variabilityPackage extends EPackage {
         EAttribute VARIANT__LEADING = eINSTANCE.getVariant_Leading();
 
         /**
-         * The meta object literal for the '<em><b>Variant Id</b></em>' attribute feature.
+         * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EAttribute VARIANT__VARIANT_ID = eINSTANCE.getVariant_VariantId();
+        EAttribute VARIANT__ID = eINSTANCE.getVariant_Id();
 
         /**
          * The meta object literal for the '<em><b>Variation Point</b></em>' container reference feature.
@@ -776,12 +776,12 @@ public interface variabilityPackage extends EPackage {
         EReference VARIATION_POINT_GROUP__VARIATION_POINTS = eINSTANCE.getVariationPointGroup_VariationPoints();
 
         /**
-         * The meta object literal for the '<em><b>Group Id</b></em>' attribute feature.
+         * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
          */
-        EAttribute VARIATION_POINT_GROUP__GROUP_ID = eINSTANCE.getVariationPointGroup_GroupId();
+        EAttribute VARIATION_POINT_GROUP__ID = eINSTANCE.getVariationPointGroup_Id();
 
         /**
          * The meta object literal for the '<em><b>Model</b></em>' container reference feature.

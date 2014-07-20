@@ -22,13 +22,14 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.diff.DefaultDiffEngine;
 import org.eclipse.emf.compare.diff.FeatureFilter;
 import org.eclipse.emf.compare.diff.IDiffEngine;
-import org.eclipse.emf.compare.diff.IDiffProcessor;
 import org.eclipse.emf.compare.match.DefaultMatchEngine;
 import org.eclipse.emf.compare.match.IMatchEngine;
 import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
@@ -224,8 +225,8 @@ public class JaMoPPDiffer implements Differ {
     /**
      * Diffing JaMoPP elements directly.<br>
      *
-     * Note: This method does not take any differ specific configurations (e.g. ignore packages) into
-     * account.
+     * Note: This method does not take any differ specific configurations (e.g. ignore packages)
+     * into account.
      *
      * {@inheritDoc}
      *
@@ -347,11 +348,27 @@ public class JaMoPPDiffer implements Differ {
      * @return The ready-to-use diff engine.
      */
     private IDiffEngine initDiffEngine(final PackageIgnoreChecker packageIgnoreChecker) {
-        IDiffProcessor diffProcessor = new JaMoPPDiffBuilder(packageIgnoreChecker);
+        final JaMoPPDiffBuilder diffProcessor = new JaMoPPDiffBuilder(packageIgnoreChecker);
         IDiffEngine diffEngine = new DefaultDiffEngine(diffProcessor) {
             @Override
             protected FeatureFilter createFeatureFilter() {
                 return new JaMoPPFeatureFilter(packageIgnoreChecker);
+            }
+
+            @Override
+            public void diff(Comparison comparison, Monitor monitor) {
+                for (Match rootMatch : comparison.getMatches()) {
+                    if (isSingleSideRootMatch(rootMatch)) {
+                        diffProcessor.createRootDiff(rootMatch);
+                    } else {
+                        checkForDifferences(rootMatch, monitor);
+                    }
+                }
+            }
+
+            private boolean isSingleSideRootMatch(Match rootMatch) {
+                return rootMatch.getSubmatches().size() == 0
+                        && (rootMatch.getLeft() == null || rootMatch.getRight() == null);
             }
         };
         return diffEngine;

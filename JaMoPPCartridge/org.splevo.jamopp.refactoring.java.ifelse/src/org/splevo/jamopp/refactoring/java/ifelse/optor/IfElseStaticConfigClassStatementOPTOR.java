@@ -23,16 +23,15 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> Introduces If-Else Statements that check the configuration in the If-condition
- * to decide which variant's statements to execute. Common variables with equal types will be
- * merged. In case of common variables with different types, the whole method gets extracted into
- * variant-specific methods. Throws an exception if no variant was selected in the configuration.
+ * Introduces If-Else Statements that check the configuration in the If-condition to decide which
+ * variant's statements to execute. Common variables with equal types will be merged. In case of
+ * common variables with different types, the whole method gets extracted into variant-specific
+ * methods. Throws an exception if no variant was selected in the configuration.
  */
 public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Statement";
-    private static final String REFACTORING_ID = 
-            "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassStatementOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassStatementOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -44,13 +43,13 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
     @Override
     public void refactor(VariationPoint vp) {
-        boolean hasConflictingVariables = RefactoringUtil.hasConflictingLocalVariables(vp);
-        if (hasConflictingVariables) {
-            RefactoringUtil.extractVariantsIntoMethods(vp);
-        }
-
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
+
+        if (RefactoringUtil.hasImplementingElementsOfType(vp, Return.class)) {
+            RefactoringUtil
+                    .addCommentBefore(vpLocation, "FIXME: Introduces optional variability for return statement.");
+        }
 
         ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();
         if (!RefactoringUtil.containsImport(vpLocation.getContainingCompilationUnit(), splConfImport)) {
@@ -58,36 +57,28 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         }
 
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
-        int posBeforeFirstCond = Integer.MAX_VALUE;
         EList<Variant> variants = vp.getVariants();
 
-        for (Variant variant : variants) {
-            int indexBeginVariant = RefactoringUtil.getVariabilityPosition(vpLocation, variant);
+        int variabilityPosition = RefactoringUtil.getVariabilityPosition(vp);
+        int currentVariabilityPosition = variabilityPosition;
 
+        for (Variant variant : variants) {
             if (variant.getLeading()) {
                 RefactoringUtil.deleteVariableStatements(vp);
             }
 
-            if (indexBeginVariant < posBeforeFirstCond) {
-                posBeforeFirstCond = indexBeginVariant;
-            }
-
-            Condition currentCondition = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant
-                    .getVariantId());
+            Condition currentCondition = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant.getId(), vp
+                    .getGroup().getId());
 
             RefactoringUtil.fillIfBlockWithVariantElements(variant, currentCondition, localVariableStatements);
 
-            if (indexBeginVariant != -1) {
-                vpLocation.getStatements().add(indexBeginVariant, currentCondition);
-            } else {
-                vpLocation.getStatements().add(currentCondition);
-            }
+            vpLocation.getStatements().add(currentVariabilityPosition++, currentCondition);
         }
 
-        if (posBeforeFirstCond != -1) {
-            vpLocation.getStatements().addAll(posBeforeFirstCond, localVariableStatements.values());
-        } else {
-            vpLocation.getStatements().addAll(localVariableStatements.values());
+        for (String key : localVariableStatements.keySet()) {
+            if (!RefactoringUtil.hasVariableWithSameName(vpLocation, key)) {
+                vpLocation.getStatements().add(variabilityPosition++, localVariableStatements.get(key));
+            }
         }
     }
 
@@ -112,7 +103,10 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
             return false;
         }
 
-        return !RefactoringUtil.hasImplementingElementsOfType(variationPoint, Return.class);
+        boolean hasConflictingVariables = RefactoringUtil.hasConflictingLocalVariables(variationPoint);
+        boolean hasConstructorCalls = RefactoringUtil.hasConstructorCalls(variationPoint);
+
+        return !hasConflictingVariables && !hasConstructorCalls;
     }
 
     @Override

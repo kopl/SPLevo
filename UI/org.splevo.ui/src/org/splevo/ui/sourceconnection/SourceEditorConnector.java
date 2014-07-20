@@ -66,15 +66,18 @@ public class SourceEditorConnector {
      */
     public static void openVariant(Variant variant, List<String> filesOpen) {
 
-        String message = String.format("Implementation of Variant %s", variant.getVariantId());
+        String message = String.format("Implementation of Variant %s", variant.getId());
 
+        ITextEditor editor = null;
         for (SoftwareElement softwareElement : variant.getImplementingElements()) {
             if (softwareElement instanceof JavaSoftwareElement) {
 
-                ITextEditor editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
+                editor = javaEditorConnector.openEditor((JavaSoftwareElement) softwareElement);
                 prepareEditorIfFileNotOpen(filesOpen, softwareElement, editor);
-                javaEditorConnector.highlightInTextEditor(editor, softwareElement, message, variant);
             }
+        }
+        if (editor != null) {
+            javaEditorConnector.highlightInTextEditor(editor, message, variant);
         }
     }
 

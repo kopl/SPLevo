@@ -36,7 +36,7 @@ public class RenameVPGroupWizard extends Wizard {
      */
     public RenameVPGroupWizard(VariationPointGroup groupToRename) {
         this.groupToRename = groupToRename;
-        page = new RenameVPGroupWizardPage(groupToRename.getGroupId());
+        page = new RenameVPGroupWizardPage(groupToRename.getId());
     }
 
     /*
@@ -48,7 +48,7 @@ public class RenameVPGroupWizard extends Wizard {
     public boolean performFinish() {
         assert (!page.getNewName().equals(""));
         
-        groupToRename.setGroupId(page.getNewName());
+        groupToRename.setId(page.getNewName());
         
         try {
             groupToRename.eResource().save(null);

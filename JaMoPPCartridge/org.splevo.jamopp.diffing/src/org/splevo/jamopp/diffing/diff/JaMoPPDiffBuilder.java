@@ -168,7 +168,7 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
                     parentObject = nextParent.getRight();
                 }
 
-                if (!changeCache.containsKey(parentObject)) {
+                if (!changeRegisteredBefore(parentObject)) {
                     Diff change = customChangeFactory.doSwitch(parentObject);
                     fillStandardFields(change, nextParent, DifferenceKind.CHANGE, source);
                     changeCache.put(parentObject, change);
@@ -235,6 +235,56 @@ public class JaMoPPDiffBuilder extends DiffBuilder {
             return null;
         }
 
+    }
+
+    /**
+     * Create a diff for a single side match element if not created before for this model element.
+     *
+     * As the match is assumed to represent a root match element, the diff is stored in the match
+     * element itself.
+     *
+     * @param match
+     *            The match element to process and store the diff in.
+     */
+    public void createRootDiff(Match match) {
+        if (match.getLeft() == null) {
+            EObject value = match.getRight();
+            if (changeRegisteredBefore(value)) {
+                return;
+            }
+            Diff diff = customChangeFactory.doSwitch(value);
+            diff.setSource(DifferenceSource.RIGHT);
+            diff.setKind(DifferenceKind.DELETE);
+            diff.setMatch(match);
+            changeCache.put(value, diff);
+        } else {
+            EObject value = match.getLeft();
+            if (changeRegisteredBefore(value)) {
+                return;
+            }
+            Diff diff = customChangeFactory.doSwitch(value);
+            diff.setSource(DifferenceSource.LEFT);
+            diff.setKind(DifferenceKind.ADD);
+            diff.setMatch(match);
+            changeCache.put(value, diff);
+        }
+    }
+
+    private boolean changeRegisteredBefore(EObject value) {
+
+        // TODO Remove temporarily Filter when JaMoPP behavior fixed.
+        // CompilationUnits should either be contained in packages or root
+        // elements but not both.
+        // Such issues exist because of elements stored under the model root and
+        // as containment of another root element by the JaMoPP Parser.
+        // For example CompilationUnits are at the root and inside packages.
+        // DevBoost is notified about this.
+        if (resourceAttachementRegistry.contains(value)) {
+            logger.debug("Ressource Attachement Change hit twice: " + value);
+            return true;
+        }
+
+        return changeCache.containsKey(value);
     }
 
     /**

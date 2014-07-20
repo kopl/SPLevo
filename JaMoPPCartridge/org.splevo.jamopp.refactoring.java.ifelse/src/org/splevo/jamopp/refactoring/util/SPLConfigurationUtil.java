@@ -11,15 +11,8 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.util;
 
-import java.util.List;
-
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
-import org.emftext.language.java.expressions.ConditionalOrExpression;
-import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.expressions.NestedExpression;
-import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.instantiations.InstantiationsFactory;
@@ -28,19 +21,15 @@ import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
-import org.emftext.language.java.operators.OperatorsFactory;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.Throw;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
-import org.splevo.vpm.variability.Variant;
-import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * This class provides utility methods when it comes to the configuration of the SPL which is to be
@@ -48,7 +37,6 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public final class SPLConfigurationUtil {
 
-    private static final String CONFIG_FIELD_NAME = "CONFIG";
     private static final String CONFIGURATION_READER_CLASS_NAME = "SPLConfig";
 
     /**
@@ -80,20 +68,22 @@ public final class SPLConfigurationUtil {
 
     /**
      * Creates an expression matching the configuration field with the variant id:
-     * <code>ConfigClass.Config.equals(id);</code>
+     * <code>ConfigClass.[groupID].equals([variantID]);</code>
      * 
      * @param variantID
-     *            The variant ID to compare to.
+     *            The variant ID.
+     * @param groupID
+     *            The group ID.
      * @return The generated {@link Expression}.
      */
-    public static IdentifierReference generateConfigMatchingExpression(String variantID) {
+    public static IdentifierReference generateConfigMatchingExpression(String variantID, String groupID) {
         Class createClass = ClassifiersFactory.eINSTANCE.createClass();
         createClass.addModifier(ModifiersFactory.eINSTANCE.createPublic());
         createClass.addModifier(ModifiersFactory.eINSTANCE.createStatic());
         createClass.setName(CONFIGURATION_READER_CLASS_NAME);
 
         Field field = MembersFactory.eINSTANCE.createField();
-        field.setName(CONFIG_FIELD_NAME);
+        field.setName(groupID);
         Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
         stringClass.setName("String");
         ClassifierReference stringRef = TypesFactory.eINSTANCE.createClassifierReference();
@@ -123,29 +113,6 @@ public final class SPLConfigurationUtil {
     }
 
     /**
-     * Creates the following expression:
-     * <code>!(ConfigClass.Config.equals(id1) || ConfigClass.Config.equals(id2) || ...)</code>
-     * 
-     * @param variants
-     *            The {@link List} containing the {@link Variant}s.
-     * @return The generated {@link Expression}.
-     */
-    private static Expression generateConfigAndVariantIDMatchingExpression(List<Variant> variants) {
-        ConditionalOrExpression conditionalOrExpression = ExpressionsFactory.eINSTANCE.createConditionalOrExpression();
-        UnaryExpression unaryExpression = ExpressionsFactory.eINSTANCE.createUnaryExpression();
-        unaryExpression.getOperators().add(OperatorsFactory.eINSTANCE.createNegate());
-        NestedExpression nestedExpression = ExpressionsFactory.eINSTANCE.createNestedExpression();
-        nestedExpression.setExpression(conditionalOrExpression);
-        unaryExpression.setChild(nestedExpression);
-
-        for (Variant currentVariant : variants) {
-            conditionalOrExpression.getChildren().add(generateConfigMatchingExpression(currentVariant.getVariantId()));
-        }
-
-        return unaryExpression;
-    }
-
-    /**
      * Creates a block with a throw statement. It throws a RuntimeException with a message saying
      * that the SPL is configured wrong.
      * 
@@ -166,24 +133,5 @@ public final class SPLConfigurationUtil {
         Block block = StatementsFactory.eINSTANCE.createBlock();
         block.getStatements().add(createdThrow);
         return block;
-    }
-
-    /**
-     * Creates an if that checks whether at least one variant has been selected in the
-     * configuration: <code>
-     * if(!(ConfigClass.Config.equals(id1) || ConfigClass.Config.equals(id2) || ...){
-     *  throw new RuntimeException();
-     * }
-     * </code>
-     * 
-     * @param vp
-     *            The {@link VariationPoint} that has the variants.
-     * @return The generated {@link Condition}.
-     */
-    public static Condition generateORVerificationCondition(VariationPoint vp) {
-        Condition createCondition = StatementsFactory.eINSTANCE.createCondition();
-        createCondition.setStatement(generateBlockThrowingARuntimeException());
-        createCondition.setCondition(generateConfigAndVariantIDMatchingExpression(vp.getVariants()));
-        return createCondition;
     }
 }

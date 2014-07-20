@@ -1,8 +1,8 @@
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
-import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.members.MemberContainer;
+import org.emftext.language.java.members.Method;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
@@ -16,9 +16,8 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> The code base container must contain all methods from the variants. Therefore,
- * this refactoring merges the methods from all variants into the base, if there are no
- * interferences.
+ * The code base container must contain all methods from the variants. Therefore, this refactoring
+ * merges the methods from all variants into the base, if there are no interferences.
  */
 public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactoring {
 
@@ -36,15 +35,17 @@ public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactorin
 
     @Override
     public void refactor(VariationPoint vp) {
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
         for (Variant variant : vp.getVariants()) {
             if (variant.getLeading()) {
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                ClassMethod currentMethod = (ClassMethod) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                vpLocation.getMembers().add(currentMethod);
+                Method currentMethod = (Method) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                if (!RefactoringUtil.hasMethodWithEqualParameters(vpLocation, currentMethod)) {
+                    vpLocation.getMembers().add(currentMethod);
+                }
             }
         }
     }
@@ -62,9 +63,9 @@ public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactorin
 
         boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
-        boolean correctLocation = jamoppElement instanceof Class;
+        boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreMethods = RefactoringUtil.allImplementingElementsOfType(variationPoint,
-                ClassMethod.class);
+                Method.class);
         boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreMethods;
 
         if (!correctInput) {

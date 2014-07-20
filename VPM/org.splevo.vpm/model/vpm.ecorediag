@@ -271,7 +271,7 @@
         </children>
         <styles xmi:type="notation:ShapeStyle" xmi:id="_guSjITdFEeO3iZQkcDgklQ" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
         <element xmi:type="ecore:EClass" href="vpm.ecore#//software/SourceLocation"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_guSjIjdFEeO3iZQkcDgklQ" x="25" y="21"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_guSjIjdFEeO3iZQkcDgklQ" x="25" y="27"/>
       </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_KOEAMC29EeO8yuvfzP6SAg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_KOEAMS29EeO8yuvfzP6SAg"/>
@@ -476,7 +476,7 @@
     <element xmi:type="ecore:EReference" href="vpm.ecore#//variability/VariationPointModel/softwareElements"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5500sy4UEeO9Qvh9lXVKew" points="[3, 5, -233, -375]$[201, 322, -35, -58]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5567UC4UEeO9Qvh9lXVKew" id="(0.5191256830601093,0.875)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5567US4UEeO9Qvh9lXVKew" id="(0.03614457831325301,0.01834862385321101)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5567US4UEeO9Qvh9lXVKew" id="(0.0,0.015151515151515152)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_6FzYkLmoEeO6Af8dQ8uWZA" type="3002" source="_mZyBME6kEeKu0IvcocBLUA" target="_kU1cELmnEeO6Af8dQ8uWZA">
     <children xmi:type="notation:Node" xmi:id="_6Fz_oLmoEeO6Af8dQ8uWZA" type="4011">

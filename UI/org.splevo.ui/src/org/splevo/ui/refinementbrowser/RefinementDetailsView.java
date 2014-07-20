@@ -59,6 +59,8 @@ public class RefinementDetailsView extends Composite {
     /** The area to present info about a currently selected refinement in. */
     private StyledText refinementInfoArea = null;
 
+    private RefinementGraph refinementGraph = null;
+
     /**
      * Constructor to create the view.
      *
@@ -84,9 +86,19 @@ public class RefinementDetailsView extends Composite {
         refinementDetailsTreeViewer.addSelectionChangedListener(new HighlightConnectedVPListener());
         initContextMenu(refinementDetailsTreeViewer, site);
 
-        refinementInfoArea = new StyledText(sashForm, SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+        SashForm detailsArea = new SashForm(sashForm, SWT.FILL);
+        detailsArea.setSashWidth(1);
+        detailsArea.setOrientation(SWT.VERTICAL);
+        detailsArea.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+
+        refinementInfoArea = new StyledText(detailsArea, SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
         refinementInfoArea.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         refinementInfoArea.setText(REFINEMENT_INFO_DEFAULT_TEXT);
+        refinementGraph = new RefinementGraph(detailsArea, SWT.BORDER);
+
+        // FIXME IllegalArgumentException at runtime
+        // The areas' relative height should be set but this leads to an
+        // detailsArea.setWeights(new int[] { 6, 4 });
 
         sashForm.setWeights(new int[] { 5, 5 });
     }
@@ -121,6 +133,7 @@ public class RefinementDetailsView extends Composite {
     public void showRefinement(Refinement refinement) {
         setEnabled(true);
         refinementDetailsTreeViewer.setInput(refinement);
+        refinementGraph.show(refinement);
     }
 
     /**
@@ -252,8 +265,8 @@ public class RefinementDetailsView extends Composite {
     /**
      * initialize the context menu.
      *
-     * DesignDecision Menu created programaticaly instead of extension point to prevent context
-     * menu mess up by other plugins.
+     * DesignDecision Menu created programaticaly instead of extension point to prevent context menu
+     * mess up by other plugins.
      *
      * DesignDecision Reused command for common look and feel of context menu item for complete
      * application
@@ -269,8 +282,8 @@ public class RefinementDetailsView extends Composite {
         menuManager.setRemoveAllWhenShown(true);
         menuManager.addMenuListener(new CommandActionMenuListener(COMMAND_ID_OPENSOURCELOCATION, SPLevoUIPlugin
                 .getImageDescriptor("icons/jcu_obj.gif")));
-        menuManager.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan", SPLevoUIPlugin
-                .getImageDescriptor("icons/kopl_circle_only.png")));
+        menuManager.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan",
+                SPLevoUIPlugin.getImageDescriptor("icons/kopl_circle_only.png")));
         Menu menu = menuManager.createContextMenu(viewer.getTree());
         viewer.getTree().setMenu(menu);
         site.setSelectionProvider(viewer);

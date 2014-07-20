@@ -62,8 +62,8 @@ public class VariantItemProvider extends ItemProviderAdapter implements IEditing
 
             addChildFeaturePropertyDescriptor(object);
             addImplementingElementsPropertyDescriptor(object);
+            addIdPropertyDescriptor(object);
             addLeadingPropertyDescriptor(object);
-            addVariantIdPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -117,17 +117,17 @@ public class VariantItemProvider extends ItemProviderAdapter implements IEditing
     }
 
     /**
-     * This adds a property descriptor for the Variant Id feature.
+     * This adds a property descriptor for the Id feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addVariantIdPropertyDescriptor(Object object) {
+    protected void addIdPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
-                getString("_UI_Variant_variantId_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_Variant_variantId_feature", "_UI_Variant_type"),
-                variabilityPackage.Literals.VARIANT__VARIANT_ID, true, false, false,
+                getString("_UI_Variant_id_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_Variant_id_feature", "_UI_Variant_type"),
+                variabilityPackage.Literals.VARIANT__ID, true, false, false,
                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
@@ -159,7 +159,7 @@ public class VariantItemProvider extends ItemProviderAdapter implements IEditing
     @Override
     public String getText(Object object) {
         Variant variant = (Variant) object;
-        return getString("_UI_Variant_type") + " (" + variant.getVariantId() + ")";
+        return getString("_UI_Variant_type") + " (" + variant.getId() + ")";
     }
 
     /**
@@ -174,8 +174,8 @@ public class VariantItemProvider extends ItemProviderAdapter implements IEditing
         updateChildren(notification);
 
         switch (notification.getFeatureID(Variant.class)) {
+        case variabilityPackage.VARIANT__ID:
         case variabilityPackage.VARIANT__LEADING:
-        case variabilityPackage.VARIANT__VARIANT_ID:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
         }

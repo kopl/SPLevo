@@ -17,7 +17,7 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * <h1>Summary</h1> The code base container must contain all classes from the variants. Therefore,
+ * The code base container must contain all classes from the variants. Therefore,
  * this refactoring merges the classes from all variants into the base, if there are no
  * interferences.
  */

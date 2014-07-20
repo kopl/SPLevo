@@ -27,12 +27,12 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.TreeNodeContentProvider;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.ui.vpexplorer.explorer.VPExplorer;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
 import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.software.SourceLocation;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -53,7 +53,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     /**
      * Index to remember the variation points located in a file.
-     * 
+     *
      * DesignDecision Enable public access to index for accessing this statistic information.
      */
     private static HashMultimap<File, VariationPoint> fileVPIndex = HashMultimap.create();
@@ -72,9 +72,9 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
     /**
      * Get the set of {@link VariationPoint}s contained in a file.
-     * 
+     *
      * DesignDecision Enable public access to index for accessing this statistic information.
-     * 
+     *
      * @param file
      *            The file to get the VPs for.
      * @return The set of variation points. At least an empty list but not null.
@@ -108,7 +108,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
             return getChildren((Variant) parentElement);
 
         } else if (parentElement instanceof SoftwareElement) {
-            return getChildren((SoftwareElement) parentElement); 
+            return getChildren((SoftwareElement) parentElement);
 
         } else {
             logger.warn("Unhandled Parent Element: " + parentElement.getClass().getSimpleName());
@@ -123,7 +123,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     private Object[] getChildren(VPExplorerContent parentElement) {
         VPExplorer vpexplorer = (VPExplorer) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
                 .findView("org.splevo.ui.vpexplorer");
-        
+
         if (parentElement.getVpm() != null) {
             if (vpexplorer.getShowGrouping()) {
                 return parentElement.getVpm().getVariationPointGroups().toArray();
@@ -214,7 +214,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
         EList<SoftwareElement> implementingElements = parentElement.getImplementingElements();
         return implementingElements.toArray();
     }
-    
+
     /**
      * @param parentElement
      * @return
@@ -260,7 +260,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     /**
      * Populates the CU locations map with all variation points and the location names of their
      * corresponding CUs.
-     * 
+     *
      * @param vpContent
      *            the VPcontent to be used as population source
      */
@@ -274,8 +274,12 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
         for (VariationPointGroup vpGroup : vpGroups) {
             EList<VariationPoint> vps = vpGroup.getVariationPoints();
             for (VariationPoint vp : vps) {
-                SourceLocation location = vp.getLocation().getSourceLocation();
-                File sourceFile = new File(location.getFilePath());
+                // used the resource uri and not the
+                // element wrappers location to save further navigation
+                // and resolving overhead.
+                EObject locationElement = vp.getLocation().getWrappedElement();
+                String filePath = locationElement.eResource().getURI().toFileString();
+                File sourceFile = new File(filePath);
                 vpFileIndex.put(vp, sourceFile);
                 fileVPIndex.put(sourceFile, vp);
                 groupFileIndex.put(vpGroup, sourceFile);

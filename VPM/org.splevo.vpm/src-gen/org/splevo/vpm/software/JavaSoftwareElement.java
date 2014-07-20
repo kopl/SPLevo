@@ -13,7 +13,7 @@ package org.splevo.vpm.software;
  *
  *
  * @see org.splevo.vpm.software.SoftwarePackage#getJavaSoftwareElement()
- * @model abstract="true"
+ * @model interface="true" abstract="true"
  * @generated
  */
 public interface JavaSoftwareElement extends SoftwareElement {

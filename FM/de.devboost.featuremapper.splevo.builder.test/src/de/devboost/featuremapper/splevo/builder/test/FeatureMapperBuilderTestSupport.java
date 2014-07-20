@@ -59,7 +59,7 @@ public class FeatureMapperBuilderTestSupport {
 	public VariationPoint withAVariationPointGroupThatHasVariationsAnd(
 			String pointName, VariationPointModel vpm) {
 		VariationPointGroup vpg = factory.createVariationPointGroup();
-		vpg.setGroupId(pointName);
+		vpg.setId(pointName);
 		vpm.getVariationPointGroups().add(vpg);
 
 		EList<VariationPoint> variationPoints = vpg.getVariationPoints();
@@ -72,7 +72,7 @@ public class FeatureMapperBuilderTestSupport {
 	public void thatHasVariationMappedToClass(String variantName,
 			String exampleClassName, String resourceName, VariationPoint point) {
 		Variant aVariant = factory.createVariant();
-		aVariant.setVariantId(variantName);
+		aVariant.setId(variantName);
 		JaMoPPSoftwareElement softwareEntity = softwareFactory.eINSTANCE
 				.createJaMoPPSoftwareElement();
 		Class jamoppClass = ClassifiersFactory.eINSTANCE.createClass();

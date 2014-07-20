@@ -40,13 +40,14 @@
             class="org.splevo.ui.editors.SPLevoProjectEditor"
             default="true"
             extensions="splevoproject"
-            icon="icons/splevo-project.gif"
+            icon="icons/kopl_circle_only.png"
             id="org.splevo.ui.editors.SPLevoProjectEditor"
             name="SPLevo Dashboard">
       </editor>
       <editor
             class="org.splevo.ui.refinementbrowser.VPMRefinementBrowser"
             default="false"
+            icon="icons/refinement-browser.gif"
             id="org.splevo.ui.editor.VPMRefinementEditor"
             name="VPM Refinement Browser">
       </editor>
@@ -203,7 +204,8 @@
          </command>
       </menuContribution>
    </extension>
-   <extension point="org.eclipse.core.resources.markers" id="org.splevo.ui.markers.codelocationmarker"
+   <!-- FIXME: we might not need the id -->
+   <extension point="org.eclipse.core.resources.markers" id="org.splevo.ui.markers.codelocationmarker.variant"
   name="Code Location Marker">
 	<super type="org.eclipse.core.resources.textmarker"/>
 	<super type="org.eclipse.core.resources.marker"/>
@@ -213,14 +215,31 @@
          point="org.eclipse.ui.ide.markerResolution">
       <markerResolutionGenerator
             class="org.splevo.ui.sourceconnection.jdt.VariantLinkQuickFixGenerator"
-            markerType="org.splevo.ui.markers.codelocationmarker">
+            markerType="org.splevo.ui.markers.codelocationmarker.variant">
       </markerResolutionGenerator>
    </extension>
 	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
 		id="annotationspecification" name="SPLevoAnnotation">
-	<specification annotationType="org.splevo.ui.annotations.textmarkerannotation"
-			label="Variation Point Variant"
-			icon="icons/kopl_circle_only.png"
+	<specification annotationType="org.splevo.ui.annotations.variant.multiple"
+			label="Variation Point Alternative Variant"
+			icon="icons/variant-multiple.png"
+			verticalRulerPreferenceKey="highlight.rulers.vertical"
+             textPreferenceKey="highlight.text"
+            colorPreferenceKey="highlight.color"
+            highlightPreferenceKey="highlight.background"
+            textPreferenceValue="true"
+            textStylePreferenceValue="BOX"
+            overviewRulerPreferenceKey="highlight.rulers.overview"
+            presentationLayer="4"
+            highlightPreferenceValue="true"
+            colorPreferenceValue="196,211,219"
+            verticalRulerPreferenceValue="true"
+            overviewRulerPreferenceValue="true"
+            textStylePreferenceKey="highlight.text.style" >
+			</specification>
+	<specification annotationType="org.splevo.ui.annotations.variant.single"
+			label="Variation Point Alternative Variant"
+			icon="icons/variant-single.png"
 			verticalRulerPreferenceKey="highlight.rulers.vertical"
              textPreferenceKey="highlight.text"
             colorPreferenceKey="highlight.color"
@@ -239,8 +258,12 @@
 	<extension point="org.eclipse.ui.editors.annotationTypes">
                 <type markerSeverity="0"
                                         super="org.eclipse.ui.workbench.texteditor.info"
-                                        name="org.splevo.ui.annotations.textmarkerannotation"
-                                        markerType="org.splevo.ui.markers.codelocationmarker"/>
+                                        name="org.splevo.ui.annotations.variant.multiple"
+                                        markerType="org.splevo.ui.markers.codelocationmarker.variant"/>
+                <type markerSeverity="0"
+                                        super="org.eclipse.ui.workbench.texteditor.info"
+                                        name="org.splevo.ui.annotations.variant.single"
+                                        markerType="org.splevo.ui.markers.codelocationmarker.variant"/>
     </extension>
  <extension
        point="org.eclipse.core.runtime.adapters">

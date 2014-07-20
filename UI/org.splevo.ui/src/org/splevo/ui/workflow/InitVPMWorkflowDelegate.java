@@ -39,36 +39,34 @@ import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 /**
  * Delegate defining a workflow to initialize the variation point model.
  */
-public class InitVPMWorkflowDelegate
-		extends
-		AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
+public class InitVPMWorkflowDelegate extends
+        AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
-	/** The configuration of the workflow. */
-	private BasicSPLevoWorkflowConfiguration config = null;
+    /** The configuration of the workflow. */
+    private BasicSPLevoWorkflowConfiguration config = null;
 
-	/**
-	 * Constructor requiring a diffing workflow configuration.
-	 *
-	 * @param config
-	 *            The configuration of the workflow.
-	 */
-	public InitVPMWorkflowDelegate(BasicSPLevoWorkflowConfiguration config) {
-		this.config = config;
-	}
+    /**
+     * Constructor requiring a diffing workflow configuration.
+     *
+     * @param config
+     *            The configuration of the workflow.
+     */
+    public InitVPMWorkflowDelegate(BasicSPLevoWorkflowConfiguration config) {
+        this.config = config;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
 
-		SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
-		jobSequence.setBlackboard(new SPLevoBlackBoard());
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        jobSequence.setBlackboard(new SPLevoBlackBoard());
 
-		SPLevoProject splevoProject = config.getSplevoProjectEditor()
-				.getSplevoProject();
+        SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
 
-		// diffing
+        // diffing
 
         List<String> requiredExtractors = getRequiredExtractors(splevoProject);
 
@@ -90,22 +88,25 @@ public class InitVPMWorkflowDelegate
         final DiffingJob diffingJob = new DiffingJob(splevoProject);
         jobSequence.add(diffingJob);
 
-		// init the vpm
-		InitVPMJob initVPMJob = new InitVPMJob(splevoProject);
-		jobSequence.add(initVPMJob);
+        // init the vpm
+        InitVPMJob initVPMJob = new InitVPMJob(splevoProject);
+        jobSequence.add(initVPMJob);
 
-		// save the model
-		String targetPath = splevoProject.getWorkspace()
-				+ "models/vpms/initial-vpm.vpm";
-		SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
-		jobSequence.add(saveVPMJob);
+        // save the model
+        String targetPath = splevoProject.getWorkspace() + "models/vpms/initial-vpm.vpm";
+        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
+        jobSequence.add(saveVPMJob);
 
-		// open the model
-		jobSequence.add(new OpenVPMJob());
+        // open the model
+        // FIXME: Use the model from blackboard if JaMoPP location info can be loaded on demand
+        // Some services, such as the "Open Source Location" action in the VPExplorer
+        // need the detailed location information.
+        // jobSequence.add(new OpenVPMJob());
+        jobSequence.add(new OpenVPMJob(splevoProject, targetPath));
 
-		// return the prepared workflow
-		return jobSequence;
-	}
+        // return the prepared workflow
+        return jobSequence;
+    }
 
     private List<String> getRequiredExtractors(SPLevoProject splevoProject) {
         List<String> requiredExtractors = Lists.newArrayList();
@@ -119,18 +120,18 @@ public class InitVPMWorkflowDelegate
         return requiredExtractors;
     }
 
-	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
-		// nothing to do here
-	}
+    @Override
+    public void selectionChanged(IAction action, ISelection selection) {
+        // nothing to do here
+    }
 
-	@Override
-	protected boolean useSeparateConsoleForEachJobRun() {
-		return false;
-	}
+    @Override
+    protected boolean useSeparateConsoleForEachJobRun() {
+        return false;
+    }
 
-	@Override
-	protected BasicSPLevoWorkflowConfiguration getConfiguration() {
-		return this.config;
-	}
+    @Override
+    protected BasicSPLevoWorkflowConfiguration getConfiguration() {
+        return this.config;
+    }
 }

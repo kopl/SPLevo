@@ -272,7 +272,7 @@ public class SoftwarePackageImpl extends EPackageImpl implements SoftwarePackage
                 IS_ORDERED);
 
         initEClass(javaSoftwareElementEClass, JavaSoftwareElement.class, "JavaSoftwareElement", IS_ABSTRACT,
-                !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+                IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
         initEClass(sourceLocationEClass, SourceLocation.class, "SourceLocation", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);

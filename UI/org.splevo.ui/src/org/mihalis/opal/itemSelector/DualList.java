@@ -1,3 +1,4 @@
+// CHECKSTYLE:OFF
 /*******************************************************************************
  * Copyright (c) 2011 Laurent CARON
  * All rights reserved. This program and the accompanying materials

@@ -18,7 +18,9 @@ import org.splevo.vpm.variability.Variant;
 import com.google.common.collect.Maps;
 
 /**
- * A registry to allow for transporting variant elements through eclipse IMarkers.
+ * A registry to allow for transporting variant elements through eclipse IMarkers. Only strings can
+ * be stored with an IMarker. Thus, the variant is registered here and only the key stored in the
+ * registry is stored with the marker.
  */
 public final class VariantRegistry {
 

@@ -16,11 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -84,82 +85,84 @@ public class ProcessControlTab extends AbstractDashboardTab {
         TabItem tbtmProcessControl = new TabItem(tabFolder, SWT.NONE, tabIndex);
         tbtmProcessControl.setText("Process Control");
 
-        Composite processControlContainer = new Composite(tabFolder, SWT.NONE);
-        tbtmProcessControl.setControl(processControlContainer);
+        Composite mainContainer = new Composite(tabFolder, SWT.NONE);
+        tbtmProcessControl.setControl(mainContainer);
+        GridLayout layout = new GridLayout(9, false);
+        layout.horizontalSpacing = 5;
+        layout.verticalSpacing = 1;
+        mainContainer.setLayout(layout);
 
-        Label lblSplevoDashboard = new Label(processControlContainer, SWT.NONE);
-        lblSplevoDashboard.setAlignment(SWT.CENTER);
+        Label lblSplevoDashboard = new Label(mainContainer, SWT.NONE);
+        GridData d = new GridData(SWT.CENTER, SWT.CENTER, false, false, 9, 1);
+        d.heightHint = lblSplevoDashboard.computeSize(SWT.DEFAULT, SWT.DEFAULT).y * 2;
+        lblSplevoDashboard.setLayoutData(d);
         lblSplevoDashboard.setFont(SWTResourceManager.getFont("Arial", 14, SWT.BOLD));
-        lblSplevoDashboard.setBounds(0, 10, 550, 30);
         lblSplevoDashboard.setText("SPLevo Dashboard");
 
-        int xOffset = 20;
-        int offsetActivityStart = 24;
-        int offset = 5;
-        int offsetFlow = 30 + offset;
-        int indentSubButton = 22;
-
-        Label activityStart = new Label(processControlContainer, SWT.NONE);
-        activityStart.setAlignment(SWT.CENTER);
-        activityStart.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bullet_green.png"));
-        activityStart.setBounds(xOffset, 66, 30, 30);
-        xOffset += offsetActivityStart;
-
-        addActivityFlowButton(processControlContainer, xOffset);
-        xOffset += offsetFlow;
-
-        initVpmBtn = new Button(processControlContainer, SWT.WRAP);
-        initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
-        initVpmBtn.setText("Init VPM");
-        initVpmBtn.setBounds(xOffset, 58, 72, 45);
-        xOffset += initVpmBtn.getBounds().width + offset;
-
-        addActivityFlowButton(processControlContainer, xOffset);
-        xOffset += offsetFlow;
-
-        analyzeVPMBtn = new Button(processControlContainer, SWT.WRAP);
-        analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
+        Composite filler1 = new Composite(mainContainer, SWT.NONE);
+        GridData layoutData = new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1);
+        layoutData.heightHint = 0;
+        filler1.setLayoutData(layoutData);
+        
         final Image circleImage = ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_circle.png");
-        analyzeVPMBtn.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-                e.gc.drawImage(circleImage, 51, 24);
-            }
-        });
-        analyzeVPMBtn.setText("Refine VPM");
-        analyzeVPMBtn.setBounds(xOffset, 58, 72, 45);
+        Label circleLbl = new Label(mainContainer, SWT.NONE);
+        circleLbl.setImage(circleImage);
+        circleLbl.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false));
 
-        openVPMBtn = new Button(processControlContainer, SWT.NONE);
-        openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/page_white_go.png"));
-        openVPMBtn.setBounds(xOffset + indentSubButton, 109, 26, 30);
-        openVPMBtn.addMouseListener(new OpenVPMListener(getSplevoProjectEditor()));
+        Composite filler2 = new Composite(mainContainer, SWT.NONE);
+        filler2.setLayoutData(layoutData);
+        
+        Label activityStart = new Label(mainContainer, SWT.NONE);
+        activityStart.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bullet_green.png"));
 
-        xOffset += analyzeVPMBtn.getBounds().width + offset;
+        addActivityFlowButton(mainContainer);
 
-        addActivityFlowButton(processControlContainer, xOffset);
-        xOffset += offsetFlow;
+        initVpmBtn = new Button(mainContainer, SWT.WRAP);
+        initVpmBtn.addMouseListener(new InitVPMListener(getSplevoProjectEditor()));
+        initVpmBtn.setText("Init\nVPM");
+        getGridDataForButtons(initVpmBtn);
 
-        startRefactoringBtn = new Button(processControlContainer, SWT.WRAP);
+        addActivityFlowButton(mainContainer);
+
+        analyzeVPMBtn = new Button(mainContainer, SWT.WRAP);
+        analyzeVPMBtn.addMouseListener(new VPMAnalysisListener(getSplevoProjectEditor()));
+        analyzeVPMBtn.setText("Refine\nVPM");
+        getGridDataForButtons(analyzeVPMBtn);
+
+        addActivityFlowButton(mainContainer);
+
+        startRefactoringBtn = new Button(mainContainer, SWT.WRAP);
         startRefactoringBtn.addMouseListener(new StartRefactoringListener(getSplevoProjectEditor()));
-        startRefactoringBtn.setText("Refactor Copies");
-        startRefactoringBtn.setBounds(xOffset, 58, 72, 45);
-        xOffset += startRefactoringBtn.getBounds().width + offset;
+        startRefactoringBtn.setText("Refactor\nCopies");
+        getGridDataForButtons(startRefactoringBtn);
 
-        addActivityFlowButton(processControlContainer, xOffset);
-        xOffset += offsetFlow;
+        addActivityFlowButton(mainContainer);
 
-        generateFMBtn = new Button(processControlContainer, SWT.WRAP);
+        generateFMBtn = new Button(mainContainer, SWT.WRAP);
         generateFMBtn.addMouseListener(new GenerateFeatureModelListener(getSplevoProjectEditor()));
-        generateFMBtn.setText("Export SPL");
-        generateFMBtn.setBounds(xOffset, 58, 72, 45);
-        xOffset += generateFMBtn.getBounds().width + offset;
+        generateFMBtn.setText("Export\nSPL");
+        getGridDataForButtons(generateFMBtn);
 
+        Composite filler3 = new Composite(mainContainer, SWT.NONE);
+        filler3.setLayoutData(layoutData);
+
+        openVPMBtn = new Button(mainContainer, SWT.NONE);
+        openVPMBtn.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/splevo.gif"));
+        openVPMBtn.addMouseListener(new OpenVPMListener(getSplevoProjectEditor()));
+        openVPMBtn.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, true));
+        openVPMBtn.setAlignment(SWT.CENTER);
     }
 
-    private void addActivityFlowButton(Composite container, int xOffset) {
+    private void getGridDataForButtons(Button button) {
+        GridData gridData = new GridData();
+        gridData.widthHint = button.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+        button.setLayoutData(gridData);
+    }
+
+    private void addActivityFlowButton(Composite container) {
         Label iconLabel = new Label(container, SWT.NONE);
         iconLabel.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_right.png"));
         iconLabel.setAlignment(SWT.CENTER);
-        iconLabel.setBounds(xOffset, 66, 30, 30);
     }
 
     /**
@@ -210,16 +213,15 @@ public class ProcessControlTab extends AbstractDashboardTab {
      * Disable all buttons except the Project Selection button.
      */
     private void disableAllButtonsExceptProjectSelection() {
-        List<Button> buttons = new ArrayList<Button>();
+        List<Control> buttons = new ArrayList<Control>();
         buttons.add(generateFMBtn);
         buttons.add(initVpmBtn);
         buttons.add(analyzeVPMBtn);
         buttons.add(startRefactoringBtn);
         buttons.add(openVPMBtn);
 
-        for (Button button : buttons) {
+        for (Control button : buttons) {
             button.setEnabled(false);
         }
     }
-
 }
