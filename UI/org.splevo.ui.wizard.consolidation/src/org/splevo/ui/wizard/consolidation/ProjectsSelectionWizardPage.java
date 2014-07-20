@@ -18,14 +18,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -36,6 +33,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.wizard.consolidation.provider.ProjectLabelProvider;
 
 /**
  * Second page of the New Consolidation Project Wizard in which leading and integration projects
@@ -43,7 +41,6 @@ import org.splevo.project.SPLevoProject;
  *
  * @author Radoslav Yankov
  */
-@SuppressWarnings("restriction")
 public class ProjectsSelectionWizardPage extends WizardPage {
 
     private SPLevoProject projectConfiguration;
@@ -57,7 +54,8 @@ public class ProjectsSelectionWizardPage extends WizardPage {
     /**
      * Constructor preparing the wizard page infrastructure.
      * 
-     * @param projectConfiguration The SPLevo project model.
+     * @param projectConfiguration
+     *            The SPLevo project model.
      */
     public ProjectsSelectionWizardPage(SPLevoProject projectConfiguration) {
         super("Projects Selection Page");
@@ -99,6 +97,14 @@ public class ProjectsSelectionWizardPage extends WizardPage {
     
     @Override
     public IWizardPage getNextPage() {
+        saveChosenProjects();
+        return super.getNextPage();                
+    }
+
+    /**
+     * Save the chosen projects and the specified variation names to the SPLevo configuration.
+     */
+    private void saveChosenProjects() {
         projectConfiguration.setVariantNameLeading(leadingVariantNameField.getText().trim());
         projectConfiguration.setVariantNameIntegration(integrationVariantNameField.getText().trim());
         
@@ -109,9 +115,19 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         for (String chosenIntegrationProjectName : getChosenProjectsNames(integrationProjectsTable)) {   
             projectConfiguration.getIntegrationProjects().add(chosenIntegrationProjectName);
         }
-        return super.getNextPage();                
     }
 
+    /**
+     * Create a label
+     * 
+     * @param container
+     *            Container where the label has to be placed
+     * @param labelText
+     *            text of the label
+     * @param layoutData
+     *            Properties for the label specified through GridData object. It can be null if no
+     *            special properties are needed.
+     */
     private void createLabel(Composite container, String labelText, GridData layoutData) {
         Label label = new Label(container, SWT.NONE);
         label.setText(labelText);
@@ -121,6 +137,15 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         }
     }
 
+    /**
+     * Create a text field in which a variant name has to be entered
+     * 
+     * @param container
+     *            Container where the field has to be placed
+     * @param listener
+     *            Listener to react on events
+     * @return The created text field
+     */
     private Text createVariantNameField(Composite container, Listener listener) {
         Text variantNameField = new Text(container, SWT.BORDER);
         variantNameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -129,8 +154,16 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         return variantNameField;
     }
 
+    /**
+     * Create a table where the projects will be displayed.
+     * 
+     * @param container
+     *            Container where the table has to be created
+     * @param listener
+     *            Listener to react on events
+     * @return The created table
+     */
     private Table createProjectsTable(Composite container, Listener listener) {
-
         Composite innerContainer = new Composite(container, SWT.NONE);
         innerContainer.setLayout(new GridLayout(1, false));
         GridData twoColumns = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -156,20 +189,7 @@ public class ProjectsSelectionWizardPage extends WizardPage {
      */
     private TableViewer createProjectsTableViewer(Composite container) {
         TableViewer projectsTableViewer = new TableViewer(container, SWT.BORDER | SWT.CHECK);
-        projectsTableViewer.setLabelProvider(new ColumnLabelProvider() {
-
-            @Override
-            public String getText(Object element) {
-                IProject project = (IProject) element;
-                return project.getName();
-            }
-
-            @Override
-            public Image getImage(Object element) {
-                JavaUILabelProvider provider = new JavaUILabelProvider();
-                return provider.getImage(element);
-            }
-        });
+        projectsTableViewer.setLabelProvider(new ProjectLabelProvider());
         projectsTableViewer.setContentProvider(ArrayContentProvider.getInstance());
         projectsTableViewer.setInput(getProjectsFromWorkspace());
 
@@ -190,24 +210,38 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         return projects;
     }
 
-    /** 
-     * @return true if all fields are filled and at least one leading and one integration project is
+    /**
+     * @return true if all fields are filled out and at least one leading and one integration project is
      *         chosen, otherwise false.
      */
     private boolean isProjectSelectionPageComplete() {
         boolean isLeadingProjectSelected = isAtLeastOneItemSelected(leadingProjectsTable);
         boolean isIntergrationProjectSelected = isAtLeastOneItemSelected(integrationProjectsTable);
-        boolean isIntegrationVariantNameFilled = isNotEmpty(integrationVariantNameField);
-        boolean isLeadingVariantNameFilled = isNotEmpty(leadingVariantNameField);                
+        boolean isIntegrationVariantNameFilled = isFilled(integrationVariantNameField);
+        boolean isLeadingVariantNameFilled = isFilled(leadingVariantNameField);                
 
         return isLeadingVariantNameFilled && isIntegrationVariantNameFilled && isLeadingProjectSelected
                 && isIntergrationProjectSelected;
     }
 
-    private boolean isNotEmpty(Text textField) {
+    /**
+     * Check if the given text field is filled out.
+     * 
+     * @param textField
+     *            The text field that has to be checked
+     * @return true is the given text field is filled out, otherwise false
+     */
+    private boolean isFilled(Text textField) {
         return textField.getText() != null && textField.getText().trim().length() > 0;
     }
 
+    /**
+     * Check if at least one table item is selected.
+     * 
+     * @param table
+     *            The table whose items have to be checked
+     * @return true if at least one item is selected, otherwise false
+     */
     private boolean isAtLeastOneItemSelected(Table table) {
         boolean leadingProjectSelected = false;
         for (TableItem item : table.getItems()) {
@@ -253,12 +287,13 @@ public class ProjectsSelectionWizardPage extends WizardPage {
      * set the leading projects variant name if it has not been already set.
      */
     private class LeadingProjectsTableListener extends CheckPageCompletedListener {
-        
-        @Override
+                
+        @Override        
         public void handleEvent(Event event) {
-            if (!isNotEmpty(leadingVariantNameField)) {
+            if (!isFilled(leadingVariantNameField) && (event.detail == SWT.CHECK)) {
                 List<String> chosenLeadingProjects = getChosenProjectsNames(leadingProjectsTable);
-                leadingVariantNameField.setText(chosenLeadingProjects.get(chosenLeadingProjects.size() - 1));
+                int lastElementPosition = chosenLeadingProjects.size() - 1;
+                leadingVariantNameField.setText(chosenLeadingProjects.get(lastElementPosition));
             }
             super.handleEvent(event);
         } 
@@ -272,9 +307,10 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         
         @Override
         public void handleEvent(Event event) {
-            if (!isNotEmpty(integrationVariantNameField)) {
+            if (!isFilled(integrationVariantNameField) && (event.detail == SWT.CHECK)) {
                 List<String> chosenIntegrationProjects = getChosenProjectsNames(integrationProjectsTable);
-                integrationVariantNameField.setText(chosenIntegrationProjects.get(chosenIntegrationProjects.size() - 1));
+                int lastElementPosition = chosenIntegrationProjects.size() - 1;
+                integrationVariantNameField.setText(chosenIntegrationProjects.get(lastElementPosition));
             }
             super.handleEvent(event);
         }
