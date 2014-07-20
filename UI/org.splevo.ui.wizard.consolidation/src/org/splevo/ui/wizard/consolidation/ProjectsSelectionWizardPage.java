@@ -39,7 +39,7 @@ import org.splevo.ui.wizard.consolidation.provider.ProjectLabelProvider;
  * Second page of the New Consolidation Project Wizard in which leading and integration projects
  * have to be specified.
  *
- * @author Radoslav Yankov
+ * @author Radoslav Yankov 
  */
 public class ProjectsSelectionWizardPage extends WizardPage {
 
