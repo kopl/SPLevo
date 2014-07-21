@@ -1,17 +1,24 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SPLevo Diffing
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.splevo.diffing;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.apache.log4j,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.compare;bundle-version="2.1.0";visibility:=reexport,
  com.google.guava;bundle-version="[11.0.0,14.0.0]";visibility:=reexport,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
 Export-Package: org.splevo.diffing,
  org.splevo.diffing.match,
  org.splevo.diffing.postprocessor,
- org.splevo.diffing.util
+ org.splevo.diffing.util,
+ org.splevo.diffing.splevodiff,
+ org.splevo.diffing.splevodiff.impl,
+ org.splevo.diffing.splevodiff.util
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.splevo.diffing.Activator

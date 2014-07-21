@@ -9,7 +9,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated jamoppdiff -->
       <package
-            uri="http://www.eclipse.org/emf/compare/diff/jamoppdiff/1.0"
+            uri="http://www.splevo.org/diff/jamoppdiff/1.0"
             class="org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage"
             genModel="model/jamoppdiff.genmodel"/>
    </extension>

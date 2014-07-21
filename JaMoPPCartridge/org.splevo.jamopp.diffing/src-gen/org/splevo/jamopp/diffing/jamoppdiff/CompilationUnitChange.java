@@ -44,7 +44,7 @@ public interface CompilationUnitChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Compilation Unit</em>' reference.
      * @see #setChangedCompilationUnit(CompilationUnit)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getCompilationUnitChange_ChangedCompilationUnit()
-     * @model required="true"
+     * @model required="true" derived="true"
      * @generated
      */
     CompilationUnit getChangedCompilationUnit();

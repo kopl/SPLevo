@@ -91,10 +91,16 @@ public class StatementChangeImpl extends JaMoPPDiffImpl implements StatementChan
 
     /**
      * <!-- begin-user-doc -->
+     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     public void setChangedStatement(Statement newChangedStatement) {
+
+        // adapted to set changed element in the background
+        setChangedElement(newChangedStatement);
+        // end of custom code
+
         Statement oldChangedStatement = changedStatement;
         changedStatement = newChangedStatement;
         if (eNotificationRequired())

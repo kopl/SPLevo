@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Benjamin Klatt - initial API and implementation and/or initial documentation
  */
@@ -89,10 +89,16 @@ public class PackageChangeImpl extends JaMoPPDiffImpl implements PackageChange {
 
     /**
      * <!-- begin-user-doc -->
+     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     public void setChangedPackage(org.emftext.language.java.containers.Package newChangedPackage) {
+
+        // adapted to set changed element in the background
+        setChangedElement(newChangedPackage);
+        // end of custom code
+
         org.emftext.language.java.containers.Package oldChangedPackage = changedPackage;
         changedPackage = newChangedPackage;
         if (eNotificationRequired())

@@ -44,7 +44,7 @@ public interface ImportChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Import</em>' reference.
      * @see #setChangedImport(Import)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getImportChange_ChangedImport()
-     * @model required="true"
+     * @model required="true" derived="true"
      * @generated
      */
     Import getChangedImport();

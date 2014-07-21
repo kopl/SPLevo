@@ -14,6 +14,7 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.splevo.diffing.splevodiff.SPLevoDiff;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
@@ -90,6 +91,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             JaMoPPDiff jaMoPPDiff = (JaMoPPDiff) theEObject;
             T result = caseJaMoPPDiff(jaMoPPDiff);
             if (result == null)
+                result = caseSPLevoDiff(jaMoPPDiff);
+            if (result == null)
                 result = caseDiff(jaMoPPDiff);
             if (result == null)
                 result = defaultCase(theEObject);
@@ -100,6 +103,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             T result = caseStatementChange(statementChange);
             if (result == null)
                 result = caseJaMoPPDiff(statementChange);
+            if (result == null)
+                result = caseSPLevoDiff(statementChange);
             if (result == null)
                 result = caseDiff(statementChange);
             if (result == null)
@@ -112,6 +117,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             if (result == null)
                 result = caseJaMoPPDiff(importChange);
             if (result == null)
+                result = caseSPLevoDiff(importChange);
+            if (result == null)
                 result = caseDiff(importChange);
             if (result == null)
                 result = defaultCase(theEObject);
@@ -122,6 +129,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             T result = caseClassChange(classChange);
             if (result == null)
                 result = caseJaMoPPDiff(classChange);
+            if (result == null)
+                result = caseSPLevoDiff(classChange);
             if (result == null)
                 result = caseDiff(classChange);
             if (result == null)
@@ -134,6 +143,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             if (result == null)
                 result = caseJaMoPPDiff(fieldChange);
             if (result == null)
+                result = caseSPLevoDiff(fieldChange);
+            if (result == null)
                 result = caseDiff(fieldChange);
             if (result == null)
                 result = defaultCase(theEObject);
@@ -144,6 +155,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             T result = casePackageChange(packageChange);
             if (result == null)
                 result = caseJaMoPPDiff(packageChange);
+            if (result == null)
+                result = caseSPLevoDiff(packageChange);
             if (result == null)
                 result = caseDiff(packageChange);
             if (result == null)
@@ -156,6 +169,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             if (result == null)
                 result = caseJaMoPPDiff(methodChange);
             if (result == null)
+                result = caseSPLevoDiff(methodChange);
+            if (result == null)
                 result = caseDiff(methodChange);
             if (result == null)
                 result = defaultCase(theEObject);
@@ -166,6 +181,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             T result = caseConstructorChange(constructorChange);
             if (result == null)
                 result = caseJaMoPPDiff(constructorChange);
+            if (result == null)
+                result = caseSPLevoDiff(constructorChange);
             if (result == null)
                 result = caseDiff(constructorChange);
             if (result == null)
@@ -178,6 +195,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             if (result == null)
                 result = caseJaMoPPDiff(enumChange);
             if (result == null)
+                result = caseSPLevoDiff(enumChange);
+            if (result == null)
                 result = caseDiff(enumChange);
             if (result == null)
                 result = defaultCase(theEObject);
@@ -188,6 +207,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             T result = caseCompilationUnitChange(compilationUnitChange);
             if (result == null)
                 result = caseJaMoPPDiff(compilationUnitChange);
+            if (result == null)
+                result = caseSPLevoDiff(compilationUnitChange);
             if (result == null)
                 result = caseDiff(compilationUnitChange);
             if (result == null)
@@ -200,6 +221,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             if (result == null)
                 result = caseJaMoPPDiff(interfaceChange);
             if (result == null)
+                result = caseSPLevoDiff(interfaceChange);
+            if (result == null)
                 result = caseDiff(interfaceChange);
             if (result == null)
                 result = defaultCase(theEObject);
@@ -211,6 +234,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             if (result == null)
                 result = caseJaMoPPDiff(implementsChange);
             if (result == null)
+                result = caseSPLevoDiff(implementsChange);
+            if (result == null)
                 result = caseDiff(implementsChange);
             if (result == null)
                 result = defaultCase(theEObject);
@@ -221,6 +246,8 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
             T result = caseExtendsChange(extendsChange);
             if (result == null)
                 result = caseJaMoPPDiff(extendsChange);
+            if (result == null)
+                result = caseSPLevoDiff(extendsChange);
             if (result == null)
                 result = caseDiff(extendsChange);
             if (result == null)
@@ -439,6 +466,21 @@ public class JaMoPPDiffSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseDiff(Diff object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>SP Levo Diff</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>SP Levo Diff</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseSPLevoDiff(SPLevoDiff object) {
         return null;
     }
 

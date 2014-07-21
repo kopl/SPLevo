@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_U7nUYBCQEeSrp8dWXaWS0w" type="EcoreTools" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_U7yTgBCQEeSrp8dWXaWS0w" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_U71W0BCQEeSrp8dWXaWS0w" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_U7194BCQEeSrp8dWXaWS0w" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_U7194RCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_U7194hCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_U7194xCQEeSrp8dWXaWS0w"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_U7195BCQEeSrp8dWXaWS0w" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_U7195RCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_U7195hCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_U7195xCQEeSrp8dWXaWS0w"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_U7yTgRCQEeSrp8dWXaWS0w" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="splevodiff.ecore#//SPLevoDiff"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_U7yTghCQEeSrp8dWXaWS0w" x="318" y="384"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_XtJA0BCQEeSrp8dWXaWS0w" type="1001">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_XtKO8BCQEeSrp8dWXaWS0w" source="Shortcut">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_XtKO8RCQEeSrp8dWXaWS0w" key="modelID" value="EcoreTools"/>
+    </eAnnotations>
+    <children xmi:type="notation:Node" xmi:id="_XtJn4BCQEeSrp8dWXaWS0w" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_XtJn4RCQEeSrp8dWXaWS0w" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_XtJn4hCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_XtJn4xCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_XtJn5BCQEeSrp8dWXaWS0w"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_XtJn5RCQEeSrp8dWXaWS0w" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_XtJn5hCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_XtJn5xCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_XtJn6BCQEeSrp8dWXaWS0w"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_XtJA0RCQEeSrp8dWXaWS0w" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="platform:/plugin/org.eclipse.emf.compare/model/compare.ecore#//Diff"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XtJA0hCQEeSrp8dWXaWS0w" x="258" y="132"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_csmkcBCQEeSrp8dWXaWS0w" type="1001">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ctZOoBCQEeSrp8dWXaWS0w" source="Shortcut">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ctZOoRCQEeSrp8dWXaWS0w" key="modelID" value="EcoreTools"/>
+    </eAnnotations>
+    <children xmi:type="notation:Node" xmi:id="_ctFFkBCQEeSrp8dWXaWS0w" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ctFsoBCQEeSrp8dWXaWS0w" visible="false" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ctFsoRCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ctFsohCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ctFsoxCQEeSrp8dWXaWS0w"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ctFspBCQEeSrp8dWXaWS0w" visible="false" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ctFspRCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ctFsphCQEeSrp8dWXaWS0w"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ctFspxCQEeSrp8dWXaWS0w"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_csmkcRCQEeSrp8dWXaWS0w" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_csmkchCQEeSrp8dWXaWS0w" x="600" y="384"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_U7nUYRCQEeSrp8dWXaWS0w"/>
+  <element xmi:type="ecore:EPackage" href="splevodiff.ecore#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_gAy5EBCQEeSrp8dWXaWS0w" type="3002" source="_U7yTgBCQEeSrp8dWXaWS0w" target="_csmkcBCQEeSrp8dWXaWS0w">
+    <children xmi:type="notation:Node" xmi:id="_gA0HMBCQEeSrp8dWXaWS0w" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_gA0HMRCQEeSrp8dWXaWS0w" x="-44" y="-12"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_gA0uQBCQEeSrp8dWXaWS0w" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_gA0uQRCQEeSrp8dWXaWS0w" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_gAy5ERCQEeSrp8dWXaWS0w" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_gAy5EhCQEeSrp8dWXaWS0w" fontColor="4210752" fontName="Segoe UI" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="splevodiff.ecore#//SPLevoDiff/changedElement"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_gAy5ExCQEeSrp8dWXaWS0w" points="[50, -5, -142, -5]$[191, -23, -1, -23]"/>
+  </edges>
+</notation:Diagram>

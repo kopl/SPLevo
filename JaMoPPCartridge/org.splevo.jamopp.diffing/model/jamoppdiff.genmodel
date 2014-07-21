@@ -6,7 +6,7 @@
     modelName="JaMoPPDiff" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     codeFormatting="true" testsDirectory="/org.splevo.jamopp.diffing.tests/src-gen"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    usedGenPackages="platform:/plugin/org.eclipse.emf.compare/model/compare.genmodel#//compare platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.emftext.language.java/metamodel/java.genmodel#//java platform:/plugin/org.emftext.commons.layout/metamodel/layout.genmodel#//layout"
+    usedGenPackages="platform:/plugin/org.eclipse.emf.compare/model/compare.genmodel#//compare platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.emftext.language.java/metamodel/java.genmodel#//java platform:/plugin/org.emftext.commons.layout/metamodel/layout.genmodel#//layout ../../org.splevo.diffing/model/splevodiff.genmodel#//splevodiff"
     importOrganizing="true">
   <foreignModel>jamoppdiff.ecore</foreignModel>
   <genPackages prefix="JaMoPPDiff" basePackage="org.splevo.jamopp.diffing" disposableProviderFactory="true"

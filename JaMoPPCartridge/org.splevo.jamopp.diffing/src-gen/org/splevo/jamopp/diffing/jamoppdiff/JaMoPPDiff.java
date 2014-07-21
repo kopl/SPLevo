@@ -10,7 +10,7 @@
  */
 package org.splevo.jamopp.diffing.jamoppdiff;
 
-import org.eclipse.emf.compare.Diff;
+import org.splevo.diffing.splevodiff.SPLevoDiff;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +18,7 @@ import org.eclipse.emf.compare.Diff;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * An EMF Compare Diffing extension model specific for the Java meta model extracted by the JaMoPP tooling.
+ * A SPLevo Diffing extension model specific for the Java meta model extracted by the JaMoPP tooling.
  * 
  * This diffing uses the terms "left model" and "right model". 
  * The right model identifies the original model.
@@ -30,5 +30,5 @@ import org.eclipse.emf.compare.Diff;
  * @model abstract="true"
  * @generated
  */
-public interface JaMoPPDiff extends Diff {
+public interface JaMoPPDiff extends SPLevoDiff {
 } // JaMoPPDiff

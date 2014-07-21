@@ -42,7 +42,7 @@ public interface PackageChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Package</em>' reference.
      * @see #setChangedPackage(org.emftext.language.java.containers.Package)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getPackageChange_ChangedPackage()
-     * @model required="true"
+     * @model required="true" derived="true"
      * @generated
      */
     org.emftext.language.java.containers.Package getChangedPackage();

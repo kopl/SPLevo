@@ -10,8 +10,8 @@
  */
 package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
-import org.eclipse.emf.compare.impl.DiffImpl;
 import org.eclipse.emf.ecore.EClass;
+import org.splevo.diffing.splevodiff.impl.SPLevoDiffImpl;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiff;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
 
@@ -24,7 +24,7 @@ import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
  *
  * @generated
  */
-public abstract class JaMoPPDiffImpl extends DiffImpl implements JaMoPPDiff {
+public abstract class JaMoPPDiffImpl extends SPLevoDiffImpl implements JaMoPPDiff {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

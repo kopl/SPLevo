@@ -44,7 +44,7 @@ public interface InterfaceChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Interface</em>' reference.
      * @see #setChangedInterface(Interface)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getInterfaceChange_ChangedInterface()
-     * @model required="true"
+     * @model required="true" derived="true"
      * @generated
      */
     Interface getChangedInterface();

@@ -3,4 +3,12 @@
 <plugin>
    <extension-point id="org.splevo.diffing.differ" name="Software Model Differ" schema="schema/org.splevo.diffing.differ.exsd"/>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated splevodiff -->
+      <package
+            uri="http://www.splevo.org/diff/1.0"
+            class="org.splevo.diffing.splevodiff.SPLevoDiffPackage"
+            genModel="model/splevodiff.genmodel"/>
+   </extension>
+
 </plugin>

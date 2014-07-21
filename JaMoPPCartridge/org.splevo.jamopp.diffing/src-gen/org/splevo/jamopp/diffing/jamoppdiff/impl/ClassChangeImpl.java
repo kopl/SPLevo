@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Benjamin Klatt - initial API and implementation and/or initial documentation
  */
@@ -89,10 +89,16 @@ public class ClassChangeImpl extends JaMoPPDiffImpl implements ClassChange {
 
     /**
      * <!-- begin-user-doc -->
+     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     public void setChangedClass(org.emftext.language.java.classifiers.Class newChangedClass) {
+
+        // adapted to set changed element in the background
+        setChangedElement(newChangedClass);
+        // end of custom code
+
         org.emftext.language.java.classifiers.Class oldChangedClass = changedClass;
         changedClass = newChangedClass;
         if (eNotificationRequired())

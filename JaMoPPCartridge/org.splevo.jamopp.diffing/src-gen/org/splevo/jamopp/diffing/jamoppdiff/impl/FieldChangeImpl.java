@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Benjamin Klatt - initial API and implementation and/or initial documentation
  */
@@ -90,10 +90,15 @@ public class FieldChangeImpl extends JaMoPPDiffImpl implements FieldChange {
 
     /**
      * <!-- begin-user-doc -->
+     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     public void setChangedField(Field newChangedField) {
+        // adapted to set changed element in the background
+        setChangedElement(newChangedField);
+        // end of custom code
+
         Field oldChangedField = changedField;
         changedField = newChangedField;
         if (eNotificationRequired())

@@ -15,6 +15,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
+import org.splevo.diffing.splevodiff.SPLevoDiff;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
@@ -153,6 +154,11 @@ public class JaMoPPDiffAdapterFactory extends AdapterFactoryImpl {
         @Override
         public Adapter caseDiff(Diff object) {
             return createDiffAdapter();
+        }
+
+        @Override
+        public Adapter caseSPLevoDiff(SPLevoDiff object) {
+            return createSPLevoDiffAdapter();
         }
 
         @Override
@@ -367,6 +373,20 @@ public class JaMoPPDiffAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDiffAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.diffing.splevodiff.SPLevoDiff <em>SP Levo Diff</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.diffing.splevodiff.SPLevoDiff
+     * @generated
+     */
+    public Adapter createSPLevoDiffAdapter() {
         return null;
     }
 

@@ -43,7 +43,7 @@ public interface ImplementsChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Reference</em>' reference.
      * @see #setChangedReference(TypeReference)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getImplementsChange_ChangedReference()
-     * @model
+     * @model derived="true"
      * @generated
      */
     TypeReference getChangedReference();

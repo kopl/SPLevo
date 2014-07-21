@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Benjamin Klatt - initial API and implementation and/or initial documentation
  */
@@ -90,10 +90,15 @@ public class ImportChangeImpl extends JaMoPPDiffImpl implements ImportChange {
 
     /**
      * <!-- begin-user-doc -->
+     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     public void setChangedImport(Import newChangedImport) {
+        // adapted to set changed element in the background
+        setChangedElement(newChangedImport);
+        // end of custom code
+
         Import oldChangedImport = changedImport;
         changedImport = newChangedImport;
         if (eNotificationRequired())

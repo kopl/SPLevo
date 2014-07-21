@@ -4,50 +4,51 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     Benjamin Klatt - initial API and implementation and/or initial documentation
  */
-package org.splevo.jamopp.diffing.jamoppdiff.impl;
+package org.splevo.diffing.splevodiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.compare.impl.DiffImpl;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.emftext.language.java.types.TypeReference;
-import org.splevo.jamopp.diffing.jamoppdiff.ImplementsChange;
-import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
+import org.splevo.diffing.splevodiff.SPLevoDiff;
+import org.splevo.diffing.splevodiff.SPLevoDiffPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Implements Change</b></em>'.
+ * An implementation of the model object '<em><b>SP Levo Diff</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.splevo.jamopp.diffing.jamoppdiff.impl.ImplementsChangeImpl#getChangedReference <em>Changed Reference</em>}</li>
+ *   <li>{@link org.splevo.diffing.splevodiff.impl.SPLevoDiffImpl#getChangedElement <em>Changed Element</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ImplementsChangeImpl extends JaMoPPDiffImpl implements ImplementsChange {
+public class SPLevoDiffImpl extends DiffImpl implements SPLevoDiff {
     /**
-     * The cached value of the '{@link #getChangedReference() <em>Changed Reference</em>}' reference.
+     * The cached value of the '{@link #getChangedElement() <em>Changed Element</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getChangedReference()
+     * @see #getChangedElement()
      * @generated
      * @ordered
      */
-    protected TypeReference changedReference;
+    protected EObject changedElement;
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected ImplementsChangeImpl() {
+    protected SPLevoDiffImpl() {
         super();
     }
 
@@ -58,7 +59,7 @@ public class ImplementsChangeImpl extends JaMoPPDiffImpl implements ImplementsCh
      */
     @Override
     protected EClass eStaticClass() {
-        return JaMoPPDiffPackage.Literals.IMPLEMENTS_CHANGE;
+        return SPLevoDiffPackage.Literals.SP_LEVO_DIFF;
     }
 
     /**
@@ -66,18 +67,17 @@ public class ImplementsChangeImpl extends JaMoPPDiffImpl implements ImplementsCh
      * <!-- end-user-doc -->
      * @generated
      */
-    public TypeReference getChangedReference() {
-        if (changedReference != null && changedReference.eIsProxy()) {
-            InternalEObject oldChangedReference = (InternalEObject) changedReference;
-            changedReference = (TypeReference) eResolveProxy(oldChangedReference);
-            if (changedReference != oldChangedReference) {
+    public EObject getChangedElement() {
+        if (changedElement != null && changedElement.eIsProxy()) {
+            InternalEObject oldChangedElement = (InternalEObject) changedElement;
+            changedElement = eResolveProxy(oldChangedElement);
+            if (changedElement != oldChangedElement) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            JaMoPPDiffPackage.IMPLEMENTS_CHANGE__CHANGED_REFERENCE, oldChangedReference,
-                            changedReference));
+                            SPLevoDiffPackage.SP_LEVO_DIFF__CHANGED_ELEMENT, oldChangedElement, changedElement));
             }
         }
-        return changedReference;
+        return changedElement;
     }
 
     /**
@@ -85,26 +85,21 @@ public class ImplementsChangeImpl extends JaMoPPDiffImpl implements ImplementsCh
      * <!-- end-user-doc -->
      * @generated
      */
-    public TypeReference basicGetChangedReference() {
-        return changedReference;
+    public EObject basicGetChangedElement() {
+        return changedElement;
     }
 
     /**
      * <!-- begin-user-doc -->
-     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
-    public void setChangedReference(TypeReference newChangedReference) {
-        // adapted to set changed element in the background
-        setChangedElement(newChangedReference);
-        // end of custom code
-
-        TypeReference oldChangedReference = changedReference;
-        changedReference = newChangedReference;
+    public void setChangedElement(EObject newChangedElement) {
+        EObject oldChangedElement = changedElement;
+        changedElement = newChangedElement;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET,
-                    JaMoPPDiffPackage.IMPLEMENTS_CHANGE__CHANGED_REFERENCE, oldChangedReference, changedReference));
+            eNotify(new ENotificationImpl(this, Notification.SET, SPLevoDiffPackage.SP_LEVO_DIFF__CHANGED_ELEMENT,
+                    oldChangedElement, changedElement));
     }
 
     /**
@@ -115,10 +110,10 @@ public class ImplementsChangeImpl extends JaMoPPDiffImpl implements ImplementsCh
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case JaMoPPDiffPackage.IMPLEMENTS_CHANGE__CHANGED_REFERENCE:
+        case SPLevoDiffPackage.SP_LEVO_DIFF__CHANGED_ELEMENT:
             if (resolve)
-                return getChangedReference();
-            return basicGetChangedReference();
+                return getChangedElement();
+            return basicGetChangedElement();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -131,8 +126,8 @@ public class ImplementsChangeImpl extends JaMoPPDiffImpl implements ImplementsCh
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case JaMoPPDiffPackage.IMPLEMENTS_CHANGE__CHANGED_REFERENCE:
-            setChangedReference((TypeReference) newValue);
+        case SPLevoDiffPackage.SP_LEVO_DIFF__CHANGED_ELEMENT:
+            setChangedElement((EObject) newValue);
             return;
         }
         super.eSet(featureID, newValue);
@@ -146,8 +141,8 @@ public class ImplementsChangeImpl extends JaMoPPDiffImpl implements ImplementsCh
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-        case JaMoPPDiffPackage.IMPLEMENTS_CHANGE__CHANGED_REFERENCE:
-            setChangedReference((TypeReference) null);
+        case SPLevoDiffPackage.SP_LEVO_DIFF__CHANGED_ELEMENT:
+            setChangedElement((EObject) null);
             return;
         }
         super.eUnset(featureID);
@@ -161,10 +156,10 @@ public class ImplementsChangeImpl extends JaMoPPDiffImpl implements ImplementsCh
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case JaMoPPDiffPackage.IMPLEMENTS_CHANGE__CHANGED_REFERENCE:
-            return changedReference != null;
+        case SPLevoDiffPackage.SP_LEVO_DIFF__CHANGED_ELEMENT:
+            return changedElement != null;
         }
         return super.eIsSet(featureID);
     }
 
-} //ImplementsChangeImpl
+} //SPLevoDiffImpl

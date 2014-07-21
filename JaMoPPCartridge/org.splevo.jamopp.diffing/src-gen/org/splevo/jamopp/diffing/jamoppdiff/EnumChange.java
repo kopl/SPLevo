@@ -44,7 +44,7 @@ public interface EnumChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Enum</em>' reference.
      * @see #setChangedEnum(Enumeration)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getEnumChange_ChangedEnum()
-     * @model required="true"
+     * @model required="true" derived="true"
      * @generated
      */
     Enumeration getChangedEnum();
