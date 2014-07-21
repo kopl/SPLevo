@@ -95,24 +95,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int JA_MO_PP_DIFF__REQUIRED_BY = SPLevoDiffPackage.SP_LEVO_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int JA_MO_PP_DIFF__IMPLIES = SPLevoDiffPackage.SP_LEVO_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int JA_MO_PP_DIFF__IMPLIED_BY = SPLevoDiffPackage.SP_LEVO_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -129,16 +111,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int JA_MO_PP_DIFF__REFINED_BY = SPLevoDiffPackage.SP_LEVO_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int JA_MO_PP_DIFF__PRIME_REFINING = SPLevoDiffPackage.SP_LEVO_DIFF__PRIME_REFINING;
-
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
      * <!-- begin-user-doc --> <!--
@@ -239,24 +211,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int STATEMENT_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int STATEMENT_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int STATEMENT_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -273,15 +227,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int STATEMENT_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int STATEMENT_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -392,24 +337,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int IMPORT_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int IMPORT_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int IMPORT_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -426,15 +353,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int IMPORT_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int IMPORT_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -545,24 +463,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int CLASS_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CLASS_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CLASS_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -579,15 +479,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int CLASS_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CLASS_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -698,24 +589,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int FIELD_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FIELD_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FIELD_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -732,15 +605,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int FIELD_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FIELD_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -851,24 +715,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int PACKAGE_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PACKAGE_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PACKAGE_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -885,15 +731,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int PACKAGE_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PACKAGE_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1004,24 +841,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int METHOD_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int METHOD_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int METHOD_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -1038,15 +857,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int METHOD_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int METHOD_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1157,24 +967,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int CONSTRUCTOR_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONSTRUCTOR_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONSTRUCTOR_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -1191,15 +983,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int CONSTRUCTOR_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONSTRUCTOR_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1310,24 +1093,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int ENUM_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ENUM_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ENUM_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -1344,15 +1109,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int ENUM_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ENUM_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1463,24 +1219,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int COMPILATION_UNIT_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPILATION_UNIT_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPILATION_UNIT_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -1497,15 +1235,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int COMPILATION_UNIT_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPILATION_UNIT_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1616,24 +1345,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int INTERFACE_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTERFACE_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTERFACE_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -1650,15 +1361,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int INTERFACE_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTERFACE_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1769,24 +1471,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int IMPLEMENTS_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int IMPLEMENTS_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int IMPLEMENTS_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -1803,15 +1487,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int IMPLEMENTS_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int IMPLEMENTS_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -1922,24 +1597,6 @@ public interface JaMoPPDiffPackage extends EPackage {
     int EXTENDS_CHANGE__REQUIRED_BY = JA_MO_PP_DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EXTENDS_CHANGE__IMPLIES = JA_MO_PP_DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EXTENDS_CHANGE__IMPLIED_BY = JA_MO_PP_DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
@@ -1956,15 +1613,6 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int EXTENDS_CHANGE__REFINED_BY = JA_MO_PP_DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EXTENDS_CHANGE__PRIME_REFINING = JA_MO_PP_DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
