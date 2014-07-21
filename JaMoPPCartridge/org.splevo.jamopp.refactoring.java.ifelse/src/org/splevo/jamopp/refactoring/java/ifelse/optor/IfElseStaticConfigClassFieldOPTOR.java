@@ -11,8 +11,6 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.literals.LiteralsFactory;
-import org.emftext.language.java.literals.NullLiteral;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.operators.OperatorsFactory;
@@ -41,8 +39,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Field";
-    private static final String REFACTORING_ID = 
-            "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassFieldOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassFieldOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -54,36 +51,36 @@ public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring
 
     @Override
     public void refactor(VariationPoint vp) {
-        RefactoringUtil.deleteVariableMembers(vp);
+        RefactoringUtil.deleteVariableMembersFromLeading(vp);
 
         Map<String, Field> fieldsToName = new HashMap<String, Field>();
         Map<Field, Integer> positionToField = new HashMap<Field, Integer>();
-        Map<String, List<Expression>> expressionsToName = new HashMap<String, List<Expression>>();
-        Map<Expression, String> variantIDToExpression = new HashMap<Expression, String>();
+        Map<String, List<Expression>> initialValuesToFieldName = new HashMap<String, List<Expression>>();
+        Map<Expression, String> variantIDToInitialValue = new HashMap<Expression, String>();
 
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
-        fillMaps(vp, fieldsToName, expressionsToName, variantIDToExpression, positionToField);
+        fillMaps(vp, fieldsToName, initialValuesToFieldName, variantIDToInitialValue, positionToField);
 
         for (String fieldName : fieldsToName.keySet()) {
             Field field = fieldsToName.get(fieldName);
-            List<Expression> initialValues = expressionsToName.get(fieldName);
+            List<Expression> initialValues = initialValuesToFieldName.get(fieldName);
             int fieldPos = positionToField.get(field);
+
             vpLocation.getMembers().add(fieldPos, field);
 
             RefactoringUtil.removeFinalIfApplicable(field);
 
             if (initialValues.size() > 1 && hasDifferentValues(initialValues)) {
-                NullLiteral nullLiteral = LiteralsFactory.eINSTANCE.createNullLiteral();
-                field.setInitialValue(nullLiteral);
-
                 Block initializingBlock = StatementsFactory.eINSTANCE.createBlock();
 
                 for (Expression value : initialValues) {
-                    String variantId = variantIDToExpression.get(value);
+                    String variantId = variantIDToInitialValue.get(value);
                     String groupId = vp.getGroup().getId();
                     Condition condition = RefactoringUtil
                             .generateConditionVariantIDWithEmptyIfBlock(variantId, groupId);
+                    Block ifBlock = (Block) condition.getStatement();
+
                     AssignmentExpression assignmentExpr = ExpressionsFactory.eINSTANCE.createAssignmentExpression();
                     assignmentExpr.setValue(value);
                     assignmentExpr.setAssignmentOperator(OperatorsFactory.eINSTANCE.createAssignment());
@@ -92,9 +89,12 @@ public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring
                     assignmentExpr.setChild(fieldRef);
                     ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
                     expressionStatement.setExpression(assignmentExpr);
-                    ((Block) condition.getStatement()).getStatements().add(expressionStatement);
+
+                    ifBlock.getStatements().add(expressionStatement);
+
                     initializingBlock.getStatements().add(condition);
                 }
+
                 vpLocation.getMembers().add(++fieldPos, initializingBlock);
             }
         }

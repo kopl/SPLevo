@@ -2,7 +2,6 @@ package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
@@ -17,9 +16,8 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * The code base container must contain all classes from the variants. Therefore,
- * this refactoring merges the classes from all variants into the base, if there are no
- * interferences.
+ * The code base container must contain all classes from the variants. Therefore, this refactoring
+ * merges the classes from all variants into the base, if there are no interferences.
  */
 public class IfElseStaticConfigClassClassOPTOR implements VariabilityRefactoring {
 
@@ -44,8 +42,11 @@ public class IfElseStaticConfigClassClassOPTOR implements VariabilityRefactoring
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Member member = (Member) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                vpLocation.getMembers().add(member);
+                Class member = (Class) ((JaMoPPSoftwareElement) se).getJamoppElement();
+
+                if (!RefactoringUtil.containsClassInterfaceOrEnumWithName(vpLocation, member.getName())) {
+                    vpLocation.getMembers().add(member);
+                }
             }
         }
     }
@@ -66,13 +67,8 @@ public class IfElseStaticConfigClassClassOPTOR implements VariabilityRefactoring
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Class.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreClasses;
 
-        if (!correctInput) {
-            return false;
-        }
-
-        return !RefactoringUtil.hasConflictingClasses(variationPoint);
+        return hasEnoughVariants && correctLocation && allImplementingElementsAreClasses;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
         if (RefactoringUtil.hasImplementingElementsOfType(vp, Return.class)) {
             RefactoringUtil
-                    .addCommentBefore(vpLocation, "FIXME: Introduces optional variability for return statement.");
+                    .addCommentBefore(vpLocation, "FIXME: Introduced optional variability for return statement.");
         }
 
         ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();

@@ -43,7 +43,7 @@ public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactorin
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Method currentMethod = (Method) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (!RefactoringUtil.hasMethodWithEqualParameters(vpLocation, currentMethod)) {
+                if (!RefactoringUtil.hasMethodWithEqualNameAndParameters(vpLocation, currentMethod)) {
                     vpLocation.getMembers().add(currentMethod);
                 }
             }

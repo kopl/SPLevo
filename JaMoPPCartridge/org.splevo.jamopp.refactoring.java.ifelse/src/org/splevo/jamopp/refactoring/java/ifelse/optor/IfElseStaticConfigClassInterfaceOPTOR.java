@@ -2,7 +2,6 @@ package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
@@ -23,8 +22,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassInterfaceOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Interface";
-    private static final String REFACTORING_ID = 
-            "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassInterfaceOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassInterfaceOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -43,8 +41,11 @@ public class IfElseStaticConfigClassInterfaceOPTOR implements VariabilityRefacto
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Member member = (Member) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                vpLocation.getMembers().add(member);
+                Interface i = (Interface) ((JaMoPPSoftwareElement) se).getJamoppElement();
+
+                if (!RefactoringUtil.containsClassInterfaceOrEnumWithName(vpLocation, i.getName())) {
+                    vpLocation.getMembers().add(i);
+                }
             }
         }
     }
@@ -65,13 +66,7 @@ public class IfElseStaticConfigClassInterfaceOPTOR implements VariabilityRefacto
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreFields = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Interface.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreFields;
-
-        if (!correctInput) {
-            return false;
-        }
-
-        return !RefactoringUtil.hasConflictingInterfaces(variationPoint);
+        return hasEnoughVariants && correctLocation && allImplementingElementsAreFields;
     }
 
     @Override

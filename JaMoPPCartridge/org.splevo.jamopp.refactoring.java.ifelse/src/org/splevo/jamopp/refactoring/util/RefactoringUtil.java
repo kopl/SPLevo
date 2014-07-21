@@ -31,7 +31,6 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.instantiations.ExplicitConstructorCall;
 import org.emftext.language.java.literals.BooleanLiteral;
@@ -49,7 +48,6 @@ import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Final;
-import org.emftext.language.java.modifiers.Modifiable;
 import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.operators.OperatorsFactory;
 import org.emftext.language.java.references.IdentifierReference;
@@ -110,7 +108,7 @@ public final class RefactoringUtil {
      * @param variationPoint
      *            The {@link VariationPoint}.
      */
-    public static void deleteVariableMembers(VariationPoint variationPoint) {
+    public static void deleteVariableMembersFromLeading(VariationPoint variationPoint) {
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
         for (Variant variant : variationPoint.getVariants()) {
@@ -124,13 +122,12 @@ public final class RefactoringUtil {
     }
 
     /**
-     * TODO
+     * Calculates the position where the variable statements of a given variation point have to be
+     * placed in the leading variant.
      * 
-     * @param vpLocation
-     *            The variation point's location.
-     * @param variant
-     *            The {@link Variant}.
-     * @return The position. -1 if it could not be calculated.
+     * @param variationPoint
+     *            The variation point.
+     * @return The position.
      */
     public static int getVariabilityPosition(VariationPoint variationPoint) {
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
@@ -178,7 +175,7 @@ public final class RefactoringUtil {
         for (int i = 0; i < vpLocation.getStatements().size(); i++) {
             Statement vpLocationStatement = vpLocation.getStatements().get(i);
             Statement precedingElement = precedingElements.get(currentIndexPreElements);
-            
+
             boolean statementsEqual = areEqual(vpLocationStatement, precedingElement);
 
             if (statementsEqual) {
@@ -257,7 +254,7 @@ public final class RefactoringUtil {
             if (statementsEqual) {
                 return true;
             }
-            
+
             if (vpLocationStatement instanceof Condition
                     && ((Condition) vpLocationStatement).getStatement() instanceof Block) {
                 Block block = (Block) ((Condition) vpLocationStatement).getStatement();
@@ -320,7 +317,7 @@ public final class RefactoringUtil {
         return expressionStatement;
     }
 
-    public static boolean replaceLocalVariableStatementWithExpressionStatement(LocalVariableStatement statement) {
+    private static boolean replaceLocalVariableStatementWithExpressionStatement(LocalVariableStatement statement) {
         ExpressionStatement extractedAssignment = extractAssignment(statement.getVariable());
         StatementListContainer parentContainer = (StatementListContainer) statement.eContainer();
 
@@ -571,7 +568,7 @@ public final class RefactoringUtil {
      *            The {@link Method} to compare with.
      * @return <code>true</code> if such a method is found; <code>false</code> otherwise.
      */
-    public static boolean hasMethodWithEqualParameters(MemberContainer memberContainer, Method method) {
+    public static boolean hasMethodWithEqualNameAndParameters(MemberContainer memberContainer, Method method) {
         for (Method vpMethod : memberContainer.getMethods()) {
             if (method.getName().equals(vpMethod.getName())
                     && EcoreUtil.equals(method.getParameters(), vpMethod.getParameters())) {
@@ -609,75 +606,6 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Checks whether a variation point's location and variants have conflicting classes (same name
-     * but different extends/implements).
-     * 
-     * @param variationPoint
-     *            The {@link VariationPoint}.
-     * @return <code>true</code> if interfering members were found; <code>false</code> otherwise.
-     */
-    public static boolean hasConflictingClasses(VariationPoint variationPoint) {
-        TypeReference extendsRefs = null;
-        List<TypeReference> implementsRefs = null;
-        boolean isFirst = true;
-
-        for (Variant variant : variationPoint.getVariants()) {
-            for (SoftwareElement se : variant.getImplementingElements()) {
-                Member member = (Member) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (!(member instanceof Class)) {
-                    continue;
-                }
-                Class c = (Class) member;
-                if (isFirst) {
-                    isFirst = false;
-                    extendsRefs = c.getExtends();
-                    implementsRefs = c.getImplements();
-                } else {
-                    if (!EcoreUtil.equals(extendsRefs, c.getExtends())) {
-                        return true;
-                    }
-                    if (!EcoreUtil.equals(implementsRefs, c.getImplements())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks whether a variation point's location and variants have conflicting interfaces (same
-     * name but different extends).
-     * 
-     * @param variationPoint
-     *            The {@link VariationPoint}.
-     * @return <code>true</code> if interfering members were found; <code>false</code> otherwise.
-     */
-    public static boolean hasConflictingInterfaces(VariationPoint variationPoint) {
-        List<TypeReference> extendsRef = null;
-        boolean isFirst = true;
-
-        for (Variant variant : variationPoint.getVariants()) {
-            for (SoftwareElement se : variant.getImplementingElements()) {
-                Member member = (Member) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (!(member instanceof Interface)) {
-                    continue;
-                }
-                Interface c = (Interface) member;
-                if (isFirst) {
-                    isFirst = false;
-                    extendsRef = c.getExtends();
-                } else {
-                    if (!EcoreUtil.equals(extendsRef, c.getExtends())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * Checks whether a variation point has fields with equal names but different types.
      * 
      * @param variationPoint
@@ -697,31 +625,6 @@ public final class RefactoringUtil {
                     if (oldValue != null && !oldValue.getClass().equals(fieldType.getClass())) {
                         return true;
                     }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks whether a variation point has enums with equal names but different extends.
-     * 
-     * @param variationPoint
-     *            The {@link VariationPoint}.
-     * @return <code>true</code> if the vp has enums with equal name but different extends;
-     *         <code>false</code> otherwise.
-     */
-    public static boolean hasConflictingEnums(VariationPoint variationPoint) {
-        EList<TypeReference> implementsList = null;
-        for (Variant variant : variationPoint.getVariants()) {
-            for (SoftwareElement se : variant.getImplementingElements()) {
-                Enumeration enumeration = (Enumeration) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (implementsList == null) {
-                    implementsList = enumeration.getImplements();
-                    continue;
-                }
-                if (!EcoreUtil.equals(implementsList, enumeration.getImplements())) {
-                    return true;
                 }
             }
         }
@@ -896,16 +799,46 @@ public final class RefactoringUtil {
         return layoutInfos;
     }
 
-    public static boolean hasVariableWithSameName(StatementListContainer vpLocation, String key) {
-        for (Statement statement : vpLocation.getStatements()) {
+    /**
+     * Checks whether a given container has local variable declarations with a given name.
+     * 
+     * @param container
+     *            The container.
+     * @param name
+     *            The {@link String} name.
+     * @return <code>true</code> if such a variable was found; <code>false</code> otherwise.
+     */
+    public static boolean hasVariableWithSameName(StatementListContainer container, String name) {
+        for (Statement statement : container.getStatements()) {
             if (!(statement instanceof LocalVariableStatement)) {
                 continue;
             }
 
-            boolean hasEqualName = ((LocalVariableStatement) statement).getVariable().getName().equals(key);
+            boolean hasEqualName = ((LocalVariableStatement) statement).getVariable().getName().equals(name);
 
             if (hasEqualName) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether a given container has a class, interface or enumeration with with a given
+     * name.
+     * 
+     * @param container
+     *            The {@link MemberContainer}.
+     * @param name
+     *            The {@link String} name.
+     * @return <code>true</code> if such a entity was found; <code>false</code> otherwise.
+     */
+    public static boolean containsClassInterfaceOrEnumWithName(MemberContainer container, String name) {
+        for (Member member : container.getMembers()) {
+            if (member instanceof Class || member instanceof Interface || member instanceof Enumeration) {
+                if (member.getName().equals(name)) {
+                    return true;
+                }
             }
         }
         return false;

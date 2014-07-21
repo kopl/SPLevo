@@ -66,9 +66,8 @@ public class IfElseStaticConfigClassConstructorOPTOR implements VariabilityRefac
         boolean correctLocation = jamoppElement instanceof Class;
         boolean allImplementingElementsAreConstructors = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Constructor.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreConstructors;
-
-        return correctInput;
+        
+        return hasEnoughVariants && correctLocation && allImplementingElementsAreConstructors;
     }
 
     @Override

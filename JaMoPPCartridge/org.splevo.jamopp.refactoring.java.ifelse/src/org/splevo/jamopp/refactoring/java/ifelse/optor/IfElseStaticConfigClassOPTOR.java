@@ -51,7 +51,7 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             if (refactoring.canBeAppliedTo(vp)) {
                 refactoring.refactor(vp);
-                logger.info("Refactored with: " + refactoring.getVariabilityMechanism().getName());
+                logger.info("Used refactoring: " + refactoring.getVariabilityMechanism().getName());
             }
         }
     }

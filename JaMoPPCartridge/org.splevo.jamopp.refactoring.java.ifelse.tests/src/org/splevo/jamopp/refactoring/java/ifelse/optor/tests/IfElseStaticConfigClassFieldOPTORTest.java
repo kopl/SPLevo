@@ -30,7 +30,6 @@ import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
-import org.emftext.language.java.literals.NullLiteral;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MembersFactory;
@@ -226,7 +225,6 @@ public class IfElseStaticConfigClassFieldOPTORTest {
 
         // correct field name and initial value
         assertThat(field.getName(), equalTo("a"));
-        assertThat(field.getInitialValue(), instanceOf(NullLiteral.class));
 
         // correct static block
         assertThat(block.getModifiers().size(), equalTo(0));
