@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Benjamin Klatt - initial API and implementation and/or initial documentation
  */
@@ -101,24 +101,6 @@ public interface SPLevoDiffPackage extends EPackage {
     int SP_LEVO_DIFF__REQUIRED_BY = ComparePackage.DIFF__REQUIRED_BY;
 
     /**
-     * The feature id for the '<em><b>Implies</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SP_LEVO_DIFF__IMPLIES = ComparePackage.DIFF__IMPLIES;
-
-    /**
-     * The feature id for the '<em><b>Implied By</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SP_LEVO_DIFF__IMPLIED_BY = ComparePackage.DIFF__IMPLIED_BY;
-
-    /**
      * The feature id for the '<em><b>Refines</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -135,15 +117,6 @@ public interface SPLevoDiffPackage extends EPackage {
      * @ordered
      */
     int SP_LEVO_DIFF__REFINED_BY = ComparePackage.DIFF__REFINED_BY;
-
-    /**
-     * The feature id for the '<em><b>Prime Refining</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SP_LEVO_DIFF__PRIME_REFINING = ComparePackage.DIFF__PRIME_REFINING;
 
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
