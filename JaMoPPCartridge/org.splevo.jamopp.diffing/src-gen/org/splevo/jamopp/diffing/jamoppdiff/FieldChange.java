@@ -40,7 +40,7 @@ public interface FieldChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Field</em>' reference.
      * @see #setChangedField(Field)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getFieldChange_ChangedField()
-     * @model required="true" derived="true"
+     * @model required="true"
      * @generated
      */
     Field getChangedField();

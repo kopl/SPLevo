@@ -12,84 +12,73 @@
       <details key="documentation" value="A change on a statement level.&#xD;&#xA;Depending on the type of change (delete, add, remove, move) the left, right or both statement references are filled."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedStatement" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//statements/Statement"
-        derived="true"/>
+        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//statements/Statement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImportChange" eSuperTypes="#//JaMoPPDiff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A difference identifying that an import has been changed."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedImport" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//imports/Import"
-        derived="true"/>
+        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//imports/Import"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClassChange" eSuperTypes="#//JaMoPPDiff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A changed class declaration."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedClass" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//classifiers/Class"
-        derived="true"/>
+        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//classifiers/Class"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FieldChange" eSuperTypes="#//JaMoPPDiff">
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedField" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//members/Field"
-        derived="true"/>
+        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//members/Field"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PackageChange" eSuperTypes="#//JaMoPPDiff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A changed package declaration."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedPackage" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//containers/Package"
-        derived="true"/>
+        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//containers/Package"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MethodChange" eSuperTypes="#//JaMoPPDiff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A changed method declaration."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedMethod" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//members/Method"
-        derived="true"/>
+        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//members/Method"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConstructorChange" eSuperTypes="#//JaMoPPDiff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A changed constructor declaration."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedConstructor" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//members/Constructor"
-        derived="true"/>
+        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//members/Constructor"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EnumChange" eSuperTypes="#//JaMoPPDiff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Change that indications a modification of an enumeration type."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedEnum" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//classifiers/Enumeration"
-        derived="true"/>
+        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//classifiers/Enumeration"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompilationUnitChange" eSuperTypes="#//JaMoPPDiff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A changed comilatio unit representing a physical software artefact."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedCompilationUnit"
-        lowerBound="1" eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//containers/CompilationUnit"
-        derived="true"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//containers/CompilationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InterfaceChange" eSuperTypes="#//JaMoPPDiff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A changed interface declaration."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changedInterface" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//classifiers/Interface"
-        derived="true"/>
+        eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//classifiers/Interface"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ImplementsChange" eSuperTypes="#//JaMoPPDiff">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Change describes a modified implements relations ship"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="changedReference" eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//types/TypeReference"
-        derived="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedReference" eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//types/TypeReference">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The changed imeplements reference."/>
       </eAnnotations>
@@ -99,8 +88,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Change describing a changed extends references."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="changedReference" eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//types/TypeReference"
-        derived="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedReference" eType="ecore:EClass platform:/plugin/org.emftext.language.java/metamodel/java.ecore#//types/TypeReference">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The changed reference."/>
       </eAnnotations>

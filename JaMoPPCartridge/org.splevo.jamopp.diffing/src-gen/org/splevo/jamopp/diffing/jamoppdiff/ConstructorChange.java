@@ -44,7 +44,7 @@ public interface ConstructorChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Constructor</em>' reference.
      * @see #setChangedConstructor(Constructor)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getConstructorChange_ChangedConstructor()
-     * @model required="true" derived="true"
+     * @model required="true"
      * @generated
      */
     Constructor getChangedConstructor();

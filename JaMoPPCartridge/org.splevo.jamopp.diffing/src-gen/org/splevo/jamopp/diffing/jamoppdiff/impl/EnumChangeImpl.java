@@ -12,6 +12,7 @@ package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.emftext.language.java.classifiers.Enumeration;
@@ -90,20 +91,31 @@ public class EnumChangeImpl extends JaMoPPDiffImpl implements EnumChange {
 
     /**
      * <!-- begin-user-doc -->
-     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
     public void setChangedEnum(Enumeration newChangedEnum) {
-        // adapted to set changed element in the background
-        setChangedElement(newChangedEnum);
-        // end of custom code
-
         Enumeration oldChangedEnum = changedEnum;
         changedEnum = newChangedEnum;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, JaMoPPDiffPackage.ENUM_CHANGE__CHANGED_ENUM,
                     oldChangedEnum, changedEnum));
+    }
+
+    @Override
+    public EObject basicGetChangedElement() {
+        return basicGetChangedEnum();
+    }
+
+    @Override
+    public void setChangedElement(EObject newChangedElement) {
+        if(newChangedElement == null) {
+            setChangedEnum(null);
+        } else if(newChangedElement instanceof Enumeration) {
+            setChangedEnum((Enumeration) newChangedElement);
+        } else {
+            throw new IllegalArgumentException("Tried to set invalid class type: " + newChangedElement.getClass().getSimpleName());
+        }
     }
 
     /**

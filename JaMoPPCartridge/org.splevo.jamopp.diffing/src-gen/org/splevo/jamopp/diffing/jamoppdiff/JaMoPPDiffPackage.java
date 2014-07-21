@@ -111,6 +111,7 @@ public interface JaMoPPDiffPackage extends EPackage {
      * @ordered
      */
     int JA_MO_PP_DIFF__REFINED_BY = SPLevoDiffPackage.SP_LEVO_DIFF__REFINED_BY;
+
     /**
      * The feature id for the '<em><b>Kind</b></em>' attribute.
      * <!-- begin-user-doc --> <!--

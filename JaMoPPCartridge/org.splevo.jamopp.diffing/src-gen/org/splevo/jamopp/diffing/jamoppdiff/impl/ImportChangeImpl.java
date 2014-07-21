@@ -12,6 +12,7 @@ package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.emftext.language.java.imports.Import;
@@ -90,20 +91,31 @@ public class ImportChangeImpl extends JaMoPPDiffImpl implements ImportChange {
 
     /**
      * <!-- begin-user-doc -->
-     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
     public void setChangedImport(Import newChangedImport) {
-        // adapted to set changed element in the background
-        setChangedElement(newChangedImport);
-        // end of custom code
-
         Import oldChangedImport = changedImport;
         changedImport = newChangedImport;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, JaMoPPDiffPackage.IMPORT_CHANGE__CHANGED_IMPORT,
                     oldChangedImport, changedImport));
+    }
+
+    @Override
+    public EObject basicGetChangedElement() {
+        return basicGetChangedImport();
+    }
+
+    @Override
+    public void setChangedElement(EObject newChangedElement) {
+        if(newChangedElement == null) {
+            setChangedImport(null);
+        } else if(newChangedElement instanceof Import) {
+            setChangedImport((Import) newChangedElement);
+        } else {
+            throw new IllegalArgumentException("Tried to set invalid class type: " + newChangedElement.getClass().getSimpleName());
+        }
     }
 
     /**

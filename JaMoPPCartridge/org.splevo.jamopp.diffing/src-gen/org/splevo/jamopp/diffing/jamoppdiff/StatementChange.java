@@ -45,7 +45,7 @@ public interface StatementChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Statement</em>' reference.
      * @see #setChangedStatement(Statement)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getStatementChange_ChangedStatement()
-     * @model required="true" derived="true"
+     * @model required="true"
      * @generated
      */
     Statement getChangedStatement();

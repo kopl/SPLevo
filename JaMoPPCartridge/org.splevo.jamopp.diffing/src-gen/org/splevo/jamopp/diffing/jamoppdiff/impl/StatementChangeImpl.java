@@ -12,6 +12,7 @@ package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.emftext.language.java.statements.Statement;
@@ -91,21 +92,31 @@ public class StatementChangeImpl extends JaMoPPDiffImpl implements StatementChan
 
     /**
      * <!-- begin-user-doc -->
-     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
     public void setChangedStatement(Statement newChangedStatement) {
-
-        // adapted to set changed element in the background
-        setChangedElement(newChangedStatement);
-        // end of custom code
-
         Statement oldChangedStatement = changedStatement;
         changedStatement = newChangedStatement;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET,
                     JaMoPPDiffPackage.STATEMENT_CHANGE__CHANGED_STATEMENT, oldChangedStatement, changedStatement));
+    }
+
+    @Override
+    public EObject basicGetChangedElement() {
+        return basicGetChangedStatement();
+    }
+
+    @Override
+    public void setChangedElement(EObject newChangedElement) {
+        if(newChangedElement == null) {
+            setChangedStatement(null);
+        } else if(newChangedElement instanceof Statement) {
+            setChangedStatement((Statement) newChangedElement);
+        } else {
+            throw new IllegalArgumentException("Tried to set invalid class type: " + newChangedElement.getClass().getSimpleName());
+        }
     }
 
     /**

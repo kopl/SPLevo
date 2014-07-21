@@ -45,7 +45,7 @@ public interface SPLevoDiff extends Diff {
      * @return the value of the '<em>Changed Element</em>' reference.
      * @see #setChangedElement(EObject)
      * @see org.splevo.diffing.splevodiff.SPLevoDiffPackage#getSPLevoDiff_ChangedElement()
-     * @model required="true"
+     * @model required="true" transient="true" volatile="true" derived="true"
      * @generated
      */
     EObject getChangedElement();

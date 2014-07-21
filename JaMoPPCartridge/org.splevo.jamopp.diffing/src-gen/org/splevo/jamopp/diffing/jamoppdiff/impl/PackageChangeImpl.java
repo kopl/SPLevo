@@ -12,6 +12,7 @@ package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
@@ -89,21 +90,31 @@ public class PackageChangeImpl extends JaMoPPDiffImpl implements PackageChange {
 
     /**
      * <!-- begin-user-doc -->
-     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
     public void setChangedPackage(org.emftext.language.java.containers.Package newChangedPackage) {
-
-        // adapted to set changed element in the background
-        setChangedElement(newChangedPackage);
-        // end of custom code
-
         org.emftext.language.java.containers.Package oldChangedPackage = changedPackage;
         changedPackage = newChangedPackage;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, JaMoPPDiffPackage.PACKAGE_CHANGE__CHANGED_PACKAGE,
                     oldChangedPackage, changedPackage));
+    }
+
+    @Override
+    public EObject basicGetChangedElement() {
+        return basicGetChangedPackage();
+    }
+
+    @Override
+    public void setChangedElement(EObject newChangedElement) {
+        if(newChangedElement == null) {
+            setChangedPackage(null);
+        } else if(newChangedElement instanceof org.emftext.language.java.containers.Package) {
+            setChangedPackage((org.emftext.language.java.containers.Package) newChangedElement);
+        } else {
+            throw new IllegalArgumentException("Tried to set invalid class type: " + newChangedElement.getClass().getSimpleName());
+        }
     }
 
     /**

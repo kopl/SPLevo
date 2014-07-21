@@ -13,26 +13,47 @@ package org.splevo.jamopp.diffing.jamoppdiff.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import org.emftext.language.java.annotations.AnnotationsPackage;
+
 import org.emftext.language.java.arrays.ArraysPackage;
+
 import org.emftext.language.java.classifiers.ClassifiersPackage;
+
 import org.emftext.language.java.commons.CommonsPackage;
+
 import org.emftext.language.java.containers.ContainersPackage;
+
 import org.emftext.language.java.expressions.ExpressionsPackage;
+
 import org.emftext.language.java.generics.GenericsPackage;
+
 import org.emftext.language.java.imports.ImportsPackage;
+
 import org.emftext.language.java.instantiations.InstantiationsPackage;
+
 import org.emftext.language.java.literals.LiteralsPackage;
+
 import org.emftext.language.java.members.MembersPackage;
+
 import org.emftext.language.java.modifiers.ModifiersPackage;
+
 import org.emftext.language.java.operators.OperatorsPackage;
+
 import org.emftext.language.java.parameters.ParametersPackage;
+
 import org.emftext.language.java.references.ReferencesPackage;
+
 import org.emftext.language.java.statements.StatementsPackage;
+
 import org.emftext.language.java.types.TypesPackage;
+
 import org.emftext.language.java.variables.VariablesPackage;
+
 import org.splevo.diffing.splevodiff.SPLevoDiffPackage;
+
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
 import org.splevo.jamopp.diffing.jamoppdiff.ConstructorChange;
@@ -589,73 +610,73 @@ public class JaMoPPDiffPackageImpl extends EPackageImpl implements JaMoPPDiffPac
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getStatementChange_ChangedStatement(), theStatementsPackage.getStatement(), null,
                 "changedStatement", null, 1, 1, StatementChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(importChangeEClass, ImportChange.class, "ImportChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getImportChange_ChangedImport(), theImportsPackage.getImport(), null, "changedImport", null, 1,
                 1, ImportChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-                !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(classChangeEClass, ClassChange.class, "ClassChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getClassChange_ChangedClass(), theClassifiersPackage.getClass_(), null, "changedClass", null, 1,
                 1, ClassChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-                !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(fieldChangeEClass, FieldChange.class, "FieldChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getFieldChange_ChangedField(), theMembersPackage.getField(), null, "changedField", null, 1, 1,
                 FieldChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-                !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(packageChangeEClass, PackageChange.class, "PackageChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getPackageChange_ChangedPackage(), theContainersPackage.getPackage(), null, "changedPackage",
                 null, 1, 1, PackageChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
-                IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(methodChangeEClass, MethodChange.class, "MethodChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getMethodChange_ChangedMethod(), theMembersPackage.getMethod(), null, "changedMethod", null, 1,
                 1, MethodChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-                !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(constructorChangeEClass, ConstructorChange.class, "ConstructorChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getConstructorChange_ChangedConstructor(), theMembersPackage.getConstructor(), null,
                 "changedConstructor", null, 1, 1, ConstructorChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(enumChangeEClass, EnumChange.class, "EnumChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getEnumChange_ChangedEnum(), theClassifiersPackage.getEnumeration(), null, "changedEnum", null,
                 1, 1, EnumChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-                !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(compilationUnitChangeEClass, CompilationUnitChange.class, "CompilationUnitChange", !IS_ABSTRACT,
                 !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getCompilationUnitChange_ChangedCompilationUnit(), theContainersPackage.getCompilationUnit(),
                 null, "changedCompilationUnit", null, 1, 1, CompilationUnitChange.class, !IS_TRANSIENT, !IS_VOLATILE,
-                IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(interfaceChangeEClass, InterfaceChange.class, "InterfaceChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getInterfaceChange_ChangedInterface(), theClassifiersPackage.getInterface(), null,
                 "changedInterface", null, 1, 1, InterfaceChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(implementsChangeEClass, ImplementsChange.class, "ImplementsChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getImplementsChange_ChangedReference(), theTypesPackage.getTypeReference(), null,
                 "changedReference", null, 0, 1, ImplementsChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(extendsChangeEClass, ExtendsChange.class, "ExtendsChange", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getExtendsChange_ChangedReference(), theTypesPackage.getTypeReference(), null,
                 "changedReference", null, 0, 1, ExtendsChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

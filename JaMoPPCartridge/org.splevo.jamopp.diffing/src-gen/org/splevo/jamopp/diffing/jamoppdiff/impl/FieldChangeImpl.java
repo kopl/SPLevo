@@ -12,6 +12,7 @@ package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.emftext.language.java.members.Field;
@@ -90,20 +91,31 @@ public class FieldChangeImpl extends JaMoPPDiffImpl implements FieldChange {
 
     /**
      * <!-- begin-user-doc -->
-     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
     public void setChangedField(Field newChangedField) {
-        // adapted to set changed element in the background
-        setChangedElement(newChangedField);
-        // end of custom code
-
         Field oldChangedField = changedField;
         changedField = newChangedField;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, JaMoPPDiffPackage.FIELD_CHANGE__CHANGED_FIELD,
                     oldChangedField, changedField));
+    }
+
+    @Override
+    public EObject basicGetChangedElement() {
+        return basicGetChangedField();
+    }
+
+    @Override
+    public void setChangedElement(EObject newChangedElement) {
+        if(newChangedElement == null) {
+            setChangedField(null);
+        } else if(newChangedElement instanceof Field) {
+            setChangedField((Field) newChangedElement);
+        } else {
+            throw new IllegalArgumentException("Tried to set invalid class type: " + newChangedElement.getClass().getSimpleName());
+        }
     }
 
     /**

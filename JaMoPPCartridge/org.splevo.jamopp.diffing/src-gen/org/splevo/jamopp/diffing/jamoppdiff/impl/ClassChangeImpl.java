@@ -12,6 +12,7 @@ package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
@@ -89,21 +90,31 @@ public class ClassChangeImpl extends JaMoPPDiffImpl implements ClassChange {
 
     /**
      * <!-- begin-user-doc -->
-     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
     public void setChangedClass(org.emftext.language.java.classifiers.Class newChangedClass) {
-
-        // adapted to set changed element in the background
-        setChangedElement(newChangedClass);
-        // end of custom code
-
         org.emftext.language.java.classifiers.Class oldChangedClass = changedClass;
         changedClass = newChangedClass;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, JaMoPPDiffPackage.CLASS_CHANGE__CHANGED_CLASS,
                     oldChangedClass, changedClass));
+    }
+
+    @Override
+    public EObject basicGetChangedElement() {
+        return basicGetChangedClass();
+    }
+
+    @Override
+    public void setChangedElement(EObject newChangedElement) {
+        if(newChangedElement == null) {
+            setChangedClass(null);
+        } else if(newChangedElement instanceof org.emftext.language.java.classifiers.Class) {
+            setChangedClass((org.emftext.language.java.classifiers.Class) newChangedElement);
+        } else {
+            throw new IllegalArgumentException("Tried to set invalid class type: " + newChangedElement.getClass().getSimpleName());
+        }
     }
 
     /**

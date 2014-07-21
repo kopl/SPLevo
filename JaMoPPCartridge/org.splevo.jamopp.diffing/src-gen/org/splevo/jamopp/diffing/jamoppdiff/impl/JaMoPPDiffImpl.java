@@ -11,7 +11,9 @@
 package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.splevo.diffing.splevodiff.impl.SPLevoDiffImpl;
+
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiff;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage;
 

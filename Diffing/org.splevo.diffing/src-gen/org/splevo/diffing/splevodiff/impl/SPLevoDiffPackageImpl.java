@@ -190,8 +190,8 @@ public class SPLevoDiffPackageImpl extends EPackageImpl implements SPLevoDiffPac
         initEClass(spLevoDiffEClass, SPLevoDiff.class, "SPLevoDiff", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
         initEReference(getSPLevoDiff_ChangedElement(), theEcorePackage.getEObject(), null, "changedElement", null, 1,
-                1, SPLevoDiff.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-                !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+                1, SPLevoDiff.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+                !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

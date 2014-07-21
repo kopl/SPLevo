@@ -12,6 +12,7 @@ package org.splevo.jamopp.diffing.jamoppdiff.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.emftext.language.java.classifiers.Interface;
@@ -91,21 +92,31 @@ public class InterfaceChangeImpl extends JaMoPPDiffImpl implements InterfaceChan
 
     /**
      * <!-- begin-user-doc -->
-     * {@inheritDoc}
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
     public void setChangedInterface(Interface newChangedInterface) {
-
-        // adapted to set changed element in the background
-        setChangedElement(newChangedInterface);
-        // end of custom code
-
         Interface oldChangedInterface = changedInterface;
         changedInterface = newChangedInterface;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET,
                     JaMoPPDiffPackage.INTERFACE_CHANGE__CHANGED_INTERFACE, oldChangedInterface, changedInterface));
+    }
+
+    @Override
+    public EObject basicGetChangedElement() {
+        return basicGetChangedInterface();
+    }
+
+    @Override
+    public void setChangedElement(EObject newChangedElement) {
+        if(newChangedElement == null) {
+            setChangedInterface(null);
+        } else if(newChangedElement instanceof Interface) {
+            setChangedInterface((Interface) newChangedElement);
+        } else {
+            throw new IllegalArgumentException("Tried to set invalid class type: " + newChangedElement.getClass().getSimpleName());
+        }
     }
 
     /**

@@ -44,7 +44,7 @@ public interface MethodChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Method</em>' reference.
      * @see #setChangedMethod(Method)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getMethodChange_ChangedMethod()
-     * @model required="true" derived="true"
+     * @model required="true"
      * @generated
      */
     Method getChangedMethod();

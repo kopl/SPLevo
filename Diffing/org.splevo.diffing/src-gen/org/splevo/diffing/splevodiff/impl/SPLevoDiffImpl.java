@@ -10,12 +10,10 @@
  */
 package org.splevo.diffing.splevodiff.impl;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.compare.impl.DiffImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.splevo.diffing.splevodiff.SPLevoDiff;
 import org.splevo.diffing.splevodiff.SPLevoDiffPackage;
 
@@ -33,16 +31,6 @@ import org.splevo.diffing.splevodiff.SPLevoDiffPackage;
  * @generated
  */
 public class SPLevoDiffImpl extends DiffImpl implements SPLevoDiff {
-    /**
-     * The cached value of the '{@link #getChangedElement() <em>Changed Element</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getChangedElement()
-     * @generated
-     * @ordered
-     */
-    protected EObject changedElement;
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -68,16 +56,9 @@ public class SPLevoDiffImpl extends DiffImpl implements SPLevoDiff {
      * @generated
      */
     public EObject getChangedElement() {
-        if (changedElement != null && changedElement.eIsProxy()) {
-            InternalEObject oldChangedElement = (InternalEObject) changedElement;
-            changedElement = eResolveProxy(oldChangedElement);
-            if (changedElement != oldChangedElement) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            SPLevoDiffPackage.SP_LEVO_DIFF__CHANGED_ELEMENT, oldChangedElement, changedElement));
-            }
-        }
-        return changedElement;
+        EObject changedElement = basicGetChangedElement();
+        return changedElement != null && changedElement.eIsProxy() ? eResolveProxy((InternalEObject) changedElement)
+                : changedElement;
     }
 
     /**
@@ -86,7 +67,10 @@ public class SPLevoDiffImpl extends DiffImpl implements SPLevoDiff {
      * @generated
      */
     public EObject basicGetChangedElement() {
-        return changedElement;
+        // TODO: implement this method to return the 'Changed Element' reference
+        // -> do not perform proxy resolution
+        // Ensure that you remove @generated or mark it @generated NOT
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -95,11 +79,9 @@ public class SPLevoDiffImpl extends DiffImpl implements SPLevoDiff {
      * @generated
      */
     public void setChangedElement(EObject newChangedElement) {
-        EObject oldChangedElement = changedElement;
-        changedElement = newChangedElement;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SPLevoDiffPackage.SP_LEVO_DIFF__CHANGED_ELEMENT,
-                    oldChangedElement, changedElement));
+        // TODO: implement this method to set the 'Changed Element' reference
+        // Ensure that you remove @generated or mark it @generated NOT
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -157,7 +139,7 @@ public class SPLevoDiffImpl extends DiffImpl implements SPLevoDiff {
     public boolean eIsSet(int featureID) {
         switch (featureID) {
         case SPLevoDiffPackage.SP_LEVO_DIFF__CHANGED_ELEMENT:
-            return changedElement != null;
+            return basicGetChangedElement() != null;
         }
         return super.eIsSet(featureID);
     }

@@ -42,7 +42,7 @@ public interface ClassChange extends JaMoPPDiff {
      * @return the value of the '<em>Changed Class</em>' reference.
      * @see #setChangedClass(org.emftext.language.java.classifiers.Class)
      * @see org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiffPackage#getClassChange_ChangedClass()
-     * @model required="true" derived="true"
+     * @model required="true"
      * @generated
      */
     org.emftext.language.java.classifiers.Class getChangedClass();
