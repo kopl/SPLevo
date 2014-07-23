@@ -135,7 +135,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     }
 
     /**
-     * Get all chosen projects the user has chosen on the previous page.
+     * Get all projects the user has chosen on the previous page.
      * 
      * @return List with all chosen projects.
      */
@@ -208,13 +208,11 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
      *         packages.
      */
     private IPackageFragment[] getSubPackages(IPackageFragment parentPackage) {        
-        List<IPackageFragment> subPackages = new ArrayList<IPackageFragment>();
-        
+        List<IPackageFragment> subPackages = new ArrayList<IPackageFragment>();        
         for (IPackageFragment javaPackage : getJavaPackages()) {
-            if (javaPackage.getElementName().startsWith(parentPackage.getElementName()) 
-                    && !javaPackage.getElementName().equals(parentPackage.getElementName())) {
+            if (javaPackage.getElementName().matches(parentPackage.getElementName() + "\\.\\w+")) {
                 subPackages.add(javaPackage);
-            } 
+            }
         } 
         
         if (subPackages.size() > 0) {
@@ -229,7 +227,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
      * 
      * @param childPackage
      *            The package whose parent is to be found.
-     * @return The parent package of the given package or null there is no parent package.
+     * @return The parent package of the given package or null if there is no parent package.
      */
     private IPackageFragment getParentPackage(IPackageFragment childPackage) {
         String childPackageName = childPackage.getElementName();
@@ -256,7 +254,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     }
     
     /**
-     *Content provider for the packages tree viewer.
+     * Content provider for the packages tree viewer.
      */
     private class PackagesTreeContentProvider implements ITreeContentProvider {
 
