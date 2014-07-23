@@ -78,6 +78,28 @@ public class StatementTest {
     }
 
     /**
+     * Test diffing of enum value accesses.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testEnumAccessesDiff() throws Exception {
+
+        File testFileA = new File(basePath + "a/EnumAccesses.java");
+        File testFileB = new File(basePath + "b/EnumAccesses.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.getDiffOptions());
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Wrong number of differences", differences.size(), is(0));
+    }
+
+    /**
      * Test insertion of new statements and order changes
      *
      * @throws Exception
