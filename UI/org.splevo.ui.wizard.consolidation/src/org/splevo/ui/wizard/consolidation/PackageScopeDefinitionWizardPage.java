@@ -12,9 +12,7 @@
 package org.splevo.ui.wizard.consolidation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -46,7 +44,9 @@ import org.splevo.ui.wizard.consolidation.provider.PackageLabelProvider;
 public class PackageScopeDefinitionWizardPage extends WizardPage {
 
     private SPLevoProject projectConfiguration;
-    private CheckboxTreeViewer packagesTreeViewer;    
+    private CheckboxTreeViewer packagesTreeViewer;
+    
+    private SortedSet<IPackageFragment> javaPackages;
  
     /**
      * Constructor preparing the wizard page infrastructure.
@@ -82,7 +82,8 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     public void setVisible(boolean visible) {
         super.setVisible(visible);
 
-        if (visible) {            
+        if (visible) {  
+           javaPackages = getJavaPackages();
            packagesTreeViewer.setInput(getRootpackages()); 
         }
     }        
@@ -107,31 +108,25 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
      * Get all java packages which are in the class path of the chosen projects without duplicates
      * and ordered by name.
      * 
-     * @return List with all java packages.
+     * @return A sorted set with all java packages.
      */
-    private List<IPackageFragment> getJavaPackages() {
-
-        List<IPackageFragment> javaPackages = new ArrayList<IPackageFragment>();
+    private SortedSet<IPackageFragment> getJavaPackages() {
+        SortedSet<IPackageFragment> javaPackagesSet = new TreeSet<IPackageFragment>(new PackagesComparator());
 
         for (IProject project: getAllChosenProjects()) {
             try {
                 if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
-
                     for (IPackageFragment packageFragment : JavaCore.create(project).getPackageFragments()) {
                         if (!packageFragment.getElementName().equals("")) {
-                            javaPackages.add(packageFragment);
+                            javaPackagesSet.add(packageFragment);
                         }
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } 
-        
-        removeDuplicates(javaPackages);        
-        orderPackagesByName(javaPackages);
-
-        return javaPackages;
+        }                
+        return javaPackagesSet;
     }
 
     /**
@@ -141,45 +136,19 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
      */
     private List<IProject> getAllChosenProjects() {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IWorkspaceRoot root = workspace.getRoot();
-
-        List<String> chosenProjectsNames = new ArrayList<String>();
-        chosenProjectsNames.addAll(projectConfiguration.getLeadingProjects());
-        chosenProjectsNames.addAll(projectConfiguration.getIntegrationProjects());
+        IWorkspaceRoot root = workspace.getRoot();        
 
         List<IProject> allChosenProjects = new ArrayList<IProject>();
 
-        for (String chosenProjectName : chosenProjectsNames) {
+        for (String chosenProjectName : projectConfiguration.getLeadingProjects()) {
+            allChosenProjects.add(root.getProject(chosenProjectName));
+        }
+        
+        for (String chosenProjectName : projectConfiguration.getIntegrationProjects()) {
             allChosenProjects.add(root.getProject(chosenProjectName));
         }
 
         return allChosenProjects;
-    }
-    
-    /**
-     * Remove duplicates from the give packages list.
-     * 
-     * @param javaPackages The packages list which has to be checked for duplicates.
-     */
-    private void removeDuplicates(List<IPackageFragment> javaPackages) {
-        SortedSet<IPackageFragment> javaPackagesSet = new TreeSet<IPackageFragment>(new PackagesComparator());
-
-        Iterator<IPackageFragment> iterator = javaPackages.iterator();
-        while (iterator.hasNext()) {
-            javaPackagesSet.add(iterator.next());
-        }
-
-        javaPackages.clear();
-        javaPackages.addAll(javaPackagesSet);
-    }
-    
-    /**
-     * Oder the given packages list by name (ascending).
-     * 
-     * @param packages The packages list which has to be ordered.
-     */
-    private void orderPackagesByName(List<IPackageFragment> packages) {
-        Collections.sort(packages, new PackagesComparator());
     }
     
     /**
@@ -190,7 +159,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     private IPackageFragment[] getRootpackages() {
         List<IPackageFragment> rootPackages = new ArrayList<IPackageFragment>();
         
-        for (IPackageFragment javaPackage : getJavaPackages()) {
+        for (IPackageFragment javaPackage : javaPackages) {
             if (getParentPackage(javaPackage) == null) {
                 rootPackages.add(javaPackage);
             } 
@@ -209,7 +178,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
      */
     private IPackageFragment[] getSubPackages(IPackageFragment parentPackage) {        
         List<IPackageFragment> subPackages = new ArrayList<IPackageFragment>();        
-        for (IPackageFragment javaPackage : getJavaPackages()) {
+        for (IPackageFragment javaPackage : javaPackages) {
             if (javaPackage.getElementName().matches(parentPackage.getElementName() + "\\.\\w+")) {
                 subPackages.add(javaPackage);
             }
@@ -223,6 +192,22 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     }
     
     /**
+     * Check if the given package has at least one sub package.
+     * 
+     * @param parentPackage
+     *            The package which has to be checked
+     * @return true if the given package has at least one sub package, otherwise false
+     */
+    private boolean hasSubPackage(IPackageFragment parentPackage) {
+        for (IPackageFragment javaPackage : javaPackages) {
+            if (javaPackage.getElementName().matches(parentPackage.getElementName() + "\\.\\w+")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Get the parent package of the given package.
      * 
      * @param childPackage
@@ -233,7 +218,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         String childPackageName = childPackage.getElementName();
         if (childPackageName.contains(".")) {
             String parentPackageName = childPackageName.substring(0, childPackageName.lastIndexOf("."));            
-            for (IPackageFragment javaPackage : getJavaPackages()) {
+            for (IPackageFragment javaPackage : javaPackages) {
                 if (javaPackage.getElementName().equals(parentPackageName)) {
                     return javaPackage;                
                 }
@@ -302,9 +287,9 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         @Override
         public boolean hasChildren(Object element) {
             if (element instanceof IPackageFragment) {                
-                return getSubPackages((IPackageFragment) element) != null;
+                return hasSubPackage((IPackageFragment) element);
             }            
-            return false;           
+            return false;
         }        
     }
 }
