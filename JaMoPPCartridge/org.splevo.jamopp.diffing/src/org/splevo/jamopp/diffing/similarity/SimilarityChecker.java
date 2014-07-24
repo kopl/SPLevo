@@ -19,6 +19,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import com.google.common.collect.Maps;
+
 /**
  * Checker for the similarity of two elements specific for the java application model.
  *
@@ -53,6 +55,15 @@ public class SimilarityChecker {
         this.classifierNormalizations = classifierNormalizations;
         this.compilationUnitNormalizations = compilationUnitNormalizations;
         this.packageNormalizations = packageNormalizations;
+    }
+
+    /**
+     * Default constructor for a similarity checker without any normalization configurations.
+     */
+    public SimilarityChecker() {
+        this.classifierNormalizations = Maps.newLinkedHashMap();
+        this.compilationUnitNormalizations = Maps.newLinkedHashMap();
+        this.packageNormalizations = Maps.newLinkedHashMap();
     }
 
     /**

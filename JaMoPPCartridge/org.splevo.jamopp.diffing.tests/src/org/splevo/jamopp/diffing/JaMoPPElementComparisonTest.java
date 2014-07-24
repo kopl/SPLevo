@@ -29,6 +29,7 @@ import org.emftext.language.java.statements.Statement;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
+import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 
 import com.google.common.collect.Maps;
 
@@ -49,7 +50,7 @@ public class JaMoPPElementComparisonTest {
 
     /**
      * Test method to detect changes in the class and package declarations.
-     * 
+     *
      * @throws Exception
      *             Identifies a failed diffing.
      */
@@ -77,7 +78,7 @@ public class JaMoPPElementComparisonTest {
     /**
      * Tests whether the differ finds differences of two different statements in case the model of
      * one statement was artificially modified.
-     * 
+     *
      * @throws Exception
      *             Identifies a failed diffing.
      */
@@ -108,7 +109,7 @@ public class JaMoPPElementComparisonTest {
     /**
      * Tests whether the differ matches two identical expression statements with different
      * neighbors.
-     * 
+     *
      * @throws Exception
      *             Identifies a failed diffing.
      */
@@ -124,18 +125,15 @@ public class JaMoPPElementComparisonTest {
         Statement statementA = methodA.getStatements().get(0);
         Statement statementB = methodB.getStatements().get(1);
 
-        JaMoPPDiffer differ = new JaMoPPDiffer();
-        Map<String, String> diffOptions = Maps.newHashMap();
-        Comparison comparison = differ.doDiff(statementA, statementB, diffOptions);
-
-        EList<Diff> differences = comparison.getDifferences();
-        assertThat("There should be no changes.", differences.size(), is(0));
+        SimilarityChecker checker = new SimilarityChecker();
+        Boolean similar = checker.isSimilar(statementA, statementB, false);
+        assertThat(similar, is(true));
     }
 
     /**
      * Get a {@link ClassMethod} element out of a resource set assuming there is only one resource
      * in the set containing exactly one method.
-     * 
+     *
      * @param resourceSet
      *            The set to search in.
      * @return The first method found.
