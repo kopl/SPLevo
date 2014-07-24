@@ -49,7 +49,7 @@ public class JaMoPPElementComparisonTest {
 
     /**
      * Test method to detect changes in the class and package declarations.
-     *
+     * 
      * @throws Exception
      *             Identifies a failed diffing.
      */
@@ -77,7 +77,7 @@ public class JaMoPPElementComparisonTest {
     /**
      * Tests whether the differ finds differences of two different statements in case the model of
      * one statement was artificially modified.
-     *
+     * 
      * @throws Exception
      *             Identifies a failed diffing.
      */
@@ -106,9 +106,36 @@ public class JaMoPPElementComparisonTest {
     }
 
     /**
+     * Tests whether the differ matches two identical expression statements with different
+     * neighbors.
+     * 
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testMatchWithDifferentNeighbors() throws Exception {
+
+        ResourceSet setA = TestUtil.extractModel(BASE_PATH + "MatchWithDifferentNeighbors/a");
+        ResourceSet setB = TestUtil.extractModel(BASE_PATH + "MatchWithDifferentNeighbors/b");
+
+        ClassMethod methodA = searchMethodElement(setA);
+        ClassMethod methodB = searchMethodElement(setB);
+
+        Statement statementA = methodA.getStatements().get(0);
+        Statement statementB = methodB.getStatements().get(1);
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Map<String, String> diffOptions = Maps.newHashMap();
+        Comparison comparison = differ.doDiff(statementA, statementB, diffOptions);
+
+        EList<Diff> differences = comparison.getDifferences();
+        assertThat("There should be no changes.", differences.size(), is(0));
+    }
+
+    /**
      * Get a {@link ClassMethod} element out of a resource set assuming there is only one resource
      * in the set containing exactly one method.
-     *
+     * 
      * @param resourceSet
      *            The set to search in.
      * @return The first method found.
