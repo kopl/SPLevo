@@ -29,6 +29,7 @@ import org.emftext.language.java.statements.Statement;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
+import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 
 import com.google.common.collect.Maps;
 
@@ -103,6 +104,30 @@ public class JaMoPPElementComparisonTest {
         assertThat(diff1, instanceOf(StatementChange.class));
         Diff diff2 = differences.get(1);
         assertThat(diff2, instanceOf(StatementChange.class));
+    }
+
+    /**
+     * Tests whether the differ matches two identical expression statements with different
+     * neighbors.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Test
+    public void testMatchWithDifferentNeighbors() throws Exception {
+
+        ResourceSet setA = TestUtil.extractModel(BASE_PATH + "MatchWithDifferentNeighbors/a");
+        ResourceSet setB = TestUtil.extractModel(BASE_PATH + "MatchWithDifferentNeighbors/b");
+
+        ClassMethod methodA = searchMethodElement(setA);
+        ClassMethod methodB = searchMethodElement(setB);
+
+        Statement statementA = methodA.getStatements().get(0);
+        Statement statementB = methodB.getStatements().get(1);
+
+        SimilarityChecker checker = new SimilarityChecker();
+        Boolean similar = checker.isSimilar(statementA, statementB, false);
+        assertThat(similar, is(true));
     }
 
     /**

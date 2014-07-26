@@ -72,7 +72,7 @@
         </children>
         <styles xmi:type="notation:ShapeStyle" xmi:id="_p_v5MQWSEeSJq51PVZv8Bg" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
         <element xmi:type="ecore:EClass" href="platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_p_v5MgWSEeSJq51PVZv8Bg" x="151" y="47"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_p_v5MgWSEeSJq51PVZv8Bg" x="151" y="17"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="__94kcAWSEeSJq51PVZv8Bg" type="2003">
         <children xmi:type="notation:Node" xmi:id="__9-rEAWSEeSJq51PVZv8Bg" type="4002"/>
@@ -88,13 +88,13 @@
         </children>
         <styles xmi:type="notation:ShapeStyle" xmi:id="__94kcQWSEeSJq51PVZv8Bg" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
         <element xmi:type="ecore:EClass" href="platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Group"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="__94kcgWSEeSJq51PVZv8Bg" x="367" y="47"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="__94kcgWSEeSJq51PVZv8Bg" x="367" y="17"/>
       </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_n_VgpgWSEeSJq51PVZv8Bg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_n_VgpwWSEeSJq51PVZv8Bg"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_n_VgqAWSEeSJq51PVZv8Bg"/>
     </children>
-    <styles xmi:type="notation:ShapeStyle" xmi:id="_n_VgoQWSEeSJq51PVZv8Bg" fontColor="4210752" fontName="Segoe UI" fontHeight="10" fillColor="13150135" lineColor="4210752"/>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_n_VgoQWSEeSJq51PVZv8Bg" fontColor="4210752" fontName="Segoe UI" fontHeight="10" lineColor="4210752"/>
     <styles xmi:type="notation:MultiDiagramLinkStyle" xmi:id="_n_VgogWSEeSJq51PVZv8Bg"/>
     <element xmi:type="ecore:EPackage" href="platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#/"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_n_VgowWSEeSJq51PVZv8Bg" x="90" width="489" height="183"/>
@@ -103,10 +103,10 @@
   <element xmi:type="ecore:EPackage" href="vpm.ecore#/"/>
   <edges xmi:type="notation:Edge" xmi:id="_vYmNMAWSEeSJq51PVZv8Bg" type="3002" source="_vYgGkAWSEeSJq51PVZv8Bg" target="_p_v5MAWSEeSJq51PVZv8Bg">
     <children xmi:type="notation:Node" xmi:id="_vYmNNAWSEeSJq51PVZv8Bg" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_vYmNNQWSEeSJq51PVZv8Bg" x="-47" y="-25"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_vYmNNQWSEeSJq51PVZv8Bg" x="-54" y="-30"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_vYmNNgWSEeSJq51PVZv8Bg" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_vYmNNwWSEeSJq51PVZv8Bg" x="-15" y="16"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_vYmNNwWSEeSJq51PVZv8Bg" x="-24" y="16"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_vYmNMQWSEeSJq51PVZv8Bg" lineColor="0"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_vYmNMgWSEeSJq51PVZv8Bg" fontName="Segoe UI" fontHeight="10"/>
@@ -115,10 +115,10 @@
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_ytMxgAWSEeSJq51PVZv8Bg" type="3002" source="_ytGq4AWSEeSJq51PVZv8Bg" target="_p_v5MAWSEeSJq51PVZv8Bg">
     <children xmi:type="notation:Node" xmi:id="_ytMxhAWSEeSJq51PVZv8Bg" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_ytMxhQWSEeSJq51PVZv8Bg" x="-61" y="38"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ytMxhQWSEeSJq51PVZv8Bg" x="-66" y="47"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_ytMxhgWSEeSJq51PVZv8Bg" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_ytMxhwWSEeSJq51PVZv8Bg" x="-17" y="-14"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ytMxhwWSEeSJq51PVZv8Bg" x="-26" y="-15"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_ytMxgQWSEeSJq51PVZv8Bg" lineColor="0"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_ytMxggWSEeSJq51PVZv8Bg" fontName="Segoe UI" fontHeight="10"/>
