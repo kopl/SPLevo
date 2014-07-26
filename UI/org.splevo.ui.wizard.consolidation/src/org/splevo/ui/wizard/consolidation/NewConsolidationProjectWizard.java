@@ -99,7 +99,7 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
             projectConfiguration.setWorkspace(project.getName() + "/");
             projectConfiguration.setName(project.getName());
 
-           // packageScopeDefinitionWizardPage.setChosenPackages();
+            packageScopeDefinitionWizardPage.saveChosenPackages();
 
             try {
                 SPLevoProjectUtil.save(projectConfiguration, filePath);
@@ -133,7 +133,7 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
 
     /**
      * Create the project in the workspace.
-     *
+     * 
      * @param nonDefaultLocation
      *            The location to create the project at. If null, a project with the give name is
      *            created inside the workspace.
@@ -159,13 +159,13 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
             try {
                 newProject.create(desc, null);
             } catch (CoreException e) {
-                e.printStackTrace();
+                logger.error("Exception thrown: ", e);
             }
             if (!newProject.isOpen()) {
                 try {
                     newProject.open(null);
                 } catch (CoreException e) {
-                    e.printStackTrace();
+                    logger.error("Exception thrown: ", e);
                 }
             }
         }
@@ -174,7 +174,7 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
 
     /**
      * Add the custom SPLevo nature to the project.
-     *
+     * 
      * @param project
      *            The project to add the nature to.
      * @throws CoreException
