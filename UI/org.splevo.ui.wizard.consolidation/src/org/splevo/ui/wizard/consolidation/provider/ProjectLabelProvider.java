@@ -34,5 +34,4 @@ public class ProjectLabelProvider extends ColumnLabelProvider {
         JavaUILabelProvider provider = new JavaUILabelProvider();
         return provider.getImage(element);
     }
-
 }
