@@ -40,7 +40,7 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.nature.SPLevoNature;
-
+ 
 /**
  * Wizard to create a new SPLevo consolidation project.
  */
