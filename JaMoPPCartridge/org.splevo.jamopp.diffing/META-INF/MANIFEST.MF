@@ -21,5 +21,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.jamopp.diffing,
  org.splevo.jamopp.diffing.jamoppdiff,
  org.splevo.jamopp.diffing.jamoppdiff.impl,
- org.splevo.jamopp.diffing.jamoppdiff.util
+ org.splevo.jamopp.diffing.jamoppdiff.util,
+ org.splevo.jamopp.diffing.similarity
 Bundle-ActivationPolicy: lazy

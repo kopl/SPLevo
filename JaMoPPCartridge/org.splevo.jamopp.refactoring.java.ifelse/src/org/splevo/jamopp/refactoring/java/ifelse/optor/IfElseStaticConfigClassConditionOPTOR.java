@@ -1,22 +1,22 @@
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
-import java.util.HashSet;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.expressions.ConditionalAndExpression;
+import org.emftext.language.java.expressions.ExpressionsFactory;
+import org.emftext.language.java.expressions.NestedExpression;
 import org.emftext.language.java.imports.ClassifierImport;
+import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.statements.StatementsFactory;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
-import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extensible;
-import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -26,7 +26,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Condition";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassConditionOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassConditionOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -45,62 +45,90 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
             vpLocation.getContainingCompilationUnit().getImports().add(splConfImport);
         }
 
-        Statement elseStatement = vpLocation.getElseStatement();
-        boolean hasLeadingVariant = false;
+        Condition previousCond = null;
+        Block elseBlock = null;
 
-        Condition previousVarCond = null;
         for (Variant variant : vp.getVariants()) {
-            if (variant.getLeading()) {
-                hasLeadingVariant = true;
-            }
-            Condition varCond = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant.getId(), vp
-                    .getGroup().getId());
+            Statement implementingElement = (Statement) ((JaMoPPSoftwareElement) variant.getImplementingElements().get(
+                    0)).getJamoppElement();
 
-            if (vp.getVariants().indexOf(variant) == 0) {
-                vpLocation.setElseStatement(varCond);
+            if (!variant.getLeading()) {
+                implementingElement = EcoreUtil.copy(implementingElement);
             }
 
-            HashSet<Statement> implElements = new HashSet<Statement>();
-            for (SoftwareElement se : variant.getImplementingElements()) {
-                Statement element = EcoreUtil.copy((Statement) ((JaMoPPSoftwareElement) se).getJamoppElement());
-                implElements.add(element);
-                if (variant.getImplementingElements().indexOf(se) == (variant.getImplementingElements().size() - 1)
-                        && element instanceof Condition
-                        && EcoreUtil.equals(((Condition) element).getElseStatement(), elseStatement)) {
-                    ((Condition) element).setElseStatement(null);
+            if (implementingElement instanceof Condition) {
+                Condition currentCondition = (Condition) implementingElement;
+
+                if (previousCond == null && !variant.getLeading()) {
+                    vpLocation.setElseStatement(currentCondition);
                 }
-            }
 
-            Block varCondBlock = (Block) varCond.getStatement();
-            varCondBlock.getStatements().addAll(implElements);
-            if (previousVarCond != null) {
-                previousVarCond.setElseStatement(varCond);
+                while (true) {
+                    IdentifierReference splExpression = SPLConfigurationUtil.generateConfigMatchingExpression(
+                            variant.getId(), vp.getGroup().getId());
+
+                    ConditionalAndExpression newExpression = ExpressionsFactory.eINSTANCE
+                            .createConditionalAndExpression();
+                    newExpression.getChildren().add(splExpression);
+                    NestedExpression nestedExpression = ExpressionsFactory.eINSTANCE.createNestedExpression();
+                    nestedExpression.setExpression(currentCondition.getCondition());
+                    newExpression.getChildren().add(nestedExpression);
+
+                    currentCondition.setCondition(newExpression);
+
+                    if (previousCond != null) {
+                        previousCond.setElseStatement(currentCondition);
+                    }
+
+                    if (currentCondition.getElseStatement() == null) {
+                        previousCond = currentCondition;
+                        break;
+                    }
+
+                    if (currentCondition.getElseStatement() instanceof Condition) {
+                        previousCond = currentCondition;
+                        currentCondition = (Condition) currentCondition.getElseStatement();
+                    } else {
+                        Condition condition = createVariabilityIfWithStatement(vp.getGroup().getId(), variant.getId(),
+                                currentCondition.getElseStatement());
+                        currentCondition.setElseStatement(condition);
+                        previousCond = condition;
+                        break;
+                    }
+                }
+            } else {
+                Condition condition = createVariabilityIfWithStatement(vp.getGroup().getId(), variant.getId(),
+                        implementingElement);
+
+                if (elseBlock == null) {
+                    elseBlock = StatementsFactory.eINSTANCE.createBlock();
+                }
+                elseBlock.getStatements().add(condition);
             }
-            previousVarCond = varCond;
         }
-        if (!hasLeadingVariant) {
-            previousVarCond.setElseStatement(elseStatement);
+        if (elseBlock != null) {
+            if (previousCond != null) {
+                previousCond.setElseStatement(elseBlock);
+            } else {
+                vpLocation.setElseStatement(elseBlock);
+            }
         }
+    }
+
+    private Condition createVariabilityIfWithStatement(String groupId, String variantId, Statement statement) {
+        Condition condition = RefactoringUtil.generateVariabilityIf(variantId, groupId);
+        ((Block) condition.getStatement()).getStatements().add(statement);
+        return condition;
     }
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
-        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
-        boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-        boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
-
-        if (!correctCharacteristics) {
-            return false;
-        }
-
-        boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
-        boolean correctLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement() instanceof Condition;
+        Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        boolean correctLocation = vpLocation instanceof Condition;
         boolean allImplementingElementsAreStatements = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Statement.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreStatements;
 
-        return correctInput;
+        return correctLocation && allImplementingElementsAreStatements;
     }
 
     @Override

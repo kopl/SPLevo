@@ -1,7 +1,7 @@
 package org.splevo.refactoring.tests.testcases;
 
 public class TestClass {
-    
+
     public void someMethod() {
         int i = 1;
         if (i == 1) {
@@ -12,5 +12,5 @@ public class TestClass {
             System.out.println(3);
         }
     }
-    
+
 }

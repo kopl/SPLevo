@@ -1,5 +1,6 @@
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.Method;
@@ -9,9 +10,6 @@ import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extensible;
-import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -22,8 +20,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Method";
-    private static final String REFACTORING_ID = 
-            "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassMethodOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassMethodOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -44,7 +41,7 @@ public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactorin
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Method currentMethod = (Method) ((JaMoPPSoftwareElement) se).getJamoppElement();
                 if (!RefactoringUtil.hasMethodWithEqualNameAndParameters(vpLocation, currentMethod)) {
-                    vpLocation.getMembers().add(currentMethod);
+                    vpLocation.getMembers().add(EcoreUtil.copy(currentMethod));
                 }
             }
         }
@@ -52,21 +49,12 @@ public class IfElseStaticConfigClassMethodOPTOR implements VariabilityRefactorin
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
-        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
-        boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-        boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
-
-        if (!correctCharacteristics) {
-            return false;
-        }
-
-        boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreMethods = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Method.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreMethods;
+        boolean correctInput = correctLocation && allImplementingElementsAreMethods;
 
         if (!correctInput) {
             return false;

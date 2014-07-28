@@ -37,7 +37,7 @@ import org.emftext.language.java.types.TypesFactory;
  */
 public final class SPLConfigurationUtil {
 
-    private static final String CONFIGURATION_READER_CLASS_NAME = "SPLConfig";
+    public static final String CONFIGURATION_READER_CLASS_NAME = "SPLConfig";
 
     /**
      * Force static access with a private constructor.

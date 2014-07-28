@@ -26,9 +26,6 @@ import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extensible;
-import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -39,7 +36,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Field";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassFieldOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassFieldOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -72,13 +69,13 @@ public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring
             RefactoringUtil.removeFinalIfApplicable(field);
 
             if (initialValues.size() > 1 && hasDifferentValues(initialValues)) {
+                field.setInitialValue(null);
                 Block initializingBlock = StatementsFactory.eINSTANCE.createBlock();
 
                 for (Expression value : initialValues) {
                     String variantId = variantIDToInitialValue.get(value);
                     String groupId = vp.getGroup().getId();
-                    Condition condition = RefactoringUtil
-                            .generateConditionVariantIDWithEmptyIfBlock(variantId, groupId);
+                    Condition condition = RefactoringUtil.generateVariabilityIf(variantId, groupId);
                     Block ifBlock = (Block) condition.getStatement();
 
                     AssignmentExpression assignmentExpr = ExpressionsFactory.eINSTANCE.createAssignmentExpression();
@@ -145,21 +142,12 @@ public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
-        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
-        boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-        boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
-
-        if (!correctCharacteristics) {
-            return false;
-        }
-
-        boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreFields = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Field.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreFields;
+        boolean correctInput = correctLocation && allImplementingElementsAreFields;
 
         if (!correctInput) {
             return false;

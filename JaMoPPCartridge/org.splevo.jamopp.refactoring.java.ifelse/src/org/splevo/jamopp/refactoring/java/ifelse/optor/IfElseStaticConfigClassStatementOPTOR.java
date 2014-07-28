@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.LocalVariableStatement;
@@ -12,13 +13,11 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
+import org.splevo.jamopp.refactoring.util.VariabilityPositionUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
-import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extensible;
-import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -31,7 +30,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Statement";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassStatementOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassStatementOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -55,11 +54,10 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         if (!RefactoringUtil.containsImport(vpLocation.getContainingCompilationUnit(), splConfImport)) {
             vpLocation.getContainingCompilationUnit().getImports().add(splConfImport);
         }
-
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
         EList<Variant> variants = vp.getVariants();
 
-        int variabilityPosition = RefactoringUtil.getVariabilityPosition(vp);
+        int variabilityPosition = VariabilityPositionUtil.getVariabilityPosition(vp);
         int currentVariabilityPosition = variabilityPosition;
 
         for (Variant variant : variants) {
@@ -67,11 +65,7 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
                 RefactoringUtil.deleteVariableStatements(vp);
             }
 
-            Condition currentCondition = RefactoringUtil.generateConditionVariantIDWithEmptyIfBlock(variant.getId(), vp
-                    .getGroup().getId());
-
-            RefactoringUtil.fillIfBlockWithVariantElements(variant, currentCondition, localVariableStatements);
-
+            Condition currentCondition = RefactoringUtil.generateVariantCondition(variant, localVariableStatements);
             vpLocation.getStatements().add(currentVariabilityPosition++, currentCondition);
         }
 
@@ -84,20 +78,12 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
-        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
-        boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-        boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
+        Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
-        if (!correctCharacteristics) {
-            return false;
-        }
-
-        boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
-        boolean correctLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement() instanceof StatementListContainer;
+        boolean correctLocation = vpLocation instanceof StatementListContainer;
         boolean allImplementingElementsAreStatements = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Statement.class);
-        boolean correctInput = hasEnoughVariants && correctLocation && allImplementingElementsAreStatements;
+        boolean correctInput = correctLocation && allImplementingElementsAreStatements;
 
         if (!correctInput) {
             return false;

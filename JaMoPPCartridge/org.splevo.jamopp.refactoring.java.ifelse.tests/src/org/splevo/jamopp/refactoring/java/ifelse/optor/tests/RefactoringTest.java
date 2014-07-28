@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Daniel Kojic - updated javadoc
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
 
@@ -24,7 +25,9 @@ import org.emftext.language.java.members.MembersFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
+/**
+ * General tests for the refactorings.
+ */
 public class RefactoringTest {
 
     /**
@@ -36,6 +39,10 @@ public class RefactoringTest {
         BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
     }
 
+    /**
+     * Tests whether the container-reference of an enum constant is not null when adding it to an
+     * enumeration.
+     */
     @Test
     public void testConnectEnumeration() {
 

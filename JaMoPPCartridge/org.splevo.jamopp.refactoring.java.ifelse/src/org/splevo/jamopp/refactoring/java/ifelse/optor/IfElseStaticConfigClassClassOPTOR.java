@@ -1,5 +1,6 @@
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
@@ -9,9 +10,6 @@ import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extensible;
-import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -22,8 +20,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassClassOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Class";
-    private static final String REFACTORING_ID = 
-            "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassClassOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassClassOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -42,10 +39,10 @@ public class IfElseStaticConfigClassClassOPTOR implements VariabilityRefactoring
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Class member = (Class) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Class c = (Class) ((JaMoPPSoftwareElement) se).getJamoppElement();
 
-                if (!RefactoringUtil.containsClassInterfaceOrEnumWithName(vpLocation, member.getName())) {
-                    vpLocation.getMembers().add(member);
+                if (!RefactoringUtil.containsClassInterfaceOrEnumWithName(vpLocation, c.getName())) {
+                    vpLocation.getMembers().add(EcoreUtil.copy(c));
                 }
             }
         }
@@ -53,22 +50,13 @@ public class IfElseStaticConfigClassClassOPTOR implements VariabilityRefactoring
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
-        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
-        boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-        boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
-
-        if (!correctCharacteristics) {
-            return false;
-        }
-
-        boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Class.class);
 
-        return hasEnoughVariants && correctLocation && allImplementingElementsAreClasses;
+        return correctLocation && allImplementingElementsAreClasses;
     }
 
     @Override

@@ -1,24 +1,23 @@
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.MemberContainer;
+import org.emftext.language.java.members.MembersFactory;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extensible;
-import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -30,7 +29,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassEnumerationOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Enumeration";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassEnumerationOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassEnumerationOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -45,42 +44,46 @@ public class IfElseStaticConfigClassEnumerationOPTOR implements VariabilityRefac
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
         Map<String, Enumeration> enumerationsToName = new HashMap<String, Enumeration>();
-        Map<String, List<EnumConstant>> constantsToEnumName = new HashMap<String, List<EnumConstant>>();
+        Map<String, Set<String>> constantsToEnumName = new HashMap<String, Set<String>>();
+        Map<String, Boolean> leadingToEnumName = new HashMap<String, Boolean>();
 
         for (Variant variant : vp.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Enumeration currentEnum = (Enumeration) ((JaMoPPSoftwareElement) se).getJamoppElement();
-
-                if (variant.getLeading()) {
-                    vpLocation.getMembers().remove(currentEnum);
+                if (!variant.getLeading()) {
+                    currentEnum = EcoreUtil.copy(currentEnum);
                 }
 
-                if (!enumerationsToName.containsKey(currentEnum.getName())) {
-                    Enumeration enumCpy = EcoreUtil.copy(currentEnum);
-                    enumCpy.getConstants().clear();
-                    enumerationsToName.put(enumCpy.getName(), enumCpy);
+                if (!enumerationsToName.containsKey(currentEnum.getName()) || variant.getLeading()) {
+                    enumerationsToName.put(currentEnum.getName(), currentEnum);
                 }
+                leadingToEnumName.put(currentEnum.getName(), variant.getLeading());
 
                 if (!constantsToEnumName.containsKey(currentEnum.getName())) {
-                    constantsToEnumName.put(currentEnum.getName(), new LinkedList<EnumConstant>());
+                    constantsToEnumName.put(currentEnum.getName(), new HashSet<String>());
                 }
-                List<EnumConstant> constantsList = constantsToEnumName.get(currentEnum.getName());
-
+                Set<String> constantsList = constantsToEnumName.get(currentEnum.getName());
                 for (EnumConstant constant : currentEnum.getConstants()) {
-                    if (!hasConstantWithSameName(constantsList, constant.getName())) {
-                        constantsList.add(EcoreUtil.copy(constant));
-                    }
+                    constantsList.add(constant.getName());
                 }
             }
         }
 
         for (String enumName : enumerationsToName.keySet()) {
             Enumeration enumeration = enumerationsToName.get(enumName);
-            List<EnumConstant> constants = constantsToEnumName.get(enumName);
+            Set<String> constants = constantsToEnumName.get(enumName);
 
-            enumeration.getConstants().addAll(constants);
+            for (String constName : constants) {
+                if (!hasConstantWithSameName(enumeration.getConstants(), constName)) {
+                    EnumConstant enumConstant = MembersFactory.eINSTANCE.createEnumConstant();
+                    enumConstant.setName(constName);
+                    enumeration.getConstants().add(enumConstant);
+                }
+            }
 
-            vpLocation.getMembers().add(enumeration);
+            if (!leadingToEnumName.get(enumName)) {
+                vpLocation.getMembers().add(enumeration);
+            }
         }
     }
 
@@ -95,21 +98,12 @@ public class IfElseStaticConfigClassEnumerationOPTOR implements VariabilityRefac
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
-        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
-        boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-        boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
-
-        if (!correctCharacteristics) {
-            return false;
-        }
-
-        boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreEnums = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Enumeration.class);
-        return hasEnoughVariants && correctLocation && allImplementingElementsAreEnums;
+        return correctLocation && allImplementingElementsAreEnums;
     }
 
     @Override

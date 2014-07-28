@@ -1,5 +1,6 @@
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
@@ -9,9 +10,6 @@ import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
-import org.splevo.vpm.variability.BindingTime;
-import org.splevo.vpm.variability.Extensible;
-import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -22,7 +20,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class IfElseStaticConfigClassInterfaceOPTOR implements VariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Interface";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassInterfaceOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassInterfaceOPTOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -44,7 +42,7 @@ public class IfElseStaticConfigClassInterfaceOPTOR implements VariabilityRefacto
                 Interface i = (Interface) ((JaMoPPSoftwareElement) se).getJamoppElement();
 
                 if (!RefactoringUtil.containsClassInterfaceOrEnumWithName(vpLocation, i.getName())) {
-                    vpLocation.getMembers().add(i);
+                    vpLocation.getMembers().add(EcoreUtil.copy(i));
                 }
             }
         }
@@ -52,21 +50,13 @@ public class IfElseStaticConfigClassInterfaceOPTOR implements VariabilityRefacto
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
-        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
-        boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-        boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
-
-        if (!correctCharacteristics) {
-            return false;
-        }
-
-        boolean hasEnoughVariants = variationPoint.getVariants().size() > 0;
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreFields = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Interface.class);
-        return hasEnoughVariants && correctLocation && allImplementingElementsAreFields;
+
+        return correctLocation && allImplementingElementsAreFields;
     }
 
     @Override

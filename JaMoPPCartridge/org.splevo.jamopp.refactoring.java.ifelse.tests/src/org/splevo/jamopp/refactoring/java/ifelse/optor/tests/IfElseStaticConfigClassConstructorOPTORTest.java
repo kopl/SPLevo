@@ -65,57 +65,6 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
     }
 
     /**
-     * Tests whether the canBeApplied method returns false for variation points that have a binding
-     * time that is not supported by the refactoring.
-     */
-    @Test
-    public void testIfCanBeAppliedWithInvalidBindingTime() {
-        Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
-        Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
-                BindingTime.LOAD_TIME, location, implEl1, implEl2);
-
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
-
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
-    }
-
-    /**
-     * Tests whether the canBeApplied method returns false for variation points that have a
-     * extensibility that is not supported by the refactoring.
-     */
-    @Test
-    public void testIfCanBeAppliedWithInvalidExtensibility() {
-        Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
-        Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.YES,
-                BindingTime.COMPILE_TIME, location, implEl1, implEl2);
-
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
-
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
-    }
-
-    /**
-     * Tests whether the canBeApplied method returns false for variation points that have a
-     * variability type that is not supported by the refactoring.
-     */
-    @Test
-    public void testIfCanBeAppliedWithInvalidVarType() {
-        Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
-        Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OR, Extensible.NO,
-                BindingTime.COMPILE_TIME, location, implEl1, implEl2);
-
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
-
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
-    }
-
-    /**
      * Tests whether the canBeApplied method returns false for variation points that have a location
      * that is not supported by the refactoring.
      */

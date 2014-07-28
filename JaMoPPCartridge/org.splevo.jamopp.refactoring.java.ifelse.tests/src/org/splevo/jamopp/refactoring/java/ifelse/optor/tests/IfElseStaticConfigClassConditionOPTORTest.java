@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
@@ -24,6 +25,7 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.expressions.ConditionalAndExpression;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
@@ -67,57 +69,6 @@ public class IfElseStaticConfigClassConditionOPTORTest {
         IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
-    }
-
-    /**
-     * Tests whether the canBeApplied method returns false for variation points that have a binding
-     * time that is not supported by the refactoring.
-     */
-    @Test
-    public void testIfCanBeAppliedWithInvalidBindingTime() {
-        Commentable location = StatementsFactory.eINSTANCE.createCondition();
-        Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        Commentable implEl2 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
-                BindingTime.LOAD_TIME, location, implEl1, implEl2);
-
-        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
-
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
-    }
-
-    /**
-     * Tests whether the canBeApplied method returns false for variation points that have a
-     * extensibility that is not supported by the refactoring.
-     */
-    @Test
-    public void testIfCanBeAppliedWithInvalidExtensibility() {
-        Commentable location = StatementsFactory.eINSTANCE.createCondition();
-        Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        Commentable implEl2 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.YES,
-                BindingTime.COMPILE_TIME, location, implEl1, implEl2);
-
-        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
-
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
-    }
-
-    /**
-     * Tests whether the canBeApplied method returns false for variation points that have a
-     * variability type that is not supported by the refactoring.
-     */
-    @Test
-    public void testIfCanBeAppliedWithInvalidVarType() {
-        Commentable location = StatementsFactory.eINSTANCE.createCondition();
-        Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        Commentable implEl2 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OR, Extensible.NO,
-                BindingTime.COMPILE_TIME, location, implEl1, implEl2);
-
-        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
-
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
 
     /**
@@ -172,24 +123,26 @@ public class IfElseStaticConfigClassConditionOPTORTest {
         assertThat(vpLocation.getStatement(), instanceOf(Block.class));
         assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
 
-        // else-statement (variant 1) has another condition with one statement in its if-block.
+        // else-statement (variant 1) has one statement and an else-if
         Condition varCond1 = (Condition) vpLocation.getElseStatement();
-        assertThat(varCond1.getStatement(), instanceOf(Block.class));
-        Block varCondBlock1 = (Block) varCond1.getStatement();
-        assertThat(varCondBlock1.getStatements().size(), equalTo(1));
-        assertThat(varCondBlock1.getStatements().get(0), instanceOf(Condition.class));
-        Condition block1Cond = (Condition) varCondBlock1.getStatements().get(0);
-        assertThat(((Block) block1Cond.getStatement()).getStatements().size(), equalTo(1));
-
-        // else-statement (variant 2) has another condition with one statement in its if-block.
+        assertThat(varCond1.getCondition(), instanceOf(ConditionalAndExpression.class));
         assertThat(varCond1.getElseStatement(), instanceOf(Condition.class));
+        assertThat(varCond1.getStatement(), instanceOf(Block.class));
+        assertThat(((Block) varCond1.getStatement()).getStatements().size(), equalTo(1));
+
+        // else-statement (variant 2) has one statement and an else-if
         Condition varCond2 = (Condition) varCond1.getElseStatement();
+        assertThat(varCond2.getCondition(), instanceOf(ConditionalAndExpression.class));
+        assertThat(varCond2.getElseStatement(), instanceOf(Condition.class));
         assertThat(varCond2.getStatement(), instanceOf(Block.class));
-        Block varCondBlock2 = (Block) varCond2.getStatement();
-        assertThat(varCondBlock2.getStatements().size(), equalTo(1));
-        assertThat(varCondBlock2.getStatements().get(0), instanceOf(Condition.class));
-        Condition block2Cond = (Condition) varCondBlock2.getStatements().get(0);
-        assertThat(((Block) block2Cond.getStatement()).getStatements().size(), equalTo(1));
+        assertThat(((Block) varCond2.getStatement()).getStatements().size(), equalTo(1));
+
+        // else-statement (variant 2) has one statement and an else-if
+        Condition varCond3 = (Condition) varCond2.getElseStatement();
+        assertThat(varCond3.getCondition(), instanceOf(ConditionalAndExpression.class));
+        assertThat(varCond3.getElseStatement(), nullValue());
+        assertThat(varCond3.getStatement(), instanceOf(Block.class));
+        assertThat(((Block) varCond3.getStatement()).getStatements().size(), equalTo(1));
     }
 
     /**
@@ -205,21 +158,28 @@ public class IfElseStaticConfigClassConditionOPTORTest {
         IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
         refactoring.refactor(vp);
 
-        // location has a condition with an if-block and another condition in its else-statement
+        // location has a condition with an if-block and an else-block
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getStatement(), instanceOf(Block.class));
-        assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
+        assertThat(vpLocation.getElseStatement(), instanceOf(Block.class));
+
+        // elseblock has the two variability conditions
+        Block elseBlock = (Block) vpLocation.getElseStatement();
+        assertThat(elseBlock.getStatements().size(), equalTo(2));
+
+        // else-block has two conditions
+        assertThat(elseBlock.getStatements().get(0), instanceOf(Condition.class));
+        assertThat(elseBlock.getStatements().get(1), instanceOf(Condition.class));
 
         // the second if-statement (variant 1) has the expression statement
-        Condition varCond1 = (Condition) vpLocation.getElseStatement();
+        Condition varCond1 = (Condition) elseBlock.getStatements().get(0);
         assertThat(varCond1.getStatement(), instanceOf(Block.class));
         Block varCondBlock1 = (Block) varCond1.getStatement();
         assertThat(varCondBlock1.getStatements().size(), equalTo(1));
         assertThat(varCondBlock1.getStatements().get(0), instanceOf(ExpressionStatement.class));
 
         // the second if-statement (variant 1) has the expression statement
-        assertThat(varCond1.getElseStatement(), instanceOf(Condition.class));
-        Condition varCond2 = (Condition) varCond1.getElseStatement();
+        Condition varCond2 = (Condition) elseBlock.getStatements().get(1);
         assertThat(varCond2.getStatement(), instanceOf(Block.class));
         Block varCondBlock2 = (Block) varCond2.getStatement();
         assertThat(varCondBlock2.getStatements().size(), equalTo(1));

@@ -7,6 +7,9 @@ import org.apache.log4j.Logger;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
+import org.splevo.vpm.variability.BindingTime;
+import org.splevo.vpm.variability.Extensible;
+import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -17,7 +20,7 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
     private static Logger logger = Logger.getLogger(IfElseStaticConfigClassOPTOR.class);
     
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR)";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.xor.IfElseStaticConfigClassOPTOR";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassOPTOR";
 
     private static List<VariabilityRefactoring> availableRefactorings;
 
@@ -31,6 +34,7 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
         availableRefactorings.add(new IfElseStaticConfigClassConstructorOPTOR());
         availableRefactorings.add(new IfElseStaticConfigClassEnumerationOPTOR());
         availableRefactorings.add(new IfElseStaticConfigClassFieldOPTOR());
+        availableRefactorings.add(new IfElseStaticConfigClassBlockOPTOR());
         availableRefactorings.add(new IfElseStaticConfigClassImportOPTOR());
         availableRefactorings.add(new IfElseStaticConfigClassInterfaceOPTOR());
         availableRefactorings.add(new IfElseStaticConfigClassMethodOPTOR());
@@ -58,7 +62,15 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        // check whether a refactoring can be applied
+        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
+        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
+        boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
+        boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
+
+        if (!correctCharacteristics) {
+            return false;
+        }
+
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             if (refactoring.canBeAppliedTo(variationPoint)) {
                 return true;
