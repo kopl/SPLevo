@@ -1,0 +1,89 @@
+modeltype DifferenceModel uses compare('http://www.eclipse.org/emf/compare');
+modeltype VariationPointModel uses variability('http://splevo.org/vpm/1.0/variability');
+modeltype Software uses software('http://splevo.org/vpm/1.0/software');
+modeltype JaMoPPSoftware uses software('http://splevo.org/jamopp/vpm/1.0/software');
+modeltype JaMoPPDiff uses jamoppdiff('http://www.eclipse.org/emf/compare/diff/jamoppdiff/1.0');
+modeltype ECore uses ecore('http://www.eclipse.org/emf/2002/Ecore');
+modeltype JaMoPP uses java('http://www.emftext.org/java');
+
+
+transformation diff2vpm( in diff:DifferenceModel, out vpm:VariationPointModel ) {
+
+  main() {
+    diff.objects()[Diff]->map diff2vpg();
+  }
+
+  -- create a VariationPointGroup for each Diff
+  mapping Diff::diff2vpg() : VariationPointGroup {
+	variationPoints += self->diff2vp();
+	groupId := variationPoints->first().location.getLabel();
+  }
+
+  -- create a variation point for each diff in its variation point group
+  mapping Diff::diff2vp() : VariationPoint {
+
+    if self.match.right <> null then {
+		location := self.match.right.map element2SoftwareElement();
+	} else {
+		location := self.match.left.map element2SoftwareElement();
+	} endif;
+
+	variants := self.map diff2Variant();
+  }
+
+  mapping Diff::diff2Variant() : Sequence(Variant)
+  	disjuncts
+  		Diff::diff2VariantADD,
+  		Diff::diff2VariantDELETE,
+  		Diff::diff2VariantCHANGE
+  	{}
+
+  mapping Diff::diff2VariantADD() : Sequence(Variant)
+  	when {self.kind = DifferenceKind::ADD} {
+
+	init {
+		result := Sequence {
+					object Variant {
+						leading := false;
+						implementingElements += self.match.left.map element2SoftwareElement();
+					}
+				};
+		}
+  }
+
+  mapping Diff::diff2VariantDELETE() : Sequence(Variant)
+  	when {self.kind = DifferenceKind::DELETE} {
+
+	init {
+		result := Sequence {
+					object Variant {
+						leading := true;
+						implementingElements += self.match.right.map element2SoftwareElement();
+					}
+				};
+		}
+  }
+
+  mapping Diff::diff2VariantCHANGE() : Sequence(Variant)
+  	when {self.kind = DifferenceKind::CHANGE} {
+
+	init {
+		result := Sequence {
+					object Variant {
+						leading := false;
+						implementingElements += self.match.left.map element2SoftwareElement();
+					}
+				};
+		}
+  }
+
+  mapping EObject::element2SoftwareElement() : JaMoPPSoftwareElement {
+		jamoppElement := self.oclAsType(JaMoPP::commons::Commentable)
+  }
+
+  mapping JaMoPP::commons::Commentable::element2SoftwareElement() : JaMoPPSoftwareElement
+  	when { self.oclIsKindOf(JaMoPP::commons::Commentable) } {
+	jamoppElement := self;
+  }
+
+}

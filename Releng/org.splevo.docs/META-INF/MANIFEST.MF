@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SPLevo Overall Documentation
+Bundle-SymbolicName: org.splevo.docs
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Require-Bundle: org.splevo.jamopp.vpm;bundle-version="1.0.0",
+ org.splevo.vpm;bundle-version="1.0.0",
+ org.splevo.diffing;bundle-version="1.0.0",
+ org.splevo.jamopp.diffing;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

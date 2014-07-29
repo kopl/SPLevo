@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ASCII"?>
+<compare:Comparison xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:compare="http://www.eclipse.org/emf/compare" xmlns:imports="http://www.emftext.org/java/imports" xmlns:jamoppdiff="http://www.eclipse.org/emf/compare/diff/jamoppdiff/1.0" xmlns:statements="http://www.emftext.org/java/statements">
+  <matchedResources leftURI="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorTool.java" rightURI="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorTool.java"/>
+  <matchedResources leftURI="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java" rightURI="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java"/>
+  <matchedResources leftURI="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java" rightURI="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java"/>
+  <matches>
+    <submatches>
+      <submatches>
+        <submatches>
+          <differences xsi:type="jamoppdiff:StatementChange" kind="CHANGE">
+            <changedStatement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.0"/>
+          </differences>
+          <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.0"/>
+          <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.0"/>
+        </submatches>
+        <submatches>
+          <differences xsi:type="jamoppdiff:StatementChange" kind="CHANGE">
+            <changedStatement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.1"/>
+          </differences>
+          <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.1"/>
+          <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.1"/>
+        </submatches>
+        <differences xsi:type="jamoppdiff:StatementChange">
+          <changedStatement xsi:type="statements:Return" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.2"/>
+        </differences>
+        <differences xsi:type="jamoppdiff:StatementChange" kind="DELETE">
+          <changedStatement xsi:type="statements:Return" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.2"/>
+        </differences>
+        <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0"/>
+        <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0"/>
+      </submatches>
+      <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0"/>
+      <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0"/>
+    </submatches>
+    <differences xsi:type="jamoppdiff:ImportChange">
+      <changedImport xsi:type="imports:ClassifierImport" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@imports.0"/>
+    </differences>
+    <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#/"/>
+    <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#/"/>
+  </matches>
+  <matches>
+    <submatches>
+      <submatches>
+        <submatches>
+          <differences xsi:type="jamoppdiff:StatementChange" kind="CHANGE">
+            <changedStatement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.0"/>
+          </differences>
+          <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.0"/>
+          <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.0"/>
+        </submatches>
+        <submatches>
+          <differences xsi:type="jamoppdiff:StatementChange" kind="CHANGE">
+            <changedStatement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.1"/>
+          </differences>
+          <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.1"/>
+          <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.1"/>
+        </submatches>
+        <submatches>
+          <differences xsi:type="jamoppdiff:StatementChange" kind="CHANGE">
+            <changedStatement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.2"/>
+          </differences>
+          <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.2"/>
+          <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.2"/>
+        </submatches>
+        <differences xsi:type="jamoppdiff:StatementChange">
+          <changedStatement xsi:type="statements:Return" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.3"/>
+        </differences>
+        <differences xsi:type="jamoppdiff:StatementChange" kind="DELETE">
+          <changedStatement xsi:type="statements:Return" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.3"/>
+        </differences>
+        <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0"/>
+        <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0"/>
+      </submatches>
+      <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0"/>
+      <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0"/>
+    </submatches>
+    <differences xsi:type="jamoppdiff:ImportChange">
+      <changedImport xsi:type="imports:ClassifierImport" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@imports.0"/>
+    </differences>
+    <differences xsi:type="jamoppdiff:ImportChange" kind="DELETE">
+      <changedImport xsi:type="imports:ClassifierImport" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@imports.0"/>
+    </differences>
+    <left href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#/"/>
+    <right href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#/"/>
+  </matches>
+</compare:Comparison>

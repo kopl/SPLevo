@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:containers="http://www.emftext.org/java/containers" xmlns:members="http://www.emftext.org/java/members" xmlns:software="http://splevo.org/jamopp/vpm/1.0/software" xmlns:statements="http://www.emftext.org/java/statements" xmlns:variability="http://splevo.org/vpm/1.0/variability">
+  <variability:VariationPointGroup groupId="gcd()">
+    <variationPoints location="/1">
+      <variants implementingElements="/2" leading="false"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="members:ClassMethod" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0"/>
+  </software:JaMoPPSoftwareElement>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="members:ClassMethod" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0"/>
+  </software:JaMoPPSoftwareElement>
+  <variability:VariationPointGroup groupId="CalculatorGCD.java">
+    <variationPoints location="/4">
+      <variants implementingElements="/5" leading="false"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="containers:CompilationUnit" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#/"/>
+  </software:JaMoPPSoftwareElement>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="containers:CompilationUnit" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#/"/>
+  </software:JaMoPPSoftwareElement>
+  <variability:VariationPointGroup groupId="Variable Declaration (floatingPointValue) :">
+    <variationPoints location="/7">
+      <variants implementingElements="/8" leading="false"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.0"/>
+  </software:JaMoPPSoftwareElement>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.0"/>
+  </software:JaMoPPSoftwareElement>
+  <variability:VariationPointGroup groupId="gcd()">
+    <variationPoints location="/1">
+      <variants implementingElements="/1" leading="true"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <variability:VariationPointGroup groupId="CalculatorGCD.java">
+    <variationPoints location="/4">
+      <variants implementingElements="/4" leading="true"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <variability:VariationPointGroup groupId="Variable Declaration (integerValue1) :">
+    <variationPoints location="/12">
+      <variants implementingElements="/13" leading="false"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.0"/>
+  </software:JaMoPPSoftwareElement>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.0"/>
+  </software:JaMoPPSoftwareElement>
+  <variability:VariationPointGroup groupId="Variable Declaration (integerValue2) :">
+    <variationPoints location="/15">
+      <variants implementingElements="/16" leading="false"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.1"/>
+  </software:JaMoPPSoftwareElement>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.1"/>
+  </software:JaMoPPSoftwareElement>
+  <variability:VariationPointGroup groupId="sqrt()">
+    <variationPoints location="/18">
+      <variants implementingElements="/19" leading="false"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="members:ClassMethod" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0"/>
+  </software:JaMoPPSoftwareElement>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="members:ClassMethod" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0"/>
+  </software:JaMoPPSoftwareElement>
+  <variability:VariationPointGroup groupId="Variable Declaration (gcd) :">
+    <variationPoints location="/21">
+      <variants implementingElements="/22" leading="false"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.2"/>
+  </software:JaMoPPSoftwareElement>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorGCD.java#//@classifiers.0/@members.0/@statements.2"/>
+  </software:JaMoPPSoftwareElement>
+  <variability:VariationPointGroup groupId="Variable Declaration (sqrt) :">
+    <variationPoints location="/24">
+      <variants implementingElements="/25" leading="false"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.1"/>
+  </software:JaMoPPSoftwareElement>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="statements:LocalVariableStatement" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#//@classifiers.0/@members.0/@statements.1"/>
+  </software:JaMoPPSoftwareElement>
+  <variability:VariationPointGroup groupId="CalculatorSqrt.java">
+    <variationPoints location="/27">
+      <variants implementingElements="/28" leading="false"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="containers:CompilationUnit" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-native/src/org/splevo/examples/calculator/CalculatorSqrt.java#/"/>
+  </software:JaMoPPSoftwareElement>
+  <software:JaMoPPSoftwareElement>
+    <jamoppElement xsi:type="containers:CompilationUnit" href="file:/D:/Projekte/phd/Development/eclipse/runtime-SPLevoCalculatorTest/Calculator-JScience/src/org/splevo/examples/calculator/CalculatorSqrt.java#/"/>
+  </software:JaMoPPSoftwareElement>
+  <variability:VariationPointGroup groupId="sqrt()">
+    <variationPoints location="/18">
+      <variants implementingElements="/18" leading="true"/>
+    </variationPoints>
+  </variability:VariationPointGroup>
+</xmi:XMI>
