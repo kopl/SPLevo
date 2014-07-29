@@ -26,7 +26,7 @@
  * </tr>
  * <tr>
  *   <td>Supported Elements</td>
- *   <td><ul><li>Class</li><li>Condition</li><li>Class</li><li>Constructor</li><li>Enumeration</li><li>Field</li><li>Import</li><li>Interface</li><li>Method</li><li>Statement</li></ul></td>
+ *   <td><ul><li>Condition</li><li>Class</li><li>Constructor</li><li>Enumeration</li><li>Field</li><li>Import</li><li>Interface</li><li>Method</li><li>Statement</li></ul></td>
  * </tr>
  * </table>
  */

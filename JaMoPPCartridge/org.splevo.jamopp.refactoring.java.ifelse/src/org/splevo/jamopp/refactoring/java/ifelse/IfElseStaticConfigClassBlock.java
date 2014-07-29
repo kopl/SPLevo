@@ -1,4 +1,4 @@
-package org.splevo.jamopp.refactoring.java.ifelse.optor;
+package org.splevo.jamopp.refactoring.java.ifelse;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
@@ -16,10 +16,10 @@ import org.splevo.vpm.variability.VariationPoint;
 /**
  * Integrates block from the integration projects into the leading project.
  */
-public class IfElseStaticConfigClassBlockOPTOR implements VariabilityRefactoring {
+public class IfElseStaticConfigClassBlock implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Block";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassBlockOPTOR";
+    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class: Block";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassBlock";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {

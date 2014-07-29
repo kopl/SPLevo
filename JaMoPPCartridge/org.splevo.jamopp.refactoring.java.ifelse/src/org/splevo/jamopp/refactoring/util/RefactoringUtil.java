@@ -209,18 +209,23 @@ public final class RefactoringUtil {
             Statement statement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
             Statement stmtCpy = EcoreUtil.copy(statement);
 
-            ensureInitialValueAndNonFinalVariableUsage(stmtCpy);
-
             if (stmtCpy instanceof LocalVariableStatement) {
                 LocalVariableStatement localVarStat = (LocalVariableStatement) stmtCpy;
                 LocalVariable variable = localVarStat.getVariable();
-                removeFinalIfApplicable(variable);
+
+                boolean hadFinalModifier = removeFinalIfApplicable(variable);
+                if (hadFinalModifier) {
+                    addCommentBefore(stmtCpy, "FIXME: removed final modifier from local variable");
+                }
+
                 stmtCpy = extractAssignment(variable);
                 variable.setInitialValue(getDefaultValueForVariable(variable));
                 if (!localVariableStatements.containsKey(variable.getName())) {
                     localVariableStatements.put(variable.getName(), localVarStat);
                 }
             }
+
+            assignInitialValueAndRemoveFinalForReferencedLocalVariables(stmtCpy);
 
             if (stmtCpy != null) {
                 ((Block) currentCondition.getStatement()).getStatements().add(stmtCpy);
@@ -230,47 +235,30 @@ public final class RefactoringUtil {
         return currentCondition;
     }
 
-    private static LocalVariable getVariableIfIsChildOgAssignmentStatement(Statement stmtCpy) {
-        if (!(stmtCpy instanceof ExpressionStatement)
-                || !(((ExpressionStatement) stmtCpy).getExpression() instanceof AssignmentExpression)) {
-            return null;
-        }
-        AssignmentExpression assignmentExpression = (AssignmentExpression) ((ExpressionStatement) stmtCpy)
-                .getExpression();
+    /**
+     * Assigns the default value to all referenced {@link LocalVariable}s if they don't have one and
+     * removes final modifiers.
+     * 
+     * @param eObject
+     *            The {@link EObject} to be checked for referenced {@link LocalVariable}s.
+     */
+    public static void assignInitialValueAndRemoveFinalForReferencedLocalVariables(EObject eObject) {
+        TreeIterator<Object> contents = EcoreUtil.getAllContents(eObject, true);
 
-        if (!(assignmentExpression.getChild() instanceof IdentifierReference)
-                || !(((IdentifierReference) assignmentExpression.getChild()).getTarget() instanceof LocalVariable)) {
-            return null;
-        }
-
-        return (LocalVariable) ((IdentifierReference) assignmentExpression.getChild()).getTarget();
-    }
-
-    private static void ensureInitialValueAndNonFinalVariableUsage(Statement stmtCpy) {
-        LocalVariable variable = getVariableIfIsChildOgAssignmentStatement(stmtCpy);
-        if (variable == null) {
-            return;
-        }
-
-        if (variable.getInitialValue() == null) {
-            variable.setInitialValue(getDefaultValueForVariable(variable));
-        }
-        removeFinalIfApplicable(variable);
-
-        TreeIterator<Object> contents = EcoreUtil.getAllContents(stmtCpy.eContents());
         while (contents.hasNext()) {
-            Object next = contents.next();
-            if (!(next instanceof Statement)) {
-                continue;
+            EObject child = (EObject) contents.next();
+            for (EObject crossReference : child.eCrossReferences()) {
+                if (crossReference instanceof LocalVariable) {
+                    LocalVariable variable = (LocalVariable) crossReference;
+
+                    if (variable.getInitialValue() == null) {
+                        variable.setInitialValue(getDefaultValueForVariable(variable));
+                    }
+
+                    removeFinalIfApplicable(variable);
+                }
             }
-            LocalVariable referencedVariable = getVariableIfIsChildOgAssignmentStatement((Statement) next);
-            if (referencedVariable == null) {
-                continue;
-            }
-            if (referencedVariable.getInitialValue() == null) {
-                referencedVariable.setInitialValue(getDefaultValueForVariable(variable));
-            }
-            removeFinalIfApplicable(referencedVariable);
+            assignInitialValueAndRemoveFinalForReferencedLocalVariables(child);
         }
     }
 
@@ -342,14 +330,16 @@ public final class RefactoringUtil {
      * 
      * @param modifieable
      *            The {@link Modifiable} element.
+     * @return <code>true</code> if a final modifier was removed; <code>false</code> otherwise.
      */
-    public static void removeFinalIfApplicable(AnnotableAndModifiable modifieable) {
+    public static boolean removeFinalIfApplicable(AnnotableAndModifiable modifieable) {
         for (Modifier modifier : modifieable.getModifiers()) {
             if (modifier instanceof Final) {
                 modifieable.removeModifier(Final.class);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     /**

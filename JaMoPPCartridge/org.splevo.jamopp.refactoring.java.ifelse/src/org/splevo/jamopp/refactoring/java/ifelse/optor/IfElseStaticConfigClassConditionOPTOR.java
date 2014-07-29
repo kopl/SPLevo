@@ -97,6 +97,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
                     }
                 }
             } else {
+                RefactoringUtil.assignInitialValueAndRemoveFinalForReferencedLocalVariables(implementingElement);
                 Condition condition = createVariabilityIfWithStatement(vp.getGroup().getId(), variant.getId(),
                         implementingElement);
 

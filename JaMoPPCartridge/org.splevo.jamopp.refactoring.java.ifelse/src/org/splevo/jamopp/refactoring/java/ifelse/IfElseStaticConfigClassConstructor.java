@@ -1,4 +1,4 @@
-package org.splevo.jamopp.refactoring.java.ifelse.optor;
+package org.splevo.jamopp.refactoring.java.ifelse;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
@@ -17,10 +17,10 @@ import org.splevo.vpm.variability.VariationPoint;
  * The code base class must contain all constructors from the variants. Therefore, this refactoring
  * merges the constructors from all variants into the base.
  */
-public class IfElseStaticConfigClassConstructorOPTOR implements VariabilityRefactoring {
+public class IfElseStaticConfigClassConstructor implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Constructor";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassConstructorOPTOR";
+    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class: Constructor";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassConstructor";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {

@@ -1,4 +1,4 @@
-package org.splevo.jamopp.refactoring.java.ifelse.optor;
+package org.splevo.jamopp.refactoring.java.ifelse;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
@@ -17,10 +17,10 @@ import org.splevo.vpm.variability.VariationPoint;
  * To allow for a complete single code base, all dependencies must be reflected and thus the
  * refactoring must carry over all imports.
  */
-public class IfElseStaticConfigClassImportOPTOR implements VariabilityRefactoring {
+public class IfElseStaticConfigClassImport implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Import";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassImportOPTOR";
+    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class: Import";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassImport";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {

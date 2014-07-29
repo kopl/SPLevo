@@ -4,6 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassBlock;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassClass;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassConstructor;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassEnumeration;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassField;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassImport;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassInterface;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassMethod;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -27,18 +35,17 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
     static {
         availableRefactorings = new LinkedList<VariabilityRefactoring>();
 
-        // add all optor if-else refactorings to the list of available refactorings in the order
-        // they shoud be executed
-        availableRefactorings.add(new IfElseStaticConfigClassClassOPTOR());
-        availableRefactorings.add(new IfElseStaticConfigClassConditionOPTOR());
-        availableRefactorings.add(new IfElseStaticConfigClassConstructorOPTOR());
-        availableRefactorings.add(new IfElseStaticConfigClassEnumerationOPTOR());
-        availableRefactorings.add(new IfElseStaticConfigClassFieldOPTOR());
-        availableRefactorings.add(new IfElseStaticConfigClassBlockOPTOR());
-        availableRefactorings.add(new IfElseStaticConfigClassImportOPTOR());
-        availableRefactorings.add(new IfElseStaticConfigClassInterfaceOPTOR());
-        availableRefactorings.add(new IfElseStaticConfigClassMethodOPTOR());
+        // add optor if refactorings here
+        availableRefactorings.add(new IfElseStaticConfigClassImport());
+        availableRefactorings.add(new IfElseStaticConfigClassClass());
+        availableRefactorings.add(new IfElseStaticConfigClassInterface());
+        availableRefactorings.add(new IfElseStaticConfigClassEnumeration());
+        availableRefactorings.add(new IfElseStaticConfigClassField());
+        availableRefactorings.add(new IfElseStaticConfigClassBlock());
+        availableRefactorings.add(new IfElseStaticConfigClassMethod());
+        availableRefactorings.add(new IfElseStaticConfigClassConstructor());
         availableRefactorings.add(new IfElseStaticConfigClassStatementOPTOR());
+        availableRefactorings.add(new IfElseStaticConfigClassConditionOPTOR());
     }
 
     @Override
@@ -51,11 +58,10 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
 
     @Override
     public void refactor(VariationPoint vp) {
-        // execute the refactoring that can be applied
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             if (refactoring.canBeAppliedTo(vp)) {
                 refactoring.refactor(vp);
-                logger.info("Used refactoring: " + refactoring.getVariabilityMechanism().getName());
+                logger.info("Refactored with: " + refactoring.getVariabilityMechanism().getName());
             }
         }
     }
@@ -76,6 +82,7 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
                 return true;
             }
         }
+        
         return false;
     }
 

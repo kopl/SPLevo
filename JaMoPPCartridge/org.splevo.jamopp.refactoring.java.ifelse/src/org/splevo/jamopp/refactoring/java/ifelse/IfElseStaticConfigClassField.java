@@ -1,4 +1,4 @@
-package org.splevo.jamopp.refactoring.java.ifelse.optor;
+package org.splevo.jamopp.refactoring.java.ifelse;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -33,10 +33,11 @@ import org.splevo.vpm.variability.VariationPoint;
  * The code base class must contain all fields from the variants. Therefore, this refactoring merges
  * the fields from all variants into the base.
  */
-public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring {
+public class IfElseStaticConfigClassField implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Field";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassFieldOPTOR";
+    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class: Field";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassField";
+    private static final String FINAL_COMMENT = "FIXME: removed final from field";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -66,7 +67,11 @@ public class IfElseStaticConfigClassFieldOPTOR implements VariabilityRefactoring
 
             vpLocation.getMembers().add(fieldPos, field);
 
-            RefactoringUtil.removeFinalIfApplicable(field);
+            boolean hadFinalModifier = RefactoringUtil.removeFinalIfApplicable(field);
+
+            if (hadFinalModifier) {
+                RefactoringUtil.addCommentBefore(vpLocation, FINAL_COMMENT);
+            }
 
             if (initialValues.size() > 1 && hasDifferentValues(initialValues)) {
                 field.setInitialValue(null);

@@ -26,7 +26,7 @@ import org.emftext.language.java.types.Int;
 import org.emftext.language.java.types.Short;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassConstructorOPTOR;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassConstructor;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -35,7 +35,7 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassConstructorOPTOR} class.
+ * Contains the tests for the {@link IfElseStaticConfigClassConstructor} class.
  */
 public class IfElseStaticConfigClassConstructorOPTORTest {
 
@@ -59,7 +59,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), is(true));
     }
@@ -76,7 +76,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
     }
@@ -93,7 +93,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
     }
@@ -108,7 +108,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
     @Test
     public void testRefactorCaseConstructorExistingOneParam() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConstructorExistingOneParamCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
         refactoring.refactor(vp);
 
         // location has two constructors
@@ -135,7 +135,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
     @Test
     public void testRefactorCaseConstructorAddTwoParam() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConstructorAddTwoParamCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
         refactoring.refactor(vp);
 
         // location has two constructors

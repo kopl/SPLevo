@@ -27,7 +27,7 @@ import org.emftext.language.java.imports.ImportsFactory;
 import org.emftext.language.java.members.MembersFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassImportOPTOR;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassImport;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -36,7 +36,7 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassImportOPTOR} class.
+ * Contains the tests for the {@link IfElseStaticConfigClassImport} class.
  */
 public class IfElseStaticConfigClassImportOPTORTest {
     /**
@@ -59,7 +59,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
+        IfElseStaticConfigClassImport refactoring = new IfElseStaticConfigClassImport();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -76,7 +76,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
+        IfElseStaticConfigClassImport refactoring = new IfElseStaticConfigClassImport();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -93,7 +93,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
+        IfElseStaticConfigClassImport refactoring = new IfElseStaticConfigClassImport();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -108,7 +108,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
     @Test
     public void testRefactorCaseImportTwoDistinct() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getImportTwoDistinctCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
+        IfElseStaticConfigClassImport refactoring = new IfElseStaticConfigClassImport();
         refactoring.refactor(vp);
 
         CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -134,7 +134,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
     @Test
     public void testRefactorCaseImportCommonMultiple() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getImportCommonMultipleCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassImportOPTOR refactoring = new IfElseStaticConfigClassImportOPTOR();
+        IfElseStaticConfigClassImport refactoring = new IfElseStaticConfigClassImport();
         refactoring.refactor(vp);
 
         CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();

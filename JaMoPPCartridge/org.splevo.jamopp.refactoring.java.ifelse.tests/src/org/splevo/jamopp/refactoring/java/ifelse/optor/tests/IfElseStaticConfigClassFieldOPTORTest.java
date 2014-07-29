@@ -40,7 +40,7 @@ import org.emftext.language.java.types.Int;
 import org.hamcrest.Matcher;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassFieldOPTOR;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -49,7 +49,7 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassFieldOPTOR} class.
+ * Contains the tests for the {@link IfElseStaticConfigClassField} class.
  */
 public class IfElseStaticConfigClassFieldOPTORTest {
 
@@ -72,7 +72,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, fieldMock, fieldMock);
 
-        IfElseStaticConfigClassFieldOPTOR refactoring = new IfElseStaticConfigClassFieldOPTOR();
+        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -89,7 +89,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassFieldOPTOR refactoring = new IfElseStaticConfigClassFieldOPTOR();
+        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -106,7 +106,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassFieldOPTOR refactoring = new IfElseStaticConfigClassFieldOPTOR();
+        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -121,7 +121,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
     @Test
     public void testRefactorCaseFieldAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getFieldAddCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassFieldOPTOR refactoring = new IfElseStaticConfigClassFieldOPTOR();
+        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
         refactoring.refactor(vp);
 
         // location has two fields
@@ -152,7 +152,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
     @Test
     public void testRefactorCaseFieldDifferentInitialValues() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getFieldDifferentInitialValuesCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassFieldOPTOR refactoring = new IfElseStaticConfigClassFieldOPTOR();
+        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
         refactoring.refactor(vp);
 
         // location has two members where one is a field

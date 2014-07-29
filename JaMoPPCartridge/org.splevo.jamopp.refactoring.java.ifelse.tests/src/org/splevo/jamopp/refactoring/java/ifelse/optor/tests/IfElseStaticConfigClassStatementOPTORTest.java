@@ -42,7 +42,7 @@ import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.statements.WhileLoop;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassConstructorOPTOR;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassConstructor;
 import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassStatementOPTOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
@@ -92,7 +92,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -109,7 +109,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructorOPTOR refactoring = new IfElseStaticConfigClassConstructorOPTOR();
+        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }

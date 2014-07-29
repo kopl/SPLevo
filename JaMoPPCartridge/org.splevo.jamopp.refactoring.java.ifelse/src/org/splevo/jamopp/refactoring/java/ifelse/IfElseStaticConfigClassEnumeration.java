@@ -1,4 +1,4 @@
-package org.splevo.jamopp.refactoring.java.ifelse.optor;
+package org.splevo.jamopp.refactoring.java.ifelse;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,10 +26,10 @@ import org.splevo.vpm.variability.VariationPoint;
  * refactoring merges the enumerations from all variants into the base, if there are no
  * interferences.
  */
-public class IfElseStaticConfigClassEnumerationOPTOR implements VariabilityRefactoring {
+public class IfElseStaticConfigClassEnumeration implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Enumeration";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassEnumerationOPTOR";
+    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class: Enumeration";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassEnumeration";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {

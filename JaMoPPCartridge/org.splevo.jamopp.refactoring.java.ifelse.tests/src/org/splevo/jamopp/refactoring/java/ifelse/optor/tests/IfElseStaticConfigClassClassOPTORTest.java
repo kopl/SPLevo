@@ -27,7 +27,7 @@ import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassClassOPTOR;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassClass;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -60,7 +60,7 @@ public class IfElseStaticConfigClassClassOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassClassOPTOR refactoring = new IfElseStaticConfigClassClassOPTOR();
+        IfElseStaticConfigClassClass refactoring = new IfElseStaticConfigClassClass();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -77,7 +77,7 @@ public class IfElseStaticConfigClassClassOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassClassOPTOR refactoring = new IfElseStaticConfigClassClassOPTOR();
+        IfElseStaticConfigClassClass refactoring = new IfElseStaticConfigClassClass();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -94,7 +94,7 @@ public class IfElseStaticConfigClassClassOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassClassOPTOR refactoring = new IfElseStaticConfigClassClassOPTOR();
+        IfElseStaticConfigClassClass refactoring = new IfElseStaticConfigClassClass();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -109,7 +109,7 @@ public class IfElseStaticConfigClassClassOPTORTest {
     @Test
     public void testRefactorCaseClassMerge() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getClassMergeCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassClassOPTOR refactoring = new IfElseStaticConfigClassClassOPTOR();
+        IfElseStaticConfigClassClass refactoring = new IfElseStaticConfigClassClass();
         refactoring.refactor(vp);
 
         // location has two members (the classes A and B)

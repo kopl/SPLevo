@@ -27,7 +27,7 @@ import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassEnumerationOPTOR;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassEnumeration;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -60,7 +60,7 @@ public class IfElseStaticConfigClassEnumerationOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassEnumerationOPTOR refactoring = new IfElseStaticConfigClassEnumerationOPTOR();
+        IfElseStaticConfigClassEnumeration refactoring = new IfElseStaticConfigClassEnumeration();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -77,7 +77,7 @@ public class IfElseStaticConfigClassEnumerationOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassEnumerationOPTOR refactoring = new IfElseStaticConfigClassEnumerationOPTOR();
+        IfElseStaticConfigClassEnumeration refactoring = new IfElseStaticConfigClassEnumeration();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -94,7 +94,7 @@ public class IfElseStaticConfigClassEnumerationOPTORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassEnumerationOPTOR refactoring = new IfElseStaticConfigClassEnumerationOPTOR();
+        IfElseStaticConfigClassEnumeration refactoring = new IfElseStaticConfigClassEnumeration();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -109,7 +109,7 @@ public class IfElseStaticConfigClassEnumerationOPTORTest {
     @Test
     public void testRefactorCaseEnumerationAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getEnumerationAddCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassEnumerationOPTOR refactoring = new IfElseStaticConfigClassEnumerationOPTOR();
+        IfElseStaticConfigClassEnumeration refactoring = new IfElseStaticConfigClassEnumeration();
         refactoring.refactor(vp);
 
         // location has one member (the enumeration)
@@ -135,7 +135,7 @@ public class IfElseStaticConfigClassEnumerationOPTORTest {
     @Test
     public void testRefactorCaseEnumerationAddEnumConstant() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getEnumerationAddEnumConstantCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassEnumerationOPTOR refactoring = new IfElseStaticConfigClassEnumerationOPTOR();
+        IfElseStaticConfigClassEnumeration refactoring = new IfElseStaticConfigClassEnumeration();
         refactoring.refactor(vp);
 
         // location has one member (the enumeration)
