@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
+package org.splevo.jamopp.refactoring.java.ifelse.tests;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -37,9 +37,9 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassMethodOPTORTest} class.
+ * Contains the tests for the {@link IfElseStaticConfigClassMethodTest} class.
  */
-public class IfElseStaticConfigClassMethodOPTORTest {
+public class IfElseStaticConfigClassMethodTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -110,7 +110,7 @@ public class IfElseStaticConfigClassMethodOPTORTest {
     public void testRefactorCaseMethodAddSameParam() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getMethodAddSameParamCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassMethod refactoring = new IfElseStaticConfigClassMethod();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has one method
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -133,7 +133,7 @@ public class IfElseStaticConfigClassMethodOPTORTest {
     public void testRefactorCaseMethodAddDifferentParam() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getMethodAddDifferentParamCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassMethod refactoring = new IfElseStaticConfigClassMethod();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has two methods
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();

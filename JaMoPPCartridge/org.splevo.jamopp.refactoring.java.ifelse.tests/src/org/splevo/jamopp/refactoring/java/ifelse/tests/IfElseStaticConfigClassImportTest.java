@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
+package org.splevo.jamopp.refactoring.java.ifelse.tests;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -38,7 +38,7 @@ import org.splevo.vpm.variability.VariationPoint;
 /**
  * Contains the tests for the {@link IfElseStaticConfigClassImport} class.
  */
-public class IfElseStaticConfigClassImportOPTORTest {
+public class IfElseStaticConfigClassImportTest {
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
@@ -109,7 +109,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
     public void testRefactorCaseImportTwoDistinct() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getImportTwoDistinctCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassImport refactoring = new IfElseStaticConfigClassImport();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
@@ -135,7 +135,7 @@ public class IfElseStaticConfigClassImportOPTORTest {
     public void testRefactorCaseImportCommonMultiple() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getImportCommonMultipleCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassImport refactoring = new IfElseStaticConfigClassImport();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getImports().size(), equalTo(4));

@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.splevo.refactoring;
 
+import java.util.Map;
+
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -22,32 +24,34 @@ public interface VariabilityRefactoring {
 
     /**
      * Get the variability mechanism realized by this refactoring.
-     *
+     * 
      * @return The variability mechanism supported by this refactoring.
      * */
     public VariabilityMechanism getVariabilityMechanism();
 
     /**
      * Refactor a variation point respectively it's variants to a single code base.
-     *
-     * @param vp
+     * 
+     * @param variationPoint
      *            The variation point to refactor.
+     * @param refactoringConfigurations
+     *            Refactoring configurations.
      */
-    public void refactor(VariationPoint vp);
+    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringConfigurations);
 
     /**
      * Check if the refactoring can be applied to a specific variation point.
-     *
+     * 
      * @param variationPoint
      *            The variation point to check the applicability for.
      * @return Flag is the refactoring can be applied.
-     *
+     * 
      */
     public boolean canBeAppliedTo(VariationPoint variationPoint);
 
     /**
      * Get the identifier of the refactoring.
-     *
+     * 
      * @return The identifier of the refactoring.
      */
     public String getId();

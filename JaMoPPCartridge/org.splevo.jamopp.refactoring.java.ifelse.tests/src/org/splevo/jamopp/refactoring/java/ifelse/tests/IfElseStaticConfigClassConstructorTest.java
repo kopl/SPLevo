@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
+package org.splevo.jamopp.refactoring.java.ifelse.tests;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -37,7 +37,7 @@ import org.splevo.vpm.variability.VariationPoint;
 /**
  * Contains the tests for the {@link IfElseStaticConfigClassConstructor} class.
  */
-public class IfElseStaticConfigClassConstructorOPTORTest {
+public class IfElseStaticConfigClassConstructorTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -109,7 +109,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
     public void testRefactorCaseConstructorExistingOneParam() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConstructorExistingOneParamCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has two constructors
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -136,7 +136,7 @@ public class IfElseStaticConfigClassConstructorOPTORTest {
     public void testRefactorCaseConstructorAddTwoParam() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConstructorAddTwoParamCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has two constructors
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();

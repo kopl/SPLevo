@@ -568,6 +568,44 @@ public final class RefactoringTestUtil {
     }
 
     /**
+     * Generates a variation point according to the Block_Add test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getBlockAddCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Block_Add");
+        assertVariationPointStructure(vpm);
+        
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+        
+        return variationPoint;
+    }
+
+    /**
+     * Generates a variation point according to the Block_Merge test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getBlockMergeCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Block_Merge");
+        assertVariationPointStructure(vpm);
+        
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+        
+        return variationPoint;
+    }
+
+    /**
      * Generates a variation point mock with a given variability type, extensibility, binding time,
      * location and two variants, each with one element.
      * 

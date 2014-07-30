@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
+package org.splevo.jamopp.refactoring.java.ifelse.tests;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -36,9 +36,9 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassEnumerationOPTORTest} class.
+ * Contains the tests for the {@link IfElseStaticConfigClassEnumerationTest} class.
  */
-public class IfElseStaticConfigClassEnumerationOPTORTest {
+public class IfElseStaticConfigClassEnumerationTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -110,7 +110,7 @@ public class IfElseStaticConfigClassEnumerationOPTORTest {
     public void testRefactorCaseEnumerationAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getEnumerationAddCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassEnumeration refactoring = new IfElseStaticConfigClassEnumeration();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has one member (the enumeration)
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -136,7 +136,7 @@ public class IfElseStaticConfigClassEnumerationOPTORTest {
     public void testRefactorCaseEnumerationAddEnumConstant() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getEnumerationAddEnumConstantCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassEnumeration refactoring = new IfElseStaticConfigClassEnumeration();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has one member (the enumeration)
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();

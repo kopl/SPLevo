@@ -1,5 +1,7 @@
 package org.splevo.jamopp.refactoring.java.ifelse;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
@@ -31,10 +33,10 @@ public class IfElseStaticConfigClassConstructor implements VariabilityRefactorin
     }
 
     @Override
-    public void refactor(VariationPoint vp) {
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+        Class vpLocation = (Class) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
-        for (Variant variant : vp.getVariants()) {
+        for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 continue;
             }

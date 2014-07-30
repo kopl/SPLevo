@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
+package org.splevo.jamopp.refactoring.java.ifelse.tests;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -51,7 +51,7 @@ import org.splevo.vpm.variability.VariationPoint;
 /**
  * Contains the tests for the {@link IfElseStaticConfigClassField} class.
  */
-public class IfElseStaticConfigClassFieldOPTORTest {
+public class IfElseStaticConfigClassFieldTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -122,7 +122,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
     public void testRefactorCaseFieldAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getFieldAddCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has two fields
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -153,7 +153,7 @@ public class IfElseStaticConfigClassFieldOPTORTest {
     public void testRefactorCaseFieldDifferentInitialValues() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getFieldDifferentInitialValuesCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has two members where one is a field
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();

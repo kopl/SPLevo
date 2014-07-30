@@ -41,7 +41,7 @@ public class VariabilityRefactoringService {
                     logger.warn("Recommended refactoring cannot be applied to this variation point.");
                     continue;
                 }
-                refactoring.refactor(variationPoint);
+                refactoring.refactor(variationPoint, null);
 
                 // add resource to the new set if not yet contained
                 Resource vpLocationResource = variationPoint.getLocation().eResource();

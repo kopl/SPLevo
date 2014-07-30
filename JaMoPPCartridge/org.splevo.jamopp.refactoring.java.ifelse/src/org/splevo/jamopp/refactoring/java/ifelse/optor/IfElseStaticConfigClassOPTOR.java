@@ -2,10 +2,12 @@ package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassBlock;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassClass;
+import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassCompilationUnit;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassConstructor;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassEnumeration;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassField;
@@ -25,8 +27,10 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
 
+    public static final String JAVA_SOURCE_DIRECTORY = "JaMoPP.Refactoring.Options.SourceDirectory";
+
     private static Logger logger = Logger.getLogger(IfElseStaticConfigClassOPTOR.class);
-    
+
     private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR)";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassOPTOR";
 
@@ -36,6 +40,7 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
         availableRefactorings = new LinkedList<VariabilityRefactoring>();
 
         // add optor if refactorings here
+        availableRefactorings.add(new IfElseStaticConfigClassCompilationUnit());
         availableRefactorings.add(new IfElseStaticConfigClassImport());
         availableRefactorings.add(new IfElseStaticConfigClassClass());
         availableRefactorings.add(new IfElseStaticConfigClassInterface());
@@ -57,11 +62,12 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
     }
 
     @Override
-    public void refactor(VariationPoint vp) {
+    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         for (VariabilityRefactoring refactoring : availableRefactorings) {
-            if (refactoring.canBeAppliedTo(vp)) {
-                refactoring.refactor(vp);
+            if (refactoring.canBeAppliedTo(variationPoint)) {
+                refactoring.refactor(variationPoint, refactoringOptions);
                 logger.info("Refactored with: " + refactoring.getVariabilityMechanism().getName());
+                break;
             }
         }
     }
@@ -82,7 +88,7 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
                 return true;
             }
         }
-        
+
         return false;
     }
 

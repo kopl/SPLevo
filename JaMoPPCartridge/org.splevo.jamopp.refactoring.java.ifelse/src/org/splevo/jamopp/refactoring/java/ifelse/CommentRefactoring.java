@@ -1,5 +1,7 @@
 package org.splevo.jamopp.refactoring.java.ifelse;
 
+import java.util.Map;
+
 import org.emftext.language.java.commons.Commentable;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
@@ -31,11 +33,11 @@ public class CommentRefactoring implements VariabilityRefactoring {
     }
 
     @Override
-    public void refactor(VariationPoint vp) {
-        Commentable vpLocation = ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+        Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         StringBuilder sb = new StringBuilder();
         sb.append(COMMENT_TEXT + "\n");
-        for (Variant variant : vp.getVariants()) {
+        for (Variant variant : variationPoint.getVariants()) {
             sb.append("Variant: " + variant.getId() + "\n");
             for (SoftwareElement se : variant.getImplementingElements()) {
                 String label = JaMoPPElementUtil.getLabel(((JaMoPPSoftwareElement) se).getJamoppElement());

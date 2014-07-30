@@ -116,7 +116,7 @@ public class IfElseStaticConfigClassConditionOPTORTest {
     public void testRefactorCaseConditionAddCond() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConditionAddCondCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has one condition with else-statements
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -156,7 +156,7 @@ public class IfElseStaticConfigClassConditionOPTORTest {
     public void testRefactorCaseConditionDifferentElseStatement() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConditionDifferentElseStatementCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has a condition with an if-block and an else-block
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();

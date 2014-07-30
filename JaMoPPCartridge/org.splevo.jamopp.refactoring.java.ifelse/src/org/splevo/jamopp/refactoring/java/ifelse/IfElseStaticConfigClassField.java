@@ -48,17 +48,17 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
     }
 
     @Override
-    public void refactor(VariationPoint vp) {
-        RefactoringUtil.deleteVariableMembersFromLeading(vp);
+    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+        RefactoringUtil.deleteVariableMembersFromLeading(variationPoint);
 
         Map<String, Field> fieldsToName = new HashMap<String, Field>();
         Map<Field, Integer> positionToField = new HashMap<Field, Integer>();
         Map<String, List<Expression>> initialValuesToFieldName = new HashMap<String, List<Expression>>();
         Map<Expression, String> variantIDToInitialValue = new HashMap<Expression, String>();
 
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Class vpLocation = (Class) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
-        fillMaps(vp, fieldsToName, initialValuesToFieldName, variantIDToInitialValue, positionToField);
+        fillMaps(variationPoint, fieldsToName, initialValuesToFieldName, variantIDToInitialValue, positionToField);
 
         for (String fieldName : fieldsToName.keySet()) {
             Field field = fieldsToName.get(fieldName);
@@ -79,7 +79,7 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
 
                 for (Expression value : initialValues) {
                     String variantId = variantIDToInitialValue.get(value);
-                    String groupId = vp.getGroup().getId();
+                    String groupId = variationPoint.getGroup().getId();
                     Condition condition = RefactoringUtil.generateVariabilityIf(variantId, groupId);
                     Block ifBlock = (Block) condition.getStatement();
 

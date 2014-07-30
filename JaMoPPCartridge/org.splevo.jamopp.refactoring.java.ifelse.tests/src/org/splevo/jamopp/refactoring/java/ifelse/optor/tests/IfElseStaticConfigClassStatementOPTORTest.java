@@ -142,7 +142,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     public void testRefactorCaseLocalVariableEqualType() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
@@ -214,7 +214,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     public void testRefactorCaseOneAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementOneAddCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
@@ -252,7 +252,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     public void testRefactorCaseOneEither() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementOneEitherCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
@@ -291,7 +291,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     public void testRefactorCaseNestedTry() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedTryCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -331,7 +331,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     public void testRefactorCaseNestedCatch() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedCatchCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -371,7 +371,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     public void testRefactorCaseNestedCondition() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedConditionCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -411,7 +411,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     public void testRefactorCaseNestedFor() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedForCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -451,7 +451,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     public void testRefactorCaseNestedWhile() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedWhileCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -491,7 +491,7 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     public void testRefactorCaseNestedSwitchCase() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedSwitchCaseCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();

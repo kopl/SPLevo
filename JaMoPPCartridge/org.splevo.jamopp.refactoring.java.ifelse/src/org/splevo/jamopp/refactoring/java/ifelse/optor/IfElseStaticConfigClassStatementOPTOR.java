@@ -41,11 +41,11 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
     }
 
     @Override
-    public void refactor(VariationPoint vp) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
 
-        if (RefactoringUtil.hasImplementingElementsOfType(vp, Return.class)) {
+        if (RefactoringUtil.hasImplementingElementsOfType(variationPoint, Return.class)) {
             RefactoringUtil
                     .addCommentBefore(vpLocation, "FIXME: Introduced optional variability for return statement.");
         }
@@ -55,14 +55,14 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
             vpLocation.getContainingCompilationUnit().getImports().add(splConfImport);
         }
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
-        EList<Variant> variants = vp.getVariants();
+        EList<Variant> variants = variationPoint.getVariants();
 
-        int variabilityPosition = VariabilityPositionUtil.getVariabilityPosition(vp);
+        int variabilityPosition = VariabilityPositionUtil.getVariabilityPosition(variationPoint);
         int currentVariabilityPosition = variabilityPosition;
 
         for (Variant variant : variants) {
             if (variant.getLeading()) {
-                RefactoringUtil.deleteVariableStatements(vp);
+                RefactoringUtil.deleteVariableStatements(variationPoint);
             }
 
             Condition currentCondition = RefactoringUtil.generateVariantCondition(variant, localVariableStatements);

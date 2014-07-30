@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
+package org.splevo.jamopp.refactoring.java.ifelse.tests;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -36,9 +36,9 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassInterfaceOPTORTest} class.
+ * Contains the tests for the {@link IfElseStaticConfigClassInterfaceTest} class.
  */
-public class IfElseStaticConfigClassInterfaceOPTORTest {
+public class IfElseStaticConfigClassInterfaceTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -110,7 +110,7 @@ public class IfElseStaticConfigClassInterfaceOPTORTest {
     public void testRefactorCaseInterfaceMerge() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getInterfaceMergeCase(VariabilityType.OPTOR);
         IfElseStaticConfigClassInterface refactoring = new IfElseStaticConfigClassInterface();
-        refactoring.refactor(vp);
+        refactoring.refactor(vp, null);
 
         // location has two members (the interfaces A and B)
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();

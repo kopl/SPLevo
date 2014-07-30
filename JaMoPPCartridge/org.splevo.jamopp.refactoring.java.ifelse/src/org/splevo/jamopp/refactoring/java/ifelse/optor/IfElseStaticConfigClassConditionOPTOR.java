@@ -1,5 +1,7 @@
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.ConditionalAndExpression;
@@ -37,8 +39,8 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
     }
 
     @Override
-    public void refactor(VariationPoint vp) {
-        Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+        Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();
         if (!RefactoringUtil.containsImport(vpLocation.getContainingCompilationUnit(), splConfImport)) {
@@ -48,7 +50,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
         Condition previousCond = null;
         Block elseBlock = null;
 
-        for (Variant variant : vp.getVariants()) {
+        for (Variant variant : variationPoint.getVariants()) {
             Statement implementingElement = (Statement) ((JaMoPPSoftwareElement) variant.getImplementingElements().get(
                     0)).getJamoppElement();
 
@@ -65,7 +67,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
 
                 while (true) {
                     IdentifierReference splExpression = SPLConfigurationUtil.generateConfigMatchingExpression(
-                            variant.getId(), vp.getGroup().getId());
+                            variant.getId(), variationPoint.getGroup().getId());
 
                     ConditionalAndExpression newExpression = ExpressionsFactory.eINSTANCE
                             .createConditionalAndExpression();
@@ -89,7 +91,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
                         previousCond = currentCondition;
                         currentCondition = (Condition) currentCondition.getElseStatement();
                     } else {
-                        Condition condition = createVariabilityIfWithStatement(vp.getGroup().getId(), variant.getId(),
+                        Condition condition = createVariabilityIfWithStatement(variationPoint.getGroup().getId(), variant.getId(),
                                 currentCondition.getElseStatement());
                         currentCondition.setElseStatement(condition);
                         previousCond = condition;
@@ -98,7 +100,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
                 }
             } else {
                 RefactoringUtil.assignInitialValueAndRemoveFinalForReferencedLocalVariables(implementingElement);
-                Condition condition = createVariabilityIfWithStatement(vp.getGroup().getId(), variant.getId(),
+                Condition condition = createVariabilityIfWithStatement(variationPoint.getGroup().getId(), variant.getId(),
                         implementingElement);
 
                 if (elseBlock == null) {
