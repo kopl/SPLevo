@@ -8,7 +8,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" upperBound="-1"
         eType="#//Refinement" containment="true" eOpposite="#//Refinement/refinementModel"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Refinement">
+  <eClassifiers xsi:type="ecore:EClass" name="Refinement" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A refinement identifies a refinement within a variation point model."/>
     </eAnnotations>
@@ -18,15 +18,16 @@
         <details key="documentation" value="The variation points to be merged."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refinementModel" lowerBound="1"
-        eType="#//RefinementModel" eOpposite="#//RefinementModel/refinements">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refinementModel" eType="#//RefinementModel"
+        eOpposite="#//RefinementModel/refinements">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The analyzer that led to this refinement."/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="reasons" upperBound="-1"
         eType="#//RefinementReason" containment="true" eOpposite="#//RefinementReason/refinement"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//RelationshipType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        upperBound="-1" eType="#//RelationshipType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="RefinementType">
     <eLiterals name="MERGE"/>
@@ -54,8 +55,8 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MergeRefinement" eSuperTypes="#//Refinement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" lowerBound="1"
-        eType="#//GroupRefinement" eOpposite="#//GroupRefinement/subRefinements">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//GroupRefinement"
+        eOpposite="#//GroupRefinement/subRefinements">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The parent refinement to be executed when child refinements have been processed."/>
       </eAnnotations>
