@@ -23,6 +23,7 @@ import org.eclipse.swt.graphics.Image;
  */
 @SuppressWarnings("restriction")
 public class ProjectLabelProvider extends ColumnLabelProvider {
+    
     @Override
     public String getText(Object element) {
         IProject project = (IProject) element;
