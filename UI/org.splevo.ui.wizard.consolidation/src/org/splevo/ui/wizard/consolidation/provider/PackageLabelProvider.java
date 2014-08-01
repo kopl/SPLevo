@@ -18,11 +18,12 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * Label provider for packages
+ * Label provider for packages.
  * 
  * @author Radoslav Yankov 
  */
 public class PackageLabelProvider extends ColumnLabelProvider {
+    
     @Override
     public String getText(Object element) {
         if (element instanceof IPackageFragment) {
