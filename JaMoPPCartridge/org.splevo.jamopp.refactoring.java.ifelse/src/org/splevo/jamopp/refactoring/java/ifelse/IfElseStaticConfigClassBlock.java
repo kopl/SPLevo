@@ -3,6 +3,7 @@ package org.splevo.jamopp.refactoring.java.ifelse;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.statements.Block;
@@ -14,7 +15,6 @@ import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
-
 /**
  * Integrates block from the integration projects into the leading project.
  */
@@ -50,7 +50,7 @@ public class IfElseStaticConfigClassBlock implements VariabilityRefactoring {
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
-        boolean correctLocation = jamoppElement instanceof MemberContainer;
+        boolean correctLocation = jamoppElement instanceof Class;
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Block.class);
 

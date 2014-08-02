@@ -57,8 +57,8 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
         EList<Variant> variants = variationPoint.getVariants();
 
-        int variabilityPosition = VariabilityPositionUtil.getVariabilityPosition(variationPoint);
-        int currentVariabilityPosition = variabilityPosition;
+        int variabilityPositionStart = VariabilityPositionUtil.getVariabilityPosition(variationPoint);
+        int variabilityPositionEnd = variabilityPositionStart;
 
         for (Variant variant : variants) {
             if (variant.getLeading()) {
@@ -66,13 +66,11 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
             }
 
             Condition currentCondition = RefactoringUtil.generateVariantCondition(variant, localVariableStatements);
-            vpLocation.getStatements().add(currentVariabilityPosition++, currentCondition);
+            vpLocation.getStatements().add(variabilityPositionEnd++, currentCondition);
         }
 
         for (String key : localVariableStatements.keySet()) {
-            if (!RefactoringUtil.hasVariableWithSameName(vpLocation, key)) {
-                vpLocation.getStatements().add(variabilityPosition++, localVariableStatements.get(key));
-            }
+            vpLocation.getStatements().add(variabilityPositionStart++, localVariableStatements.get(key));
         }
     }
 

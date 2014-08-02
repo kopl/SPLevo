@@ -48,7 +48,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
         }
 
         Condition previousCond = null;
-        Block elseBlock = null;
+        Block elseBlock = StatementsFactory.eINSTANCE.createBlock();
 
         for (Variant variant : variationPoint.getVariants()) {
             Statement implementingElement = (Statement) ((JaMoPPSoftwareElement) variant.getImplementingElements().get(
@@ -58,6 +58,9 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
                 implementingElement = EcoreUtil.copy(implementingElement);
             }
 
+            String groupId = variationPoint.getGroup().getId();
+            String variantId = variant.getId();
+
             if (implementingElement instanceof Condition) {
                 Condition currentCondition = (Condition) implementingElement;
 
@@ -66,17 +69,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
                 }
 
                 while (true) {
-                    IdentifierReference splExpression = SPLConfigurationUtil.generateConfigMatchingExpression(
-                            variant.getId(), variationPoint.getGroup().getId());
-
-                    ConditionalAndExpression newExpression = ExpressionsFactory.eINSTANCE
-                            .createConditionalAndExpression();
-                    newExpression.getChildren().add(splExpression);
-                    NestedExpression nestedExpression = ExpressionsFactory.eINSTANCE.createNestedExpression();
-                    nestedExpression.setExpression(currentCondition.getCondition());
-                    newExpression.getChildren().add(nestedExpression);
-
-                    currentCondition.setCondition(newExpression);
+                    appendSPLConfigCheck(groupId, variantId, currentCondition);
 
                     if (previousCond != null) {
                         previousCond.setElseStatement(currentCondition);
@@ -85,13 +78,11 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
                     if (currentCondition.getElseStatement() == null) {
                         previousCond = currentCondition;
                         break;
-                    }
-
-                    if (currentCondition.getElseStatement() instanceof Condition) {
+                    } else if (currentCondition.getElseStatement() instanceof Condition) {
                         previousCond = currentCondition;
                         currentCondition = (Condition) currentCondition.getElseStatement();
                     } else {
-                        Condition condition = createVariabilityIfWithStatement(variationPoint.getGroup().getId(), variant.getId(),
+                        Condition condition = createVariabilityIfWithStatement(groupId, variantId,
                                 currentCondition.getElseStatement());
                         currentCondition.setElseStatement(condition);
                         previousCond = condition;
@@ -100,16 +91,11 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
                 }
             } else {
                 RefactoringUtil.assignInitialValueAndRemoveFinalForReferencedLocalVariables(implementingElement);
-                Condition condition = createVariabilityIfWithStatement(variationPoint.getGroup().getId(), variant.getId(),
-                        implementingElement);
-
-                if (elseBlock == null) {
-                    elseBlock = StatementsFactory.eINSTANCE.createBlock();
-                }
+                Condition condition = createVariabilityIfWithStatement(groupId, variantId, implementingElement);
                 elseBlock.getStatements().add(condition);
             }
         }
-        if (elseBlock != null) {
+        if (elseBlock.getStatements().size() > 0) {
             if (previousCond != null) {
                 previousCond.setElseStatement(elseBlock);
             } else {
@@ -118,8 +104,21 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
         }
     }
 
+    private void appendSPLConfigCheck(String groupId, String variantId, Condition currentCondition) {
+        IdentifierReference splConfigCheck = SPLConfigurationUtil.generateConfigMatchingExpression(variantId, groupId);
+
+        NestedExpression nestedExpression = ExpressionsFactory.eINSTANCE.createNestedExpression();
+        nestedExpression.setExpression(currentCondition.getCondition());
+
+        ConditionalAndExpression newExpression = ExpressionsFactory.eINSTANCE.createConditionalAndExpression();
+        newExpression.getChildren().add(splConfigCheck);
+        newExpression.getChildren().add(nestedExpression);
+
+        currentCondition.setCondition(newExpression);
+    }
+
     private Condition createVariabilityIfWithStatement(String groupId, String variantId, Statement statement) {
-        Condition condition = RefactoringUtil.generateVariabilityIf(variantId, groupId);
+        Condition condition = RefactoringUtil.createVariabilityCondition(variantId, groupId);
         ((Block) condition.getStatement()).getStatements().add(statement);
         return condition;
     }

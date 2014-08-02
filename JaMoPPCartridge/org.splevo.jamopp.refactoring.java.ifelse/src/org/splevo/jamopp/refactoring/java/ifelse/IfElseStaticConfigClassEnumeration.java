@@ -41,7 +41,8 @@ public class IfElseStaticConfigClassEnumeration implements VariabilityRefactorin
 
     @Override
     public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
-        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+                .getJamoppElement();
 
         Map<String, Enumeration> enumerationsToName = new HashMap<String, Enumeration>();
         Map<String, Set<String>> constantsToEnumName = new HashMap<String, Set<String>>();
@@ -103,7 +104,13 @@ public class IfElseStaticConfigClassEnumeration implements VariabilityRefactorin
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreEnums = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Enumeration.class);
-        return correctLocation && allImplementingElementsAreEnums;
+        boolean correctInput = correctLocation && allImplementingElementsAreEnums;
+
+        if (!correctInput) {
+            return false;
+        }
+
+        return !RefactoringUtil.hasMembersWithConflictingNames(variationPoint);
     }
 
     @Override

@@ -55,10 +55,16 @@ public class IfElseStaticConfigClassInterface implements VariabilityRefactoring 
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof MemberContainer;
-        boolean allImplementingElementsAreFields = RefactoringUtil.allImplementingElementsOfType(variationPoint,
+        boolean allImplementingElementsAreInterfaces = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Interface.class);
 
-        return correctLocation && allImplementingElementsAreFields;
+        boolean correctInput = correctLocation && allImplementingElementsAreInterfaces;
+
+        if (!correctInput) {
+            return false;
+        }
+
+        return !RefactoringUtil.hasMembersWithConflictingNames(variationPoint);
     }
 
     @Override

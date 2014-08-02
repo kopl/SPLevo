@@ -45,6 +45,9 @@ public class IfElseStaticConfigClassCompilationUnit implements VariabilityRefact
         String sourcePath = refactoringConfigurations.get(IfElseStaticConfigClassOPTOR.JAVA_SOURCE_DIRECTORY);
 
         for (Variant variant : variationPoint.getVariants()) {
+            if (variant.getLeading()) {
+                continue;
+            }
             for (SoftwareElement se : variant.getImplementingElements()) {
                 CompilationUnit compilationUnit = (CompilationUnit) ((JaMoPPSoftwareElement) se).getJamoppElement();
                 wrapCompUnitInNewResourceSet(compilationUnit, sourcePath);
@@ -55,7 +58,7 @@ public class IfElseStaticConfigClassCompilationUnit implements VariabilityRefact
     private void wrapCompUnitInNewResourceSet(CompilationUnit compilationUnit, String sourcePath) {
         StringBuilder sb = buildPathForLeadingProject(compilationUnit, sourcePath);
         URI leadingURI = URI.createFileURI(sb.toString());
-        
+
         ResourceSetImpl resourceSet = new ResourceSetImpl();
         Resource resource = resourceSet.createResource(leadingURI);
         resource.getContents().add(compilationUnit);
@@ -67,12 +70,13 @@ public class IfElseStaticConfigClassCompilationUnit implements VariabilityRefact
         if (!sourcePath.endsWith(File.separator)) {
             sb.append(File.separator);
         }
-        
+
         for (String segment : compilationUnit.getNamespaces()) {
             sb.append(segment + File.separator);
         }
 
-        String compNameWithoutNamespace = compilationUnit.getName().substring(compilationUnit.getNamespacesAsString().length());
+        String compNameWithoutNamespace = compilationUnit.getName().substring(
+                compilationUnit.getNamespacesAsString().length());
         sb.append(compNameWithoutNamespace);
         return sb;
     }

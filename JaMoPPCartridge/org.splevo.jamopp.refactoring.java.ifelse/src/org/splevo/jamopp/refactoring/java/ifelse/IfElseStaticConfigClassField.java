@@ -13,6 +13,9 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MemberContainer;
+import org.emftext.language.java.modifiers.Modifier;
+import org.emftext.language.java.modifiers.ModifiersFactory;
+import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.operators.OperatorsFactory;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.ReferencesFactory;
@@ -51,19 +54,23 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
     public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         RefactoringUtil.deleteVariableMembersFromLeading(variationPoint);
 
-        Map<String, Field> fieldsToName = new HashMap<String, Field>();
-        Map<Field, Integer> positionToField = new HashMap<Field, Integer>();
+        Map<String, Field> fieldToFieldName = new HashMap<String, Field>();
+        Map<String, Integer> positionToFieldName = new HashMap<String, Integer>();
         Map<String, List<Expression>> initialValuesToFieldName = new HashMap<String, List<Expression>>();
         Map<Expression, String> variantIDToInitialValue = new HashMap<Expression, String>();
 
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
-        fillMaps(variationPoint, fieldsToName, initialValuesToFieldName, variantIDToInitialValue, positionToField);
+        fillMaps(variationPoint, fieldToFieldName, initialValuesToFieldName, variantIDToInitialValue, positionToFieldName);
 
-        for (String fieldName : fieldsToName.keySet()) {
-            Field field = fieldsToName.get(fieldName);
+        Block nonStaticBlock = StatementsFactory.eINSTANCE.createBlock();
+        Block staticBlock = StatementsFactory.eINSTANCE.createBlock();
+        staticBlock.getModifiers().add(ModifiersFactory.eINSTANCE.createStatic());
+
+        for (String fieldName : fieldToFieldName.keySet()) {
+            Field field = fieldToFieldName.get(fieldName);
             List<Expression> initialValues = initialValuesToFieldName.get(fieldName);
-            int fieldPos = positionToField.get(field);
+            int fieldPos = positionToFieldName.get(field.getName());
 
             vpLocation.getMembers().add(fieldPos, field);
 
@@ -75,12 +82,11 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
 
             if (initialValues.size() > 1 && hasDifferentValues(initialValues)) {
                 field.setInitialValue(null);
-                Block initializingBlock = StatementsFactory.eINSTANCE.createBlock();
 
                 for (Expression value : initialValues) {
                     String variantId = variantIDToInitialValue.get(value);
                     String groupId = variationPoint.getGroup().getId();
-                    Condition condition = RefactoringUtil.generateVariabilityIf(variantId, groupId);
+                    Condition condition = RefactoringUtil.createVariabilityCondition(variantId, groupId);
                     Block ifBlock = (Block) condition.getStatement();
 
                     AssignmentExpression assignmentExpr = ExpressionsFactory.eINSTANCE.createAssignmentExpression();
@@ -94,12 +100,30 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
 
                     ifBlock.getStatements().add(expressionStatement);
 
-                    initializingBlock.getStatements().add(condition);
+                    if (isStatic(field)) {
+                        staticBlock.getStatements().add(condition);
+                    } else {
+                        nonStaticBlock.getStatements().add(condition);
+                    }
                 }
 
-                vpLocation.getMembers().add(++fieldPos, initializingBlock);
             }
         }
+        if (staticBlock.getStatements().size() > 0) {
+            vpLocation.getMembers().add(0, staticBlock);
+        }
+        if (nonStaticBlock.getStatements().size() > 0) {
+            vpLocation.getMembers().add(0, nonStaticBlock);
+        }
+    }
+
+    private boolean isStatic(Field field) {
+        for (Modifier modifier : field.getModifiers()) {
+            if (modifier instanceof Static) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean hasDifferentValues(List<Expression> initialValues) {
@@ -119,7 +143,7 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
 
     private void fillMaps(VariationPoint vp, Map<String, Field> fieldsToName,
             Map<String, List<Expression>> expressionsToName, Map<Expression, String> variantIDToExpression,
-            Map<Field, Integer> positionToField) {
+            Map<String, Integer> positionToField) {
         for (Variant variant : vp.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Field field = (Field) ((JaMoPPSoftwareElement) se).getJamoppElement();
@@ -132,7 +156,7 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
                     fieldPos = fieldContainer.getMembers().indexOf(field);
                 }
 
-                positionToField.put(fieldCpy, fieldPos);
+                positionToField.put(fieldCpy.getName(), fieldPos);
                 fieldsToName.put(fieldCpy.getName(), fieldCpy);
 
                 if (!expressionsToName.containsKey(fieldCpy.getName())) {

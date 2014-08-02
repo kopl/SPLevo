@@ -50,6 +50,7 @@ import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Final;
 import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.operators.OperatorsFactory;
+import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.statements.Block;
@@ -84,6 +85,50 @@ public final class RefactoringUtil {
     }
 
     private RefactoringUtil() {
+    }
+
+    /**
+     * Checks whether a given variation point has a leading variant.
+     * 
+     * @param variationPoint
+     *            The {@link VariationPoint}.
+     * @return <code>true</code> if it contains a leading variant; <code>false</code> otherwise.
+     */
+    public static boolean hasLeadingVariant(VariationPoint variationPoint) {
+        for (Variant variant : variationPoint.getVariants()) {
+            if (variant.getLeading()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * If the vp has no leading variant, this method checks whether the variants have members that
+     * with a name that already exists in the vp location.
+     * 
+     * @param variationPoint
+     *            The {@link VariationPoint}.
+     * @return <code>true</code> if the vp has conflicting members; <code>false</code> otherwise.
+     */
+    public static boolean hasMembersWithConflictingNames(VariationPoint variationPoint) {
+        MemberContainer jamoppElement = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+                .getJamoppElement();
+
+        if (RefactoringUtil.hasLeadingVariant(variationPoint)) {
+            return false;
+        }
+        
+        for (Variant variant : variationPoint.getVariants()) {
+            for (SoftwareElement se : variant.getImplementingElements()) {
+                Member member = (Member) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                if (RefactoringUtil.containsClassInterfaceOrEnumWithName(jamoppElement, member.getName())) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
 
     /**
@@ -180,14 +225,14 @@ public final class RefactoringUtil {
      *            The group id as {@link String}.
      * @return The generated {@link Condition}.
      */
-    public static Condition generateVariabilityIf(String variantId, String groupID) {
-        Condition currentCondition = StatementsFactory.eINSTANCE.createCondition();
-        currentCondition.setCondition(SPLConfigurationUtil.generateConfigMatchingExpression(variantId, groupID));
+    public static Condition createVariabilityCondition(String variantId, String groupID) {
+        Condition condition = StatementsFactory.eINSTANCE.createCondition();
+        condition.setCondition(SPLConfigurationUtil.generateConfigMatchingExpression(variantId, groupID));
 
-        Block currentBlock = StatementsFactory.eINSTANCE.createBlock();
-        currentCondition.setStatement(currentBlock);
+        Block ifBlock = StatementsFactory.eINSTANCE.createBlock();
+        condition.setStatement(ifBlock);
 
-        return currentCondition;
+        return condition;
     }
 
     /**
@@ -202,8 +247,8 @@ public final class RefactoringUtil {
      */
     public static Condition generateVariantCondition(Variant variant,
             Map<String, LocalVariableStatement> localVariableStatements) {
-        Condition currentCondition = RefactoringUtil.generateVariabilityIf(variant.getId(), variant.getVariationPoint()
-                .getGroup().getId());
+        Condition currentCondition = RefactoringUtil.createVariabilityCondition(variant.getId(), variant
+                .getVariationPoint().getGroup().getId());
 
         for (SoftwareElement se : variant.getImplementingElements()) {
             Statement statement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
@@ -215,7 +260,7 @@ public final class RefactoringUtil {
 
                 boolean hadFinalModifier = removeFinalIfApplicable(variable);
                 if (hadFinalModifier) {
-                    addCommentBefore(stmtCpy, "FIXME: removed final modifier from local variable");
+                    addCommentBefore(stmtCpy, "FIXME: removed final from local variable");
                 }
 
                 stmtCpy = extractAssignment(variable);
@@ -353,11 +398,31 @@ public final class RefactoringUtil {
      */
     public static boolean hasConstructorWithEqualParameters(Class c, Constructor constructor) {
         for (Constructor vpConstructor : c.getConstructors()) {
-            if (EcoreUtil.equals(constructor.getParameters(), vpConstructor.getParameters())) {
+            EList<Parameter> currentConstructorParams = vpConstructor.getParameters();
+            EList<Parameter> givenParams = constructor.getParameters();
+
+            boolean haveEqualSetOfParameters = haveEqualSetOfParameters(currentConstructorParams, givenParams);
+            if (haveEqualSetOfParameters) {
                 return true;
             }
         }
         return false;
+    }
+
+    private static boolean haveEqualSetOfParameters(EList<Parameter> params1, EList<Parameter> params2) {
+        if (params1.size() != params2.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < params1.size(); i++) {
+            Type target1 = params1.get(i).getTypeReference().getTarget();
+            Type target2 = params2.get(i).getTypeReference().getTarget();
+            if (!areEqual(target1, target2)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -372,7 +437,7 @@ public final class RefactoringUtil {
     public static boolean hasMethodWithEqualNameAndParameters(MemberContainer memberContainer, Method method) {
         for (Method vpMethod : memberContainer.getMethods()) {
             if (method.getName().equals(vpMethod.getName())
-                    && EcoreUtil.equals(method.getParameters(), vpMethod.getParameters())) {
+                    && haveEqualSetOfParameters(method.getParameters(), vpMethod.getParameters())) {
                 return true;
             }
         }
@@ -516,14 +581,14 @@ public final class RefactoringUtil {
     /**
      * Checks whether two statements are equal. Uses the {@link SimilarityChecker} for comparison.
      * 
-     * @param statement1
-     *            The first {@link Statement}.
-     * @param statement2
-     *            The second {@link Statement}.
+     * @param c1
+     *            The first {@link Commentable}.
+     * @param c2
+     *            The second {@link Commentable}.
      * @return <code>true</code> if the statements are equal; <code>false</code> otherwise.
      */
-    public static Boolean areEqual(Statement statement1, Statement statement2) {
-        return similarityChecker.isSimilar(statement1, statement2, false);
+    public static Boolean areEqual(Commentable c1, Commentable c2) {
+        return similarityChecker.isSimilar(c1, c2, false);
     }
 
     private static Literal getDefaultValueForVariable(Variable variable) {

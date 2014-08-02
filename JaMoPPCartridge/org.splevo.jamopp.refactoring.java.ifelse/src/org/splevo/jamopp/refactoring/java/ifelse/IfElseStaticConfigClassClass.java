@@ -58,7 +58,13 @@ public class IfElseStaticConfigClassClass implements VariabilityRefactoring {
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Class.class);
 
-        return correctLocation && allImplementingElementsAreClasses;
+        boolean correctInput = correctLocation && allImplementingElementsAreClasses;
+
+        if (!correctInput) {
+            return false;
+        }
+
+        return !RefactoringUtil.hasMembersWithConflictingNames(variationPoint);
     }
 
     @Override

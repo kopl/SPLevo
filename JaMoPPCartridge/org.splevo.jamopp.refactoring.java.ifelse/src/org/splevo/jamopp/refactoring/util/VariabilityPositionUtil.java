@@ -86,12 +86,12 @@ public class VariabilityPositionUtil {
         predecessors.removeAll(toBeDeleted);
     }
 
-    private static int getEndPositionOfFirstGroupOccurence(StatementListContainer vpLocation,
+    private static int getEndPositionOfFirstGroupOccurence(StatementListContainer targetContainer,
             List<Statement> predecessors) {
         int predecessorPos = 0;
 
-        for (int i = 0; i < vpLocation.getStatements().size(); i++) {
-            Statement baseStatement = vpLocation.getStatements().get(i);
+        for (int i = 0; i < targetContainer.getStatements().size(); i++) {
+            Statement baseStatement = targetContainer.getStatements().get(i);
             Statement predecessor = predecessors.get(predecessorPos);
 
             if (RefactoringUtil.areEqual(baseStatement, predecessor)) {
@@ -104,7 +104,7 @@ public class VariabilityPositionUtil {
 
             if (predecessorPos == predecessors.size()) {
                 if (predecessor instanceof LocalVariableStatement) {
-                    int posNextVarCond = posNextVariabilityCondition(vpLocation, i);
+                    int posNextVarCond = posNextVariabilityCondition(targetContainer, i);
                     return posNextVarCond != -1 ? posNextVarCond : i;
                 }
                 return i;
@@ -114,9 +114,9 @@ public class VariabilityPositionUtil {
         return -1;
     }
 
-    private static int posNextVariabilityCondition(StatementListContainer vpLocation, int currentPrecedingIndex) {
-        for (int i = currentPrecedingIndex; i < vpLocation.getStatements().size(); i++) {
-            Statement currentStatement = vpLocation.getStatements().get(i);
+    private static int posNextVariabilityCondition(StatementListContainer targetContainer, int startIndex) {
+        for (int i = startIndex; i < targetContainer.getStatements().size(); i++) {
+            Statement currentStatement = targetContainer.getStatements().get(i);
             if (isVariabilityCondition(currentStatement)) {
                 return i;
             }
