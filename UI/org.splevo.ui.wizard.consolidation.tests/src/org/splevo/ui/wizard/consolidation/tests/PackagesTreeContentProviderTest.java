@@ -70,8 +70,8 @@ public class PackagesTreeContentProviderTest {
         Iterator<IPackageFragment> iterator = mock(Iterator.class);
 
         when(javaPackages.iterator()).thenReturn(iterator);
-        when(iterator.hasNext()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
-        when(iterator.next()).thenReturn(parentPackage).thenReturn(javaPackage1).thenReturn(javaPackage2);
+        when(iterator.hasNext()).thenReturn(true, true, true, false);
+        when(iterator.next()).thenReturn(parentPackage, javaPackage1, javaPackage2);
 
         packagesTreeContentProvider.setJavaPackages(javaPackages);
 
@@ -102,8 +102,8 @@ public class PackagesTreeContentProviderTest {
         Iterator<IPackageFragment> iterator = mock(Iterator.class);
 
         when(javaPackages.iterator()).thenReturn(iterator);
-        when(iterator.hasNext()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
-        when(iterator.next()).thenReturn(childPackage).thenReturn(parentPackage).thenReturn(anotherPackage);
+        when(iterator.hasNext()).thenReturn(true, true, true, false);
+        when(iterator.next()).thenReturn(childPackage, parentPackage, anotherPackage);
 
         packagesTreeContentProvider.setJavaPackages(javaPackages);
 
@@ -132,8 +132,8 @@ public class PackagesTreeContentProviderTest {
         Iterator<IPackageFragment> iterator = mock(Iterator.class);
 
         when(javaPackages.iterator()).thenReturn(iterator);
-        when(iterator.hasNext()).thenReturn(true).thenReturn(true).thenReturn(true).thenReturn(false);
-        when(iterator.next()).thenReturn(javaPackage1).thenReturn(javaPackage2).thenReturn(javaPackage3);
+        when(iterator.hasNext()).thenReturn(true, true, true, false);
+        when(iterator.next()).thenReturn(javaPackage1, javaPackage2, javaPackage3);
 
         packagesTreeContentProvider.setJavaPackages(javaPackages);
 
