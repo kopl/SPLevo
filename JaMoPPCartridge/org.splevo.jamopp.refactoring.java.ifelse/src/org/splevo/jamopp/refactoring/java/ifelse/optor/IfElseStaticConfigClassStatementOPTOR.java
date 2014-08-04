@@ -1,10 +1,23 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.LocalVariableStatement;
@@ -41,9 +54,9 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
     }
 
     @Override
-    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
-                .getJamoppElement();
+    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+                .getLocation()).getJamoppElement();
 
         if (RefactoringUtil.hasImplementingElementsOfType(variationPoint, Return.class)) {
             RefactoringUtil
@@ -51,9 +64,12 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         }
 
         ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();
-        if (!RefactoringUtil.containsImport(vpLocation.getContainingCompilationUnit(), splConfImport)) {
-            vpLocation.getContainingCompilationUnit().getImports().add(splConfImport);
+        CompilationUnit containingCompilationUnit = vpLocation.getContainingCompilationUnit();
+        if (containingCompilationUnit != null
+                && !RefactoringUtil.containsImport(containingCompilationUnit, splConfImport)) {
+            containingCompilationUnit.getImports().add(splConfImport);
         }
+
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
         EList<Variant> variants = variationPoint.getVariants();
 
@@ -72,6 +88,8 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         for (String key : localVariableStatements.keySet()) {
             vpLocation.getStatements().add(variabilityPositionStart++, localVariableStatements.get(key));
         }
+
+        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
     }
 
     @Override

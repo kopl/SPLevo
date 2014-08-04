@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse;
 
 import java.util.HashMap;
@@ -5,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
@@ -51,7 +63,7 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
     }
 
     @Override
-    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         RefactoringUtil.deleteVariableMembersFromLeading(variationPoint);
 
         Map<String, Field> fieldToFieldName = new HashMap<String, Field>();
@@ -61,7 +73,8 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
 
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
-        fillMaps(variationPoint, fieldToFieldName, initialValuesToFieldName, variantIDToInitialValue, positionToFieldName);
+        fillMaps(variationPoint, fieldToFieldName, initialValuesToFieldName, variantIDToInitialValue,
+                positionToFieldName);
 
         Block nonStaticBlock = StatementsFactory.eINSTANCE.createBlock();
         Block staticBlock = StatementsFactory.eINSTANCE.createBlock();
@@ -115,6 +128,8 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
         if (nonStaticBlock.getStatements().size() > 0) {
             vpLocation.getMembers().add(0, nonStaticBlock);
         }
+
+        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
     }
 
     private boolean isStatic(Field field) {

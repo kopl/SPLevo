@@ -1,7 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
 import java.util.Map;
 
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.ConditionalAndExpression;
@@ -39,7 +51,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
     }
 
     @Override
-    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();
@@ -102,6 +114,8 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
                 vpLocation.setElseStatement(elseBlock);
             }
         }
+
+        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
     }
 
     private void appendSPLConfigCheck(String groupId, String variantId, Condition currentCondition) {

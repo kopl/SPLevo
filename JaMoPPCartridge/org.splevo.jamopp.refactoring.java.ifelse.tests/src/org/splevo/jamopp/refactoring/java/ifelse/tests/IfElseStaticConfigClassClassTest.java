@@ -21,7 +21,9 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
+import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersFactory;
@@ -55,8 +57,12 @@ public class IfElseStaticConfigClassClassTest {
     @Test
     public void testIfCanBeAppliedWithValidVP() {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl2 = ClassifiersFactory.eINSTANCE.createClass();
+        Classifier implEl1 = ClassifiersFactory.eINSTANCE.createClass();
+        Classifier implEl2 = ClassifiersFactory.eINSTANCE.createClass();
+        
+        implEl1.setName("A");
+        implEl2.setName("B");
+        
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
@@ -72,8 +78,12 @@ public class IfElseStaticConfigClassClassTest {
     @Test
     public void testIfCanBeAppliedWithInvalidLocation() {
         Commentable location = MembersFactory.eINSTANCE.createClassMethod();
-        Commentable implEl1 = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl2 = ClassifiersFactory.eINSTANCE.createClass();
+        Classifier implEl1 = ClassifiersFactory.eINSTANCE.createClass();
+        Classifier implEl2 = ClassifiersFactory.eINSTANCE.createClass();
+        
+        implEl1.setName("A");
+        implEl2.setName("B");
+        
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
@@ -89,8 +99,13 @@ public class IfElseStaticConfigClassClassTest {
     @Test
     public void testIfCanBeAppliedWithInvalidVariantElements() {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl2 = ClassifiersFactory.eINSTANCE.createInterface();
+        Classifier implEl1 = ClassifiersFactory.eINSTANCE.createClass();
+        Interface implEl2 = ClassifiersFactory.eINSTANCE.createInterface();
+        
+        implEl1.setName("A");
+        implEl2.setName("B");
+        
+        
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 

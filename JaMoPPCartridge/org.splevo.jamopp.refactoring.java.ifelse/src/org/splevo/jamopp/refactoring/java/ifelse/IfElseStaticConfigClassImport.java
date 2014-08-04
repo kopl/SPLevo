@@ -1,7 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse;
 
 import java.util.Map;
 
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -33,16 +45,22 @@ public class IfElseStaticConfigClassImport implements VariabilityRefactoring {
     }
 
     @Override
-    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
-        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+                .getJamoppElement();
         for (Variant variant : variationPoint.getVariants()) {
+            if (variant.getLeading()) {
+                continue;
+            }
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Import i = (Import) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (!vpLocation.getImports().contains(i)) {
+                if (!RefactoringUtil.containsImport(vpLocation, i)) {
                     vpLocation.getImports().add(EcoreUtil.copy(i));
                 }
             }
         }
+
+        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
     }
 
     @Override

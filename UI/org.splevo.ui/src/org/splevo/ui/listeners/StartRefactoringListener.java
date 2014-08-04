@@ -30,6 +30,9 @@ import org.splevo.refactoring.VariabilityRefactoringRegistry;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.jobs.JobUtil;
+import org.splevo.ui.jobs.SPLevoBlackBoard;
+import org.splevo.ui.workflow.BuildSPLWorkflowConfiguration;
+import org.splevo.ui.workflow.BuildSPLWorkflowDelegate;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -96,8 +99,15 @@ public class StartRefactoringListener extends MouseAdapter {
     }
 
     private void startRefactoring() {
-        MessageDialog.openInformation(getShell(), "Refactoring comming soon",
-                "The refactoring service will be available in a future release.");
+        SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
+        
+        String splPath = splevoProjectEditor.getSplevoProject().getWorkspace() + "RefactoredSPL";
+        
+        BuildSPLWorkflowConfiguration configuration = new BuildSPLWorkflowConfiguration(splPath);
+        configuration.setSplevoProjectEditor(splevoProjectEditor);
+        
+        BuildSPLWorkflowDelegate buildSPLWorkflowConfiguration = new BuildSPLWorkflowDelegate(configuration, spLevoBlackBoard);
+        WorkflowListenerUtil.runWorkflowAndUpdateUI(buildSPLWorkflowConfiguration, "Refactor VPM", splevoProjectEditor);
     }
 
     private void executeRecommender(VariationPointModel vpm) {

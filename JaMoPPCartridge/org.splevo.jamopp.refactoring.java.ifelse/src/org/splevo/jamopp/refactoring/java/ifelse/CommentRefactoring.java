@@ -1,7 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse;
 
 import java.util.Map;
 
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.commons.Commentable;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
@@ -33,7 +45,7 @@ public class CommentRefactoring implements VariabilityRefactoring {
     }
 
     @Override
-    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         StringBuilder sb = new StringBuilder();
         sb.append(COMMENT_TEXT + "\n");
@@ -45,6 +57,8 @@ public class CommentRefactoring implements VariabilityRefactoring {
             }
         }
         RefactoringUtil.addCommentBefore(vpLocation, COMMENT_TEXT);
+
+        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
     }
 
     @Override

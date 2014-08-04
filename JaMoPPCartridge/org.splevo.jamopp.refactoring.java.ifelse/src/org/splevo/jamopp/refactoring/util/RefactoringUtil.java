@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring.util;
 
 import java.math.BigInteger;
@@ -15,6 +26,9 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.arrays.ArrayDimension;
@@ -104,6 +118,22 @@ public final class RefactoringUtil {
     }
 
     /**
+     * Creates a resource set and adds the given element's resource in it.
+     * 
+     * @param commentable
+     *            The gicen {@link Commentable} element.
+     * @return The created {@link ResourceSet}.
+     */
+    public static ResourceSet wrapInNewResourceSet(Commentable commentable) {
+        Resource commentableResource = commentable.eResource();
+        commentableResource.getResourceSet().getResources().remove(commentableResource);
+
+        ResourceSet newRS = new ResourceSetImpl();
+        newRS.getResources().add(commentable.eResource());
+        return newRS;
+    }
+
+    /**
      * If the vp has no leading variant, this method checks whether the variants have members that
      * with a name that already exists in the vp location.
      * 
@@ -118,17 +148,17 @@ public final class RefactoringUtil {
         if (RefactoringUtil.hasLeadingVariant(variationPoint)) {
             return false;
         }
-        
+
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Member member = (Member) ((JaMoPPSoftwareElement) se).getJamoppElement();
                 if (RefactoringUtil.containsClassInterfaceOrEnumWithName(jamoppElement, member.getName())) {
-                    return false;
+                    return true;
                 }
             }
         }
-        
-        return true;
+
+        return false;
     }
 
     /**
@@ -343,7 +373,7 @@ public final class RefactoringUtil {
      */
     public static boolean containsImport(CompilationUnit cu, Import i) {
         for (Import currentI : cu.getImports()) {
-            if (EcoreUtil.equals(currentI, i)) {
+            if (areEqual(currentI, i)) {
                 return true;
             }
         }
@@ -360,6 +390,10 @@ public final class RefactoringUtil {
      */
     public static void addCommentBefore(Commentable vpLocation, String comment) {
         LayoutInformation layoutInformation = getFirstLayoutInformation(vpLocation);
+        if (layoutInformation == null) {
+            return;
+        }
+
         String finalComment = layoutInformation.getHiddenTokenText();
         if (finalComment.length() == 0) {
             finalComment = "/* " + comment + " */\n";
@@ -457,12 +491,12 @@ public final class RefactoringUtil {
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Commentable currentElement = ((JaMoPPSoftwareElement) se).getJamoppElement();
+
                 if (currentElement instanceof LocalVariableStatement) {
                     LocalVariable variable = ((LocalVariableStatement) currentElement).getVariable();
                     Type variableType = variable.getTypeReference().getTarget();
                     Type oldValue = namedVariables.put(variable.getName(), variableType);
-                    if (oldValue != null && variableType != null
-                            && !oldValue.getClass().equals(variableType.getClass())) {
+                    if (oldValue != null && variableType != null && !areEqual(oldValue, variableType)) {
                         return true;
                     }
                 }

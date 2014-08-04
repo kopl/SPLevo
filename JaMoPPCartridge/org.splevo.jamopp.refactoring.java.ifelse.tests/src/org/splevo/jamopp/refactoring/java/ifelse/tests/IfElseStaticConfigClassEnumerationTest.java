@@ -22,6 +22,7 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.classifiers.Enumeration;
+import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersFactory;
@@ -55,8 +56,12 @@ public class IfElseStaticConfigClassEnumerationTest {
     @Test
     public void testIfCanBeAppliedWithValidVP() {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = ClassifiersFactory.eINSTANCE.createEnumeration();
-        Commentable implEl2 = ClassifiersFactory.eINSTANCE.createEnumeration();
+        Enumeration implEl1 = ClassifiersFactory.eINSTANCE.createEnumeration();
+        Enumeration implEl2 = ClassifiersFactory.eINSTANCE.createEnumeration();
+        
+        implEl1.setName("A");
+        implEl2.setName("B");
+        
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
@@ -72,8 +77,12 @@ public class IfElseStaticConfigClassEnumerationTest {
     @Test
     public void testIfCanBeAppliedWithInvalidLocation() {
         Commentable location = MembersFactory.eINSTANCE.createClassMethod();
-        Commentable implEl1 = ClassifiersFactory.eINSTANCE.createEnumeration();
-        Commentable implEl2 = ClassifiersFactory.eINSTANCE.createEnumeration();
+        Enumeration implEl1 = ClassifiersFactory.eINSTANCE.createEnumeration();
+        Enumeration implEl2 = ClassifiersFactory.eINSTANCE.createEnumeration();
+        
+        implEl1.setName("A");
+        implEl2.setName("B");
+        
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
@@ -89,8 +98,12 @@ public class IfElseStaticConfigClassEnumerationTest {
     @Test
     public void testIfCanBeAppliedWithInvalidVariantElements() {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = ClassifiersFactory.eINSTANCE.createEnumeration();
-        Commentable implEl2 = ClassifiersFactory.eINSTANCE.createInterface();
+        Enumeration implEl1 = ClassifiersFactory.eINSTANCE.createEnumeration();
+        Interface implEl2 = ClassifiersFactory.eINSTANCE.createInterface();
+        
+        implEl1.setName("A");
+        implEl2.setName("B");
+        
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 

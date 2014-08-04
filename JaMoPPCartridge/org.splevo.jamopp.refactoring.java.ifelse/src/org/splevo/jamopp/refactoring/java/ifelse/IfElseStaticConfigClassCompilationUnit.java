@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse;
 
 import java.io.File;
@@ -5,13 +16,14 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassOPTOR;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -36,31 +48,33 @@ public class IfElseStaticConfigClassCompilationUnit implements VariabilityRefact
     }
 
     @Override
-    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringConfigurations) {
+    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringConfigurations) {
         if (refactoringConfigurations == null
-                || !refactoringConfigurations.containsKey(IfElseStaticConfigClassOPTOR.JAVA_SOURCE_DIRECTORY)) {
+                || !refactoringConfigurations.containsKey(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY)) {
             throw new IllegalArgumentException("JAVA_SOURCE_DIRECTORY configuration not found.");
         }
 
-        String sourcePath = refactoringConfigurations.get(IfElseStaticConfigClassOPTOR.JAVA_SOURCE_DIRECTORY);
+        String sourcePath = refactoringConfigurations.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
 
+        ResourceSet resourceSet = new ResourceSetImpl();
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
                 CompilationUnit compilationUnit = (CompilationUnit) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                wrapCompUnitInNewResourceSet(compilationUnit, sourcePath);
+                wrapCompUnitInNewResourceSet(resourceSet, compilationUnit, sourcePath);
             }
         }
+
+        return resourceSet;
     }
 
-    private void wrapCompUnitInNewResourceSet(CompilationUnit compilationUnit, String sourcePath) {
+    private void wrapCompUnitInNewResourceSet(ResourceSet rs, CompilationUnit compilationUnit, String sourcePath) {
         StringBuilder sb = buildPathForLeadingProject(compilationUnit, sourcePath);
         URI leadingURI = URI.createFileURI(sb.toString());
 
-        ResourceSetImpl resourceSet = new ResourceSetImpl();
-        Resource resource = resourceSet.createResource(leadingURI);
+        Resource resource = rs.createResource(leadingURI);
         resource.getContents().add(compilationUnit);
     }
 

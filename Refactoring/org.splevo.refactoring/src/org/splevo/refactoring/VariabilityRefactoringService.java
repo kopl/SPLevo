@@ -2,6 +2,7 @@ package org.splevo.refactoring;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -20,6 +21,8 @@ import org.splevo.vpm.variability.VariationPointModel;
  */
 public class VariabilityRefactoringService {
 
+    public static final String JAVA_SOURCE_DIRECTORY = "JaMoPP.Refactoring.Options.SourceDirectory";
+
     private static Logger logger = Logger.getLogger(VariabilityRefactoringService.class);
 
     /**
@@ -28,9 +31,11 @@ public class VariabilityRefactoringService {
      * @param variationPointModel
      *            The {@link VariationPointModel} containing the variation points with the intended
      *            variability mechanism.
+     * @param refactoringConfigurations
+     *            Refactoring configurations.
      * @return The ResourceSet referencing the refactored software.
      */
-    public ResourceSet refactor(VariationPointModel variationPointModel) {
+    public ResourceSet refactor(VariationPointModel variationPointModel, Map<String, String> refactoringConfigurations) {
         ResourceSetImpl resourceSetImpl = new ResourceSetImpl();
         for (VariationPointGroup vpGroup : variationPointModel.getVariationPointGroups()) {
             for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
@@ -41,12 +46,16 @@ public class VariabilityRefactoringService {
                     logger.warn("Recommended refactoring cannot be applied to this variation point.");
                     continue;
                 }
-                refactoring.refactor(variationPoint, null);
+
+                ResourceSet refactoringRS = refactoring.refactor(variationPoint, refactoringConfigurations);
 
                 // add resource to the new set if not yet contained
-                Resource vpLocationResource = variationPoint.getLocation().eResource();
-                if (!resourceSetImpl.getResources().contains(vpLocationResource)) {
-                    resourceSetImpl.getResources().add(vpLocationResource);
+                for (int i = 0; i < refactoringRS.getResources().size(); i++) {
+                    Resource resource = refactoringRS.getResources().get(i);
+                    if (!resourceSetImpl.getResources().contains(resource)) {
+                        refactoringRS.getResources().remove(resource);
+                        resourceSetImpl.getResources().add(resource);
+                    }
                 }
             }
         }

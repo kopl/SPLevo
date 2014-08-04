@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.tests.util;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -579,10 +590,10 @@ public final class RefactoringTestUtil {
     public static VariationPoint getBlockAddCase(VariabilityType variabilityType) throws Exception {
         VariationPointModel vpm = initializeVariationPointModel("Block_Add");
         assertVariationPointStructure(vpm);
-        
+
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         setUpVariationPoint(variationPoint, variabilityType);
-        
+
         return variationPoint;
     }
 
@@ -598,10 +609,10 @@ public final class RefactoringTestUtil {
     public static VariationPoint getBlockMergeCase(VariabilityType variabilityType) throws Exception {
         VariationPointModel vpm = initializeVariationPointModel("Block_Merge");
         assertVariationPointStructure(vpm);
-        
+
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
         setUpVariationPoint(variationPoint, variabilityType);
-        
+
         return variationPoint;
     }
 
@@ -640,6 +651,9 @@ public final class RefactoringTestUtil {
         Variant variant2 = variabilityFactory.eINSTANCE.createVariant();
         variant2.getImplementingElements().add(implElement2);
         EList<Variant> variants = new BasicEList<Variant>();
+        variant1.setLeading(false);
+        variant2.setLeading(false);
+
         variants.add(variant1);
         variants.add(variant2);
 

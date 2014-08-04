@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Daniel Kojic - initial API and implementation and initial documentation
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
 import java.util.LinkedList;
@@ -5,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassBlock;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassClass;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassCompilationUnit;
@@ -26,8 +38,6 @@ import org.splevo.vpm.variability.VariationPoint;
  * This refactoring implements the if-else mechanism for the use with a static configuration class.
  */
 public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
-
-    public static final String JAVA_SOURCE_DIRECTORY = "JaMoPP.Refactoring.Options.SourceDirectory";
 
     private static Logger logger = Logger.getLogger(IfElseStaticConfigClassOPTOR.class);
 
@@ -62,14 +72,15 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
     }
 
     @Override
-    public void refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             if (refactoring.canBeAppliedTo(variationPoint)) {
-                refactoring.refactor(variationPoint, refactoringOptions);
+                ResourceSet refactoringRS = refactoring.refactor(variationPoint, refactoringOptions);
                 logger.info("Refactored with: " + refactoring.getVariabilityMechanism().getName());
-                break;
+                return refactoringRS;
             }
         }
+        return null;
     }
 
     @Override

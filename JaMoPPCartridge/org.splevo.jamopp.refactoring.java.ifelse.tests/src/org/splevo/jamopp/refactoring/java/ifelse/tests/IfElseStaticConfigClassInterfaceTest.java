@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThat;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
+import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
@@ -55,8 +56,12 @@ public class IfElseStaticConfigClassInterfaceTest {
     @Test
     public void testIfCanBeAppliedWithValidVP() {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = ClassifiersFactory.eINSTANCE.createInterface();
-        Commentable implEl2 = ClassifiersFactory.eINSTANCE.createInterface();
+        Interface implEl1 = ClassifiersFactory.eINSTANCE.createInterface();
+        Interface implEl2 = ClassifiersFactory.eINSTANCE.createInterface();
+
+        implEl1.setName("A");
+        implEl2.setName("B");
+
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
@@ -72,8 +77,12 @@ public class IfElseStaticConfigClassInterfaceTest {
     @Test
     public void testIfCanBeAppliedWithInvalidLocation() {
         Commentable location = MembersFactory.eINSTANCE.createClassMethod();
-        Commentable implEl1 = ClassifiersFactory.eINSTANCE.createInterface();
-        Commentable implEl2 = ClassifiersFactory.eINSTANCE.createInterface();
+        Interface implEl1 = ClassifiersFactory.eINSTANCE.createInterface();
+        Interface implEl2 = ClassifiersFactory.eINSTANCE.createInterface();
+
+        implEl1.setName("A");
+        implEl2.setName("B");
+
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
@@ -89,8 +98,12 @@ public class IfElseStaticConfigClassInterfaceTest {
     @Test
     public void testIfCanBeAppliedWithInvalidVariantElements() {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl1 = ClassifiersFactory.eINSTANCE.createClass();
-        Commentable implEl2 = ClassifiersFactory.eINSTANCE.createClass();
+        Interface implEl1 = ClassifiersFactory.eINSTANCE.createInterface();
+        Class implEl2 = ClassifiersFactory.eINSTANCE.createClass();
+
+        implEl1.setName("A");
+        implEl2.setName("B");
+
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
@@ -100,8 +113,8 @@ public class IfElseStaticConfigClassInterfaceTest {
     }
 
     /**
-     * Tests whether the refactoring adds a missing interface from the integration variant to the base
-     * correctly.
+     * Tests whether the refactoring adds a missing interface from the integration variant to the
+     * base correctly.
      * 
      * @throws Exception
      *             In case of an unexpected exception.
