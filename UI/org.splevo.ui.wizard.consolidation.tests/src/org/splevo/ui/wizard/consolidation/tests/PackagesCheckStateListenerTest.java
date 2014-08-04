@@ -11,18 +11,22 @@
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation.tests;
 
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Iterator;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.splevo.ui.wizard.consolidation.listener.PackagesCheckStateListener;
+import org.splevo.ui.wizard.consolidation.util.PackagesComparator;
 
 /**
  * Unit test for the functions of the {@link PackagesCheckStateListener}.
@@ -32,38 +36,94 @@ import org.splevo.ui.wizard.consolidation.listener.PackagesCheckStateListener;
 public class PackagesCheckStateListenerTest {
     
     /**
-     * Test the behavior of the listener. 
+     * Test the check state of the subtree when a parent package has been chosen. 
      */
     @SuppressWarnings("unchecked")
     @Test
-    public void testCheckStateChanged() {
+    public void testSubtreeCheckState() {
         PackagesCheckStateListener packagesCheckStateListener = new PackagesCheckStateListener();                
         
-        IPackageFragment javaPackage1 = mock(IPackageFragment.class);
-        when(javaPackage1.getElementName()).thenReturn("org.splevo");
+        IPackageFragment parentPackage = mock(IPackageFragment.class);
+        when(parentPackage.getElementName()).thenReturn("org.splevo");
 
-        IPackageFragment javaPackage2 = mock(IPackageFragment.class);
-        when(javaPackage2.getElementName()).thenReturn("org.splevo.wizard");
+        IPackageFragment subPackage1 = mock(IPackageFragment.class);
+        when(subPackage1.getElementName()).thenReturn("org.splevo.wizard");
 
-        IPackageFragment javaPackage3 = mock(IPackageFragment.class);
-        when(javaPackage3.getElementName()).thenReturn("org.splevo.test");
+        IPackageFragment subPackage2 = mock(IPackageFragment.class);
+        when(subPackage2.getElementName()).thenReturn("org.splevo.test");
         
         SortedSet<IPackageFragment> javaPackages = mock(SortedSet.class);
         Iterator<IPackageFragment> iterator = mock(Iterator.class);
 
         when(javaPackages.iterator()).thenReturn(iterator);
         when(iterator.hasNext()).thenReturn(true, true, true, false);
-        when(iterator.next()).thenReturn(javaPackage1, javaPackage2, javaPackage3);
+        when(iterator.next()).thenReturn(parentPackage, subPackage1, subPackage2);
 
         packagesCheckStateListener.setJavaPackages(javaPackages);
         
         CheckStateChangedEvent checkStateChangedEvent = mock(CheckStateChangedEvent.class);
-        CheckboxTreeViewer packagesTreeViewer = mock(CheckboxTreeViewer.class);
+        CheckboxTreeViewer packagesTreeViewer = mock(CheckboxTreeViewer.class);                
         
         when(checkStateChangedEvent.getSource()).thenReturn(packagesTreeViewer);        
-        when(checkStateChangedEvent.getElement()).thenReturn(javaPackage1);
-        when(checkStateChangedEvent.getChecked()).thenReturn(true);    
-                
-        verify(packagesTreeViewer).setSubtreeChecked(javaPackage1, true);        
+        when(checkStateChangedEvent.getElement()).thenReturn(parentPackage);
+        when(checkStateChangedEvent.getChecked()).thenReturn(true, false);                 
+        
+        packagesCheckStateListener.checkStateChanged(checkStateChangedEvent);                
+        verify(packagesTreeViewer).setSubtreeChecked(parentPackage, true);
+        
+        packagesCheckStateListener.checkStateChanged(checkStateChangedEvent);
+        verify(packagesTreeViewer).setSubtreeChecked(parentPackage, false);        
     }
+    
+    /**
+     * Test the check state of a parent package.
+     */    
+    @Test
+    public void testParentsCheckState() {
+        PackagesCheckStateListener packagesCheckStateListener = new PackagesCheckStateListener();                
+        
+        IPackageFragment parentPackage = mock(IPackageFragment.class);
+        when(parentPackage.getElementName()).thenReturn("org.splevo");
+
+        IPackageFragment subPackage1 = mock(IPackageFragment.class);
+        when(subPackage1.getElementName()).thenReturn("org.splevo.wizard");
+
+        IPackageFragment subPackage2 = mock(IPackageFragment.class);
+        when(subPackage2.getElementName()).thenReturn("org.splevo.test");
+        
+        PackagesComparator comparator = mock(PackagesComparator.class);
+        when(comparator.compare(subPackage2, subPackage1)).thenReturn(2);
+        when(comparator.compare(subPackage2, parentPackage)).thenReturn(2);
+        when(comparator.compare(subPackage1, parentPackage)).thenReturn(2);
+        
+        SortedSet<IPackageFragment> javaPackages = new TreeSet<IPackageFragment>(comparator);
+        javaPackages.add(parentPackage);
+        javaPackages.add(subPackage1);
+        javaPackages.add(subPackage2);
+        
+        packagesCheckStateListener.setJavaPackages(javaPackages);        
+        
+        CheckStateChangedEvent checkStateChangedEvent = mock(CheckStateChangedEvent.class);
+        CheckboxTreeViewer packagesTreeViewer = mock(CheckboxTreeViewer.class);                
+        
+        when(checkStateChangedEvent.getSource()).thenReturn(packagesTreeViewer);        
+        when(checkStateChangedEvent.getElement()).thenReturn(subPackage1);
+        when(checkStateChangedEvent.getChecked()).thenReturn(true);
+        when(packagesTreeViewer.getChecked(subPackage1)).thenReturn(true, true, false);
+        when(packagesTreeViewer.getChecked(subPackage2)).thenReturn(true, false);
+        
+        InOrder order = inOrder(packagesTreeViewer);
+        
+        packagesCheckStateListener.checkStateChanged(checkStateChangedEvent);                
+        order.verify(packagesTreeViewer).setGrayed(parentPackage, false);
+        order.verify(packagesTreeViewer).setChecked(parentPackage, true);                       
+        
+        packagesCheckStateListener.checkStateChanged(checkStateChangedEvent);                        
+        order.verify(packagesTreeViewer).setChecked(parentPackage, true);
+        order.verify(packagesTreeViewer).setGrayed(parentPackage, true);
+        
+        packagesCheckStateListener.checkStateChanged(checkStateChangedEvent);                        
+        order.verify(packagesTreeViewer).setChecked(parentPackage, false);
+        order.verify(packagesTreeViewer).setGrayed(parentPackage, false);
+    }      
 }
