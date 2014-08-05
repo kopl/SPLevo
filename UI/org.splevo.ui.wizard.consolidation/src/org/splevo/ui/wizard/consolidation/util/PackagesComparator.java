@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 
 package org.splevo.ui.wizard.consolidation.util;
@@ -17,14 +17,12 @@ import java.util.Comparator;
 import org.eclipse.jdt.core.IPackageFragment;
 
 /**
- * Comparator which compares the names of two packages.
- * 
- * @author Radoslav Yankov
+ * Comparator which compares the names of two packages.  
  */
 public class PackagesComparator implements Comparator<IPackageFragment> {
     
     @Override
-    public int compare(IPackageFragment packageFragment1, IPackageFragment packageFragment2) {
+    public int compare(IPackageFragment packageFragment1, IPackageFragment packageFragment2) {        
         return packageFragment1.getElementName().compareTo(packageFragment2.getElementName());
     }
 }

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation;
 
@@ -37,9 +37,7 @@ import org.splevo.ui.wizard.consolidation.provider.ProjectLabelProvider;
 
 /**
  * Second page of the New Consolidation Project Wizard in which leading and integration projects
- * have to be specified.
- *
- * @author Radoslav Yankov 
+ * have to be specified. 
  */
 public class ProjectsSelectionWizardPage extends WizardPage {
 

@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation.tests;
 
@@ -27,10 +27,10 @@ public class NewConsolidationProjectWizardTest {
 
     /**
      * Test the wizards constants as an example unit test.
-     *
+     * <br>
      * <strong>Input</strong><br>
      * None
-     *
+     * <br>
      * <strong>Expected Result</strong><br>
      * Wizard constants contain valid values.
      */

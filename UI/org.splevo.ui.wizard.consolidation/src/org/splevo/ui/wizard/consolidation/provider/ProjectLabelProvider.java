@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation.provider;
 
@@ -17,9 +17,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * Label provider for projects
- * 
- * @author Radoslav Yankov
+ * Label provider for projects 
  */
 @SuppressWarnings("restriction")
 public class ProjectLabelProvider extends ColumnLabelProvider {

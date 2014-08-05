@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 
 package org.splevo.ui.wizard.consolidation.provider;
@@ -21,9 +21,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * Tree content provider which returns java packages ordered by name (ascending).
- * 
- * @author Radoslav Yankov
+ * Tree content provider which returns java packages ordered by name (ascending). 
  */
 public class PackagesTreeContentProvider implements ITreeContentProvider {
 
@@ -55,7 +53,7 @@ public class PackagesTreeContentProvider implements ITreeContentProvider {
      * @return All root packages.
      */
     @Override
-    public Object[] getElements(Object inputElement) {
+    public Object[] getElements(Object inputElement) {        
         if (inputElement instanceof IPackageFragment[]) {
             return (IPackageFragment[]) inputElement;
         }
@@ -73,7 +71,7 @@ public class PackagesTreeContentProvider implements ITreeContentProvider {
     public Object[] getChildren(Object parentElement) {
         if (parentElement instanceof IPackageFragment) {
             IPackageFragment[] subPackages = getSubPackages((IPackageFragment) parentElement);
-
+            
             if (subPackages != null) {
                 return subPackages;
             }
@@ -128,7 +126,8 @@ public class PackagesTreeContentProvider implements ITreeContentProvider {
     private IPackageFragment[] getSubPackages(IPackageFragment parentPackage) {
         List<IPackageFragment> subPackages = new ArrayList<IPackageFragment>();
 
-        for (IPackageFragment javaPackage : javaPackages) {            
+        for (IPackageFragment javaPackage : javaPackages) { 
+            
             if (javaPackage.getElementName().matches(parentPackage.getElementName() + "\\.\\w+")) {
                 subPackages.add(javaPackage);
             }

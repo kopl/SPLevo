@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation.provider;
 
@@ -19,8 +19,6 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * Label provider for packages.
- * 
- * @author Radoslav Yankov 
  */
 public class PackageLabelProvider extends ColumnLabelProvider {
     

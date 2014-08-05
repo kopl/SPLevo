@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation.tests;
 
@@ -23,8 +23,6 @@ import org.splevo.ui.wizard.consolidation.provider.PackageLabelProvider;
 
 /**
  * Unit test for the functions of the {@link PackageLabelProvider}.
- * 
- * @author Radoslav Yankov
  */
 public class PackageLabelProviderTest {
 

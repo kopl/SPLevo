@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation;
 
@@ -40,8 +40,6 @@ import org.splevo.ui.wizard.consolidation.util.PackagesComparator;
 /**
  * Third page of the New Consolidation Project Wizard in which java packages to be ignored have to
  * be selected.
- * 
- * @author Radoslav Yankov
  */
 public class PackageScopeDefinitionWizardPage extends WizardPage {
 

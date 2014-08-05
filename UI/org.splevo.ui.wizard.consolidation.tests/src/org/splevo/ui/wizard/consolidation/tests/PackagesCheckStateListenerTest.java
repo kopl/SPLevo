@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation.tests;
 
@@ -30,8 +30,6 @@ import org.splevo.ui.wizard.consolidation.util.PackagesComparator;
 
 /**
  * Unit test for the functions of the {@link PackagesCheckStateListener}.
- * 
- * @author Radoslav Yankov
  */
 public class PackagesCheckStateListenerTest {
     

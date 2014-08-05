@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Benjamin Klatt
+ *    Benjamin Klatt, Radoslav Yankov
  *******************************************************************************/
 
 package org.splevo.ui.wizard.consolidation.listener;
@@ -24,9 +24,7 @@ import org.eclipse.jface.viewers.ICheckStateListener;
 import org.splevo.ui.wizard.consolidation.util.PackagesComparator;
 
 /**
- * Check state listener for the packages tree viewer.
- * 
- * @author Radoslav Yankov
+ * Check state listener for the packages tree viewer. 
  */
 public class PackagesCheckStateListener implements ICheckStateListener {
 
