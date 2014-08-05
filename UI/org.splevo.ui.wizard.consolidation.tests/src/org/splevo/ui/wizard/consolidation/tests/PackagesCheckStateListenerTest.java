@@ -37,8 +37,7 @@ public class PackagesCheckStateListenerTest {
     
     /**
      * Test the check state of the subtree when a parent package has been chosen. 
-     */
-    @SuppressWarnings("unchecked")
+     */    
     @Test
     public void testSubtreeCheckState() {
         PackagesCheckStateListener packagesCheckStateListener = new PackagesCheckStateListener();                
@@ -52,7 +51,9 @@ public class PackagesCheckStateListenerTest {
         IPackageFragment subPackage2 = mock(IPackageFragment.class);
         when(subPackage2.getElementName()).thenReturn("org.splevo.test");
         
+        @SuppressWarnings("unchecked")
         SortedSet<IPackageFragment> javaPackages = mock(SortedSet.class);
+        @SuppressWarnings("unchecked")
         Iterator<IPackageFragment> iterator = mock(Iterator.class);
 
         when(javaPackages.iterator()).thenReturn(iterator);
