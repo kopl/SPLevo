@@ -111,7 +111,7 @@ public class PackagesCheckStateListenerTest {
         when(checkStateChangedEvent.getElement()).thenReturn(subPackage1);
         when(checkStateChangedEvent.getChecked()).thenReturn(true);
         when(packagesTreeViewer.getChecked(subPackage1)).thenReturn(true, true, false);
-        when(packagesTreeViewer.getChecked(subPackage2)).thenReturn(true, false);
+        when(packagesTreeViewer.getChecked(subPackage2)).thenReturn(true, false, false);
         
         InOrder order = inOrder(packagesTreeViewer);
         
