@@ -43,15 +43,14 @@ public class PackagesCheckStateListener implements ICheckStateListener {
     }
 
     @Override
-    public void checkStateChanged(CheckStateChangedEvent event) {
-        CheckboxTreeViewer packagesTreeViewer = (CheckboxTreeViewer) event.getSource();
-
-        packagesTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
-
-        for (IPackageFragment parentPackage : getParentPackages(((IPackageFragment) event.getElement()))) {
+    public void checkStateChanged(CheckStateChangedEvent event) {        
+        CheckboxTreeViewer packagesTreeViewer = (CheckboxTreeViewer) event.getSource();        
+        packagesTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());                
+        
+        for (IPackageFragment parentPackage : getParentPackages(((IPackageFragment) event.getElement()))) {            
             int countOfCheckedSubpackages = getCountOfCheckedSubpackages(parentPackage, packagesTreeViewer);
-
-            if (countOfCheckedSubpackages == getAllSubPackages(parentPackage).size()) {
+            
+            if (countOfCheckedSubpackages == getAllSubPackages(parentPackage).size()) {                
                 packagesTreeViewer.setGrayed(parentPackage, false);
                 packagesTreeViewer.setChecked(parentPackage, true);
             } else if (countOfCheckedSubpackages > 0) {
@@ -76,7 +75,7 @@ public class PackagesCheckStateListener implements ICheckStateListener {
 
         String[] split = childPackage.getElementName().split("\\.");
 
-        for (IPackageFragment javaPackage : javaPackages) {
+        for (IPackageFragment javaPackage : javaPackages) {            
             String parentName = "";
 
             for (int i = 0; i < split.length - 1; i++) {
@@ -106,9 +105,8 @@ public class PackagesCheckStateListener implements ICheckStateListener {
      */
     private int getCountOfCheckedSubpackages(IPackageFragment parentPackage, CheckboxTreeViewer packagesTreeViewer) {
         int countOfCheckedSubpackages = 0;
-
-        for (IPackageFragment javaPackage : javaPackages) {
-
+        
+        for (IPackageFragment javaPackage : javaPackages) {             
             if (javaPackage.getElementName().startsWith(parentPackage.getElementName())
                     && !javaPackage.getElementName().equals(parentPackage.getElementName())
                     && packagesTreeViewer.getChecked(javaPackage)) {
@@ -127,10 +125,10 @@ public class PackagesCheckStateListener implements ICheckStateListener {
      */
     private List<IPackageFragment> getAllSubPackages(IPackageFragment parentPackage) {
         List<IPackageFragment> subPackages = new ArrayList<IPackageFragment>();
-
+        
         for (IPackageFragment javaPackage : javaPackages) {
             String parentPackageName = parentPackage.getElementName();
-
+            
             if (javaPackage.getElementName().startsWith(parentPackageName)
                     && !javaPackage.getElementName().equals(parentPackageName)) {
                 subPackages.add(javaPackage);
