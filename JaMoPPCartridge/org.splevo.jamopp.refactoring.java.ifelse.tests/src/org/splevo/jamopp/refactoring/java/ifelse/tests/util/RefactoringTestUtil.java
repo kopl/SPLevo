@@ -499,6 +499,28 @@ public final class RefactoringTestUtil {
     }
 
     /**
+     * Generates a variation point according to the Condition_AddMultipleCond test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getConditionAddMultipleCondCase(VariabilityType variabilityType)
+            throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Condition_AddMultipleCond");
+        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
+                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0));
+        assertVariationPointStructure(vpm);
+        
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+        
+        return variationPoint;
+    }
+
+    /**
      * Generates a variation point according to the Class_Merge test case.
      * 
      * @param variabilityType

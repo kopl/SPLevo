@@ -16,9 +16,8 @@ import java.util.Map;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.expressions.ConditionalAndExpression;
+import org.emftext.language.java.expressions.ConditionalOrExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.expressions.NestedExpression;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.statements.Block;
@@ -53,88 +52,64 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
     @Override
     public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Statement elseStatement = vpLocation.getElseStatement();
 
         ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();
         if (!RefactoringUtil.containsImport(vpLocation.getContainingCompilationUnit(), splConfImport)) {
             vpLocation.getContainingCompilationUnit().getImports().add(splConfImport);
         }
 
-        Condition previousCond = null;
-        Block elseBlock = StatementsFactory.eINSTANCE.createBlock();
+        Condition mainCondition = null;
+        if (variationPoint.getVariants().size() > 1) {
+            mainCondition = getConditionForMultipleVariants(variationPoint);
 
-        for (Variant variant : variationPoint.getVariants()) {
-            Statement implementingElement = (Statement) ((JaMoPPSoftwareElement) variant.getImplementingElements().get(
-                    0)).getJamoppElement();
-
-            if (!variant.getLeading()) {
-                implementingElement = EcoreUtil.copy(implementingElement);
-            }
-
-            String groupId = variationPoint.getGroup().getId();
-            String variantId = variant.getId();
-
-            if (implementingElement instanceof Condition) {
-                Condition currentCondition = (Condition) implementingElement;
-
-                if (previousCond == null && !variant.getLeading()) {
-                    vpLocation.setElseStatement(currentCondition);
-                }
-
-                while (true) {
-                    appendSPLConfigCheck(groupId, variantId, currentCondition);
-
-                    if (previousCond != null) {
-                        previousCond.setElseStatement(currentCondition);
-                    }
-
-                    if (currentCondition.getElseStatement() == null) {
-                        previousCond = currentCondition;
-                        break;
-                    } else if (currentCondition.getElseStatement() instanceof Condition) {
-                        previousCond = currentCondition;
-                        currentCondition = (Condition) currentCondition.getElseStatement();
-                    } else {
-                        Condition condition = createVariabilityIfWithStatement(groupId, variantId,
-                                currentCondition.getElseStatement());
-                        currentCondition.setElseStatement(condition);
-                        previousCond = condition;
-                        break;
-                    }
-                }
-            } else {
-                RefactoringUtil.assignInitialValueAndRemoveFinalForReferencedLocalVariables(implementingElement);
-                Condition condition = createVariabilityIfWithStatement(groupId, variantId, implementingElement);
-                elseBlock.getStatements().add(condition);
-            }
+        } else {
+            mainCondition = createVariantCondition(variationPoint.getVariants().get(0));
         }
-        if (elseBlock.getStatements().size() > 0) {
-            if (previousCond != null) {
-                previousCond.setElseStatement(elseBlock);
-            } else {
-                vpLocation.setElseStatement(elseBlock);
-            }
-        }
+
+        vpLocation.setElseStatement(mainCondition);
+        mainCondition.setElseStatement(elseStatement);
 
         return RefactoringUtil.wrapInNewResourceSet(vpLocation);
     }
 
-    private void appendSPLConfigCheck(String groupId, String variantId, Condition currentCondition) {
-        IdentifierReference splConfigCheck = SPLConfigurationUtil.generateConfigMatchingExpression(variantId, groupId);
+    private Condition getConditionForMultipleVariants(VariationPoint variationPoint) {
+        String groupId = variationPoint.getGroup().getId();
 
-        NestedExpression nestedExpression = ExpressionsFactory.eINSTANCE.createNestedExpression();
-        nestedExpression.setExpression(currentCondition.getCondition());
+        Condition mainCondition = null;
+        ConditionalOrExpression orExpression = ExpressionsFactory.eINSTANCE.createConditionalOrExpression();
+        for (Variant variant : variationPoint.getVariants()) {
+            IdentifierReference cond = SPLConfigurationUtil.generateConfigMatchingExpression(variant.getId(), groupId);
+            orExpression.getChildren().add(cond);
+        }
+        mainCondition = StatementsFactory.eINSTANCE.createCondition();
+        mainCondition.setCondition(orExpression);
+        Block block = StatementsFactory.eINSTANCE.createBlock();
+        mainCondition.setStatement(block);
 
-        ConditionalAndExpression newExpression = ExpressionsFactory.eINSTANCE.createConditionalAndExpression();
-        newExpression.getChildren().add(splConfigCheck);
-        newExpression.getChildren().add(nestedExpression);
+        for (Variant variant : variationPoint.getVariants()) {
+            Condition varCond = createVariantCondition(variant);
+            block.getStatements().add(varCond);
+        }
 
-        currentCondition.setCondition(newExpression);
+        return mainCondition;
     }
 
-    private Condition createVariabilityIfWithStatement(String groupId, String variantId, Statement statement) {
-        Condition condition = RefactoringUtil.createVariabilityCondition(variantId, groupId);
-        ((Block) condition.getStatement()).getStatements().add(statement);
-        return condition;
+    private Condition createVariantCondition(Variant variant) {
+        String groupId = variant.getVariationPoint().getGroup().getId();
+        Condition varCond = RefactoringUtil.createVariabilityCondition(variant.getId(), groupId);
+        Statement statement = (Statement) ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0))
+                .getJamoppElement();
+
+        statement = EcoreUtil.copy(statement);
+
+        if (statement instanceof Block) {
+            varCond.setStatement(statement);
+        } else {
+            ((Block) varCond.getStatement()).getStatements().add(statement);
+        }
+
+        return varCond;
     }
 
     @Override

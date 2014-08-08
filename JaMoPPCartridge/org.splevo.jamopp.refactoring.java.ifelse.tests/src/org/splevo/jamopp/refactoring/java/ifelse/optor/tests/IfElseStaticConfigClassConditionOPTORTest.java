@@ -11,21 +11,18 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
 
-import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-
-import java.math.BigInteger;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.expressions.ConditionalAndExpression;
+import org.emftext.language.java.expressions.ConditionalOrExpression;
+import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
@@ -118,31 +115,24 @@ public class IfElseStaticConfigClassConditionOPTORTest {
         IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
         refactoring.refactor(vp, null);
 
-        // location has one condition with else-statements
+        // location has a blockand an else-if
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getStatement(), instanceOf(Block.class));
         assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
 
-        // else-statement (variant 1) has one statement and an else-if
+        // has the two conditions in its if-block and another else
         Condition varCond1 = (Condition) vpLocation.getElseStatement();
-        assertThat(varCond1.getCondition(), instanceOf(ConditionalAndExpression.class));
+        assertThat(varCond1.getCondition(), instanceOf(ConditionalOrExpression.class));
         assertThat(varCond1.getElseStatement(), instanceOf(Condition.class));
         assertThat(varCond1.getStatement(), instanceOf(Block.class));
-        assertThat(((Block) varCond1.getStatement()).getStatements().size(), equalTo(1));
+        assertThat(((Block) varCond1.getStatement()).getStatements().size(), equalTo(2));
 
-        // else-statement (variant 2) has one statement and an else-if
+        // else-statement 2
         Condition varCond2 = (Condition) varCond1.getElseStatement();
-        assertThat(varCond2.getCondition(), instanceOf(ConditionalAndExpression.class));
-        assertThat(varCond2.getElseStatement(), instanceOf(Condition.class));
+        assertThat(varCond2.getCondition(), instanceOf(EqualityExpression.class));
+        assertThat(varCond2.getElseStatement(), nullValue());
         assertThat(varCond2.getStatement(), instanceOf(Block.class));
         assertThat(((Block) varCond2.getStatement()).getStatements().size(), equalTo(1));
-
-        // else-statement (variant 2) has one statement and an else-if
-        Condition varCond3 = (Condition) varCond2.getElseStatement();
-        assertThat(varCond3.getCondition(), instanceOf(ConditionalAndExpression.class));
-        assertThat(varCond3.getElseStatement(), nullValue());
-        assertThat(varCond3.getStatement(), instanceOf(Block.class));
-        assertThat(((Block) varCond3.getStatement()).getStatements().size(), equalTo(1));
     }
 
     /**
@@ -161,38 +151,59 @@ public class IfElseStaticConfigClassConditionOPTORTest {
         // location has a condition with an if-block and an else-block
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getStatement(), instanceOf(Block.class));
-        assertThat(vpLocation.getElseStatement(), instanceOf(Block.class));
+        assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
 
-        // elseblock has the two variability conditions
-        Block elseBlock = (Block) vpLocation.getElseStatement();
-        assertThat(elseBlock.getStatements().size(), equalTo(2));
+        // else-if has two var conditions
+        Condition mainVarCond = (Condition) vpLocation.getElseStatement();
+        assertThat(mainVarCond.getStatement(), instanceOf(Block.class));
+        assertThat(mainVarCond.getCondition(), instanceOf(ConditionalOrExpression.class));
+        assertThat(mainVarCond.getElseStatement(), instanceOf(ExpressionStatement.class));
 
-        // else-block has two conditions
-        assertThat(elseBlock.getStatements().get(0), instanceOf(Condition.class));
-        assertThat(elseBlock.getStatements().get(1), instanceOf(Condition.class));
+        // verify block contents. should have two var conds
+        Block block = (Block) mainVarCond.getStatement();
+        assertThat(block.getStatements().size(), equalTo(2));
+        assertThat(block.getStatements().get(0), instanceOf(Condition.class));
+        assertThat(block.getStatements().get(1), instanceOf(Condition.class));
 
-        // the second if-statement (variant 1) has the expression statement
-        Condition varCond1 = (Condition) elseBlock.getStatements().get(0);
+        Condition varCond1 = (Condition) block.getStatements().get(0);
+        Condition varCond2 = (Condition) block.getStatements().get(1);
+        assertThat(varCond1.getElseStatement(), nullValue());
+        assertThat(varCond2.getElseStatement(), nullValue());
+
+        // both varconditions contain one element
         assertThat(varCond1.getStatement(), instanceOf(Block.class));
-        Block varCondBlock1 = (Block) varCond1.getStatement();
-        assertThat(varCondBlock1.getStatements().size(), equalTo(1));
-        assertThat(varCondBlock1.getStatements().get(0), instanceOf(ExpressionStatement.class));
-
-        // the second if-statement (variant 1) has the expression statement
-        Condition varCond2 = (Condition) elseBlock.getStatements().get(1);
         assertThat(varCond2.getStatement(), instanceOf(Block.class));
-        Block varCondBlock2 = (Block) varCond2.getStatement();
-        assertThat(varCondBlock2.getStatements().size(), equalTo(1));
-        assertThat(varCondBlock2.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        assertThat(((Block) varCond1.getStatement()).getStatements().size(), equalTo(1));
+        assertThat(((Block) varCond2.getStatement()).getStatements().size(), equalTo(1));
+    }
 
-        // correct values in the syso expressions?
-        BigInteger val1 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) varCondBlock1
-                .getStatements().get(0));
-        BigInteger val2 = RefactoringTestUtil.getValueOfSysoExpression((ExpressionStatement) varCondBlock2
-                .getStatements().get(0));
+    /**
+     * Tests whether the refactoring merges conditions correctly where each variant has two
+     * exclusive else-ifs.
+     * 
+     * @throws Exception
+     *             In case of an unexpected exception.
+     */
+    @Test
+    public void testRefactorCaseConditionAddMultipleCond() throws Exception {
+        VariationPoint vp = RefactoringTestUtil.getConditionAddMultipleCondCase(VariabilityType.OPTOR);
+        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
+        refactoring.refactor(vp, null);
 
-        assertThat(val1, anyOf(equalTo(BigInteger.valueOf(2)), equalTo(BigInteger.valueOf(3))));
-        assertThat(val2, anyOf(equalTo(BigInteger.valueOf(2)), equalTo(BigInteger.valueOf(3))));
-        assertThat(val1, not(equalTo(val2)));
+        // location has a condition with an if-block and an else-block
+        Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        assertThat(vpLocation.getStatement(), instanceOf(Block.class));
+        assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
+
+        // assert the correct number of ifs in the chain
+        int conditionCounter = 1;
+        Condition currentCondition = vpLocation;
+
+        while (currentCondition.getElseStatement() != null && currentCondition.getElseStatement() instanceof Condition) {
+            currentCondition = (Condition) currentCondition.getElseStatement();
+            conditionCounter++;
+        }
+
+        assertThat(conditionCounter, equalTo(4));
     }
 }

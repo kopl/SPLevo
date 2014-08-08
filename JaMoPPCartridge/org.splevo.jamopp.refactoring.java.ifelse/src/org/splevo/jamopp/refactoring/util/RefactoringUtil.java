@@ -251,13 +251,13 @@ public final class RefactoringUtil {
      * 
      * @param variantId
      *            The variant id as {@link String}.
-     * @param groupID
+     * @param groupId
      *            The group id as {@link String}.
      * @return The generated {@link Condition}.
      */
-    public static Condition createVariabilityCondition(String variantId, String groupID) {
+    public static Condition createVariabilityCondition(String variantId, String groupId) {
         Condition condition = StatementsFactory.eINSTANCE.createCondition();
-        condition.setCondition(SPLConfigurationUtil.generateConfigMatchingExpression(variantId, groupID));
+        condition.setCondition(SPLConfigurationUtil.generateConfigMatchingExpression(variantId, groupId));
 
         Block ifBlock = StatementsFactory.eINSTANCE.createBlock();
         condition.setStatement(ifBlock);
