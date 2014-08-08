@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//model/DerivedCopy-JaMoPP-Elements.ecore=UTF-8
 encoding//model/DerivedCopy-JaMoPP-Elements.ecorediag=UTF-8
+encoding//model/detection-rule.ecorediag=UTF-8
+encoding//model/graph-based-analysis-edge.ecorediag=UTF-8
 encoding//model/refinement-model.ecorediag=UTF-8
 encoding//model/splevo-models.ecorediag=UTF-8
