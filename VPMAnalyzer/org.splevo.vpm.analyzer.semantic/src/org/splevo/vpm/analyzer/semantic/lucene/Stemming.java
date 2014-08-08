@@ -31,10 +31,10 @@ public enum Stemming {
     NONE,
 
     /** Use the porter stemming algorithm from the snowball project */
-    PORTER,
+    SNOWBALL_PORTER,
 
     /** Use the porter stemming algorithm default implementation provided by lucene */
-    PORTERPLAIN,
+    PORTER,
 
     /** Use kstem stemming algorithm */
     KSTEM,
@@ -49,7 +49,7 @@ public enum Stemming {
      * Quote from Lucene Doc: Minimal plural stemmer for English.
      * "This stemmer implements the "S-Stemmer" from How Effective Is Suffixing? Donna Harman."
      */
-    MINIMALENGLISH;
+    SSTEMMER;
 
     /**
      * Get the name representations of the available stemming options.
@@ -75,16 +75,16 @@ public enum Stemming {
      */
     public static TokenStream wrapStemmingFilter(TokenStream stream, Stemming stemming) {
         switch (stemming) {
-        case PORTER:
+        case SNOWBALL_PORTER:
             return new SnowballFilter(stream, new EnglishStemmer());
 
-        case PORTERPLAIN:
+        case PORTER:
             return new PorterStemFilter(stream);
 
         case KSTEM:
             return new KStemFilter(stream);
 
-        case MINIMALENGLISH:
+        case SSTEMMER:
             return new EnglishMinimalStemFilter(stream);
 
         case PLING:

@@ -51,7 +51,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
 
     /**
      * Initializes the Analyzer. Filters the given stop words.
-     * 
+     *
      * @param stopWords
      *            The stop-words.
      * @param splitCamelCase
@@ -67,7 +67,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
 
     /**
      * Initializes the Analyzer. Filters the given stop words.
-     * 
+     *
      * @param stopWords
      *            The stop-words.
      * @param splitCamelCase
@@ -87,7 +87,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
     protected TokenStreamComponents createComponents(String field, Reader reader) {
         Tokenizer tokenizer = new CodeTokenizer(reader, splitCamelCase, featuredTerms);
         TokenStream currentStream = new LowerCaseFilter(LUCENE_VERSION, tokenizer);
-        currentStream = new LengthFilter(LUCENE_VERSION, currentStream, 3, Integer.MAX_VALUE);
+        currentStream = new LengthFilter(LUCENE_VERSION, currentStream, 2, Integer.MAX_VALUE);
         currentStream = new StopFilter(LUCENE_VERSION, currentStream, stopWords);
         currentStream = Stemming.wrapStemmingFilter(currentStream, stemming);
         currentStream = new StandardFilter(LUCENE_VERSION, currentStream);
@@ -97,7 +97,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
 
     /**
      * Transforms the stop-word-list from the Constants class into a {@link CharArraySet}.
-     * 
+     *
      * @param stopWords
      *            The stop-words.
      * @return The {@link CharArraySet} containing the stop-words.
