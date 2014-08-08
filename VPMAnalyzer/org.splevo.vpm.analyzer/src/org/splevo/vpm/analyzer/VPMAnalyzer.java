@@ -21,7 +21,7 @@ import org.splevo.vpm.analyzer.graph.VPMGraph;
 public interface VPMAnalyzer {
 
     /** Identifier for the vpm analysis log category. */
-    String LOG_CATEGORY = "org.splevo.vpm.analyzer.analysislog";
+    String LOG_CATEGORY = "analysislog";
 
     /** The character to use for separating several logging fields. */
     String LOG_SEPARATOR = ",";
