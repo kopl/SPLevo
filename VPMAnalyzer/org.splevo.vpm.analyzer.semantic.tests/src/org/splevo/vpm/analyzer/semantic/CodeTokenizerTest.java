@@ -29,7 +29,7 @@ import com.google.common.collect.Sets;
 /**
  * Tests for the {@link CodeTokenizer}.
  */
-public class CodeTokenizerTest {
+public class CodeTokenizerTest extends AbstractTest {
 
     /**
      * <strong>Test Settings</strong><br>
@@ -244,6 +244,43 @@ public class CodeTokenizerTest {
         assertThat(tokens, hasItem("Diagram"));
 
         tokenizer.close();
+    }
+
+    /**
+     * Test a featured term included in a larger term.
+     *
+     * @throws Exception
+     *             An unexpected error occurred.
+     */
+    @Test
+    public void testFeaturedTermContainingNonAlphaChar() throws Exception {
+
+        StringReader inputReader = new StringReader("Use_CaseDiagramGraphModel");
+        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("UseCase"));
+        tokenizer.reset();
+
+        Set<String> tokens = readTokens(tokenizer);
+
+        assertThat(tokens.size(), is(4));
+        assertThat(tokens, hasItem("UseCase"));
+        assertThat(tokens, hasItem("Graph"));
+        assertThat(tokens, hasItem("Model"));
+        assertThat(tokens, hasItem("Diagram"));
+
+        tokenizer.close();
+    }
+
+    /**
+     * Test to fix featured terms which contain not more than one
+     * separating character between it's expected characters.
+     */
+    @Test
+    public void fixFeaturedTerms() {
+
+        Set<String> terms = Sets.newHashSet("usecase");
+        String fixedString = CodeTokenizer.fixFeaturedTerms("myuse_casehelloworld", terms);
+
+        assertThat(fixedString, is("my usecase helloworld"));
     }
 
     /**
