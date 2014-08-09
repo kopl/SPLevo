@@ -63,7 +63,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
         registerContentProvider(terms);
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
 
-        SemanticVPMAnalyzer analyzer = createAnalyzer("get set", Stemming.PORTER);
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set", Stemming.KSTEM);
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
         assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(1));
@@ -85,7 +85,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
 
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
 
-        SemanticVPMAnalyzer analyzer = createAnalyzer("get set use case", Stemming.PORTER);
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set use case", Stemming.SNOWBALL_PORTER);
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
         assertThat("Wrong number of relationship edges", result.getEdgeDescriptors().size(), is(0));
@@ -108,7 +108,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
 
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2", "NODE3"));
 
-        SemanticVPMAnalyzer analyzer = createAnalyzer("get set", Stemming.PORTER);
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set", Stemming.SNOWBALL_PORTER);
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
 
@@ -131,7 +131,7 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
 
         VPMGraph vpmGraph = mockVPMGraph(Lists.newArrayList("NODE1", "NODE2"));
 
-        SemanticVPMAnalyzer analyzer = createAnalyzer("get set", Stemming.PORTER);
+        SemanticVPMAnalyzer analyzer = createAnalyzer("get set", Stemming.SNOWBALL_PORTER);
 
         VPMAnalyzerResult result = analyzer.analyze(vpmGraph);
 
