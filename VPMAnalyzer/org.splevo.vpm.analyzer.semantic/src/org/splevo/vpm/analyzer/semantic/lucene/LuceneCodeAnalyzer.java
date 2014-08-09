@@ -87,7 +87,7 @@ public class LuceneCodeAnalyzer extends Analyzer {
     protected TokenStreamComponents createComponents(String field, Reader reader) {
         Tokenizer tokenizer = new CodeTokenizer(reader, splitCamelCase, featuredTerms);
         TokenStream currentStream = new LowerCaseFilter(LUCENE_VERSION, tokenizer);
-        currentStream = new LengthFilter(LUCENE_VERSION, currentStream, 2, Integer.MAX_VALUE);
+        currentStream = new LengthFilter(LUCENE_VERSION, currentStream, 3, Integer.MAX_VALUE);
         currentStream = new StopFilter(LUCENE_VERSION, currentStream, stopWords);
         currentStream = Stemming.wrapStemmingFilter(currentStream, stemming);
         currentStream = new StandardFilter(LUCENE_VERSION, currentStream);
