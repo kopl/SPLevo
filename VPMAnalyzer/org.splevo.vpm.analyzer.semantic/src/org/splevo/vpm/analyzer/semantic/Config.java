@@ -90,7 +90,7 @@ public final class Config {
     public static final String EXPL_STEMMING = "Activate stemming of terms such as plural to singular";
 
     /** The default configuration for STEMMING. */
-    public static final String DEFAULT_STEMMING = Stemming.KSTEM.name();
+    public static final String DEFAULT_STEMMING = Stemming.SNOWBALL_PORTER.name();
 
     /** The available stemming options derived from the Stemming enum. */
     public static final String[] AVAILABLEVALUES_STEMMING = Stemming.getAvailableNames();
