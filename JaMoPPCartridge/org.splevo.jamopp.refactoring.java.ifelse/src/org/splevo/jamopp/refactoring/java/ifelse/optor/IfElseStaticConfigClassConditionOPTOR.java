@@ -76,23 +76,23 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
     private Condition getConditionForMultipleVariants(VariationPoint variationPoint) {
         String groupId = variationPoint.getGroup().getId();
 
-        Condition mainCondition = null;
+        Condition condition = null;
         ConditionalOrExpression orExpression = ExpressionsFactory.eINSTANCE.createConditionalOrExpression();
         for (Variant variant : variationPoint.getVariants()) {
             IdentifierReference cond = SPLConfigurationUtil.generateConfigMatchingExpression(variant.getId(), groupId);
             orExpression.getChildren().add(cond);
         }
-        mainCondition = StatementsFactory.eINSTANCE.createCondition();
-        mainCondition.setCondition(orExpression);
+        condition = StatementsFactory.eINSTANCE.createCondition();
+        condition.setCondition(orExpression);
         Block block = StatementsFactory.eINSTANCE.createBlock();
-        mainCondition.setStatement(block);
+        condition.setStatement(block);
 
         for (Variant variant : variationPoint.getVariants()) {
             Condition varCond = createVariantCondition(variant);
             block.getStatements().add(varCond);
         }
 
-        return mainCondition;
+        return condition;
     }
 
     private Condition createVariantCondition(Variant variant) {
