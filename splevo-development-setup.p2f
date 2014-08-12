@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?p2f version='1.0.0'?>
 <p2f version='1.0.0'>
-  <ius size='10'>
+  <ius size='11'>
     <iu id='org.apache.log4j' name='Apache Jakarta log4j Plug-in' version='1.2.15.v201012070815'>
       <repositories size='4'>
-        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/'/>
         <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/'/>
+        <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/'/>
         <repository location='http://download.eclipse.org/releases/kepler'/>
         <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/'/>
       </repositories>
@@ -30,22 +30,27 @@
         <repository location='http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/'/>
       </repositories>
     </iu>
+    <iu id='org.eclipse.zest.sdk.feature.group' name='Graphical Editing Framework Zest Visualization Toolkit SDK' version='1.5.1.201308190730'>
+      <repositories size='1'>
+        <repository location='http://download.eclipse.org/releases/kepler'/>
+      </repositories>
+    </iu>
     <iu id='com.google.guava' name='Guava: Google Core Libraries for Java' version='15.0.0.v201403281430'>
       <repositories size='1'>
         <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/'/>
       </repositories>
     </iu>
-    <iu id='org.emftext.language.java.ui.feature.group' name='JaMoPP - Java Model Editor' version='1.4.1.v201406161320'>
+    <iu id='org.emftext.language.java.ui.feature.group' name='JaMoPP - Java Model Editor' version='1.4.1.v201408111316'>
       <repositories size='1'>
         <repository location='http://jamopp.org/update_trunk'/>
       </repositories>
     </iu>
-    <iu id='org.emftext.language.java.feature.group' name='JaMoPP - Java Model Parser and Printer' version='1.4.1.v201406161320'>
+    <iu id='org.emftext.language.java.feature.group' name='JaMoPP - Java Model Parser and Printer' version='1.4.1.v201408111316'>
       <repositories size='1'>
         <repository location='http://jamopp.org/update_trunk'/>
       </repositories>
     </iu>
-    <iu id='org.emftext.language.java.jdt.feature.group' name='JaMoPP - Java Model Parser and Printer (Eclipse JDT Integration)' version='1.4.1.v201406161320'>
+    <iu id='org.emftext.language.java.jdt.feature.group' name='JaMoPP - Java Model Parser and Printer (Eclipse JDT Integration)' version='1.4.1.v201408111316'>
       <repositories size='1'>
         <repository location='http://jamopp.org/update_trunk'/>
       </repositories>
