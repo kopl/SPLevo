@@ -19,6 +19,8 @@ import org.emftext.language.java.commons.Commentable;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.vpm.analyzer.VPMAnalyzerUtil;
 
+import com.google.common.collect.Lists;
+
 /**
  * A reference selector implementing the references defined by:<br>
  * Robillard, M. R., & Murphy, G. C. (2002).<br>
@@ -89,11 +91,15 @@ public class RobillardReferenceSelector implements ReferenceSelector {
 
         List<Reference> references = selectorSwitch.doSwitch(commentable);
 
+        List<Reference> referencesToRemove = Lists.newArrayList(); 
+        
         for (Reference reference : references) {
             if (VPMAnalyzerUtil.isNullOrProxy(reference.getTarget())) {
-                references.remove(reference);
+            	referencesToRemove.add(reference);
             }
         }
+        
+        references.remove(referencesToRemove);
 
         return references;
     }
