@@ -14,7 +14,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_tgi3YSHWEeSXLZ-4MZssOw" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
     <element xmi:type="ecore:EClass" href="refactoring-specification.ecore#//RefactoringSpecification"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tgi3YiHWEeSXLZ-4MZssOw" x="132" y="36"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tgi3YiHWEeSXLZ-4MZssOw" x="24" y="36"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_tgz9KSHWEeSXLZ-4MZssOw" type="1001">
     <children xmi:type="notation:Node" xmi:id="_tgz9LCHWEeSXLZ-4MZssOw" type="4001"/>
@@ -34,7 +34,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_tgz9KiHWEeSXLZ-4MZssOw" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
     <element xmi:type="ecore:EClass" href="refactoring-specification.ecore#//VariabilityMechanism"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tgz9KyHWEeSXLZ-4MZssOw" x="462" y="36"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tgz9KyHWEeSXLZ-4MZssOw" x="355" y="36"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_PRwIECHXEeSXLZ-4MZssOw" type="1001">
     <children xmi:type="notation:Node" xmi:id="_PRwIEyHXEeSXLZ-4MZssOw" type="4001"/>
@@ -62,7 +62,23 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_PRwIESHXEeSXLZ-4MZssOw" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
     <element xmi:type="ecore:EClass" href="refactoring-specification.ecore#//VariationPoint"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PRwIEiHXEeSXLZ-4MZssOw" x="810" y="36"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PRwIEiHXEeSXLZ-4MZssOw" x="702" y="36"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ix-UgCHZEeSXLZ-4MZssOw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ix-7kCHZEeSXLZ-4MZssOw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ix-7kSHZEeSXLZ-4MZssOw" visible="false" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ix-7kiHZEeSXLZ-4MZssOw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ix-7kyHZEeSXLZ-4MZssOw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ix-7lCHZEeSXLZ-4MZssOw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ix-7lSHZEeSXLZ-4MZssOw" visible="false" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ix-7liHZEeSXLZ-4MZssOw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ix-7lyHZEeSXLZ-4MZssOw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ix-7mCHZEeSXLZ-4MZssOw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ix-UgSHZEeSXLZ-4MZssOw" fontName="Segoe UI" fontHeight="10" fillColor="13761016" lineColor="0"/>
+    <element xmi:type="ecore:EClass" href="refactoring-specification.ecore#//SPLProfile"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ix-UgiHZEeSXLZ-4MZssOw" x="396" y="150"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_tggbISHWEeSXLZ-4MZssOw"/>
   <element xmi:type="ecore:EPackage" href="refactoring-specification.ecore#/"/>
@@ -93,5 +109,18 @@
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_sL1RwyHXEeSXLZ-4MZssOw" points="[-78, 1, 154, 1]$[-231, -4, 1, -4]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_sL140CHXEeSXLZ-4MZssOw" id="(0.4015151515151515,0.05504587155963303)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_sL2f4CHXEeSXLZ-4MZssOw" id="(0.26229508196721313,0.09523809523809523)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_k-WsgCHZEeSXLZ-4MZssOw" type="3002" source="_ix-UgCHZEeSXLZ-4MZssOw" target="_tgz9KSHWEeSXLZ-4MZssOw">
+    <children xmi:type="notation:Node" xmi:id="_k-XTkCHZEeSXLZ-4MZssOw" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_k-XTkSHZEeSXLZ-4MZssOw" x="-10" y="89"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_k-XTkiHZEeSXLZ-4MZssOw" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_k-XTkyHZEeSXLZ-4MZssOw" x="-10" y="-17"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_k-WsgSHZEeSXLZ-4MZssOw" lineColor="0"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_k-WsgiHZEeSXLZ-4MZssOw" fontName="Segoe UI" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="refactoring-specification.ecore#//SPLProfile/variabilityMechanisms"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_k-WsgyHZEeSXLZ-4MZssOw" points="[9, -5, 17, 108]$[32, -143, 40, -30]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_k-X6oCHZEeSXLZ-4MZssOw" id="(0.5686274509803921,0.15)"/>
   </edges>
 </notation:Diagram>
