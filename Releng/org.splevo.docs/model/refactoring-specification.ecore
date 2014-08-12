@@ -2,11 +2,12 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="refactoring">
   <eClassifiers xsi:type="ecore:EClass" name="RefactoringSpecification">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//ID"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="infos" lowerBound="1" eType="#//VariabilityInfos"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="instructions" lowerBound="1"
         eType="#//RefactoringInstructions" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mechanism" lowerBound="1"
+        eType="#//VariabilityMechanism" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Descriptions">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="summary" lowerBound="1"
@@ -78,5 +79,17 @@
   <eClassifiers xsi:type="ecore:EClass" name="RefactoringInstructions">
     <eStructuralFeatures xsi:type="ecore:EReference" name="instructions" lowerBound="1"
         upperBound="-1" eType="#//RefactoringInstruction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariabilityMechanism">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariationPoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variabilityType" lowerBound="1"
+        eType="ecore:EEnum platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//VariabilityType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bindingTime" lowerBound="1"
+        eType="ecore:EEnum platform:/plugin/org.splevo.vpm/model/vpm.ecore#//variability/BindingTime"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="extensibility" lowerBound="1"
+        eType="ecore:EEnum platform:/plugin/org.splevo.vpm/model/vpm.ecore#//variability/Extensible"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variabilityMechanism" eType="#//VariabilityMechanism"/>
   </eClassifiers>
 </ecore:EPackage>
