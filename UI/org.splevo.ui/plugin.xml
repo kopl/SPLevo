@@ -128,6 +128,7 @@
          <command
                commandId="cleanProjectCommand"
                icon="icons/bin.png"
+               id="org.splevo.ui.menu.cleanProject"
                label="Clean Project"
                style="push"
                tooltip="Deletes the /models and /logs directories and all SPLevo settings except of the Project Selection, Project Infos, Extractor Selection and Diffing Package Filter Rules.">
