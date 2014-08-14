@@ -149,6 +149,16 @@
                   label="Refactor Copies"
                   style="push">
             </command>
+            <separator
+                  name="org.splevo.ui.separator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="cleanProjectCommand"
+                  icon="icons/bin.png"
+                  label="Clean Project"
+                  style="push">
+            </command>
          </menu>
       </menuContribution>
       <menuContribution
