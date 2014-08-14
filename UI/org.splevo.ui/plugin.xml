@@ -104,6 +104,11 @@
             id="org.splevo.ui.opendiffmodel"
             name="Open Diff Model">
       </command>
+       <command
+            defaultHandler="org.splevo.ui.handler.InitVPMHandler"
+            id="initVPMCommand"
+            name="Init VPM">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -113,6 +118,16 @@
                id="org.splevo.ui.menu.main"
                label="SPLevo"
                mnemonic="SPLevo">
+            <separator
+                  name="topSeparator"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="initVPMCommand"
+                  label="Init VPM"
+                  mnemonic="I"
+                  style="push">
+            </command>
          </menu>
       </menuContribution>
       <menuContribution

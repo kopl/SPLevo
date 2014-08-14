@@ -37,7 +37,7 @@
     </menuContribution>
     <menuContribution
           allPopups="false"
-          locationURI="menu:org.splevo.ui.menu.main">
+          locationURI="menu:org.splevo.ui.menu.main?before=topSeparator">
        	<command
               commandId="org.eclipse.ui.newWizard"
               icon="icons/kopl_circle_new.png">
