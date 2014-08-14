@@ -11,7 +11,7 @@
           category="org.splevo.ui.wizards"
           class="org.splevo.ui.wizard.consolidation.NewConsolidationProjectWizard"
           finalPerspective="org.splevo.ui.perspective"
-          icon="icons/kopl_circle_only.png"
+          icon="icons/kopl_circle_new.png"
           id="org.splevo.ui.wizards.project"
           name="New Consolidation Project"
           preferredPerspectives="org.splevo.ui.perspective"
@@ -25,7 +25,7 @@
           locationURI="menu:org.splevo.ui.menu?before=org.splevo.ui.menu.cleanProject">
        <command
              commandId="org.eclipse.ui.newWizard"
-             icon="icons/kopl_circle_only.png"
+             icon="icons/kopl_circle_new.png"
              label="New Consolidation"
              style="push"
              tooltip="Create a new consolidation project">
@@ -34,6 +34,17 @@
                 value="org.splevo.ui.wizards.project">
           </parameter>
        </command>
+    </menuContribution>
+    <menuContribution
+          allPopups="false"
+          locationURI="menu:org.splevo.ui.menu.main">
+       	<command
+              commandId="org.eclipse.ui.newWizard"
+              icon="icons/kopl_circle_new.png">
+           	    <parameter 
+                	name="newWizardId"
+                  	value="org.splevo.ui.wizards.project" />
+       	</command>
     </menuContribution>
  </extension>
 

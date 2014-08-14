@@ -108,6 +108,14 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=project">
+         <menu
+               id="org.splevo.ui.menu.main"
+               label="SPLevo"
+               mnemonic="SPLevo">
+         </menu>
+      </menuContribution>
+      <menuContribution
             allPopups="false"
             locationURI="toolbar:org.eclipse.ui.main.toolbar">
          <toolbar
