@@ -29,8 +29,7 @@ import org.splevo.ui.workflow.BasicSPLevoWorkflowConfiguration;
 import org.splevo.ui.workflow.InitVPMWorkflowDelegate;
 
 /**
- * @author Anton Huck
- * 
+ * Handler to initialize new VPM
  */
 public class InitVPMHandler extends AbstractHandler {
 
@@ -41,15 +40,8 @@ public class InitVPMHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		logger.debug("Init VPM Handler fired");
-		IEditorPart activeEditor = HandlerUtil.getActiveEditor(event);
-		if (!(activeEditor instanceof SPLevoProjectEditor)) {
-			logger.error("activeEditor is not SPLevoProjectEditor");
-			return null;
-		}
-
-		// Get editor and splevo project
-		this.splevoProjectEditor = (SPLevoProjectEditor) activeEditor;
+		
+		assignActiveEditor(event);
 
 		// build the job configuration
 		BasicSPLevoWorkflowConfiguration config = buildWorflowConfiguration();
@@ -87,6 +79,23 @@ public class InitVPMHandler extends AbstractHandler {
 				splevoProjectEditor);
 
 		return null;
+	}
+	
+	/**
+	 * figure out active editor and assign to global variable.
+	 * 
+	 * @param event
+	 *            Event called the handler
+	 */
+	private void assignActiveEditor(ExecutionEvent event) {
+		IEditorPart activeEditor = HandlerUtil.getActiveEditor(event);
+		if (!(activeEditor instanceof SPLevoProjectEditor)) {
+			logger.error("activeEditor is not SPLevoProjectEditor");
+			return;
+		}
+
+		// Get editor and splevo project
+		this.splevoProjectEditor = (SPLevoProjectEditor) activeEditor;
 	}
 
 	/**
