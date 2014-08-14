@@ -114,6 +114,11 @@
             id="refineVPMCommand"
             name="Refine VPM">
       </command>
+      <command
+            defaultHandler="org.splevo.ui.handler.RefactorCopiesHandler"
+            id="refactorCopiesCommand"
+            name="Refactor Copies">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -137,6 +142,11 @@
                   commandId="refineVPMCommand"
                   label="Refine VPM"
                   mnemonic="R"
+                  style="push">
+            </command>
+            <command
+                  commandId="refactorCopiesCommand"
+                  label="Refactor Copies"
                   style="push">
             </command>
          </menu>
