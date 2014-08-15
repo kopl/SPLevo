@@ -25,6 +25,7 @@ import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.emftext.language.java.references.MethodCall;
@@ -32,8 +33,10 @@ import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
+import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.Return;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 
@@ -75,6 +78,36 @@ public class StatementTest {
         EList<Diff> differences = comparison.getDifferences();
 
         assertThat("Wrong number of differences", differences.size(), is(0));
+    }
+
+    /**
+     * Test diffing of changed array field declarations.
+     *
+     * @throws Exception
+     *             Identifies a failed diffing.
+     */
+    @Ignore
+    @Test
+    public void testArrayItemAccessesDiff() throws Exception {
+
+        File testFileA = new File(basePath + "a/ArrayItemAccess.java");
+        File testFileB = new File(basePath + "b/ArrayItemAccess.java");
+        ResourceSet rsA = TestUtil.loadResourceSet(Sets.newHashSet(testFileA));
+        ResourceSet rsB = TestUtil.loadResourceSet(Sets.newHashSet(testFileB));
+
+        JaMoPPDiffer differ = new JaMoPPDiffer();
+        Comparison comparison = differ.doDiff(rsA, rsB, TestUtil.getDiffOptions());
+
+        EList<Diff> differences = comparison.getDifferences();
+
+        assertThat("Wrong number of differences", differences.size(), is(1));
+
+        StatementChange change = (StatementChange) differences.get(0);
+        ExpressionStatement statement = (ExpressionStatement) change.getChangedStatement();
+        AssignmentExpression exp = (AssignmentExpression) statement.getExpression();
+        StringReference value = (StringReference) exp.getValue();
+        assertThat(value.getValue(), equalTo("3"));
+
     }
 
     /**
