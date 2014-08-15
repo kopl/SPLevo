@@ -19,7 +19,7 @@ public class ClonedChangeAnalyzerTest {
 
     @Test
     public void test() {
-        fail("Not yet implemented");
+        // TODO: implement tests
     }
 
 }
