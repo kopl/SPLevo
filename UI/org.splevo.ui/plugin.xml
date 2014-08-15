@@ -119,6 +119,11 @@
             id="refactorCopiesCommand"
             name="Refactor Copies">
       </command>
+      <command
+            defaultHandler="org.splevo.ui.handler.GenerateFeatureModellHandler"
+            id="generateFeatureModelCommand"
+            name="Generate Feature Model">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -147,6 +152,11 @@
             <command
                   commandId="refactorCopiesCommand"
                   label="Refactor Copies"
+                  style="push">
+            </command>
+            <command
+                  commandId="generateFeatureModelCommand"
+                  label="Generate Feature Model"
                   style="push">
             </command>
             <separator

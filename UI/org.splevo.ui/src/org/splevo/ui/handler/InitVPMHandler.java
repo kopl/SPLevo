@@ -13,17 +13,13 @@ package org.splevo.ui.handler;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.project.SPLevoProject;
-import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.listeners.WorkflowListenerUtil;
 import org.splevo.ui.workflow.BasicSPLevoWorkflowConfiguration;
 import org.splevo.ui.workflow.InitVPMWorkflowDelegate;
@@ -31,28 +27,19 @@ import org.splevo.ui.workflow.InitVPMWorkflowDelegate;
 /**
  * Handler to initialize new VPM
  */
-public class InitVPMHandler extends AbstractHandler {
-
-	/** The logger for this class. */
-	private Logger logger = Logger.getLogger(InitVPMHandler.class);
-
-	private SPLevoProjectEditor splevoProjectEditor = null;
+public class InitVPMHandler extends AbstractSPLevoHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
-		assignActiveEditor(event);
 
+		splevoProjectEditor = getActiveSPLevoEditor(event);
+		activeShell = HandlerUtil.getActiveShell(event);
+		
 		// build the job configuration
 		BasicSPLevoWorkflowConfiguration config = buildWorflowConfiguration();
 
 		// validate configuration
-		if (!config.isValid()) {
-			MessageDialog.openError(null, "Invalid Project Configuration",
-					config.getErrorMessage());
-			logger.error("Invalid Project Configuration");
-			return null;
-		}
+		checkConfig(config);
 
 		// if there are existing vpms inform
 		// the user that they will be deleted
@@ -80,23 +67,6 @@ public class InitVPMHandler extends AbstractHandler {
 
 		return null;
 	}
-	
-	/**
-	 * figure out active editor and assign to global variable.
-	 * 
-	 * @param event
-	 *            Event called the handler
-	 */
-	private void assignActiveEditor(ExecutionEvent event) {
-		IEditorPart activeEditor = HandlerUtil.getActiveEditor(event);
-		if (!(activeEditor instanceof SPLevoProjectEditor)) {
-			logger.error("activeEditor is not SPLevoProjectEditor");
-			return;
-		}
-
-		// Get editor and splevo project
-		this.splevoProjectEditor = (SPLevoProjectEditor) activeEditor;
-	}
 
 	/**
 	 * Delete the vpms registered in the splevo project.
@@ -113,16 +83,5 @@ public class InitVPMHandler extends AbstractHandler {
 		}
 		splevoProject.getVpmModelPaths().clear();
 
-	}
-
-	/**
-	 * Build the configuration for the workflow.
-	 * 
-	 * @return The prepared configuration.
-	 */
-	private BasicSPLevoWorkflowConfiguration buildWorflowConfiguration() {
-		BasicSPLevoWorkflowConfiguration config = new BasicSPLevoWorkflowConfiguration();
-		config.setSplevoProjectEditor(splevoProjectEditor);
-		return config;
 	}
 }

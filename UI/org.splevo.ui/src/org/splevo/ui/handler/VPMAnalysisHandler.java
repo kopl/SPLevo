@@ -12,11 +12,9 @@
 package org.splevo.ui.handler;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.ProgressMonitorPart;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -24,8 +22,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizard;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizardPageChangeListener;
@@ -35,7 +31,7 @@ import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentatio
 /**
  * Handler to start VPM analysis
  */
-public class VPMAnalysisHandler extends AbstractHandler {
+public class VPMAnalysisHandler extends AbstractSPLevoHandler {
 	/** The logger for this class. */
 	private Logger logger = Logger.getLogger(VPMAnalysisHandler.class);
 
@@ -57,9 +53,9 @@ public class VPMAnalysisHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		assignActiveEditor(event);
+		this.splevoProjectEditor = getActiveSPLevoEditor(event);
 
-		VPMAnalysisWorkflowConfiguration config = buildWorflowConfiguration();
+		VPMAnalysisWorkflowConfiguration config = buildVPMAnalysisWorflowConfiguration();
 
 		// trigger the wizard to configure the refinement process
 		vpmAnalysisWizard = new VPMAnalysisWizard(config);
@@ -75,41 +71,9 @@ public class VPMAnalysisHandler extends AbstractHandler {
 		}
 
 		// validate configuration
-		if (!config.isValid()) {
-			logger.error(config.getErrorMessage());
-			MessageDialog.openError(null, "Invalid Project Configuration",
-					config.getErrorMessage());
-			throw new ExecutionException("Invalid Project Configuration");
-		}
+		checkConfig(config);
 
 		return null;
-	}
-
-	/**
-	 * Figure out active editor type an assign
-	 * 
-	 * @param event
-	 *            - An event containing all the information about the current
-	 *            state of the application; must not be null.
-	 * @throws ExecutionException
-	 *             Wrong editor is active
-	 */
-	private void assignActiveEditor(ExecutionEvent event)
-			throws ExecutionException {
-		IEditorPart activeEditor = HandlerUtil.getActiveEditor(event);
-
-		if (!(activeEditor instanceof SPLevoProjectEditor)) {
-			logger.error("Active editor is not SPLevoProjectEditor");
-
-			MessageDialog.openError(null, "Wrong active editor",
-					"Active editor is not SPLevoProjectEditor");
-
-			throw new ExecutionException(
-					"Active editor is not SPLevoProjectEditor");
-		}
-
-		// Get editor and splevo project
-		this.splevoProjectEditor = (SPLevoProjectEditor) activeEditor;
 	}
 
 	/**
@@ -150,7 +114,7 @@ public class VPMAnalysisHandler extends AbstractHandler {
 	 * 
 	 * @return The prepared configuration.
 	 */
-	private VPMAnalysisWorkflowConfiguration buildWorflowConfiguration() {
+	private VPMAnalysisWorkflowConfiguration buildVPMAnalysisWorflowConfiguration() {
 		VPMAnalysisWorkflowConfiguration defaultConfig = new VPMAnalysisWorkflowConfiguration();
 		defaultConfig.setSplevoProjectEditor(splevoProjectEditor);
 

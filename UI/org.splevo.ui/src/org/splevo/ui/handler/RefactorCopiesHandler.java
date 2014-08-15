@@ -16,14 +16,10 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.project.SPLProfile;
 import org.splevo.project.SPLevoProject;
@@ -48,7 +44,7 @@ import com.google.common.collect.Lists;
 /**
  * Handler to start refactoring of copies
  */
-public class RefactorCopiesHandler extends AbstractHandler {
+public class RefactorCopiesHandler extends AbstractSPLevoHandler {
 
 	/** logger used **/
 	private static Logger logger = Logger
@@ -60,13 +56,14 @@ public class RefactorCopiesHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		assignActiveEditor(event);
-
+		this.splevoProjectEditor = getActiveSPLevoEditor(event);
+		activeShell = HandlerUtil.getActiveShell(event);
+		
 		checkVPMExists();
 
 		VariationPointModel vpm = loadVPM();
 		if (vpm == null) {
-			MessageDialog.openError(getShell(), "Failed to load VPM",
+			MessageDialog.openError(activeShell, "Failed to load VPM",
 					"Unable to laod the latest VPM");
 			throw new ExecutionException("Unable to laod the latest VPM");
 		}
@@ -82,43 +79,13 @@ public class RefactorCopiesHandler extends AbstractHandler {
 		}
 		return null;
 	}
-	/**
-	 * Figure out active editor type an assign
-	 * 
-	 * @param event
-	 *            - An event containing all the information about the current
-	 *            state of the application; must not be null.
-	 * @throws ExecutionException
-	 *             Wrong editor is active
-	 */
-	private void assignActiveEditor(ExecutionEvent event)
-			throws ExecutionException {
-		IEditorPart activeEditor = HandlerUtil.getActiveEditor(event);
-		if (!(activeEditor instanceof SPLevoProjectEditor)) {
-			logger.error("activeEditor is not SPLevoProjectEditor");
-			MessageDialog.openError(getShell(), "Wrong editor active",
-					"activeEditor is not SPLevoProjectEditor.");
-			throw new ExecutionException(
-					"activeEditor is not SPLevoProjectEditor");
-		}
-
-		// Get editor and splevo project
-		this.splevoProjectEditor = (SPLevoProjectEditor) activeEditor;
-	}
 
 	private boolean askForRecommenderExecution() {
-		boolean executeRecommender = MessageDialog
-				.openConfirm(
-						getShell(),
-						"Execute Recommender",
-						"Not all variation points have a variability mechanism defined, yet."
+		boolean executeRecommender = MessageDialog.openConfirm(activeShell,
+				"Execute Recommender",
+				"Not all variation points have a variability mechanism defined, yet."
 						+ "Do you want to start the auto recommender?");
 		return executeRecommender;
-	}
-
-	private Shell getShell() {
-		Shell shell = Display.getCurrent().getActiveShell();
-		return shell;
 	}
 
 	private void startRefactoring() {
@@ -151,12 +118,12 @@ public class RefactorCopiesHandler extends AbstractHandler {
 		if (result.getUnassignedVariationPoints().isEmpty()) {
 			MessageDialog
 					.openInformation(
-							getShell(),
+							activeShell,
 							"Recommender Succeeded",
 							"All variation points are now successfully assigned with a variability mechanism");
 		} else {
 			MessageDialog
-					.openWarning(getShell(), "Recommender Failed",
+					.openWarning(activeShell, "Recommender Failed",
 							"Not all variation points could be assigned with a variability mechanism");
 		}
 	}
@@ -210,7 +177,7 @@ public class RefactorCopiesHandler extends AbstractHandler {
 	private boolean checkVPMExists() {
 		boolean vpmExistCheck = true;
 		if (splevoProjectEditor.getSplevoProject().getVpmModelPaths().size() == 0) {
-			MessageDialog.openError(getShell(),
+			MessageDialog.openError(activeShell,
 					"Variation Point Model Missing", "No VPM available.");
 			vpmExistCheck = false;
 		}

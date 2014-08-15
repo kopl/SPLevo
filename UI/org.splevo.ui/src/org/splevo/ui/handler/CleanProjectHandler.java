@@ -9,11 +9,11 @@
  * Contributors:
  *    Daniel Kojic
  *    Benjamin Klatt
+ *    Anton Huck
  *******************************************************************************/
 package org.splevo.ui.handler;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IResource;
@@ -22,33 +22,29 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.project.SPLevoProject;
-import org.splevo.ui.editors.SPLevoProjectEditor;
 
 /**
  * This command cleans a {@link SPLevoProject}.
  */
-public class CleanProjectHandler extends AbstractHandler {
+public class CleanProjectHandler extends AbstractSPLevoHandler {
 
 	/** The logger for this class. */
 	private Logger logger = Logger.getLogger(CleanProjectHandler.class);
 
 	/**
-	 * Open a dialog to verify clean up with user and
-	 * clean project resources accordingly.
-	 *
+	 * Open a dialog to verify clean up with user and clean project resources
+	 * accordingly.
+	 * 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IEditorPart activeEditor = HandlerUtil.getActiveEditor(event);
-		if (!(activeEditor instanceof SPLevoProjectEditor)) {
-			return null;
-		}
-		Shell activeShell = HandlerUtil.getActiveShell(event);
+		splevoProjectEditor = getActiveSPLevoEditor(event);
+		
+		activeShell = HandlerUtil.getActiveShell(event);
+		
 		boolean proceed = MessageDialog
 				.openConfirm(
 						activeShell,
@@ -62,8 +58,7 @@ public class CleanProjectHandler extends AbstractHandler {
 			return null;
 		}
 
-		// Get editor and splevo project
-		SPLevoProjectEditor splevoProjectEditor = (SPLevoProjectEditor) activeEditor;
+		// splevo project
 		SPLevoProject project = splevoProjectEditor.getSplevoProject();
 
 		// Delete project files and metadata
@@ -77,9 +72,11 @@ public class CleanProjectHandler extends AbstractHandler {
 	}
 
 	/**
-	 * Deletes the /models and the /logs folders of the specified {@link SPLevoProject}.
-	 *
-	 * @param project The {@link SPLevoProject}.
+	 * Deletes the /models and the /logs folders of the specified
+	 * {@link SPLevoProject}.
+	 * 
+	 * @param project
+	 *            The {@link SPLevoProject}.
 	 */
 	private void cleanProjetcFiles(SPLevoProject project) {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -108,8 +105,9 @@ public class CleanProjectHandler extends AbstractHandler {
 
 	/**
 	 * Deletes the model paths from a {@link SPLevoProject}.
-	 *
-	 * @param project The {@link SPLevoProject}.
+	 * 
+	 * @param project
+	 *            The {@link SPLevoProject}.
 	 */
 	private void cleanProjectMetadata(SPLevoProject project) {
 		project.setDiffingModelPath(null);
