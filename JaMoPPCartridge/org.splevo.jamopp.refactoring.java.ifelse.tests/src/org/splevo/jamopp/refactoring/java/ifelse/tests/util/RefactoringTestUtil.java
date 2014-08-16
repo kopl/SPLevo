@@ -221,9 +221,6 @@ public final class RefactoringTestUtil {
      */
     public static VariationPoint getStatementLocalVarDiffTypesCase(VariabilityType variabilityType) throws Exception {
         VariationPointModel vpm = initializeVariationPointModel("Statement_LocalVariableDiffTypes");
-        performRefinement(vpm, RefinementType.MERGE, vpm.getVariationPointGroups().get(0).getVariationPoints().get(0),
-                vpm.getVariationPointGroups().get(1).getVariationPoints().get(0), vpm.getVariationPointGroups().get(2)
-                        .getVariationPoints().get(0));
         assertVariationPointStructure(vpm);
 
         VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);

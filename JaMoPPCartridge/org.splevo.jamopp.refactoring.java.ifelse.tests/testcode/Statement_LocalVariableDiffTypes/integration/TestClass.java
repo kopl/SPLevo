@@ -4,6 +4,6 @@ public class TestClass {
 
     protected void someMethod() {
         short a = 2;
-        System.out.println(a);
+        System.out.println(a + "");
     }
 }

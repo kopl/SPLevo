@@ -287,7 +287,7 @@ public final class RefactoringUtil {
             Statement statement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
             statement = EcoreUtil.copy(statement);
 
-            int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se) - 1;
+            int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se);
 
             if (statement instanceof LocalVariableStatement
                     && isReferencedByFollowingElement(
@@ -324,9 +324,16 @@ public final class RefactoringUtil {
         StatementListContainer container = (StatementListContainer) localVariableStatement.eContainer();
         EList<Statement> containerStatements = container.getStatements();
 
-        int index = containerStatements.indexOf(localVariableStatement) + 1;
+        int index = containerStatements.indexOf(localVariableStatement);
 
-        List<Statement> postdecessors = containerStatements.subList(index + offset, containerStatements.size());
+        int fromIndex = index + offset;
+        int toIndex = containerStatements.size();
+
+        if (fromIndex >= toIndex) {
+            return false;
+        }
+
+        List<Statement> postdecessors = containerStatements.subList(fromIndex, toIndex);
 
         for (Statement postdecessor : postdecessors) {
             if (hasReferenceTo(postdecessor, variable)) {
@@ -533,8 +540,7 @@ public final class RefactoringUtil {
 
                 if (currentElement instanceof LocalVariableStatement) {
                     LocalVariableStatement localVarStatement = (LocalVariableStatement) currentElement;
-                    int offset = variant.getImplementingElements().size()
-                            - variant.getImplementingElements().indexOf(se) - 1;
+                    int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se);
                     if (!isReferencedByFollowingElement(localVarStatement, offset)) {
                         continue;
                     }
