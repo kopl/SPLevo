@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="org.splevo.jamopp.vpm.analyzer.clonedchange"
+         name="Cloned Change Analyzer"
+         point="org.splevo.vpm.analyzer.analyzer">
+      <analyzer
+            analyzer.class="org.splevo.jamopp.vpm.analyzer.clonedchange.ClonedChangeAnalyzer">
+      </analyzer>
+   </extension>
+
+</plugin>
