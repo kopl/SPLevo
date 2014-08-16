@@ -115,13 +115,13 @@ public class PackagesCheckStateListener implements ICheckStateListener {
     }
 
     /**
-     * Get all sub packages (not only the direct ones) of the given package specified by name.
+     * Get all sub packages (not only the direct ones) of the given package.
      * 
      * @param parentPackage
      *            The package whose sub packages have to be found.
      * @return A list with all sub packages of the given package.
      */
-    private List<IPackageFragment> getAllSubPackages(IPackageFragment parentPackage) {
+    public List<IPackageFragment> getAllSubPackages(IPackageFragment parentPackage) {
         List<IPackageFragment> subPackages = new ArrayList<IPackageFragment>();
         
         for (IPackageFragment javaPackage : javaPackages) {
