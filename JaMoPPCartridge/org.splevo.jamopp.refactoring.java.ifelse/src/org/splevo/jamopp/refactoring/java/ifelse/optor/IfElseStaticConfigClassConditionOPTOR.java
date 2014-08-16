@@ -11,9 +11,10 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.ConditionalOrExpression;
@@ -33,6 +34,8 @@ import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.collect.Lists;
+
 /**
  * Refactors variable else-statements.
  */
@@ -50,7 +53,7 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
     }
 
     @Override
-    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         Statement elseStatement = vpLocation.getElseStatement();
 
@@ -70,8 +73,22 @@ public class IfElseStaticConfigClassConditionOPTOR implements VariabilityRefacto
         vpLocation.setElseStatement(mainCondition);
         mainCondition.setElseStatement(elseStatement);
 
-        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
+//        ClassMethod containingMethod = getContainingMethod(vpLocation);
+//        boolean hasVariableReturns = RefactoringUtil.hasImplementingElementsOfType(variationPoint, Return.class);
+//        if (containingMethod != null && hasVariableReturns) {
+//            RefactoringUtil.addReturnStatement(containingMethod);
+//        }
+
+        return Lists.newArrayList(vpLocation.eResource());
     }
+
+//    private ClassMethod getContainingMethod(Statement statement) {
+//        EObject container = statement.eContainer();
+//        while (container != null && !(container instanceof ClassMethod)) {
+//            container = container.eContainer();
+//        }
+//        return (ClassMethod) container;
+//    }
 
     private Condition getConditionForMultipleVariants(VariationPoint variationPoint) {
         String groupId = variationPoint.getGroup().getId();

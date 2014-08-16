@@ -12,13 +12,15 @@
 package org.splevo.jamopp.refactoring.java.ifelse.optor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.ClassifierImport;
+import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
@@ -31,8 +33,11 @@ import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+
+import com.google.common.collect.Lists;
 
 /**
  * Introduces If-Else Statements that check the configuration in the If-condition to decide which
@@ -54,14 +59,9 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
     }
 
     @Override
-    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
-
-        if (RefactoringUtil.hasImplementingElementsOfType(variationPoint, Return.class)) {
-            RefactoringUtil
-                    .addCommentBefore(vpLocation, "FIXME: Introduced optional variability for return statement.");
-        }
 
         ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();
         CompilationUnit containingCompilationUnit = vpLocation.getContainingCompilationUnit();
@@ -76,20 +76,43 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         int variabilityPositionStart = VariabilityPositionUtil.getVariabilityPosition(variationPoint);
         int variabilityPositionEnd = variabilityPositionStart;
 
+        EList<Statement> vpLocationStatements = vpLocation.getStatements();
         for (Variant variant : variants) {
+            Condition currentCondition = RefactoringUtil.generateVariantCondition(variant, localVariableStatements);
+
             if (variant.getLeading()) {
                 RefactoringUtil.deleteVariableStatements(variationPoint);
             }
 
-            Condition currentCondition = RefactoringUtil.generateVariantCondition(variant, localVariableStatements);
-            vpLocation.getStatements().add(variabilityPositionEnd++, currentCondition);
+            vpLocationStatements.add(variabilityPositionEnd++, currentCondition);
         }
 
         for (String key : localVariableStatements.keySet()) {
-            vpLocation.getStatements().add(variabilityPositionStart++, localVariableStatements.get(key));
+            vpLocationStatements.add(variabilityPositionStart++, localVariableStatements.get(key));
         }
 
-        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
+        if (vpLocation instanceof ClassMethod) {
+            boolean isVoid = ((ClassMethod) vpLocation).getTypeReference().getTarget() instanceof org.emftext.language.java.types.Void;
+            boolean allVariantsHaveReturn = allVariantsHaveAReturn(variationPoint);
+
+            if (!isVoid && allVariantsHaveReturn) {
+                RefactoringUtil.addReturnStatement((ClassMethod) vpLocation);
+            }
+
+        }
+
+        return Lists.newArrayList(vpLocation.eResource());
+    }
+
+    private boolean allVariantsHaveAReturn(VariationPoint variationPoint) {
+        for (Variant variant : variationPoint.getVariants()) {
+            SoftwareElement se = variant.getImplementingElements().get(variant.getImplementingElements().size() - 1);
+            Commentable jamoppElement = ((JaMoPPSoftwareElement) se).getJamoppElement();
+            if (!(jamoppElement instanceof Return)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

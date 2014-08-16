@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassBlock;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassClass;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassCompilationUnit;
@@ -72,12 +72,12 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
     }
 
     @Override
-    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             if (refactoring.canBeAppliedTo(variationPoint)) {
-                ResourceSet refactoringRS = refactoring.refactor(variationPoint, refactoringOptions);
+                List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringOptions);
                 logger.info("Refactored with: " + refactoring.getVariabilityMechanism().getName());
-                return refactoringRS;
+                return changedResources;
             }
         }
         return null;

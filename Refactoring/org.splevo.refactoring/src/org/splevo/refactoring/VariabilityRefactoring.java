@@ -11,9 +11,10 @@
  *******************************************************************************/
 package org.splevo.refactoring;
 
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -37,9 +38,9 @@ public interface VariabilityRefactoring {
      *            The variation point to refactor.
      * @param refactoringConfigurations
      *            Refactoring configurations.
-     * @return The {@link ResourceSet} containing the refactored elements.
+     * @return A {@link List} of the changed {@link Resource}s.
      */
-    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringConfigurations);
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringConfigurations);
 
     /**
      * Check if the refactoring can be applied to a specific variation point.

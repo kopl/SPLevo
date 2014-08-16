@@ -26,9 +26,6 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.arrays.ArrayDimension;
@@ -55,6 +52,7 @@ import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.emftext.language.java.literals.DecimalLongLiteral;
 import org.emftext.language.java.literals.Literal;
 import org.emftext.language.java.literals.LiteralsFactory;
+import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
@@ -71,13 +69,13 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.LocalVariableStatement;
+import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.variables.LocalVariable;
-import org.emftext.language.java.variables.Variable;
 import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
@@ -102,6 +100,25 @@ public final class RefactoringUtil {
     }
 
     /**
+     * Adds a return statement to return the default value at the end of the method if the method
+     * has no trailing return.
+     * 
+     * @param method
+     *            The {@link ClassMethod}.
+     */
+    public static void addReturnStatement(ClassMethod method) {
+        if (method.getStatements().get(method.getStatements().size() - 1) instanceof Return) {
+            return;
+        }
+
+        Return returnStatement = StatementsFactory.eINSTANCE.createReturn();
+        Type methodReturnType = method.getTypeReference().getTarget();
+        Literal returnValue = RefactoringUtil.getDefaultValueForType(methodReturnType);
+        returnStatement.setReturnValue(returnValue);
+        method.getStatements().add(returnStatement);
+    }
+
+    /**
      * Checks whether a given variation point has a leading variant.
      * 
      * @param variationPoint
@@ -115,22 +132,6 @@ public final class RefactoringUtil {
             }
         }
         return false;
-    }
-
-    /**
-     * Creates a resource set and adds the given element's resource in it.
-     * 
-     * @param commentable
-     *            The gicen {@link Commentable} element.
-     * @return The created {@link ResourceSet}.
-     */
-    public static ResourceSet wrapInNewResourceSet(Commentable commentable) {
-        Resource commentableResource = commentable.eResource();
-        commentableResource.getResourceSet().getResources().remove(commentableResource);
-
-        ResourceSet newRS = new ResourceSetImpl();
-        newRS.getResources().add(commentable.eResource());
-        return newRS;
     }
 
     /**
@@ -239,7 +240,8 @@ public final class RefactoringUtil {
         ExpressionStatement expressionStatement = StatementsFactory.eINSTANCE.createExpressionStatement();
         expressionStatement.setExpression(assignmentExpression);
 
-        Literal defaultValue = getDefaultValueForVariable(variable);
+        Type variableType = variable.getTypeReference().getTarget();
+        Literal defaultValue = getDefaultValueForType(variableType);
         variable.setInitialValue(defaultValue);
 
         return expressionStatement;
@@ -277,37 +279,71 @@ public final class RefactoringUtil {
      */
     public static Condition generateVariantCondition(Variant variant,
             Map<String, LocalVariableStatement> localVariableStatements) {
-        Condition currentCondition = RefactoringUtil.createVariabilityCondition(variant.getId(), variant
-                .getVariationPoint().getGroup().getId());
+        VariationPoint variationPoint = variant.getVariationPoint();
+        Condition currentCondition = RefactoringUtil.createVariabilityCondition(variant.getId(), variationPoint
+                .getGroup().getId());
 
         for (SoftwareElement se : variant.getImplementingElements()) {
             Statement statement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
-            Statement stmtCpy = EcoreUtil.copy(statement);
+            statement = EcoreUtil.copy(statement);
 
-            if (stmtCpy instanceof LocalVariableStatement) {
-                LocalVariableStatement localVarStat = (LocalVariableStatement) stmtCpy;
+            if (statement instanceof LocalVariableStatement
+                    && isReferencedByFollowingElement((LocalVariableStatement) ((JaMoPPSoftwareElement) se)
+                            .getJamoppElement())) {
+                LocalVariableStatement localVarStat = (LocalVariableStatement) statement;
                 LocalVariable variable = localVarStat.getVariable();
 
                 boolean hadFinalModifier = removeFinalIfApplicable(variable);
                 if (hadFinalModifier) {
-                    addCommentBefore(stmtCpy, "FIXME: removed final from local variable");
+                    addCommentBefore(statement, "FIXME: removed final from local variable");
                 }
 
-                stmtCpy = extractAssignment(variable);
-                variable.setInitialValue(getDefaultValueForVariable(variable));
+                statement = extractAssignment(variable);
+                Type variableType = variable.getTypeReference().getTarget();
+                variable.setInitialValue(getDefaultValueForType(variableType));
                 if (!localVariableStatements.containsKey(variable.getName())) {
                     localVariableStatements.put(variable.getName(), localVarStat);
                 }
             }
 
-            assignInitialValueAndRemoveFinalForReferencedLocalVariables(stmtCpy);
+            assignInitialValueAndRemoveFinalForReferencedLocalVariables(statement);
 
-            if (stmtCpy != null) {
-                ((Block) currentCondition.getStatement()).getStatements().add(stmtCpy);
+            if (statement != null) {
+                ((Block) currentCondition.getStatement()).getStatements().add(statement);
             }
         }
 
         return currentCondition;
+    }
+
+    private static boolean isReferencedByFollowingElement(LocalVariableStatement localVariableStatement) {
+        LocalVariable variable = ((LocalVariableStatement) localVariableStatement).getVariable();
+
+        StatementListContainer container = (StatementListContainer) localVariableStatement.eContainer();
+        EList<Statement> containerStatements = container.getStatements();
+
+        int index = containerStatements.indexOf(localVariableStatement);
+
+        List<Statement> postdecessors = containerStatements.subList(index + 1, containerStatements.size());
+
+        for (Statement postdecessor : postdecessors) {
+            if (hasReferenceTo(postdecessor, variable)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean hasReferenceTo(Statement toBeChecked, LocalVariable variable) {
+        TreeIterator<Object> allContents = EcoreUtil.getAllContents(toBeChecked, true);
+        while (allContents.hasNext()) {
+            EObject next = (EObject) allContents.next();
+            if (next instanceof IdentifierReference && areEqual(((IdentifierReference) next).getTarget(), variable)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -327,10 +363,11 @@ public final class RefactoringUtil {
                     LocalVariable variable = (LocalVariable) crossReference;
 
                     if (variable.getInitialValue() == null) {
-                        variable.setInitialValue(getDefaultValueForVariable(variable));
+                        Type variableType = variable.getTypeReference().getTarget();
+                        variable.setInitialValue(getDefaultValueForType(variableType));
                     }
 
-                    removeFinalIfApplicable(variable);
+                     removeFinalIfApplicable(variable);
                 }
             }
             assignInitialValueAndRemoveFinalForReferencedLocalVariables(child);
@@ -493,9 +530,16 @@ public final class RefactoringUtil {
                 Commentable currentElement = ((JaMoPPSoftwareElement) se).getJamoppElement();
 
                 if (currentElement instanceof LocalVariableStatement) {
-                    LocalVariable variable = ((LocalVariableStatement) currentElement).getVariable();
+                    LocalVariableStatement localVarStatement = (LocalVariableStatement) currentElement;
+                    if (!isReferencedByFollowingElement(localVarStatement)) {
+                        continue;
+                    }
+
+                    LocalVariable variable = localVarStatement.getVariable();
                     Type variableType = variable.getTypeReference().getTarget();
+
                     Type oldValue = namedVariables.put(variable.getName(), variableType);
+
                     if (oldValue != null && variableType != null && !areEqual(oldValue, variableType)) {
                         return true;
                     }
@@ -583,7 +627,7 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Checks whether a variation point's variants have an element of a certain type.
+     * Checks recursively whether a variation point's variants have an element of a certain type.
      * 
      * @param variationPoint
      *            The {@link VariationPoint}.
@@ -625,12 +669,14 @@ public final class RefactoringUtil {
         return similarityChecker.isSimilar(c1, c2, false);
     }
 
-    private static Literal getDefaultValueForVariable(Variable variable) {
-        if (variable.getTypeReference() == null) {
-            return LiteralsFactory.eINSTANCE.createNullLiteral();
-        }
-
-        Type type = variable.getTypeReference().getTarget();
+    /**
+     * Gets the default literal for a given type.
+     * 
+     * @param type
+     *            The {@link Type}.
+     * @return The {@link Literal}.
+     */
+    public static Literal getDefaultValueForType(Type type) {
         if (type instanceof org.emftext.language.java.types.Boolean) {
             BooleanLiteral literal = LiteralsFactory.eINSTANCE.createBooleanLiteral();
             literal.setValue(false);

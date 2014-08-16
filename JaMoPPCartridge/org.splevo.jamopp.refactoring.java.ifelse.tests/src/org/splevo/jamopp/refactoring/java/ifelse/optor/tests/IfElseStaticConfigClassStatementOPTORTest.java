@@ -40,6 +40,7 @@ import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.Switch;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.statements.WhileLoop;
+import org.emftext.language.java.variables.LocalVariable;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassConstructor;
@@ -130,10 +131,9 @@ public class IfElseStaticConfigClassStatementOPTORTest {
     }
 
     /**
-     * Variants have shared local variables with equal types and different initial values. Local
-     * variable declarations must be split into declaration and assignment. The declaration must be
-     * moved to the front of the first if while the assignment must be contained in the
-     * variant-specific if.
+     * Two variants which share one local variable with equal types and different initial values.
+     * Variables are not referenced by following code and must not be split. Both must be moved to
+     * the variant-specific if.
      * 
      * @throws Exception
      *             An unexpected error occurred.
@@ -146,9 +146,60 @@ public class IfElseStaticConfigClassStatementOPTORTest {
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
+        // vp location has 2 statements: the two conditions (one per variant)
+        assertThat(vpLocation.getStatements().size(), equalTo(2));
+        assertThat(vpLocation.getStatements().get(0), instanceOf(Condition.class));
+        assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
+
+        Condition firstCond = (Condition) vpLocation.getStatements().get(0);
+        Condition secondCond = (Condition) vpLocation.getStatements().get(1);
+
+        assertThat(firstCond.getStatement(), instanceOf(Block.class));
+        assertThat(secondCond.getStatement(), instanceOf(Block.class));
+
+        EList<Statement> firstCondIfBlockStatements = ((Block) firstCond.getStatement()).getStatements();
+        EList<Statement> secondCondIfBlockStatements = ((Block) secondCond.getStatement()).getStatements();
+
+        assertThat(firstCondIfBlockStatements.size(), equalTo(1));
+        assertThat(secondCondIfBlockStatements.size(), equalTo(1));
+        assertThat(firstCondIfBlockStatements.get(0), instanceOf(LocalVariableStatement.class));
+        assertThat(secondCondIfBlockStatements.get(0), instanceOf(LocalVariableStatement.class));
+        
+        LocalVariable variable1 = ((LocalVariableStatement) firstCondIfBlockStatements.get(0)).getVariable();
+        LocalVariable variable2 = ((LocalVariableStatement) secondCondIfBlockStatements.get(0)).getVariable();
+
+        assertThat(variable1.getName(), equalTo("a"));
+        assertThat(variable2.getName(), equalTo("a"));
+        assertThat(variable1.getInitialValue(), instanceOf(DecimalIntegerLiteral.class));
+        assertThat(variable2.getInitialValue(), instanceOf(DecimalIntegerLiteral.class));
+
+        BigInteger decimalValue1 = ((DecimalIntegerLiteral) variable1.getInitialValue()).getDecimalValue();
+        BigInteger decimalValue2 = ((DecimalIntegerLiteral) variable2.getInitialValue()).getDecimalValue();
+        assertThat(decimalValue1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(decimalValue2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
+        assertThat(decimalValue1, not(equalTo(decimalValue2)));
+    }
+
+    /**
+     * Variants have shared local variables with equal types and different initial values. Local
+     * variable declarations must be split into declaration and assignment. The declaration must be
+     * moved to the front of the first if while the assignment must be contained in the
+     * variant-specific if.
+     * 
+     * @throws Exception
+     *             An unexpected error occurred.
+     */
+    @Test
+    public void testRefactorCaseLocalVariableEqualTypeSplit() throws Exception {
+        VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeSplitCase(VariabilityType.OPTOR);
+        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        refactoring.refactor(vp, null);
+
+        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+
         // vp location has 4 statements: the variable, two conditions (one per variant) and the
         // common statement
-        assertThat(vpLocation.getStatements().size(), equalTo(3));
+        assertThat(vpLocation.getStatements().size(), equalTo(4));
         assertThat(vpLocation.getStatements().get(0), instanceOf(LocalVariableStatement.class));
         assertThat(vpLocation.getStatements().get(1), instanceOf(Condition.class));
         assertThat(vpLocation.getStatements().get(2), instanceOf(Condition.class));

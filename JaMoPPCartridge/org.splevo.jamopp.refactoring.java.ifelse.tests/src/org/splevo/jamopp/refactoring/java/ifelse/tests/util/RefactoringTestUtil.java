@@ -252,6 +252,25 @@ public final class RefactoringTestUtil {
     }
 
     /**
+     * Generates a variation point according to the Statement_LocalVariableEqualTypeSplit test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getStatementLocalVarEqualTypeSplitCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("Statement_LocalVariableEqualTypeSplit");
+        assertVariationPointStructure(vpm);
+        
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+        
+        return variationPoint;
+    }
+
+    /**
      * Generates a variation point according to the Statement_NestedCatch test case.
      * 
      * @param variabilityType

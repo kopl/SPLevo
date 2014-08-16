@@ -1,13 +1,13 @@
 package org.splevo.refactoring;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.refactoring.RecommenderResult.Status;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
@@ -27,7 +27,7 @@ public class VariabilityRefactoringService {
 
     /**
      * Perform refactoring according to the the configured {@link VariationPointModel}.
-     *
+     * 
      * @param variationPointModel
      *            The {@link VariationPointModel} containing the variation points with the intended
      *            variability mechanism.
@@ -35,8 +35,8 @@ public class VariabilityRefactoringService {
      *            Refactoring configurations.
      * @return The ResourceSet referencing the refactored software.
      */
-    public ResourceSet refactor(VariationPointModel variationPointModel, Map<String, String> refactoringConfigurations) {
-        ResourceSetImpl resourceSetImpl = new ResourceSetImpl();
+    public Set<Resource> refactor(VariationPointModel variationPointModel, Map<String, String> refactoringConfigurations) {
+        Set<Resource> toBeSaved = new HashSet<Resource>();
         for (VariationPointGroup vpGroup : variationPointModel.getVariationPointGroups()) {
             for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
                 // get refactoring, check if applicable and apply
@@ -47,26 +47,18 @@ public class VariabilityRefactoringService {
                     continue;
                 }
 
-                ResourceSet refactoringRS = refactoring.refactor(variationPoint, refactoringConfigurations);
-
-                // add resource to the new set if not yet contained
-                for (int i = 0; i < refactoringRS.getResources().size(); i++) {
-                    Resource resource = refactoringRS.getResources().get(i);
-                    if (!resourceSetImpl.getResources().contains(resource)) {
-                        refactoringRS.getResources().remove(resource);
-                        resourceSetImpl.getResources().add(resource);
-                    }
-                }
+                List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringConfigurations);
+                toBeSaved.addAll(changedResources);
             }
         }
 
-        return resourceSetImpl;
+        return toBeSaved;
     }
 
     /**
      * Auto assign the highest prioritized and matching variability mechanism to each not yet
      * assigned variation point.
-     *
+     * 
      * @param variationPointModel
      *            The variation point model to assign the vps in.
      * @param refactorings
@@ -108,7 +100,7 @@ public class VariabilityRefactoringService {
 
     /**
      * Get the best matching refactoring from a priorized list of refactorings.
-     *
+     * 
      * @param vp
      *            The vp to decide a refactoring for.
      * @param refactorings

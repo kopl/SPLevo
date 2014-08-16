@@ -12,6 +12,7 @@
 package org.splevo.jamopp.refactoring.java.ifelse;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -48,7 +49,7 @@ public class IfElseStaticConfigClassCompilationUnit implements VariabilityRefact
     }
 
     @Override
-    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringConfigurations) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringConfigurations) {
         if (refactoringConfigurations == null
                 || !refactoringConfigurations.containsKey(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY)) {
             throw new IllegalArgumentException("JAVA_SOURCE_DIRECTORY configuration not found.");
@@ -67,7 +68,7 @@ public class IfElseStaticConfigClassCompilationUnit implements VariabilityRefact
             }
         }
 
-        return resourceSet;
+        return resourceSet.getResources();
     }
 
     private void wrapCompUnitInNewResourceSet(ResourceSet rs, CompilationUnit compilationUnit, String sourcePath) {

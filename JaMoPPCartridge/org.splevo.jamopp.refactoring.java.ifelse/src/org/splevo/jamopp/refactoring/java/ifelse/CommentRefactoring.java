@@ -11,9 +11,10 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse;
 
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
@@ -24,6 +25,8 @@ import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+
+import com.google.common.collect.Lists;
 
 /**
  * This refctoring annotates a variation point's location with a fixme comment with the following
@@ -45,7 +48,7 @@ public class CommentRefactoring implements VariabilityRefactoring {
     }
 
     @Override
-    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         StringBuilder sb = new StringBuilder();
         sb.append(COMMENT_TEXT + "\n");
@@ -58,7 +61,7 @@ public class CommentRefactoring implements VariabilityRefactoring {
         }
         RefactoringUtil.addCommentBefore(vpLocation, COMMENT_TEXT);
 
-        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
+        return Lists.newArrayList(vpLocation.eResource());
     }
 
     @Override

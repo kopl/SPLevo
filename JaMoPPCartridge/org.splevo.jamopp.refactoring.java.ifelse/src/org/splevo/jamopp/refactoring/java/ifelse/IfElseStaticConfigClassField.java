@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
@@ -44,6 +44,8 @@ import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.collect.Lists;
+
 /**
  * The code base class must contain all fields from the variants. Therefore, this refactoring merges
  * the fields from all variants into the base.
@@ -63,7 +65,7 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
     }
 
     @Override
-    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         RefactoringUtil.deleteVariableMembersFromLeading(variationPoint);
 
         Map<String, Field> fieldToFieldName = new HashMap<String, Field>();
@@ -129,7 +131,7 @@ public class IfElseStaticConfigClassField implements VariabilityRefactoring {
             vpLocation.getMembers().add(0, nonStaticBlock);
         }
 
-        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
+        return Lists.newArrayList(vpLocation.eResource());
     }
 
     private boolean isStatic(Field field) {

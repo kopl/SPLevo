@@ -11,9 +11,10 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse;
 
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
@@ -26,6 +27,8 @@ import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+
+import com.google.common.collect.Lists;
 
 /**
  * The code base container must contain all classes from the variants. Therefore, this refactoring
@@ -45,7 +48,7 @@ public class IfElseStaticConfigClassClass implements VariabilityRefactoring {
     }
 
     @Override
-    public ResourceSet refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
 
@@ -62,7 +65,7 @@ public class IfElseStaticConfigClassClass implements VariabilityRefactoring {
             }
         }
 
-        return RefactoringUtil.wrapInNewResourceSet(vpLocation);
+        return Lists.newArrayList(vpLocation.eResource());
     }
 
     @Override
