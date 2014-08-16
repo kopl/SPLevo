@@ -287,9 +287,11 @@ public final class RefactoringUtil {
             Statement statement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
             statement = EcoreUtil.copy(statement);
 
+            int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se) - 1;
+
             if (statement instanceof LocalVariableStatement
-                    && isReferencedByFollowingElement((LocalVariableStatement) ((JaMoPPSoftwareElement) se)
-                            .getJamoppElement())) {
+                    && isReferencedByFollowingElement(
+                            (LocalVariableStatement) ((JaMoPPSoftwareElement) se).getJamoppElement(), offset)) {
                 LocalVariableStatement localVarStat = (LocalVariableStatement) statement;
                 LocalVariable variable = localVarStat.getVariable();
 
@@ -316,15 +318,15 @@ public final class RefactoringUtil {
         return currentCondition;
     }
 
-    private static boolean isReferencedByFollowingElement(LocalVariableStatement localVariableStatement) {
+    private static boolean isReferencedByFollowingElement(LocalVariableStatement localVariableStatement, int offset) {
         LocalVariable variable = ((LocalVariableStatement) localVariableStatement).getVariable();
 
         StatementListContainer container = (StatementListContainer) localVariableStatement.eContainer();
         EList<Statement> containerStatements = container.getStatements();
 
-        int index = containerStatements.indexOf(localVariableStatement);
+        int index = containerStatements.indexOf(localVariableStatement) + 1;
 
-        List<Statement> postdecessors = containerStatements.subList(index + 1, containerStatements.size());
+        List<Statement> postdecessors = containerStatements.subList(index + offset, containerStatements.size());
 
         for (Statement postdecessor : postdecessors) {
             if (hasReferenceTo(postdecessor, variable)) {
@@ -367,7 +369,7 @@ public final class RefactoringUtil {
                         variable.setInitialValue(getDefaultValueForType(variableType));
                     }
 
-                     removeFinalIfApplicable(variable);
+                    removeFinalIfApplicable(variable);
                 }
             }
             assignInitialValueAndRemoveFinalForReferencedLocalVariables(child);
@@ -531,7 +533,9 @@ public final class RefactoringUtil {
 
                 if (currentElement instanceof LocalVariableStatement) {
                     LocalVariableStatement localVarStatement = (LocalVariableStatement) currentElement;
-                    if (!isReferencedByFollowingElement(localVarStatement)) {
+                    int offset = variant.getImplementingElements().size()
+                            - variant.getImplementingElements().indexOf(se) - 1;
+                    if (!isReferencedByFollowingElement(localVarStatement, offset)) {
                         continue;
                     }
 

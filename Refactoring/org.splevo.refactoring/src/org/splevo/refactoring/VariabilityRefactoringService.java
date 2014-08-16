@@ -39,15 +39,16 @@ public class VariabilityRefactoringService {
         Set<Resource> toBeSaved = new HashSet<Resource>();
         for (VariationPointGroup vpGroup : variationPointModel.getVariationPointGroups()) {
             for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
-                // get refactoring, check if applicable and apply
                 String refactoringID = variationPoint.getVariabilityMechanism().getRefactoringID();
                 VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getRefactoringById(refactoringID);
+
                 if (!refactoring.canBeAppliedTo(variationPoint)) {
                     logger.warn("Recommended refactoring cannot be applied to this variation point.");
                     continue;
                 }
 
                 List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringConfigurations);
+                
                 toBeSaved.addAll(changedResources);
             }
         }
