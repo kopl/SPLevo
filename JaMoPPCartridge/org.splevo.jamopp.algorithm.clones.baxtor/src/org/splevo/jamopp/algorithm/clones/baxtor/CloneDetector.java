@@ -9,7 +9,7 @@
  * Contributors:
  *    Christian Busch
  *******************************************************************************/
-package org.splevo.jamopp.vpm.analyzer.clonedchange;
+package org.splevo.jamopp.algorithm.clones.baxtor;
 
 import org.emftext.language.java.commons.Commentable;
 
@@ -29,6 +29,11 @@ public class CloneDetector {
 	 * @return true if the commentables are clones of each other.
 	 */
 	public boolean isClone(Commentable commentable1, Commentable commentable2) {
+		
+		if (commentable1 == commentable2) {
+			return true;
+		}
+		
 		// TODO: Add actual implementation
 		return false;
 	}

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Baxtor Algorithm Clone Detection Library
+Bundle-SymbolicName: org.splevo.jamopp.algorithm.clones.baxtor
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: www.splevo.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.emftext.language.java;bundle-version="1.4.1"
+Export-Package: org.splevo.jamopp.algorithm.clones.baxtor
