@@ -22,7 +22,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.splevo.ui.editors.SPLevoProjectEditor;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizard;
 import org.splevo.ui.wizards.vpmanalysis.VPMAnalysisWizardPageChangeListener;
 import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration;
@@ -34,10 +34,6 @@ import org.splevo.ui.workflow.VPMAnalysisWorkflowConfiguration.ResultPresentatio
 public class VPMAnalysisHandler extends AbstractSPLevoHandler {
 	/** The logger for this class. */
 	private Logger logger = Logger.getLogger(VPMAnalysisHandler.class);
-
-	private SPLevoProjectEditor splevoProjectEditor = null;
-
-	private VPMAnalysisWizard vpmAnalysisWizard = null;
 
 	/**
 	 * Check config and start analysis wizard
@@ -53,14 +49,15 @@ public class VPMAnalysisHandler extends AbstractSPLevoHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		this.splevoProjectEditor = getActiveSPLevoEditor(event);
-
+		splevoProjectEditor = getActiveSPLevoEditor(event);
+		activeShell = HandlerUtil.getActiveShell(event);
+		
 		VPMAnalysisWorkflowConfiguration config = buildVPMAnalysisWorflowConfiguration();
 
 		// trigger the wizard to configure the refinement process
-		vpmAnalysisWizard = new VPMAnalysisWizard(config);
+		VPMAnalysisWizard vpmAnalysisWizard = new VPMAnalysisWizard(config);
 
-		WizardDialog wizardDialog = createWizardDialog(null, vpmAnalysisWizard);
+		WizardDialog wizardDialog = createWizardDialog(activeShell, vpmAnalysisWizard);
 		wizardDialog
 				.addPageChangedListener(new VPMAnalysisWizardPageChangeListener(
 						vpmAnalysisWizard));
