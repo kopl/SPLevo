@@ -120,10 +120,21 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         Object[] checkedPackages = packagesTreeViewer.getCheckedElements();
         String packagesString = "";
 
-        if (checkedPackages.length > 0) {
-            for (Object checkedPackage : checkedPackages) {
-                if (!packagesTreeViewer.getGrayed(checkedPackage)) {
-                    packagesString = packagesString.concat(((IPackageFragment) checkedPackage).getElementName() + "\n");
+        if (checkedPackages.length > 0) {                    
+            for (int i = 0; i < checkedPackages.length; i++) {
+                if (!packagesTreeViewer.getGrayed(checkedPackages[i])) {
+                    List<IPackageFragment> subPackages = packagesCheckStateListener.
+                            getAllSubPackages((IPackageFragment) checkedPackages[i]);
+                                        
+                    if (subPackages.size() > 0) {                    
+                        packagesString = packagesString.
+                                concat(((IPackageFragment) checkedPackages[i]).getElementName() + ".*\n");
+                        
+                        i += subPackages.size();
+                    } else {                        
+                        packagesString = packagesString.
+                                concat(((IPackageFragment) checkedPackages[i]).getElementName() + "\n");
+                    }                                                                              
                 }
             }
             projectConfiguration.getDifferOptions()
