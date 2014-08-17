@@ -68,10 +68,10 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
         List<VPMEdgeDescriptor> descriptors = new ArrayList<VPMEdgeDescriptor>();
         List<String> edgeRegistry = new ArrayList<String>();
 
-        int numEdges = vpmGraph.getEdgeCount();
+        int numNodes = vpmGraph.getNodeCount();
 
-        for (int i = 0; i < numEdges; i++) {
-            for (int j = i + 1; j < numEdges; j++) {
+        for (int i = 0; i < numNodes; i++) {
+            for (int j = i + 1; j < numNodes; j++) {
                 Node node1 = vpmGraph.getNode(i);
                 Node node2 = vpmGraph.getNode(j);
 
