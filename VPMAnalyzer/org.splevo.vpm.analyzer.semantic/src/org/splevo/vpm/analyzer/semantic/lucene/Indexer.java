@@ -85,6 +85,9 @@ public final class Indexer {
     /** Option which words to preserve during tokenization. */
     private Set<String> featureTermSet;
 
+    /** Option to consider featured terms only if some has been defined. */
+    private boolean featuredTermsOnly;
+
     /**
      * Define the Field-Type the text gets added to the index. To allow term extraction,
      * DOCS_AND_FREQS has to be stored in the index.
@@ -183,6 +186,20 @@ public final class Indexer {
      */
     public void setFeatureTermSet(Set<String> featureTermSet) {
         this.featureTermSet = featureTermSet;
+    }
+
+    /**
+     * @return the featuredTermsOnly
+     */
+    public boolean isFeaturedTermsOnly() {
+        return featuredTermsOnly;
+    }
+
+    /**
+     * @param featuredTermsOnly the featuredTermsOnly to set
+     */
+    public void setFeaturedTermsOnly(boolean featuredTermsOnly) {
+        this.featuredTermsOnly = featuredTermsOnly;
     }
 
     /**
@@ -289,11 +306,11 @@ public final class Indexer {
      */
     private PerFieldAnalyzerWrapper createAnalzyerWrapper() {
         Map<String, Analyzer> analyzerPerField = new HashMap<String, Analyzer>();
-        analyzerPerField.put(Indexer.INDEX_CONTENT, new LuceneCodeAnalyzer(stopWords, splitCamelCase, stemming, featureTermSet));
+        analyzerPerField.put(Indexer.INDEX_CONTENT, new LuceneCodeAnalyzer(stopWords, splitCamelCase, stemming, featureTermSet, featuredTermsOnly));
         analyzerPerField.put(Indexer.INDEX_COMMENT, new StandardAnalyzer(LUCENE_VERSION));
 
         PerFieldAnalyzerWrapper aWrapper = new PerFieldAnalyzerWrapper(new LuceneCodeAnalyzer(stopWords,
-                splitCamelCase, stemming, featureTermSet), analyzerPerField);
+                splitCamelCase, stemming, featureTermSet, featuredTermsOnly), analyzerPerField);
         return aWrapper;
     }
 }

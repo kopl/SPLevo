@@ -58,6 +58,8 @@ public class LuceneCodeAnalyzer extends Analyzer {
 
     private Set<String> featuredTerms = null;
 
+    private boolean featuredTermsOnly = true;
+
     /**
      * Initializes the Analyzer. Filters the given stop words.
      *
@@ -85,16 +87,20 @@ public class LuceneCodeAnalyzer extends Analyzer {
      *            option to use stemming or not.
      * @param featuredTerms
      *            A {@link Set} of {@link String}s that won't be split.
+     * @param featuredTermsOnly
+     *            Consider featured terms only if some has been defined.
      */
-    public LuceneCodeAnalyzer(String[] stopWords, boolean splitCamelCase, Stemming stemming, Set<String> featuredTerms) {
+    public LuceneCodeAnalyzer(String[] stopWords, boolean splitCamelCase, Stemming stemming, Set<String> featuredTerms,
+            boolean featuredTermsOnly) {
         this(stopWords, splitCamelCase, stemming);
         this.featuredTerms = featuredTerms;
+        this.featuredTermsOnly = featuredTermsOnly;
     }
 
     @SuppressWarnings("resource")
     @Override
     protected TokenStreamComponents createComponents(String field, Reader reader) {
-        Tokenizer tokenizer = new CodeTokenizer(reader, splitCamelCase, featuredTerms);
+        Tokenizer tokenizer = new CodeTokenizer(reader, splitCamelCase, featuredTerms, featuredTermsOnly);
         TokenStream currentStream = new LowerCaseFilter(LUCENE_VERSION, tokenizer);
         currentStream = new LengthFilter(LUCENE_VERSION, currentStream, 3, Integer.MAX_VALUE);
         currentStream = Stemming.wrapStemmingFilter(currentStream, stemming);

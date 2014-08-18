@@ -41,7 +41,8 @@ public class CodeTokenizer extends Tokenizer {
     private static Logger logger = Logger.getLogger(CodeTokenizer.class);
 
     private Set<String> featuredTerms = null;
-    private boolean splitCamelCase;
+    private boolean featuredTermsOnly = true;
+    private boolean splitCamelCase = true;
 
     /**
      * Default constructor.
@@ -65,10 +66,13 @@ public class CodeTokenizer extends Tokenizer {
      *            Determines whether to split camel case words or not.
      * @param featuredTerms
      *            The {@link Set} containing the featured terms as {@link String}.
+     * @param featuredTermsOnly
+     *            Consider featured terms only if some has been defined.
      */
-    public CodeTokenizer(Reader input, boolean splitCamelCase, Set<String> featuredTerms) {
+    public CodeTokenizer(Reader input, boolean splitCamelCase, Set<String> featuredTerms, boolean featuredTermsOnly) {
         this(input, splitCamelCase);
         this.featuredTerms = featuredTerms;
+        this.featuredTermsOnly = featuredTermsOnly;
     }
 
     private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
@@ -98,22 +102,25 @@ public class CodeTokenizer extends Tokenizer {
 
         String token = tokens.getFirst();
         String featuredTerm = containsFeaturedTerm(token);
-        if (!splitCamelCase) {
-            termAtt.append(token);
-        } else if (featuredTerm != null) {
+        if (featuredTerm != null) {
             String[] split = token.split(featuredTerm);
             if (split.length > 0) {
                 tokens.addAll(Arrays.asList(split));
             }
             termAtt.append(featuredTerm);
-        } else {
-            String[] camelCaseTokens = token.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
-            for (int i = 0; i < camelCaseTokens.length; i++) {
-                if (i == 0) {
-                    termAtt.append(camelCaseTokens[i]);
-                    continue;
+        } else if (!featuredTermsOnly || featuredTerms == null || featuredTerms.size() == 0) {
+            // Process only if non featured terms are allowed
+            if (!splitCamelCase) {
+                termAtt.append(token);
+            } else {
+                String[] camelCaseTokens = token.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
+                for (int i = 0; i < camelCaseTokens.length; i++) {
+                    if (i == 0) {
+                        termAtt.append(camelCaseTokens[i]);
+                        continue;
+                    }
+                    tokens.add(camelCaseTokens[i]);
                 }
-                tokens.add(camelCaseTokens[i]);
             }
         }
         tokens.remove(token);

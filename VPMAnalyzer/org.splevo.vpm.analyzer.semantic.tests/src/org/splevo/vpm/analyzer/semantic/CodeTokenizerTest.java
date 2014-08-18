@@ -130,7 +130,7 @@ public class CodeTokenizerTest extends AbstractTest {
     public void testSplitCamelCaseWithFeatureTerms() throws Exception {
 
         StringReader inputReader = new StringReader("UseCase featureTermVariable");
-        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("featureTerm"));
+        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("featureTerm"), false);
         tokenizer.reset();
 
         Set<String> tokens = readTokens(tokenizer);
@@ -169,7 +169,7 @@ public class CodeTokenizerTest extends AbstractTest {
     public void testSplitCamelCaseWithFeatureTermUseCase() throws Exception {
 
         StringReader inputReader = new StringReader("UseCase featureTermVariable");
-        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("UseCase"));
+        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("UseCase"), false);
         tokenizer.reset();
 
         Set<String> tokens = readTokens(tokenizer);
@@ -208,7 +208,7 @@ public class CodeTokenizerTest extends AbstractTest {
     public void testSpecialCharacters() throws Exception {
 
         StringReader inputReader = new StringReader("UseCase feature.termVariable_");
-        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("UseCase"));
+        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("UseCase"), false);
         tokenizer.reset();
 
         Set<String> tokens = readTokens(tokenizer);
@@ -232,7 +232,7 @@ public class CodeTokenizerTest extends AbstractTest {
     public void testFeaturedTermIncludedInLargerTerm() throws Exception {
 
         StringReader inputReader = new StringReader("UseCaseDiagramGraphModel");
-        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("UseCase"));
+        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("UseCase"), false);
         tokenizer.reset();
 
         Set<String> tokens = readTokens(tokenizer);
@@ -256,7 +256,7 @@ public class CodeTokenizerTest extends AbstractTest {
     public void testFeaturedTermContainingNonAlphaChar() throws Exception {
 
         StringReader inputReader = new StringReader("Use_CaseDiagramGraphModel");
-        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("UseCase"));
+        CodeTokenizer tokenizer = new CodeTokenizer(inputReader, true, Sets.newHashSet("UseCase"), false);
         tokenizer.reset();
 
         Set<String> tokens = readTokens(tokenizer);

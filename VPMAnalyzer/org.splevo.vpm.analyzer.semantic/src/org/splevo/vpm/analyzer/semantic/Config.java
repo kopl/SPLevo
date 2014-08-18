@@ -141,14 +141,14 @@ public final class Config {
     public static final int DEFAULT_SHARED_TERM_MINIMUM = 1;
 
     // --------------------------
-    // Feature Terms
+    // Featured Terms
     // --------------------------
 
     /** Identifier for the configuration of the feature terms. */
     public static final String CONFIG_ID_FEATURE_TERMS = CONFIG_ID_BASE + "FEATURE_TERMS";
 
     /** The configuration label for the feature terms configuration. */
-    public static final String LABEL_FEATURE_TERMS = "Feature Terms";
+    public static final String LABEL_FEATURE_TERMS = "Featured Terms";
 
     /** The explanation for the feature terms configuration. */
     public static final String EXPL_FEATURE_TERMS = "Feature Terms will not be split or normalized during analysis. "
@@ -157,4 +157,22 @@ public final class Config {
 
     /** The default configuration for the feature terms configuration. */
     public static final String DEFAULT_FEATURE_TERMS = "";
+
+
+    // --------------------------
+    // Featured Terms only
+    // --------------------------
+
+    /** Identifier for the configuration to use featured terms only. */
+    public static final String CONFIG_ID_FEATURE_TERMS_ONLY = CONFIG_ID_BASE + "FEATURE_TERMS_ONLY";
+
+    /** The configuration label for the FEATURE_TERMS_ONLY configuration. */
+    public static final String LABEL_FEATURE_TERMS_ONLY = "Featured terms only";
+
+    /** The explanation for the FEATURE_TERMS_ONLY configuration. */
+    public static final String EXPL_FEATURE_TERMS_ONLY = "If featured terms are defined, only those will be considered during the analysis.";
+
+    /** The default configuration for the FEATURE_TERMS_ONLY configuration. */
+    public static final boolean DEFAULT_FEATURE_TERMS_ONLY = true;
+
 }

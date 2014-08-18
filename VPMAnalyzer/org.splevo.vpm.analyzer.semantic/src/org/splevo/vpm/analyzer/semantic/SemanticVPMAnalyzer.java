@@ -68,7 +68,7 @@ import com.google.common.collect.Table.Cell;
  * several {@link VariationPoint}s. Several configurations allow a customized search, just as
  * needed.
  * </p>
- * 
+ *
  * <h2>How it works</h2>
  * <p>
  * As a first step, the analyzer extracts all relevant content from a VPMGraph and stores that
@@ -120,6 +120,12 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The configuration-object for the feature term configuration. */
     private StringConfiguration featureTermConfig = new StringConfiguration(Config.CONFIG_ID_FEATURE_TERMS,
             Config.LABEL_FEATURE_TERMS, Config.EXPL_FEATURE_TERMS, Config.DEFAULT_FEATURE_TERMS, false);
+
+    /** The configuration-object for the featured terms only configuration. */
+    private BooleanConfiguration featuredTermsOnlyConfig = new BooleanConfiguration(Config.CONFIG_ID_FEATURE_TERMS_ONLY,
+            Config.LABEL_FEATURE_TERMS_ONLY, Config.EXPL_FEATURE_TERMS_ONLY, Config.DEFAULT_FEATURE_TERMS_ONLY);
+
+
 
     @Override
     public VPMAnalyzerResult analyze(VPMGraph vpmGraph) {
@@ -179,7 +185,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     /**
      * Get the current run specific log directory. A timestamp specific sub directory of the
      * configured path will be used.
-     * 
+     *
      * @return The base log directory concatenated with a timestamp specific sub directory.
      */
     private String getCurrentLogSubDirectory() {
@@ -224,14 +230,14 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.splevo.vpm.analyzer.VPMAnalyzer#getConfigurations()
      */
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
         configurations.addConfigurations(Config.CONFIG_GROUP_GENERAL, includeCommentsConfig, stemmingConfig,
-                splitCamelCaseConfig, stopWordsConfig, featureTermConfig);
+                splitCamelCaseConfig, stopWordsConfig, featureTermConfig, featuredTermsOnlyConfig);
         configurations.addConfigurations(Config.CONFIG_GROUP_SHARED_TERM_FINDER, minSharedTermConfig,
                 logIndexedTermsConfig);
         return configurations;
@@ -249,7 +255,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /**
      * Writes all necessary data from the {@link VPMGraph} into the Index.
-     * 
+     *
      * @param vpmGraph
      *            The {@link VPMGraph} containing the information to be indexed.
      */
@@ -263,6 +269,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         boolean splitCamelCase = splitCamelCaseConfig.getCurrentValue();
         String stopWords = stopWordsConfig.getCurrentValue();
         String featureTerms = featureTermConfig.getCurrentValue();
+        boolean featuredTermsOnly = featuredTermsOnlyConfig.getCurrentValue();
 
         String stemmingString = stemmingConfig.getCurrentValue();
         Stemming stemming = Stemming.valueOf(stemmingString);
@@ -277,6 +284,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         if (featureTerms != null && featureTerms.length() > 0) {
             this.indexer.setFeatureTermSet(new HashSet<String>(Arrays.asList(featureTerms.split(" "))));
         }
+        this.indexer.setFeaturedTermsOnly(featuredTermsOnly);
 
         // Iterate through the graph.
         for (Node node : vpmGraph.getNodeSet()) {
@@ -288,7 +296,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     /**
      * This method uses the IndexASTNodeSwitch to extract the text from the given Node. It iterates
      * through all child elements.
-     * 
+     *
      * @param id
      *            The ID used to store the text in the Lucene index.
      * @param vp
@@ -326,7 +334,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     /**
      * Get the semantic relevant terms for a software element from the registered semantic content
      * providers and store them in the code respectively comment lists.
-     * 
+     *
      * @param matchComments
      *            The flag if comments should be considered.
      * @param softwareElement
@@ -353,7 +361,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /**
      * Transforms a list that stores strings to a string.
-     * 
+     *
      * @param list
      *            The list.
      * @return The string representation.
@@ -364,7 +372,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
 
     /**
      * Finds semantic relationships between the variation points.
-     * 
+     *
      * @param graph
      *            The {@link VPMGraph} to extract the IDs of the result nodes from.
      * @return A {@link VPMAnalyzerResult} containing the search results.
