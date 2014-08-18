@@ -22,8 +22,12 @@ import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.ContainersFactory;
+import org.emftext.language.java.generics.GenericsFactory;
+import org.emftext.language.java.generics.QualifiedTypeArgument;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.ImportsFactory;
+import org.emftext.language.java.instantiations.InstantiationsFactory;
+import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MembersFactory;
@@ -33,6 +37,7 @@ import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.types.ClassifierReference;
+import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
 
 /**
@@ -60,6 +65,16 @@ public final class SPLConfigurationUtil {
         generatedImport.getNamespaces().add("org");
         generatedImport.getNamespaces().add("splevo");
         generatedImport.getNamespaces().add("config");
+        generatedImport.setClassifier(classifier);
+        return generatedImport;
+    }
+
+    private static ClassifierImport getArrayListImport() {
+        ClassifierImport generatedImport = ImportsFactory.eINSTANCE.createClassifierImport();
+        Class classifier = ClassifiersFactory.eINSTANCE.createClass();
+        classifier.setName("ArrayList");
+        generatedImport.getNamespaces().add("java");
+        generatedImport.getNamespaces().add("util");
         generatedImport.setClassifier(classifier);
         return generatedImport;
     }
@@ -107,7 +122,7 @@ public final class SPLConfigurationUtil {
         classReference.setNext(fieldReference);
         MethodCall equalsMethodRef = ReferencesFactory.eINSTANCE.createMethodCall();
         ClassMethod equalsMethod = MembersFactory.eINSTANCE.createClassMethod();
-        equalsMethod.setName("equals");
+        equalsMethod.setName("contains");
         StringReference variantIdStringRef = ReferencesFactory.eINSTANCE.createStringReference();
         variantIdStringRef.setValue(variantID);
         equalsMethodRef.getArguments().add(variantIdStringRef);
@@ -124,6 +139,9 @@ public final class SPLConfigurationUtil {
         cu.getNamespaces().add("org");
         cu.getNamespaces().add("splevo");
         cu.getNamespaces().add("config");
+        
+        ClassifierImport arrayListImport = getArrayListImport();
+        cu.getImports().add(arrayListImport);
 
         ConcreteClassifier c = generateConfigReaderClassifier();
         cu.getClassifiers().add(c);
@@ -150,17 +168,36 @@ public final class SPLConfigurationUtil {
         field.setName(configurationName);
         field.setInitialValue(configurationValueRef);
 
-        Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
-        stringClass.setName("String");
-        ClassifierReference classifierReference = TypesFactory.eINSTANCE.createClassifierReference();
-        classifierReference.setTarget(stringClass);
+        NewConstructorCall newConstructorCall = InstantiationsFactory.eINSTANCE.createNewConstructorCall();
+        newConstructorCall.setTypeReference(getStringArrayList());
 
-        field.setTypeReference(classifierReference);
+        field.setInitialValue(newConstructorCall);
+        field.setTypeReference(getStringArrayList());
+
         field.makePublic();
         field.addModifier(ModifiersFactory.eINSTANCE.createStatic());
         field.addModifier(ModifiersFactory.eINSTANCE.createFinal());
 
         splConfigurationClass.getMembers().add(field);
+    }
+
+    private static NamespaceClassifierReference getStringArrayList() {
+        Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
+        stringClass.setName("String");
+        ClassifierReference stringCR = TypesFactory.eINSTANCE.createClassifierReference();
+        stringCR.setTarget(stringClass);
+
+        Class listClass = ClassifiersFactory.eINSTANCE.createClass();
+        listClass.setName("ArrayList");
+        ClassifierReference listCR = TypesFactory.eINSTANCE.createClassifierReference();
+        listCR.setTarget(listClass);
+        QualifiedTypeArgument qualifiedTypeArgument = GenericsFactory.eINSTANCE.createQualifiedTypeArgument();
+        qualifiedTypeArgument.setTypeReference(stringCR);
+        listCR.getTypeArguments().add(qualifiedTypeArgument);
+
+        NamespaceClassifierReference fieldTypeNCR = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
+        fieldTypeNCR.getClassifierReferences().add(listCR);
+        return fieldTypeNCR;
     }
 
     /**
