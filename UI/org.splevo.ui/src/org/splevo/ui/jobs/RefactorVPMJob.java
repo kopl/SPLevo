@@ -72,17 +72,8 @@ public class RefactorVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlack
     }
 
     private String getLeadingSrcPath() {
-        String leadingProjectPath = splevoProject.getLeadingProjects().get(0);
-
-        String leadingSrcPath = leadingProjectPath;
-
-        if (!leadingSrcPath.endsWith(File.separator)) {
-            leadingSrcPath = leadingSrcPath + File.separator;
-        }
-
-        leadingSrcPath += "src";
-
-        return leadingSrcPath;
+        String leadingSrcPath = splevoProject.getLeadingProjects().get(0);
+        return ProjectPathUtil.buildProjectPath(leadingSrcPath) + File.separator + "src";
     }
 
     @Override

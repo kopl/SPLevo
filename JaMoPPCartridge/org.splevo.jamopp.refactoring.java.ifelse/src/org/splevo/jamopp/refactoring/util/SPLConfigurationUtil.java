@@ -11,12 +11,19 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.util;
 
+import java.io.File;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.ImportsFactory;
-import org.emftext.language.java.instantiations.InstantiationsFactory;
-import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MembersFactory;
@@ -25,9 +32,6 @@ import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.StringReference;
-import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.statements.Throw;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
 
@@ -63,6 +67,7 @@ public final class SPLConfigurationUtil {
     private static Class generateConfigReaderClassifier() {
         Class classifier = ClassifiersFactory.eINSTANCE.createClass();
         classifier.setName(CONFIGURATION_READER_CLASS_NAME);
+        classifier.makePublic();
         return classifier;
     }
 
@@ -112,26 +117,149 @@ public final class SPLConfigurationUtil {
         return classReference;
     }
 
+    private static CompilationUnit getConfigurationCompilationUnit() {
+        CompilationUnit cu = ContainersFactory.eINSTANCE.createCompilationUnit();
+        cu.setName(CONFIGURATION_READER_CLASS_NAME + ".java");
+        cu.getNamespaces().clear();
+        cu.getNamespaces().add("org");
+        cu.getNamespaces().add("splevo");
+        cu.getNamespaces().add("config");
+
+        ConcreteClassifier c = generateConfigReaderClassifier();
+        cu.getClassifiers().add(c);
+
+        return cu;
+    }
+
     /**
-     * Creates a block with a throw statement. It throws a RuntimeException with a message saying
-     * that the SPL is configured wrong.
+     * Adds a configuration (a field) with a given name and value to a given configuration class.
      * 
-     * @return The generated {@link Block}.
+     * @param splConfigurationClass
+     *            The configuration {@link ConcreteClassifier}.
+     * @param configurationName
+     *            The configuration {@link String} name.
+     * @param configurationValue
+     *            The configuration {@link String} value.
      */
-    public static Block generateBlockThrowingARuntimeException() {
-        Class createdClass = ClassifiersFactory.eINSTANCE.createClass();
-        createdClass.setName("RuntimeException");
-        ClassifierReference createdClassifierReference = TypesFactory.eINSTANCE.createClassifierReference();
-        createdClassifierReference.setTarget(createdClass);
-        NewConstructorCall createdNewConstructorCall = InstantiationsFactory.eINSTANCE.createNewConstructorCall();
-        createdNewConstructorCall.setTypeReference(createdClassifierReference);
-        StringReference argument = ReferencesFactory.eINSTANCE.createStringReference();
-        argument.setValue("Invalid SPL configuration.");
-        createdNewConstructorCall.getArguments().add(argument);
-        Throw createdThrow = StatementsFactory.eINSTANCE.createThrow();
-        createdThrow.setThrowable(createdNewConstructorCall);
-        Block block = StatementsFactory.eINSTANCE.createBlock();
-        block.getStatements().add(createdThrow);
-        return block;
+    public static void addConfiguration(ConcreteClassifier splConfigurationClass, String configurationName,
+            String configurationValue) {
+        StringReference configurationValueRef = ReferencesFactory.eINSTANCE.createStringReference();
+        configurationValueRef.setValue(configurationValue);
+
+        Field field = MembersFactory.eINSTANCE.createField();
+        field.setName(configurationName);
+        field.setInitialValue(configurationValueRef);
+
+        Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
+        stringClass.setName("String");
+        ClassifierReference classifierReference = TypesFactory.eINSTANCE.createClassifierReference();
+        classifierReference.setTarget(stringClass);
+
+        field.setTypeReference(classifierReference);
+        field.makePublic();
+        field.addModifier(ModifiersFactory.eINSTANCE.createStatic());
+        field.addModifier(ModifiersFactory.eINSTANCE.createFinal());
+
+        splConfigurationClass.getMembers().add(field);
+    }
+
+    /**
+     * Checks whether a given configuration class has a configuration of a given name.
+     * 
+     * @param splConfigurationClass
+     *            The configuration {@link ConcreteClassifier}.
+     * @param name
+     *            The {@link String} name.
+     * @return <code>true</code> if a parameter was found; <code>false</code> otherwise.
+     */
+    public static boolean hasConfigurationWithName(ConcreteClassifier splConfigurationClass, String name) {
+        EList<Field> fields = splConfigurationClass.getFields();
+        for (Field field : fields) {
+            if (field.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Searches a given {@link ResourceSet} for a configuration class and returns it.
+     * 
+     * @param resourceSet
+     *            The {@link Resource}.
+     * @return The configuration {@link ConcreteClassifier}. <code>null</code> if nothing found.
+     */
+    public static ConcreteClassifier getConfigurationClass(ResourceSet resourceSet) {
+        for (Resource resource : resourceSet.getResources()) {
+            boolean sizeIsOne = resource.getContents().size() == 1;
+            if (!sizeIsOne) {
+                continue;
+            }
+
+            boolean contentIsACompilationUnit = resource.getContents().get(0) instanceof CompilationUnit;
+            if (!contentIsACompilationUnit) {
+                continue;
+            }
+
+            CompilationUnit compilationUnit = (CompilationUnit) resource.getContents().get(0);
+            boolean hasCompilationUnitHasCorrectName = compilationUnit.getName().equals(
+                    CONFIGURATION_READER_CLASS_NAME + ".java");
+            if (!hasCompilationUnitHasCorrectName) {
+                continue;
+            }
+
+            boolean hasOneClassifier = compilationUnit.getClassifiers().size() == 1;
+            if (!hasOneClassifier) {
+                continue;
+            }
+
+            ConcreteClassifier concreteClassifier = compilationUnit.getClassifiers().get(0);
+            boolean classifierHasCorrectName = concreteClassifier.getName().equals(CONFIGURATION_READER_CLASS_NAME);
+            if (!classifierHasCorrectName) {
+                continue;
+            }
+
+            return concreteClassifier;
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks whether or not a given {@link ResourceSet} already has a configuration class.
+     * 
+     * @param resourceSet
+     *            The {@link ResourceSet}.
+     * @return <code>true</code> if it contains such a class; <code>false</code> otherwise.
+     */
+    public static boolean hasConfigurationClass(ResourceSet resourceSet) {
+        ConcreteClassifier configurationClass = getConfigurationClass(resourceSet);
+        return configurationClass != null;
+    }
+
+    /**
+     * Generates the SPL configuration class in a given {@link ResourceSet}.
+     * 
+     * @param resourceSet
+     *            The {@link ResourceSet}.
+     * @param sourcePath
+     *            The source path of the project to create the class in.
+     * @return The {@link Resource} containing the class.
+     */
+    public static Resource generateConfigurationClassIn(ResourceSet resourceSet, String sourcePath) {
+        CompilationUnit configurationCompilationUnit = getConfigurationCompilationUnit();
+        String path = sourcePath;
+        if (!path.endsWith(File.separator)) {
+            path += File.separator;
+        }
+        path += "org" + File.separator;
+        path += "splevo" + File.separator;
+        path += "config" + File.separator;
+        path += CONFIGURATION_READER_CLASS_NAME + ".java";
+        URI uri = URI.createFileURI(path);
+        Resource resource = resourceSet.createResource(uri);
+        resource.getContents().add(configurationCompilationUnit);
+
+        return resource;
     }
 }

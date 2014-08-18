@@ -17,6 +17,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassBlock;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassClass;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassCompilationUnit;
@@ -26,7 +28,10 @@ import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassImport;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassInterface;
 import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassMethod;
+import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
+import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.BindingTime;
@@ -73,14 +78,43 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
 
     @Override
     public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+        ResourceSet resourceSet = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+                .getResourceSet();
+        Resource configResource = addConfigurationFileIfMissing(refactoringOptions, resourceSet);
+        ConcreteClassifier configurationClass = SPLConfigurationUtil.getConfigurationClass(resourceSet);
+        addConfigurationToConfigurationClass(variationPoint, configurationClass);
+
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             if (refactoring.canBeAppliedTo(variationPoint)) {
                 List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringOptions);
+
+                if (configResource != null) {
+                    changedResources.add(configResource);
+                }
+
                 logger.info("Refactored with: " + refactoring.getVariabilityMechanism().getName());
                 return changedResources;
             }
         }
         return null;
+    }
+
+    private void addConfigurationToConfigurationClass(VariationPoint variationPoint,
+            ConcreteClassifier configurationClass) {
+        String groupId = variationPoint.getGroup().getId();
+        boolean hasConfigurationWithName = SPLConfigurationUtil.hasConfigurationWithName(configurationClass, groupId);
+        if (!hasConfigurationWithName) {
+            SPLConfigurationUtil.addConfiguration(configurationClass, groupId, "");
+        }
+    }
+
+    private Resource addConfigurationFileIfMissing(Map<String, String> refactoringOptions, ResourceSet resourceSet) {
+        Resource configResource = null;
+        if (!SPLConfigurationUtil.hasConfigurationClass(resourceSet)) {
+            configResource = SPLConfigurationUtil.generateConfigurationClassIn(resourceSet,
+                    refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY));
+        }
+        return configResource;
     }
 
     @Override
