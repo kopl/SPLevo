@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.ClassifierImport;
@@ -77,6 +78,17 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
         int variabilityPositionEnd = variabilityPositionStart;
 
         EList<Statement> vpLocationStatements = vpLocation.getStatements();
+
+        // warmup references
+        for (Variant variant : variants) {
+            for(SoftwareElement element : variant.getImplementingElements()) {
+                EcoreUtil.resolveAll(element);
+            }
+        }
+        for(Statement statement : vpLocationStatements) {
+            EcoreUtil.resolveAll(statement);
+        }
+
         for (Variant variant : variants) {
             Condition currentCondition = RefactoringUtil.generateVariantCondition(variant, localVariableStatements);
 
