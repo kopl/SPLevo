@@ -448,10 +448,35 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     private Set<String> buildImpreciseVPFilter(Table<String, String, Set<String>> sharedTermTable) {
         Set<String> vpFilter = Sets.newLinkedHashSet();
         if (similarTermSetOnlyConfig.getCurrentValue()) {
+
+            // CHECK VPs in both directions as shared term is a bi-derectional relationship
+            // and some VPs might be contained in only one direction.
+
+            // CHECK ROWS
             for (String referenceVP : sharedTermTable.rowKeySet()) {
                 Map<String, Set<String>> row = sharedTermTable.row(referenceVP);
                 Set<String> referenceTerms = null;
                 for (Set<String> currentTerms : row.values()) {
+                    if (referenceTerms == null) {
+                        if (oneSharedTermOnlyConfig.getCurrentValue() && currentTerms.size() > 1) {
+                            vpFilter.add(referenceVP);
+                            break;
+                        }
+                        referenceTerms = currentTerms;
+                    } else {
+                        if (!referenceTerms.containsAll(currentTerms) || !currentTerms.containsAll(referenceTerms)) {
+                            vpFilter.add(referenceVP);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // CHECK COLUMNS
+            for (String referenceVP : sharedTermTable.columnKeySet()) {
+                Map<String, Set<String>> column = sharedTermTable.column(referenceVP);
+                Set<String> referenceTerms = null;
+                for (Set<String> currentTerms : column.values()) {
                     if (referenceTerms == null) {
                         if (oneSharedTermOnlyConfig.getCurrentValue() && currentTerms.size() > 1) {
                             vpFilter.add(referenceVP);
