@@ -25,6 +25,9 @@ public final class Config {
     /** Group identifier for general configurations. */
     public static final String CONFIG_GROUP_GENERAL = "General Configuations";
 
+    /** Group identifier for general configurations. */
+    public static final String CONFIG_GROUP_FEATURED_TERMS = "Featured Terms Configuations";
+
     /** Group Identifier for basic shared term analyzes. */
     public static final String CONFIG_GROUP_SHARED_TERM_FINDER = "Shared Term Detection";
 

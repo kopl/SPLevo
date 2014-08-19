@@ -246,11 +246,12 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
-        configurations.addConfigurations(Config.CONFIG_GROUP_GENERAL, stemmingConfig,
-                stopWordsConfig, featuredTermsOnlyConfig, similarTermSetOnlyConfig,
-                oneSharedTermOnlyConfig, featureTermConfig, splitCamelCaseConfig, includeCommentsConfig);
-        configurations.addConfigurations(Config.CONFIG_GROUP_SHARED_TERM_FINDER, minSharedTermConfig,
-                logIndexedTermsConfig);
+        configurations.addConfigurations(Config.CONFIG_GROUP_GENERAL, stopWordsConfig, stemmingConfig,
+                similarTermSetOnlyConfig, oneSharedTermOnlyConfig);
+        configurations
+                .addConfigurations(Config.CONFIG_GROUP_FEATURED_TERMS, featuredTermsOnlyConfig, featureTermConfig);
+        configurations.addConfigurations(Config.CONFIG_GROUP_SHARED_TERM_FINDER, includeCommentsConfig,
+                splitCamelCaseConfig, minSharedTermConfig, logIndexedTermsConfig);
         return configurations;
     }
 
