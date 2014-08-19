@@ -9,24 +9,26 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor;
+package org.splevo.jamopp.refactoring.java.ifelse.optxor;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.members.ClassMethod;
+import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
+import org.emftext.language.java.types.Type;
+import org.emftext.language.java.types.Void;
+import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.VariabilityPositionUtil;
@@ -46,10 +48,10 @@ import com.google.common.collect.Lists;
  * common variables with different types, the whole method gets extracted into variant-specific
  * methods. Throws an exception if no variant was selected in the configuration.
  */
-public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefactoring {
+public class IfStaticConfigClassStatementOPTXOR implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR): Statement";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassStatementOPTOR";
+    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTXOR): Statement";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementOPTXOR";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -61,59 +63,95 @@ public class IfElseStaticConfigClassStatementOPTOR implements VariabilityRefacto
 
     @Override
     public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+        RefactoringUtil.resolveVPsWithSameLocation(variationPoint);
+
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
 
-        ClassifierImport splConfImport = SPLConfigurationUtil.getSPLConfigClassImport();
-        CompilationUnit containingCompilationUnit = vpLocation.getContainingCompilationUnit();
-        if (containingCompilationUnit != null
-                && !RefactoringUtil.containsImport(containingCompilationUnit, splConfImport)) {
-            containingCompilationUnit.getImports().add(splConfImport);
-        }
-
-        Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
-        EList<Variant> variants = variationPoint.getVariants();
+        CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
+        SPLConfigurationUtil.addConfigurationClassImportIfMissing(compilationUnit);
 
         int variabilityPositionStart = VariabilityPositionUtil.getVariabilityPosition(variationPoint);
         int variabilityPositionEnd = variabilityPositionStart;
 
-        EList<Statement> vpLocationStatements = vpLocation.getStatements();
+        Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
 
-        // warmup references
-        for (Variant variant : variants) {
-            for(SoftwareElement element : variant.getImplementingElements()) {
-                EcoreUtil.resolveAll(element);
-            }
-        }
-        for(Statement statement : vpLocationStatements) {
-            EcoreUtil.resolveAll(statement);
+        for (Variant variant : variationPoint.getVariants()) {
+            Condition variantCondition = generateVariantCondition(variant, localVariableStatements);
+            vpLocation.getStatements().add(variabilityPositionEnd++, variantCondition);
         }
 
-        for (Variant variant : variants) {
-            Condition currentCondition = RefactoringUtil.generateVariantCondition(variant, localVariableStatements);
-
-            if (variant.getLeading()) {
-                RefactoringUtil.deleteVariableStatements(variationPoint);
-            }
-
-            vpLocationStatements.add(variabilityPositionEnd++, currentCondition);
-        }
+        RefactoringUtil.deleteVariableStatements(variationPoint);
 
         for (String key : localVariableStatements.keySet()) {
-            vpLocationStatements.add(variabilityPositionStart++, localVariableStatements.get(key));
+            vpLocation.getStatements().add(variabilityPositionStart++, localVariableStatements.get(key));
         }
 
         if (vpLocation instanceof ClassMethod) {
-            boolean isVoid = ((ClassMethod) vpLocation).getTypeReference().getTarget() instanceof org.emftext.language.java.types.Void;
-            boolean allVariantsHaveReturn = allVariantsHaveAReturn(variationPoint);
-
-            if (!isVoid && allVariantsHaveReturn) {
-                RefactoringUtil.addReturnStatement((ClassMethod) vpLocation);
-            }
-
+            addMandatoryReturnIfNecessary(variationPoint);
         }
 
         return Lists.newArrayList(vpLocation.eResource());
+    }
+
+    private static Condition generateVariantCondition(Variant variant,
+            Map<String, LocalVariableStatement> localVariableStatements) {
+        VariationPoint variationPoint = variant.getVariationPoint();
+
+        String variantId = variant.getId();
+        String groupId = variationPoint.getGroup().getId();
+
+        Condition currentCondition = RefactoringUtil.createVariabilityCondition(variantId, groupId);
+
+        for (SoftwareElement se : variant.getImplementingElements()) {
+            Statement originalStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
+            Statement statement = null;
+            if (variant.getLeading()) {
+                statement = originalStatement;
+            } else {
+                statement = EcoreUtil.copy(originalStatement);
+            }
+
+            int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se);
+
+            if (statement instanceof LocalVariableStatement
+                    && RefactoringUtil.isReferencedByPredecessor((LocalVariableStatement) originalStatement, offset)) {
+                LocalVariableStatement localVariableStatement = (LocalVariableStatement) statement;
+                LocalVariable variable = localVariableStatement.getVariable();
+
+                RefactoringUtil.removeFinalIfApplicable(variable);
+
+                statement = RefactoringUtil.extractAssignment(variable);
+                Type variableType = variable.getTypeReference().getTarget();
+                variable.setInitialValue(RefactoringUtil.getDefaultValueForType(variableType));
+
+                if (!localVariableStatements.containsKey(variable.getName())) {
+                    localVariableStatements.put(variable.getName(), localVariableStatement);
+                }
+            }
+
+            RefactoringUtil.initializeAndRemoveFinalForReferencedLocalVariables(statement);
+
+            if (statement != null) {
+                ((Block) currentCondition.getStatement()).getStatements().add(statement);
+            }
+        }
+
+        return currentCondition;
+    }
+
+    private void addMandatoryReturnIfNecessary(VariationPoint variationPoint) {
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+                .getLocation()).getJamoppElement();
+
+        Type methodReturnType = ((ClassMethod) vpLocation).getTypeReference().getTarget();
+
+        boolean isVoid = methodReturnType instanceof Void;
+        boolean allVariantsHaveReturn = allVariantsHaveAReturn(variationPoint);
+
+        if (!isVoid && allVariantsHaveReturn) {
+            RefactoringUtil.addReturnStatement((ClassMethod) vpLocation);
+        }
     }
 
     private boolean allVariantsHaveAReturn(VariationPoint variationPoint) {

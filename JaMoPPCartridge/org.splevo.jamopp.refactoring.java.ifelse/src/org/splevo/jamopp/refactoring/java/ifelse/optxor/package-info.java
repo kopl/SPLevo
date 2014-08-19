@@ -1,8 +1,8 @@
 /**
- * <h1>IF-Else with Static Configuration Class (OPTOR)</h1>
+ * <h1>IF-Else with Static Configuration Class (OPTXOR)</h1>
  * 
  * <h2>Summary</h2>
- * An OPTOR variability refactoring that merges existing variants in a single code base with if-Else conditional statements using a Java code based compiled configuration.
+ * An OPTXOR variability refactoring that merges existing variants in a single code base with if-Else conditional statements using a Java code based compiled configuration.
  * 
  * <h2>Configuration Mechanism</h2>
  * The variant configuration is realized using a configuration class containing constants to choose the variants at compile time.
@@ -18,7 +18,7 @@
  * </tr>
  * <tr>
  *   <td>Variability Type</td>
- *   <td>OPTOR</td>
+ *   <td>OPTXOR</td>
  * </tr>
  * <tr>
  *   <td>Extensible</td>
@@ -30,4 +30,4 @@
  * </tr>
  * </table>
  */
-package org.splevo.jamopp.refactoring.java.ifelse.optor;
+package org.splevo.jamopp.refactoring.java.ifelse.optxor;

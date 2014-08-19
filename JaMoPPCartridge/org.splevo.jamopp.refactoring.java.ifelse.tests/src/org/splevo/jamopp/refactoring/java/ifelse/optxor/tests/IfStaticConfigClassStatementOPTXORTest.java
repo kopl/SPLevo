@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
+package org.splevo.jamopp.refactoring.java.ifelse.optxor.tests;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -43,8 +43,8 @@ import org.emftext.language.java.statements.WhileLoop;
 import org.emftext.language.java.variables.LocalVariable;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassConstructor;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassStatementOPTOR;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
+import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementOPTXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -53,9 +53,9 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassStatementOPTOR} class.
+ * Contains the tests for the {@link IfStaticConfigClassStatementOPTXOR} class.
  */
-public class IfElseStaticConfigClassStatementOPTORTest {
+public class IfStaticConfigClassStatementOPTXORTest {
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
@@ -73,10 +73,10 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         Commentable location = MembersFactory.eINSTANCE.createClassMethod();
         Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
         Commentable implEl2 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -90,10 +90,10 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createInterface();
         Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
         Commentable implEl2 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
+        IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -107,10 +107,10 @@ public class IfElseStaticConfigClassStatementOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
         Commentable implEl2 = MembersFactory.eINSTANCE.createClassMethod();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
+        IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -124,8 +124,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testIfCanBeAppliedWithVariableDiffTypes() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementLocalVarDiffTypesCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementLocalVarDiffTypesCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vp), equalTo(false));
     }
@@ -140,8 +140,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseLocalVariableEqualType() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -191,8 +191,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseLocalVariableEqualTypeSplit() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeSplitCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeSplitCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -263,8 +263,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseOneAdd() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementOneAddCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementOneAddCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -301,8 +301,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseOneEither() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementOneEitherCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementOneEitherCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -340,8 +340,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseNestedTry() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementNestedTryCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedTryCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
@@ -380,8 +380,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseNestedCatch() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementNestedCatchCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedCatchCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
@@ -420,8 +420,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseNestedCondition() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementNestedConditionCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedConditionCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
@@ -460,8 +460,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseNestedFor() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementNestedForCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedForCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
@@ -500,8 +500,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseNestedWhile() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementNestedWhileCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedWhileCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
@@ -540,8 +540,8 @@ public class IfElseStaticConfigClassStatementOPTORTest {
      */
     @Test
     public void testRefactorCaseNestedSwitchCase() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getStatementNestedSwitchCaseCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassStatementOPTOR refactoring = new IfElseStaticConfigClassStatementOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getStatementNestedSwitchCaseCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
         refactoring.refactor(vp, null);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())

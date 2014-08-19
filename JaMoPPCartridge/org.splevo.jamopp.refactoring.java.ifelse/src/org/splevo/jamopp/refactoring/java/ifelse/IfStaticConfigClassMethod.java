@@ -16,9 +16,9 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
+import org.emftext.language.java.members.Method;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
@@ -31,13 +31,13 @@ import org.splevo.vpm.variability.VariationPoint;
 import com.google.common.collect.Lists;
 
 /**
- * The code base container must contain all interfaces from the variants. Therefore, this
- * refactoring merges the interfaces from all variants into the base, if there are no interferences.
+ * The code base container must contain all methods from the variants. Therefore, this refactoring
+ * merges the methods from all variants into the base, if there are no interferences.
  */
-public class IfElseStaticConfigClassInterface implements VariabilityRefactoring {
+public class IfStaticConfigClassMethod implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class: Interface";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassInterface";
+    private static final String REFACTORING_NAME = "IF with Static Configuration Class: Method";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassMethod";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -57,10 +57,9 @@ public class IfElseStaticConfigClassInterface implements VariabilityRefactoring 
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Interface i = (Interface) ((JaMoPPSoftwareElement) se).getJamoppElement();
-
-                if (!RefactoringUtil.containsClassInterfaceOrEnumWithName(vpLocation, i.getName())) {
-                    vpLocation.getMembers().add(EcoreUtil.copy(i));
+                Method currentMethod = (Method) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                if (!RefactoringUtil.hasMethodWithEqualNameAndParameters(vpLocation, currentMethod)) {
+                    vpLocation.getMembers().add(EcoreUtil.copy(currentMethod));
                 }
             }
         }
@@ -73,16 +72,15 @@ public class IfElseStaticConfigClassInterface implements VariabilityRefactoring 
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof MemberContainer;
-        boolean allImplementingElementsAreInterfaces = RefactoringUtil.allImplementingElementsOfType(variationPoint,
-                Interface.class);
-
-        boolean correctInput = correctLocation && allImplementingElementsAreInterfaces;
+        boolean allImplementingElementsAreMethods = RefactoringUtil.allImplementingElementsOfType(variationPoint,
+                Method.class);
+        boolean correctInput = correctLocation && allImplementingElementsAreMethods;
 
         if (!correctInput) {
             return false;
         }
 
-        return !RefactoringUtil.hasMembersWithConflictingNames(variationPoint);
+        return !RefactoringUtil.hasConflictingMethods(variationPoint);
     }
 
     @Override

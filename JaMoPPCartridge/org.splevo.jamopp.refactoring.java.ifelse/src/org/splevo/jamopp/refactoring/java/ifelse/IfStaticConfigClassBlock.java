@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
+import org.emftext.language.java.statements.Block;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
@@ -31,13 +32,12 @@ import org.splevo.vpm.variability.VariationPoint;
 import com.google.common.collect.Lists;
 
 /**
- * The code base container must contain all classes from the variants. Therefore, this refactoring
- * merges the classes from all variants into the base, if there are no interferences.
+ * Integrates block from the integration projects into the leading project.
  */
-public class IfElseStaticConfigClassClass implements VariabilityRefactoring {
+public class IfStaticConfigClassBlock implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class: Class";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassClass";
+    private static final String REFACTORING_NAME = "IF with Static Configuration Class: Block";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassBlock";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -57,11 +57,8 @@ public class IfElseStaticConfigClassClass implements VariabilityRefactoring {
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Class c = (Class) ((JaMoPPSoftwareElement) se).getJamoppElement();
-
-                if (!RefactoringUtil.containsClassInterfaceOrEnumWithName(vpLocation, c.getName())) {
-                    vpLocation.getMembers().add(EcoreUtil.copy(c));
-                }
+                Block blockCpy = EcoreUtil.copy((Block) ((JaMoPPSoftwareElement) se).getJamoppElement());
+                vpLocation.getMembers().add(blockCpy);
             }
         }
 
@@ -72,17 +69,11 @@ public class IfElseStaticConfigClassClass implements VariabilityRefactoring {
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
         Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
-        boolean correctLocation = jamoppElement instanceof MemberContainer;
+        boolean correctLocation = jamoppElement instanceof Class;
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,
-                Class.class);
+                Block.class);
 
-        boolean correctInput = correctLocation && allImplementingElementsAreClasses;
-
-        if (!correctInput) {
-            return false;
-        }
-
-        return !RefactoringUtil.hasMembersWithConflictingNames(variationPoint);
+        return correctLocation && allImplementingElementsAreClasses;
     }
 
     @Override

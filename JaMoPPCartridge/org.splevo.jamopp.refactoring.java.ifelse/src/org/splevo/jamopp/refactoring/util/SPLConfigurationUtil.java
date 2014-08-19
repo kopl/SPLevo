@@ -22,12 +22,8 @@ import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.ContainersFactory;
-import org.emftext.language.java.generics.GenericsFactory;
-import org.emftext.language.java.generics.QualifiedTypeArgument;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.ImportsFactory;
-import org.emftext.language.java.instantiations.InstantiationsFactory;
-import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MembersFactory;
@@ -37,7 +33,6 @@ import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
 
 /**
@@ -65,16 +60,6 @@ public final class SPLConfigurationUtil {
         generatedImport.getNamespaces().add("org");
         generatedImport.getNamespaces().add("splevo");
         generatedImport.getNamespaces().add("config");
-        generatedImport.setClassifier(classifier);
-        return generatedImport;
-    }
-
-    private static ClassifierImport getArrayListImport() {
-        ClassifierImport generatedImport = ImportsFactory.eINSTANCE.createClassifierImport();
-        Class classifier = ClassifiersFactory.eINSTANCE.createClass();
-        classifier.setName("ArrayList");
-        generatedImport.getNamespaces().add("java");
-        generatedImport.getNamespaces().add("util");
         generatedImport.setClassifier(classifier);
         return generatedImport;
     }
@@ -122,7 +107,7 @@ public final class SPLConfigurationUtil {
         classReference.setNext(fieldReference);
         MethodCall equalsMethodRef = ReferencesFactory.eINSTANCE.createMethodCall();
         ClassMethod equalsMethod = MembersFactory.eINSTANCE.createClassMethod();
-        equalsMethod.setName("contains");
+        equalsMethod.setName("equals");
         StringReference variantIdStringRef = ReferencesFactory.eINSTANCE.createStringReference();
         variantIdStringRef.setValue(variantID);
         equalsMethodRef.getArguments().add(variantIdStringRef);
@@ -139,9 +124,6 @@ public final class SPLConfigurationUtil {
         cu.getNamespaces().add("org");
         cu.getNamespaces().add("splevo");
         cu.getNamespaces().add("config");
-        
-        ClassifierImport arrayListImport = getArrayListImport();
-        cu.getImports().add(arrayListImport);
 
         ConcreteClassifier c = generateConfigReaderClassifier();
         cu.getClassifiers().add(c);
@@ -159,8 +141,8 @@ public final class SPLConfigurationUtil {
      * @param configurationValue
      *            The configuration {@link String} value.
      */
-    public static void addConfiguration(ConcreteClassifier splConfigurationClass, String configurationName,
-            String configurationValue) {
+    public static void addConfigurationToConfigurationClass(ConcreteClassifier splConfigurationClass,
+            String configurationName, String configurationValue) {
         StringReference configurationValueRef = ReferencesFactory.eINSTANCE.createStringReference();
         configurationValueRef.setValue(configurationValue);
 
@@ -168,36 +150,17 @@ public final class SPLConfigurationUtil {
         field.setName(configurationName);
         field.setInitialValue(configurationValueRef);
 
-        NewConstructorCall newConstructorCall = InstantiationsFactory.eINSTANCE.createNewConstructorCall();
-        newConstructorCall.setTypeReference(getStringArrayList());
+        Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
+        stringClass.setName("String");
+        ClassifierReference classifierReference = TypesFactory.eINSTANCE.createClassifierReference();
+        classifierReference.setTarget(stringClass);
 
-        field.setInitialValue(newConstructorCall);
-        field.setTypeReference(getStringArrayList());
-
+        field.setTypeReference(classifierReference);
         field.makePublic();
         field.addModifier(ModifiersFactory.eINSTANCE.createStatic());
         field.addModifier(ModifiersFactory.eINSTANCE.createFinal());
 
         splConfigurationClass.getMembers().add(field);
-    }
-
-    private static NamespaceClassifierReference getStringArrayList() {
-        Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
-        stringClass.setName("String");
-        ClassifierReference stringCR = TypesFactory.eINSTANCE.createClassifierReference();
-        stringCR.setTarget(stringClass);
-
-        Class listClass = ClassifiersFactory.eINSTANCE.createClass();
-        listClass.setName("ArrayList");
-        ClassifierReference listCR = TypesFactory.eINSTANCE.createClassifierReference();
-        listCR.setTarget(listClass);
-        QualifiedTypeArgument qualifiedTypeArgument = GenericsFactory.eINSTANCE.createQualifiedTypeArgument();
-        qualifiedTypeArgument.setTypeReference(stringCR);
-        listCR.getTypeArguments().add(qualifiedTypeArgument);
-
-        NamespaceClassifierReference fieldTypeNCR = TypesFactory.eINSTANCE.createNamespaceClassifierReference();
-        fieldTypeNCR.getClassifierReferences().add(listCR);
-        return fieldTypeNCR;
     }
 
     /**
@@ -209,7 +172,8 @@ public final class SPLConfigurationUtil {
      *            The {@link String} name.
      * @return <code>true</code> if a parameter was found; <code>false</code> otherwise.
      */
-    public static boolean hasConfigurationWithName(ConcreteClassifier splConfigurationClass, String name) {
+    public static boolean configurationClassHasConfigurationWithName(ConcreteClassifier splConfigurationClass,
+            String name) {
         EList<Field> fields = splConfigurationClass.getFields();
         for (Field field : fields) {
             if (field.getName().equals(name)) {
@@ -226,7 +190,7 @@ public final class SPLConfigurationUtil {
      *            The {@link Resource}.
      * @return The configuration {@link ConcreteClassifier}. <code>null</code> if nothing found.
      */
-    public static ConcreteClassifier getConfigurationClass(ResourceSet resourceSet) {
+    public static ConcreteClassifier findConfigurationClass(ResourceSet resourceSet) {
         for (Resource resource : resourceSet.getResources()) {
             boolean sizeIsOne = resource.getContents().size() == 1;
             if (!sizeIsOne) {
@@ -270,7 +234,7 @@ public final class SPLConfigurationUtil {
      * @return <code>true</code> if it contains such a class; <code>false</code> otherwise.
      */
     public static boolean hasConfigurationClass(ResourceSet resourceSet) {
-        ConcreteClassifier configurationClass = getConfigurationClass(resourceSet);
+        ConcreteClassifier configurationClass = findConfigurationClass(resourceSet);
         return configurationClass != null;
     }
 
@@ -298,5 +262,19 @@ public final class SPLConfigurationUtil {
         resource.getContents().add(configurationCompilationUnit);
 
         return resource;
+    }
+
+    /**
+     * Adds the {@link Import} to access the configuration class to a given {@link CompilationUnit}.
+     * 
+     * @param compilationUnit
+     *            The {@link CompilationUnit}.
+     */
+    public static void addConfigurationClassImportIfMissing(CompilationUnit compilationUnit) {
+        ClassifierImport splConfigClassImport = getSPLConfigClassImport();
+
+        if (!RefactoringUtil.containsImport(compilationUnit, splConfigClassImport)) {
+            compilationUnit.getImports().add(splConfigClassImport);
+        }
     }
 }

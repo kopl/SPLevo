@@ -40,7 +40,7 @@ import org.emftext.language.java.types.Int;
 import org.hamcrest.Matcher;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassField;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -49,9 +49,9 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassField} class.
+ * Contains the tests for the {@link IfStaticConfigClassField} class.
  */
-public class IfElseStaticConfigClassFieldTest {
+public class IfStaticConfigClassFieldTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -69,10 +69,10 @@ public class IfElseStaticConfigClassFieldTest {
     public void testIfCanBeAppliedWithValidVP() {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Field fieldMock = RefactoringTestUtil.getFieldMock();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, fieldMock, fieldMock);
 
-        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -86,10 +86,10 @@ public class IfElseStaticConfigClassFieldTest {
         Commentable location = MembersFactory.eINSTANCE.createClassMethod();
         Commentable implEl1 = MembersFactory.eINSTANCE.createField();
         Commentable implEl2 = MembersFactory.eINSTANCE.createField();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -103,10 +103,10 @@ public class IfElseStaticConfigClassFieldTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = MembersFactory.eINSTANCE.createField();
         Commentable implEl2 = MembersFactory.eINSTANCE.createClassMethod();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -120,8 +120,8 @@ public class IfElseStaticConfigClassFieldTest {
      */
     @Test
     public void testRefactorCaseFieldAdd() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getFieldAddCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
+        VariationPoint vp = RefactoringTestUtil.getFieldAddCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
         refactoring.refactor(vp, null);
 
         // location has two fields
@@ -151,8 +151,8 @@ public class IfElseStaticConfigClassFieldTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testRefactorCaseFieldDifferentInitialValues() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getFieldDifferentInitialValuesCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassField refactoring = new IfElseStaticConfigClassField();
+        VariationPoint vp = RefactoringTestUtil.getFieldDifferentInitialValuesCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
         refactoring.refactor(vp, null);
 
         // location has two members where one is a field

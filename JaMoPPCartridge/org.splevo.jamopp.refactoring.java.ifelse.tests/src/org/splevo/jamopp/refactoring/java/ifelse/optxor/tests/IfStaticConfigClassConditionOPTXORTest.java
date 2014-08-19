@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
+package org.splevo.jamopp.refactoring.java.ifelse.optxor.tests;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -30,7 +30,7 @@ import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassConditionOPTOR;
+import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassConditionOPTXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -39,9 +39,9 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassConditionOPTOR} class.
+ * Contains the tests for the {@link IfStaticConfigClassConditionOPTXOR} class.
  */
-public class IfElseStaticConfigClassConditionOPTORTest {
+public class IfStaticConfigClassConditionOPTXORTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -60,10 +60,10 @@ public class IfElseStaticConfigClassConditionOPTORTest {
         Commentable location = StatementsFactory.eINSTANCE.createCondition();
         Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
         Commentable implEl2 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
+        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -77,10 +77,10 @@ public class IfElseStaticConfigClassConditionOPTORTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createInterface();
         Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
         Commentable implEl2 = StatementsFactory.eINSTANCE.createEmptyStatement();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
+        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -94,10 +94,10 @@ public class IfElseStaticConfigClassConditionOPTORTest {
         Commentable location = StatementsFactory.eINSTANCE.createCondition();
         Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
         Commentable implEl2 = MembersFactory.eINSTANCE.createClassMethod();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
+        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -111,8 +111,8 @@ public class IfElseStaticConfigClassConditionOPTORTest {
      */
     @Test
     public void testRefactorCaseConditionAddCond() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getConditionAddCondCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getConditionAddCondCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
         refactoring.refactor(vp, null);
 
         // location has a blockand an else-if
@@ -144,8 +144,8 @@ public class IfElseStaticConfigClassConditionOPTORTest {
      */
     @Test
     public void testRefactorCaseConditionDifferentElseStatement() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getConditionDifferentElseStatementCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getConditionDifferentElseStatementCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
         refactoring.refactor(vp, null);
 
         // location has a condition with an if-block and an else-block
@@ -186,8 +186,8 @@ public class IfElseStaticConfigClassConditionOPTORTest {
      */
     @Test
     public void testRefactorCaseConditionAddMultipleCond() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getConditionAddMultipleCondCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassConditionOPTOR refactoring = new IfElseStaticConfigClassConditionOPTOR();
+        VariationPoint vp = RefactoringTestUtil.getConditionAddMultipleCondCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
         refactoring.refactor(vp, null);
 
         // location has a condition with an if-block and an else-block

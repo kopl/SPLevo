@@ -16,7 +16,7 @@ import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassBlock;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassBlock;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -25,9 +25,9 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Tests for the {@link IfElseStaticConfigClassBlock} class.
+ * Tests for the {@link IfStaticConfigClassBlock} class.
  */
-public class IfElseStaticConfigClassBlockTest {
+public class IfStaticConfigClassBlockTest {
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
@@ -45,10 +45,10 @@ public class IfElseStaticConfigClassBlockTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = StatementsFactory.eINSTANCE.createBlock();
         Commentable implEl2 = StatementsFactory.eINSTANCE.createBlock();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassBlock refactoring = new IfElseStaticConfigClassBlock();
+        IfStaticConfigClassBlock refactoring = new IfStaticConfigClassBlock();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -62,10 +62,10 @@ public class IfElseStaticConfigClassBlockTest {
         Commentable location = MembersFactory.eINSTANCE.createClassMethod();
         Commentable implEl1 = StatementsFactory.eINSTANCE.createBlock();
         Commentable implEl2 = StatementsFactory.eINSTANCE.createBlock();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassBlock refactoring = new IfElseStaticConfigClassBlock();
+        IfStaticConfigClassBlock refactoring = new IfStaticConfigClassBlock();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -79,10 +79,10 @@ public class IfElseStaticConfigClassBlockTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = StatementsFactory.eINSTANCE.createEmptyStatement();
         Commentable implEl2 = StatementsFactory.eINSTANCE.createBlock();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassBlock refactoring = new IfElseStaticConfigClassBlock();
+        IfStaticConfigClassBlock refactoring = new IfStaticConfigClassBlock();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -96,8 +96,8 @@ public class IfElseStaticConfigClassBlockTest {
      */
     @Test
     public void testRefactorCaseBlockAdd() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getBlockAddCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassBlock refactoring = new IfElseStaticConfigClassBlock();
+        VariationPoint vp = RefactoringTestUtil.getBlockAddCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassBlock refactoring = new IfStaticConfigClassBlock();
         refactoring.refactor(vp, null);
 
         // location has one member
@@ -122,8 +122,8 @@ public class IfElseStaticConfigClassBlockTest {
      */
     @Test
     public void testRefactorCaseBlockMerge() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getBlockMergeCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassBlock refactoring = new IfElseStaticConfigClassBlock();
+        VariationPoint vp = RefactoringTestUtil.getBlockMergeCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassBlock refactoring = new IfStaticConfigClassBlock();
         refactoring.refactor(vp, null);
         
         // location has two members

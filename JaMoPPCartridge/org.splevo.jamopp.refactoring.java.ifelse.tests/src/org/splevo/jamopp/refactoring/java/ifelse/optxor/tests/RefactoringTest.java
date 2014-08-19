@@ -10,7 +10,7 @@
  *    Benjamin Klatt
  *    Daniel Kojic - updated javadoc
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor.tests;
+package org.splevo.jamopp.refactoring.java.ifelse.optxor.tests;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
@@ -81,6 +80,8 @@ import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
+import org.splevo.vpm.variability.VariationPointModel;
 
 import com.google.common.collect.Maps;
 
@@ -268,57 +269,16 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Generated a condition with the statements that are contained in the given variant (as
-     * implementing elements). Checks the SPL configuration in its condition.
+     * Checks whether a {@link LocalVariable} is referenced by a following element in its parent
+     * container.
      * 
-     * @param variant
-     *            The {@link Variant}.
-     * @param localVariableStatements
-     *            A {@link Map} that stores the local variables to their names that were found.
-     * @return The generated {@link Condition}.
+     * @param localVariableStatement
+     *            The {@link LocalVariableStatement} for the {@link LocalVariable}.
+     * @param offset
+     *            Search starts at the position of the statement in the parent container + offset.
+     * @return <code>true</code> if it is referenced; otherwise <code>false</code>.
      */
-    public static Condition generateVariantCondition(Variant variant,
-            Map<String, LocalVariableStatement> localVariableStatements) {
-        VariationPoint variationPoint = variant.getVariationPoint();
-        Condition currentCondition = RefactoringUtil.createVariabilityCondition(variant.getId(), variationPoint
-                .getGroup().getId());
-
-        for (SoftwareElement se : variant.getImplementingElements()) {
-            Statement statement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
-            statement = EcoreUtil.copy(statement);
-
-            int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se);
-
-            if (statement instanceof LocalVariableStatement
-                    && isReferencedByFollowingElement(
-                            (LocalVariableStatement) ((JaMoPPSoftwareElement) se).getJamoppElement(), offset)) {
-                LocalVariableStatement localVarStat = (LocalVariableStatement) statement;
-                LocalVariable variable = localVarStat.getVariable();
-
-                boolean hadFinalModifier = removeFinalIfApplicable(variable);
-                if (hadFinalModifier) {
-                    addCommentBefore(statement, "FIXME: removed final from local variable");
-                }
-
-                statement = extractAssignment(variable);
-                Type variableType = variable.getTypeReference().getTarget();
-                variable.setInitialValue(getDefaultValueForType(variableType));
-                if (!localVariableStatements.containsKey(variable.getName())) {
-                    localVariableStatements.put(variable.getName(), localVarStat);
-                }
-            }
-
-            assignInitialValueAndRemoveFinalForReferencedLocalVariables(statement);
-
-            if (statement != null) {
-                ((Block) currentCondition.getStatement()).getStatements().add(statement);
-            }
-        }
-
-        return currentCondition;
-    }
-
-    private static boolean isReferencedByFollowingElement(LocalVariableStatement localVariableStatement, int offset) {
+    public static boolean isReferencedByPredecessor(LocalVariableStatement localVariableStatement, int offset) {
         LocalVariable variable = ((LocalVariableStatement) localVariableStatement).getVariable();
 
         StatementListContainer container = (StatementListContainer) localVariableStatement.eContainer();
@@ -362,7 +322,7 @@ public final class RefactoringUtil {
      * @param eObject
      *            The {@link EObject} to be checked for referenced {@link LocalVariable}s.
      */
-    public static void assignInitialValueAndRemoveFinalForReferencedLocalVariables(EObject eObject) {
+    public static void initializeAndRemoveFinalForReferencedLocalVariables(EObject eObject) {
         TreeIterator<Object> contents = EcoreUtil.getAllContents(eObject, true);
 
         while (contents.hasNext()) {
@@ -379,7 +339,7 @@ public final class RefactoringUtil {
                     removeFinalIfApplicable(variable);
                 }
             }
-            assignInitialValueAndRemoveFinalForReferencedLocalVariables(child);
+            initializeAndRemoveFinalForReferencedLocalVariables(child);
         }
     }
 
@@ -540,8 +500,9 @@ public final class RefactoringUtil {
 
                 if (currentElement instanceof LocalVariableStatement) {
                     LocalVariableStatement localVarStatement = (LocalVariableStatement) currentElement;
-                    int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se);
-                    if (!isReferencedByFollowingElement(localVarStatement, offset)) {
+                    int offset = variant.getImplementingElements().size()
+                            - variant.getImplementingElements().indexOf(se);
+                    if (!isReferencedByPredecessor(localVarStatement, offset)) {
                         continue;
                     }
 
@@ -811,5 +772,29 @@ public final class RefactoringUtil {
             }
         }
         return false;
+    }
+
+    /**
+     * Resolves the implementing elements of all {@link Variant}s of all {@link VariationPoint}s
+     * with the same location.
+     * 
+     * @param variationPoint
+     *            The {@link VariationPoint}.
+     */
+    public static void resolveVPsWithSameLocation(VariationPoint variationPoint) {
+        VariationPointModel vpm = variationPoint.getGroup().getModel();
+        for (VariationPointGroup vpg : vpm.getVariationPointGroups()) {
+            for (VariationPoint vp : vpg.getVariationPoints()) {
+                if (vp.getLocation() != variationPoint.getLocation() || vp == variationPoint) {
+                    continue;
+                }
+
+                for (Variant v : vp.getVariants()) {
+                    for (SoftwareElement se : v.getImplementingElements()) {
+                        EcoreUtil.resolveAll(se);
+                    }
+                }
+            }
+        }
     }
 }

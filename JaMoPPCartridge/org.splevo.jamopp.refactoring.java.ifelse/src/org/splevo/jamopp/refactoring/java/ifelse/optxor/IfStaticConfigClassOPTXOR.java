@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.java.ifelse.optor;
+package org.splevo.jamopp.refactoring.java.ifelse.optxor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,15 +19,15 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassBlock;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassClass;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassCompilationUnit;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassConstructor;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassEnumeration;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassField;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassImport;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassInterface;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassMethod;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassBlock;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassClass;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassCompilationUnit;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassEnumeration;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassInterface;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassMethod;
 import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
@@ -37,35 +37,38 @@ import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
+import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
+import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * This refactoring implements the if-else mechanism for the use with a static configuration class.
  */
-public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
+public class IfStaticConfigClassOPTXOR implements VariabilityRefactoring {
 
-    private static Logger logger = Logger.getLogger(IfElseStaticConfigClassOPTOR.class);
+    private static Logger logger = Logger.getLogger(IfStaticConfigClassOPTXOR.class);
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTOR)";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassOPTOR";
+    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTXOR)";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassOPTXOR";
 
     private static List<VariabilityRefactoring> availableRefactorings;
 
     static {
         availableRefactorings = new LinkedList<VariabilityRefactoring>();
 
-        // add optor if refactorings here
-        availableRefactorings.add(new IfElseStaticConfigClassCompilationUnit());
-        availableRefactorings.add(new IfElseStaticConfigClassImport());
-        availableRefactorings.add(new IfElseStaticConfigClassClass());
-        availableRefactorings.add(new IfElseStaticConfigClassInterface());
-        availableRefactorings.add(new IfElseStaticConfigClassEnumeration());
-        availableRefactorings.add(new IfElseStaticConfigClassField());
-        availableRefactorings.add(new IfElseStaticConfigClassBlock());
-        availableRefactorings.add(new IfElseStaticConfigClassMethod());
-        availableRefactorings.add(new IfElseStaticConfigClassConstructor());
-        availableRefactorings.add(new IfElseStaticConfigClassStatementOPTOR());
-        availableRefactorings.add(new IfElseStaticConfigClassConditionOPTOR());
+        // add refactorings here
+        availableRefactorings.add(new IfStaticConfigClassCompilationUnit());
+        availableRefactorings.add(new IfStaticConfigClassImport());
+        availableRefactorings.add(new IfStaticConfigClassClass());
+        availableRefactorings.add(new IfStaticConfigClassInterface());
+        availableRefactorings.add(new IfStaticConfigClassEnumeration());
+        availableRefactorings.add(new IfStaticConfigClassField());
+        availableRefactorings.add(new IfStaticConfigClassBlock());
+        availableRefactorings.add(new IfStaticConfigClassMethod());
+        availableRefactorings.add(new IfStaticConfigClassConstructor());
+        availableRefactorings.add(new IfStaticConfigClassStatementOPTXOR());
+        availableRefactorings.add(new IfStaticConfigClassConditionOPTXOR());
     }
 
     @Override
@@ -81,7 +84,7 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
         ResourceSet resourceSet = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
                 .getResourceSet();
         Resource configResource = addConfigurationFileIfMissing(refactoringOptions, resourceSet);
-        ConcreteClassifier configurationClass = SPLConfigurationUtil.getConfigurationClass(resourceSet);
+        ConcreteClassifier configurationClass = SPLConfigurationUtil.findConfigurationClass(resourceSet);
         addConfigurationToConfigurationClass(variationPoint, configurationClass);
 
         for (VariabilityRefactoring refactoring : availableRefactorings) {
@@ -102,10 +105,28 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
     private void addConfigurationToConfigurationClass(VariationPoint variationPoint,
             ConcreteClassifier configurationClass) {
         String groupId = variationPoint.getGroup().getId();
-        boolean hasConfigurationWithName = SPLConfigurationUtil.hasConfigurationWithName(configurationClass, groupId);
+        boolean hasConfigurationWithName = SPLConfigurationUtil.configurationClassHasConfigurationWithName(configurationClass, groupId);
         if (!hasConfigurationWithName) {
-            SPLConfigurationUtil.addConfiguration(configurationClass, groupId, "");
+            Variant leadingOrFirstVariant = findLeadingOrFirstVariant(variationPoint);
+            SPLConfigurationUtil.addConfigurationToConfigurationClass(configurationClass, groupId, leadingOrFirstVariant.getId());
         }
+    }
+
+    private Variant findLeadingOrFirstVariant(VariationPoint variationPoint) {
+        VariationPointGroup group = variationPoint.getGroup();
+        VariationPointModel vpm = group.getModel();
+
+        for (VariationPointGroup vpg : vpm.getVariationPointGroups()) {
+            for (VariationPoint vp : vpg.getVariationPoints()) {
+                for (Variant v : vp.getVariants()) {
+                    if (v.getLeading()) {
+                        return v;
+                    }
+                }
+            }
+        }
+
+        return variationPoint.getVariants().get(0);
     }
 
     private Resource addConfigurationFileIfMissing(Map<String, String> refactoringOptions, ResourceSet resourceSet) {
@@ -120,7 +141,7 @@ public class IfElseStaticConfigClassOPTOR implements VariabilityRefactoring {
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
         boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
-        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTOR;
+        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTXOR;
         boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
         boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
 

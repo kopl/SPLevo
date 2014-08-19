@@ -4,7 +4,7 @@
    <extension
          point="org.splevo.refactoring.refactoring">
       <VariabilityRefactoring
-            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassOPTOR">
+            refactoring.class="org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassOPTXOR">
       </VariabilityRefactoring>
    </extension>
    

@@ -35,10 +35,10 @@ import org.splevo.vpm.variability.VariationPoint;
  * The SPL must integrate the compilation units from all variants. This refactoring merges the
  * compilation units from the integration projects into the leading project.
  */
-public class IfElseStaticConfigClassCompilationUnit implements VariabilityRefactoring {
+public class IfStaticConfigClassCompilationUnit implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class: CompilationUnit";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optor.IfElseStaticConfigClassCompilationUnit";
+    private static final String REFACTORING_NAME = "IF with Static Configuration Class: CompilationUnit";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassCompilationUnit";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {

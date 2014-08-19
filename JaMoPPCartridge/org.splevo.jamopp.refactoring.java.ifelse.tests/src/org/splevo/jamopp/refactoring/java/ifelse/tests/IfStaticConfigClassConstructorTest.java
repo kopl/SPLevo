@@ -26,7 +26,7 @@ import org.emftext.language.java.types.Int;
 import org.emftext.language.java.types.Short;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.IfElseStaticConfigClassConstructor;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
@@ -35,9 +35,9 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfElseStaticConfigClassConstructor} class.
+ * Contains the tests for the {@link IfStaticConfigClassConstructor} class.
  */
-public class IfElseStaticConfigClassConstructorTest {
+public class IfStaticConfigClassConstructorTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -56,10 +56,10 @@ public class IfElseStaticConfigClassConstructorTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
         Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
+        IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), is(true));
     }
@@ -73,10 +73,10 @@ public class IfElseStaticConfigClassConstructorTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createInterface();
         Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
         Commentable implEl2 = MembersFactory.eINSTANCE.createConstructor();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
+        IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
     }
@@ -90,10 +90,10 @@ public class IfElseStaticConfigClassConstructorTest {
         Commentable location = ClassifiersFactory.eINSTANCE.createClass();
         Commentable implEl1 = MembersFactory.eINSTANCE.createConstructor();
         Commentable implEl2 = MembersFactory.eINSTANCE.createClassMethod();
-        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTOR, Extensible.NO,
+        VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
+        IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
     }
@@ -107,8 +107,8 @@ public class IfElseStaticConfigClassConstructorTest {
      */
     @Test
     public void testRefactorCaseConstructorExistingOneParam() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getConstructorExistingOneParamCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
+        VariationPoint vp = RefactoringTestUtil.getConstructorExistingOneParamCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
         refactoring.refactor(vp, null);
 
         // location has two constructors
@@ -134,8 +134,8 @@ public class IfElseStaticConfigClassConstructorTest {
      */
     @Test
     public void testRefactorCaseConstructorAddTwoParam() throws Exception {
-        VariationPoint vp = RefactoringTestUtil.getConstructorAddTwoParamCase(VariabilityType.OPTOR);
-        IfElseStaticConfigClassConstructor refactoring = new IfElseStaticConfigClassConstructor();
+        VariationPoint vp = RefactoringTestUtil.getConstructorAddTwoParamCase(VariabilityType.OPTXOR);
+        IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
         refactoring.refactor(vp, null);
 
         // location has two constructors
