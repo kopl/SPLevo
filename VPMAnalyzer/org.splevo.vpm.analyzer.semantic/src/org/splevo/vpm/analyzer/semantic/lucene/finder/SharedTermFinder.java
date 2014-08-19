@@ -117,6 +117,8 @@ public class SharedTermFinder implements RelationshipFinder {
      *            The current document's ID.
      * @param referenceDoc
      *            The current document.
+     * @return The table of identified term-sharing variation points.<br>
+     *         Table entries: [sourceVPId, targetVPid, sharedTerms]
      * @throws IOException
      *             Thrown if there were problems during search.
      */
@@ -149,23 +151,25 @@ public class SharedTermFinder implements RelationshipFinder {
      *            The terms to query for.
      * @param field
      *            The field to get the terms for.
-     * @return The table of identified term-sharing variation points.
+     * @return The table of identified term-sharing variation points.<br>
+     *         Table entries: [sourceVPId, targetVPid, sharedTerms]
      * @throws IOException
      *             Any error while working with the search engine index.
      */
     private Table<String, String, Set<String>> buildSharedTermTable(IndexSearcher indexSearcher, ScoreDoc[] hits,
             Document referenceDoc, Set<Term> referenceDocTerms, String field) throws IOException {
 
+        //[sourceVPId, targetVPid, sharedTerms]
         Table<String, String, Set<String>> sharedTermTable = HashBasedTable.create();
         for (int q = 0; q < hits.length; q++) {
 
             int indexDocId = hits[q].doc;
 
-            String referenceDocId = referenceDoc.get(Indexer.INDEX_VARIATIONPOINT);
+            String vpId = referenceDoc.get(Indexer.INDEX_VARIATIONPOINT);
             Document foundDoc = indexSearcher.doc(indexDocId);
-            String foundDocId = foundDoc.get(Indexer.INDEX_VARIATIONPOINT);
+            String foundVPId = foundDoc.get(Indexer.INDEX_VARIATIONPOINT);
 
-            if (referenceDocId.equals(foundDocId)) {
+            if (vpId.equals(foundVPId)) {
                 continue;
             }
 
@@ -174,20 +178,20 @@ public class SharedTermFinder implements RelationshipFinder {
             // minShared terms is not check here because further
             // shared terms might be collected before this is evaluated.
             if (sharedTerms.size() > 0) {
-                if (referenceDocId.compareTo(foundDocId) > 0) {
-                    String idTmp = referenceDocId;
-                    referenceDocId = foundDocId;
-                    foundDocId = idTmp;
+                if (vpId.compareTo(foundVPId) > 0) {
+                    String idTmp = vpId;
+                    vpId = foundVPId;
+                    foundVPId = idTmp;
                 }
 
                 // initialize the shared term list for the pair if not
                 // done yet
-                Set<String> set = sharedTermTable.get(referenceDocId, foundDocId);
+                Set<String> set = sharedTermTable.get(vpId, foundVPId);
                 if (set == null) {
                     set = new LinkedHashSet<String>();
                 }
                 set.addAll(sharedTerms);
-                sharedTermTable.put(referenceDocId, foundDocId, sharedTerms);
+                sharedTermTable.put(vpId, foundVPId, sharedTerms);
             }
         }
         return sharedTermTable;

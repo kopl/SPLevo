@@ -24,7 +24,8 @@ public interface RelationshipFinder {
     /**
      * Calculated the similarity between all nodes from the {@link DirectoryReader}'s index.
      *
-     * @return A table linking each pair of VP ids to their set of shared terms.
+     * @return A table linking each pair of VP ids to their set of shared terms.<br>
+     *         Table entries: [sourceVPId, targetVPid, sharedTerms]
      */
     public abstract Table<String, String, Set<String>> findSimilarEntries();
 }
