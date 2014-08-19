@@ -58,6 +58,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 
@@ -122,10 +123,19 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             Config.LABEL_FEATURE_TERMS, Config.EXPL_FEATURE_TERMS, Config.DEFAULT_FEATURE_TERMS, false);
 
     /** The configuration-object for the featured terms only configuration. */
-    private BooleanConfiguration featuredTermsOnlyConfig = new BooleanConfiguration(Config.CONFIG_ID_FEATURE_TERMS_ONLY,
-            Config.LABEL_FEATURE_TERMS_ONLY, Config.EXPL_FEATURE_TERMS_ONLY, Config.DEFAULT_FEATURE_TERMS_ONLY);
+    private BooleanConfiguration featuredTermsOnlyConfig = new BooleanConfiguration(
+            Config.CONFIG_ID_FEATURE_TERMS_ONLY, Config.LABEL_FEATURE_TERMS_ONLY, Config.EXPL_FEATURE_TERMS_ONLY,
+            Config.DEFAULT_FEATURE_TERMS_ONLY);
 
+    /** The configuration-object for the similar term sets only configuration. */
+    private BooleanConfiguration similarTermSetOnlyConfig = new BooleanConfiguration(
+            Config.CONFIG_ID_SIMILAR_TERM_SET_ONLY, Config.LABEL_SIMILAR_TERM_SET_ONLY,
+            Config.EXPL_SIMILAR_TERM_SET_ONLY, Config.DEFAULT_SIMILAR_TERM_SET_ONLY);
 
+    /** The configuration-object for the one shared term only configuration. */
+    private BooleanConfiguration oneSharedTermOnlyConfig = new BooleanConfiguration(
+            Config.CONFIG_ID_ONE_SHARED_TERM_ONLY, Config.LABEL_ONE_SHARED_TERM_ONLY, Config.EXPL_ONE_SHARED_TERM_ONLY,
+            Config.DEFAULT_ONE_SHARED_TERM_ONLY);
 
     @Override
     public VPMAnalyzerResult analyze(VPMGraph vpmGraph) {
@@ -236,8 +246,9 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     @Override
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
-        configurations.addConfigurations(Config.CONFIG_GROUP_GENERAL, includeCommentsConfig, stemmingConfig,
-                splitCamelCaseConfig, stopWordsConfig, featureTermConfig, featuredTermsOnlyConfig);
+        configurations.addConfigurations(Config.CONFIG_GROUP_GENERAL, stemmingConfig,
+                stopWordsConfig, featuredTermsOnlyConfig, similarTermSetOnlyConfig,
+                oneSharedTermOnlyConfig, featureTermConfig, splitCamelCaseConfig, includeCommentsConfig);
         configurations.addConfigurations(Config.CONFIG_GROUP_SHARED_TERM_FINDER, minSharedTermConfig,
                 logIndexedTermsConfig);
         return configurations;
@@ -393,11 +404,18 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
         Table<String, String, Set<String>> sharedTermTable = finder.findSimilarEntries();
         reader.close();
 
+        Set<String> vpFilter = buildImpreciseVPFilter(sharedTermTable);
+
         VPMAnalyzerResult result = new VPMAnalyzerResult(this);
         ArrayList<String> edgeRegistry = Lists.newArrayList();
         for (Cell<String, String, Set<String>> cell : sharedTermTable.cellSet()) {
             String id1 = cell.getRowKey();
             String id2 = cell.getColumnKey();
+
+            if (vpFilter.contains(id1) || vpFilter.contains(id2)) {
+                continue;
+            }
+
             Set<String> sharedTerms = cell.getValue();
 
             if (sharedTerms.size() >= minSharedTerms) {
@@ -413,5 +431,41 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
             }
         }
         return result;
+    }
+
+    /**
+     * Build filter for variation points not sharing the same set of terms with all of it's
+     * connected vps.
+     *
+     * If configured, also variation points sharing more than one term are included in the filter.
+     *
+     * @param sharedTermTable
+     *            The table of variation points, there referenced other VPs and the terms they
+     *            share.
+     * @return The set of VP ids to not register any relationships for.
+     */
+    private Set<String> buildImpreciseVPFilter(Table<String, String, Set<String>> sharedTermTable) {
+        Set<String> vpFilter = Sets.newLinkedHashSet();
+        if (similarTermSetOnlyConfig.getCurrentValue()) {
+            for (String referenceVP : sharedTermTable.rowKeySet()) {
+                Map<String, Set<String>> row = sharedTermTable.row(referenceVP);
+                Set<String> referenceTerms = null;
+                for (Set<String> currentTerms : row.values()) {
+                    if (referenceTerms == null) {
+                        if (oneSharedTermOnlyConfig.getCurrentValue() && currentTerms.size() > 1) {
+                            vpFilter.add(referenceVP);
+                            break;
+                        }
+                        referenceTerms = currentTerms;
+                    } else {
+                        if (!referenceTerms.containsAll(currentTerms) || !currentTerms.containsAll(referenceTerms)) {
+                            vpFilter.add(referenceVP);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return vpFilter;
     }
 }

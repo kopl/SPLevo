@@ -175,4 +175,38 @@ public final class Config {
     /** The default configuration for the FEATURE_TERMS_ONLY configuration. */
     public static final boolean DEFAULT_FEATURE_TERMS_ONLY = true;
 
+
+    // --------------------------
+    // Similar Terms Set only
+    // --------------------------
+
+    /** Identifier for the configuration to connect only vps sharing the same terms with their neighbors only. */
+    public static final String CONFIG_ID_SIMILAR_TERM_SET_ONLY = CONFIG_ID_BASE + "SIMILAR_TERM_SET_ONLY";
+
+    /** The configuration label for the SIMILAR_TERM_SET_ONLY configuration. */
+    public static final String LABEL_SIMILAR_TERM_SET_ONLY = "Similar term sets only";
+
+    /** The explanation for the SIMILAR_TERM_SET_ONLY configuration. */
+    public static final String EXPL_SIMILAR_TERM_SET_ONLY = "Include VPs only if they share the same terms with their related neighbours.";
+
+    /** The default configuration for the SIMILAR_TERM_SET_ONLY configuration. */
+    public static final boolean DEFAULT_SIMILAR_TERM_SET_ONLY = true;
+
+
+    // --------------------------
+    // One shared Term only
+    // --------------------------
+
+    /** Identifier for the configuration to connect only vps sharing exactly one similar term with their neighbors only. */
+    public static final String CONFIG_ID_ONE_SHARED_TERM_ONLY = CONFIG_ID_BASE + "ONE_SHARED_TERM_ONLY";
+
+    /** The configuration label for the ONE_SHARED_TERM_ONLY configuration. */
+    public static final String LABEL_ONE_SHARED_TERM_ONLY = "One shared term only";
+
+    /** The explanation for the ONE_SHARED_TERM_ONLY configuration. */
+    public static final String EXPL_ONE_SHARED_TERM_ONLY = "Include VPs only if they share a single term only with their neighbors. Is used in combination with the Similar term sets only option only.";
+
+    /** The default configuration for the ONE_SHARED_TERM_ONLY configuration. */
+    public static final boolean DEFAULT_ONE_SHARED_TERM_ONLY = false;
+
 }
