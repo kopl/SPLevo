@@ -8,6 +8,8 @@
         eType="#//RefactoringInstructions" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mechanism" lowerBound="1"
         eType="#//VariabilityMechanism" containment="true" eOpposite="#//VariabilityMechanism/specification"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alternatives" upperBound="-1"
+        eType="#//RefactoringSpecification"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Descriptions">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="summary" lowerBound="1"
@@ -40,9 +42,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="Example">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="leadingCopy" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leading" lowerBound="1"
         eType="#//CodeSnippet" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="integrationCopy" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="integration" lowerBound="1"
         eType="#//CodeSnippet" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="spl" lowerBound="1" eType="#//CodeSnippet"
         containment="true"/>
@@ -59,10 +61,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="RefactoringInstruction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="instructionExample" lowerBound="1"
         eType="#//Example" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="summary" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mechanics" lowerBound="1"
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refactoredType" lowerBound="1"
-        eType="#//SoftwareElementType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameters" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preCondition" lowerBound="1"
+        eType="#//PreCondition" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VariabilityInfos">
     <eStructuralFeatures xsi:type="ecore:EReference" name="characteristics" lowerBound="1"
@@ -97,5 +102,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="SPLProfile">
     <eStructuralFeatures xsi:type="ecore:EReference" name="variabilityMechanisms"
         eType="#//VariabilityMechanism"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreCondition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="locationExclusion" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="elementExclusion" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locationType" lowerBound="1"
+        eType="#//SoftwareElementType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implementingElementType"
+        lowerBound="1" eType="#//SoftwareElementType"/>
   </eClassifiers>
 </ecore:EPackage>
