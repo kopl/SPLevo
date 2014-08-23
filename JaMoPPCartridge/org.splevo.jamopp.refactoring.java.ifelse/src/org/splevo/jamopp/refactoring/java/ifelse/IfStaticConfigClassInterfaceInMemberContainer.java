@@ -34,10 +34,10 @@ import com.google.common.collect.Lists;
  * The code base container must contain all interfaces from the variants. Therefore, this
  * refactoring merges the interfaces from all variants into the base, if there are no interferences.
  */
-public class IfStaticConfigClassInterface implements VariabilityRefactoring {
+public class IfStaticConfigClassInterfaceInMemberContainer implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF with Static Configuration Class: Interface";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassInterface";
+    private static final String REFACTORING_NAME = "IF with Static Configuration Class: Interface in MemberContainer";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassInterfaceInMemberContainer";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {

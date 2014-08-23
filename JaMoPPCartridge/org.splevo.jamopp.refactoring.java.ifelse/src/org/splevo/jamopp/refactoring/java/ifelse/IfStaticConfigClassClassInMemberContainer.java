@@ -34,10 +34,10 @@ import com.google.common.collect.Lists;
  * The code base container must contain all classes from the variants. Therefore, this refactoring
  * merges the classes from all variants into the base, if there are no interferences.
  */
-public class IfStaticConfigClassClass implements VariabilityRefactoring {
+public class IfStaticConfigClassClassInMemberContainer implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF with Static Configuration Class: Class";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassClass";
+    private static final String REFACTORING_NAME = "IF with Static Configuration Class: Class in MemberContainer";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassClassInMemberContainer";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {

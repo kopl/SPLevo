@@ -83,10 +83,8 @@ public class IfStaticConfigClassStatementOPTXOR implements VariabilityRefactorin
 
         RefactoringUtil.deleteVariableStatements(variationPoint);
 
-        for (String key : localVariableStatements.keySet()) {
-            vpLocation.getStatements().add(variabilityPositionStart++, localVariableStatements.get(key));
-        }
-
+        vpLocation.getStatements().addAll(variabilityPositionStart, localVariableStatements.values());
+        
         if (vpLocation instanceof ClassMethod) {
             addMandatoryReturnIfNecessary(variationPoint);
         }
@@ -115,7 +113,7 @@ public class IfStaticConfigClassStatementOPTXOR implements VariabilityRefactorin
             int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se);
 
             if (statement instanceof LocalVariableStatement
-                    && RefactoringUtil.isReferencedByPredecessor((LocalVariableStatement) originalStatement, offset)) {
+                    && RefactoringUtil.isReferencedByPostdecessor((LocalVariableStatement) originalStatement, offset)) {
                 LocalVariableStatement localVariableStatement = (LocalVariableStatement) statement;
                 LocalVariable variable = localVariableStatement.getVariable();
 
@@ -125,7 +123,7 @@ public class IfStaticConfigClassStatementOPTXOR implements VariabilityRefactorin
                 Type variableType = variable.getTypeReference().getTarget();
                 variable.setInitialValue(RefactoringUtil.getDefaultValueForType(variableType));
 
-                if (!localVariableStatements.containsKey(variable.getName())) {
+                if (!localVariableStatements.containsKey(variable.getName()) || variant.getLeading()) {
                     localVariableStatements.put(variable.getName(), localVariableStatement);
                 }
             }

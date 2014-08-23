@@ -269,16 +269,16 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Checks whether a {@link LocalVariable} is referenced by a following element in its parent
-     * container.
+     * Checks whether a {@link LocalVariableStatement}'s {@link LocalVariable} is referenced by a
+     * following element in its parent container.
      * 
      * @param localVariableStatement
-     *            The {@link LocalVariableStatement} for the {@link LocalVariable}.
+     *            The {@link LocalVariableStatement} containing the {@link LocalVariable}.
      * @param offset
      *            Search starts at the position of the statement in the parent container + offset.
      * @return <code>true</code> if it is referenced; otherwise <code>false</code>.
      */
-    public static boolean isReferencedByPredecessor(LocalVariableStatement localVariableStatement, int offset) {
+    public static boolean isReferencedByPostdecessor(LocalVariableStatement localVariableStatement, int offset) {
         LocalVariable variable = ((LocalVariableStatement) localVariableStatement).getVariable();
 
         StatementListContainer container = (StatementListContainer) localVariableStatement.eContainer();
@@ -502,7 +502,7 @@ public final class RefactoringUtil {
                     LocalVariableStatement localVarStatement = (LocalVariableStatement) currentElement;
                     int offset = variant.getImplementingElements().size()
                             - variant.getImplementingElements().indexOf(se);
-                    if (!isReferencedByPredecessor(localVarStatement, offset)) {
+                    if (!isReferencedByPostdecessor(localVarStatement, offset)) {
                         continue;
                     }
 

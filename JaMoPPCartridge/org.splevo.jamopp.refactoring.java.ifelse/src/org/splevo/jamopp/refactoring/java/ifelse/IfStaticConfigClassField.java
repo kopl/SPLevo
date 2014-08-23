@@ -65,8 +65,6 @@ public class IfStaticConfigClassField implements VariabilityRefactoring {
 
     @Override
     public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
-        RefactoringUtil.deleteVariableMembersFromLeading(variationPoint);
-
         Map<String, Field> fieldToFieldName = new HashMap<String, Field>();
         Map<String, Integer> positionToFieldName = new HashMap<String, Integer>();
         Map<String, List<Expression>> initialValuesToFieldName = new HashMap<String, List<Expression>>();
@@ -76,6 +74,8 @@ public class IfStaticConfigClassField implements VariabilityRefactoring {
 
         fillMaps(variationPoint, fieldToFieldName, initialValuesToFieldName, variantIDToInitialValue,
                 positionToFieldName);
+
+        RefactoringUtil.deleteVariableMembersFromLeading(variationPoint);
 
         Block nonStaticBlock = StatementsFactory.eINSTANCE.createBlock();
         Block staticBlock = StatementsFactory.eINSTANCE.createBlock();
@@ -142,43 +142,40 @@ public class IfStaticConfigClassField implements VariabilityRefactoring {
         return false;
     }
 
-    // private boolean hasDifferentValues(List<Expression> initialValues) {
-    // Expression firstValue = null;
-    // for (int i = 0; i < initialValues.size(); i++) {
-    // if (firstValue == null) {
-    // firstValue = initialValues.get(i);
-    // continue;
-    // }
-    // if (EcoreUtil.equals(firstValue, initialValues.get(i))) {
-    // continue;
-    // }
-    // return true;
-    // }
-    // return false;
-    // }
-
-    private void fillMaps(VariationPoint vp, Map<String, Field> fieldsToName,
-            Map<String, List<Expression>> expressionsToName, Map<Expression, String> variantIDToExpression,
-            Map<String, Integer> positionToField) {
+    private void fillMaps(VariationPoint vp, Map<String, Field> fieldToFieldName,
+            Map<String, List<Expression>> initialValuesToFieldName, Map<Expression, String> variantIDToInitialValue,
+            Map<String, Integer> positionToFieldName) {
         for (Variant variant : vp.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Field field = (Field) ((JaMoPPSoftwareElement) se).getJamoppElement();
                 Field fieldCpy = EcoreUtil.copy(field);
 
+                fieldToFieldName.put(fieldCpy.getName(), fieldCpy);
+
                 int fieldPos = getFieldPosInContainer(field);
-                positionToField.put(fieldCpy.getName(), fieldPos);
+                positionToFieldName.put(fieldCpy.getName(), fieldPos);
 
-                fieldsToName.put(fieldCpy.getName(), fieldCpy);
-
-                if (!expressionsToName.containsKey(fieldCpy.getName())) {
-                    expressionsToName.put(fieldCpy.getName(), new LinkedList<Expression>());
+                if (!initialValuesToFieldName.containsKey(fieldCpy.getName())) {
+                    initialValuesToFieldName.put(fieldCpy.getName(), new LinkedList<Expression>());
                 }
 
-                expressionsToName.get(fieldCpy.getName()).add(fieldCpy.getInitialValue());
+                Expression initialValue = fieldCpy.getInitialValue();
+                if (!containsExpression(initialValuesToFieldName.get(fieldCpy.getName()), initialValue)) {
+                    initialValuesToFieldName.get(fieldCpy.getName()).add(initialValue);
+                }
 
-                variantIDToExpression.put(fieldCpy.getInitialValue(), variant.getId());
+                variantIDToInitialValue.put(initialValue, variant.getId());
             }
         }
+    }
+
+    private boolean containsExpression(List<Expression> container, Expression expression) {
+        for (Expression element : container) {
+            if (RefactoringUtil.areEqual(element, expression)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int getFieldPosInContainer(Field field) {

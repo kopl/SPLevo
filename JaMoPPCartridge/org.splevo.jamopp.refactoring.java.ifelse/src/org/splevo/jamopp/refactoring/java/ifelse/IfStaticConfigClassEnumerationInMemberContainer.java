@@ -40,10 +40,10 @@ import com.google.common.collect.Lists;
  * refactoring merges the enumerations from all variants into the base, if there are no
  * interferences.
  */
-public class IfStaticConfigClassEnumeration implements VariabilityRefactoring {
+public class IfStaticConfigClassEnumerationInMemberContainer implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF with Static Configuration Class: Enumeration";
-    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassEnumeration";
+    private static final String REFACTORING_NAME = "IF with Static Configuration Class: Enumeration in MemberContainer";
+    private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassEnumerationInMemberContainer";
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
