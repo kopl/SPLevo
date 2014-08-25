@@ -61,7 +61,6 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
     }
 
     private List<VPMEdgeDescriptor> findEdgesBetweenClonedChanges(VPMGraph vpmGraph) {
-        int numClones;
 
         VPMEdgeDescriptor edge;
         CloneDetector cloneDetector = new CloneDetector();
@@ -79,10 +78,10 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
                 VariationPoint vp2 = node2.getAttribute(VPMGraph.VARIATIONPOINT, VariationPoint.class);
 
                 edge = null;
-                numClones = countClonesInVariationPoints(vp1, vp2, cloneDetector);
+                int numClones = countClonesInVariationPoints(vp1, vp2, cloneDetector);
 
                 String subLabel = String.valueOf(numClones);
-                
+
                 if (numClones > THRESHOLD) {
                     edge = buildEdgeDescriptor(node1, node2, subLabel, edgeRegistry);
                 }
