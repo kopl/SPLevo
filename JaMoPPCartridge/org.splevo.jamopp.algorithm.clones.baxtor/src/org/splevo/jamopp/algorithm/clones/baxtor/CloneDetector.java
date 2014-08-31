@@ -20,13 +20,13 @@ import org.emftext.language.java.commons.Commentable;
 
 /**
  * The clone detector detects clones between Commentables.
- * 
+ *
  */
 public class CloneDetector {
 
     /**
      * Checks whether two commentables are clones of each other.
-     * 
+     *
      * @param commentable1
      *            The first Commentable to check.
      * @param commentable2
@@ -48,7 +48,7 @@ public class CloneDetector {
 
     /**
      * Checks whether elements of two lists of commentables are clones of each other.
-     * 
+     *
      * @param list1
      *            The first Commentable to check.
      * @param list2
@@ -56,7 +56,26 @@ public class CloneDetector {
      * @return true if the commentables in the lists are clones of each other.
      */
     public boolean isClone(List<Commentable> list1, List<Commentable> list2) {
-        return isStructureCopy(list1, list2);
+        if (list1.size() != list2.size()) {
+            return false;
+        }
+
+        Iterator<Commentable> iterator1 = list1.iterator();
+        Iterator<Commentable> iterator2 = list2.iterator();
+
+        Commentable commentable1;
+        Commentable commentable2;
+
+        while (iterator1.hasNext()) {
+            commentable1 = iterator1.next();
+            commentable2 = iterator2.next();
+
+            if (!isClone(commentable1, commentable2)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean wholeTreeCloned(Commentable commentable1, Commentable commentable2) {
@@ -79,29 +98,6 @@ public class CloneDetector {
         // If one tree has more elements than the other they are not the same
         if (commentable1Contents.hasNext() || commentable2Contents.hasNext()) {
             return false;
-        }
-
-        return true;
-    }
-
-    private boolean isStructureCopy(List<Commentable> list1, List<Commentable> list2) {
-        if (list1.size() != list2.size()) {
-            return false;
-        }
-
-        Iterator<Commentable> iterator1 = list1.iterator();
-        Iterator<Commentable> iterator2 = list2.iterator();
-
-        Commentable commentable1;
-        Commentable commentable2;
-
-        while (iterator1.hasNext()) {
-            commentable1 = iterator1.next();
-            commentable2 = iterator2.next();
-
-            if (!wholeTreeCloned(commentable1, commentable2)) {
-                return false;
-            }
         }
 
         return true;

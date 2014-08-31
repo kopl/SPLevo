@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.emftext.language.java;bundle-version="1.4.1",
  org.splevo.vpm.analyzer;bundle-version="1.0.0",
  org.splevo.jamopp.algorithm.clones.baxtor;bundle-version="1.0.0",
- org.splevo.jamopp.vpm;bundle-version="1.0.0"
+ org.splevo.jamopp.vpm;bundle-version="1.0.0",
+ com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: www.splevo.org
