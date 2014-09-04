@@ -20,7 +20,6 @@ import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.commons.Commentable;
 import org.graphstream.graph.Node;
 import org.splevo.jamopp.algorithm.clones.baxtor.CloneDetector;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerException;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
@@ -140,7 +139,6 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
                         }
                     }
                 }
-                // christianClone(cloneDetector, descriptors, edgeRegistry, node1, node2, vp1, vp2);
             }
         }
         return descriptors;
@@ -164,64 +162,6 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
             jamoppElements1.add((Commentable) se.getWrappedElement());
         }
         return jamoppElements1;
-    }
-
-    @SuppressWarnings("unused")
-    private void christianClone(CloneDetector cloneDetector, List<VPMEdgeDescriptor> descriptors,
-            List<String> edgeRegistry, Node node1, Node node2, VariationPoint vp1, VariationPoint vp2) {
-        VPMEdgeDescriptor edge;
-        edge = null;
-        int numClones = countClonesInVariationPoints(vp1, vp2, cloneDetector);
-
-        String subLabel = String.valueOf(numClones);
-
-        if (numClones > THRESHOLD) {
-            edge = buildEdgeDescriptor(node1, node2, subLabel, edgeRegistry);
-        }
-
-        if (edge != null) {
-            descriptors.add(edge);
-        }
-    }
-
-    private int countClonesInVariationPoints(VariationPoint vp1, VariationPoint vp2, CloneDetector cloneDetector) {
-        int numClones = 0;
-
-        EList<Variant> vp1Variants = vp1.getVariants();
-        EList<Variant> vp2Variants = vp2.getVariants();
-
-        for (Variant vp1Variant : vp1Variants) {
-            for (Variant vp2Variant : vp2Variants) {
-                numClones += countClonesInVariants(vp1Variant, vp2Variant, cloneDetector);
-            }
-
-        }
-
-        return numClones;
-    }
-
-    private int countClonesInVariants(Variant vp1Variant, Variant vp2Variant, CloneDetector cloneDetector) {
-        int numClones = 0;
-
-        EList<SoftwareElement> vp1VariantElements = vp1Variant.getImplementingElements();
-        EList<SoftwareElement> vp2VariantElements = vp2Variant.getImplementingElements();
-
-        for (SoftwareElement vp1VariantElement : vp1VariantElements) {
-            for (SoftwareElement vp2VariantElement : vp2VariantElements) {
-                if (vp1VariantElement instanceof JaMoPPSoftwareElement
-                        && vp2VariantElement instanceof JaMoPPSoftwareElement) {
-
-                    Commentable commentable1 = ((JaMoPPSoftwareElement) vp1VariantElement).getJamoppElement();
-                    Commentable commentable2 = ((JaMoPPSoftwareElement) vp2VariantElement).getJamoppElement();
-
-                    if (cloneDetector.isClone(commentable1, commentable2)) {
-                        numClones++;
-                    }
-                }
-            }
-        }
-
-        return numClones;
     }
 
     @Override
