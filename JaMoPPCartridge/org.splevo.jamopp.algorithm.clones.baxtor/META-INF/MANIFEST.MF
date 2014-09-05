@@ -5,5 +5,6 @@ Bundle-SymbolicName: org.splevo.jamopp.algorithm.clones.baxtor
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: www.splevo.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.emftext.language.java;bundle-version="1.4.1"
+Require-Bundle: org.emftext.language.java;bundle-version="1.4.1",
+ org.splevo.jamopp.diffing
 Export-Package: org.splevo.jamopp.algorithm.clones.baxtor

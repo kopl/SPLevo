@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.commons.Commentable;
 import org.graphstream.graph.Node;
+import org.splevo.jamopp.algorithm.clones.baxtor.CloneDetectionType;
 import org.splevo.jamopp.algorithm.clones.baxtor.CloneDetector;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerException;
@@ -73,7 +74,7 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
     private List<VPMEdgeDescriptor> findEdgesBetweenClonedChanges(VPMGraph vpmGraph) {
 
         VPMEdgeDescriptor edge;
-        CloneDetector cloneDetector = new CloneDetector();
+        CloneDetector cloneDetector = new CloneDetector(CloneDetectionType.STRUCTURAL);
         List<VPMEdgeDescriptor> descriptors = new ArrayList<VPMEdgeDescriptor>();
         List<String> edgeRegistry = new ArrayList<String>();
 

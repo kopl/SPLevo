@@ -17,12 +17,21 @@ import java.util.List;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
+import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 
 /**
  * The clone detector detects clones between Commentables.
  *
  */
 public class CloneDetector {
+    
+    private final CloneDetectionType detectionType;
+    private final SimilarityChecker similarityChecker;
+    
+    public CloneDetector(CloneDetectionType detectionType) {
+        this.detectionType = detectionType;
+        this.similarityChecker = new SimilarityChecker();
+    }
 
     /**
      * Checks whether two commentables are clones of each other.
@@ -36,11 +45,17 @@ public class CloneDetector {
     public boolean isClone(Commentable commentable1, Commentable commentable2) {
 
         if (commentable1 == commentable2) {
-            return false;
+            return true;
         }
 
         if (commentable1.eClass() != commentable1.eClass()) {
             return false;
+        }
+        
+        if (detectionType == CloneDetectionType.EXACT) {
+            if (similarityChecker.isSimilar(commentable1, commentable2, false) == false) {
+                return false;
+            }
         }
 
         return wholeTreeCloned(commentable1, commentable2);
@@ -93,6 +108,13 @@ public class CloneDetector {
             if (content1.eClass() != content2.eClass()) {
                 return false;
             }
+            
+            if (detectionType == CloneDetectionType.EXACT) {
+                if (similarityChecker.isSimilar(commentable1, commentable2, false) == false) {
+                    return false;
+                }
+            }
+            
         }
 
         // If one tree has more elements than the other they are not the same
