@@ -25,8 +25,8 @@ import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerException;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
 import org.splevo.vpm.analyzer.VPMEdgeDescriptor;
+import org.splevo.vpm.analyzer.config.ChoiceConfiguration;
 import org.splevo.vpm.analyzer.config.NumericConfiguration;
-import org.splevo.vpm.analyzer.config.Range;
 import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 import org.splevo.vpm.analyzer.graph.VPMGraph;
 import org.splevo.vpm.software.SoftwareElement;
@@ -43,16 +43,16 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
     private static final String ANALYZER_NAME = "Cloned Change Analyzer";
     private static final String RELATIONSHIP_LABEL = "ClonedChange";
 
+    // ---------------------------------
+    // CONFIGURATIONS
+    // ---------------------------------
+    
     /** The configuration-object for the minimum number of elements to be involved in a clone configuration. */
-    private NumericConfiguration minElementThresholdConfig = new NumericConfiguration(Config.CONFIG_ID_INVOLVED_ELEMENT_THRESHOLD,
-            Config.LABEL_INVOLVED_ELEMENT_THRESHOLD, Config.EXPL_INVOLVED_ELEMENT_THRESHOLD, Config.DEFAULT_INVOLVED_ELEMENT_THRESHOLD, 1,
-            new Range(1, -1), 0);
+    private NumericConfiguration minElementThresholdConfig = Config.createMinElementThresholdConfig();
+    
+    /** The configuration object for the type of clone detection to be used. */
+    private ChoiceConfiguration detectionTypeConfig = Config.createDetectionTypeConfig();
 
-    /**
-     * Specifies how many software elements must be equal to consider two variation points to
-     * contain clones.
-     */
-    private int THRESHOLD = 10;
 
     /**
      * Analyze variation point relationship based on cloned changes between them.
@@ -74,7 +74,7 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
     private List<VPMEdgeDescriptor> findEdgesBetweenClonedChanges(VPMGraph vpmGraph) {
 
         VPMEdgeDescriptor edge;
-        CloneDetector cloneDetector = new CloneDetector(CloneDetectionType.STRUCTURAL);
+        CloneDetector cloneDetector = new CloneDetector(CloneDetectionType.valueOf(detectionTypeConfig.getCurrentValue()));
         List<VPMEdgeDescriptor> descriptors = new ArrayList<VPMEdgeDescriptor>();
         List<String> edgeRegistry = new ArrayList<String>();
 
@@ -91,7 +91,7 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
                 List<Commentable> jamoppElements1 = buildJaMoPPElementList(elements1);
                 int elementCount1 = countChildElements(jamoppElements1);
                 // skip due to element threshold
-                if (elementCount1 < THRESHOLD) {
+                if (elementCount1 < minElementThresholdConfig.getCurrentValue()) {
                     continue;
                 }
 
@@ -179,6 +179,7 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
     public VPMAnalyzerConfigurationSet getConfigurations() {
         VPMAnalyzerConfigurationSet configurations = new VPMAnalyzerConfigurationSet();
         configurations.addConfigurations(Config.CONFIG_GROUP_GENERAL, minElementThresholdConfig);
+        configurations.addConfigurations(Config.CONFIG_GROUP_GENERAL, detectionTypeConfig);
         return configurations;
     }
 
