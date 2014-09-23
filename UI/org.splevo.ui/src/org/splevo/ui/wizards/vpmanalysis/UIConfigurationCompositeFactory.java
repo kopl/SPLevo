@@ -8,6 +8,8 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Daniel Kojic
+ *    Christian Busch
  *******************************************************************************/
 package org.splevo.ui.wizards.vpmanalysis;
 
@@ -42,8 +44,6 @@ import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 
 /**
  * This class has methods to create the configuration panel for the analysis configuration wizard.
- *
- * @author Daniel Kojic
  *
  */
 public class UIConfigurationCompositeFactory {
@@ -137,33 +137,25 @@ public class UIConfigurationCompositeFactory {
      *            The numeric configuration.
      */
     private void createNumericConfigField(Composite parent, final NumericConfiguration config) {
+        final int decimalPlaces = 0;
+        
         addLabel(parent, config.getLabel(), false);
-        final double spinnerTransformationFactor = Math.pow(10, config.getNumFractionalDigits());
         final Spinner spinner = new Spinner(parent, SWT.NONE);
-        spinner.setIncrement((int) Math.round(config.getStepSize() * spinnerTransformationFactor));
-        spinner.setDigits(config.getNumFractionalDigits());
-
-        int value = (int) Math.round(config.getDefaultValue() * spinnerTransformationFactor);
-        spinner.setSelection(value);
+        spinner.setIncrement(config.getStepSize());
+        spinner.setDigits(decimalPlaces);
+        spinner.setMinimum(config.getLowerBoundary());
+        spinner.setMaximum(config.getUpperBoundary());
+        spinner.setSelection(config.getDefaultValue());
         spinner.addModifyListener(new ModifyListener() {
 
             @Override
             public void modifyText(ModifyEvent arg0) {
-                double spinnerValue = (double) spinner.getSelection() / spinnerTransformationFactor;
-
-                if (isInValidRange(config, spinnerValue)) {
-                    config.setCurrentValue(spinnerValue);
-                    spinner.setBackground(spinner.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-                } else {
-                    spinner.setBackground(spinner.getDisplay().getSystemColor(SWT.COLOR_DARK_YELLOW));
-                }
+                int spinnerValue = spinner.getSelection();
+                config.setCurrentValue(spinnerValue);
             }
 
-            private boolean isInValidRange(final NumericConfiguration config, double value) {
-                return (value >= config.getLowerBoundary() || config.getUpperBoundary() == -1)
-                        && (value <= config.getUpperBoundary() || config.getUpperBoundary() == -1);
-            }
         });
+        
         GridData layoutData = new GridData(SWT.BEGINNING, SWT.CENTER, true, false);
         layoutData.widthHint = 50;
         spinner.setLayoutData(layoutData);

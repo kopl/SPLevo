@@ -78,7 +78,7 @@ public final class Config {
      */
     public static NumericConfiguration createMinElementThresholdConfig() {
         return new NumericConfiguration(CONFIG_ID_INVOLVED_ELEMENT_THRESHOLD, LABEL_INVOLVED_ELEMENT_THRESHOLD,
-                EXPL_INVOLVED_ELEMENT_THRESHOLD, DEFAULT_INVOLVED_ELEMENT_THRESHOLD, 1, new Range(1, -1), 0);
+                EXPL_INVOLVED_ELEMENT_THRESHOLD, DEFAULT_INVOLVED_ELEMENT_THRESHOLD, 1, new Range<Integer>(1, Integer.MAX_VALUE));
     }
 
     /**

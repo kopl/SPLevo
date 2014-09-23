@@ -8,50 +8,54 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Christian Busch
  *******************************************************************************/
 package org.splevo.vpm.analyzer.config;
 
 /**
  * A simple range info container. From and to are defined as inclusive values.
+ * 
+ * @param <T>
+ *            A subtype of Number and Comparable to be used as value type of the range.
  */
-public class Range {
+public class Range<T extends Number & Comparable<? super T>> {
 
-    private double lower = 0;
-    private double upper = 0;
+    private final T lower;
+    private final T upper;
 
     /**
      * Creating a range and ensuring from and to to be in the right order.
-     *
+     * 
      * @param lower
      *            The lower value
      * @param upper
      *            The upper value
      */
-    public Range(double lower, double upper) {
-        if (upper < lower) {
-            this.lower = upper;
-            this.upper = lower;
-        } else {
+    public Range(T lower, T upper) {
+        if (lower.compareTo(upper) <= 0) {
             this.lower = lower;
             this.upper = upper;
+        } else {
+            throw new IllegalArgumentException("The lower bound (" + lower
+                    + ") has to be smaller than or equal to the upper bound (" + upper + ").");
         }
     }
 
     /**
      * Get the lower end of the range.
-     *
+     * 
      * @return The from value
      */
-    public double getLower() {
+    public T getLower() {
         return lower;
     }
 
     /**
      * Get the upper end of the range.
-     *
+     * 
      * @return The to value
      */
-    public double getUpper() {
+    public T getUpper() {
         return upper;
     }
 }

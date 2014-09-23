@@ -9,6 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and/or initial documentation
  *    Benjamin Klatt
+ *    Christian Busch
  *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic;
 
@@ -112,7 +113,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
     /** The configuration-object for the minimum number of shared terms configuration. */
     private NumericConfiguration minSharedTermConfig = new NumericConfiguration(Config.CONFIG_ID_SHARED_TERM_MINIMUM,
             Config.LABEL_SHARED_TERM_MINIMUM, Config.EXPL_SHARED_TERM_MINIMUM, Config.DEFAULT_SHARED_TERM_MINIMUM, 1,
-            new Range(1, -1), 0);
+            new Range<Integer>(1, Integer.MAX_VALUE));
 
     /** The configuration-object for the log indexed terms configuration. */
     private StringConfiguration logIndexedTermsConfig = new StringConfiguration(Config.CONFIG_ID_LOG_INDEXED_TERMS,

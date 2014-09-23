@@ -8,32 +8,29 @@
  *
  * Contributors:
  *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *    Daniel Kojic
+ *    Christian Busch
  *******************************************************************************/
 package org.splevo.vpm.analyzer.config;
 
 /**
- * This class is built for numerical inputs (integer & floats).
- *
- * @author Daniel Kojic
- *
+ * This class is built for integer numerical inputs.
+ * 
  */
-public class NumericConfiguration extends AbstractVPMAnalyzerConfiguration<Double> {
+public class NumericConfiguration extends AbstractVPMAnalyzerConfiguration<Integer> {
 
     /** Sets the size of the steps in the UI for increasing / decreasing the value stepwise. */
-    private double stepSize;
+    private int stepSize;
 
     /** The minimum value. */
-    private double lowerBoundary = 0;
+    private int lowerBoundary;
 
     /** The maximum value. */
-    private double upperBoundary = 0;
-
-    /** The amount of digits after the dot. */
-    private int numFractionalDigits;
+    private int upperBoundary;
 
     /**
      * This is the main constructor of this class.
-     *
+     * 
      * @param id
      *            The unique identifier of the configuration option.
      * @param label
@@ -47,24 +44,22 @@ public class NumericConfiguration extends AbstractVPMAnalyzerConfiguration<Doubl
      *            stepwise.
      * @param range
      *            The allowed value. Unlimited in case of null
-     * @param numFractionalDigits
-     *            The amount of digits after the dot.
      */
-    public NumericConfiguration(String id, String label, String explanation, double defaultValue, double stepSize,
-            Range range, int numFractionalDigits) {
+    public NumericConfiguration(String id, String label, String explanation, int defaultValue, int stepSize,
+            Range<Integer> range) {
         super(id, label, explanation, defaultValue);
         this.stepSize = stepSize;
-        if (range != null) {
-            this.lowerBoundary = range.getLower();
-            this.upperBoundary = range.getUpper();
+        if (range == null) {
+            throw new IllegalArgumentException("Range must not be null.");
         }
-        this.numFractionalDigits = numFractionalDigits;
+        this.lowerBoundary = range.getLower();
+        this.upperBoundary = range.getUpper();
     }
 
     /**
      * @return The step size.
      */
-    public double getStepSize() {
+    public int getStepSize() {
         return stepSize;
     }
 
@@ -72,14 +67,14 @@ public class NumericConfiguration extends AbstractVPMAnalyzerConfiguration<Doubl
      * @param stepSize
      *            The step size.
      */
-    public void setStepSize(double stepSize) {
+    public void setStepSize(int stepSize) {
         this.stepSize = stepSize;
     }
 
     /**
      * @return The minimum value.
      */
-    public double getLowerBoundary() {
+    public int getLowerBoundary() {
         return lowerBoundary;
     }
 
@@ -87,14 +82,14 @@ public class NumericConfiguration extends AbstractVPMAnalyzerConfiguration<Doubl
      * @param lowerBoundary
      *            The minimum value.
      */
-    public void setLowerBoundary(double lowerBoundary) {
+    public void setLowerBoundary(int lowerBoundary) {
         this.lowerBoundary = lowerBoundary;
     }
 
     /**
      * @return The maximum value.
      */
-    public double getUpperBoundary() {
+    public int getUpperBoundary() {
         return upperBoundary;
     }
 
@@ -102,31 +97,8 @@ public class NumericConfiguration extends AbstractVPMAnalyzerConfiguration<Doubl
      * @param upperBoundary
      *            The maximum value.
      */
-    public void setUpperBoundary(double upperBoundary) {
+    public void setUpperBoundary(int upperBoundary) {
         this.upperBoundary = upperBoundary;
     }
 
-    /**
-     * @return The amount of fractional digits.
-     */
-    public int getNumFractionalDigits() {
-        return numFractionalDigits;
-    }
-
-    /**
-     * @param numFractionalDigits
-     *            The amount of fractional digits.
-     */
-    public void setNumFractionalDigits(int numFractionalDigits) {
-        this.numFractionalDigits = numFractionalDigits;
-    }
-
-    /**
-     * Gets the current value as integer value. Rounded correctly as in Math.round(...).
-     *
-     * @return The integer value.
-     */
-    public Integer getIntegerValue() {
-        return (int) (getCurrentValue() + 0.5d);
-    }
 }
