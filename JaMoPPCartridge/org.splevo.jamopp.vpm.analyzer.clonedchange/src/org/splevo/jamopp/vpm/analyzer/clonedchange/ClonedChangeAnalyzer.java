@@ -132,7 +132,7 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
                         }
                     }
 
-                    if(cloneDetected) {
+                    if (cloneDetected) {
                         String subLabel = "Clone with " + involvedElements + " elements involved";
                         edge = buildEdgeDescriptor(node1, node2, subLabel, edgeRegistry);
                         if (edge != null) {

@@ -99,7 +99,7 @@ public class CloneDetector {
         TreeIterator<EObject> commentable2Contents = commentable2.eAllContents();
 
         // If both trees have same structure with elements of the same type at the same places we
-        // view them as the same. This way we are not dependent on the identifiers or values of
+        // view them as the structurally equal. This way we are not dependent on the identifiers or values of
         // attributes.
         while (commentable1Contents.hasNext() && commentable2Contents.hasNext()) {
             EObject content1 = commentable1Contents.next();
@@ -109,6 +109,7 @@ public class CloneDetector {
                 return false;
             }
             
+            // For exact clones check for similarity of the elements.
             if (detectionType == CloneDetectionType.EXACT) {
                 if (similarityChecker.isSimilar(commentable1, commentable2, false) == false) {
                     return false;
@@ -117,7 +118,7 @@ public class CloneDetector {
             
         }
 
-        // If one tree has more elements than the other they are not the same
+        // If one tree has more elements than the other they are not equal
         if (commentable1Contents.hasNext() || commentable2Contents.hasNext()) {
             return false;
         }

@@ -6,4 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: www.splevo.org
 Fragment-Host: org.splevo.jamopp.vpm.analyzer.clonedchange;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.junit
+Require-Bundle: org.junit,
+ org.splevo.vpm.analyzer
