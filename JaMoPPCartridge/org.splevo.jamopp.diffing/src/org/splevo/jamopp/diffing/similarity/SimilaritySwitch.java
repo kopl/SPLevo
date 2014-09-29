@@ -46,6 +46,7 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
+import org.emftext.language.java.expressions.NestedExpression;
 import org.emftext.language.java.expressions.RelationExpression;
 import org.emftext.language.java.expressions.RelationExpressionChild;
 import org.emftext.language.java.expressions.UnaryExpression;
@@ -557,6 +558,17 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             EList<ConditionalAndExpressionChild> children1 = exp1.getChildren();
             EList<ConditionalAndExpressionChild> children2 = exp2.getChildren();
             return similarityChecker.areSimilar(children1, children2);
+        }
+
+        @Override
+        public Boolean caseNestedExpression(NestedExpression exp1) {
+            
+            NestedExpression exp2 = (NestedExpression) compareElement;
+            
+            // check expression equality
+            Expression childExp1 = exp1.getExpression();
+            Expression childExp2 = exp2.getExpression();
+            return similarityChecker.isSimilar(childExp1, childExp2);
         }
 
         @Override

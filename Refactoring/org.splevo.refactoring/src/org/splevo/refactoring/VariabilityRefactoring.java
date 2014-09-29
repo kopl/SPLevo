@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Daniel Kojic
  *******************************************************************************/
 package org.splevo.refactoring;
 
@@ -40,7 +41,7 @@ public interface VariabilityRefactoring {
      *            Refactoring configurations.
      * @return A {@link List} of the changed {@link Resource}s.
      */
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringConfigurations);
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations);
 
     /**
      * Check if the refactoring can be applied to a specific variation point.

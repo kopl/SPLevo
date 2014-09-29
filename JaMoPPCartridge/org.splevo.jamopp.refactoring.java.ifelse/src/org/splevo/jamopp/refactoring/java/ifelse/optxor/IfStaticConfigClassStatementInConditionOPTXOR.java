@@ -11,24 +11,23 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optxor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.expressions.ConditionalOrExpression;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.StatementsFactory;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.Variant;
@@ -39,9 +38,9 @@ import com.google.common.collect.Lists;
 /**
  * Refactors variable else-statements.
  */
-public class IfStaticConfigClassConditionOPTXOR implements VariabilityRefactoring {
+public class IfStaticConfigClassStatementInConditionOPTXOR implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR): Condition";
+    private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR): Statement in Condition";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassConditionOPTXOR";
 
     @Override
@@ -53,73 +52,51 @@ public class IfStaticConfigClassConditionOPTXOR implements VariabilityRefactorin
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
-        RefactoringUtil.resolveVPsWithSameLocation(variationPoint);
-        
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         Statement elseStatement = vpLocation.getElseStatement();
 
         CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
         SPLConfigurationUtil.addConfigurationClassImportIfMissing(compilationUnit);
 
-        Condition variabilityCondition = null;
-        
-        if (variationPoint.getVariants().size() > 1) {
-            variabilityCondition = createConditionForMultipleVariants(variationPoint);
-        } else {
-            variabilityCondition = createConditionForSingleVariant(variationPoint.getVariants().get(0));
-        }
-
-        vpLocation.setElseStatement(variabilityCondition);
-        variabilityCondition.setElseStatement(elseStatement);
-
-        return Lists.newArrayList(vpLocation.eResource());
-    }
-
-    private Condition createConditionForMultipleVariants(VariationPoint variationPoint) {
         String groupId = variationPoint.getGroup().getId();
+        Condition previousCondition = vpLocation;
 
-        Condition condition = StatementsFactory.eINSTANCE.createCondition();
-        Block block = StatementsFactory.eINSTANCE.createBlock();
-        condition.setStatement(block);
-        
-        ConditionalOrExpression orExpression = createConfigMatchingExpressionForAllVariants(variationPoint, groupId);
-        condition.setCondition(orExpression);
-        
         for (Variant variant : variationPoint.getVariants()) {
-            Condition variabilityCondition = createConditionForSingleVariant(variant);
-            block.getStatements().add(variabilityCondition);
+            Condition variabilityCondition = RefactoringUtil.createVariabilityCondition(variant.getId(), groupId);
+
+            Commentable element = ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0)).getJamoppElement();
+            Statement stmt = EcoreUtil.copy((Statement) element);
+//            if (variant.getLeading()) {
+//                stmt = (Statement) element;
+//            } else {
+//                stmt = EcoreUtil.copy((Statement) element);
+//            }
+
+            if (stmt instanceof Block) {
+                variabilityCondition.setStatement(stmt);
+            } else {
+                Block ifBlock = (Block) variabilityCondition.getStatement();
+                ifBlock.getStatements().add(stmt);
+            }
+
+            previousCondition.setElseStatement(variabilityCondition);
+            previousCondition = variabilityCondition;
         }
-
-        return condition;
-    }
-
-    private ConditionalOrExpression createConfigMatchingExpressionForAllVariants(VariationPoint variationPoint,
-            String groupId) {
-        ConditionalOrExpression orExpression = ExpressionsFactory.eINSTANCE.createConditionalOrExpression();
         
-        for (Variant variant : variationPoint.getVariants()) {
-            IdentifierReference cond = SPLConfigurationUtil.generateConfigMatchingExpression(variant.getId(), groupId);
-            orExpression.getChildren().add(cond);
-        }
-        return orExpression;
-    }
+        previousCondition.setElseStatement(elseStatement);
 
-    private Condition createConditionForSingleVariant(Variant variant) {
-        String groupId = variant.getVariationPoint().getGroup().getId();
-        String variantId = variant.getId();
-        
-        Condition variabilityCondition = RefactoringUtil.createVariabilityCondition(variantId, groupId);
-        Statement stmtCpy = EcoreUtil.copy((Statement) ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0))
-                .getJamoppElement());
-
-        if (stmtCpy instanceof Block) {
-            variabilityCondition.setStatement(stmtCpy);
-        } else {
-            ((Block) variabilityCondition.getStatement()).getStatements().add(stmtCpy);
+        ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
+        ResourceSet resourceSet = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+                .getResourceSet();
+        String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
+        Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
+                variationPoint);
+        if (configResource != null) {
+            resourceList.add(configResource);
         }
 
-        return variabilityCondition;
+        return resourceList;
     }
 
     @Override

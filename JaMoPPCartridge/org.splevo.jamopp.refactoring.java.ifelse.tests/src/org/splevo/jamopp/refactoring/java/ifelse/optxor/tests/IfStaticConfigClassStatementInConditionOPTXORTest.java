@@ -16,32 +16,35 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.HashMap;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.expressions.ConditionalOrExpression;
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.members.MembersFactory;
+import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassConditionOPTXOR;
+import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementInConditionOPTXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfStaticConfigClassConditionOPTXOR} class.
+ * Contains the tests for the {@link IfStaticConfigClassStatementInConditionOPTXOR} class.
  */
-public class IfStaticConfigClassConditionOPTXORTest {
+public class IfStaticConfigClassStatementInConditionOPTXORTest {
 
     /**
      * Prepare the test. Initializes a log4j logging environment.
@@ -63,7 +66,7 @@ public class IfStaticConfigClassConditionOPTXORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -80,7 +83,7 @@ public class IfStaticConfigClassConditionOPTXORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -97,7 +100,7 @@ public class IfStaticConfigClassConditionOPTXORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -112,27 +115,42 @@ public class IfStaticConfigClassConditionOPTXORTest {
     @Test
     public void testRefactorCaseConditionAddCond() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConditionAddCondCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         // location has a blockand an else-if
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getStatement(), instanceOf(Block.class));
         assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
 
-        // has the two conditions in its if-block and another else
-        Condition varCond1 = (Condition) vpLocation.getElseStatement();
-        assertThat(varCond1.getCondition(), instanceOf(ConditionalOrExpression.class));
-        assertThat(varCond1.getElseStatement(), instanceOf(Condition.class));
-        assertThat(varCond1.getStatement(), instanceOf(Block.class));
-        assertThat(((Block) varCond1.getStatement()).getStatements().size(), equalTo(2));
+        // verify second if
+        Condition secondCond = (Condition) vpLocation.getElseStatement();
+        assertThat(secondCond.getStatement(), instanceOf(Block.class));
+        assertThat(secondCond.getCondition(), instanceOf(IdentifierReference.class));
+        assertThat(secondCond.getElseStatement(), instanceOf(Condition.class));
+        Block secondBlock = (Block) secondCond.getStatement();
+        assertThat(secondBlock.getStatements().size(), equalTo(1));
+        assertThat(secondBlock.getStatements().get(0), instanceOf(Condition.class));
 
-        // else-statement 2
-        Condition varCond2 = (Condition) varCond1.getElseStatement();
-        assertThat(varCond2.getCondition(), instanceOf(EqualityExpression.class));
-        assertThat(varCond2.getElseStatement(), nullValue());
-        assertThat(varCond2.getStatement(), instanceOf(Block.class));
-        assertThat(((Block) varCond2.getStatement()).getStatements().size(), equalTo(1));
+        // verify third if
+        Condition thirdCond = (Condition) secondCond.getElseStatement();
+        assertThat(thirdCond.getStatement(), instanceOf(Block.class));
+        assertThat(thirdCond.getCondition(), instanceOf(IdentifierReference.class));
+        assertThat(thirdCond.getElseStatement(), instanceOf(Condition.class));
+        Block thirdBlock = (Block) thirdCond.getStatement();
+        assertThat(thirdBlock.getStatements().size(), equalTo(1));
+        assertThat(thirdBlock.getStatements().get(0), instanceOf(Condition.class));
+
+        // verify fourth if
+        Condition fourthCond = (Condition) thirdCond.getElseStatement();
+        assertThat(fourthCond.getStatement(), instanceOf(Block.class));
+        assertThat(fourthCond.getCondition(), instanceOf(EqualityExpression.class));
+        assertThat(fourthCond.getElseStatement(), nullValue());
+        Block fourthBlock = (Block) fourthCond.getStatement();
+        assertThat(fourthBlock.getStatements().size(), equalTo(1));
+        assertThat(fourthBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
     }
 
     /**
@@ -145,41 +163,38 @@ public class IfStaticConfigClassConditionOPTXORTest {
     @Test
     public void testRefactorCaseConditionDifferentElseStatement() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConditionDifferentElseStatementCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         // location has a condition with an if-block and an else-block
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getStatement(), instanceOf(Block.class));
         assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
 
-        // else-if has two var conditions
-        Condition mainVarCond = (Condition) vpLocation.getElseStatement();
-        assertThat(mainVarCond.getStatement(), instanceOf(Block.class));
-        assertThat(mainVarCond.getCondition(), instanceOf(ConditionalOrExpression.class));
-        assertThat(mainVarCond.getElseStatement(), instanceOf(ExpressionStatement.class));
+        // verify second if
+        Condition secondCond = (Condition) vpLocation.getElseStatement();
+        assertThat(secondCond.getStatement(), instanceOf(Block.class));
+        assertThat(secondCond.getCondition(), instanceOf(IdentifierReference.class));
+        assertThat(secondCond.getElseStatement(), instanceOf(Condition.class));
+        Block secondBlock = (Block) secondCond.getStatement();
+        assertThat(secondBlock.getStatements().size(), equalTo(1));
+        assertThat(secondBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
 
-        // verify block contents. should have two var conds
-        Block block = (Block) mainVarCond.getStatement();
-        assertThat(block.getStatements().size(), equalTo(2));
-        assertThat(block.getStatements().get(0), instanceOf(Condition.class));
-        assertThat(block.getStatements().get(1), instanceOf(Condition.class));
-
-        Condition varCond1 = (Condition) block.getStatements().get(0);
-        Condition varCond2 = (Condition) block.getStatements().get(1);
-        assertThat(varCond1.getElseStatement(), nullValue());
-        assertThat(varCond2.getElseStatement(), nullValue());
-
-        // both varconditions contain one element
-        assertThat(varCond1.getStatement(), instanceOf(Block.class));
-        assertThat(varCond2.getStatement(), instanceOf(Block.class));
-        assertThat(((Block) varCond1.getStatement()).getStatements().size(), equalTo(1));
-        assertThat(((Block) varCond2.getStatement()).getStatements().size(), equalTo(1));
+        // verify third if
+        Condition thirdCond = (Condition) secondCond.getElseStatement();
+        assertThat(thirdCond.getStatement(), instanceOf(Block.class));
+        assertThat(thirdCond.getCondition(), instanceOf(IdentifierReference.class));
+        assertThat(thirdCond.getElseStatement(), instanceOf(ExpressionStatement.class));
+        Block thirdBlock = (Block) thirdCond.getStatement();
+        assertThat(thirdBlock.getStatements().size(), equalTo(1));
+        assertThat(thirdBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
     }
 
     /**
-     * Tests whether the refactoring merges conditions correctly where each variant has two
-     * exclusive else-ifs.
+     * Tests whether the variation point has the correct number of else-ifs when refactoring
+     * conditions.
      * 
      * @throws Exception
      *             In case of an unexpected exception.
@@ -187,8 +202,10 @@ public class IfStaticConfigClassConditionOPTXORTest {
     @Test
     public void testRefactorCaseConditionAddMultipleCond() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConditionAddMultipleCondCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassConditionOPTXOR refactoring = new IfStaticConfigClassConditionOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         // location has a condition with an if-block and an else-block
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
@@ -204,6 +221,6 @@ public class IfStaticConfigClassConditionOPTXORTest {
             conditionCounter++;
         }
 
-        assertThat(conditionCounter, equalTo(4));
+        assertThat(conditionCounter, equalTo(5));
     }
 }

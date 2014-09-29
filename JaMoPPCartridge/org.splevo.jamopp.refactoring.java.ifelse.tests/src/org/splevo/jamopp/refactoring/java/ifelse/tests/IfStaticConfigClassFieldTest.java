@@ -21,6 +21,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -43,6 +44,7 @@ import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -122,8 +124,10 @@ public class IfStaticConfigClassFieldTest {
     public void testRefactorCaseFieldAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getFieldAddCase(VariabilityType.OPTXOR);
         IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
-        refactoring.refactor(vp, null);
-
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
+        
         // location has two fields
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMembers().size(), equalTo(2));
@@ -153,7 +157,9 @@ public class IfStaticConfigClassFieldTest {
     public void testRefactorCaseFieldDifferentInitialValues() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getFieldDifferentInitialValuesCase(VariabilityType.OPTXOR);
         IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
-        refactoring.refactor(vp, null);
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         // location has two members where one is a field
         Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();

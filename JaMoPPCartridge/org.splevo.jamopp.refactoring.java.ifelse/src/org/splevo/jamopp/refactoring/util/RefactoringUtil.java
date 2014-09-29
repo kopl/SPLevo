@@ -76,6 +76,7 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
+import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
@@ -322,24 +323,24 @@ public final class RefactoringUtil {
      * @param eObject
      *            The {@link EObject} to be checked for referenced {@link LocalVariable}s.
      */
-    public static void initializeAndRemoveFinalForReferencedLocalVariables(EObject eObject) {
+    public static void initializeAndRemoveFinalForReferencedVariables(EObject eObject) {
         TreeIterator<Object> contents = EcoreUtil.getAllContents(eObject, true);
 
         while (contents.hasNext()) {
             EObject child = (EObject) contents.next();
             for (EObject crossReference : child.eCrossReferences()) {
+                if (crossReference instanceof AnnotableAndModifiable) {
+                    removeFinalIfApplicable((AnnotableAndModifiable) crossReference);
+                }
                 if (crossReference instanceof LocalVariable) {
                     LocalVariable variable = (LocalVariable) crossReference;
-
                     if (variable.getInitialValue() == null) {
                         Type variableType = variable.getTypeReference().getTarget();
                         variable.setInitialValue(getDefaultValueForType(variableType));
                     }
-
-                    removeFinalIfApplicable(variable);
                 }
             }
-            initializeAndRemoveFinalForReferencedLocalVariables(child);
+            initializeAndRemoveFinalForReferencedVariables(child);
         }
     }
 
@@ -598,36 +599,6 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Checks recursively whether a variation point's variants have an element of a certain type.
-     * 
-     * @param variationPoint
-     *            The {@link VariationPoint}.
-     * @param c
-     *            The type's {@link java.lang.Class}.
-     * @param <T>
-     *            The type.
-     * @return <code>true</code> a element was found; <code>false</code> otherwise.
-     */
-    public static <T> boolean hasImplementingElementsOfType(VariationPoint variationPoint, java.lang.Class<T> c) {
-        for (Variant variant : variationPoint.getVariants()) {
-            for (SoftwareElement se : variant.getImplementingElements()) {
-                Commentable commentable = ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (c.isAssignableFrom(commentable.getClass())) {
-                    return true;
-                }
-                TreeIterator<EObject> it = commentable.eAllContents();
-                while (it.hasNext()) {
-                    EObject eObject = it.next();
-                    if (c.isAssignableFrom(eObject.getClass())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * Checks whether two statements are equal. Uses the {@link SimilarityChecker} for comparison.
      * 
      * @param c1
@@ -648,7 +619,9 @@ public final class RefactoringUtil {
      * @return The {@link Literal}.
      */
     public static Literal getDefaultValueForType(Type type) {
-        if (type instanceof org.emftext.language.java.types.Boolean) {
+        if (type instanceof org.emftext.language.java.types.Void) {
+            return null;
+        } else if (type instanceof org.emftext.language.java.types.Boolean) {
             BooleanLiteral literal = LiteralsFactory.eINSTANCE.createBooleanLiteral();
             literal.setValue(false);
             return literal;
@@ -730,30 +703,6 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Checks whether a given container has local variable declarations with a given name.
-     * 
-     * @param container
-     *            The container.
-     * @param name
-     *            The {@link String} name.
-     * @return <code>true</code> if such a variable was found; <code>false</code> otherwise.
-     */
-    public static boolean hasVariableWithSameName(StatementListContainer container, String name) {
-        for (Statement statement : container.getStatements()) {
-            if (!(statement instanceof LocalVariableStatement)) {
-                continue;
-            }
-
-            boolean hasEqualName = ((LocalVariableStatement) statement).getVariable().getName().equals(name);
-
-            if (hasEqualName) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Checks whether a given container has a class, interface or enumeration with with a given
      * name.
      * 
@@ -783,13 +732,19 @@ public final class RefactoringUtil {
      */
     public static void resolveVPsWithSameLocation(VariationPoint variationPoint) {
         VariationPointModel vpm = variationPoint.getGroup().getModel();
+        Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         for (VariationPointGroup vpg : vpm.getVariationPointGroups()) {
             for (VariationPoint vp : vpg.getVariationPoints()) {
-                if (vp.getLocation() != variationPoint.getLocation() || vp == variationPoint) {
+                Commentable currentVPLocation = ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+                if (vpLocation != currentVPLocation && !JaMoPPElementUtil.isParentOf(vpLocation, currentVPLocation)) {
                     continue;
                 }
 
                 for (Variant v : vp.getVariants()) {
+                    if (!v.getLeading()) {
+                        continue;
+                    }
+
                     for (SoftwareElement se : v.getImplementingElements()) {
                         EcoreUtil.resolveAll(se);
                     }

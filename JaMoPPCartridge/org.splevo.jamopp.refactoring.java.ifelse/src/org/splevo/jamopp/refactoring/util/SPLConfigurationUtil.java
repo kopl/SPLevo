@@ -12,7 +12,9 @@
 package org.splevo.jamopp.refactoring.util;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -34,12 +36,19 @@ import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
+import org.splevo.vpm.variability.VariationPoint;
 
 /**
  * This class provides utility methods when it comes to the configuration of the SPL which is to be
  * built.
  */
+/**
+ * @author daniel
+ * 
+ */
 public final class SPLConfigurationUtil {
+
+    private static Logger logger = Logger.getLogger(SPLConfigurationUtil.class);
 
     public static final String CONFIGURATION_READER_CLASS_NAME = "SPLConfig";
 
@@ -47,6 +56,27 @@ public final class SPLConfigurationUtil {
      * Force static access with a private constructor.
      */
     private SPLConfigurationUtil() {
+    }
+
+    /**
+     * Creates or searches a configuration file in a given resource set depending on whether it is
+     * already existing or not. Adds a new configuration with the first variant as default value.
+     * 
+     * @param sourcePath
+     *            The {@link String} source path to store or search the configuration file in.
+     * @param resourceSet
+     *            The {@link ResourceSet} to store or search the configuration file in.
+     * @param variationPoint
+     *            The {@link VariationPoint} to create the configuration for.
+     * @return The resource containing the configuration file; <code>null</code> if none created.
+     */
+    public static Resource addConfigurationIfMissing(String sourcePath, ResourceSet resourceSet,
+            VariationPoint variationPoint) {
+        Resource configFileResource = SPLConfigurationUtil.generateConfigurationClassIfMissing(resourceSet, sourcePath);
+
+        SPLConfigurationUtil.addConfigurationToConfigurationClass(resourceSet, sourcePath, variationPoint);
+
+        return configFileResource;
     }
 
     /**
@@ -119,7 +149,7 @@ public final class SPLConfigurationUtil {
 
     private static CompilationUnit getConfigurationCompilationUnit() {
         CompilationUnit cu = ContainersFactory.eINSTANCE.createCompilationUnit();
-        cu.setName(CONFIGURATION_READER_CLASS_NAME + ".java");
+        cu.setName("org.splevo.config." + CONFIGURATION_READER_CLASS_NAME + ".java");
         cu.getNamespaces().clear();
         cu.getNamespaces().add("org");
         cu.getNamespaces().add("splevo");
@@ -132,22 +162,34 @@ public final class SPLConfigurationUtil {
     }
 
     /**
-     * Adds a configuration (a field) with a given name and value to a given configuration class.
+     * Adds a configuration in a configuration class. The configuration is a field named after the
+     * ID of the {@link VariationPoint} and the first variant's ID as default value.
      * 
-     * @param splConfigurationClass
-     *            The configuration {@link ConcreteClassifier}.
-     * @param configurationName
-     *            The configuration {@link String} name.
-     * @param configurationValue
-     *            The configuration {@link String} value.
+     * @param rs
+     *            The {@link ResourceSet} which contains the configuration class.
+     * @param sourcePath
+     *            The path of the configuration file.
+     * @param vp
+     *            The {@link VariationPoint}.
      */
-    public static void addConfigurationToConfigurationClass(ConcreteClassifier splConfigurationClass,
-            String configurationName, String configurationValue) {
+    public static void addConfigurationToConfigurationClass(ResourceSet rs, String sourcePath, VariationPoint vp) {
+        URI uri = generateConfigFileUri(sourcePath);
+        Resource configResource = rs.getResource(uri, false);
+        CompilationUnit cu = (CompilationUnit) configResource.getContents().get(0);
+        ConcreteClassifier configClass = cu.getClassifiers().get(0);
+
+        String groupID = vp.getGroup().getId();
+
+        if (configurationClassHasConfigurationWithName(configClass, groupID)) {
+            return;
+        }
+
         StringReference configurationValueRef = ReferencesFactory.eINSTANCE.createStringReference();
-        configurationValueRef.setValue(configurationValue);
+        String firstVariantID = vp.getVariants().get(0).getId();
+        configurationValueRef.setValue(firstVariantID);
 
         Field field = MembersFactory.eINSTANCE.createField();
-        field.setName(configurationName);
+        field.setName(groupID);
         field.setInitialValue(configurationValueRef);
 
         Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
@@ -160,7 +202,7 @@ public final class SPLConfigurationUtil {
         field.addModifier(ModifiersFactory.eINSTANCE.createStatic());
         field.addModifier(ModifiersFactory.eINSTANCE.createFinal());
 
-        splConfigurationClass.getMembers().add(field);
+        configClass.getMembers().add(field);
     }
 
     /**
@@ -184,61 +226,6 @@ public final class SPLConfigurationUtil {
     }
 
     /**
-     * Searches a given {@link ResourceSet} for a configuration class and returns it.
-     * 
-     * @param resourceSet
-     *            The {@link Resource}.
-     * @return The configuration {@link ConcreteClassifier}. <code>null</code> if nothing found.
-     */
-    public static ConcreteClassifier findConfigurationClass(ResourceSet resourceSet) {
-        for (Resource resource : resourceSet.getResources()) {
-            boolean sizeIsOne = resource.getContents().size() == 1;
-            if (!sizeIsOne) {
-                continue;
-            }
-
-            boolean contentIsACompilationUnit = resource.getContents().get(0) instanceof CompilationUnit;
-            if (!contentIsACompilationUnit) {
-                continue;
-            }
-
-            CompilationUnit compilationUnit = (CompilationUnit) resource.getContents().get(0);
-            boolean hasCompilationUnitHasCorrectName = compilationUnit.getName().equals(
-                    CONFIGURATION_READER_CLASS_NAME + ".java");
-            if (!hasCompilationUnitHasCorrectName) {
-                continue;
-            }
-
-            boolean hasOneClassifier = compilationUnit.getClassifiers().size() == 1;
-            if (!hasOneClassifier) {
-                continue;
-            }
-
-            ConcreteClassifier concreteClassifier = compilationUnit.getClassifiers().get(0);
-            boolean classifierHasCorrectName = concreteClassifier.getName().equals(CONFIGURATION_READER_CLASS_NAME);
-            if (!classifierHasCorrectName) {
-                continue;
-            }
-
-            return concreteClassifier;
-        }
-
-        return null;
-    }
-
-    /**
-     * Checks whether or not a given {@link ResourceSet} already has a configuration class.
-     * 
-     * @param resourceSet
-     *            The {@link ResourceSet}.
-     * @return <code>true</code> if it contains such a class; <code>false</code> otherwise.
-     */
-    public static boolean hasConfigurationClass(ResourceSet resourceSet) {
-        ConcreteClassifier configurationClass = findConfigurationClass(resourceSet);
-        return configurationClass != null;
-    }
-
-    /**
      * Generates the SPL configuration class in a given {@link ResourceSet}.
      * 
      * @param resourceSet
@@ -247,8 +234,26 @@ public final class SPLConfigurationUtil {
      *            The source path of the project to create the class in.
      * @return The {@link Resource} containing the class.
      */
-    public static Resource generateConfigurationClassIn(ResourceSet resourceSet, String sourcePath) {
+    public static Resource generateConfigurationClassIfMissing(ResourceSet resourceSet, String sourcePath) {
+        URI uri = generateConfigFileUri(sourcePath);
+        Resource configResource = resourceSet.getResource(uri, false);
+        if (configResource != null) {
+            return null;
+        }
+
         CompilationUnit configurationCompilationUnit = getConfigurationCompilationUnit();
+        Resource resource = resourceSet.createResource(uri);
+        resource.getContents().add(configurationCompilationUnit);
+        try {
+            resource.save(null);
+        } catch (IOException e) {
+            logger.error("Could not save configuraiton resource.", e);
+        }
+
+        return resource;
+    }
+
+    private static URI generateConfigFileUri(String sourcePath) {
         String path = sourcePath;
         if (!path.endsWith(File.separator)) {
             path += File.separator;
@@ -258,10 +263,7 @@ public final class SPLConfigurationUtil {
         path += "config" + File.separator;
         path += CONFIGURATION_READER_CLASS_NAME + ".java";
         URI uri = URI.createFileURI(path);
-        Resource resource = resourceSet.createResource(uri);
-        resource.getContents().add(configurationCompilationUnit);
-
-        return resource;
+        return uri;
     }
 
     /**

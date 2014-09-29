@@ -48,7 +48,7 @@ public class IfStaticConfigClassBlock implements VariabilityRefactoring {
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
 

@@ -11,11 +11,13 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optxor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -34,6 +36,7 @@ import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.VariabilityPositionUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -48,9 +51,9 @@ import com.google.common.collect.Lists;
  * common variables with different types, the whole method gets extracted into variant-specific
  * methods. Throws an exception if no variant was selected in the configuration.
  */
-public class IfStaticConfigClassStatementOPTXOR implements VariabilityRefactoring {
+public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implements VariabilityRefactoring {
 
-    private static final String REFACTORING_NAME = "IF-Else with Static Configuration Class (OPTXOR): Statement";
+    private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR): Statement in StatementListContainer";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementOPTXOR";
 
     @Override
@@ -62,9 +65,7 @@ public class IfStaticConfigClassStatementOPTXOR implements VariabilityRefactorin
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
-        RefactoringUtil.resolveVPsWithSameLocation(variationPoint);
-
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
 
@@ -84,12 +85,22 @@ public class IfStaticConfigClassStatementOPTXOR implements VariabilityRefactorin
         RefactoringUtil.deleteVariableStatements(variationPoint);
 
         vpLocation.getStatements().addAll(variabilityPositionStart, localVariableStatements.values());
-        
+
         if (vpLocation instanceof ClassMethod) {
             addMandatoryReturnIfNecessary(variationPoint);
         }
 
-        return Lists.newArrayList(vpLocation.eResource());
+        ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
+        ResourceSet resourceSet = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+                .getResourceSet();
+        String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
+        Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
+                variationPoint);
+        if (configResource != null) {
+            resourceList.add(configResource);
+        }
+
+        return resourceList;
     }
 
     private static Condition generateVariantCondition(Variant variant,
@@ -103,12 +114,7 @@ public class IfStaticConfigClassStatementOPTXOR implements VariabilityRefactorin
 
         for (SoftwareElement se : variant.getImplementingElements()) {
             Statement originalStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
-            Statement statement = null;
-            if (variant.getLeading()) {
-                statement = originalStatement;
-            } else {
-                statement = EcoreUtil.copy(originalStatement);
-            }
+            Statement statement = EcoreUtil.copy(originalStatement);
 
             int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se);
 
@@ -128,7 +134,7 @@ public class IfStaticConfigClassStatementOPTXOR implements VariabilityRefactorin
                 }
             }
 
-            RefactoringUtil.initializeAndRemoveFinalForReferencedLocalVariables(statement);
+            RefactoringUtil.initializeAndRemoveFinalForReferencedVariables(statement);
 
             if (statement != null) {
                 ((Block) currentCondition.getStatement()).getStatements().add(statement);

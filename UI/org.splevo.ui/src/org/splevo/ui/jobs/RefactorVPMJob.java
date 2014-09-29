@@ -56,7 +56,7 @@ public class RefactorVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         VariationPointModel vpm = getBlackboard().getVariationPointModel();
 
         String leadingSrcPath = new File(getLeadingSrcPath()).getAbsolutePath();
-        Map<String, String> refactoringConfigurations = Maps.newHashMap();
+        Map<String, Object> refactoringConfigurations = Maps.newHashMap();
         refactoringConfigurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, leadingSrcPath);
 
         VariabilityRefactoringService variabilityRefactoringService = new VariabilityRefactoringService();

@@ -11,12 +11,14 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
@@ -36,8 +38,10 @@ import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
+import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -64,7 +68,7 @@ public class IfStaticConfigClassField implements VariabilityRefactoring {
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         Map<String, Field> fieldToFieldName = new HashMap<String, Field>();
         Map<String, Integer> positionToFieldName = new HashMap<String, Integer>();
         Map<String, List<Expression>> initialValuesToFieldName = new HashMap<String, List<Expression>>();
@@ -88,9 +92,9 @@ public class IfStaticConfigClassField implements VariabilityRefactoring {
 
             vpLocation.getMembers().add(fieldPos, field);
 
-            RefactoringUtil.removeFinalIfApplicable(field);
-
             if (initialValues.size() > 1) {
+                RefactoringUtil.removeFinalIfApplicable(field);
+
                 field.setInitialValue(null);
 
                 for (Expression value : initialValues) {
@@ -118,7 +122,17 @@ public class IfStaticConfigClassField implements VariabilityRefactoring {
             vpLocation.getMembers().add(0, nonStaticBlock);
         }
 
-        return Lists.newArrayList(vpLocation.eResource());
+        ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
+        ResourceSet resourceSet = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+                .getResourceSet();
+        String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
+        Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
+                variationPoint);
+        if (configResource != null) {
+            resourceList.add(configResource);
+        }
+
+        return resourceList;
     }
 
     private ExpressionStatement createFieldAssignment(Field field, Expression value) {

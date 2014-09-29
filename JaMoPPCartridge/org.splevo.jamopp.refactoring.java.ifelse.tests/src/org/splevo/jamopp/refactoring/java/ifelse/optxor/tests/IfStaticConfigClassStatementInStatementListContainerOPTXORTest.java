@@ -18,6 +18,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -44,18 +45,19 @@ import org.emftext.language.java.variables.LocalVariable;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
-import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementOPTXOR;
+import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementInStatementListContainerOPTXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Contains the tests for the {@link IfStaticConfigClassStatementOPTXOR} class.
+ * Contains the tests for the {@link IfStaticConfigClassStatementInStatementListContainerOPTXOR} class.
  */
-public class IfStaticConfigClassStatementOPTXORTest {
+public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
@@ -76,7 +78,7 @@ public class IfStaticConfigClassStatementOPTXORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -125,7 +127,7 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testIfCanBeAppliedWithVariableDiffTypes() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementLocalVarDiffTypesCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
 
         assertThat(refactoring.canBeAppliedTo(vp), equalTo(false));
     }
@@ -141,8 +143,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseLocalVariableEqualType() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
@@ -192,8 +196,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseLocalVariableEqualTypeSplit() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeSplitCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
@@ -264,8 +270,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseOneAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementOneAddCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
@@ -302,8 +310,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseOneEither() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementOneEitherCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
 
@@ -341,8 +351,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseNestedTry() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedTryCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -381,8 +393,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseNestedCatch() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedCatchCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -421,8 +435,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseNestedCondition() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedConditionCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -461,8 +477,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseNestedFor() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedForCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -501,8 +519,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseNestedWhile() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedWhileCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();
@@ -541,8 +561,10 @@ public class IfStaticConfigClassStatementOPTXORTest {
     @Test
     public void testRefactorCaseNestedSwitchCase() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedSwitchCaseCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementOPTXOR refactoring = new IfStaticConfigClassStatementOPTXOR();
-        refactoring.refactor(vp, null);
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        HashMap<String, Object> configurations = new HashMap<String, Object>();
+        configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
+        refactoring.refactor(vp, configurations);
 
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
                 .getJamoppElement();

@@ -49,13 +49,13 @@ public class IfStaticConfigClassCompilationUnit implements VariabilityRefactorin
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringConfigurations) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
         if (refactoringConfigurations == null
                 || !refactoringConfigurations.containsKey(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY)) {
             throw new IllegalArgumentException("JAVA_SOURCE_DIRECTORY configuration not found.");
         }
 
-        String sourcePath = refactoringConfigurations.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
+        String sourcePath = (String) refactoringConfigurations.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
 
         ResourceSet resourceSet = new ResourceSetImpl();
         for (Variant variant : variationPoint.getVariants()) {

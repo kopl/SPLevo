@@ -1,3 +1,4 @@
+package org.splevo.refactoring;
 /*******************************************************************************
  * Copyright (c) 2013
  *
@@ -8,8 +9,9 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Daniel Kojic
  *******************************************************************************/
-package org.splevo.refactoring;
+
 
 import java.util.LinkedList;
 import java.util.List;

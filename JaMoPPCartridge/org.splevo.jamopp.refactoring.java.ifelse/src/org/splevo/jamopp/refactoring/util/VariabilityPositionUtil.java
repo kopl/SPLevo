@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.util;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.emftext.language.java.commons.Commentable;
@@ -23,10 +24,11 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
-
-import com.google.common.collect.Lists;
+import org.splevo.vpm.variability.VariationPointGroup;
+import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * Handles the calculation of the variablity position for variation points.
@@ -57,22 +59,21 @@ public class VariabilityPositionUtil {
                 .getImplementingElements().get(0)).getJamoppElement();
         StatementListContainer integrationContainer = (StatementListContainer) firstImplElement.eContainer();
         int posInIntegration = JaMoPPElementUtil.getPositionInContainer(firstImplElement);
-
         List<Statement> predecessors = integrationContainer.getStatements().subList(0, posInIntegration);
 
-        intersect(vpLocation, predecessors);
+        predecessors = intersect(vpLocation, predecessors);
 
         if (predecessors.size() == 0) {
             return 0;
         }
 
-        int pos = getEndPositionOfFirstGroupOccurence(vpLocation, predecessors);
+        int pos = searchInVPLocation(variationPoint, predecessors);
 
         return pos + 1;
     }
 
-    private static void intersect(StatementListContainer vpLocation, List<Statement> predecessors) {
-        List<Statement> toBeDeleted = Lists.newLinkedList();
+    private static List<Statement> intersect(StatementListContainer vpLocation, List<Statement> predecessors) {
+        List<Statement> result = new LinkedList<Statement>(predecessors);
         for (Statement predecessor : predecessors) {
             boolean found = false;
             for (Statement vpLocationStatement : vpLocation.getStatements()) {
@@ -91,32 +92,35 @@ public class VariabilityPositionUtil {
                 }
             }
             if (!found) {
-                toBeDeleted.add(predecessor);
+                result.remove(predecessor);
             }
         }
-        predecessors.removeAll(toBeDeleted);
+        return result;
     }
 
-    private static int getEndPositionOfFirstGroupOccurence(StatementListContainer targetContainer,
-            List<Statement> predecessors) {
+    private static int searchInVPLocation(VariationPoint variationPoint, List<Statement> predecessors) {
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+                .getLocation()).getJamoppElement();
+
         int predecessorPos = 0;
 
-        for (int i = 0; i < targetContainer.getStatements().size(); i++) {
-            Statement baseStatement = targetContainer.getStatements().get(i);
+        for (int i = 0; i < vpLocation.getStatements().size(); i++) {
+            Statement baseStatement = vpLocation.getStatements().get(i);
             Statement predecessor = predecessors.get(predecessorPos);
 
             if (RefactoringUtil.areEqual(baseStatement, predecessor)) {
                 predecessorPos++;
             } else if (isVariabilityCondition(baseStatement)) {
                 Block ifBlock = (Block) ((Condition) baseStatement).getStatement();
-                predecessorPos += countVariableStatements(ifBlock,
+                predecessorPos += countEqualElementsInContainer(ifBlock,
                         predecessors.subList(predecessorPos, predecessors.size()));
             }
 
             if (predecessorPos == predecessors.size()) {
                 if (predecessor instanceof LocalVariableStatement) {
-                    int posNextVarCond = posNextVariabilityCondition(targetContainer, i);
-                    return posNextVarCond != -1 ? posNextVarCond : i;
+                    String variableName = ((LocalVariableStatement) predecessor).getVariable().getName();
+                    int numVariants = getNumVariantsFor(variationPoint, variableName);
+                    i += numVariants;
                 }
                 return i;
             }
@@ -125,23 +129,41 @@ public class VariabilityPositionUtil {
         return -1;
     }
 
-    private static int posNextVariabilityCondition(StatementListContainer targetContainer, int startIndex) {
-        for (int i = startIndex; i < targetContainer.getStatements().size(); i++) {
-            Statement currentStatement = targetContainer.getStatements().get(i);
-            if (isVariabilityCondition(currentStatement)) {
-                return i;
+    private static int getNumVariantsFor(VariationPoint variationPoint, String variableName) {
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+                .getLocation()).getJamoppElement();
+
+        VariationPointModel vpm = variationPoint.getGroup().getModel();
+
+        int numVariants = 0;
+        for (VariationPointGroup vpg : vpm.getVariationPointGroups()) {
+            for (VariationPoint vp : vpg.getVariationPoints()) {
+                Commentable currentVPL = ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+                if (currentVPL != vpLocation) {
+                    continue;
+                }
+                for (Variant v : vp.getVariants()) {
+                    for (SoftwareElement se : v.getImplementingElements()) {
+                        Commentable element = ((JaMoPPSoftwareElement) se).getJamoppElement();
+                        if (element instanceof LocalVariableStatement
+                                && ((LocalVariableStatement) element).getVariable().getName().equals(variableName)) {
+                            numVariants++;
+                            break;
+                        }
+                    }
+                }
             }
         }
-        return -1;
+        return numVariants;
     }
 
-    private static int countVariableStatements(StatementListContainer container, List<Statement> precedingElements) {
+    private static int countEqualElementsInContainer(StatementListContainer container, List<Statement> elements) {
         int result = 0;
         for (Statement statement : container.getStatements()) {
-            if (result == precedingElements.size()) {
+            if (result == elements.size()) {
                 break;
             }
-            if (RefactoringUtil.areEqual(statement, precedingElements.get(result))) {
+            if (RefactoringUtil.areEqual(statement, elements.get(result))) {
                 result++;
             }
         }

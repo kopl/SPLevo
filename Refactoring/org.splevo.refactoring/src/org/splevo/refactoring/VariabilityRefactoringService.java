@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Benjamin Klatt
+ *    Daniel Kojic
+ *******************************************************************************/
 package org.splevo.refactoring;
 
 import java.io.IOException;
@@ -35,7 +47,7 @@ public class VariabilityRefactoringService {
      *            Refactoring configurations.
      * @return The ResourceSet referencing the refactored software.
      */
-    public Set<Resource> refactor(VariationPointModel variationPointModel, Map<String, String> refactoringConfigurations) {
+    public Set<Resource> refactor(VariationPointModel variationPointModel, Map<String, Object> refactoringConfigurations) {
         Set<Resource> toBeSaved = new HashSet<Resource>();
         for (VariationPointGroup vpGroup : variationPointModel.getVariationPointGroups()) {
             for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
@@ -48,7 +60,7 @@ public class VariabilityRefactoringService {
                 }
 
                 List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringConfigurations);
-                
+
                 toBeSaved.addAll(changedResources);
             }
         }

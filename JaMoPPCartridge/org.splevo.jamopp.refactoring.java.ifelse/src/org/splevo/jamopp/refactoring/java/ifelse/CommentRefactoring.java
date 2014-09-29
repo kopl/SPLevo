@@ -48,7 +48,7 @@ public class CommentRefactoring implements VariabilityRefactoring {
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, String> refactoringOptions) {
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         StringBuilder sb = new StringBuilder();
         sb.append(COMMENT_TEXT + "\n");
