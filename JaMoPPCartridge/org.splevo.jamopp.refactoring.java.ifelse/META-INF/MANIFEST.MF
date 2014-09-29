@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: If
-Bundle-SymbolicName: org.splevo.jamopp.refactoring.java.if;singleton:=true
+Bundle-Name: IfElse
+Bundle-SymbolicName: org.splevo.jamopp.refactoring.java.ifelse;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.splevo.refactoring,
  org.splevo.jamopp.vpm,
