@@ -32,7 +32,7 @@ public class CloneDetector {
         this.detectionType = detectionType;
         this.similarityChecker = new SimilarityChecker();
     }
-
+    
     /**
      * Checks whether two commentables are clones of each other.
      *
@@ -43,12 +43,15 @@ public class CloneDetector {
      * @return true if the commentables are clones of each other.
      */
     public boolean isClone(Commentable commentable1, Commentable commentable2) {
+        if (commentable1 == null || commentable2 == null) {
+            return false;
+        }
 
         if (commentable1 == commentable2) {
             return true;
         }
 
-        if (commentable1.eClass() != commentable1.eClass()) {
+        if (commentable1.eClass() != commentable2.eClass()) {
             return false;
         }
         
@@ -71,6 +74,14 @@ public class CloneDetector {
      * @return true if the commentables in the lists are clones of each other.
      */
     public boolean isClone(List<Commentable> list1, List<Commentable> list2) {
+        if (list1 == null || list2 == null) {
+            return false;
+        }
+        
+        if (list1.size() == 0 || list2.size() == 0) {
+            return false;
+        }
+        
         if (list1.size() != list2.size()) {
             return false;
         }
