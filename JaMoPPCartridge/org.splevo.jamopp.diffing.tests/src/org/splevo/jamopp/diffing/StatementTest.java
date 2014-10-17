@@ -24,9 +24,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.DifferenceKind;
+import org.eclipse.emf.compare.utils.DiffUtil;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.EqualityExpression;
+import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.StringReference;
@@ -86,7 +88,6 @@ public class StatementTest {
      * @throws Exception
      *             Identifies a failed diffing.
      */
-    @Ignore
     @Test
     public void testArrayItemAccessesDiff() throws Exception {
 
@@ -105,8 +106,9 @@ public class StatementTest {
         StatementChange change = (StatementChange) differences.get(0);
         ExpressionStatement statement = (ExpressionStatement) change.getChangedStatement();
         AssignmentExpression exp = (AssignmentExpression) statement.getExpression();
-        StringReference value = (StringReference) exp.getValue();
-        assertThat(value.getValue(), equalTo("3"));
+        NewConstructorCall call = (NewConstructorCall) exp.getValue();
+        StringReference stringRef = (StringReference) call.getArguments().get(0);
+        assertThat(stringRef.getValue(), equalTo("3"));
 
     }
 

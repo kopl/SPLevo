@@ -23,6 +23,7 @@ import org.emftext.commons.layout.util.LayoutSwitch;
 import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.util.AnnotationsSwitch;
+import org.emftext.language.java.arrays.ArraySelector;
 import org.emftext.language.java.arrays.util.ArraysSwitch;
 import org.emftext.language.java.classifiers.AnonymousClass;
 import org.emftext.language.java.classifiers.Classifier;
@@ -162,7 +163,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      *            A list of package normalization patterns.
      */
     public SimilaritySwitch(EObject compareElement, boolean checkStatementPosition,
-            LinkedHashMap<Pattern, String> classifierNormalizations, LinkedHashMap<Pattern, String> compilationUnitNormalizations,
+            LinkedHashMap<Pattern, String> classifierNormalizations,
+            LinkedHashMap<Pattern, String> compilationUnitNormalizations,
             LinkedHashMap<Pattern, String> packageNormalizations) {
         this.similarityChecker = new SimilarityChecker(classifierNormalizations, compilationUnitNormalizations,
                 packageNormalizations);
@@ -402,8 +404,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      * Similarity decisions for expression elements.
      * <p>
      * All expression elements are strong typed with no identifying attributes or non-containment
-     * references.
-     * Their location and runtime types are assumed to be checked before this switch is called.
+     * references. Their location and runtime types are assumed to be checked before this switch is
+     * called.
      * </p>
      */
     private class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> {
@@ -562,9 +564,9 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         @Override
         public Boolean caseNestedExpression(NestedExpression exp1) {
-            
+
             NestedExpression exp2 = (NestedExpression) compareElement;
-            
+
             // check expression equality
             Expression childExp1 = exp1.getExpression();
             Expression childExp2 = exp2.getExpression();
@@ -969,8 +971,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      * Similarity decisions for modifier elements.
      * <p>
      * All modifier elements are strong typed with no identifying attributes or non-containment
-     * references.
-     * Their location and runtime types are assumed to be checked before this switch is called.
+     * references. Their location and runtime types are assumed to be checked before this switch is
+     * called.
      * </p>
      */
     private class ModifiersSimilaritySwitch extends ModifiersSwitch<Boolean> {
@@ -984,8 +986,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
      * Similarity decisions for operator elements.
      * <p>
      * All operator elements are strong typed with no identifying attributes or non-containment
-     * references.
-     * Their location and runtime types are assumed to be checked before this switch is called.
+     * references. Their location and runtime types are assumed to be checked before this switch is
+     * called.
      * </p>
      */
     private class OperatorsSimilaritySwitch extends OperatorsSwitch<Boolean> {
@@ -1057,6 +1059,18 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
                     if (containerSimilarity == Boolean.FALSE) {
                         return Boolean.FALSE;
                     }
+                }
+            }
+
+            if (ref1.getArraySelectors().size() != ref2.getArraySelectors().size()) {
+                return Boolean.FALSE;
+            }
+            for (int i = 0; i < ref1.getArraySelectors().size(); i++) {
+                ArraySelector selector1 = ref1.getArraySelectors().get(i);
+                ArraySelector selector2 = ref2.getArraySelectors().get(i);
+                Boolean positionSimilarity = similarityChecker.isSimilar(selector1.getPosition(), selector2.getPosition());
+                if (positionSimilarity == Boolean.FALSE) {
+                    return Boolean.FALSE;
                 }
             }
 
