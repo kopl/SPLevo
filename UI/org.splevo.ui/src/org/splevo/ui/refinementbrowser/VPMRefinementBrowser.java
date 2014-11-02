@@ -111,7 +111,7 @@ public class VPMRefinementBrowser extends EditorPart {
         IActionBars actionBars = getEditorSite().getActionBars();
         refinementListView.addSelectionChangedListener(new RefinementActionBarListener(actionBars));
 
-        sashForm.setWeights(new int[] { 2, 8 });
+        sashForm.setWeights(new int[] { 1, 9 });
 
         ToolBarManager manager = (ToolBarManager) form.getToolBarManager();
         manager.add(new ApplyRefinementsAction(this, "Apply Refinements"));

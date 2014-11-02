@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Anton Huck
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser;
 
@@ -19,6 +20,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -32,8 +34,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
-import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
 import org.splevo.ui.refinementbrowser.listener.HighlightConnectedVPListener;
+import org.splevo.ui.refinementbrowser.listener.RefinementDiffSelectionListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementInfoSelectionListener;
 import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.refinement.Refinement;
@@ -60,6 +62,7 @@ public class RefinementDetailsView extends Composite {
     private StyledText refinementInfoArea = null;
 
     private RefinementGraph refinementGraph = null;
+	private Browser refinementSourceView;
 
     /**
      * Constructor to create the view.
@@ -74,15 +77,25 @@ public class RefinementDetailsView extends Composite {
         super(parent, SWT.FILL);
         setLayout(new FillLayout(SWT.HORIZONTAL));
 
-        SashForm sashForm = new SashForm(this, SWT.FILL);
+        SashForm outer = new SashForm(this, SWT.FILL);
+        outer.setSashWidth(1);
+        
+        SashForm sashForm = new SashForm(outer, SWT.FILL);
         sashForm.setSashWidth(1);
         sashForm.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
+        sashForm.setOrientation(SWT.VERTICAL);
+        
+        refinementSourceView = new Browser(outer, SWT.FILL);
+		refinementSourceView.setLayout(new FillLayout());
+		refinementSourceView.setText("");
+		outer.setWeights(new int[] { 1, 3 });
+		
         refinementDetailsTreeViewer = new TreeViewer(sashForm, SWT.MULTI | SWT.BORDER);
         refinementDetailsTreeViewer.setLabelProvider(new RefinementDetailsLabelProvider());
-        refinementDetailsTreeViewer.setContentProvider(new RefinementDetailsTreeContentProvider());
-        refinementDetailsTreeViewer.addDoubleClickListener(new ExpandTreeListener());
+        refinementDetailsTreeViewer.setContentProvider(new RefinementDetailsTreeContentProvider());        
         refinementDetailsTreeViewer.addSelectionChangedListener(new RefinementInfoSelectionListener(this));
+        refinementDetailsTreeViewer.addSelectionChangedListener(new RefinementDiffSelectionListener(refinementSourceView, site));
         refinementDetailsTreeViewer.addSelectionChangedListener(new HighlightConnectedVPListener());
         initContextMenu(refinementDetailsTreeViewer, site);
 
