@@ -125,8 +125,8 @@ public class DiffConnector {
 			Set<VariationPoint> vpsInFile = getVPsInFile(f);
 			populateFiles(vpsInFile);
 			result += "<hr>"
-					+ "<span class=\"lln\"> +   " + "</span><b>" + leadingFileLocation + "</b>\n";
-			result += "<span class=\"iln\">    +" + "</span><b>" + integrationFileLocation + "</b>\n";
+					+ "<span class=\"lln\"> +   " + "</span><b>" + leadingFileLocation + "</b> (leading)\n";
+			result += "<span class=\"iln\">    +" + "</span><b>" + integrationFileLocation + "</b> (integration)\n";
 			result += "<hr>";
 			result += generateCodeMerge(vpsInFile, fileVPSIndex.get(f));
 			result += "<hr>";
