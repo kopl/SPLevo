@@ -13,6 +13,7 @@ package org.splevo.ui.refinementbrowser.action;
 
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -27,6 +28,7 @@ import org.splevo.ui.refinementbrowser.VPMRefinementBrowser;
 import org.splevo.ui.workflow.VPMRefinementWorkflowConfiguration;
 import org.splevo.ui.workflow.VPMRefinementWorkflowDelegate;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -55,7 +57,9 @@ public class ApplyRefinementsAction extends Action {
     /**
      * Apply the refinement by - checking that refinements have been selected - configuring and
      * running the workflow - closing the browser.
-     * @param event The event that triggered the refinement action.
+     *
+     * @param event
+     *            The event that triggered the refinement action.
      */
     @Override
     public void runWithEvent(Event event) {
@@ -71,13 +75,7 @@ public class ApplyRefinementsAction extends Action {
                 return;
             }
         } else {
-            // Initialize the requried data
-            // TODO Clean up the access to the variation point model
-            VariationPointGroup group = (VariationPointGroup) refinements.get(0).getVariationPoints().get(0)
-                    .eContainer();
-            VariationPointModel model = (VariationPointModel) group.eContainer();
             VPMRefinementWorkflowConfiguration config = buildWorflowConfiguration(refinements);
-            config.setVariationPointModel(model);
             VPMRefinementWorkflowDelegate delegate = new VPMRefinementWorkflowDelegate(config);
             WorkflowListenerUtil.runWorkflowAndUpdateUI(delegate, "Apply Refinements", config.getSplevoProjectEditor());
         }
@@ -86,6 +84,32 @@ public class ApplyRefinementsAction extends Action {
         IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
         IWorkbenchPage page = window.getActivePage();
         page.closeEditor(vpmRefinementBrowser, false);
+    }
+
+    /**
+     * Extract access to the VPM from a given list of refinements.
+     *
+     * @param refinements
+     *            The refinements to check.
+     * @return The VPM or null if none is referenced anyhow.
+     */
+    private VariationPointModel extractVPM(List<Refinement> refinements) {
+
+        for (Refinement refinement : refinements) {
+            EList<VariationPoint> vps = refinement.getVariationPoints();
+            if (vps.size() > 0) {
+                VariationPointGroup group = (VariationPointGroup) vps.get(0).eContainer();
+                VariationPointModel model = (VariationPointModel) group.eContainer();
+                return model;
+            } else {
+                VariationPointModel vpm = extractVPM(refinement.getSubRefinements());
+                if (vpm != null) {
+                    return vpm;
+                }
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -104,6 +128,8 @@ public class ApplyRefinementsAction extends Action {
         VPMRefinementWorkflowConfiguration config = new VPMRefinementWorkflowConfiguration();
         config.setSplevoProjectEditor(vpmRefinementBrowser.getSPLevoProjectEditor());
         config.getRefinements().addAll(refinements);
+        VariationPointModel model = extractVPM(refinements);
+        config.setVariationPointModel(model);
         return config;
     }
 
