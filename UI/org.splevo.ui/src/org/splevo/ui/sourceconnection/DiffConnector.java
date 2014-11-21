@@ -234,6 +234,7 @@ public class DiffConnector {
 	}
 	
 	private VariationPoint getVPforLine(Set<VariationPoint> vps, int lc, int ic) {
+		
 		//first look for leading Variants
 		for (VariationPoint vp : vps) {
 			for (Variant v : vp.getVariants()) {
@@ -248,22 +249,33 @@ public class DiffConnector {
 			}
 		}
 		
+		return getVPonlyInIntegration(vps, ic);
+	}
+
+	private VariationPoint getVPonlyInIntegration(Set<VariationPoint> vps, int ic) {
+		boolean vpContainsLeading = false;
+		VariationPoint vpToReturn = null;
 		//then for integration
 		for (VariationPoint vp : vps) {
 			for (Variant v : vp.getVariants()) {
 				if (!v.getLeading()) {
 					for (SoftwareElement sl : v.getImplementingElements()) {
 						if (sl.getSourceLocation().getStartLine() == ic) {
-							vps.remove(vp);
-							return vp;
+							vpToReturn = vp;
 						}
 					}
+				} else {
+					vpContainsLeading = true;
 				}
 			}
 		}
 		
-		
-		return null;
+		if (!vpContainsLeading) {
+			vps.remove(vpToReturn);
+			return vpToReturn;
+		} else {
+			return null;
+		}
 	}
 	
 	private void populateFiles(Set<VariationPoint> vps) {
