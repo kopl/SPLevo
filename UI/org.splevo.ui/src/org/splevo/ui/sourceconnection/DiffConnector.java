@@ -235,21 +235,27 @@ public class DiffConnector {
 	
 	private VariationPoint getVPforLine(Set<VariationPoint> vps, int lc, int ic) {
 		
+		VariationPoint toRet = null;
 		//first look for leading Variants
 		for (VariationPoint vp : vps) {
 			for (Variant v : vp.getVariants()) {
 				if (v.getLeading()) {
 					for (SoftwareElement sl : v.getImplementingElements()) {
 						if (sl.getSourceLocation().getStartLine() == lc) {
-							vps.remove(vp);
-							return vp;
+							toRet = vp;
 						}
 					}
 				} 
 			}
 		}
 		
-		return getVPonlyInIntegration(vps, ic);
+		VariationPoint onlyInt = getVPonlyInIntegration(vps, ic);
+		if (onlyInt != null) {
+			vps.remove(onlyInt);
+			return onlyInt;
+		}
+		vps.remove(toRet);
+		return toRet;
 	}
 
 	private VariationPoint getVPonlyInIntegration(Set<VariationPoint> vps, int ic) {
@@ -271,7 +277,6 @@ public class DiffConnector {
 		}
 		
 		if (!vpContainsLeading) {
-			vps.remove(vpToReturn);
 			return vpToReturn;
 		} else {
 			return null;
