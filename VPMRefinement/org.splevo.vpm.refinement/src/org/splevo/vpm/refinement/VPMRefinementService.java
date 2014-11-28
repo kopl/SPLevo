@@ -131,6 +131,16 @@ public class VPMRefinementService {
             throw new RuntimeException("Tried to apply completely empty grouping.");
         }
 
+        combineGroups(vpm, variationPoints);
+    }
+
+    /**
+     * Combine the groups of the variation points and clean up the remaining empty groups.
+     *
+     * @param vpm The variation point model to manipulate.
+     * @param variationPoints The variation points to combine the groups of.
+     */
+    private void combineGroups(VariationPointModel vpm, EList<VariationPoint> variationPoints) {
         VariationPointGroup survivingGroup = variationPoints.get(0).getGroup();
         for (VariationPoint vp : variationPoints) {
             if (!vp.getGroup().equals(survivingGroup)) {
