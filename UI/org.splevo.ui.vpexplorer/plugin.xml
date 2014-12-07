@@ -12,9 +12,9 @@
       </view>
       <view
             category="org.splevo.ui"
-            class="org.splevo.ui.vpexplorer.explorer.VPGroupingExplorer"
+            class="org.splevo.ui.vpexplorer.featureoutline.FeatureOutlineView"
             icon="icons/kopl_circle_only.png"
-            id="org.splevo.ui.vpgroupingexplorer"
+            id="org.splevo.ui.vpexplorer.featureoutline"
             name="Feature Outline"
             restorable="true">
       </view>
@@ -33,13 +33,13 @@
          </includes>
       </viewerContentBinding>
       <viewer
-            viewerId="org.splevo.ui.vpgroupingexplorer">
+            viewerId="org.splevo.ui.vpexplorer.featureoutline">
       </viewer>
       <viewerContentBinding
-            viewerId="org.splevo.ui.vpgroupingexplorer">
+            viewerId="org.splevo.ui.vpexplorer.featureoutline">
          <includes>
             <contentExtension
-                  pattern="org.splevo.ui.vpexplorer.vpExplorerGroupingContent">
+                  pattern="org.splevo.ui.vpexplorer.featureoutline.content">
             </contentExtension>
          </includes>
       </viewerContentBinding>
@@ -54,7 +54,7 @@
                relative="org.eclipse.jdt.ui.PackageExplorer">
          </view>
          <view
-               id="org.splevo.ui.vpgroupingexplorer"
+               id="org.splevo.ui.vpexplorer.featureoutline"
                ratio="0.7"
                relationship="bottom"
                relative="org.eclipse.jdt.ui.PackageExplorer">
@@ -75,10 +75,10 @@
          </triggerPoints>
       </navigatorContent>
       <navigatorContent
-            contentProvider="org.splevo.ui.vpexplorer.providers.VPGroupingExplorerContentProvider"
-            id="org.splevo.ui.vpexplorer.vpExplorerGroupingContent"
+            contentProvider="org.splevo.ui.vpexplorer.featureoutline.FeatureOutlineContentProvider"
+            id="org.splevo.ui.vpexplorer.featureoutline.content"
             labelProvider="org.splevo.ui.vpexplorer.providers.VPExplorerLabelProvider"
-            name="VP Explorer Grouping Content">
+            name="Feature Outline Content">
          <triggerPoints>
             <instanceof
                   value="org.splevo.ui.vpexplorer.explorer.VPExplorerContent">

@@ -10,7 +10,7 @@
  *    Christian Busch
  *******************************************************************************/
 
-package org.splevo.ui.vpexplorer.providers;
+package org.splevo.ui.vpexplorer.featureoutline;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.TreeNodeContentProvider;
@@ -23,9 +23,9 @@ import org.splevo.vpm.variability.VariationPointGroup;
  * and variation points.
  * 
  */
-public class VPGroupingExplorerContentProvider extends TreeNodeContentProvider {
+public class FeatureOutlineContentProvider extends TreeNodeContentProvider {
 
-    private static Logger logger = Logger.getLogger(VPGroupingExplorerContentProvider.class);
+    private static Logger logger = Logger.getLogger(FeatureOutlineContentProvider.class);
 
     @Override
     public Object[] getElements(Object inputElement) {

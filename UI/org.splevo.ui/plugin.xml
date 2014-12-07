@@ -104,6 +104,16 @@
             id="org.splevo.ui.opendiffmodel"
             name="Open Diff Model">
       </command>
+      <command
+            defaultHandler="org.splevo.ui.handler.vpm.CombineGroupsHandler"
+            id="org.splevo.ui.commands.vpm.combineGroups"
+            name="Combine Groups">
+      </command>
+      <command
+            defaultHandler="org.splevo.ui.handler.vpm.MergeVariationPointsHandler"
+            id="org.splevo.ui.commands.vpm.mergeVPs"
+            name="Merge VariationPoints">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -198,6 +208,39 @@
                   <or>
                      <instanceof
                            value="org.eclipse.core.resources.IProject">
+                     </instanceof>
+                  </or>
+               </iterate>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.splevo.ui.commands.vpm.combineGroups"
+               icon="icons/arrow_combine.png"
+               label="Combine Groups"
+               style="push"
+               tooltip="Combine the selected groups in a single one">
+            <visibleWhen
+                  checkEnabled="true">
+               <iterate>
+                  <or>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPointGroup">
+                     </instanceof></or>
+               </iterate>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.splevo.ui.commands.vpm.mergeVPs"
+               icon="icons/arrow_join.png"
+               label="Merge Variation Points"
+               style="push"
+               tooltip="Merge the selected variation points in a single one">
+            <visibleWhen
+                  checkEnabled="true">
+               <iterate>
+                  <or>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
                      </instanceof>
                   </or>
                </iterate>

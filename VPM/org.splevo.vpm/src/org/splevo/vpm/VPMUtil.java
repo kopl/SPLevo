@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.splevo.vpm.variability.Variant;
+import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 import org.splevo.vpm.variability.variabilityPackage;
 
@@ -91,5 +93,25 @@ public class VPMUtil {
         resource.getContents().add(project);
 
         resource.save(Collections.EMPTY_MAP);
+    }
+
+    /**
+     * Get the variant for a given id from a variation point.
+     *
+     * @param vp
+     *            The variation point to check for the variant.
+     * @param variantID
+     *            The id of the variant to search for.
+     * @return The variant or null of none could be found.
+     */
+    public static Variant getVariantFromVP(VariationPoint vp, String variantID) {
+
+        for (Variant v : vp.getVariants()) {
+            if (v.getId().equals(variantID)) {
+                return v;
+            }
+        }
+
+        return null;
     }
 }
