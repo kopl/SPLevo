@@ -100,20 +100,36 @@ public class StartRefactoringListener extends MouseAdapter {
 
     private void startRefactoring() {
         SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
-        
+
         String splPath = splevoProjectEditor.getSplevoProject().getWorkspace() + "RefactoredSPL";
-        
+
         BuildSPLWorkflowConfiguration configuration = new BuildSPLWorkflowConfiguration(splPath);
         configuration.setSplevoProjectEditor(splevoProjectEditor);
-        
-        BuildSPLWorkflowDelegate buildSPLWorkflowConfiguration = new BuildSPLWorkflowDelegate(configuration, spLevoBlackBoard);
+
+        BuildSPLWorkflowDelegate buildSPLWorkflowConfiguration = new BuildSPLWorkflowDelegate(configuration,
+                spLevoBlackBoard);
         WorkflowListenerUtil.runWorkflowAndUpdateUI(buildSPLWorkflowConfiguration, "Refactor VPM", splevoProjectEditor);
     }
 
-    private void executeRecommender(VariationPointModel vpm) {
+    /**
+     * Execute the recommender and return if it succeeded or not.
+     *
+     * @param vpm
+     *            The model to process by the recommender.
+     * @return True/false if the recommender succeeded or not.
+     */
+    private boolean executeRecommender(VariationPointModel vpm) {
         VariabilityRefactoringService service = new VariabilityRefactoringService();
         SPLProfile splProfile = splevoProjectEditor.getSplevoProject().getSplProfile();
         List<String> refactoringIds = splProfile.getRecommendedRefactoringIds();
+
+        if (refactoringIds == null || refactoringIds.size() == 0) {
+            MessageDialog.openWarning(getShell(), "No refactorings configured",
+                    "There are no refactorings for introducing variability mechanisms configured yet."
+                            + "Please check your SPL Profile.");
+            return false;
+        }
+
         List<VariabilityRefactoring> refactorings = getRefactorings(refactoringIds);
 
         RecommenderResult result = service.recommendMechanisms(vpm, refactorings);
@@ -121,9 +137,11 @@ public class StartRefactoringListener extends MouseAdapter {
         if (result.getUnassignedVariationPoints().isEmpty()) {
             MessageDialog.openInformation(getShell(), "Recommender Succeeded",
                     "All variation points are now successfully assigned with a variability mechanism");
+            return true;
         } else {
             MessageDialog.openWarning(getShell(), "Recommender Failed",
                     "Not all variation points could be assigned with a variability mechanism");
+            return false;
         }
     }
 
