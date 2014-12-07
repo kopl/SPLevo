@@ -31,7 +31,7 @@ import org.splevo.vpm.analyzer.config.VPMAnalyzerConfigurationSet;
 
 /**
  * Unit tests for the {@link ClonedChangeAnalyzer}.
- * 
+ *
  */
 public class ClonedChangeAnalyzerTest {
     private ClonedChangeAnalyzer analyzer;

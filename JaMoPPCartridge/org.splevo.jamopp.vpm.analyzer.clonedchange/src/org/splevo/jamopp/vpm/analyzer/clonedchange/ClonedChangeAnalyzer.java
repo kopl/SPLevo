@@ -46,13 +46,15 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
     // ---------------------------------
     // CONFIGURATIONS
     // ---------------------------------
-    
-    /** The configuration-object for the minimum number of elements to be involved in a clone configuration. */
+
+    /**
+     * The configuration-object for the minimum number of elements to be involved in a clone
+     * configuration.
+     */
     private NumericConfiguration minElementThresholdConfig = Config.createMinElementThresholdConfig();
-    
+
     /** The configuration object for the type of clone detection to be used. */
     private ChoiceConfiguration detectionTypeConfig = Config.createDetectionTypeConfig();
-
 
     /**
      * Analyze variation point relationship based on cloned changes between them.
@@ -74,7 +76,8 @@ public class ClonedChangeAnalyzer extends AbstractVPMAnalyzer {
     private List<VPMEdgeDescriptor> findEdgesBetweenClonedChanges(VPMGraph vpmGraph) {
 
         VPMEdgeDescriptor edge;
-        CloneDetector cloneDetector = new CloneDetector(CloneDetectionType.valueOf(detectionTypeConfig.getCurrentValue()));
+        CloneDetector cloneDetector = new CloneDetector(CloneDetectionType.valueOf(detectionTypeConfig
+                .getCurrentValue()));
         List<VPMEdgeDescriptor> descriptors = new ArrayList<VPMEdgeDescriptor>();
         List<String> edgeRegistry = new ArrayList<String>();
 

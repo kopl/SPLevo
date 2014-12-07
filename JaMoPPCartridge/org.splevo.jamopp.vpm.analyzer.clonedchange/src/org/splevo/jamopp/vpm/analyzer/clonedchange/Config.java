@@ -48,37 +48,38 @@ public final class Config {
     public static final String EXPL_INVOLVED_ELEMENT_THRESHOLD = "The minimum number of model elements participating in a clone.";
 
     /** The default configuration for the minimum element threshold configuration. */
-    public static final int DEFAULT_INVOLVED_ELEMENT_THRESHOLD = 10;
+    public static final int DEFAULT_INVOLVED_ELEMENT_THRESHOLD = 5;
 
     // --------------------------
     // Detection Type
     // --------------------------
-    
+
     /** Identifier for the configuration of the clone detection type. */
     public static final String CONFIG_ID_DETECTION_TYPE = CONFIG_ID_BASE + "DETECTION_TYPE";
-    
+
     /** The configuration label for the clone detection type configuration. */
     public static final String LABEL_DETECTION_TYPE = "Clone detection type";
-    
+
     /** The explanation for the clone detection type configuration. */
     public static final String EXPL_DETECTION_TYPE = "The analysis type for clone detection";
-    
+
     /** The default configuration for the clone detection type configuration. */
     public static final String DEFAULT_DETECTION_TYPE = CloneDetectionType.STRUCTURAL.toString();
 
-    
     /** Disable constructor for static utility usage. */
     private Config() {
     }
 
     /**
-     * Create the configuration object to chose the minimum element threshold to use in the analysis.
+     * Create the configuration object to chose the minimum element threshold to use in the
+     * analysis.
      *
      * @return The prepared configuration object.
      */
     public static NumericConfiguration createMinElementThresholdConfig() {
         return new NumericConfiguration(CONFIG_ID_INVOLVED_ELEMENT_THRESHOLD, LABEL_INVOLVED_ELEMENT_THRESHOLD,
-                EXPL_INVOLVED_ELEMENT_THRESHOLD, DEFAULT_INVOLVED_ELEMENT_THRESHOLD, 1, new Range<Integer>(1, Integer.MAX_VALUE));
+                EXPL_INVOLVED_ELEMENT_THRESHOLD, DEFAULT_INVOLVED_ELEMENT_THRESHOLD, 1, new Range<Integer>(1,
+                        Integer.MAX_VALUE));
     }
 
     /**
