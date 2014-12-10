@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -44,7 +44,7 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 /**
  * @author daniel
- * 
+ *
  */
 public final class SPLConfigurationUtil {
 
@@ -61,7 +61,7 @@ public final class SPLConfigurationUtil {
     /**
      * Creates or searches a configuration file in a given resource set depending on whether it is
      * already existing or not. Adds a new configuration with the first variant as default value.
-     * 
+     *
      * @param sourcePath
      *            The {@link String} source path to store or search the configuration file in.
      * @param resourceSet
@@ -81,7 +81,7 @@ public final class SPLConfigurationUtil {
 
     /**
      * Generates the import element that is needed to use the configuration reader.
-     * 
+     *
      * @return The {@link ClassifierImport}.
      */
     public static ClassifierImport getSPLConfigClassImport() {
@@ -104,7 +104,7 @@ public final class SPLConfigurationUtil {
     /**
      * Creates an expression matching the configuration field with the variant id:
      * <code>ConfigClass.[groupID].equals([variantID]);</code>
-     * 
+     *
      * @param variantID
      *            The variant ID.
      * @param groupID
@@ -164,7 +164,7 @@ public final class SPLConfigurationUtil {
     /**
      * Adds a configuration in a configuration class. The configuration is a field named after the
      * ID of the {@link VariationPoint} and the first variant's ID as default value.
-     * 
+     *
      * @param rs
      *            The {@link ResourceSet} which contains the configuration class.
      * @param sourcePath
@@ -207,7 +207,7 @@ public final class SPLConfigurationUtil {
 
     /**
      * Checks whether a given configuration class has a configuration of a given name.
-     * 
+     *
      * @param splConfigurationClass
      *            The configuration {@link ConcreteClassifier}.
      * @param name
@@ -227,7 +227,7 @@ public final class SPLConfigurationUtil {
 
     /**
      * Generates the SPL configuration class in a given {@link ResourceSet}.
-     * 
+     *
      * @param resourceSet
      *            The {@link ResourceSet}.
      * @param sourcePath
@@ -268,7 +268,7 @@ public final class SPLConfigurationUtil {
 
     /**
      * Adds the {@link Import} to access the configuration class to a given {@link CompilationUnit}.
-     * 
+     *
      * @param compilationUnit
      *            The {@link CompilationUnit}.
      */

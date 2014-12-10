@@ -39,7 +39,7 @@ public class VariabilityRefactoringService {
 
     /**
      * Perform refactoring according to the the configured {@link VariationPointModel}.
-     * 
+     *
      * @param variationPointModel
      *            The {@link VariationPointModel} containing the variation points with the intended
      *            variability mechanism.
@@ -55,7 +55,7 @@ public class VariabilityRefactoringService {
                 VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getRefactoringById(refactoringID);
 
                 if (!refactoring.canBeAppliedTo(variationPoint)) {
-                    logger.warn("Recommended refactoring cannot be applied to this variation point.");
+                    logger.debug("Recommended refactoring cannot be applied to this variation point.");
                     continue;
                 }
 
@@ -71,7 +71,7 @@ public class VariabilityRefactoringService {
     /**
      * Auto assign the highest prioritized and matching variability mechanism to each not yet
      * assigned variation point.
-     * 
+     *
      * @param variationPointModel
      *            The variation point model to assign the vps in.
      * @param refactorings
@@ -113,7 +113,7 @@ public class VariabilityRefactoringService {
 
     /**
      * Get the best matching refactoring from a priorized list of refactorings.
-     * 
+     *
      * @param vp
      *            The vp to decide a refactoring for.
      * @param refactorings
