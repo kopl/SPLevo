@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2014
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,9 +29,9 @@ import org.splevo.vpm.variability.VariationPoint;
 import com.google.common.collect.Lists;
 
 /**
- * This refctoring annotates a variation point's location with a fixme comment with the following
+ * This refactoring annotates a variation point's location with a fixme comment with the following
  * content: "Variability could not be handled". This refactoring can be used to annotate variation
- * points that cannot be provessed.
+ * points that cannot be processed.
  */
 public class CommentRefactoring implements VariabilityRefactoring {
 
