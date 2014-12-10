@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.splevo.refactoring.RecommenderResult.Status;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
@@ -48,8 +49,10 @@ public class VariabilityRefactoringService {
      * @return The ResourceSet referencing the refactored software.
      */
     public Set<Resource> refactor(VariationPointModel variationPointModel, Map<String, Object> refactoringConfigurations) {
+        EcoreUtil.resolveAll(variationPointModel);
         Set<Resource> toBeSaved = new HashSet<Resource>();
         for (VariationPointGroup vpGroup : variationPointModel.getVariationPointGroups()) {
+
             for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
                 String refactoringID = variationPoint.getVariabilityMechanism().getRefactoringID();
                 VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getRefactoringById(refactoringID);
