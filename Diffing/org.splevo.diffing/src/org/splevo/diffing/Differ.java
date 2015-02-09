@@ -29,7 +29,7 @@ public interface Differ {
     void init();
 
     /**
-     * Perform the diffing process for two modisco JavaApplicationModels.
+     * Perform the diffing process for two application models.
      *
      * @param leadingModelDirectory
      *            The base directory of the leading variant's software model.
@@ -57,7 +57,7 @@ public interface Differ {
     Map<String, String> getAvailableConfigurations();
 
     /**
-     * Perform the diffing process for two modisco JavaApplicationModels.
+     * Perform the diffing process for two application models.
      *
      * @param resourceSetLeading
      *            The resource set containing the leading product variant's models.

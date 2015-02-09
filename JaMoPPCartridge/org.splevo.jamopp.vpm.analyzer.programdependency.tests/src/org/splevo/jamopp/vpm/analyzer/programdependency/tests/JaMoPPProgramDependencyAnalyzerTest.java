@@ -24,11 +24,8 @@ public class JaMoPPProgramDependencyAnalyzerTest {
 
     /**
      * Test method for
-     * {@link org.splevo.vpm.analyzer.programstructure.ProgramStructureVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}
+     * {@link org.splevo.jamopp.vpm.analyzer.programdependency.JaMoPPProgramDependencyVPMAnalyzer#analyze(org.splevo.vpm.analyzer.graph.VPMGraph)}
      * .
-     *
-     * It actively registers the MoDiscoProgramStructureProvider to enable the test run as a regular
-     * JUnit test without starting the OSGi Bundles.
      *
      * @throws Exception
      *             Identifies the test input graph could not be read.

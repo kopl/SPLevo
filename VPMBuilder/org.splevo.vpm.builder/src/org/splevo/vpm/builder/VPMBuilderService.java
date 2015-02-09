@@ -36,8 +36,7 @@ public interface VPMBuilderService {
      *            The name of the software variant to be integrated.
      * @param builderOptions
      *            A set of configurations for the builder.
-     * @return The resulting VariationPointModel or null if the DiffModel is not a about a MoDisco
-     *         JavaModel.
+     * @return The resulting VariationPointModel.
      * @throws VPMBuildException
      *             An error during the vpm build process.
      *
