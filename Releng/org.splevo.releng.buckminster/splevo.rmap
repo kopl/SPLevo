@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
-
   <rm:locator searchPathRef="localresources" failOnError="false"/>
   <rm:locator searchPathRef="localresources-ci-github" failOnError="false"/>
-  <rm:locator searchPathRef="guava" failOnError="false" />
-  <rm:locator searchPathRef="jamopp" failOnError="false" />
-  <rm:locator searchPathRef="emftext" failOnError="false" />
-  <rm:locator searchPathRef="refactory" failOnError="false" />
-  <rm:locator searchPathRef="workflowengine" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
-  <rm:locator searchPathRef="EMFFeatureModel" failOnError="false" />
-  <rm:locator searchPathRef="orbit" failOnError="false" />
-  <rm:locator searchPathRef="kepler" failOnError="false" />
-  <rm:locator searchPathRef="palladio-commons" failOnError="false" pattern="^de\.uka\.ipd\.sdq\..*" />
-
+  <rm:locator searchPathRef="guava" failOnError="false"/>
+  <rm:locator searchPathRef="jamopp" failOnError="false"/>
+  <rm:locator searchPathRef="emftext" failOnError="false"/>
+  <rm:locator searchPathRef="refactory" failOnError="false"/>
+  <rm:locator pattern="^de\.uka\.ipd\.sdq\..*" searchPathRef="workflowengine" failOnError="false"/>
+  <rm:locator searchPathRef="EMFFeatureModel" failOnError="false"/>
+  <rm:locator searchPathRef="orbit" failOnError="false"/>
+  <rm:locator searchPathRef="kepler" failOnError="false"/>
+  <rm:locator pattern="^de\.uka\.ipd\.sdq\..*" searchPathRef="palladio-commons" failOnError="false"/>
+  <rm:locator searchPathRef="FeatureMapper" failOnError="false"/>
+  <rm:locator searchPathRef="NatSpec" failOnError="false"/>
   <rm:searchPath name="guava">
-	  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-	 	<rm:property key="buckminster.source" value="false"/>
-	    <rm:property key="buckminster.mutable" value="false"/>
-	  	<rm:uri format="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
-	  </rm:provider>
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
+    </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="emftext">
-	  <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
-	 	<rm:property key="buckminster.source" value="false"/>
-	    <rm:property key="buckminster.mutable" value="false"/>
-	  	<rm:uri format="http://www.emftext.org/update_trunk/"/>
-	  </rm:provider>
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://www.emftext.org/update_trunk/"/>
+    </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="refactory">
-	  <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
-	 	<rm:property key="buckminster.source" value="false"/>
-	    <rm:property key="buckminster.mutable" value="false"/>
-	  	<rm:uri format="http://www.modelrefactoring.org/update_trunk/"/>
-	  </rm:provider>
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://www.modelrefactoring.org/update_trunk/"/>
+    </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="jamopp">
-	  <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
-	 	<rm:property key="buckminster.source" value="false"/>
-	    <rm:property key="buckminster.mutable" value="false"/>
-	  	<rm:uri format="http://jamopp.org/update_trunk/"/>
-	  </rm:provider>
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://jamopp.org/update_trunk/"/>
+    </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="workflowengine">
-	  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-	 	<rm:property key="buckminster.source" value="false"/>
-	    <rm:property key="buckminster.mutable" value="false"/>
-	  	<rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.3/"/>
-	  </rm:provider>
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.3/"/>
+    </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="palladio-commons">
-	  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-	 	<rm:property key="buckminster.source" value="false"/>
-	    <rm:property key="buckminster.mutable" value="false"/>
-	  	<rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/commons/releases/1.1/"/>
-	  </rm:provider>
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://sdqweb.ipd.kit.edu/eclipse/commons/releases/1.1/"/>
+    </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="EMFFeatureModel">
-	  <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-	 	<rm:property key="buckminster.source" value="false"/>
-	    <rm:property key="buckminster.mutable" value="false"/>
-	  	<rm:uri format="http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/"/>
-	  </rm:provider>
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://download.eclipse.org/modeling/emft/featuremodel/update-site/0.8.0/"/>
+    </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="orbit">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
@@ -84,11 +84,7 @@
       </rm:uri>
     </rm:provider>
   </rm:searchPath>
-
-
-  <!-- Subdirectory lookup for improved GitHub based Jenkins CI checkout -->
   <rm:searchPath name="localresources-ci-github">
-
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
       <rm:uri format="file:///{0}/Diffing/{1}/">
         <bc:propertyRef key="workspace.root"/>
@@ -166,6 +162,20 @@
         <bc:propertyRef key="workspace.root"/>
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="FeatureMapper">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://featuremapper.org/update"/>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="NatSpec">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:uri format="http://www.nat-spec.com/update"/>
     </rm:provider>
   </rm:searchPath>
 </rm:rmap>
