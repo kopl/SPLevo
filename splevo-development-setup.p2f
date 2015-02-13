@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?p2f version='1.0.0'?>
 <p2f version='1.0.0'>
-  <ius size='11'>
+  <ius size='13'>
     <iu id='org.apache.log4j' name='Apache Jakarta log4j Plug-in' version='1.2.15.v201012070815'>
       <repositories size='4'>
         <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/'/>
@@ -60,5 +60,15 @@
         <repository location='http://sdqweb.ipd.kit.edu/eclipse/workflowengine/releases/2.0.3/'/>
       </repositories>
     </iu>
+	<iu id='org.featuremapper.core.feature.feature.group' name='FeatureMapper Core' version='0.9.0.v201408131646'>
+		<repositories size='1'>
+			<repository location='http://featuremapper.org/update'/>
+		</repositories>
+	</iu>
+	<iu id='org.featuremapper.core.feature.feature.group' name='NatSpec Annotations' version='2.2.4.v201410262154'>
+		<repositories size='1'>
+			<repository location='http://www.nat-spec.com/update'/>
+		</repositories>
+	</iu>
   </ius>
 </p2f>

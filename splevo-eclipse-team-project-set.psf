@@ -10,6 +10,9 @@
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Diffing/org.splevo.diffing.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Extraction/org.splevo.extraction"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Extraction/org.splevo.extraction.feature"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,FM/de.devboost.featuremapper.splevo.builder"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,FM/de.devboost.featuremapper.splevo.builder.test"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,FM/de.devboost.featuremapper.splevo.builder.feature"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,FM/org.splevo.fm.builder"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,FM/org.splevo.fm.builder.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,FM/org.splevo.fm.emffeaturemodel.builder"/>
@@ -89,8 +92,9 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.splevo.extraction.feature" type="4"/>
 </workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1356626940724_6" label="SPLevo FM" name="SPLevo FM">
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/de.devboost.featuremapper.splevo.builder" type="4"/>
-<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/de.devboost.featuremapper.splevo.builder.test" type="4"/>
+<item elementID="=de.devboost.featuremapper.splevo.builder" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=de.devboost.featuremapper.splevo.builder.test" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=de.devboost.featuremapper.splevo.builder.feature" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.fm.builder" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.fm.builder.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.fm.emffeaturemodel.builder" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
