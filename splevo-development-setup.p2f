@@ -65,7 +65,7 @@
 			<repository location='http://featuremapper.org/update'/>
 		</repositories>
 	</iu>
-	<iu id='org.featuremapper.core.feature.feature.group' name='NatSpec Annotations' version='2.2.4.v201410262154'>
+	<iu id='de.devboost.natspec.annotations.feature.group' name='NatSpec Annotations' version='2.2.4.v201410262154'>
 		<repositories size='1'>
 			<repository location='http://www.nat-spec.com/update'/>
 		</repositories>
