@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="dev.devboost.featuremapper.splevo.builder.feature"
+      id="de.devboost.featuremapper.splevo.builder.feature"
       label="SPLevo FeatureMapper Support"
       version="1.0.0.qualifier"
       provider-name="DevBoost GmbH">
