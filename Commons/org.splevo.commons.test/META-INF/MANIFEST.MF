@@ -1,9 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SPlevo Commons Test
+Bundle-Name: Tests for the SPLevo Commons
 Bundle-SymbolicName: org.splevo.commons.test
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: org.splevo.commons;bundle-version="1.0.0"
+Fragment-Host: org.splevo.commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.splevo.tests;bundle-version="1.0.0",
- org.junit;bundle-version="4.11.0"
+Require-Bundle: org.junit

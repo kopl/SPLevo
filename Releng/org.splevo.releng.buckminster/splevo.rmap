@@ -164,7 +164,10 @@
       </rm:uri>
     </rm:provider>
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
-      <rm:uri format="file:///{0}/Commons/{1}/"/>
+      <rm:uri format="file:///{0}/Commons/{1}/">
+      	<bc:propertyRef key="workspace.root"/>
+        <bc:propertyRef key="buckminster.component"/>
+      </rm:uri>
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="FeatureMapper">
