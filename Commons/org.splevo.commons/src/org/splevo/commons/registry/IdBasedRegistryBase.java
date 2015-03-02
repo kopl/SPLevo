@@ -1,8 +1,27 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Stephan Seifermann
+ *******************************************************************************/
 package org.splevo.commons.registry;
 
 import org.apache.log4j.Logger;
 import org.splevo.commons.interfaces.IdHavingElement;
 
+/**
+ * Base class for registries of identifier having elements.
+ * 
+ * @param <T>
+ *            The type of the contained elements.
+ * @param <S>
+ *            The type of the element's key.
+ */
 public abstract class IdBasedRegistryBase<T extends IdHavingElement<S>, S> extends RegistryBase<T> {
 
     private static final Logger LOGGER = Logger.getLogger(IdBasedRegistryBase.class);

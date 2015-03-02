@@ -15,6 +15,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * Test class for RegistryBaseTest class.
+ */
 public class RegistryBaseTest {
 
     /** The logger for this test class. */
@@ -33,6 +36,9 @@ public class RegistryBaseTest {
         BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
     }
 
+    /**
+     * Prpares the test before each test run by instantiating the test subject.
+     */
     @Before
     public void setUp() {
         testRegistry = new RegistryBase<Object>() {
@@ -51,7 +57,7 @@ public class RegistryBaseTest {
      * Basic test for object registration.
      */
     @Test
-    public void testRegisteringObject() throws Exception {
+    public void testRegisteringObject() {
         final Object element = new Object();
 
         testRegistry.registerElement(element);
@@ -59,7 +65,7 @@ public class RegistryBaseTest {
         assertEquals("Registry contains more than one element", 1, testRegistry.getElements().size());
         assertSame("Registry contains wrong element", element, testRegistry.getElements().get(0));
     }
-    
+
     /**
      * Basic test for object registration.
      */
@@ -79,31 +85,31 @@ public class RegistryBaseTest {
             assertSame(objects.get(i), testRegistry.getElements().get(i));
         }
     }
-    
+
     /**
      * Corner case test for object registration of same object.
      */
     @Test
     public void testNoDuplicateRegistration() {
         final Object element = new Object();
-        
+
         testRegistry.registerElement(element);
         testRegistry.registerElement(element);
-        
+
         assertEquals("Registry contains more than one element", 1, testRegistry.getElements().size());
         assertSame("Registry contains wrong element", element, testRegistry.getElements().get(0));
     }
-    
+
     /**
      * Corner case test for null registration.
      */
-    @Test 
+    @Test
     public void testNoNullRegistration() {
         testRegistry.registerElement(null);
-        
+
         assertEquals("Registry contains more than one element", 0, testRegistry.getElements().size());
     }
-    
+
     /**
      * Base test for overriding the sorting method.
      */
@@ -115,16 +121,16 @@ public class RegistryBaseTest {
                 return element1.compareTo(element2);
             }
         };
-        
-        Integer[] expected = new Integer[]{0,1,2};
-        
+
+        Integer[] expected = new Integer[] { 0, 1, 2 };
+
         sortingTestRegistry.registerElement(expected[2]);
         sortingTestRegistry.registerElement(expected[0]);
         sortingTestRegistry.registerElement(expected[1]);
-        
-        assertArrayEquals(expected, sortingTestRegistry.getElements().toArray(new Integer[0]));        
+
+        assertArrayEquals(expected, sortingTestRegistry.getElements().toArray(new Integer[0]));
     }
-    
+
     /**
      * Base test for overriding the element equality method.
      */
@@ -136,13 +142,13 @@ public class RegistryBaseTest {
                 return Math.abs(element1.intValue() - element2.intValue()) <= 1;
             }
         };
-        
-        Integer[] expected = new Integer[]{0,2};
-        
+
+        Integer[] expected = new Integer[] { 0, 2 };
+
         customEqualityTestRegistry.registerElement(0);
         customEqualityTestRegistry.registerElement(1);
         customEqualityTestRegistry.registerElement(2);
-        
-        assertArrayEquals(expected, customEqualityTestRegistry.getElements().toArray(new Integer[0])); 
+
+        assertArrayEquals(expected, customEqualityTestRegistry.getElements().toArray(new Integer[0]));
     }
 }

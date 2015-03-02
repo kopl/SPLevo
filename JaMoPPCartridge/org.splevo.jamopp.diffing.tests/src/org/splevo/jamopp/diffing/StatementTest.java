@@ -24,7 +24,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.DifferenceKind;
-import org.eclipse.emf.compare.utils.DiffUtil;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.EqualityExpression;
@@ -38,7 +37,6 @@ import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.Return;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 

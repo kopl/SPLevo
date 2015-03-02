@@ -15,18 +15,23 @@ import org.splevo.commons.registry.RegistryBase;
 
 import com.google.common.base.Strings;
 
-
+/**
+ * Registry for available VPM analyzers.
+ */
 public enum VPMAnalyzerRegistry {
     INSTANCE;
     
     private final InnerVPMAnalyzerRegistry innerRegistry = new InnerVPMAnalyzerRegistry();
     
+    /**
+     * @return The singleton instance.
+     */
     public static InnerVPMAnalyzerRegistry getInstance() {
         return INSTANCE.innerRegistry;
     }
     
     /**
-     * Static registry for available VPM analyzers.
+     * Implementation of registry for available VPM analyzers.
      */
     public class InnerVPMAnalyzerRegistry extends RegistryBase<VPMAnalyzer> {
 

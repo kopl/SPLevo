@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Stephan Seifermann
+ *******************************************************************************/
 package org.splevo.commons.registry;
 
 import java.util.Collections;
@@ -6,12 +17,15 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Base class for registries of arbitrary elements.
+ * 
+ * @param <T>
+ *            The type of the contained elements.
+ */
 public abstract class RegistryBase<T> {
 
     protected final List<T> elements = Lists.newArrayList();
-
-    protected RegistryBase() {
-    }
 
     /**
      * Register a new element.
@@ -37,6 +51,14 @@ public abstract class RegistryBase<T> {
         return elements;
     }
 
+    /**
+     * Determines if a given element is a valid element. This is checked when registering an
+     * element.
+     * 
+     * @param element
+     *            The element to check.
+     * @return True if the element is valid, False otherwise.
+     */
     protected boolean isValid(T element) {
         if (element == null) {
             return false;

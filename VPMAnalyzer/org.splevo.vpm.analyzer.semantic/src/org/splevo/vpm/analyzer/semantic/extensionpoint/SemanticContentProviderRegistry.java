@@ -14,17 +14,23 @@ package org.splevo.vpm.analyzer.semantic.extensionpoint;
 
 import org.splevo.commons.registry.RegistryBase;
 
+/**
+ * A registry for available semantic content providers.
+ */
 public enum SemanticContentProviderRegistry {
     INSTANCE;
     
     private final InnerSemanticContentProviderRegistry innerRegistry = new InnerSemanticContentProviderRegistry();
     
+    /**
+     * @return The singleton instance.
+     */
     public static InnerSemanticContentProviderRegistry getInstance() {
         return INSTANCE.innerRegistry;
     }
     
     /**
-     * A registry for available content providers.
+     * Implementation of the registry for semantic content providers.
      */
     public class InnerSemanticContentProviderRegistry extends RegistryBase<SemanticContentProvider> {
 

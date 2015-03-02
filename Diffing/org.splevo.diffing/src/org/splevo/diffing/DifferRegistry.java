@@ -14,17 +14,23 @@ package org.splevo.diffing;
 
 import org.splevo.commons.registry.IdBasedRegistryBase;
 
+/**
+ * A registry for available differencing engines.
+ */
 public enum DifferRegistry {
     INSTANCE;
     
     private final InnerDifferRegistry innerRegistry = new InnerDifferRegistry();
     
+    /**
+     * @return The singleton instance.
+     */
     public static InnerDifferRegistry getInstance() {
         return INSTANCE.innerRegistry;
     }
     
     /**
-     * A registry for available content providers.
+     * Implementation class for the differencing engines registry.
      */
     public class InnerDifferRegistry extends IdBasedRegistryBase<Differ, String> {
         

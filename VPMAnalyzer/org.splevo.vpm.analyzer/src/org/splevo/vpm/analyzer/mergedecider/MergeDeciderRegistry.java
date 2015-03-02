@@ -15,17 +15,23 @@ import org.splevo.commons.registry.RegistryBase;
 
 import com.google.common.base.Strings;
 
+/**
+ * Registry for available merge deciders.
+ */
 public enum MergeDeciderRegistry {
     INSTANCE;
     
     private final InnerMergeDeciderRegistry innerRegistry = new InnerMergeDeciderRegistry();
     
+    /**
+     * @return The singleton instance.
+     */
     public static InnerMergeDeciderRegistry getInstance() {
         return INSTANCE.innerRegistry;
     }
     
     /**
-     * Static registry for available merge decider.
+     * Implementation of the MergeDecider registry.
      */
     public class InnerMergeDeciderRegistry extends RegistryBase<MergeDecider> {
         

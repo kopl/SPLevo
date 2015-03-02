@@ -5,18 +5,23 @@ import org.splevo.commons.registry.IdBasedRegistryBase;
 
 import com.google.common.base.Strings;
 
+/**
+ * Registry for available refactoring extensions.
+ */
 public enum VariabilityRefactoringRegistry {
     INSTANCE;
     
     private final InnerVariabilityRefactoringRegistry innerRegistry = new InnerVariabilityRefactoringRegistry();
     
+    /**
+     * @return The singleton instance.
+     */
     public static InnerVariabilityRefactoringRegistry getInstance() {
         return INSTANCE.innerRegistry;
     }
     
     /**
-     * This singleton class handles the registration of available refactoring extensions.<br>
-     * Use registerRefactoring() to do so.
+     * Implementation of registry for available refactoring extensions.
      */
     public class InnerVariabilityRefactoringRegistry extends IdBasedRegistryBase<VariabilityRefactoring, String> {
         
