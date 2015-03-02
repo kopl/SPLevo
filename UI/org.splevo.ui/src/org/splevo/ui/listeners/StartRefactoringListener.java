@@ -148,7 +148,7 @@ public class StartRefactoringListener extends MouseAdapter {
     private List<VariabilityRefactoring> getRefactorings(List<String> refactoringIds) {
         List<VariabilityRefactoring> refactorings = Lists.newArrayList();
         for (String refactoringId : refactoringIds) {
-            VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getRefactoringById(refactoringId);
+            VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getInstance().getElementById(refactoringId);
             if (refactoring != null) {
                 refactorings.add(refactoring);
             } else {

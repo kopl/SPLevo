@@ -12,39 +12,22 @@
  *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic.extensionpoint;
 
-import java.util.List;
+import org.splevo.commons.registry.RegistryBase;
 
-import com.google.common.collect.Lists;
-
-/**
- * A registry for available content providers.
- */
-public class SemanticContentProviderRegistry {
-
-    private static List<SemanticContentProvider> contentProviders = Lists.newArrayList();
-
-    /**
-     * Register a new content provider.
-     *
-     * Note: If a provider instance has already been registered, nothing is done. However, providers
-     * to not have an identifier or similar. So only instance checking can be done.
-     *
-     * @param provider
-     *            The provider itself.
-     */
-    public static void registerConentProvider(SemanticContentProvider provider) {
-        if (!contentProviders.contains(provider)) {
-            contentProviders.add(provider);
-        }
+public enum SemanticContentProviderRegistry {
+    INSTANCE;
+    
+    private final InnerSemanticContentProviderRegistry innerRegistry = new InnerSemanticContentProviderRegistry();
+    
+    public static InnerSemanticContentProviderRegistry getInstance() {
+        return INSTANCE.innerRegistry;
     }
-
+    
     /**
-     * Get the list of registered content providers.
-     *
-     * @return The current list.
+     * A registry for available content providers.
      */
-    public static List<SemanticContentProvider> getContentProviders() {
-        return contentProviders;
-    }
+    public class InnerSemanticContentProviderRegistry extends RegistryBase<SemanticContentProvider> {
 
+    }
+    
 }

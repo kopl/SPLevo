@@ -17,13 +17,14 @@ import java.util.Set;
 
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.splevo.commons.interfaces.IdHavingElement;
 
 /**
  * A differ encapsulating the technology specific diffing logic. It is capable to select all
  * software model files from a supplied base directory, performs the diffing on it and returns a
  * DiffModel, probably with technology specific diff elements.
  */
-public interface Differ {
+public interface Differ extends IdHavingElement<String> {
 
     /** Initialize the differ and any required resources (e.g. meta models etc.). */
     void init();
@@ -87,6 +88,7 @@ public interface Differ {
      *
      * @return The internal id of the differ.
      */
+    @Override
     String getId();
 
     /**

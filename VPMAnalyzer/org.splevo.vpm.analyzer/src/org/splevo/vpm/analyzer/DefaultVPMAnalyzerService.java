@@ -578,7 +578,7 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
             logger.error("Mergeability checked for at least one VP being null");
         }
 
-        for (MergeDecider decider : MergeDeciderRegistry.getMergeDecider()) {
+        for (MergeDecider decider : MergeDeciderRegistry.getInstance().getElements()) {
             boolean checkResult = decider.canBeMerged(vp1, vp2);
             if (checkResult) {
                 return true;
@@ -594,6 +594,6 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      */
     @Override
     public List<VPMAnalyzer> getAvailableAnalyzers() {
-        return VPMAnalyzerRegistry.getVPMAnalyzers();
+        return VPMAnalyzerRegistry.getInstance().getElements();
     }
 }

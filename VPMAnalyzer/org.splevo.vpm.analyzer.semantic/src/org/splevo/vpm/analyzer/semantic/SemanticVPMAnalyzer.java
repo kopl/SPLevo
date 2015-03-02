@@ -359,7 +359,7 @@ public class SemanticVPMAnalyzer extends AbstractVPMAnalyzer {
      */
     private void loadTermsForSoftwareElement(boolean matchComments, SoftwareElement softwareElement,
             List<String> codeTerms, List<String> commentTerms) {
-        List<SemanticContentProvider> semanticContentProviders = SemanticContentProviderRegistry.getContentProviders();
+        List<SemanticContentProvider> semanticContentProviders = SemanticContentProviderRegistry.getInstance().getElements();
         for (SemanticContentProvider semanticContentProvider : semanticContentProviders) {
             SemanticContent relevantContent;
             try {

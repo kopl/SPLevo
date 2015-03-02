@@ -47,7 +47,7 @@ public class VariabilityMechanismPropertyDescriptor extends PropertyDescriptor {
         super(id, displayName);
         refactorings = Lists.newArrayList();
         refactorings.add(null);
-        refactorings.addAll(VariabilityRefactoringRegistry.getRefactorings());
+        refactorings.addAll(VariabilityRefactoringRegistry.getInstance().getElements());
     }
 
     /**

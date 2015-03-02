@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.splevo.commons.interfaces.IdHavingElement;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -23,7 +24,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * A refactoring to consolidate the variants of a variation point into a single code base using a
  * specific variability realization technique.
  */
-public interface VariabilityRefactoring {
+public interface VariabilityRefactoring extends IdHavingElement<String> {
 
     /**
      * Get the variability mechanism realized by this refactoring.
@@ -58,6 +59,7 @@ public interface VariabilityRefactoring {
      * 
      * @return The identifier of the refactoring.
      */
+    @Override
     public String getId();
 
 }

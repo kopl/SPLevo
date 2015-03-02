@@ -158,7 +158,7 @@ public class SPLProfileTab extends AbstractDashboardTab {
         });
 
         List<DLItem> items = Lists.newArrayList();
-        for (VariabilityRefactoring refactoring : VariabilityRefactoringRegistry.getRefactorings()) {
+        for (VariabilityRefactoring refactoring : VariabilityRefactoringRegistry.getInstance().getElements()) {
             VariabilityMechanism mechanism = refactoring.getVariabilityMechanism();
             DLItem item = new DLItem(mechanism.getName());
             item.setData(SPLPROFILE_CONFIG_ID_REFACTORING_DATA, refactoring);

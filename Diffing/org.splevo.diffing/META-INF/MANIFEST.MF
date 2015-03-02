@@ -12,7 +12,8 @@ Require-Bundle: org.apache.log4j,
  org.eclipse.emf.compare;bundle-version="2.1.0";visibility:=reexport,
  com.google.guava;bundle-version="11.0.0";visibility:=reexport,
  org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.splevo.commons;visibility:=reexport
 Export-Package: org.splevo.diffing,
  org.splevo.diffing.match,
  org.splevo.diffing.postprocessor,

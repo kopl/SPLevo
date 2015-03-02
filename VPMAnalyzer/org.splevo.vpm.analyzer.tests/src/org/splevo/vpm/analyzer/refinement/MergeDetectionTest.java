@@ -61,7 +61,7 @@ public class MergeDetectionTest {
      */
     @Before
     public void before() {
-        MergeDeciderRegistry.clearRegistry();
+        MergeDeciderRegistry.getInstance().clearRegistry();
     }
 
     /**
@@ -69,7 +69,7 @@ public class MergeDetectionTest {
      */
     @After
     public void after() {
-        MergeDeciderRegistry.clearRegistry();
+        MergeDeciderRegistry.getInstance().clearRegistry();
     }
 
     /**
@@ -110,7 +110,7 @@ public class MergeDetectionTest {
         methodCallStub = methodCallStub.thenReturn(Boolean.TRUE);
         methodCallStub = methodCallStub.thenReturn(Boolean.FALSE);
         methodCallStub.thenReturn(Boolean.FALSE);
-        MergeDeciderRegistry.registerMergeDecider(mergeDecider);
+        MergeDeciderRegistry.getInstance().registerElement(mergeDecider);
 
         DetectionRule rule = new BasicDetectionRule(Lists.newArrayList("CodeStructure"), RefinementType.GROUPING);
         List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true);
@@ -160,7 +160,7 @@ public class MergeDetectionTest {
                 any(VariationPoint.class)));
         methodCallStub = methodCallStub.thenReturn(Boolean.TRUE);
         methodCallStub.thenReturn(Boolean.TRUE);
-        MergeDeciderRegistry.registerMergeDecider(mergeDecider);
+        MergeDeciderRegistry.getInstance().registerElement(mergeDecider);
 
         DetectionRule rule = new BasicDetectionRule(Lists.newArrayList("CodeStructure"), RefinementType.GROUPING);
         List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true);
@@ -219,7 +219,7 @@ public class MergeDetectionTest {
         when(mergeDecider.canBeMerged(vp3, vp2)).thenReturn(Boolean.TRUE);
         when(mergeDecider.canBeMerged(vp4, vp2)).thenReturn(Boolean.FALSE);
         when(mergeDecider.canBeMerged(vp4, vp3)).thenReturn(Boolean.TRUE);
-        MergeDeciderRegistry.registerMergeDecider(mergeDecider);
+        MergeDeciderRegistry.getInstance().registerElement(mergeDecider);
 
         DetectionRule rule = new BasicDetectionRule(Lists.newArrayList("CodeStructure"), RefinementType.GROUPING);
         List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true);

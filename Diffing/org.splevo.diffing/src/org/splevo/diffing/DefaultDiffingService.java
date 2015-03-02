@@ -41,7 +41,7 @@ public class DefaultDiffingService implements DiffingService {
         diffModel.setThreeWay(false);
 
         for (String differId : differIds) {
-            Differ differ = DifferRegistry.getDifferById(differId);
+            Differ differ = DifferRegistry.getInstance().getElementById(differId);
             if (differ == null) {
                 logger.warn("Selected Differ not registered: " + differId);
                 continue;

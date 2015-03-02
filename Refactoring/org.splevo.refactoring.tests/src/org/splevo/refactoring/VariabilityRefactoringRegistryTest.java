@@ -35,7 +35,7 @@ public class VariabilityRefactoringRegistryTest {
     @Before
     @After
     public void cleanUp() {
-        VariabilityRefactoringRegistry.getRefactorings().clear();
+        VariabilityRefactoringRegistry.getInstance().getElements().clear();
     }
 
     /**
@@ -50,9 +50,9 @@ public class VariabilityRefactoringRegistryTest {
         VariabilityRefactoring refactoring = mock(VariabilityRefactoring.class);
         when(refactoring.getId()).thenReturn("TESTID");
         when(refactoring.getVariabilityMechanism()).thenReturn(mechanism);
-        VariabilityRefactoringRegistry.registerRefactoring(refactoring);
+        VariabilityRefactoringRegistry.getInstance().registerElement(refactoring);
 
-        List<VariabilityRefactoring> refactorings = VariabilityRefactoringRegistry.getRefactorings();
+        List<VariabilityRefactoring> refactorings = VariabilityRefactoringRegistry.getInstance().getElements();
         assertThat("Wrong number of registered refactorings", refactorings.size(), is(1));
     }
 

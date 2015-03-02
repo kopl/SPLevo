@@ -55,7 +55,7 @@ public class VariabilityRefactoringService {
 
             for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
                 String refactoringID = variationPoint.getVariabilityMechanism().getRefactoringID();
-                VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getRefactoringById(refactoringID);
+                VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getInstance().getElementById(refactoringID);
 
                 if (!refactoring.canBeAppliedTo(variationPoint)) {
                     logger.debug("Recommended refactoring cannot be applied to this variation point.");

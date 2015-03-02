@@ -79,7 +79,7 @@ public class Activator implements BundleActivator {
                     Object o = element.createExecutableExtension(EXTENSION_POINT_ATTR_ANALYZER_CLASS);
                     if ((o != null) && (o instanceof VPMAnalyzer)) {
                         VPMAnalyzer analyzer = (VPMAnalyzer) o;
-                        VPMAnalyzerRegistry.registerVPMAnalyzer(analyzer);
+                        VPMAnalyzerRegistry.getInstance().registerElement(analyzer);
                     }
                 } catch (CoreException e) {
                     logger.error("Failed to load VPM analyzer extension", e);
@@ -112,7 +112,7 @@ public class Activator implements BundleActivator {
                     Object o = element.createExecutableExtension(MERGE_DECIDER_EXTENSION_POINT_ATTR_CLASS);
                     if ((o != null) && (o instanceof MergeDecider)) {
                         MergeDecider mergeDecider = (MergeDecider) o;
-                        MergeDeciderRegistry.registerMergeDecider(mergeDecider);
+                        MergeDeciderRegistry.getInstance().registerElement(mergeDecider);
                     }
                 } catch (CoreException e) {
                     logger.error("Failed to load merge decider extension", e);

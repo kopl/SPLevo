@@ -65,7 +65,7 @@ public class Activator implements BundleActivator {
                     Object o = element.createExecutableExtension(EXTENSION_POINT_ATTR_ANALYZER_CLASS);
                     if ((o != null) && (o instanceof SemanticContentProvider)) {
                         SemanticContentProvider contentProvider = (SemanticContentProvider) o;
-                        SemanticContentProviderRegistry.registerConentProvider(contentProvider);
+                        SemanticContentProviderRegistry.getInstance().registerElement(contentProvider);
                     }
                 } catch (CoreException e) {
                     logger.error("Failed to load semantic content provider extension", e);

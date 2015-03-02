@@ -41,7 +41,7 @@ public class Activator implements BundleActivator {
     public void start(BundleContext bundleContext) throws Exception {
         List<VariabilityRefactoring> refactorings = loadRefactorings();
         for (VariabilityRefactoring refactoring : refactorings) {
-            VariabilityRefactoringRegistry.registerRefactoring(refactoring);
+            VariabilityRefactoringRegistry.getInstance().registerElement(refactoring);
         }
 
     }

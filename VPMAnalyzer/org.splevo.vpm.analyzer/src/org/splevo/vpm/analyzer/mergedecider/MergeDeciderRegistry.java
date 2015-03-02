@@ -11,82 +11,46 @@
  *******************************************************************************/
 package org.splevo.vpm.analyzer.mergedecider;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import org.splevo.commons.registry.RegistryBase;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 
-/**
- * Static registry for available merge decider.
- */
-public class MergeDeciderRegistry {
-
-    private static List<MergeDecider> decider = Lists.newArrayList();
-
+public enum MergeDeciderRegistry {
+    INSTANCE;
+    
+    private final InnerMergeDeciderRegistry innerRegistry = new InnerMergeDeciderRegistry();
+    
+    public static InnerMergeDeciderRegistry getInstance() {
+        return INSTANCE.innerRegistry;
+    }
+    
     /**
-     * Register a new merge decider.
-     *
-     * Note: If a merge decider instance has already been registered, nothing is done.<br>
-     *
-     * @param mergeDecider
-     *            The merge decider to register.
+     * Static registry for available merge decider.
      */
-    public static void registerMergeDecider(MergeDecider mergeDecider) {
-        if (isValid(mergeDecider) && isNotRegistered(mergeDecider)) {
-            decider.add(mergeDecider);
+    public class InnerMergeDeciderRegistry extends RegistryBase<MergeDecider> {
+        
+        /**
+         * Clear all registered decider.<br>
+         * This should be called if you need to ensure there are no decider registered previously.
+         */
+        public void clearRegistry() {
+            elements.clear();
         }
-    }
 
-    /**
-     * Clear all registered decider.<br>
-     * This should be called if you need to ensure there are no decider registered previously.
-     */
-    public static void clearRegistry() {
-        decider.clear();
-    }
-
-    /**
-     * Get the list of registered merge decider.
-     *
-     * The list will be ordered according to the merge decider's class name.
-     *
-     * @return The current list.
-     */
-    public static List<MergeDecider> getMergeDecider() {
-        Collections.sort(decider, new Comparator<MergeDecider>() {
-            @Override
-            public int compare(MergeDecider c1, MergeDecider c2) {
-                String name1 = c1.getClass().getSimpleName();
-                String name2 = c2.getClass().getSimpleName();
-                return Strings.nullToEmpty(name1).compareTo(name2);
-            }
-        });
-        return decider;
-    }
-
-    /**
-     * Ensure the merge decider is not null and all required attributes set.
-     *
-     * @param mergeDecider
-     *            The merge decider to test.
-     * @return True/false if it is valid or not.
-     */
-    private static boolean isValid(MergeDecider mergeDecider) {
-        if (mergeDecider == null) {
-            return false;
+        @Override
+        protected boolean areElementsConsideredTheSame(MergeDecider element1, MergeDecider element2) {
+            return element1.getClass().equals(element2.getClass());
         }
-        return true;
-    }
 
-    private static boolean isNotRegistered(MergeDecider mergeDecider) {
-        for (MergeDecider existingDecider : decider) {
-            if (existingDecider.getClass().equals(mergeDecider.getClass())) {
-                return false;
-            }
+        @Override
+        protected int compareElements(MergeDecider element1, MergeDecider element2) {
+            String name1 = element1.getClass().getSimpleName();
+            String name2 = element2.getClass().getSimpleName();
+            return Strings.nullToEmpty(name1).compareTo(name2);
         }
-        return true;
-    }
 
+    }
+    
 }
+
+

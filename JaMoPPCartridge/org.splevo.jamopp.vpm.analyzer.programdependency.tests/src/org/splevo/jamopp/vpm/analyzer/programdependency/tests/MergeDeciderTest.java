@@ -60,7 +60,7 @@ public class MergeDeciderTest {
     @Before
     @After
     public void clearRegistry() {
-        MergeDeciderRegistry.clearRegistry();
+        MergeDeciderRegistry.getInstance().clearRegistry();
     }
 
     /**
@@ -74,7 +74,7 @@ public class MergeDeciderTest {
 
         VPMGraph graph = TestUtil.prepareVPMGraph(BASE_PATH + "Statements/");
 
-        MergeDeciderRegistry.registerMergeDecider(new JaMoPPMergeDecider());
+        MergeDeciderRegistry.getInstance().registerElement(new JaMoPPMergeDecider());
 
         JaMoPPProgramDependencyVPMAnalyzer analyzer = new JaMoPPProgramDependencyVPMAnalyzer();
         VPMAnalyzerResult result = analyzer.analyze(graph);

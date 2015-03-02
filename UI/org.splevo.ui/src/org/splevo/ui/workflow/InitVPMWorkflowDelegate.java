@@ -112,7 +112,7 @@ public class InitVPMWorkflowDelegate extends
         List<String> requiredExtractors = Lists.newArrayList();
         EList<String> differIds = splevoProject.getDifferIds();
         for (String differId : differIds) {
-            Differ differ = DifferRegistry.getDifferById(differId);
+            Differ differ = DifferRegistry.getInstance().getElementById(differId);
             if (differ != null) {
                 requiredExtractors.addAll(differ.getRequiredExtractorIds());
             }

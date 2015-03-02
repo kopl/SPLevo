@@ -168,8 +168,8 @@ public class SharedTermSemanticAnalysisTest extends AbstractTest {
 
     private void registerContentProvider(List<List<String>> termLists) throws UnsupportedSoftwareElementException {
         SemanticContentProvider provider = mockContentProviderForTermLists(termLists);
-        SemanticContentProviderRegistry.getContentProviders().clear();
-        SemanticContentProviderRegistry.registerConentProvider(provider);
+        SemanticContentProviderRegistry.getInstance().getElements().clear();
+        SemanticContentProviderRegistry.getInstance().registerElement(provider);
     }
 
     /**

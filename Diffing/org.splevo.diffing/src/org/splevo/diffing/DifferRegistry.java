@@ -12,88 +12,29 @@
  *******************************************************************************/
 package org.splevo.diffing;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import org.splevo.commons.registry.IdBasedRegistryBase;
 
-import com.google.common.collect.Lists;
-
-/**
- * A registry for available content providers.
- */
-public class DifferRegistry {
-
-    private static List<Differ> differs = Lists.newArrayList();
-
+public enum DifferRegistry {
+    INSTANCE;
+    
+    private final InnerDifferRegistry innerRegistry = new InnerDifferRegistry();
+    
+    public static InnerDifferRegistry getInstance() {
+        return INSTANCE.innerRegistry;
+    }
+    
     /**
-     * Register a new differ.
-     *
-     * Note: If a differ instance has already been registered, nothing is done.<br>
-     * Instance and id checking can be done.
-     *
-     * @param differ
-     *            The provider itself.
+     * A registry for available content providers.
      */
-    public static void registerDiffer(Differ differ) {
-        if (isValid(differ) && isNotRegistered(differ)) {
-            differs.add(differ);
+    public class InnerDifferRegistry extends IdBasedRegistryBase<Differ, String> {
+        
+        @Override
+        protected int compareElements(Differ element1, Differ element2) {
+            return element1.getOrderId() - element2.getOrderId();
         }
-    }
 
-    /**
-     * Get the list of registered content providers.
-     *
-     * The list will be ordered according to the differs order id.
-     *
-     * @return The current list.
-     */
-    public static List<Differ> getDiffer() {
-        Collections.sort(differs, new Comparator<Differ>() {
-            @Override
-            public int compare(Differ d1, Differ d2) {
-                return d1.getOrderId() - d2.getOrderId();
-            }
-        });
-        return differs;
     }
-
-    /**
-     * Get a differ for a specific id.
-     *
-     * @param id
-     *            The id to get the differ for.
-     * @return The differ or null if non exists for the provided id.
-     */
-    public static Differ getDifferById(String id) {
-        for (Differ differ : differs) {
-            if (differ.getId().equals(id)) {
-                return differ;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Ensure the differ is not null and all required attributes set.
-     *
-     * @param differ
-     *            The differ to test.
-     * @return True/false if it is valid or not.
-     */
-    private static boolean isValid(Differ differ) {
-        if (differ == null || differ.getId() == null) {
-            return false;
-        }
-        return true;
-    }
-
-    private static boolean isNotRegistered(Differ differ) {
-        for (Differ existingDiffer : differs) {
-            if (existingDiffer.getId().equals(differ.getId())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
+    
 }
+
+

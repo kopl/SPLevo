@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SPLevo Common Utilities
+Bundle-SymbolicName: org.splevo.commons
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: com.google.guava;bundle-version="15.0.0",
+ org.apache.log4j
+Export-Package: org.splevo.commons.interfaces,
+ org.splevo.commons.registry

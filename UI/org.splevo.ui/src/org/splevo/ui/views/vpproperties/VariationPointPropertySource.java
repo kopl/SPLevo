@@ -115,7 +115,7 @@ public class VariationPointPropertySource implements IPropertySource {
             }
 
             String refactoringId = vp.getVariabilityMechanism().getRefactoringID();
-            VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getRefactoringById(refactoringId);
+            VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getInstance().getElementById(refactoringId);
             return refactoring;
         }
 

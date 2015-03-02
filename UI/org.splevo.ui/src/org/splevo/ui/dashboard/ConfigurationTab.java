@@ -102,7 +102,7 @@ public class ConfigurationTab extends AbstractDashboardTab {
 
         List<Button> differCheckBoxes = new LinkedList<Button>();
 
-        List<Differ> availableDiffers = DifferRegistry.getDiffer();
+        List<Differ> availableDiffers = DifferRegistry.getInstance().getElements();
 
         int singleHeight = 20;
         int multipleHeight = 100;
