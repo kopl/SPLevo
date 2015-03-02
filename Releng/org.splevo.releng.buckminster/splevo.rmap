@@ -163,7 +163,7 @@
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>
-    <rm:provider>
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
       <rm:uri format="file:///{0}/Commons/{1}/"/>
     </rm:provider>
   </rm:searchPath>
