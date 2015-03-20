@@ -13,4 +13,6 @@
               files="org[\\/]eclipse[\\/]gmt[\\/].*"/>
     <suppress checks=".*"
               files=".*[\\/]org[\\/]eclipse[\\/]wbt[\\/].*"/>
+    <suppress checks=".*"
+              files=".*[\\/]src-gen[\\/].*"/>
 </suppressions>
