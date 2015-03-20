@@ -187,11 +187,11 @@ Library.
    </license>
 
    <requires>
-      <import plugin="de.devboost.natspec.annotations"/>
       <import feature="org.featuremapper.core.feature" version="0.9.0" match="greaterOrEqual"/>
       <import plugin="org.apache.log4j"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.splevo.vpm"/>
+      <import feature="de.devboost.natspec.annotations" version="2.2.5" match="greaterOrEqual"/>
    </requires>
 
    <plugin
