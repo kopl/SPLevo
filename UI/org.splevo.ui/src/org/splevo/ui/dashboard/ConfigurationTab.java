@@ -18,9 +18,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -29,27 +32,32 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.splevo.diffing.Differ;
 import org.splevo.diffing.DifferRegistry;
+import org.splevo.fm.builder.FeatureModelBuilder;
+import org.splevo.fm.builder.FeatureModelBuilderRegistry;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.editors.listener.DifferCheckBoxListener;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
  * The dash board tab to configure the consolidation process.
- *
+ * 
  */
 public class ConfigurationTab extends AbstractDashboardTab {
 
     /**
      * Create the tab to handle the SPL profile configuration.
-     *
+     * 
      * @param splevoProjectEditor
      *            The editor to access when configuration is modified.
      * @param tabFolder
      *            The folder to add the tab to.
-     *
+     * 
      * @param tabIndex
      *            The index of the tab within the parent tab folder.
      */
@@ -60,7 +68,7 @@ public class ConfigurationTab extends AbstractDashboardTab {
 
     /**
      * Create the tab.
-     *
+     * 
      * @param tabFolder
      *            The folder to add the tab to.
      * @param tabIndex
@@ -79,18 +87,66 @@ public class ConfigurationTab extends AbstractDashboardTab {
         composite.setLayout(new GridLayout(1, false));
         composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
 
+        buildFeatureModelBuilderGroup(composite);
         buildDifferConfigurationGroup(composite);
         scrolledComposite.setContent(composite);
         scrolledComposite.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
         configurationTab.setControl(scrolledComposite);
     }
 
+    private Group buildFeatureModelBuilderGroup(Composite composite) {
+        Group group = new Group(composite, SWT.FILL);
+        group.setText("FeatureModel Builders");
+        group.setLayout(new GridLayout(2, false));
+        group.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+        Label configLabel = new Label(group, SWT.NONE);
+        configLabel.setText("Feature Model Builder:");
+        //configLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
+
+        final Combo fmBuilderCombo = new Combo(group, SWT.READ_ONLY | SWT.DROP_DOWN);
+        //fmBuilderCombo.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
+        for (FeatureModelBuilder<?> fmBuilder : FeatureModelBuilderRegistry.getInstance().getElements()) {
+            fmBuilderCombo.add(fmBuilder.getLabel());
+        }
+
+        FeatureModelBuilder<Object> firstFmBuilderInRegistry = Iterables.getFirst(FeatureModelBuilderRegistry
+                .getInstance().getElements(), null);
+        FeatureModelBuilder<Object> defaultFMBuilderInProject = FeatureModelBuilderRegistry.getInstance()
+                .getElementById(getSPLevoProject().getFmBuilderId());
+        final FeatureModelBuilder<Object> activeFmBuilder = defaultFMBuilderInProject == null ? firstFmBuilderInRegistry
+                : defaultFMBuilderInProject;
+        if (activeFmBuilder != null) {
+            int index = Iterables.indexOf(Lists.newArrayList(fmBuilderCombo.getItems()), new Predicate<String>() {
+                @Override
+                public boolean apply(String itemLabel) {
+                    return itemLabel.equals(activeFmBuilder.getLabel());
+                }
+            });
+            fmBuilderCombo.select(index);
+            getSPLevoProject().setFmBuilderId(activeFmBuilder.getId());
+        }
+        
+        fmBuilderCombo.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent arg0) {
+                String fmBuilderId = FeatureModelBuilderRegistry.getInstance().getIdByLabel(fmBuilderCombo.getText());
+                if (fmBuilderId != null && !getSPLevoProject().getFmBuilderId().equals(fmBuilderId)) {
+                    getSPLevoProject().setFmBuilderId(fmBuilderId);
+                    getSplevoProjectEditor().markAsDirty();
+                }
+            }
+        });
+
+        return group;
+    }
+
     /**
      * Build a ui group presenting check boxes to (de-)activate the extractors to executed or not.
-     *
+     * 
      * @param composite
      *            The parent ui element to place on.
-     *
+     * 
      * @return The newly created group.
      */
     private Group buildDifferConfigurationGroup(Composite composite) {
@@ -172,7 +228,7 @@ public class ConfigurationTab extends AbstractDashboardTab {
     /**
      * Extract a label from a configuration key. The key will be split and concatenated again
      * separated by whitespaces.
-     *
+     * 
      * @param configKey
      *            The key convert.
      * @return The resulting label.

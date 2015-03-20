@@ -69,6 +69,8 @@
         eType="#//DifferOption" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="splProfile" eType="#//SPLProfile"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fmBuilderId" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DifferOption" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

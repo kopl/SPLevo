@@ -12,6 +12,7 @@
  *******************************************************************************/
 package org.splevo.fm.builder;
 
+import org.splevo.commons.interfaces.IdHavingElement;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -20,7 +21,7 @@ import org.splevo.vpm.variability.VariationPointModel;
  * @param <Model>
  *            The specific type of the feature model, the builder is able to produce.
  */
-public interface FeatureModelBuilder<Model> {
+public interface FeatureModelBuilder<Model> extends IdHavingElement<String> {
 
     /**
      * Get the identifier of this builder. This should be unique in your installation.

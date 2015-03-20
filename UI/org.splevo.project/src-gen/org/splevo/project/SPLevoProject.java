@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.splevo.project.SPLevoProject#getDifferIds <em>Differ Ids</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDifferOptions <em>Differ Options</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getSplProfile <em>Spl Profile</em>}</li>
+ *   <li>{@link org.splevo.project.SPLevoProject#getFmBuilderId <em>Fm Builder Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -378,5 +379,31 @@ public interface SPLevoProject extends EObject {
      * @generated
      */
     void setSplProfile(SPLProfile value);
+
+    /**
+     * Returns the value of the '<em><b>Fm Builder Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Fm Builder Id</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Fm Builder Id</em>' attribute.
+     * @see #setFmBuilderId(String)
+     * @see org.splevo.project.ProjectPackage#getSPLevoProject_FmBuilderId()
+     * @model required="true"
+     * @generated
+     */
+    String getFmBuilderId();
+
+    /**
+     * Sets the value of the '{@link org.splevo.project.SPLevoProject#getFmBuilderId <em>Fm Builder Id</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Fm Builder Id</em>' attribute.
+     * @see #getFmBuilderId()
+     * @generated
+     */
+    void setFmBuilderId(String value);
 
 } // SPLevoProject

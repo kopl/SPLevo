@@ -76,6 +76,7 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
             addDiffingFilterRulesPropertyDescriptor(object);
             addDifferIdsPropertyDescriptor(object);
             addDifferOptionsPropertyDescriptor(object);
+            addFmBuilderIdPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
@@ -389,6 +390,28 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
     }
 
     /**
+     * This adds a property descriptor for the Fm Builder Id feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addFmBuilderIdPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_SPLevoProject_fmBuilderId_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_SPLevoProject_fmBuilderId_feature", "_UI_SPLevoProject_type"),
+                 ProjectPackage.Literals.SP_LEVO_PROJECT__FM_BUILDER_ID,
+                 true,
+                 false,
+                 false,
+                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+                 null,
+                 null));
+    }
+
+    /**
      * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
      * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
      * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -469,6 +492,7 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
+            case ProjectPackage.SP_LEVO_PROJECT__FM_BUILDER_ID:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
                 return;
             case ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE:

@@ -211,13 +211,22 @@ public interface ProjectPackage extends EPackage {
     int SP_LEVO_PROJECT__SPL_PROFILE = 14;
 
     /**
+     * The feature id for the '<em><b>Fm Builder Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SP_LEVO_PROJECT__FM_BUILDER_ID = 15;
+
+    /**
      * The number of structural features of the '<em>SP Levo Project</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int SP_LEVO_PROJECT_FEATURE_COUNT = 15;
+	int SP_LEVO_PROJECT_FEATURE_COUNT = 16;
 
 	/**
      * The meta object id for the '{@link org.splevo.project.impl.DifferOptionImpl <em>Differ Option</em>}' class.
@@ -479,6 +488,17 @@ public interface ProjectPackage extends EPackage {
     EReference getSPLevoProject_SplProfile();
 
     /**
+     * Returns the meta object for the attribute '{@link org.splevo.project.SPLevoProject#getFmBuilderId <em>Fm Builder Id</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Fm Builder Id</em>'.
+     * @see org.splevo.project.SPLevoProject#getFmBuilderId()
+     * @see #getSPLevoProject()
+     * @generated
+     */
+    EAttribute getSPLevoProject_FmBuilderId();
+
+    /**
      * Returns the meta object for class '{@link java.util.Map.Entry <em>Differ Option</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -705,6 +725,14 @@ public interface ProjectPackage extends EPackage {
          * @generated
          */
         EReference SP_LEVO_PROJECT__SPL_PROFILE = eINSTANCE.getSPLevoProject_SplProfile();
+
+        /**
+         * The meta object literal for the '<em><b>Fm Builder Id</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute SP_LEVO_PROJECT__FM_BUILDER_ID = eINSTANCE.getSPLevoProject_FmBuilderId();
 
         /**
          * The meta object literal for the '{@link org.splevo.project.impl.DifferOptionImpl <em>Differ Option</em>}' class.

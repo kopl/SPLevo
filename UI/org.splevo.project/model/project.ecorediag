@@ -55,6 +55,10 @@
         <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/differIds"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_J6oDYXeWEeO-gbVyW1cX9w"/>
       </children>
+      <children xmi:type="notation:Node" xmi:id="_JjLpwMGbEeS0kINbBrR6Cg" type="2001">
+        <element xmi:type="ecore:EAttribute" href="project.ecore#//SPLevoProject/fmBuilderId"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_JjLpwcGbEeS0kINbBrR6Cg"/>
+      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_6JMgkuhmEeGE_bESYdztFA"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_6JMgk-hmEeGE_bESYdztFA"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_6JMglOhmEeGE_bESYdztFA"/>

@@ -270,6 +270,15 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getSPLevoProject_FmBuilderId() {
+        return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(15);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getDifferOption() {
         return differOptionEClass;
     }
@@ -372,6 +381,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_IDS);
         createEReference(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_OPTIONS);
         createEReference(spLevoProjectEClass, SP_LEVO_PROJECT__SPL_PROFILE);
+        createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__FM_BUILDER_ID);
 
         differOptionEClass = createEClass(DIFFER_OPTION);
         createEAttribute(differOptionEClass, DIFFER_OPTION__KEY);
@@ -431,6 +441,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         initEAttribute(getSPLevoProject_DifferIds(), ecorePackage.getEString(), "differIds", null, 1, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSPLevoProject_DifferOptions(), this.getDifferOption(), null, "differOptions", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSPLevoProject_SplProfile(), this.getSPLProfile(), null, "splProfile", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSPLevoProject_FmBuilderId(), ecorePackage.getEString(), "fmBuilderId", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(differOptionEClass, Map.Entry.class, "DifferOption", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getDifferOption_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
