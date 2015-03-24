@@ -41,6 +41,8 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
 
+import com.google.common.base.Predicate;
+
 /**
  * Utility class to handle JaMoPP elements.
  */
@@ -51,15 +53,39 @@ public final class JaMoPPElementUtil {
     }
 
     /**
-     * Get the first container of an element which is not an expression.
-     *
+     * Get the first container that is not of any given type.
+     * @param element The element to get an appropriate container for.
+     * @param ignoredContainerTypes A set of types that should be skipped.
+     * @return The first matching container, which can be null as well.
+     */
+    public static EObject getFirstContainerNotOfGivenType(final Commentable element,
+            final Class<?>... ignoredContainerTypes) {
+        Predicate<EObject> matchingPredicate = new Predicate<EObject>() {
+            @Override
+            public boolean apply(EObject container) {
+                for (Class<?> clazz : ignoredContainerTypes) {
+                    if (clazz.isAssignableFrom(container.getClass())) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+        return getTransitiveContainerForPredicate(element, matchingPredicate);
+    }
+
+    /**
+     * Get the first container of an element which matches the given predicate.
+     * 
      * @param element
      *            The element to get an appropriate container for.
-     * @return The first non expression container, which can be null as well!
+     * @param predicate
+     *            The predicate that matches a valid container.
+     * @return The first matching container, which can be null as well.
      */
-    public static EObject getNonExpressionContainer(Commentable element) {
+    private static EObject getTransitiveContainerForPredicate(Commentable element, Predicate<EObject> predicate) {
         EObject container = element.eContainer();
-        while (container instanceof Expression) {
+        while (!predicate.apply(container)) {
             container = container.eContainer();
         }
         return container;
@@ -67,7 +93,7 @@ public final class JaMoPPElementUtil {
 
     /**
      * Check if a candidate is in the container hierarchy of the child.
-     *
+     * 
      * @param parentCandidate
      *            The candidate to check.
      * @param child
@@ -92,10 +118,10 @@ public final class JaMoPPElementUtil {
     /**
      * Get the name for a JaMoPP element.<br>
      * This is the name in case of {@link NamedElement}s, otherwise null will be returned.<br>
-     *
+     * 
      * If you want to always get a string representation, check out
      * {@link JaMoPPElementUtil#getLabel(Commentable)}.
-     *
+     * 
      * @param element
      *            The JaMoPP element to get the name for.
      * @return The name attribute of an element.
@@ -115,7 +141,7 @@ public final class JaMoPPElementUtil {
      * Get the name of a JaMoPP element.<br>
      * This will always return a representative String for the element.<br>
      * The main purpose of the method is to get a human readable representation.
-     *
+     * 
      * @param element
      *            The JaMoPP element to get the label for.
      * @return The String representation.
@@ -216,7 +242,7 @@ public final class JaMoPPElementUtil {
     /**
      * Get the position of a statement in its container. If the container is not a
      * {@link StatementListContainer} the method will always return -1.
-     *
+     * 
      * @param statement
      *            The statement to check the position of.
      * @return The position in the container's statement list.
@@ -233,7 +259,7 @@ public final class JaMoPPElementUtil {
 
     /**
      * Get the import declaration for a type in the compilation unit of a JaMoPP element.
-     *
+     * 
      * @param referenceElement
      *            The element to inspect the container of.
      * @param type
@@ -253,7 +279,7 @@ public final class JaMoPPElementUtil {
 
     /**
      * Get a human readable label for the type of an element.
-     *
+     * 
      * @param element
      *            The element to get the type label for.
      * @return The type identifier.
@@ -288,13 +314,13 @@ public final class JaMoPPElementUtil {
 
     /**
      * Get the constructor matching a given constructor call.
-     *
+     * 
      * The call itself does not have an explicit reference, thus the members of the referenced type
      * are scanned for a constructor with arguments matching the given call.
-     *
+     * 
      * In case of an implicit constructor call, null will be returned. Only explicit constructors
      * are returned.
-     *
+     * 
      * @param call
      *            The call to search the constructor for.
      * @return The constructor or null if none found.

@@ -123,13 +123,13 @@ import com.google.common.base.Strings;
 
 /**
  * Internal switch class to prove element similarity.
- *
+ * 
  * <p>
  * The similarity case methods do not need to check for null values. It is assumed that the calling
  * class does a null value check for the elements to compare in advanced, such as done by the
  * SimilarityChecker class.
  * </p>
- *
+ * 
  * <p>
  * Check strategy:<br>
  * First all "not-similar"-criteria are checked. If none hits, true will be returned.
@@ -148,7 +148,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
     /**
      * Constructor requiring the element to compare with.
-     *
+     * 
      * @param compareElement
      *            The right-side / original element to check the similarity against.
      * @param checkStatementPosition
@@ -258,7 +258,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Constructor to set the required configurations.
-         *
+         * 
          * @param classifierNormalizationPatterns
          *            A list of patterns replace any match in a classifier name with the defined
          *            replacement string.
@@ -270,7 +270,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
         /**
          * Concrete classifiers such as classes and interface are identified by their location and
          * name. The location is considered implicitly.
-         *
+         * 
          * @param classifier1
          *            the classifier to compare with the compareelement
          * @return True or false whether they are similar or not.
@@ -295,9 +295,9 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Check named element
-         *
+         * 
          * Similarity is defined by the names of the elements.
-         *
+         * 
          * @param element1
          *            The method call to compare with the compare element.
          * @return True As null always means null.
@@ -325,7 +325,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Constructor to set the required configurations.
-         *
+         * 
          * @param compilationUnitNormalizations
          *            A list of patterns replace any match in a classifier name with the defined
          *            replacement string.
@@ -347,7 +347,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * </ul>
          * Note: CompilationUnit names are full qualified. So it is important to apply classifier as
          * well as package renaming normalizations to them.
-         *
+         * 
          * @param unit1
          *            The compilation unit to compare with the compareElement.
          * @return True/False whether they are similar or not.
@@ -380,7 +380,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * <ul>
          * <li>full qualified package path</li>
          * </ul>
-         *
+         * 
          * @param package1
          *            The package to compare with the compare element.
          * @return True/False if the packages are similar or not.
@@ -645,7 +645,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * <li>number of constructor arguments</li>
          * <li>types of constructor arguments</li>
          * </ul>
-         *
+         * 
          * @param call1
          *            The class instance creation to compare with the compare element.
          * @return True/False if the class instance creations are similar or not.
@@ -792,9 +792,9 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Check null literal similarity.<br>
-         *
+         * 
          * Null literals are always assumed to be similar.
-         *
+         * 
          * @param object
          *            The literal to compare with the compare element.
          * @return True As null always means null.
@@ -825,10 +825,10 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * </ul>
          * </li>
          * </ul>
-         *
+         * 
          * The container must be checked to check similarity for referenced methods.
-         *
-         *
+         * 
+         * 
          * @param method1
          *            The abstract method declaration to compare with the compare element.
          * @return True/False if the abstract method declarations are similar or not.
@@ -899,10 +899,10 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * </ul>
          * </li>
          * </ul>
-         *
+         * 
          * The container must be checked to check similarity for referenced methods.
-         *
-         *
+         * 
+         * 
          * @param constructor1
          *            The abstract method declaration to compare with the compare element.
          * @return True/False if the abstract method declarations are similar or not.
@@ -1050,8 +1050,10 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
                 // Otherwise such a situation would lead to endless loops
                 // e.g. for for "(Iterator i = c.iterator(); i.hasNext(); ) {"
                 // Attention: The reference could be encapsulated by an expression!
-                EObject ref1Container = JaMoPPElementUtil.getNonExpressionContainer(ref1);
-                EObject ref2Container = JaMoPPElementUtil.getNonExpressionContainer(ref2);
+                EObject ref1Container = JaMoPPElementUtil.getFirstContainerNotOfGivenType(ref1, Expression.class,
+                        ArraySelector.class);
+                EObject ref2Container = JaMoPPElementUtil.getFirstContainerNotOfGivenType(ref2, Expression.class,
+                        ArraySelector.class);
                 EObject target1Container = target1.eContainer();
                 EObject target2Container = target2.eContainer();
                 if (target1Container != ref1Container && target2Container != ref2Container) {
@@ -1068,7 +1070,8 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
             for (int i = 0; i < ref1.getArraySelectors().size(); i++) {
                 ArraySelector selector1 = ref1.getArraySelectors().get(i);
                 ArraySelector selector2 = ref2.getArraySelectors().get(i);
-                Boolean positionSimilarity = similarityChecker.isSimilar(selector1.getPosition(), selector2.getPosition());
+                Boolean positionSimilarity = similarityChecker.isSimilar(selector1.getPosition(),
+                        selector2.getPosition());
                 if (positionSimilarity == Boolean.FALSE) {
                     return Boolean.FALSE;
                 }
@@ -1086,10 +1089,10 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Check element reference similarity.<br>
-         *
+         * 
          * Is checked by the target (the method called). Everything else are containment references
          * checked indirectly.
-         *
+         * 
          * @param ref1
          *            The method call to compare with the compare element.
          * @return True As null always means null.
@@ -1108,9 +1111,9 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Proof method call similarity.
-         *
+         * 
          * Similarity is decided by the method referenced and the arguments passed by.
-         *
+         * 
          * @param call1
          *            The left / modified method call to compare with the original one.
          * @return True/False if the method calls are similar or not.
@@ -1163,7 +1166,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Constructor to set required configurations.
-         *
+         * 
          * @param checkStatementPosition
          *            Flag if the position of a statement should be considered for similarity or
          *            not.
@@ -1178,7 +1181,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * <ul>
          * <li>similarity statements expressions</li>
          * </ul>
-         *
+         * 
          * @param statement1
          *            The expression statement to compare with the compare element.
          * @return True/False if the expression statements are similar or not.
@@ -1208,10 +1211,10 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Check the similarity of a variable declaration.
-         *
+         * 
          * The similarity is decided by the declared variables name only. A changed variable type or
          * value initialization should lead to a changed statement not a new one.
-         *
+         * 
          * @param varStmt1
          *            The variable to compare with the original / right-side one
          * @return True/False if they are similar or not.
@@ -1236,7 +1239,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * <ul>
          * <li>expressions similarity</li>
          * </ul>
-         *
+         * 
          * @param returnStatement1
          *            The return statement to compare with the compare element.
          * @return True/False if the return statements are similar or not.
@@ -1258,7 +1261,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * <ul>
          * <li>expression similarity</li>
          * </ul>
-         *
+         * 
          * @param statement1
          *            The synchronized statement to compare with the compare element.
          * @return True/False if the synchronized statements are similar or not.
@@ -1285,10 +1288,10 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Check throw statement similarity.<br>
-         *
+         * 
          * Only one throw statement can exist at the same code location. As a result the container
          * similarity checked implicitly is enough for this.
-         *
+         * 
          * @param throwStatement1
          *            The throw statement to compare with the compare element.
          * @return True/False if the throw statements are similar or not.
@@ -1316,17 +1319,17 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Check if two conditional statements are similar.
-         *
+         * 
          * Similarity is checked by:
          * <ul>
          * <li>similarity of the expressions</li>
          * </ul>
-         *
+         * 
          * The then and else statements are not checked as part of the condition statement check
          * because this is only about the container if statement similarity. The contained
          * statements are checked in a separate step of the compare process if the enclosing
          * condition statement matches.
-         *
+         * 
          * @param conditional1
          *            The statement to compare with the compare element.
          * @return True/False whether they are similar or not.
@@ -1376,7 +1379,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Decide of two statements differ from each other or not.
-         *
+         * 
          * @param statement1
          *            The first statement to compare
          * @param statement2
@@ -1392,7 +1395,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Check if two statements have differing successor statements.
-         *
+         * 
          * @param statement1
          *            The first statement to check.
          * @param statement2
@@ -1410,7 +1413,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * Get the predecessor statement of a statement within the parents container statement list.<br>
          * If a statement is the first, the only one, or the container is not a
          * {@link StatementListContainer}, or no predecessor exists, null will be returned.
-         *
+         * 
          * @param statement
          *            The statement to get the predecessor for.
          * @return The predecessor or null if non exists.
@@ -1430,7 +1433,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * Get the successor statement of a statement within the parents container statement list.<br>
          * If a statement is the last, the only one, or the container is not a
          * {@link StatementListContainer}, no successor exists, null will be returned.
-         *
+         * 
          * @param statement
          *            The statement to get the predecessor for.
          * @return The predecessor or null if non exists.
@@ -1456,10 +1459,10 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
         /**
          * Check element reference similarity.<br>
-         *
+         * 
          * Is checked by the target (the method called). Everything else are containment references
          * checked indirectly.
-         *
+         * 
          * @param ref1
          *            The method call to compare with the compare element.
          * @return True As null always means null.
@@ -1509,10 +1512,10 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
         /**
          * Primitive types are always similar as their class similarity is assumed before by the
          * outer {@link SimilarityChecker}.
-         *
+         * 
          * Note: The fall back to the default case is not sufficient here, as the common
          * TypeReference case would be used before, leading to a loop.
-         *
+         * 
          * @param type
          *            The primitive type object.
          * @return TRUE
@@ -1545,7 +1548,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
          * <li>variable name</li>
          * <li>variable container (name space)</li>
          * </ul>
-         *
+         * 
          * @param var1
          *            The variable declaration to compare with the compare element.
          * @return True/False if the variable declarations are similar or not.
@@ -1592,7 +1595,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
     /**
      * The default case for not explicitly handled elements always returns null to identify the open
      * decision.
-     *
+     * 
      * @param object
      *            The object to compare with the compare element.
      * @return null
