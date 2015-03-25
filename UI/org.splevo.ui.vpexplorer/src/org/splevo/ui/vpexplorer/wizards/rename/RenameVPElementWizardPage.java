@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Christian Busch
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.vpexplorer.wizards.rename;
 
@@ -23,28 +24,29 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * This WizardPage allows for the input of a new ID of a Variation Point Group.
+ * This WizardPage allows for the input of a new name of a Variation Point element.
  */
-public class RenameVPGroupWizardPage extends WizardPage {
+public class RenameVPElementWizardPage extends WizardPage {
     
 
     /** The new ID text field. */
-    private Text newIdTextField;
+    private Text newNameTextField;
     
     /** The group id. */
-    private String groupID;
+    private String oldName;
     
     
     /**
      * Instantiates a new rename vp group wizard page.
-     *
-     * @param groupID the group id to be changed.
+     * 
+     * @param elementTypeName The name of the element's type.
+     * @param oldName the group id to be changed.
      */
-    protected RenameVPGroupWizardPage(String groupID) {
-        super("VP Group rename page");
-        setTitle("Variation Point Renaming");
-        setDescription("Enter the new name for the Variation Point Group.");
-        this.groupID = groupID;
+    protected RenameVPElementWizardPage(final String elementTypeName, String oldName) {
+        super(String.format("%s rename page", elementTypeName));
+        setTitle(String.format("%s Renaming", elementTypeName));
+        setDescription(String.format("Enter the new name for the %s.", elementTypeName));
+        this.oldName = oldName;
     }
 
     /* (non-Javadoc)
@@ -60,17 +62,17 @@ public class RenameVPGroupWizardPage extends WizardPage {
         container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         Label nameLabel = new Label(container, SWT.NONE);
-        nameLabel.setText("Group ID: ");
+        nameLabel.setText("New name: ");
         nameLabel.setFont(parent.getFont());
         
-        newIdTextField = new Text(container, SWT.BORDER | SWT.SINGLE);
+        newNameTextField = new Text(container, SWT.BORDER | SWT.SINGLE);
         GridData data = new GridData(GridData.FILL_HORIZONTAL);
-        newIdTextField.setLayoutData(data);
-        newIdTextField.setFont(parent.getFont());
+        newNameTextField.setLayoutData(data);
+        newNameTextField.setFont(parent.getFont());
         
-        newIdTextField.setText(groupID);
+        newNameTextField.setText(oldName);
         
-        newIdTextField.addModifyListener(new ModifyListener() {
+        newNameTextField.addModifyListener(new ModifyListener() {
             
             @Override
             public void modifyText(ModifyEvent e) {
@@ -84,12 +86,12 @@ public class RenameVPGroupWizardPage extends WizardPage {
 
     
     /**
-     * Gets the new name the user specified for the VariationPointGroup.
+     * Gets the new name the user specified for the variation point model element.
      *
      * @return the new name
      */
     public String getNewName() {
-        return newIdTextField.getText();
+        return newNameTextField.getText();
     }
 
     /* (non-Javadoc)
@@ -99,7 +101,7 @@ public class RenameVPGroupWizardPage extends WizardPage {
     public void setVisible(boolean visible) {
         super.setVisible(visible);
         if (visible) {
-            newIdTextField.setFocus();
+            newNameTextField.setFocus();
         }
     }
 
@@ -108,6 +110,6 @@ public class RenameVPGroupWizardPage extends WizardPage {
      */
     @Override
     public boolean isPageComplete() {
-        return !newIdTextField.getText().equals("");
+        return !newNameTextField.getText().equals("");
     }
 }

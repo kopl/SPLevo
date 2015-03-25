@@ -57,12 +57,29 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
+            addIdPropertyDescriptor(object);
             addLocationPropertyDescriptor(object);
             addVariabilityTypePropertyDescriptor(object);
             addBindingTimePropertyDescriptor(object);
             addExtensibilityPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
+    }
+
+    /**
+     * This adds a property descriptor for the Id feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addIdPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_VariationPoint_id_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_id_feature",
+                        "_UI_VariationPoint_type"), variabilityPackage.Literals.VARIATION_POINT__ID, true, false,
+                false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -227,6 +244,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         updateChildren(notification);
 
         switch (notification.getFeatureID(VariationPoint.class)) {
+        case variabilityPackage.VARIATION_POINT__ID:
         case variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE:
         case variabilityPackage.VARIATION_POINT__BINDING_TIME:
         case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:

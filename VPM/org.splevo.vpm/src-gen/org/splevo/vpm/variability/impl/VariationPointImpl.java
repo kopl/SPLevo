@@ -32,6 +32,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariants <em>Variants</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getGroup <em>Group</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariabilityType <em>Variability Type</em>}</li>
@@ -53,6 +54,26 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * @ordered
      */
     protected EList<Variant> variants;
+
+    /**
+     * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getId()
+     * @generated
+     * @ordered
+     */
+    protected static final String ID_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getId()
+     * @generated
+     * @ordered
+     */
+    protected String id = ID_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getLocation() <em>Location</em>}' reference.
@@ -125,7 +146,7 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
     protected Extensible extensibility = EXTENSIBILITY_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getVariabilityMechanism() <em>Variability Mechanism</em>}' containment reference.
+     * The cached value of the '{@link #getVariabilityMechanism() <em>Variability Mechanism</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #getVariabilityMechanism()
@@ -164,6 +185,27 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
                     variabilityPackage.VARIATION_POINT__VARIANTS, variabilityPackage.VARIANT__VARIATION_POINT);
         }
         return variants;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setId(String newId) {
+        String oldId = id;
+        id = newId;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__ID, oldId, id));
     }
 
     /**
@@ -323,6 +365,16 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * @generated
      */
     public VariabilityMechanism getVariabilityMechanism() {
+        if (variabilityMechanism != null && variabilityMechanism.eIsProxy()) {
+            InternalEObject oldVariabilityMechanism = (InternalEObject) variabilityMechanism;
+            variabilityMechanism = (VariabilityMechanism) eResolveProxy(oldVariabilityMechanism);
+            if (variabilityMechanism != oldVariabilityMechanism) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+                            variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, oldVariabilityMechanism,
+                            variabilityMechanism));
+            }
+        }
         return variabilityMechanism;
     }
 
@@ -331,20 +383,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetVariabilityMechanism(VariabilityMechanism newVariabilityMechanism,
-            NotificationChain msgs) {
-        VariabilityMechanism oldVariabilityMechanism = variabilityMechanism;
-        variabilityMechanism = newVariabilityMechanism;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-                    variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, oldVariabilityMechanism,
-                    newVariabilityMechanism);
-            if (msgs == null)
-                msgs = notification;
-            else
-                msgs.add(notification);
-        }
-        return msgs;
+    public VariabilityMechanism basicGetVariabilityMechanism() {
+        return variabilityMechanism;
     }
 
     /**
@@ -353,21 +393,37 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * @generated
      */
     public void setVariabilityMechanism(VariabilityMechanism newVariabilityMechanism) {
-        if (newVariabilityMechanism != variabilityMechanism) {
-            NotificationChain msgs = null;
-            if (variabilityMechanism != null)
-                msgs = ((InternalEObject) variabilityMechanism).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-                        - variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, null, msgs);
-            if (newVariabilityMechanism != null)
-                msgs = ((InternalEObject) newVariabilityMechanism).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-                        - variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, null, msgs);
-            msgs = basicSetVariabilityMechanism(newVariabilityMechanism, msgs);
-            if (msgs != null)
-                msgs.dispatch();
-        } else if (eNotificationRequired())
+        VariabilityMechanism oldVariabilityMechanism = variabilityMechanism;
+        variabilityMechanism = newVariabilityMechanism;
+        if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET,
-                    variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, newVariabilityMechanism,
-                    newVariabilityMechanism));
+                    variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, oldVariabilityMechanism,
+                    variabilityMechanism));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getDisplayLabel() {
+        if (getId() != null) {
+            return getId();
+        } else if (getLocation() != null) {
+            final SoftwareElement softwareElement = getLocation();
+            return String.format("VariationPoint in %s", softwareElement.getLabel());
+        } else {
+            return "VariationPoint";
+        }
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setDisplayLabel(final String displayLabel) {
+        setId(displayLabel);
     }
 
     /**
@@ -401,8 +457,6 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
             return ((InternalEList<?>) getVariants()).basicRemove(otherEnd, msgs);
         case variabilityPackage.VARIATION_POINT__GROUP:
             return basicSetGroup(null, msgs);
-        case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
-            return basicSetVariabilityMechanism(null, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -432,6 +486,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         switch (featureID) {
         case variabilityPackage.VARIATION_POINT__VARIANTS:
             return getVariants();
+        case variabilityPackage.VARIATION_POINT__ID:
+            return getId();
         case variabilityPackage.VARIATION_POINT__LOCATION:
             if (resolve)
                 return getLocation();
@@ -445,7 +501,9 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
             return getExtensibility();
         case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
-            return getVariabilityMechanism();
+            if (resolve)
+                return getVariabilityMechanism();
+            return basicGetVariabilityMechanism();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -462,6 +520,9 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         case variabilityPackage.VARIATION_POINT__VARIANTS:
             getVariants().clear();
             getVariants().addAll((Collection<? extends Variant>) newValue);
+            return;
+        case variabilityPackage.VARIATION_POINT__ID:
+            setId((String) newValue);
             return;
         case variabilityPackage.VARIATION_POINT__LOCATION:
             setLocation((SoftwareElement) newValue);
@@ -496,6 +557,9 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         case variabilityPackage.VARIATION_POINT__VARIANTS:
             getVariants().clear();
             return;
+        case variabilityPackage.VARIATION_POINT__ID:
+            setId(ID_EDEFAULT);
+            return;
         case variabilityPackage.VARIATION_POINT__LOCATION:
             setLocation((SoftwareElement) null);
             return;
@@ -528,6 +592,8 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
         switch (featureID) {
         case variabilityPackage.VARIATION_POINT__VARIANTS:
             return variants != null && !variants.isEmpty();
+        case variabilityPackage.VARIATION_POINT__ID:
+            return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
         case variabilityPackage.VARIATION_POINT__LOCATION:
             return location != null;
         case variabilityPackage.VARIATION_POINT__GROUP:
@@ -555,7 +621,9 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
             return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (variabilityType: ");
+        result.append(" (id: ");
+        result.append(id);
+        result.append(", variabilityType: ");
         result.append(variabilityType);
         result.append(", bindingTime: ");
         result.append(bindingTime);

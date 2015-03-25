@@ -3,8 +3,26 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vpm" nsURI="http://splevo.org/vpm/1.0" nsPrefix="org.splevo.vpm">
   <eSubpackages name="variability" nsURI="http://splevo.org/vpm/1.0/variability" nsPrefix="variability">
     <eClassifiers xsi:type="ecore:EClass" name="VariationPoint">
+      <eOperations name="getDisplayLabel" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="if (getId() != null) {&#xD;&#xA;&#x9;return getId();&#xD;&#xA;} else if (getLocation() != null) {&#xD;&#xA;        final SoftwareElement softwareElement = getLocation();&#xD;&#xA;        return String.format(&quot;VariationPoint in %s&quot;, softwareElement.getLabel());&#xD;&#xA;} else {&#xD;&#xA;&#x9;return &quot;VariationPoint&quot;;&#xD;&#xA;}"/>
+          <details key="documentation" value="Returns the display label for the variation point."/>
+        </eAnnotations>
+      </eOperations>
+      <eOperations name="setDisplayLabel">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="setId(displayLabel);"/>
+          <details key="documentation" value="Sets the display label for the variation point."/>
+        </eAnnotations>
+        <eParameters name="displayLabel" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variants" upperBound="-1"
           eType="#//variability/Variant" containment="true" eOpposite="#//variability/Variant/variationPoint"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The identifier for the variation point."/>
+        </eAnnotations>
+      </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="location" lowerBound="1"
           eType="#//software/SoftwareElement">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

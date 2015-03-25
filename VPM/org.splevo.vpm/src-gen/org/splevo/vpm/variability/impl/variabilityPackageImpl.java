@@ -5,6 +5,7 @@ package org.splevo.vpm.variability.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -181,8 +182,8 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getVariationPoint_Location() {
-        return (EReference) variationPointEClass.getEStructuralFeatures().get(1);
+    public EAttribute getVariationPoint_Id() {
+        return (EAttribute) variationPointEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -190,7 +191,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getVariationPoint_Group() {
+    public EReference getVariationPoint_Location() {
         return (EReference) variationPointEClass.getEStructuralFeatures().get(2);
     }
 
@@ -199,8 +200,8 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getVariationPoint_VariabilityType() {
-        return (EAttribute) variationPointEClass.getEStructuralFeatures().get(3);
+    public EReference getVariationPoint_Group() {
+        return (EReference) variationPointEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -208,7 +209,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getVariationPoint_BindingTime() {
+    public EAttribute getVariationPoint_VariabilityType() {
         return (EAttribute) variationPointEClass.getEStructuralFeatures().get(4);
     }
 
@@ -217,7 +218,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getVariationPoint_Extensibility() {
+    public EAttribute getVariationPoint_BindingTime() {
         return (EAttribute) variationPointEClass.getEStructuralFeatures().get(5);
     }
 
@@ -226,8 +227,17 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getVariationPoint_Extensibility() {
+        return (EAttribute) variationPointEClass.getEStructuralFeatures().get(6);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EReference getVariationPoint_VariabilityMechanism() {
-        return (EReference) variationPointEClass.getEStructuralFeatures().get(6);
+        return (EReference) variationPointEClass.getEStructuralFeatures().get(7);
     }
 
     /**
@@ -414,6 +424,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         // Create classes and their features
         variationPointEClass = createEClass(VARIATION_POINT);
         createEReference(variationPointEClass, VARIATION_POINT__VARIANTS);
+        createEAttribute(variationPointEClass, VARIATION_POINT__ID);
         createEReference(variationPointEClass, VARIATION_POINT__LOCATION);
         createEReference(variationPointEClass, VARIATION_POINT__GROUP);
         createEAttribute(variationPointEClass, VARIATION_POINT__VARIABILITY_TYPE);
@@ -489,6 +500,8 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEReference(getVariationPoint_Variants(), this.getVariant(), this.getVariant_VariationPoint(), "variants",
                 null, 0, -1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
                 !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVariationPoint_Id(), ecorePackage.getEString(), "id", null, 0, 1, VariationPoint.class,
+                !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVariationPoint_Location(), theSoftwarePackage.getSoftwareElement(), null, "location", null,
                 1, 1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
                 IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -507,7 +520,12 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
                 !IS_DERIVED, IS_ORDERED);
         initEReference(getVariationPoint_VariabilityMechanism(), theRealizationPackage.getVariabilityMechanism(), null,
                 "variabilityMechanism", null, 0, 1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-                IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+                !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        addEOperation(variationPointEClass, ecorePackage.getEString(), "getDisplayLabel", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+        EOperation op = addEOperation(variationPointEClass, null, "setDisplayLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
+        addEParameter(op, ecorePackage.getEString(), "displayLabel", 1, 1, IS_UNIQUE, IS_ORDERED);
 
         initEClass(variantEClass, Variant.class, "Variant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getVariant_ChildFeature(), theFeatureModelPackage.getFeature(), null, "childFeature", null, 0,

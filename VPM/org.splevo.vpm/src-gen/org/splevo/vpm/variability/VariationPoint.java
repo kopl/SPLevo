@@ -14,6 +14,7 @@ import org.splevo.vpm.software.SoftwareElement;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariants <em>Variants</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.VariationPoint#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getLocation <em>Location</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getGroup <em>Group</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariabilityType <em>Variability Type</em>}</li>
@@ -45,6 +46,31 @@ public interface VariationPoint extends EObject {
      * @generated
      */
     EList<Variant> getVariants();
+
+    /**
+     * Returns the value of the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * The identifier for the variation point.
+     * <!-- end-model-doc -->
+     * @return the value of the '<em>Id</em>' attribute.
+     * @see #setId(String)
+     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_Id()
+     * @model
+     * @generated
+     */
+    String getId();
+
+    /**
+     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getId <em>Id</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Id</em>' attribute.
+     * @see #getId()
+     * @generated
+     */
+    void setId(String value);
 
     /**
      * Returns the value of the '<em><b>Location</b></em>' reference.
@@ -189,29 +215,53 @@ public interface VariationPoint extends EObject {
     void setExtensibility(Extensible value);
 
     /**
-     * Returns the value of the '<em><b>Variability Mechanism</b></em>' containment reference.
+     * Returns the value of the '<em><b>Variability Mechanism</b></em>' reference.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Variability Mechanism</em>' containment reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Variability Mechanism</em>' containment reference.
+     * @return the value of the '<em>Variability Mechanism</em>' reference.
      * @see #setVariabilityMechanism(VariabilityMechanism)
      * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_VariabilityMechanism()
-     * @model containment="true"
+     * @model
      * @generated
      */
     VariabilityMechanism getVariabilityMechanism();
 
     /**
-     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}' containment reference.
+     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Variability Mechanism</em>' containment reference.
+     * @param value the new value of the '<em>Variability Mechanism</em>' reference.
      * @see #getVariabilityMechanism()
      * @generated
      */
     void setVariabilityMechanism(VariabilityMechanism value);
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * Returns the display label for the variation point.
+     * <!-- end-model-doc -->
+     * @model kind="operation" required="true"
+     *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if (getId() != null) {\r\n\treturn getId();\r\n} else if (getLocation() != null) {\r\n        final SoftwareElement softwareElement = getLocation();\r\n        return String.format(\"VariationPoint in %s\", softwareElement.getLabel());\r\n} else {\r\n\treturn \"VariationPoint\";\r\n}'"
+     * @generated
+     */
+    String getDisplayLabel();
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * Sets the display label for the variation point.
+     * <!-- end-model-doc -->
+     * @model displayLabelRequired="true"
+     *        annotation="http://www.eclipse.org/emf/2002/GenModel body='setId(displayLabel);'"
+     * @generated
+     */
+    void setDisplayLabel(String displayLabel);
 
 } // VariationPoint

@@ -9,6 +9,7 @@
  * Contributors:
  *    Christian Busch
  *    Benjamin Klatt
+ *    Stephan Seifermann
  *******************************************************************************/
 
 package org.splevo.ui.vpexplorer.providers;
@@ -81,7 +82,7 @@ public class VPExplorerLabelProvider extends LabelProvider {
         if (element instanceof VariationPointGroup) {
             return ((VariationPointGroup) element).getId();
         } else if (element instanceof VariationPoint) {
-            return buildVariationPointLabel((VariationPoint) element);
+            return ((VariationPoint) element).getDisplayLabel();
         } else if (element instanceof Variant) {
             return "Variant: " + ((Variant) element).getId();
         } else if (element instanceof SoftwareElement) {
@@ -120,18 +121,6 @@ public class VPExplorerLabelProvider extends LabelProvider {
         }
         logger.warn("Unsupported tree node element");
         return null;
-    }
-
-    /**
-     * Builds the variation point label.
-     * 
-     * @param variationPoint
-     *            the element
-     * @return the string
-     */
-    private String buildVariationPointLabel(final VariationPoint variationPoint) {
-        final SoftwareElement softwareElement = variationPoint.getLocation();
-        return String.format("VariationPoint in %s", softwareElement.getLabel());
     }
 
 }

@@ -157,6 +157,12 @@
             id="org.splevo.ui.vpexplorer.rename.vpgroup"
             name="Rename">
       </command>
+      <command
+            defaultHandler="org.splevo.ui.vpexplorer.handler.vpmedit.RenameVariationPointHandler"
+            description="Renames the selected Variation Point."
+            id="org.splevo.ui.vpexplorer.rename.vp"
+            name="Rename">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -289,7 +295,8 @@
                label="Rename"
                style="push"
                tooltip="Renames the currently selected Variation Point Group">
-            <visibleWhen>
+            <visibleWhen
+                  checkEnabled="true">
                <and>
                   <count
                         value="1">
@@ -297,6 +304,24 @@
                   <iterate>
                      <instanceof
                            value="org.splevo.vpm.variability.VariationPointGroup">
+                     </instanceof>
+                  </iterate> </and>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.splevo.ui.vpexplorer.rename.vp"
+               label="Rename"
+               style="push"
+               tooltip="Renames the currently selected Variation Point">
+            <visibleWhen
+                  checkEnabled="true">
+               <and>
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
                      </instanceof>
                   </iterate>
                </and>

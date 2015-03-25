@@ -76,13 +76,22 @@ public interface variabilityPackage extends EPackage {
     int VARIATION_POINT__VARIANTS = 0;
 
     /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT__ID = 1;
+
+    /**
      * The feature id for the '<em><b>Location</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__LOCATION = 1;
+    int VARIATION_POINT__LOCATION = 2;
 
     /**
      * The feature id for the '<em><b>Group</b></em>' container reference.
@@ -91,7 +100,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__GROUP = 2;
+    int VARIATION_POINT__GROUP = 3;
 
     /**
      * The feature id for the '<em><b>Variability Type</b></em>' attribute.
@@ -100,7 +109,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__VARIABILITY_TYPE = 3;
+    int VARIATION_POINT__VARIABILITY_TYPE = 4;
 
     /**
      * The feature id for the '<em><b>Binding Time</b></em>' attribute.
@@ -109,7 +118,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__BINDING_TIME = 4;
+    int VARIATION_POINT__BINDING_TIME = 5;
 
     /**
      * The feature id for the '<em><b>Extensibility</b></em>' attribute.
@@ -118,16 +127,16 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__EXTENSIBILITY = 5;
+    int VARIATION_POINT__EXTENSIBILITY = 6;
 
     /**
-     * The feature id for the '<em><b>Variability Mechanism</b></em>' containment reference.
+     * The feature id for the '<em><b>Variability Mechanism</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__VARIABILITY_MECHANISM = 6;
+    int VARIATION_POINT__VARIABILITY_MECHANISM = 7;
 
     /**
      * The number of structural features of the '<em>Variation Point</em>' class.
@@ -136,7 +145,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_FEATURE_COUNT = 7;
+    int VARIATION_POINT_FEATURE_COUNT = 8;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariantImpl <em>Variant</em>}' class.
@@ -346,6 +355,17 @@ public interface variabilityPackage extends EPackage {
     EReference getVariationPoint_Variants();
 
     /**
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.VariationPoint#getId <em>Id</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Id</em>'.
+     * @see org.splevo.vpm.variability.VariationPoint#getId()
+     * @see #getVariationPoint()
+     * @generated
+     */
+    EAttribute getVariationPoint_Id();
+
+    /**
      * Returns the meta object for the reference '{@link org.splevo.vpm.variability.VariationPoint#getLocation <em>Location</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -401,10 +421,10 @@ public interface variabilityPackage extends EPackage {
     EAttribute getVariationPoint_Extensibility();
 
     /**
-     * Returns the meta object for the containment reference '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}'.
+     * Returns the meta object for the reference '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the containment reference '<em>Variability Mechanism</em>'.
+     * @return the meta object for the reference '<em>Variability Mechanism</em>'.
      * @see org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism()
      * @see #getVariationPoint()
      * @generated
@@ -633,6 +653,14 @@ public interface variabilityPackage extends EPackage {
         EReference VARIATION_POINT__VARIANTS = eINSTANCE.getVariationPoint_Variants();
 
         /**
+         * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute VARIATION_POINT__ID = eINSTANCE.getVariationPoint_Id();
+
+        /**
          * The meta object literal for the '<em><b>Location</b></em>' reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -673,7 +701,7 @@ public interface variabilityPackage extends EPackage {
         EAttribute VARIATION_POINT__EXTENSIBILITY = eINSTANCE.getVariationPoint_Extensibility();
 
         /**
-         * The meta object literal for the '<em><b>Variability Mechanism</b></em>' containment reference feature.
+         * The meta object literal for the '<em><b>Variability Mechanism</b></em>' reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated
