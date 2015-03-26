@@ -29,6 +29,8 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.variabilityFactory;
 import org.splevo.vpm.variability.variabilityPackage;
 
+import com.google.common.base.Strings;
+
 /**
  * This is the item provider adapter for a {@link org.splevo.vpm.variability.VariationPoint} object.
  * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -219,15 +221,19 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     @Override
     public String getText(Object object) {
         StringBuilder label = new StringBuilder();
-        label.append(getString("_UI_VariationPoint_type"));
 
         VariationPoint vp = (VariationPoint) object;
-        label.append(" in ");
-        SoftwareElement enclosingElement = vp.getLocation();
-        if (enclosingElement != null) {
-            label.append(enclosingElement.getLabel());
+        if (Strings.isNullOrEmpty(vp.getId())) {
+            label.append(getString("_UI_VariationPoint_type"));
+            label.append(" in ");
+            SoftwareElement enclosingElement = vp.getLocation();
+            if (enclosingElement != null) {
+                label.append(enclosingElement.getLabel());
+            } else {
+                label.append("[TOP LEVEL]");
+            }
         } else {
-            label.append("[TOP LEVEL]");
+            label.append(vp.getId());
         }
 
         return label.toString();

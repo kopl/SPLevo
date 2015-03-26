@@ -5,7 +5,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="VariationPoint">
       <eOperations name="getDisplayLabel" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="if (getId() != null) {&#xD;&#xA;&#x9;return getId();&#xD;&#xA;} else if (getLocation() != null) {&#xD;&#xA;        final SoftwareElement softwareElement = getLocation();&#xD;&#xA;        return String.format(&quot;VariationPoint in %s&quot;, softwareElement.getLabel());&#xD;&#xA;} else {&#xD;&#xA;&#x9;return &quot;VariationPoint&quot;;&#xD;&#xA;}"/>
+          <details key="body" value="if (com.google.common.base.Strings.isNullOrEmpty(getId())) {&#xD;&#xA;&#x9;String location = &quot;[TOP LEVEL]&quot;;&#xD;&#xA;&#x9;if (getLocation() != null) {&#xD;&#xA;&#x9;&#x9;location = getLocation().getLabel();&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return String.format(&quot;Variation Point in %s&quot;, location);&#xD;&#xA;} else {&#xD;&#xA;&#x9;return getId();&#xD;&#xA;}"/>
           <details key="documentation" value="Returns the display label for the variation point."/>
         </eAnnotations>
       </eOperations>

@@ -247,7 +247,7 @@ public interface VariationPoint extends EObject {
      * Returns the display label for the variation point.
      * <!-- end-model-doc -->
      * @model kind="operation" required="true"
-     *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if (getId() != null) {\r\n\treturn getId();\r\n} else if (getLocation() != null) {\r\n        final SoftwareElement softwareElement = getLocation();\r\n        return String.format(\"VariationPoint in %s\", softwareElement.getLabel());\r\n} else {\r\n\treturn \"VariationPoint\";\r\n}'"
+     *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if (com.google.common.base.Strings.isNullOrEmpty(getId())) {\r\n\tString location = \"[TOP LEVEL]\";\r\n\tif (getLocation() != null) {\r\n\t\tlocation = getLocation().getLabel();\r\n\t}\r\n\treturn String.format(\"Variation Point in %s\", location);\r\n} else {\r\n\treturn getId();\r\n}'"
      * @generated
      */
     String getDisplayLabel();

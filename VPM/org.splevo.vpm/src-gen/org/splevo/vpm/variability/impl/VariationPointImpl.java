@@ -407,13 +407,14 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * @generated
      */
     public String getDisplayLabel() {
-        if (getId() != null) {
-            return getId();
-        } else if (getLocation() != null) {
-            final SoftwareElement softwareElement = getLocation();
-            return String.format("VariationPoint in %s", softwareElement.getLabel());
+        if (com.google.common.base.Strings.isNullOrEmpty(getId())) {
+            String location = "[TOP LEVEL]";
+            if (getLocation() != null) {
+                location = getLocation().getLabel();
+            }
+            return String.format("Variation Point in %s", location);
         } else {
-            return "VariationPoint";
+            return getId();
         }
     }
 
