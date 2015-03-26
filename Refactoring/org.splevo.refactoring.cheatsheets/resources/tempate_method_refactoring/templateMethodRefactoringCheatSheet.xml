@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet
+	title="Product-line Consolidation using a TemplateMethod Refactoring">
+	<intro>
+		<description>
+			The template method of this design pattern, allows subclasses to vary
+			in their specific behaviors while allowing for shared behaviour as
+			implemented in the superclass.
+			<br />
+			<br />
+			This refactoring sheet helps you to consolidate
+			code variants that at the
+			<b>granularty level of classes</b>
+			. In the naive development of product pariants such code variation
+			often is the result of taking an existing class,
+			copying it and
+			changing its implementation with the goal of
+			adapting its behaviour
+			for a custom software variant.
+			<br />
+			<br />
+			With this sheet, we will guide you through the process of
+			consolidation two such class variants. Its goal is to reduce
+			code duplication and
+			ease variant customization.
+		</description>
+	</intro>
+	<item title="Pre-condition for TemplateMethod Refactoring"
+		imageStep="/resources/tempate_method_refactoring/template_method_precondition.png"
+		dialog="true" skip="false">
+		<description>
+			For the TemplateMethod refactoring it is necessary start from two
+			code
+			variants that are located in two separate classes.
+			<br />
+			<br />
+			The first of these classes is considered the leading variant that
+			contains the original code. The second of these classes is considered
+			an adjusted copy of the leading variant.
+		</description>
+	</item>
+	<item title="Variation Granularity" dialog="true" skip="false">
+		<description>
+			With the template method pattern code variations need to be
+			consolidated to the granularity level of methods. That means that the
+			implementation code has to be refactored in a way that variable code
+			blocks and common code blocks end up in different methods.
+			<br />
+			<br />
+			A better separation of common and variable code means less code
+			redundancy and better localisation of variation.
+		</description>
+	</item>
+	<item title="Introducing Inheritance"
+		imageStep="/resources/tempate_method_refactoring/introduce_inheritance.png"
+		dialog="true" skip="false">
+		<description>
+			The first step for introducing the template method pattern is making
+			the copy class a subclass of the leading variant.
+			<br />
+			<br />
+			Thus, the copy variant can easily inherit the methods it shares with
+			the leading variant.
+		</description>
+	</item>
+	<item title="Removing Redundant Fields"
+		imageStep="/resources/tempate_method_refactoring/removing_redundant_fields.png"
+		dialog="true" skip="false">
+		<description>
+			If the copy variant contains fields that are contained in the leading
+			copy. These fields can be removed.
+			<br />
+			<br />
+			If these fields are private, but need to be accessed in the copy
+			variant you need to change their visibility to protected.
+		</description>
+	</item>
+	<item title="Removing Redundant Methods"
+		imageStep="/resources/tempate_method_refactoring/removing_redundant_methods.png"
+		dialog="true" skip="false">
+		<description>
+			If the copy variant contains methods, that are an exact copy of the
+			leading variant these methods can be removed from the copy variant.
+			<br />
+			<br />
+			If these methods are private, but are called from within the copy
+			variant, you need to change their visibility to protected.
+		</description>
+	</item>
+	<item title="Separating Shared and Varying Code in the Leading Variant"
+		imageStep="/resources/tempate_method_refactoring/handle_variation_leading.png"
+		dialog="true" skip="false">
+		<description>
+			If the copied variant contains methods that vary from the original
+			methods in the leading variant these methods have to be refactored to
+			separate shared and varying code.
+			<br />
+			<br />
+			If the method implementation in the leading variant contains code,
+			that is not included in the copy variant, mark the corresponding code
+			block and use the extract method refactoring to extract the varying
+			code to a separate method. This method needs to get the visibility
+			protected. In the copy variant override this method and provide an
+			empty implementation.
+		</description>
+	</item>
+
+	<item title="Separating Shared and Varying Code in the Copy Variant"
+		dialog="true" skip="false">
+		<description>
+			If the method implementation in the copy variant contains code, that
+			is not included in the leading variant, mark the corresponding code
+			block and use the extract method refactoring to extract the varying
+			code to a separate method. This method needs to get the visibility
+			protected. In the leading variant override this method and provide an
+			empty implementation. After all varying code was extracted to
+			separate methods, the method that contains the common code and calls
+			the extracted methods needs to be moved to the leading variant and
+			replace the original method implementation.
+			<br />
+			<br />
+		</description>
+	</item>
+	
+	<item title="Handling Additional Code in Leading and Copy Variant"
+		dialog="true" skip="false">
+		<description>
+			 All code specific to a certain class variant (e.g., 
+			 additional methods called from template 
+			method implementations, additional fields or additional inner members)
+			should stay in the respective class.
+		</description>
+	</item>
+
+	<item title="Post-Condition of TemplateMethod Refactoring"
+		imageStep="/resources/tempate_method_refactoring/template_method_post_condition.png"
+		dialog="true" skip="false">
+		<description>
+			After all shared code was localized and the variations were refactored into 
+			template methods the resulting implementation is less redundant and more 
+			maintainable than the original implementation.
+			<br /><br />
+			One final step to further enhance the result is to extract an abstract superclass
+			of the leading variant and the copy variant and to move all shared code 
+			to this superclass. Thus, varying code and specific code is clearly separated 
+			also at class level.
+			<br /><br />
+			Finally, you might want to rename the resulting classes to reflect their new 
+			contents and meaning			
+			
+		</description>
+	</item>
+
+</cheatsheet>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="org.splevo.refactoring.cheatsheet.templatemethod"
+            name="Refactoring">
+      </category>
+      <cheatsheet
+            category="org.splevo.refactoring.cheatsheet.templatemethod"
+            composite="false"
+            contentFile="resources/tempate_method_refactoring/templateMethodRefactoringCheatSheet.xml"
+            id="org.splevo.refactoring.cheatsheet.templatemethod"
+            name="Refactoring TemplateMethod">
+      </cheatsheet>
+   </extension>
+ 	<extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetItemExtension">
+      <itemExtension
+            class="org.splevo.refactoring.cheatsheets.images.ImageStepElement"
+            itemAttribute="imageStep">
+      </itemExtension>
+   </extension>
+</plugin>
