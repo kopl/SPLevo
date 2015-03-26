@@ -5,7 +5,7 @@
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
       <category
             id="org.splevo.refactoring.cheatsheet.templatemethod"
-            name="Refactoring">
+            name="Product-line Refactoring">
       </category>
       <cheatsheet
             category="org.splevo.refactoring.cheatsheet.templatemethod"
