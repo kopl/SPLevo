@@ -17,6 +17,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -269,8 +270,11 @@ public class RefinementDetailsView extends Composite {
         menuManager.addMenuListener(new IMenuListener() {
             @Override
             public void menuAboutToShow(IMenuManager manager) {
-                Action renameAction = new RenameRefinementAction(viewer);
-                manager.add(renameAction);
+                IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+                if (!selection.isEmpty() && selection.getFirstElement() instanceof Refinement) {
+                    Action renameAction = new RenameRefinementAction(viewer);
+                    manager.add(renameAction);
+                }
             }
         });
         menuManager.addMenuListener(new CommandActionMenuListener(COMMAND_ID_OPENSOURCELOCATION, SPLevoUIPlugin

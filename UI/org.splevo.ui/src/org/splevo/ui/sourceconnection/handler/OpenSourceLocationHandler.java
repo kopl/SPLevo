@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.ui.sourceconnection.handler;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -20,6 +21,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.ui.sourceconnection.SourceEditorConnector;
+import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -39,14 +41,21 @@ public class OpenSourceLocationHandler extends AbstractHandler {
 
             List<String> filesResetBefore = Lists.newArrayList();
 
-            for (Object selectedItem : selection.toList()) {
+            @SuppressWarnings("unchecked")
+            List<Object> queue = new LinkedList<Object>(selection.toList());
+            while (!queue.isEmpty()) {
+                Object selectedItem = queue.remove(0);
                 if (selectedItem instanceof Variant) {
                     SourceEditorConnector.openVariant((Variant) selectedItem, filesResetBefore);
                 } else if (selectedItem instanceof VariationPoint) {
                     SourceEditorConnector.openVariationPoint((VariationPoint) selectedItem, filesResetBefore);
+                } else if (selectedItem instanceof Refinement) {
+                    Refinement refinement = (Refinement) selectedItem;
+                    queue.addAll(refinement.getSubRefinements());
+                    queue.addAll(refinement.getVariationPoints());
                 }
             }
-
+            
         }
         return null;
     }
