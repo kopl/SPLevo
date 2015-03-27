@@ -14,8 +14,6 @@ package org.splevo.ui.refinementbrowser.action;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.TreeItem;
-import org.splevo.ui.refinementbrowser.RefinementDetailsView;
-import org.splevo.ui.util.UIUtil;
 
 /**
  * Base class for rename actions in the refinement browser.
@@ -28,10 +26,9 @@ public abstract class RefinementBrowserRenameAction extends RefinementBrowserCon
     /**
      * Constructs a new rename action for the refinement browser.
      * @param treeViewer The tree viewer containing the refinements.
-     * @param detailsView The tree viewer containing refinements and variation points.
      */
-    protected RefinementBrowserRenameAction(TreeViewer treeViewer, RefinementDetailsView detailsView) {
-        super(LABEL, treeViewer, detailsView);
+    protected RefinementBrowserRenameAction(TreeViewer treeViewer) {
+        super(LABEL, treeViewer);
     }
 
     @Override
@@ -60,11 +57,8 @@ public abstract class RefinementBrowserRenameAction extends RefinementBrowserCon
         for (TreeItem treeItem : selection) {
             if (!renameElement(treeItem.getData())) {
                 LOGGER.debug("Refinement rename canceled");
-            } else {
-                UIUtil.getItemProviderText(treeItem.getData());                
             }
         }
-        getTreeViewer().refresh();
     }
     
     /**

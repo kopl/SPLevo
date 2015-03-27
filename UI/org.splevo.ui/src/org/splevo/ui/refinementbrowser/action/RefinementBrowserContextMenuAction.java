@@ -2,7 +2,6 @@ package org.splevo.ui.refinementbrowser.action;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.splevo.ui.refinementbrowser.RefinementDetailsView;
 
 /**
  * Base class for context menu actions of the refinement browser.
@@ -20,20 +19,13 @@ public abstract class RefinementBrowserContextMenuAction extends Action {
     private final TreeViewer treeViewer;
     
     /**
-     * The {@link TreeViewer} that has the details view.
-     */
-    private final RefinementDetailsView detailsView;
-    
-    /**
      * Constructs a new context menu action.
      * @param text The label of the action.
      * @param treeViewer The tree viewer containing the refinements.
-     * @param detailsView The details view containing refinements and variation points.
      */
-    protected RefinementBrowserContextMenuAction(String text, TreeViewer treeViewer, RefinementDetailsView detailsView) {
+    protected RefinementBrowserContextMenuAction(String text, TreeViewer treeViewer) {
         this.text = text;
         this.treeViewer = treeViewer;
-        this.detailsView = detailsView;
     }
     
     /**
@@ -41,13 +33,6 @@ public abstract class RefinementBrowserContextMenuAction extends Action {
      */
     protected TreeViewer getTreeViewer() {
         return treeViewer;
-    }
-    
-    /**
-     * @return The details view for the selected refinement.
-     */
-    protected RefinementDetailsView getRefinementDetailsView() {
-        return detailsView;
     }
     
     @Override

@@ -13,6 +13,12 @@ package org.splevo.ui.refinementbrowser;
 
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -31,6 +37,8 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
+import org.splevo.ui.listeners.EObjectChangedListener;
+import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
 import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
 import org.splevo.ui.refinementbrowser.listener.HighlightConnectedVPListener;
@@ -40,7 +48,9 @@ import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 /**
@@ -180,12 +190,57 @@ public class RefinementDetailsView extends Composite {
      */
     private static class RefinementDetailsTreeContentProvider implements ITreeContentProvider {
 
+        /**
+         * Adapter for EObjects that refreshes a given viewer as soon as a refinement has been changed.
+         */
+        private static class EObjectChangedAdapter extends EObjectChangedListener {
+            
+            private final Viewer viewer;
+            
+            public EObjectChangedAdapter(Viewer viewer) {
+                super(new Predicate<Notification>() {
+                    @Override
+                    public boolean apply(Notification arg0) {
+                        return arg0.getNotifier() instanceof Refinement;
+                    } });
+                this.viewer = viewer;
+            }
+
+            @Override
+            protected void reactOnChange(Notification notification) {
+                if (!viewer.getControl().isDisposed()) {
+                    viewer.getControl().getDisplay().syncExec(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewer.refresh();
+                        }
+                    });                    
+                }
+            }
+     
+        }
+        
         /** The refinement to display in the tree. */
         private Refinement refinement = null;
 
         @Override
         public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            this.refinement = (Refinement) newInput;
+            if (oldInput != null) {
+                removeChangeListeningAdapterFromEObject((EObject) oldInput);            
+            }
+            if (newInput != null) {
+                refinement = (Refinement) newInput;
+                refinement.eAdapters().add(new EObjectChangedAdapter(viewer));            
+            }
+        }
+        
+        private void removeChangeListeningAdapterFromEObject(EObject obj) {
+            Iterables.removeIf(obj.eAdapters(), new Predicate<Adapter>() {
+                @Override
+                public boolean apply(Adapter arg0) {
+                    return arg0 instanceof EObjectChangedAdapter;
+                }
+            });
         }
 
         @Override
@@ -227,6 +282,9 @@ public class RefinementDetailsView extends Composite {
 
         @Override
         public void dispose() {
+            if (refinement != null) {
+                removeChangeListeningAdapterFromEObject(refinement);            
+            }
         }
     }
 
@@ -276,14 +334,22 @@ public class RefinementDetailsView extends Composite {
      * @param site
      *            The workbench part to link the selection provider.
      */
-    private void initContextMenu(TreeViewer viewer, IWorkbenchPartSite site) {
+    private void initContextMenu(final TreeViewer viewer, IWorkbenchPartSite site) {
 
         MenuManager menuManager = new MenuManager();
         menuManager.setRemoveAllWhenShown(true);
+        menuManager.addMenuListener(new IMenuListener() {
+            @Override
+            public void menuAboutToShow(IMenuManager manager) {
+                Action renameAction = new RenameRefinementAction(viewer);
+                manager.add(renameAction);
+            }
+        });
         menuManager.addMenuListener(new CommandActionMenuListener(COMMAND_ID_OPENSOURCELOCATION, SPLevoUIPlugin
                 .getImageDescriptor("icons/jcu_obj.gif")));
         menuManager.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan",
                 SPLevoUIPlugin.getImageDescriptor("icons/kopl_circle_only.png")));
+        
         Menu menu = menuManager.createContextMenu(viewer.getTree());
         viewer.getTree().setMenu(menu);
         site.setSelectionProvider(viewer);

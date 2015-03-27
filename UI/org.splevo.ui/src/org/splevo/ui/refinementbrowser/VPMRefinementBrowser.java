@@ -12,8 +12,6 @@
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser;
 
-import java.util.List;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -47,7 +45,7 @@ import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementActionBarListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementInfoSelectionListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementSelectionListener;
-import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementModel;
 
 /***
  * An editor to view and accept, decline or modify the variation point model refinement
@@ -86,7 +84,7 @@ public class VPMRefinementBrowser extends EditorPart {
 
     /**
      * This is a callback that will allow us to create the viewer and initialize it.
-     *
+     * 
      * @param parent
      *            The parent ui element to create this editor in.
      */
@@ -134,22 +132,22 @@ public class VPMRefinementBrowser extends EditorPart {
         refinementListView.setContentProvider(new RefinementTreeContentProvider());
         refinementListView.setLabelProvider(new RefinementTreeLabelProvider());
         refinementListView.setAutoExpandLevel(2);
-        refinementListView.setInput(input.getRefinements());
+        refinementListView.setInput(input.getRefinementModel());
         refinementListView.addDoubleClickListener(new ExpandTreeListener());
     }
 
     /**
-     * Get the selected refinements.
-     *
-     * @return The list of refinements activated in the tree view.
+     * Get the refinement model.
+     * 
+     * @return The refinement model shown in the tree view.
      */
-    public List<Refinement> getSelectedRefinements() {
-        return input.getRefinements();
+    public RefinementModel getRefinementModel() {
+        return input.getRefinementModel();
     }
 
     /**
      * Get the SPLevo project editor that was originally used to trigger the analysis process.
-     *
+     * 
      * @return Get the reference to the SPLevo dashboard editor.
      */
     public SPLevoProjectEditor getSPLevoProjectEditor() {
@@ -201,12 +199,12 @@ public class VPMRefinementBrowser extends EditorPart {
             public void menuAboutToShow(IMenuManager manager) {
                 Action action = new DeleteRefinementAction(refinementListView, detailsView);
                 manager.add(action);
-                action = new RenameRefinementAction(refinementListView, detailsView);
+                action = new RenameRefinementAction(refinementListView);
                 manager.add(action);
             }
         });
-        menuMgr.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan", SPLevoUIPlugin
-                .getImageDescriptor("icons/kopl_circle_only.png")));
+        menuMgr.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan",
+                SPLevoUIPlugin.getImageDescriptor("icons/kopl_circle_only.png")));
         Menu menu = menuMgr.createContextMenu(refinementListView.getTree());
         refinementListView.getTree().setMenu(menu);
     }

@@ -15,7 +15,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.splevo.ui.commons.wizard.WizardRunner;
 import org.splevo.ui.commons.wizard.rename.RenameEObjectEAttributeWrapper;
 import org.splevo.ui.commons.wizard.rename.RenameElementWizard;
-import org.splevo.ui.refinementbrowser.RefinementDetailsView;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementPackage;
 
@@ -27,10 +26,9 @@ public class RenameRefinementAction extends RefinementBrowserRenameAction {
     /**
      * Constructs a new rename action for a refinement.
      * @param treeViewer The tree viewer containing the refinements.
-     * @param detailsView The details view containing the variation points and child refinements.
      */
-    public RenameRefinementAction(TreeViewer treeViewer, RefinementDetailsView detailsView) {
-        super(treeViewer, detailsView);
+    public RenameRefinementAction(TreeViewer treeViewer) {
+        super(treeViewer);
     }
 
     @Override

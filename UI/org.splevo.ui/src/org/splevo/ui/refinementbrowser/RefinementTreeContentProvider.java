@@ -8,15 +8,22 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.splevo.ui.listeners.EObjectChangedListener;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementModel;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.ObjectArrays;
 
 /**
  * The Content provider for the refinement tree.
@@ -26,22 +33,72 @@ import org.splevo.vpm.refinement.Refinement;
  */
 public class RefinementTreeContentProvider implements ITreeContentProvider {
 
+    /**
+     * Adapter for EObjects that refreshes a given viewer as soon as a refinement has been changed.
+     */
+    private static class EObjectChangedAdapter extends EObjectChangedListener {
+        
+        private final Viewer viewer;
+        
+        public EObjectChangedAdapter(Viewer viewer) {
+            super(new Predicate<Notification>() {
+                @Override
+                public boolean apply(Notification arg0) {
+                    return arg0.getNotifier() instanceof Refinement;
+                } });
+            this.viewer = viewer;
+        }
+
+        @Override
+        protected void reactOnChange(Notification notification) {
+            if (!viewer.getControl().isDisposed()) {
+                viewer.getControl().getDisplay().syncExec(new Runnable() {
+                    @Override
+                    public void run() {
+                        viewer.refresh();
+                    }
+                });                    
+            }
+        }
+ 
+    }
+    
     /** The refinements to be performed. */
-    private List<Refinement> refinements = new ArrayList<Refinement>();
+    private RefinementModel refinementModel;
 
     @Override
     public void dispose() {
+        if (refinementModel != null) {
+            removeChangeListeningAdapterFromEObject(refinementModel);            
+        }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-        this.refinements = (List<Refinement>) newInput;
+        if (oldInput != null) {
+            removeChangeListeningAdapterFromEObject((EObject) oldInput);            
+        }
+        if (newInput != null) {
+            refinementModel = (RefinementModel) newInput;
+            refinementModel.eAdapters().add(new EObjectChangedAdapter(viewer));            
+        }
+    }
+    
+    private void removeChangeListeningAdapterFromEObject(EObject obj) {
+        Iterables.removeIf(obj.eAdapters(), new Predicate<Adapter>() {
+            @Override
+            public boolean apply(Adapter arg0) {
+                return arg0 instanceof EObjectChangedAdapter;
+            }
+        });
     }
 
     @Override
     public Object[] getElements(Object inputElement) {
-        return refinements.toArray();
+        if (refinementModel == null) {
+            return ObjectArrays.newArray(Object.class, 0);
+        }
+        return refinementModel.getRefinements().toArray();
     }
 
     @Override

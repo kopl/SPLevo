@@ -64,7 +64,7 @@ public class ApplyRefinementsAction extends Action {
     @Override
     public void runWithEvent(Event event) {
 
-        List<Refinement> refinements = this.vpmRefinementBrowser.getSelectedRefinements();
+        List<Refinement> refinements = this.vpmRefinementBrowser.getRefinementModel().getRefinements();
 
         // handle an empty selection by asking the user how to proceed
         if (refinements.size() == 0) {

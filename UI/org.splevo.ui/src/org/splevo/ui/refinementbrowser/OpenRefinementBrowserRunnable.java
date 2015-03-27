@@ -12,12 +12,11 @@
 package org.splevo.ui.refinementbrowser;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementModel;
 
 /**
  * Task to open the refinement editor with the results of a a list of recommended refinements.
@@ -46,8 +45,8 @@ public class OpenRefinementBrowserRunnable implements Runnable {
     @Override
     public void run() {
         try {
-            EList<Refinement> refinements = refinementModelProvider.getRefinementModel().getRefinements();
-            VPMRefinementBrowserInput input = new VPMRefinementBrowserInput(refinements, splevoProjectEditor);
+            RefinementModel refinementModel = refinementModelProvider.getRefinementModel();
+            VPMRefinementBrowserInput input = new VPMRefinementBrowserInput(refinementModel, splevoProjectEditor);
             IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
             activePage.openEditor(input, VPMRefinementBrowser.ID);
         } catch (PartInitException e) {

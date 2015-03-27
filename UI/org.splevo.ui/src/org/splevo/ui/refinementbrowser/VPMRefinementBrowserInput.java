@@ -11,22 +11,19 @@
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.refinement.RefinementModel;
 
 /**
  * Input object for the refinement browser.
  */
 public class VPMRefinementBrowserInput implements IEditorInput {
 
-    /** The refinements to be presented. */
-    private List<Refinement> refinements = new ArrayList<Refinement>();
+    /** The refinement model to be presented. */
+    private RefinementModel refinementModel;
 
     /** The splevo editor originally trigger the process. */
     private SPLevoProjectEditor splevoEditor = null;
@@ -34,21 +31,21 @@ public class VPMRefinementBrowserInput implements IEditorInput {
     /**
      * Constructor requiring a reference to the refinements to present.
      * 
-     * @param refinements
-     *            The refinements map.
+     * @param refinementModel
+     *            The refinement model.
      * @param splevoEditor
      *            A reference to the SPLevo project editor as the browser context.
      */
-    public VPMRefinementBrowserInput(List<Refinement> refinements, SPLevoProjectEditor splevoEditor) {
-        this.refinements = refinements;
+    public VPMRefinementBrowserInput(RefinementModel refinementModel, SPLevoProjectEditor splevoEditor) {
+        this.refinementModel = refinementModel;
         this.splevoEditor = splevoEditor;
     }
 
     /**
-     * @return the refinements
+     * @return the refinement model
      */
-    public List<Refinement> getRefinements() {
-        return refinements;
+    public RefinementModel getRefinementModel() {
+        return refinementModel;
     }
 
     @SuppressWarnings("rawtypes")

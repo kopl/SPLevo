@@ -8,11 +8,11 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser.action;
 
-import java.util.List;
-
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.TreeItem;
@@ -69,16 +69,13 @@ public class DeleteRefinementAction extends Action {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
-		List<Refinement> input = (List<Refinement>) treeViewer.getInput();
 		TreeItem[] selection = treeViewer.getTree().getSelection();
 		for (TreeItem treeItem : selection) {
 			Refinement refinement = (Refinement) treeItem.getData();
-			input.remove(refinement);
+			EcoreUtil.remove(refinement);
 		}
-		treeViewer.refresh();
 		detailsView.setEnabled(false);
 	}
 }
