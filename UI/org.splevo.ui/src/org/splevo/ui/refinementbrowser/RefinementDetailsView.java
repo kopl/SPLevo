@@ -13,17 +13,12 @@ package org.splevo.ui.refinementbrowser;
 
 import java.util.List;
 
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyleRange;
@@ -37,7 +32,6 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
-import org.splevo.ui.listeners.EObjectChangedListener;
 import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
 import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
@@ -48,9 +42,7 @@ import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 /**
@@ -188,66 +180,13 @@ public class RefinementDetailsView extends Composite {
      * The content provider for the tree providing access to the variation points and their child
      * elements.
      */
-    private static class RefinementDetailsTreeContentProvider implements ITreeContentProvider {
-
-        /**
-         * Adapter for EObjects that refreshes a given viewer as soon as a refinement has been changed.
-         */
-        private static class EObjectChangedAdapter extends EObjectChangedListener {
-            
-            private final Viewer viewer;
-            
-            public EObjectChangedAdapter(Viewer viewer) {
-                super(new Predicate<Notification>() {
-                    @Override
-                    public boolean apply(Notification arg0) {
-                        return arg0.getNotifier() instanceof Refinement;
-                    } });
-                this.viewer = viewer;
-            }
-
-            @Override
-            protected void reactOnChange(Notification notification) {
-                if (!viewer.getControl().isDisposed()) {
-                    viewer.getControl().getDisplay().syncExec(new Runnable() {
-                        @Override
-                        public void run() {
-                            viewer.refresh();
-                        }
-                    });                    
-                }
-            }
-     
-        }
-        
-        /** The refinement to display in the tree. */
-        private Refinement refinement = null;
+    private static class RefinementDetailsTreeContentProvider extends RefinementTreeContentProviderBase<Refinement> {
 
         @Override
-        public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            if (oldInput != null) {
-                removeChangeListeningAdapterFromEObject((EObject) oldInput);            
-            }
-            if (newInput != null) {
-                refinement = (Refinement) newInput;
-                refinement.eAdapters().add(new EObjectChangedAdapter(viewer));            
-            }
-        }
-        
-        private void removeChangeListeningAdapterFromEObject(EObject obj) {
-            Iterables.removeIf(obj.eAdapters(), new Predicate<Adapter>() {
-                @Override
-                public boolean apply(Adapter arg0) {
-                    return arg0 instanceof EObjectChangedAdapter;
-                }
-            });
-        }
-
-        @Override
-        public Object[] getElements(Object element) {
+        protected Object[] getElements() {
             List<Object> children = Lists.newLinkedList();
-            children.addAll(refinement.getSubRefinements());
-            children.addAll(refinement.getVariationPoints());
+            children.addAll(topLevelElement.getSubRefinements());
+            children.addAll(topLevelElement.getVariationPoints());
             return children.toArray();
         }
 
@@ -275,17 +214,6 @@ public class RefinementDetailsView extends Composite {
             return null;
         }
 
-        @Override
-        public boolean hasChildren(Object element) {
-            return getChildren(element).length > 0;
-        }
-
-        @Override
-        public void dispose() {
-            if (refinement != null) {
-                removeChangeListeningAdapterFromEObject(refinement);            
-            }
-        }
     }
 
     /**
