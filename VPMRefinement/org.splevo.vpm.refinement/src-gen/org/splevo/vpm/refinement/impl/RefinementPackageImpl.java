@@ -122,10 +122,11 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getRefinement_Type() {
+    public EAttribute getRefinement_Id() {
         return (EAttribute) refinementEClass.getEStructuralFeatures().get(0);
     }
 
@@ -133,15 +134,15 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    public EReference getRefinement_VariationPoints() {
-        return (EReference) refinementEClass.getEStructuralFeatures().get(1);
+    public EAttribute getRefinement_Type() {
+        return (EAttribute) refinementEClass.getEStructuralFeatures().get(1);
     }
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
-    public EReference getRefinement_RefinementModel() {
+    public EReference getRefinement_VariationPoints() {
         return (EReference) refinementEClass.getEStructuralFeatures().get(2);
     }
 
@@ -149,8 +150,16 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * @generated
      */
+    public EReference getRefinement_RefinementModel() {
+        return (EReference) refinementEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * @generated
+     */
     public EAttribute getRefinement_Source() {
-        return (EAttribute) refinementEClass.getEStructuralFeatures().get(3);
+        return (EAttribute) refinementEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -159,15 +168,6 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
      * @generated
      */
     public EReference getRefinement_Parent() {
-        return (EReference) refinementEClass.getEStructuralFeatures().get(4);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getRefinement_SubRefinements() {
         return (EReference) refinementEClass.getEStructuralFeatures().get(5);
     }
 
@@ -176,8 +176,17 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getRefinement_Reasons() {
+    public EReference getRefinement_SubRefinements() {
         return (EReference) refinementEClass.getEStructuralFeatures().get(6);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getRefinement_Reasons() {
+        return (EReference) refinementEClass.getEStructuralFeatures().get(7);
     }
 
     /**
@@ -279,6 +288,7 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
         createEReference(refinementModelEClass, REFINEMENT_MODEL__REFINEMENTS);
 
         refinementEClass = createEClass(REFINEMENT);
+        createEAttribute(refinementEClass, REFINEMENT__ID);
         createEAttribute(refinementEClass, REFINEMENT__TYPE);
         createEReference(refinementEClass, REFINEMENT__VARIATION_POINTS);
         createEReference(refinementEClass, REFINEMENT__REFINEMENT_MODEL);
@@ -339,6 +349,8 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
 
         initEClass(refinementEClass, Refinement.class, "Refinement", !IS_ABSTRACT, !IS_INTERFACE,
                 IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getRefinement_Id(), ecorePackage.getEString(), "id", null, 0, 1, Refinement.class,
+                !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getRefinement_Type(), this.getRefinementType(), "type", "GROUPING", 1, 1, Refinement.class,
                 !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getRefinement_VariationPoints(), thevariabilityPackage.getVariationPoint(), null,

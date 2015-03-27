@@ -88,13 +88,22 @@ public interface RefinementPackage extends EPackage {
     int REFINEMENT_MODEL_FEATURE_COUNT = 1;
 
     /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REFINEMENT__ID = 0;
+
+    /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
      * <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * @generated
      * @ordered
      */
-    int REFINEMENT__TYPE = 0;
+    int REFINEMENT__TYPE = 1;
 
     /**
      * The feature id for the '<em><b>Variation Points</b></em>' reference list.
@@ -103,7 +112,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__VARIATION_POINTS = 1;
+    int REFINEMENT__VARIATION_POINTS = 2;
 
     /**
      * The feature id for the '<em><b>Refinement Model</b></em>' container reference. <!--
@@ -112,7 +121,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__REFINEMENT_MODEL = 2;
+    int REFINEMENT__REFINEMENT_MODEL = 3;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' attribute.
@@ -121,7 +130,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__SOURCE = 3;
+    int REFINEMENT__SOURCE = 4;
 
     /**
      * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -130,7 +139,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__PARENT = 4;
+    int REFINEMENT__PARENT = 5;
 
     /**
      * The feature id for the '<em><b>Sub Refinements</b></em>' containment reference list.
@@ -139,7 +148,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__SUB_REFINEMENTS = 5;
+    int REFINEMENT__SUB_REFINEMENTS = 6;
 
     /**
      * The feature id for the '<em><b>Reasons</b></em>' containment reference list.
@@ -148,7 +157,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__REASONS = 6;
+    int REFINEMENT__REASONS = 7;
 
     /**
      * The number of structural features of the '<em>Refinement</em>' class.
@@ -157,7 +166,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT_FEATURE_COUNT = 7;
+    int REFINEMENT_FEATURE_COUNT = 8;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.refinement.impl.RefinementReasonImpl <em>Reason</em>}' class.
@@ -231,6 +240,17 @@ public interface RefinementPackage extends EPackage {
      * @generated
      */
     EClass getRefinement();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.refinement.Refinement#getId <em>Id</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Id</em>'.
+     * @see org.splevo.vpm.refinement.Refinement#getId()
+     * @see #getRefinement()
+     * @generated
+     */
+    EAttribute getRefinement_Id();
 
     /**
      * Returns the meta object for the attribute '{@link org.splevo.vpm.refinement.Refinement#getType <em>Type</em>}'.
@@ -420,6 +440,14 @@ public interface RefinementPackage extends EPackage {
          * @generated
          */
         EClass REFINEMENT = eINSTANCE.getRefinement();
+
+        /**
+         * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute REFINEMENT__ID = eINSTANCE.getRefinement_Id();
 
         /**
          * The meta object literal for the '<em><b>Type</b></em>' attribute feature. <!--

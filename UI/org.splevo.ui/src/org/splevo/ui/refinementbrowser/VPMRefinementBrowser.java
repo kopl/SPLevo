@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser;
 
@@ -40,6 +41,7 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.refinementbrowser.action.ApplyRefinementsAction;
 import org.splevo.ui.refinementbrowser.action.CancelAction;
 import org.splevo.ui.refinementbrowser.action.DeleteRefinementAction;
+import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
 import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementActionBarListener;
@@ -198,6 +200,8 @@ public class VPMRefinementBrowser extends EditorPart {
             @Override
             public void menuAboutToShow(IMenuManager manager) {
                 Action action = new DeleteRefinementAction(refinementListView, detailsView);
+                manager.add(action);
+                action = new RenameRefinementAction(refinementListView, detailsView);
                 manager.add(action);
             }
         });

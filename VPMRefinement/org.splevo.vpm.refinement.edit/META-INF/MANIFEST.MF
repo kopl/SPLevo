@@ -17,5 +17,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.featuremodel.metamodel;visibility:=reexport,
  org.eclipse.featuremodel.metamodel.edit;visibility:=reexport,
  org.splevo.vpm;visibility:=reexport,
- org.splevo.vpm.edit;visibility:=reexport
+ org.splevo.vpm.edit;visibility:=reexport,
+ com.google.guava;bundle-version="15.0.0"
 Bundle-ActivationPolicy: lazy

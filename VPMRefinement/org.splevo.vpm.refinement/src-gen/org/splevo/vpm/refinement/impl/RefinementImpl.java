@@ -28,6 +28,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getVariationPoints <em>Variation Points</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getRefinementModel <em>Refinement Model</em>}</li>
@@ -41,6 +42,26 @@ import org.splevo.vpm.variability.VariationPoint;
  * @generated
  */
 public class RefinementImpl extends EObjectImpl implements Refinement {
+    /**
+     * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getId()
+     * @generated
+     * @ordered
+     */
+    protected static final String ID_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getId()
+     * @generated
+     * @ordered
+     */
+    protected String id = ID_EDEFAULT;
+
     /**
      * The default value of the '{@link #getType() <em>Type</em>}' attribute.
      * <!-- begin-user-doc
@@ -125,6 +146,27 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     @Override
     protected EClass eStaticClass() {
         return RefinementPackage.Literals.REFINEMENT;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setId(String newId) {
+        String oldId = id;
+        id = newId;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, RefinementPackage.REFINEMENT__ID, oldId, id));
     }
 
     /**
@@ -359,6 +401,8 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
+        case RefinementPackage.REFINEMENT__ID:
+            return getId();
         case RefinementPackage.REFINEMENT__TYPE:
             return getType();
         case RefinementPackage.REFINEMENT__VARIATION_POINTS:
@@ -385,6 +429,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
+        case RefinementPackage.REFINEMENT__ID:
+            setId((String) newValue);
+            return;
         case RefinementPackage.REFINEMENT__TYPE:
             setType((RefinementType) newValue);
             return;
@@ -420,6 +467,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
+        case RefinementPackage.REFINEMENT__ID:
+            setId(ID_EDEFAULT);
+            return;
         case RefinementPackage.REFINEMENT__TYPE:
             setType(TYPE_EDEFAULT);
             return;
@@ -452,6 +502,8 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
+        case RefinementPackage.REFINEMENT__ID:
+            return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
         case RefinementPackage.REFINEMENT__TYPE:
             return type != TYPE_EDEFAULT;
         case RefinementPackage.REFINEMENT__VARIATION_POINTS:
@@ -480,7 +532,9 @@ public class RefinementImpl extends EObjectImpl implements Refinement {
             return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (type: ");
+        result.append(" (id: ");
+        result.append(id);
+        result.append(", type: ");
         result.append(type);
         result.append(", source: ");
         result.append(source);

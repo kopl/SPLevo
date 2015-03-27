@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.commons.util.LabelUtils;
 
 /**
  * Utility class for UI creation and handling.
@@ -54,10 +55,7 @@ public final class UIUtil {
      * @return The identified icon or null if none exists.
      */
     public static String getItemProviderText(Object element) {
-        ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(
-                ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-        AdapterFactoryLabelProvider labelProvider = new AdapterFactoryLabelProvider(composedAdapterFactory);
-        return labelProvider.getText(element);
+        return LabelUtils.getItemProviderText(element);
     }
 
     /**

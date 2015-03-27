@@ -38,7 +38,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.splevo.refactoring,
  org.apache.commons.lang,
  org.eclipse.zest.core,
- org.eclipse.zest.layouts
+ org.eclipse.zest.layouts,
+ org.splevo.ui.commons;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

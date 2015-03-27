@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Commons
+Bundle-SymbolicName: org.splevo.ui.commons
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.eclipse.jface,
+ org.apache.log4j,
+ org.eclipse.emf.ecore,
+ org.eclipse.ui.workbench,
+ com.google.guava;bundle-version="15.0.0",
+ org.eclipse.emf.edit,
+ org.eclipse.emf.edit.ui
+Export-Package: org.splevo.ui.commons.util,
+ org.splevo.ui.commons.wizard,
+ org.splevo.ui.commons.wizard.rename

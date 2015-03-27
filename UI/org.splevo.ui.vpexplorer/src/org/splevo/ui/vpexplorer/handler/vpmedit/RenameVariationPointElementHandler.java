@@ -18,12 +18,9 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.splevo.ui.commons.wizard.WizardRunner;
 
 /**
  * Handler to rename the selected variation point model element.
@@ -57,9 +54,7 @@ public abstract class RenameVariationPointElementHandler extends AbstractHandler
         }
         logger.debug("Selection is of right type!");
         
-        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        WizardDialog wizardDialog = new WizardDialog(shell, vpRenameWizard);
-        if (wizardDialog.open() != Window.OK) {
+        if (!WizardRunner.run(vpRenameWizard)) {
             logger.debug("Variation Point rename canceled");
         }
 

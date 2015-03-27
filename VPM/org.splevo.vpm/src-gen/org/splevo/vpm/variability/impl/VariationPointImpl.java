@@ -406,32 +406,6 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * <!-- end-user-doc -->
      * @generated
      */
-    public String getDisplayLabel() {
-        if (com.google.common.base.Strings.isNullOrEmpty(getId())) {
-            String location = "[TOP LEVEL]";
-            if (getLocation() != null) {
-                location = getLocation().getLabel();
-            }
-            return String.format("Variation Point in %s", location);
-        } else {
-            return getId();
-        }
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setDisplayLabel(final String displayLabel) {
-        setId(displayLabel);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     @SuppressWarnings("unchecked")
     @Override
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {

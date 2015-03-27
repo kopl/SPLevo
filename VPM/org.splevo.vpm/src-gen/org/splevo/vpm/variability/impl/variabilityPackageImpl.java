@@ -5,7 +5,6 @@ package org.splevo.vpm.variability.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -521,11 +520,6 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEReference(getVariationPoint_VariabilityMechanism(), theRealizationPackage.getVariabilityMechanism(), null,
                 "variabilityMechanism", null, 0, 1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
                 !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-        addEOperation(variationPointEClass, ecorePackage.getEString(), "getDisplayLabel", 1, 1, IS_UNIQUE, IS_ORDERED);
-
-        EOperation op = addEOperation(variationPointEClass, null, "setDisplayLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
-        addEParameter(op, ecorePackage.getEString(), "displayLabel", 1, 1, IS_UNIQUE, IS_ORDERED);
 
         initEClass(variantEClass, Variant.class, "Variant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getVariant_ChildFeature(), theFeatureModelPackage.getFeature(), null, "childFeature", null, 0,

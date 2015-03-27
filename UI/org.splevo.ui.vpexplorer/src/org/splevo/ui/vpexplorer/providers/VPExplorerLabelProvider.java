@@ -24,6 +24,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.commons.util.LabelUtils;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
@@ -82,7 +83,7 @@ public class VPExplorerLabelProvider extends LabelProvider {
         if (element instanceof VariationPointGroup) {
             return ((VariationPointGroup) element).getId();
         } else if (element instanceof VariationPoint) {
-            return ((VariationPoint) element).getDisplayLabel();
+            return LabelUtils.getItemProviderText(element);
         } else if (element instanceof Variant) {
             return "Variant: " + ((Variant) element).getId();
         } else if (element instanceof SoftwareElement) {

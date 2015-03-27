@@ -12,6 +12,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A refinement identifies a refinement within a variation point model."/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//RefinementType"
         defaultValueLiteral="GROUPING">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

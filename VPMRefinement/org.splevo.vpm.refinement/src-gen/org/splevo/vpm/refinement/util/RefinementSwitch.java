@@ -14,6 +14,7 @@ package org.splevo.vpm.refinement.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.splevo.vpm.refinement.*;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementPackage;

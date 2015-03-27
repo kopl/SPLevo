@@ -16,7 +16,6 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.splevo.project.*;
 import org.splevo.project.ProjectPackage;
 import org.splevo.project.SPLProfile;
 import org.splevo.project.SPLevoProject;

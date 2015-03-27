@@ -12,9 +12,10 @@
 package org.splevo.ui.vpexplorer.handler.vpmedit;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.splevo.ui.vpexplorer.wizards.rename.RenameVPElementWizard;
-import org.splevo.ui.vpexplorer.wizards.rename.RenameVPElementWrapper;
+import org.splevo.ui.commons.wizard.rename.RenameEObjectEAttributeWrapper;
+import org.splevo.ui.commons.wizard.rename.RenameElementWizard;
 import org.splevo.vpm.variability.VariationPointGroup;
+import org.splevo.vpm.variability.variabilityPackage;
 
 /**
  * Handler to rename the selected variation point group.
@@ -26,27 +27,11 @@ public class RenameVariationPointGroupHandler extends RenameVariationPointElemen
         if (!(selectedObject instanceof VariationPointGroup)) {
             return null;
         }
-        
-        RenameVPElementWrapper<VariationPointGroup> wrapper = 
-                new RenameVPElementWrapper<VariationPointGroup>((VariationPointGroup) selectedObject) {
 
-            @Override
-            public String getElementToRenameTypeName() {
-                return "Variation Point Group";
-            }
+        RenameEObjectEAttributeWrapper wrapper = new RenameEObjectEAttributeWrapper("Variation Point Group",
+                (VariationPointGroup) selectedObject, variabilityPackage.eINSTANCE.getVariationPointGroup_Id());
 
-            @Override
-            public String getElementName() {
-                return elementToRename.getId();
-            }
-
-            @Override
-            public void setElementName(String newName) {
-                elementToRename.setId(newName);
-            }
-        };
-
-        return new RenameVPElementWizard(wrapper);
+        return new RenameElementWizard(wrapper);
     }
 
 }

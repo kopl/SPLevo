@@ -240,28 +240,4 @@ public interface VariationPoint extends EObject {
      */
     void setVariabilityMechanism(VariabilityMechanism value);
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * Returns the display label for the variation point.
-     * <!-- end-model-doc -->
-     * @model kind="operation" required="true"
-     *        annotation="http://www.eclipse.org/emf/2002/GenModel body='if (com.google.common.base.Strings.isNullOrEmpty(getId())) {\r\n\tString location = \"[TOP LEVEL]\";\r\n\tif (getLocation() != null) {\r\n\t\tlocation = getLocation().getLabel();\r\n\t}\r\n\treturn String.format(\"Variation Point in %s\", location);\r\n} else {\r\n\treturn getId();\r\n}'"
-     * @generated
-     */
-    String getDisplayLabel();
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * Sets the display label for the variation point.
-     * <!-- end-model-doc -->
-     * @model displayLabelRequired="true"
-     *        annotation="http://www.eclipse.org/emf/2002/GenModel body='setId(displayLabel);'"
-     * @generated
-     */
-    void setDisplayLabel(String displayLabel);
-
 } // VariationPoint

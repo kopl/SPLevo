@@ -26,6 +26,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link org.splevo.vpm.refinement.Refinement#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getType <em>Type</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getVariationPoints <em>Variation Points</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getRefinementModel <em>Refinement Model</em>}</li>
@@ -41,6 +42,32 @@ import org.splevo.vpm.variability.VariationPoint;
  * @generated
  */
 public interface Refinement extends EObject {
+    /**
+     * Returns the value of the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Id</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Id</em>' attribute.
+     * @see #setId(String)
+     * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement_Id()
+     * @model
+     * @generated
+     */
+    String getId();
+
+    /**
+     * Sets the value of the '{@link org.splevo.vpm.refinement.Refinement#getId <em>Id</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Id</em>' attribute.
+     * @see #getId()
+     * @generated
+     */
+    void setId(String value);
+
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute. The default value is
      * <code>"GROUPING"</code>. The literals are from the enumeration

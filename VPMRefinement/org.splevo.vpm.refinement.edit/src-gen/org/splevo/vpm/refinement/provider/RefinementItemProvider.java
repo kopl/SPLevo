@@ -33,6 +33,8 @@ import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementType;
 
+import com.google.common.base.Strings;
+
 /**
  * This is the item provider adapter for a {@link org.splevo.vpm.refinement.Refinement} object. <!--
  * begin-user-doc --> <!-- end-user-doc -->
@@ -62,11 +64,27 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
+            addIdPropertyDescriptor(object);
             addTypePropertyDescriptor(object);
             addVariationPointsPropertyDescriptor(object);
             addSourcePropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
+    }
+
+    /**
+     * This adds a property descriptor for the Id feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addIdPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+                getString("_UI_Refinement_id_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_Refinement_id_feature", "_UI_Refinement_type"),
+                RefinementPackage.Literals.REFINEMENT__ID, true, false, false,
+                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -159,17 +177,22 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
         if (object instanceof Refinement) {
             Refinement refinement = (Refinement) object;
             StringBuilder labelBuilder = new StringBuilder();
-            if (refinement.getType() == RefinementType.GROUPING) {
-                labelBuilder.append("Grouping");
-            } else {
-                labelBuilder.append("Merge");
-            }
 
-            labelBuilder.append(" (");
-            labelBuilder.append(refinement.getSubRefinements().size());
-            labelBuilder.append("/");
-            labelBuilder.append(refinement.getVariationPoints().size());
-            labelBuilder.append(")");
+            if (Strings.isNullOrEmpty(refinement.getId())) {
+                if (refinement.getType() == RefinementType.GROUPING) {
+                    labelBuilder.append("Grouping");
+                } else {
+                    labelBuilder.append("Merge");
+                }
+
+                labelBuilder.append(" (");
+                labelBuilder.append(refinement.getSubRefinements().size());
+                labelBuilder.append("/");
+                labelBuilder.append(refinement.getVariationPoints().size());
+                labelBuilder.append(")");
+            } else {
+                labelBuilder.append(refinement.getId());
+            }
 
             return labelBuilder.toString();
         } else {
@@ -212,6 +235,7 @@ public class RefinementItemProvider extends ItemProviderAdapter implements IEdit
         updateChildren(notification);
 
         switch (notification.getFeatureID(Refinement.class)) {
+        case RefinementPackage.REFINEMENT__ID:
         case RefinementPackage.REFINEMENT__TYPE:
         case RefinementPackage.REFINEMENT__SOURCE:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

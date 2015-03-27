@@ -21,14 +21,15 @@ public enum RefinementType implements Enumerator {
      * @generated
      * @ordered
      */
-    MERGE(0, "MERGE", "MERGE"), /**
-                                 * The '<em><b>GROUPING</b></em>' literal object. <!--
-                                 * begin-user-doc --> <!-- end-user-doc -->
-                                 * 
-                                 * @see #GROUPING_VALUE
-                                 * @generated
-                                 * @ordered
-                                 */
+    MERGE(0, "MERGE", "MERGE"),
+    /**
+     * The '<em><b>GROUPING</b></em>' literal object. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @see #GROUPING_VALUE
+     * @generated
+     * @ordered
+     */
     GROUPING(1, "GROUPING", "GROUPING");
 
     /**
