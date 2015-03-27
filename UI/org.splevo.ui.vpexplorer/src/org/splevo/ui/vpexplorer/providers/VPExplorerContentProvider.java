@@ -38,6 +38,7 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.HashMultimap;
@@ -49,6 +50,58 @@ import com.google.common.collect.Maps;
  */
 public class VPExplorerContentProvider extends TreeNodeContentProvider {
 
+    /**
+     * Proxy for a File contained in a VPExplorer. The proxy provides access
+     * to the {@link VPExplorerContentProvider#getChildren()} method. This method
+     * returns all child elements of the file.
+     */
+    public static class VPExplorerContentFileWithChildReference extends File {
+
+        private static final long serialVersionUID = 7988300896390991983L;
+        private final Function<VPExplorerContentFileWithChildReference, Object[]> callable;
+        
+        /**
+         * Constructs a new proxy file.
+         * @param realFile The file to be proxied.
+         * @param getChildrenCallable The callback function to gather the file's children.
+         */
+        public VPExplorerContentFileWithChildReference(File realFile,
+                Function<VPExplorerContentFileWithChildReference, Object[]> getChildrenCallable) {
+            super(realFile.toURI());
+            this.callable = getChildrenCallable;
+        }
+        
+        /**
+         * Constructs a new proxy file.
+         * @param pathname The path of the proxied file.
+         * @param getChildrenCallable The callback function to gather the file's children.
+         */
+        public VPExplorerContentFileWithChildReference(String pathname,
+                Function<VPExplorerContentFileWithChildReference, Object[]> getChildrenCallable) {
+            super(pathname);
+            this.callable = getChildrenCallable;
+        }
+        
+        /**
+         * Returns the file's children with respect to the variation point model. The children
+         * can be files again, variation points, variation groups, and so on.
+         * @return The children of the file.
+         */
+        public Object[] getVPMChildren() {
+            return callable.apply(this);
+        }
+
+        @Override
+        public File getParentFile() {
+            File parentFile = super.getParentFile();
+            if (parentFile == null) {
+                return null;
+            }
+            return new VPExplorerContentFileWithChildReference(parentFile, callable);
+        }
+        
+    }
+    
     private static Logger logger = Logger.getLogger(VPExplorerContentProvider.class);
 
     /**
@@ -267,7 +320,7 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     private void indexVariationPointLocations(VPExplorerContent vpContent) {
 
         clearIndexes();
-
+        
         String workspacePath = getNormalizedWorkspacePath();
 
         EList<VariationPointGroup> vpGroups = vpContent.getVpm().getVariationPointGroups();
@@ -279,7 +332,13 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
                 // and resolving overhead.
                 EObject locationElement = vp.getLocation().getWrappedElement();
                 String filePath = locationElement.eResource().getURI().toFileString();
-                File sourceFile = new File(filePath);
+                File sourceFile = new VPExplorerContentFileWithChildReference(filePath,
+                        new Function<VPExplorerContentFileWithChildReference, Object[]>() {
+                    @Override
+                    public Object[] apply(VPExplorerContentFileWithChildReference arg0) {
+                        return getChildren(arg0);
+                    }
+                });
                 vpFileIndex.put(vp, sourceFile);
                 fileVPIndex.put(sourceFile, vp);
                 groupFileIndex.put(vpGroup, sourceFile);

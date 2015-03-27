@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.ui.sourceconnection.handler;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.ui.sourceconnection.SourceEditorConnector;
+import org.splevo.ui.vpexplorer.providers.VPExplorerContentProvider.VPExplorerContentFileWithChildReference;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -53,6 +55,9 @@ public class OpenSourceLocationHandler extends AbstractHandler {
                     Refinement refinement = (Refinement) selectedItem;
                     queue.addAll(refinement.getSubRefinements());
                     queue.addAll(refinement.getVariationPoints());
+                } else if (selectedItem instanceof VPExplorerContentFileWithChildReference) {
+                    VPExplorerContentFileWithChildReference file = (VPExplorerContentFileWithChildReference) selectedItem;
+                    queue.addAll(Arrays.asList(file.getVPMChildren()));
                 }
             }
             
