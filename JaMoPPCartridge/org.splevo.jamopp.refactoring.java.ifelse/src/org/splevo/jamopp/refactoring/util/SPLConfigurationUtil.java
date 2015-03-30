@@ -103,22 +103,22 @@ public final class SPLConfigurationUtil {
 
     /**
      * Creates an expression matching the configuration field with the variant id:
-     * <code>ConfigClass.[groupID].equals([variantID]);</code>
+     * <code>ConfigClass.[groupName].equals([variantID]);</code>
      *
      * @param variantID
      *            The variant ID.
-     * @param groupID
-     *            The group ID.
+     * @param groupName
+     *            The group name.
      * @return The generated {@link Expression}.
      */
-    public static IdentifierReference generateConfigMatchingExpression(String variantID, String groupID) {
+    public static IdentifierReference generateConfigMatchingExpression(String variantID, String groupName) {
         Class createClass = ClassifiersFactory.eINSTANCE.createClass();
         createClass.addModifier(ModifiersFactory.eINSTANCE.createPublic());
         createClass.addModifier(ModifiersFactory.eINSTANCE.createStatic());
         createClass.setName(CONFIGURATION_READER_CLASS_NAME);
 
         Field field = MembersFactory.eINSTANCE.createField();
-        field.setName(groupID);
+        field.setName(groupName);
         Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
         stringClass.setName("String");
         ClassifierReference stringRef = TypesFactory.eINSTANCE.createClassifierReference();
@@ -178,9 +178,9 @@ public final class SPLConfigurationUtil {
         CompilationUnit cu = (CompilationUnit) configResource.getContents().get(0);
         ConcreteClassifier configClass = cu.getClassifiers().get(0);
 
-        String groupID = vp.getGroup().getId();
+        String groupName = vp.getGroup().getName();
 
-        if (configurationClassHasConfigurationWithName(configClass, groupID)) {
+        if (configurationClassHasConfigurationWithName(configClass, groupName)) {
             return;
         }
 
@@ -189,7 +189,7 @@ public final class SPLConfigurationUtil {
         configurationValueRef.setValue(firstVariantID);
 
         Field field = MembersFactory.eINSTANCE.createField();
-        field.setName(groupID);
+        field.setName(groupName);
         field.setInitialValue(configurationValueRef);
 
         Class stringClass = ClassifiersFactory.eINSTANCE.createClass();

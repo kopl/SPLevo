@@ -59,11 +59,11 @@ public class IfStaticConfigClassStatementInConditionOPTXOR implements Variabilit
         CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
         SPLConfigurationUtil.addConfigurationClassImportIfMissing(compilationUnit);
 
-        String groupId = variationPoint.getGroup().getId();
+        String groupName = variationPoint.getGroup().getName();
         Condition previousCondition = vpLocation;
 
         for (Variant variant : variationPoint.getVariants()) {
-            Condition variabilityCondition = RefactoringUtil.createVariabilityCondition(variant.getId(), groupId);
+            Condition variabilityCondition = RefactoringUtil.createVariabilityCondition(variant.getId(), groupName);
 
             Commentable element = ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0)).getJamoppElement();
             Statement stmt = EcoreUtil.copy((Statement) element);

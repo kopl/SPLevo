@@ -16,18 +16,10 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IChildCreationExtender;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.variabilityFactory;
@@ -39,8 +31,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class VariationPointGroupItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
-        IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class VariationPointGroupItemProvider extends CustomizableNameHavingItemProvider {
     /**
      * This constructs an instance from a factory and a notifier.
      * <!-- begin-user-doc -->
@@ -62,26 +53,28 @@ public class VariationPointGroupItemProvider extends ItemProviderAdapter impleme
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addIdPropertyDescriptor(object);
+            addDescriptionPropertyDescriptor(object);
             addFeaturePropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
     }
 
     /**
-     * This adds a property descriptor for the Id feature.
+     * This adds a property descriptor for the Description feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addIdPropertyDescriptor(Object object) {
+    protected void addDescriptionPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariationPointGroup_id_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_VariationPointGroup_id_feature",
-                        "_UI_VariationPointGroup_type"), variabilityPackage.Literals.VARIATION_POINT_GROUP__ID, true,
-                false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+                getString("_UI_CustomizableDescriptionHaving_description_feature"),
+                getString("_UI_PropertyDescriptor_description",
+                        "_UI_CustomizableDescriptionHaving_description_feature",
+                        "_UI_CustomizableDescriptionHaving_type"),
+                variabilityPackage.Literals.CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION, true, false, false,
+                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -149,7 +142,7 @@ public class VariationPointGroupItemProvider extends ItemProviderAdapter impleme
      */
     @Override
     public String getText(Object object) {
-        String label = ((VariationPointGroup) object).getId();
+        String label = ((VariationPointGroup) object).getName();
         return label == null || label.length() == 0 ? getString("_UI_VariationPointGroup_type")
                 : getString("_UI_VariationPointGroup_type") + " " + label;
     }
@@ -166,7 +159,7 @@ public class VariationPointGroupItemProvider extends ItemProviderAdapter impleme
         updateChildren(notification);
 
         switch (notification.getFeatureID(VariationPointGroup.class)) {
-        case variabilityPackage.VARIATION_POINT_GROUP__ID:
+        case variabilityPackage.VARIATION_POINT_GROUP__DESCRIPTION:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
             return;
         case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
@@ -190,17 +183,6 @@ public class VariationPointGroupItemProvider extends ItemProviderAdapter impleme
         newChildDescriptors.add(createChildParameter(
                 variabilityPackage.Literals.VARIATION_POINT_GROUP__VARIATION_POINTS,
                 variabilityFactory.eINSTANCE.createVariationPoint()));
-    }
-
-    /**
-     * Return the resource locator for this item provider's resources.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public ResourceLocator getResourceLocator() {
-        return ((IChildCreationExtender) adapterFactory).getResourceLocator();
     }
 
 }

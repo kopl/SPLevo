@@ -10,11 +10,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.featuremodel.Feature;
+import org.splevo.vpm.variability.CustomizableDescriptionHaving;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -26,17 +26,37 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getVariationPoints <em>Variation Points</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getModel <em>Model</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointGroupImpl#getFeature <em>Feature</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implements VariationPointGroup {
+public class VariationPointGroupImpl extends CustomizableNameHavingImpl implements VariationPointGroup {
+    /**
+     * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDescription()
+     * @generated
+     * @ordered
+     */
+    protected static final String DESCRIPTION_EDEFAULT = "";
+
+    /**
+     * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDescription()
+     * @generated
+     * @ordered
+     */
+    protected String description = DESCRIPTION_EDEFAULT;
+
     /**
      * The cached value of the '{@link #getVariationPoints() <em>Variation Points</em>}' containment reference list.
      * <!-- begin-user-doc -->
@@ -46,26 +66,6 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
      * @ordered
      */
     protected EList<VariationPoint> variationPoints;
-
-    /**
-     * The default value of the '{@link #getId() <em>Id</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getId()
-     * @generated
-     * @ordered
-     */
-    protected static final String ID_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getId()
-     * @generated
-     * @ordered
-     */
-    protected String id = ID_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getFeature() <em>Feature</em>}' reference.
@@ -101,6 +101,28 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
      * <!-- end-user-doc -->
      * @generated
      */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setDescription(String newDescription) {
+        String oldDescription = description;
+        description = newDescription;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET,
+                    variabilityPackage.VARIATION_POINT_GROUP__DESCRIPTION, oldDescription, description));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EList<VariationPoint> getVariationPoints() {
         if (variationPoints == null) {
             variationPoints = new EObjectContainmentWithInverseEList<VariationPoint>(VariationPoint.class, this,
@@ -108,28 +130,6 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
                     variabilityPackage.VARIATION_POINT__GROUP);
         }
         return variationPoints;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setId(String newId) {
-        String oldId = id;
-        id = newId;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT_GROUP__ID, oldId,
-                    id));
     }
 
     /**
@@ -276,10 +276,10 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT_GROUP__DESCRIPTION:
+            return getDescription();
         case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
             return getVariationPoints();
-        case variabilityPackage.VARIATION_POINT_GROUP__ID:
-            return getId();
         case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
             return getModel();
         case variabilityPackage.VARIATION_POINT_GROUP__FEATURE:
@@ -299,12 +299,12 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT_GROUP__DESCRIPTION:
+            setDescription((String) newValue);
+            return;
         case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
             getVariationPoints().clear();
             getVariationPoints().addAll((Collection<? extends VariationPoint>) newValue);
-            return;
-        case variabilityPackage.VARIATION_POINT_GROUP__ID:
-            setId((String) newValue);
             return;
         case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
             setModel((VariationPointModel) newValue);
@@ -324,11 +324,11 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT_GROUP__DESCRIPTION:
+            setDescription(DESCRIPTION_EDEFAULT);
+            return;
         case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
             getVariationPoints().clear();
-            return;
-        case variabilityPackage.VARIATION_POINT_GROUP__ID:
-            setId(ID_EDEFAULT);
             return;
         case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
             setModel((VariationPointModel) null);
@@ -348,10 +348,10 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT_GROUP__DESCRIPTION:
+            return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
         case variabilityPackage.VARIATION_POINT_GROUP__VARIATION_POINTS:
             return variationPoints != null && !variationPoints.isEmpty();
-        case variabilityPackage.VARIATION_POINT_GROUP__ID:
-            return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
         case variabilityPackage.VARIATION_POINT_GROUP__MODEL:
             return getModel() != null;
         case variabilityPackage.VARIATION_POINT_GROUP__FEATURE:
@@ -366,13 +366,49 @@ public class VariationPointGroupImpl extends MinimalEObjectImpl.Container implem
      * @generated
      */
     @Override
+    public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+        if (baseClass == CustomizableDescriptionHaving.class) {
+            switch (derivedFeatureID) {
+            case variabilityPackage.VARIATION_POINT_GROUP__DESCRIPTION:
+                return variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION;
+            default:
+                return -1;
+            }
+        }
+        return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+        if (baseClass == CustomizableDescriptionHaving.class) {
+            switch (baseFeatureID) {
+            case variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION:
+                return variabilityPackage.VARIATION_POINT_GROUP__DESCRIPTION;
+            default:
+                return -1;
+            }
+        }
+        return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public String toString() {
         if (eIsProxy())
             return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (id: ");
-        result.append(id);
+        result.append(" (description: ");
+        result.append(description);
         result.append(')');
         return result.toString();
     }

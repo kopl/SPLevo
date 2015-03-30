@@ -59,8 +59,8 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
 
     private VariationPointGroup createGroup(VariationPoint vp) {
         VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
-        String groupID = buildGroupID(vp.getLocation());
-        group.setId(groupID);
+        String groupName = buildGroupName(vp.getLocation());
+        group.setName(groupName);
         group.getVariationPoints().add(vp);
         return group;
     }
@@ -83,14 +83,14 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
     }
 
     /**
-     * Get the id for variation point group based on the ASTNode specifying the variability
+     * Get the name for variation point group based on the ASTNode specifying the variability
      * location.
      *
      * @param softwareElement
      *            The AST node containing the variability.
-     * @return The derived group id.
+     * @return The derived group name.
      */
-    private String buildGroupID(SoftwareElement softwareElement) {
+    private String buildGroupName(SoftwareElement softwareElement) {
 
         // handle empty nodes. This might be the case if a varying element
         // is located directly on the model root such as a compilation unit or

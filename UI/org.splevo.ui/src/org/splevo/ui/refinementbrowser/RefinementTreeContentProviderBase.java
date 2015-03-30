@@ -17,6 +17,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWTException;
+import org.eclipse.swt.widgets.Display;
 import org.splevo.ui.listeners.EObjectChangedListener;
 import org.splevo.vpm.refinement.Refinement;
 
@@ -28,7 +30,8 @@ import com.google.common.collect.ObjectArrays;
  * Base class for refinement tree content providers. The class automatically refreshes the TreeView
  * after changes of the given top level element.
  * 
- * @param <T> The type of the top level element.
+ * @param <T>
+ *            The type of the top level element.
  */
 public abstract class RefinementTreeContentProviderBase<T extends EObject> implements ITreeContentProvider {
 
@@ -53,14 +56,24 @@ public abstract class RefinementTreeContentProviderBase<T extends EObject> imple
 
         @Override
         protected void reactOnChange(Notification notification) {
-            if (!viewer.getControl().isDisposed()) {
-                viewer.getControl().getDisplay().syncExec(new Runnable() {
-                    @Override
-                    public void run() {
+            // We don't want to use defaultDisplay() but the appropriate display. Unfortunately we
+            // can not know whether the control is disposed or not (race conditions might occur
+            // between checking and using the getDisplay() method). So, we simply catch an occurring
+            // exception.
+            Display viewerDisplay;
+            try {
+                viewerDisplay = viewer.getControl().getDisplay();
+            } catch (SWTException e) {
+                return;
+            }
+            viewerDisplay.syncExec(new Runnable() {
+                @Override
+                public void run() {
+                    if (!viewer.getControl().isDisposed()) {
                         viewer.refresh();
                     }
-                });
-            }
+                }
+            });
         }
 
         public int getOwnerId() {

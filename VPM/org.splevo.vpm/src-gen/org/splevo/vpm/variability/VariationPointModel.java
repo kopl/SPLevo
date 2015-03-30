@@ -11,11 +11,11 @@ import org.splevo.vpm.software.SoftwareElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getVariationPointGroups <em>Variation Point Groups</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointModel#getSoftwareElements <em>Software Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointModel()
  * @model

@@ -1,7 +1,6 @@
 package org.splevo.vpm.variability;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 
@@ -12,9 +11,9 @@ import org.splevo.vpm.software.SoftwareElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariants <em>Variants</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.VariationPoint#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getLocation <em>Location</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getGroup <em>Group</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariabilityType <em>Variability Type</em>}</li>
@@ -22,13 +21,12 @@ import org.splevo.vpm.software.SoftwareElement;
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getExtensibility <em>Extensibility</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint()
  * @model
  * @generated
  */
-public interface VariationPoint extends EObject {
+public interface VariationPoint extends CustomizableNameHaving, CustomizableDescriptionHaving {
     /**
      * Returns the value of the '<em><b>Variants</b></em>' containment reference list.
      * The list contents are of type {@link org.splevo.vpm.variability.Variant}.
@@ -46,31 +44,6 @@ public interface VariationPoint extends EObject {
      * @generated
      */
     EList<Variant> getVariants();
-
-    /**
-     * Returns the value of the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * The identifier for the variation point.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>Id</em>' attribute.
-     * @see #setId(String)
-     * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_Id()
-     * @model
-     * @generated
-     */
-    String getId();
-
-    /**
-     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getId <em>Id</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Id</em>' attribute.
-     * @see #getId()
-     * @generated
-     */
-    void setId(String value);
 
     /**
      * Returns the value of the '<em><b>Location</b></em>' reference.

@@ -57,6 +57,34 @@ public interface variabilityPackage extends EPackage {
     variabilityPackage eINSTANCE = org.splevo.vpm.variability.impl.variabilityPackageImpl.init();
 
     /**
+     * The meta object id for the '{@link org.splevo.vpm.variability.impl.CustomizableNameHavingImpl <em>Customizable Name Having</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.vpm.variability.impl.CustomizableNameHavingImpl
+     * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getCustomizableNameHaving()
+     * @generated
+     */
+    int CUSTOMIZABLE_NAME_HAVING = 5;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CUSTOMIZABLE_NAME_HAVING__NAME = 0;
+
+    /**
+     * The number of structural features of the '<em>Customizable Name Having</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT = 1;
+
+    /**
      * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariationPointImpl <em>Variation Point</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -67,22 +95,31 @@ public interface variabilityPackage extends EPackage {
     int VARIATION_POINT = 0;
 
     /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT__NAME = CUSTOMIZABLE_NAME_HAVING__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT__DESCRIPTION = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 0;
+
+    /**
      * The feature id for the '<em><b>Variants</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__VARIANTS = 0;
-
-    /**
-     * The feature id for the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int VARIATION_POINT__ID = 1;
+    int VARIATION_POINT__VARIANTS = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Location</b></em>' reference.
@@ -91,7 +128,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__LOCATION = 2;
+    int VARIATION_POINT__LOCATION = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Group</b></em>' container reference.
@@ -100,7 +137,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__GROUP = 3;
+    int VARIATION_POINT__GROUP = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Variability Type</b></em>' attribute.
@@ -109,7 +146,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__VARIABILITY_TYPE = 4;
+    int VARIATION_POINT__VARIABILITY_TYPE = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Binding Time</b></em>' attribute.
@@ -118,7 +155,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__BINDING_TIME = 5;
+    int VARIATION_POINT__BINDING_TIME = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Extensibility</b></em>' attribute.
@@ -127,7 +164,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__EXTENSIBILITY = 6;
+    int VARIATION_POINT__EXTENSIBILITY = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Variability Mechanism</b></em>' reference.
@@ -136,7 +173,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT__VARIABILITY_MECHANISM = 7;
+    int VARIATION_POINT__VARIABILITY_MECHANISM = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 7;
 
     /**
      * The number of structural features of the '<em>Variation Point</em>' class.
@@ -145,7 +182,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_FEATURE_COUNT = 8;
+    int VARIATION_POINT_FEATURE_COUNT = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 8;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.variability.impl.VariantImpl <em>Variant</em>}' class.
@@ -259,22 +296,31 @@ public interface variabilityPackage extends EPackage {
     int VARIATION_POINT_GROUP = 3;
 
     /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT_GROUP__NAME = CUSTOMIZABLE_NAME_HAVING__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIATION_POINT_GROUP__DESCRIPTION = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 0;
+
+    /**
      * The feature id for the '<em><b>Variation Points</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_GROUP__VARIATION_POINTS = 0;
-
-    /**
-     * The feature id for the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int VARIATION_POINT_GROUP__ID = 1;
+    int VARIATION_POINT_GROUP__VARIATION_POINTS = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Model</b></em>' container reference.
@@ -283,7 +329,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_GROUP__MODEL = 2;
+    int VARIATION_POINT_GROUP__MODEL = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Feature</b></em>' reference.
@@ -292,7 +338,7 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_GROUP__FEATURE = 3;
+    int VARIATION_POINT_GROUP__FEATURE = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 3;
 
     /**
      * The number of structural features of the '<em>Variation Point Group</em>' class.
@@ -301,7 +347,35 @@ public interface variabilityPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int VARIATION_POINT_GROUP_FEATURE_COUNT = 4;
+    int VARIATION_POINT_GROUP_FEATURE_COUNT = CUSTOMIZABLE_NAME_HAVING_FEATURE_COUNT + 4;
+
+    /**
+     * The meta object id for the '{@link org.splevo.vpm.variability.impl.CustomizableDescriptionHavingImpl <em>Customizable Description Having</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.vpm.variability.impl.CustomizableDescriptionHavingImpl
+     * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getCustomizableDescriptionHaving()
+     * @generated
+     */
+    int CUSTOMIZABLE_DESCRIPTION_HAVING = 4;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION = 0;
+
+    /**
+     * The number of structural features of the '<em>Customizable Description Having</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT = 1;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.variability.Extensible <em>Extensible</em>}' enum.
@@ -311,7 +385,7 @@ public interface variabilityPackage extends EPackage {
      * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getExtensible()
      * @generated
      */
-    int EXTENSIBLE = 4;
+    int EXTENSIBLE = 6;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.variability.VariabilityType <em>Variability Type</em>}' enum.
@@ -321,7 +395,7 @@ public interface variabilityPackage extends EPackage {
      * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getVariabilityType()
      * @generated
      */
-    int VARIABILITY_TYPE = 5;
+    int VARIABILITY_TYPE = 7;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.variability.BindingTime <em>Binding Time</em>}' enum.
@@ -331,7 +405,7 @@ public interface variabilityPackage extends EPackage {
      * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getBindingTime()
      * @generated
      */
-    int BINDING_TIME = 6;
+    int BINDING_TIME = 8;
 
     /**
      * Returns the meta object for class '{@link org.splevo.vpm.variability.VariationPoint <em>Variation Point</em>}'.
@@ -353,17 +427,6 @@ public interface variabilityPackage extends EPackage {
      * @generated
      */
     EReference getVariationPoint_Variants();
-
-    /**
-     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.VariationPoint#getId <em>Id</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Id</em>'.
-     * @see org.splevo.vpm.variability.VariationPoint#getId()
-     * @see #getVariationPoint()
-     * @generated
-     */
-    EAttribute getVariationPoint_Id();
 
     /**
      * Returns the meta object for the reference '{@link org.splevo.vpm.variability.VariationPoint#getLocation <em>Location</em>}'.
@@ -550,17 +613,6 @@ public interface variabilityPackage extends EPackage {
     EReference getVariationPointGroup_VariationPoints();
 
     /**
-     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.VariationPointGroup#getId <em>Id</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Id</em>'.
-     * @see org.splevo.vpm.variability.VariationPointGroup#getId()
-     * @see #getVariationPointGroup()
-     * @generated
-     */
-    EAttribute getVariationPointGroup_Id();
-
-    /**
      * Returns the meta object for the container reference '{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -581,6 +633,48 @@ public interface variabilityPackage extends EPackage {
      * @generated
      */
     EReference getVariationPointGroup_Feature();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.vpm.variability.CustomizableDescriptionHaving <em>Customizable Description Having</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Customizable Description Having</em>'.
+     * @see org.splevo.vpm.variability.CustomizableDescriptionHaving
+     * @generated
+     */
+    EClass getCustomizableDescriptionHaving();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.CustomizableDescriptionHaving#getDescription <em>Description</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Description</em>'.
+     * @see org.splevo.vpm.variability.CustomizableDescriptionHaving#getDescription()
+     * @see #getCustomizableDescriptionHaving()
+     * @generated
+     */
+    EAttribute getCustomizableDescriptionHaving_Description();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.vpm.variability.CustomizableNameHaving <em>Customizable Name Having</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Customizable Name Having</em>'.
+     * @see org.splevo.vpm.variability.CustomizableNameHaving
+     * @generated
+     */
+    EClass getCustomizableNameHaving();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.splevo.vpm.variability.CustomizableNameHaving#getName <em>Name</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Name</em>'.
+     * @see org.splevo.vpm.variability.CustomizableNameHaving#getName()
+     * @see #getCustomizableNameHaving()
+     * @generated
+     */
+    EAttribute getCustomizableNameHaving_Name();
 
     /**
      * Returns the meta object for enum '{@link org.splevo.vpm.variability.Extensible <em>Extensible</em>}'.
@@ -651,14 +745,6 @@ public interface variabilityPackage extends EPackage {
          * @generated
          */
         EReference VARIATION_POINT__VARIANTS = eINSTANCE.getVariationPoint_Variants();
-
-        /**
-         * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute VARIATION_POINT__ID = eINSTANCE.getVariationPoint_Id();
 
         /**
          * The meta object literal for the '<em><b>Location</b></em>' reference feature.
@@ -804,14 +890,6 @@ public interface variabilityPackage extends EPackage {
         EReference VARIATION_POINT_GROUP__VARIATION_POINTS = eINSTANCE.getVariationPointGroup_VariationPoints();
 
         /**
-         * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute VARIATION_POINT_GROUP__ID = eINSTANCE.getVariationPointGroup_Id();
-
-        /**
          * The meta object literal for the '<em><b>Model</b></em>' container reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -826,6 +904,43 @@ public interface variabilityPackage extends EPackage {
          * @generated
          */
         EReference VARIATION_POINT_GROUP__FEATURE = eINSTANCE.getVariationPointGroup_Feature();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.vpm.variability.impl.CustomizableDescriptionHavingImpl <em>Customizable Description Having</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.vpm.variability.impl.CustomizableDescriptionHavingImpl
+         * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getCustomizableDescriptionHaving()
+         * @generated
+         */
+        EClass CUSTOMIZABLE_DESCRIPTION_HAVING = eINSTANCE.getCustomizableDescriptionHaving();
+
+        /**
+         * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION = eINSTANCE
+                .getCustomizableDescriptionHaving_Description();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.vpm.variability.impl.CustomizableNameHavingImpl <em>Customizable Name Having</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.vpm.variability.impl.CustomizableNameHavingImpl
+         * @see org.splevo.vpm.variability.impl.variabilityPackageImpl#getCustomizableNameHaving()
+         * @generated
+         */
+        EClass CUSTOMIZABLE_NAME_HAVING = eINSTANCE.getCustomizableNameHaving();
+
+        /**
+         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute CUSTOMIZABLE_NAME_HAVING__NAME = eINSTANCE.getCustomizableNameHaving_Name();
 
         /**
          * The meta object literal for the '{@link org.splevo.vpm.variability.Extensible <em>Extensible</em>}' enum.

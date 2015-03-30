@@ -10,13 +10,13 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
+import org.splevo.vpm.variability.CustomizableDescriptionHaving;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
@@ -30,9 +30,10 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariants <em>Variants</em>}</li>
- *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getGroup <em>Group</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariabilityType <em>Variability Type</em>}</li>
@@ -40,11 +41,30 @@ import org.splevo.vpm.variability.variabilityPackage;
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getExtensibility <em>Extensibility</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariabilityMechanism <em>Variability Mechanism</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class VariationPointImpl extends MinimalEObjectImpl.Container implements VariationPoint {
+public class VariationPointImpl extends CustomizableNameHavingImpl implements VariationPoint {
+    /**
+     * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDescription()
+     * @generated
+     * @ordered
+     */
+    protected static final String DESCRIPTION_EDEFAULT = "";
+
+    /**
+     * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDescription()
+     * @generated
+     * @ordered
+     */
+    protected String description = DESCRIPTION_EDEFAULT;
+
     /**
      * The cached value of the '{@link #getVariants() <em>Variants</em>}' containment reference list.
      * <!-- begin-user-doc -->
@@ -54,26 +74,6 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * @ordered
      */
     protected EList<Variant> variants;
-
-    /**
-     * The default value of the '{@link #getId() <em>Id</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getId()
-     * @generated
-     * @ordered
-     */
-    protected static final String ID_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getId()
-     * @generated
-     * @ordered
-     */
-    protected String id = ID_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getLocation() <em>Location</em>}' reference.
@@ -179,33 +179,34 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * <!-- end-user-doc -->
      * @generated
      */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setDescription(String newDescription) {
+        String oldDescription = description;
+        description = newDescription;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__DESCRIPTION,
+                    oldDescription, description));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EList<Variant> getVariants() {
         if (variants == null) {
             variants = new EObjectContainmentWithInverseEList<Variant>(Variant.class, this,
                     variabilityPackage.VARIATION_POINT__VARIANTS, variabilityPackage.VARIANT__VARIATION_POINT);
         }
         return variants;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setId(String newId) {
-        String oldId = id;
-        id = newId;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__ID, oldId, id));
     }
 
     /**
@@ -459,10 +460,10 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT__DESCRIPTION:
+            return getDescription();
         case variabilityPackage.VARIATION_POINT__VARIANTS:
             return getVariants();
-        case variabilityPackage.VARIATION_POINT__ID:
-            return getId();
         case variabilityPackage.VARIATION_POINT__LOCATION:
             if (resolve)
                 return getLocation();
@@ -492,12 +493,12 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT__DESCRIPTION:
+            setDescription((String) newValue);
+            return;
         case variabilityPackage.VARIATION_POINT__VARIANTS:
             getVariants().clear();
             getVariants().addAll((Collection<? extends Variant>) newValue);
-            return;
-        case variabilityPackage.VARIATION_POINT__ID:
-            setId((String) newValue);
             return;
         case variabilityPackage.VARIATION_POINT__LOCATION:
             setLocation((SoftwareElement) newValue);
@@ -529,11 +530,11 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT__DESCRIPTION:
+            setDescription(DESCRIPTION_EDEFAULT);
+            return;
         case variabilityPackage.VARIATION_POINT__VARIANTS:
             getVariants().clear();
-            return;
-        case variabilityPackage.VARIATION_POINT__ID:
-            setId(ID_EDEFAULT);
             return;
         case variabilityPackage.VARIATION_POINT__LOCATION:
             setLocation((SoftwareElement) null);
@@ -565,10 +566,10 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT__DESCRIPTION:
+            return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
         case variabilityPackage.VARIATION_POINT__VARIANTS:
             return variants != null && !variants.isEmpty();
-        case variabilityPackage.VARIATION_POINT__ID:
-            return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
         case variabilityPackage.VARIATION_POINT__LOCATION:
             return location != null;
         case variabilityPackage.VARIATION_POINT__GROUP:
@@ -591,13 +592,49 @@ public class VariationPointImpl extends MinimalEObjectImpl.Container implements 
      * @generated
      */
     @Override
+    public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+        if (baseClass == CustomizableDescriptionHaving.class) {
+            switch (derivedFeatureID) {
+            case variabilityPackage.VARIATION_POINT__DESCRIPTION:
+                return variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION;
+            default:
+                return -1;
+            }
+        }
+        return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+        if (baseClass == CustomizableDescriptionHaving.class) {
+            switch (baseFeatureID) {
+            case variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION:
+                return variabilityPackage.VARIATION_POINT__DESCRIPTION;
+            default:
+                return -1;
+            }
+        }
+        return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public String toString() {
         if (eIsProxy())
             return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (id: ");
-        result.append(id);
+        result.append(" (description: ");
+        result.append(description);
         result.append(", variabilityType: ");
         result.append(variabilityType);
         result.append(", bindingTime: ");

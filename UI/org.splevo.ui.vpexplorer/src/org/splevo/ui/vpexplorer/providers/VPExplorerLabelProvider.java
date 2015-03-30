@@ -81,7 +81,7 @@ public class VPExplorerLabelProvider extends LabelProvider {
     public String getText(Object element) {
 
         if (element instanceof VariationPointGroup) {
-            return ((VariationPointGroup) element).getId();
+            return LabelUtils.getItemProviderText(element);
         } else if (element instanceof VariationPoint) {
             return LabelUtils.getItemProviderText(element);
         } else if (element instanceof Variant) {

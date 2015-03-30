@@ -9,30 +9,32 @@
  * Contributors:
  *     Benjamin Klatt
  */
-package org.splevo.vpm.realization.impl;
+package org.splevo.vpm.variability.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.splevo.vpm.realization.RealizationPackage;
-import org.splevo.vpm.realization.VariabilityMechanism;
+
+import org.splevo.vpm.variability.CustomizableNameHaving;
+import org.splevo.vpm.variability.variabilityPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Variability Mechanism</b></em>'.
+ * An implementation of the model object '<em><b>Customizable Name Having</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.splevo.vpm.realization.impl.VariabilityMechanismImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.splevo.vpm.realization.impl.VariabilityMechanismImpl#getRefactoringID <em>Refactoring ID</em>}</li>
+ *   <li>{@link org.splevo.vpm.variability.impl.CustomizableNameHavingImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container implements VariabilityMechanism {
+public abstract class CustomizableNameHavingImpl extends MinimalEObjectImpl.Container implements CustomizableNameHaving {
     /**
      * The default value of the '{@link #getName() <em>Name</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -41,7 +43,7 @@ public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container imple
      * @generated
      * @ordered
      */
-    protected static final String NAME_EDEFAULT = null;
+    protected static final String NAME_EDEFAULT = "";
 
     /**
      * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -54,31 +56,11 @@ public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container imple
     protected String name = NAME_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getRefactoringID() <em>Refactoring ID</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getRefactoringID()
-     * @generated
-     * @ordered
-     */
-    protected static final String REFACTORING_ID_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getRefactoringID() <em>Refactoring ID</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getRefactoringID()
-     * @generated
-     * @ordered
-     */
-    protected String refactoringID = REFACTORING_ID_EDEFAULT;
-
-    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected VariabilityMechanismImpl() {
+    protected CustomizableNameHavingImpl() {
         super();
     }
 
@@ -89,7 +71,7 @@ public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container imple
      */
     @Override
     protected EClass eStaticClass() {
-        return RealizationPackage.Literals.VARIABILITY_MECHANISM;
+        return variabilityPackage.Literals.CUSTOMIZABLE_NAME_HAVING;
     }
 
     /**
@@ -110,30 +92,8 @@ public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container imple
         String oldName = name;
         name = newName;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, RealizationPackage.VARIABILITY_MECHANISM__NAME,
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.CUSTOMIZABLE_NAME_HAVING__NAME,
                     oldName, name));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public String getRefactoringID() {
-        return refactoringID;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setRefactoringID(String newRefactoringID) {
-        String oldRefactoringID = refactoringID;
-        refactoringID = newRefactoringID;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET,
-                    RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID, oldRefactoringID, refactoringID));
     }
 
     /**
@@ -144,10 +104,8 @@ public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container imple
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case RealizationPackage.VARIABILITY_MECHANISM__NAME:
+        case variabilityPackage.CUSTOMIZABLE_NAME_HAVING__NAME:
             return getName();
-        case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
-            return getRefactoringID();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -160,11 +118,8 @@ public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container imple
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case RealizationPackage.VARIABILITY_MECHANISM__NAME:
+        case variabilityPackage.CUSTOMIZABLE_NAME_HAVING__NAME:
             setName((String) newValue);
-            return;
-        case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
-            setRefactoringID((String) newValue);
             return;
         }
         super.eSet(featureID, newValue);
@@ -178,11 +133,8 @@ public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container imple
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-        case RealizationPackage.VARIABILITY_MECHANISM__NAME:
+        case variabilityPackage.CUSTOMIZABLE_NAME_HAVING__NAME:
             setName(NAME_EDEFAULT);
-            return;
-        case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
-            setRefactoringID(REFACTORING_ID_EDEFAULT);
             return;
         }
         super.eUnset(featureID);
@@ -196,11 +148,8 @@ public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container imple
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case RealizationPackage.VARIABILITY_MECHANISM__NAME:
+        case variabilityPackage.CUSTOMIZABLE_NAME_HAVING__NAME:
             return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-        case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
-            return REFACTORING_ID_EDEFAULT == null ? refactoringID != null : !REFACTORING_ID_EDEFAULT
-                    .equals(refactoringID);
         }
         return super.eIsSet(featureID);
     }
@@ -218,10 +167,8 @@ public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container imple
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (name: ");
         result.append(name);
-        result.append(", refactoringID: ");
-        result.append(refactoringID);
         result.append(')');
         return result.toString();
     }
 
-} //VariabilityMechanismImpl
+} //CustomizableNameHavingImpl

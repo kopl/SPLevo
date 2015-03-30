@@ -83,7 +83,7 @@ public class VPMRefinementServiceTest {
                 .size());
 
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
-            if (vpGroup.getId().equals("gcd")) {
+            if (vpGroup.getName().equals("gcd")) {
                 SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getLocation();
                 assertEquals("Wrong enclosing software element", "gcd()", softwareElement.getLabel());
             }
@@ -130,7 +130,7 @@ public class VPMRefinementServiceTest {
                 .size());
 
         for (VariationPointGroup vpGroup : ((VariationPointModel) refinedVPM).getVariationPointGroups()) {
-            if (vpGroup.getId().equals("gcd")) {
+            if (vpGroup.getName().equals("gcd")) {
                 SoftwareElement softwareElement = vpGroup.getVariationPoints().get(0).getLocation();
                 assertEquals("Wrong enclosing software element", "gcd()", softwareElement.getLabel());
             }

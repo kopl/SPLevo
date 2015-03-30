@@ -24,11 +24,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.realization.VariabilityMechanism#getName <em>Name</em>}</li>
  *   <li>{@link org.splevo.vpm.realization.VariabilityMechanism#getRefactoringID <em>Refactoring ID</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.splevo.vpm.realization.RealizationPackage#getVariabilityMechanism()
  * @model

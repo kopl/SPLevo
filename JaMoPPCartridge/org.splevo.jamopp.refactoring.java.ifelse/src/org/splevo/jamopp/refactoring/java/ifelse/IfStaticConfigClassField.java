@@ -99,11 +99,11 @@ public class IfStaticConfigClassField implements VariabilityRefactoring {
 
                 for (Expression value : initialValues) {
                     String variantId = variantIDToInitialValue.get(value);
-                    String groupId = variationPoint.getGroup().getId();
+                    String groupName = variationPoint.getGroup().getName();
 
                     ExpressionStatement fieldAssignment = createFieldAssignment(field, value);
 
-                    Condition condition = RefactoringUtil.createVariabilityCondition(variantId, groupId);
+                    Condition condition = RefactoringUtil.createVariabilityCondition(variantId, groupName);
                     Block ifBlock = (Block) condition.getStatement();
                     ifBlock.getStatements().add(fieldAssignment);
 

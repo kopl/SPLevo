@@ -129,7 +129,7 @@ public class EMFFeatureModelBuilder implements FeatureModelBuilder<FeatureModel>
         parentFeature.getChildren().add(group);
 
         Feature feature = FeatureModelFactory.eINSTANCE.createFeature();
-        feature.setName(variationPointGroup.getId());
+        feature.setName(variationPointGroup.getName());
         feature.setId(EcoreUtil.generateUUID());
         group.getFeatures().add(feature);
 

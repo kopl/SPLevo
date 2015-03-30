@@ -59,7 +59,7 @@ public class FeatureMapperBuilderTestSupport {
 	public VariationPoint withAVariationPointGroupThatHasVariationsAnd(
 			String pointName, VariationPointModel vpm) {
 		VariationPointGroup vpg = factory.createVariationPointGroup();
-		vpg.setId(pointName);
+		vpg.setName(pointName);
 		vpm.getVariationPointGroups().add(vpg);
 
 		EList<VariationPoint> variationPoints = vpg.getVariationPoints();

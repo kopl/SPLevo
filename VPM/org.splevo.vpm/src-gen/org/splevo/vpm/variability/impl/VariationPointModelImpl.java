@@ -23,11 +23,11 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointModelImpl#getVariationPointGroups <em>Variation Point Groups</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointModelImpl#getSoftwareElements <em>Software Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

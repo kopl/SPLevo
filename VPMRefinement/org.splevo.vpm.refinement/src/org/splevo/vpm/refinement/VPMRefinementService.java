@@ -12,6 +12,8 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.base.Strings;
+
 /**
  * Class providing refinement services for a variation point model.
  */
@@ -88,6 +90,10 @@ public class VPMRefinementService {
                 oldGroup.getVariationPoints().remove(vp);
             }
         }
+        
+        if (!Strings.isNullOrEmpty(refinement.getId())) {
+            survivingVP.setName(refinement.getId());
+        }
 
         // clean up empty variation point groups
         LinkedList<VariationPointGroup> vpGroupsToDelete = new LinkedList<VariationPointGroup>();
@@ -131,7 +137,7 @@ public class VPMRefinementService {
             throw new RuntimeException("Tried to apply completely empty grouping.");
         }
 
-        combineGroups(vpm, variationPoints);
+        combineGroups(vpm, variationPoints, refinement.getId());
     }
 
     /**
@@ -140,14 +146,19 @@ public class VPMRefinementService {
      * @param vpm The variation point model to manipulate.
      * @param variationPoints The variation points to combine the groups of.
      */
-    private void combineGroups(VariationPointModel vpm, EList<VariationPoint> variationPoints) {
+    private void combineGroups(VariationPointModel vpm, EList<VariationPoint> variationPoints, String newGroupName) {
         VariationPointGroup survivingGroup = variationPoints.get(0).getGroup();
+        
         for (VariationPoint vp : variationPoints) {
             if (!vp.getGroup().equals(survivingGroup)) {
                 VariationPointGroup oldGroup = vp.getGroup();
                 vp.setGroup(survivingGroup);
                 vpm.getVariationPointGroups().remove(oldGroup);
             }
+        }
+        
+        if (!Strings.isNullOrEmpty(newGroupName)) {
+            survivingGroup.setName(newGroupName);
         }
     }
 }

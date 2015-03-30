@@ -50,7 +50,7 @@ public class variabilitySwitch<T> extends Switch<T> {
      * Checks whether this is a switch for the given package.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @parameter ePackage the package in question.
+     * @param ePackage the package in question.
      * @return whether this is a switch for the given package.
      * @generated
      */
@@ -73,6 +73,10 @@ public class variabilitySwitch<T> extends Switch<T> {
             VariationPoint variationPoint = (VariationPoint) theEObject;
             T result = caseVariationPoint(variationPoint);
             if (result == null)
+                result = caseCustomizableNameHaving(variationPoint);
+            if (result == null)
+                result = caseCustomizableDescriptionHaving(variationPoint);
+            if (result == null)
                 result = defaultCase(theEObject);
             return result;
         }
@@ -93,6 +97,24 @@ public class variabilitySwitch<T> extends Switch<T> {
         case variabilityPackage.VARIATION_POINT_GROUP: {
             VariationPointGroup variationPointGroup = (VariationPointGroup) theEObject;
             T result = caseVariationPointGroup(variationPointGroup);
+            if (result == null)
+                result = caseCustomizableNameHaving(variationPointGroup);
+            if (result == null)
+                result = caseCustomizableDescriptionHaving(variationPointGroup);
+            if (result == null)
+                result = defaultCase(theEObject);
+            return result;
+        }
+        case variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING: {
+            CustomizableDescriptionHaving customizableDescriptionHaving = (CustomizableDescriptionHaving) theEObject;
+            T result = caseCustomizableDescriptionHaving(customizableDescriptionHaving);
+            if (result == null)
+                result = defaultCase(theEObject);
+            return result;
+        }
+        case variabilityPackage.CUSTOMIZABLE_NAME_HAVING: {
+            CustomizableNameHaving customizableNameHaving = (CustomizableNameHaving) theEObject;
+            T result = caseCustomizableNameHaving(customizableNameHaving);
             if (result == null)
                 result = defaultCase(theEObject);
             return result;
@@ -159,6 +181,36 @@ public class variabilitySwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseVariationPointGroup(VariationPointGroup object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Customizable Description Having</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Customizable Description Having</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseCustomizableDescriptionHaving(CustomizableDescriptionHaving object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Customizable Name Having</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Customizable Name Having</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseCustomizableNameHaving(CustomizableNameHaving object) {
         return null;
     }
 

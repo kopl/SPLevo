@@ -8,19 +8,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedImage;
-import org.eclipse.emf.edit.provider.IChildCreationExtender;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.software.SoftwareElement;
@@ -36,8 +28,7 @@ import com.google.common.base.Strings;
  * <!-- begin-user-doc --> <!-- end-user-doc -->
  * @generated
  */
-public class VariationPointItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
-        IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class VariationPointItemProvider extends CustomizableNameHavingItemProvider {
     /**
      * This constructs an instance from a factory and a notifier.
      * <!-- begin-user-doc --> <!--
@@ -59,7 +50,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
-            addIdPropertyDescriptor(object);
+            addDescriptionPropertyDescriptor(object);
             addLocationPropertyDescriptor(object);
             addVariabilityTypePropertyDescriptor(object);
             addBindingTimePropertyDescriptor(object);
@@ -69,19 +60,21 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
     }
 
     /**
-     * This adds a property descriptor for the Id feature.
+     * This adds a property descriptor for the Description feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    protected void addIdPropertyDescriptor(Object object) {
+    protected void addDescriptionPropertyDescriptor(Object object) {
         itemPropertyDescriptors.add(createItemPropertyDescriptor(
                 ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
                 getResourceLocator(),
-                getString("_UI_VariationPoint_id_feature"),
-                getString("_UI_PropertyDescriptor_description", "_UI_VariationPoint_id_feature",
-                        "_UI_VariationPoint_type"), variabilityPackage.Literals.VARIATION_POINT__ID, true, false,
-                false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+                getString("_UI_CustomizableDescriptionHaving_description_feature"),
+                getString("_UI_PropertyDescriptor_description",
+                        "_UI_CustomizableDescriptionHaving_description_feature",
+                        "_UI_CustomizableDescriptionHaving_type"),
+                variabilityPackage.Literals.CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION, true, false, false,
+                ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -223,7 +216,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         StringBuilder label = new StringBuilder();
 
         VariationPoint vp = (VariationPoint) object;
-        if (Strings.isNullOrEmpty(vp.getId())) {
+        if (Strings.isNullOrEmpty(vp.getName())) {
             label.append(getString("_UI_VariationPoint_type"));
             label.append(" in ");
             SoftwareElement enclosingElement = vp.getLocation();
@@ -233,7 +226,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
                 label.append("[TOP LEVEL]");
             }
         } else {
-            label.append(vp.getId());
+            label.append(vp.getName());
         }
 
         return label.toString();
@@ -250,7 +243,7 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         updateChildren(notification);
 
         switch (notification.getFeatureID(VariationPoint.class)) {
-        case variabilityPackage.VARIATION_POINT__ID:
+        case variabilityPackage.VARIATION_POINT__DESCRIPTION:
         case variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE:
         case variabilityPackage.VARIATION_POINT__BINDING_TIME:
         case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
@@ -280,17 +273,6 @@ public class VariationPointItemProvider extends ItemProviderAdapter implements I
         newChildDescriptors.add(createChildParameter(
                 variabilityPackage.Literals.VARIATION_POINT__VARIABILITY_MECHANISM,
                 RealizationFactory.eINSTANCE.createVariabilityMechanism()));
-    }
-
-    /**
-     * Return the resource locator for this item provider's resources.
-     * <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * @generated
-     */
-    @Override
-    public ResourceLocator getResourceLocator() {
-        return ((IChildCreationExtender) adapterFactory).getResourceLocator();
     }
 
 }

@@ -108,9 +108,9 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implemen
         VariationPoint variationPoint = variant.getVariationPoint();
 
         String variantId = variant.getId();
-        String groupId = variationPoint.getGroup().getId();
+        String groupName = variationPoint.getGroup().getName();
 
-        Condition currentCondition = RefactoringUtil.createVariabilityCondition(variantId, groupId);
+        Condition currentCondition = RefactoringUtil.createVariabilityCondition(variantId, groupName);
 
         for (SoftwareElement se : variant.getImplementingElements()) {
             Statement originalStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();

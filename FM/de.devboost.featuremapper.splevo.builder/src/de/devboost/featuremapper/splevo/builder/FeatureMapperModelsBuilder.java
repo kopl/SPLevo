@@ -185,7 +185,7 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
         parentFeature.getGroups().add(group);
 
         Feature feature = FeatureFactory.eINSTANCE.createFeature();
-        feature.setName(variationPointGroup.getId());
+        feature.setName(variationPointGroup.getName());
         // feature.setId(EcoreUtil.generateUUID());
         group.getChildFeatures().add(feature);
 

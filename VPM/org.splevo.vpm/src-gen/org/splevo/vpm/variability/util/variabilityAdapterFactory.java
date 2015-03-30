@@ -89,6 +89,16 @@ public class variabilityAdapterFactory extends AdapterFactoryImpl {
         }
 
         @Override
+        public Adapter caseCustomizableDescriptionHaving(CustomizableDescriptionHaving object) {
+            return createCustomizableDescriptionHavingAdapter();
+        }
+
+        @Override
+        public Adapter caseCustomizableNameHaving(CustomizableNameHaving object) {
+            return createCustomizableNameHavingAdapter();
+        }
+
+        @Override
         public Adapter defaultCase(EObject object) {
             return createEObjectAdapter();
         }
@@ -160,6 +170,34 @@ public class variabilityAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createVariationPointGroupAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.vpm.variability.CustomizableDescriptionHaving <em>Customizable Description Having</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.vpm.variability.CustomizableDescriptionHaving
+     * @generated
+     */
+    public Adapter createCustomizableDescriptionHavingAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.vpm.variability.CustomizableNameHaving <em>Customizable Name Having</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.vpm.variability.CustomizableNameHaving
+     * @generated
+     */
+    public Adapter createCustomizableNameHavingAdapter() {
         return null;
     }
 

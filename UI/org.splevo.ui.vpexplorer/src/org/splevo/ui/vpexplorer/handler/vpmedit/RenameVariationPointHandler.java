@@ -29,7 +29,7 @@ public class RenameVariationPointHandler extends RenameVariationPointElementHand
         }
 
         RenameEObjectEAttributeWrapper wrapper = new RenameEObjectEAttributeWrapper("Variation Point",
-                (VariationPoint) selectedObject, variabilityPackage.eINSTANCE.getVariationPoint_Id());
+                (VariationPoint) selectedObject, variabilityPackage.eINSTANCE.getCustomizableNameHaving_Name());
 
         return new RenameElementWizard(wrapper);
     }

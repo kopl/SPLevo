@@ -15,13 +15,13 @@ import org.splevo.vpm.software.SourceLocation;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.software.impl.SourceLocationImpl#getFilePath <em>File Path</em>}</li>
  *   <li>{@link org.splevo.vpm.software.impl.SourceLocationImpl#getStartLine <em>Start Line</em>}</li>
  *   <li>{@link org.splevo.vpm.software.impl.SourceLocationImpl#getStartPosition <em>Start Position</em>}</li>
  *   <li>{@link org.splevo.vpm.software.impl.SourceLocationImpl#getEndPosition <em>End Position</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
