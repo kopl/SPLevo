@@ -14,13 +14,12 @@ package org.splevo.ui.commons.wizard.rename;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.splevo.ui.commons.util.LabelUtils;
+import org.splevo.ui.commons.wizard.EObjectEAttributeWrapper;
 
 /**
  * Wrapper for EObject elements that are renamed via an EAttribute.
  */
-public class RenameEObjectEAttributeWrapper extends RenameEObjectWrapper<EObject> {
-
-    private final EAttribute nameAttribute;
+public class RenameEObjectEAttributeWrapper extends EObjectEAttributeWrapper<String> {
 
     /**
      * Constructs a new wrapper for an EObject that is renamed via an EAttribute.
@@ -29,18 +28,12 @@ public class RenameEObjectEAttributeWrapper extends RenameEObjectWrapper<EObject
      * @param nameAttribute The EAttribute that will hold the new name.
      */
     public RenameEObjectEAttributeWrapper(String typeName, EObject elementToRename, EAttribute nameAttribute) {
-        super(typeName, elementToRename);
-        this.nameAttribute = nameAttribute;
+        super(typeName, elementToRename, nameAttribute);
     }
 
     @Override
-    public String getElementName() {
+    public String getAttributeValue() {
         return LabelUtils.getItemProviderText(getElement());
-    }
-
-    @Override
-    public void setElementName(String newName) {
-        getElement().eSet(nameAttribute, newName);
     }
 
 }

@@ -9,50 +9,45 @@
  * Contributors:
  *    Stephan Seifermann
  *******************************************************************************/
-package org.splevo.ui.commons.wizard.rename;
+package org.splevo.ui.commons.wizard;
 
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
-import org.splevo.ui.commons.util.LabelUtils;
 
 /**
- * Wrapper for EObject elements about to be renamed.
+ * Wrapper for an EObject whichs attribute is about to be changed.
  *
- * @param <T> The type of the renamed element.
+ * @param <ElementType> The type of the element about to be changed
+ * @param <AttributeType> The type of the attribute about to be changed.
  */
-public abstract class RenameEObjectWrapper<T extends EObject> implements RenameElementWrapper {
+public abstract class ChangeSingleAttributeEObjectWrapper<ElementType extends EObject, AttributeType> implements ChangeSingleAttributeElementWrapper<AttributeType> {
 
-    private static final Logger LOGGER = Logger.getLogger(RenameElementWrapper.class);
+    private static final Logger LOGGER = Logger.getLogger(ChangeSingleAttributeElementWrapper.class);
     private final String typeName;
-    private final T element;
+    private final ElementType element;
     
     /**
      * Constructs a new wrapper for EObjects.
-     * @param typeName The type name of the element to be renamed.
-     * @param elementToRename The element to be renamed.
+     * @param typeName The type name of the changed element.
+     * @param elementToRename The element to be changed.
      */
-    protected RenameEObjectWrapper(String typeName, T elementToRename) {
+    protected ChangeSingleAttributeEObjectWrapper(String typeName, ElementType elementToRename) {
         this.element = elementToRename;
         this.typeName = typeName;
     }
     
     /**
-     * @return The element to be renamed.
+     * @return The element to be changed.
      */
-    protected T getElement() {
+    protected ElementType getElement() {
         return element;
     }
 
     @Override
-    public String getElementToRenameTypeName() {
+    public String getElementTypeName() {
         return typeName;
-    }
-    
-    @Override
-    public String getElementName() {
-        return LabelUtils.getItemProviderText(element);
     }
 
     /**
@@ -62,7 +57,7 @@ public abstract class RenameEObjectWrapper<T extends EObject> implements RenameE
         try {
             element.eResource().save(null);
         } catch (IOException e) {
-            LOGGER.error("Could not save new name!", e);
+            LOGGER.error("Could not save element!", e);
             e.printStackTrace();
         }
     }

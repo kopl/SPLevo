@@ -20,7 +20,7 @@ import org.splevo.vpm.variability.variabilityPackage;
 /**
  * Handler to rename the selected variation point group.
  */
-public class RenameVariationPointGroupHandler extends RenameVariationPointElementHandler {
+public class RenameVariationPointGroupHandler extends ChangeSingleElementHandler {
 
     @Override
     protected Wizard createWizardFor(Object selectedObject) {

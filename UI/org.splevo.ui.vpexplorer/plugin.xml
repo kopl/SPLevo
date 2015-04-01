@@ -165,6 +165,15 @@
       </command>
    </extension>
    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.splevo.ui.vpexplorer.handler.vpmedit.EditVariationPointDescriptionHandler"
+            description="Edits the description of a Variation Point."
+            id="org.splevo.ui.vpexplorer.editdescription.vp"
+            name="Edit Description">
+      </command>
+   </extension>
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any">
@@ -313,6 +322,25 @@
                label="Rename"
                style="push"
                tooltip="Renames the currently selected Variation Point">
+            <visibleWhen
+                  checkEnabled="true">
+               <and>
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
+                     </instanceof>
+                  </iterate>
+               </and>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.splevo.ui.vpexplorer.editdescription.vp"
+               label="Edit Description"
+               style="push"
+               tooltip="Edits the description of the currently selected Variation Point.">
             <visibleWhen
                   checkEnabled="true">
                <and>

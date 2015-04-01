@@ -12,26 +12,27 @@
 package org.splevo.ui.vpexplorer.handler.vpmedit;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.splevo.ui.commons.wizard.rename.RenameEObjectEAttributeWrapper;
-import org.splevo.ui.commons.wizard.rename.RenameElementWizard;
-import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.ui.commons.wizard.EObjectEAttributeWrapper;
+import org.splevo.ui.commons.wizard.description.EditCustomizableDescriptionWizard;
+import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.variabilityPackage;
 
 /**
- * Handler to rename the selected variation point.
+ * Handler to edit the description of a variation point group.
  */
-public class RenameVariationPointHandler extends ChangeSingleElementHandler {
+public class EditVariationPointGroupDescriptionHandler extends ChangeSingleElementHandler {
 
     @Override
     protected Wizard createWizardFor(Object selectedObject) {
-        if (!(selectedObject instanceof VariationPoint)) {
+        if (!(selectedObject instanceof VariationPointGroup)) {
             return null;
         }
 
-        RenameEObjectEAttributeWrapper wrapper = new RenameEObjectEAttributeWrapper("Variation Point",
-                (VariationPoint) selectedObject, variabilityPackage.eINSTANCE.getCustomizableNameHaving_Name());
+        EObjectEAttributeWrapper<String> wrapper = new EObjectEAttributeWrapper<String>("Variation Point Group",
+                (VariationPointGroup) selectedObject,
+                variabilityPackage.eINSTANCE.getCustomizableDescriptionHaving_Description());
 
-        return new RenameElementWizard(wrapper);
+        return new EditCustomizableDescriptionWizard(wrapper);
     }
 
 }

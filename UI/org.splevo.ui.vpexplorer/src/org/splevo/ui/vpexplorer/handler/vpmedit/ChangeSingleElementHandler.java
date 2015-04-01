@@ -23,12 +23,12 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.splevo.ui.commons.wizard.WizardRunner;
 
 /**
- * Handler to rename the selected variation point model element.
+ * Handler for changes on single elements.
  * 
  */
-public abstract class RenameVariationPointElementHandler extends AbstractHandler {
+public abstract class ChangeSingleElementHandler extends AbstractHandler {
     
-    private static Logger logger = Logger.getLogger(RenameVariationPointElementHandler.class);
+    private static Logger logger = Logger.getLogger(ChangeSingleElementHandler.class);
     
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -48,14 +48,14 @@ public abstract class RenameVariationPointElementHandler extends AbstractHandler
             return null; // only one element may be selected
         }
 
-        Wizard vpRenameWizard = createWizardFor(strucSelection.getFirstElement());
-        if (vpRenameWizard == null) {
+        Wizard changeElementWizard = createWizardFor(strucSelection.getFirstElement());
+        if (changeElementWizard == null) {
             return null;
         }
         logger.debug("Selection is of right type!");
         
-        if (!WizardRunner.run(vpRenameWizard)) {
-            logger.debug("Variation Point rename canceled");
+        if (!WizardRunner.run(changeElementWizard)) {
+            logger.debug(String.format("%s canceled", changeElementWizard.getClass().getSimpleName()));
         }
 
         return null;

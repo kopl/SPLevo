@@ -7,72 +7,34 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Christian Busch
  *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.commons.wizard.rename;
 
-import org.eclipse.jface.wizard.Wizard;
+import org.splevo.ui.commons.wizard.ChangeSingleAttributeElementWrapper;
+import org.splevo.ui.commons.wizard.ChangeSingleAttributeWizard;
+import org.splevo.ui.commons.wizard.StringValueConverter;
 
 /**
- * This wizard allows the renaming of an element.
+ * Wizard for renaming an element.
  */
-public class RenameElementWizard extends Wizard {
-
-    private final boolean persistChange;
-    private final RenameElementWizardPage page;
-    private final RenameElementWrapper elementToRename;
+public class RenameElementWizard extends ChangeSingleAttributeWizard<String> {
 
     /**
-     * Instantiates a new wizard for renaming an element.
-     * 
-     * @param elementToRename
-     *            The element to rename
+     * Constructs a new renaming wizard.
+     * @param elementToRename The element to be renamed.
      */
-    public RenameElementWizard(RenameElementWrapper elementToRename) {
+    public RenameElementWizard(ChangeSingleAttributeElementWrapper<String> elementToRename) {
         this(elementToRename, true);
     }
-    
+
     /**
-     * Instantiates a new wizard for renaming an element.
-     * 
-     * @param elementToRename
-     *            The element to rename
-     * @param persistChange
-     *            Indicates if the changes shall be persisted afterwards (true is default).
+     * Constructs a new renaming wizard.
+     * @param elementToRename The element to be renamed.
+     * @param persistChange Indicates whether the change shall be persisted.
      */
-    public RenameElementWizard(RenameElementWrapper elementToRename, boolean persistChange) {
-        this.elementToRename = elementToRename;
-        this.persistChange = persistChange;
-        page = new RenameElementWizardPage(elementToRename.getElementToRenameTypeName(),
-                elementToRename.getElementName());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.wizard.Wizard#performFinish()
-     */
-    @Override
-    public boolean performFinish() {
-        assert (!page.getNewName().equals(""));
-
-        elementToRename.setElementName(page.getNewName());
-        if (persistChange) {
-            elementToRename.persistChange();
-        }
-
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.wizard.Wizard#addPages()
-     */
-    @Override
-    public void addPages() {
-        addPage(page);
+    public RenameElementWizard(ChangeSingleAttributeElementWrapper<String> elementToRename, boolean persistChange) {
+        super(elementToRename, "name", false, new StringValueConverter(), persistChange);
     }
 
 }
