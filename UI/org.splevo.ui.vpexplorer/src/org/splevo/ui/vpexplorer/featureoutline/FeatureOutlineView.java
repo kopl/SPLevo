@@ -13,7 +13,9 @@
 package org.splevo.ui.vpexplorer.featureoutline;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.explorer.ExplorerMediator;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
@@ -64,6 +66,12 @@ public class FeatureOutlineView extends CommonNavigator {
      */
     public void setVPM(VariationPointModel vpm) {
         this.vpExplorerContent.setVpm(vpm);
+    }
+
+    @Override
+    public void createPartControl(Composite aParent) {
+        super.createPartControl(aParent);
+        new CustomizableDescriptionHavingTreeViewerToolTip(getCommonViewer());
     }
 
     @Override

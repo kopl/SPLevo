@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.jface,
  com.google.guava;bundle-version="15.0.0",
  org.eclipse.emf.edit,
  org.eclipse.emf.edit.ui,
- org.apache.commons.lang;bundle-version="2.6.0"
+ org.apache.commons.lang;bundle-version="2.6.0",
+ org.splevo.vpm
 Export-Package: org.splevo.ui.commons.tooltip,
  org.splevo.ui.commons.util,
  org.splevo.ui.commons.wizard,

@@ -27,14 +27,13 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
-import org.splevo.ui.commons.tooltip.TreeViewerToolTip;
+import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
 import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
@@ -42,7 +41,6 @@ import org.splevo.ui.refinementbrowser.listener.HighlightConnectedVPListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementInfoSelectionListener;
 import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.refinement.Refinement;
-import org.splevo.vpm.variability.CustomizableDescriptionHaving;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -292,34 +290,7 @@ public class RefinementDetailsView extends Composite {
     }
 
     private void initToolTips(TreeViewer viewer) {
-        new TreeViewerToolTip(viewer, CustomizableDescriptionHaving.class) {
-
-            @Override
-            protected boolean shouldCreateToolTip(Event event) {
-                if (!super.shouldCreateToolTip(event)) {
-                    return false;
-                }
-                
-                CustomizableDescriptionHaving item = getCorrectlyTypedItem(event, CustomizableDescriptionHaving.class);
-                if (Strings.isNullOrEmpty(item.getDescription())) {
-                    return false;
-                }
-                
-                return true;
-            }
-            
-            @Override
-            protected String getText(Event event) {
-                CustomizableDescriptionHaving item = getCorrectlyTypedItem(event, CustomizableDescriptionHaving.class);
-                return item.getDescription();
-            }
-
-            @Override
-            protected String getToolTipHeading(Event event) {
-                return "Description";
-            }
-
-        };
+        new CustomizableDescriptionHavingTreeViewerToolTip(viewer);
     }
 
 

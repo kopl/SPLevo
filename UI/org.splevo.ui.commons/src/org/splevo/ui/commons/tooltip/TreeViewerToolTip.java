@@ -51,7 +51,6 @@ public abstract class TreeViewerToolTip extends DefaultToolTip {
         this.viewer = viewer;
         this.relevantItemTypes = relevantItemTypes;
         this.setShift(new Point(12, 0));
-        this.setStyle(SWT.WRAP | SWT.MULTI | SWT.READ_ONLY | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
         this.setRespectDisplayBounds(true);
         this.setRespectMonitorBounds(true);
     }
