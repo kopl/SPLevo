@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.jface,
  org.eclipse.emf.edit,
  org.eclipse.emf.edit.ui,
  org.apache.commons.lang;bundle-version="2.6.0"
-Export-Package: org.splevo.ui.commons.util,
+Export-Package: org.splevo.ui.commons.tooltip,
+ org.splevo.ui.commons.util,
  org.splevo.ui.commons.wizard,
  org.splevo.ui.commons.wizard.description,
  org.splevo.ui.commons.wizard.rename

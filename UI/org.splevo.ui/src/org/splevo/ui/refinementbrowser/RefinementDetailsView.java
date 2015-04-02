@@ -27,12 +27,14 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
+import org.splevo.ui.commons.tooltip.TreeViewerToolTip;
 import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
 import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
@@ -40,6 +42,7 @@ import org.splevo.ui.refinementbrowser.listener.HighlightConnectedVPListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementInfoSelectionListener;
 import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.refinement.Refinement;
+import org.splevo.vpm.variability.CustomizableDescriptionHaving;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -66,7 +69,7 @@ public class RefinementDetailsView extends Composite {
 
     /**
      * Constructor to create the view.
-     *
+     * 
      * @param parent
      *            The parent ui element to present the view in.
      * @param site
@@ -88,6 +91,7 @@ public class RefinementDetailsView extends Composite {
         refinementDetailsTreeViewer.addSelectionChangedListener(new RefinementInfoSelectionListener(this));
         refinementDetailsTreeViewer.addSelectionChangedListener(new HighlightConnectedVPListener());
         initContextMenu(refinementDetailsTreeViewer, site);
+        initToolTips(refinementDetailsTreeViewer);
 
         SashForm detailsArea = new SashForm(sashForm, SWT.FILL);
         detailsArea.setSashWidth(1);
@@ -108,7 +112,7 @@ public class RefinementDetailsView extends Composite {
 
     /**
      * Enables or disables the control.
-     *
+     * 
      * @param enable
      *            <code>true</code> to enable; <code>false</code> to disable.
      */
@@ -118,7 +122,7 @@ public class RefinementDetailsView extends Composite {
 
     /**
      * Create contents of the details page.
-     *
+     * 
      * @param parent
      *            The parent ui element to create the view in.
      */
@@ -129,7 +133,7 @@ public class RefinementDetailsView extends Composite {
 
     /**
      * Trigger the presentation of a specific refinement in the view.
-     *
+     * 
      * @param refinement
      *            The refinement to show.
      */
@@ -141,9 +145,9 @@ public class RefinementDetailsView extends Composite {
 
     /**
      * Display an info about a refinement.<br>
-     *
+     * 
      * Allows for setting headline and sub headline which will have a specific styling.
-     *
+     * 
      * @param headline
      *            A headline to be displayed
      * @param subHeadline
@@ -235,7 +239,7 @@ public class RefinementDetailsView extends Composite {
         /**
          * Get the text label for a supplied element. Adapted to interpret the information of the
          * specific type (VariationPoint, Variant, etc.)
-         *
+         * 
          * {@inheritDoc}
          */
         @Override
@@ -251,13 +255,13 @@ public class RefinementDetailsView extends Composite {
 
     /**
      * initialize the context menu.
-     *
+     * 
      * DesignDecision Menu created programaticaly instead of extension point to prevent context menu
      * mess up by other plugins.
-     *
+     * 
      * DesignDecision Reused command for common look and feel of context menu item for complete
      * application
-     *
+     * 
      * @param viewer
      *            The viewer to register menu for.
      * @param site
@@ -281,10 +285,42 @@ public class RefinementDetailsView extends Composite {
                 .getImageDescriptor("icons/jcu_obj.gif")));
         menuManager.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan",
                 SPLevoUIPlugin.getImageDescriptor("icons/kopl_circle_only.png")));
-        
+
         Menu menu = menuManager.createContextMenu(viewer.getTree());
         viewer.getTree().setMenu(menu);
         site.setSelectionProvider(viewer);
-
     }
+
+    private void initToolTips(TreeViewer viewer) {
+        new TreeViewerToolTip(viewer, CustomizableDescriptionHaving.class) {
+
+            @Override
+            protected boolean shouldCreateToolTip(Event event) {
+                if (!super.shouldCreateToolTip(event)) {
+                    return false;
+                }
+                
+                CustomizableDescriptionHaving item = getCorrectlyTypedItem(event, CustomizableDescriptionHaving.class);
+                if (Strings.isNullOrEmpty(item.getDescription())) {
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            @Override
+            protected String getText(Event event) {
+                CustomizableDescriptionHaving item = getCorrectlyTypedItem(event, CustomizableDescriptionHaving.class);
+                return item.getDescription();
+            }
+
+            @Override
+            protected String getToolTipHeading(Event event) {
+                return "Description";
+            }
+
+        };
+    }
+
+
 }

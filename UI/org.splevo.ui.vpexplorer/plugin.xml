@@ -172,6 +172,12 @@
             id="org.splevo.ui.vpexplorer.editdescription.vp"
             name="Edit Description">
       </command>
+      <command
+            defaultHandler="org.splevo.ui.vpexplorer.handler.vpmedit.EditVariationPointGroupDescriptionHandler"
+            description="Edits the description of a Variation Point Group."
+            id="org.splevo.ui.vpexplorer.editdescription.vpg"
+            name="Edit Description">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -350,6 +356,25 @@
                   <iterate>
                      <instanceof
                            value="org.splevo.vpm.variability.VariationPoint">
+                     </instanceof>
+                  </iterate>
+               </and>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.splevo.ui.vpexplorer.editdescription.vpg"
+               label="Edit Description"
+               style="push"
+               tooltip="Edits the description of the currently selected Variation Point Group.">
+            <visibleWhen
+                  checkEnabled="true">
+               <and>
+                  <count
+                        value="1">
+                  </count>
+                  <iterate>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPointGroup">
                      </instanceof>
                   </iterate>
                </and>
