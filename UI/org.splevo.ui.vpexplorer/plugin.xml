@@ -73,6 +73,28 @@
                   value="org.splevo.ui.vpexplorer.explorer.VPExplorerContent">
             </instanceof>
          </triggerPoints>
+         <possibleChildren>
+            <or>
+               <instanceof
+                     value="org.splevo.vpm.software.SoftwareElement">
+               </instanceof>
+               <instanceof
+                     value="org.splevo.vpm.variability.Variant">
+               </instanceof>
+               <instanceof
+                     value="org.splevo.ui.vpexplorer.providers.FileWrapper">
+               </instanceof>
+               <instanceof
+                     value="java.io.File">
+               </instanceof>
+               <instanceof
+                     value="org.splevo.vpm.variability.VariationPointGroup">
+               </instanceof>
+               <instanceof
+                     value="org.splevo.vpm.variability.VariationPoint">
+               </instanceof>
+            </or>
+         </possibleChildren>
       </navigatorContent>
       <navigatorContent
             contentProvider="org.splevo.ui.vpexplorer.featureoutline.FeatureOutlineContentProvider"
@@ -84,6 +106,16 @@
                   value="org.splevo.ui.vpexplorer.explorer.VPExplorerContent">
             </instanceof>
          </triggerPoints>
+         <possibleChildren>
+            <or>
+               <instanceof
+                     value="org.splevo.vpm.variability.VariationPointGroup">
+               </instanceof>
+               <instanceof
+                     value="org.splevo.vpm.variability.VariationPoint">
+               </instanceof>
+            </or>
+         </possibleChildren>
       </navigatorContent>
    </extension>
 

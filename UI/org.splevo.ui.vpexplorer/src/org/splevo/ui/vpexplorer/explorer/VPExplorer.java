@@ -13,6 +13,7 @@ package org.splevo.ui.vpexplorer.explorer;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.navigator.CommonNavigator;
@@ -21,12 +22,14 @@ import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction.MODE;
 import org.splevo.ui.vpexplorer.explorer.actions.SelectVisibleAction;
+import org.splevo.ui.vpexplorer.linking.ILinkableNavigator;
+import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * The VPExplorer displays a VP model in a tree structure.
  */
-public class VPExplorer extends CommonNavigator {
+public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
 
     /** Id to reference the view inside eclipse. */
     public static final String VIEW_ID = "org.splevo.ui.vpexplorer";
@@ -82,6 +85,7 @@ public class VPExplorer extends CommonNavigator {
             toolBar.add(new ExpandAllAction(this, MODE.VARIATIONPOINT));
             toolBar.add(new SelectVisibleAction(this));
         }
+        getCommonViewer().addSelectionChangedListener(mediator);
     }
 
     /**
@@ -123,4 +127,18 @@ public class VPExplorer extends CommonNavigator {
         super.dispose();
     }
 
+    @Override
+    public void elementSelectedInOtherNavigator(Object selectedElement) {
+        if (!this.isLinkingEnabled()) {
+            return;
+        }
+        
+        if (!(selectedElement instanceof VariationPoint)) {
+            return;
+        }
+        
+        ITreeContentProvider contentProvider = getNavigatorContentService().createCommonContentProvider();
+        ILinkableNavigatorHelper.expandToObject(getCommonViewer(), contentProvider, (VariationPoint) selectedElement);
+    }
+    
 }

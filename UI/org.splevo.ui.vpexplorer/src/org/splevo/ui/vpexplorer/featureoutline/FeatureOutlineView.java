@@ -13,18 +13,21 @@
 package org.splevo.ui.vpexplorer.featureoutline;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.explorer.ExplorerMediator;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
+import org.splevo.ui.vpexplorer.linking.ILinkableNavigator;
+import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * The Class VPGroupingExplorer.
  */
-public class FeatureOutlineView extends CommonNavigator {
+public class FeatureOutlineView extends CommonNavigator implements ILinkableNavigator {
 
     /** Id to reference the view inside eclipse. */
     public static final String VIEW_ID = "org.splevo.ui.vpexplorer.featureoutline";
@@ -72,11 +75,26 @@ public class FeatureOutlineView extends CommonNavigator {
     public void createPartControl(Composite aParent) {
         super.createPartControl(aParent);
         new CustomizableDescriptionHavingTreeViewerToolTip(getCommonViewer());
+        getCommonViewer().addSelectionChangedListener(mediator);
     }
 
     @Override
     public void dispose() {
         mediator.deregisterVPGRoupingExplorer();
         super.dispose();
+    }
+
+    @Override
+    public void elementSelectedInOtherNavigator(Object selectedElement) {
+        if (!this.isLinkingEnabled()) {
+            return;
+        }
+        
+        if (!(selectedElement instanceof VariationPoint)) {
+            return;
+        }
+        
+        ITreeContentProvider contentProvider = getNavigatorContentService().createCommonContentProvider();
+        ILinkableNavigatorHelper.expandToObject(getCommonViewer(), contentProvider, (VariationPoint) selectedElement);
     }
 }

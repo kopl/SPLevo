@@ -13,6 +13,9 @@
 package org.splevo.ui.vpexplorer.explorer;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -24,7 +27,7 @@ import org.splevo.vpm.variability.VariationPointModel;
 /**
  * This mediator coordinates the interactions between a VP explorer and a VP grouping explorer.
  */
-public class ExplorerMediator {
+public class ExplorerMediator implements ISelectionChangedListener {
 
     private static Logger logger = Logger.getLogger(ExplorerMediator.class);
 
@@ -56,6 +59,7 @@ public class ExplorerMediator {
      */
     public void registerVPGroupingExplorer(FeatureOutlineView groupingExplorer) {
         this.vpGroupingExplorer = groupingExplorer;
+        
     }
 
     /**
@@ -98,4 +102,21 @@ public class ExplorerMediator {
             }
         });
     }
+
+    @Override
+    public void selectionChanged(SelectionChangedEvent event) {
+        if (!(event.getSelection() instanceof IStructuredSelection)) {
+            return;
+        }
+        IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+        
+        if (vpExplorer != null && event.getSource() != vpExplorer.getCommonViewer()) {
+            vpExplorer.elementSelectedInOtherNavigator(selection.getFirstElement());
+        }
+        
+        if (vpGroupingExplorer != null && event.getSource() != vpGroupingExplorer.getCommonViewer()) {
+            vpGroupingExplorer.elementSelectedInOtherNavigator(selection.getFirstElement());
+        }
+    }
+
 }
