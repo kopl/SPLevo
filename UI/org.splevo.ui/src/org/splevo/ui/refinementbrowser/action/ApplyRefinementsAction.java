@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser.action;
 
@@ -38,7 +39,7 @@ import org.splevo.vpm.variability.VariationPointModel;
 public class ApplyRefinementsAction extends Action {
 
     /** The refinement viewer to access the selected refinements. */
-    private VPMRefinementBrowser vpmRefinementBrowser = null;
+    protected final VPMRefinementBrowser vpmRefinementBrowser;
 
     /**
      * Constructor requiring a reference to the viewer to get the refinements to be executed from as
@@ -64,7 +65,7 @@ public class ApplyRefinementsAction extends Action {
     @Override
     public void runWithEvent(Event event) {
 
-        List<Refinement> refinements = this.vpmRefinementBrowser.getRefinementModel().getRefinements();
+        List<Refinement> refinements = getRefinementsFromRefinementBrowser();
 
         // handle an empty selection by asking the user how to proceed
         if (refinements.size() == 0) {
@@ -77,13 +78,22 @@ public class ApplyRefinementsAction extends Action {
         } else {
             VPMRefinementWorkflowConfiguration config = buildWorflowConfiguration(refinements);
             VPMRefinementWorkflowDelegate delegate = new VPMRefinementWorkflowDelegate(config);
-            WorkflowListenerUtil.runWorkflowAndUpdateUI(delegate, "Apply Refinements", config.getSplevoProjectEditor());
+            WorkflowListenerUtil.runWorkflowAndUpdateUI(delegate, getText(), config.getSplevoProjectEditor());
         }
 
         // close the browser
         IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
         IWorkbenchPage page = window.getActivePage();
         page.closeEditor(vpmRefinementBrowser, false);
+    }
+    
+    /**
+     * Retrieves the refinements to be processed from the refinements browser.
+     * 
+     * @return The list of refinements to be processed.
+     */
+    protected List<Refinement> getRefinementsFromRefinementBrowser() {
+        return this.vpmRefinementBrowser.getRefinementModel().getRefinements();
     }
 
     /**

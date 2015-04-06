@@ -12,12 +12,18 @@
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -37,6 +43,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.refinementbrowser.action.ApplyRefinementsAction;
+import org.splevo.ui.refinementbrowser.action.ApplySelectedRefinementsAction;
 import org.splevo.ui.refinementbrowser.action.CancelAction;
 import org.splevo.ui.refinementbrowser.action.DeleteRefinementAction;
 import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
@@ -45,6 +52,7 @@ import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementActionBarListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementInfoSelectionListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementSelectionListener;
+import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
 
 /***
@@ -94,6 +102,7 @@ public class VPMRefinementBrowser extends EditorPart {
         form.setText("SPLevo Refinement Browser");
         toolkit.decorateFormHeading(form);
         form.getMenuManager().add(new ApplyRefinementsAction(this, "Apply Refinements"));
+        form.getMenuManager().add(new ApplySelectedRefinementsAction(this, "Apply Selected Refinements"));
         form.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
         SashForm sashForm = new SashForm(form.getBody(), SWT.FILL);
@@ -115,6 +124,7 @@ public class VPMRefinementBrowser extends EditorPart {
 
         ToolBarManager manager = (ToolBarManager) form.getToolBarManager();
         manager.add(new ApplyRefinementsAction(this, "Apply Refinements"));
+        manager.add(new ApplySelectedRefinementsAction(this, "Apply Selected Refinements"));
         manager.add(new CancelAction(this, "Cancel and close"));
         IMenuService menuService = (IMenuService) getSite().getService(IMenuService.class);
         menuService.populateContributionManager(manager, "popup:formsToolBar");
@@ -145,6 +155,31 @@ public class VPMRefinementBrowser extends EditorPart {
         return input.getRefinementModel();
     }
 
+    /**
+     * Determines the refinements that are selected in the main view.
+     * Selected elements that are no refinements are omitted.
+     * @return A list of selected refinements.
+     */
+    public List<Refinement> getSelectedRefinementsFromMainView() {
+        List<Refinement> selectedRefinements = new ArrayList<Refinement>();
+        
+        ISelection listViewSelection = refinementListView.getSelection();
+        if (!(listViewSelection instanceof IStructuredSelection)) {
+            return selectedRefinements;
+        }
+        
+        IStructuredSelection refinementListViewSelection = (IStructuredSelection) listViewSelection;
+        Iterator<?> selectedObjectsIterator = refinementListViewSelection.iterator();
+        while (selectedObjectsIterator.hasNext()) {
+            Object selectedObject = selectedObjectsIterator.next();
+            if (selectedObject instanceof Refinement) {
+                selectedRefinements.add((Refinement) selectedObject);
+            }
+        }
+        
+        return selectedRefinements;
+    }
+    
     /**
      * Get the SPLevo project editor that was originally used to trigger the analysis process.
      * 
