@@ -8,11 +8,14 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -30,15 +33,20 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.JobUtil;
+import org.splevo.ui.vpexplorer.explorer.SwitchBackVPM.SwitchBackVPMHelper;
 import org.splevo.ui.vpexplorer.explorer.VPExplorer;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+
 /**
  * Utility class for variation point model interaction in the ui.
- *
+ * 
  */
 public final class VPMUIUtil {
 
@@ -51,7 +59,7 @@ public final class VPMUIUtil {
     /**
      * Open the VPExplorer encapsulated in an Eclipse UI job to provide an appropriate feedback
      * about the processing to the user.
-     *
+     * 
      * @param splevoProject
      *            The project to initialize the {@link ResourceSet}, e.g. for cache improved loading
      *            etc.
@@ -75,7 +83,7 @@ public final class VPMUIUtil {
                 initVPMAccess(monitor, vpm);
 
                 monitor.subTask("Open View");
-                openViewPart(vpm);
+                openViewPart(vpm, splevoProject);
 
                 monitor.done();
                 return Status.OK_STATUS;
@@ -89,11 +97,13 @@ public final class VPMUIUtil {
     /**
      * Open an already loaded VPM in the VPExplorer encapsulated in an Eclipse UI job to provide an
      * appropriate feedback about the processing to the user.
-     *
+     * 
+     * @param splevoProject
+     *            The project that corresponds to the VPM.
      * @param vpm
      *            The variation point model to open.
      */
-    public static void openVPExplorer(final VariationPointModel vpm) {
+    public static void openVPExplorer(final SPLevoProject splevoProject, final VariationPointModel vpm) {
         Job job = new Job("Open VP Explorer") {
 
             @Override
@@ -104,7 +114,7 @@ public final class VPMUIUtil {
                 initVPMAccess(monitor, vpm);
 
                 monitor.subTask("Open View");
-                openViewPart(vpm);
+                openViewPart(vpm, splevoProject);
 
                 monitor.done();
                 return Status.OK_STATUS;
@@ -115,7 +125,7 @@ public final class VPMUIUtil {
         job.schedule();
     }
 
-    private static void openViewPart(final VariationPointModel vpm) {
+    private static void openViewPart(final VariationPointModel vpm, final SPLevoProject splevoProject) {
         Display.getDefault().asyncExec(new Runnable() {
             @Override
             public void run() {
@@ -124,6 +134,21 @@ public final class VPMUIUtil {
                     IViewPart viewPart = activeWorkbench.getActivePage().showView(VPExplorer.VIEW_ID);
                     final VPExplorer explorer = (VPExplorer) viewPart;
                     explorer.setVPM(vpm);
+                    if (splevoProject != null) {
+                        explorer.setVPMVersionGetter(new SwitchBackVPMHelper() {
+                            @Override
+                            public List<String> getVPMPaths() {
+                                return splevoProject.getVpmModelPaths();
+                            }
+
+                            @Override
+                            public void switchBackToPath(final String path) {
+                                switchBackVPMVersion(splevoProject, path);
+                            }
+                        });
+                    } else {
+                        logger.warn("The VPMExplorer is about to be loaded with an invalid (null) SPLevo project.");
+                    }
                 } catch (PartInitException e) {
                     logger.error("Could not create the VP explorer view", e);
                 }
@@ -131,13 +156,63 @@ public final class VPMUIUtil {
         });
     }
 
+    private static void switchBackVPMVersion(final SPLevoProject splevoProject, final String vpmPath) {
+
+        Job switchBackJob = new Job("Switch Back VPM Version") {
+
+            @Override
+            protected IStatus run(IProgressMonitor monitor) {
+                monitor.beginTask("Switch Back VPM Version", IProgressMonitor.UNKNOWN);
+
+                monitor.subTask("Remove obsolete VPMs from project");
+                Iterable<String> filteredModels = Iterables.filter(splevoProject.getVpmModelPaths(),
+                        new Predicate<String>() {
+                            private boolean afterSelected = false;
+
+                            @Override
+                            public boolean apply(String arg0) {
+                                if (afterSelected) {
+                                    return true;
+                                }
+                                afterSelected = arg0.equals(vpmPath);
+                                return false;
+                            }
+                        });
+                List<String> obsoleteModels = Lists.newArrayList(filteredModels);
+
+                for (String vpmFile : obsoleteModels) {
+                    new File(WorkspaceUtil.getAbsoluteFromWorkspaceRelativePath(vpmFile)).delete();
+                }
+                splevoProject.getVpmModelPaths().removeAll(obsoleteModels);
+
+                monitor.subTask("Save project");
+                try {
+                    splevoProject.eResource().save(Collections.EMPTY_MAP);
+                } catch (IOException e) {
+                    logger.error("Unable to save project after removing VPMs.", e);
+                    return new Status(Status.ERROR, "Error",
+                            "We could not save the project after removing obsolete variation point models.");
+                }
+
+                monitor.subTask("Shedule loading of the new VPM");
+                VPMUIUtil.openVPExplorer(splevoProject, vpmPath);
+
+                monitor.done();
+                return Status.OK_STATUS;
+            }
+        };
+
+        switchBackJob.setUser(true);
+        switchBackJob.schedule();
+    }
+
     /**
      * Initialize the access to the variation point model. This makes use of internal knowledge
      * about how the editor will access the variation points and accordingly initializes this
      * access.
-     *
+     * 
      * It is not yet moved to the editor as it reports to a monitor for better user experience.
-     *
+     * 
      * @param monitor
      *            The monitor to report to (using a submonitor).
      * @param vpm
@@ -170,7 +245,7 @@ public final class VPMUIUtil {
 
     /**
      * Open an error dialog synchronized with the UI thread to access the shell.
-     *
+     * 
      * @param title
      *            The title of the dialog.
      * @param message

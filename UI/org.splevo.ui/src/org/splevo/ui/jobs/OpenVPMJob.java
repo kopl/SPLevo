@@ -24,12 +24,8 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
  */
 public class OpenVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-    private SPLevoProject splevoProject = null;
-    private String vpmPath = null;
-
-    /** Default constructor to load the vpm to open from the blackboard. */
-    public OpenVPMJob() {
-    }
+    protected final SPLevoProject splevoProject;
+    protected String vpmPath = null;
 
     /**
      * Constructor to set vpm path and project context to load the vpm from file.
@@ -53,7 +49,7 @@ public class OpenVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         } else {
             logger.info("Trigger Job to Open VPm from Blackboard");
             VariationPointModel vpm = getBlackboard().getVariationPointModel();
-            VPMUIUtil.openVPExplorer(vpm);
+            VPMUIUtil.openVPExplorer(splevoProject, vpm);
         }
 
         // finish run

@@ -75,7 +75,7 @@ public class VPMRefinementWorkflowDelegate extends
         jobSequence.add(saveVPMJob);
 
         // open the model
-        jobSequence.add(new OpenVPMJob());
+        jobSequence.add(new OpenVPMJob(splevoProject, null));
 
         // return the prepared workflow
         return jobSequence;

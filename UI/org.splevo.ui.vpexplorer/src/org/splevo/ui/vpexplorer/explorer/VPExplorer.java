@@ -19,6 +19,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.vpexplorer.Activator;
+import org.splevo.ui.vpexplorer.explorer.SwitchBackVPM.SwitchBackVPMHelper;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction.MODE;
 import org.splevo.ui.vpexplorer.explorer.actions.SelectVisibleAction;
@@ -35,6 +36,8 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
     public static final String VIEW_ID = "org.splevo.ui.vpexplorer";
 
     private VPExplorerContent vpExplorerContent;
+
+    private SwitchBackVPMHelper switchBackVPMHelper;
 
     private ExplorerMediator mediator;
 
@@ -80,10 +83,12 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
             toolBar.insertBefore(toolBar.getItems()[0].getId(), new ExpandAllAction(this));
             toolBar.insertBefore(toolBar.getItems()[0].getId(), new ExpandAllAction(this, MODE.VARIATIONPOINT));
             toolBar.insertBefore(toolBar.getItems()[0].getId(), new SelectVisibleAction(this));
+            toolBar.insertBefore(toolBar.getItems()[0].getId(), new SwitchBackVPM(this));
         } else {
             toolBar.add(new ExpandAllAction(this));
             toolBar.add(new ExpandAllAction(this, MODE.VARIATIONPOINT));
             toolBar.add(new SelectVisibleAction(this));
+            toolBar.add(new SwitchBackVPM(this));
         }
         getCommonViewer().addSelectionChangedListener(mediator);
     }
@@ -116,6 +121,25 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
         mediator.vpmAssigned();
     }
 
+    /**
+     * Sets the helper object for the VPM switch back.
+     * 
+     * @param switchBackVPMHelper
+     *            The helper object.
+     */
+    public void setVPMVersionGetter(SwitchBackVPMHelper switchBackVPMHelper) {
+        this.switchBackVPMHelper = switchBackVPMHelper;
+    }
+
+    /**
+     * Gets the helper object for the VPM switch back.
+     * 
+     * @return The helper object.
+     */
+    public SwitchBackVPMHelper getSwitchBackVPMHelper() {
+        return this.switchBackVPMHelper;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -132,13 +156,13 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
         if (!this.isLinkingEnabled()) {
             return;
         }
-        
+
         if (!(selectedElement instanceof VariationPoint)) {
             return;
         }
-        
+
         ITreeContentProvider contentProvider = getNavigatorContentService().createCommonContentProvider();
         ILinkableNavigatorHelper.expandToObject(getCommonViewer(), contentProvider, (VariationPoint) selectedElement);
     }
-    
+
 }

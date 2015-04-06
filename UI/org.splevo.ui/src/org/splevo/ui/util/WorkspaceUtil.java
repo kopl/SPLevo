@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.util;
 
@@ -25,11 +26,27 @@ public final class WorkspaceUtil {
     private WorkspaceUtil() {
     }
 
+    /**
+     * Constructs an absolute path based on a given workspace relative path. The result is a
+     * portable string, so you have to convert it before showing it to the user. Anyway, the output
+     * is just fine for initializing a File object.
+     * 
+     * @param relativePath
+     *            The path relative to the workspace. A workspace relative path starts with the
+     *            project name and contains the full path to the wanted file afterwards.
+     * @return The absolute path to the file as portable string.
+     */
+    public static String getAbsoluteFromWorkspaceRelativePath(String relativePath) {
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        return String.format("%s%s%s", root.getLocation().toPortableString(), relativePath.startsWith("/") ? "" : "/",
+                relativePath);
+    }
+
     // TODO check to use an absolute base path for the splevo project workspace.
     /**
      * Get the absolute URI of a variants source model assuming the workspace is located within the
      * eclipse workspace.
-     *
+     * 
      * @param splevoProject
      *            The splevo project defining the workspace.
      * @param variantName
@@ -39,20 +56,18 @@ public final class WorkspaceUtil {
     public static String getSourceModelPathWithinEclipse(SPLevoProject splevoProject, String variantName) {
         String basePath = splevoProject.getWorkspace() + "models/sourcemodels/";
         String relativePath = basePath + variantName;
-        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        String absolutePath = root.getLocation().toPortableString() + "/" + relativePath;
-        return absolutePath;
+        return getAbsoluteFromWorkspaceRelativePath(relativePath);
     }
 
-	/**
-	 * Determine the absolute OS specific path of the workspace.
-	 *
-	 * @return The absolute path.
-	 */
-	public static String getAbsoluteWorkspacePath() {
-	    IWorkspace workspace = ResourcesPlugin.getWorkspace();
-	    String basePath = workspace.getRoot().getRawLocation().toOSString() + "/";
-	    return basePath;
-	}
+    /**
+     * Determine the absolute OS specific path of the workspace.
+     * 
+     * @return The absolute path.
+     */
+    public static String getAbsoluteWorkspacePath() {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        String basePath = workspace.getRoot().getRawLocation().toOSString() + "/";
+        return basePath;
+    }
 
 }

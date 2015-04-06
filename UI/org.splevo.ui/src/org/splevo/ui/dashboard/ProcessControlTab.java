@@ -36,6 +36,8 @@ import org.splevo.ui.listeners.StartRefactoringListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
 import org.splevo.ui.util.WorkspaceUtil;
 
+import com.google.common.collect.Iterables;
+
 /**
  * The tab to control the consolidation process.
  */
@@ -58,12 +60,12 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
     /**
      * Create the tab to handle the SPL profile configuration.
-     *
+     * 
      * @param splevoProjectEditor
      *            The editor to access when configuration is modified.
      * @param tabFolder
      *            The folder to add the tab to.
-     *
+     * 
      * @param tabIndex
      *            The index of the tab within the parent tab folder.
      */
@@ -74,7 +76,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
     /**
      * Create the tab.
-     *
+     * 
      * @param tabFolder
      *            The folder to add the tab to.
      * @param tabIndex
@@ -103,7 +105,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
         GridData layoutData = new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1);
         layoutData.heightHint = 0;
         filler1.setLayoutData(layoutData);
-        
+
         final Image circleImage = ResourceManager.getPluginImage("org.splevo.ui", "icons/arrow_circle.png");
         Label circleLbl = new Label(mainContainer, SWT.NONE);
         circleLbl.setImage(circleImage);
@@ -111,7 +113,7 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
         Composite filler2 = new Composite(mainContainer, SWT.NONE);
         filler2.setLayoutData(layoutData);
-        
+
         Label activityStart = new Label(mainContainer, SWT.NONE);
         activityStart.setImage(ResourceManager.getPluginImage("org.splevo.ui", "icons/bullet_green.png"));
 
@@ -189,19 +191,22 @@ public class ProcessControlTab extends AbstractDashboardTab {
 
     /**
      * Check if at least one variation point model is set and can be accessed.
-     *
+     * 
      * @return True if an accessible vpm exists.
      */
     private boolean vpmAvailable() {
         SPLevoProject splevoProject = getSPLevoProject();
-        String basePath = WorkspaceUtil.getAbsoluteWorkspacePath();
-        return splevoProject.getVpmModelPaths().size() > 0
-                && new File(basePath + splevoProject.getVpmModelPaths().get(0)).canRead();
+        if (splevoProject.getVpmModelPaths().size() > 0) {
+            String vpmPath = WorkspaceUtil.getAbsoluteFromWorkspaceRelativePath(Iterables.getLast(splevoProject
+                    .getVpmModelPaths()));
+            return new File(vpmPath).canRead();
+        }
+        return false;
     }
 
     /**
      * Checks if both input models have more than one project.
-     *
+     * 
      * @return true, if both input models have more than one project, else false
      */
     private boolean projectsSelected() {
