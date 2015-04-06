@@ -22,7 +22,8 @@ import org.eclipse.emf.ecore.EObject;
  * @param <ElementType> The type of the element about to be changed
  * @param <AttributeType> The type of the attribute about to be changed.
  */
-public abstract class ChangeSingleAttributeEObjectWrapper<ElementType extends EObject, AttributeType> implements ChangeSingleAttributeElementWrapper<AttributeType> {
+public abstract class ChangeSingleAttributeEObjectWrapper<ElementType extends EObject, AttributeType>
+    implements ChangeSingleAttributeElementWrapper<AttributeType> {
 
     private static final Logger LOGGER = Logger.getLogger(ChangeSingleAttributeElementWrapper.class);
     private final String typeName;
