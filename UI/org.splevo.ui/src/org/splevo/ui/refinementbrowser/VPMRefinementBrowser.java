@@ -47,6 +47,7 @@ import org.splevo.ui.refinementbrowser.action.ApplySelectedRefinementsAction;
 import org.splevo.ui.refinementbrowser.action.CancelAction;
 import org.splevo.ui.refinementbrowser.action.DeleteRefinementAction;
 import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
+import org.splevo.ui.refinementbrowser.action.ToggleVisualizationAction;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
 import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementActionBarListener;
@@ -125,6 +126,7 @@ public class VPMRefinementBrowser extends EditorPart {
         ToolBarManager manager = (ToolBarManager) form.getToolBarManager();
         manager.add(new ApplyRefinementsAction(this, "Apply Refinements"));
         manager.add(new ApplySelectedRefinementsAction(this, "Apply Selected Refinements"));
+        manager.add(new ToggleVisualizationAction(this, getEnableVisualizationDefault()));
         manager.add(new CancelAction(this, "Cancel and close"));
         IMenuService menuService = (IMenuService) getSite().getService(IMenuService.class);
         menuService.populateContributionManager(manager, "popup:formsToolBar");
@@ -247,5 +249,17 @@ public class VPMRefinementBrowser extends EditorPart {
     @Override
     public Image getTitleImage() {
         return SPLevoUIPlugin.getImageDescriptor("icons/refinement-browser.gif").createImage();
+    }
+
+    /**
+     * Enables or disabled the visualization of the refinements.
+     * @param enabled True means enabled, False means disabled.
+     */
+    public void setEnableVisualization(boolean enabled) {
+        detailsView.setEnableVisualization(enabled);
+    }
+    
+    private boolean getEnableVisualizationDefault() {
+        return detailsView.getEnableVisualizationDefault();
     }
 }

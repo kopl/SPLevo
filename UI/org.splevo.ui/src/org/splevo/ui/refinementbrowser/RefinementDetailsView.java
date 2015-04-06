@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.refinementbrowser;
 
@@ -56,6 +57,8 @@ public class RefinementDetailsView extends Composite {
     private static final String REFINEMENT_INFO_DEFAULT_TEXT = "Select refinement on the left to review details.";
 
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    
+    private static final boolean VISUALIZATION_ENABLED_DEFAULT = true;
 
     /** The internal tree viewer to present the refined variation points. */
     private TreeViewer refinementDetailsTreeViewer = null;
@@ -64,6 +67,8 @@ public class RefinementDetailsView extends Composite {
     private StyledText refinementInfoArea = null;
 
     private RefinementGraph refinementGraph = null;
+    
+    private boolean visualizationEnabled = VISUALIZATION_ENABLED_DEFAULT;
 
     /**
      * Constructor to create the view.
@@ -138,7 +143,9 @@ public class RefinementDetailsView extends Composite {
     public void showRefinement(Refinement refinement) {
         setEnabled(true);
         refinementDetailsTreeViewer.setInput(refinement);
-        refinementGraph.show(refinement);
+        if (visualizationEnabled) {
+            refinementGraph.show(refinement);            
+        }
     }
 
     /**
@@ -293,5 +300,23 @@ public class RefinementDetailsView extends Composite {
         new CustomizableDescriptionHavingTreeViewerToolTip(viewer);
     }
 
+    /**
+     * Enables or disabled the visualization of the refinements.
+     * @param enabled True means enabled, False means disabled.
+     */
+    public void setEnableVisualization(boolean enabled) {
+        visualizationEnabled = enabled;
+        if (!enabled) {
+            refinementGraph.clear();            
+        }
+    }
+    
+    /**
+     * Determines the default value for the refinement visualization.
+     * @return True means enabled, False means disabled.
+     */
+    public boolean getEnableVisualizationDefault() {
+        return VISUALIZATION_ENABLED_DEFAULT;
+    }
 
 }
