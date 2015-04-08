@@ -54,6 +54,7 @@ import com.google.common.collect.Lists;
 public class RefinementDetailsView extends Composite {
 
     private static final String COMMAND_ID_OPENSOURCELOCATION = "org.splevo.ui.commands.opensourcelocation";
+    private static final String COMMAND_ID_OPENSOURCELOCATIONDIFF = "org.splevo.ui.commands.opensourcelocationdiff";
     private static final String REFINEMENT_INFO_DEFAULT_TEXT = "Select refinement on the left to review details.";
 
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -288,6 +289,8 @@ public class RefinementDetailsView extends Composite {
         });
         menuManager.addMenuListener(new CommandActionMenuListener(COMMAND_ID_OPENSOURCELOCATION, SPLevoUIPlugin
                 .getImageDescriptor("icons/jcu_obj.gif")));
+        menuManager.addMenuListener(new CommandActionMenuListener(COMMAND_ID_OPENSOURCELOCATIONDIFF, SPLevoUIPlugin
+                .getImageDescriptor("icons/unifieddiff-editor.gif")));
         menuManager.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan",
                 SPLevoUIPlugin.getImageDescriptor("icons/kopl_circle_only.png")));
 

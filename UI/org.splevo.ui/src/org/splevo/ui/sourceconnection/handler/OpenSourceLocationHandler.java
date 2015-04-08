@@ -8,60 +8,30 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.sourceconnection.handler;
 
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.IWorkbenchPart;
 import org.splevo.ui.sourceconnection.SourceEditorConnector;
-import org.splevo.ui.vpexplorer.providers.VPExplorerContentProvider.VPExplorerContentFileWithChildReference;
-import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.variability.Variant;
-import org.splevo.vpm.variability.VariationPoint;
 
 import com.google.common.collect.Lists;
 
 /**
  * Action to open the implementing locations of a selected variant in the java editor.
  */
-public class OpenSourceLocationHandler extends AbstractHandler {
+public class OpenSourceLocationHandler extends OpenSourceHandlerBase {
 
     @Override
-    public Object execute(ExecutionEvent event) throws ExecutionException {
-
-        ISelection curSelection = HandlerUtil.getCurrentSelection(event);
-        if (curSelection != null && curSelection instanceof IStructuredSelection) {
-            IStructuredSelection selection = (IStructuredSelection) curSelection;
-
-            List<String> filesResetBefore = Lists.newArrayList();
-
-            @SuppressWarnings("unchecked")
-            List<Object> queue = new LinkedList<Object>(selection.toList());
-            while (!queue.isEmpty()) {
-                Object selectedItem = queue.remove(0);
-                if (selectedItem instanceof Variant) {
-                    SourceEditorConnector.openVariant((Variant) selectedItem, filesResetBefore);
-                } else if (selectedItem instanceof VariationPoint) {
-                    SourceEditorConnector.openVariationPoint((VariationPoint) selectedItem, filesResetBefore);
-                } else if (selectedItem instanceof Refinement) {
-                    Refinement refinement = (Refinement) selectedItem;
-                    queue.addAll(refinement.getSubRefinements());
-                    queue.addAll(refinement.getVariationPoints());
-                } else if (selectedItem instanceof VPExplorerContentFileWithChildReference) {
-                    VPExplorerContentFileWithChildReference file = (VPExplorerContentFileWithChildReference) selectedItem;
-                    queue.addAll(Arrays.asList(file.getVPMChildren()));
-                }
-            }
-            
+    protected void handle(Set<Variant> variants, IWorkbenchPart sendingPart) {
+        List<String> filesResetBefore = Lists.newArrayList();
+        for (Variant v : variants) {
+            SourceEditorConnector.openVariant(v, filesResetBefore);            
         }
-        return null;
     }
+    
 }

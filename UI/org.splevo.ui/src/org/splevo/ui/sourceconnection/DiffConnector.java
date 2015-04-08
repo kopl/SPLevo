@@ -44,10 +44,11 @@ import com.google.common.collect.HashMultimap;
  *
  */
 public class DiffConnector {
+    
 	private static Logger logger = Logger.getLogger(DiffConnector.class);
 
 	
-	private static HashMultimap<File, VariationPoint> fileVPIndex = HashMultimap.create();
+	private final HashMultimap<File, VariationPoint> fileVPIndex = HashMultimap.create();
 
 	private String[] leadingFileContentsAsList;
 	private String leadingFileContents;
@@ -55,7 +56,7 @@ public class DiffConnector {
 	private String leadingFileLocation;
 	private String integrationFileLocation;
 	
-	private SPLevoProject splevoProject;
+	private final SPLevoProject splevoProject;
     
 	
 	/**

@@ -51,6 +51,13 @@
             id="org.splevo.ui.editor.VPMRefinementEditor"
             name="VPM Refinement Browser">
       </editor>
+      <editor
+            class="org.splevo.ui.editors.UnifiedDiffEditor"
+            default="false"
+            icon="icons/unifieddiff-editor.gif"
+            id="org.splevo.ui.editors.UnifiedDiffEditor"
+            name="Unified Diff">
+      </editor>
    </extension>
    <extension
          point="org.eclipse.ui.views">
@@ -88,6 +95,11 @@
             defaultHandler="org.splevo.ui.sourceconnection.handler.OpenSourceLocationHandler"
             id="org.splevo.ui.commands.opensourcelocation"
             name="Open Source Locations">
+      </command>
+      <command
+            defaultHandler="org.splevo.ui.sourceconnection.handler.OpenSourceLocationDiffHandler"
+            id="org.splevo.ui.commands.opensourcelocationdiff"
+            name="Open Source Locations (Diff)">
       </command>
       <command
             defaultHandler="org.splevo.ui.sourceconnection.handler.CopyContainingFilenameHandler"
@@ -161,6 +173,29 @@
                commandId="org.splevo.ui.commands.opensourcelocation"
                icon="icons/jcu_obj.gif"
                label="Open Source Locations"
+               style="push"
+               tooltip="Open the source locations of the variants.">
+            <visibleWhen
+                  checkEnabled="true">
+               <iterate>
+                  <or>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
+                     </instanceof>
+                     <instanceof
+                           value="org.splevo.vpm.variability.Variant">
+                     </instanceof>
+                     <instanceof
+                           value="org.splevo.ui.vpexplorer.providers.VPExplorerContentProvider$VPExplorerContentFileWithChildReference">
+                     </instanceof>
+                  </or>
+               </iterate>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.splevo.ui.commands.opensourcelocationdiff"
+               icon="icons/unifieddiff-editor.gif"
+               label="Open Source Locations (Diff)"
                style="push"
                tooltip="Open the source locations of the variants.">
             <visibleWhen

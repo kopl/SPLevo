@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.splevo.ui.vpexplorer.explorer;
 
-import java.util.List;
-
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuCreator;
@@ -41,13 +39,6 @@ public class SwitchBackVPM extends Action {
      */
     public interface SwitchBackVPMHelper {
         /**
-         * Provides all available VPM paths of the project.
-         * 
-         * @return All available VPM paths.
-         */
-        List<String> getVPMPaths();
-
-        /**
          * Switches the VPM version back to the given VPM path. All older models will be
          * unregistered and deleted.
          * 
@@ -72,15 +63,11 @@ public class SwitchBackVPM extends Action {
         @Override
         public void runWithEvent(Event event) {
             Shell shell = event.widget.getDisplay().getShells()[0];
-            boolean confirmed = MessageDialog
-                    .openQuestion(
-                            shell,
-                            "Switch Back VPM Version",
-                            String.format(
-                                    "You want to switch back to %s, which removes all later versions. Do you want to continue?",
-                                    getText()));
+            boolean confirmed = MessageDialog.openQuestion(shell, "Switch Back VPM Version", String.format(
+                    "You want to switch back to %s, which removes all later versions. Do you want to continue?",
+                    getText()));
             if (confirmed) {
-                vpexplorer.getSwitchBackVPMHelper().switchBackToPath(vpmPath);
+                vpexplorer.getVPExplorerMetaData().switchBackVPMVersion(vpmPath);
             }
         }
 
@@ -131,9 +118,10 @@ public class SwitchBackVPM extends Action {
                 manager.addMenuListener(new IMenuListener() {
                     @Override
                     public void menuAboutToShow(IMenuManager manager) {
-                        if (vpexplorer.getSwitchBackVPMHelper() != null
-                                && vpexplorer.getSwitchBackVPMHelper().getVPMPaths().iterator().hasNext()) {
-                            for (String id : Lists.reverse(vpexplorer.getSwitchBackVPMHelper().getVPMPaths())) {
+                        if (vpexplorer.getVPExplorerMetaData().getSPLevoProject() != null
+                                && vpexplorer.getVPExplorerMetaData().getSPLevoProject().getVpmModelPaths().size() > 0) {
+                            for (String id : Lists.reverse(vpexplorer.getVPExplorerMetaData().getSPLevoProject()
+                                    .getVpmModelPaths())) {
                                 manager.add(new VPMRollbackMenuAction(id));
                             }
                         }

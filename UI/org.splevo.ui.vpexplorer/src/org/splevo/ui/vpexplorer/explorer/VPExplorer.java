@@ -17,9 +17,9 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.splevo.project.SPLevoProject;
 import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.vpexplorer.Activator;
-import org.splevo.ui.vpexplorer.explorer.SwitchBackVPM.SwitchBackVPMHelper;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction.MODE;
 import org.splevo.ui.vpexplorer.explorer.actions.SelectVisibleAction;
@@ -32,12 +32,45 @@ import org.splevo.vpm.variability.VariationPointModel;
  */
 public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
 
+    /**
+     * Meta data required for the VPExplorer. This meta data has to match the VPM set in the
+     * VPExplorer.
+     */
+    public abstract static class VPExplorerMetaData {
+        private final SPLevoProject splevoProject;
+
+        /**
+         * Constructs a new meta data object.
+         * 
+         * @param splevoProject
+         *            A SPLevoProject that matches the VPM set in the VPExplorer.
+         */
+        public VPExplorerMetaData(SPLevoProject splevoProject) {
+            this.splevoProject = splevoProject;
+        }
+
+        /**
+         * @return The SPLevoProject that matches the VPM set in the VPExplorer.
+         */
+        public SPLevoProject getSPLevoProject() {
+            return splevoProject;
+        }
+
+        /**
+         * Switches back the VPM version to the given VPM.
+         * 
+         * @param vpmPath
+         *            The path to the VPM as specified in the SPLevoProject.
+         */
+        public abstract void switchBackVPMVersion(String vpmPath);
+    }
+
     /** Id to reference the view inside eclipse. */
     public static final String VIEW_ID = "org.splevo.ui.vpexplorer";
 
     private VPExplorerContent vpExplorerContent;
 
-    private SwitchBackVPMHelper switchBackVPMHelper;
+    private VPExplorerMetaData vpExplorerMetaData;
 
     private ExplorerMediator mediator;
 
@@ -111,33 +144,24 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
     }
 
     /**
-     * Sets the vpm.
+     * Sets the VPM and corresponding meta data required for the VPExplorer.
      * 
      * @param vpm
-     *            the new vpm
+     *            The new VPM.
+     * @param metaData
+     *            The meta data that corresponds to the VPM.
      */
-    public void setVPM(VariationPointModel vpm) {
+    public void setVPM(VariationPointModel vpm, VPExplorerMetaData metaData) {
         vpExplorerContent.setVpm(vpm);
+        this.vpExplorerMetaData = metaData;
         mediator.vpmAssigned();
     }
 
     /**
-     * Sets the helper object for the VPM switch back.
-     * 
-     * @param switchBackVPMHelper
-     *            The helper object.
+     * @return The meta data of the VPExplorer.
      */
-    public void setVPMVersionGetter(SwitchBackVPMHelper switchBackVPMHelper) {
-        this.switchBackVPMHelper = switchBackVPMHelper;
-    }
-
-    /**
-     * Gets the helper object for the VPM switch back.
-     * 
-     * @return The helper object.
-     */
-    public SwitchBackVPMHelper getSwitchBackVPMHelper() {
-        return this.switchBackVPMHelper;
+    public VPExplorerMetaData getVPExplorerMetaData() {
+        return vpExplorerMetaData;
     }
 
     /*
