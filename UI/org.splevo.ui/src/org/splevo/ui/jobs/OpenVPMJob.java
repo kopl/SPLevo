@@ -13,7 +13,7 @@ package org.splevo.ui.jobs;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.project.SPLevoProject;
-import org.splevo.ui.util.VPMUIUtil;
+import org.splevo.ui.vpexplorer.util.VPMUIUtil;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;

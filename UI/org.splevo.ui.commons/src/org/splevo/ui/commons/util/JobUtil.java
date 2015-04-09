@@ -9,7 +9,7 @@
  * Contributors:
  *    Benjamin Klatt - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.splevo.ui.jobs;
+package org.splevo.ui.commons.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package org.splevo.ui.util;
+package org.splevo.ui.vpexplorer.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.commons.util.WorkspaceUtil;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;

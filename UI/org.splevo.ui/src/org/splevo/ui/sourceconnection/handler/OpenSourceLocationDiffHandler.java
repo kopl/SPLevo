@@ -55,7 +55,7 @@ public class OpenSourceLocationDiffHandler extends OpenSourceHandlerBase {
     
     private static SPLevoProject getSPLevoProjectFromWorkbenchPart(IWorkbenchPart workbenchPart) {
         if (workbenchPart instanceof VPExplorer) {
-            return ((VPExplorer) workbenchPart).getVPExplorerMetaData().getSPLevoProject();
+            return ((VPExplorer) workbenchPart).getSPLevoProject();
         }
         if (workbenchPart instanceof VPMRefinementBrowser) {
             return ((VPMRefinementBrowser) workbenchPart).getSPLevoProjectEditor().getSplevoProject();

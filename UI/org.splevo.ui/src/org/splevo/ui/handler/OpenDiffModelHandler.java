@@ -27,8 +27,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.ide.IDE;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.commons.util.WorkspaceUtil;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.util.WorkspaceUtil;
 
 /**
  * This command opens the difference model of a {@link SPLevoProject}.

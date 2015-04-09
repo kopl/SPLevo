@@ -10,7 +10,7 @@
  *    Benjamin Klatt - initial API and implementation and/or initial documentation
  *    Stephan Seifermann
  *******************************************************************************/
-package org.splevo.ui.util;
+package org.splevo.ui.commons.util;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -21,7 +21,7 @@ import org.splevo.project.SPLevoProject;
  * Utility class to interact with the SPLevo workspace.
  */
 public final class WorkspaceUtil {
-
+    
     /** Disable constructor for utility class. */
     private WorkspaceUtil() {
     }
@@ -69,5 +69,5 @@ public final class WorkspaceUtil {
         String basePath = workspace.getRoot().getRawLocation().toOSString() + "/";
         return basePath;
     }
-
+    
 }

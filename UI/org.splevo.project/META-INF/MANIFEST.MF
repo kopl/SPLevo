@@ -12,5 +12,8 @@ Export-Package: org.splevo.project,
  org.splevo.project.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.emf.ecore.xmi
+ org.eclipse.emf.ecore.xmi,
+ org.apache.log4j,
+ org.eclipse.core.resources,
+ com.google.guava;bundle-version="15.0.0"
 Bundle-ActivationPolicy: lazy

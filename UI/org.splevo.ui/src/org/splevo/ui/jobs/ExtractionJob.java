@@ -19,7 +19,8 @@ import org.splevo.extraction.DefaultExtractionService;
 import org.splevo.extraction.ExtractionService;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.project.SPLevoProject;
-import org.splevo.ui.util.WorkspaceUtil;
+import org.splevo.ui.commons.util.JobUtil;
+import org.splevo.ui.commons.util.WorkspaceUtil;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;

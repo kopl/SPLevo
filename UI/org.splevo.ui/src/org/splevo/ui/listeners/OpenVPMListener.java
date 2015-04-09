@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.util.VPMUIUtil;
+import org.splevo.ui.vpexplorer.util.VPMUIUtil;
 
 /**
  * Mouse adapter to open the latest variation point model of a SPLevo project.

@@ -8,71 +8,73 @@
  *
  * Contributors:
  *    Christian Busch
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.vpexplorer.explorer;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.vpexplorer.Activator;
+import org.splevo.ui.vpexplorer.explorer.LoadVPMCompositeHandler.VPMLoader;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction.MODE;
 import org.splevo.ui.vpexplorer.explorer.actions.SelectVisibleAction;
 import org.splevo.ui.vpexplorer.linking.ILinkableNavigator;
+import org.splevo.ui.vpexplorer.util.VPMUIUtil;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * The VPExplorer displays a VP model in a tree structure.
  */
-public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
+public class VPExplorer extends CommonNavigator implements ILinkableNavigator, VPMLoader {
 
     /**
-     * Meta data required for the VPExplorer. This meta data has to match the VPM set in the
-     * VPExplorer.
+     * Helper class for switching the displayed composite in the VPExplorer. Basically, there are
+     * two composites to be displayed: The tree viewer for the VPM and the VPM loading page if no
+     * VPM has been loaded yet. The helper can be used to switch to the tree viewer after loading a
+     * VPM.
      */
-    public abstract static class VPExplorerMetaData {
-        private final SPLevoProject splevoProject;
+    private class DisplayedCompositeSwitcher {
+        private final StackLayout layout;
+        private final Composite parentToRefresh;
 
-        /**
-         * Constructs a new meta data object.
-         * 
-         * @param splevoProject
-         *            A SPLevoProject that matches the VPM set in the VPExplorer.
-         */
-        public VPExplorerMetaData(SPLevoProject splevoProject) {
-            this.splevoProject = splevoProject;
+        public DisplayedCompositeSwitcher(StackLayout layout, Composite parentToRefresh) {
+            this.layout = layout;
+            this.parentToRefresh = parentToRefresh;
         }
 
-        /**
-         * @return The SPLevoProject that matches the VPM set in the VPExplorer.
-         */
-        public SPLevoProject getSPLevoProject() {
-            return splevoProject;
+        public void switchToVPMTree() {
+            this.layout.topControl = getCommonViewer().getControl();
+            parentToRefresh.layout(true);
+            loadVPMCompositeHandler.disable();
         }
-
-        /**
-         * Switches back the VPM version to the given VPM.
-         * 
-         * @param vpmPath
-         *            The path to the VPM as specified in the SPLevoProject.
-         */
-        public abstract void switchBackVPMVersion(String vpmPath);
     }
 
     /** Id to reference the view inside eclipse. */
     public static final String VIEW_ID = "org.splevo.ui.vpexplorer";
 
+    private static final Logger LOGGER = Logger.getLogger(VPExplorer.class);
+
     private VPExplorerContent vpExplorerContent;
 
-    private VPExplorerMetaData vpExplorerMetaData;
+    private SPLevoProject splevoProject;
 
     private ExplorerMediator mediator;
+
+    private final LoadVPMCompositeHandler loadVPMCompositeHandler = new LoadVPMCompositeHandler(this);
+
+    private DisplayedCompositeSwitcher displayedCompositeSwitcher;
 
     private boolean showGrouping = false;
 
@@ -108,7 +110,16 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
      */
     @Override
     public void createPartControl(Composite parent) {
-        super.createPartControl(parent);
+        Composite intermediateParent = new Composite(parent, SWT.NONE);
+        intermediateParent.setLayoutData(new GridData(GridData.FILL_BOTH));
+        final StackLayout layout = new StackLayout();
+        intermediateParent.setLayout(layout);
+        Composite vpmLoadingComposite = loadVPMCompositeHandler.createControl(intermediateParent);
+        layout.topControl = vpmLoadingComposite;
+
+        displayedCompositeSwitcher = new DisplayedCompositeSwitcher(layout, intermediateParent);
+
+        super.createPartControl(intermediateParent);
         new CustomizableDescriptionHavingTreeViewerToolTip(getCommonViewer());
         IActionBars actionBars = getViewSite().getActionBars();
         IToolBarManager toolBar = actionBars.getToolBarManager();
@@ -124,6 +135,12 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
             toolBar.add(new SwitchBackVPM(this));
         }
         getCommonViewer().addSelectionChangedListener(mediator);
+    }
+
+    @Override
+    public void loadVPM(SPLevoProject project, String vpmPath) {
+        LOGGER.info("Loading VPM");
+        VPMUIUtil.openVPExplorer(project, vpmPath);
     }
 
     /**
@@ -144,24 +161,25 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
     }
 
     /**
-     * Sets the VPM and corresponding meta data required for the VPExplorer.
+     * Sets the VPM and corresponding SPLevo project required for the VPExplorer.
      * 
      * @param vpm
      *            The new VPM.
-     * @param metaData
+     * @param splevoProject
      *            The meta data that corresponds to the VPM.
      */
-    public void setVPM(VariationPointModel vpm, VPExplorerMetaData metaData) {
+    public void setVPM(VariationPointModel vpm, SPLevoProject splevoProject) {
         vpExplorerContent.setVpm(vpm);
-        this.vpExplorerMetaData = metaData;
+        this.splevoProject = splevoProject;
         mediator.vpmAssigned();
+        displayedCompositeSwitcher.switchToVPMTree();
     }
 
     /**
-     * @return The meta data of the VPExplorer.
+     * @return The current SPLevo project.
      */
-    public VPExplorerMetaData getVPExplorerMetaData() {
-        return vpExplorerMetaData;
+    public SPLevoProject getSPLevoProject() {
+        return splevoProject;
     }
 
     /*
@@ -172,6 +190,7 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator {
     @Override
     public void dispose() {
         mediator.deregisterVPExplorer();
+        loadVPMCompositeHandler.disable();
         super.dispose();
     }
 

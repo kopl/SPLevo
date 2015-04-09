@@ -27,6 +27,7 @@ import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.diffing.DiffingService;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.commons.util.JobUtil;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.CleanupFailedException;

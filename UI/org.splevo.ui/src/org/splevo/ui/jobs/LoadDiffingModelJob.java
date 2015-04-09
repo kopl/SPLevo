@@ -19,6 +19,7 @@ import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.diffing.DiffingModelUtil;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.commons.util.JobUtil;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;

@@ -28,13 +28,13 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.commons.util.WorkspaceUtil;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.listeners.GenerateFeatureModelListener;
 import org.splevo.ui.listeners.InitVPMListener;
 import org.splevo.ui.listeners.OpenVPMListener;
 import org.splevo.ui.listeners.StartRefactoringListener;
 import org.splevo.ui.listeners.VPMAnalysisListener;
-import org.splevo.ui.util.WorkspaceUtil;
 
 import com.google.common.collect.Iterables;
 

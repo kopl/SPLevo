@@ -10,7 +10,7 @@
  *    Benjamin Klatt
  *    Stephan Seifermann
  *******************************************************************************/
-package org.splevo.ui.util;
+package org.splevo.ui.vpexplorer.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,9 +30,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.project.SPLevoProject;
-import org.splevo.ui.jobs.JobUtil;
+import org.splevo.ui.commons.util.JobUtil;
 import org.splevo.ui.vpexplorer.explorer.VPExplorer;
-import org.splevo.ui.vpexplorer.explorer.VPExplorer.VPExplorerMetaData;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -127,7 +126,7 @@ public final class VPMUIUtil {
                     IWorkbenchWindow activeWorkbench = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
                     IViewPart viewPart = activeWorkbench.getActivePage().showView(VPExplorer.VIEW_ID);
                     final VPExplorer explorer = (VPExplorer) viewPart;
-                    explorer.setVPM(vpm, new VPMUIUtilVPExplorerMetaData(splevoProject));
+                    explorer.setVPM(vpm, splevoProject);
                     if (splevoProject == null) {
                         logger.warn("The VPMExplorer is about to be loaded with an invalid (null) SPLevo project.");
                     }
@@ -139,23 +138,13 @@ public final class VPMUIUtil {
     }
 
     /**
-     * Implementation class for the VPExplorerMetaData. The switch back method for the VPM version
-     * delegates to an implementation of this utility class.
+     * Switches back the current VPM version of the project to the given version. The user can
+     * cancel this operation, which means that the current VPM version remains the same.
+     * 
+     * @param splevoProject The SPLevo project for which the VPM version shall be switched.
+     * @param vpmPath The file path of the VPM as noted in the project file.
      */
-    private static class VPMUIUtilVPExplorerMetaData extends VPExplorerMetaData {
-
-        public VPMUIUtilVPExplorerMetaData(SPLevoProject splevoProject) {
-            super(splevoProject);
-        }
-
-        @Override
-        public void switchBackVPMVersion(String vpmPath) {
-            VPMUIUtil.switchBackVPMVersion(getSPLevoProject(), vpmPath);
-        }
-
-    }
-
-    private static void switchBackVPMVersion(final SPLevoProject splevoProject, final String vpmPath) {
+    public static void switchBackVPMVersion(final SPLevoProject splevoProject, final String vpmPath) {
         Job switchBackJob = new SwitchBackVPMJob(splevoProject, vpmPath);
         switchBackJob.setUser(true);
         switchBackJob.schedule();

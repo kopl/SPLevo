@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.vpexplorer.util.VPMUIUtil;
 
 import com.google.common.collect.Lists;
 
@@ -34,19 +35,7 @@ import com.google.common.collect.Lists;
  */
 public class SwitchBackVPM extends Action {
 
-    /**
-     * Helper that provides the VPM paths and a method to switch back to the selected path.
-     */
-    public interface SwitchBackVPMHelper {
-        /**
-         * Switches the VPM version back to the given VPM path. All older models will be
-         * unregistered and deleted.
-         * 
-         * @param path
-         *            The path to switch back to.
-         */
-        void switchBackToPath(String path);
-    }
+
 
     /**
      * Rollback action for a specific VPM path. This is used in the selection menu for the user.
@@ -67,7 +56,7 @@ public class SwitchBackVPM extends Action {
                     "You want to switch back to %s, which removes all later versions. Do you want to continue?",
                     getText()));
             if (confirmed) {
-                vpexplorer.getVPExplorerMetaData().switchBackVPMVersion(vpmPath);
+                VPMUIUtil.switchBackVPMVersion(vpexplorer.getSPLevoProject(), vpmPath);
             }
         }
 
@@ -118,9 +107,10 @@ public class SwitchBackVPM extends Action {
                 manager.addMenuListener(new IMenuListener() {
                     @Override
                     public void menuAboutToShow(IMenuManager manager) {
-                        if (vpexplorer.getVPExplorerMetaData().getSPLevoProject() != null
-                                && vpexplorer.getVPExplorerMetaData().getSPLevoProject().getVpmModelPaths().size() > 0) {
-                            for (String id : Lists.reverse(vpexplorer.getVPExplorerMetaData().getSPLevoProject()
+                        if (vpexplorer.getSPLevoProject() != null
+                                && vpexplorer.getSPLevoProject() != null
+                                && vpexplorer.getSPLevoProject().getVpmModelPaths().size() > 0) {
+                            for (String id : Lists.reverse(vpexplorer.getSPLevoProject()
                                     .getVpmModelPaths())) {
                                 manager.add(new VPMRollbackMenuAction(id));
                             }

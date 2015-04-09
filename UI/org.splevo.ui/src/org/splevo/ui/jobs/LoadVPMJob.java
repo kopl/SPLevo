@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.commons.util.JobUtil;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.software.SoftwarePackage;
 import org.splevo.vpm.variability.VariationPointModel;
