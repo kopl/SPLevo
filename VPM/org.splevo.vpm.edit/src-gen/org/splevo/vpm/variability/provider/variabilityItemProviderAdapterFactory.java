@@ -187,6 +187,29 @@ public class variabilityItemProviderAdapterFactory extends variabilityAdapterFac
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.vpm.variability.Identifier} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected IdentifierItemProvider identifierItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.vpm.variability.Identifier}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createIdentifierAdapter() {
+        if (identifierItemProvider == null) {
+            identifierItemProvider = new IdentifierItemProvider(this);
+        }
+
+        return identifierItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -320,6 +343,8 @@ public class variabilityItemProviderAdapterFactory extends variabilityAdapterFac
             variationPointModelItemProvider.dispose();
         if (variationPointGroupItemProvider != null)
             variationPointGroupItemProvider.dispose();
+        if (identifierItemProvider != null)
+            identifierItemProvider.dispose();
     }
 
 }

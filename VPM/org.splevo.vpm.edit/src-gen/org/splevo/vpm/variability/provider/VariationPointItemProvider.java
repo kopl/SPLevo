@@ -28,7 +28,7 @@ import com.google.common.base.Strings;
  * <!-- begin-user-doc --> <!-- end-user-doc -->
  * @generated
  */
-public class VariationPointItemProvider extends CustomizableNameHavingItemProvider {
+public class VariationPointItemProvider extends IdentifierItemProvider {
     /**
      * This constructs an instance from a factory and a notifier.
      * <!-- begin-user-doc --> <!--
@@ -50,6 +50,7 @@ public class VariationPointItemProvider extends CustomizableNameHavingItemProvid
         if (itemPropertyDescriptors == null) {
             super.getPropertyDescriptors(object);
 
+            addNamePropertyDescriptor(object);
             addDescriptionPropertyDescriptor(object);
             addLocationPropertyDescriptor(object);
             addVariabilityTypePropertyDescriptor(object);
@@ -57,6 +58,22 @@ public class VariationPointItemProvider extends CustomizableNameHavingItemProvid
             addExtensibilityPropertyDescriptor(object);
         }
         return itemPropertyDescriptors;
+    }
+
+    /**
+     * This adds a property descriptor for the Name feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addNamePropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add(createItemPropertyDescriptor(
+                ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+                getResourceLocator(),
+                getString("_UI_CustomizableNameHaving_name_feature"),
+                getString("_UI_PropertyDescriptor_description", "_UI_CustomizableNameHaving_name_feature",
+                        "_UI_CustomizableNameHaving_type"), variabilityPackage.Literals.CUSTOMIZABLE_NAME_HAVING__NAME,
+                true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
     }
 
     /**
@@ -243,6 +260,7 @@ public class VariationPointItemProvider extends CustomizableNameHavingItemProvid
         updateChildren(notification);
 
         switch (notification.getFeatureID(VariationPoint.class)) {
+        case variabilityPackage.VARIATION_POINT__NAME:
         case variabilityPackage.VARIATION_POINT__DESCRIPTION:
         case variabilityPackage.VARIATION_POINT__VARIABILITY_TYPE:
         case variabilityPackage.VARIATION_POINT__BINDING_TIME:

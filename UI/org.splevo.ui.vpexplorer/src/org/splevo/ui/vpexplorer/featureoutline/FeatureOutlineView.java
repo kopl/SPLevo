@@ -24,6 +24,8 @@ import org.splevo.ui.vpexplorer.linking.ILinkableNavigator;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.collect.Iterables;
+
 /**
  * The Class VPGroupingExplorer.
  */
@@ -85,16 +87,13 @@ public class FeatureOutlineView extends CommonNavigator implements ILinkableNavi
     }
 
     @Override
-    public void elementSelectedInOtherNavigator(Object selectedElement) {
+    public void elementSelectedInOtherNavigator(Iterable<Object> selectedElements) {
         if (!this.isLinkingEnabled()) {
             return;
         }
         
-        if (!(selectedElement instanceof VariationPoint)) {
-            return;
-        }
-        
+        Iterable<VariationPoint> vps = Iterables.filter(selectedElements, VariationPoint.class);
         ITreeContentProvider contentProvider = getNavigatorContentService().createCommonContentProvider();
-        ILinkableNavigatorHelper.expandToObject(getCommonViewer(), contentProvider, (VariationPoint) selectedElement);
+        ILinkableNavigatorHelper.expandToObject(getCommonViewer(), contentProvider, vps);
     }
 }

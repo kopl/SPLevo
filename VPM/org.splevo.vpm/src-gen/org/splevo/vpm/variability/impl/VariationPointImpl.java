@@ -17,7 +17,9 @@ import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.CustomizableDescriptionHaving;
+import org.splevo.vpm.variability.CustomizableNameHaving;
 import org.splevo.vpm.variability.Extensible;
+import org.splevo.vpm.variability.Identifier;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -32,6 +34,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariants <em>Variants</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getLocation <em>Location</em>}</li>
@@ -44,7 +47,27 @@ import org.splevo.vpm.variability.variabilityPackage;
  *
  * @generated
  */
-public class VariationPointImpl extends CustomizableNameHavingImpl implements VariationPoint {
+public class VariationPointImpl extends IdentifierImpl implements VariationPoint {
+    /**
+     * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getName()
+     * @generated
+     * @ordered
+     */
+    protected static final String NAME_EDEFAULT = "";
+
+    /**
+     * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getName()
+     * @generated
+     * @ordered
+     */
+    protected String name = NAME_EDEFAULT;
+
     /**
      * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -172,6 +195,28 @@ public class VariationPointImpl extends CustomizableNameHavingImpl implements Va
     @Override
     protected EClass eStaticClass() {
         return variabilityPackage.Literals.VARIATION_POINT;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setName(String newName) {
+        String oldName = name;
+        name = newName;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, variabilityPackage.VARIATION_POINT__NAME, oldName,
+                    name));
     }
 
     /**
@@ -460,6 +505,8 @@ public class VariationPointImpl extends CustomizableNameHavingImpl implements Va
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT__NAME:
+            return getName();
         case variabilityPackage.VARIATION_POINT__DESCRIPTION:
             return getDescription();
         case variabilityPackage.VARIATION_POINT__VARIANTS:
@@ -493,6 +540,9 @@ public class VariationPointImpl extends CustomizableNameHavingImpl implements Va
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT__NAME:
+            setName((String) newValue);
+            return;
         case variabilityPackage.VARIATION_POINT__DESCRIPTION:
             setDescription((String) newValue);
             return;
@@ -530,6 +580,9 @@ public class VariationPointImpl extends CustomizableNameHavingImpl implements Va
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT__NAME:
+            setName(NAME_EDEFAULT);
+            return;
         case variabilityPackage.VARIATION_POINT__DESCRIPTION:
             setDescription(DESCRIPTION_EDEFAULT);
             return;
@@ -566,6 +619,8 @@ public class VariationPointImpl extends CustomizableNameHavingImpl implements Va
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
+        case variabilityPackage.VARIATION_POINT__NAME:
+            return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
         case variabilityPackage.VARIATION_POINT__DESCRIPTION:
             return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
         case variabilityPackage.VARIATION_POINT__VARIANTS:
@@ -593,6 +648,14 @@ public class VariationPointImpl extends CustomizableNameHavingImpl implements Va
      */
     @Override
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+        if (baseClass == CustomizableNameHaving.class) {
+            switch (derivedFeatureID) {
+            case variabilityPackage.VARIATION_POINT__NAME:
+                return variabilityPackage.CUSTOMIZABLE_NAME_HAVING__NAME;
+            default:
+                return -1;
+            }
+        }
         if (baseClass == CustomizableDescriptionHaving.class) {
             switch (derivedFeatureID) {
             case variabilityPackage.VARIATION_POINT__DESCRIPTION:
@@ -611,6 +674,14 @@ public class VariationPointImpl extends CustomizableNameHavingImpl implements Va
      */
     @Override
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+        if (baseClass == CustomizableNameHaving.class) {
+            switch (baseFeatureID) {
+            case variabilityPackage.CUSTOMIZABLE_NAME_HAVING__NAME:
+                return variabilityPackage.VARIATION_POINT__NAME;
+            default:
+                return -1;
+            }
+        }
         if (baseClass == CustomizableDescriptionHaving.class) {
             switch (baseFeatureID) {
             case variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION:
@@ -633,7 +704,9 @@ public class VariationPointImpl extends CustomizableNameHavingImpl implements Va
             return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (description: ");
+        result.append(" (name: ");
+        result.append(name);
+        result.append(", description: ");
         result.append(description);
         result.append(", variabilityType: ");
         result.append(variabilityType);

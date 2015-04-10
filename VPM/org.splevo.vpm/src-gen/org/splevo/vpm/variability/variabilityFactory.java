@@ -58,6 +58,15 @@ public interface variabilityFactory extends EFactory {
     VariationPointGroup createVariationPointGroup();
 
     /**
+     * Returns a new object of class '<em>Identifier</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Identifier</em>'.
+     * @generated
+     */
+    Identifier createIdentifier();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

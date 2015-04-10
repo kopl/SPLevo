@@ -71,6 +71,8 @@ public class variabilityFactoryImpl extends EFactoryImpl implements variabilityF
             return createVariationPointModel();
         case variabilityPackage.VARIATION_POINT_GROUP:
             return createVariationPointGroup();
+        case variabilityPackage.IDENTIFIER:
+            return createIdentifier();
         default:
             throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -152,6 +154,16 @@ public class variabilityFactoryImpl extends EFactoryImpl implements variabilityF
     public VariationPointGroup createVariationPointGroup() {
         VariationPointGroupImpl variationPointGroup = new VariationPointGroupImpl();
         return variationPointGroup;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Identifier createIdentifier() {
+        IdentifierImpl identifier = new IdentifierImpl();
+        return identifier;
     }
 
     /**

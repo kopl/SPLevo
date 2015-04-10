@@ -39,6 +39,7 @@ import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
 import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
 import org.splevo.ui.refinementbrowser.listener.HighlightConnectedVPListener;
+import org.splevo.ui.refinementbrowser.listener.RefinementDetailsViewSynchronizeListener;
 import org.splevo.ui.refinementbrowser.listener.RefinementInfoSelectionListener;
 import org.splevo.ui.util.UIUtil;
 import org.splevo.vpm.refinement.Refinement;
@@ -94,6 +95,7 @@ public class RefinementDetailsView extends Composite {
         refinementDetailsTreeViewer.addDoubleClickListener(new ExpandTreeListener());
         refinementDetailsTreeViewer.addSelectionChangedListener(new RefinementInfoSelectionListener(this));
         refinementDetailsTreeViewer.addSelectionChangedListener(new HighlightConnectedVPListener());
+        refinementDetailsTreeViewer.addSelectionChangedListener(new RefinementDetailsViewSynchronizeListener());
         initContextMenu(refinementDetailsTreeViewer, site);
         initToolTips(refinementDetailsTreeViewer);
 

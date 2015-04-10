@@ -39,9 +39,12 @@ import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -277,9 +280,22 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
     }
 
     @Override
-    public Object getParent(Object element) {
+    public Object getParent(final Object element) {
         if (element instanceof VariationPoint) {
-            return vpFileIndex.get((VariationPoint) element);
+            File parent = vpFileIndex.get((VariationPoint) element);
+            if (parent != null) {
+                return parent;
+            }
+            Optional<VariationPoint> corr = Iterables.tryFind(vpFileIndex.keySet(), new Predicate<VariationPoint>() {
+                @Override
+                public boolean apply(VariationPoint arg0) {
+                    return arg0.getId().equals(((VariationPoint) element).getId());
+                }
+            });
+            if (corr.isPresent()) {
+                return vpFileIndex.get(corr.get());
+            }
+            return null;
         } else if (element instanceof Variant) {
             return ((Variant) element).getVariationPoint();
         } else if (element instanceof SoftwareElement) {

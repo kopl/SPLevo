@@ -26,7 +26,7 @@ import org.splevo.vpm.software.SoftwareElement;
  * @model
  * @generated
  */
-public interface VariationPoint extends CustomizableNameHaving, CustomizableDescriptionHaving {
+public interface VariationPoint extends Identifier, CustomizableNameHaving, CustomizableDescriptionHaving {
     /**
      * Returns the value of the '<em><b>Variants</b></em>' containment reference list.
      * The list contents are of type {@link org.splevo.vpm.variability.Variant}.

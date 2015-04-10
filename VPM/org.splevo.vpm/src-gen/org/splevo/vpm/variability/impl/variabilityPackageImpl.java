@@ -18,6 +18,7 @@ import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.CustomizableDescriptionHaving;
 import org.splevo.vpm.variability.CustomizableNameHaving;
 import org.splevo.vpm.variability.Extensible;
+import org.splevo.vpm.variability.Identifier;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -74,6 +75,13 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * @generated
      */
     private EClass customizableNameHavingEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass identifierEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -404,6 +412,24 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getIdentifier() {
+        return identifierEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getIdentifier_Id() {
+        return (EAttribute) identifierEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EEnum getExtensible() {
         return extensibleEEnum;
     }
@@ -486,6 +512,9 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         customizableNameHavingEClass = createEClass(CUSTOMIZABLE_NAME_HAVING);
         createEAttribute(customizableNameHavingEClass, CUSTOMIZABLE_NAME_HAVING__NAME);
 
+        identifierEClass = createEClass(IDENTIFIER);
+        createEAttribute(identifierEClass, IDENTIFIER__ID);
+
         // Create enums
         extensibleEEnum = createEEnum(EXTENSIBLE);
         variabilityTypeEEnum = createEEnum(VARIABILITY_TYPE);
@@ -530,6 +559,7 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         // Set bounds for type parameters
 
         // Add supertypes to classes
+        variationPointEClass.getESuperTypes().add(this.getIdentifier());
         variationPointEClass.getESuperTypes().add(this.getCustomizableNameHaving());
         variationPointEClass.getESuperTypes().add(this.getCustomizableDescriptionHaving());
         variationPointGroupEClass.getESuperTypes().add(this.getCustomizableNameHaving());
@@ -611,6 +641,11 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         initEAttribute(getCustomizableNameHaving_Name(), ecorePackage.getEString(), "name", "", 1, 1,
                 CustomizableNameHaving.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
                 IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(identifierEClass, Identifier.class, "Identifier", !IS_ABSTRACT, !IS_INTERFACE,
+                IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getIdentifier_Id(), ecorePackage.getEString(), "id", null, 1, 1, Identifier.class,
+                !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
         // Initialize enums and add enum literals
         initEEnum(extensibleEEnum, Extensible.class, "Extensible");

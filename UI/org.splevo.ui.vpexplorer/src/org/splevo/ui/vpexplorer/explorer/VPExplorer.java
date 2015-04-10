@@ -34,6 +34,8 @@ import org.splevo.ui.vpexplorer.util.VPMUIUtil;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.collect.Iterables;
+
 /**
  * The VPExplorer displays a VP model in a tree structure.
  */
@@ -195,17 +197,14 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator, V
     }
 
     @Override
-    public void elementSelectedInOtherNavigator(Object selectedElement) {
+    public void elementSelectedInOtherNavigator(Iterable<Object> selectedElement) {
         if (!this.isLinkingEnabled()) {
             return;
         }
 
-        if (!(selectedElement instanceof VariationPoint)) {
-            return;
-        }
-
+        Iterable<VariationPoint> vps = Iterables.filter(selectedElement, VariationPoint.class);
         ITreeContentProvider contentProvider = getNavigatorContentService().createCommonContentProvider();
-        ILinkableNavigatorHelper.expandToObject(getCommonViewer(), contentProvider, (VariationPoint) selectedElement);
+        ILinkableNavigatorHelper.expandToObject(getCommonViewer(), contentProvider, vps);
     }
 
 }

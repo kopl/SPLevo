@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vpm" nsURI="http://splevo.org/vpm/1.0" nsPrefix="org.splevo.vpm">
   <eSubpackages name="variability" nsURI="http://splevo.org/vpm/1.0/variability" nsPrefix="variability">
-    <eClassifiers xsi:type="ecore:EClass" name="VariationPoint" eSuperTypes="#//variability/CustomizableNameHaving #//variability/CustomizableDescriptionHaving">
+    <eClassifiers xsi:type="ecore:EClass" name="VariationPoint" eSuperTypes="#//variability/Identifier #//variability/CustomizableNameHaving #//variability/CustomizableDescriptionHaving">
       <eStructuralFeatures xsi:type="ecore:EReference" name="variants" upperBound="-1"
           eType="#//variability/Variant" containment="true" eOpposite="#//variability/Variant/variationPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="location" lowerBound="1"
@@ -142,6 +142,11 @@
           <details key="documentation" value="The customizable name of the element."/>
         </eAnnotations>
       </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Identifier">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="software" nsURI="http://splevo.org/vpm/1.0/software" nsPrefix="software">

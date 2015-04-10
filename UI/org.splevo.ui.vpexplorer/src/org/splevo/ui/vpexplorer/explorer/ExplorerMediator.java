@@ -12,7 +12,10 @@
 
 package org.splevo.ui.vpexplorer.explorer;
 
+import java.util.Set;
+
 import org.apache.log4j.Logger;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -21,8 +24,18 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.featureoutline.FeatureOutlineView;
+import org.splevo.ui.vpexplorer.linking.ILinkableNavigator.ILinkableNavigatorHelper;
+import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
+
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * This mediator coordinates the interactions between a VP explorer and a VP grouping explorer.
@@ -102,21 +115,72 @@ public class ExplorerMediator implements ISelectionChangedListener {
             }
         });
     }
+    
+    private VariationPointModel getCurrentVPM() {
+        if (vpGroupingExplorer != null && vpGroupingExplorer.getVpExplorerContent() != null) {
+            return vpGroupingExplorer.getVpExplorerContent().getVpm();
+        }
+        if (vpExplorer != null && vpExplorer.getVpExplorerContent() != null) {
+            return vpExplorer.getVpExplorerContent().getVpm();
+        }
+        return null;
+    }
+    
+    private Iterable<Object> preprocessSelectedObjects(Iterable<Object> selectedObjects) {
+        final VariationPointModel currentVPM = getCurrentVPM();
+        if (currentVPM == null) {
+            return selectedObjects;
+        }
+        
+        Iterable<VariationPoint> selectedVPs = Iterables.filter(selectedObjects, VariationPoint.class);
+        Iterable<VariationPoint> mappedVPs = Iterables.transform(selectedVPs, new Function<VariationPoint, VariationPoint>() {
+            private VariationPointModel getParentVPM(VariationPoint vpm) {
+                EObject parent = vpm.eContainer();
+                while (parent != null && !(parent instanceof VariationPointModel)) {
+                    parent = parent.eContainer();
+                }
+                return (VariationPointModel) parent;
+            }
+            @Override
+            public VariationPoint apply(VariationPoint arg0) {
+                if (getParentVPM(arg0) == currentVPM) {
+                    return arg0;
+                }
+                Optional<VariationPoint> vp = ILinkableNavigatorHelper.find(arg0, currentVPM);
+                if (vp.isPresent()) {
+                    return vp.get();
+                }
+                return null;
+            } });
+        Iterable<VariationPoint> selectedAndAvailableVPs = Iterables.filter(mappedVPs, Predicates.notNull());
+        
+        Set<Object> noVPObjects = Sets.difference(Sets.newHashSet(selectedObjects), Sets.newHashSet(selectedVPs));
+        return Iterables.concat(noVPObjects, selectedAndAvailableVPs);
+    }
 
     @Override
     public void selectionChanged(SelectionChangedEvent event) {
         if (!(event.getSelection() instanceof IStructuredSelection)) {
             return;
         }
+                
         IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+        @SuppressWarnings("unchecked")
+        Iterable<Object> selectedObjects = preprocessSelectedObjects(Lists.newArrayList(selection.iterator()));
         
         if (vpExplorer != null && event.getSource() != vpExplorer.getCommonViewer()) {
-            vpExplorer.elementSelectedInOtherNavigator(selection.getFirstElement());
+            vpExplorer.elementSelectedInOtherNavigator(selectedObjects);
         }
         
         if (vpGroupingExplorer != null && event.getSource() != vpGroupingExplorer.getCommonViewer()) {
-            vpGroupingExplorer.elementSelectedInOtherNavigator(selection.getFirstElement());
+            vpGroupingExplorer.elementSelectedInOtherNavigator(selectedObjects);
         }
     }
 
+    /**
+     * @return The singleton instance of the mediator or null if no such instance has been initialized yet.
+     */
+    public static ExplorerMediator getInstance() {
+        return Activator.EXPLORER_MEDIATOR;
+    }
 }
