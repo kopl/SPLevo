@@ -5,6 +5,9 @@
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,External/org.graphstream"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,External/org.lucene"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,External/org.mockito"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,Commons/org.splevo.commons"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,Commons/org.splevo.commons.feature"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,Commons/org.splevo.commons.test"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Diffing/org.splevo.diffing"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Diffing/org.splevo.diffing.feature"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Diffing/org.splevo.diffing.tests"/>
@@ -41,15 +44,16 @@
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.vpm.mergedecider"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.vpm.mergedecider.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.vpm.tests"/>
-<project reference="1.0,https://github.com/kopl/SPLevo.git,master,UI/org.splevo.project"/>
-<project reference="1.0,https://github.com/kopl/SPLevo.git,master,UI/org.splevo.project.edit"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Refactoring/org.splevo.refactoring"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Refactoring/org.splevo.refactoring.feature"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Refactoring/org.splevo.refactoring.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Releng/org.splevo.releng.buckminster"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Releng/org.splevo.releng.codeconventions"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,Releng/org.splevo.tests"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,UI/org.splevo.project"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,UI/org.splevo.project.edit"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,UI/org.splevo.ui"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,UI/org.splevo.ui.commons"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,UI/org.splevo.ui.feature"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,UI/org.splevo.ui.vpexplorer"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,UI/org.splevo.ui.wizard.consolidation"/>
@@ -76,6 +80,11 @@
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,VPMRefinement/org.splevo.vpm.refinement.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,VPM/org.splevo.vpm.tests"/>
 </provider>
+<workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1356525798625_4" label="SPLevo Commons" name="SPLevo Commons">
+<item elementID="=org.splevo.commons" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.splevo.commons.feature" type="4"/>
+<item elementID="=org.splevo.commons.test" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+</workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1356625798625_4" label="SPLevo Diffing" name="SPLevo Diffing">
 <item elementID="=org.splevo.diffing" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.splevo.diffing.feature" type="4"/>
@@ -95,6 +104,7 @@
 <item elementID="=de.devboost.featuremapper.splevo.builder" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=de.devboost.featuremapper.splevo.builder.test" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=de.devboost.featuremapper.splevo.builder.feature" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/de.devboost.featuremapper.splevo.builder.feature" type="4"/>
 <item elementID="=org.splevo.fm.builder" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.fm.builder.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.fm.emffeaturemodel.builder" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
@@ -141,6 +151,7 @@
 </workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1356627040457_11" label="SPLevo UI" name="SPLevo UI">
 <item elementID="=org.splevo.ui" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.splevo.ui.commons" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.splevo.ui.feature" type="4"/>
 <item elementID="=org.splevo.ui.vpexplorer" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.ui.wizard.consolidation" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
