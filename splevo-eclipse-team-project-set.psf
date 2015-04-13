@@ -103,7 +103,6 @@
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1356626940724_6" label="SPLevo FM" name="SPLevo FM">
 <item elementID="=de.devboost.featuremapper.splevo.builder" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=de.devboost.featuremapper.splevo.builder.test" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
-<item elementID="=de.devboost.featuremapper.splevo.builder.feature" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/de.devboost.featuremapper.splevo.builder.feature" type="4"/>
 <item elementID="=org.splevo.fm.builder" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.fm.builder.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
