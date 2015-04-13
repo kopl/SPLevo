@@ -25,6 +25,7 @@ The update site provides access to:
 
 * The SPLevo Core
 * Technology Cartridges
+* Feature Model Catridges
 * (SPLevo Utiltities)
 
 The later provides access to a small tool called SPLevo Metrics View but is not required to use SPLevo.
