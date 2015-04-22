@@ -14,6 +14,7 @@ package org.splevo.ui.vpexplorer.explorer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
@@ -109,10 +110,10 @@ public class LoadVPMCompositeHandler {
             for (IFile projectFile : projectFiles) {
                 try {
                     SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel(projectFile);
-                    String vpmPath = Iterables.getLast(project.getVpmModelPaths());
-                    if (vpmPath != null) {
-                        elements.add(new VPMLoadingInformation(project, vpmPath));
-                    }
+                    String vpmPath = Iterables.getLast(project.getVpmModelPaths());                        
+                    elements.add(new VPMLoadingInformation(project, vpmPath));
+                } catch (NoSuchElementException e) {
+                    continue;
                 } catch (IOException e) {
                     // we skip the project on a loading error
                     LOGGER.warn("Error loading the SPLevo project.", e);
