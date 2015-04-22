@@ -188,26 +188,26 @@ public interface VariationPoint extends Identifier, CustomizableNameHaving, Cust
     void setExtensibility(Extensible value);
 
     /**
-     * Returns the value of the '<em><b>Variability Mechanism</b></em>' reference.
+     * Returns the value of the '<em><b>Variability Mechanism</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Variability Mechanism</em>' containment reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Variability Mechanism</em>' reference.
+     * @return the value of the '<em>Variability Mechanism</em>' containment reference.
      * @see #setVariabilityMechanism(VariabilityMechanism)
      * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint_VariabilityMechanism()
-     * @model
+     * @model containment="true"
      * @generated
      */
     VariabilityMechanism getVariabilityMechanism();
 
     /**
-     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}' reference.
+     * Sets the value of the '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Variability Mechanism</em>' reference.
+     * @param value the new value of the '<em>Variability Mechanism</em>' containment reference.
      * @see #getVariabilityMechanism()
      * @generated
      */

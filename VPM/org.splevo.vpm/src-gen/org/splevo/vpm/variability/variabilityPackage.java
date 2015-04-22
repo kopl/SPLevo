@@ -226,7 +226,7 @@ public interface variabilityPackage extends EPackage {
     int VARIATION_POINT__EXTENSIBILITY = IDENTIFIER_FEATURE_COUNT + 7;
 
     /**
-     * The feature id for the '<em><b>Variability Mechanism</b></em>' reference.
+     * The feature id for the '<em><b>Variability Mechanism</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -521,10 +521,10 @@ public interface variabilityPackage extends EPackage {
     EAttribute getVariationPoint_Extensibility();
 
     /**
-     * Returns the meta object for the reference '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}'.
+     * Returns the meta object for the containment reference '{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Variability Mechanism</em>'.
+     * @return the meta object for the containment reference '<em>Variability Mechanism</em>'.
      * @see org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism()
      * @see #getVariationPoint()
      * @generated
@@ -845,7 +845,7 @@ public interface variabilityPackage extends EPackage {
         EAttribute VARIATION_POINT__EXTENSIBILITY = eINSTANCE.getVariationPoint_Extensibility();
 
         /**
-         * The meta object literal for the '<em><b>Variability Mechanism</b></em>' reference feature.
+         * The meta object literal for the '<em><b>Variability Mechanism</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated

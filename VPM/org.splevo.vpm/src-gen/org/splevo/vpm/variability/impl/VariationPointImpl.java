@@ -169,7 +169,7 @@ public class VariationPointImpl extends IdentifierImpl implements VariationPoint
     protected Extensible extensibility = EXTENSIBILITY_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getVariabilityMechanism() <em>Variability Mechanism</em>}' reference.
+     * The cached value of the '{@link #getVariabilityMechanism() <em>Variability Mechanism</em>}' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #getVariabilityMechanism()
@@ -411,16 +411,6 @@ public class VariationPointImpl extends IdentifierImpl implements VariationPoint
      * @generated
      */
     public VariabilityMechanism getVariabilityMechanism() {
-        if (variabilityMechanism != null && variabilityMechanism.eIsProxy()) {
-            InternalEObject oldVariabilityMechanism = (InternalEObject) variabilityMechanism;
-            variabilityMechanism = (VariabilityMechanism) eResolveProxy(oldVariabilityMechanism);
-            if (variabilityMechanism != oldVariabilityMechanism) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-                            variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, oldVariabilityMechanism,
-                            variabilityMechanism));
-            }
-        }
         return variabilityMechanism;
     }
 
@@ -429,8 +419,20 @@ public class VariationPointImpl extends IdentifierImpl implements VariationPoint
      * <!-- end-user-doc -->
      * @generated
      */
-    public VariabilityMechanism basicGetVariabilityMechanism() {
-        return variabilityMechanism;
+    public NotificationChain basicSetVariabilityMechanism(VariabilityMechanism newVariabilityMechanism,
+            NotificationChain msgs) {
+        VariabilityMechanism oldVariabilityMechanism = variabilityMechanism;
+        variabilityMechanism = newVariabilityMechanism;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+                    variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, oldVariabilityMechanism,
+                    newVariabilityMechanism);
+            if (msgs == null)
+                msgs = notification;
+            else
+                msgs.add(notification);
+        }
+        return msgs;
     }
 
     /**
@@ -439,12 +441,21 @@ public class VariationPointImpl extends IdentifierImpl implements VariationPoint
      * @generated
      */
     public void setVariabilityMechanism(VariabilityMechanism newVariabilityMechanism) {
-        VariabilityMechanism oldVariabilityMechanism = variabilityMechanism;
-        variabilityMechanism = newVariabilityMechanism;
-        if (eNotificationRequired())
+        if (newVariabilityMechanism != variabilityMechanism) {
+            NotificationChain msgs = null;
+            if (variabilityMechanism != null)
+                msgs = ((InternalEObject) variabilityMechanism).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+                        - variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, null, msgs);
+            if (newVariabilityMechanism != null)
+                msgs = ((InternalEObject) newVariabilityMechanism).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+                        - variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, null, msgs);
+            msgs = basicSetVariabilityMechanism(newVariabilityMechanism, msgs);
+            if (msgs != null)
+                msgs.dispatch();
+        } else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET,
-                    variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, oldVariabilityMechanism,
-                    variabilityMechanism));
+                    variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, newVariabilityMechanism,
+                    newVariabilityMechanism));
     }
 
     /**
@@ -478,6 +489,8 @@ public class VariationPointImpl extends IdentifierImpl implements VariationPoint
             return ((InternalEList<?>) getVariants()).basicRemove(otherEnd, msgs);
         case variabilityPackage.VARIATION_POINT__GROUP:
             return basicSetGroup(null, msgs);
+        case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
+            return basicSetVariabilityMechanism(null, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -524,9 +537,7 @@ public class VariationPointImpl extends IdentifierImpl implements VariationPoint
         case variabilityPackage.VARIATION_POINT__EXTENSIBILITY:
             return getExtensibility();
         case variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM:
-            if (resolve)
-                return getVariabilityMechanism();
-            return basicGetVariabilityMechanism();
+            return getVariabilityMechanism();
         }
         return super.eGet(featureID, resolve, coreType);
     }

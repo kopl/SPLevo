@@ -24,7 +24,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="extensibility" lowerBound="1"
           eType="#//variability/Extensible" defaultValueLiteral="NO"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variabilityMechanism"
-          eType="#//realization/VariabilityMechanism"/>
+          eType="#//realization/VariabilityMechanism" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Variant">
       <eStructuralFeatures xsi:type="ecore:EReference" name="childFeature" eType="ecore:EClass ../../org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
