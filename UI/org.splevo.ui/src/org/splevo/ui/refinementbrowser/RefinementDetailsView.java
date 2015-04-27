@@ -35,6 +35,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
+import org.splevo.ui.refinementbrowser.action.RefinementEditDescriptionAction;
 import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
 import org.splevo.ui.refinementbrowser.listener.ExpandTreeListener;
@@ -284,8 +285,10 @@ public class RefinementDetailsView extends Composite {
             public void menuAboutToShow(IMenuManager manager) {
                 IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
                 if (!selection.isEmpty() && selection.getFirstElement() instanceof Refinement) {
-                    Action renameAction = new RenameRefinementAction(viewer);
-                    manager.add(renameAction);
+                    Action action = new RenameRefinementAction(viewer);
+                    manager.add(action);
+                    action = new RefinementEditDescriptionAction(viewer);
+                    manager.add(action);
                 }
             }
         });

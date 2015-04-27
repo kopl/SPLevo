@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.splevo.vpm.refinement.*;
+import org.splevo.vpm.variability.CustomizableDescriptionHaving;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementPackage;
@@ -88,6 +89,11 @@ public class RefinementAdapterFactory extends AdapterFactoryImpl {
         }
 
         @Override
+        public Adapter caseCustomizableDescriptionHaving(CustomizableDescriptionHaving object) {
+            return createCustomizableDescriptionHavingAdapter();
+        }
+
+        @Override
         public Adapter defaultCase(EObject object) {
             return createEObjectAdapter();
         }
@@ -129,6 +135,20 @@ public class RefinementAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createRefinementReasonAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.vpm.variability.CustomizableDescriptionHaving <em>Customizable Description Having</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.vpm.variability.CustomizableDescriptionHaving
+     * @generated
+     */
+    public Adapter createCustomizableDescriptionHavingAdapter() {
         return null;
     }
 

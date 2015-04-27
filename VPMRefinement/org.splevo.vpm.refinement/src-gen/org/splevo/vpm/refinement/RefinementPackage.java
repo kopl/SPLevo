@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.splevo.vpm.variability.variabilityPackage;
 
 /**
  * <!-- begin-user-doc --> The <b>Package</b> for the model. It contains accessors for the meta
@@ -88,13 +89,22 @@ public interface RefinementPackage extends EPackage {
     int REFINEMENT_MODEL_FEATURE_COUNT = 1;
 
     /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int REFINEMENT__DESCRIPTION = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING__DESCRIPTION;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int REFINEMENT__ID = 0;
+    int REFINEMENT__ID = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -103,7 +113,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__TYPE = 1;
+    int REFINEMENT__TYPE = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Variation Points</b></em>' reference list.
@@ -112,7 +122,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__VARIATION_POINTS = 2;
+    int REFINEMENT__VARIATION_POINTS = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Refinement Model</b></em>' container reference. <!--
@@ -121,7 +131,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__REFINEMENT_MODEL = 3;
+    int REFINEMENT__REFINEMENT_MODEL = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' attribute.
@@ -130,7 +140,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__SOURCE = 4;
+    int REFINEMENT__SOURCE = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -139,7 +149,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__PARENT = 5;
+    int REFINEMENT__PARENT = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Sub Refinements</b></em>' containment reference list.
@@ -148,7 +158,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__SUB_REFINEMENTS = 6;
+    int REFINEMENT__SUB_REFINEMENTS = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Reasons</b></em>' containment reference list.
@@ -157,7 +167,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT__REASONS = 7;
+    int REFINEMENT__REASONS = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT + 7;
 
     /**
      * The number of structural features of the '<em>Refinement</em>' class.
@@ -166,7 +176,7 @@ public interface RefinementPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int REFINEMENT_FEATURE_COUNT = 8;
+    int REFINEMENT_FEATURE_COUNT = variabilityPackage.CUSTOMIZABLE_DESCRIPTION_HAVING_FEATURE_COUNT + 8;
 
     /**
      * The meta object id for the '{@link org.splevo.vpm.refinement.impl.RefinementReasonImpl <em>Reason</em>}' class.

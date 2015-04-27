@@ -20,10 +20,10 @@ import org.splevo.vpm.refinement.RefinementPackage;
  * end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementModelImpl#getRefinements <em>Refinements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

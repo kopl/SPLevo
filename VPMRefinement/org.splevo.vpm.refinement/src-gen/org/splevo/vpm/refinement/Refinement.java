@@ -13,6 +13,7 @@ package org.splevo.vpm.refinement;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.splevo.vpm.variability.CustomizableDescriptionHaving;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -25,6 +26,7 @@ import org.splevo.vpm.variability.VariationPoint;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getType <em>Type</em>}</li>
@@ -35,13 +37,12 @@ import org.splevo.vpm.variability.VariationPoint;
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getSubRefinements <em>Sub Refinements</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.Refinement#getReasons <em>Reasons</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.splevo.vpm.refinement.RefinementPackage#getRefinement()
  * @model
  * @generated
  */
-public interface Refinement extends EObject {
+public interface Refinement extends CustomizableDescriptionHaving {
     /**
      * Returns the value of the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->

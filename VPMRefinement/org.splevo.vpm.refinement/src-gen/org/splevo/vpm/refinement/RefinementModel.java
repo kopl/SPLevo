@@ -15,10 +15,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.RefinementModel#getRefinements <em>Refinements</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.splevo.vpm.refinement.RefinementPackage#getRefinementModel()
  * @model

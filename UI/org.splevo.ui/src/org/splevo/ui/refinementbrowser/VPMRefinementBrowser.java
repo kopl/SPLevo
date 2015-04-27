@@ -41,11 +41,13 @@ import org.eclipse.ui.menus.IMenuService;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.ui.SPLevoUIPlugin;
+import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.refinementbrowser.action.ApplyRefinementsAction;
 import org.splevo.ui.refinementbrowser.action.ApplySelectedRefinementsAction;
 import org.splevo.ui.refinementbrowser.action.CancelAction;
 import org.splevo.ui.refinementbrowser.action.DeleteRefinementAction;
+import org.splevo.ui.refinementbrowser.action.RefinementEditDescriptionAction;
 import org.splevo.ui.refinementbrowser.action.RenameRefinementAction;
 import org.splevo.ui.refinementbrowser.action.ToggleVisualizationAction;
 import org.splevo.ui.refinementbrowser.listener.CommandActionMenuListener;
@@ -133,6 +135,7 @@ public class VPMRefinementBrowser extends EditorPart {
         manager.update(true);
 
         initContextMenu();
+        initToolTips(refinementListView);
     }
 
     private void createRefinementDetails(SashForm sashForm) {
@@ -238,12 +241,18 @@ public class VPMRefinementBrowser extends EditorPart {
                 manager.add(action);
                 action = new RenameRefinementAction(refinementListView);
                 manager.add(action);
+                action = new RefinementEditDescriptionAction(refinementListView);
+                manager.add(action);
             }
         });
         menuMgr.addMenuListener(new CommandActionMenuListener("org.splevo.ui.commands.argouml.variantscan",
                 SPLevoUIPlugin.getImageDescriptor("icons/kopl_circle_only.png")));
         Menu menu = menuMgr.createContextMenu(refinementListView.getTree());
         refinementListView.getTree().setMenu(menu);
+    }
+    
+    private void initToolTips(TreeViewer viewer) {
+        new CustomizableDescriptionHavingTreeViewerToolTip(viewer);
     }
 
     @Override

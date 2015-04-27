@@ -8,7 +8,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="refinements" upperBound="-1"
         eType="#//Refinement" containment="true" eOpposite="#//Refinement/refinementModel"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Refinement">
+  <eClassifiers xsi:type="ecore:EClass" name="Refinement" eSuperTypes="platform:/plugin/org.splevo.vpm/model/vpm.ecore#//variability/CustomizableDescriptionHaving">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A refinement identifies a refinement within a variation point model."/>
     </eAnnotations>

@@ -16,19 +16,19 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.TreeItem;
 
 /**
- * Base class for rename actions in the refinement browser.
+ * Base class for actions on single elements in the refinement browser.
  */
-public abstract class RefinementBrowserRenameAction extends RefinementBrowserContextMenuAction {
+public abstract class RefinementBrowserSingleElementAction extends RefinementBrowserContextMenuAction {
 
-    private static final Logger LOGGER = Logger.getLogger(RefinementBrowserRenameAction.class);
-    private static final String LABEL = "Rename";
+    private static final Logger LOGGER = Logger.getLogger(RefinementBrowserSingleElementAction.class);
     
     /**
-     * Constructs a new rename action for the refinement browser.
-     * @param treeViewer The tree viewer containing the refinements.
+     * Constructs a single element refinement browser action.
+     * @param label The label of the action.
+     * @param treeViewer The corresponding tree viewer.
      */
-    protected RefinementBrowserRenameAction(TreeViewer treeViewer) {
-        super(LABEL, treeViewer);
+    protected RefinementBrowserSingleElementAction(String label, TreeViewer treeViewer) {
+        super(label, treeViewer);
     }
 
     @Override
@@ -45,9 +45,9 @@ public abstract class RefinementBrowserRenameAction extends RefinementBrowserCon
     }
     
     /**
-     * Indicates if the given element is correctly typed for the rename action.
-     * @param element The element to be renamed.
-     * @return True if the element is correctly typed and therefore a rename operation can be applied.
+     * Indicates if the given element is correctly typed for the action.
+     * @param element The element to be processed.
+     * @return True if the element is correctly typed and therefore can be processed.
      */
     protected abstract boolean isCorrectlyTyped(Object element);
 
@@ -55,17 +55,17 @@ public abstract class RefinementBrowserRenameAction extends RefinementBrowserCon
     protected void perform() {
         TreeItem[] selection = getTreeViewer().getTree().getSelection();
         for (TreeItem treeItem : selection) {
-            if (!renameElement(treeItem.getData())) {
-                LOGGER.debug("Refinement rename canceled");
+            if (!perform(treeItem.getData())) {
+                LOGGER.debug("Refinement processing failed.");
             }
         }
     }
     
     /**
-     * Starts the UI interaction to determine the new name and renames the element.
-     * @param element The element to be renamed.
-     * @return True if the element has been renamed, False otherwise.
+     * Processes the selected element.
+     * @param element The element to be processed.
+     * @return True if the element has been processed successfully, False otherwise.
      */
-    protected abstract boolean renameElement(Object element);
+    protected abstract boolean perform(Object element);
 
 }

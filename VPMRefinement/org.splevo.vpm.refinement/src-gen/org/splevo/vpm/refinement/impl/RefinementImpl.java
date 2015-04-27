@@ -21,12 +21,14 @@ import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementReason;
 import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.impl.CustomizableDescriptionHavingImpl;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Refinement</b></em>'. <!--
  * end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getType <em>Type</em>}</li>
@@ -37,11 +39,10 @@ import org.splevo.vpm.variability.VariationPoint;
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getSubRefinements <em>Sub Refinements</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementImpl#getReasons <em>Reasons</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class RefinementImpl extends EObjectImpl implements Refinement {
+public class RefinementImpl extends CustomizableDescriptionHavingImpl implements Refinement {
     /**
      * The default value of the '{@link #getId() <em>Id</em>}' attribute.
      * <!-- begin-user-doc -->

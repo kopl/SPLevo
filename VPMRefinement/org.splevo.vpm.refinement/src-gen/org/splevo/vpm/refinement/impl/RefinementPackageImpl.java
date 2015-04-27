@@ -339,6 +339,7 @@ public class RefinementPackageImpl extends EPackageImpl implements RefinementPac
         // Set bounds for type parameters
 
         // Add supertypes to classes
+        refinementEClass.getESuperTypes().add(thevariabilityPackage.getCustomizableDescriptionHaving());
 
         // Initialize classes and features; add operations and parameters
         initEClass(refinementModelEClass, RefinementModel.class, "RefinementModel", !IS_ABSTRACT, !IS_INTERFACE,

@@ -21,13 +21,13 @@ import org.splevo.vpm.variability.VariationPoint;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.RefinementReason#getSource <em>Source</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.RefinementReason#getTarget <em>Target</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.RefinementReason#getRefinement <em>Refinement</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.RefinementReason#getReason <em>Reason</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.splevo.vpm.refinement.RefinementPackage#getRefinementReason()
  * @model

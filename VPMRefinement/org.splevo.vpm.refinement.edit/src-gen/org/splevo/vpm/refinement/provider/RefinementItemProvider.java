@@ -33,6 +33,7 @@ import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementPackage;
 import org.splevo.vpm.refinement.RefinementType;
 
+import org.splevo.vpm.variability.provider.CustomizableDescriptionHavingItemProvider;
 import com.google.common.base.Strings;
 
 /**
@@ -41,8 +42,7 @@ import com.google.common.base.Strings;
  *
  * @generated
  */
-public class RefinementItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
-        IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class RefinementItemProvider extends CustomizableDescriptionHavingItemProvider {
     /**
      * This constructs an instance from a factory and a notifier.
      * <!-- begin-user-doc --> <!--

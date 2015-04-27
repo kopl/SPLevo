@@ -94,6 +94,10 @@ public class VPMRefinementService {
         if (!Strings.isNullOrEmpty(refinement.getId())) {
             survivingVP.setName(refinement.getId());
         }
+        
+        if (!Strings.isNullOrEmpty(refinement.getDescription())) {
+            survivingVP.setDescription(refinement.getDescription());
+        }
 
         // clean up empty variation point groups
         LinkedList<VariationPointGroup> vpGroupsToDelete = new LinkedList<VariationPointGroup>();
@@ -137,7 +141,7 @@ public class VPMRefinementService {
             throw new RuntimeException("Tried to apply completely empty grouping.");
         }
 
-        combineGroups(vpm, variationPoints, refinement.getId());
+        combineGroups(vpm, variationPoints, refinement.getId(), refinement.getDescription());
     }
 
     /**
@@ -145,8 +149,11 @@ public class VPMRefinementService {
      *
      * @param vpm The variation point model to manipulate.
      * @param variationPoints The variation points to combine the groups of.
+     * @param newGroupName The name of the new group (or null if no name shall be set)
+     * @param newGroupDescription  The description of the new group (or null if no description shall be set)
      */
-    private void combineGroups(VariationPointModel vpm, EList<VariationPoint> variationPoints, String newGroupName) {
+    private void combineGroups(VariationPointModel vpm, EList<VariationPoint> variationPoints, String newGroupName,
+            String newGroupDescription) {
         VariationPointGroup survivingGroup = variationPoints.get(0).getGroup();
         
         for (VariationPoint vp : variationPoints) {
@@ -159,6 +166,10 @@ public class VPMRefinementService {
         
         if (!Strings.isNullOrEmpty(newGroupName)) {
             survivingGroup.setName(newGroupName);
+        }
+        
+        if (!Strings.isNullOrEmpty(newGroupDescription)) {
+            survivingGroup.setDescription(newGroupDescription);
         }
     }
 }

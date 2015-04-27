@@ -98,6 +98,8 @@ public enum RefinementType implements Enumerator {
      * Returns the '<em><b>Type</b></em>' literal with the specified name.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @param name the name.
+     * @return the matching enumerator or <code>null</code>.
      * @generated
      */
     public static RefinementType getByName(String name) {

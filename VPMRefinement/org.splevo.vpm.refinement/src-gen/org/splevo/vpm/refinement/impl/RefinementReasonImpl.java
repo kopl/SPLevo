@@ -29,13 +29,13 @@ import org.splevo.vpm.variability.VariationPoint;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementReasonImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementReasonImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementReasonImpl#getRefinement <em>Refinement</em>}</li>
  *   <li>{@link org.splevo.vpm.refinement.impl.RefinementReasonImpl#getReason <em>Reason</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
