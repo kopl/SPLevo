@@ -210,7 +210,6 @@ litigation.
    </license>
 
    <requires>
-      <import plugin="com.google.guava"/>
       <import plugin="org.apache.log4j"/>
    </requires>
 
