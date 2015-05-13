@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
+  <rm:locator pattern="^com\.google\.guava" searchPathRef="orbit" failOnError="false"/>
+  <rm:locator pattern="^de\.devboost\.natspec\..*" searchPathRef="NatSpec" failOnError="false"/>
+  <rm:locator pattern="^de\.uka\.ipd\.sdq\..*" searchPathRef="palladio-commons" failOnError="false"/>
+  <rm:locator pattern="^de\.uka\.ipd\.sdq\..*" searchPathRef="workflowengine" failOnError="false"/>
+  <rm:locator pattern="^org\.eclipse\.featuremodel\..*" searchPathRef="EMFFeatureModel" failOnError="false"/>
+  <rm:locator pattern="^org\.emftext\.language\.java\.*" searchPathRef="jamopp" failOnError="false"/>
+  <rm:locator pattern="^org\.emftext(\..*\.|.)refactoring\..*" searchPathRef="refactory" failOnError="false"/>
+  <rm:locator pattern="^org\.emftext\..*" searchPathRef="emftext" failOnError="false"/>
+  <rm:locator pattern="^org\.featuremapper\..*" searchPathRef="FeatureMapper" failOnError="false"/>
   <rm:locator searchPathRef="localresources" failOnError="false"/>
   <rm:locator searchPathRef="localresources-ci-github" failOnError="false"/>
-  <rm:locator searchPathRef="guava" failOnError="false"/>
-  <rm:locator searchPathRef="jamopp" failOnError="false"/>
-  <rm:locator searchPathRef="emftext" failOnError="false"/>
-  <rm:locator searchPathRef="refactory" failOnError="false"/>
-  <rm:locator pattern="^de\.uka\.ipd\.sdq\..*" searchPathRef="workflowengine" failOnError="false"/>
-  <rm:locator searchPathRef="EMFFeatureModel" failOnError="false"/>
   <rm:locator searchPathRef="orbit" failOnError="false"/>
   <rm:locator searchPathRef="kepler" failOnError="false"/>
-  <rm:locator pattern="^de\.uka\.ipd\.sdq\..*" searchPathRef="palladio-commons" failOnError="false"/>
-  <rm:locator searchPathRef="FeatureMapper" failOnError="false"/>
-  <rm:locator searchPathRef="NatSpec" failOnError="false"/>
-  <rm:searchPath name="guava">
-    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.source" value="false"/>
-      <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
-    </rm:provider>
-  </rm:searchPath>
   <rm:searchPath name="emftext">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
@@ -165,7 +158,7 @@
     </rm:provider>
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="local">
       <rm:uri format="file:///{0}/Commons/{1}/">
-      	<bc:propertyRef key="workspace.root"/>
+        <bc:propertyRef key="workspace.root"/>
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>

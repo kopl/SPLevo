@@ -35,7 +35,7 @@
         <repository location='http://download.eclipse.org/releases/kepler'/>
       </repositories>
     </iu>
-    <iu id='com.google.guava' name='Guava: Google Core Libraries for Java' version='15.0.0.v201403281430'>
+    <iu id='com.google.guava' name='Guava: Google Core Libraries for Java' version='11.0.2.v201303041551'>
       <repositories size='1'>
         <repository location='http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/'/>
       </repositories>
