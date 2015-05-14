@@ -7,4 +7,4 @@ Bundle-Vendor: www.splevo.org
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.splevo.vpm.analyzer.semantic;bundle-version="1.0.0",
  org.splevo.jamopp.vpm;bundle-version="1.0.0",
- com.google.guava;bundle-version="11.0.2"
+ com.google.guava;bundle-version="[11.0.0,15.0.0)"

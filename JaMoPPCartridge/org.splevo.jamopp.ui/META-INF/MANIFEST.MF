@@ -11,4 +11,4 @@ Require-Bundle: org.splevo.ui,
  org.eclipse.jface,
  org.splevo.vpm,
  org.splevo.jamopp.vpm,
- com.google.guava
+ com.google.guava;bundle-version="[11.0.0,15.0.0)"

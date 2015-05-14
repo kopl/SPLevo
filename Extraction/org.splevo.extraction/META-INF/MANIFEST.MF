@@ -7,7 +7,7 @@ Bundle-Activator: org.splevo.extraction.Activator
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.apache.log4j,
- com.google.guava;bundle-version="11.0.2"
+ com.google.guava;bundle-version="[11.0.0,15.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.extraction

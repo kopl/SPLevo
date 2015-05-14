@@ -9,7 +9,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.splevo.vpm.refinement;bundle-version="1.0.0",
  org.graphstream;bundle-version="1.2.0";visibility:=reexport,
  org.apache.log4j;bundle-version="1.2.15",
- com.google.guava;bundle-version="11.0.2",
+ com.google.guava;bundle-version="[11.0.0,15.0.0)",
  org.splevo.commons;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
