@@ -12,14 +12,22 @@
  *******************************************************************************/
 package org.splevo.ui.vpexplorer.explorer;
 
+import java.util.Iterator;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.viewers.IOpenListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.ITreeViewerListener;
+import org.eclipse.jface.viewers.OpenEvent;
+import org.eclipse.jface.viewers.TreeExpansionEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.project.SPLevoProject;
@@ -30,6 +38,7 @@ import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction;
 import org.splevo.ui.vpexplorer.explorer.actions.ExpandAllAction.MODE;
 import org.splevo.ui.vpexplorer.explorer.actions.SelectVisibleAction;
 import org.splevo.ui.vpexplorer.linking.ILinkableNavigator;
+import org.splevo.ui.vpexplorer.providers.VPExplorerContentProvider.VPExplorerContentFileWithChildReference;
 import org.splevo.ui.vpexplorer.util.VPMUIUtil;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -39,7 +48,7 @@ import com.google.common.collect.Iterables;
 /**
  * The VPExplorer displays a VP model in a tree structure.
  */
-public class VPExplorer extends CommonNavigator implements ILinkableNavigator, VPMLoader {
+public class VPExplorer extends CommonNavigator implements ILinkableNavigator, VPMLoader, ITreeViewerListener, IOpenListener {
 
     /**
      * Helper class for switching the displayed composite in the VPExplorer. Basically, there are
@@ -79,6 +88,7 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator, V
     private DisplayedCompositeSwitcher displayedCompositeSwitcher;
 
     private boolean showGrouping = false;
+    
 
     /**
      * Default explorer setting up the required dependencies.
@@ -137,6 +147,8 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator, V
             toolBar.add(new SwitchBackVPM(this));
         }
         getCommonViewer().addSelectionChangedListener(mediator);
+        getCommonViewer().addTreeListener(this);
+        getCommonViewer().addOpenListener(this);
     }
 
     @Override
@@ -205,6 +217,78 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator, V
         Iterable<VariationPoint> vps = Iterables.filter(selectedElement, VariationPoint.class);
         ITreeContentProvider contentProvider = getNavigatorContentService().createCommonContentProvider();
         ILinkableNavigatorHelper.expandToObject(getCommonViewer(), contentProvider, vps);
+    }
+    /**
+     * Expanding an element and all children that are the only entry in their parent.
+     * @param selectedElement the element to expand
+     */
+    public void expandTree(final VPExplorerContentFileWithChildReference selectedElement) {
+        getCommonViewer().getControl().getShell().getDisplay().asyncExec(new Runnable() {
+            @Override
+            public void run() {
+                Object[] expanded = getCommonViewer().getExpandedElements();
+                TreeItem[] tree = getCommonViewer().getTree().getItems();
+                TreeItem actuall = tree[0];
+                int i = 0;
+                for (; i < expanded.length + 1; i++) {
+                    if (actuall.getData() instanceof VPExplorerContentFileWithChildReference) {
+                        VPExplorerContentFileWithChildReference data = 
+                                (VPExplorerContentFileWithChildReference) actuall.getData();
+                        if (data.equals(selectedElement)) { 
+                            break;
+                        }
+                        if (actuall.getItemCount() != 0) {
+                            actuall = actuall.getItems()[0]; 
+                        }
+                    }
+                }
+                expandUntilMoreChildren(actuall);         
+            }           
+        });
+    }
+
+    /**
+     * Expanding an TreeItem if it has only one child.
+     * @param item the TreeItem to expand
+     */
+    private void expandUntilMoreChildren(TreeItem item) {
+        if (item.isDisposed()) {
+            return;
+        }
+        TreeItem[] items = item.getItems();
+        if (items.length == 1) {
+            items[0].setExpanded(true);
+            getCommonViewer().refresh();
+            expandUntilMoreChildren(items[0]);
+        }
+    }
+    @Override
+    public void treeCollapsed(TreeExpansionEvent event) {
+        
+    }
+
+    @Override
+    public void treeExpanded(final TreeExpansionEvent event) {        
+        if (!(event.getElement() instanceof VPExplorerContentFileWithChildReference)) {
+            return;
+        }
+        if (this != null && event.getSource() == getCommonViewer()) {
+            expandTree((VPExplorerContentFileWithChildReference) event.getElement());
+        }
+        
+    }
+
+    @Override
+    public void open(OpenEvent event) {        
+        if (!(event.getSelection() instanceof IStructuredSelection)) {
+            return;
+        }
+        IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+        @SuppressWarnings("unchecked")
+        Iterator<VPExplorerContentFileWithChildReference> iter = selection.iterator();
+        if (this != null && event.getSource() == getCommonViewer() && iter.hasNext()) {
+            expandTree(iter.next());
+        }
     }
 
 }
