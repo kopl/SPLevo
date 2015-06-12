@@ -232,6 +232,7 @@ public class VPMRefinementBrowser extends EditorPart {
      */
     private void initContextMenu() {
         MenuManager menuMgr = new MenuManager();
+        final VPMRefinementBrowser browser = this;
         menuMgr.setRemoveAllWhenShown(true);
         menuMgr.addMenuListener(new IMenuListener() {
 
@@ -242,6 +243,8 @@ public class VPMRefinementBrowser extends EditorPart {
                 action = new RenameRefinementAction(refinementListView);
                 manager.add(action);
                 action = new RefinementEditDescriptionAction(refinementListView);
+                manager.add(action);
+                action = new ApplySelectedRefinementsAction(browser, "Apply Selected Refinements");
                 manager.add(action);
             }
         });
