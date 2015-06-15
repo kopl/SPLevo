@@ -15,11 +15,11 @@ Require-Bundle: org.eclipse.ui.navigator;visibility:=reexport,
  org.apache.commons.io;bundle-version="2.0.1",
  org.splevo.ui.commons;bundle-version="1.0.0",
  org.splevo.project,
- org.eclipse.jface
+ org.eclipse.jface,
+ org.splevo.commons,
+ org.splevo.refactoring
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.splevo.ui.vpexplorer.explorer,
  org.splevo.ui.vpexplorer.providers,
  org.splevo.ui.vpexplorer.util
 Bundle-Vendor: www.splevo.org
-Import-Package: org.splevo.jamopp.refactoring.java.ifelse.optxor,
- org.splevo.refactoring
