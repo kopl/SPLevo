@@ -173,6 +173,21 @@
             name="YES">
       </command>
    </extension>
+   
+   
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.splevo.ui.vpexplorer.handler.characteristics.variabilitymechanism.SetIfStaticMechanismHandler"
+            id="org.splevo.ui.vp.characteristics.variabilitymechanism.ifstatic"
+            name="ifstatic">
+      </command>      
+   </extension>
+   
+   
+   
+   
    <extension
          point="org.eclipse.ui.commands">
       <command
@@ -315,6 +330,30 @@
                   style="push">
             </command>
          </menu>
+                  
+         <menu
+               id="org.splevo.ui.vp.characteristics.variabilitymechanism"
+               label="Variability Mechanism">
+            <visibleWhen
+                  checkEnabled="true">
+               <iterate>
+                  <or>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
+                     </instanceof>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPointGroup">
+                     </instanceof>
+                  </or>
+               </iterate>
+            </visibleWhen>
+            <command
+                  commandId="org.splevo.ui.vp.characteristics.variabilitymechanism.ifstatic"
+                  label="IF with Static Configuration Class (OPTXOR)"
+                  style="push">
+            </command>
+         </menu>
+                  
          <menu
                id="org.splevo.ui.vp.edit"
                label="Edit">
