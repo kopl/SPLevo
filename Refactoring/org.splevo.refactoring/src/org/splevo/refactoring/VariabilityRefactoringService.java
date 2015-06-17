@@ -46,7 +46,7 @@ public class VariabilityRefactoringService {
 
     /**
      * Perform refactoring according to the the configured {@link VariationPointModel}.
-     *
+     * 
      * @param variationPointModel
      *            The {@link VariationPointModel} containing the variation points with the intended
      *            variability mechanism.
@@ -62,7 +62,8 @@ public class VariabilityRefactoringService {
 
             for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
                 String refactoringID = variationPoint.getVariabilityMechanism().getRefactoringID();
-                VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getInstance().getElementById(refactoringID);
+                VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getInstance().getElementById(
+                        refactoringID);
 
                 if (!refactoring.canBeAppliedTo(variationPoint)) {
                     logger.debug("Recommended refactoring cannot be applied to this variation point.");
@@ -77,14 +78,15 @@ public class VariabilityRefactoringService {
 
         return toBeSaved;
     }
-    
+
     private void preprocessResources(VariationPointModel variationPointModel) {
-        Iterable<Resource> resourcesOfAllSoftwareElements = Iterables.transform(variationPointModel.getSoftwareElements(), new Function<SoftwareElement, Resource>() {
-            @Override
-            public Resource apply(SoftwareElement arg0) {
-                return arg0.getWrappedElement().eResource();
-            }
-        });
+        Iterable<Resource> resourcesOfAllSoftwareElements = Iterables.transform(
+                variationPointModel.getSoftwareElements(), new Function<SoftwareElement, Resource>() {
+                    @Override
+                    public Resource apply(SoftwareElement arg0) {
+                        return arg0.getWrappedElement().eResource();
+                    }
+                });
         Iterable<Resource> nonNullResources = Iterables.filter(resourcesOfAllSoftwareElements, Predicates.notNull());
         Set<Resource> resources = Sets.newHashSet(nonNullResources);
         new ResourceProcessorService().processResourcesBeforeRefactorings(resources);
@@ -93,7 +95,7 @@ public class VariabilityRefactoringService {
     /**
      * Auto assign the highest prioritized and matching variability mechanism to each not yet
      * assigned variation point.
-     *
+     * 
      * @param variationPointModel
      *            The variation point model to assign the vps in.
      * @param refactorings
@@ -135,7 +137,7 @@ public class VariabilityRefactoringService {
 
     /**
      * Get the best matching refactoring from a priorized list of refactorings.
-     *
+     * 
      * @param vp
      *            The vp to decide a refactoring for.
      * @param refactorings
