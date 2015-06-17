@@ -23,9 +23,15 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.splevo.refactoring.RecommenderResult.Status;
 import org.splevo.vpm.realization.VariabilityMechanism;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
+
+import com.google.common.base.Function;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 
 /**
  * A service to refactor the product copies described by a variation point model according to the
@@ -49,6 +55,7 @@ public class VariabilityRefactoringService {
      * @return The ResourceSet referencing the refactored software.
      */
     public Set<Resource> refactor(VariationPointModel variationPointModel, Map<String, Object> refactoringConfigurations) {
+        preprocessResources(variationPointModel);
         EcoreUtil.resolveAll(variationPointModel);
         Set<Resource> toBeSaved = new HashSet<Resource>();
         for (VariationPointGroup vpGroup : variationPointModel.getVariationPointGroups()) {
@@ -69,6 +76,18 @@ public class VariabilityRefactoringService {
         }
 
         return toBeSaved;
+    }
+    
+    private void preprocessResources(VariationPointModel variationPointModel) {
+        Iterable<Resource> resourcesOfAllSoftwareElements = Iterables.transform(variationPointModel.getSoftwareElements(), new Function<SoftwareElement, Resource>() {
+            @Override
+            public Resource apply(SoftwareElement arg0) {
+                return arg0.getWrappedElement().eResource();
+            }
+        });
+        Iterable<Resource> nonNullResources = Iterables.filter(resourcesOfAllSoftwareElements, Predicates.notNull());
+        Set<Resource> resources = Sets.newHashSet(nonNullResources);
+        new ResourceProcessorService().processResourcesBeforeRefactorings(resources);
     }
 
     /**
