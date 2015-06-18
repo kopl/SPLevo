@@ -9,6 +9,7 @@ import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.IJavaTextResource;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.refactoring.ResourceProcessor;
+import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * Resource processor for JaMoPP resources for usage in refactorings. This processor reloads a given
@@ -36,6 +37,14 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
             }
 
         }
+    }
+
+    @Override
+    public void processVPMBeforeRefactoring(VariationPointModel variationPointModel) {
+        // TODO replace JaMoPPSoftwareElement with newly created element that references via
+        // comments (id to be used in the comment can be calculated by concatenating the id of the
+        // variation point and the variant). Use the comment adding method in RefactoringUtil
+        // (extract it and add it to this project).
     }
 
 }
