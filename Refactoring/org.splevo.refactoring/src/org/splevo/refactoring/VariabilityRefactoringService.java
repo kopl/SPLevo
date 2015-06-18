@@ -57,6 +57,7 @@ public class VariabilityRefactoringService {
     public Set<Resource> refactor(VariationPointModel variationPointModel, Map<String, Object> refactoringConfigurations) {
         preprocessResources(variationPointModel);
         EcoreUtil.resolveAll(variationPointModel);
+        preprocessVPM(variationPointModel);
         Set<Resource> toBeSaved = new HashSet<Resource>();
         for (VariationPointGroup vpGroup : variationPointModel.getVariationPointGroups()) {
 
@@ -77,6 +78,11 @@ public class VariabilityRefactoringService {
         }
 
         return toBeSaved;
+    }
+
+    private void preprocessVPM(VariationPointModel variationPointModel) {
+        new ResourceProcessorService().processVPMBeforeRefactorings(variationPointModel);
+        saveVPM(variationPointModel);
     }
 
     private void preprocessResources(VariationPointModel variationPointModel) {
@@ -121,15 +127,8 @@ public class VariabilityRefactoringService {
             }
         }
 
-        try {
-            if (variationPointModel.eResource() != null) {
-                variationPointModel.eResource().save(null);
-            } else {
-                logger.info("Variation Point Model without a resource");
-            }
-        } catch (IOException e) {
+        if (!saveVPM(variationPointModel)) {
             result.setStatus(Status.FAILED);
-            logger.error("Failed to save Variation Point Model", e);
         }
 
         return result;
@@ -148,6 +147,20 @@ public class VariabilityRefactoringService {
             List<VariabilityRefactoring> refactorings) {
         VariabilityRefactoring bestRefactoring = refactorings.get(0);
         return bestRefactoring;
+    }
+    
+    private boolean saveVPM(VariationPointModel variationPointModel) {
+        try {
+            if (variationPointModel.eResource() != null) {
+                variationPointModel.eResource().save(null);
+            } else {
+                logger.info("Variation Point Model without a resource");
+            }
+        } catch (IOException e) {
+            logger.error("Failed to save Variation Point Model", e);
+            return false;
+        }
+        return true;
     }
 
 }
