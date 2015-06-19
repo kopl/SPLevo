@@ -44,9 +44,19 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
      */
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-
-        Set<Resource> resourceToSave = Sets.newLinkedHashSet();
         ISelection selection = HandlerUtil.getCurrentSelection(event);
+        return execute(selection);
+    }
+    
+    /**
+     * Change a characteristic of the selected variation points and save the resources of each
+     * modified variation point.
+     *
+     * {@inheritDoc}
+     */
+    public Object execute(ISelection selection) throws ExecutionException {
+        Set<Resource> resourceToSave = Sets.newLinkedHashSet();
+        
         if (selection != null && selection instanceof IStructuredSelection) {
             IStructuredSelection strucSelection = (IStructuredSelection) selection;
             for (Object element : strucSelection.toList()) {
@@ -74,7 +84,6 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
                 throw new ExecutionException("Failed to save modified resource", e);
             }
         }
-
         return null;
     }
 
@@ -86,5 +95,4 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
      * @return Flag if change was performed.
      */
     protected abstract boolean changeVariationPointCharacteristic(VariationPoint variationPoint);
-
 }
