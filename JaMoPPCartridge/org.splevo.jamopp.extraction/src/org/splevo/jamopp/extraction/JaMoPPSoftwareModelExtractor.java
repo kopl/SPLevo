@@ -34,6 +34,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     private static Logger logger = Logger.getLogger(JaMoPPSoftwareModelExtractor.class);
 
+    public static final boolean EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT = false;
     public static final String EXTRACTOR_ID = "JaMoPPSoftwareModelExtractor";
     private static final String EXTRACTOR_LABEL = "JaMoPP Software Model Extractor";
 
@@ -68,7 +69,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     @Override
     public ResourceSet extractSoftwareModel(List<String> projectPaths, IProgressMonitor monitor, String sourceModelPath)
             throws SoftwareModelExtractionException {
-        return extractSoftwareModel(projectPaths, monitor, sourceModelPath, false);
+        return extractSoftwareModel(projectPaths, monitor, sourceModelPath, EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT);
     }
 
     /**

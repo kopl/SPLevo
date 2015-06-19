@@ -5,6 +5,10 @@ Bundle-SymbolicName: org.splevo.commons
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: com.google.guava;bundle-version="[11.0.0,15.0.0)",
- org.apache.log4j
-Export-Package: org.splevo.commons.interfaces,
+ org.apache.log4j,
+ org.eclipse.equinox.registry,
+ org.eclipse.osgi,
+ org.eclipse.core.runtime;bundle-version="3.9.100"
+Export-Package: org.splevo.commons.eclipse,
+ org.splevo.commons.interfaces,
  org.splevo.commons.registry

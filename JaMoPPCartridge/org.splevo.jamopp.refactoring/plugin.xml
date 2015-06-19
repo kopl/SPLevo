@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.splevo.refactoring.resourceprocessor">
+      <ResourceProcessor
+            resourceprocessor.class="org.splevo.jamopp.refactoring.JaMoPPResourceProcessor">
+      </ResourceProcessor>
+   </extension>
+
+</plugin>
