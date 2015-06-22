@@ -12,6 +12,7 @@
 package org.splevo.ui.vpexplorer.handler.characteristics.extendibility;
 
 import org.splevo.ui.vpexplorer.handler.characteristics.AbstractChangeCharacteristicHandler;
+import org.splevo.ui.vpexplorer.handler.characteristics.CheckCharacteristics;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -20,6 +21,7 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public abstract class AbstractSetExtensibilityHandler extends AbstractChangeCharacteristicHandler {
 
+    private Extensible ex;
     @Override
     protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {
 
@@ -28,8 +30,12 @@ public abstract class AbstractSetExtensibilityHandler extends AbstractChangeChar
         if (extendibility.equals(variationPoint.getExtensibility())) {
             return false;
         }
-
+        ex = variationPoint.getExtensibility();
         variationPoint.setExtensibility(extendibility);
+        
+        if (!checkCharacteristic(variationPoint)) {
+            return false;
+        }
         return true;
     }
 
@@ -39,5 +45,11 @@ public abstract class AbstractSetExtensibilityHandler extends AbstractChangeChar
      * @return The intended type.
      */
     protected abstract Extensible getTargetExtensibility();
+    
+    @Override    
+    protected boolean checkCharacteristic(VariationPoint vp) {
+        CheckCharacteristics check = new CheckCharacteristics();
+        return check.checkVP(vp, ex);        
+    }
 
 }

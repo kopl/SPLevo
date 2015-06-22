@@ -12,6 +12,7 @@
 package org.splevo.ui.vpexplorer.handler.characteristics.bindingtime;
 
 import org.splevo.ui.vpexplorer.handler.characteristics.AbstractChangeCharacteristicHandler;
+import org.splevo.ui.vpexplorer.handler.characteristics.CheckCharacteristics;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -19,7 +20,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * Abstract handler for setting the {@link BindingTime} of a {@link VariationPoint}.
  */
 public abstract class AbstractSetBindingTimeHandler extends AbstractChangeCharacteristicHandler {
-
+    private BindingTime bt;
     @Override
     protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {
 
@@ -28,8 +29,11 @@ public abstract class AbstractSetBindingTimeHandler extends AbstractChangeCharac
         if (bindingTime.equals(variationPoint.getBindingTime())) {
             return false;
         }
-
+        bt = variationPoint.getBindingTime();
         variationPoint.setBindingTime(bindingTime);
+        if (!checkCharacteristic(variationPoint)) {
+            return false;
+        }
         return true;
     }
 
@@ -39,5 +43,11 @@ public abstract class AbstractSetBindingTimeHandler extends AbstractChangeCharac
      * @return The intended type.
      */
     protected abstract BindingTime getTargetBindingTime();
+    
+    @Override    
+    protected boolean checkCharacteristic(VariationPoint vp) {
+        CheckCharacteristics check = new CheckCharacteristics();
+        return check.checkVP(vp, bt);        
+    }
 
 }

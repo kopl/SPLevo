@@ -36,6 +36,7 @@ import com.google.common.collect.Sets;
  */
 public abstract class AbstractChangeCharacteristicHandler extends AbstractHandler {
 
+    
     /**
      * Change a characteristic of the selected variation points and save the resources of each
      * modified variation point.
@@ -47,12 +48,13 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
         ISelection selection = HandlerUtil.getCurrentSelection(event);
         return execute(selection);
     }
-    
+        
     /**
      * Change a characteristic of the selected variation points and save the resources of each
-     * modified variation point.
-     *
-     * {@inheritDoc}
+     * modified variation point. 
+     * @param selection the current selected items in the vpexplorer/feature outline
+     * @return null
+     * @throws ExecutionException if it fails to save the modified resource
      */
     public Object execute(ISelection selection) throws ExecutionException {
         Set<Resource> resourceToSave = Sets.newLinkedHashSet();
@@ -61,22 +63,22 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
             IStructuredSelection strucSelection = (IStructuredSelection) selection;
             for (Object element : strucSelection.toList()) {
                 if (element instanceof VariationPoint) {
-                    boolean changed = changeVariationPointCharacteristic((VariationPoint) element);
-                    if (changed) {
-                        resourceToSave.add(((VariationPoint) element).eResource());
+                    VariationPoint vp = (VariationPoint) element;
+                    boolean changed = changeVariationPointCharacteristic(vp);
+                    if (changed) {                      
+                       resourceToSave.add((vp).eResource());
                     }
                 } else if (element instanceof VariationPointGroup) {
                     VariationPointGroup group = (VariationPointGroup) element;
                     for (VariationPoint vp : group.getVariationPoints()) {
                         boolean changed = changeVariationPointCharacteristic(vp);
-                        if (changed) {
-                            resourceToSave.add(vp.eResource());
+                        if (changed) { 
+                           resourceToSave.add(vp.eResource());
                         }
                     }
                 }
             }
         }
-
         for (Resource resource : resourceToSave) {
             try {
                 resource.save(null);
@@ -86,7 +88,7 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
         }
         return null;
     }
-
+    
     /**
      * Change a variation points characteristic.
      *
@@ -95,4 +97,11 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
      * @return Flag if change was performed.
      */
     protected abstract boolean changeVariationPointCharacteristic(VariationPoint variationPoint);
+    
+    /**
+     * Checks if the characteristic of the variation point can be applied.
+     * @param variationPoint the variation point to check
+     * @return true, if the variation point can be applied, false otherwise
+     */
+    protected abstract boolean checkCharacteristic(VariationPoint variationPoint);
 }

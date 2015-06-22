@@ -12,6 +12,8 @@
 package org.splevo.ui.vpexplorer.handler.characteristics.variabilitymechanism;
 
 import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.viewers.ISelection;
@@ -30,8 +32,16 @@ import org.splevo.refactoring.VariabilityRefactoringRegistry;
  */
 public class VariabilityMechanismContribution extends ContributionItem {
 
-    private List<VariabilityRefactoring> elements;
+    //private List<VariabilityRefactoring> elements;
+
+    private static List<VariabilityRefactoring> elements;
+    private static Logger logger = Logger.getLogger(VariabilityMechanismContribution.class);
+    private static final String DATA_KEY = "DATAKEY";
     private VariabilityRefactoring mechanism;
+    
+    static {
+        elements = VariabilityRefactoringRegistry.getInstance().getElements();
+    }
     
     /**
      * Creates a VariabilityMechanismContribution object with a null id. 
@@ -49,24 +59,28 @@ public class VariabilityMechanismContribution extends ContributionItem {
  
     @Override
     public void fill(Menu menu, int index) {  
-        elements = VariabilityRefactoringRegistry.getInstance().getElements();
         for (int i = 0; i < elements.size(); i++) {
             MenuItem menuItem = new MenuItem(menu, SWT.CHECK, index);
             menuItem.setText(elements.get(i).getVariabilityMechanism().getName());
-            menuItem.setID(i);
+            menuItem.setData(DATA_KEY, elements.get(i));
+                    
             menuItem.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent e) {
                     if (!(e.getSource() instanceof MenuItem)) {
                         return;
                     }
-                    mechanism = elements.get(((MenuItem) e.getSource()).getID());
+                    MenuItem item = (MenuItem) e.getSource();
+                    if (!(item.getData(DATA_KEY) instanceof VariabilityRefactoring)) {
+                        return;
+                    }                    
+                    mechanism = (VariabilityRefactoring) item.getData(DATA_KEY);
                     IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
                     ISelection selection = window.getActivePage().getSelection();
                     SetVariabilityMechanism setMechanism = new SetVariabilityMechanism(mechanism);
                     try {
                         setMechanism.execute(selection);
                     } catch (ExecutionException e1) {
-                        e1.printStackTrace();
+                        logger.error("Failed to set mechanism: " + e1);
                     }
                 }
             });

@@ -13,6 +13,8 @@ package org.splevo.ui.vpexplorer.handler.characteristics.variabilitymechanism;
 
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.ui.vpexplorer.handler.characteristics.AbstractChangeCharacteristicHandler;
+import org.splevo.ui.vpexplorer.handler.characteristics.CheckCharacteristics;
+import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -21,6 +23,7 @@ import org.splevo.vpm.variability.VariationPoint;
 public class SetVariabilityMechanism extends AbstractChangeCharacteristicHandler {
     
     private VariabilityRefactoring refactoring;
+    private VariabilityMechanism vm;
     
     /**
      * Creates a new SetVariabilityMechanism object.
@@ -31,12 +34,16 @@ public class SetVariabilityMechanism extends AbstractChangeCharacteristicHandler
     }
 
     @Override
-    protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {        
-        if (refactoring.canBeAppliedTo(variationPoint)) {
-            variationPoint.setVariabilityMechanism(refactoring.getVariabilityMechanism());
-            return true;
-        }
-        return false;
+    protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {    
+        vm = variationPoint.getVariabilityMechanism();
+        variationPoint.setVariabilityMechanism(refactoring.getVariabilityMechanism());        
+        return checkCharacteristic(variationPoint);
+    }
+    
+    @Override
+    protected boolean checkCharacteristic(VariationPoint vp) {
+        CheckCharacteristics check = new CheckCharacteristics();
+        return check.checkVP(vp, vm);        
     }
     
 }
