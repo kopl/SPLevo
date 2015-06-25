@@ -27,10 +27,10 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.impl.CustomizableDescriptionHavingImpl#getDescription <em>Description</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

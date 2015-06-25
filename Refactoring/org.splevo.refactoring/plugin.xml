@@ -3,6 +3,12 @@
 <plugin>
    <extension-point id="org.splevo.refactoring.refactoring" name="Variability Refactoring Implementation" schema="schema/org.splevo.refactoring.refactoring.exsd"/>
    <extension-point id="org.splevo.refactoring.resourceprocessor" name="Variability Refactoring Resource Preparators" schema="schema/org.splevo.refactoring.resourceprocessor.exsd"/>
+   <extension
+         point="org.spelvo.vpm.vpmvalidators">
+      <VPMValidator
+            vpmvalidator.class="org.splevo.refactoring.RefactoringSpecificVPMValidator">
+      </VPMValidator>
+   </extension>
 
 
 </plugin>

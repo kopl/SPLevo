@@ -1,5 +1,7 @@
 package org.splevo.vpm.variability;
 
+import java.util.Map;
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -11,7 +13,6 @@ import org.splevo.vpm.software.SoftwareElement;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariants <em>Variants</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getLocation <em>Location</em>}</li>
@@ -21,9 +22,10 @@ import org.splevo.vpm.software.SoftwareElement;
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getExtensibility <em>Extensibility</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPoint#getVariabilityMechanism <em>Variability Mechanism</em>}</li>
  * </ul>
+ * </p>
  *
  * @see org.splevo.vpm.variability.variabilityPackage#getVariationPoint()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='allValidatorsSucceed'"
  * @generated
  */
 public interface VariationPoint extends Identifier, CustomizableNameHaving, CustomizableDescriptionHaving {
@@ -212,5 +214,13 @@ public interface VariationPoint extends Identifier, CustomizableNameHaving, Cust
      * @generated
      */
     void setVariabilityMechanism(VariabilityMechanism value);
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @model
+     * @generated
+     */
+    boolean allValidatorsSucceed(DiagnosticChain chain, Map<?, ?> context);
 
 } // VariationPoint

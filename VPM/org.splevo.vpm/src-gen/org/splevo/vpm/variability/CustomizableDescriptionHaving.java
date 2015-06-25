@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.CustomizableDescriptionHaving#getDescription <em>Description</em>}</li>
  * </ul>
+ * </p>
  *
  * @see org.splevo.vpm.variability.variabilityPackage#getCustomizableDescriptionHaving()
  * @model abstract="true"

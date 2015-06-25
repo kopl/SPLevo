@@ -27,10 +27,10 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.impl.CustomizableNameHavingImpl#getName <em>Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

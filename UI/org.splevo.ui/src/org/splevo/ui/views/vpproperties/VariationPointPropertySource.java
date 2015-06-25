@@ -20,13 +20,14 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringRegistry;
-import org.splevo.ui.vpexplorer.handler.characteristics.CheckCharacteristics;
-import org.splevo.vpm.realization.VariabilityMechanism;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter.SetAndRevertAction;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
 /**
@@ -134,42 +135,54 @@ public class VariationPointPropertySource implements IPropertySource {
     }
 
     @Override
-    public void setPropertyValue(Object id, Object value) {
-        CheckCharacteristics check = new CheckCharacteristics();
+    public void setPropertyValue(final Object id, final Object value) {
+        final Object oldValue = getPropertyValue(id);
+        if (Objects.equal(oldValue, value)) {
+            return;
+        }
         
+        boolean changed = VPMAttributeSetter.applyIfPossible(new SetAndRevertAction<VariationPoint>() {
+            
+            @Override
+            public void set(VariationPoint vp) {
+                setPropertyInternal(vp, id, value);
+            }
+            
+            @Override
+            public void revert(VariationPoint vp) {
+                setPropertyInternal(vp, id, oldValue);
+            }
+        }, vp);
+
+        if (changed) {
+            saveVariationPoint();            
+        }
+    }
+    
+    private void setPropertyInternal(VariationPoint variationPoint, Object id, Object value) {
         if (id.equals(PROPERTY_ID_VARIABILITYTYPE) && value instanceof Integer) {
             VariabilityType type = VariabilityType.getByName(variabilityTypes.get((Integer) value));
-            VariabilityType vt = vp.getVariabilityType();
-            vp.setVariabilityType(type);
-            check.checkVP(vp, vt);
+            variationPoint.setVariabilityType(type);
 
         } else if (id.equals(PROPERTY_ID_EXTENSIBILITY) && value instanceof Integer) {
             Extensible extensibility = Extensible.getByName(extensibilities.get((Integer) value));
-            Extensible ex = vp.getExtensibility();
-            vp.setExtensibility(extensibility);
-            check.checkVP(vp, ex);
+            variationPoint.setExtensibility(extensibility);
 
         } else if (id.equals(PROPERTY_ID_BINDINGTIME) && value instanceof Integer) {
             BindingTime bindingTime = BindingTime.getByName(bindingTimes.get((Integer) value));
-            BindingTime bt = vp.getBindingTime();
-            vp.setBindingTime(bindingTime);
-            check.checkVP(vp, bt);            
+            variationPoint.setBindingTime(bindingTime);          
 
         } else if (id.equals(PROPERTY_ID_VARIABILITY_MECHANISM)) {
             if (value == null) {
-                vp.setVariabilityMechanism(null);
+                variationPoint.setVariabilityMechanism(null);
             } else if (value instanceof VariabilityRefactoring) {
                 VariabilityRefactoring refactoring = (VariabilityRefactoring) value;
-                VariabilityMechanism vm = vp.getVariabilityMechanism();
-                vp.setVariabilityMechanism(refactoring.getVariabilityMechanism());
-                check.checkVP(vp, vm);
+                variationPoint.setVariabilityMechanism(refactoring.getVariabilityMechanism());
             }
 
         } else {
             logger.warn("Unsupported property value set. Property ID: " + id + " Value: " + value);
         }
-
-        saveVariationPoint();
     }
 
     private void saveVariationPoint() {

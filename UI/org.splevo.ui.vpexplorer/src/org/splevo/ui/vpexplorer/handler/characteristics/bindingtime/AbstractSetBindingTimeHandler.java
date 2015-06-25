@@ -11,8 +11,9 @@
  *******************************************************************************/
 package org.splevo.ui.vpexplorer.handler.characteristics.bindingtime;
 
+import org.splevo.ui.commons.vpm.VPMAttributeSetter;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter.SetAndRevertAction;
 import org.splevo.ui.vpexplorer.handler.characteristics.AbstractChangeCharacteristicHandler;
-import org.splevo.ui.vpexplorer.handler.characteristics.CheckCharacteristics;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -20,21 +21,28 @@ import org.splevo.vpm.variability.VariationPoint;
  * Abstract handler for setting the {@link BindingTime} of a {@link VariationPoint}.
  */
 public abstract class AbstractSetBindingTimeHandler extends AbstractChangeCharacteristicHandler {
-    private BindingTime bt;
+
     @Override
     protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {
-
-        BindingTime bindingTime = getTargetBindingTime();
-
+        final BindingTime bindingTime = getTargetBindingTime();
+        final BindingTime oldBindingTime = variationPoint.getBindingTime();
+        
         if (bindingTime.equals(variationPoint.getBindingTime())) {
             return false;
         }
-        bt = variationPoint.getBindingTime();
-        variationPoint.setBindingTime(bindingTime);
-        if (!checkCharacteristic(variationPoint)) {
-            return false;
-        }
-        return true;
+
+        return VPMAttributeSetter.applyIfPossible(new SetAndRevertAction<VariationPoint>() {
+            
+            @Override
+            public void set(VariationPoint vp) {
+                vp.setBindingTime(bindingTime);
+            }
+            
+            @Override
+            public void revert(VariationPoint vp) {
+                vp.setBindingTime(oldBindingTime);
+            }
+        }, variationPoint);
     }
 
     /**
@@ -43,11 +51,5 @@ public abstract class AbstractSetBindingTimeHandler extends AbstractChangeCharac
      * @return The intended type.
      */
     protected abstract BindingTime getTargetBindingTime();
-    
-    @Override    
-    protected boolean checkCharacteristic(VariationPoint vp) {
-        CheckCharacteristics check = new CheckCharacteristics();
-        return check.checkVP(vp, bt);        
-    }
 
 }

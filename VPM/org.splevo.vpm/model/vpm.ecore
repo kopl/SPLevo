@@ -3,6 +3,18 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="vpm" nsURI="http://splevo.org/vpm/1.0" nsPrefix="org.splevo.vpm">
   <eSubpackages name="variability" nsURI="http://splevo.org/vpm/1.0/variability" nsPrefix="variability">
     <eClassifiers xsi:type="ecore:EClass" name="VariationPoint" eSuperTypes="#//variability/Identifier #//variability/CustomizableNameHaving #//variability/CustomizableDescriptionHaving">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+        <details key="constraints" value="allValidatorsSucceed"/>
+      </eAnnotations>
+      <eOperations name="allValidatorsSucceed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eParameters name="chain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+        <eParameters name="context">
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+            <eTypeArguments/>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variants" upperBound="-1"
           eType="#//variability/Variant" containment="true" eOpposite="#//variability/Variant/variationPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="location" lowerBound="1"

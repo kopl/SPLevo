@@ -64,16 +64,14 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
             for (Object element : strucSelection.toList()) {
                 if (element instanceof VariationPoint) {
                     VariationPoint vp = (VariationPoint) element;
-                    boolean changed = changeVariationPointCharacteristic(vp);
-                    if (changed) {                      
-                       resourceToSave.add((vp).eResource());
+                    if (changeVariationPointCharacteristic(vp)) {
+                        resourceToSave.add((vp).eResource());                        
                     }
                 } else if (element instanceof VariationPointGroup) {
                     VariationPointGroup group = (VariationPointGroup) element;
                     for (VariationPoint vp : group.getVariationPoints()) {
-                        boolean changed = changeVariationPointCharacteristic(vp);
-                        if (changed) { 
-                           resourceToSave.add(vp.eResource());
+                        if (changeVariationPointCharacteristic(vp)) {
+                            resourceToSave.add(vp.eResource());                            
                         }
                     }
                 }
@@ -94,14 +92,8 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
      *
      * @param variationPoint
      *            The variation point to modify.
-     * @return Flag if change was performed.
+     * @return True if variation point has been changed, False otherwise.
      */
     protected abstract boolean changeVariationPointCharacteristic(VariationPoint variationPoint);
-    
-    /**
-     * Checks if the characteristic of the variation point can be applied.
-     * @param variationPoint the variation point to check
-     * @return true, if the variation point can be applied, false otherwise
-     */
-    protected abstract boolean checkCharacteristic(VariationPoint variationPoint);
+
 }

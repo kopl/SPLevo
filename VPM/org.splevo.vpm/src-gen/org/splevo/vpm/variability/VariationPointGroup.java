@@ -15,12 +15,12 @@ import org.eclipse.featuremodel.Feature;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getVariationPoints <em>Variation Points</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getModel <em>Model</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.VariationPointGroup#getFeature <em>Feature</em>}</li>
  * </ul>
+ * </p>
  *
  * @see org.splevo.vpm.variability.variabilityPackage#getVariationPointGroup()
  * @model

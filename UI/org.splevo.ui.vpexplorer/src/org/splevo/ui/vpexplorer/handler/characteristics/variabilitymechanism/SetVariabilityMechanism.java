@@ -12,10 +12,13 @@
 package org.splevo.ui.vpexplorer.handler.characteristics.variabilitymechanism;
 
 import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter.SetAndRevertAction;
 import org.splevo.ui.vpexplorer.handler.characteristics.AbstractChangeCharacteristicHandler;
-import org.splevo.ui.vpexplorer.handler.characteristics.CheckCharacteristics;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
+
+import com.google.common.base.Objects;
 
 /**
  * Handler for setting the {@link VariabilityRefactoring} of a {@link VariationPoint}.
@@ -23,7 +26,6 @@ import org.splevo.vpm.variability.VariationPoint;
 public class SetVariabilityMechanism extends AbstractChangeCharacteristicHandler {
     
     private VariabilityRefactoring refactoring;
-    private VariabilityMechanism vm;
     
     /**
      * Creates a new SetVariabilityMechanism object.
@@ -34,16 +36,27 @@ public class SetVariabilityMechanism extends AbstractChangeCharacteristicHandler
     }
 
     @Override
-    protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {    
-        vm = variationPoint.getVariabilityMechanism();
-        variationPoint.setVariabilityMechanism(refactoring.getVariabilityMechanism());        
-        return checkCharacteristic(variationPoint);
-    }
-    
-    @Override
-    protected boolean checkCharacteristic(VariationPoint vp) {
-        CheckCharacteristics check = new CheckCharacteristics();
-        return check.checkVP(vp, vm);        
+    protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {
+        final VariabilityMechanism targetVariabilityMechanism = refactoring == null ? null : refactoring.getVariabilityMechanism();
+        final VariabilityMechanism oldVariabilityMechanism = variationPoint.getVariabilityMechanism();
+        
+        if (Objects.equal(variationPoint.getVariabilityMechanism(), targetVariabilityMechanism)) {
+            return false;
+        }
+
+        
+        return VPMAttributeSetter.applyIfPossible(new SetAndRevertAction<VariationPoint>() {
+            
+            @Override
+            public void set(VariationPoint vp) {
+                vp.setVariabilityMechanism(targetVariabilityMechanism);
+            }
+            
+            @Override
+            public void revert(VariationPoint vp) {
+                vp.setVariabilityMechanism(oldVariabilityMechanism);
+            }
+        }, variationPoint);
     }
     
 }

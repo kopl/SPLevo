@@ -24,11 +24,11 @@ import org.splevo.vpm.realization.VariabilityMechanism;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.realization.impl.VariabilityMechanismImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.splevo.vpm.realization.impl.VariabilityMechanismImpl#getRefactoringID <em>Refactoring ID</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

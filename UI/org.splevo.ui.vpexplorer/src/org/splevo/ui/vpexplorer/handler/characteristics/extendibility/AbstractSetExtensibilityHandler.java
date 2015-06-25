@@ -11,8 +11,9 @@
  *******************************************************************************/
 package org.splevo.ui.vpexplorer.handler.characteristics.extendibility;
 
+import org.splevo.ui.commons.vpm.VPMAttributeSetter;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter.SetAndRevertAction;
 import org.splevo.ui.vpexplorer.handler.characteristics.AbstractChangeCharacteristicHandler;
-import org.splevo.ui.vpexplorer.handler.characteristics.CheckCharacteristics;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -21,22 +22,28 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public abstract class AbstractSetExtensibilityHandler extends AbstractChangeCharacteristicHandler {
 
-    private Extensible ex;
     @Override
     protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {
 
-        Extensible extendibility = getTargetExtensibility();
+        final Extensible extendibility = getTargetExtensibility();
+        final Extensible oldExtensibility = variationPoint.getExtensibility();
 
         if (extendibility.equals(variationPoint.getExtensibility())) {
             return false;
         }
-        ex = variationPoint.getExtensibility();
-        variationPoint.setExtensibility(extendibility);
         
-        if (!checkCharacteristic(variationPoint)) {
-            return false;
-        }
-        return true;
+        return VPMAttributeSetter.applyIfPossible(new SetAndRevertAction<VariationPoint>() {
+            
+            @Override
+            public void set(VariationPoint vp) {
+                vp.setExtensibility(extendibility);
+            }
+            
+            @Override
+            public void revert(VariationPoint vp) {
+                vp.setExtensibility(oldExtensibility);
+            }
+        }, variationPoint);
     }
 
     /**
@@ -45,11 +52,5 @@ public abstract class AbstractSetExtensibilityHandler extends AbstractChangeChar
      * @return The intended type.
      */
     protected abstract Extensible getTargetExtensibility();
-    
-    @Override    
-    protected boolean checkCharacteristic(VariationPoint vp) {
-        CheckCharacteristics check = new CheckCharacteristics();
-        return check.checkVP(vp, ex);        
-    }
 
 }

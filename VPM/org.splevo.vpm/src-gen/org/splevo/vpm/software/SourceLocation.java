@@ -9,13 +9,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.software.SourceLocation#getFilePath <em>File Path</em>}</li>
  *   <li>{@link org.splevo.vpm.software.SourceLocation#getStartLine <em>Start Line</em>}</li>
  *   <li>{@link org.splevo.vpm.software.SourceLocation#getStartPosition <em>Start Position</em>}</li>
  *   <li>{@link org.splevo.vpm.software.SourceLocation#getEndPosition <em>End Position</em>}</li>
  * </ul>
+ * </p>
  *
  * @see org.splevo.vpm.software.SoftwarePackage#getSourceLocation()
  * @model

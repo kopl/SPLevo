@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.0"?>
+<?eclipse version="4.2"?>
 
 <!--
  <copyright>
@@ -10,6 +10,7 @@
 
 <plugin>
    <extension-point id="extension" name="VPM Extension" schema="schema/vpm_extension.exsd"/>
+   <extension-point id="org.spelvo.vpm.vpmvalidators" name="VPM Validators" schema="schema/org.spelvo.vpm.vpmvalidators.exsd"/>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package

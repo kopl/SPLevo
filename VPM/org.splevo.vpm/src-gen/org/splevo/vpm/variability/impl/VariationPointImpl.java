@@ -3,9 +3,13 @@
 package org.splevo.vpm.variability.impl;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -13,18 +17,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.osgi.framework.BundleException;
+import org.splevo.commons.eclipse.ExtensionHelper;
+import org.splevo.vpm.VPMValidator;
+import org.splevo.vpm.VPMValidator.VPMValidationResult;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.CustomizableDescriptionHaving;
 import org.splevo.vpm.variability.CustomizableNameHaving;
 import org.splevo.vpm.variability.Extensible;
-import org.splevo.vpm.variability.Identifier;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.variabilityPackage;
+import org.splevo.vpm.variability.util.variabilityValidator;
+
+import com.google.common.collect.Lists;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +42,6 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getDescription <em>Description</em>}</li>
@@ -44,6 +53,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getExtensibility <em>Extensibility</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariationPointImpl#getVariabilityMechanism <em>Variability Mechanism</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
@@ -456,6 +466,40 @@ public class VariationPointImpl extends IdentifierImpl implements VariationPoint
             eNotify(new ENotificationImpl(this, Notification.SET,
                     variabilityPackage.VARIATION_POINT__VARIABILITY_MECHANISM, newVariabilityMechanism,
                     newVariabilityMechanism));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated not
+     */
+    public boolean allValidatorsSucceed(DiagnosticChain chain, Map<?, ?> context) {
+        boolean result = true;
+
+        Iterable<VPMValidator> validators = Lists.newArrayList();
+        try {
+            validators = ExtensionHelper.getAllRegisteredExtensions("org.spelvo.vpm.vpmvalidators", VPMValidator.class);
+        } catch (BundleException e) {
+            // validation aborted
+            if (chain != null) {
+                chain.add(Diagnostic.CANCEL_INSTANCE);
+            }
+            return true;
+        }
+
+        for (VPMValidator validator : validators) {
+            VPMValidationResult validationResult = validator.validate(this);
+            if (!validationResult.isValid()) {
+                if (chain != null) {
+                    chain.add(new BasicDiagnostic(Diagnostic.ERROR, variabilityValidator.DIAGNOSTIC_SOURCE,
+                            variabilityValidator.VARIATION_POINT__ALL_VALIDATORS_SUCCEED,
+                            validationResult.getMessage(), new Object[] { this }));
+                }
+                result = false;
+            }
+        }
+
+        return result;
     }
 
     /**

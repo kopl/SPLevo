@@ -11,8 +11,9 @@
  *******************************************************************************/
 package org.splevo.ui.vpexplorer.handler.characteristics.variabilitytype;
 
+import org.splevo.ui.commons.vpm.VPMAttributeSetter;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter.SetAndRevertAction;
 import org.splevo.ui.vpexplorer.handler.characteristics.AbstractChangeCharacteristicHandler;
-import org.splevo.ui.vpexplorer.handler.characteristics.CheckCharacteristics;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -21,21 +22,28 @@ import org.splevo.vpm.variability.VariationPoint;
  */
 public abstract class AbstractSetVariabilityTypeHandler extends AbstractChangeCharacteristicHandler {
 
-    private VariabilityType vt;
     @Override
     protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {
 
-        VariabilityType targetType = getTargetVariabilityType();
+        final VariabilityType targetType = getTargetVariabilityType();
+        final VariabilityType oldVariabilityType = variationPoint.getVariabilityType();
 
         if (targetType.equals(variationPoint.getVariabilityType())) {
             return false;
         }
-        vt = variationPoint.getVariabilityType();
-        variationPoint.setVariabilityType(targetType);
-        if (!checkCharacteristic(variationPoint)) {
-            return false;
-        }
-        return true;
+        
+        return VPMAttributeSetter.applyIfPossible(new SetAndRevertAction<VariationPoint>() {
+            
+            @Override
+            public void set(VariationPoint vp) {
+                vp.setVariabilityType(targetType);
+            }
+            
+            @Override
+            public void revert(VariationPoint vp) {
+                vp.setVariabilityType(oldVariabilityType);
+            }
+        }, variationPoint);
     }
 
     /**
@@ -45,9 +53,4 @@ public abstract class AbstractSetVariabilityTypeHandler extends AbstractChangeCh
      */
     protected abstract VariabilityType getTargetVariabilityType();
 
-    @Override
-    protected boolean checkCharacteristic(VariationPoint vp) {
-        CheckCharacteristics check = new CheckCharacteristics();
-        return check.checkVP(vp, vt);        
-    }
 }

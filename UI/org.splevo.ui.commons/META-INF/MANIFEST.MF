@@ -19,6 +19,7 @@ Require-Bundle: org.eclipse.jface,
  org.splevo.extraction
 Export-Package: org.splevo.ui.commons.tooltip,
  org.splevo.ui.commons.util,
+ org.splevo.ui.commons.vpm,
  org.splevo.ui.commons.wizard,
  org.splevo.ui.commons.wizard.description,
  org.splevo.ui.commons.wizard.rename

@@ -25,7 +25,6 @@ import org.splevo.vpm.variability.variabilityPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getChildFeature <em>Child Feature</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getImplementingElements <em>Implementing Elements</em>}</li>
@@ -33,6 +32,7 @@ import org.splevo.vpm.variability.variabilityPackage;
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getLeading <em>Leading</em>}</li>
  *   <li>{@link org.splevo.vpm.variability.impl.VariantImpl#getVariationPoint <em>Variation Point</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

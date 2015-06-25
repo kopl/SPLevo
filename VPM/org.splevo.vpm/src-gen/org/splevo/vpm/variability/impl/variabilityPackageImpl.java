@@ -5,8 +5,11 @@ package org.splevo.vpm.variability.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.featuremodel.FeatureModelPackage;
@@ -24,6 +27,7 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
+import org.splevo.vpm.variability.util.variabilityValidator;
 import org.splevo.vpm.variability.variabilityFactory;
 import org.splevo.vpm.variability.variabilityPackage;
 
@@ -173,6 +177,13 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
         thevariabilityPackage.initializePackageContents();
         theSoftwarePackage.initializePackageContents();
         theRealizationPackage.initializePackageContents();
+
+        // Register package validator
+        EValidator.Registry.INSTANCE.put(thevariabilityPackage, new EValidator.Descriptor() {
+            public EValidator getEValidator() {
+                return variabilityValidator.INSTANCE;
+            }
+        });
 
         // Mark meta-data to indicate it can't be changed
         thevariabilityPackage.freeze();
@@ -591,6 +602,16 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
                 "variabilityMechanism", null, 0, 1, VariationPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
                 IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+        EOperation op = addEOperation(variationPointEClass, ecorePackage.getEBoolean(), "allValidatorsSucceed", 0, 1,
+                IS_UNIQUE, IS_ORDERED);
+        addEParameter(op, ecorePackage.getEDiagnosticChain(), "chain", 0, 1, IS_UNIQUE, IS_ORDERED);
+        EGenericType g1 = createEGenericType(ecorePackage.getEMap());
+        EGenericType g2 = createEGenericType();
+        g1.getETypeArguments().add(g2);
+        g2 = createEGenericType();
+        g1.getETypeArguments().add(g2);
+        addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
+
         initEClass(variantEClass, Variant.class, "Variant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getVariant_ChildFeature(), theFeatureModelPackage.getFeature(), null, "childFeature", null, 0,
                 1, Variant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
@@ -665,6 +686,21 @@ public class variabilityPackageImpl extends EPackageImpl implements variabilityP
 
         // Create resource
         createResource(eNS_URI);
+
+        // Create annotations
+        // http://www.eclipse.org/emf/2002/Ecore
+        createEcoreAnnotations();
+    }
+
+    /**
+     * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void createEcoreAnnotations() {
+        String source = "http://www.eclipse.org/emf/2002/Ecore";
+        addAnnotation(variationPointEClass, source, new String[] { "constraints", "allValidatorsSucceed" });
     }
 
 } //variabilityPackageImpl

@@ -14,6 +14,7 @@ import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
+import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -146,6 +147,8 @@ public class SoftwareActionBarContributor extends EditingDomainActionBarContribu
         super(ADDITIONS_LAST_STYLE);
         loadResourceAction = new LoadResourceAction();
         validateAction = new ValidateAction();
+        liveValidationAction = new DiagnosticDecorator.LiveValidator.LiveValidationAction(vpmEditorPlugin.getPlugin()
+                .getDialogSettings());
         controlAction = new ControlAction();
     }
 
