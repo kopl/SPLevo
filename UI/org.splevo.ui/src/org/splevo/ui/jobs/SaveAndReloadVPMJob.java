@@ -38,9 +38,17 @@ public class SaveAndReloadVPMJob extends SequentialBlackboardInteractingJob<SPLe
     }
 
     private void addJobs(SPLevoProject splevoProject, String targetPath) {
+        // load latest vpm model in blackboard
+        LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
+        add(loadVPMJob);
+        
         // save the latest vpm model
         SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
         add(saveVPMJob);
+        
+        // load latest vpm model in blackboard
+        loadVPMJob = new LoadVPMJob(splevoProject);
+        add(loadVPMJob);
 
         // open the model
         add(new OpenVPMJob(splevoProject, null));

@@ -37,7 +37,7 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     /**
      * The index of the vpm to be loaded. If this is -1 the latest one will be loaded.
      */
-    private int targetVPMIndex = -1;
+    private final int targetVPMIndex;
 
     /** Option to let EMF Text resources load layout information. */
     private boolean loadLayoutInformation = false;
