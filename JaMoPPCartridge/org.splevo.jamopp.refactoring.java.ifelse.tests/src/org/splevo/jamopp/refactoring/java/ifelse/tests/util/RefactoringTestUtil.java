@@ -26,8 +26,12 @@ import java.util.Map;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
@@ -772,6 +776,14 @@ public final class RefactoringTestUtil {
 
         JaMoPPVPMBuilder builder = new JaMoPPVPMBuilder();
         VariationPointModel vpm = builder.buildVPM(comparison, "leading", "integration");
+        
+        ResourceSet rs = new ResourceSetImpl();
+        rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
+        .put("vpm", new XMIResourceFactoryImpl());
+        Resource r = rs.createResource(URI.createFileURI("test123.vpm"));
+        r.getContents().add(vpm);
+        
+        
         return vpm;
     }
 

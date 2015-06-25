@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
+ *    Stephan Seifermann - restore VPM validity after refactoring
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optxor;
 
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -31,6 +33,7 @@ import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.Void;
 import org.emftext.language.java.variables.LocalVariable;
+import org.splevo.commons.emf.ReplacementUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.VariabilityPositionUtil;
@@ -77,8 +80,9 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implemen
 
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
 
+        Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();
         for (Variant variant : variationPoint.getVariants()) {
-            Condition variantCondition = generateVariantCondition(variant, localVariableStatements);
+            Condition variantCondition = generateVariantCondition(variant, localVariableStatements, replacements);
             vpLocation.getStatements().add(variabilityPositionEnd++, variantCondition);
         }
 
@@ -100,11 +104,16 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implemen
             resourceList.add(configResource);
         }
 
+        for (Map.Entry<EObject, EObject> replacement : replacements.entrySet()) {
+            // TODO we possibly could restrict the cross reference check to the VPM
+            ReplacementUtil.replaceCrossReferences(replacement.getKey(), replacement.getValue(), variationPoint.eResource().getResourceSet());
+        }
+        
         return resourceList;
     }
 
     private static Condition generateVariantCondition(Variant variant,
-            Map<String, LocalVariableStatement> localVariableStatements) {
+            Map<String, LocalVariableStatement> localVariableStatements, Map<EObject, EObject> replacements) {
         VariationPoint variationPoint = variant.getVariationPoint();
 
         String variantId = variant.getId();
@@ -138,6 +147,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implemen
 
             if (statement != null) {
                 ((Block) currentCondition.getStatement()).getStatements().add(statement);
+                replacements.put(originalStatement, statement);
             }
         }
 

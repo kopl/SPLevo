@@ -22,20 +22,7 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
     @Override
     public void processBeforeRefactoring(Resource resource) {
         if (!JaMoPPSoftwareModelExtractor.EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT && resource instanceof IJavaTextResource) {
-
-            // construct new load options
-            Map<Object, Object> options = resource.getResourceSet().getLoadOptions();
-            options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.FALSE);
-            options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.FALSE);
-
-            // reload the resource with the new load options
-            try {
-                resource.unload();
-                resource.load(options);
-            } catch (IOException e) {
-                LOGGER.error("Could not preprocess JaMoPP resource.", e);
-            }
-
+            reloadResourceWithLayoutInformation(resource);
         }
     }
 
@@ -45,6 +32,28 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
         // comments (id to be used in the comment can be calculated by concatenating the id of the
         // variation point and the variant). Use the comment adding method in RefactoringUtil
         // (extract it and add it to this project).
+    }
+
+    @Override
+    public void processAfterRefactoring(Resource resource) {
+//        if (resource instanceof IJavaTextResource) {
+//            reloadResourceWithLayoutInformation(resource);
+//        }
+    }
+    
+    private void reloadResourceWithLayoutInformation(Resource resource) {
+        // construct new load options
+        Map<Object, Object> options = resource.getResourceSet().getLoadOptions();
+        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.FALSE);
+        options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.FALSE);
+
+        // reload the resource with the new load options
+        try {
+            resource.unload();
+            resource.load(options);
+        } catch (IOException e) {
+            LOGGER.error("Could not preprocess JaMoPP resource.", e);
+        }
     }
 
 }

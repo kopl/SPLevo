@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
+ *    Stephan Seifermann - assertion for correct VPM
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optxor.tests;
 
@@ -16,7 +17,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
 
@@ -24,6 +27,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.AssignmentExpression;
@@ -49,9 +54,11 @@ import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassState
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
+import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -182,6 +189,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(decimalValue1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(decimalValue2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(decimalValue1, not(equalTo(decimalValue2)));
+        
+        assertValidVPM(vp);
     }
 
     /**
@@ -256,6 +265,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(secondAssignmentExpr.getDecimalValue(),
                 anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(firstAssignmentExpr.getDecimalValue(), not(equalTo(secondAssignmentExpr.getDecimalValue())));
+        
+        assertValidVPM(vp);
     }
 
     /**
@@ -297,6 +308,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        assertValidVPM(vp);
     }
 
     /**
@@ -339,6 +352,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        assertValidVPM(vp);
     }
 
     /**
@@ -381,6 +396,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        assertValidVPM(vp);
     }
 
     /**
@@ -423,6 +440,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        assertValidVPM(vp);
     }
 
     /**
@@ -465,6 +484,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        assertValidVPM(vp);
     }
 
     /**
@@ -507,6 +528,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        assertValidVPM(vp);
     }
 
     /**
@@ -549,8 +572,10 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        assertValidVPM(vp);
     }
-
+    
     /**
      * Two variants that both have one different statement in a nested block (case). Two conditions
      * should be introduced in the block that execute the statements as configured.
@@ -591,5 +616,22 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        assertValidVPM(vp);
+    }
+    
+    private void assertValidVPM(VariationPoint vp) throws IOException {
+        for (Variant v : vp.getVariants()) {
+            OuterLoop: for (SoftwareElement swe : v.getImplementingElements()) {
+                EObject wantedObject = swe.getWrappedElement();
+                TreeIterator<EObject> content = vp.getLocation().getWrappedElement().eAllContents();
+                while (content.hasNext()) {
+                    if (content.next() == wantedObject) {
+                        break OuterLoop;
+                    }
+                }
+                fail(String.format("The referenced object %s is not contained in the JaMoPP resource.", wantedObject.toString()));
+            }
+        }
     }
 }
