@@ -17,6 +17,7 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.LoadVPMJob;
 import org.splevo.ui.jobs.RefactorVPMJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
+import org.splevo.ui.jobs.SaveAndReloadVPMJob;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
@@ -56,8 +57,12 @@ public class BuildSPLWorkflowDelegate extends
     protected IJob createWorkflowJob(BuildSPLWorkflowConfiguration arg0) {
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
 
-        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence =
+                new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(blackboard);
+        
+        // save and reload vpm model
+        jobSequence.add(new SaveAndReloadVPMJob(splevoProject, "refactored"));
 
         // load the latest vpm model
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
