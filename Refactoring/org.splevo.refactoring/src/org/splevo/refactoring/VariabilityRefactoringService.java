@@ -52,9 +52,8 @@ public class VariabilityRefactoringService {
      *            variability mechanism.
      * @param refactoringConfigurations
      *            Refactoring configurations.
-     * @return The ResourceSet referencing the refactored software.
      */
-    public Set<Resource> refactor(VariationPointModel variationPointModel, Map<String, Object> refactoringConfigurations) {
+    public void refactor(VariationPointModel variationPointModel, Map<String, Object> refactoringConfigurations) {
         preprocessResources(variationPointModel);
         EcoreUtil.resolveAll(variationPointModel);
         preprocessVPM(variationPointModel);
@@ -76,8 +75,26 @@ public class VariabilityRefactoringService {
                 toBeSaved.addAll(changedResources);
             }
         }
+        
+        EcoreUtil.resolveAll(variationPointModel);
+        saveVPM(variationPointModel);
+        saveAndPostprocessResources(toBeSaved);
+    }
 
-        return toBeSaved;
+    private void saveAndPostprocessResources(Set<Resource> toBeSaved) {
+        for (Resource resource : toBeSaved) {
+            saveResource(resource);
+        }
+        
+        postprocessResources(toBeSaved);
+        
+        for (Resource resource : toBeSaved) {
+            saveResource(resource);
+        }
+    }
+
+    private void postprocessResources(Set<Resource> toBeSaved) {
+        new ResourceProcessorService().postprocessResources(toBeSaved);
     }
 
     private void preprocessVPM(VariationPointModel variationPointModel) {
@@ -150,17 +167,21 @@ public class VariabilityRefactoringService {
     }
     
     private boolean saveVPM(VariationPointModel variationPointModel) {
+        if (variationPointModel.eResource() != null) {
+            return saveResource(variationPointModel.eResource());
+        }
+        logger.info("Variation Point Model without a resource");
+        return true;
+    }
+
+    private boolean saveResource(Resource resource) {
         try {
-            if (variationPointModel.eResource() != null) {
-                variationPointModel.eResource().save(null);
-            } else {
-                logger.info("Variation Point Model without a resource");
-            }
+            resource.save(null);
         } catch (IOException e) {
-            logger.error("Failed to save Variation Point Model", e);
+            logger.error("Could not save resource: " + resource.getURI().lastSegment(), e);
             return false;
         }
         return true;
     }
-
+    
 }

@@ -77,4 +77,20 @@ public class ResourceProcessorService {
         }
     }
 
+    /**
+     * Postprocesses the given resources after the refactoring by applying all available processors
+     * to it.
+     * 
+     * @param resources
+     *            The resources to be processed.
+     */
+    public void postprocessResources(Iterable<Resource> resources) {
+        final List<ResourceProcessor> processors = RESOURCE_PROCESSOR_REGISTRY.getElements();
+        for (Resource resource : resources) {
+            for (ResourceProcessor processor : processors) {
+                processor.processAfterRefactoring(resource);
+            }
+        }
+    }
+
 }

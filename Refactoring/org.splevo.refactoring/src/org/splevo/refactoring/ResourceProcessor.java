@@ -37,4 +37,12 @@ public interface ResourceProcessor {
      */
     void processVPMBeforeRefactoring(VariationPointModel variationPointModel);
 
+    /**
+     * Processes a given resource after the refactoring process has been carried out.
+     * 
+     * @param resource
+     *            The resource to be processed.
+     */
+    void processAfterRefactoring(Resource resource);
+
 }
