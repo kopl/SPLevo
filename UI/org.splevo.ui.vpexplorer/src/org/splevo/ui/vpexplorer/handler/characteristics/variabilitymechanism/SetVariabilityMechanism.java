@@ -37,7 +37,8 @@ public class SetVariabilityMechanism extends AbstractChangeCharacteristicHandler
 
     @Override
     protected boolean changeVariationPointCharacteristic(VariationPoint variationPoint) {
-        final VariabilityMechanism targetVariabilityMechanism = refactoring == null ? null : refactoring.getVariabilityMechanism();
+        final VariabilityMechanism targetVariabilityMechanism =
+                refactoring == null ? null : refactoring.getVariabilityMechanism();
         final VariabilityMechanism oldVariabilityMechanism = variationPoint.getVariabilityMechanism();
         
         if (Objects.equal(variationPoint.getVariabilityMechanism(), targetVariabilityMechanism)) {
