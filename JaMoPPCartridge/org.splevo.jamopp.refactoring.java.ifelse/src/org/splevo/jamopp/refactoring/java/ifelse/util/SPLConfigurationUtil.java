@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial version
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.util;
+package org.splevo.jamopp.refactoring.java.ifelse.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +36,7 @@ import org.emftext.language.java.references.ReferencesFactory;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
+import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**

@@ -9,7 +9,7 @@
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
  *******************************************************************************/
-package org.splevo.jamopp.refactoring.util;
+package org.splevo.jamopp.refactoring.java.ifelse.util;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +22,7 @@ import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
+import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;

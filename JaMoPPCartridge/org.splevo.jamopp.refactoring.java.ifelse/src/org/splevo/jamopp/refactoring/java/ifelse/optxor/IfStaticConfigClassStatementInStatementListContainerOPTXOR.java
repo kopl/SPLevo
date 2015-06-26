@@ -34,9 +34,10 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.Void;
 import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.commons.emf.ReplacementUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.VariabilityPositionUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
-import org.splevo.jamopp.refactoring.util.VariabilityPositionUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringService;
@@ -119,7 +120,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implemen
         String variantId = variant.getId();
         String groupName = variationPoint.getGroup().getName();
 
-        Condition currentCondition = RefactoringUtil.createVariabilityCondition(variantId, groupName);
+        Condition currentCondition = IfElseRefactoringUtil.createVariabilityCondition(variantId, groupName);
 
         for (SoftwareElement se : variant.getImplementingElements()) {
             Statement originalStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();

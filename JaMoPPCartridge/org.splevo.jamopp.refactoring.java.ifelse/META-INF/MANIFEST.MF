@@ -10,5 +10,6 @@ Require-Bundle: org.splevo.refactoring,
  com.google.guava;bundle-version="[11.0.0,15.0.0)",
  org.apache.log4j,
  org.splevo.jamopp.util,
- org.splevo.jamopp.diffing
+ org.splevo.jamopp.diffing,
+ org.splevo.jamopp.refactoring
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

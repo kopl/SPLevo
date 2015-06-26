@@ -64,8 +64,6 @@ import org.emftext.language.java.operators.OperatorsFactory;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.references.IdentifierReference;
 import org.emftext.language.java.references.ReferencesFactory;
-import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
@@ -247,26 +245,6 @@ public final class RefactoringUtil {
         variable.setInitialValue(defaultValue);
 
         return expressionStatement;
-    }
-
-    /**
-     * Generates a condition with an empty if-block. Matches the SPL configuration attribute with
-     * the given name (from the group ID) with the given variant id within the condition.
-     * 
-     * @param variantId
-     *            The variant id as {@link String}.
-     * @param groupName
-     *            The group name as {@link String}.
-     * @return The generated {@link Condition}.
-     */
-    public static Condition createVariabilityCondition(String variantId, String groupName) {
-        Condition condition = StatementsFactory.eINSTANCE.createCondition();
-        condition.setCondition(SPLConfigurationUtil.generateConfigMatchingExpression(variantId, groupName));
-
-        Block ifBlock = StatementsFactory.eINSTANCE.createBlock();
-        condition.setStatement(ifBlock);
-
-        return condition;
     }
 
     /**

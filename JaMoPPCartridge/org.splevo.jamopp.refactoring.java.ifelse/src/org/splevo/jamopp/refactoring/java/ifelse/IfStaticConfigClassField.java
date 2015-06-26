@@ -37,8 +37,9 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringService;
@@ -103,7 +104,7 @@ public class IfStaticConfigClassField implements VariabilityRefactoring {
 
                     ExpressionStatement fieldAssignment = createFieldAssignment(field, value);
 
-                    Condition condition = RefactoringUtil.createVariabilityCondition(variantId, groupName);
+                    Condition condition = IfElseRefactoringUtil.createVariabilityCondition(variantId, groupName);
                     Block ifBlock = (Block) condition.getStatement();
                     ifBlock.getStatements().add(fieldAssignment);
 

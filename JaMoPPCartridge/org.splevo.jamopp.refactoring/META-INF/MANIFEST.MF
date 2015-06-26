@@ -6,4 +6,9 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.splevo.refactoring;bundle-version="1.0.0",
  org.emftext.language.java.resource.java,
  org.apache.log4j;bundle-version="1.2.15",
- org.splevo.jamopp.extraction
+ org.splevo.jamopp.extraction,
+ org.emftext.language.java;bundle-version="1.4.1",
+ org.splevo.jamopp.diffing;bundle-version="1.0.0",
+ org.splevo.jamopp.util;bundle-version="1.0.0",
+ org.splevo.jamopp.vpm;bundle-version="1.0.0"
+Export-Package: org.splevo.jamopp.refactoring.util

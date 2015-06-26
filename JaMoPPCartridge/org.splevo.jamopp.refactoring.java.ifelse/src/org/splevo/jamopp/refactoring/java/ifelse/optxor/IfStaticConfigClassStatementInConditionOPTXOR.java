@@ -23,8 +23,9 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
+import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.refactoring.util.SPLConfigurationUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringService;
@@ -63,7 +64,7 @@ public class IfStaticConfigClassStatementInConditionOPTXOR implements Variabilit
         Condition previousCondition = vpLocation;
 
         for (Variant variant : variationPoint.getVariants()) {
-            Condition variabilityCondition = RefactoringUtil.createVariabilityCondition(variant.getId(), groupName);
+            Condition variabilityCondition = IfElseRefactoringUtil.createVariabilityCondition(variant.getId(), groupName);
 
             Commentable element = ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0)).getJamoppElement();
             Statement stmt = EcoreUtil.copy((Statement) element);
