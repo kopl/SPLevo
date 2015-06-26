@@ -7,7 +7,6 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.splevo.jamopp.vpm.software.tests
 Fragment-Host: org.splevo.jamopp.vpm
 Require-Bundle: org.eclipse.core.runtime,
  org.splevo.jamopp.vpm;visibility:=reexport,
