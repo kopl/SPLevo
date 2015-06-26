@@ -35,54 +35,54 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface VariabilityMechanism extends EObject {
-    /**
-     * Returns the value of the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * A name identifying the variability mechanism. Typically aligned with / specified by the refactoring referenced by the refactoring id.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>Name</em>' attribute.
-     * @see #setName(String)
-     * @see org.splevo.vpm.realization.RealizationPackage#getVariabilityMechanism_Name()
-     * @model
-     * @generated
-     */
-    String getName();
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * A name identifying the variability mechanism. Typically aligned with / specified by the refactoring referenced by the refactoring id.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see org.splevo.vpm.realization.RealizationPackage#getVariabilityMechanism_Name()
+	 * @model
+	 * @generated
+	 */
+	String getName();
 
-    /**
-     * Sets the value of the '{@link org.splevo.vpm.realization.VariabilityMechanism#getName <em>Name</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Name</em>' attribute.
-     * @see #getName()
-     * @generated
-     */
-    void setName(String value);
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.realization.VariabilityMechanism#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName(String value);
 
-    /**
-     * Returns the value of the '<em><b>Refactoring ID</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * The id of the refactoring to be used to implement this mechanims.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>Refactoring ID</em>' attribute.
-     * @see #setRefactoringID(String)
-     * @see org.splevo.vpm.realization.RealizationPackage#getVariabilityMechanism_RefactoringID()
-     * @model
-     * @generated
-     */
-    String getRefactoringID();
+	/**
+	 * Returns the value of the '<em><b>Refactoring ID</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The id of the refactoring to be used to implement this mechanims.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Refactoring ID</em>' attribute.
+	 * @see #setRefactoringID(String)
+	 * @see org.splevo.vpm.realization.RealizationPackage#getVariabilityMechanism_RefactoringID()
+	 * @model
+	 * @generated
+	 */
+	String getRefactoringID();
 
-    /**
-     * Sets the value of the '{@link org.splevo.vpm.realization.VariabilityMechanism#getRefactoringID <em>Refactoring ID</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Refactoring ID</em>' attribute.
-     * @see #getRefactoringID()
-     * @generated
-     */
-    void setRefactoringID(String value);
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.realization.VariabilityMechanism#getRefactoringID <em>Refactoring ID</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Refactoring ID</em>' attribute.
+	 * @see #getRefactoringID()
+	 * @generated
+	 */
+	void setRefactoringID(String value);
 
 } // VariabilityMechanism

@@ -27,79 +27,81 @@ import org.splevo.vpm.realization.VariabilityMechanism;
  * <!-- end-user-doc -->
  * @generated
  */
-public class RealizationFactoryImpl extends EFactoryImpl implements RealizationFactory {
-    /**
-     * Creates the default factory implementation.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public static RealizationFactory init() {
-        try {
-            RealizationFactory theRealizationFactory = (RealizationFactory) EPackage.Registry.INSTANCE
-                    .getEFactory(RealizationPackage.eNS_URI);
-            if (theRealizationFactory != null) {
-                return theRealizationFactory;
-            }
-        } catch (Exception exception) {
-            EcorePlugin.INSTANCE.log(exception);
-        }
-        return new RealizationFactoryImpl();
-    }
+public class RealizationFactoryImpl extends EFactoryImpl implements
+		RealizationFactory {
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static RealizationFactory init() {
+		try {
+			RealizationFactory theRealizationFactory = (RealizationFactory) EPackage.Registry.INSTANCE
+					.getEFactory(RealizationPackage.eNS_URI);
+			if (theRealizationFactory != null) {
+				return theRealizationFactory;
+			}
+		} catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new RealizationFactoryImpl();
+	}
 
-    /**
-     * Creates an instance of the factory.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public RealizationFactoryImpl() {
-        super();
-    }
+	/**
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RealizationFactoryImpl() {
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EObject create(EClass eClass) {
-        switch (eClass.getClassifierID()) {
-        case RealizationPackage.VARIABILITY_MECHANISM:
-            return createVariabilityMechanism();
-        default:
-            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-        }
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EObject create(EClass eClass) {
+		switch (eClass.getClassifierID()) {
+		case RealizationPackage.VARIABILITY_MECHANISM:
+			return createVariabilityMechanism();
+		default:
+			throw new IllegalArgumentException("The class '" + eClass.getName()
+					+ "' is not a valid classifier");
+		}
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public VariabilityMechanism createVariabilityMechanism() {
-        VariabilityMechanismImpl variabilityMechanism = new VariabilityMechanismImpl();
-        return variabilityMechanism;
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public VariabilityMechanism createVariabilityMechanism() {
+		VariabilityMechanismImpl variabilityMechanism = new VariabilityMechanismImpl();
+		return variabilityMechanism;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public RealizationPackage getRealizationPackage() {
-        return (RealizationPackage) getEPackage();
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RealizationPackage getRealizationPackage() {
+		return (RealizationPackage) getEPackage();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @deprecated
-     * @generated
-     */
-    @Deprecated
-    public static RealizationPackage getPackage() {
-        return RealizationPackage.eINSTANCE;
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @deprecated
+	 * @generated
+	 */
+	@Deprecated
+	public static RealizationPackage getPackage() {
+		return RealizationPackage.eINSTANCE;
+	}
 
 } //RealizationFactoryImpl

@@ -11,10 +11,12 @@
  *******************************************************************************/
 package org.splevo.jamopp.vpm.software.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.emftext.language.java.annotations.AnnotationsPackage;
@@ -53,10 +55,12 @@ import org.emftext.language.java.types.TypesPackage;
 
 import org.emftext.language.java.variables.VariablesPackage;
 
+import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.jamopp.vpm.software.softwarePackage;
 
+import org.splevo.vpm.realization.RealizationPackage;
 import org.splevo.vpm.software.SoftwarePackage;
 
 import org.splevo.vpm.variability.variabilityPackage;
@@ -64,17 +68,24 @@ import org.splevo.vpm.variability.variabilityPackage;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!--
  * end-user-doc -->
- *
+ * 
  * @generated
  */
 public class softwarePackageImpl extends EPackageImpl implements
 		softwarePackage {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private EClass jaMoPPSoftwareElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private EClass commentableSoftwareElementEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -85,7 +96,7 @@ public class softwarePackageImpl extends EPackageImpl implements
 	 * method {@link #init init()}, which also performs initialization of the
 	 * package, or returns the registered package, if one already exists. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.splevo.jamopp.vpm.software.softwarePackage#eNS_URI
 	 * @see #init()
@@ -97,7 +108,7 @@ public class softwarePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
@@ -105,13 +116,13 @@ public class softwarePackageImpl extends EPackageImpl implements
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model,
 	 * and for any others upon which it depends.
-	 *
+	 * 
 	 * <p>
 	 * This method is used to initialize {@link softwarePackage#eINSTANCE} when
 	 * that field is accessed. Clients should not invoke it directly. Instead,
 	 * they should simply access that field to obtain the package. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
@@ -150,6 +161,7 @@ public class softwarePackageImpl extends EPackageImpl implements
 		VariablesPackage.eINSTANCE.eClass();
 		variabilityPackage.eINSTANCE.eClass();
 		SoftwarePackage.eINSTANCE.eClass();
+		RealizationPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		thesoftwarePackage.createPackageContents();
@@ -168,7 +180,7 @@ public class softwarePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public EClass getJaMoPPSoftwareElement() {
@@ -177,7 +189,7 @@ public class softwarePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public EReference getJaMoPPSoftwareElement_JamoppElement() {
@@ -187,7 +199,36 @@ public class softwarePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
+	 * @generated
+	 */
+	public EClass getCommentableSoftwareElement() {
+		return commentableSoftwareElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EAttribute getCommentableSoftwareElement_Id() {
+		return (EAttribute) commentableSoftwareElementEClass
+				.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EReference getCommentableSoftwareElement_CompilationUnit() {
+		return (EReference) commentableSoftwareElementEClass
+				.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public softwareFactory getsoftwareFactory() {
@@ -196,7 +237,7 @@ public class softwarePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
@@ -205,7 +246,7 @@ public class softwarePackageImpl extends EPackageImpl implements
 	 * Creates the meta-model objects for the package. This method is guarded to
 	 * have no affect on any invocation but its first. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public void createPackageContents() {
@@ -217,11 +258,17 @@ public class softwarePackageImpl extends EPackageImpl implements
 		jaMoPPSoftwareElementEClass = createEClass(JA_MO_PP_SOFTWARE_ELEMENT);
 		createEReference(jaMoPPSoftwareElementEClass,
 				JA_MO_PP_SOFTWARE_ELEMENT__JAMOPP_ELEMENT);
+
+		commentableSoftwareElementEClass = createEClass(COMMENTABLE_SOFTWARE_ELEMENT);
+		createEAttribute(commentableSoftwareElementEClass,
+				COMMENTABLE_SOFTWARE_ELEMENT__ID);
+		createEReference(commentableSoftwareElementEClass,
+				COMMENTABLE_SOFTWARE_ELEMENT__COMPILATION_UNIT);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -230,7 +277,7 @@ public class softwarePackageImpl extends EPackageImpl implements
 	 * Complete the initialization of the package and its meta-model. This
 	 * method is guarded to have no affect on any invocation but its first. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 *
+	 * 
 	 * @generated
 	 */
 	public void initializePackageContents() {
@@ -248,6 +295,10 @@ public class softwarePackageImpl extends EPackageImpl implements
 				.getEPackage(SoftwarePackage.eNS_URI);
 		CommonsPackage theCommonsPackage = (CommonsPackage) EPackage.Registry.INSTANCE
 				.getEPackage(CommonsPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage) EPackage.Registry.INSTANCE
+				.getEPackage(EcorePackage.eNS_URI);
+		ContainersPackage theContainersPackage = (ContainersPackage) EPackage.Registry.INSTANCE
+				.getEPackage(ContainersPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -255,6 +306,8 @@ public class softwarePackageImpl extends EPackageImpl implements
 
 		// Add supertypes to classes
 		jaMoPPSoftwareElementEClass.getESuperTypes().add(
+				theSoftwarePackage.getJavaSoftwareElement());
+		commentableSoftwareElementEClass.getESuperTypes().add(
 				theSoftwarePackage.getJavaSoftwareElement());
 
 		// Initialize classes, features, and operations; add parameters
@@ -265,6 +318,21 @@ public class softwarePackageImpl extends EPackageImpl implements
 				theCommonsPackage.getCommentable(), null, "jamoppElement",
 				null, 1, 1, JaMoPPSoftwareElement.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(commentableSoftwareElementEClass,
+				CommentableSoftwareElement.class, "CommentableSoftwareElement",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCommentableSoftwareElement_Id(),
+				theEcorePackage.getEString(), "id", null, 1, 1,
+				CommentableSoftwareElement.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getCommentableSoftwareElement_CompilationUnit(),
+				theContainersPackage.getCompilationUnit(), null,
+				"compilationUnit", null, 1, 1,
+				CommentableSoftwareElement.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource

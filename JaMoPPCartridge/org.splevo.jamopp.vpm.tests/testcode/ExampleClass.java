@@ -6,4 +6,9 @@ public class ExampleClass {
 	public void doSth() {
 		System.out.println("Hello World");
 	}
+	
+	public void commentabelSoftwareElementTest() {
+		//SPLEVO_REF VariationPointID_VariantID
+		System.out.println("Hello World");
+	}
 }

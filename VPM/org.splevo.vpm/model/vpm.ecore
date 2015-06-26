@@ -37,6 +37,8 @@
           eType="#//variability/Extensible" defaultValueLiteral="NO"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variabilityMechanism"
           eType="#//realization/VariabilityMechanism" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="refactored" lowerBound="1"
+          eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Variant">
       <eStructuralFeatures xsi:type="ecore:EReference" name="childFeature" eType="ecore:EClass ../../org.eclipse.featuremodel.metamodel/models/featuremodel.ecore#//Feature"/>
@@ -67,6 +69,7 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="A variation point group combines variation points which belong together. &#xD;&#xA;While a variation point represents a location in the code which contains a variability and defines the different alternatives (variants) for this location, a group defines all variation points that contribute to a single software option (feature)."/>
       </eAnnotations>
+      <eOperations name="isRefactored" lowerBound="1" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variationPoints" lowerBound="1"
           upperBound="-1" eType="#//variability/VariationPoint" containment="true"
           eOpposite="#//variability/VariationPoint/group">

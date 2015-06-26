@@ -200,6 +200,7 @@ import org.emftext.language.java.types.provider.TypesItemProviderAdapterFactory;
 
 import org.emftext.language.java.variables.provider.VariablesItemProviderAdapterFactory;
 
+import org.splevo.vpm.realization.provider.RealizationItemProviderAdapterFactory;
 import org.splevo.vpm.software.provider.SoftwareItemProviderAdapterFactory;
 
 import org.splevo.vpm.variability.provider.variabilityItemProviderAdapterFactory;
@@ -795,6 +796,8 @@ public class softwareEditor extends MultiPageEditorPart implements
 				.addAdapterFactory(new variabilityItemProviderAdapterFactory());
 		adapterFactory
 				.addAdapterFactory(new SoftwareItemProviderAdapterFactory());
+		adapterFactory
+				.addAdapterFactory(new RealizationItemProviderAdapterFactory());
 		adapterFactory
 				.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 

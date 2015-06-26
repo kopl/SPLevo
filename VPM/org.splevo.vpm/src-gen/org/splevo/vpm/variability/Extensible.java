@@ -30,187 +30,189 @@ import org.eclipse.emf.common.util.Enumerator;
  * @generated
  */
 public enum Extensible implements Enumerator {
-    /**
-     * The '<em><b>NO</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #NO_VALUE
-     * @generated
-     * @ordered
-     */
-    NO(0, "NO", "NO"),
+	/**
+	 * The '<em><b>NO</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NO_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NO(0, "NO", "NO"),
 
-    /**
-     * The '<em><b>YES</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #YES_VALUE
-     * @generated
-     * @ordered
-     */
-    YES(1, "YES", "YES");
+	/**
+	 * The '<em><b>YES</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #YES_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	YES(1, "YES", "YES");
 
-    /**
-     * The '<em><b>NO</b></em>' literal value.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * All available variants are included in the software product line.
-     * <!-- end-model-doc -->
-     * @see #NO
-     * @model
-     * @generated
-     * @ordered
-     */
-    public static final int NO_VALUE = 0;
+	/**
+	 * The '<em><b>NO</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * All available variants are included in the software product line.
+	 * <!-- end-model-doc -->
+	 * @see #NO
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NO_VALUE = 0;
 
-    /**
-     * The '<em><b>YES</b></em>' literal value.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * New variants can be added in excess of the product line code base (typically not done by developers of the software product line).
-     * <!-- end-model-doc -->
-     * @see #YES
-     * @model
-     * @generated
-     * @ordered
-     */
-    public static final int YES_VALUE = 1;
+	/**
+	 * The '<em><b>YES</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * New variants can be added in excess of the product line code base (typically not done by developers of the software product line).
+	 * <!-- end-model-doc -->
+	 * @see #YES
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int YES_VALUE = 1;
 
-    /**
-     * An array of all the '<em><b>Extensible</b></em>' enumerators.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private static final Extensible[] VALUES_ARRAY = new Extensible[] { NO, YES, };
+	/**
+	 * An array of all the '<em><b>Extensible</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static final Extensible[] VALUES_ARRAY = new Extensible[] { NO,
+			YES, };
 
-    /**
-     * A public read-only list of all the '<em><b>Extensible</b></em>' enumerators.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public static final List<Extensible> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	/**
+	 * A public read-only list of all the '<em><b>Extensible</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final List<Extensible> VALUES = Collections
+			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
-    /**
-     * Returns the '<em><b>Extensible</b></em>' literal with the specified literal value.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public static Extensible get(String literal) {
-        for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-            Extensible result = VALUES_ARRAY[i];
-            if (result.toString().equals(literal)) {
-                return result;
-            }
-        }
-        return null;
-    }
+	/**
+	 * Returns the '<em><b>Extensible</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static Extensible get(String literal) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			Extensible result = VALUES_ARRAY[i];
+			if (result.toString().equals(literal)) {
+				return result;
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Returns the '<em><b>Extensible</b></em>' literal with the specified name.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public static Extensible getByName(String name) {
-        for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-            Extensible result = VALUES_ARRAY[i];
-            if (result.getName().equals(name)) {
-                return result;
-            }
-        }
-        return null;
-    }
+	/**
+	 * Returns the '<em><b>Extensible</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static Extensible getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			Extensible result = VALUES_ARRAY[i];
+			if (result.getName().equals(name)) {
+				return result;
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Returns the '<em><b>Extensible</b></em>' literal with the specified integer value.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public static Extensible get(int value) {
-        switch (value) {
-        case NO_VALUE:
-            return NO;
-        case YES_VALUE:
-            return YES;
-        }
-        return null;
-    }
+	/**
+	 * Returns the '<em><b>Extensible</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static Extensible get(int value) {
+		switch (value) {
+		case NO_VALUE:
+			return NO;
+		case YES_VALUE:
+			return YES;
+		}
+		return null;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private final int value;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private final String name;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String name;
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private final String literal;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final String literal;
 
-    /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private Extensible(int value, String name, String literal) {
-        this.value = value;
-        this.name = name;
-        this.literal = literal;
-    }
+	/**
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private Extensible(int value, String name, String literal) {
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public int getValue() {
-        return value;
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue() {
+		return value;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public String getLiteral() {
-        return literal;
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getLiteral() {
+		return literal;
+	}
 
-    /**
-     * Returns the literal value of the enumerator, which is its string representation.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public String toString() {
-        return literal;
-    }
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		return literal;
+	}
 
 } //Extensible

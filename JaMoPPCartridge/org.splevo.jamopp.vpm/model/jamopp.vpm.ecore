@@ -14,5 +14,10 @@
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CommentableSoftwareElement" eSuperTypes="../../org.splevo.vpm/model/vpm.ecore#//software/JavaSoftwareElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="compilationUnit" lowerBound="1"
+          eType="ecore:EClass ../../org.emftext.language.java/metamodel/java.ecore#//containers/CompilationUnit"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

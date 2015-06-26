@@ -6,7 +6,7 @@
     modelName="vpm" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     codeFormatting="true" testsDirectory="/org.splevo.vpm.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false" language="" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.featuremodel.metamodel/models/featuremodel.genmodel#//featuremodel"
-    classNamePattern="" decoration="Live">
+    classNamePattern="" operationReflection="true" decoration="Live">
   <foreignModel>vpm.ecore</foreignModel>
   <genPackages prefix="vpm" basePackage="org.splevo" disposableProviderFactory="true"
       ecorePackage="vpm.ecore#/">
@@ -36,6 +36,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//variability/VariationPoint/bindingTime"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//variability/VariationPoint/extensibility"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vpm.ecore#//variability/VariationPoint/variabilityMechanism"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//variability/VariationPoint/refactored"/>
         <genOperations ecoreOperation="vpm.ecore#//variability/VariationPoint/allValidatorsSucceed">
           <genParameters ecoreParameter="vpm.ecore#//variability/VariationPoint/allValidatorsSucceed/chain"/>
           <genParameters ecoreParameter="vpm.ecore#//variability/VariationPoint/allValidatorsSucceed/context"/>
@@ -60,6 +61,7 @@
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference vpm.ecore#//variability/VariationPointGroup/model"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference vpm.ecore#//variability/VariationPointGroup/feature"/>
+        <genOperations ecoreOperation="vpm.ecore#//variability/VariationPointGroup/isRefactored"/>
       </genClasses>
       <genClasses image="false" ecoreClass="vpm.ecore#//variability/CustomizableDescriptionHaving">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vpm.ecore#//variability/CustomizableDescriptionHaving/description"/>

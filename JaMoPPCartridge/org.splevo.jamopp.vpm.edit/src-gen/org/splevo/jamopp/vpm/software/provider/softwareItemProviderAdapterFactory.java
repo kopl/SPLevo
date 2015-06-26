@@ -111,6 +111,32 @@ public class softwareItemProviderAdapterFactory extends softwareAdapterFactory
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all
+	 * {@link org.splevo.jamopp.vpm.software.CommentableSoftwareElement}
+	 * instances. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected CommentableSoftwareElementItemProvider commentableSoftwareElementItemProvider;
+
+	/**
+	 * This creates an adapter for a
+	 * {@link org.splevo.jamopp.vpm.software.CommentableSoftwareElement}. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createCommentableSoftwareElementAdapter() {
+		if (commentableSoftwareElementItemProvider == null) {
+			commentableSoftwareElementItemProvider = new CommentableSoftwareElementItemProvider(
+					this);
+		}
+
+		return commentableSoftwareElementItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -213,6 +239,8 @@ public class softwareItemProviderAdapterFactory extends softwareAdapterFactory
 	public void dispose() {
 		if (jaMoPPSoftwareElementItemProvider != null)
 			jaMoPPSoftwareElementItemProvider.dispose();
+		if (commentableSoftwareElementItemProvider != null)
+			commentableSoftwareElementItemProvider.dispose();
 	}
 
 }
