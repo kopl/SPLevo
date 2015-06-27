@@ -1,6 +1,6 @@
 package org.splevo.jamopp.JaMoPPVPM.software.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +29,7 @@ import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 
 /**
- * Test if CommentableSoftwareElements are set in the model.
+ * Test the reference resolving of CommentableSoftwareElements.
  *
  * @author Max Scheerer
  *
@@ -60,8 +60,9 @@ public class CommentableSoftwareElementImplTest {
     }
 
     /**
-     * Test if the CommentableSoftwareElement was set in the model. The comment which mark a specific variant in the code is actually a concatenation
-     * of the variationpoint and a specific variant id. At this point the variationpoint model is not used in the test case and we assume that the comment
+     * Test if the CommentableSoftwareElement was set in the model. The comment which
+     * marks a specific variant includes a unique id. At this point, the variation point
+     * model is not used in the test case and we assume that the comment
      * from the ExampleClass is the correct id name.
      *
      * @throws NullPointerException

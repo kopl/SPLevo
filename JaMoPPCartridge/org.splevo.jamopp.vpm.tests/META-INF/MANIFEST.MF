@@ -9,7 +9,6 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Fragment-Host: org.splevo.jamopp.vpm
 Require-Bundle: org.eclipse.core.runtime,
- org.splevo.jamopp.vpm;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.featuremodel.metamodel;visibility:=reexport,
  org.emftext.language.java;visibility:=reexport,

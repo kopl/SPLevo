@@ -194,16 +194,13 @@ public class CommentableSoftwareElementImpl extends
 	 */
 	public SourceLocation getSourceLocation() {
 		Commentable element = null;
-		
-		try
-		{
+
+		try {
 			element = getJamoppElement();
 			if (!(element.eResource() instanceof JavaResource)) {
 				return null;
 			}
-		}
-		catch(NullPointerException ex)
-		{
+		} catch (NullPointerException ex) {
 			return null;
 		}
 
@@ -217,18 +214,18 @@ public class CommentableSoftwareElementImpl extends
 	}
 
 	private Commentable getJamoppElement() {
-		for(ConcreteClassifier classifier: getCompilationUnit().getClassifiers())
-		{
-			for(Method method: classifier.getMethods())
-			{
-				if(method instanceof ClassMethod) {
-					final TreeIterator<EObject> contentIterator=method.eAllContents();
+		for (ConcreteClassifier classifier : getCompilationUnit()
+				.getClassifiers()) {
+			for (Method method : classifier.getMethods()) {
+				if (method instanceof ClassMethod) {
+					final TreeIterator<EObject> contentIterator = method
+							.eAllContents();
 					while (contentIterator.hasNext()) {
-						final EObject next=contentIterator.next();
+						final EObject next = contentIterator.next();
 						if (next instanceof Commentable) {
 							Commentable commentable = (Commentable) next;
-							EList<String> comments = commentable.getComments(); 
-							if(null != comments && comments.contains(getId())) {
+							EList<String> comments = commentable.getComments();
+							if (null != comments && comments.contains(getId())) {
 								return getStatementOf(commentable.eContainer());
 							}
 						}
@@ -236,13 +233,12 @@ public class CommentableSoftwareElementImpl extends
 				}
 			}
 		}
-		
+
 		throw new NullPointerException();
 	}
 
 	private Commentable getStatementOf(EObject commentable) {
-		if(commentable instanceof Statement)
-		{
+		if (commentable instanceof Statement) {
 			return (Commentable) commentable;
 		}
 		return getStatementOf(commentable.eContainer());
