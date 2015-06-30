@@ -71,7 +71,7 @@ public class RefinementUtil {
 
         return splEvoProjectModel;
     }
-
+    
     /**
      * Save a refinement model to a specified file.
      *
@@ -83,13 +83,36 @@ public class RefinementUtil {
      *             identifies that the file could not be written.
      */
     public static void save(RefinementModel refinementModel, File filePath) throws IOException {
+        save(refinementModel, filePath, false);
+    }
+
+    /**
+     * Save a refinement model to a specified file.
+     *
+     * @param refinementModel
+     *            The project to save.
+     * @param filePath
+     *            The eclipse workspace relative file path to save to.
+     * @param isAbsolutePath
+     *            Indicates if the given filePath is an absolute path.
+     * @throws IOException
+     *             identifies that the file could not be written.
+     */
+    public static void save(RefinementModel refinementModel, File filePath, boolean isAbsolutePath) throws IOException {
 
         // try to write to the project file
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put(RefinementUtil.REFINEMENT_FILE_EXTENSION, new XMIResourceFactoryImpl());
         ResourceSet resSet = new ResourceSetImpl();
-        final Resource resource = resSet.createResource(URI.createPlatformResourceURI(filePath.getPath(), true));
+        URI resourceUri = null;
+        if (isAbsolutePath) {
+            resourceUri = URI.createFileURI(filePath.getAbsolutePath());
+        } else {
+            resourceUri = URI.createPlatformResourceURI(filePath.getPath(), true);
+        }
+        final Resource resource = resSet.createResource(resourceUri);
+        
         resource.getContents().add(refinementModel);
 
         resource.save(Collections.EMPTY_MAP);
