@@ -20,6 +20,8 @@
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,FM/org.splevo.fm.builder.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,FM/org.splevo.fm.emffeaturemodel.builder"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,FM/org.splevo.fm.feature"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.algorithm.clones.baxtor"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.algorithm.clones.baxtor.test"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.diffing"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.diffing.edit"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.diffing.editor"/>
@@ -27,12 +29,15 @@
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.extraction"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.extraction.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.feature"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.refactoring"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.refactoring.java.ifelse"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.refactoring.java.ifelse.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.ui"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.ui.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.util"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.vpm"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.vpm.analyzer.clonedchange"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.vpm.analyzer.clonedchange.test"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.vpm.analyzer.programdependency"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.vpm.analyzer.programdependency.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.vpm.analyzer.semantic"/>
@@ -118,6 +123,7 @@
 <item elementID="=org.splevo.jamopp.extraction" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.extraction.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.splevo.jamopp.feature" type="4"/>
+<item elementID="=org.splevo.jamopp.refactoring" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.refactoring.java.ifelse" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.refactoring.java.ifelse.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.splevo.jamopp.refactoring.refactory.ifelse" type="4"/>
@@ -126,6 +132,8 @@
 <item elementID="=org.splevo.jamopp.ui.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.vpm" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.splevo.jamopp.vpm.analyzer.clonedchange" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.splevo.jamopp.vpm.analyzer.clonedchange.test" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.vpm.analyzer.programdependency" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.vpm.analyzer.programdependency.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.vpm.analyzer.semantic" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
@@ -137,6 +145,8 @@
 <item elementID="=org.splevo.jamopp.vpm.mergedecider" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.vpm.mergedecider.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.vpm.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.splevo.jamopp.algorithm.clones.baxtor" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.splevo.jamopp.algorithm.clones.baxtor.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 </workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1395008591765_16" label="SPLevo Refactoring" name="SPLevo Refactoring">
 <item elementID="=org.splevo.refactoring" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>

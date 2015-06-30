@@ -135,6 +135,16 @@ public class BasicDetectionRule implements DetectionRule {
                         mergeSubGraphNodes(nodeSubgraphIndex, subgraphNodeIndex, sourceNodeSubgraphId,
                                 targetNodeSubgraphId);
                         mergeSubgraphEdges(subgraphEdgeIndex, sourceNodeSubgraphId, targetNodeSubgraphId);
+                    } else {
+                        /* TODO these edges are not relevant for the analysis results (anymore) but the 
+                         * reasons stored in the edge might be interesting. Otherwise, users might wonder
+                         * why their (manually) identified relation is not mentioned. 
+                         */
+                        String ignoredEdge = String.format("Ignored edge %s because of already existing subgraph.",
+                                relationshipEdge.getId());
+                        String ignoredReasons = Joiner.on("\n\t").join(relationshipEdge.getRelationshipInfos());
+                        String loggingMessage = String.format("%s Ignored reasons:\n\t%s", ignoredEdge, ignoredReasons).trim();
+                        logger.debug(loggingMessage);
                     }
                     continue;
 

@@ -18,10 +18,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.commons.util.WorkspaceUtil;
 import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementModel;
 import org.splevo.vpm.refinement.RefinementUtil;
@@ -29,6 +29,9 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 import au.com.bytecode.opencsv.CSVWriter;
+
+import com.google.common.io.Files;
+
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 
@@ -39,8 +42,8 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
  */
 public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-    /** The relative path to write the model to. */
-    private String targetPath = null;
+    /** The file name of the result file. */
+    private String targetFile = null;
 
     /** The SPLevo project to work in. */
     private SPLevoProject splevoProject = null;
@@ -53,12 +56,12 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
      *
      * @param splevoProject
      *            The project to get the workspace from.
-     * @param targetPath
-     *            The eclipse workspace relative path to write to.
+     * @param targetFile
+     *            The file name of the result file.
      */
-    public SaveRefinementModelJob(SPLevoProject splevoProject, String targetPath) {
+    protected SaveRefinementModelJob(SPLevoProject splevoProject, String targetFile) {
         this.splevoProject = splevoProject;
-        this.targetPath = targetPath;
+        this.targetFile = targetFile;
     }
 
     /**
@@ -66,14 +69,27 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
      *
      * @param splevoProject
      *            The project to get the workspace from.
-     * @param targetPath
-     *            The eclipse workspace relative path to write to.
+     * @param targetFile
+     *            The file name of the result file.
      * @param format
      *            To format to save the model in.
      */
-    public SaveRefinementModelJob(SPLevoProject splevoProject, String targetPath, FORMAT format) {
-        this(splevoProject, targetPath);
+    protected SaveRefinementModelJob(SPLevoProject splevoProject, String targetFile, FORMAT format) {
+        this(splevoProject, targetFile);
         this.format = format;
+    }
+    
+    /**
+     * Job constructor for saving of the refinement model.
+     * The model will be saved in a default path with a unique file name.
+     *
+     * @param splevoProject
+     *            The project to get the workspace from.
+     * @param format
+     *            To format to save the model in.
+     */
+    public SaveRefinementModelJob(SPLevoProject splevoProject, FORMAT format) {
+        this(splevoProject, null, format);
     }
 
     /**
@@ -88,26 +104,21 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
     public void execute(IProgressMonitor monitor) throws JobFailedException {
 
         RefinementModel refModel = getBlackboard().getRefinementModel();
-
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        String basePath = workspace.getRoot().getRawLocation().toOSString();
-        String resultDirectory = splevoProject.getWorkspace() + "models/analyses-results/";
-
-        if (targetPath == null) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
-            Calendar cal = Calendar.getInstance();
-            targetPath = dateFormat.format(cal.getTime());
+        
+        final String absoluteSavePathWithoutExtension = constructAbsoluteFilenameWithoutExtension();
+        try {
+            Files.createParentDirs(new File(absoluteSavePathWithoutExtension));
+        } catch (IOException e) {
+            throw new JobFailedException("Creation of destination folder failed.", e);
         }
-        targetPath = resultDirectory + targetPath;
-
+        
         switch (this.format) {
         case CSV:
-            new File(basePath + resultDirectory).mkdirs();
-            exportResultCSV(refModel, basePath + targetPath);
+            exportResultCSV(refModel, absoluteSavePathWithoutExtension);
             break;
 
         case ECORE_XMI:
-            exportEcoreXMI(refModel, targetPath);
+            exportEcoreXMI(refModel, absoluteSavePathWithoutExtension, logger);
             break;
 
         default:
@@ -116,6 +127,18 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
 
         // finish run
         monitor.done();
+    }
+    
+    private String constructAbsoluteFilenameWithoutExtension() {
+        final String workspaceRelativeResultDirectory = splevoProject.getWorkspace() + "models/analyses-results/";
+        String filenameBase = targetFile;
+        if (filenameBase == null) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+            Calendar cal = Calendar.getInstance();
+            filenameBase = dateFormat.format(cal.getTime());
+        }
+        final String relativeBaseFilename = workspaceRelativeResultDirectory + filenameBase;
+        return WorkspaceUtil.getAbsoluteFromWorkspaceRelativePath(relativeBaseFilename);
     }
 
     /**
@@ -128,7 +151,7 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
      * @throws JobFailedException
      *             Failed to write the csv export.
      */
-    private void exportResultCSV(RefinementModel refModel, String targetPath) throws JobFailedException {
+    private static void exportResultCSV(RefinementModel refModel, String targetPath) throws JobFailedException {
         String resultFilePath = targetPath + "-results.csv";
 
         // write the configuration file
@@ -183,11 +206,11 @@ public class SaveRefinementModelJob extends AbstractBlackboardInteractingJob<SPL
      * @throws JobFailedException
      *             Identifies the job could not write the file.
      */
-    private void exportEcoreXMI(RefinementModel refModel, String targetPath) throws JobFailedException {
+    private static void exportEcoreXMI(RefinementModel refModel, String targetPath, Logger logger) throws JobFailedException {
         logger.info("Save Refinement Model");
         try {
             String modelPath = targetPath + ".refinement";
-            RefinementUtil.save(refModel, new File(modelPath));
+            RefinementUtil.save(refModel, new File(modelPath), true);
         } catch (IOException e) {
             throw new JobFailedException("Failed to save refinement model as xmi.", e);
         }
