@@ -15,6 +15,8 @@ package org.splevo.ui.vpexplorer.featureoutline;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.vpexplorer.Activator;
@@ -33,6 +35,9 @@ public class FeatureOutlineView extends CommonNavigator implements ILinkableNavi
 
     /** Id to reference the view inside eclipse. */
     public static final String VIEW_ID = "org.splevo.ui.vpexplorer.featureoutline";
+    
+    /** Id to reference the context of feature online inside eclipse. */
+    private static final String CONTEXT_ID = "org.splevo.ui.vpexplorer.featureoutline.context";
 
     /** The mediator. */
     private ExplorerMediator mediator = Activator.EXPLORER_MEDIATOR;
@@ -46,6 +51,14 @@ public class FeatureOutlineView extends CommonNavigator implements ILinkableNavi
     public FeatureOutlineView() {
         vpExplorerContent = new VPExplorerContent(this);
         mediator.registerVPGroupingExplorer(this);
+        
+        PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+            public void run() {
+             ((IContextService) PlatformUI.getWorkbench()
+              .getService(IContextService.class))
+               .activateContext(CONTEXT_ID);
+            }
+        });
     }
 
     @Override
