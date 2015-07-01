@@ -150,8 +150,8 @@ public class VariationPointGroupItemProvider extends CustomizableNameHavingItemP
     @Override
     public String getText(Object object) {
         String label = ((VariationPointGroup) object).getName();
-        return label == null || label.length() == 0 ? getString("_UI_VariationPointGroup_type")
-                : getString("_UI_VariationPointGroup_type") + " " + label;
+        return label == null || label.length() == 0 ? "unnamed " + getString("_UI_VariationPointGroup_type") 
+                : label;
     }
 
     /**
