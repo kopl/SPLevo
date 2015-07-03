@@ -14,8 +14,11 @@ package org.splevo.ui.vpexplorer.featureoutline;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.contexts.IContextActivation;
 import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
@@ -44,21 +47,13 @@ public class FeatureOutlineView extends CommonNavigator implements ILinkableNavi
 
     /** The vp explorer content. */
     private VPExplorerContent vpExplorerContent;
-
+    
     /**
      * Default explorer setting up the required dependencies.
      */
     public FeatureOutlineView() {
         vpExplorerContent = new VPExplorerContent(this);
-        mediator.registerVPGroupingExplorer(this);
-        
-        PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-            public void run() {
-             ((IContextService) PlatformUI.getWorkbench()
-              .getService(IContextService.class))
-               .activateContext(CONTEXT_ID);
-            }
-        });
+        mediator.registerVPGroupingExplorer(this);        
     }
 
     @Override
@@ -91,6 +86,24 @@ public class FeatureOutlineView extends CommonNavigator implements ILinkableNavi
         super.createPartControl(aParent);
         new CustomizableDescriptionHavingTreeViewerToolTip(getCommonViewer());
         getCommonViewer().addSelectionChangedListener(mediator);
+        
+        FocusListener focusListener = new FocusListener() {
+            private IContextActivation activation;
+            
+            @Override
+            public void focusGained(FocusEvent e) {
+                activation = ((IContextService) PlatformUI.getWorkbench().getService(IContextService.class))
+                        .activateContext(CONTEXT_ID);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                ((IContextService) PlatformUI.getWorkbench().getService(IContextService.class))
+                        .deactivateContext(activation);              
+            }          
+            
+        };        
+        this.getCommonViewer().getTree().addFocusListener(focusListener);
     }
 
     @Override
