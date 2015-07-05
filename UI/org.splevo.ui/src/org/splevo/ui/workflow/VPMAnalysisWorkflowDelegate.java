@@ -163,7 +163,7 @@ public class VPMAnalysisWorkflowDelegate extends
      */
     private void addRefinementDetectionJobs(SequentialJob compositeJob, SPLevoProject splevoProject) {
 
-        DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob(config.getDetectionRules(), config.isUseMergeDetection());
+        DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob(config.getDetectionRules(), config.isUseMergeDetection(), config.isFullRefinementReasons());
         compositeJob.add(createRefinementModelJob);
 
         SaveRefinementModelJob saveRefinementModelJob = new SaveRefinementModelJob(splevoProject, FORMAT.CSV);

@@ -68,10 +68,11 @@ public interface VPMAnalyzerService {
      *            The detection rules to apply.
      * @param useMergeDetection
      *            Option to detect related VPs that can be merged.
+     * @param fullRefinementReasons  Option to collect full refinement reasons.
      * @return The identified refinements.
      */
     public abstract List<Refinement> deriveRefinements(VPMGraph vpmGraph, List<DetectionRule> detectionRules,
-            boolean useMergeDetection);
+            boolean useMergeDetection, boolean fullRefinementReasons);
 
     /**
      * Get the list of available variation point analyzers.

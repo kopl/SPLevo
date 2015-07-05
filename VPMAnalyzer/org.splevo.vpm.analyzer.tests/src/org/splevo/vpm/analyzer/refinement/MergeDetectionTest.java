@@ -113,7 +113,7 @@ public class MergeDetectionTest {
         MergeDeciderRegistry.getInstance().registerElement(mergeDecider);
 
         DetectionRule rule = new BasicDetectionRule(Lists.newArrayList("CodeStructure"), RefinementType.GROUPING);
-        List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true);
+        List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true, true);
 
         assertThat("Wrong number of top level refinements", refinements.size(), is(1));
         assertThat("Top level refinement must be grouping", refinements.get(0).getType(), is(RefinementType.GROUPING));
@@ -163,7 +163,7 @@ public class MergeDetectionTest {
         MergeDeciderRegistry.getInstance().registerElement(mergeDecider);
 
         DetectionRule rule = new BasicDetectionRule(Lists.newArrayList("CodeStructure"), RefinementType.GROUPING);
-        List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true);
+        List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true, true);
 
         assertThat("Wrong number of refinements", refinements.size(), is(1));
         assertThat("Wrong type of refinement", refinements.get(0).getType(), is(RefinementType.MERGE));
@@ -222,7 +222,7 @@ public class MergeDetectionTest {
         MergeDeciderRegistry.getInstance().registerElement(mergeDecider);
 
         DetectionRule rule = new BasicDetectionRule(Lists.newArrayList("CodeStructure"), RefinementType.GROUPING);
-        List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true);
+        List<Refinement> refinements = service.deriveRefinements(graph, Lists.newArrayList(rule), true, true);
 
         assertThat("Wrong number of refinements", refinements.size(), is(1));
         assertThat("Wrong type of refinement", refinements.get(0).getType(), is(RefinementType.MERGE));

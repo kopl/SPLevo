@@ -212,12 +212,12 @@ public class DefaultVPMAnalyzerService implements VPMAnalyzerService {
      */
     @Override
     public List<Refinement> deriveRefinements(VPMGraph vpmGraph, List<DetectionRule> detectionRules,
-            boolean useMergeDetection) {
+            boolean useMergeDetection, boolean fullRefinementReasons) {
 
         List<Refinement> refinements = new ArrayList<Refinement>();
 
         for (DetectionRule rule : detectionRules) {
-            List<Refinement> ruleRefinements = rule.detect(vpmGraph);
+            List<Refinement> ruleRefinements = rule.detect(vpmGraph, fullRefinementReasons);
             if (useMergeDetection) {
                 ruleRefinements = mergeDetection(ruleRefinements);
             }

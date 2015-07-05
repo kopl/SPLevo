@@ -84,7 +84,7 @@ public class MergeDeciderTest {
         ArrayList<String> labels = Lists.newArrayList(analyzer.getRelationshipLabel());
         BasicDetectionRule rule = new BasicDetectionRule(labels, RefinementType.GROUPING);
         List<DetectionRule> rules = Lists.newArrayList((DetectionRule) rule);
-        List<Refinement> refinements = service.deriveRefinements(graph, rules, true);
+        List<Refinement> refinements = service.deriveRefinements(graph, rules, true, true);
 
         // return statements are not matched with each other.
         // so we expect each variable decl. statement to be referenced with two differing returns
