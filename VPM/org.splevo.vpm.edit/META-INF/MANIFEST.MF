@@ -18,6 +18,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
  org.eclipse.featuremodel.metamodel;visibility:=reexport,
  org.eclipse.featuremodel.metamodel.edit;visibility:=reexport,
- com.google.guava;bundle-version="[11.0.0,15.0.0)",
- org.apache.commons.lang
+ com.google.guava;bundle-version="[11.0.0,15.0.0)"
 Bundle-ActivationPolicy: lazy

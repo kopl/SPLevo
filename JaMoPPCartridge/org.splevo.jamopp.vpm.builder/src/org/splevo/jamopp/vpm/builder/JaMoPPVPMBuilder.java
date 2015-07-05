@@ -9,6 +9,7 @@ import org.eclipse.emf.compare.Diff;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.splevo.jamopp.diffing.jamoppdiff.JaMoPPDiff;
 import org.splevo.vpm.builder.VPMBuilder;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -58,6 +59,8 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
 
     private VariationPointGroup createGroup(VariationPoint vp) {
         VariationPointGroup group = variabilityFactory.eINSTANCE.createVariationPointGroup();
+        String groupName = buildGroupName(vp.getLocation());
+        group.setName(groupName);
         group.getVariationPoints().add(vp);
         return group;
     }
@@ -77,6 +80,37 @@ public class JaMoPPVPMBuilder implements VPMBuilder {
             loadOptions.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
             loadOptions.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
         }
+    }
+
+    /**
+     * Get the name for variation point group based on the ASTNode specifying the variability
+     * location.
+     *
+     * @param softwareElement
+     *            The AST node containing the variability.
+     * @return The derived group name.
+     */
+    private String buildGroupName(SoftwareElement softwareElement) {
+
+        // handle empty nodes. This might be the case if a varying element
+        // is located directly on the model root such as a compilation unit or
+        // a top level package
+        if (softwareElement == null) {
+            logger.warn("No enclosing element provided to derive group id");
+            return GROUP_ID_TOPLEVEL;
+        }
+
+        String label = softwareElement.getLabel();
+        return improveLabel(label);
+    }
+
+    private String improveLabel(String label) {
+        if (label.endsWith("()")) {
+            label = label.substring(0, label.length() - 2);
+        } else if (label.lastIndexOf(".") != -1) {
+            label = label.substring(0, label.lastIndexOf("."));
+        }
+        return label;
     }
 
     /**

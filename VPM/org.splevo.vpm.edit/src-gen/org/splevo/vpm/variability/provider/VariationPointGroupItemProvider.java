@@ -14,7 +14,6 @@ package org.splevo.vpm.variability.provider;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -27,13 +26,9 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.variabilityFactory;
 import org.splevo.vpm.variability.variabilityPackage;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 
 /**
  * This is the item provider adapter for a {@link org.splevo.vpm.variability.VariationPointGroup} object.
@@ -150,29 +145,13 @@ public class VariationPointGroupItemProvider extends CustomizableNameHavingItemP
      * This returns the label text for the adapted class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated not
+     * @generated
      */
     @Override
     public String getText(Object object) {
-        StringBuilder label = new StringBuilder();
-
-        VariationPointGroup vpg = (VariationPointGroup) object;
-        if (Strings.isNullOrEmpty(vpg.getName())) {
-            label.append(getString("_UI_VariationPointGroup_type") + " ");
-            VariationPoint firstVP = Iterables.getFirst(vpg.getVariationPoints(), null);
-            if (firstVP == null || firstVP.getLocation() == null) {
-                label.append("[TOP LEVEL]");
-            } else {
-                String vpLabel = firstVP.getLocation().getLabel();
-                vpLabel = StringUtils.strip(vpLabel, "()");
-                vpLabel = StringUtils.substringBefore(vpLabel, ".");
-                label.append(vpLabel);
-            }
-        } else {
-            label.append(vpg.getName());
-        }
-
-        return label.toString();
+        String label = ((VariationPointGroup) object).getName();
+        return label == null || label.length() == 0 ? "unnamed " + getString("_UI_VariationPointGroup_type") 
+                : label;
     }
 
     /**
