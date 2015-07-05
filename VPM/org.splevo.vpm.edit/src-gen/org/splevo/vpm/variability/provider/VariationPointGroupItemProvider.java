@@ -30,6 +30,8 @@ import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.variabilityFactory;
 import org.splevo.vpm.variability.variabilityPackage;
 
+import com.google.common.base.Strings;
+
 /**
  * This is the item provider adapter for a {@link org.splevo.vpm.variability.VariationPointGroup} object.
  * <!-- begin-user-doc -->
@@ -150,8 +152,10 @@ public class VariationPointGroupItemProvider extends CustomizableNameHavingItemP
     @Override
     public String getText(Object object) {
         String label = ((VariationPointGroup) object).getName();
-        return label == null || label.length() == 0 ? "unnamed " + getString("_UI_VariationPointGroup_type") 
-                : label;
+        if (Strings.isNullOrEmpty(label)) {
+            return getString("_UI_VariationPointGroup_type") + " unnamed";
+        }
+        return getString("_UI_VariationPointGroup_type") +  " " + label;
     }
 
     /**
