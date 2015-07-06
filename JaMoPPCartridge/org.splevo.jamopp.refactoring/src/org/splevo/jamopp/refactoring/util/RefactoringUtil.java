@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
@@ -73,6 +74,7 @@ import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.variables.LocalVariable;
+import org.splevo.commons.emf.ReplacementUtil;
 import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
@@ -730,4 +732,22 @@ public final class RefactoringUtil {
             }
         }
     }
+    
+    /**
+     * Fixes cross references after EObjects have been replaced by other ones. This methods
+     * determines all cross references and replaces the objects according to the given mapping.
+     * 
+     * @param replacements
+     *            The mapping from replaced (original) element to replacement (new) element.
+     * @param vp
+     *            The variation point on which the refactoring has been applied.
+     */
+    public static void fixCrossReferencesAfterReplacements(Map<EObject, EObject> replacements, VariationPoint vp) {
+        for (Map.Entry<EObject, EObject> replacement : replacements.entrySet()) {
+            // TODO we possibly could restrict the cross reference check to the VPM
+            ReplacementUtil.replaceCrossReferences(replacement.getKey(), replacement.getValue(),
+                    vp.eResource().getResourceSet());
+        }
+    }
+    
 }

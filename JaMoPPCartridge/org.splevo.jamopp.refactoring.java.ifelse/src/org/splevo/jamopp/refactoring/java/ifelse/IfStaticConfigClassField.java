@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.AssignmentExpression;
@@ -37,11 +36,11 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -49,13 +48,15 @@ import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * The code base class must contain all fields from the variants. Therefore, this refactoring merges
  * the fields from all variants into the base.
  */
-public class IfStaticConfigClassField extends FullyAutomatedVariabilityRefactoring {
+public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Field";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField";
@@ -69,9 +70,9 @@ public class IfStaticConfigClassField extends FullyAutomatedVariabilityRefactori
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        Map<String, Field> fieldToFieldName = new HashMap<String, Field>();
-        Map<String, Integer> positionToFieldName = new HashMap<String, Integer>();
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+        Map<String, List<Field>> fieldToFieldName = Maps.newHashMap();
+        Map<String, List<Integer>> positionToFieldName = Maps.newHashMap();
         Map<String, List<Expression>> initialValuesToFieldName = new HashMap<String, List<Expression>>();
         Map<Expression, String> variantIDToInitialValue = new HashMap<Expression, String>();
 
@@ -87,10 +88,15 @@ public class IfStaticConfigClassField extends FullyAutomatedVariabilityRefactori
         staticBlock.getModifiers().add(ModifiersFactory.eINSTANCE.createStatic());
 
         for (String fieldName : fieldToFieldName.keySet()) {
-            Field field = fieldToFieldName.get(fieldName);
+            List<Field> fields = fieldToFieldName.get(fieldName);
             List<Expression> initialValues = initialValuesToFieldName.get(fieldName);
-            int fieldPos = positionToFieldName.get(field.getName());
+            List<Integer> fieldPositions = positionToFieldName.get(fieldName);
 
+            Field field = Iterables.getLast(fields);
+            int fieldPos = Iterables.getLast(fieldPositions);
+            
+            registerReplacement(fields, field);
+            
             vpLocation.getMembers().add(fieldPos, field);
 
             if (initialValues.size() > 1) {
@@ -110,8 +116,10 @@ public class IfStaticConfigClassField extends FullyAutomatedVariabilityRefactori
 
                     if (isStatic(field)) {
                         staticBlock.getStatements().add(condition);
+                        registerVariantSpecificNewEObject(condition, variantId);
                     } else {
                         nonStaticBlock.getStatements().add(condition);
+                        registerVariantSpecificNewEObject(condition, variantId);
                     }
                 }
             }
@@ -157,18 +165,24 @@ public class IfStaticConfigClassField extends FullyAutomatedVariabilityRefactori
         return false;
     }
 
-    private void fillMaps(VariationPoint vp, Map<String, Field> fieldToFieldName,
+    private void fillMaps(VariationPoint vp, Map<String, List<Field>> fieldToFieldName,
             Map<String, List<Expression>> initialValuesToFieldName, Map<Expression, String> variantIDToInitialValue,
-            Map<String, Integer> positionToFieldName) {
+            Map<String, List<Integer>> positionToFieldName) {
         for (Variant variant : vp.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Field field = (Field) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                Field fieldCpy = EcoreUtil.copy(field);
+                Field fieldCpy = clone(field);
 
-                fieldToFieldName.put(fieldCpy.getName(), fieldCpy);
+                if (!fieldToFieldName.containsKey(fieldCpy.getName())) {
+                    fieldToFieldName.put(fieldCpy.getName(), new ArrayList<Field>());
+                }
+                fieldToFieldName.get(fieldCpy.getName()).add(fieldCpy);
 
                 int fieldPos = getFieldPosInContainer(field);
-                positionToFieldName.put(fieldCpy.getName(), fieldPos);
+                if (!positionToFieldName.containsKey(fieldCpy.getName())) {
+                    positionToFieldName.put(fieldCpy.getName(), new ArrayList<Integer>());
+                }
+                positionToFieldName.get(fieldCpy.getName()).add(fieldPos);
 
                 if (!initialValuesToFieldName.containsKey(fieldCpy.getName())) {
                     initialValuesToFieldName.put(fieldCpy.getName(), new LinkedList<Expression>());

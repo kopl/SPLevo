@@ -142,5 +142,8 @@ public class IfStaticConfigClassClassInMemberContainerTest {
         assertThat(class1.getName(), anyOf(equalTo("A"), equalTo("B")));
         assertThat(class2.getName(), anyOf(equalTo("A"), equalTo("B")));
         assertThat(class1.getName(), not(equalTo(class2.getName())));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

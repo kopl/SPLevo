@@ -17,17 +17,16 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -39,7 +38,7 @@ import com.google.common.collect.Lists;
 /**
  * Refactors variable else-statements.
  */
-public class IfStaticConfigClassStatementInConditionOPTXOR extends FullyAutomatedVariabilityRefactoring {
+public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR): Statement in Condition";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassConditionOPTXOR";
@@ -53,7 +52,7 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends FullyAutomate
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         Statement elseStatement = vpLocation.getElseStatement();
 
@@ -62,12 +61,12 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends FullyAutomate
 
         String groupName = variationPoint.getGroup().getName();
         Condition previousCondition = vpLocation;
-
+        
         for (Variant variant : variationPoint.getVariants()) {
             Condition variabilityCondition = IfElseRefactoringUtil.createVariabilityCondition(variant.getId(), groupName);
 
             Commentable element = ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0)).getJamoppElement();
-            Statement stmt = EcoreUtil.copy((Statement) element);
+            Statement stmt = clone((Statement) element);
 //            if (variant.getLeading()) {
 //                stmt = (Statement) element;
 //            } else {

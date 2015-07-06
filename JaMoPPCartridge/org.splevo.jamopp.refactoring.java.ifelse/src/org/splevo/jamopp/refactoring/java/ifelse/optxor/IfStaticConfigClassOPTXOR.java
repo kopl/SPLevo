@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassBlock;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassClassInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassCompilationUnit;
@@ -27,7 +28,6 @@ import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassInterfaceInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassMethod;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -39,7 +39,7 @@ import org.splevo.vpm.variability.VariationPoint;
 /**
  * This refactoring implements the if-else mechanism for the use with a static configuration class.
  */
-public class IfStaticConfigClassOPTXOR extends FullyAutomatedVariabilityRefactoring {
+public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static Logger logger = Logger.getLogger(IfStaticConfigClassOPTXOR.class);
 
@@ -74,7 +74,7 @@ public class IfStaticConfigClassOPTXOR extends FullyAutomatedVariabilityRefactor
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             if (refactoring.canBeAppliedTo(variationPoint)) {
                 List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringOptions);

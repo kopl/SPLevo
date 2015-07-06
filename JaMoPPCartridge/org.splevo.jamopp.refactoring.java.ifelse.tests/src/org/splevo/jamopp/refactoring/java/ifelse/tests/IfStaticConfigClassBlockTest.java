@@ -111,6 +111,9 @@ public class IfStaticConfigClassBlockTest {
         Block block = (Block) vpLocation.getMembers().get(0);
         assertThat(block.getStatements().size(), equalTo(1));
         assertThat(block.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
     
     /**
@@ -141,5 +144,8 @@ public class IfStaticConfigClassBlockTest {
         assertThat(block2.getStatements().size(), equalTo(1));
         assertThat(block1.getStatements().get(0), instanceOf(ExpressionStatement.class));
         assertThat(block2.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }
