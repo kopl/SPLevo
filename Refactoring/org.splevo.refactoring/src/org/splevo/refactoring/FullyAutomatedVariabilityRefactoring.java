@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -39,6 +40,8 @@ import com.google.common.collect.Sets;
  */
 public abstract class FullyAutomatedVariabilityRefactoring implements VariabilityRefactoring {
 
+    private static final Logger LOGGER = Logger.getLogger(FullyAutomatedVariabilityRefactoring.class);
+    
     private final Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();
     private final Map<String, Set<EObject>> variantSpecificelements = new HashMap<String, Set<EObject>>();
 
@@ -217,12 +220,15 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
                 }
             });
             if (variant == null) {
-                // error
+                LOGGER.warn("Elements have been registered to the invalid variant ID " + variantId + ". Ignoring the entries.");
                 continue;
             }
 
             for (EObject eobject : variantSpecifics.getValue()) {
                 SoftwareElement swElement = createSoftwareElement(eobject);
+                if (swElement == null) {
+                    LOGGER.warn("We were unable to create a SoftwareElement for the EObject " + eobject + ".");
+                }
                 variant.getImplementingElements().add(swElement);
             }
         }
