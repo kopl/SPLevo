@@ -21,7 +21,7 @@ import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.Method;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
  * The code base container must contain all methods from the variants. Therefore, this refactoring
  * merges the methods from all variants into the base, if there are no interferences.
  */
-public class IfStaticConfigClassMethod implements VariabilityRefactoring {
+public class IfStaticConfigClassMethod extends FullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Method";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassMethod";

@@ -23,7 +23,7 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -35,7 +35,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * The SPL must integrate the compilation units from all variants. This refactoring merges the
  * compilation units from the integration projects into the leading project.
  */
-public class IfStaticConfigClassCompilationUnit implements VariabilityRefactoring {
+public class IfStaticConfigClassCompilationUnit extends FullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: CompilationUnit";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassCompilationUnit";

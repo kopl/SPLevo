@@ -22,7 +22,7 @@ import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.statements.Block;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
 /**
  * Integrates block from the integration projects into the leading project.
  */
-public class IfStaticConfigClassBlock implements VariabilityRefactoring {
+public class IfStaticConfigClassBlock extends FullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Block";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassBlock";

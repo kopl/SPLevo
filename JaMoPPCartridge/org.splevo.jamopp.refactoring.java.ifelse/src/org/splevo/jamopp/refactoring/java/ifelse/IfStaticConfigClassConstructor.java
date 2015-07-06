@@ -21,7 +21,7 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.Constructor;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
  * The code base class must contain all constructors from the variants. Therefore, this refactoring
  * merges the constructors from all variants into the base.
  */
-public class IfStaticConfigClassConstructor implements VariabilityRefactoring {
+public class IfStaticConfigClassConstructor extends FullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Constructor";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor";

@@ -21,7 +21,7 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
  * To allow for a complete single code base, all dependencies must be reflected and thus the
  * refactoring must carry over all imports.
  */
-public class IfStaticConfigClassImport implements VariabilityRefactoring {
+public class IfStaticConfigClassImport extends FullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Import";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport";

@@ -1,4 +1,3 @@
-package org.splevo.refactoring;
 /*******************************************************************************
  * Copyright (c) 2013
  *
@@ -10,7 +9,9 @@ package org.splevo.refactoring;
  * Contributors:
  *    Benjamin Klatt
  *    Daniel Kojic
+ *    Stephan Seifermann
  *******************************************************************************/
+package org.splevo.refactoring;
 
 
 import java.util.LinkedList;
@@ -25,6 +26,10 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
+import org.splevo.commons.eclipse.ExtensionHelper;
+
+import com.google.common.collect.Lists;
 
 /**
  * The Class Activator.
@@ -33,6 +38,7 @@ public class Activator implements BundleActivator {
 
     private static final String REFACTORING_EXTENSION_POINT_ID = "org.splevo.refactoring.refactoring";
     private static final String EXTENSION_POINT_ATTR_REFACTORING_CLASS = "refactoring.class";
+    private static final String TODOTAGCUSTOMIZER_EXTENSION_POINT_ID = "org.splevo.refactoring.todotags";
 
     /** The logger for this class. */
     private static Logger logger = Logger.getLogger(Activator.class);
@@ -43,7 +49,10 @@ public class Activator implements BundleActivator {
         for (VariabilityRefactoring refactoring : refactorings) {
             VariabilityRefactoringRegistry.getInstance().registerElement(refactoring);
         }
-
+        
+        for (TodoTagCustomizer customizer : loadTodoTagCustomizers()) {
+            customizer.adjustTodoTags();
+        }
     }
 
     /**
@@ -131,6 +140,15 @@ public class Activator implements BundleActivator {
 
     }
 
+    private Iterable<TodoTagCustomizer> loadTodoTagCustomizers() {
+        try {
+            return ExtensionHelper.getAllRegisteredExtensions(TODOTAGCUSTOMIZER_EXTENSION_POINT_ID, TodoTagCustomizer.class);
+        } catch (BundleException e) {
+            logger.error("Could not load TODO tag customizers.", e);
+            return Lists.newArrayList();
+        }
+    }
+    
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
     }

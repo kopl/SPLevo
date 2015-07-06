@@ -27,6 +27,7 @@ import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassInterfaceInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassMethod;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
+import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -38,7 +39,7 @@ import org.splevo.vpm.variability.VariationPoint;
 /**
  * This refactoring implements the if-else mechanism for the use with a static configuration class.
  */
-public class IfStaticConfigClassOPTXOR implements VariabilityRefactoring {
+public class IfStaticConfigClassOPTXOR extends FullyAutomatedVariabilityRefactoring {
 
     private static Logger logger = Logger.getLogger(IfStaticConfigClassOPTXOR.class);
 
