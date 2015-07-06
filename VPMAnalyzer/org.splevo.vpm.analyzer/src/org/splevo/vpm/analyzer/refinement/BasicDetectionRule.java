@@ -107,10 +107,12 @@ public class BasicDetectionRule implements DetectionRule {
      *
      * @param vpmGraph
      *            The graph to analyze.
+     * @param fullRefinementReasons
+     *            Indicates if full refinement reasons shall be collected.
      * @return The detected refinements.
      */
     @Override
-    public List<Refinement> detect(final VPMGraph vpmGraph) {
+    public List<Refinement> detect(final VPMGraph vpmGraph, boolean fullRefinementReasons) {
 
         Map<Node, Integer> nodeSubgraphIndex = Maps.newLinkedHashMap();
         ArrayListMultimap<Integer, Node> subgraphNodeIndex = ArrayListMultimap.create();
@@ -127,7 +129,7 @@ public class BasicDetectionRule implements DetectionRule {
 
                 Integer sourceNodeSubgraphId = nodeSubgraphIndex.get(sourceNode);
                 Integer targetNodeSubgraphId = nodeSubgraphIndex.get(targetNode);
-
+              
                 // decide about subgraph
                 Integer subgraphId;
                 if (sourceNodeSubgraphId != null && targetNodeSubgraphId != null) {
@@ -135,19 +137,12 @@ public class BasicDetectionRule implements DetectionRule {
                         mergeSubGraphNodes(nodeSubgraphIndex, subgraphNodeIndex, sourceNodeSubgraphId,
                                 targetNodeSubgraphId);
                         mergeSubgraphEdges(subgraphEdgeIndex, sourceNodeSubgraphId, targetNodeSubgraphId);
+                        continue;
+                    } else if (fullRefinementReasons) {
+                        subgraphId = sourceNodeSubgraphId;
                     } else {
-                        /* TODO these edges are not relevant for the analysis results (anymore) but the 
-                         * reasons stored in the edge might be interesting. Otherwise, users might wonder
-                         * why their (manually) identified relation is not mentioned. 
-                         */
-                        String ignoredEdge = String.format("Ignored edge %s because of already existing subgraph.",
-                                relationshipEdge.getId());
-                        String ignoredReasons = Joiner.on("\n\t").join(relationshipEdge.getRelationshipInfos());
-                        String loggingMessage = String.format("%s Ignored reasons:\n\t%s", ignoredEdge, ignoredReasons).trim();
-                        logger.debug(loggingMessage);
+                        continue;
                     }
-                    continue;
-
                 } else if (sourceNodeSubgraphId != null) {
                     subgraphId = sourceNodeSubgraphId;
 

@@ -34,6 +34,8 @@ public class VPMAnalysisWorkflowConfiguration extends BasicSPLevoWorkflowConfigu
 
     /** Option to let the analysis detect related variation points that can be merged. */
     private boolean useMergeDetection = true;
+    
+    private boolean fullRefinementReasons = false;
 
     /**
      * Get the list of analyzer instances to be executed.
@@ -85,6 +87,20 @@ public class VPMAnalysisWorkflowConfiguration extends BasicSPLevoWorkflowConfigu
      */
     public void setUseMergeDetection(boolean useMergeDetection) {
         this.useMergeDetection = useMergeDetection;
+    }
+
+    /**
+     * @return the fullRefinementReasons
+     */
+    public boolean isFullRefinementReasons() {
+        return fullRefinementReasons;
+    }
+
+    /**
+     * @param fullRefinementReasons the fullRefinementReasons to set
+     */
+    public void setFullRefinementReasons(boolean fullRefinementReasons) {
+        this.fullRefinementReasons = fullRefinementReasons;
     }
 
     /**
