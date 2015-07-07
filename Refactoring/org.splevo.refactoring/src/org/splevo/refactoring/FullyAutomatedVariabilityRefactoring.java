@@ -41,7 +41,7 @@ import com.google.common.collect.Sets;
 public abstract class FullyAutomatedVariabilityRefactoring implements VariabilityRefactoring {
 
     private static final Logger LOGGER = Logger.getLogger(FullyAutomatedVariabilityRefactoring.class);
-    
+
     private final Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();
     private final Map<String, Set<EObject>> variantSpecificelements = new HashMap<String, Set<EObject>>();
 
@@ -49,6 +49,7 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
     public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
         List<Resource> changedResources = refactorFullyAutomated(variationPoint, refactoringConfigurations);
         fixVPMAfterRefactoring(variationPoint);
+        variationPoint.setRefactored(true);
         return changedResources;
     }
 
@@ -197,8 +198,31 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
         }
     }
 
+    /**
+     * Fixes the VPM after the refactoring has been carried out. This is necessary because the
+     * elements referenced by the VPM might have been replaced during the refactoring. This leads to
+     * dangling references and an invalid VPM. Fixing is done by applying the recorded changes.
+     * Changes are recorded by the protected helper methods of this class.
+     * 
+     * @param variationPoint The variation point to fix.
+     */
     private void fixVPMAfterRefactoring(VariationPoint variationPoint) {
 
+        /**
+         * The information we collect:
+         * - Replacements between an original and a replacement
+         * - Newly created elements corresponding to a specific variant
+         * 
+         * What we do:
+         * - partition the stored replacements in replacements that
+         *   - A: shall be applied
+         *   - B: are already contained by a newly created element
+         * - Apply A
+         * - Delete B from the variation point (as it is already included
+         *   in a newly created element)
+         * - Add the newly created elements to the VPM
+         */
+        
         PartitionedReplacements partitionedReplacements = partitionReplacements();
 
         for (Map.Entry<EObject, EObject> replacement : partitionedReplacements.getApply()) {
@@ -220,7 +244,8 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
                 }
             });
             if (variant == null) {
-                LOGGER.warn("Elements have been registered to the invalid variant ID " + variantId + ". Ignoring the entries.");
+                LOGGER.warn("Elements have been registered to the invalid variant ID " + variantId
+                        + ". Ignoring the entries.");
                 continue;
             }
 
