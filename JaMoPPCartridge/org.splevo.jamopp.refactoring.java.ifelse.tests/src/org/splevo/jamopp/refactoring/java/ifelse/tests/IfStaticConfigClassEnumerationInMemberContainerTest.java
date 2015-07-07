@@ -136,6 +136,9 @@ public class IfStaticConfigClassEnumerationInMemberContainerTest {
 
         // enumeration has the correct name
         assertThat(enumeration.getName(), equalTo("A"));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -167,5 +170,8 @@ public class IfStaticConfigClassEnumerationInMemberContainerTest {
         assertThat(enumeration.getConstants().get(1).getName(), anyOf(equalTo("A"), equalTo("B")));
         assertThat(enumeration.getConstants().get(0).getName(),
                 not(equalTo(enumeration.getConstants().get(1).getName())));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

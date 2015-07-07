@@ -121,6 +121,9 @@ public class IfStaticConfigClassMethodTest {
 
         // assert method name and return type
         assertThat(vpLocation.getMethods().get(0).getTypeReference(), instanceOf(Void.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -152,5 +155,8 @@ public class IfStaticConfigClassMethodTest {
         assertThat(secondMethod.getName(), equalTo("someMethod"));
         assertThat(firstMethod.getTypeReference(), instanceOf(Void.class));
         assertThat(secondMethod.getTypeReference(), instanceOf(Void.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

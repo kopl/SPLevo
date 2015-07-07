@@ -20,7 +20,6 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
@@ -33,13 +32,12 @@ import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.Void;
 import org.emftext.language.java.variables.LocalVariable;
-import org.splevo.commons.emf.ReplacementUtil;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.VariabilityPositionUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -55,7 +53,7 @@ import com.google.common.collect.Lists;
  * common variables with different types, the whole method gets extracted into variant-specific
  * methods. Throws an exception if no variant was selected in the configuration.
  */
-public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implements VariabilityRefactoring {
+public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR): Statement in StatementListContainer";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementOPTXOR";
@@ -69,7 +67,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implemen
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
 
@@ -105,15 +103,12 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implemen
             resourceList.add(configResource);
         }
 
-        for (Map.Entry<EObject, EObject> replacement : replacements.entrySet()) {
-            // TODO we possibly could restrict the cross reference check to the VPM
-            ReplacementUtil.replaceCrossReferences(replacement.getKey(), replacement.getValue(), variationPoint.eResource().getResourceSet());
-        }
+        RefactoringUtil.fixCrossReferencesAfterReplacements(replacements, variationPoint);
         
         return resourceList;
     }
 
-    private static Condition generateVariantCondition(Variant variant,
+    private Condition generateVariantCondition(Variant variant,
             Map<String, LocalVariableStatement> localVariableStatements, Map<EObject, EObject> replacements) {
         VariationPoint variationPoint = variant.getVariationPoint();
 
@@ -124,7 +119,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR implemen
 
         for (SoftwareElement se : variant.getImplementingElements()) {
             Statement originalStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
-            Statement statement = EcoreUtil.copy(originalStatement);
+            Statement statement = clone(originalStatement);
 
             int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se);
 

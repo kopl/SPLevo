@@ -14,6 +14,7 @@ package org.splevo.ui.vpexplorer.handler.vpmedit;
 import org.eclipse.jface.wizard.Wizard;
 import org.splevo.ui.commons.wizard.rename.RenameEObjectEAttributeWrapper;
 import org.splevo.ui.commons.wizard.rename.RenameElementWizard;
+import org.splevo.vpm.variability.CustomizableNameHaving;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.variabilityPackage;
 
@@ -29,7 +30,12 @@ public class RenameVariationPointGroupHandler extends ChangeSingleElementHandler
         }
 
         RenameEObjectEAttributeWrapper wrapper = new RenameEObjectEAttributeWrapper("Variation Point Group",
-                (VariationPointGroup) selectedObject, variabilityPackage.eINSTANCE.getCustomizableNameHaving_Name());
+                (VariationPointGroup) selectedObject, variabilityPackage.eINSTANCE.getCustomizableNameHaving_Name()) {
+                    @Override
+                    public String getAttributeValue() {
+                        return ((CustomizableNameHaving) getElement()).getName();
+                    }
+        };
 
         return new RenameElementWizard(wrapper);
     }

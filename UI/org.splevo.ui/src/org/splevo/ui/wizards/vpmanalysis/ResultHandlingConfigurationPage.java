@@ -63,6 +63,8 @@ public class ResultHandlingConfigurationPage extends WizardPage {
     private ResultPresentation resultPresentation;
 
     private boolean useMergeDetection = true;
+    
+    private boolean fullRefinementReasons = false;
 
     /**
      * Stores the ID's {@link String} labels.
@@ -208,13 +210,16 @@ public class ResultHandlingConfigurationPage extends WizardPage {
      */
     private void generateRuleComponents(Composite parent) {
 
+        
+        
         Group mergeDetectionGroup = createMergeDetectionGroup(parent);
+        Group fullRefinementReasonsGroup = createRefinementReasonsGroup(parent, mergeDetectionGroup);
 
         Group ruleListGroup = new Group(parent, SWT.NONE);
         ruleListGroup.setLayout(new GridLayout(2, true));
         ruleListGroup.setText("Rules");
         FormData groupFD = new FormData();
-        groupFD.top = new FormAttachment(mergeDetectionGroup, 10);
+        groupFD.top = new FormAttachment(fullRefinementReasonsGroup, 10);
         groupFD.bottom = new FormAttachment(100);
         groupFD.left = new FormAttachment(0);
         groupFD.right = new FormAttachment(30);
@@ -274,7 +279,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
         Group ruleDetailGroup = new Group(parent, SWT.NONE);
         ruleDetailGroup.setText("Details");
         FormData groupDetailFD = new FormData();
-        groupDetailFD.top = new FormAttachment(mergeDetectionGroup, 10);
+        groupDetailFD.top = new FormAttachment(fullRefinementReasonsGroup, 10);
         groupDetailFD.bottom = new FormAttachment(100);
         groupDetailFD.left = new FormAttachment(ruleListGroup, 5);
         groupDetailFD.right = new FormAttachment(100);
@@ -366,7 +371,7 @@ public class ResultHandlingConfigurationPage extends WizardPage {
     private Group createMergeDetectionGroup(Composite parent) {
 
         Group mergeDetectionGroup = new Group(parent, SWT.NONE);
-        mergeDetectionGroup.setText("MergeDetection");
+        mergeDetectionGroup.setText("Merge Detection");
         mergeDetectionGroup.setLayout(new FormLayout());
         FormData mergeDectionFD = createFormDataMargin(null);
         mergeDetectionGroup.setLayoutData(mergeDectionFD);
@@ -406,6 +411,50 @@ public class ResultHandlingConfigurationPage extends WizardPage {
         mergeDectionFD.height = mergeDetectionGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT).y - 15;
 
         return mergeDetectionGroup;
+    }
+    
+    private Group createRefinementReasonsGroup(Composite parent, Control previousElement) {
+        Group fullRefinementReasonsGroup = new Group(parent, SWT.NONE);
+        fullRefinementReasonsGroup.setText("Full Refinement Reasons");
+        fullRefinementReasonsGroup.setLayout(new FormLayout());
+        FormData fullRefinementReasonsFD = createFormDataMargin(previousElement);
+        fullRefinementReasonsGroup.setLayoutData(fullRefinementReasonsFD);
+
+        // Button to use full refinement reasons
+        Button yesFullRefinementReasonsBtn = new Button(fullRefinementReasonsGroup, SWT.RADIO);
+        yesFullRefinementReasonsBtn.setText("yes");
+        yesFullRefinementReasonsBtn.setToolTipText("Collects all possible refinement reasons.");
+        yesFullRefinementReasonsBtn.setSelection(fullRefinementReasons);
+        yesFullRefinementReasonsBtn.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                super.widgetSelected(e);
+                fullRefinementReasons = true;
+                update();
+            }
+        });
+
+        // Button to not use merge detection
+        Button noFullRefinementReasonsBtn = new Button(fullRefinementReasonsGroup, SWT.RADIO);
+        noFullRefinementReasonsBtn.setText("no");
+        noFullRefinementReasonsBtn.setToolTipText("Collects only the first refinement reason.");
+        noFullRefinementReasonsBtn.setSelection(!fullRefinementReasons);
+        noFullRefinementReasonsBtn.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                super.widgetSelected(e);
+                fullRefinementReasons = false;
+                update();
+            }
+        });
+        FormData noBtnFD = createFormDataMargin(null);
+        noBtnFD.left = new FormAttachment(yesFullRefinementReasonsBtn, 10);
+        noFullRefinementReasonsBtn.setLayoutData(noBtnFD);
+
+        // recalculate and set group height.
+        fullRefinementReasonsFD.height = fullRefinementReasonsGroup.computeSize(SWT.DEFAULT, SWT.DEFAULT).y - 15;
+
+        return fullRefinementReasonsGroup;
     }
 
     /**
@@ -502,6 +551,15 @@ public class ResultHandlingConfigurationPage extends WizardPage {
      */
     public boolean isUseMergeDetection() {
         return useMergeDetection;
+    }
+    
+    /**
+     * Get the configuration if the full refinement reason collection should be performed.
+     * 
+     * @return True/False if the option is activated or not.
+     */
+    public boolean isFullRefinementReasons() {
+        return fullRefinementReasons;
     }
 
     /**

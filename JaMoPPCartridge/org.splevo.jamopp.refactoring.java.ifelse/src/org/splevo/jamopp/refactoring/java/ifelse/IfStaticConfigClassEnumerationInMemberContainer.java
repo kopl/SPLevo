@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,15 +19,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersFactory;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -34,13 +34,14 @@ import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * The code base container must contain all enumerations from the variants. Therefore, this
  * refactoring merges the enumerations from all variants into the base, if there are no
  * interferences.
  */
-public class IfStaticConfigClassEnumerationInMemberContainer implements VariabilityRefactoring {
+public class IfStaticConfigClassEnumerationInMemberContainer extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Enumeration in MemberContainer";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassEnumerationInMemberContainer";
@@ -54,23 +55,28 @@ public class IfStaticConfigClassEnumerationInMemberContainer implements Variabil
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
 
-        Map<String, Enumeration> enumerationsToName = new HashMap<String, Enumeration>();
+        Map<String, List<Enumeration>> enumerationsToName = Maps.newHashMap();
         Map<String, Set<String>> constantsToEnumName = new HashMap<String, Set<String>>();
         Map<String, Boolean> leadingToEnumName = new HashMap<String, Boolean>();
 
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Enumeration currentEnum = (Enumeration) ((JaMoPPSoftwareElement) se).getJamoppElement();
-                if (!variant.getLeading()) {
-                    currentEnum = EcoreUtil.copy(currentEnum);
-                }
+//                if (!variant.getLeading()) {
+//                    currentEnum = clone(currentEnum);
+//                }
 
-                if (!enumerationsToName.containsKey(currentEnum.getName()) || variant.getLeading()) {
-                    enumerationsToName.put(currentEnum.getName(), currentEnum);
+                if (!enumerationsToName.containsKey(currentEnum.getName())) {
+                    enumerationsToName.put(currentEnum.getName(), new ArrayList<Enumeration>());
+                }
+                if (variant.getLeading()) {
+                    enumerationsToName.get(currentEnum.getName()).add(0, currentEnum);
+                } else {
+                    enumerationsToName.get(currentEnum.getName()).add(currentEnum);
                 }
                 leadingToEnumName.put(currentEnum.getName(), variant.getLeading());
 
@@ -85,7 +91,8 @@ public class IfStaticConfigClassEnumerationInMemberContainer implements Variabil
         }
 
         for (String enumName : enumerationsToName.keySet()) {
-            Enumeration enumeration = enumerationsToName.get(enumName);
+            Enumeration enumeration = enumerationsToName.get(enumName).get(0);
+            registerReplacement(enumerationsToName.get(enumName), enumeration);
             Set<String> constants = constantsToEnumName.get(enumName);
 
             for (String constName : constants) {

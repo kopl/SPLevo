@@ -21,9 +21,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -35,7 +35,7 @@ import org.splevo.vpm.variability.VariationPoint;
  * The SPL must integrate the compilation units from all variants. This refactoring merges the
  * compilation units from the integration projects into the leading project.
  */
-public class IfStaticConfigClassCompilationUnit implements VariabilityRefactoring {
+public class IfStaticConfigClassCompilationUnit extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: CompilationUnit";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassCompilationUnit";
@@ -49,7 +49,7 @@ public class IfStaticConfigClassCompilationUnit implements VariabilityRefactorin
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
         if (refactoringConfigurations == null
                 || !refactoringConfigurations.containsKey(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY)) {
             throw new IllegalArgumentException("JAVA_SOURCE_DIRECTORY configuration not found.");

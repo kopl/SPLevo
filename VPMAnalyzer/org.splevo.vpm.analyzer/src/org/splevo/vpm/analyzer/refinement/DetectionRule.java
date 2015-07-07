@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt - initial API and implementation and/or initial documentation
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.vpm.analyzer.refinement;
 
@@ -23,22 +24,28 @@ import org.splevo.vpm.refinement.RefinementType;
 public interface DetectionRule {
 
     /**
-     * Check if a RelationShipEdge matches the conditions of this detection rule.
-     *
+     * Derives the refinements from the given VPMGraph.
+     * 
      * @param vpmGraph
      *            The graph containing the edges to detect refinements from.
-     * @return True if the rule matched, false if not.
+     * @param fullRefinementReasons
+     *            If activated, as many as possible refinement reasons are collected. The resulting
+     *            refinements must not change after enabling/disabling this flag. The refinement
+     *            information might differ.
+     * @return The list of detected refinements.
      */
-    public abstract List<Refinement> detect(VPMGraph vpmGraph);
+    public abstract List<Refinement> detect(VPMGraph vpmGraph, boolean fullRefinementReasons);
 
     /**
      * The labels to match the edges against.
+     * 
      * @return the edgeLabels
      */
     public abstract List<String> getEdgeLabels();
 
     /**
      * Get the type of refinement to create if the detection rule has matched an edge.
+     * 
      * @return the refinementType
      */
     public abstract RefinementType getRefinementType();

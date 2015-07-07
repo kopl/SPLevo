@@ -123,6 +123,9 @@ public class IfStaticConfigClassConstructorTest {
         assertThat(vpLocation.getConstructors().get(0).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
         assertThat(vpLocation.getConstructors().get(1).getParameters().get(0).getTypeReference(),
                 instanceOf(Short.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -151,5 +154,8 @@ public class IfStaticConfigClassConstructorTest {
         assertThat(vpLocation.getConstructors().get(1).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
         assertThat(vpLocation.getConstructors().get(1).getParameters().get(1).getTypeReference(),
                 instanceOf(Short.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

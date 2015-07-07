@@ -12,6 +12,7 @@
  *******************************************************************************/
 package org.splevo.ui.commons.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -21,9 +22,27 @@ import org.splevo.project.SPLevoProject;
  * Utility class to interact with the SPLevo workspace.
  */
 public final class WorkspaceUtil {
-    
+
     /** Disable constructor for utility class. */
     private WorkspaceUtil() {
+    }
+
+    /**
+     * Constructs an absolute path based on a given project relative path. The project's path is
+     * determined by the given splevoProject. The result is a portable string, so you have to
+     * convert it before showing it to the user. Anyway, the output is just fine for initializing a
+     * File object.
+     * 
+     * @param projectRelativePath The path relative to the SPLevo project given as another parameter. 
+     * @param splevoProject The SPLevo project defining the project.
+     * @return The absolute path to the file as portable string.
+     */
+    public static String getAbsoluteFromProjectRelativePath(String projectRelativePath, SPLevoProject splevoProject) {
+        String workspaceRelativePath = String
+                .format("%s%s%s", StringUtils.removeEndIgnoreCase(splevoProject.getWorkspace(), "/"),
+                        projectRelativePath.startsWith("/") ? "" : "/", projectRelativePath);
+
+        return getAbsoluteFromWorkspaceRelativePath(workspaceRelativePath);
     }
 
     /**
@@ -54,9 +73,7 @@ public final class WorkspaceUtil {
      * @return The absolute URI describing the workspace.
      */
     public static String getSourceModelPathWithinEclipse(SPLevoProject splevoProject, String variantName) {
-        String basePath = splevoProject.getWorkspace() + "models/sourcemodels/";
-        String relativePath = basePath + variantName;
-        return getAbsoluteFromWorkspaceRelativePath(relativePath);
+        return getAbsoluteFromProjectRelativePath("models/sourcemodels/" + variantName, splevoProject);
     }
 
     /**
@@ -69,5 +86,5 @@ public final class WorkspaceUtil {
         String basePath = workspace.getRoot().getRawLocation().toOSString() + "/";
         return basePath;
     }
-    
+
 }

@@ -196,7 +196,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
         // trigger deriving refinements
         DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
-        List<Refinement> refinements = service.deriveRefinements(graph, detectionRules, true);
+        List<Refinement> refinements = service.deriveRefinements(graph, detectionRules, true, true);
 
         // check the result
         assertNotNull("Unexpected null value. At least an empty list is expected", refinements);
@@ -240,7 +240,7 @@ public class DefaultVPMAnalyzerServiceTest extends AbstractTest {
 
         // trigger deriving refinements
         DefaultVPMAnalyzerService service = new DefaultVPMAnalyzerService();
-        List<Refinement> refinements = service.deriveRefinements(graph, detectionRules, true);
+        List<Refinement> refinements = service.deriveRefinements(graph, detectionRules, true, true);
 
         // check the result
         assertNotNull("Unexpected null value. At least an empty list is expected", refinements);

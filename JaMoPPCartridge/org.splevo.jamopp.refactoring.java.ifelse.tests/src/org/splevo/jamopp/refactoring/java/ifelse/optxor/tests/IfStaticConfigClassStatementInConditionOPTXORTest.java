@@ -151,6 +151,9 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         Block fourthBlock = (Block) fourthCond.getStatement();
         assertThat(fourthBlock.getStatements().size(), equalTo(1));
         assertThat(fourthBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -190,6 +193,9 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         Block thirdBlock = (Block) thirdCond.getStatement();
         assertThat(thirdBlock.getStatements().size(), equalTo(1));
         assertThat(thirdBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -222,5 +228,8 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         }
 
         assertThat(conditionCounter, equalTo(5));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

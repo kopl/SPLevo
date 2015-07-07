@@ -123,6 +123,9 @@ public class IfStaticConfigClassImportTest {
                 .getClassifier().getName(), equalTo("ArrayList"));
         assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(1))
                 .getClassifier().getName(), equalTo("LinkedList"));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -151,5 +154,8 @@ public class IfStaticConfigClassImportTest {
                 .getClassifier().getName(), equalTo("c"));
         assertThat(((org.emftext.language.java.imports.ClassifierImport) vpLocation.getImports().get(3))
                 .getClassifier().getName(), equalTo("d"));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

@@ -44,7 +44,7 @@ public class BasicDetectionRuleTest extends AbstractTest {
 
     /**
      * Test method for
-     * {@link org.splevo.vpm.analyzer.refinement.BasicDetectionRule#detect(org.splevo.vpm.analyzer.graph.VPMGraph)}
+     * {@link org.splevo.vpm.analyzer.refinement.BasicDetectionRule#detect(org.splevo.vpm.analyzer.graph.VPMGraph, boolean)}
      * .
      *
      * @throws Exception
@@ -70,7 +70,7 @@ public class BasicDetectionRuleTest extends AbstractTest {
         edgeLabels.add(CodeLocationVPMAnalyzer.RELATIONSHIP_LABEL_CODE_LOCATION);
         DetectionRule detectionRule = new BasicDetectionRule(edgeLabels, RefinementType.MERGE);
 
-        List<Refinement> refinements = detectionRule.detect(graph);
+        List<Refinement> refinements = detectionRule.detect(graph, true);
         assertEquals("Wrong number of refinements detected", 2, refinements.size());
     }
 
@@ -96,7 +96,7 @@ public class BasicDetectionRuleTest extends AbstractTest {
         List<String> ruleLabels = Lists.newArrayList(testEdgeLabel);
         BasicDetectionRule rule = new BasicDetectionRule(ruleLabels, RefinementType.GROUPING);
 
-        rule.detect(graph);
+        rule.detect(graph, true);
     }
 
     private Node buildAndConnectNode(String edgeLabel, String newNodeId, VPMGraph graph, Node lastNode) {

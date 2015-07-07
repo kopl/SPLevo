@@ -195,6 +195,7 @@
             id="org.splevo.ui.vpexplorer.rename.vp"
             name="Rename">
       </command>
+      
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -317,6 +318,19 @@
          </menu>         
          <menu
                label="Variability Mechanism">
+               <visibleWhen
+                  checkEnabled="true">
+               <iterate>
+                  <or>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPoint">
+                     </instanceof>
+                     <instanceof
+                           value="org.splevo.vpm.variability.VariationPointGroup">
+                     </instanceof>
+                  </or>
+               </iterate>
+            </visibleWhen>
             <dynamic
                   class="org.splevo.ui.vpexplorer.handler.characteristics.variabilitymechanism.VariabilityMechanismContribution"
                   id="org.splevo.ui.vpexplorer.handler.characteristics.variabilitymechanism.variabilitymechanism">
@@ -421,5 +435,30 @@
          </command>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            id="org.splevo.ui.vpexplorer.featureoutline.context"
+            name="featureoutline context"
+            parentId="org.eclipse.ui.contexts.window">
+      </context>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.bindings">         
+      <key
+            commandId="org.splevo.ui.vpexplorer.rename.vpgroup"
+            contextId="org.splevo.ui.vpexplorer.featureoutline.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="ALT+SHIFT+R">
+      </key>
+      <key
+            commandId="org.splevo.ui.vpexplorer.rename.vpgroup"
+            contextId="org.splevo.ui.vpexplorer.featureoutline.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F2">
+      </key>
+   </extension>
+   
 
 </plugin>

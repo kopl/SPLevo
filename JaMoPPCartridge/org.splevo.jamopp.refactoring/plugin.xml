@@ -7,5 +7,11 @@
             resourceprocessor.class="org.splevo.jamopp.refactoring.JaMoPPResourceProcessor">
       </ResourceProcessor>
    </extension>
+   <extension
+         point="org.splevo.refactoring.todotags">
+      <TodoTagsCustomizer
+            todotagcustomizer.class="org.splevo.jamopp.refactoring.JaMoPPTodoTagCustomizer">
+      </TodoTagsCustomizer>
+   </extension>
 
 </plugin>

@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Benjamin Klatt
+ *    Stephan Seifermann
  *******************************************************************************/
 package org.splevo.ui.workflow;
 
@@ -19,11 +20,10 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.commons.util.WorkspaceUtil;
 import org.splevo.ui.jobs.CloseAnalysisTraceLogAppenderJob;
 import org.splevo.ui.jobs.DetectRefinementsJob;
 import org.splevo.ui.jobs.InitVPMGraphJob;
@@ -83,7 +83,8 @@ public class VPMAnalysisWorkflowDelegate extends
 
         // initialize the basic elements
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
-        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence =
+                new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(blackboard);
 
         // load the latest vpm model
@@ -132,12 +133,11 @@ public class VPMAnalysisWorkflowDelegate extends
 
         // build the path of the log file
         // inside a log directory of the analysis workflow
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        String basePath = workspace.getRoot().getRawLocation().toOSString();
-        String logDirectory = basePath + config.getSplevoProjectEditor().getSplevoProject().getWorkspace();
         DateFormat logDateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
-        String logFile = logDirectory + "logs/vpm-analysis-" + (logDateFormat.format(new Date())) + ".csv";
-
+        String logFile = WorkspaceUtil.getAbsoluteFromProjectRelativePath(
+                "logs/vpm-analysis-" + (logDateFormat.format(new Date())) + ".csv",
+                config.getSplevoProjectEditor().getSplevoProject());
+        
         FileAppender fa = new FileAppender();
         fa.setName(CloseAnalysisTraceLogAppenderJob.LOG_APPENDER_NAME);
         fa.setFile(logFile);
@@ -163,7 +163,7 @@ public class VPMAnalysisWorkflowDelegate extends
      */
     private void addRefinementDetectionJobs(SequentialJob compositeJob, SPLevoProject splevoProject) {
 
-        DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob(config.getDetectionRules(), config.isUseMergeDetection());
+        DetectRefinementsJob createRefinementModelJob = new DetectRefinementsJob(config.getDetectionRules(), config.isUseMergeDetection(), config.isFullRefinementReasons());
         compositeJob.add(createRefinementModelJob);
 
         SaveRefinementModelJob saveRefinementModelJob = new SaveRefinementModelJob(splevoProject, FORMAT.CSV);

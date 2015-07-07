@@ -143,6 +143,9 @@ public class IfStaticConfigClassFieldTest {
         assertThat(field1.getName(), not(equalTo(field2.getName())));
         assertThat(field1.getTypeReference().getTarget(), instanceOf(Int.class));
         assertThat(field2.getTypeReference().getTarget(), instanceOf(Int.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -223,5 +226,8 @@ public class IfStaticConfigClassFieldTest {
         assertThat(decimalValue1, anyOf(equalTo(BigInteger.valueOf(0)), equalTo(BigInteger.valueOf(1))));
         assertThat(decimalValue2, anyOf(equalTo(BigInteger.valueOf(0)), equalTo(BigInteger.valueOf(1))));
         assertThat(decimalValue1, not(equalTo(decimalValue2)));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

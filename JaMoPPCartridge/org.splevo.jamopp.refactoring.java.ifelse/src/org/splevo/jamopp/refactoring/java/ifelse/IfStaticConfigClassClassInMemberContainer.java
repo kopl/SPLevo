@@ -15,13 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -34,7 +33,7 @@ import com.google.common.collect.Lists;
  * The code base container must contain all classes from the variants. Therefore, this refactoring
  * merges the classes from all variants into the base, if there are no interferences.
  */
-public class IfStaticConfigClassClassInMemberContainer implements VariabilityRefactoring {
+public class IfStaticConfigClassClassInMemberContainer extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Class in MemberContainer";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassClassInMemberContainer";
@@ -48,7 +47,7 @@ public class IfStaticConfigClassClassInMemberContainer implements VariabilityRef
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
 
@@ -60,7 +59,7 @@ public class IfStaticConfigClassClassInMemberContainer implements VariabilityRef
                 Class c = (Class) ((JaMoPPSoftwareElement) se).getJamoppElement();
 
                 if (!RefactoringUtil.containsClassInterfaceOrEnumWithName(vpLocation, c.getName())) {
-                    vpLocation.getMembers().add(EcoreUtil.copy(c));
+                    vpLocation.getMembers().add(clone(c));
                 }
             }
         }

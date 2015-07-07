@@ -140,5 +140,8 @@ public class IfStaticConfigClassInterfaceInMemberContainerTest {
         assertThat(interface1.getName(), anyOf(equalTo("A"), equalTo("B")));
         assertThat(interface2.getName(), anyOf(equalTo("A"), equalTo("B")));
         assertThat(interface1.getName(), not(equalTo(interface2.getName())));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

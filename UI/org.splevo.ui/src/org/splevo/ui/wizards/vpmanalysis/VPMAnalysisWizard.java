@@ -156,6 +156,7 @@ public class VPMAnalysisWizard extends Wizard {
         analysisWorkflowConfiguration.getDetectionRules().clear();
         analysisWorkflowConfiguration.getDetectionRules().addAll(resultHandlingPage.getDetectionRules());
         analysisWorkflowConfiguration.setUseMergeDetection(resultHandlingPage.isUseMergeDetection());
+        analysisWorkflowConfiguration.setFullRefinementReasons(resultHandlingPage.isFullRefinementReasons());
     }
 
     /**
