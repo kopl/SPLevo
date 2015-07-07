@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.emftext.commons.layout.LayoutInformation;
+import org.emftext.commons.layout.ReferenceLayoutInformation;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -224,10 +226,16 @@ public class CommentableSoftwareElementImpl extends
 						final EObject next = contentIterator.next();
 						if (next instanceof Commentable) {
 							Commentable commentable = (Commentable) next;
-							EList<String> comments = commentable.getComments();
-							if (null != comments && comments.contains(getId())) {
-								return getStatementOf(commentable.eContainer());
-							}
+							//if(0 != commentable.getLayoutInformations().size()) {
+								//LayoutInformation lf = commentable.getLayoutInformations().get(0);
+								EList<String> comments = commentable.getComments();
+								if (null != comments && comments.contains(getId())) {
+									return getStatementOf(commentable.eContainer());
+								}
+								//if((lf instanceof ReferenceLayoutInformation) && lf.getHiddenTokenText().contains(getId())) {
+								//	return getStatementOf(commentable.eContainer());
+								//}
+							//}
 						}
 					}
 				}

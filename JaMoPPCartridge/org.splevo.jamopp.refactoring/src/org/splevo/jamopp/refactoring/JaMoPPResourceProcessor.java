@@ -1,14 +1,39 @@
 package org.splevo.jamopp.refactoring;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.emftext.commons.layout.LayoutFactory;
+import org.emftext.commons.layout.LayoutInformation;
+import org.emftext.commons.layout.ReferenceLayoutInformation;
+import org.emftext.commons.layout.impl.LayoutInformationImpl;
+import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.IJavaTextResource;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
+import org.splevo.jamopp.refactoring.util.RefactoringUtil;
+import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.refactoring.ResourceProcessor;
+import org.splevo.vpm.software.SoftwareElement;
+import org.splevo.vpm.software.SoftwareFactory;
+import org.splevo.vpm.variability.Variant;
+import org.splevo.vpm.variability.VariationPoint;
+import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -32,9 +57,66 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
         // comments (id to be used in the comment can be calculated by concatenating the id of the
         // variation point and the variant). Use the comment adding method in RefactoringUtil
         // (extract it and add it to this project).
+    	for (VariationPointGroup vpgroup : variationPointModel.getVariationPointGroups()) {
+    		for (VariationPoint vp : vpgroup.getVariationPoints()) {
+    			for (Variant variant : vp.getVariants()) {
+    				//addCommentToStatements(variant.getImplementingElements());
+    				//setCommentableReferences(variant.getImplementingElements());
+    				replaceJaMoPPSoftwareElementWithCommentableSoftwareElement(variant.getImplementingElements());
+    			}
+    		}
+    	}
+    }
+    
+    private void replaceJaMoPPSoftwareElementWithCommentableSoftwareElement(EList<SoftwareElement> implementingElements) {
+    	for (SoftwareElement se : implementingElements) {
+    		String comment = EcoreUtil.generateUUID();
+    		Commentable statement = ((JaMoPPSoftwareElement) se).getJamoppElement();
+    		
+//    		LayoutInformation layoutinf = LayoutFactory.eINSTANCE.createReferenceLayoutInformation();
+//    		layoutinf.setHiddenTokenText("");
+//    		statement.getLayoutInformations().add(0, layoutinf);
+			RefactoringUtil.addCommentBefore(statement, comment);
+			
+			saveJaMoPPModel(statement.eResource());
+			
+			EcoreUtil.replace(se, createCommentableJaMoPPElement(statement, comment));
+			// TODO reference commentable software element to variant
+    	}
     }
 
-    @Override
+   /* private void setCommentableReferences(EList<SoftwareElement> implementingElements) {
+		for (SoftwareElement se : implementingElements) {
+			Commentable statement = ((JaMoPPSoftwareElement) se).getJamoppElement();
+			EcoreUtil.replace(se, createCommentableJaMoPPElement(statement));
+		}
+	}*/
+
+	private CommentableSoftwareElement createCommentableJaMoPPElement(Commentable statement, String id) {
+		CommentableSoftwareElement commentable = softwareFactory.eINSTANCE.createCommentableSoftwareElement();
+		commentable.setCompilationUnit(statement.getContainingCompilationUnit());
+		commentable.setId(id);
+		
+		return commentable;
+	}
+
+	/*private void addCommentToStatements(EList<SoftwareElement> implementingElements) {
+		for (SoftwareElement se : implementingElements) {
+			Commentable statement = ((JaMoPPSoftwareElement) se).getJamoppElement();
+			RefactoringUtil.addCommentBefore(statement, EcoreUtil.generateUUID());
+			saveJaMoPPModel(statement.eResource());
+		}
+	}*/
+
+	private void saveJaMoPPModel(Resource eResource) {
+		try {
+			eResource.save(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
     public void processAfterRefactoring(Resource resource) {
 //        if (resource instanceof IJavaTextResource) {
 //            reloadResourceWithLayoutInformation(resource);
