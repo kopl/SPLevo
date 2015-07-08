@@ -15,7 +15,9 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.LoadVPMJob;
+import org.splevo.ui.jobs.OpenVPMJob;
 import org.splevo.ui.jobs.RefactorVPMJob;
+import org.splevo.ui.jobs.RefreshLeadingCopyProjects;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
@@ -56,17 +58,28 @@ public class BuildSPLWorkflowDelegate extends
     protected IJob createWorkflowJob(BuildSPLWorkflowConfiguration arg0) {
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
 
-        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence =
+                new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(blackboard);
 
-        // load the latest vpm model
+        // load the latest vpm model in the blackboard
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
         jobSequence.add(loadVPMJob);
 
         // execute refactorings
         RefactorVPMJob refactorVPMJob = new RefactorVPMJob(splevoProject);
         jobSequence.add(refactorVPMJob);
-
+        
+        // refresh the leading copy projects in Eclipse
+        jobSequence.add(new RefreshLeadingCopyProjects(splevoProject));
+        
+        // load the latest vpm model in the blackboard
+        LoadVPMJob loadVPMJobAfterRefactoring = new LoadVPMJob(splevoProject);
+        jobSequence.add(loadVPMJobAfterRefactoring);
+        
+        // reload latest vpm model in UI
+        jobSequence.add(new OpenVPMJob(splevoProject, null));
+        
         return jobSequence;
     }
 
