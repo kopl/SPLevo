@@ -47,7 +47,7 @@ public class InitVPMListener extends MouseAdapter {
 
         // build the job configuration
         BasicSPLevoWorkflowConfiguration config = buildWorflowConfiguration();
-        Shell shell = e.widget.getDisplay().getShells()[0];
+        Shell shell = e.widget.getDisplay().getActiveShell();
 
         // validate configuration
         if (!config.isValid()) {
