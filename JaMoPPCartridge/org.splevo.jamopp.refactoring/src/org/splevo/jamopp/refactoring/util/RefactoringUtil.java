@@ -77,7 +77,7 @@ import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.commons.emf.ReplacementUtil;
 import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -145,7 +145,7 @@ public final class RefactoringUtil {
      * @return <code>true</code> if the vp has conflicting members; <code>false</code> otherwise.
      */
     public static boolean hasMembersWithConflictingNames(VariationPoint variationPoint) {
-        MemberContainer jamoppElement = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+        MemberContainer jamoppElement = (MemberContainer) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
 
         if (RefactoringUtil.hasLeadingVariant(variationPoint)) {
@@ -154,7 +154,7 @@ public final class RefactoringUtil {
 
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Member member = (Member) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Member member = (Member) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                 if (RefactoringUtil.containsClassInterfaceOrEnumWithName(jamoppElement, member.getName())) {
                     return true;
                 }
@@ -172,12 +172,12 @@ public final class RefactoringUtil {
      *            The {@link VariationPoint}.
      */
     public static void deleteVariableStatements(VariationPoint variationPoint) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 for (SoftwareElement se : variant.getImplementingElements()) {
-                    Statement variantStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                    Statement variantStatement = (Statement) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                     vpLocation.getStatements().remove(variantStatement);
                 }
             }
@@ -191,12 +191,12 @@ public final class RefactoringUtil {
      *            The {@link VariationPoint}.
      */
     public static void deleteVariableMembersFromLeading(VariationPoint variationPoint) {
-        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 for (SoftwareElement se : variant.getImplementingElements()) {
-                    Member variantMember = (Member) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                    Member variantMember = (Member) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                     vpLocation.getMembers().remove(variantMember);
                 }
             }
@@ -340,7 +340,7 @@ public final class RefactoringUtil {
     public static <T> boolean allImplementingElementsOfType(VariationPoint variationPoint, java.lang.Class<T> c) {
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Commentable commentable = ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Commentable commentable = ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                 if (!(c.isInstance(commentable))) {
                     return false;
                 }
@@ -477,7 +477,7 @@ public final class RefactoringUtil {
         HashMap<String, Type> namedVariables = new HashMap<String, Type>();
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Commentable currentElement = ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Commentable currentElement = ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
 
                 if (currentElement instanceof LocalVariableStatement) {
                     LocalVariableStatement localVarStatement = (LocalVariableStatement) currentElement;
@@ -513,7 +513,7 @@ public final class RefactoringUtil {
         HashMap<String, Type> namedVariables = new HashMap<String, Type>();
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Commentable currentElement = ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Commentable currentElement = ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                 if (currentElement instanceof Field) {
                     Field field = (Field) currentElement;
                     Type fieldType = field.getTypeReference().getTarget();
@@ -638,7 +638,7 @@ public final class RefactoringUtil {
     private static <T extends Commentable> List<T> getImplementingElements(Variant variant, java.lang.Class<T> type) {
         LinkedList<T> elements = new LinkedList<T>();
         for (SoftwareElement se : variant.getImplementingElements()) {
-            T element = (T) ((JaMoPPSoftwareElement) se).getJamoppElement();
+            T element = (T) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
             elements.add(element);
         }
         return elements;
@@ -712,10 +712,10 @@ public final class RefactoringUtil {
      */
     public static void resolveVPsWithSameLocation(VariationPoint variationPoint) {
         VariationPointModel vpm = variationPoint.getGroup().getModel();
-        Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable vpLocation = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         for (VariationPointGroup vpg : vpm.getVariationPointGroups()) {
             for (VariationPoint vp : vpg.getVariationPoints()) {
-                Commentable currentVPLocation = ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+                Commentable currentVPLocation = ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
                 if (vpLocation != currentVPLocation && !JaMoPPElementUtil.isParentOf(vpLocation, currentVPLocation)) {
                     continue;
                 }

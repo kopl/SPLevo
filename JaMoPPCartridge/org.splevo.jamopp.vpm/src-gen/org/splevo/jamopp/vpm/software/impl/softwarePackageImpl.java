@@ -14,6 +14,7 @@ package org.splevo.jamopp.vpm.software.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -57,6 +58,7 @@ import org.emftext.language.java.types.TypesPackage;
 import org.emftext.language.java.variables.VariablesPackage;
 
 import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.jamopp.vpm.software.softwarePackage;
@@ -85,6 +87,13 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
      * @generated
      */
     private EClass commentableSoftwareElementEClass = null;
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    private EClass jaMoPPJavaSoftwareElementEClass = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -231,6 +240,51 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
      * 
      * @generated
      */
+    public EClass getJaMoPPJavaSoftwareElement() {
+        return jaMoPPJavaSoftwareElementEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EOperation getJaMoPPJavaSoftwareElement__GetJamoppElement() {
+        return jaMoPPJavaSoftwareElementEClass.getEOperations().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EOperation getJaMoPPJavaSoftwareElement__GetLabel_1() {
+        return jaMoPPJavaSoftwareElementEClass.getEOperations().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EOperation getJaMoPPJavaSoftwareElement__GetName_1() {
+        return jaMoPPJavaSoftwareElementEClass.getEOperations().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
+    public EOperation getJaMoPPJavaSoftwareElement__GetWrappedElement_1() {
+        return jaMoPPJavaSoftwareElementEClass.getEOperations().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public softwareFactory getsoftwareFactory() {
         return (softwareFactory) getEFactoryInstance();
     }
@@ -261,6 +315,12 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
         createEAttribute(commentableSoftwareElementEClass, COMMENTABLE_SOFTWARE_ELEMENT__ID);
         createEReference(commentableSoftwareElementEClass, COMMENTABLE_SOFTWARE_ELEMENT__COMPILATION_UNIT);
         createEAttribute(commentableSoftwareElementEClass, COMMENTABLE_SOFTWARE_ELEMENT__TYPE);
+
+        jaMoPPJavaSoftwareElementEClass = createEClass(JA_MO_PP_JAVA_SOFTWARE_ELEMENT);
+        createEOperation(jaMoPPJavaSoftwareElementEClass, JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_JAMOPP_ELEMENT);
+        createEOperation(jaMoPPJavaSoftwareElementEClass, JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_LABEL);
+        createEOperation(jaMoPPJavaSoftwareElementEClass, JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_NAME);
+        createEOperation(jaMoPPJavaSoftwareElementEClass, JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT);
     }
 
     /**
@@ -287,21 +347,22 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
         setNsURI(eNS_URI);
 
         // Obtain other dependent packages
-        SoftwarePackage theSoftwarePackage = (SoftwarePackage) EPackage.Registry.INSTANCE
-                .getEPackage(SoftwarePackage.eNS_URI);
         CommonsPackage theCommonsPackage = (CommonsPackage) EPackage.Registry.INSTANCE
                 .getEPackage(CommonsPackage.eNS_URI);
         EcorePackage theEcorePackage = (EcorePackage) EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
         ContainersPackage theContainersPackage = (ContainersPackage) EPackage.Registry.INSTANCE
                 .getEPackage(ContainersPackage.eNS_URI);
+        SoftwarePackage theSoftwarePackage = (SoftwarePackage) EPackage.Registry.INSTANCE
+                .getEPackage(SoftwarePackage.eNS_URI);
 
         // Create type parameters
 
         // Set bounds for type parameters
 
         // Add supertypes to classes
-        jaMoPPSoftwareElementEClass.getESuperTypes().add(theSoftwarePackage.getJavaSoftwareElement());
-        commentableSoftwareElementEClass.getESuperTypes().add(theSoftwarePackage.getJavaSoftwareElement());
+        jaMoPPSoftwareElementEClass.getESuperTypes().add(this.getJaMoPPJavaSoftwareElement());
+        commentableSoftwareElementEClass.getESuperTypes().add(this.getJaMoPPJavaSoftwareElement());
+        jaMoPPJavaSoftwareElementEClass.getESuperTypes().add(theSoftwarePackage.getJavaSoftwareElement());
 
         // Initialize classes, features, and operations; add parameters
         initEClass(jaMoPPSoftwareElementEClass, JaMoPPSoftwareElement.class, "JaMoPPSoftwareElement", !IS_ABSTRACT,
@@ -326,6 +387,21 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
         initEAttribute(getCommentableSoftwareElement_Type(), g1, "type",
                 "org.emftext.language.java.commons.Commentable", 1, 1, CommentableSoftwareElement.class, !IS_TRANSIENT,
                 !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(jaMoPPJavaSoftwareElementEClass, JaMoPPJavaSoftwareElement.class, "JaMoPPJavaSoftwareElement",
+                IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+        initEOperation(getJaMoPPJavaSoftwareElement__GetJamoppElement(), theCommonsPackage.getCommentable(),
+                "getJamoppElement", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+        initEOperation(getJaMoPPJavaSoftwareElement__GetLabel_1(), ecorePackage.getEString(), "getLabel", 0, 1,
+                IS_UNIQUE, IS_ORDERED);
+
+        initEOperation(getJaMoPPJavaSoftwareElement__GetName_1(), ecorePackage.getEString(), "getName", 0, 1,
+                IS_UNIQUE, IS_ORDERED);
+
+        initEOperation(getJaMoPPJavaSoftwareElement__GetWrappedElement_1(), theEcorePackage.getEObject(),
+                "getWrappedElement", 0, 1, IS_UNIQUE, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

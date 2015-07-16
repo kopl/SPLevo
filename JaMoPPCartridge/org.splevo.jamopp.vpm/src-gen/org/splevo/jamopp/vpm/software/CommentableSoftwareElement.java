@@ -5,8 +5,6 @@ package org.splevo.jamopp.vpm.software;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 
-import org.splevo.vpm.software.JavaSoftwareElement;
-
 /**
  * <!-- begin-user-doc --> A representation of the model object '
  * <em><b>Commentable Software Element</b></em>'. <!-- end-user-doc -->
@@ -28,7 +26,7 @@ import org.splevo.vpm.software.JavaSoftwareElement;
  * @model
  * @generated
  */
-public interface CommentableSoftwareElement extends JavaSoftwareElement {
+public interface CommentableSoftwareElement extends JaMoPPJavaSoftwareElement {
     /**
      * Returns the value of the '<em><b>Id</b></em>' attribute. <!-- begin-user-doc -->
      * <p>

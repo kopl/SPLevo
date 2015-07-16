@@ -16,8 +16,6 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.splevo.jamopp.vpm.software.*;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.jamopp.vpm.software.softwarePackage;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 
@@ -74,13 +72,18 @@ public class softwareAdapterFactory extends AdapterFactoryImpl {
      */
     protected softwareSwitch<Adapter> modelSwitch = new softwareSwitch<Adapter>() {
         @Override
-        public Adapter caseJaMoPPSoftwareElement(JaMoPPSoftwareElement object) {
+        public Adapter caseJaMoPPSoftwareElement(JaMoPPJavaSoftwareElement object) {
             return createJaMoPPSoftwareElementAdapter();
         }
 
         @Override
         public Adapter caseCommentableSoftwareElement(CommentableSoftwareElement object) {
             return createCommentableSoftwareElementAdapter();
+        }
+
+        @Override
+        public Adapter caseJaMoPPJavaSoftwareElement(JaMoPPJavaSoftwareElement object) {
+            return createJaMoPPJavaSoftwareElementAdapter();
         }
 
         @Override
@@ -139,6 +142,21 @@ public class softwareAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createCommentableSoftwareElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '
+     * {@link org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement
+     * <em>Ja Mo PP Java Software Element</em>}'. <!-- begin-user-doc --> This default
+     * implementation returns null so that we can easily ignore cases; it's useful to ignore a case
+     * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+     * 
+     * @return the new adapter.
+     * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement
+     * @generated
+     */
+    public Adapter createJaMoPPJavaSoftwareElementAdapter() {
         return null;
     }
 

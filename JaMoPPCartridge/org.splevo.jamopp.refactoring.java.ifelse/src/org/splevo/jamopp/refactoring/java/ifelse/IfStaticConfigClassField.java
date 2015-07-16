@@ -40,7 +40,7 @@ import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefacto
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -76,7 +76,7 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
         Map<String, List<Expression>> initialValuesToFieldName = new HashMap<String, List<Expression>>();
         Map<Expression, String> variantIDToInitialValue = new HashMap<Expression, String>();
 
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Class vpLocation = (Class) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         fillMaps(variationPoint, fieldToFieldName, initialValuesToFieldName, variantIDToInitialValue,
                 positionToFieldName);
@@ -132,7 +132,7 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
         }
 
         ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
-        ResourceSet resourceSet = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+        ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
                 .getResourceSet();
         String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
         Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
@@ -170,7 +170,7 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
             Map<String, List<Integer>> positionToFieldName) {
         for (Variant variant : vp.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Field field = (Field) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Field field = (Field) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                 Field fieldCpy = clone(field);
 
                 if (!fieldToFieldName.containsKey(fieldCpy.getName())) {
@@ -220,7 +220,7 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreFields = RefactoringUtil.allImplementingElementsOfType(variationPoint,

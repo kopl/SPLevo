@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -116,7 +116,7 @@ public class JaMoPPMergeDeciderTest {
         VariationPoint vp2 = vpm.getVariationPointGroups().get(1).getVariationPoints().get(0);
 
         assertThat("Wrong number of variants", vp1.getVariants().size(), is(1));
-        JaMoPPSoftwareElement jamoppElement = (JaMoPPSoftwareElement) vp1.getVariants().get(0).getImplementingElements().get(0);
+        JaMoPPJavaSoftwareElement jamoppElement = (JaMoPPJavaSoftwareElement) vp1.getVariants().get(0).getImplementingElements().get(0);
         assertThat("Wrong code element.", jamoppElement.getJamoppElement(), instanceOf(LocalVariableStatement.class));
 
         JaMoPPMergeDecider decider = new JaMoPPMergeDecider();

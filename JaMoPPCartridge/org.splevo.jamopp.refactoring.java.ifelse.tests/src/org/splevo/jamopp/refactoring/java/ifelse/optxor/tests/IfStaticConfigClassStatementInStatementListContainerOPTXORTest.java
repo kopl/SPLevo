@@ -48,7 +48,7 @@ import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
 import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementInStatementListContainerOPTXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
@@ -149,7 +149,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        ClassMethod vpLocation = (ClassMethod) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
 
         // vp location has 2 statements: the two conditions (one per variant)
         assertThat(vpLocation.getStatements().size(), equalTo(2));
@@ -204,7 +204,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        ClassMethod vpLocation = (ClassMethod) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
 
         // vp location has 4 statements: the variable, two conditions (one per variant) and the
         // common statement
@@ -280,7 +280,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        ClassMethod vpLocation = (ClassMethod) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
 
         // location has two statements: the common expression statement and the condition for the
         // integration variant
@@ -322,7 +322,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        ClassMethod vpLocation = (ClassMethod) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
 
         // location has two conditions (one per variant)
         assertThat(vpLocation.getStatements().size(), equalTo(2));
@@ -365,7 +365,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer();
@@ -409,7 +409,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
@@ -453,7 +453,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
@@ -497,7 +497,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
@@ -541,7 +541,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
@@ -585,7 +585,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();

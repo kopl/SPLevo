@@ -26,7 +26,7 @@ import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefacto
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -53,7 +53,7 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
 
     @Override
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Condition vpLocation = (Condition) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         Statement elseStatement = vpLocation.getElseStatement();
 
         CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
@@ -65,7 +65,7 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
         for (Variant variant : variationPoint.getVariants()) {
             Condition variabilityCondition = IfElseRefactoringUtil.createVariabilityCondition(variant.getId(), groupName);
 
-            Commentable element = ((JaMoPPSoftwareElement) variant.getImplementingElements().get(0)).getJamoppElement();
+            Commentable element = ((JaMoPPJavaSoftwareElement) variant.getImplementingElements().get(0)).getJamoppElement();
             Statement stmt = clone((Statement) element);
 //            if (variant.getLeading()) {
 //                stmt = (Statement) element;
@@ -87,7 +87,7 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
         previousCondition.setElseStatement(elseStatement);
 
         ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
-        ResourceSet resourceSet = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+        ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
                 .getResourceSet();
         String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
         Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
@@ -101,7 +101,7 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable vpLocation = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         boolean correctLocation = vpLocation instanceof Condition;
         boolean allImplementingElementsAreStatements = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Statement.class);

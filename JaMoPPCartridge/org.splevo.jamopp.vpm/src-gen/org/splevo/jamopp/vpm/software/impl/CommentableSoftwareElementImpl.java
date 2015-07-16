@@ -2,36 +2,24 @@
  */
 package org.splevo.jamopp.vpm.software.impl;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.LinkedHashMap;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Member;
-import org.emftext.language.java.resource.java.IJavaLocationMap;
-import org.emftext.language.java.resource.java.IJavaOptions;
-import org.emftext.language.java.resource.java.mopp.JavaDevNullLocationMap;
-import org.emftext.language.java.resource.java.mopp.JavaResource;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementContainer;
 import org.emftext.language.java.statements.StatementListContainer;
-import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwarePackage;
-import org.splevo.vpm.software.SoftwareFactory;
-import org.splevo.vpm.software.SourceLocation;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -49,7 +37,7 @@ import com.google.common.collect.Maps;
  * 
  * @generated
  */
-public class CommentableSoftwareElementImpl extends MinimalEObjectImpl.Container implements CommentableSoftwareElement {
+public class CommentableSoftwareElementImpl extends JaMoPPJavaSoftwareElementImpl implements CommentableSoftwareElement {
 
     private static final String COMMENT_PREFIX = "SPLEVO_REF";
 
@@ -206,56 +194,10 @@ public class CommentableSoftwareElementImpl extends MinimalEObjectImpl.Container
     }
 
     /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated not
-     */
-    public String getLabel() {
-        return JaMoPPElementUtil.getLabel(getJamoppElement());
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated not
-     */
-    public String getName() {
-        return JaMoPPElementUtil.getName(getJamoppElement());
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated not
-     */
-    public SourceLocation getSourceLocation() {
-        Commentable element = null;
-
-        try {
-            element = getJamoppElement();
-            if (!(element.eResource() instanceof JavaResource)) {
-                return null;
-            }
-        } catch (NullPointerException ex) {
-            return null;
-        }
-
-        JavaResource resource = (JavaResource) element.eResource();
-        IJavaLocationMap locationMap = resource.getLocationMap();
-        if (locationMap instanceof JavaDevNullLocationMap) {
-            return reloadLocation(element, resource);
-        } else {
-            return buildLocation(element, resource);
-        }
-    }
-    
-    /**
      * Builds the comment text that is added to the comments of an element.
-     * 
-     * @generated not
      */
     public static String buildReferencingCommentText(String id) {
-        return String.format("%s %s", getCommentPrefix(), id);
+        return String.format("%s %s", COMMENT_PREFIX, id);
     }
 
     private boolean containsWantedComment(Commentable commentable) {
@@ -294,7 +236,8 @@ public class CommentableSoftwareElementImpl extends MinimalEObjectImpl.Container
         return Optional.absent();
     }
 
-    private Commentable getJamoppElement() {
+    @Override
+    public Commentable resolveJaMoPPElement() {
         TreeIterator<EObject> treeIter = getCompilationUnit().eAllContents();
         while (treeIter.hasNext()) {
             EObject nextItem = treeIter.next();
@@ -313,51 +256,6 @@ public class CommentableSoftwareElementImpl extends MinimalEObjectImpl.Container
             return null;
         }
         return null;
-    }
-
-    private SourceLocation buildLocation(Commentable element, JavaResource resource) {
-        SourceLocation location = SoftwareFactory.eINSTANCE.createSourceLocation();
-        location.setFilePath(resource.getURI().toFileString());
-
-        IJavaLocationMap locationMap = resource.getLocationMap();
-        location.setStartLine(locationMap.getLine(element));
-        location.setStartPosition(locationMap.getCharStart(element));
-        location.setEndPosition(locationMap.getCharEnd(element));
-        return location;
-    }
-
-    /**
-     * To get source locations for resources previously loaded with disabled location maps, try to
-     * reload the according resource, find the current element in it and return the according source
-     * location.
-     * 
-     * @param element
-     *            The element to get the location info for.
-     * @return The source location map for the element.
-     */
-    private SourceLocation reloadLocation(Commentable element, JavaResource resource) {
-
-        JavaResource reloadedResource = (JavaResource) resource.getResourceSet().createResource(resource.getURI());
-        LinkedHashMap<String, Object> options = Maps.newLinkedHashMap();
-        options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.FALSE);
-        try {
-            reloadedResource.load(options);
-        } catch (IOException e) {
-            return null;
-        }
-        String uriFragment = resource.getURIFragment(element);
-        Commentable reloadedElement = (Commentable) reloadedResource.getEObject(uriFragment);
-
-        return buildLocation(reloadedElement, reloadedResource);
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated not
-     */
-    public EObject getWrappedElement() {
-        return getJamoppElement();
     }
 
     /**
@@ -447,26 +345,6 @@ public class CommentableSoftwareElementImpl extends MinimalEObjectImpl.Container
      * @generated
      */
     @Override
-    public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
-        switch (operationID) {
-        case softwarePackage.COMMENTABLE_SOFTWARE_ELEMENT___GET_LABEL:
-            return getLabel();
-        case softwarePackage.COMMENTABLE_SOFTWARE_ELEMENT___GET_NAME:
-            return getName();
-        case softwarePackage.COMMENTABLE_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION:
-            return getSourceLocation();
-        case softwarePackage.COMMENTABLE_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT:
-            return getWrappedElement();
-        }
-        return super.eInvoke(operationID, arguments);
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    @Override
     public String toString() {
         if (eIsProxy())
             return super.toString();
@@ -480,8 +358,9 @@ public class CommentableSoftwareElementImpl extends MinimalEObjectImpl.Container
         return result.toString();
     }
 
-    public static String getCommentPrefix() {
-        return COMMENT_PREFIX;
+    @Override
+    public Commentable getJamoppElement() {
+        return resolveJaMoPPElement();
     }
 
 } // CommentableSoftwareElementImpl

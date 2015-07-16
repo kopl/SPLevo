@@ -42,7 +42,7 @@ import org.featuremapper.models.featuremapping.FeatureRef;
 import org.featuremapper.models.featuremapping.SolutionModelRef;
 import org.splevo.fm.builder.FeatureModelBuilder;
 import org.splevo.fm.builder.FeatureModelWrapper;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -120,7 +120,7 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
                         // code
                         // EObject element here,
                         // I know this cast is really bad,
-                        Commentable jamoppElement = ((JaMoPPSoftwareElement) softwareElement).getJamoppElement();
+                        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) softwareElement).getJamoppElement();
                         mapping.setElement(jamoppElement);
                         solutionModelResources.add(jamoppElement.eResource());
 

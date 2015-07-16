@@ -15,8 +15,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.splevo.jamopp.vpm.software.*;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.jamopp.vpm.software.softwarePackage;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 
@@ -73,8 +71,10 @@ public class softwareSwitch<T> extends Switch<T> {
     protected T doSwitch(int classifierID, EObject theEObject) {
         switch (classifierID) {
         case softwarePackage.JA_MO_PP_SOFTWARE_ELEMENT: {
-            JaMoPPSoftwareElement jaMoPPSoftwareElement = (JaMoPPSoftwareElement) theEObject;
+            JaMoPPJavaSoftwareElement jaMoPPSoftwareElement = (JaMoPPJavaSoftwareElement) theEObject;
             T result = caseJaMoPPSoftwareElement(jaMoPPSoftwareElement);
+            if (result == null)
+                result = caseJaMoPPJavaSoftwareElement(jaMoPPSoftwareElement);
             if (result == null)
                 result = caseJavaSoftwareElement(jaMoPPSoftwareElement);
             if (result == null)
@@ -87,9 +87,22 @@ public class softwareSwitch<T> extends Switch<T> {
             CommentableSoftwareElement commentableSoftwareElement = (CommentableSoftwareElement) theEObject;
             T result = caseCommentableSoftwareElement(commentableSoftwareElement);
             if (result == null)
+                result = caseJaMoPPJavaSoftwareElement(commentableSoftwareElement);
+            if (result == null)
                 result = caseJavaSoftwareElement(commentableSoftwareElement);
             if (result == null)
                 result = caseSoftwareElement(commentableSoftwareElement);
+            if (result == null)
+                result = defaultCase(theEObject);
+            return result;
+        }
+        case softwarePackage.JA_MO_PP_JAVA_SOFTWARE_ELEMENT: {
+            JaMoPPJavaSoftwareElement jaMoPPJavaSoftwareElement = (JaMoPPJavaSoftwareElement) theEObject;
+            T result = caseJaMoPPJavaSoftwareElement(jaMoPPJavaSoftwareElement);
+            if (result == null)
+                result = caseJavaSoftwareElement(jaMoPPJavaSoftwareElement);
+            if (result == null)
+                result = caseSoftwareElement(jaMoPPJavaSoftwareElement);
             if (result == null)
                 result = defaultCase(theEObject);
             return result;
@@ -111,7 +124,7 @@ public class softwareSwitch<T> extends Switch<T> {
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public T caseJaMoPPSoftwareElement(JaMoPPSoftwareElement object) {
+    public T caseJaMoPPSoftwareElement(JaMoPPJavaSoftwareElement object) {
         return null;
     }
 
@@ -128,6 +141,22 @@ public class softwareSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseCommentableSoftwareElement(CommentableSoftwareElement object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '
+     * <em>Ja Mo PP Java Software Element</em>'. <!-- begin-user-doc --> This implementation returns
+     * null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
+     * 
+     * @param object
+     *            the target of the switch.
+     * @return the result of interpreting the object as an instance of '
+     *         <em>Ja Mo PP Java Software Element</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseJaMoPPJavaSoftwareElement(JaMoPPJavaSoftwareElement object) {
         return null;
     }
 

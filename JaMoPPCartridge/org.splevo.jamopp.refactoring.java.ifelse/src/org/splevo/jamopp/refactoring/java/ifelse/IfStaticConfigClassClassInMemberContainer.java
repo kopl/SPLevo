@@ -20,7 +20,7 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MemberContainer;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -48,7 +48,7 @@ public class IfStaticConfigClassClassInMemberContainer extends JaMoPPFullyAutoma
 
     @Override
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
 
         for (Variant variant : variationPoint.getVariants()) {
@@ -56,7 +56,7 @@ public class IfStaticConfigClassClassInMemberContainer extends JaMoPPFullyAutoma
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Class c = (Class) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Class c = (Class) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
 
                 if (!RefactoringUtil.containsClassInterfaceOrEnumWithName(vpLocation, c.getName())) {
                     vpLocation.getMembers().add(clone(c));
@@ -69,7 +69,7 @@ public class IfStaticConfigClassClassInMemberContainer extends JaMoPPFullyAutoma
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,

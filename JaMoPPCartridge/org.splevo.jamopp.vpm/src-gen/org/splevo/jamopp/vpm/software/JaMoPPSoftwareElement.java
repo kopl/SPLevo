@@ -13,8 +13,6 @@ package org.splevo.jamopp.vpm.software;
 
 import org.emftext.language.java.commons.Commentable;
 
-import org.splevo.vpm.software.JavaSoftwareElement;
-
 /**
  * <!-- begin-user-doc --> A representation of the model object '
  * <em><b>Ja Mo PP Software Element</b></em>'. <!-- end-user-doc -->
@@ -34,7 +32,7 @@ import org.splevo.vpm.software.JavaSoftwareElement;
  * @model
  * @generated
  */
-public interface JaMoPPSoftwareElement extends JavaSoftwareElement {
+public interface JaMoPPSoftwareElement extends JaMoPPJavaSoftwareElement {
     /**
      * Returns the value of the '<em><b>Jamopp Element</b></em>' reference. <!-- begin-user-doc -->
      * <!-- end-user-doc --> <!-- begin-model-doc --> The JaMoPP element representing the software

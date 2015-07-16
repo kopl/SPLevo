@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.statements.Block;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContent;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProvider;
@@ -38,11 +39,11 @@ public class JaMoPPSemanticContentProvider implements SemanticContentProvider {
             throw new IllegalArgumentException();
         }
 
-        if (!(element instanceof JaMoPPSoftwareElement)) {
+        if (!(element instanceof JaMoPPJavaSoftwareElement)) {
             throw new UnsupportedSoftwareElementException(element);
         }
 
-        return getContentFromChildren((JaMoPPSoftwareElement) element, matchComments);
+        return getContentFromChildren((JaMoPPJavaSoftwareElement) element, matchComments);
     }
 
     /**
@@ -55,7 +56,7 @@ public class JaMoPPSemanticContentProvider implements SemanticContentProvider {
      *            Indicates whether to extract comments or ignore them.
      * @return The {@link SemanticContent} containing the relevant content.
      */
-    private SemanticContent getContentFromChildren(JaMoPPSoftwareElement softwareElement, boolean matchComments) {
+    private SemanticContent getContentFromChildren(JaMoPPJavaSoftwareElement softwareElement, boolean matchComments) {
         SemanticContent content = new SemanticContent();
 
         Commentable element = softwareElement.getJamoppElement();

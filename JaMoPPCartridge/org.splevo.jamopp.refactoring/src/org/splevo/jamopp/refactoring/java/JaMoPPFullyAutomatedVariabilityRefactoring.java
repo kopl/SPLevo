@@ -32,6 +32,7 @@ public abstract class JaMoPPFullyAutomatedVariabilityRefactoring extends FullyAu
             LOGGER.error("The given EObject is no Commentable, but a " + eobject.getClass().getSimpleName() + ".");
             return null;
         }
+        // TODO replace this with a comment-based reference
         JaMoPPSoftwareElement softwareElement = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
         softwareElement.setJamoppElement((Commentable) eobject);
         return softwareElement;

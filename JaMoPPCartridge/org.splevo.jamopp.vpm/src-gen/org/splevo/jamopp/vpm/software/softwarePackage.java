@@ -13,6 +13,7 @@ package org.splevo.jamopp.vpm.software;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -65,6 +66,81 @@ public interface softwarePackage extends EPackage {
 
     /**
      * The meta object id for the '
+     * {@link org.splevo.jamopp.vpm.software.impl.JaMoPPJavaSoftwareElementImpl
+     * <em>Ja Mo PP Java Software Element</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
+     * -->
+     * 
+     * @see org.splevo.jamopp.vpm.software.impl.JaMoPPJavaSoftwareElementImpl
+     * @see org.splevo.jamopp.vpm.software.impl.softwarePackageImpl#getJaMoPPJavaSoftwareElement()
+     * @generated
+     */
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT = 2;
+
+    /**
+     * The number of structural features of the '<em>Ja Mo PP Java Software Element</em>' class.
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The operation id for the '<em>Get Source Location</em>' operation. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION = SoftwarePackage.JAVA_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION;
+
+    /**
+     * The operation id for the '<em>Get Jamopp Element</em>' operation. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_JAMOPP_ELEMENT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 0;
+
+    /**
+     * The operation id for the '<em>Get Label</em>' operation. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_LABEL = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 1;
+
+    /**
+     * The operation id for the '<em>Get Name</em>' operation. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_NAME = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 2;
+
+    /**
+     * The operation id for the '<em>Get Wrapped Element</em>' operation. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 3;
+
+    /**
+     * The number of operations of the '<em>Ja Mo PP Java Software Element</em>' class. <!--
+     * begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 4;
+
+    /**
+     * The meta object id for the '
      * {@link org.splevo.jamopp.vpm.software.impl.JaMoPPSoftwareElementImpl
      * <em>Ja Mo PP Software Element</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -81,7 +157,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int JA_MO_PP_SOFTWARE_ELEMENT__JAMOPP_ELEMENT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 0;
+    int JA_MO_PP_SOFTWARE_ELEMENT__JAMOPP_ELEMENT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the '<em>Ja Mo PP Software Element</em>' class. <!--
@@ -90,25 +166,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int JA_MO_PP_SOFTWARE_ELEMENT_FEATURE_COUNT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 1;
-
-    /**
-     * The operation id for the '<em>Get Label</em>' operation. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int JA_MO_PP_SOFTWARE_ELEMENT___GET_LABEL = SoftwarePackage.JAVA_SOFTWARE_ELEMENT___GET_LABEL;
-
-    /**
-     * The operation id for the '<em>Get Name</em>' operation. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int JA_MO_PP_SOFTWARE_ELEMENT___GET_NAME = SoftwarePackage.JAVA_SOFTWARE_ELEMENT___GET_NAME;
+    int JA_MO_PP_SOFTWARE_ELEMENT_FEATURE_COUNT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The operation id for the '<em>Get Source Location</em>' operation. <!-- begin-user-doc -->
@@ -117,7 +175,34 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int JA_MO_PP_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION = SoftwarePackage.JAVA_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION;
+    int JA_MO_PP_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION;
+
+    /**
+     * The operation id for the '<em>Get Jamopp Element</em>' operation. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_SOFTWARE_ELEMENT___GET_JAMOPP_ELEMENT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_JAMOPP_ELEMENT;
+
+    /**
+     * The operation id for the '<em>Get Label</em>' operation. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_SOFTWARE_ELEMENT___GET_LABEL = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_LABEL;
+
+    /**
+     * The operation id for the '<em>Get Name</em>' operation. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_SOFTWARE_ELEMENT___GET_NAME = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_NAME;
 
     /**
      * The operation id for the '<em>Get Wrapped Element</em>' operation. <!-- begin-user-doc -->
@@ -126,7 +211,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int JA_MO_PP_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT;
+    int JA_MO_PP_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT;
 
     /**
      * The number of operations of the '<em>Ja Mo PP Software Element</em>' class. <!--
@@ -135,7 +220,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int JA_MO_PP_SOFTWARE_ELEMENT_OPERATION_COUNT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 0;
+    int JA_MO_PP_SOFTWARE_ELEMENT_OPERATION_COUNT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 0;
 
     /**
      * The meta object id for the '
@@ -155,7 +240,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMMENTABLE_SOFTWARE_ELEMENT__ID = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 0;
+    int COMMENTABLE_SOFTWARE_ELEMENT__ID = JA_MO_PP_JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Compilation Unit</b></em>' reference. <!-- begin-user-doc -->
@@ -164,7 +249,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMMENTABLE_SOFTWARE_ELEMENT__COMPILATION_UNIT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 1;
+    int COMMENTABLE_SOFTWARE_ELEMENT__COMPILATION_UNIT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute. <!-- begin-user-doc --> <!--
@@ -173,7 +258,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMMENTABLE_SOFTWARE_ELEMENT__TYPE = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 2;
+    int COMMENTABLE_SOFTWARE_ELEMENT__TYPE = JA_MO_PP_JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The number of structural features of the '<em>Commentable Software Element</em>' class. <!--
@@ -182,25 +267,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMMENTABLE_SOFTWARE_ELEMENT_FEATURE_COUNT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 3;
-
-    /**
-     * The operation id for the '<em>Get Label</em>' operation. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int COMMENTABLE_SOFTWARE_ELEMENT___GET_LABEL = SoftwarePackage.JAVA_SOFTWARE_ELEMENT___GET_LABEL;
-
-    /**
-     * The operation id for the '<em>Get Name</em>' operation. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @generated
-     * @ordered
-     */
-    int COMMENTABLE_SOFTWARE_ELEMENT___GET_NAME = SoftwarePackage.JAVA_SOFTWARE_ELEMENT___GET_NAME;
+    int COMMENTABLE_SOFTWARE_ELEMENT_FEATURE_COUNT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The operation id for the '<em>Get Source Location</em>' operation. <!-- begin-user-doc -->
@@ -209,7 +276,34 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMMENTABLE_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION = SoftwarePackage.JAVA_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION;
+    int COMMENTABLE_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION;
+
+    /**
+     * The operation id for the '<em>Get Jamopp Element</em>' operation. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int COMMENTABLE_SOFTWARE_ELEMENT___GET_JAMOPP_ELEMENT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_JAMOPP_ELEMENT;
+
+    /**
+     * The operation id for the '<em>Get Label</em>' operation. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int COMMENTABLE_SOFTWARE_ELEMENT___GET_LABEL = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_LABEL;
+
+    /**
+     * The operation id for the '<em>Get Name</em>' operation. <!-- begin-user-doc --> <!--
+     * end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int COMMENTABLE_SOFTWARE_ELEMENT___GET_NAME = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_NAME;
 
     /**
      * The operation id for the '<em>Get Wrapped Element</em>' operation. <!-- begin-user-doc -->
@@ -218,7 +312,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMMENTABLE_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT;
+    int COMMENTABLE_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT;
 
     /**
      * The number of operations of the '<em>Commentable Software Element</em>' class. <!--
@@ -227,7 +321,7 @@ public interface softwarePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int COMMENTABLE_SOFTWARE_ELEMENT_OPERATION_COUNT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 0;
+    int COMMENTABLE_SOFTWARE_ELEMENT_OPERATION_COUNT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 0;
 
     /**
      * Returns the meta object for class '
@@ -298,6 +392,61 @@ public interface softwarePackage extends EPackage {
      * @generated
      */
     EAttribute getCommentableSoftwareElement_Type();
+
+    /**
+     * Returns the meta object for class '
+     * {@link org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement
+     * <em>Ja Mo PP Java Software Element</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for class '<em>Ja Mo PP Java Software Element</em>'.
+     * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement
+     * @generated
+     */
+    EClass getJaMoPPJavaSoftwareElement();
+
+    /**
+     * Returns the meta object for the '
+     * {@link org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getJamoppElement()
+     * <em>Get Jamopp Element</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the '<em>Get Jamopp Element</em>' operation.
+     * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getJamoppElement()
+     * @generated
+     */
+    EOperation getJaMoPPJavaSoftwareElement__GetJamoppElement();
+
+    /**
+     * Returns the meta object for the '
+     * {@link org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getLabel()
+     * <em>Get Label</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the '<em>Get Label</em>' operation.
+     * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getLabel()
+     * @generated
+     */
+    EOperation getJaMoPPJavaSoftwareElement__GetLabel_1();
+
+    /**
+     * Returns the meta object for the '
+     * {@link org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getName() <em>Get Name</em>}'
+     * operation. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the '<em>Get Name</em>' operation.
+     * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getName()
+     * @generated
+     */
+    EOperation getJaMoPPJavaSoftwareElement__GetName_1();
+
+    /**
+     * Returns the meta object for the '
+     * {@link org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getWrappedElement()
+     * <em>Get Wrapped Element</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the '<em>Get Wrapped Element</em>' operation.
+     * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getWrappedElement()
+     * @generated
+     */
+    EOperation getJaMoPPJavaSoftwareElement__GetWrappedElement_1();
 
     /**
      * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!--
@@ -377,6 +526,52 @@ public interface softwarePackage extends EPackage {
          * @generated
          */
         EAttribute COMMENTABLE_SOFTWARE_ELEMENT__TYPE = eINSTANCE.getCommentableSoftwareElement_Type();
+
+        /**
+         * The meta object literal for the '
+         * {@link org.splevo.jamopp.vpm.software.impl.JaMoPPJavaSoftwareElementImpl
+         * <em>Ja Mo PP Java Software Element</em>}' class. <!-- begin-user-doc --> <!--
+         * end-user-doc -->
+         * 
+         * @see org.splevo.jamopp.vpm.software.impl.JaMoPPJavaSoftwareElementImpl
+         * @see org.splevo.jamopp.vpm.software.impl.softwarePackageImpl#getJaMoPPJavaSoftwareElement()
+         * @generated
+         */
+        EClass JA_MO_PP_JAVA_SOFTWARE_ELEMENT = eINSTANCE.getJaMoPPJavaSoftwareElement();
+
+        /**
+         * The meta object literal for the '<em><b>Get Jamopp Element</b></em>' operation. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_JAMOPP_ELEMENT = eINSTANCE
+                .getJaMoPPJavaSoftwareElement__GetJamoppElement();
+
+        /**
+         * The meta object literal for the '<em><b>Get Label</b></em>' operation. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_LABEL = eINSTANCE.getJaMoPPJavaSoftwareElement__GetLabel_1();
+
+        /**
+         * The meta object literal for the '<em><b>Get Name</b></em>' operation. <!-- begin-user-doc
+         * --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_NAME = eINSTANCE.getJaMoPPJavaSoftwareElement__GetName_1();
+
+        /**
+         * The meta object literal for the '<em><b>Get Wrapped Element</b></em>' operation. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = eINSTANCE
+                .getJaMoPPJavaSoftwareElement__GetWrappedElement_1();
 
     }
 

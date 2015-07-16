@@ -26,7 +26,7 @@ import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersFactory;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -56,7 +56,7 @@ public class IfStaticConfigClassEnumerationInMemberContainer extends JaMoPPFully
 
     @Override
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
 
         Map<String, List<Enumeration>> enumerationsToName = Maps.newHashMap();
@@ -65,7 +65,7 @@ public class IfStaticConfigClassEnumerationInMemberContainer extends JaMoPPFully
 
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Enumeration currentEnum = (Enumeration) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Enumeration currentEnum = (Enumeration) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
 //                if (!variant.getLeading()) {
 //                    currentEnum = clone(currentEnum);
 //                }
@@ -122,7 +122,7 @@ public class IfStaticConfigClassEnumerationInMemberContainer extends JaMoPPFully
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreEnums = RefactoringUtil.allImplementingElementsOfType(variationPoint,

@@ -18,6 +18,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.emftext.language.java.commons.Commentable;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
@@ -83,7 +84,7 @@ public abstract class AbstractJaMoPPVPFilter extends ViewerFilter {
 
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement implementingElement : variant.getImplementingElements()) {
-                JaMoPPSoftwareElement jamoppElement = (JaMoPPSoftwareElement) implementingElement;
+                JaMoPPJavaSoftwareElement jamoppElement = (JaMoPPJavaSoftwareElement) implementingElement;
                 boolean isIncludeElement = false;
                 for (Class<?> includeClass : includeClasses) {
                     if (includeClass.isAssignableFrom(jamoppElement.getJamoppElement().getClass())) {
@@ -103,11 +104,11 @@ public abstract class AbstractJaMoPPVPFilter extends ViewerFilter {
 
     private boolean isValidLocation(VariationPoint variationPoint) {
 
-        if (!(variationPoint.getLocation() instanceof JaMoPPSoftwareElement)) {
+        if (!(variationPoint.getLocation() instanceof JaMoPPJavaSoftwareElement)) {
             return false;
         }
 
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         Class<?> variationPointClass = getExpectedLocationClass();
         if (variationPointClass != null) {
             return variationPointClass.isAssignableFrom(jamoppElement.getClass());
