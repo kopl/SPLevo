@@ -829,7 +829,7 @@ public final class RefactoringTestUtil {
                         break OuterLoop;
                     }
                 }
-                fail(String.format("The referenced object %s is not contained in the JaMoPP resource.", wantedObject.toString()));
+                fail(String.format("The referenced object %s (resource %s) is not contained in the leading resource %s.", wantedObject.toString(), wantedObject.eResource(), vp.getLocation().getWrappedElement().eResource()));
             }
         }
     }
