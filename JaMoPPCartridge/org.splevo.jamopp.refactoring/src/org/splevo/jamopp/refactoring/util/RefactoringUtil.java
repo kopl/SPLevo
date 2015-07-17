@@ -77,7 +77,10 @@ import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.commons.emf.ReplacementUtil;
 import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
+import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
+import org.splevo.jamopp.vpm.software.softwareFactory;
+import org.splevo.jamopp.vpm.software.impl.CommentableSoftwareElementImpl;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -750,4 +753,32 @@ public final class RefactoringUtil {
         }
     }
     
+    /**
+     * Adds a comment to the given element (or one of its sub elements) that can be used by a
+     * CommentableSoftwareElement to refer to the given element.
+     * 
+     * @param element
+     *            The element to add the comment to.
+     * @return The ID included in the comment.
+     */
+    public static String addCommentableSoftwareElementReference(Commentable element) {
+        final String elementID = EcoreUtil.generateUUID();
+        final String commentText = CommentableSoftwareElementImpl.buildReferencingCommentText(elementID);
+        RefactoringUtil.addCommentBefore(element, commentText);
+        return elementID;
+    }
+    
+    /**
+     * Creates a CommentableSoftwareElement by a given element and an ID to be used during the resolution.
+     * @param referencedElement The element to be referenced.
+     * @param id The ID to be used as reference.
+     * @return The CommentableSoftwareElement.
+     */
+    public static CommentableSoftwareElement createCommentableSoftwareElement(Commentable referencedElement, String id) {
+        CommentableSoftwareElement commentable = softwareFactory.eINSTANCE.createCommentableSoftwareElement();
+        commentable.setCompilationUnit(referencedElement.getContainingCompilationUnit());
+        commentable.setId(id);
+        commentable.setType(referencedElement.getClass());
+        return commentable;
+    }
 }

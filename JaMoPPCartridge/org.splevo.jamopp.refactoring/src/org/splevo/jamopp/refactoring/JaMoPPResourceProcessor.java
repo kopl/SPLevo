@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2015
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Stephan Seifermann
+ *******************************************************************************/
 package org.splevo.jamopp.refactoring;
 
 import java.io.IOException;
@@ -14,8 +25,6 @@ import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.jamopp.vpm.software.softwareFactory;
-import org.splevo.jamopp.vpm.software.impl.CommentableSoftwareElementImpl;
 import org.splevo.refactoring.ResourceProcessor;
 import org.splevo.vpm.variability.VariationPointModel;
 
@@ -45,27 +54,18 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
     }
 
     private void replaceJaMoPPSoftwareElementWithCommentableSoftwareElement(JaMoPPSoftwareElement oldSoftwareElement) {
-        final String elementID = EcoreUtil.generateUUID();
         final Commentable referencedElement = oldSoftwareElement.getJamoppElement();
 
         // add comment to source code
-        String commentText = CommentableSoftwareElementImpl.buildReferencingCommentText(elementID);
-        RefactoringUtil.addCommentBefore(referencedElement, commentText);
+        final String elementID = RefactoringUtil.addCommentableSoftwareElementReference(referencedElement);
         saveJaMoPPModel(referencedElement.eResource());
 
         // replace old software element with new one in VPM
-        CommentableSoftwareElement newSoftwareElement = createCommentableSoftwareElement(referencedElement, elementID);
+        CommentableSoftwareElement newSoftwareElement = RefactoringUtil.createCommentableSoftwareElement(
+                referencedElement, elementID);
         Resource vpmResource = oldSoftwareElement.eResource();
         EcoreUtil.replace(oldSoftwareElement, newSoftwareElement);
         ReplacementUtil.replaceCrossReferences(oldSoftwareElement, newSoftwareElement, vpmResource.getResourceSet());
-    }
-
-    private CommentableSoftwareElement createCommentableSoftwareElement(Commentable referencedElement, String id) {
-        CommentableSoftwareElement commentable = softwareFactory.eINSTANCE.createCommentableSoftwareElement();
-        commentable.setCompilationUnit(referencedElement.getContainingCompilationUnit());
-        commentable.setId(id);
-        commentable.setType(referencedElement.getClass());
-        return commentable;
     }
 
     private void saveJaMoPPModel(Resource eResource) {

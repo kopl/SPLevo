@@ -14,8 +14,7 @@ package org.splevo.jamopp.refactoring.java;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.jamopp.vpm.software.softwareFactory;
+import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.vpm.software.SoftwareElement;
 
@@ -25,17 +24,17 @@ import org.splevo.vpm.software.SoftwareElement;
 public abstract class JaMoPPFullyAutomatedVariabilityRefactoring extends FullyAutomatedVariabilityRefactoring {
 
     private static final Logger LOGGER = Logger.getLogger(JaMoPPFullyAutomatedVariabilityRefactoring.class);
-    
+
     @Override
     protected SoftwareElement createSoftwareElement(EObject eobject) {
-        if (!(eobject instanceof Commentable))  {
+        if (!(eobject instanceof Commentable)) {
             LOGGER.error("The given EObject is no Commentable, but a " + eobject.getClass().getSimpleName() + ".");
             return null;
         }
-        // TODO replace this with a comment-based reference
-        JaMoPPSoftwareElement softwareElement = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
-        softwareElement.setJamoppElement((Commentable) eobject);
-        return softwareElement;
+        Commentable element = (Commentable) eobject;
+
+        final String elementID = RefactoringUtil.addCommentableSoftwareElementReference(element);
+        return RefactoringUtil.createCommentableSoftwareElement(element, elementID);
     }
 
 }
