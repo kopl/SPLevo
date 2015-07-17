@@ -65,8 +65,8 @@ public class VPMAnalysisListener extends MouseAdapter {
     @Override
     public void mouseUp(MouseEvent event) {
 
-        Shell shell = event.widget.getDisplay().getShells()[0];
-
+        Shell shell = event.widget.getDisplay().getActiveShell();
+        
         // trigger the wizard to configure the refinement process
         vpmAnalysisWizard = new VPMAnalysisWizard(config);
         WizardDialog wizardDialog = createWizardDialog(shell, vpmAnalysisWizard);

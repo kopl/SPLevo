@@ -54,7 +54,7 @@ public class VPMAnalyzerSelectionDialogListener extends MouseAdapter {
     @Override
     public void mouseUp(MouseEvent e) {
 
-        Shell shell = e.widget.getDisplay().getShells()[0];
+        Shell shell = e.widget.getDisplay().getActiveShell();
         List<VPMAnalyzer> availableAnalyzer = Lists.newArrayList(vpmAnalyzerService.getAvailableAnalyzers());
 
         availableAnalyzer.removeAll(page.getAnalyzers());
