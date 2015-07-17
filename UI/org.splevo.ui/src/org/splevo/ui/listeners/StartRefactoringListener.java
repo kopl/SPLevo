@@ -33,6 +33,7 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.workflow.BuildSPLWorkflowConfiguration;
 import org.splevo.ui.workflow.BuildSPLWorkflowDelegate;
+import org.splevo.ui.workflow.VPMReloadWorkflowDelegate;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -81,6 +82,7 @@ public class StartRefactoringListener extends MouseAdapter {
             boolean executeRecommender = askForRecommenderExecution();
             if (executeRecommender) {
                 executeRecommender(vpm);
+                
             }
             return;
         }
@@ -134,6 +136,11 @@ public class StartRefactoringListener extends MouseAdapter {
 
         RecommenderResult result = service.recommendMechanisms(vpm, refactorings);
 
+        
+        VPMReloadWorkflowDelegate reloadVPMWorkflowDelegate = new VPMReloadWorkflowDelegate(splevoProjectEditor);
+        WorkflowListenerUtil.runWorkflowAndRunUITask(reloadVPMWorkflowDelegate, "Reload VPM", null);
+        
+        
         if (result.getUnassignedVariationPoints().isEmpty()) {
             MessageDialog.openInformation(getShell(), "Recommender Succeeded",
                     "All variation points are now successfully assigned with a variability mechanism");
