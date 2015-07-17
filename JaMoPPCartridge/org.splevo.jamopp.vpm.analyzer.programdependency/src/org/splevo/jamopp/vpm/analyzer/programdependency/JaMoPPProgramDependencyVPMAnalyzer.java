@@ -27,7 +27,6 @@ import org.splevo.jamopp.vpm.analyzer.programdependency.references.Reference;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelector;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelectorRegistry;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerException;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
