@@ -176,9 +176,15 @@ public final class VPMUIUtil {
     private static VariationPointModel loadVPM(final SPLevoProject splevoProject, final String vpmPath,
             final IProgressMonitor monitor) {
         VariationPointModel vpm = null;
-        ResourceSet resSet = JobUtil.initResourceSet(splevoProject);
+        File vpmFile = new File(vpmPath);
+        boolean loadLayoutInformation = false;
+        // TODO Ugly hack to determine if layout information is necessary.
+        if (vpmFile != null && vpmFile.getName().startsWith("refactored-vpm")) {
+            loadLayoutInformation = true;
+        }
+        ResourceSet resSet = JobUtil.initResourceSet(splevoProject, loadLayoutInformation);
         try {
-            vpm = VPMUtil.loadVariationPointModel(new File(vpmPath), resSet);
+            vpm = VPMUtil.loadVariationPointModel(vpmFile, resSet);
         } catch (IOException ioe) {
             monitor.setCanceled(true);
             showErrorDialog("Failed to open VPM", "An error occured while opening the VPM: " + ioe.getMessage());

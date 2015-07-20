@@ -821,7 +821,7 @@ public final class RefactoringTestUtil {
 
     public static void assertValidVPM(VariationPoint vp) throws IOException {
         for (Variant v : vp.getVariants()) {
-            OuterLoop: for (SoftwareElement swe : v.getImplementingElements()) {
+            OuterLoop: for (SoftwareElement swe : v.getImplementingElements()) {               
                 EObject wantedObject = swe.getWrappedElement();
                 TreeIterator<EObject> content = vp.getLocation().getWrappedElement().eAllContents();
                 while (content.hasNext()) {

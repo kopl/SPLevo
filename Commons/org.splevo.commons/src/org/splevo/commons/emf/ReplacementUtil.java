@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 /**
@@ -35,34 +36,46 @@ public class ReplacementUtil {
     private static final Logger LOGGER = Logger.getLogger(ReplacementUtil.class);
 
     /**
-     * Replaces all cross references to the given EObject from the same resource set with references
-     * to the given replacement. This method does not consider containment references.
-     * 
-     * @param original
-     *            The EObject to be replaced.
-     * @param replacement
-     *            The replacement for the given EObject.
-     * @param additionalResourceSets
-     *            Additional resource sets to be searched for cross references.
+     * Replacer for cross references to a given EObject.
      */
-    public static void replaceCrossReferences(EObject original, EObject replacement, ResourceSet... additionalResourceSets) {
-        Set<Setting> crossReferences = new HashSet<Setting>();
-        ArrayList<ResourceSet> resourceSets = new ArrayList<ResourceSet>();
-        addResourceSetIfNotNull(original, resourceSets);
-        addResourceSetIfNotNull(replacement, resourceSets);
-        resourceSets.addAll(Lists.newArrayList(additionalResourceSets));
-        for (ResourceSet rs : resourceSets) {  
-            crossReferences.addAll(EcoreUtil.UsageCrossReferencer.find(original, rs));
-        }
+    public static class CrossReferenceReplacer implements Function<Setting, Void> {
+
+        private final EObject original;
+        private final EObject replacement;
         
-        for (Setting crossReference : crossReferences) {
+        /**
+         * Constructs the replacer for a pair of EObjects.
+         * @param original The original EObject to be replaced.
+         * @param replacement The replacement to be used.
+         */
+        public CrossReferenceReplacer(EObject original, EObject replacement) {
+            this.original = original;
+            this.replacement = replacement;
+        }
+
+        /**
+         * @return the original
+         */
+        public EObject getOriginal() {
+            return original;
+        }
+
+        /**
+         * @return the replacement
+         */
+        public EObject getReplacement() {
+            return replacement;
+        }
+
+        @Override
+        public Void apply(Setting crossReference) {
             EObject referencingObject = crossReference.getEObject();
             EStructuralFeature referencingFeature = crossReference.getEStructuralFeature();
 
             if (referencingFeature instanceof EReference && ((EReference) referencingFeature).isContainment()) {
                 LOGGER.warn(String.format("There should not be a containment reference from %s (%s) to %s.",
                         referencingObject.toString(), referencingFeature.getName(), original.toString()));
-                continue;
+                return null;
             }
 
             if (referencingFeature.getUpperBound() > 1 || referencingFeature.getUpperBound() == -1) {
@@ -82,7 +95,49 @@ public class ReplacementUtil {
             } else {
                 referencingObject.eSet(referencingFeature, replacement);
             }
+            return null;
         }
+        
+    }
+    
+    /**
+     * Replaces all cross references in the given resource sets.
+     * 
+     * @param processor
+     *            The replacement processor to be used.
+     * @param additionalResourceSets
+     *            The resource sets that shall be considered besides the ones of the EObjects to be
+     *            replaced.
+     */
+    public static void replaceCrossReferences(CrossReferenceReplacer processor, ResourceSet... additionalResourceSets) {
+        Set<Setting> crossReferences = new HashSet<Setting>();
+        ArrayList<ResourceSet> resourceSets = new ArrayList<ResourceSet>();
+        addResourceSetIfNotNull(processor.getOriginal(), resourceSets);
+        addResourceSetIfNotNull(processor.getReplacement(), resourceSets);
+        resourceSets.addAll(Lists.newArrayList(additionalResourceSets));
+        for (ResourceSet rs : resourceSets) {  
+            crossReferences.addAll(EcoreUtil.UsageCrossReferencer.find(processor.getOriginal(), rs));
+        }
+        
+        for (Setting crossReference : crossReferences) {
+            processor.apply(crossReference);
+        }
+    }
+    
+    /**
+     * Replaces all cross references to the given EObject from the same resource set with references
+     * to the given replacement. This method does not consider containment references.
+     * 
+     * @param original
+     *            The EObject to be replaced.
+     * @param replacement
+     *            The replacement for the given EObject.
+     * @param additionalResourceSets
+     *            Additional resource sets to be searched for cross references.
+     */
+    public static void replaceCrossReferences(final EObject original, final EObject replacement,
+            ResourceSet... additionalResourceSets) {
+        replaceCrossReferences(new CrossReferenceReplacer(original, replacement), additionalResourceSets);
     }
 
     private static void addResourceSetIfNotNull(EObject obj, Collection<ResourceSet> rs) {

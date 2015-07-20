@@ -72,7 +72,7 @@ public class softwareAdapterFactory extends AdapterFactoryImpl {
      */
     protected softwareSwitch<Adapter> modelSwitch = new softwareSwitch<Adapter>() {
         @Override
-        public Adapter caseJaMoPPSoftwareElement(JaMoPPJavaSoftwareElement object) {
+        public Adapter caseJaMoPPSoftwareElement(JaMoPPSoftwareElement object) {
             return createJaMoPPSoftwareElementAdapter();
         }
 

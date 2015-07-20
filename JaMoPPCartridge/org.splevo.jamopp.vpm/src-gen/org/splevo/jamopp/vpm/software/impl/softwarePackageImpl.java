@@ -258,7 +258,7 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
      * 
      * @generated
      */
-    public EOperation getJaMoPPJavaSoftwareElement__GetLabel_1() {
+    public EOperation getJaMoPPJavaSoftwareElement__GetLabel() {
         return jaMoPPJavaSoftwareElementEClass.getEOperations().get(1);
     }
 
@@ -267,7 +267,7 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
      * 
      * @generated
      */
-    public EOperation getJaMoPPJavaSoftwareElement__GetName_1() {
+    public EOperation getJaMoPPJavaSoftwareElement__GetName() {
         return jaMoPPJavaSoftwareElementEClass.getEOperations().get(2);
     }
 
@@ -276,7 +276,7 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
      * 
      * @generated
      */
-    public EOperation getJaMoPPJavaSoftwareElement__GetWrappedElement_1() {
+    public EOperation getJaMoPPJavaSoftwareElement__GetWrappedElement() {
         return jaMoPPJavaSoftwareElementEClass.getEOperations().get(3);
     }
 
@@ -394,13 +394,13 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
         initEOperation(getJaMoPPJavaSoftwareElement__GetJamoppElement(), theCommonsPackage.getCommentable(),
                 "getJamoppElement", 1, 1, IS_UNIQUE, IS_ORDERED);
 
-        initEOperation(getJaMoPPJavaSoftwareElement__GetLabel_1(), ecorePackage.getEString(), "getLabel", 0, 1,
+        initEOperation(getJaMoPPJavaSoftwareElement__GetLabel(), ecorePackage.getEString(), "getLabel", 0, 1,
                 IS_UNIQUE, IS_ORDERED);
 
-        initEOperation(getJaMoPPJavaSoftwareElement__GetName_1(), ecorePackage.getEString(), "getName", 0, 1,
-                IS_UNIQUE, IS_ORDERED);
+        initEOperation(getJaMoPPJavaSoftwareElement__GetName(), ecorePackage.getEString(), "getName", 0, 1, IS_UNIQUE,
+                IS_ORDERED);
 
-        initEOperation(getJaMoPPJavaSoftwareElement__GetWrappedElement_1(), theEcorePackage.getEObject(),
+        initEOperation(getJaMoPPJavaSoftwareElement__GetWrappedElement(), theEcorePackage.getEObject(),
                 "getWrappedElement", 0, 1, IS_UNIQUE, IS_ORDERED);
 
         // Create resource

@@ -77,8 +77,13 @@ public class VariabilityRefactoringService {
         }
         
         EcoreUtil.resolveAll(variationPointModel);
+        postprocessVPM(variationPointModel);
         saveVPM(variationPointModel);
         saveAndPostprocessResources(toBeSaved);
+    }
+
+    private void postprocessVPM(VariationPointModel variationPointModel) {
+        new ResourceProcessorService().processVPMAfterRefactorings(variationPointModel);
     }
 
     private void saveAndPostprocessResources(Set<Resource> toBeSaved) {

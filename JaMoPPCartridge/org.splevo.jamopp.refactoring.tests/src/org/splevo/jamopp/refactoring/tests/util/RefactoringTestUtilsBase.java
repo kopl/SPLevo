@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.emftext.language.java.resource.java.IJavaOptions;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
@@ -99,9 +98,7 @@ public abstract class RefactoringTestUtilsBase {
 
         ResourceSet rs = new ResourceSetImpl();
         extractor.prepareResourceSet(rs,
-                Lists.newArrayList(tmpLeading.getAbsolutePath(), tmpIntegration.getAbsolutePath()));
-        rs.getLoadOptions().put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.valueOf(!layoutInformation));
-        rs.getLoadOptions().put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.valueOf(!layoutInformation));
+                Lists.newArrayList(tmpLeading.getAbsolutePath(), tmpIntegration.getAbsolutePath()), layoutInformation);
         rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("vpm", new XMIResourceFactoryImpl());
         Resource vpmResource = rs.createResource(URI.createFileURI(tmpVpm.getAbsolutePath()));
         vpmResource.load(Collections.EMPTY_MAP);

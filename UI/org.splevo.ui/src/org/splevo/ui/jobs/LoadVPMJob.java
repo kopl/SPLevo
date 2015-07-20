@@ -12,7 +12,6 @@
 package org.splevo.ui.jobs;
 
 import java.io.File;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -49,8 +48,23 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
      *            The reference to the splevoproject.
      */
     public LoadVPMJob(SPLevoProject splevoProject) {
-        this.splevoProject = splevoProject;
-        this.targetVPMIndex = -1;
+        this(splevoProject, false);
+    }
+    
+    /**
+     * Constructor to set a reference to the splevo project. The latest VPM will be loaded.
+     * 
+     * By default, this job configures EMF Text resources to not load layout information. This
+     * allows to speed up model loading. However, this can issue problems when layout information
+     * are necessary such as printing the model. Make sure to activate this option in such cases.
+     * 
+     * @param splevoProject
+     *            The reference to the splevo project.
+     * @param loadLayoutInformation
+     *            Option to let EMF Text resources load layout information.
+     */
+    public LoadVPMJob(SPLevoProject splevoProject, boolean loadLayoutInformation) {
+        this(splevoProject, -1, loadLayoutInformation);
     }
 
     /**
@@ -85,11 +99,7 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
             index = splevoProject.getVpmModelPaths().size() - 1;
         }
 
-        ResourceSet resourceSet = JobUtil.initResourceSet(splevoProject);
-        if (!loadLayoutInformation) {
-            Map<Object, Object> loadOptions = resourceSet.getLoadOptions();
-            loadOptions.put("DISABLE_LAYOUT_INFORMATION_RECORDING", Boolean.TRUE);
-        }
+        ResourceSet resourceSet = JobUtil.initResourceSet(splevoProject, loadLayoutInformation);
 
         VariationPointModel vpm;
         try {

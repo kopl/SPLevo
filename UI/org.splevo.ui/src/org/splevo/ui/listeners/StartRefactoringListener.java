@@ -137,7 +137,7 @@ public class StartRefactoringListener extends MouseAdapter {
         RecommenderResult result = service.recommendMechanisms(vpm, refactorings);
 
         
-        VPMReloadWorkflowDelegate reloadVPMWorkflowDelegate = new VPMReloadWorkflowDelegate(splevoProjectEditor);
+        VPMReloadWorkflowDelegate reloadVPMWorkflowDelegate = new VPMReloadWorkflowDelegate(splevoProjectEditor, true);
         WorkflowListenerUtil.runWorkflowAndRunUITask(reloadVPMWorkflowDelegate, "Reload VPM", null);
         
         
@@ -184,7 +184,7 @@ public class StartRefactoringListener extends MouseAdapter {
         int index = splevoProject.getVpmModelPaths().size() - 1;
         String vpmPath = splevoProject.getVpmModelPaths().get(index);
 
-        ResourceSet rs = JobUtil.initResourceSet(splevoProject);
+        ResourceSet rs = JobUtil.initResourceSet(splevoProject, false);
         try {
             return VPMUtil.loadVariationPointModel(new File(vpmPath), rs);
         } catch (IOException e) {

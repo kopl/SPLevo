@@ -61,7 +61,8 @@ public class InitVPMWorkflowDelegate extends
     @Override
     protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
 
-        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence =
+                new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(new SPLevoBlackBoard());
 
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();

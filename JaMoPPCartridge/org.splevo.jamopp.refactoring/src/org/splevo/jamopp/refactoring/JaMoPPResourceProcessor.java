@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.IJavaTextResource;
 import org.splevo.commons.emf.ReplacementUtil;
@@ -47,15 +48,16 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
 
     @Override
     public void processVPMBeforeRefactoring(VariationPointModel variationPointModel) {
-        for (JaMoPPSoftwareElement se : Iterables.filter(variationPointModel.getSoftwareElements(),
-                JaMoPPSoftwareElement.class)) {
-            replaceJaMoPPSoftwareElementWithCommentableSoftwareElement(se);
-        }
+        // nothing to do here
     }
 
     private void replaceJaMoPPSoftwareElementWithCommentableSoftwareElement(JaMoPPSoftwareElement oldSoftwareElement) {
         final Commentable referencedElement = oldSoftwareElement.getJamoppElement();
 
+        if (referencedElement instanceof CompilationUnit) {
+            return;
+        }
+        
         // add comment to source code
         final String elementID = RefactoringUtil.addCommentableSoftwareElementReference(referencedElement);
         saveJaMoPPModel(referencedElement.eResource());
@@ -78,9 +80,7 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
 
     @Override
     public void processAfterRefactoring(Resource resource) {
-        // if (resource instanceof IJavaTextResource) {
-        // reloadResourceWithLayoutInformation(resource);
-        // }
+        // nothing to do here
     }
 
     private void reloadResourceWithLayoutInformation(Resource resource) {
@@ -95,6 +95,14 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
             resource.load(options);
         } catch (IOException e) {
             LOGGER.error("Could not preprocess JaMoPP resource.", e);
+        }
+    }
+
+    @Override
+    public void processVPMAfterRefactorings(VariationPointModel variationPointModel) {
+        for (JaMoPPSoftwareElement se : Iterables.filter(variationPointModel.getSoftwareElements(),
+                JaMoPPSoftwareElement.class)) {
+            replaceJaMoPPSoftwareElementWithCommentableSoftwareElement(se);
         }
     }
 

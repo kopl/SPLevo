@@ -21,15 +21,19 @@ public class VPMReloadWorkflowDelegate extends
         AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
     private final BasicSPLevoWorkflowConfiguration config = new BasicSPLevoWorkflowConfiguration();
+    private final boolean loadLayoutInformation;
 
     /**
      * Constructs a new delegate.
      * 
      * @param splevoProjectEditor
      *            The SPLevoProjectEditor to be used to determine the current VPM.
+     * @param loadLayoutInformation
+     *            Indicates if layout information shall be loaded.
      */
-    public VPMReloadWorkflowDelegate(SPLevoProjectEditor splevoProjectEditor) {
+    public VPMReloadWorkflowDelegate(SPLevoProjectEditor splevoProjectEditor, boolean loadLayoutInformation) {
         config.setSplevoProjectEditor(splevoProjectEditor);
+        this.loadLayoutInformation = loadLayoutInformation;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class VPMReloadWorkflowDelegate extends
         jobSequence.setBlackboard(new SPLevoBlackBoard());
 
         // load the latest vpm model
-        jobSequence.add(new LoadVPMJob(splevoProject));
+        jobSequence.add(new LoadVPMJob(splevoProject, loadLayoutInformation));
 
         // reload latest vpm model in UI
         jobSequence.add(new OpenVPMJob(splevoProject, null));

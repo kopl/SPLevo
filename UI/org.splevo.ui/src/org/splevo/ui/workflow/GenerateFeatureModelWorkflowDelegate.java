@@ -50,13 +50,14 @@ public class GenerateFeatureModelWorkflowDelegate extends
     @Override
     protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
 
-        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence =
+                new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(new SPLevoBlackBoard());
 
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
 
         // load the diff model
-        LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
+        LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject, true);
         jobSequence.add(loadVPMJob);
 
         // init the vpm

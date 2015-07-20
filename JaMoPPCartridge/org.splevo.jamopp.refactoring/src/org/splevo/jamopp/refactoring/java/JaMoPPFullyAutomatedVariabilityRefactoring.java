@@ -24,7 +24,7 @@ import org.splevo.vpm.software.SoftwareElement;
 public abstract class JaMoPPFullyAutomatedVariabilityRefactoring extends FullyAutomatedVariabilityRefactoring {
 
     private static final Logger LOGGER = Logger.getLogger(JaMoPPFullyAutomatedVariabilityRefactoring.class);
-
+   
     @Override
     protected SoftwareElement createSoftwareElement(EObject eobject) {
         if (!(eobject instanceof Commentable)) {

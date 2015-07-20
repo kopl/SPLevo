@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -32,6 +33,9 @@ import com.google.common.collect.Maps;
  */
 public abstract class JaMoPPJavaSoftwareElementImpl extends MinimalEObjectImpl.Container implements
         JaMoPPJavaSoftwareElement {
+
+    private static final Logger LOGGER = Logger.getLogger(JaMoPPJavaSoftwareElementImpl.class);
+
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
@@ -92,6 +96,12 @@ public abstract class JaMoPPJavaSoftwareElementImpl extends MinimalEObjectImpl.C
     public SourceLocation getSourceLocation() {
 
         Commentable element = resolveJaMoPPElement();
+
+        if (element == null) {
+            LOGGER.warn("Could not resolve JaMoPPElement " + toString() + ".");
+            return null;
+        }
+
         if (!(element.eResource() instanceof JavaResource)) {
             return null;
         }

@@ -1,3 +1,5 @@
+import java.lang.Boolean;
+
 public class Test {
     
     public Test() {

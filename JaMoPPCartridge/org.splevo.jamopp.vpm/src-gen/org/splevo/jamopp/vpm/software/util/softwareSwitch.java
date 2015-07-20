@@ -71,7 +71,7 @@ public class softwareSwitch<T> extends Switch<T> {
     protected T doSwitch(int classifierID, EObject theEObject) {
         switch (classifierID) {
         case softwarePackage.JA_MO_PP_SOFTWARE_ELEMENT: {
-            JaMoPPJavaSoftwareElement jaMoPPSoftwareElement = (JaMoPPJavaSoftwareElement) theEObject;
+            JaMoPPSoftwareElement jaMoPPSoftwareElement = (JaMoPPSoftwareElement) theEObject;
             T result = caseJaMoPPSoftwareElement(jaMoPPSoftwareElement);
             if (result == null)
                 result = caseJaMoPPJavaSoftwareElement(jaMoPPSoftwareElement);
@@ -124,7 +124,7 @@ public class softwareSwitch<T> extends Switch<T> {
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public T caseJaMoPPSoftwareElement(JaMoPPJavaSoftwareElement object) {
+    public T caseJaMoPPSoftwareElement(JaMoPPSoftwareElement object) {
         return null;
     }
 

@@ -45,4 +45,12 @@ public interface ResourceProcessor {
      */
     void processAfterRefactoring(Resource resource);
 
+    /**
+     * Processes the given VPM after the refactoring process has been carried out.
+     * 
+     * @param variationPointModel
+     *            The VPM to be processed.
+     */
+    void processVPMAfterRefactorings(VariationPointModel variationPointModel);
+
 }

@@ -85,10 +85,10 @@ public class DefaultExtractionService implements ExtractionService {
     }
 
     @Override
-    public void prepareResourceSet(ResourceSet resourceSet, List<String> sourceModelPaths) {
+    public void prepareResourceSet(ResourceSet resourceSet, List<String> sourceModelPaths, boolean loadLayoutInformation) {
         Map<String, SoftwareModelExtractor> extractors = getSoftwareModelExtractors();
         for (String key : extractors.keySet()) {
-            extractors.get(key).prepareResourceSet(resourceSet, sourceModelPaths);
+            extractors.get(key).prepareResourceSet(resourceSet, sourceModelPaths, loadLayoutInformation);
         }
     }
 

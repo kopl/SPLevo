@@ -235,9 +235,12 @@ public class CommentableSoftwareElementImpl extends JaMoPPJavaSoftwareElementImp
         }
         return Optional.absent();
     }
-
+    
     @Override
     public Commentable resolveJaMoPPElement() {
+        if (isReferencedElement(getCompilationUnit()).isPresent()) {
+            return getCompilationUnit();
+        }
         TreeIterator<EObject> treeIter = getCompilationUnit().eAllContents();
         while (treeIter.hasNext()) {
             EObject nextItem = treeIter.next();
@@ -246,16 +249,20 @@ public class CommentableSoftwareElementImpl extends JaMoPPJavaSoftwareElementImp
                 continue;
             }
             Commentable commentable = (Commentable) nextItem;
-            if (!containsWantedComment(commentable)) {
+            Optional<? extends Commentable> foundElement = isReferencedElement(commentable);
+            if (!foundElement.isPresent()) {
                 continue;
             }
-            Optional<? extends Commentable> foundElement = findParentOfType(commentable, getType());
-            if (foundElement.isPresent()) {
-                return foundElement.get();
-            }
-            return null;
+            return foundElement.get();
         }
         return null;
+    }
+
+    private Optional<? extends Commentable> isReferencedElement(Commentable commentable) {
+        if (!containsWantedComment(commentable)) {
+            return Optional.absent();
+        }
+        return findParentOfType(commentable, getType());
     }
 
     /**

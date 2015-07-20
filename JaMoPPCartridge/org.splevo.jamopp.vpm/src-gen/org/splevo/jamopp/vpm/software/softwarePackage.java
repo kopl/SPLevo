@@ -424,7 +424,7 @@ public interface softwarePackage extends EPackage {
      * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getLabel()
      * @generated
      */
-    EOperation getJaMoPPJavaSoftwareElement__GetLabel_1();
+    EOperation getJaMoPPJavaSoftwareElement__GetLabel();
 
     /**
      * Returns the meta object for the '
@@ -435,7 +435,7 @@ public interface softwarePackage extends EPackage {
      * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getName()
      * @generated
      */
-    EOperation getJaMoPPJavaSoftwareElement__GetName_1();
+    EOperation getJaMoPPJavaSoftwareElement__GetName();
 
     /**
      * Returns the meta object for the '
@@ -446,7 +446,7 @@ public interface softwarePackage extends EPackage {
      * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getWrappedElement()
      * @generated
      */
-    EOperation getJaMoPPJavaSoftwareElement__GetWrappedElement_1();
+    EOperation getJaMoPPJavaSoftwareElement__GetWrappedElement();
 
     /**
      * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!--
@@ -554,7 +554,7 @@ public interface softwarePackage extends EPackage {
          * 
          * @generated
          */
-        EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_LABEL = eINSTANCE.getJaMoPPJavaSoftwareElement__GetLabel_1();
+        EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_LABEL = eINSTANCE.getJaMoPPJavaSoftwareElement__GetLabel();
 
         /**
          * The meta object literal for the '<em><b>Get Name</b></em>' operation. <!-- begin-user-doc
@@ -562,7 +562,7 @@ public interface softwarePackage extends EPackage {
          * 
          * @generated
          */
-        EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_NAME = eINSTANCE.getJaMoPPJavaSoftwareElement__GetName_1();
+        EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_NAME = eINSTANCE.getJaMoPPJavaSoftwareElement__GetName();
 
         /**
          * The meta object literal for the '<em><b>Get Wrapped Element</b></em>' operation. <!--
@@ -571,7 +571,7 @@ public interface softwarePackage extends EPackage {
          * @generated
          */
         EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = eINSTANCE
-                .getJaMoPPJavaSoftwareElement__GetWrappedElement_1();
+                .getJaMoPPJavaSoftwareElement__GetWrappedElement();
 
     }
 
