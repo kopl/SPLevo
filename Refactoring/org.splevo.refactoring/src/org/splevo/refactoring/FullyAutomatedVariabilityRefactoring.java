@@ -44,7 +44,7 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
 
     private final Map<EObject, EObject> replacements = Maps.newHashMap();
     private final Map<String, Set<EObject>> variantSpecificelements = Maps.newHashMap();
-
+   
     @Override
     public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
         List<Resource> changedResources = refactorFullyAutomated(variationPoint, refactoringConfigurations);
@@ -74,6 +74,19 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
      */
     protected abstract SoftwareElement createSoftwareElement(EObject eobject);
 
+    /**
+     * Executes the given replacement associated with the variation point.
+     * @param replacement The replacement to be executed.
+     * @param variationPoint The associated variation point.
+     */
+    protected void executeReplacement(Map.Entry<EObject, EObject> replacement, VariationPoint variationPoint) {
+        LOGGER.debug(String.format("Replacing %s with %s.", replacement.getKey(), replacement.getValue()));
+        // TODO most probably, it is cheaper to write a special replacer that targets
+        // SoftwareElements containted in the variation point only.
+        ReplacementUtil.replaceCrossReferences(replacement.getKey(), replacement.getValue(), variationPoint
+                .eResource().getResourceSet());
+    }
+    
     /**
      * Clones a given EObject. Use this method if you intend to move a variant-specific element.
      * E.g. if you want to copy an integration copy statement to the leading copy, use this method.
@@ -127,7 +140,15 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
         variantSpecificelements.get(variantId).add(eobject);
     }
 
-    private void registerReplacement(EObject original, EObject replacement) {
+    /**
+     * Registers a replacement. Please consider using clone() instead of this method.
+     * 
+     * @param original
+     *            The original element that is replaced.
+     * @param replacement
+     *            The replacement for the original object.
+     */
+    protected void registerReplacement(EObject original, EObject replacement) {
         if (replacements.containsKey(original)) {
             LOGGER.debug(String
                     .format("Registered duplicate replacement for %s. Old entry %s is replaced with new entry %s.",
@@ -251,10 +272,7 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
         PartitionedReplacements partitionedReplacements = partitionReplacements(replacementsClosure, variantSpecificelements);
 
         for (Map.Entry<EObject, EObject> replacement : partitionedReplacements.getApply()) {
-            // TODO we possibly could restrict the cross reference check to the VPM
-            LOGGER.debug(String.format("Replacing %s with %s.", replacement.getKey(), replacement.getValue()));
-            ReplacementUtil.replaceCrossReferences(replacement.getKey(), replacement.getValue(), variationPoint
-                    .eResource().getResourceSet());
+            executeReplacement(replacement, variationPoint);
         }
 
         for (Map.Entry<EObject, EObject> replacement : partitionedReplacements.getDelete()) {

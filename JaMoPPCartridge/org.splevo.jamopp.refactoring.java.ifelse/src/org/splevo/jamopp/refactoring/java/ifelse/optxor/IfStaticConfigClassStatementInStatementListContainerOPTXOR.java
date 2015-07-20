@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.commons.Commentable;
@@ -79,9 +78,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
 
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
 
-        Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();
         for (Variant variant : variationPoint.getVariants()) {
-            Condition variantCondition = generateVariantCondition(variant, localVariableStatements, replacements);
+            Condition variantCondition = generateVariantCondition(variant, localVariableStatements);
             vpLocation.getStatements().add(variabilityPositionEnd++, variantCondition);
         }
 
@@ -102,14 +100,12 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
         if (configResource != null) {
             resourceList.add(configResource);
         }
-
-        RefactoringUtil.fixCrossReferencesAfterReplacements(replacements, variationPoint);
         
         return resourceList;
     }
 
     private Condition generateVariantCondition(Variant variant,
-            Map<String, LocalVariableStatement> localVariableStatements, Map<EObject, EObject> replacements) {
+            Map<String, LocalVariableStatement> localVariableStatements) {
         VariationPoint variationPoint = variant.getVariationPoint();
 
         String variantId = variant.getId();
@@ -130,7 +126,11 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
 
                 RefactoringUtil.removeFinalIfApplicable(variable);
 
-                statement = RefactoringUtil.extractAssignment(variable);
+                {
+                    Statement oldStatement = statement;
+                    statement = RefactoringUtil.extractAssignment(variable);
+                    registerReplacement(oldStatement, statement);                    
+                }
                 Type variableType = variable.getTypeReference().getTarget();
                 variable.setInitialValue(RefactoringUtil.getDefaultValueForType(variableType));
 
@@ -143,7 +143,6 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
 
             if (statement != null) {
                 ((Block) currentCondition.getStatement()).getStatements().add(statement);
-                replacements.put(originalStatement, statement);
             }
         }
 
