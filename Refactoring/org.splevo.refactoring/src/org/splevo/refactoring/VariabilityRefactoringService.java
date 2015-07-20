@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.Diagnostic;
+//import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.Diagnostician;
+//import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.splevo.refactoring.RecommenderResult.Status;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -149,7 +149,7 @@ public class VariabilityRefactoringService {
     private VariabilityRefactoring getBestMatchingRefactoring(VariationPoint vp,
             List<VariabilityRefactoring> refactorings) {
         
-        for (int i = 0; i < refactorings.size(); i++) {
+        /*for (int i = 0; i < refactorings.size(); i++) {
             VariabilityMechanism refactoring = refactorings.get(i).getVariabilityMechanism();     
             
             vp.setVariabilityMechanism(refactoring);           
@@ -159,9 +159,9 @@ public class VariabilityRefactoringService {
             }
             vp.setVariabilityMechanism(null);
         }        
-        return null;
+        return null;*/
         //If any errors should appear, replace above code with the following:
-        //return refactorings.get(0);
+        return refactorings.get(0);
     }
 
 }
