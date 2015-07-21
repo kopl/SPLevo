@@ -75,14 +75,17 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
     protected abstract SoftwareElement createSoftwareElement(EObject eobject);
 
     /**
-     * Executes the given replacement associated with the variation point.
-     * @param replacement The replacement to be executed.
-     * @param variationPoint The associated variation point.
+     * Executes the given replacement associated with the variation point. This is quite time
+     * consuming because the replacement is carried out in a generic way. If possible, try to
+     * provide another specialized implementation for the technology-specific refactorings.
+     * 
+     * @param replacement
+     *            The replacement to be executed.
+     * @param variationPoint
+     *            The associated variation point.
      */
     protected void executeReplacement(Map.Entry<EObject, EObject> replacement, VariationPoint variationPoint) {
         LOGGER.debug(String.format("Replacing %s with %s.", replacement.getKey(), replacement.getValue()));
-        // TODO most probably, it is cheaper to write a special replacer that targets
-        // SoftwareElements containted in the variation point only.
         ReplacementUtil.replaceCrossReferences(replacement.getKey(), replacement.getValue(), variationPoint
                 .eResource().getResourceSet());
     }
