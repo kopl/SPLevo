@@ -196,9 +196,9 @@ public class ProcessControlTab extends AbstractDashboardTab {
      */
     private boolean vpmAvailable() {
         SPLevoProject splevoProject = getSPLevoProject();
-        if (splevoProject.getVpmModelPaths().size() > 0) {
+        if (splevoProject.getVpmModelReferences().size() > 0) {
             String vpmPath = WorkspaceUtil.getAbsoluteFromWorkspaceRelativePath(Iterables.getLast(splevoProject
-                    .getVpmModelPaths()));
+                    .getVpmModelReferences()).getPath());
             return new File(vpmPath).canRead();
         }
         return false;

@@ -17,6 +17,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.splevo.project.*;
 import org.splevo.project.ProjectPackage;
 import org.splevo.project.SPLProfile;
 import org.splevo.project.SPLevoProject;
@@ -89,6 +90,10 @@ public class ProjectAdapterFactory extends AdapterFactoryImpl {
                 return createSPLProfileAdapter();
             }
             @Override
+            public Adapter caseVPMModelReference(VPMModelReference object) {
+                return createVPMModelReferenceAdapter();
+            }
+            @Override
             public Adapter defaultCase(EObject object) {
                 return createEObjectAdapter();
             }
@@ -146,6 +151,20 @@ public class ProjectAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createSPLProfileAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.splevo.project.VPMModelReference <em>VPM Model Reference</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.splevo.project.VPMModelReference
+     * @generated
+     */
+    public Adapter createVPMModelReferenceAdapter() {
         return null;
     }
 

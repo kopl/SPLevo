@@ -72,7 +72,7 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
             addVariantNameLeadingPropertyDescriptor(object);
             addVariantNameIntegrationPropertyDescriptor(object);
             addDiffingModelPathPropertyDescriptor(object);
-            addVpmModelPathsPropertyDescriptor(object);
+            addVpmModelReferencesPropertyDescriptor(object);
             addDiffingFilterRulesPropertyDescriptor(object);
             addDifferIdsPropertyDescriptor(object);
             addDifferOptionsPropertyDescriptor(object);
@@ -302,28 +302,6 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
     }
 
 	/**
-     * This adds a property descriptor for the Vpm Model Paths feature.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	protected void addVpmModelPathsPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_SPLevoProject_vpmModelPaths_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_SPLevoProject_vpmModelPaths_feature", "_UI_SPLevoProject_type"),
-                 ProjectPackage.Literals.SP_LEVO_PROJECT__VPM_MODEL_PATHS,
-                 true,
-                 false,
-                 false,
-                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-                 null,
-                 null));
-    }
-
-	/**
      * This adds a property descriptor for the Diffing Filter Rules feature.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -412,6 +390,28 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
     }
 
     /**
+     * This adds a property descriptor for the Vpm Model References feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void addVpmModelReferencesPropertyDescriptor(Object object) {
+        itemPropertyDescriptors.add
+            (createItemPropertyDescriptor
+                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+                 getResourceLocator(),
+                 getString("_UI_SPLevoProject_vpmModelReferences_feature"),
+                 getString("_UI_PropertyDescriptor_description", "_UI_SPLevoProject_vpmModelReferences_feature", "_UI_SPLevoProject_type"),
+                 ProjectPackage.Literals.SP_LEVO_PROJECT__VPM_MODEL_REFERENCES,
+                 true,
+                 false,
+                 true,
+                 null,
+                 null,
+                 null));
+    }
+
+    /**
      * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
      * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
      * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -488,7 +488,6 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
             case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
             case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
-            case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:

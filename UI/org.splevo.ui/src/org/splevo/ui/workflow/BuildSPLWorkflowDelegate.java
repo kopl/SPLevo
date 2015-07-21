@@ -64,7 +64,7 @@ public class BuildSPLWorkflowDelegate extends
         jobSequence.setBlackboard(blackboard);
         
         // save and reload vpm model
-        jobSequence.add(new SaveAndReloadVPMJob(splevoProject, "refactored"));
+        jobSequence.add(new SaveAndReloadVPMJob(splevoProject, "refactored", false));
 
         // load the latest vpm model in the blackboard
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
@@ -78,7 +78,7 @@ public class BuildSPLWorkflowDelegate extends
         jobSequence.add(new RefreshLeadingCopyProjects(splevoProject));
         
         // load the latest vpm model in the blackboard
-        LoadVPMJob loadVPMJobAfterRefactoring = new LoadVPMJob(splevoProject, true);
+        LoadVPMJob loadVPMJobAfterRefactoring = new LoadVPMJob(splevoProject);
         jobSequence.add(loadVPMJobAfterRefactoring);
         
         // reload latest vpm model in UI

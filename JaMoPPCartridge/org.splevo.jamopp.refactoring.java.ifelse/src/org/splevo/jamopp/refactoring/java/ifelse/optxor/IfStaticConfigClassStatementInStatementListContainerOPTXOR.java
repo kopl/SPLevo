@@ -126,11 +126,9 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
 
                 RefactoringUtil.removeFinalIfApplicable(variable);
 
-                {
-                    Statement oldStatement = statement;
-                    statement = RefactoringUtil.extractAssignment(variable);
-                    registerReplacement(oldStatement, statement);                    
-                }
+                Statement oldStatement = statement;
+                statement = RefactoringUtil.extractAssignment(variable);
+                registerReplacement(oldStatement, statement);                    
                 Type variableType = variable.getTypeReference().getTarget();
                 variable.setInitialValue(RefactoringUtil.getDefaultValueForType(variableType));
 

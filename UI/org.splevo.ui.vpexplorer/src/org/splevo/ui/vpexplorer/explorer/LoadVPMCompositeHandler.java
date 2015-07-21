@@ -45,6 +45,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.project.VPMModelReference;
 
 import com.google.common.collect.Iterables;
 
@@ -64,10 +65,10 @@ public class LoadVPMCompositeHandler {
          * 
          * @param project
          *            The corresponding SPLevo project.
-         * @param filePath
-         *            The file path of the VPM as specified in the project file.
+         * @param vpmReference
+         *            The reference to the VPM as specified in the project file.
          */
-        public void loadVPM(SPLevoProject project, String filePath);
+        public void loadVPM(SPLevoProject project, VPMModelReference vpmReference);
     }
 
     /**
@@ -76,25 +77,25 @@ public class LoadVPMCompositeHandler {
      */
     private static class VPMLoadingInformation {
         private final SPLevoProject project;
-        private final String vpmPath;
+        private final VPMModelReference vpmReference;
 
-        public VPMLoadingInformation(SPLevoProject project, String vpmPath) {
+        public VPMLoadingInformation(SPLevoProject project, VPMModelReference vpmReference) {
             super();
             this.project = project;
-            this.vpmPath = vpmPath;
+            this.vpmReference = vpmReference;
         }
 
         public SPLevoProject getProject() {
             return project;
         }
 
-        public String getVpmPath() {
-            return vpmPath;
+        public VPMModelReference getVPMReference() {
+            return vpmReference;
         }
 
         @Override
         public String toString() {
-            return String.format("%s: %s", project.getName(), FilenameUtils.getName(vpmPath));
+            return String.format("%s: %s", project.getName(), FilenameUtils.getName(vpmReference.getPath()));
         }
     }
 
@@ -110,8 +111,8 @@ public class LoadVPMCompositeHandler {
             for (IFile projectFile : projectFiles) {
                 try {
                     SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel(projectFile);
-                    String vpmPath = Iterables.getLast(project.getVpmModelPaths());                        
-                    elements.add(new VPMLoadingInformation(project, vpmPath));
+                    VPMModelReference vpmReference = Iterables.getLast(project.getVpmModelReferences());                        
+                    elements.add(new VPMLoadingInformation(project, vpmReference));
                 } catch (NoSuchElementException e) {
                     continue;
                 } catch (IOException e) {
@@ -208,7 +209,7 @@ public class LoadVPMCompositeHandler {
                 }
 
                 VPMLoadingInformation vpmInformation = (VPMLoadingInformation) cvSelection.getFirstElement();
-                loadVPM(vpmInformation.getProject(), vpmInformation.getVpmPath());
+                loadVPM(vpmInformation.getProject(), vpmInformation.getVPMReference());
             }
         });
 
@@ -321,8 +322,8 @@ public class LoadVPMCompositeHandler {
         });
     }
 
-    private void loadVPM(SPLevoProject project, String vpmPath) {
-        vpmLoader.loadVPM(project, vpmPath);
+    private void loadVPM(SPLevoProject project, VPMModelReference vpmReference) {
+        vpmLoader.loadVPM(project, vpmReference);
     }
 
 }

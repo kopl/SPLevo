@@ -20,6 +20,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.workflow.BasicSPLevoWorkflowConfiguration;
 import org.splevo.ui.workflow.InitVPMWorkflowDelegate;
@@ -57,7 +58,7 @@ public class InitVPMListener extends MouseAdapter {
 
         // if there are existing vpms inform
         // the user that they will be deleted
-        if (config.getSplevoProjectEditor().getSplevoProject().getVpmModelPaths().size() > 0) {
+        if (config.getSplevoProjectEditor().getSplevoProject().getVpmModelReferences().size() > 0) {
             boolean proceed = MessageDialog.openConfirm(shell, "Override existing VPMs", "There are existing VPMs. "
                     + "Initializing a new one will override those existing ones." + "Do you want to proceed?");
             if (!proceed) {
@@ -82,11 +83,11 @@ public class InitVPMListener extends MouseAdapter {
     private void deleteVPMs(SPLevoProject splevoProject) {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         String basePath = workspace.getRoot().getRawLocation().toOSString();
-        for (String vpmPath : splevoProject.getVpmModelPaths()) {
-            String modelPath = basePath + vpmPath;
+        for (VPMModelReference vpmReference : splevoProject.getVpmModelReferences()) {
+            String modelPath = basePath + vpmReference.getPath();
             new File(modelPath).delete();
         }
-        splevoProject.getVpmModelPaths().clear();
+        splevoProject.getVpmModelReferences().clear();
 
     }
 

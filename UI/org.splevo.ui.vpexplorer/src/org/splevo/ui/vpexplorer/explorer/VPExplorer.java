@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
 import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerToolTip;
 import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.explorer.LoadVPMCompositeHandler.VPMLoader;
@@ -181,9 +182,9 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator, V
     }
 
     @Override
-    public void loadVPM(SPLevoProject project, String vpmPath) {
+    public void loadVPM(SPLevoProject project, VPMModelReference vpmReference) {
         LOGGER.info("Loading VPM");
-        VPMUIUtil.openVPExplorer(project, vpmPath);
+        VPMUIUtil.openVPExplorer(project, vpmReference);
     }
 
     /**

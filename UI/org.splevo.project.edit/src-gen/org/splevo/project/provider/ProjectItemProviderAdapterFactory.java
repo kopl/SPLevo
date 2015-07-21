@@ -149,6 +149,29 @@ public class ProjectItemProviderAdapterFactory extends ProjectAdapterFactory
     }
 
     /**
+     * This keeps track of the one adapter used for all {@link org.splevo.project.VPMModelReference} instances.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected VPMModelReferenceItemProvider vpmModelReferenceItemProvider;
+
+    /**
+     * This creates an adapter for a {@link org.splevo.project.VPMModelReference}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Adapter createVPMModelReferenceAdapter() {
+        if (vpmModelReferenceItemProvider == null) {
+            vpmModelReferenceItemProvider = new VPMModelReferenceItemProvider(this);
+        }
+
+        return vpmModelReferenceItemProvider;
+    }
+
+    /**
      * This returns the root adapter factory that contains this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -251,6 +274,7 @@ public class ProjectItemProviderAdapterFactory extends ProjectAdapterFactory
         if (spLevoProjectItemProvider != null) spLevoProjectItemProvider.dispose();
         if (differOptionItemProvider != null) differOptionItemProvider.dispose();
         if (splProfileItemProvider != null) splProfileItemProvider.dispose();
+        if (vpmModelReferenceItemProvider != null) vpmModelReferenceItemProvider.dispose();
     }
 
 }

@@ -30,6 +30,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
 import org.splevo.ui.commons.util.JobUtil;
 import org.splevo.ui.vpexplorer.explorer.VPExplorer;
 import org.splevo.vpm.VPMUtil;
@@ -49,17 +50,7 @@ public final class VPMUIUtil {
     private VPMUIUtil() {
     }
 
-    /**
-     * Open the VPExplorer encapsulated in an Eclipse UI job to provide an appropriate feedback
-     * about the processing to the user.
-     * 
-     * @param splevoProject
-     *            The project to initialize the {@link ResourceSet}, e.g. for cache improved loading
-     *            etc.
-     * @param vpmPath
-     *            The variation point model to open.
-     */
-    public static void openVPExplorer(final SPLevoProject splevoProject, final String vpmPath) {
+    private static void openVPExplorer(final SPLevoProject splevoProject, final String vpmPath, final boolean loadLayout) {
         Job job = new Job("Open VP Explorer") {
 
             @Override
@@ -67,7 +58,7 @@ public final class VPMUIUtil {
                 monitor.beginTask("Open VPExplorer", IProgressMonitor.UNKNOWN);
 
                 monitor.subTask("Load Variation Point Model");
-                VariationPointModel vpm = loadVPM(splevoProject, vpmPath, monitor);
+                VariationPointModel vpm = loadVPM(splevoProject, vpmPath, loadLayout, monitor);
                 if (vpm == null) {
                     return Status.CANCEL_STATUS;
                 }
@@ -142,10 +133,10 @@ public final class VPMUIUtil {
      * cancel this operation, which means that the current VPM version remains the same.
      * 
      * @param splevoProject The SPLevo project for which the VPM version shall be switched.
-     * @param vpmPath The file path of the VPM as noted in the project file.
+     * @param vpmReference The reference to the VPM as noted in the project file.
      */
-    public static void switchBackVPMVersion(final SPLevoProject splevoProject, final String vpmPath) {
-        Job switchBackJob = new SwitchBackVPMJob(splevoProject, vpmPath);
+    public static void switchBackVPMVersion(final SPLevoProject splevoProject, final VPMModelReference vpmReference) {
+        Job switchBackJob = new SwitchBackVPMJob(splevoProject, vpmReference);
         switchBackJob.setUser(true);
         switchBackJob.schedule();
     }
@@ -174,14 +165,9 @@ public final class VPMUIUtil {
     }
 
     private static VariationPointModel loadVPM(final SPLevoProject splevoProject, final String vpmPath,
-            final IProgressMonitor monitor) {
+            final boolean loadLayoutInformation, final IProgressMonitor monitor) {
         VariationPointModel vpm = null;
         File vpmFile = new File(vpmPath);
-        boolean loadLayoutInformation = false;
-        // TODO Ugly hack to determine if layout information is necessary.
-        if (vpmFile != null && vpmFile.getName().startsWith("refactored-vpm")) {
-            loadLayoutInformation = true;
-        }
         ResourceSet resSet = JobUtil.initResourceSet(splevoProject, loadLayoutInformation);
         try {
             vpm = VPMUtil.loadVariationPointModel(vpmFile, resSet);
@@ -209,6 +195,20 @@ public final class VPMUIUtil {
                 MessageDialog.openError(shell, title, message);
             }
         });
+    }
+
+    /**
+     * Open the VPExplorer encapsulated in an Eclipse UI job to provide an appropriate feedback
+     * about the processing to the user.
+     * 
+     * @param splevoProject
+     *            The project to initialize the {@link ResourceSet}, e.g. for cache improved loading
+     *            etc.
+     * @param vpmModelReference
+     *            The variation point model to open.
+     */
+    public static void openVPExplorer(SPLevoProject splevoProject, VPMModelReference vpmModelReference) {
+        openVPExplorer(splevoProject, vpmModelReference.getPath(), vpmModelReference.isRefactoringStarted());
     }
 
 }

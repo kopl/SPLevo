@@ -49,6 +49,15 @@ public interface ProjectFactory extends EFactory {
     SPLProfile createSPLProfile();
 
     /**
+     * Returns a new object of class '<em>VPM Model Reference</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>VPM Model Reference</em>'.
+     * @generated
+     */
+    VPMModelReference createVPMModelReference();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

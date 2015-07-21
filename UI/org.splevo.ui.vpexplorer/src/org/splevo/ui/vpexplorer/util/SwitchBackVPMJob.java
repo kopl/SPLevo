@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
 import org.splevo.ui.commons.util.WorkspaceUtil;
 
 import com.google.common.base.Predicate;
@@ -27,17 +28,17 @@ public class SwitchBackVPMJob extends Job {
 
     private static final Logger LOGGER = Logger.getLogger(SwitchBackVPMJob.class);
     private final SPLevoProject splevoProject;
-    private final String vpmPath;
+    private final VPMModelReference vpmReference;
 
     /**
      * Constructs the switch back job.
      * @param splevoProject The project containing the VPM to revert to.
-     * @param vpmPath The path of the VPM as noted in the project model.
+     * @param vpmReference The reference to the VPM as noted in the project model.
      */
-    public SwitchBackVPMJob(SPLevoProject splevoProject, String vpmPath) {
+    public SwitchBackVPMJob(SPLevoProject splevoProject, VPMModelReference vpmReference) {
         super("Switch Back VPM Version");
         this.splevoProject = splevoProject;
-        this.vpmPath = vpmPath;
+        this.vpmReference = vpmReference;
     }
 
     @Override
@@ -45,24 +46,24 @@ public class SwitchBackVPMJob extends Job {
         monitor.beginTask("Switch Back VPM Version", IProgressMonitor.UNKNOWN);
 
         monitor.subTask("Remove obsolete VPMs from project");
-        Iterable<String> filteredModels = Iterables.filter(splevoProject.getVpmModelPaths(), new Predicate<String>() {
+        Iterable<VPMModelReference> filteredModels = Iterables.filter(splevoProject.getVpmModelReferences(), new Predicate<VPMModelReference>() {
             private boolean afterSelected = false;
 
             @Override
-            public boolean apply(String arg0) {
+            public boolean apply(VPMModelReference arg0) {
                 if (afterSelected) {
                     return true;
                 }
-                afterSelected = arg0.equals(vpmPath);
+                afterSelected = arg0.equals(vpmReference);
                 return false;
             }
         });
-        List<String> obsoleteModels = Lists.newArrayList(filteredModels);
+        List<VPMModelReference> obsoleteModels = Lists.newArrayList(filteredModels);
 
-        for (String vpmFile : obsoleteModels) {
-            new File(WorkspaceUtil.getAbsoluteFromWorkspaceRelativePath(vpmFile)).delete();
+        for (VPMModelReference reference : obsoleteModels) {
+            new File(WorkspaceUtil.getAbsoluteFromWorkspaceRelativePath(reference.getPath())).delete();
         }
-        splevoProject.getVpmModelPaths().removeAll(obsoleteModels);
+        splevoProject.getVpmModelReferences().removeAll(obsoleteModels);
 
         monitor.subTask("Save project");
         try {
@@ -74,7 +75,7 @@ public class SwitchBackVPMJob extends Job {
         }
 
         monitor.subTask("Shedule loading of the new VPM");
-        VPMUIUtil.openVPExplorer(splevoProject, vpmPath);
+        VPMUIUtil.openVPExplorer(splevoProject, vpmReference);
 
         monitor.done();
         return Status.OK_STATUS;

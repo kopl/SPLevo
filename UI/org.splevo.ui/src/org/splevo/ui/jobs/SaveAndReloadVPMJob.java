@@ -19,31 +19,24 @@ import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
  * Job that saves the VPM into a new file and reloads it in the UI.
  */
 public class SaveAndReloadVPMJob extends SequentialBlackboardInteractingJob<SPLevoBlackBoard> {
-    
-    /**
-     * Constructs the job. The new file name will include the incremented version counter.
-     * @param splevoProject The SPLevoProject containing the project information such as the list of VPMs.
-     */
-    public SaveAndReloadVPMJob(SPLevoProject splevoProject) {
-        addJobs(splevoProject, getTargetPath(splevoProject));
-    }
-    
+       
     /**
      * Constructs the job. The new file name will include the given path segment.
      * @param splevoProject The SPLevoProject containing the project information such as the list of VPMs.
      * @param pathSegment The identifier to be used in the new VPM file name.
+     * @param refactoringStarted 
      */
-    public SaveAndReloadVPMJob(SPLevoProject splevoProject, String pathSegment) {
-        addJobs(splevoProject, getTargetPath(splevoProject, pathSegment));
+    public SaveAndReloadVPMJob(SPLevoProject splevoProject, String pathSegment, boolean refactoringStarted) {
+        addJobs(splevoProject, getTargetPath(splevoProject, pathSegment), refactoringStarted);
     }
 
-    private void addJobs(SPLevoProject splevoProject, String targetPath) {
+    private void addJobs(SPLevoProject splevoProject, String targetPath, boolean refactoringStarted) {
         // load latest vpm model in blackboard
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
         add(loadVPMJob);
         
         // save the latest vpm model
-        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
+        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath, refactoringStarted);
         add(saveVPMJob);
         
         // load latest vpm model in blackboard
@@ -52,10 +45,6 @@ public class SaveAndReloadVPMJob extends SequentialBlackboardInteractingJob<SPLe
 
         // open the model
         add(new OpenVPMJob(splevoProject, null));
-    }
-    
-    private static String getTargetPath(SPLevoProject splevoProject) {
-        return splevoProject.getWorkspace() + String.format("models/vpms/%d-vpm.vpm", splevoProject.getVpmModelPaths().size());
     }
     
     private static String getTargetPath(SPLevoProject splevoProject, String pathSegment) {

@@ -98,7 +98,8 @@ public class DiffConnector {
     }
 	
 	private VariationPointModel getVP() {
-		File vpmModelFile = new File(splevoProject.getVpmModelPaths().get(splevoProject.getVpmModelPaths().size() - 1));
+        File vpmModelFile = new File(splevoProject.getVpmModelReferences()
+                .get(splevoProject.getVpmModelReferences().size() - 1).getPath());
 		
 		try {
 			return VPMUtil.loadVariationPointModel(vpmModelFile, new ResourceSetImpl());

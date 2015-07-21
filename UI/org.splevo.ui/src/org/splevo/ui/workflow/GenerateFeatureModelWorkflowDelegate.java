@@ -57,7 +57,7 @@ public class GenerateFeatureModelWorkflowDelegate extends
         SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
 
         // load the diff model
-        LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject, true);
+        LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
         jobSequence.add(loadVPMJob);
 
         // init the vpm

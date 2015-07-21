@@ -95,7 +95,7 @@ public class InitVPMWorkflowDelegate extends
 
         // save the model
         String targetPath = splevoProject.getWorkspace() + "models/vpms/initial-vpm.vpm";
-        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
+        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath, false);
         jobSequence.add(saveVPMJob);
 
         // open the model
@@ -103,7 +103,7 @@ public class InitVPMWorkflowDelegate extends
         // Some services, such as the "Open Source Location" action in the VPExplorer
         // need the detailed location information.
         // jobSequence.add(new OpenVPMJob());
-        jobSequence.add(new OpenVPMJob(splevoProject, targetPath));
+        jobSequence.add(new OpenVPMJob(splevoProject, null));
 
         // return the prepared workflow
         return jobSequence;

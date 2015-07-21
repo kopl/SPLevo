@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.splevo.project.*;
 import org.splevo.project.ProjectPackage;
 import org.splevo.project.SPLProfile;
 import org.splevo.project.SPLevoProject;
@@ -95,6 +96,12 @@ public class ProjectSwitch<T> extends Switch<T> {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case ProjectPackage.VPM_MODEL_REFERENCE: {
+                VPMModelReference vpmModelReference = (VPMModelReference)theEObject;
+                T result = caseVPMModelReference(vpmModelReference);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
     }
@@ -141,6 +148,21 @@ public class ProjectSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseSPLProfile(SPLProfile object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>VPM Model Reference</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>VPM Model Reference</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseVPMModelReference(VPMModelReference object) {
         return null;
     }
 
