@@ -166,7 +166,7 @@ public interface ProjectPackage extends EPackage {
 	int SP_LEVO_PROJECT__DIFFING_MODEL_PATH = 9;
 
 	/**
-     * The feature id for the '<em><b>Vpm Model References</b></em>' reference list.
+     * The feature id for the '<em><b>Vpm Model References</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -525,10 +525,10 @@ public interface ProjectPackage extends EPackage {
     EAttribute getSPLevoProject_FmBuilderId();
 
     /**
-     * Returns the meta object for the reference list '{@link org.splevo.project.SPLevoProject#getVpmModelReferences <em>Vpm Model References</em>}'.
+     * Returns the meta object for the containment reference list '{@link org.splevo.project.SPLevoProject#getVpmModelReferences <em>Vpm Model References</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Vpm Model References</em>'.
+     * @return the meta object for the containment reference list '<em>Vpm Model References</em>'.
      * @see org.splevo.project.SPLevoProject#getVpmModelReferences()
      * @see #getSPLevoProject()
      * @generated
@@ -796,7 +796,7 @@ public interface ProjectPackage extends EPackage {
         EAttribute SP_LEVO_PROJECT__FM_BUILDER_ID = eINSTANCE.getSPLevoProject_FmBuilderId();
 
         /**
-         * The meta object literal for the '<em><b>Vpm Model References</b></em>' reference list feature.
+         * The meta object literal for the '<em><b>Vpm Model References</b></em>' containment reference list feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated

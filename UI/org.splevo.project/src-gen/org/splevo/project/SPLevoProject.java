@@ -392,7 +392,7 @@ public interface SPLevoProject extends EObject {
     void setFmBuilderId(String value);
 
     /**
-     * Returns the value of the '<em><b>Vpm Model References</b></em>' reference list.
+     * Returns the value of the '<em><b>Vpm Model References</b></em>' containment reference list.
      * The list contents are of type {@link org.splevo.project.VPMModelReference}.
      * <!-- begin-user-doc -->
      * <p>
@@ -400,9 +400,9 @@ public interface SPLevoProject extends EObject {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Vpm Model References</em>' reference list.
+     * @return the value of the '<em>Vpm Model References</em>' containment reference list.
      * @see org.splevo.project.ProjectPackage#getSPLevoProject_VpmModelReferences()
-     * @model
+     * @model containment="true"
      * @generated
      */
     EList<VPMModelReference> getVpmModelReferences();

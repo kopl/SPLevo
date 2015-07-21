@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -233,7 +234,7 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
     protected String diffingModelPath = DIFFING_MODEL_PATH_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getVpmModelReferences() <em>Vpm Model References</em>}' reference list.
+     * The cached value of the '{@link #getVpmModelReferences() <em>Vpm Model References</em>}' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #getVpmModelReferences()
@@ -619,7 +620,7 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
      */
     public EList<VPMModelReference> getVpmModelReferences() {
         if (vpmModelReferences == null) {
-            vpmModelReferences = new EObjectResolvingEList<VPMModelReference>(VPMModelReference.class, this, ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_REFERENCES);
+            vpmModelReferences = new EObjectContainmentEList<VPMModelReference>(VPMModelReference.class, this, ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_REFERENCES);
         }
         return vpmModelReferences;
     }
@@ -643,6 +644,8 @@ public class SPLevoProjectImpl extends EObjectImpl implements SPLevoProject {
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
+            case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_REFERENCES:
+                return ((InternalEList<?>)getVpmModelReferences()).basicRemove(otherEnd, msgs);
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
                 return ((InternalEList<?>)getDifferOptions()).basicRemove(otherEnd, msgs);
             case ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE:
