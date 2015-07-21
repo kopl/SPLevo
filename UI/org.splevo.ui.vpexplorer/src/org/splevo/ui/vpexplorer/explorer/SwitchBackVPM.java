@@ -52,7 +52,7 @@ public class SwitchBackVPM extends Action {
 
         @Override
         public void runWithEvent(Event event) {
-            Shell shell = event.widget.getDisplay().getShells()[0];
+            Shell shell = event.widget.getDisplay().getActiveShell();
             boolean confirmed = MessageDialog.openQuestion(shell, "Switch Back VPM Version", String.format(
                     "You want to switch back to %s, which removes all later versions. Do you want to continue?",
                     getText()));

@@ -56,7 +56,7 @@ public class OpenVPMListener extends MouseAdapter {
         SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
         EList<VPMModelReference> vpmModelReferences = splevoProject.getVpmModelReferences();
         if (vpmModelReferences.size() == 0) {
-            Shell shell = Display.getDefault().getShells()[0];
+            Shell shell = Display.getDefault().getActiveShell();
             MessageDialog.openError(shell, "No VPM to open", "There is Variation Point Model to be opened");
             logger.error("Tried to open VPM from a SPLevoProject that does not contain any");
             return;

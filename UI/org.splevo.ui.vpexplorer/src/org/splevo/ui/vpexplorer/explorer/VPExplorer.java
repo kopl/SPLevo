@@ -23,9 +23,14 @@ import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.TreeExpansionEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.contexts.IContextActivation;
+import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.VPMModelReference;
@@ -71,6 +76,9 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator, V
 
     /** Id to reference the view inside eclipse. */
     public static final String VIEW_ID = "org.splevo.ui.vpexplorer";
+
+    /** Id to reference the context of feature online inside eclipse. */
+    private static final String CONTEXT_ID = "org.splevo.ui.vpexplorer.context";
 
     private static final Logger LOGGER = Logger.getLogger(VPExplorer.class);
 
@@ -179,6 +187,24 @@ public class VPExplorer extends CommonNavigator implements ILinkableNavigator, V
                 }
             }
         });
+        
+        FocusListener focusListener = new FocusListener() {
+            private IContextActivation activation;
+            
+            @Override
+            public void focusGained(FocusEvent e) {
+                activation = ((IContextService) PlatformUI.getWorkbench().getService(IContextService.class))
+                        .activateContext(CONTEXT_ID);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                ((IContextService) PlatformUI.getWorkbench().getService(IContextService.class))
+                        .deactivateContext(activation);              
+            }          
+            
+        };        
+        this.getCommonViewer().getTree().addFocusListener(focusListener);
     }
 
     @Override

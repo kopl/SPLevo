@@ -191,7 +191,7 @@ public final class VPMUIUtil {
         Display.getDefault().syncExec(new Runnable() {
             @Override
             public void run() {
-                Shell shell = Display.getDefault().getShells()[0];
+                Shell shell = Display.getDefault().getActiveShell();
                 MessageDialog.openError(shell, title, message);
             }
         });
