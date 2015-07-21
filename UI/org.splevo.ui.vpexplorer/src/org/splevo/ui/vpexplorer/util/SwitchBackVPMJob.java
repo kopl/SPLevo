@@ -46,18 +46,19 @@ public class SwitchBackVPMJob extends Job {
         monitor.beginTask("Switch Back VPM Version", IProgressMonitor.UNKNOWN);
 
         monitor.subTask("Remove obsolete VPMs from project");
-        Iterable<VPMModelReference> filteredModels = Iterables.filter(splevoProject.getVpmModelReferences(), new Predicate<VPMModelReference>() {
-            private boolean afterSelected = false;
+        Iterable<VPMModelReference> filteredModels = Iterables.filter(splevoProject.getVpmModelReferences(),
+                new Predicate<VPMModelReference>() {
+                    private boolean afterSelected = false;
 
-            @Override
-            public boolean apply(VPMModelReference arg0) {
-                if (afterSelected) {
-                    return true;
-                }
-                afterSelected = arg0.equals(vpmReference);
-                return false;
-            }
-        });
+                    @Override
+                    public boolean apply(VPMModelReference arg0) {
+                        if (afterSelected) {
+                            return true;
+                        }
+                        afterSelected = arg0.equals(vpmReference);
+                        return false;
+                    }
+                });
         List<VPMModelReference> obsoleteModels = Lists.newArrayList(filteredModels);
 
         for (VPMModelReference reference : obsoleteModels) {
