@@ -16,17 +16,17 @@ public class RenameVariationHandler extends ChangeSingleElementHandler {
     @Override
     protected Wizard createWizardFor(Object selectedObject) {
         if (selectedObject instanceof VariationPointGroup) {
-            return renameVariationPointGroup(selectedObject);
+            return renameVariationPointGroup((VariationPointGroup) selectedObject);
         } else if (selectedObject instanceof VariationPoint) {
-            return renameVariationPoint(selectedObject);
+            return renameVariationPoint((VariationPoint) selectedObject);
         }
         return null;
     }
     
-    private Wizard renameVariationPointGroup(Object selectedObject) {
+    private Wizard renameVariationPointGroup(VariationPointGroup selectedObject) {
         
         RenameEObjectEAttributeWrapper wrapper = new RenameEObjectEAttributeWrapper("Variation Point Group",
-                (VariationPointGroup) selectedObject, variabilityPackage.eINSTANCE.getCustomizableNameHaving_Name()) {
+                selectedObject, variabilityPackage.eINSTANCE.getCustomizableNameHaving_Name()) {
                     @Override
                     public String getAttributeValue() {
                         return ((CustomizableNameHaving) getElement()).getName();
@@ -36,9 +36,9 @@ public class RenameVariationHandler extends ChangeSingleElementHandler {
         return new RenameElementWizard(wrapper);
     }
 
-    private Wizard renameVariationPoint(Object selectedObject) {
+    private Wizard renameVariationPoint(VariationPoint selectedObject) {
         RenameEObjectEAttributeWrapper wrapper = new RenameEObjectEAttributeWrapper("Variation Point",
-                (VariationPoint) selectedObject, variabilityPackage.eINSTANCE.getCustomizableNameHaving_Name());
+                selectedObject, variabilityPackage.eINSTANCE.getCustomizableNameHaving_Name());
 
         return new RenameElementWizard(wrapper);
     }
