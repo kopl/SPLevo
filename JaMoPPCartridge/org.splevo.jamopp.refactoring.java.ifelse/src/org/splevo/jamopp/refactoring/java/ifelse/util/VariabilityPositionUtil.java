@@ -24,7 +24,7 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -45,18 +45,18 @@ public class VariabilityPositionUtil {
      * @return The position.
      */
     public static int getVariabilityPosition(VariationPoint variationPoint) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
 
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
-                Statement firstLeadingImplElement = (Statement) ((JaMoPPSoftwareElement) variant
+                Statement firstLeadingImplElement = (Statement) ((JaMoPPJavaSoftwareElement) variant
                         .getImplementingElements().get(0)).getJamoppElement();
                 return JaMoPPElementUtil.getPositionInContainer(firstLeadingImplElement);
             }
         }
 
-        Statement firstImplElement = (Statement) ((JaMoPPSoftwareElement) variationPoint.getVariants().get(0)
+        Statement firstImplElement = (Statement) ((JaMoPPJavaSoftwareElement) variationPoint.getVariants().get(0)
                 .getImplementingElements().get(0)).getJamoppElement();
         StatementListContainer integrationContainer = (StatementListContainer) firstImplElement.eContainer();
         int posInIntegration = JaMoPPElementUtil.getPositionInContainer(firstImplElement);
@@ -100,7 +100,7 @@ public class VariabilityPositionUtil {
     }
 
     private static int searchInVPLocation(VariationPoint variationPoint, List<Statement> predecessors) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
 
         int predecessorPos = 0;
@@ -131,7 +131,7 @@ public class VariabilityPositionUtil {
     }
 
     private static int getNumVariantsFor(VariationPoint variationPoint, String variableName) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
 
         VariationPointModel vpm = variationPoint.getGroup().getModel();
@@ -139,13 +139,13 @@ public class VariabilityPositionUtil {
         int numVariants = 0;
         for (VariationPointGroup vpg : vpm.getVariationPointGroups()) {
             for (VariationPoint vp : vpg.getVariationPoints()) {
-                Commentable currentVPL = ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+                Commentable currentVPL = ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
                 if (currentVPL != vpLocation) {
                     continue;
                 }
                 for (Variant v : vp.getVariants()) {
                     for (SoftwareElement se : v.getImplementingElements()) {
-                        Commentable element = ((JaMoPPSoftwareElement) se).getJamoppElement();
+                        Commentable element = ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                         if (element instanceof LocalVariableStatement
                                 && ((LocalVariableStatement) element).getVariable().getName().equals(variableName)) {
                             numVariants++;

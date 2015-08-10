@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.ui.sourceconnection.jdt;
 
+
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
@@ -21,6 +22,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
@@ -37,6 +39,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.SimpleMarkerAnnotation;
+import org.eclipse.wb.swt.ResourceManager;
 import org.splevo.ui.refinementbrowser.RefinementDetailsView;
 import org.splevo.vpm.software.JavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
@@ -60,6 +63,8 @@ import com.google.common.collect.Lists;
  * Those actions are separated to provide enough control to reset a file and highlight several code
  * locations with individual messages afterwards.
  */
+
+@SuppressWarnings("restriction")
 public class JavaEditorConnector {
 
     private static Logger logger = Logger.getLogger(RefinementDetailsView.class);
@@ -69,6 +74,10 @@ public class JavaEditorConnector {
     public static final String LOCATION_MARKER = "org.splevo.ui.markers.codelocationmarker.variant";
     public static final String LOCATION_MARKER_VARIANT_SINGLE = "org.splevo.ui.markers.codelocation.variant.single";
     public static final String LOCATION_MARKER_ATTRIBUTE_VARIANT = "org.splevo.ui.markers.attribute.variant";
+    
+    private static final String ICON = "icons/leading.png";
+    private static final String PLUGIN = "org.splevo.ui";
+    
 
     /**
      * Open the java editor for a specific source location.
@@ -197,6 +206,7 @@ public class JavaEditorConnector {
 
         IDocumentProvider idp = editor.getDocumentProvider();
         IEditorInput editorInput = editor.getEditorInput();
+        
         IDocument document = idp.getDocument(editorInput);
         IAnnotationModel annotationModel = idp.getAnnotationModel(editorInput);
 
@@ -204,7 +214,22 @@ public class JavaEditorConnector {
         SimpleMarkerAnnotation annotation = new SimpleMarkerAnnotation(annotationType, marker);
         annotationModel.connect(document);
         annotationModel.addAnnotation(annotation, new Position(selection.getOffset(), selection.getLength()));
-        annotationModel.disconnect(document);
+        annotationModel.disconnect(document);        
+    }
+    
+    /**
+     * Change the icon of the editor that shows the leading copy.
+     * 
+     * @param editor 
+     *          the editor to check if it shows the leading copy
+     * @param variant 
+     *          the variant to decide if it is the leading variant
+     */
+    public void setImageIcon(ITextEditor editor, Variant variant) {
+        if (variant.getLeading() && editor instanceof JavaEditor) {
+            JavaEditor jEditor = (JavaEditor) editor;
+            jEditor.updatedTitleImage(ResourceManager.getPluginImage(PLUGIN, ICON));
+        }
     }
 
     private String getAnnotationType(Variant variant) {

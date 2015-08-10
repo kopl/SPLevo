@@ -93,4 +93,17 @@ public class ResourceProcessorService {
         }
     }
 
+    /**
+     * Postprocess the given VPM after the refactoring by applying all available processors to it.
+     * 
+     * @param variationPointModel
+     *            The VPM to be processed.
+     */
+    public void processVPMAfterRefactorings(VariationPointModel variationPointModel) {
+        final List<ResourceProcessor> processors = RESOURCE_PROCESSOR_REGISTRY.getElements();
+        for (ResourceProcessor processor : processors) {
+            processor.processVPMAfterRefactorings(variationPointModel);
+        }
+    }
+
 }

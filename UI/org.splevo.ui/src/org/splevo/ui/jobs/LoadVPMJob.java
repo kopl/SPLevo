@@ -12,11 +12,11 @@
 package org.splevo.ui.jobs;
 
 import java.io.File;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
 import org.splevo.ui.commons.util.JobUtil;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.software.SoftwarePackage;
@@ -39,9 +39,6 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
      */
     private final int targetVPMIndex;
 
-    /** Option to let EMF Text resources load layout information. */
-    private boolean loadLayoutInformation = false;
-
     /**
      * Constructor to set a reference to the splevoproject.
      *
@@ -49,8 +46,7 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
      *            The reference to the splevoproject.
      */
     public LoadVPMJob(SPLevoProject splevoProject) {
-        this.splevoProject = splevoProject;
-        this.targetVPMIndex = -1;
+        this(splevoProject, -1);
     }
 
     /**
@@ -64,13 +60,10 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
      *            The reference to the splevo project.
      * @param targetVPMIndex
      *            The index of the VPM to load.
-     * @param loadLayoutInformation
-     *            Option to let EMF Text resources load layout information.
      */
-    public LoadVPMJob(SPLevoProject splevoProject, int targetVPMIndex, boolean loadLayoutInformation) {
+    public LoadVPMJob(SPLevoProject splevoProject, int targetVPMIndex) {
         this.splevoProject = splevoProject;
         this.targetVPMIndex = targetVPMIndex;
-        this.loadLayoutInformation = loadLayoutInformation;
     }
 
     @Override
@@ -82,18 +75,16 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
 
         int index = targetVPMIndex;
         if (targetVPMIndex == -1) {
-            index = splevoProject.getVpmModelPaths().size() - 1;
+            index = splevoProject.getVpmModelReferences().size() - 1;
         }
 
-        ResourceSet resourceSet = JobUtil.initResourceSet(splevoProject);
-        if (!loadLayoutInformation) {
-            Map<Object, Object> loadOptions = resourceSet.getLoadOptions();
-            loadOptions.put("DISABLE_LAYOUT_INFORMATION_RECORDING", Boolean.TRUE);
-        }
+        VPMModelReference vpmReference = splevoProject.getVpmModelReferences().get(index);
+        
+        ResourceSet resourceSet = JobUtil.initResourceSet(splevoProject, vpmReference.isRefactoringStarted());
 
         VariationPointModel vpm;
         try {
-            File vpmFile = new File(splevoProject.getVpmModelPaths().get(index));
+            File vpmFile = new File(vpmReference.getPath());
             vpm = VPMUtil.loadVariationPointModel(vpmFile, resourceSet);
         } catch (Exception e) {
             throw new JobFailedException("Failed to load vpm model.", e);

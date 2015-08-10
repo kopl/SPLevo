@@ -115,6 +115,6 @@ public class CleanProjectHandler extends AbstractHandler {
 		project.setDiffingModelPath(null);
 		project.setSourceModelPathIntegration(null);
 		project.setSourceModelPathLeading(null);
-		project.getVpmModelPaths().clear();
+		project.getVpmModelReferences().clear();
 	}
 }

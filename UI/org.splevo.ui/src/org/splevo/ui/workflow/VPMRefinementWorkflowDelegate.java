@@ -21,6 +21,8 @@ import org.splevo.ui.jobs.SetRefinementsJob;
 import org.splevo.ui.jobs.SetVPMJob;
 import org.splevo.ui.jobs.VPMApplyRefinementsJob;
 
+import com.google.common.collect.Iterables;
+
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
@@ -69,9 +71,10 @@ public class VPMRefinementWorkflowDelegate extends
         jobSequence.add(vpmApplyRefinementsJob);
 
         // save the latest vpm model
-        String modelNamePrefix = "" + splevoProject.getVpmModelPaths().size();
+        String modelNamePrefix = "" + splevoProject.getVpmModelReferences().size();
         String targetPath = splevoProject.getWorkspace() + "models/vpms/" + modelNamePrefix + "-vpm.vpm";
-        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath);
+        boolean refactoringStarted = Iterables.getLast(splevoProject.getVpmModelReferences()).isRefactoringStarted();
+        SaveVPMJob saveVPMJob = new SaveVPMJob(splevoProject, targetPath, refactoringStarted);
         jobSequence.add(saveVPMJob);
 
         // open the model

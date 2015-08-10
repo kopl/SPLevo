@@ -821,7 +821,7 @@ public final class RefactoringTestUtil {
 
     public static void assertValidVPM(VariationPoint vp) throws IOException {
         for (Variant v : vp.getVariants()) {
-            OuterLoop: for (SoftwareElement swe : v.getImplementingElements()) {
+            OuterLoop: for (SoftwareElement swe : v.getImplementingElements()) {               
                 EObject wantedObject = swe.getWrappedElement();
                 TreeIterator<EObject> content = vp.getLocation().getWrappedElement().eAllContents();
                 while (content.hasNext()) {
@@ -829,7 +829,7 @@ public final class RefactoringTestUtil {
                         break OuterLoop;
                     }
                 }
-                fail(String.format("The referenced object %s is not contained in the JaMoPP resource.", wantedObject.toString()));
+                fail(String.format("The referenced object %s (resource %s) is not contained in the leading resource %s.", wantedObject.toString(), wantedObject.eResource(), vp.getLocation().getWrappedElement().eResource()));
             }
         }
     }

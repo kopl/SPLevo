@@ -183,7 +183,7 @@ public class ReferenceCacheTest {
     private ResourceSet initNewResourceSet(List<String> cacheFileDirs) {
         ResourceSet resourceSet = new ResourceSetImpl();
         JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
-        extractor.prepareResourceSet(resourceSet, cacheFileDirs);
+        extractor.prepareResourceSet(resourceSet, cacheFileDirs, false);
         return resourceSet;
     }
 

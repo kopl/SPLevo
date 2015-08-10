@@ -20,6 +20,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.vpexplorer.util.VPMUIUtil;
 
@@ -53,15 +54,15 @@ public class OpenVPMListener extends MouseAdapter {
     public void mouseUp(MouseEvent e) {
 
         SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
-        EList<String> vpmModelPaths = splevoProject.getVpmModelPaths();
-        if (vpmModelPaths.size() == 0) {
-            Shell shell = Display.getDefault().getShells()[0];
+        EList<VPMModelReference> vpmModelReferences = splevoProject.getVpmModelReferences();
+        if (vpmModelReferences.size() == 0) {
+            Shell shell = Display.getDefault().getActiveShell();
             MessageDialog.openError(shell, "No VPM to open", "There is Variation Point Model to be opened");
             logger.error("Tried to open VPM from a SPLevoProject that does not contain any");
             return;
         }
 
-        String vpmPath = vpmModelPaths.get(vpmModelPaths.size() - 1);
-        VPMUIUtil.openVPExplorer(splevoProject, vpmPath);
+        VPMModelReference vpmModelReference = vpmModelReferences.get(vpmModelReferences.size() - 1);
+        VPMUIUtil.openVPExplorer(splevoProject, vpmModelReference);
     }
 }

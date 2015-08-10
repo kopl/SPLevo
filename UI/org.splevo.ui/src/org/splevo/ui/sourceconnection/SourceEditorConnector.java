@@ -69,6 +69,7 @@ public class SourceEditorConnector {
         String message = String.format("Implementation of Variant %s", variant.getId());
 
         ITextEditor editor = null;
+
         for (SoftwareElement softwareElement : variant.getImplementingElements()) {
             if (softwareElement instanceof JavaSoftwareElement) {
 
@@ -78,6 +79,7 @@ public class SourceEditorConnector {
         }
         if (editor != null) {
             javaEditorConnector.highlightInTextEditor(editor, message, variant);
+            javaEditorConnector.setImageIcon(editor, variant);
         }
     }
 

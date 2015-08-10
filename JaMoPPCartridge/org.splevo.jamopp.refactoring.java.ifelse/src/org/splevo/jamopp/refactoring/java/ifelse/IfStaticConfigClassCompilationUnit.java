@@ -23,7 +23,7 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -63,7 +63,7 @@ public class IfStaticConfigClassCompilationUnit extends JaMoPPFullyAutomatedVari
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                CompilationUnit compilationUnit = (CompilationUnit) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                CompilationUnit compilationUnit = (CompilationUnit) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                 wrapCompUnitInNewResourceSet(resourceSet, compilationUnit, sourcePath);
             }
         }
@@ -98,7 +98,7 @@ public class IfStaticConfigClassCompilationUnit extends JaMoPPFullyAutomatedVari
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof CompilationUnit;
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,

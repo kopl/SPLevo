@@ -20,7 +20,7 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -48,14 +48,14 @@ public class IfStaticConfigClassImport extends JaMoPPFullyAutomatedVariabilityRe
 
     @Override
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Import i = (Import) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Import i = (Import) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                 if (!RefactoringUtil.containsImport(vpLocation, i)) {
                     vpLocation.getImports().add(clone(i));
                 }
@@ -67,7 +67,7 @@ public class IfStaticConfigClassImport extends JaMoPPFullyAutomatedVariabilityRe
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof CompilationUnit;
         boolean allImplementingElementsAreImports = RefactoringUtil.allImplementingElementsOfType(variationPoint,

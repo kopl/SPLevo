@@ -20,7 +20,7 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.Constructor;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -48,14 +48,14 @@ public class IfStaticConfigClassConstructor extends JaMoPPFullyAutomatedVariabil
 
     @Override
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Class vpLocation = (Class) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Constructor constructor = (Constructor) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Constructor constructor = (Constructor) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                 if (!RefactoringUtil.hasConstructorWithEqualParameters(vpLocation, constructor)) {
                     vpLocation.getMembers().add(clone(constructor));
                 }
@@ -67,7 +67,7 @@ public class IfStaticConfigClassConstructor extends JaMoPPFullyAutomatedVariabil
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof Class;
         boolean allImplementingElementsAreConstructors = RefactoringUtil.allImplementingElementsOfType(variationPoint,

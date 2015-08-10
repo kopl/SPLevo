@@ -32,6 +32,7 @@
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.refactoring"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.refactoring.java.ifelse"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.refactoring.java.ifelse.tests"/>
+<project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.refactoring.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.ui"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.ui.tests"/>
 <project reference="1.0,https://github.com/kopl/SPLevo.git,master,JaMoPPCartridge/org.splevo.jamopp.util"/>
@@ -124,6 +125,7 @@
 <item elementID="=org.splevo.jamopp.extraction.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.splevo.jamopp.feature" type="4"/>
 <item elementID="=org.splevo.jamopp.refactoring" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=org.splevo.jamopp.refactoring.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.refactoring.java.ifelse" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item elementID="=org.splevo.jamopp.refactoring.java.ifelse.tests" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.splevo.jamopp.refactoring.refactory.ifelse" type="4"/>

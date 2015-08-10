@@ -43,7 +43,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
@@ -129,7 +129,7 @@ public class IfStaticConfigClassFieldTest {
         refactoring.refactor(vp, configurations);
         
         // location has two fields
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Class vpLocation = (Class) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMembers().size(), equalTo(2));
         assertThat(vpLocation.getMembers().get(0), instanceOf(Field.class));
         assertThat(vpLocation.getMembers().get(1), instanceOf(Field.class));
@@ -165,7 +165,7 @@ public class IfStaticConfigClassFieldTest {
         refactoring.refactor(vp, configurations);
 
         // location has two members where one is a field
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Class vpLocation = (Class) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMembers().size(), equalTo(2));
         Matcher<Iterable<Member>> hasItems = hasItems(instanceOf(Field.class), instanceOf(Block.class));
         assertThat(vpLocation.getMembers(), hasItems);

@@ -30,6 +30,7 @@ import org.splevo.jamopp.diffing.jamoppdiff.MethodChange;
 import org.splevo.jamopp.diffing.jamoppdiff.PackageChange;
 import org.splevo.jamopp.diffing.jamoppdiff.StatementChange;
 import org.splevo.jamopp.diffing.jamoppdiff.util.JaMoPPDiffSwitch;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.vpm.variability.Variant;
@@ -60,7 +61,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
     private Comparison comparison = null;
 
     /** Registry to store already created software elements. */
-    private Map<Commentable, JaMoPPSoftwareElement> elementRegistry = Maps.newLinkedHashMap();
+    private Map<Commentable, JaMoPPJavaSoftwareElement> elementRegistry = Maps.newLinkedHashMap();
 
     /**
      * Constructor to set the variant ids.
@@ -287,7 +288,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
 
         // Top level elements might not have parent.
         if (parentNode != null) {
-            JaMoPPSoftwareElement enclosingSoftwareElement = createSoftwareElement(parentNode);
+            JaMoPPJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(parentNode);
             variationPoint.setLocation(enclosingSoftwareElement);
         }
 
@@ -309,7 +310,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
      */
     private VariationPoint createVariationPointDelete(Commentable element, Commentable enclosingCommentable) {
 
-        JaMoPPSoftwareElement enclosingSoftwareElement = createSoftwareElement(enclosingCommentable);
+        JaMoPPJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(enclosingCommentable);
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
@@ -352,7 +353,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
     private VariationPoint createVariationPointChange(Commentable commentableLeft, Commentable commentableRight,
             Commentable parent) {
 
-        JaMoPPSoftwareElement enclosingSoftwareElement = createSoftwareElement(parent);
+        JaMoPPJavaSoftwareElement enclosingSoftwareElement = createSoftwareElement(parent);
 
         // create the variation point
         VariationPoint variationPoint = variabilityFactory.eINSTANCE.createVariationPoint();
@@ -418,7 +419,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
      */
     private Variant createVariant(Commentable commentable, Boolean leading, String variantID) {
 
-        JaMoPPSoftwareElement softwareElement = createSoftwareElement(commentable);
+        JaMoPPJavaSoftwareElement softwareElement = createSoftwareElement(commentable);
 
         Variant integrationVariant = null;
         integrationVariant = variabilityFactory.eINSTANCE.createVariant();
@@ -429,7 +430,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
     }
 
     /**
-     * Create a software element wrapping an Commentable.
+     * Create a software element wrapping a Commentable.
      *
      * Uses a registry map to prevent creating multiple SoftwareElements for the same Commentable.
      *
@@ -437,7 +438,7 @@ class JaMoPPDiffVisitor extends JaMoPPDiffSwitch<VariationPoint> {
      *            The Commentable to link.
      * @return The prepared software element.
      */
-    private JaMoPPSoftwareElement createSoftwareElement(Commentable commentable) {
+    private JaMoPPJavaSoftwareElement createSoftwareElement(Commentable commentable) {
 
         if (elementRegistry.containsKey(commentable)) {
             return elementRegistry.get(commentable);

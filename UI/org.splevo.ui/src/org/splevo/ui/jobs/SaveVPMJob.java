@@ -33,18 +33,23 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
     /** The path to write the model to. */
     private String targetPath;
 
+    private boolean refactoringStarted;
+
     /**
      * Constructor to set the reference to the splevo project and the target path to write the model
      * to.
-     *
+     * 
      * @param splevoProject
      *            The project to update.
      * @param targetPath
      *            The eclipse workspace relative path to write to.
+     * @param refactoringStarted
+     *            Indicates if a refactoring has already been started for the VPM.
      */
-    public SaveVPMJob(SPLevoProject splevoProject, String targetPath) {
+    public SaveVPMJob(SPLevoProject splevoProject, String targetPath, boolean refactoringStarted) {
         this.splevoProject = splevoProject;
         this.targetPath = targetPath;
+        this.refactoringStarted = refactoringStarted;
     }
 
     @Override
@@ -55,7 +60,7 @@ public class SaveVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         logger.info("Save VPM Model");
         try {
             VPMUtil.save(vpm, new File(targetPath));
-            splevoProject.getVpmModelPaths().add(targetPath);
+            splevoProject.addVPMModelReference(targetPath, refactoringStarted);
         } catch (IOException e) {
             throw new JobFailedException("Failed to save vpm model.", e);
         }

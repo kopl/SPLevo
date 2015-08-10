@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.splevo.project.SPLevoProject#getVariantNameLeading <em>Variant Name Leading</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getVariantNameIntegration <em>Variant Name Integration</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDiffingModelPath <em>Diffing Model Path</em>}</li>
- *   <li>{@link org.splevo.project.SPLevoProject#getVpmModelPaths <em>Vpm Model Paths</em>}</li>
+ *   <li>{@link org.splevo.project.SPLevoProject#getVpmModelReferences <em>Vpm Model References</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDiffingFilterRules <em>Diffing Filter Rules</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDifferIds <em>Differ Ids</em>}</li>
  *   <li>{@link org.splevo.project.SPLevoProject#getDifferOptions <em>Differ Options</em>}</li>
@@ -281,21 +281,6 @@ public interface SPLevoProject extends EObject {
 	void setDiffingModelPath(String value);
 
 	/**
-     * Returns the value of the '<em><b>Vpm Model Paths</b></em>' attribute list.
-     * The list contents are of type {@link java.lang.String}.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * The list of paths to the variation point models. All intermediary models are kept and referenced by this list. The last entry in this list represents the most recent model.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>Vpm Model Paths</em>' attribute list.
-     * @see org.splevo.project.ProjectPackage#getSPLevoProject_VpmModelPaths()
-     * @model
-     * @generated
-     */
-	EList<String> getVpmModelPaths();
-
-	/**
      * Returns the value of the '<em><b>Diffing Filter Rules</b></em>' attribute.
      * The default value is <code>""</code>.
      * <!-- begin-user-doc -->
@@ -405,5 +390,33 @@ public interface SPLevoProject extends EObject {
      * @generated
      */
     void setFmBuilderId(String value);
+
+    /**
+     * Returns the value of the '<em><b>Vpm Model References</b></em>' containment reference list.
+     * The list contents are of type {@link org.splevo.project.VPMModelReference}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Vpm Model References</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Vpm Model References</em>' containment reference list.
+     * @see org.splevo.project.ProjectPackage#getSPLevoProject_VpmModelReferences()
+     * @model containment="true"
+     * @generated
+     */
+    EList<VPMModelReference> getVpmModelReferences();
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * Adds a new VPMModelReference at the end of the current list of references.
+     * <!-- end-model-doc -->
+     * @model pathRequired="true" refactoringStartedRequired="true"
+     *        annotation="http://www.eclipse.org/emf/2002/GenModel body='VPMModelReference reference = ProjectFactory.eINSTANCE.createVPMModelReference();\r\nreference.setPath(path);\r\nreference.setRefactoringStarted(refactoringStarted);\r\ngetVpmModelReferences().add(reference);'"
+     * @generated
+     */
+    void addVPMModelReference(String path, boolean refactoringStarted);
 
 } // SPLevoProject

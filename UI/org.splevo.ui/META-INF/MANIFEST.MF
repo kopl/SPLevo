@@ -40,7 +40,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.zest.core,
  org.eclipse.zest.layouts,
  org.splevo.ui.commons;bundle-version="1.0.0",
- org.eclipse.ui
+ org.eclipse.ui,
+ org.splevo.jamopp.refactoring
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
@@ -48,4 +49,3 @@ Bundle-ClassPath: .,
  lib/opal-0.9.9e.jar
 Export-Package: org.splevo.ui.editors,
  org.splevo.ui.nature
-Import-Package: org.splevo.jamopp.refactoring

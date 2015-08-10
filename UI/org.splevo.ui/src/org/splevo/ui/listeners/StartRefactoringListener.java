@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.splevo.project.SPLProfile;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
 import org.splevo.refactoring.RecommenderResult;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringRegistry;
@@ -33,6 +34,7 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.workflow.BuildSPLWorkflowConfiguration;
 import org.splevo.ui.workflow.BuildSPLWorkflowDelegate;
+import org.splevo.ui.workflow.VPMReloadWorkflowDelegate;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
@@ -81,6 +83,7 @@ public class StartRefactoringListener extends MouseAdapter {
             boolean executeRecommender = askForRecommenderExecution();
             if (executeRecommender) {
                 executeRecommender(vpm);
+                
             }
             return;
         }
@@ -134,6 +137,11 @@ public class StartRefactoringListener extends MouseAdapter {
 
         RecommenderResult result = service.recommendMechanisms(vpm, refactorings);
 
+        
+        VPMReloadWorkflowDelegate reloadVPMWorkflowDelegate = new VPMReloadWorkflowDelegate(splevoProjectEditor);
+        WorkflowListenerUtil.runWorkflowAndRunUITask(reloadVPMWorkflowDelegate, "Reload VPM", null);
+        
+        
         if (result.getUnassignedVariationPoints().isEmpty()) {
             MessageDialog.openInformation(getShell(), "Recommender Succeeded",
                     "All variation points are now successfully assigned with a variability mechanism");
@@ -174,12 +182,12 @@ public class StartRefactoringListener extends MouseAdapter {
 
         SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
 
-        int index = splevoProject.getVpmModelPaths().size() - 1;
-        String vpmPath = splevoProject.getVpmModelPaths().get(index);
+        int index = splevoProject.getVpmModelReferences().size() - 1;
+        VPMModelReference vpmReference = splevoProject.getVpmModelReferences().get(index);
 
-        ResourceSet rs = JobUtil.initResourceSet(splevoProject);
+        ResourceSet rs = JobUtil.initResourceSet(splevoProject, vpmReference.isRefactoringStarted());
         try {
-            return VPMUtil.loadVariationPointModel(new File(vpmPath), rs);
+            return VPMUtil.loadVariationPointModel(new File(vpmReference.getPath()), rs);
         } catch (IOException e) {
             logger.error("Failed to load VPM", e);
         }
@@ -189,7 +197,7 @@ public class StartRefactoringListener extends MouseAdapter {
 
     private boolean checkVPMExists() {
         boolean vpmExistCheck = true;
-        if (splevoProjectEditor.getSplevoProject().getVpmModelPaths().size() == 0) {
+        if (splevoProjectEditor.getSplevoProject().getVpmModelReferences().size() == 0) {
             MessageDialog.openError(getShell(), "Variation Point Model Missing", "No VPM available.");
             vpmExistCheck = false;
         }

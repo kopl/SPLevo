@@ -26,7 +26,7 @@ import org.splevo.jamopp.vpm.analyzer.programdependency.references.DependencyTyp
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.Reference;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelector;
 import org.splevo.jamopp.vpm.analyzer.programdependency.references.ReferenceSelectorRegistry;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.analyzer.AbstractVPMAnalyzer;
 import org.splevo.vpm.analyzer.VPMAnalyzerException;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
@@ -337,8 +337,8 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
         List<SoftwareElement> softwareElements = getVariantsSoftwareElements(vp);
         List<Commentable> jamoppElements = Lists.newArrayList();
         for (SoftwareElement softwareElement : softwareElements) {
-            if (softwareElement instanceof JaMoPPSoftwareElement) {
-                jamoppElements.add(((JaMoPPSoftwareElement) softwareElement).getJamoppElement());
+            if (softwareElement instanceof JaMoPPJavaSoftwareElement) {
+                jamoppElements.add(((JaMoPPJavaSoftwareElement) softwareElement).getJamoppElement());
             }
         }
         return jamoppElements;

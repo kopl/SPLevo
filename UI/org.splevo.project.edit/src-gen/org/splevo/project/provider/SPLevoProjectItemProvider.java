@@ -72,7 +72,6 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
             addVariantNameLeadingPropertyDescriptor(object);
             addVariantNameIntegrationPropertyDescriptor(object);
             addDiffingModelPathPropertyDescriptor(object);
-            addVpmModelPathsPropertyDescriptor(object);
             addDiffingFilterRulesPropertyDescriptor(object);
             addDifferIdsPropertyDescriptor(object);
             addDifferOptionsPropertyDescriptor(object);
@@ -302,28 +301,6 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
     }
 
 	/**
-     * This adds a property descriptor for the Vpm Model Paths feature.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	protected void addVpmModelPathsPropertyDescriptor(Object object) {
-        itemPropertyDescriptors.add
-            (createItemPropertyDescriptor
-                (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-                 getResourceLocator(),
-                 getString("_UI_SPLevoProject_vpmModelPaths_feature"),
-                 getString("_UI_PropertyDescriptor_description", "_UI_SPLevoProject_vpmModelPaths_feature", "_UI_SPLevoProject_type"),
-                 ProjectPackage.Literals.SP_LEVO_PROJECT__VPM_MODEL_PATHS,
-                 true,
-                 false,
-                 false,
-                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-                 null,
-                 null));
-    }
-
-	/**
      * This adds a property descriptor for the Diffing Filter Rules feature.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -423,6 +400,7 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
     public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
         if (childrenFeatures == null) {
             super.getChildrenFeatures(object);
+            childrenFeatures.add(ProjectPackage.Literals.SP_LEVO_PROJECT__VPM_MODEL_REFERENCES);
             childrenFeatures.add(ProjectPackage.Literals.SP_LEVO_PROJECT__SPL_PROFILE);
         }
         return childrenFeatures;
@@ -488,13 +466,13 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
             case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_LEADING:
             case ProjectPackage.SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_MODEL_PATH:
-            case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_PATHS:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFING_FILTER_RULES:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_IDS:
             case ProjectPackage.SP_LEVO_PROJECT__DIFFER_OPTIONS:
             case ProjectPackage.SP_LEVO_PROJECT__FM_BUILDER_ID:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
                 return;
+            case ProjectPackage.SP_LEVO_PROJECT__VPM_MODEL_REFERENCES:
             case ProjectPackage.SP_LEVO_PROJECT__SPL_PROFILE:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
                 return;
@@ -513,6 +491,11 @@ public class SPLevoProjectItemProvider extends ItemProviderAdapter implements
 	protected void collectNewChildDescriptors(
 			Collection<Object> newChildDescriptors, Object object) {
         super.collectNewChildDescriptors(newChildDescriptors, object);
+
+        newChildDescriptors.add
+            (createChildParameter
+                (ProjectPackage.Literals.SP_LEVO_PROJECT__VPM_MODEL_REFERENCES,
+                 ProjectFactory.eINSTANCE.createVPMModelReference()));
 
         newChildDescriptors.add
             (createChildParameter

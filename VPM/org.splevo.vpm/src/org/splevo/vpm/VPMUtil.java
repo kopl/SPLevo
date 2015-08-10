@@ -75,24 +75,36 @@ public class VPMUtil {
     /**
      * Save a project model to a specified file.
      *
-     * @param project
-     *            The project to save.
+     * @param vpm
+     *            The VPM to save.
      * @param filePath
      *            The eclipse workspace relative file path to save to.
      * @throws IOException
      *             identifies that the file could not be written.
      */
-    public static void save(VariationPointModel project, File filePath) throws IOException {
-
-        // try to write to the project file
+    public static void save(VariationPointModel vpm, File filePath) throws IOException {
+        save(vpm, URI.createPlatformResourceURI(filePath.getPath(), true));
+    }
+    
+    /**
+     * Save a project model to a URI.
+     *
+     * @param vpm
+     *            The VPM to save.
+     * @param uri
+     *            The URI to save to.
+     * @throws IOException
+     *             identifies that saving failed.
+     */
+    public static void save(VariationPointModel vpm, URI uri) throws IOException {
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put(VPMUtil.VPM_FILE_EXTENSION, new XMIResourceFactoryImpl());
         ResourceSet resSet = new ResourceSetImpl();
-        final Resource resource = resSet.createResource(URI.createPlatformResourceURI(filePath.getPath(), true));
-        resource.getContents().add(project);
+        final Resource resource = resSet.createResource(uri);
+        resource.getContents().add(vpm);
 
-        resource.save(Collections.EMPTY_MAP);
+        resource.save(Collections.EMPTY_MAP);  
     }
 
     /**

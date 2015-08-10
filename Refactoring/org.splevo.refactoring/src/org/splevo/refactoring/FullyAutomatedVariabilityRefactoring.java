@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.splevo.refactoring;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +31,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
@@ -42,9 +42,9 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
 
     private static final Logger LOGGER = Logger.getLogger(FullyAutomatedVariabilityRefactoring.class);
 
-    private final Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();
-    private final Map<String, Set<EObject>> variantSpecificelements = new HashMap<String, Set<EObject>>();
-
+    private final Map<EObject, EObject> replacements = Maps.newHashMap();
+    private final Map<String, Set<EObject>> variantSpecificelements = Maps.newHashMap();
+   
     @Override
     public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
         List<Resource> changedResources = refactorFullyAutomated(variationPoint, refactoringConfigurations);
@@ -74,6 +74,22 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
      */
     protected abstract SoftwareElement createSoftwareElement(EObject eobject);
 
+    /**
+     * Executes the given replacement associated with the variation point. This is quite time
+     * consuming because the replacement is carried out in a generic way. If possible, try to
+     * provide another specialized implementation for the technology-specific refactorings.
+     * 
+     * @param replacement
+     *            The replacement to be executed.
+     * @param variationPoint
+     *            The associated variation point.
+     */
+    protected void executeReplacement(Map.Entry<EObject, EObject> replacement, VariationPoint variationPoint) {
+        LOGGER.debug(String.format("Replacing %s with %s.", replacement.getKey(), replacement.getValue()));
+        ReplacementUtil.replaceCrossReferences(replacement.getKey(), replacement.getValue(), variationPoint
+                .eResource().getResourceSet());
+    }
+    
     /**
      * Clones a given EObject. Use this method if you intend to move a variant-specific element.
      * E.g. if you want to copy an integration copy statement to the leading copy, use this method.
@@ -127,7 +143,20 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
         variantSpecificelements.get(variantId).add(eobject);
     }
 
-    private void registerReplacement(EObject original, EObject replacement) {
+    /**
+     * Registers a replacement. Please consider using clone() instead of this method.
+     * 
+     * @param original
+     *            The original element that is replaced.
+     * @param replacement
+     *            The replacement for the original object.
+     */
+    protected void registerReplacement(EObject original, EObject replacement) {
+        if (replacements.containsKey(original)) {
+            LOGGER.debug(String
+                    .format("Registered duplicate replacement for %s. Old entry %s is replaced with new entry %s.",
+                    original, replacements.get(original), replacement));
+        }
         replacements.put(original, replacement);
     }
 
@@ -164,7 +193,9 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
         }
     }
 
-    private PartitionedReplacements partitionReplacements() {
+    private static PartitionedReplacements partitionReplacements(Map<EObject, EObject> replacements,
+            Map<String, Set<EObject>> variantSpecificelements) {
+        
         final Set<EObject> allNewVariantSpecificElements = Sets.newHashSet(Iterables.concat(variantSpecificelements
                 .values()));
         Predicate<Map.Entry<EObject, EObject>> partitionPredicate = new Predicate<Map.Entry<EObject, EObject>>() {
@@ -198,6 +229,21 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
         }
     }
 
+    private static Map<EObject, EObject> calculateTransitiveClosure(Map<EObject, EObject> map) {
+        Map<EObject, EObject> closure = Maps.newHashMap();
+        
+        for (Entry<EObject, EObject> entry : map.entrySet()) {
+            EObject start = entry.getKey();
+            EObject end = entry.getValue();
+            while (map.containsKey(end)) {
+                end = map.get(end);           
+            }
+            closure.put(start, end);
+        }
+        
+        return closure;
+    }
+    
     /**
      * Fixes the VPM after the refactoring has been carried out. This is necessary because the
      * elements referenced by the VPM might have been replaced during the refactoring. This leads to
@@ -214,6 +260,7 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
          * - Newly created elements corresponding to a specific variant
          * 
          * What we do:
+         * - calculate the transitive closure of replacements to become independent from execution order
          * - partition the stored replacements in replacements that
          *   - A: shall be applied
          *   - B: are already contained by a newly created element
@@ -223,15 +270,16 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
          * - Add the newly created elements to the VPM
          */
         
-        PartitionedReplacements partitionedReplacements = partitionReplacements();
+        Map<EObject, EObject> replacementsClosure = calculateTransitiveClosure(replacements);
+        
+        PartitionedReplacements partitionedReplacements = partitionReplacements(replacementsClosure, variantSpecificelements);
 
         for (Map.Entry<EObject, EObject> replacement : partitionedReplacements.getApply()) {
-            // TODO we possibly could restrict the cross reference check to the VPM
-            ReplacementUtil.replaceCrossReferences(replacement.getKey(), replacement.getValue(), variationPoint
-                    .eResource().getResourceSet());
+            executeReplacement(replacement, variationPoint);
         }
 
         for (Map.Entry<EObject, EObject> replacement : partitionedReplacements.getDelete()) {
+            LOGGER.debug(String.format("Removing %s from VP.", replacement.getKey()));
             removeSoftwareElement(replacement.getKey(), variationPoint);
         }
 

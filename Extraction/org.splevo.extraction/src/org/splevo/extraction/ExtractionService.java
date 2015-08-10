@@ -15,7 +15,7 @@ public interface ExtractionService {
      * Extract the source model of a list of java projects. One project is the main project while a
      * list of additional projects to analyze can be specified. The reason for one main project is,
      * that this one is used for example for the naming of the root inventory produced etc.
-     *
+     * 
      * @param extractorId
      *            The identifier for the extractor to be triggered.
      * @param projectPaths
@@ -35,7 +35,7 @@ public interface ExtractionService {
     /**
      * Load the software model extractor implementations registered for the according extension
      * point.
-     *
+     * 
      * @return The list of registered software model extractors.
      */
     public Map<String, SoftwareModelExtractor> getSoftwareModelExtractors();
@@ -43,11 +43,13 @@ public interface ExtractionService {
     /**
      * Trigger all registered software model extractors to prepare a resource set according to their
      * needs.
-     *
+     * 
      * @param resourceSet
      *            The resource set to prepare.
      * @param sourceModelPaths
      *            The base directories of the source models.
+     * @param loadLayoutInformation
+     *            Flag to activate loading of layout information.
      */
-    public void prepareResourceSet(ResourceSet resourceSet, List<String> sourceModelPaths);
+    public void prepareResourceSet(ResourceSet resourceSet, List<String> sourceModelPaths, boolean loadLayoutInformation);
 }

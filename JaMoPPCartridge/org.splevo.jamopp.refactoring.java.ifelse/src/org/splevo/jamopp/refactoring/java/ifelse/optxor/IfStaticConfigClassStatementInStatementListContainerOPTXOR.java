@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.commons.Commentable;
@@ -37,7 +36,7 @@ import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.VariabilityPositionUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -68,7 +67,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
 
     @Override
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
 
         CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
@@ -79,9 +78,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
 
         Map<String, LocalVariableStatement> localVariableStatements = new HashMap<String, LocalVariableStatement>();
 
-        Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();
         for (Variant variant : variationPoint.getVariants()) {
-            Condition variantCondition = generateVariantCondition(variant, localVariableStatements, replacements);
+            Condition variantCondition = generateVariantCondition(variant, localVariableStatements);
             vpLocation.getStatements().add(variabilityPositionEnd++, variantCondition);
         }
 
@@ -94,7 +92,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
         }
 
         ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
-        ResourceSet resourceSet = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+        ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
                 .getResourceSet();
         String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
         Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
@@ -102,14 +100,12 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
         if (configResource != null) {
             resourceList.add(configResource);
         }
-
-        RefactoringUtil.fixCrossReferencesAfterReplacements(replacements, variationPoint);
         
         return resourceList;
     }
 
     private Condition generateVariantCondition(Variant variant,
-            Map<String, LocalVariableStatement> localVariableStatements, Map<EObject, EObject> replacements) {
+            Map<String, LocalVariableStatement> localVariableStatements) {
         VariationPoint variationPoint = variant.getVariationPoint();
 
         String variantId = variant.getId();
@@ -118,7 +114,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
         Condition currentCondition = IfElseRefactoringUtil.createVariabilityCondition(variantId, groupName);
 
         for (SoftwareElement se : variant.getImplementingElements()) {
-            Statement originalStatement = (Statement) ((JaMoPPSoftwareElement) se).getJamoppElement();
+            Statement originalStatement = (Statement) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
             Statement statement = clone(originalStatement);
 
             int offset = variant.getImplementingElements().size() - variant.getImplementingElements().indexOf(se);
@@ -130,7 +126,9 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
 
                 RefactoringUtil.removeFinalIfApplicable(variable);
 
+                Statement oldStatement = statement;
                 statement = RefactoringUtil.extractAssignment(variable);
+                registerReplacement(oldStatement, statement);                    
                 Type variableType = variable.getTypeReference().getTarget();
                 variable.setInitialValue(RefactoringUtil.getDefaultValueForType(variableType));
 
@@ -143,7 +141,6 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
 
             if (statement != null) {
                 ((Block) currentCondition.getStatement()).getStatements().add(statement);
-                replacements.put(originalStatement, statement);
             }
         }
 
@@ -151,7 +148,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
     }
 
     private void addMandatoryReturnIfNecessary(VariationPoint variationPoint) {
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) variationPoint
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
 
         Type methodReturnType = ((ClassMethod) vpLocation).getTypeReference().getTarget();
@@ -167,7 +164,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
     private boolean allVariantsHaveAReturn(VariationPoint variationPoint) {
         for (Variant variant : variationPoint.getVariants()) {
             SoftwareElement se = variant.getImplementingElements().get(variant.getImplementingElements().size() - 1);
-            Commentable jamoppElement = ((JaMoPPSoftwareElement) se).getJamoppElement();
+            Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
             if (!(jamoppElement instanceof Return)) {
                 return false;
             }
@@ -177,7 +174,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable vpLocation = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = vpLocation instanceof StatementListContainer;
         boolean allImplementingElementsAreStatements = RefactoringUtil.allImplementingElementsOfType(variationPoint,

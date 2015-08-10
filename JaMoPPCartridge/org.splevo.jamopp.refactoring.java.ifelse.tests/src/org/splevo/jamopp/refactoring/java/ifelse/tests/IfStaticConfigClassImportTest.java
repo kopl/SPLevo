@@ -29,7 +29,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -111,7 +111,7 @@ public class IfStaticConfigClassImportTest {
         IfStaticConfigClassImport refactoring = new IfStaticConfigClassImport();
         refactoring.refactor(vp, null);
 
-        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
 
         // location has two classifier imports
         assertThat(vpLocation.getImports().size(), equalTo(2));
@@ -140,7 +140,7 @@ public class IfStaticConfigClassImportTest {
         IfStaticConfigClassImport refactoring = new IfStaticConfigClassImport();
         refactoring.refactor(vp, null);
 
-        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getImports().size(), equalTo(4));
         assertThat(vpLocation.getImports().get(0), instanceOf(ClassifierImport.class));
         assertThat(vpLocation.getImports().get(1), instanceOf(ClassifierImport.class));

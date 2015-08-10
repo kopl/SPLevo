@@ -22,7 +22,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
@@ -126,7 +126,7 @@ public class CopyVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
                     }
 
                     for (SoftwareElement softwareElement : variant.getImplementingElements()) {
-                        Resource jamoppResource = ((JaMoPPSoftwareElement) softwareElement).getJamoppElement()
+                        Resource jamoppResource = ((JaMoPPJavaSoftwareElement) softwareElement).getJamoppElement()
                                 .eResource();
                         resources.add(jamoppResource);
                     }
