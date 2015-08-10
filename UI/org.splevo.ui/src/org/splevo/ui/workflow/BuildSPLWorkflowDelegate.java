@@ -15,6 +15,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.LoadVPMJob;
+import org.splevo.ui.jobs.OpenTaskViewJob;
 import org.splevo.ui.jobs.RefactorVPMJob;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
 import org.splevo.ui.jobs.SaveAndReloadVPMJob;
@@ -71,6 +72,11 @@ public class BuildSPLWorkflowDelegate extends
         // execute refactorings
         RefactorVPMJob refactorVPMJob = new RefactorVPMJob(splevoProject);
         jobSequence.add(refactorVPMJob);
+        
+        // open task view
+        jobSequence.add(new OpenTaskViewJob());
+        
+        //open cheat sheet job by the list of semit-automated refactorings (from the task view)? or by context menu?
 
         return jobSequence;
     }
