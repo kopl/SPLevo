@@ -19,10 +19,13 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter.SetAndRevertAction;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
+
 import com.google.common.collect.Lists;
 
 /**
@@ -35,7 +38,7 @@ public abstract class PropertySource implements IPropertySource {
 
     private static final String CATEGORY_CHARACTERISTICS = "Variability Characteristics";
 
-    private static Logger logger = Logger.getLogger(VariationPointPropertySource.class);
+    private static Logger logger = Logger.getLogger(PropertySource.class);
 
     protected static final String PROPERTY_ID_EXTENSIBILITY = "extensibile";
     protected static final String PROPERTY_ID_VARIABILITYTYPE = "variabilitytype";
@@ -125,7 +128,34 @@ public abstract class PropertySource implements IPropertySource {
             logger.warn("Unsupported property value set. Property ID: " + id + " Value: " + value);
         }
     }
+    
+    /**
+     * See {@link org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(Object id, Object value)}
+     * @param id the id of the property being set
+     * @param value the new value for the property; <code>null</code> is allowed
+     * @param oldValue the old value for the property
+     * @param vp the variation point, that is being set
+     */
+    protected void setPropertyValue(final Object id, final Object value, final Object oldValue, VariationPoint vp) {
+        boolean changed = VPMAttributeSetter.applyIfPossible(new SetAndRevertAction<VariationPoint>() {
+            
+            @Override
+            public void set(VariationPoint vp) {
+                setPropertyInternal(vp, id, value);
+            }
+            
+            @Override
+            public void revert(VariationPoint vp) {
+                setPropertyInternal(vp, id, oldValue);
+            }
+        }, vp);
 
+        if (changed) {
+            saveVariationPoint(vp);            
+        }
+    }
+    
+    
     /**
      * Saves the variation point.
      * @param vp the variation point to save

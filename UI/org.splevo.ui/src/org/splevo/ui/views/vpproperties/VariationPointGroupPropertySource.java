@@ -15,8 +15,6 @@ import java.util.List;
 
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringRegistry;
-import org.splevo.ui.commons.vpm.VPMAttributeSetter;
-import org.splevo.ui.commons.vpm.VPMAttributeSetter.SetAndRevertAction;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 
@@ -105,26 +103,8 @@ public class VariationPointGroupPropertySource extends PropertySource {
         if (Objects.equal(oldValue, value)) {
             return;
         }
-        boolean[] changed = new boolean[vps.size()];
         for (int i = 0; i < vps.size(); i++) {
-            VariationPoint vp = vps.get(i);
-            changed[i] = VPMAttributeSetter.applyIfPossible(new SetAndRevertAction<VariationPoint>() {                
-                @Override
-                public void set(VariationPoint vp) {
-                    setPropertyInternal(vp, id, value);
-                }
-                
-                @Override
-                public void revert(VariationPoint vp) {
-                    setPropertyInternal(vp, id, oldValue);
-                }
-            }, vp);
-        }
-
-        for (int i = 0; i < vps.size(); i++) {
-            if (changed[i]) {
-                saveVariationPoint(vps.get(i));
-            }
+            setPropertyValue(id, value, oldValue, vps.get(i));
         }
     }
         

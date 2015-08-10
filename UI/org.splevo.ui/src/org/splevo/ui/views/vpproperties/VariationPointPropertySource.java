@@ -13,8 +13,6 @@ package org.splevo.ui.views.vpproperties;
 
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringRegistry;
-import org.splevo.ui.commons.vpm.VPMAttributeSetter;
-import org.splevo.ui.commons.vpm.VPMAttributeSetter.SetAndRevertAction;
 import org.splevo.vpm.variability.VariationPoint;
 
 import com.google.common.base.Objects;
@@ -66,23 +64,7 @@ public class VariationPointPropertySource extends PropertySource {
         final Object oldValue = getPropertyValue(id);
         if (Objects.equal(oldValue, value)) {
             return;
-        }
-        
-        boolean changed = VPMAttributeSetter.applyIfPossible(new SetAndRevertAction<VariationPoint>() {
-            
-            @Override
-            public void set(VariationPoint vp) {
-                setPropertyInternal(vp, id, value);
-            }
-            
-            @Override
-            public void revert(VariationPoint vp) {
-                setPropertyInternal(vp, id, oldValue);
-            }
-        }, vp);
-
-        if (changed) {
-            saveVariationPoint(vp);            
-        }
+        }        
+        setPropertyValue(id, value, oldValue, vp);
     }
 }
