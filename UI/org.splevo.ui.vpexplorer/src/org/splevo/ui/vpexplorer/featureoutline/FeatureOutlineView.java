@@ -28,6 +28,7 @@ import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.explorer.ExplorerMediator;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
 import org.splevo.ui.vpexplorer.featureoutline.actions.NoVariabilityMechanismAction;
+import org.splevo.ui.vpexplorer.featureoutline.actions.ShowVariantAction;
 import org.splevo.ui.vpexplorer.linking.ILinkableNavigator;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -91,11 +92,8 @@ public class FeatureOutlineView extends CommonNavigator implements ILinkableNavi
         getCommonViewer().addSelectionChangedListener(mediator);
         IActionBars actionBars = getViewSite().getActionBars();
         IToolBarManager toolBar = actionBars.getToolBarManager();
-        if (toolBar.getItems().length > 0) {
-            toolBar.insertBefore(toolBar.getItems()[0].getId(), new NoVariabilityMechanismAction(this));            
-        } else {
-            toolBar.add(new NoVariabilityMechanismAction(this));            
-        }
+        toolBar.add(new NoVariabilityMechanismAction(this));    
+        toolBar.add(new ShowVariantAction(this));    
         FocusListener focusListener = new FocusListener() {
             private IContextActivation activation;
             
