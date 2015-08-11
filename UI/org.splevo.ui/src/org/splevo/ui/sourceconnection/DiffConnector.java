@@ -164,8 +164,10 @@ public class DiffConnector {
 							String toAdd = appendCodeForSourceLocation(leadingFileContents, sl.getSourceLocation());
 							for (String curAdd : toAdd.split("\n")) {
 								if (leadingPOIs.contains(leadingCounter)) {
+                                    // dark
 									result.add(generateLeadingLine(leadingCounter, curAdd));
 								} else {
+								    // light
 									result.add(generateLeadingLineBg(leadingCounter, curAdd));
 								}
 								leadingCounter++;
@@ -175,8 +177,10 @@ public class DiffConnector {
 							String toAdd = appendCodeForSourceLocation(integrationFileContents, sl.getSourceLocation());
 							for (String curAdd : toAdd.split("\n")) {
 								if (integrationPOIs.contains(integrationCounter)) {
+                                    // dark
 									result.add(generateIntegrationLine(integrationCounter, curAdd));
 								} else {
+                                    // light
 									result.add(generateIntegrationLineBg(integrationCounter, curAdd));
 								}
 								integrationCounter++;
@@ -320,7 +324,8 @@ public class DiffConnector {
     	int endPos = code.indexOf("\n", sourceLocation.getEndPosition()) - 1;
     	return code.substring(startPos, endPos);
     }
-
+    
+    // lol, code! :D
 	private static String readFileFromLocation(IPath location) {
 		String code = null;
 		try {

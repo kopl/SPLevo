@@ -1,134 +1,138 @@
 package org.splevo.ui.editors;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.jdt.internal.ui.JavaPlugin;
+import org.eclipse.jdt.ui.text.IJavaPartitions;
+import org.eclipse.jdt.ui.text.JavaSourceViewerConfiguration;
+import org.eclipse.jdt.ui.text.JavaTextTools;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.source.CompositeRuler;
+import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IPersistableElement;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.ui.texteditor.IElementStateListener;
+import org.splevo.ui.editors.listener.UnifiedDiffEditorListener;
+import org.splevo.ui.sourceconnection.UnifiedDiffConnector;
 
 /**
  * Implementation of a unified diff editor. At the moment, this is only a non editable viewer for
  * the unified diff.
  */
-public class UnifiedDiffEditor extends EditorPart {
-
-    /**
-     * The editor input of the UnifiedDiffEditor. Basically, it is a wrapper for HTML code.
-     */
-    public static class UnifiedDiffEditorInput implements IEditorInput {
-
-        private String html;
-
-        /**
-         * Constructs the editor input.
-         * 
-         * @param html
-         *            The html code to encapsulate.
-         */
-        public UnifiedDiffEditorInput(String html) {
-            this.html = html;
-        }
-
-        /**
-         * Gets the encapsulated HTML code.
-         * 
-         * @return The HTML code.
-         */
-        public String getHTML() {
-            return html;
-        }
-
-        @SuppressWarnings("rawtypes")
-        @Override
-        public Object getAdapter(Class adapter) {
-            return null;
-        }
-
-        @Override
-        public boolean exists() {
-            return true;
-        }
-
-        @Override
-        public ImageDescriptor getImageDescriptor() {
-            return null;
-        }
-
-        @Override
-        public String getName() {
-            return "Unified Diff";
-        }
-
-        @Override
-        public IPersistableElement getPersistable() {
-            return null;
-        }
-
-        @Override
-        public String getToolTipText() {
-            return "Unified Diff";
-        }
-
-    }
-
+@SuppressWarnings("restriction")
+public class UnifiedDiffEditor extends TextEditor {
     /** The id of the editor. */
     public static final String ID = "org.splevo.ui.editors.UnifiedDiffEditor"; //$NON-NLS-1$
-
-    private Browser browser = null;
+    /** TODO: Comment... */
+    private UnifiedDiffConnector connector;
+    /** TODO: Comment... */
+    private CompositeRuler ruler;
+    
+    /**
+     * Constructs an instance of class {@link UnifiedDiffEditor}.
+     */
+    public UnifiedDiffEditor() {
+        UnifiedDiffEditorListener listener = new UnifiedDiffEditorListener();
+        IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+        IWorkbenchPage page = window.getActivePage();
+        page.addPartListener(listener);
+    }
+    
+    @Override
+    protected void initializeEditor() {
+        super.initializeEditor();
+        
+        // install java source viewer configuration to allow java syntax highlighting
+        JavaTextTools javaTextTools = JavaPlugin.getDefault().getJavaTextTools();
+        JavaSourceViewerConfiguration sourceViewerConfiguration = new JavaSourceViewerConfiguration(
+                javaTextTools.getColorManager(), 
+                JavaPlugin.getDefault().getCombinedPreferenceStore(), 
+                this, IJavaPartitions.JAVA_PARTITIONING);
+        setSourceViewerConfiguration(sourceViewerConfiguration);
+        
+        // install document provider
+        // FIXME: setDocumentProvider(new UnifiedDiffDocumentProvider());
+    }
 
     @Override
     public void doSave(IProgressMonitor monitor) {
+        // Do nothing when 'Save' action is performed
         monitor.done();
     }
 
     @Override
     public void doSaveAs() {
-    }
-
-    @Override
-    public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-        if (!(input instanceof UnifiedDiffEditorInput)) {
-            throw new PartInitException(String.format("The given editor input has to be of type %s.",
-                    UnifiedDiffEditorInput.class.getName()));
-        }
-        setSite(site);
-        setInput(input);
-        setHTMLTextIfAvailable();
+        // Do nothing when 'Save As' action is performed
     }
 
     @Override
     public boolean isDirty() {
+        // Never mark editable file as dirty (="content has changed")
+        return false;
+    }
+
+    @Override
+    public boolean isEditable() {
+        // Mark Editor as not editable.
         return false;
     }
 
     @Override
     public boolean isSaveAsAllowed() {
+        // Saving is not allowed
         return false;
     }
 
     @Override
-    public void createPartControl(Composite parent) {
-        parent.setLayout(new FillLayout());
-        if (browser != null) {
-            browser.dispose();
-        }
-        browser = new Browser(parent, SWT.NONE);
-        setHTMLTextIfAvailable();
+    public void dispose() {
+        super.dispose();
     }
 
     @Override
-    public void setFocus() {
+    public void editorContextMenuAboutToShow(IMenuManager menu)
+    {
+        // removes all not needed menu items
+        menu.removeAll();
     }
 
-    private void setHTMLTextIfAvailable() {
-        if (browser != null && getEditorInput() != null && getEditorInput() instanceof UnifiedDiffEditorInput) {
-            browser.setText(((UnifiedDiffEditorInput) getEditorInput()).getHTML());
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void createPartControl(Composite parent)
+    {
+        super.createPartControl(parent);
+        
+        // create unified difference connector
+        //IEditorInput input = getEditorInput();
+        //IFile leadingFile = (input instanceof IFileEditorInput) ? ((IFileEditorInput) input).getFile() : null;
+        
+        // create working copy for leading document and set input and title
+//        FileEditorInput unifiedDiffFile;
+//        try
+//        {
+//            unifiedDiffFile = (FileEditorInput) createWorkingCopyFor(leadingFile);
+//        }
+//        catch (CoreException | IOException e)
+//        {
+//            unifiedDiffFile = null;
+//            e.printStackTrace();
+//        }
+//        setInput(unifiedDiffFile);
+        
+        setPartName("Unified Diff");
+        
+        //connector = new UnifiedDiffConnector(unifiedDiffFile.getFile(), leadingFile);
+        
+        // create unified columns
+//        UnifiedDiffConnectorContent connectorContent = connector.getConnectorContent();
+//        UnifiedDiffRulerColumn leadingColumn = new UnifiedDiffRulerColumn(0, connectorContent.getConnectedLineNumbers());
+//        ruler.addDecorator(0, leadingColumn);
     }
 }

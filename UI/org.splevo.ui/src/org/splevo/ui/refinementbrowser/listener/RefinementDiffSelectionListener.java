@@ -22,6 +22,7 @@ import org.eclipse.ui.IWorkbenchPartSite;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.refinementbrowser.VPMRefinementBrowser;
 import org.splevo.ui.sourceconnection.DiffConnector;
+import org.splevo.ui.sourceconnection.UnifiedDiffConnector;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -64,7 +65,8 @@ public class RefinementDiffSelectionListener implements
 		    			vs.add((Variant) selectedElement); 
 		    		}
 		    	}
-		    DiffConnector dc = new DiffConnector(project);
-		    refinementSourceView.setText(dc.generateDiffFromVPs(vs));			
+		    	
+		    UnifiedDiffConnector unifiedDiffConnector = new UnifiedDiffConnector(project);
+		    refinementSourceView.setText(unifiedDiffConnector.generateUnifiedDiffFrom(vs));			
 		}
 	}

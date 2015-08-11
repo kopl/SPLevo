@@ -294,6 +294,14 @@
 	<persistent value="true"/>
 	</extension>
    <extension
+         id="org.splevo.ui.markers.unifieddiff"
+         name="Unified Difference Marker"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+   </extension>
+   <extension
          point="org.eclipse.ui.ide.markerResolution">
       <markerResolutionGenerator
             class="org.splevo.ui.sourceconnection.jdt.VariantLinkQuickFixGenerator"
@@ -336,6 +344,96 @@
             overviewRulerPreferenceValue="true"
             textStylePreferenceKey="highlight.text.style" >
 			</specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.leading"
+       colorPreferenceKey="leadingAnnotation.color"
+       colorPreferenceValue="205,255,205"
+       contributesToHeader="false"
+       highlightPreferenceKey="leadingAnnotation.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Leading"
+       overviewRulerPreferenceKey="leadingAnnotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="leadingAnnotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="leadingAnnotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.mixed"
+       colorPreferenceKey="mixedAnnotation.color"
+       colorPreferenceValue="255,175,175"
+       contributesToHeader="false"
+       highlightPreferenceKey="mixed.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Integration (Mixed)"
+       overviewRulerPreferenceKey="mixedAnnotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="mixedAnnotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="mixedAnnotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.integration1"
+       colorPreferenceKey="integration1Annotation.color"
+       colorPreferenceValue="255,225,225"
+       contributesToHeader="false"
+       highlightPreferenceKey="integration1.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Integration (1)"
+       overviewRulerPreferenceKey="integration1Annotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="integration1Annotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="integration1Annotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.integration2"
+       colorPreferenceKey="integration2Annotation.color"
+       colorPreferenceValue="255,215,215"
+       contributesToHeader="false"
+       highlightPreferenceKey="integration2.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Integration (2)"
+       overviewRulerPreferenceKey="integration2Annotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="integration2Annotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="integration2Annotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.integration3"
+       colorPreferenceKey="integration3Annotation.color"
+       colorPreferenceValue="255,205,205"
+       contributesToHeader="false"
+       highlightPreferenceKey="integration2.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Integration (3)"
+       overviewRulerPreferenceKey="integration3Annotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="integration3Annotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="integration3Annotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
 	</extension>
 	<extension point="org.eclipse.ui.editors.annotationTypes">
                 <type markerSeverity="0"
@@ -346,6 +444,40 @@
                                         super="org.eclipse.ui.workbench.texteditor.info"
                                         name="org.splevo.ui.annotations.variant.single"
                                         markerType="org.splevo.ui.markers.codelocationmarker.variant"/>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.leading"
+                      name="org.splevo.ui.annotations.unifieddiff.leading">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration"
+                      name="org.splevo.ui.annotations.unifieddiff.integration">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.mixed"
+                      name="org.splevo.ui.annotations.unifieddiff.mixed"
+                      super="org.splevo.ui.annotations.unifieddiff.integration">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration1"
+                      name="org.splevo.ui.annotations.unifieddiff.integration1"
+                      super="org.splevo.ui.annotations.unifieddiff.integration">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration2"
+                      name="org.splevo.ui.annotations.unifieddiff.integration2"
+                      super="org.splevo.ui.annotations.unifieddiff.integration">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration3"
+                      name="org.splevo.ui.annotations.unifieddiff.integration3"
+                      super="org.splevo.ui.annotations.unifieddiff.integration">
+                </type>
     </extension>
  <extension
        point="org.eclipse.core.runtime.adapters">
