@@ -13,7 +13,9 @@ package org.splevo.refactoring;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -51,7 +53,28 @@ public class VariabilityRefactoringServiceTest {
      * Test that the recommendation recommends reasonable refactorings.
      */
     @Test
-    public void testRecommendMechanisms() {
+    public void testRecommendMechanismsAssignesValidMechanism() {
+
+        VariabilityRefactoring refactoring = buildRefactoring("REFACTORING1");
+        VariabilityRefactoring refactoring2 = buildRefactoring("REFACTORING2");
+        List<VariabilityRefactoring> refactorings = Lists.newArrayList(refactoring, refactoring2);
+
+        when(refactoring.canBeAppliedTo(notNull(VariationPoint.class))).thenReturn(true);
+        List<VariabilityMechanism> mechanisms = Lists.newArrayList(null, refactoring2.getVariabilityMechanism());
+        VariationPointModel model = crateVPMWithOneGroup(mechanisms);
+
+        VariabilityRefactoringService service = new VariabilityRefactoringService();
+        RecommenderResult result = service.recommendMechanisms(model, refactorings);
+
+        assertNoUnassignedVP(result);
+        assertExpectedMechanismsAssigned(model, refactorings);
+    }
+    
+    /**
+     * Test that the recommendation recommends reasonable refactorings.
+     */
+    @Test
+    public void testRecommendMechanismsAssignesNoInvalidMechanism() {
 
         VariabilityRefactoring refactoring = buildRefactoring("REFACTORING1");
         VariabilityRefactoring refactoring2 = buildRefactoring("REFACTORING2");
@@ -61,10 +84,9 @@ public class VariabilityRefactoringServiceTest {
         VariationPointModel model = crateVPMWithOneGroup(mechanisms);
 
         VariabilityRefactoringService service = new VariabilityRefactoringService();
-        RecommenderResult result = service.recommendMechanisms(model, refactorings);
-
-        assertNoUnassignedVP(result);
-        assertExpectedMechanismsAssigned(model, refactorings);
+        service.recommendMechanisms(model, refactorings);
+        
+        assertExpectedMechanismsAssigned(model, Lists.newArrayList(null, refactoring2));
     }
 
     /**
@@ -93,8 +115,13 @@ public class VariabilityRefactoringServiceTest {
         VariationPointGroup group = model.getVariationPointGroups().get(0);
 
         for (int i = 0; i < refactorings.size(); i++) {
+            VariabilityRefactoring varRef = refactorings.get(i);
             VariationPoint vp = group.getVariationPoints().get(i);
-            VariabilityMechanism refMechanism = refactorings.get(i).getVariabilityMechanism();
+            if (varRef == null) {
+                assertThat(vp.getVariabilityMechanism(), is(nullValue()));
+                continue;
+            }
+            VariabilityMechanism refMechanism = varRef.getVariabilityMechanism();
             VariabilityMechanism vpMechanism = vp.getVariabilityMechanism();
             assertThat(vpMechanism.getRefactoringID(), equalTo(refMechanism.getRefactoringID()));
         }

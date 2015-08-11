@@ -363,7 +363,14 @@
              type="org.eclipse.ui.views.properties.IPropertySource">
        </adapter>
     </factory>
- </extension>
+    <factory
+          adaptableType="org.splevo.vpm.variability.VariationPointGroup"
+          class="org.splevo.ui.views.vpproperties.VariationPointAdapterFactory">
+       <adapter
+             type="org.eclipse.ui.views.properties.IPropertySource">
+       </adapter>
+    </factory>
+ </extension> 
  <extension
        point="org.eclipse.ui.perspectives">
     <perspective
