@@ -1,35 +1,33 @@
 package org.splevo.ui.views.taskview;
 
-
-import java.awt.LayoutManager;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.LayoutStyle;
-
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.internal.layout.LayoutUtil;
-import org.eclipse.ui.part.*;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.SWT;
-import org.eclipse.jface.text.*;
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.CoreException;
-import org.apache.commons.io.*;
-
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
 
 /**
  * This sample class demonstrates how to plug-in a new
@@ -67,6 +65,9 @@ public class TaskView extends ViewPart {
 	 * example).
 	 */
 	
+	/**
+	 * Provides the table for the taskviewer
+	 */
 	public class TasksTableLabelProvider extends LabelProvider implements ITableLabelProvider
 	{
 
@@ -78,8 +79,7 @@ public class TaskView extends ViewPart {
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			Task task = (Task) element;
-			switch(columnIndex)
-			{
+			switch (columnIndex) {
 				case 0:
 					return task.getDescription();
 				case 1:
@@ -104,6 +104,8 @@ public class TaskView extends ViewPart {
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize
 	 * it.
+	 * @param parent
+	 * 			to create PartControl
 	 */
 	public void createPartControl(Composite parent) {
 
@@ -117,6 +119,7 @@ public class TaskView extends ViewPart {
 		makeActions();
 		hookContextMenu();
 		contributeToActionBars();
+		fillTableWithTasks();
 	}
 
 	private void hookContextMenu() {
@@ -171,25 +174,22 @@ public class TaskView extends ViewPart {
 					showMessage("file is empty");
 				}
 
-				try {
-					String EditorText = IOUtils.toString(file.getContents(),
-							file.getCharset());
-					viewer.setInput(new TaskCreator().getTasks());
-					} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					showMessage("Error occured");
-				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					showMessage("Error occured");
-				}
+				fillTableWithTasks();
 			}
 		};
 		getAllTasksAction.setText("Get all Tasks");
 		getAllTasksAction.setToolTipText("Get all SPLevo tasks and collect them in the SPLevoTaskView");
 		getAllTasksAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+	}
+	
+	private void fillTableWithTasks() {
+		try {
+			viewer.setInput(new TaskCreator().getTasks());
+		} catch (CoreException e) {
+			e.printStackTrace();
+			showMessage("Error occured");
+		}
 	}
 	
 	private void showMessage(String message) {
@@ -227,6 +227,11 @@ public class TaskView extends ViewPart {
 		viewer.getControl().setLayoutData(gridData);
 	}
 
+	/**
+     * Gets the viewer.
+     *
+     * @return the viewer
+     */
 	public TableViewer getViewer() {
 		return viewer;
 	}
@@ -236,10 +241,15 @@ public class TaskView extends ViewPart {
 		String[] titles = { "Description", "Resource", "Path", "Location" };
 		int[] bounds = { 300, 100, 50, 200 };
 
+		/*
 		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
 		col = createTableViewerColumn(titles[1], bounds[1], 1);
 		col = createTableViewerColumn(titles[2], bounds[2], 2);
-		col = createTableViewerColumn(titles[3], bounds[3], 3);
+		col = createTableViewerColumn(titles[3], bounds[3], 3);*/
+		createTableViewerColumn(titles[0], bounds[0], 0);
+		createTableViewerColumn(titles[1], bounds[1], 1);
+		createTableViewerColumn(titles[2], bounds[2], 2);
+		createTableViewerColumn(titles[3], bounds[3], 3);
 	}
 
 	private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {

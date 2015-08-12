@@ -1,14 +1,10 @@
 package org.splevo.ui.jobs;
 
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
-
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.ui.views.taskview.TaskView;
@@ -40,7 +36,8 @@ public class OpenTaskViewJob extends AbstractBlackboardInteractingJob<SPLevoBlac
 				public void run() {
 					IViewPart viewPart;
 					try {
-						viewPart = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage().showView(TaskView.ID, "TaskView", IWorkbenchPage.VIEW_ACTIVATE);
+						viewPart = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage()
+								.showView(TaskView.ID, "TaskView", IWorkbenchPage.VIEW_ACTIVATE);
 					} catch (PartInitException e) {
 						thrownException[0] = e;
 						return;
