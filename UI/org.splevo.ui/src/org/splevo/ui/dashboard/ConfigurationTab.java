@@ -97,15 +97,15 @@ public class ConfigurationTab extends AbstractDashboardTab {
     private Group buildFeatureModelBuilderGroup(Composite composite) {
         Group group = new Group(composite, SWT.FILL);
         group.setText("FeatureModel Builders");
-        group.setLayout(new GridLayout(2, false));
-        group.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        group.setLayout(new GridLayout(2, true));
+        group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
 
         Label configLabel = new Label(group, SWT.NONE);
         configLabel.setText("Feature Model Builder:");
         //configLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
 
         final Combo fmBuilderCombo = new Combo(group, SWT.READ_ONLY | SWT.DROP_DOWN);
-        //fmBuilderCombo.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
+        fmBuilderCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
         for (FeatureModelBuilder<?> fmBuilder : FeatureModelBuilderRegistry.getInstance().getElements()) {
             fmBuilderCombo.add(fmBuilder.getLabel());
         }
@@ -153,7 +153,7 @@ public class ConfigurationTab extends AbstractDashboardTab {
 
         Group groupDiffers = new Group(composite, SWT.FILL);
         groupDiffers.setText("Difference Analysis");
-        groupDiffers.setLayout(new GridLayout(2, false));
+        groupDiffers.setLayout(new GridLayout(2, true));
         groupDiffers.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
 
         List<Button> differCheckBoxes = new LinkedList<Button>();
