@@ -87,7 +87,9 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
 
         // check if the process was canceled
         if (monitor.isCanceled()) {
-            throw new UserCanceledException();
+            monitor.done();
+            return;
+            //throw new UserCanceledException();
         }
 
         // extract model
@@ -124,7 +126,9 @@ public class ExtractionJob extends AbstractBlackboardInteractingJob<SPLevoBlackB
 
         monitor.worked(PROGRESS_UPDATE_PROJECT_INFO_DONE);
         if (monitor.isCanceled()) {
-            throw new UserCanceledException();
+            //throw new UserCanceledException();
+            monitor.done();
+            return;
         }
 
         logger.info(String.format("Extraction of %s finished at %s", variantName, JobUtil.getTimestamp()));

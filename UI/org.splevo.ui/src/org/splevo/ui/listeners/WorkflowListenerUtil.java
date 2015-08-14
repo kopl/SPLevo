@@ -84,6 +84,10 @@ public final class WorkflowListenerUtil {
 				};
 				workflowDelegate.setProgressMonitor(monitor);
 				workflowDelegate.run(action);
+				if (monitor.isCanceled()) {
+				    monitor.done();
+				    return Status.CANCEL_STATUS;
+				}
 				if (uiRunnable != null) {
 					Display.getDefault().asyncExec(uiRunnable);
 				}
