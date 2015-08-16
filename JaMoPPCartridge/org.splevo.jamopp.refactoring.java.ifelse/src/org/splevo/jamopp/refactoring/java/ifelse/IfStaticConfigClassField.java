@@ -37,6 +37,7 @@ import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
+import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
@@ -61,6 +62,12 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Field";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField";
 
+    private IfElseRefactoringUtil ifElseRefactoringUtil = null;
+    
+    public IfStaticConfigClassField(IfElseRefactoringUtil ifElseRefactoringUtil) {
+    	this.ifElseRefactoringUtil = ifElseRefactoringUtil;
+    }
+    
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
         VariabilityMechanism variabilityMechanism = RealizationFactory.eINSTANCE.createVariabilityMechanism();
@@ -110,7 +117,7 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
 
                     ExpressionStatement fieldAssignment = createFieldAssignment(field, value);
 
-                    Condition condition = IfElseRefactoringUtil.createVariabilityCondition(variantId, groupName);
+                    Condition condition = this.ifElseRefactoringUtil.createVariabilityCondition(variantId, groupName);
                     Block ifBlock = (Block) condition.getStatement();
                     ifBlock.getStatements().add(fieldAssignment);
 

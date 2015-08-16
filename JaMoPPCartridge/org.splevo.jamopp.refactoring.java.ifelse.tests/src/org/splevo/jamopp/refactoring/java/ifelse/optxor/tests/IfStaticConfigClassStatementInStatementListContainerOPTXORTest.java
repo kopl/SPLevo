@@ -48,6 +48,8 @@ import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
 import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementInStatementListContainerOPTXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
@@ -59,7 +61,9 @@ import org.splevo.vpm.variability.VariationPoint;
  * Contains the tests for the {@link IfStaticConfigClassStatementInStatementListContainerOPTXOR} class.
  */
 public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
-    /**
+    private IfElseRefactoringUtil ifElseRefactoringUtil = new FullyAutomatedIfElseRefactoringUtil();
+	
+	/**
      * Prepare the test. Initializes a log4j logging environment.
      */
     @BeforeClass
@@ -79,7 +83,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -128,7 +132,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testIfCanBeAppliedWithVariableDiffTypes() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementLocalVarDiffTypesCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
 
         assertThat(refactoring.canBeAppliedTo(vp), equalTo(false));
     }
@@ -144,7 +148,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseLocalVariableEqualType() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -199,7 +203,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseLocalVariableEqualTypeSplit() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementLocalVarEqualTypeSplitCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -275,7 +279,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseOneAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementOneAddCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -317,7 +321,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseOneEither() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementOneEitherCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -360,7 +364,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseNestedTry() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedTryCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -404,7 +408,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseNestedCatch() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedCatchCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -448,7 +452,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseNestedCondition() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedConditionCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -492,7 +496,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseNestedFor() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedForCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -536,7 +540,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseNestedWhile() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedWhileCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -580,7 +584,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
     @Test
     public void testRefactorCaseNestedSwitchCase() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getStatementNestedSwitchCaseCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR();
+        IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);

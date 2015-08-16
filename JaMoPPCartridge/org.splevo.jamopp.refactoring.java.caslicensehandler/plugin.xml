@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.splevo.refactoring.refactoring">
+      <VariabilityRefactoring
+            refactoring.class="org.splevo.jamopp.refactoring.java.caslicensehandler.CASLicenseHandlerVariabilityRefactoring">
+      </VariabilityRefactoring>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet"
+            name="Semi-Automated Refactoring Cheat Sheet ">
+      </category>
+      <cheatsheet
+            category="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet"
+            composite="false"
+            contentFile="resources/caslicensehandler_cheatsheet/CASLicenseCheatSheet.xml"
+            id="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet"
+            name="CAS License Handler Cheat Sheet">
+      </cheatsheet>
+   </extension>
+
+</plugin>

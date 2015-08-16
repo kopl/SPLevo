@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet
+title=
+"CAS License Handler Refactoring"
+>
+<intro>
+	<description>
+    	This step-by-step guide will lead you through the whole CAS License Handler Refactoring process. 
+	</description>
+</intro>
+<item title="Choose the license constants class">
+	<description>
+      In this step the license constant class has to be chosen. 
+	</description>
+	<subitem
+       label="Open Type Dialog">
+        <action pluginId="org.splevo.jamopp.refactoring.java.caslicensehandler"
+        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.OpenTypeDialogAction" />
+	</subitem>
+</item>
+   <item
+         title="Add/select license constant to constant class">
+      <description>
+         In this step you have to assign each variant of a variation point a license constant.
+      </description>
+      <subitem
+       label="Start">
+        <action pluginId="org.splevo.jamopp.refactoring.java.caslicensehandler"
+        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.VariantToLicenseMappingAction" />
+	</subitem>
+   </item>
+</cheatsheet> 

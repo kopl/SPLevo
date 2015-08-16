@@ -43,6 +43,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
@@ -54,7 +55,8 @@ import org.splevo.vpm.variability.VariationPoint;
  * Contains the tests for the {@link IfStaticConfigClassField} class.
  */
 public class IfStaticConfigClassFieldTest {
-
+	private FullyAutomatedIfElseRefactoringUtil ifElseRefactoringUtil = new FullyAutomatedIfElseRefactoringUtil();	
+	
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
@@ -74,7 +76,7 @@ public class IfStaticConfigClassFieldTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, fieldMock, fieldMock);
 
-        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField(ifElseRefactoringUtil);
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -91,7 +93,7 @@ public class IfStaticConfigClassFieldTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField(ifElseRefactoringUtil);
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -108,7 +110,7 @@ public class IfStaticConfigClassFieldTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField(ifElseRefactoringUtil);
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -123,7 +125,7 @@ public class IfStaticConfigClassFieldTest {
     @Test
     public void testRefactorCaseFieldAdd() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getFieldAddCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -159,7 +161,7 @@ public class IfStaticConfigClassFieldTest {
     @Test
     public void testRefactorCaseFieldDifferentInitialValues() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getFieldDifferentInitialValuesCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassField refactoring = new IfStaticConfigClassField();
+        IfStaticConfigClassField refactoring = new IfStaticConfigClassField(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);

@@ -116,7 +116,7 @@ public class ExplorerMediator implements ISelectionChangedListener {
         });
     }
     
-    private VariationPointModel getCurrentVPM() {
+    public VariationPointModel getCurrentVPM() {
         if (vpGroupingExplorer != null && vpGroupingExplorer.getVpExplorerContent() != null) {
             return vpGroupingExplorer.getVpExplorerContent().getVpm();
         }

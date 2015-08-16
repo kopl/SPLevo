@@ -23,6 +23,7 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
+import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
@@ -42,6 +43,12 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR): Statement in Condition";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassConditionOPTXOR";
+    
+    private IfElseRefactoringUtil ifElseRefactoringUtil = null;
+    
+    public IfStaticConfigClassStatementInConditionOPTXOR(IfElseRefactoringUtil ifElseRefactoringUtil) {
+    	this.ifElseRefactoringUtil = ifElseRefactoringUtil;
+    }
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
@@ -63,7 +70,7 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
         Condition previousCondition = vpLocation;
         
         for (Variant variant : variationPoint.getVariants()) {
-            Condition variabilityCondition = IfElseRefactoringUtil.createVariabilityCondition(variant.getId(), groupName);
+            Condition variabilityCondition = this.ifElseRefactoringUtil.createVariabilityCondition(variant.getId(), groupName);
 
             Commentable element = ((JaMoPPJavaSoftwareElement) variant.getImplementingElements().get(0)).getJamoppElement();
             Statement stmt = clone((Statement) element);

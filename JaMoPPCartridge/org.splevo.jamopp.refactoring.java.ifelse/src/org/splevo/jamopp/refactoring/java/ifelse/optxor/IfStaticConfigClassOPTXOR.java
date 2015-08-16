@@ -27,6 +27,8 @@ import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassInterfaceInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassMethod;
+import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
@@ -46,9 +48,13 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
     private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR)";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassOPTXOR";
 
-    private static List<VariabilityRefactoring> availableRefactorings;
+    private List<VariabilityRefactoring> availableRefactorings;
 
-    static {
+    public IfStaticConfigClassOPTXOR() {
+    	this (new FullyAutomatedIfElseRefactoringUtil());
+    }
+    
+    public IfStaticConfigClassOPTXOR(IfElseRefactoringUtil util) {
         availableRefactorings = new LinkedList<VariabilityRefactoring>();
 
         // add refactorings here
@@ -57,12 +63,12 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
         availableRefactorings.add(new IfStaticConfigClassClassInMemberContainer());
         availableRefactorings.add(new IfStaticConfigClassInterfaceInMemberContainer());
         availableRefactorings.add(new IfStaticConfigClassEnumerationInMemberContainer());
-        availableRefactorings.add(new IfStaticConfigClassField());
+        availableRefactorings.add(new IfStaticConfigClassField(util));
         availableRefactorings.add(new IfStaticConfigClassBlock());
         availableRefactorings.add(new IfStaticConfigClassMethod());
         availableRefactorings.add(new IfStaticConfigClassConstructor());
-        availableRefactorings.add(new IfStaticConfigClassStatementInStatementListContainerOPTXOR());
-        availableRefactorings.add(new IfStaticConfigClassStatementInConditionOPTXOR());
+        availableRefactorings.add(new IfStaticConfigClassStatementInStatementListContainerOPTXOR(util));
+        availableRefactorings.add(new IfStaticConfigClassStatementInConditionOPTXOR(util));
     }
 
     @Override

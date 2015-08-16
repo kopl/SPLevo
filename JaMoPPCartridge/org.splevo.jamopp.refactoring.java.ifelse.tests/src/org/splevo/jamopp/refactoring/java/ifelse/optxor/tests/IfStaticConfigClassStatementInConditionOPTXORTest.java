@@ -34,6 +34,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementInConditionOPTXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
@@ -45,7 +46,8 @@ import org.splevo.vpm.variability.VariationPoint;
  * Contains the tests for the {@link IfStaticConfigClassStatementInConditionOPTXOR} class.
  */
 public class IfStaticConfigClassStatementInConditionOPTXORTest {
-
+	private FullyAutomatedIfElseRefactoringUtil ifElseRefactoringUtil = new FullyAutomatedIfElseRefactoringUtil();
+	
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
@@ -66,7 +68,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR(ifElseRefactoringUtil);
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
     }
@@ -83,7 +85,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR(ifElseRefactoringUtil);
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -100,7 +102,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         VariationPoint vpMock = RefactoringTestUtil.getSimpleVPMock(VariabilityType.OPTXOR, Extensible.NO,
                 BindingTime.COMPILE_TIME, location, implEl1, implEl2);
 
-        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR(ifElseRefactoringUtil);
 
         assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
     }
@@ -115,7 +117,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
     @Test
     public void testRefactorCaseConditionAddCond() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConditionAddCondCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -166,7 +168,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
     @Test
     public void testRefactorCaseConditionDifferentElseStatement() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConditionDifferentElseStatementCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
@@ -208,7 +210,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
     @Test
     public void testRefactorCaseConditionAddMultipleCond() throws Exception {
         VariationPoint vp = RefactoringTestUtil.getConditionAddMultipleCondCase(VariabilityType.OPTXOR);
-        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR();
+        IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR(ifElseRefactoringUtil);
         HashMap<String, Object> configurations = new HashMap<String, Object>();
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
