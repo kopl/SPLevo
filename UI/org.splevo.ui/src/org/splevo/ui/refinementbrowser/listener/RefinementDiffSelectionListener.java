@@ -21,8 +21,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.refinementbrowser.VPMRefinementBrowser;
-import org.splevo.ui.sourceconnection.DiffConnector;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnector;
+import org.splevo.ui.sourceconnection.UnifiedDiffConnector.ConnectionMethod;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -48,25 +48,27 @@ public class RefinementDiffSelectionListener implements
 		this.site = site;
 	}
 		
-		@Override
-		public void selectionChanged(SelectionChangedEvent event) {
-			
-			IEditorPart activeEditor = site.getPage().getActiveEditor();
-			VPMRefinementBrowser splevoProjectEditor = (VPMRefinementBrowser) activeEditor;
-			SPLevoProject project = splevoProjectEditor.getSPLevoProjectEditor().getSplevoProject();
-			
-			Set<Variant> vs = Sets.newLinkedHashSet();
-		    Set<VariationPoint> vps = Sets.newLinkedHashSet();
-		    	for (Object selectedElement : ((StructuredSelection) event.getSelection()).toList()) {
-		    		if (selectedElement instanceof VariationPoint) {
-		    			vs.addAll(((VariationPoint) selectedElement).getVariants());
-		    			vps.add((VariationPoint) selectedElement);
-		    		} else if (selectedElement instanceof Variant) {
-		    			vs.add((Variant) selectedElement); 
-		    		}
-		    	}
-		    	
-		    UnifiedDiffConnector unifiedDiffConnector = new UnifiedDiffConnector(project);
-		    refinementSourceView.setText(unifiedDiffConnector.generateUnifiedDiffFrom(vs));			
+    @Override
+    public void selectionChanged(SelectionChangedEvent event) {
+
+        IEditorPart activeEditor = site.getPage().getActiveEditor();
+        VPMRefinementBrowser splevoProjectEditor = (VPMRefinementBrowser) activeEditor;
+        SPLevoProject splevoProject = splevoProjectEditor.getSPLevoProjectEditor().getSplevoProject();
+
+        Set<Variant> variants = Sets.newLinkedHashSet();
+        Set<VariationPoint> vps = Sets.newLinkedHashSet();
+        for (Object selectedElement : ((StructuredSelection) event.getSelection()).toList()) {
+            if (selectedElement instanceof VariationPoint) {
+                variants.addAll(((VariationPoint) selectedElement).getVariants());
+                vps.add((VariationPoint) selectedElement);
+            } else if (selectedElement instanceof Variant) {
+                variants.add((Variant) selectedElement);
+            }
+        }
+
+        // create unified difference with UnifiedDiffConnector
+        UnifiedDiffConnector diffConnector = new UnifiedDiffConnector(splevoProject, variants);
+        diffConnector.connect(ConnectionMethod.BY_CHUNKS);
+        refinementSourceView.setText(diffConnector.getUnifiedText());
 		}
 	}
