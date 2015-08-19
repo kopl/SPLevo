@@ -114,7 +114,7 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
                 for (Expression value : initialValues) {
                     String variantId = variantIDToInitialValue.get(value);
                     String groupName = variationPoint.getGroup().getName();
-
+                    
                     ExpressionStatement fieldAssignment = createFieldAssignment(field, value);
 
                     Condition condition = this.ifElseRefactoringUtil.createVariabilityCondition(variantId, groupName);
@@ -142,8 +142,8 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
         ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
                 .getResourceSet();
         String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
-        Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
-                variationPoint);
+        Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet, variationPoint);
+        
         if (configResource != null) {
             resourceList.add(configResource);
         }

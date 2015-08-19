@@ -40,7 +40,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.zest.layouts,
  org.splevo.ui.commons;bundle-version="1.0.0",
  org.eclipse.ui,
- org.splevo.jamopp.refactoring
+ org.splevo.jamopp.refactoring,
+ org.eclipse.swt,
+ org.eclipse.ui.cheatsheets,
+ org.splevo.jamopp.refactoring.java.caslicensehandler
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

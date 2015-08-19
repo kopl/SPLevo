@@ -26,6 +26,7 @@ import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefacto
 import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.SemiAutomatedIfElseRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
@@ -63,10 +64,11 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
         Condition vpLocation = (Condition) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         Statement elseStatement = vpLocation.getElseStatement();
 
-        CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
+       	CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
         SPLConfigurationUtil.addConfigurationClassImportIfMissing(compilationUnit);
 
         String groupName = variationPoint.getGroup().getName();
+        
         Condition previousCondition = vpLocation;
         
         for (Variant variant : variationPoint.getVariants()) {
@@ -96,9 +98,10 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
         ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
         ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
                 .getResourceSet();
+        
         String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
-        Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
-                variationPoint);
+        Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet, variationPoint);
+        
         if (configResource != null) {
             resourceList.add(configResource);
         }

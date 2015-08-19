@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -14,14 +15,20 @@ import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.modifiers.ModifiersFactory;
+import org.emftext.language.java.references.IdentifierReference;
+import org.emftext.language.java.references.MethodCall;
+import org.emftext.language.java.references.PrimitiveTypeReference;
 import org.emftext.language.java.references.ReferencesFactory;
+import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
 import org.emftext.language.java.types.ClassifierReference;
+import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.TypesFactory;
 
 public class JaMoPPRoutines {
@@ -58,7 +65,7 @@ public class JaMoPPRoutines {
 		CompilationUnit compilationUnit = (CompilationUnit) resource.getContents().get(0);
 		
 		Field field = createField(licenseName);
-		compilationUnit.getConcreteClassifier(file.getName()).getMembers().add(field);
+		compilationUnit.getConcreteClassifier(FilenameUtils.removeExtension(file.getName())).getMembers().add(field);
 		
 		saveJaMoPPModel(resource);
 	}

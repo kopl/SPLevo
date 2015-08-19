@@ -13,3 +13,5 @@ Require-Bundle: org.splevo.refactoring,
  org.splevo.jamopp.diffing,
  org.splevo.jamopp.refactoring
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.splevo.jamopp.refactoring.java.ifelse.optxor,
+ org.splevo.jamopp.refactoring.java.ifelse.util

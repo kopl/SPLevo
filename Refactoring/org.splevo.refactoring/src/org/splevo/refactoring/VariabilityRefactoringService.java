@@ -43,6 +43,33 @@ public class VariabilityRefactoringService {
     public static final String JAVA_SOURCE_DIRECTORY = "JaMoPP.Refactoring.Options.SourceDirectory";
 
     private static Logger logger = Logger.getLogger(VariabilityRefactoringService.class);
+    
+    /**
+     * Perform a given refactoring according to the the configured {@link VariationPoint}.
+     * 
+     * @param variationPoint
+     *            The {@link VariationPoint} containing the variants which havte to be refactored.
+     * @param refactoringConfigurations
+     *            Refactoring configurations.
+     * @param refactoring 
+     * 			  Contains the refactoring which has to be executed.
+     */
+    public void ifElseRefactoring(VariationPoint variationPoint, 
+    		Map<String, Object> refactoringConfigurations, 
+    		VariabilityRefactoring refactoring) {
+    	Set<Resource> toBeSaved = new HashSet<Resource>();
+    	
+    	if (!refactoring.canBeAppliedTo(variationPoint)) {
+            logger.debug("Recommended refactoring cannot be applied to this variation point.");
+            return;
+        }
+
+        List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringConfigurations);
+
+        toBeSaved.addAll(changedResources);
+        
+        saveAndPostprocessResources(toBeSaved);
+    }
 
     /**
      * Perform refactoring according to the the configured {@link VariationPointModel}.

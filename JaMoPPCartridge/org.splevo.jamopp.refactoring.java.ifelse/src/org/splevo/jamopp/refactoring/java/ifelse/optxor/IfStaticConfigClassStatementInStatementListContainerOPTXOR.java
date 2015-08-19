@@ -35,6 +35,7 @@ import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefacto
 import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.SemiAutomatedIfElseRefactoring;
 import org.splevo.jamopp.refactoring.java.ifelse.util.VariabilityPositionUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
@@ -115,9 +116,9 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends
 				.getLocation()).getJamoppElement().eResource().getResourceSet();
 		String sourcePath = (String) refactoringOptions
 				.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
-		Resource configResource = SPLConfigurationUtil
-				.addConfigurationIfMissing(sourcePath, resourceSet,
-						variationPoint);
+		Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
+                variationPoint);
+        
 		if (configResource != null) {
 			resourceList.add(configResource);
 		}

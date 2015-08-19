@@ -29,6 +29,7 @@ import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassInterfaceInM
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassMethod;
 import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
+import org.splevo.jamopp.refactoring.java.ifelse.util.SemiAutomatedIfElseRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.realization.RealizationFactory;
@@ -95,7 +96,8 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
+    	//TODO Is that right?->Stephan
+        boolean correctBindingTime = (variationPoint.getBindingTime() == BindingTime.COMPILE_TIME || variationPoint.getBindingTime() == BindingTime.RUN_TIME);
         boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTXOR;
         boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
         boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;

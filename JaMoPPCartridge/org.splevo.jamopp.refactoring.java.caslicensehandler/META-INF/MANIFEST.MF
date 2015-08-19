@@ -17,5 +17,11 @@ Require-Bundle: org.splevo.jamopp.refactoring,
  org.emftext.language.java.resource.java,
  org.eclipse.swt,
  org.splevo.vpm,
- org.splevo.ui.vpexplorer
-Import-Package: org.eclipse.core.runtime
+ org.splevo.ui.vpexplorer,
+ org.apache.commons.io,
+ net.sf.eclipsecs.checkstyle,
+ org.splevo.refactoring,
+ org.eclipse.core.runtime;bundle-version="3.9.100",
+ org.splevo.jamopp.refactoring.java.ifelse
+Export-Package: org.splevo.jamopp.refactoring.java.caslicensehandler,
+ org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions

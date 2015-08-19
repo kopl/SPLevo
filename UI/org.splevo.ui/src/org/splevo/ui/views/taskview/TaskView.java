@@ -1,5 +1,10 @@
 package org.splevo.ui.views.taskview;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
@@ -22,12 +27,27 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 import org.eclipse.ui.part.ViewPart;
+import org.splevo.jamopp.refactoring.JaMoPPTodoTagCustomizer;
+import org.splevo.jamopp.refactoring.java.caslicensehandler.CASLicenseHandlerVariabilityRefactoring;
+import org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.CASLicenseHandlerConfiguration;
+import org.splevo.project.SPLevoProject;
+import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.refactoring.VariabilityRefactoringService;
+import org.splevo.ui.SPLevoUIPlugin;
+import org.splevo.ui.editors.SPLevoProjectEditor;
+import org.splevo.ui.jobs.ProjectPathUtil;
+import org.splevo.ui.jobs.SPLevoBlackBoard;
+import org.splevo.vpm.variability.VariationPoint;
+
+import com.google.common.collect.Maps;
 
 /**
  * This sample class demonstrates how to plug-in a new
@@ -53,9 +73,10 @@ public class TaskView extends ViewPart {
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "org.splevo.ui.views.taskview.TaskView";
-
+	
+	private static Table table = null;
 	private TableViewer viewer;
-	private Action getAllTasksAction;
+	private Action getAllTasksAction, startRefactoringAction;
 
 	/*
 	 * The content provider class is responsible for providing objects to the
@@ -144,16 +165,21 @@ public class TaskView extends ViewPart {
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(getAllTasksAction);
 		manager.add(new Separator());
+		manager.add(startRefactoringAction);
+		manager.add(new Separator());
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(getAllTasksAction);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		manager.add(startRefactoringAction);
+		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(getAllTasksAction);
+		manager.add(startRefactoringAction);
 	}
 
 	private void makeActions() {
@@ -180,6 +206,44 @@ public class TaskView extends ViewPart {
 		getAllTasksAction.setText("Get all Tasks");
 		getAllTasksAction.setToolTipText("Get all SPLevo tasks and collect them in the SPLevoTaskView");
 		getAllTasksAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+		
+		startRefactoringAction = new Action() {
+			public void run() {
+				TableItem[] tableItem = table.getSelection();
+				if (null != tableItem) {
+					String variationPointID = tableItem[0].getText(0).replace(JaMoPPTodoTagCustomizer.getTodoTaskTag() + " ", "");
+					if (variationPointID != "" || variationPointID != null) {
+						CASLicenseHandlerConfiguration.setVariationPointID(variationPointID);
+						Iterator<IFile> iter = SPLevoProjectUtil.findAllSPLevoProjectFilesInWorkspace(true).iterator(); 
+						SPLevoProject splevoProject = null;
+						try {
+							splevoProject = SPLevoProjectUtil.loadSPLevoProjectModel(iter.next());
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						
+						if (splevoProject != null) {
+							String leadingSrcPath = splevoProject.getLeadingProjects().get(0);
+							leadingSrcPath = ProjectPathUtil.buildProjectPath(leadingSrcPath) + File.separator + "src";
+							
+							CASLicenseHandlerConfiguration
+							.setRefactoringConfigurations(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, 
+														  leadingSrcPath);
+							
+							VariationPoint variationPoint = CASLicenseHandlerConfiguration.getVariationPoint();
+							Map<String, Object> refactoringConfigurations = CASLicenseHandlerConfiguration.getRefactoringConfigurations();
+							
+							new CASLicenseHandlerVariabilityRefactoring().startManualRefactoring(variationPoint, 
+																								 refactoringConfigurations);
+						}
+					}
+				}
+			}
+		};
+		startRefactoringAction.setText("Start Refactoring");
+		startRefactoringAction.setToolTipText("Start Refactoring");
+		startRefactoringAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 	}
 	
@@ -208,7 +272,7 @@ public class TaskView extends ViewPart {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 		createColumns(parent, viewer);
-		final Table table = viewer.getTable();
+		table = viewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 

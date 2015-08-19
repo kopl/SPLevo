@@ -1,14 +1,17 @@
 package org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions;
 
 import java.io.File;
-import java.util.ArrayList;
 
+import org.apache.commons.io.FilenameUtils;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.JavaUIMessages;
 import org.eclipse.jdt.internal.ui.dialogs.OpenTypeSelectionDialog;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
@@ -24,11 +27,22 @@ public class OpenTypeDialogAction extends Action implements ICheatSheetAction {
 			return;
 		}
 		
-		dialog.open();
-
-		LicenseConstants.setLicenseConstant(getFileFrom((IType) dialog.getResult()[0]));
+		if (dialog.open() == Window.OK) {
+			CASLicenseHandlerConfiguration.setLicenseConstant(getFileFrom((IType) dialog.getResult()[0]));
+			
+			if (dialog.open() == Window.OK) {
+				CASLicenseHandlerConfiguration.setLicenseValidatorName(getNameFrom((IType) dialog.getResult()[0]));
+				return;
+			}
+		}
+		
+		MessageDialog.openError(new Shell(), "Error", "An error ocurred. Please restart the cheat sheet.");
 	}
 	
+	private String getNameFrom(IType chosenLicenseValidatorClass) {
+		return FilenameUtils.removeExtension(getFileFrom(chosenLicenseValidatorClass).getName());
+	}
+
 	private File getFileFrom(IType chosenLicenseConstantClass) {
 		return chosenLicenseConstantClass.getResource().getRawLocation().makeAbsolute().toFile();
 	}

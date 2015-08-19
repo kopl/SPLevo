@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.emftext.language.java.resource.java.mopp.JavaPlugin;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -24,9 +23,9 @@ public class MappingDialog extends Dialog {
   private Text variantTextField = null;
   private Combo combo = null;
 	
-  public MappingDialog(Shell parentShell, VariationPoint variationPoint) {
+  public MappingDialog(Shell parentShell) {
     super(parentShell);
-    this.variationPoint = variationPoint;
+    this.variationPoint = CASLicenseHandlerConfiguration.getVariationPoint();
   }
 
   @Override
@@ -77,7 +76,7 @@ public class MappingDialog extends Dialog {
   private void initComboBox(Composite container) {
 	  combo = new Combo(container, SWT.READ_ONLY);
 	  combo.setBounds(50, 50, 150, 65);
-	  combo.setItems(LicenseConstants.getAllLicenses());
+	  combo.setItems(CASLicenseHandlerConfiguration.getAllLicenses());
 	  combo.select(0);
   }
   
@@ -96,7 +95,7 @@ public class MappingDialog extends Dialog {
 	  Variant variant = this.variationPoint.getVariants().get(counter);
 	  String license = combo.getText();
 	  
-	  VariantToLicenseMapper.addVariantLicensePair(variant, license);
+	  CASLicenseHandlerConfiguration.addVariantLicensePair(variant.getId(), license);
   }
   
   private void incrementCounter() {

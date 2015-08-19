@@ -34,7 +34,7 @@ public class FullyAutomatedIfElseRefactoringUtil implements IfElseRefactoringUti
     public Condition createVariabilityCondition(String variantId, String groupName) {
         Condition condition = StatementsFactory.eINSTANCE.createCondition();
         condition.setCondition(SPLConfigurationUtil.generateConfigMatchingExpression(variantId, groupName));
-
+        
         Block ifBlock = StatementsFactory.eINSTANCE.createBlock();
         condition.setStatement(ifBlock);
 

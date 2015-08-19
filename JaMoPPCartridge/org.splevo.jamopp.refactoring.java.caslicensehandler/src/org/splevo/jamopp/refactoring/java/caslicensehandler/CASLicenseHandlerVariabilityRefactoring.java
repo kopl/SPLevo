@@ -2,7 +2,9 @@ package org.splevo.jamopp.refactoring.java.caslicensehandler;
 
 import java.util.Map;
 
+import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 import org.splevo.jamopp.refactoring.java.JaMoPPSemiAutomatedVariabilityRefactoring;
+import org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.CASLicenseHandlerMetaInf;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.BindingTime;
@@ -38,10 +40,9 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
 	}
 
 	@Override
-	public void startManualRefactoring(VariationPoint variationPoint,
-			Map<String, Object> refactoringConfigurations) {
-		// TODO Auto-generated method stub
-		
+	public void startManualRefactoring(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
+		OpenCheatSheetAction action = new OpenCheatSheetAction(CASLicenseHandlerMetaInf.CAS_LICENSE_HANDLER_CHEAT_SHEET_ID);
+	    action.run();
 	}
 
 }

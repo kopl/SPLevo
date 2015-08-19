@@ -53,8 +53,8 @@ public class AddLicenseDialog extends Dialog {
 		String license = licenseTextField.getText();
 		
 		if(license != "" && license != null) {
-			JaMoPPRoutines.addConstantLicenseFieldTo(LicenseConstants.getLicenseConstant(), license);
-			VariantToLicenseMapper.addVariantLicensePair(variant, license);
+			JaMoPPRoutines.addConstantLicenseFieldTo(CASLicenseHandlerConfiguration.getLicenseConstant(), license);
+			CASLicenseHandlerConfiguration.addVariantLicensePair(variant.getId(), license);
 			this.close();
 		} else {
 			MessageDialog.openError(new Shell(), "Error", "You have to specify a license.");

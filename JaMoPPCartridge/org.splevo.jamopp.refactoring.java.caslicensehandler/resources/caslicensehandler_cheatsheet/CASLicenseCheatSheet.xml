@@ -21,12 +21,23 @@ title=
    <item
          title="Add/select license constant to constant class">
       <description>
-         In this step you have to assign each variant of a variation point a license constant.
+         In this step you have to assign each variant of a variation point to a license constant.
       </description>
       <subitem
        label="Start">
         <action pluginId="org.splevo.jamopp.refactoring.java.caslicensehandler"
         		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.VariantToLicenseMappingAction" />
+	</subitem>
+   </item>
+   <item
+         title="Start Refactory">
+      <description>
+         After every variant was assigned to a constant license the refactory-process can be started.
+      </description>
+      <subitem
+       label="Start">
+        <action pluginId="org.splevo.jamopp.refactoring.java.caslicensehandler"
+        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.StartRefactoryAction" />
 	</subitem>
    </item>
 </cheatsheet> 
