@@ -55,7 +55,7 @@
             class="org.splevo.ui.editors.UnifiedDiffEditor"
             default="false"
             icon="icons/unifieddiff-editor.gif"
-            id="org.splevo.ui.editors.UnifiedDiffEditor"
+            id="org.splevo.ui.editors.unifieddiffeditor"
             name="Unified Diff">
       </editor>
    </extension>
@@ -92,14 +92,19 @@
             name="Clean Project">
       </command>
       <command
+            defaultHandler="org.splevo.ui.sourceconnection.handler.OpenUnifiedDiffSourceHandler"
+            id="org.splevo.ui.commands.openunifieddiffsourcelocation"
+            name="Open Source Location">
+      </command>
+      <command
             defaultHandler="org.splevo.ui.sourceconnection.handler.OpenSourceLocationHandler"
             id="org.splevo.ui.commands.opensourcelocation"
             name="Open Source Locations">
       </command>
       <command
-            defaultHandler="org.splevo.ui.sourceconnection.handler.OpenSourceLocationDiffHandler"
+            defaultHandler="org.splevo.ui.sourceconnection.handler.OpenUnifiedDiffHandler"
             id="org.splevo.ui.commands.opensourcelocationdiff"
-            name="Open Source Locations (Diff)">
+            name="Open Unified Difference">
       </command>
       <command
             defaultHandler="org.splevo.ui.sourceconnection.handler.CopyContainingFilenameHandler"
@@ -165,6 +170,17 @@
          </command>
       </menuContribution>
       <menuContribution
+            allPopups="false"
+            locationURI="popup:org.splevo.ui.editors.unifieddiffeditor.EditorContext?before=additions">
+         <command
+               commandId="org.splevo.ui.commands.openunifieddiffsourcelocation"
+               icon="icons/jcu_obj.gif"
+               label="Open Source Location"
+               style="push"
+               tooltip="Open the source location of the highlighted line.">
+         </command>
+      </menuContribution>
+      <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any">
          <separator
                name="Source Location Separator">
@@ -177,7 +193,8 @@
                tooltip="Open the source locations of the variants.">
             <visibleWhen
                   checkEnabled="true">
-               <iterate>
+               <iterate
+                     ifEmpty="false">
                   <or>
                      <instanceof
                            value="org.splevo.vpm.variability.VariationPoint">
@@ -195,9 +212,9 @@
          <command
                commandId="org.splevo.ui.commands.opensourcelocationdiff"
                icon="icons/unifieddiff-editor.gif"
-               label="Open Source Locations (Diff)"
+               label="Open Unified Difference"
                style="push"
-               tooltip="Open the source locations of the variants.">
+               tooltip="Open the unified difference of the variants.">
             <visibleWhen
                   checkEnabled="true">
                <iterate>
@@ -345,93 +362,183 @@
             textStylePreferenceKey="highlight.text.style" >
 			</specification>
  <specification
-       annotationType="org.splevo.ui.annotations.unifieddiff.leading"
-       colorPreferenceKey="leadingAnnotation.color"
-       colorPreferenceValue="205,255,205"
+       annotationType="org.splevo.ui.annotations.unifieddiff.leadingLight"
+       colorPreferenceKey="leadingLightAnnotation.color"
+       colorPreferenceValue="225,255,225"
        contributesToHeader="false"
-       highlightPreferenceKey="leadingAnnotation.highlight"
+       highlightPreferenceKey="leadingLightAnnotation.highlight"
        highlightPreferenceValue="true"
        includeOnPreferencePage="true"
-       label="Leading"
-       overviewRulerPreferenceKey="leadingAnnotation.ruler"
+       label="Leading Light"
+       overviewRulerPreferenceKey="leadingLightAnnotation.ruler"
        overviewRulerPreferenceValue="false"
        presentationLayer="3"
-       textPreferenceKey="leadingAnnotation.text"
+       textPreferenceKey="leadingLightAnnotation.text"
        textPreferenceValue="true"
        textStylePreferenceValue="BOX"
-       verticalRulerPreferenceKey="leadingAnnotation.vruler"
+       verticalRulerPreferenceKey="leadingLightAnnotation.vruler"
        verticalRulerPreferenceValue="true">
  </specification>
  <specification
-       annotationType="org.splevo.ui.annotations.unifieddiff.mixed"
-       colorPreferenceKey="mixedAnnotation.color"
-       colorPreferenceValue="255,175,175"
+       annotationType="org.splevo.ui.annotations.unifieddiff.leadingDark"
+       colorPreferenceKey="leadingDarkAnnotation.color"
+       colorPreferenceValue="190,255,190"
        contributesToHeader="false"
-       highlightPreferenceKey="mixed.highlight"
+       highlightPreferenceKey="leadingDarkAnnotation.highlight"
        highlightPreferenceValue="true"
        includeOnPreferencePage="true"
-       label="Integration (Mixed)"
-       overviewRulerPreferenceKey="mixedAnnotation.ruler"
+       label="Leading Dark"
+       overviewRulerPreferenceKey="leadingDarkAnnotation.ruler"
        overviewRulerPreferenceValue="false"
        presentationLayer="3"
-       textPreferenceKey="mixedAnnotation.text"
+       textPreferenceKey="leadingDarkAnnotation.text"
        textPreferenceValue="true"
        textStylePreferenceValue="BOX"
-       verticalRulerPreferenceKey="mixedAnnotation.vruler"
+       verticalRulerPreferenceKey="leadingDarkAnnotation.vruler"
        verticalRulerPreferenceValue="true">
  </specification>
  <specification
-       annotationType="org.splevo.ui.annotations.unifieddiff.integration1"
-       colorPreferenceKey="integration1Annotation.color"
+       annotationType="org.splevo.ui.annotations.unifieddiff.integration1Light"
+       colorPreferenceKey="integration1LightAnnotation.color"
        colorPreferenceValue="255,225,225"
        contributesToHeader="false"
-       highlightPreferenceKey="integration1.highlight"
+       highlightPreferenceKey="integration1Light.highlight"
        highlightPreferenceValue="true"
        includeOnPreferencePage="true"
-       label="Integration (1)"
-       overviewRulerPreferenceKey="integration1Annotation.ruler"
+       label="Integration 1 Light"
+       overviewRulerPreferenceKey="integration1LightAnnotation.ruler"
        overviewRulerPreferenceValue="false"
        presentationLayer="3"
-       textPreferenceKey="integration1Annotation.text"
+       textPreferenceKey="integration1LightAnnotation.text"
        textPreferenceValue="true"
        textStylePreferenceValue="BOX"
-       verticalRulerPreferenceKey="integration1Annotation.vruler"
+       verticalRulerPreferenceKey="integration1LightAnnotation.vruler"
        verticalRulerPreferenceValue="true">
  </specification>
  <specification
-       annotationType="org.splevo.ui.annotations.unifieddiff.integration2"
-       colorPreferenceKey="integration2Annotation.color"
-       colorPreferenceValue="255,215,215"
+       annotationType="org.splevo.ui.annotations.unifieddiff.integration1Dark"
+       colorPreferenceKey="integration1DarkAnnotation.color"
+       colorPreferenceValue="255,190,190"
        contributesToHeader="false"
-       highlightPreferenceKey="integration2.highlight"
+       highlightPreferenceKey="integration1Dark.highlight"
        highlightPreferenceValue="true"
        includeOnPreferencePage="true"
-       label="Integration (2)"
-       overviewRulerPreferenceKey="integration2Annotation.ruler"
+       label="Integration 1 Dark"
+       overviewRulerPreferenceKey="integration1DarkAnnotation.ruler"
        overviewRulerPreferenceValue="false"
        presentationLayer="3"
-       textPreferenceKey="integration2Annotation.text"
+       textPreferenceKey="integration1DarkAnnotation.text"
        textPreferenceValue="true"
        textStylePreferenceValue="BOX"
-       verticalRulerPreferenceKey="integration2Annotation.vruler"
+       verticalRulerPreferenceKey="integration1DarkAnnotation.vruler"
        verticalRulerPreferenceValue="true">
  </specification>
  <specification
-       annotationType="org.splevo.ui.annotations.unifieddiff.integration3"
-       colorPreferenceKey="integration3Annotation.color"
-       colorPreferenceValue="255,205,205"
+       annotationType="org.splevo.ui.annotations.unifieddiff.integration2Light"
+       colorPreferenceKey="integration2LightAnnotation.color"
+       colorPreferenceValue="255,200,160"
        contributesToHeader="false"
-       highlightPreferenceKey="integration2.highlight"
+       highlightPreferenceKey="integration2Light.highlight"
        highlightPreferenceValue="true"
        includeOnPreferencePage="true"
-       label="Integration (3)"
-       overviewRulerPreferenceKey="integration3Annotation.ruler"
+       label="Integration 2 Light"
+       overviewRulerPreferenceKey="integration2LightAnnotation.ruler"
        overviewRulerPreferenceValue="false"
        presentationLayer="3"
-       textPreferenceKey="integration3Annotation.text"
+       textPreferenceKey="integration2LightAnnotation.text"
        textPreferenceValue="true"
        textStylePreferenceValue="BOX"
-       verticalRulerPreferenceKey="integration3Annotation.vruler"
+       verticalRulerPreferenceKey="integration2LightAnnotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.integration2Dark"
+       colorPreferenceKey="integration2DarkAnnotation.color"
+       colorPreferenceValue="255,150,75"
+       contributesToHeader="false"
+       highlightPreferenceKey="integration2Dark.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Integration 2 Dark"
+       overviewRulerPreferenceKey="integration2DarkAnnotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="integration2DarkAnnotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="integration2DarkAnnotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.integration3Light"
+       colorPreferenceKey="integration3LightAnnotation.color"
+       colorPreferenceValue="255,255,225"
+       contributesToHeader="false"
+       highlightPreferenceKey="integration3Light.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Integration 3 Light"
+       overviewRulerPreferenceKey="integration3LightAnnotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="integration3LightAnnotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="integration3LightAnnotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.integration3Dark"
+       colorPreferenceKey="integration3DarkAnnotation.color"
+       colorPreferenceValue="255,255,190"
+       contributesToHeader="false"
+       highlightPreferenceKey="integration3Dark.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Integration 3 Dark"
+       overviewRulerPreferenceKey="integration3DarkAnnotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="integration3DarkAnnotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="integration3DarkAnnotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.mixedLight"
+       colorPreferenceKey="mixedLightAnnotation.color"
+       colorPreferenceValue="190,190,190"
+       contributesToHeader="false"
+       highlightPreferenceKey="mixedLight.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Mixed Light"
+       overviewRulerPreferenceKey="mixedLightAnnotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="mixedLightAnnotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="mixedLightAnnotation.vruler"
+       verticalRulerPreferenceValue="true">
+ </specification>
+ <specification
+       annotationType="org.splevo.ui.annotations.unifieddiff.mixedDark"
+       colorPreferenceKey="mixedDarkAnnotation.color"
+       colorPreferenceValue="225,225,225"
+       contributesToHeader="false"
+       highlightPreferenceKey="mixedDark.highlight"
+       highlightPreferenceValue="true"
+       includeOnPreferencePage="true"
+       label="Mixed Dark"
+       overviewRulerPreferenceKey="mixedDarkAnnotation.ruler"
+       overviewRulerPreferenceValue="false"
+       presentationLayer="3"
+       textPreferenceKey="mixedDarkAnnotation.text"
+       textPreferenceValue="true"
+       textStylePreferenceValue="BOX"
+       verticalRulerPreferenceKey="mixedDarkAnnotation.vruler"
        verticalRulerPreferenceValue="true">
  </specification>
 	</extension>
@@ -446,8 +553,13 @@
                                         markerType="org.splevo.ui.markers.codelocationmarker.variant"/>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.leading"
-                      name="org.splevo.ui.annotations.unifieddiff.leading">
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.leadingLight"
+                      name="org.splevo.ui.annotations.unifieddiff.leadingLight">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.leadingDark"
+                      name="org.splevo.ui.annotations.unifieddiff.leadingDark">
                 </type>
                 <type
                       markerSeverity="0"
@@ -456,27 +568,49 @@
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.mixed"
-                      name="org.splevo.ui.annotations.unifieddiff.mixed"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration1Light"
+                      name="org.splevo.ui.annotations.unifieddiff.integration1Light"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration1"
-                      name="org.splevo.ui.annotations.unifieddiff.integration1"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration1Dark"
+                      name="org.splevo.ui.annotations.unifieddiff.integration1Dark"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration2"
-                      name="org.splevo.ui.annotations.unifieddiff.integration2"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration2Light"
+                      name="org.splevo.ui.annotations.unifieddiff.integration2Light"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration3"
-                      name="org.splevo.ui.annotations.unifieddiff.integration3"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration2Dark"
+                      name="org.splevo.ui.annotations.unifieddiff.integration2Dark"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration3Light"
+                      name="org.splevo.ui.annotations.unifieddiff.integration3Light"
+                      super="org.splevo.ui.annotations.unifieddiff.integration">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration3Dark"
+                      name="org.splevo.ui.annotations.unifieddiff.integration3Dark"
+                      super="org.splevo.ui.annotations.unifieddiff.integration">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.mixedLight"
+                      name="org.splevo.ui.annotations.unifieddiff.mixedLight">
+                </type>
+                <type
+                      markerSeverity="0"
+                      markerType="org.splevo.ui.markerTypes.unifieddiff.mixedDark"
+                      name="org.splevo.ui.annotations.unifieddiff.mixedDark">
                 </type>
     </extension>
  <extension

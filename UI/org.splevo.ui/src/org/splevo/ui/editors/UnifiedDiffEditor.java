@@ -13,6 +13,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jdt.ui.text.JavaSourceViewerConfiguration;
 import org.eclipse.jdt.ui.text.JavaTextTools;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.IVerticalRuler;
@@ -27,6 +28,7 @@ import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.texteditor.AnnotationPreference;
 import org.eclipse.ui.texteditor.MarkerAnnotationPreferences;
+import org.splevo.ui.sourceconnection.UnifiedDiffConnector;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnectorContent;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnectorContent.MarkerType;
 
@@ -37,7 +39,7 @@ import org.splevo.ui.sourceconnection.UnifiedDiffConnectorContent.MarkerType;
  */
 @SuppressWarnings("restriction")
 public class UnifiedDiffEditor extends TextEditor {
-    /** The marker type identificators */
+    /** The marker type identifiers */
     private final String MARKERTYPE_MIXED_DARK = "org.splevo.ui.markerTypes.unifieddiff.mixedDark";
     private final String MARKERTYPE_MIXED_LIGHT = "org.splevo.ui.markerTypes.unifieddiff.mixedLight";
     private final String MARKERTYPE_INTEGRATION3_DARK = "org.splevo.ui.markerTypes.unifieddiff.integration3Dark";
@@ -60,7 +62,7 @@ public class UnifiedDiffEditor extends TextEditor {
     private final String CKEY_LEADING_DARK = "leadingDarkAnnotation.color";
     private final String CKEY_LEADING_LIGHT = "leadingLightAnnotation.color";
     /** The id of the editor. */
-    public static final String ID = "org.splevo.ui.editors.UnifiedDiffEditor"; //$NON-NLS-1$
+    public static final String ID = "org.splevo.ui.editors.unifieddiffeditor"; //$NON-NLS-1$
     /** A Logger instance */
     private static Logger LOGGER = Logger.getLogger(UnifiedDiffEditor.class);
     
@@ -156,16 +158,7 @@ public class UnifiedDiffEditor extends TextEditor {
                     + "The working unified difference working copy cannot be deleted!");
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void editorContextMenuAboutToShow(IMenuManager menu) {
-        // removes all not needed menu items
-        menu.removeAll();
-    }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -257,7 +250,6 @@ public class UnifiedDiffEditor extends TextEditor {
         return colorToUnifiedLinesMapping;
     }
     
-
     /**
      * Creates a marker of given type for the given resource.
      * 
@@ -314,8 +306,16 @@ public class UnifiedDiffEditor extends TextEditor {
         return marker;
     }
     
-    
-    
+    /**
+     * Retrieves the respective marker color based on the given marker type from the annotation
+     * preferences.
+     * 
+     * @param markerType
+     *            the given marker type.
+     * @param annotationPreferences
+     *            the annotation preferences.
+     * @return the marker color.
+     */
     private Color getMarkerColor(MarkerType markerType, List<AnnotationPreference> annotationPreferences) {
         
         Color color = null;
@@ -362,6 +362,15 @@ public class UnifiedDiffEditor extends TextEditor {
         return color;
     }
 
+    /**
+     * Gets the respective color value from the annotation preferences based on the given color key.
+     * 
+     * @param colorKey
+     *            the given color key.
+     * @param annotationPreferences
+     *            the annotation preferences.
+     * @return the color.
+     */
     private Color getColorValueFor(String colorKey, List<AnnotationPreference> annotationPreferences) {
         for (AnnotationPreference aPref : annotationPreferences) {
             if (colorKey.equals(aPref.getColorPreferenceKey())) {
@@ -370,5 +379,22 @@ public class UnifiedDiffEditor extends TextEditor {
             }
         }
         return null;
+    }
+
+    /**
+     * Gets the unified difference connector content.
+     * 
+     * @return the unified difference connector content.
+     */
+    public UnifiedDiffConnectorContent getConnectorContent() {
+        if (input != null && input instanceof UnifiedDiffEditorInput) {
+            return input.getUnfiedConnectorContent();
+        } else if (input == null && getEditorInput() instanceof UnifiedDiffEditorInput) {
+            return ((UnifiedDiffEditorInput) getEditorInput()).getUnfiedConnectorContent();
+        } else {
+            LOGGER.error("The editor input of the UnifiedDiffEditor is not set or the instance is not of type"
+                    + "UnifiedDiffEditorInput!");
+            return null;
+        }
     }
 }
