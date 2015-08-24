@@ -11,14 +11,14 @@ import org.eclipse.swt.widgets.Text;
 import org.splevo.vpm.variability.Variant;
 
 public class AddLicenseDialog extends Dialog {
-	private Variant variant = null;
-	private Text variantTextField = null;
+	private String constantText = null;
+	private Text constantTextField = null;
 	private Text licenseTextField = null;
 	
 	
-	protected AddLicenseDialog(Shell parentShell, Variant variant) {
+	protected AddLicenseDialog(Shell parentShell, String variant) {
 		super(parentShell);
-		this.variant = variant;
+		this.constantText = variant;
 	}
 	
 	@Override
@@ -40,9 +40,9 @@ public class AddLicenseDialog extends Dialog {
 	}
 	
 	private void initTextFields(Composite container) {
-		variantTextField = new Text(container, SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY);
-		variantTextField.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		variantTextField.setText(this.variant.getId());
+		constantTextField = new Text(container, SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY);
+		constantTextField.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		constantTextField.setText(this.constantText);
 		  
 		licenseTextField = new Text(container, SWT.SINGLE | SWT.BORDER);
 		licenseTextField.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
@@ -54,7 +54,7 @@ public class AddLicenseDialog extends Dialog {
 		
 		if(license != "" && license != null) {
 			JaMoPPRoutines.addConstantLicenseFieldTo(CASLicenseHandlerConfiguration.getLicenseConstant(), license);
-			CASLicenseHandlerConfiguration.addVariantLicensePair(variant.getId(), license);
+			CASLicenseHandlerConfiguration.addVariantLicensePair(constantText, license);
 			this.close();
 		} else {
 			MessageDialog.openError(new Shell(), "Error", "You have to specify a license.");

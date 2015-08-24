@@ -9,7 +9,6 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
-import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.ui.vpexplorer.explorer.ExplorerMediator;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;

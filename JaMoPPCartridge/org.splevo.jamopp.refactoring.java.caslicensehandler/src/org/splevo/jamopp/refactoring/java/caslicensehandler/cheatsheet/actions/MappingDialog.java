@@ -64,11 +64,14 @@ public class MappingDialog extends Dialog {
 	      public void widgetSelected(SelectionEvent e) {
 	    	  AddLicenseDialog dialog = new AddLicenseDialog(
 	    			  org.eclipse.jdt.internal.ui.JavaPlugin.getActiveWorkbenchShell(), 
-	    			  variationPoint.getVariants().get(counter));
+	    			  variationPoint.getVariants().get(counter).getId());
 	    	  
 	    	  dialog.open();
 	    	  
 	    	  incrementCounter();
+	    	  
+	    	  combo.setItems(CASLicenseHandlerConfiguration.getAllLicenses());
+	    	  combo.select(0);
 	      }
 	    });
   }

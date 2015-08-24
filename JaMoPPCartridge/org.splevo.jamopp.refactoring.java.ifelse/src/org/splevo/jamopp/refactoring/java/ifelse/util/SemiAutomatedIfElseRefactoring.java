@@ -31,7 +31,6 @@ public class SemiAutomatedIfElseRefactoring implements IfElseRefactoringUtil {
 		Condition condition = StatementsFactory.eINSTANCE.createCondition();
 		
         condition.setCondition(SPLConfigurationUtil.generateLicenseValidationExpression(variantToLicenseMap.get(variantID), this.validatorName));
-		//condition.setCondition(SPLConfigurationUtil.generateConfigMatchingExpression(variantToLicenseMap.get(variantID), this.validatorName));
 		
         Block ifBlock = StatementsFactory.eINSTANCE.createBlock();
         condition.setStatement(ifBlock);

@@ -215,6 +215,7 @@ public class TaskView extends ViewPart {
 					String variationPointID = tableItem[0].getText(0).replace(JaMoPPTodoTagCustomizer.getTodoTaskTag() + " ", "");
 					if (variationPointID != "" || variationPointID != null) {
 						CASLicenseHandlerConfiguration.setVariationPointID(variationPointID);
+						//TODO ecentuell mehrere splevo projekte im workspace
 						Iterator<IFile> iter = SPLevoProjectUtil.findAllSPLevoProjectFilesInWorkspace(true).iterator(); 
 						SPLevoProject splevoProject = null;
 						try {

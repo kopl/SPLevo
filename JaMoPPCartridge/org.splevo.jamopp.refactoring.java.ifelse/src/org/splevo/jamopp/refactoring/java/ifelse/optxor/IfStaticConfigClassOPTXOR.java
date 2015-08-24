@@ -49,7 +49,8 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
     private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR)";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassOPTXOR";
 
-    private List<VariabilityRefactoring> availableRefactorings;
+    //TODO was private before
+    protected List<VariabilityRefactoring> availableRefactorings;
 
     public IfStaticConfigClassOPTXOR() {
     	this (new FullyAutomatedIfElseRefactoringUtil());
@@ -96,8 +97,7 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-    	//TODO Is that right?->Stephan
-        boolean correctBindingTime = (variationPoint.getBindingTime() == BindingTime.COMPILE_TIME || variationPoint.getBindingTime() == BindingTime.RUN_TIME);
+        boolean correctBindingTime = (variationPoint.getBindingTime() == BindingTime.COMPILE_TIME);
         boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTXOR;
         boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
         boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;

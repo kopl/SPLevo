@@ -40,4 +40,42 @@ title=
         		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.StartRefactoryAction" />
 	</subitem>
    </item>
+   <item
+         title="Add license constants to license configuration">
+      <description>
+         New license constants have to be add to the licenceModuleConfiguration.txt file. The file is used by the server to determine the available licenses and the licensing models.
+      </description>
+   </item>
+   <item
+         title="Sign license configuration">
+      <description>
+         Use external tool to sign the file. 
+
+The file is signed to prevent unauthorized persons from changing the file content. The signatur is appended to the file.
+      </description>
+   </item>
+   <item
+         skip="true"
+         title="Add admin configuration dialog for variation">
+      <description>
+         This step is optional.
+      </description>
+   </item>
+   <item
+         title="Activate license for development environment">
+      <description>
+         Call external tool to add licenses to the developer databases. 
+
+Developers and testers use databases to run the products. If a new license has been added, these users have to enable it in their environments too to use the feature.
+      </description>
+   </item>
+   <item
+         skip="true"
+         title="Adjust default licenses for SPL variants">
+      <description>
+         For every newly introduced license. If the license shall be included by default in one or more SPL variants the ProductLineConfiguration.xml have to be adjusted.
+
+Products are initialized with a database dump. Depending on the SPL variant, different licenses are included by default. ProductLineConfiguration.xml keeps the mapping between SPL variants and default licenses.
+      </description>
+   </item>
 </cheatsheet> 

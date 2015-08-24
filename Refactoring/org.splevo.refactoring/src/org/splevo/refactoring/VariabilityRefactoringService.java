@@ -68,7 +68,9 @@ public class VariabilityRefactoringService {
 
         toBeSaved.addAll(changedResources);
         
+        //TODO alle aufrufe von unten -> auslagern in methode
         saveAndPostprocessResources(toBeSaved);
+        saveVPM(variationPoint.getGroup().getModel());
     }
 
     /**

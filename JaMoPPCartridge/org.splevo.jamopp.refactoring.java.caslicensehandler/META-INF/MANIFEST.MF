@@ -22,6 +22,8 @@ Require-Bundle: org.splevo.jamopp.refactoring,
  net.sf.eclipsecs.checkstyle,
  org.splevo.refactoring,
  org.eclipse.core.runtime;bundle-version="3.9.100",
- org.splevo.jamopp.refactoring.java.ifelse
+ org.splevo.jamopp.refactoring.java.ifelse,
+ org.eclipse.core.filesystem,
+ org.eclipse.ui.ide
 Export-Package: org.splevo.jamopp.refactoring.java.caslicensehandler,
  org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions

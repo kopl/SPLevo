@@ -50,7 +50,7 @@ import org.splevo.vpm.analyzer.VPMAnalyzer;
 public class VPMAnalyzerConfigurationPage extends WizardPage {
 
     /** The logger for this class. */
-    private Logger logger = Logger.getLogger(VPMAnalyzerConfigurationPage.class);
+    private Logger logger = Logger.getLogger(VPMAnalyzerConfigurationPage.class); 
 
     /** The configured analyzer instances. */
     private List<VPMAnalyzer> analyzers = new LinkedList<VPMAnalyzer>();

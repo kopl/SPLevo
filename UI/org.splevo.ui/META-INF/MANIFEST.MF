@@ -43,7 +43,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.splevo.jamopp.refactoring,
  org.eclipse.swt,
  org.eclipse.ui.cheatsheets,
- org.splevo.jamopp.refactoring.java.caslicensehandler
+ org.splevo.jamopp.refactoring.java.caslicensehandler,
+ org.eclipse.core.resources
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

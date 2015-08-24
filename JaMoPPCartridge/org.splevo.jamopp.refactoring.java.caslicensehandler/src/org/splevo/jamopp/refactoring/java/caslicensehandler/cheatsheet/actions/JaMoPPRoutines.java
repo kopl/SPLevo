@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.Field;
@@ -65,9 +66,13 @@ public class JaMoPPRoutines {
 		CompilationUnit compilationUnit = (CompilationUnit) resource.getContents().get(0);
 		
 		Field field = createField(licenseName);
-		compilationUnit.getConcreteClassifier(FilenameUtils.removeExtension(file.getName())).getMembers().add(field);
 		
-		saveJaMoPPModel(resource);
+		ConcreteClassifier constantLicenseClass = compilationUnit.getConcreteClassifier(FilenameUtils.removeExtension(file.getName()));
+		if (constantLicenseClass != null)  {
+			constantLicenseClass.getMembers().add(field);
+			
+			saveJaMoPPModel(resource);
+		}
 	}
 	
 	//TODO see also SPLConfigurationUtil
