@@ -65,33 +65,32 @@ public class UnifiedDiffEditor extends TextEditor {
     public static final String ID = "org.splevo.ui.editors.unifieddiffeditor"; //$NON-NLS-1$
     /** A Logger instance */
     private static Logger LOGGER = Logger.getLogger(UnifiedDiffEditor.class);
-    
+
     private UnifiedDiffEditorInput input;
-    
+
     /** A reference to the editor ruler. */
     private CompositeRuler ruler;
-    
+
     /**
      * Constructs an instance of class {@link UnifiedDiffEditor}.
      */
     public UnifiedDiffEditor() {
         IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        IWorkbenchPage page = window.getActivePage();     
+        IWorkbenchPage page = window.getActivePage();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     protected void initializeEditor() {
         super.initializeEditor();
-        
+
         // install java source viewer configuration to allow java syntax highlighting
         JavaTextTools javaTextTools = JavaPlugin.getDefault().getJavaTextTools();
         JavaSourceViewerConfiguration sourceViewerConfiguration = new JavaSourceViewerConfiguration(
-                javaTextTools.getColorManager(), 
-                JavaPlugin.getDefault().getCombinedPreferenceStore(), 
-                this, IJavaPartitions.JAVA_PARTITIONING);
+                javaTextTools.getColorManager(), JavaPlugin.getDefault().getCombinedPreferenceStore(), this,
+                IJavaPartitions.JAVA_PARTITIONING);
         setSourceViewerConfiguration(sourceViewerConfiguration);
     }
 
@@ -145,7 +144,7 @@ public class UnifiedDiffEditor extends TextEditor {
     @Override
     public void dispose() {
         super.dispose();
-        
+
         // delete working copy
         if (input instanceof UnifiedDiffEditorInput) {
             try {
@@ -158,23 +157,23 @@ public class UnifiedDiffEditor extends TextEditor {
                     + "The working unified difference working copy cannot be deleted!");
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void createPartControl(Composite parent) {
         super.createPartControl(parent);
-        
+
         // get the editor input
         if (getEditorInput() instanceof UnifiedDiffEditorInput) {
             input = (UnifiedDiffEditorInput) getEditorInput();
         } else {
             LOGGER.warn("The editor input of the UnifiedDiffEditor instance is not of type UnifiedDiffEditorInput but of type "
-                    + getEditorInput().getClass().getSimpleName() + "! This may lead to some operations not functioning as "
-                    + "intended.");
+                    + getEditorInput().getClass().getSimpleName()
+                    + "! This may lead to some operations not functioning as " + "intended.");
         }
-        
+
         if (input instanceof UnifiedDiffEditorInput) {
             // set part name
             setPartName(((UnifiedDiffEditorInput) input).getName());
@@ -182,10 +181,11 @@ public class UnifiedDiffEditor extends TextEditor {
             // create line markers (difference highlights) and extract colors
             UnifiedDiffConnectorContent content = input.getUnfiedConnectorContent();
             Map<Integer, Color> unifiedLinesToColorMapping = highlightLinesFrom(content);
-            
+
             // create unified columns
             int columnCount = content.getIntegrationCopyCount() + 1; // integration copies + leading
             for (int i = 0; i < columnCount; i++) {
+//                TestColumn column = new TestColumn(i, content.getUnifiedLineNumbers(), unifiedLinesToColorMapping);
                 UnifiedDiffRulerColumn column = new UnifiedDiffRulerColumn(i, content.getUnifiedLineNumbers(),
                         unifiedLinesToColorMapping);
                 ruler.addDecorator(i, column);
@@ -194,7 +194,7 @@ public class UnifiedDiffEditor extends TextEditor {
             LOGGER.warn("The editor input of the UnifiedDiffEditor instance is not of type UnifiedDiffEditorInput!");
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -242,14 +242,14 @@ public class UnifiedDiffEditor extends TextEditor {
                 LOGGER.error("Error while creating marker or setting an attribute for said marker!", e);
             }
             offset += lineTextLength + 1;
-            
+
             // add color to mapping
             colorToUnifiedLinesMapping.put(line, getMarkerColor(markerType, aPrefs));
         }
-        
+
         return colorToUnifiedLinesMapping;
     }
-    
+
     /**
      * Creates a marker of given type for the given resource.
      * 
@@ -305,7 +305,7 @@ public class UnifiedDiffEditor extends TextEditor {
 
         return marker;
     }
-    
+
     /**
      * Retrieves the respective marker color based on the given marker type from the annotation
      * preferences.
@@ -317,7 +317,7 @@ public class UnifiedDiffEditor extends TextEditor {
      * @return the marker color.
      */
     private Color getMarkerColor(MarkerType markerType, List<AnnotationPreference> annotationPreferences) {
-        
+
         Color color = null;
         switch (markerType) {
         case LEADING_LIGHT:
