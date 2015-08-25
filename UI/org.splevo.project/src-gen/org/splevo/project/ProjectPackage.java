@@ -166,15 +166,15 @@ public interface ProjectPackage extends EPackage {
 	int SP_LEVO_PROJECT__DIFFING_MODEL_PATH = 9;
 
 	/**
-     * The feature id for the '<em><b>Vpm Model Paths</b></em>' attribute list.
+     * The feature id for the '<em><b>Vpm Model References</b></em>' containment reference list.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int SP_LEVO_PROJECT__VPM_MODEL_PATHS = 10;
+    int SP_LEVO_PROJECT__VPM_MODEL_REFERENCES = 10;
 
-	/**
+    /**
      * The feature id for the '<em><b>Diffing Filter Rules</b></em>' attribute.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -183,7 +183,7 @@ public interface ProjectPackage extends EPackage {
      */
 	int SP_LEVO_PROJECT__DIFFING_FILTER_RULES = 11;
 
-	/**
+    /**
      * The feature id for the '<em><b>Differ Ids</b></em>' attribute list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -303,6 +303,43 @@ public interface ProjectPackage extends EPackage {
     int SPL_PROFILE_FEATURE_COUNT = 2;
 
     /**
+     * The meta object id for the '{@link org.splevo.project.impl.VPMModelReferenceImpl <em>VPM Model Reference</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.splevo.project.impl.VPMModelReferenceImpl
+     * @see org.splevo.project.impl.ProjectPackageImpl#getVPMModelReference()
+     * @generated
+     */
+    int VPM_MODEL_REFERENCE = 3;
+
+    /**
+     * The feature id for the '<em><b>Path</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VPM_MODEL_REFERENCE__PATH = 0;
+
+    /**
+     * The feature id for the '<em><b>Refactoring Started</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VPM_MODEL_REFERENCE__REFACTORING_STARTED = 1;
+
+    /**
+     * The number of structural features of the '<em>VPM Model Reference</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VPM_MODEL_REFERENCE_FEATURE_COUNT = 2;
+
+    /**
      * The meta object id for the '{@link org.splevo.project.QualityGoal <em>Quality Goal</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -310,7 +347,7 @@ public interface ProjectPackage extends EPackage {
      * @see org.splevo.project.impl.ProjectPackageImpl#getQualityGoal()
      * @generated
      */
-    int QUALITY_GOAL = 3;
+    int QUALITY_GOAL = 4;
 
     /**
      * Returns the meta object for class '{@link org.splevo.project.SPLevoProject <em>SP Levo Project</em>}'.
@@ -433,17 +470,6 @@ public interface ProjectPackage extends EPackage {
 	EAttribute getSPLevoProject_DiffingModelPath();
 
 	/**
-     * Returns the meta object for the attribute list '{@link org.splevo.project.SPLevoProject#getVpmModelPaths <em>Vpm Model Paths</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute list '<em>Vpm Model Paths</em>'.
-     * @see org.splevo.project.SPLevoProject#getVpmModelPaths()
-     * @see #getSPLevoProject()
-     * @generated
-     */
-	EAttribute getSPLevoProject_VpmModelPaths();
-
-	/**
      * Returns the meta object for the attribute '{@link org.splevo.project.SPLevoProject#getDiffingFilterRules <em>Diffing Filter Rules</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -497,6 +523,17 @@ public interface ProjectPackage extends EPackage {
      * @generated
      */
     EAttribute getSPLevoProject_FmBuilderId();
+
+    /**
+     * Returns the meta object for the containment reference list '{@link org.splevo.project.SPLevoProject#getVpmModelReferences <em>Vpm Model References</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Vpm Model References</em>'.
+     * @see org.splevo.project.SPLevoProject#getVpmModelReferences()
+     * @see #getSPLevoProject()
+     * @generated
+     */
+    EReference getSPLevoProject_VpmModelReferences();
 
     /**
      * Returns the meta object for class '{@link java.util.Map.Entry <em>Differ Option</em>}'.
@@ -563,6 +600,38 @@ public interface ProjectPackage extends EPackage {
      * @generated
      */
     EAttribute getSPLProfile_QualityGoals();
+
+    /**
+     * Returns the meta object for class '{@link org.splevo.project.VPMModelReference <em>VPM Model Reference</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>VPM Model Reference</em>'.
+     * @see org.splevo.project.VPMModelReference
+     * @generated
+     */
+    EClass getVPMModelReference();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.splevo.project.VPMModelReference#getPath <em>Path</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Path</em>'.
+     * @see org.splevo.project.VPMModelReference#getPath()
+     * @see #getVPMModelReference()
+     * @generated
+     */
+    EAttribute getVPMModelReference_Path();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.splevo.project.VPMModelReference#isRefactoringStarted <em>Refactoring Started</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Refactoring Started</em>'.
+     * @see org.splevo.project.VPMModelReference#isRefactoringStarted()
+     * @see #getVPMModelReference()
+     * @generated
+     */
+    EAttribute getVPMModelReference_RefactoringStarted();
 
     /**
      * Returns the meta object for enum '{@link org.splevo.project.QualityGoal <em>Quality Goal</em>}'.
@@ -687,14 +756,6 @@ public interface ProjectPackage extends EPackage {
 		EAttribute SP_LEVO_PROJECT__DIFFING_MODEL_PATH = eINSTANCE.getSPLevoProject_DiffingModelPath();
 
 		/**
-         * The meta object literal for the '<em><b>Vpm Model Paths</b></em>' attribute list feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute SP_LEVO_PROJECT__VPM_MODEL_PATHS = eINSTANCE.getSPLevoProject_VpmModelPaths();
-
-		/**
          * The meta object literal for the '<em><b>Diffing Filter Rules</b></em>' attribute feature.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -733,6 +794,14 @@ public interface ProjectPackage extends EPackage {
          * @generated
          */
         EAttribute SP_LEVO_PROJECT__FM_BUILDER_ID = eINSTANCE.getSPLevoProject_FmBuilderId();
+
+        /**
+         * The meta object literal for the '<em><b>Vpm Model References</b></em>' containment reference list feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference SP_LEVO_PROJECT__VPM_MODEL_REFERENCES = eINSTANCE.getSPLevoProject_VpmModelReferences();
 
         /**
          * The meta object literal for the '{@link org.splevo.project.impl.DifferOptionImpl <em>Differ Option</em>}' class.
@@ -785,6 +854,32 @@ public interface ProjectPackage extends EPackage {
          * @generated
          */
         EAttribute SPL_PROFILE__QUALITY_GOALS = eINSTANCE.getSPLProfile_QualityGoals();
+
+        /**
+         * The meta object literal for the '{@link org.splevo.project.impl.VPMModelReferenceImpl <em>VPM Model Reference</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.splevo.project.impl.VPMModelReferenceImpl
+         * @see org.splevo.project.impl.ProjectPackageImpl#getVPMModelReference()
+         * @generated
+         */
+        EClass VPM_MODEL_REFERENCE = eINSTANCE.getVPMModelReference();
+
+        /**
+         * The meta object literal for the '<em><b>Path</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute VPM_MODEL_REFERENCE__PATH = eINSTANCE.getVPMModelReference_Path();
+
+        /**
+         * The meta object literal for the '<em><b>Refactoring Started</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute VPM_MODEL_REFERENCE__REFACTORING_STARTED = eINSTANCE.getVPMModelReference_RefactoringStarted();
 
         /**
          * The meta object literal for the '{@link org.splevo.project.QualityGoal <em>Quality Goal</em>}' enum.

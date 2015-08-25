@@ -336,12 +336,15 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     }
 
     @Override
-    public void prepareResourceSet(ResourceSet rs, List<String> sourceModelPaths) {
+    public void prepareResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation) {
 
         Map<Object, Object> options = rs.getLoadOptions();
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
+        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.valueOf(!loadLayoutInformation));
+        options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.valueOf(!loadLayoutInformation));
+        
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();

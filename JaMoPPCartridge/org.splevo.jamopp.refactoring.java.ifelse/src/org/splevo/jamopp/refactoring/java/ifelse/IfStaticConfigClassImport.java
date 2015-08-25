@@ -15,13 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -34,7 +33,7 @@ import com.google.common.collect.Lists;
  * To allow for a complete single code base, all dependencies must be reflected and thus the
  * refactoring must carry over all imports.
  */
-public class IfStaticConfigClassImport implements VariabilityRefactoring {
+public class IfStaticConfigClassImport extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Import";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport";
@@ -48,17 +47,17 @@ public class IfStaticConfigClassImport implements VariabilityRefactoring {
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+        CompilationUnit vpLocation = (CompilationUnit) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Import i = (Import) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Import i = (Import) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                 if (!RefactoringUtil.containsImport(vpLocation, i)) {
-                    vpLocation.getImports().add(EcoreUtil.copy(i));
+                    vpLocation.getImports().add(clone(i));
                 }
             }
         }
@@ -68,7 +67,7 @@ public class IfStaticConfigClassImport implements VariabilityRefactoring {
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof CompilationUnit;
         boolean allImplementingElementsAreImports = RefactoringUtil.allImplementingElementsOfType(variationPoint,

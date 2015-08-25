@@ -30,7 +30,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassEnumerationInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -126,7 +126,7 @@ public class IfStaticConfigClassEnumerationInMemberContainerTest {
         refactoring.refactor(vp, null);
 
         // location has one member (the enumeration)
-        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMembers().size(), equalTo(1));
 
         // member is an enumeration
@@ -136,6 +136,9 @@ public class IfStaticConfigClassEnumerationInMemberContainerTest {
 
         // enumeration has the correct name
         assertThat(enumeration.getName(), equalTo("A"));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -152,7 +155,7 @@ public class IfStaticConfigClassEnumerationInMemberContainerTest {
         refactoring.refactor(vp, null);
 
         // location has one member (the enumeration)
-        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMembers().size(), equalTo(1));
 
         // member is an enumeration
@@ -167,5 +170,8 @@ public class IfStaticConfigClassEnumerationInMemberContainerTest {
         assertThat(enumeration.getConstants().get(1).getName(), anyOf(equalTo("A"), equalTo("B")));
         assertThat(enumeration.getConstants().get(0).getName(),
                 not(equalTo(enumeration.getConstants().get(1).getName())));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

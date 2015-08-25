@@ -31,7 +31,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassClassInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -128,7 +128,7 @@ public class IfStaticConfigClassClassInMemberContainerTest {
         refactoring.refactor(vp, null);
 
         // location has two members (the classes A and B)
-        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMembers().size(), equalTo(2));
 
         // both members are classes
@@ -142,5 +142,8 @@ public class IfStaticConfigClassClassInMemberContainerTest {
         assertThat(class1.getName(), anyOf(equalTo("A"), equalTo("B")));
         assertThat(class2.getName(), anyOf(equalTo("A"), equalTo("B")));
         assertThat(class1.getName(), not(equalTo(class2.getName())));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

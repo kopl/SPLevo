@@ -13,4 +13,6 @@ Require-Bundle: org.apache.log4j,
  org.splevo.jamopp.extraction,
  org.splevo.jamopp.diffing,
  org.splevo.jamopp.vpm.builder,
- org.mockito;bundle-version="1.9.5"
+ org.mockito;bundle-version="1.9.5",
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.common

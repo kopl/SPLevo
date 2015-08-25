@@ -22,104 +22,104 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface SourceLocation extends EObject {
-    /**
-     * Returns the value of the '<em><b>File Path</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * The path to the file containing the software element.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>File Path</em>' attribute.
-     * @see #setFilePath(String)
-     * @see org.splevo.vpm.software.SoftwarePackage#getSourceLocation_FilePath()
-     * @model
-     * @generated
-     */
-    String getFilePath();
+	/**
+	 * Returns the value of the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The path to the file containing the software element.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>File Path</em>' attribute.
+	 * @see #setFilePath(String)
+	 * @see org.splevo.vpm.software.SoftwarePackage#getSourceLocation_FilePath()
+	 * @model
+	 * @generated
+	 */
+	String getFilePath();
 
-    /**
-     * Sets the value of the '{@link org.splevo.vpm.software.SourceLocation#getFilePath <em>File Path</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>File Path</em>' attribute.
-     * @see #getFilePath()
-     * @generated
-     */
-    void setFilePath(String value);
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.software.SourceLocation#getFilePath <em>File Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>File Path</em>' attribute.
+	 * @see #getFilePath()
+	 * @generated
+	 */
+	void setFilePath(String value);
 
-    /**
-     * Returns the value of the '<em><b>Start Line</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * The line in which the software element's code representation starts.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>Start Line</em>' attribute.
-     * @see #setStartLine(int)
-     * @see org.splevo.vpm.software.SoftwarePackage#getSourceLocation_StartLine()
-     * @model
-     * @generated
-     */
-    int getStartLine();
+	/**
+	 * Returns the value of the '<em><b>Start Line</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The line in which the software element's code representation starts.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Start Line</em>' attribute.
+	 * @see #setStartLine(int)
+	 * @see org.splevo.vpm.software.SoftwarePackage#getSourceLocation_StartLine()
+	 * @model
+	 * @generated
+	 */
+	int getStartLine();
 
-    /**
-     * Sets the value of the '{@link org.splevo.vpm.software.SourceLocation#getStartLine <em>Start Line</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Start Line</em>' attribute.
-     * @see #getStartLine()
-     * @generated
-     */
-    void setStartLine(int value);
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.software.SourceLocation#getStartLine <em>Start Line</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Start Line</em>' attribute.
+	 * @see #getStartLine()
+	 * @generated
+	 */
+	void setStartLine(int value);
 
-    /**
-     * Returns the value of the '<em><b>Start Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * The character position (offset) within the complete text file at which the software element's code representation starts.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>Start Position</em>' attribute.
-     * @see #setStartPosition(int)
-     * @see org.splevo.vpm.software.SoftwarePackage#getSourceLocation_StartPosition()
-     * @model
-     * @generated
-     */
-    int getStartPosition();
+	/**
+	 * Returns the value of the '<em><b>Start Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The character position (offset) within the complete text file at which the software element's code representation starts.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Start Position</em>' attribute.
+	 * @see #setStartPosition(int)
+	 * @see org.splevo.vpm.software.SoftwarePackage#getSourceLocation_StartPosition()
+	 * @model
+	 * @generated
+	 */
+	int getStartPosition();
 
-    /**
-     * Sets the value of the '{@link org.splevo.vpm.software.SourceLocation#getStartPosition <em>Start Position</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Start Position</em>' attribute.
-     * @see #getStartPosition()
-     * @generated
-     */
-    void setStartPosition(int value);
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.software.SourceLocation#getStartPosition <em>Start Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Start Position</em>' attribute.
+	 * @see #getStartPosition()
+	 * @generated
+	 */
+	void setStartPosition(int value);
 
-    /**
-     * Returns the value of the '<em><b>End Position</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * The character position (offset) within the complete text file at which the software element's code representation ends.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>End Position</em>' attribute.
-     * @see #setEndPosition(int)
-     * @see org.splevo.vpm.software.SoftwarePackage#getSourceLocation_EndPosition()
-     * @model
-     * @generated
-     */
-    int getEndPosition();
+	/**
+	 * Returns the value of the '<em><b>End Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The character position (offset) within the complete text file at which the software element's code representation ends.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>End Position</em>' attribute.
+	 * @see #setEndPosition(int)
+	 * @see org.splevo.vpm.software.SoftwarePackage#getSourceLocation_EndPosition()
+	 * @model
+	 * @generated
+	 */
+	int getEndPosition();
 
-    /**
-     * Sets the value of the '{@link org.splevo.vpm.software.SourceLocation#getEndPosition <em>End Position</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>End Position</em>' attribute.
-     * @see #getEndPosition()
-     * @generated
-     */
-    void setEndPosition(int value);
+	/**
+	 * Sets the value of the '{@link org.splevo.vpm.software.SourceLocation#getEndPosition <em>End Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>End Position</em>' attribute.
+	 * @see #getEndPosition()
+	 * @generated
+	 */
+	void setEndPosition(int value);
 
 } // SourceLocation

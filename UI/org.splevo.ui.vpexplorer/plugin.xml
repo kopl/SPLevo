@@ -184,13 +184,13 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="org.splevo.ui.vpexplorer.handler.vpmedit.RenameVariationPointGroupHandler"
+            defaultHandler="org.splevo.ui.vpexplorer.handler.vpmedit.RenameVariationHandler"
             description="Renames the selected Variation Point Group."
             id="org.splevo.ui.vpexplorer.rename.vpgroup"
             name="Rename">
       </command>
       <command
-            defaultHandler="org.splevo.ui.vpexplorer.handler.vpmedit.RenameVariationPointHandler"
+            defaultHandler="org.splevo.ui.vpexplorer.handler.vpmedit.RenameVariationHandler"
             description="Renames the selected Variation Point."
             id="org.splevo.ui.vpexplorer.rename.vp"
             name="Rename">
@@ -442,6 +442,11 @@
             name="featureoutline context"
             parentId="org.eclipse.ui.contexts.window">
       </context>
+      <context
+            id="org.splevo.ui.vpexplorer.context"
+            name="vp explorer context"
+            parentId="org.eclipse.ui.contexts.window">
+      </context>
    </extension>
    
    <extension
@@ -458,7 +463,23 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="F2">
       </key>
+      
+      <key
+            commandId="org.splevo.ui.vpexplorer.rename.vp"
+            contextId="org.splevo.ui.vpexplorer.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="ALT+SHIFT+R">
+      </key>
+      <key
+            commandId="org.splevo.ui.vpexplorer.rename.vp"
+            contextId="org.splevo.ui.vpexplorer.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F2">
+      </key>
    </extension>
+   
+   
+   
    
 
 </plugin>

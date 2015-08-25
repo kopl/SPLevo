@@ -30,7 +30,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassMethod;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -113,7 +113,7 @@ public class IfStaticConfigClassMethodTest {
         refactoring.refactor(vp, null);
 
         // location has one method
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Class vpLocation = (Class) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMethods().size(), equalTo(1));
 
         // assert number of parameters
@@ -121,6 +121,9 @@ public class IfStaticConfigClassMethodTest {
 
         // assert method name and return type
         assertThat(vpLocation.getMethods().get(0).getTypeReference(), instanceOf(Void.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -136,7 +139,7 @@ public class IfStaticConfigClassMethodTest {
         refactoring.refactor(vp, null);
 
         // location has two methods
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Class vpLocation = (Class) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMethods().size(), equalTo(2));
 
         Method firstMethod = vpLocation.getMethods().get(0);
@@ -152,5 +155,8 @@ public class IfStaticConfigClassMethodTest {
         assertThat(secondMethod.getName(), equalTo("someMethod"));
         assertThat(firstMethod.getTypeReference(), instanceOf(Void.class));
         assertThat(secondMethod.getTypeReference(), instanceOf(Void.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

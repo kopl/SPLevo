@@ -25,7 +25,7 @@ import org.emftext.language.java.members.Method;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.types.Type;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.analyzer.mergedecider.MergeDecider;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
@@ -53,8 +53,8 @@ public class JaMoPPMergeDecider implements MergeDecider {
             return false;
         }
 
-        Commentable jamoppLocation1 = ((JaMoPPSoftwareElement) location1).getJamoppElement();
-        Commentable jamoppLocation2 = ((JaMoPPSoftwareElement) location2).getJamoppElement();
+        Commentable jamoppLocation1 = ((JaMoPPJavaSoftwareElement) location1).getJamoppElement();
+        Commentable jamoppLocation2 = ((JaMoPPJavaSoftwareElement) location2).getJamoppElement();
         if (jamoppLocation1 != jamoppLocation2) {
             return false;
         }
@@ -156,7 +156,7 @@ public class JaMoPPMergeDecider implements MergeDecider {
         ArrayListMultimap<String, Statement> variantStatements = ArrayListMultimap.create();
         for (Variant variant : vp.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
-                JaMoPPSoftwareElement jamoppSoftwareElement = (JaMoPPSoftwareElement) se;
+                JaMoPPJavaSoftwareElement jamoppSoftwareElement = (JaMoPPJavaSoftwareElement) se;
                 Commentable jamoppElement = jamoppSoftwareElement.getJamoppElement();
                 if (!(jamoppElement instanceof Statement)) {
                     logger.warn("No statement: " + jamoppElement.getClass().getSimpleName());
@@ -198,8 +198,8 @@ public class JaMoPPMergeDecider implements MergeDecider {
     private boolean hasOrderIndepentElementsOnly(VariationPoint vp) {
         for (Variant v : vp.getVariants()) {
             for (SoftwareElement element : v.getImplementingElements()) {
-                if (element instanceof JaMoPPSoftwareElement) {
-                    JaMoPPSoftwareElement jamoppElement = (JaMoPPSoftwareElement) element;
+                if (element instanceof JaMoPPJavaSoftwareElement) {
+                    JaMoPPJavaSoftwareElement jamoppElement = (JaMoPPJavaSoftwareElement) element;
                     if (!isOrderIndependent(jamoppElement.getJamoppElement())) {
                         return false;
                     }
@@ -254,7 +254,7 @@ public class JaMoPPMergeDecider implements MergeDecider {
      * @return The JaMoPP Element or null if not available.
      */
     private Commentable getJaMoPPLocation(VariationPoint vp) {
-        JaMoPPSoftwareElement element = (JaMoPPSoftwareElement) vp.getLocation();
+        JaMoPPJavaSoftwareElement element = (JaMoPPJavaSoftwareElement) vp.getLocation();
         return element.getJamoppElement();
     }
 
@@ -276,7 +276,7 @@ public class JaMoPPMergeDecider implements MergeDecider {
     }
 
     private boolean isJaMoPPSoftwareElement(SoftwareElement softwareElement) {
-        return (softwareElement instanceof JaMoPPSoftwareElement);
+        return (softwareElement instanceof JaMoPPJavaSoftwareElement);
     }
 
 }

@@ -15,10 +15,12 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +28,14 @@ import java.util.Map;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
@@ -48,6 +56,7 @@ import org.splevo.vpm.refinement.Refinement;
 import org.splevo.vpm.refinement.RefinementFactory;
 import org.splevo.vpm.refinement.RefinementType;
 import org.splevo.vpm.refinement.VPMRefinementService;
+import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -772,6 +781,14 @@ public final class RefactoringTestUtil {
 
         JaMoPPVPMBuilder builder = new JaMoPPVPMBuilder();
         VariationPointModel vpm = builder.buildVPM(comparison, "leading", "integration");
+        
+        ResourceSet rs = new ResourceSetImpl();
+        rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
+        .put("vpm", new XMIResourceFactoryImpl());
+        Resource r = rs.createResource(URI.createFileURI("test123.vpm"));
+        r.getContents().add(vpm);
+        
+        
         return vpm;
     }
 
@@ -800,5 +817,20 @@ public final class RefactoringTestUtil {
         variationPoint.setBindingTime(BindingTime.COMPILE_TIME);
         variationPoint.setExtensibility(Extensible.NO);
         variationPoint.setVariabilityType(variabilityType);
+    }
+
+    public static void assertValidVPM(VariationPoint vp) throws IOException {
+        for (Variant v : vp.getVariants()) {
+            OuterLoop: for (SoftwareElement swe : v.getImplementingElements()) {               
+                EObject wantedObject = swe.getWrappedElement();
+                TreeIterator<EObject> content = vp.getLocation().getWrappedElement().eAllContents();
+                while (content.hasNext()) {
+                    if (content.next() == wantedObject) {
+                        break OuterLoop;
+                    }
+                }
+                fail(String.format("The referenced object %s (resource %s) is not contained in the leading resource %s.", wantedObject.toString(), wantedObject.eResource(), vp.getLocation().getWrappedElement().eResource()));
+            }
+        }
     }
 }

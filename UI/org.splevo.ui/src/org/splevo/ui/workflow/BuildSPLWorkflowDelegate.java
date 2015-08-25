@@ -14,9 +14,14 @@ package org.splevo.ui.workflow;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
+import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.jobs.LoadVPMJob;
+import org.splevo.ui.jobs.OpenVPMJob;
 import org.splevo.ui.jobs.RefactorVPMJob;
+import org.splevo.ui.jobs.RefreshLeadingCopyProjects;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
+import org.splevo.ui.jobs.SaveAndReloadVPMJob;
+import org.splevo.ui.jobs.SetVPMModelReferenceRefactoredStatus;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
@@ -54,19 +59,37 @@ public class BuildSPLWorkflowDelegate extends
 
     @Override
     protected IJob createWorkflowJob(BuildSPLWorkflowConfiguration arg0) {
-        SPLevoProject splevoProject = config.getSplevoProjectEditor().getSplevoProject();
+        final SPLevoProjectEditor splevoProjectEditor = config.getSplevoProjectEditor();
+        final SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
 
-        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence = new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
+        SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence =
+                new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
         jobSequence.setBlackboard(blackboard);
+        
+        // save and reload vpm model
+        jobSequence.add(new SaveAndReloadVPMJob(splevoProject, "refactored", false));
 
-        // load the latest vpm model
+        // load the latest vpm model in the blackboard
         LoadVPMJob loadVPMJob = new LoadVPMJob(splevoProject);
         jobSequence.add(loadVPMJob);
 
         // execute refactorings
         RefactorVPMJob refactorVPMJob = new RefactorVPMJob(splevoProject);
         jobSequence.add(refactorVPMJob);
-
+        
+        // refresh the leading copy projects in Eclipse
+        jobSequence.add(new RefreshLeadingCopyProjects(splevoProject));
+        
+        // change refactoring status of VPMModelReference
+        jobSequence.add(new SetVPMModelReferenceRefactoredStatus(splevoProjectEditor, true));
+        
+        // load the latest vpm model in the blackboard
+        LoadVPMJob loadVPMJobAfterRefactoring = new LoadVPMJob(splevoProject);
+        jobSequence.add(loadVPMJobAfterRefactoring);
+        
+        // reload latest vpm model in UI
+        jobSequence.add(new OpenVPMJob(splevoProject, null));
+        
         return jobSequence;
     }
 

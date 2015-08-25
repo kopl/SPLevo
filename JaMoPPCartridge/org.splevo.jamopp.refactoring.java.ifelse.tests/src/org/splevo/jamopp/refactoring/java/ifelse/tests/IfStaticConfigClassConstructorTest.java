@@ -28,7 +28,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -112,7 +112,7 @@ public class IfStaticConfigClassConstructorTest {
         refactoring.refactor(vp, null);
 
         // location has two constructors
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Class vpLocation = (Class) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getConstructors().size(), is(2));
         
         // assert number of parameters
@@ -123,6 +123,9 @@ public class IfStaticConfigClassConstructorTest {
         assertThat(vpLocation.getConstructors().get(0).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
         assertThat(vpLocation.getConstructors().get(1).getParameters().get(0).getTypeReference(),
                 instanceOf(Short.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -139,7 +142,7 @@ public class IfStaticConfigClassConstructorTest {
         refactoring.refactor(vp, null);
 
         // location has two constructors
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Class vpLocation = (Class) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getConstructors().size(), is(2));
         
         // constructors have one and two parameters
@@ -151,5 +154,8 @@ public class IfStaticConfigClassConstructorTest {
         assertThat(vpLocation.getConstructors().get(1).getParameters().get(0).getTypeReference(), instanceOf(Int.class));
         assertThat(vpLocation.getConstructors().get(1).getParameters().get(1).getTypeReference(),
                 instanceOf(Short.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

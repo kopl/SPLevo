@@ -15,13 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.Constructor;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -34,7 +33,7 @@ import com.google.common.collect.Lists;
  * The code base class must contain all constructors from the variants. Therefore, this refactoring
  * merges the constructors from all variants into the base.
  */
-public class IfStaticConfigClassConstructor implements VariabilityRefactoring {
+public class IfStaticConfigClassConstructor extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Constructor";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor";
@@ -48,17 +47,17 @@ public class IfStaticConfigClassConstructor implements VariabilityRefactoring {
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        Class vpLocation = (Class) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+        Class vpLocation = (Class) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 continue;
             }
             for (SoftwareElement se : variant.getImplementingElements()) {
-                Constructor constructor = (Constructor) ((JaMoPPSoftwareElement) se).getJamoppElement();
+                Constructor constructor = (Constructor) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
                 if (!RefactoringUtil.hasConstructorWithEqualParameters(vpLocation, constructor)) {
-                    vpLocation.getMembers().add(EcoreUtil.copy(constructor));
+                    vpLocation.getMembers().add(clone(constructor));
                 }
             }
         }
@@ -68,7 +67,7 @@ public class IfStaticConfigClassConstructor implements VariabilityRefactoring {
 
     @Override
     public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof Class;
         boolean allImplementingElementsAreConstructors = RefactoringUtil.allImplementingElementsOfType(variationPoint,

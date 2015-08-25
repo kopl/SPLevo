@@ -48,7 +48,7 @@ public class LoadDiffingModelJob extends AbstractBlackboardInteractingJob<SPLevo
         logger.info("Load diff models");
         File diffModelFile = new File(splevoProject.getDiffingModelPath());
 
-        ResourceSet resourceSet = JobUtil.initResourceSet(splevoProject);
+        ResourceSet resourceSet = JobUtil.initResourceSet(splevoProject, false);
 
         Comparison diffModel;
         try {

@@ -133,8 +133,8 @@ public class UnifiedDiffConnectorContent {
      * @return the variation point model.
      */
     private VariationPointModel getVPM(SPLevoProject splevoProject) {
-        int lastIndex = splevoProject.getVpmModelPaths().size() - 1;
-        File vpmFile = new File(splevoProject.getVpmModelPaths().get(lastIndex));
+        int lastIndex = splevoProject.getVpmModelReferences().size() - 1;
+        File vpmFile = new File(splevoProject.getVpmModelReferences().get(lastIndex).getPath());
         
         try {
             return VPMUtil.loadVariationPointModel(vpmFile, new ResourceSetImpl());

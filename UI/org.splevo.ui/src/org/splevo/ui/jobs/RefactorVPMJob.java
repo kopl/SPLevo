@@ -12,12 +12,9 @@
 package org.splevo.ui.jobs;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.splevo.project.SPLevoProject;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -60,15 +57,7 @@ public class RefactorVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         refactoringConfigurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, leadingSrcPath);
 
         VariabilityRefactoringService variabilityRefactoringService = new VariabilityRefactoringService();
-        Set<Resource> resources = variabilityRefactoringService.refactor(vpm, refactoringConfigurations);
-        
-        for (Resource resource : resources) {
-            try {
-                resource.save(null);
-            } catch (IOException e) {
-                logger.error("Could not save resource: " + resource.getURI().lastSegment(), e);
-            }
-        }
+        variabilityRefactoringService.refactor(vpm, refactoringConfigurations);
     }
 
     private String getLeadingSrcPath() {

@@ -16,10 +16,10 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
+import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
@@ -33,7 +33,7 @@ import com.google.common.collect.Lists;
  * content: "Variability could not be handled". This refactoring can be used to annotate variation
  * points that cannot be processed.
  */
-public class CommentRefactoring implements VariabilityRefactoring {
+public class CommentRefactoring extends JaMoPPFullyAutomatedVariabilityRefactoring {
 
     private static final String REFACTORING_NAME = "Comment Refactoring";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.CommentRefactoring";
@@ -48,14 +48,14 @@ public class CommentRefactoring implements VariabilityRefactoring {
     }
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        Commentable vpLocation = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+        Commentable vpLocation = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         StringBuilder sb = new StringBuilder();
         sb.append(COMMENT_TEXT + "\n");
         for (Variant variant : variationPoint.getVariants()) {
             sb.append("Variant: " + variant.getId() + "\n");
             for (SoftwareElement se : variant.getImplementingElements()) {
-                String label = JaMoPPElementUtil.getLabel(((JaMoPPSoftwareElement) se).getJamoppElement());
+                String label = JaMoPPElementUtil.getLabel(((JaMoPPJavaSoftwareElement) se).getJamoppElement());
                 sb.append(label + "\n");
             }
         }

@@ -4,25 +4,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Map;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.PatternLayout;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
-import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
-import org.emftext.language.java.resource.java.mopp.JavaResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
@@ -35,7 +20,7 @@ import org.splevo.vpm.software.SourceLocation;
  * @author Benjamin Klatt
  *
  */
-public class JaMoPPSoftwareElementImplTest {
+public class JaMoPPSoftwareElementImplTest extends JaMoPPJavaSoftwareElementTest {
 
     /** Source path to the original implementation. */
     private static final File TEST_FILE = new File("testcode/ExampleClass.java");
@@ -46,18 +31,12 @@ public class JaMoPPSoftwareElementImplTest {
     /**
      * Initialize the resources to test.
      *
-     * @throws IOException
+     * @throws Exception
      *             An error during test initialization.
      */
     @Before
-    public void setUp() throws IOException {
-
-        BasicConfigurator.resetConfiguration();
-        BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
-
-        ResourceSet rs = setUpResourceSet();
-        JavaResource resource = (JavaResource) parseResource(TEST_FILE, rs);
-        CompilationUnit compilationUnit = (CompilationUnit) resource.getContents().get(0);
+    public void setUp() throws Exception {
+        super.setUp();
         exampleClass = compilationUnit.getConcreteClassifier("ExampleClass");
     }
 
@@ -101,35 +80,14 @@ public class JaMoPPSoftwareElementImplTest {
         assertThat("Wrong end position", location.getEndPosition(), is(121));
     }
 
-    /**
-     * Load a specific resource.
-     *
-     * @param file
-     *            The file object to load as resource.
-     * @param rs
-     *            The resource set to add it to.
-     * @return The parsed resource.
-     * @throws IOException
-     *             An exception during resource access.
-     */
-    private static Resource parseResource(File file, ResourceSet rs) throws IOException {
-        String filePath = file.getCanonicalPath();
-        URI uri = URI.createFileURI(filePath);
-        return rs.getResource(uri, true);
+    @Override
+    protected File getTestFile() {
+        return TEST_FILE;
     }
 
-    /**
-     * Setup the JaMoPP resource set and prepare the parsing options for the java resource type.
-     *
-     * @return The initialized resource set.
-     */
-    private static ResourceSet setUpResourceSet() {
-        ResourceSet rs = new ResourceSetImpl();
-        EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
-        Map<String, Object> extensionToFactoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        extensionToFactoryMap.put("java", new JavaSourceOrClassFileResourceFactoryImpl());
-        extensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
-        return rs;
+    @Override
+    protected boolean parseLayoutInformation() {
+        return false;
     }
 
 }

@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.BundleException;
 import org.splevo.commons.eclipse.ExtensionHelper;
 import org.splevo.commons.registry.RegistryBase;
+import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * Service providing resource processings to be used before or after refactorings. This might be
@@ -60,6 +61,48 @@ public class ResourceProcessorService {
             for (ResourceProcessor processor : processors) {
                 processor.processBeforeRefactoring(resource);
             }
+        }
+    }
+
+    /**
+     * Preprocesses the given VPM before the refactoring by applying all available processors to it.
+     * 
+     * @param variationPointModel
+     *            The VPM to be processed.
+     */
+    public void processVPMBeforeRefactorings(VariationPointModel variationPointModel) {
+        final List<ResourceProcessor> processors = RESOURCE_PROCESSOR_REGISTRY.getElements();
+        for (ResourceProcessor processor : processors) {
+            processor.processVPMBeforeRefactoring(variationPointModel);
+        }
+    }
+
+    /**
+     * Postprocesses the given resources after the refactoring by applying all available processors
+     * to it.
+     * 
+     * @param resources
+     *            The resources to be processed.
+     */
+    public void postprocessResources(Iterable<Resource> resources) {
+        final List<ResourceProcessor> processors = RESOURCE_PROCESSOR_REGISTRY.getElements();
+        for (Resource resource : resources) {
+            for (ResourceProcessor processor : processors) {
+                processor.processAfterRefactoring(resource);
+            }
+        }
+    }
+
+    /**
+     * Postprocess the given VPM after the refactoring by applying all available processors to it.
+     * 
+     * @param variationPointModel
+     *            The VPM to be processed.
+     */
+    public void processVPMAfterRefactorings(VariationPointModel variationPointModel) {
+        final List<ResourceProcessor> processors = RESOURCE_PROCESSOR_REGISTRY.getElements();
+        for (ResourceProcessor processor : processors) {
+            processor.processVPMAfterRefactorings(variationPointModel);
         }
     }
 

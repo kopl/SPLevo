@@ -40,6 +40,7 @@ public class HighlightConnectedVPListener implements ISelectionChangedListener {
     public void selectionChanged(SelectionChangedEvent event) {
 
         TreeViewer treeViewer = RefinementBrowserUtil.getTreeViewer(event);
+        
         Set<VariationPoint> selectedVPs = getSelectedVP(event);
         Refinement refinement = RefinementBrowserUtil.getRefinement(treeViewer);
         if (treeViewer == null || selectedVPs.size() < 1 || refinement == null) {
@@ -53,23 +54,43 @@ public class HighlightConnectedVPListener implements ISelectionChangedListener {
 
     private void highlightConnectedTreeNodes(TreeViewer treeViewer, Set<VariationPoint> selectedVPs,
             Set<VariationPoint> connectedVPs) {
-
+        for (TreeItem treeItem : treeViewer.getTree().getItems()) {
+            highlightConnectedTreeNodes(treeViewer, selectedVPs, connectedVPs, treeItem);
+            for (TreeItem subItem: treeItem.getItems()) {
+                highlightConnectedTreeNodes(treeViewer, selectedVPs, connectedVPs, subItem);
+            }
+            
+        }
+    }
+    
+    private void highlightConnectedTreeNodes(TreeViewer treeViewer, Set<VariationPoint> selectedVPs,
+            Set<VariationPoint> connectedVPs, TreeItem treeItem) {
+        
         Font fontBold = getFont(treeViewer, SWT.BOLD);
         Font fontBoldItalic = getFont(treeViewer, SWT.BOLD | SWT.ITALIC);
         Font fontNormal = getFont(treeViewer, SWT.NORMAL);
-
-        for (TreeItem treeItem : treeViewer.getTree().getItems()) {
-            if (selectedVPs.contains(treeItem.getData())) {
-                treeItem.setFont(fontBoldItalic);
-            } else if (connectedVPs.contains(treeItem.getData())) {
-                treeItem.setFont(fontBold);
-            } else {
-                treeItem.setFont(fontNormal);
-            }
+        
+        if (selectedVPs.contains(treeItem.getData())) {
+            treeItem.setFont(fontBoldItalic);
+        } else if (connectedVPs.contains(treeItem.getData())) {
+            treeItem.setFont(fontBold);
+        } else {
+            treeItem.setFont(fontNormal);
         }
     }
 
     private Set<VariationPoint> getDirectConnectedVPs(Set<VariationPoint> selectedVPs, Refinement refinement) {
+        Set<VariationPoint> connectedVPs = Sets.newLinkedHashSet();
+        
+        connectedVPs.addAll(getConnectedVPs(selectedVPs, refinement));
+        
+        for (Refinement ref : refinement.getSubRefinements()) {
+            connectedVPs.addAll(getConnectedVPs(selectedVPs, ref));
+        }
+        return connectedVPs;
+    }
+    
+    private Set<VariationPoint> getConnectedVPs(Set<VariationPoint> selectedVPs, Refinement refinement) {
         Set<VariationPoint> connectedVPs = Sets.newLinkedHashSet();
         for (RefinementReason reason : refinement.getReasons()) {
             if (selectedVPs.contains(reason.getSource()) && !selectedVPs.contains(reason.getTarget())) {

@@ -12,4 +12,5 @@ Require-Bundle: org.apache.log4j,
  org.splevo.vpm;visibility:=reexport,
  org.eclipse.core.runtime,
  com.google.guava;bundle-version="[11.0.0,15.0.0)",
- org.splevo.commons;visibility:=reexport
+ org.splevo.commons;visibility:=reexport,
+ org.eclipse.emf.ecore

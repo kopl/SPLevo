@@ -13,10 +13,12 @@
 package org.splevo.ui.vpexplorer.featureoutline;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.contexts.IContextActivation;
 import org.eclipse.ui.contexts.IContextService;
@@ -25,6 +27,7 @@ import org.splevo.ui.commons.tooltip.CustomizableDescriptionHavingTreeViewerTool
 import org.splevo.ui.vpexplorer.Activator;
 import org.splevo.ui.vpexplorer.explorer.ExplorerMediator;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
+import org.splevo.ui.vpexplorer.featureoutline.actions.NoVariabilityMechanismAction;
 import org.splevo.ui.vpexplorer.linking.ILinkableNavigator;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -86,7 +89,13 @@ public class FeatureOutlineView extends CommonNavigator implements ILinkableNavi
         super.createPartControl(aParent);
         new CustomizableDescriptionHavingTreeViewerToolTip(getCommonViewer());
         getCommonViewer().addSelectionChangedListener(mediator);
-        
+        IActionBars actionBars = getViewSite().getActionBars();
+        IToolBarManager toolBar = actionBars.getToolBarManager();
+        if (toolBar.getItems().length > 0) {
+            toolBar.insertBefore(toolBar.getItems()[0].getId(), new NoVariabilityMechanismAction(this));            
+        } else {
+            toolBar.add(new NoVariabilityMechanismAction(this));            
+        }
         FocusListener focusListener = new FocusListener() {
             private IContextActivation activation;
             

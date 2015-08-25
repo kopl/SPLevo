@@ -8,6 +8,7 @@
  *
  * Contributors:
  *    Daniel Kojic - initial API and implementation and initial documentation
+ *    Stephan Seifermann - assertion for correct VPM
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java.ifelse.optxor.tests;
 
@@ -47,7 +48,7 @@ import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
 import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementInStatementListContainerOPTXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
@@ -148,7 +149,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        ClassMethod vpLocation = (ClassMethod) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
 
         // vp location has 2 statements: the two conditions (one per variant)
         assertThat(vpLocation.getStatements().size(), equalTo(2));
@@ -182,6 +183,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(decimalValue1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(decimalValue2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(decimalValue1, not(equalTo(decimalValue2)));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -201,7 +204,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        ClassMethod vpLocation = (ClassMethod) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
 
         // vp location has 4 statements: the variable, two conditions (one per variant) and the
         // common statement
@@ -256,6 +259,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(secondAssignmentExpr.getDecimalValue(),
                 anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(firstAssignmentExpr.getDecimalValue(), not(equalTo(secondAssignmentExpr.getDecimalValue())));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -275,7 +280,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        ClassMethod vpLocation = (ClassMethod) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
 
         // location has two statements: the common expression statement and the condition for the
         // integration variant
@@ -297,6 +302,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -315,7 +322,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        ClassMethod vpLocation = (ClassMethod) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        ClassMethod vpLocation = (ClassMethod) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
 
         // location has two conditions (one per variant)
         assertThat(vpLocation.getStatements().size(), equalTo(2));
@@ -339,6 +346,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -356,7 +365,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer();
@@ -381,6 +390,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -398,7 +409,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
@@ -423,6 +434,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -440,7 +453,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
@@ -465,6 +478,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -482,7 +497,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
@@ -507,6 +522,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -524,7 +541,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
@@ -549,8 +566,10 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
-
+    
     /**
      * Two variants that both have one different statement in a nested block (case). Two conditions
      * should be introduced in the block that execute the statements as configured.
@@ -566,7 +585,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         configurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, "");
         refactoring.refactor(vp, configurations);
 
-        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPSoftwareElement) vp.getLocation())
+        StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation())
                 .getJamoppElement();
 
         ClassMethod method = (ClassMethod) vpLocation.eContainer().eContainer();
@@ -591,5 +610,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         assertThat(val1, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val2, anyOf(equalTo(BigInteger.valueOf(1)), equalTo(BigInteger.valueOf(2))));
         assertThat(val1, not(equalTo(val2)));
+        
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

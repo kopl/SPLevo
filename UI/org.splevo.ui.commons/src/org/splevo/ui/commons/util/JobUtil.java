@@ -31,16 +31,17 @@ public final class JobUtil {
 	private JobUtil() {
 	}
 
-	/**
-	 * Initialize the resource set including preparation by the source model
-	 * extractors for specific source models.
-	 * 
-	 * @param splevoProject
-	 *            The {@link SPLevoProject} to get required configurations from.
-	 * 
-	 * @return The initialized resource set.
-	 */
-	public static ResourceSetImpl initResourceSet(SPLevoProject splevoProject) {
+    /**
+     * Initialize the resource set including preparation by the source model extractors for specific
+     * source models.
+     * 
+     * @param splevoProject
+     *            The {@link SPLevoProject} to get required configurations from.
+     * @param loadLayoutInformation
+     *            Flag to activate loading of layout information.
+     * @return The initialized resource set.
+     */
+	public static ResourceSetImpl initResourceSet(SPLevoProject splevoProject, boolean loadLayoutInformation) {
 
 		ResourceSetImpl resourceSet = new ResourceSetImpl();
 
@@ -49,7 +50,7 @@ public final class JobUtil {
 		sourceModelPaths.add(splevoProject.getSourceModelPathIntegration());
 
 		DefaultExtractionService extractionService = new DefaultExtractionService();
-		extractionService.prepareResourceSet(resourceSet, sourceModelPaths);
+		extractionService.prepareResourceSet(resourceSet, sourceModelPaths, loadLayoutInformation);
 
 		return resourceSet;
 	}

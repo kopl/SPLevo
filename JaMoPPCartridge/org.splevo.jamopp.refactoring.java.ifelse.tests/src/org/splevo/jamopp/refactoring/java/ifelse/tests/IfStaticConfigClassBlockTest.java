@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassBlock;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -101,7 +101,7 @@ public class IfStaticConfigClassBlockTest {
         refactoring.refactor(vp, null);
 
         // location has one member
-        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMembers().size(), equalTo(1));
 
         // member is a block
@@ -111,6 +111,9 @@ public class IfStaticConfigClassBlockTest {
         Block block = (Block) vpLocation.getMembers().get(0);
         assertThat(block.getStatements().size(), equalTo(1));
         assertThat(block.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
     
     /**
@@ -127,7 +130,7 @@ public class IfStaticConfigClassBlockTest {
         refactoring.refactor(vp, null);
         
         // location has two members
-        MemberContainer vpLocation = (MemberContainer) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        MemberContainer vpLocation = (MemberContainer) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getMembers().size(), equalTo(2));
         
         // members are blocks
@@ -141,5 +144,8 @@ public class IfStaticConfigClassBlockTest {
         assertThat(block2.getStatements().size(), equalTo(1));
         assertThat(block1.getStatements().get(0), instanceOf(ExpressionStatement.class));
         assertThat(block2.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

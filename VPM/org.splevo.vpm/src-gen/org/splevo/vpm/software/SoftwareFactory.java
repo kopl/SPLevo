@@ -13,30 +13,31 @@ import org.eclipse.emf.ecore.EFactory;
  * @generated
  */
 public interface SoftwareFactory extends EFactory {
-    /**
-     * The singleton instance of the factory.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    SoftwareFactory eINSTANCE = org.splevo.vpm.software.impl.SoftwareFactoryImpl.init();
+	/**
+	 * The singleton instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	SoftwareFactory eINSTANCE = org.splevo.vpm.software.impl.SoftwareFactoryImpl
+			.init();
 
-    /**
-     * Returns a new object of class '<em>Source Location</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Source Location</em>'.
-     * @generated
-     */
-    SourceLocation createSourceLocation();
+	/**
+	 * Returns a new object of class '<em>Source Location</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Source Location</em>'.
+	 * @generated
+	 */
+	SourceLocation createSourceLocation();
 
-    /**
-     * Returns the package supported by this factory.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the package supported by this factory.
-     * @generated
-     */
-    SoftwarePackage getSoftwarePackage();
+	/**
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the package supported by this factory.
+	 * @generated
+	 */
+	SoftwarePackage getSoftwarePackage();
 
 } //SoftwareFactory

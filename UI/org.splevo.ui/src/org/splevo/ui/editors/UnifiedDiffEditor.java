@@ -27,6 +27,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.texteditor.AnnotationPreference;
+import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.MarkerAnnotationPreferences;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnector;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnectorContent;
@@ -158,6 +159,14 @@ public class UnifiedDiffEditor extends TextEditor {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void editorContextMenuAboutToShow(IMenuManager menu) {
+        menu.removeAll();
+    }
+    
     /**
      * {@inheritDoc}
      */

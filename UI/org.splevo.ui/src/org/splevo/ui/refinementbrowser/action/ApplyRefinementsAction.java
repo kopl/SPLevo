@@ -69,7 +69,7 @@ public class ApplyRefinementsAction extends Action {
 
         // handle an empty selection by asking the user how to proceed
         if (refinements.size() == 0) {
-            Shell shell = event.widget.getDisplay().getShells()[0];
+            Shell shell = event.widget.getDisplay().getActiveShell();
             boolean cancel = MessageDialog.openQuestion(shell, "SPLevo Info",
                     "No Refinements selected. Do you want to cancel the analysis?");
             if (!cancel) {

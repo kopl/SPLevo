@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -24,6 +25,7 @@ import org.splevo.project.ProjectPackage;
 import org.splevo.project.QualityGoal;
 import org.splevo.project.SPLProfile;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -52,6 +54,13 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      * @generated
      */
     private EClass splProfileEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass vpmModelReferenceEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -225,15 +234,6 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public EAttribute getSPLevoProject_VpmModelPaths() {
-        return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(10);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
 	public EAttribute getSPLevoProject_DiffingFilterRules() {
         return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(11);
     }
@@ -272,6 +272,15 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      */
     public EAttribute getSPLevoProject_FmBuilderId() {
         return (EAttribute)spLevoProjectEClass.getEStructuralFeatures().get(15);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getSPLevoProject_VpmModelReferences() {
+        return (EReference)spLevoProjectEClass.getEStructuralFeatures().get(10);
     }
 
     /**
@@ -333,6 +342,33 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getVPMModelReference() {
+        return vpmModelReferenceEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getVPMModelReference_Path() {
+        return (EAttribute)vpmModelReferenceEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getVPMModelReference_RefactoringStarted() {
+        return (EAttribute)vpmModelReferenceEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EEnum getQualityGoal() {
         return qualityGoalEEnum;
     }
@@ -376,7 +412,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VARIANT_NAME_LEADING);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VARIANT_NAME_INTEGRATION);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_MODEL_PATH);
-        createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__VPM_MODEL_PATHS);
+        createEReference(spLevoProjectEClass, SP_LEVO_PROJECT__VPM_MODEL_REFERENCES);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFING_FILTER_RULES);
         createEAttribute(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_IDS);
         createEReference(spLevoProjectEClass, SP_LEVO_PROJECT__DIFFER_OPTIONS);
@@ -390,6 +426,10 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         splProfileEClass = createEClass(SPL_PROFILE);
         createEAttribute(splProfileEClass, SPL_PROFILE__RECOMMENDED_REFACTORING_IDS);
         createEAttribute(splProfileEClass, SPL_PROFILE__QUALITY_GOALS);
+
+        vpmModelReferenceEClass = createEClass(VPM_MODEL_REFERENCE);
+        createEAttribute(vpmModelReferenceEClass, VPM_MODEL_REFERENCE__PATH);
+        createEAttribute(vpmModelReferenceEClass, VPM_MODEL_REFERENCE__REFACTORING_STARTED);
 
         // Create enums
         qualityGoalEEnum = createEEnum(QUALITY_GOAL);
@@ -436,12 +476,16 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         initEAttribute(getSPLevoProject_VariantNameLeading(), ecorePackage.getEString(), "variantNameLeading", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_VariantNameIntegration(), ecorePackage.getEString(), "variantNameIntegration", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_DiffingModelPath(), ecorePackage.getEString(), "diffingModelPath", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSPLevoProject_VpmModelPaths(), ecorePackage.getEString(), "vpmModelPaths", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getSPLevoProject_VpmModelReferences(), this.getVPMModelReference(), null, "vpmModelReferences", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_DiffingFilterRules(), ecorePackage.getEString(), "diffingFilterRules", "", 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_DifferIds(), ecorePackage.getEString(), "differIds", null, 1, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSPLevoProject_DifferOptions(), this.getDifferOption(), null, "differOptions", null, 0, -1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getSPLevoProject_SplProfile(), this.getSPLProfile(), null, "splProfile", null, 0, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLevoProject_FmBuilderId(), ecorePackage.getEString(), "fmBuilderId", null, 1, 1, SPLevoProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        EOperation op = addEOperation(spLevoProjectEClass, null, "addVPMModelReference", 1, 1, IS_UNIQUE, IS_ORDERED);
+        addEParameter(op, ecorePackage.getEString(), "path", 1, 1, IS_UNIQUE, IS_ORDERED);
+        addEParameter(op, ecorePackage.getEBoolean(), "refactoringStarted", 1, 1, IS_UNIQUE, IS_ORDERED);
 
         initEClass(differOptionEClass, Map.Entry.class, "DifferOption", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getDifferOption_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -450,6 +494,10 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage {
         initEClass(splProfileEClass, SPLProfile.class, "SPLProfile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getSPLProfile_RecommendedRefactoringIds(), ecorePackage.getEString(), "recommendedRefactoringIds", null, 0, -1, SPLProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSPLProfile_QualityGoals(), this.getQualityGoal(), "qualityGoals", null, 0, -1, SPLProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(vpmModelReferenceEClass, VPMModelReference.class, "VPMModelReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getVPMModelReference_Path(), ecorePackage.getEString(), "path", null, 1, 1, VPMModelReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getVPMModelReference_RefactoringStarted(), ecorePackage.getEBoolean(), "refactoringStarted", "false", 1, 1, VPMModelReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Initialize enums and add enum literals
         initEEnum(qualityGoalEEnum, QualityGoal.class, "QualityGoal");

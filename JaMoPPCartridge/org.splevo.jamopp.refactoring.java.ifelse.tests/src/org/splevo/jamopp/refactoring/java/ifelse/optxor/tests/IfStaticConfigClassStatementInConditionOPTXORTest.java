@@ -34,7 +34,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementInConditionOPTXOR;
 import org.splevo.jamopp.refactoring.java.ifelse.tests.util.RefactoringTestUtil;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
@@ -121,7 +121,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         refactoring.refactor(vp, configurations);
 
         // location has a blockand an else-if
-        Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Condition vpLocation = (Condition) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getStatement(), instanceOf(Block.class));
         assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
 
@@ -151,6 +151,9 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         Block fourthBlock = (Block) fourthCond.getStatement();
         assertThat(fourthBlock.getStatements().size(), equalTo(1));
         assertThat(fourthBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -169,7 +172,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         refactoring.refactor(vp, configurations);
 
         // location has a condition with an if-block and an else-block
-        Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Condition vpLocation = (Condition) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getStatement(), instanceOf(Block.class));
         assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
 
@@ -190,6 +193,9 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         Block thirdBlock = (Block) thirdCond.getStatement();
         assertThat(thirdBlock.getStatements().size(), equalTo(1));
         assertThat(thirdBlock.getStatements().get(0), instanceOf(ExpressionStatement.class));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 
     /**
@@ -208,7 +214,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         refactoring.refactor(vp, configurations);
 
         // location has a condition with an if-block and an else-block
-        Condition vpLocation = (Condition) ((JaMoPPSoftwareElement) vp.getLocation()).getJamoppElement();
+        Condition vpLocation = (Condition) ((JaMoPPJavaSoftwareElement) vp.getLocation()).getJamoppElement();
         assertThat(vpLocation.getStatement(), instanceOf(Block.class));
         assertThat(vpLocation.getElseStatement(), instanceOf(Condition.class));
 
@@ -222,5 +228,8 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
         }
 
         assertThat(conditionCounter, equalTo(5));
+        
+        // verify correct VPM
+        RefactoringTestUtil.assertValidVPM(vp);
     }
 }

@@ -12,6 +12,7 @@
 package org.splevo.refactoring;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.splevo.vpm.variability.VariationPointModel;
 
 /**
  * A resource processor that is triggered during the refactoring process. The exact processing
@@ -27,5 +28,29 @@ public interface ResourceProcessor {
      *            The resource to be processed.
      */
     void processBeforeRefactoring(Resource resource);
+
+    /**
+     * Processes the given VPM before the refactoring process has been started.
+     * 
+     * @param variationPointModel
+     *            The VPM to be processed.
+     */
+    void processVPMBeforeRefactoring(VariationPointModel variationPointModel);
+
+    /**
+     * Processes a given resource after the refactoring process has been carried out.
+     * 
+     * @param resource
+     *            The resource to be processed.
+     */
+    void processAfterRefactoring(Resource resource);
+
+    /**
+     * Processes the given VPM after the refactoring process has been carried out.
+     * 
+     * @param variationPointModel
+     *            The VPM to be processed.
+     */
+    void processVPMAfterRefactorings(VariationPointModel variationPointModel);
 
 }
