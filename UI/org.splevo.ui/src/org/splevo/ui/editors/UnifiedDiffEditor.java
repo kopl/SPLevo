@@ -41,7 +41,7 @@ import org.splevo.ui.sourceconnection.UnifiedDiffConnectorContent.MarkerType;
 @SuppressWarnings("restriction")
 public class UnifiedDiffEditor extends TextEditor {
     /** The marker type identifiers */
-    private final String MARKERTYPE_MIXED_DARK = "org.splevo.ui.markerTypes.unifieddiff.mixedDark";
+    private static final String MARKERTYPE_MIXED_DARK = "org.splevo.ui.markerTypes.unifieddiff.mixedDark";
     private final String MARKERTYPE_MIXED_LIGHT = "org.splevo.ui.markerTypes.unifieddiff.mixedLight";
     private final String MARKERTYPE_INTEGRATION3_DARK = "org.splevo.ui.markerTypes.unifieddiff.integration3Dark";
     private final String MARKERTYPE_INTEGRATION3_LIGHT = "org.splevo.ui.markerTypes.unifieddiff.integration3Light";
