@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.util;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,9 +23,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.arrays.ArrayDimension;
@@ -34,6 +37,7 @@ import org.emftext.language.java.arrays.ArrayInstantiationByValues;
 import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
@@ -77,6 +81,7 @@ import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
+import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.jamopp.vpm.software.impl.CommentableSoftwareElementImpl;
 import org.splevo.vpm.software.SoftwareElement;
@@ -761,5 +766,51 @@ public final class RefactoringUtil {
         commentable.setId(id);
         commentable.setType(referencedElement.getClass());
         return commentable;
+    }
+    
+    /**
+	 * Removes the SPLEVO_REFACTORING comment.
+	 * @param variationPoint
+	 * 			represents the variationpoint.
+	 */
+	public static void deleteCommentFrom(VariationPoint variationPoint) {
+		Commentable vpCommentable = (Commentable) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+
+		/*
+		if (variationPoint.getLocation() instanceof CommentableSoftwareElement) {
+			vpCommentable = (Commentable) ((CommentableSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+		} else if (variationPoint.getLocation() instanceof JaMoPPSoftwareElement) {
+			vpCommentable = (Commentable) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+		} else {
+			return;
+		}*/	
+			
+		TreeIterator<EObject> iterator = vpCommentable.getContainingCompilationUnit().eAllContents();
+		
+		while (iterator.hasNext()) {
+			EObject nextItem = iterator.next();
+            if (!(nextItem instanceof Commentable)) {
+            	iterator.prune();
+                continue;
+            }
+					
+            for (LayoutInformation comment : ((Commentable) nextItem).getLayoutInformations()) {
+            	if (comment.getHiddenTokenText().contains(variationPoint.getId())) {
+            		((Commentable) nextItem).getLayoutInformations().remove(comment);
+            		break;
+            	}
+            }
+		}
+		
+		save(vpCommentable.eResource());
+	}
+	
+	private static void save(Resource eResource) {
+        try {
+            eResource.save(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
     }
 }

@@ -55,8 +55,9 @@ public class VariabilityRefactoringService {
      * 			  Contains the refactoring which has to be executed.
      */
     public void ifElseRefactoring(VariationPoint variationPoint, 
-    		Map<String, Object> refactoringConfigurations, 
-    		VariabilityRefactoring refactoring) {
+    							  Map<String, Object> refactoringConfigurations, 
+    							  VariabilityRefactoring refactoring) {
+    	
     	Set<Resource> toBeSaved = new HashSet<Resource>();
     	
     	if (!refactoring.canBeAppliedTo(variationPoint)) {
@@ -68,9 +69,7 @@ public class VariabilityRefactoringService {
 
         toBeSaved.addAll(changedResources);
         
-        //TODO alle aufrufe von unten -> auslagern in methode
-        saveAndPostprocessResources(toBeSaved);
-        saveVPM(variationPoint.getGroup().getModel());
+        postprocess(variationPoint.getGroup().getModel(), toBeSaved);
     }
 
     /**
@@ -105,7 +104,11 @@ public class VariabilityRefactoringService {
             }
         }
         
-        EcoreUtil.resolveAll(variationPointModel);
+        postprocess(variationPointModel, toBeSaved);
+    }
+    
+    private void postprocess(VariationPointModel variationPointModel, Set<Resource> toBeSaved) {
+    	EcoreUtil.resolveAll(variationPointModel);
         postprocessVPM(variationPointModel);
         saveVPM(variationPointModel);
         saveAndPostprocessResources(toBeSaved);

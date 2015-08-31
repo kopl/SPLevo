@@ -2,6 +2,7 @@ package org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -16,6 +17,9 @@ import org.eclipse.swt.widgets.Text;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
+/**
+ * The user can assign a variant to a given license with the mapping dialog.
+ */
 public class MappingDialog extends Dialog {
 	
   private VariationPoint variationPoint = null;
@@ -23,6 +27,11 @@ public class MappingDialog extends Dialog {
   private Text variantTextField = null;
   private Combo combo = null;
 	
+  /**
+	 * The ID of the view as specified by the extension.
+	 * @param parentShell
+	 * 				represents the parent shell.
+	 */
   public MappingDialog(Shell parentShell) {
     super(parentShell);
     this.variationPoint = CASLicenseHandlerConfiguration.getVariationPoint();
@@ -66,12 +75,12 @@ public class MappingDialog extends Dialog {
 	    			  org.eclipse.jdt.internal.ui.JavaPlugin.getActiveWorkbenchShell(), 
 	    			  variationPoint.getVariants().get(counter).getId());
 	    	  
-	    	  dialog.open();
+	    	  if (Window.OK == dialog.open()) {
+	    		  incrementCounter();
 	    	  
-	    	  incrementCounter();
-	    	  
-	    	  combo.setItems(CASLicenseHandlerConfiguration.getAllLicenses());
-	    	  combo.select(0);
+	    	  	  combo.setItems(CASLicenseHandlerConfiguration.getAllLicenses());
+	    	  	  combo.select(0);
+	    	  }
 	      }
 	    });
   }
@@ -104,7 +113,7 @@ public class MappingDialog extends Dialog {
   private void incrementCounter() {
 	  counter++;
 	  
-	  if(counter < variationPoint.getVariants().size()) {
+	  if (counter < variationPoint.getVariants().size()) {
 		  variantTextField.setText(variationPoint.getVariants().get(counter).getId());
 	  } else {
 		  MessageDialog.openInformation(new Shell(), "Information", "All Variants are assigned");

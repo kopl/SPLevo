@@ -17,10 +17,13 @@ import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
+/**
+ * This class opens the open type dialog.
+ */
 @SuppressWarnings("restriction")
 public class OpenTypeDialogAction extends Action implements ICheatSheetAction {
 	
-	@Override
+	@Override 
 	public void run(String[] params, ICheatSheetManager manager) {
 		SelectionDialog dialog = initTypeDialog();
 		if (null == dialog) {
@@ -48,7 +51,9 @@ public class OpenTypeDialogAction extends Action implements ICheatSheetAction {
 	}
 	
 	private SelectionDialog initTypeDialog() {
-		SelectionDialog dialog = new OpenTypeSelectionDialog(JavaPlugin.getActiveWorkbenchShell(), true,
+		
+		//Shell mit PlatformUI.getWorkbench().getDisplay().getactiveshell...
+		SelectionDialog dialog = new OpenTypeSelectionDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), true,
 			    PlatformUI.getWorkbench().getProgressService(), null, 
 			    IJavaSearchConstants.TYPE);
 		dialog.setTitle(JavaUIMessages.OpenTypeAction_dialogTitle);

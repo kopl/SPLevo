@@ -49,7 +49,6 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
     private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR)";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassOPTXOR";
 
-    //TODO was private before
     protected List<VariabilityRefactoring> availableRefactorings;
 
     public IfStaticConfigClassOPTXOR() {

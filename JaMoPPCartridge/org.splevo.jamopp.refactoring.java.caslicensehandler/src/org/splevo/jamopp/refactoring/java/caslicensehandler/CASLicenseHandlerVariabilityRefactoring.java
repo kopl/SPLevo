@@ -12,6 +12,9 @@ import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
+/**
+ * Implements the cas license handler semi-automated refactoring
+ */
 public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomatedVariabilityRefactoring {
 
 	private static final String REFACTORING_NAME = "CAS License Handler";

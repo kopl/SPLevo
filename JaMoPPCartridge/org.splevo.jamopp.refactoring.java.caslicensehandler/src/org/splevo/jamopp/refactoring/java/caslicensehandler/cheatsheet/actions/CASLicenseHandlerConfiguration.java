@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Field;
@@ -16,6 +17,9 @@ import org.splevo.vpm.variability.VariationPointGroup;
 
 import com.google.common.collect.Maps;
 
+/**
+ * Configuration class for the cheat sheet. Stores values which are needed in another contexts.
+ */
 public class CASLicenseHandlerConfiguration {
 
 	private static File licenseConstants = null;
@@ -24,18 +28,40 @@ public class CASLicenseHandlerConfiguration {
 	private static String variationPointID = "";
 	private static Map<String, Object> refactoringConfigurations = Maps.newHashMap();
 	
+	/**
+	 * Maps the src-directory to the leading path.
+	 * @param srcDirectory
+	 * 				represents the source directory
+	 * @param leadingSrcPath
+	 * 				represents the leading source path
+	 */
 	public static void setRefactoringConfigurations(String srcDirectory, Object leadingSrcPath) {
 		refactoringConfigurations.put(srcDirectory, leadingSrcPath);
 	}
 	
+	/**
+	 * Returns the stored refactoring configuration map.
+	 * @return
+	 * 			returns the stored refactoring configuration map.
+	 */
 	public static Map<String, Object> getRefactoringConfigurations() {
 		return refactoringConfigurations;
 	}
 	
+	/**
+	 * Set the variant id.
+	 * @param newVariationPointID
+	 * 				represents the variant id.
+	 */
 	public static void setVariationPointID(String newVariationPointID) {
 		variationPointID = newVariationPointID;
 	}
 	
+	/**
+	 * Returns the corresponding variation point to the id.
+	 * @return 
+	 * 			returns a variation point.
+	 */
 	public static VariationPoint getVariationPoint() {
 		for (VariationPointGroup vpGroup : ExplorerMediator.getInstance().getCurrentVPM().getVariationPointGroups()) {
 			for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
@@ -87,7 +113,7 @@ public class CASLicenseHandlerConfiguration {
 			return null;
 		}
 		
-        JavaResource resource = JaMoPPRoutines.getResourceOf(licenseConstants);
+        Resource resource = JaMoPPRoutines.getResourceOf(licenseConstants);
         		
 		return getAllLicensesBy((CompilationUnit) resource.getContents().get(0));
 	}

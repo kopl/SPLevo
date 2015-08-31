@@ -8,14 +8,22 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.splevo.vpm.variability.Variant;
 
+/**
+ * With the dialog new licenses can be added.
+ */
 public class AddLicenseDialog extends Dialog {
 	private String constantText = null;
 	private Text constantTextField = null;
 	private Text licenseTextField = null;
 	
-	
+	/**
+	 * Constructor.
+	 * @param parentShell
+	 * 				represents the parent shell.
+	 * @param variant
+	 * 				represents the variant id.
+	 */
 	protected AddLicenseDialog(Shell parentShell, String variant) {
 		super(parentShell);
 		this.constantText = variant;
@@ -52,7 +60,7 @@ public class AddLicenseDialog extends Dialog {
 	protected void okPressed() {
 		String license = licenseTextField.getText();
 		
-		if(license != "" && license != null) {
+		if (license != "" && license != null) {
 			JaMoPPRoutines.addConstantLicenseFieldTo(CASLicenseHandlerConfiguration.getLicenseConstant(), license);
 			CASLicenseHandlerConfiguration.addVariantLicensePair(constantText, license);
 			this.close();

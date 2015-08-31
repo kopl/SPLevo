@@ -35,6 +35,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 import org.eclipse.ui.part.ViewPart;
+import org.graphstream.ui.j2dviewer.renderer.shape.swing.ShapeStroke.DashesShapeStroke;
 import org.splevo.jamopp.refactoring.JaMoPPTodoTagCustomizer;
 import org.splevo.jamopp.refactoring.java.caslicensehandler.CASLicenseHandlerVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.CASLicenseHandlerConfiguration;
@@ -75,16 +76,9 @@ public class TaskView extends ViewPart {
 	public static final String ID = "org.splevo.ui.views.taskview.TaskView";
 	
 	private static Table table = null;
-	private TableViewer viewer;
-	private Action getAllTasksAction, startRefactoringAction;
-
-	/*
-	 * The content provider class is responsible for providing objects to the
-	 * view. It can wrap existing objects in adapters or simply return objects
-	 * as-is. These objects may be sensitive to the current input of the view,
-	 * or ignore it and always show the same content (like Task List, for
-	 * example).
-	 */
+	private TableViewer viewer = null;
+	private Action getAllTasksAction = null; 
+	private Action startRefactoringAction = null;
 	
 	/**
 	 * Provides the table for the taskviewer
@@ -171,7 +165,6 @@ public class TaskView extends ViewPart {
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(getAllTasksAction);
-		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		manager.add(startRefactoringAction);
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -215,7 +208,7 @@ public class TaskView extends ViewPart {
 					String variationPointID = tableItem[0].getText(0).replace(JaMoPPTodoTagCustomizer.getTodoTaskTag() + " ", "");
 					if (variationPointID != "" || variationPointID != null) {
 						CASLicenseHandlerConfiguration.setVariationPointID(variationPointID);
-						//TODO ecentuell mehrere splevo projekte im workspace
+						/*
 						Iterator<IFile> iter = SPLevoProjectUtil.findAllSPLevoProjectFilesInWorkspace(true).iterator(); 
 						SPLevoProject splevoProject = null;
 						try {
@@ -223,21 +216,22 @@ public class TaskView extends ViewPart {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						
-						if (splevoProject != null) {
-							String leadingSrcPath = splevoProject.getLeadingProjects().get(0);
+						*/
+						//if (splevoProject != null) {
+							/*String leadingSrcPath = splevoProject.getLeadingProjects().get(0);
 							leadingSrcPath = ProjectPathUtil.buildProjectPath(leadingSrcPath) + File.separator + "src";
 							
 							CASLicenseHandlerConfiguration
 							.setRefactoringConfigurations(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, 
-														  leadingSrcPath);
+														  leadingSrcPath);*/
 							
 							VariationPoint variationPoint = CASLicenseHandlerConfiguration.getVariationPoint();
-							Map<String, Object> refactoringConfigurations = CASLicenseHandlerConfiguration.getRefactoringConfigurations();
+							//Map<String, Object> refactoringConfigurations = CASLicenseHandlerConfiguration
+								//												.getRefactoringConfigurations();
 							
 							new CASLicenseHandlerVariabilityRefactoring().startManualRefactoring(variationPoint, 
-																								 refactoringConfigurations);
-						}
+																								 null);
+						//}
 					}
 				}
 			}
@@ -279,11 +273,9 @@ public class TaskView extends ViewPart {
 
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new TasksTableLabelProvider());
-		// make the selection available to other views
-		getSite().setSelectionProvider(viewer);
-		// set the sorter for the table
 
-		// define layout for the viewer
+		getSite().setSelectionProvider(viewer);
+
 		GridData gridData = new GridData();
 		gridData.verticalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -301,16 +293,10 @@ public class TaskView extends ViewPart {
 		return viewer;
 	}
 
-	// create the columns for the table
 	private void createColumns(final Composite parent, final TableViewer viewer) {
 		String[] titles = { "Description", "Resource", "Path", "Location" };
 		int[] bounds = { 300, 100, 50, 200 };
 
-		/*
-		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
-		col = createTableViewerColumn(titles[1], bounds[1], 1);
-		col = createTableViewerColumn(titles[2], bounds[2], 2);
-		col = createTableViewerColumn(titles[3], bounds[3], 3);*/
 		createTableViewerColumn(titles[0], bounds[0], 0);
 		createTableViewerColumn(titles[1], bounds[1], 1);
 		createTableViewerColumn(titles[2], bounds[2], 2);
