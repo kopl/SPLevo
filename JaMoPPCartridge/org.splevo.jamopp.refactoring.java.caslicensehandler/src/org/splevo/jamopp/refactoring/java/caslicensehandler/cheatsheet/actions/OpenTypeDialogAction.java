@@ -3,14 +3,13 @@ package org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions;
 import java.io.File;
 
 import org.apache.commons.io.FilenameUtils;
-import org.eclipse.jface.window.Window;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
-import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.JavaUIMessages;
 import org.eclipse.jdt.internal.ui.dialogs.OpenTypeSelectionDialog;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
@@ -25,16 +24,21 @@ public class OpenTypeDialogAction extends Action implements ICheatSheetAction {
 	
 	@Override 
 	public void run(String[] params, ICheatSheetManager manager) {
-		SelectionDialog dialog = initTypeDialog();
-		if (null == dialog) {
+		SelectionDialog licenseConstantDialog = initTypeDialog();
+		if (null == licenseConstantDialog) {
 			return;
 		}
 		
-		if (dialog.open() == Window.OK) {
-			CASLicenseHandlerConfiguration.setLicenseConstant(getFileFrom((IType) dialog.getResult()[0]));
+		if (licenseConstantDialog.open() == Window.OK) {
+			CASLicenseHandlerConfiguration.setLicenseConstant(getFileFrom((IType) licenseConstantDialog.getResult()[0]));
 			
-			if (dialog.open() == Window.OK) {
-				CASLicenseHandlerConfiguration.setLicenseValidatorName(getNameFrom((IType) dialog.getResult()[0]));
+			SelectionDialog licenseValidatorDialog = initTypeDialog();
+			if (null == licenseValidatorDialog) {
+				return;
+			}
+			
+			if (licenseValidatorDialog.open() == Window.OK) {
+				CASLicenseHandlerConfiguration.setLicenseValidatorName(getNameFrom((IType) licenseValidatorDialog.getResult()[0]));
 				return;
 			}
 		}

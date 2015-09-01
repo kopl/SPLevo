@@ -78,6 +78,7 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
+import org.splevo.jamopp.refactoring.JaMoPPTodoTagCustomizer;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
@@ -775,18 +776,11 @@ public final class RefactoringUtil {
 	 */
 	public static void deleteCommentFrom(VariationPoint variationPoint) {
 		Commentable vpCommentable = (Commentable) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
-
-		/*
-		if (variationPoint.getLocation() instanceof CommentableSoftwareElement) {
-			vpCommentable = (Commentable) ((CommentableSoftwareElement) variationPoint.getLocation()).getJamoppElement();
-		} else if (variationPoint.getLocation() instanceof JaMoPPSoftwareElement) {
-			vpCommentable = (Commentable) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
-		} else {
-			return;
-		}*/	
-			
-		TreeIterator<EObject> iterator = vpCommentable.getContainingCompilationUnit().eAllContents();
+		CompilationUnit compilationUnit = vpCommentable.getContainingCompilationUnit();
+	
+		removeSPLevoRefactoringCommentIfExist(compilationUnit.getLayoutInformations(), variationPoint);
 		
+		TreeIterator<EObject> iterator = compilationUnit.eAllContents();
 		while (iterator.hasNext()) {
 			EObject nextItem = iterator.next();
             if (!(nextItem instanceof Commentable)) {
@@ -794,17 +788,28 @@ public final class RefactoringUtil {
                 continue;
             }
 					
-            for (LayoutInformation comment : ((Commentable) nextItem).getLayoutInformations()) {
-            	if (comment.getHiddenTokenText().contains(variationPoint.getId())) {
-            		((Commentable) nextItem).getLayoutInformations().remove(comment);
-            		break;
-            	}
-            }
+            removeSPLevoRefactoringCommentIfExist(((Commentable) nextItem).getLayoutInformations(), variationPoint);
 		}
 		
 		save(vpCommentable.eResource());
 	}
 	
+	private static void removeSPLevoRefactoringCommentIfExist(EList<LayoutInformation> comments, VariationPoint variationPoint) {
+		for (LayoutInformation comment : comments) {
+        	if (comment.getHiddenTokenText().contains(variationPoint.getId())) {
+        		//comments.remove(comment);
+        		String currentCommentText = comment.getHiddenTokenText();
+        		comment.setHiddenTokenText(editComment(currentCommentText, variationPoint.getId()));
+        		break;
+        	}
+        }
+	}
+	
+	private static String editComment(String currentCommentText, String subElement) {
+		String textToReplace = JaMoPPTodoTagCustomizer.getTodoTaskTag() + " " + subElement;		
+		return currentCommentText.replace(textToReplace, "");
+	}
+
 	private static void save(Resource eResource) {
         try {
             eResource.save(null);
