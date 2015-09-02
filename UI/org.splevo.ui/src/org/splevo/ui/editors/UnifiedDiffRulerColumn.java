@@ -17,9 +17,9 @@ import org.splevo.ui.sourceconnection.helper.IndexedLineNumber;
 
 public class UnifiedDiffRulerColumn extends LineNumberRulerColumn {
     /** A Logger instance */
-    private static Logger LOGGER = Logger.getLogger(UnifiedDiffRulerColumn.class);
+    private static final Logger LOGGER = Logger.getLogger(UnifiedDiffRulerColumn.class);
     /** Defines the right margin of the column */
-    private final int COLUMN_RIGHT_MARGIN = 5;
+    private static final int COLUMN_RIGHT_MARGIN = 5;
 
     /** The index of the column inside the ruler */
     private int columnIndex;
@@ -29,7 +29,14 @@ public class UnifiedDiffRulerColumn extends LineNumberRulerColumn {
     private Map<Integer, Color> linesToColorMapping;
 
     /**
-     * Constructs a new unified difference ruler column.
+     * Creates an instance of class {@code UnifiedDiffRulerColumn}.
+     * 
+     * @param columnIndex
+     *            the column index
+     * @param indexedLineNumbersList
+     *            the list of indexed line numbers
+     * @param linesToColorMapping
+     *            the color mapping.
      */
     public UnifiedDiffRulerColumn(int columnIndex, List<List<IndexedLineNumber>> indexedLineNumbersList,
             Map<Integer, Color> linesToColorMapping) {
@@ -101,6 +108,18 @@ public class UnifiedDiffRulerColumn extends LineNumberRulerColumn {
         return Math.max(0, baselineBias);
     }
 
+    /**
+     * Computes the string to be printed for {@code line}.
+     * 
+     * @param line
+     *            the line number for which the line number string is generated
+     * @return the string to be printed on the line number bar for {@code line}
+     */
+    @Override
+    public String createDisplayString(int line) {
+        return Integer.toString(line);
+    }
+    
     /**
      * {@inheritDoc}
      */
