@@ -7,6 +7,7 @@ import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.views.taskview.TaskView;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
@@ -19,7 +20,13 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  */
 public class OpenTaskViewJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-	@Override
+    private final SPLevoProjectEditor splevoProjectEditor;
+    
+	public OpenTaskViewJob(SPLevoProjectEditor splevoProjectEditor) {
+        this.splevoProjectEditor = splevoProjectEditor;
+    }
+
+    @Override
 	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
 		
 	}
@@ -44,6 +51,7 @@ public class OpenTaskViewJob extends AbstractBlackboardInteractingJob<SPLevoBlac
 					}
 					
 					final TaskView view = (TaskView) viewPart;
+					view.setSPLevoProjectEditor(splevoProjectEditor);
 
 			        PlatformUI.getWorkbench().addWorkbenchListener(new IWorkbenchListener() {
 

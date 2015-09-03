@@ -7,7 +7,13 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.splevo.jamopp.refactoring.JaMoPPTodoTagCustomizer;
+import org.splevo.refactoring.TodoTagCustomizer;
+import org.splevo.refactoring.TodoTagCustomizerRegistry;
+
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 
 /**
  * With TaskCreater can tasks created and filtered with respect to the toDoTaskTag.
@@ -35,11 +41,24 @@ public class TaskCreator {
 		
 		IMarker[] toDoTasks = resource.findMarkers(IMarker.TASK, true, IResource.DEPTH_INFINITE);
 		
-		for (IMarker toDoTask:toDoTasks) {
-			String toDoTaskDescritpion = (String) toDoTask.getAttribute(IMarker.MESSAGE);
+		Iterable<String> todoTags = Iterables.concat(Iterables.transform(TodoTagCustomizerRegistry.getInstance().getElements(), new Function<TodoTagCustomizer, Iterable<String>>() {
+            @Override
+            public Iterable<String> apply(TodoTagCustomizer input) {
+                return input.getTodoTags();
+            }}));
+		
+		for (IMarker toDoTask : toDoTasks) {
+			final String toDoTaskDescritpion = (String) toDoTask.getAttribute(IMarker.MESSAGE);
 			
-			if (toDoTaskDescritpion.contains(JaMoPPTodoTagCustomizer.getTodoTaskTag())) {
-				tasks.add(new Task(toDoTaskDescritpion, 
+			Optional<String> todoTag = Iterables.tryFind(todoTags, new Predicate<String>() {
+                @Override
+                public boolean apply(String input) {
+                    return toDoTaskDescritpion.contains(input);
+                }});
+			
+			if (todoTag.isPresent()) {
+			    String variationPointID = toDoTaskDescritpion.replace(todoTag.get() + " ", "");
+				tasks.add(new Task(variationPointID, 
 						           toDoTask.getResource().getName(), 
 						           toDoTask.getResource().getFullPath().toString(), 
 						           (Integer) toDoTask.getAttribute(IMarker.LINE_NUMBER)));

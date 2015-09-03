@@ -51,6 +51,7 @@ public class Activator implements BundleActivator {
         }
         
         for (TodoTagCustomizer customizer : loadTodoTagCustomizers()) {
+            TodoTagCustomizerRegistry.getInstance().registerElement(customizer);
             customizer.adjustTodoTags();
         }
     }

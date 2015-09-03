@@ -92,7 +92,7 @@ public class BuildSPLWorkflowDelegate extends
         jobSequence.add(new OpenVPMJob(splevoProject, null));
         
         // open task view
-        jobSequence.add(new OpenTaskViewJob());
+        jobSequence.add(new OpenTaskViewJob(splevoProjectEditor));
         
         //open cheat sheet job by the list of semit-automated refactorings (from the task view)? or by context menu?
         

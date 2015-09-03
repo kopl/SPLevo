@@ -18,6 +18,8 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.splevo.refactoring.TodoTagCustomizer;
 
+import com.google.common.collect.Lists;
+
 /**
  * ToDO tag customizer for JaMoPP models. 
  * The customizer adds a special SPLEVO refactoring task customizer to the properties.
@@ -59,6 +61,11 @@ public class JaMoPPTodoTagCustomizer implements TodoTagCustomizer {
         } catch (IOException e) {
             LOGGER.warn("Could not save preferences.", e);
         }
+    }
+
+    @Override
+    public Iterable<String> getTodoTags() {
+        return Lists.newArrayList(getTodoTaskTag());
     }
 
 }

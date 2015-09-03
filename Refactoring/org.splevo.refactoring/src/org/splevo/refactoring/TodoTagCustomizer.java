@@ -21,4 +21,6 @@ public interface TodoTagCustomizer {
      */
     void adjustTodoTags();
     
+    Iterable<String> getTodoTags();
+    
 }

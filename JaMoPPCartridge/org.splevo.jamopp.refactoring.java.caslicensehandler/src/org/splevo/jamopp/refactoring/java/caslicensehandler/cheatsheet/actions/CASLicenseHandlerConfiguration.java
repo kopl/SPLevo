@@ -14,6 +14,7 @@ import org.splevo.ui.vpexplorer.explorer.ExplorerMediator;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
+import org.splevo.vpm.variability.VariationPointModel;
 
 import com.google.common.collect.Maps;
 
@@ -25,8 +26,10 @@ public class CASLicenseHandlerConfiguration {
 	private static File licenseConstants = null;
 	private static String licenseValidatorName = "";
 	private static Map<String, String> variantToLicenseMap = new  HashMap<String, String>();
-	private static String variationPointID = "";
+	private static VariationPoint variationPoint = null;
 	private static Map<String, Object> refactoringConfigurations = Maps.newHashMap();
+	private static final Object refactoringFinishedMonitor = new Object();
+	private static boolean refactoringFinished = true;
 	
 	/**
 	 * Maps the src-directory to the leading path.
@@ -35,8 +38,8 @@ public class CASLicenseHandlerConfiguration {
 	 * @param leadingSrcPath
 	 * 				represents the leading source path
 	 */
-	public static void setRefactoringConfigurations(String srcDirectory, Object leadingSrcPath) {
-		refactoringConfigurations.put(srcDirectory, leadingSrcPath);
+	public static void setRefactoringConfigurations(Map<String, Object> configuration) {
+		refactoringConfigurations = configuration;
 	}
 	
 	/**
@@ -53,8 +56,8 @@ public class CASLicenseHandlerConfiguration {
 	 * @param newVariationPointID
 	 * 				represents the variant id.
 	 */
-	public static void setVariationPointID(String newVariationPointID) {
-		variationPointID = newVariationPointID;
+	public static void setVariationPoint(VariationPoint vp) {
+		variationPoint = vp;
 	}
 	
 	/**
@@ -63,15 +66,7 @@ public class CASLicenseHandlerConfiguration {
 	 * 			returns a variation point.
 	 */
 	public static VariationPoint getVariationPoint() {
-		for (VariationPointGroup vpGroup : ExplorerMediator.getInstance().getCurrentVPM().getVariationPointGroups()) {
-			for (VariationPoint variationPoint : vpGroup.getVariationPoints()) {
-				if (variationPointID.equals(variationPoint.getId())) {
-					return variationPoint;
-				}
-			}
-		}
-		
-		return null;
+		return variationPoint;
 	}
 	
 	public static Variant getVariantBy(String variantID) {
@@ -128,5 +123,37 @@ public class CASLicenseHandlerConfiguration {
 		}
 		
 		return licenses.toArray(new String[licenses.size()]);
+	}
+	
+	public static VariationPointModel getVariationPointModel() {
+	    return (VariationPointModel)getVariationPoint().eContainer().eContainer();
+	}
+	
+	public static void refactoringStarted() {
+       synchronized(refactoringFinishedMonitor) {
+           refactoringFinished = false;
+           refactoringFinishedMonitor.notifyAll();
+        }
+	}
+	
+	public static void refactoringFinished() {
+       synchronized(refactoringFinishedMonitor) {
+           refactoringFinished = true;
+           refactoringFinishedMonitor.notifyAll();
+        }   
+	}
+	
+	public static void waitForRefactoringToBeFinished() throws InterruptedException {
+	    synchronized(refactoringFinishedMonitor) {
+	        while (!refactoringFinished) {
+	            refactoringFinishedMonitor.wait();
+	        }
+	    }
+	}
+	
+	public static boolean isRefactoringFinished() {
+       synchronized(refactoringFinishedMonitor) {
+           return refactoringFinished;
+        }
 	}
 }

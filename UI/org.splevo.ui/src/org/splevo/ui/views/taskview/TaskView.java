@@ -1,10 +1,5 @@
 package org.splevo.ui.views.taskview;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
@@ -33,22 +28,11 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 import org.eclipse.ui.part.ViewPart;
-import org.graphstream.ui.j2dviewer.renderer.shape.swing.ShapeStroke.DashesShapeStroke;
-import org.splevo.jamopp.refactoring.JaMoPPTodoTagCustomizer;
-import org.splevo.jamopp.refactoring.java.caslicensehandler.CASLicenseHandlerVariabilityRefactoring;
-import org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.CASLicenseHandlerConfiguration;
-import org.splevo.project.SPLevoProject;
-import org.splevo.project.SPLevoProjectUtil;
-import org.splevo.refactoring.VariabilityRefactoringService;
-import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
-import org.splevo.ui.jobs.ProjectPathUtil;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
-import org.splevo.vpm.variability.VariationPoint;
-
-import com.google.common.collect.Maps;
+import org.splevo.ui.listeners.WorkflowListenerUtil;
+import org.splevo.ui.workflow.BuildSemiAutomatedRefactoringWorkflowDelegate;
 
 /**
  * This sample class demonstrates how to plug-in a new
@@ -79,6 +63,8 @@ public class TaskView extends ViewPart {
 	private TableViewer viewer = null;
 	private Action getAllTasksAction = null; 
 	private Action startRefactoringAction = null;
+
+    private SPLevoProjectEditor splevoProjectEditor;
 	
 	/**
 	 * Provides the table for the taskviewer
@@ -205,33 +191,12 @@ public class TaskView extends ViewPart {
 			public void run() {
 				TableItem[] tableItem = table.getSelection();
 				if (null != tableItem) {
-					String variationPointID = tableItem[0].getText(0).replace(JaMoPPTodoTagCustomizer.getTodoTaskTag() + " ", "");
+					String variationPointID = tableItem[0].getText(0);
 					if (variationPointID != "" || variationPointID != null) {
-						CASLicenseHandlerConfiguration.setVariationPointID(variationPointID);
-						/*
-						Iterator<IFile> iter = SPLevoProjectUtil.findAllSPLevoProjectFilesInWorkspace(true).iterator(); 
-						SPLevoProject splevoProject = null;
-						try {
-							splevoProject = SPLevoProjectUtil.loadSPLevoProjectModel(iter.next());
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						*/
-						//if (splevoProject != null) {
-							/*String leadingSrcPath = splevoProject.getLeadingProjects().get(0);
-							leadingSrcPath = ProjectPathUtil.buildProjectPath(leadingSrcPath) + File.separator + "src";
-							
-							CASLicenseHandlerConfiguration
-							.setRefactoringConfigurations(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, 
-														  leadingSrcPath);*/
-							
-							VariationPoint variationPoint = CASLicenseHandlerConfiguration.getVariationPoint();
-							//Map<String, Object> refactoringConfigurations = CASLicenseHandlerConfiguration
-								//												.getRefactoringConfigurations();
-							
-							new CASLicenseHandlerVariabilityRefactoring().startManualRefactoring(variationPoint, 
-																								 null);
-						//}
+				        SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
+				        BuildSemiAutomatedRefactoringWorkflowDelegate buildSPLWorkflowConfiguration = new BuildSemiAutomatedRefactoringWorkflowDelegate(spLevoBlackBoard, variationPointID);
+				        WorkflowListenerUtil.runWorkflowAndUpdateUI(buildSPLWorkflowConfiguration, "Refactor VP semiautomatically", splevoProjectEditor);
+					    
 					}
 				}
 			}
@@ -313,4 +278,8 @@ public class TaskView extends ViewPart {
 		column.setMoveable(true);
 		return viewerColumn;
 	}
+
+    public void setSPLevoProjectEditor(SPLevoProjectEditor splevoProjectEditor) {
+        this.splevoProjectEditor = splevoProjectEditor;
+    }
 }

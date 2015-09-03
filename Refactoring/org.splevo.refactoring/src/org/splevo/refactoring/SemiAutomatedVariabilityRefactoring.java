@@ -45,7 +45,14 @@ public abstract class SemiAutomatedVariabilityRefactoring implements Variability
      * @param refactoringConfigurations
      *            The refactoring configurations to be considered during the refactoring.
      */
-    public abstract void startManualRefactoring(VariationPoint variationPoint,
-            Map<String, Object> refactoringConfigurations);
+    public List<Resource> startManualRefactoring(VariationPoint variationPoint,
+            Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException {
+        List<Resource> changedResources = startLanguageSpecificManualRefactoring(variationPoint, refactoringConfigurations);
+        variationPoint.setRefactored(true);
+        return changedResources;
+    }
+    
+    protected abstract List<Resource> startLanguageSpecificManualRefactoring(VariationPoint variationPoint,
+            Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException;
 
 }

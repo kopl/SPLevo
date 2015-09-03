@@ -60,7 +60,7 @@ public class RefactorVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlack
         variabilityRefactoringService.refactor(vpm, refactoringConfigurations);
     }
 
-    private String getLeadingSrcPath() {
+    protected String getLeadingSrcPath() {
         String leadingSrcPath = splevoProject.getLeadingProjects().get(0);
         return ProjectPathUtil.buildProjectPath(leadingSrcPath) + File.separator + "src";
     }
