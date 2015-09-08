@@ -13,7 +13,7 @@ import org.splevo.ui.sourceconnection.UnifiedDiffConnectorModel.MarkerType;
  */
 public class UIConstants {
     /** Unified Difference: Working copy */
-    public static final String TMP_FILE_NAME_WIHOUT_EXTENTION = "unifiedDiff";
+    public static final String TMP_FILE_NAME_WIHOUT_EXTENTION = "unifiedDiff_";
     public static final String TMP_FILE_EXTENTION = ".java"; // MUST be *.java or else java syntax highlighting won't work
     
     /** Unified Difference: The marker type identifiers */

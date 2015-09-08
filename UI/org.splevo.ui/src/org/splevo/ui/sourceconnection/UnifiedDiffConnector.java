@@ -37,9 +37,10 @@ public class UnifiedDiffConnector {
      *            a reference to the variants being processed.
      * @param unifiedDiffFile
      *            a reference to the unified difference working copy
+     * @param fileName 
      */
-    public UnifiedDiffConnector(SPLevoProject splevoProject, Set<Variant> variants, File unifiedDiffFile) {
-        this.diffModel = new UnifiedDiffConnectorModel(splevoProject, variants, unifiedDiffFile);
+    public UnifiedDiffConnector(SPLevoProject splevoProject, Set<Variant> variants, File unifiedDiffFile, String fileName) {
+        this.diffModel = new UnifiedDiffConnectorModel(splevoProject, variants, unifiedDiffFile, fileName);
     }
     
     /**

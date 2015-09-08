@@ -4,14 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.sourceconnection.helper.FileLineNumberPair;
@@ -19,6 +18,7 @@ import org.splevo.ui.sourceconnection.helper.FileWithID;
 import org.splevo.ui.sourceconnection.helper.IndexedLineNumber;
 import org.splevo.ui.sourceconnection.helper.NumbersTextPair;
 import org.splevo.ui.sourceconnection.helper.UnifiedPOI;
+import org.splevo.ui.util.CollectionUtil;
 import org.splevo.ui.util.UIConstants;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.software.SoftwareElement;
@@ -83,16 +83,18 @@ public class UnifiedDiffConnectorModel {
      *            a reference to the variants being processed.
      * @param unifiedDiffFile
      *            a reference to the unified difference working copy
+     * @param fileName 
      */
-    public UnifiedDiffConnectorModel(SPLevoProject splevoProject, Set<Variant> variants, File unifiedDiffFile) {
+    public UnifiedDiffConnectorModel(SPLevoProject splevoProject, Set<Variant> variants, File unifiedDiffFile, String fileName) {
         this.unifiedDiffFile = unifiedDiffFile;
+        this.proccessedFileName = fileName;
         
         // extract file information
         VariationPointModel vpm = getVPM(splevoProject);
-        this.proccessedFileName = getFileNameToProcess(variants);
         this.variationPoints = extractVariationPoints(vpm);
+        //this.proccessedFileName = getFileNameToProcess(variants);
         this.idToVariants = createIdToVariantMapping(variationPoints);
-        this.leadingFile = extractLeadingFile(proccessedFileName);
+        this.leadingFile = extractLeadingFile();
         this.integrationCopyList = extractIntegrationFiles();
         
         // extract points of interest (for darker highlighting)
@@ -108,20 +110,6 @@ public class UnifiedDiffConnectorModel {
                 integrationPOIs.add(new UnifiedPOI(filePath, lineNumber));
             }
         }
-    }
-
-    /**
-     * Gets the name of the file that is currently processed from the given variants.
-     * 
-     * @param variants
-     *            the given variants.
-     * @return the file name.
-     */
-    private String getFileNameToProcess(Set<Variant> variants) {
-        Variant firstVariant = variants.iterator().next();
-        EObject locElement = firstVariant.getVariationPoint().getLocation().getWrappedElement();
-        String filePath = locElement.eResource().getURI().toFileString();
-        return new File(filePath).getName();
     }
 
     /**
@@ -180,18 +168,17 @@ public class UnifiedDiffConnectorModel {
     }
     
     /**
-     * Extract the leading file for a given file name.
+     * Extract the leading file.
      * 
-     * @param fileName
-     *            the given file name.
      * @return the leading file.
      */
-    private FileWithID extractLeadingFile(String fileName) {
+    private FileWithID extractLeadingFile() {
+        LOGGER.debug("extractLeadingFile> from: " + this.proccessedFileName);
         for (VariationPoint vp : variationPoints) {
             for (Variant var : vp.getVariants()) {
                 IPath path = Path.fromOSString(var.getImplementingElements().get(0).getSourceLocation().getFilePath());
                 String absfilePath = path.toOSString();
-                if (leadingFile == null && var.getLeading() && isValidLeading(absfilePath, fileName)) {
+                if (leadingFile == null && var.getLeading() && isValidLeading(absfilePath)) {
                     return new FileWithID(new File(absfilePath), var.getId());
                 }
             }
@@ -208,8 +195,9 @@ public class UnifiedDiffConnectorModel {
      * @return {@code true} in case the given leading file corresponds to the current file to
      *         process, {@code false} otherwise.
      */
-    private boolean isValidLeading(String absfilePath, String proccessedFileName) {
-        if (new File(absfilePath).getName().equals(proccessedFileName)) {
+    private boolean isValidLeading(String absfilePath) {
+        LOGGER.debug("isValidLeading> compare: " + FilenameUtils.getBaseName(absfilePath) + " == " + proccessedFileName);
+        if (FilenameUtils.getBaseName(absfilePath).equals(proccessedFileName)) {
             return true;
         }
 
@@ -225,7 +213,8 @@ public class UnifiedDiffConnectorModel {
             for (Variant var : vp.getVariants()) {
                 IPath path = Path.fromOSString(var.getImplementingElements().get(0).getSourceLocation().getFilePath());
                 String absfilePath = path.toOSString();
-                boolean isNewIntegration = !var.getLeading() && !containsFile(integrationCopies, var.getId())
+                boolean isNewIntegration = !var.getLeading()
+                        && !CollectionUtil.containsFileWithId(var.getId(), integrationCopies)
                         && isValidIntegration(absfilePath);
                 if (isNewIntegration) {
                     integrationCopies.add(new FileWithID(new File(absfilePath), var.getId()));
@@ -234,26 +223,6 @@ public class UnifiedDiffConnectorModel {
         }
 
         return integrationCopies;
-    }
-   
-    /**
-     * Utility method to check if a file collection already contains a file with the given
-     * identifier.
-     * 
-     * @param collection
-     *            the collection of instances of {@link File}.
-     * @param id
-     *            the given identifier.
-     * @return {@code true} in case the collection contains a file with the given identifier,
-     *         {@code false} otherwise.
-     */
-    private boolean containsFile(Collection<FileWithID> collection, String id) {
-        for (FileWithID fileID : collection) {
-            if (fileID.getID().equals(id)) {
-                return true;
-            }
-        }
-        return false;
     }
       
     /**
