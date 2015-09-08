@@ -27,104 +27,147 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.commons.util.WorkspaceUtil;
-import org.splevo.ui.editors.UnifiedDiffEditor;
 import org.splevo.ui.editors.UnifiedDiffEditorInput;
 import org.splevo.ui.refinementbrowser.VPMRefinementBrowser;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnector;
-import org.splevo.ui.sourceconnection.UnifiedDiffConnector.ConnectionMethod;
+import org.splevo.ui.sourceconnection.UnifiedDiffConnector.DiffMethod;
+import org.splevo.ui.util.UIConstants;
 import org.splevo.ui.vpexplorer.explorer.VPExplorer;
 import org.splevo.vpm.variability.Variant;
 
 /**
- * Handler for opening the unified diff of selected variants.
+ * Handler for opening the unified difference of selected variants.
  */
 public class OpenUnifiedDiffHandler extends OpenSourceHandlerBase {
-    /** Logger instance. */
+    /** The Logger instance. */
     private static final Logger LOGGER = Logger.getLogger(OpenUnifiedDiffHandler.class);
 
+    /**
+     * {@inheritDoc}
+     * @author Unknown
+     */
     @Override
     protected void handle(Set<Variant> variants, IWorkbenchPart sendingPart) {
         SPLevoProject splevoProject = getSPLevoProjectFromWorkbenchPart(sendingPart);
         if (splevoProject != null) {
             handle(variants, splevoProject);            
-        }
-    }
-
-    private void handle(Set<Variant> variants, SPLevoProject splevoProject) {
-        // create unified difference with UnifiedDiffConnector
-        File tmpFile = createUnifedDiffWorkspace(splevoProject);
-        UnifiedDiffConnector diffConnector = new UnifiedDiffConnector(splevoProject, variants, tmpFile);
-        diffConnector.connect(ConnectionMethod.BY_CHUNKS);
-        
-        // get IFile for working copy
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IPath loc = org.eclipse.core.runtime.Path.fromOSString(tmpFile.getPath()); 
-        IFile ifile = workspace.getRoot().getFileForLocation(loc);
-        try {
-            // refresh workspace (updates file link)
-            ifile.refreshLocal(IResource.DEPTH_ZERO, null);
-            // open working copy in UnifiedDiffEditor
-            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-            .openEditor(new UnifiedDiffEditorInput(ifile, diffConnector), UnifiedDiffEditor.ID);
-        } catch (PartInitException e) {
-            LOGGER.error("Error initializing the unified difference editor.", e);
-        } catch (CoreException e) {
-            LOGGER.error("Error refreshing the local project workspace.", e);
+        } else {
+            LOGGER.warn("Could not get the current SPLevo project!");
         }
     }
 
     /**
-     * Creates working copy within a temporary workspace for the given SPLevo project.
+     * Gets the SPLevo project from the given workbench.
+     * 
+     * @param workbenchPart
+     *            the given workbench.
+     * @return the SPLevo project.
+     * 
+     * @author Unknown
+     */
+    private SPLevoProject getSPLevoProjectFromWorkbenchPart(IWorkbenchPart workbenchPart) {
+        if (workbenchPart instanceof VPExplorer) {
+            return ((VPExplorer) workbenchPart).getSPLevoProject();
+        }
+        if (workbenchPart instanceof VPMRefinementBrowser) {
+            return ((VPMRefinementBrowser) workbenchPart).getSPLevoProjectEditor().getSplevoProject();
+        } else {
+            LOGGER.warn("Handler was called from unknown source!");
+            return null;
+        }
+    }
+    
+    /**
+     * Handles the set of variants which have been selected by the user.
+     * 
+     * @param variants
+     *            the set of selected variants.
+     * @param splevoProject
+     *            the SPLevo project.
+     * @author André Wengert
+     */
+    private void handle(Set<Variant> variants, SPLevoProject splevoProject) {
+        // create unified difference workspace (working copy)
+        File tmpWorkingCopyFile = null;
+        try {
+            tmpWorkingCopyFile = createUnifedDiffWorkspace(splevoProject);
+            tmpWorkingCopyFile.deleteOnExit();
+        } catch (IOException exception) {
+            LOGGER.error("An error occured while creating the unified difference workspace!", exception);
+        }
+        
+        // calculate unified difference
+        if (tmpWorkingCopyFile != null) {
+            UnifiedDiffConnector diffConnector = new UnifiedDiffConnector(splevoProject, variants, tmpWorkingCopyFile);
+            diffConnector.calculateDifference(DiffMethod.BY_BLOCKS);
+            
+            // get IFile for working copy
+            IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            IPath loc = org.eclipse.core.runtime.Path.fromOSString(tmpWorkingCopyFile.getPath()); 
+            IFile ifile = workspace.getRoot().getFileForLocation(loc);
+            try {
+                // refresh workspace (updates file link)
+                ifile.refreshLocal(IResource.DEPTH_ZERO, null);
+                
+                // open working copy in UnifiedDiffEditor
+                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+                .openEditor(new UnifiedDiffEditorInput(ifile, diffConnector), UIConstants.UNIFIED_DIFF_EDITOR_ID);
+            } catch (PartInitException exception) {
+                LOGGER.error("Error initializing the unified difference editor.", exception);
+            } catch (CoreException exception) {
+                LOGGER.error("Error refreshing the local project workspace.", exception);
+            }
+        }
+    }
+
+    /**
+     * Creates a containing directory and temporary working copy for the given SPLevo project.
      * 
      * @param splevoProject
      *            the given SPLevo project.
-     * @return a reference to the working copy.
+     * @return the working copy.
+     * @throws IOException
+     *             in case an error occured while creating the working directory or the temporary
+     *             working copy.
+     * @author André Wengert
      */
-    private File createUnifedDiffWorkspace(SPLevoProject splevoProject) {
+    private File createUnifedDiffWorkspace(SPLevoProject splevoProject) throws IOException {
         // create folder that contains temporary unified difference files
         String absWorkspacePath = WorkspaceUtil.getAbsoluteFromWorkspaceRelativePath(splevoProject.getWorkspace());
-        File tmpFilesFolder = new File(absWorkspacePath + "unified difference");
-        if (!tmpFilesFolder.exists()) {
-            if (!tmpFilesFolder.mkdir()) {
-                LOGGER.warn("Create temporary working folder at \"" + tmpFilesFolder.getAbsolutePath()
-                        + "\" was not successful.");
+        File directory = new File(absWorkspacePath + "unified difference");
+        if (!directory.exists()) {
+            if (!directory.mkdir()) {
+                throw new IOException("Error creating the temporary working directory at \""
+                        + directory.getAbsolutePath() + ".");
             }
         }
-        
-        return createUnifiedDiffWorkingCopy(tmpFilesFolder);
+
+        return createUnifiedDiffWorkingCopy(directory);
     }
 
     /**
-     * Creates the unified difference working copy within the given folder.
+     * Creates the temporary working copy within the given directory.
      * 
-     * @param folder
+     * @param directory
      *            the given folder.
-     * @return a reference to the working copy.
+     * @return the working copy.
+     * @throws IOException
+     *             in case an error occurred while writing the file to disk.
+     * @author André Wengert
      */
-    private File createUnifiedDiffWorkingCopy(File folder) {
-        // create virtual temporary unified difference file
+    private File createUnifiedDiffWorkingCopy(File directory) throws IOException {
         int index = 1;
-        String extention = ".java"; // MUST be *.java or else java syntax highlighting won't work
-        String tmpFileName = "unifiedDiff" + extention;
-        File tmpFile = new File(combineToPath(folder, tmpFileName));
-
-        // create physical temporary unified difference file
+        String tmpFileName = UIConstants.TMP_FILE_NAME_WIHOUT_EXTENTION + UIConstants.TMP_FILE_EXTENTION;
+        File tmpFile = new File(combineToPath(directory, tmpFileName));
         if (tmpFile.exists()) {
             do {
-                tmpFileName = "unifiedDiff" + (index++) + extention;
-                tmpFile = new File(combineToPath(folder, tmpFileName));
+                tmpFileName = UIConstants.TMP_FILE_NAME_WIHOUT_EXTENTION + (index++) + UIConstants.TMP_FILE_EXTENTION;
+                tmpFile = new File(combineToPath(directory, tmpFileName));
             } while (tmpFile.exists());
         }
-        try {
-            if (!tmpFile.createNewFile()) {
-                LOGGER.warn("Create temporary working copy at \"" + tmpFile.getAbsolutePath()
-                        + "\" was not successful.");
-            }
 
-        } catch (IOException e) {
-            LOGGER.error("Could not create temporary working copy at \"" + tmpFile.getAbsolutePath() + "\"", e);
-        }
-
+        // write file to disk
+        tmpFile.createNewFile();
         return tmpFile;
     }
     
@@ -136,21 +179,10 @@ public class OpenUnifiedDiffHandler extends OpenSourceHandlerBase {
      * @param childPath
      *            the given child path.
      * @return the absolute path of the result.
+     * @author André Wengert
      */
     private String combineToPath(File parent, String childPath) {
         File file = new File(parent, childPath);
         return file.getPath();
-    }
-    
-    private static SPLevoProject getSPLevoProjectFromWorkbenchPart(IWorkbenchPart workbenchPart) {
-        if (workbenchPart instanceof VPExplorer) {
-            return ((VPExplorer) workbenchPart).getSPLevoProject();
-        }
-        if (workbenchPart instanceof VPMRefinementBrowser) {
-            return ((VPMRefinementBrowser) workbenchPart).getSPLevoProjectEditor().getSplevoProject();
-        } else {
-            LOGGER.warn("Got called from unknown source. Developers have to fix this.");
-            return null;
-        }
     }
 }

@@ -2,37 +2,31 @@ package org.splevo.ui.sourceconnection;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.sourceconnection.helper.IndexedLineNumber;
 import org.splevo.ui.sourceconnection.helper.NumbersTextPair;
 import org.splevo.vpm.variability.Variant;
 
 /**
+ * This class is mainly used to calculate the unified difference based on the model it initializes.
  * 
- * @author Andre
+ * @author André Wengert
  */
 public class UnifiedDiffConnector {
     /** Defines how to connect. */
-    public enum ConnectionMethod {
-        BY_CHUNKS,
+    public enum DiffMethod {
+        BY_BLOCKS,
         BY_LINE
     }
-    /** Defines from what file to connect. */
-    public enum ConnectPattern {
-        BOTH,
-        LEADING,
-        INTEGRATION
-    }
     
-    /** A Logger instance */
-    private static Logger LOGGER = Logger.getLogger(UnifiedDiffConnector.class);
-    /** The base content the unified diff connector works on. */
-    private UnifiedDiffConnectorContent connectorContent;
+    /** The Logger instance */
+    //private static final Logger LOGGER = Logger.getLogger(UnifiedDiffConnector.class);
+    
+    /** The base content the unified differ works on. */
+    private final UnifiedDiffConnectorModel diffModel;
 
     /**
      * Constructs an instance of class {@link UnifiedDiffConnector}.
@@ -45,55 +39,40 @@ public class UnifiedDiffConnector {
      *            a reference to the unified difference working copy
      */
     public UnifiedDiffConnector(SPLevoProject splevoProject, Set<Variant> variants, File unifiedDiffFile) {
-        // initialize fields
-        this.connectorContent = new UnifiedDiffConnectorContent(splevoProject, variants, unifiedDiffFile);
+        this.diffModel = new UnifiedDiffConnectorModel(splevoProject, variants, unifiedDiffFile);
     }
     
     /**
-     * Constructs an instance of class {@link UnifiedDiffConnector}.
+     * Calculates the unified difference between the leading and integration copies according to the given method.
      * 
-     * @param splevoProject
-     *            a reference to the current SPLevoProject instance.
-     * @param variants
-     *            a reference to the variants being processed.
+     * @param diffMethod
+     *            the given difference method.
      */
-    public UnifiedDiffConnector(SPLevoProject splevoProject, Set<Variant> variants) {
-        // initialize fields
-        this.connectorContent = new UnifiedDiffConnectorContent(splevoProject, variants, null);
-    }
-    
-    /**
-     * Connects the leading and integration copies to a unified difference according to the given
-     * method.
-     * 
-     * @param connectionMethod
-     *            the given connection method.
-     */
-    public void connect(ConnectionMethod connectionMethod) {
-        switch (connectionMethod) {
+    public void calculateDifference(DiffMethod diffMethod) {
+        switch (diffMethod) {
         case BY_LINE:
-            connectByLine();
+            calculateByLine();
             break;
-        
-        case BY_CHUNKS:
-            connectByChunks();
+
+        case BY_BLOCKS:
+            calculateByBlocks();
             break;
 
         default:
-            connectByChunks();
+            calculateByBlocks();
             break;
         }
     }
     
     /**
-     * Connects leading with all integration copies by chunks.
+     * Calculates the unified difference by blocks.
      */
-    private void connectByChunks() {
+    private void calculateByBlocks() {
         // get text lines from leading file and integration copy files
-        List<NumbersTextPair> unifiedLinesToRead = connectorContent.readLeadingFileToData();
-        List<String[]> integrations = connectorContent.readIntegrationCopies();
+        List<NumbersTextPair> unifiedLinesToRead = diffModel.getLeadingCopy();
+        List<String[]> integrations = diffModel.getIntegrationCopies();
         
-        // connect each integration with previously connected
+        // diff each integration with previously unified files
         for (String[] integration : integrations) {
             // initialize local variables
             List<NumbersTextPair> unifiedLinesToWrite = new ArrayList<NumbersTextPair>();
@@ -102,23 +81,14 @@ public class UnifiedDiffConnector {
             int integrationColumnIndex = integrations.indexOf(integration) + 1;
             
             // compute length of the longest common subsequences (LCS)
-            int[][] lcs = new int[leadingLines + 1][integrationLines + 1];
-            for (int i = leadingLines - 1; i >= 0; i--) {
-                for (int j = integrationLines - 1; j >= 0; j--) {
-                    if (unifiedLinesToRead.get(i).getLineText().equals(integration[j])) {
-                        lcs[i][j] = lcs[i + 1][j + 1] + 1;
-                    } else {
-                        lcs[i][j] = Math.max(lcs[i + 1][j], lcs[i][j + 1]);
-                    }
-                }
-            }
+            int[][] lcs = computeLCSTable(unifiedLinesToRead, integration);
 
-            // compare lines and evaluate using LCS
+            // compare lines and evaluate using LCS table
             int i = 0, j = 0;
             while (i < leadingLines && j < integrationLines) {
                 String leadingLine = unifiedLinesToRead.get(i).getLineText();
                 if (leadingLine.equals(integration[j])) {
-                    // same (|)
+                    // in both
                     List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
                     lineNumbers.addAll(unifiedLinesToRead.get(i).getLineNumbers());
                     lineNumbers.add(new IndexedLineNumber(integrationColumnIndex, j + 1));
@@ -126,13 +96,13 @@ public class UnifiedDiffConnector {
                     i++;
                     j++;
                 } else if (lcs[i + 1][j] >= lcs[i][j + 1]) {
-                    // not in integration (>)
+                    // not in integration
                     List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
                     lineNumbers.addAll(unifiedLinesToRead.get(i).getLineNumbers());
                     unifiedLinesToWrite.add(new NumbersTextPair(lineNumbers, leadingLine));
                     i++;
                 } else {
-                    // not in leading (<)
+                    // not in leading
                     List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
                     lineNumbers.add(new IndexedLineNumber(integrationColumnIndex, j + 1));
                     unifiedLinesToWrite.add(new NumbersTextPair(lineNumbers, integration[j]));
@@ -143,13 +113,13 @@ public class UnifiedDiffConnector {
             // append remainder of the respective file (that is not exhausted)
             while (i < leadingLines || j < integrationLines) {
                 if (j == integrationLines) {
-                    // not in integration (>)
+                    // not in integration
                     List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
                     lineNumbers.addAll(unifiedLinesToRead.get(i).getLineNumbers());
                     unifiedLinesToWrite.add(new NumbersTextPair(lineNumbers, unifiedLinesToRead.get(i).getLineText()));
                     i++;
                 } else if (i == leadingLines) {
-                    // not in leading (<)
+                    // not in leading
                     List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
                     lineNumbers.add(new IndexedLineNumber(integrationColumnIndex, j + 1));
                     unifiedLinesToWrite.add(new NumbersTextPair(lineNumbers, integration[j]));
@@ -161,23 +131,48 @@ public class UnifiedDiffConnector {
             unifiedLinesToRead = unifiedLinesToWrite;
         }
         
-        // post-processing step:
-        // - identify variants not respected by textual difference
-        unifiedLinesToRead = reconnect(unifiedLinesToRead);
+        // post-processing step: Identify variants not respected by textual difference
+        unifiedLinesToRead = postProcess(unifiedLinesToRead);
         
         // store connected result
-        connectorContent.setUnifiedLines(unifiedLinesToRead);
+        diffModel.setUnifiedLines(unifiedLinesToRead);
+    }
+
+    /**
+     * Computes the longest common subsequence (lcs) table. Instead of simple characters in this
+     * case whole strings are compared. {@link https://en.wikipedia.org/wiki/Longest_common_subsequence_problem}
+     * 
+     * @param firstSet
+     *            the first set of lines to compare
+     * @param secondSet
+     *            the second set of lines to compare
+     * @return the lcs table.
+     */
+    private int[][] computeLCSTable(List<NumbersTextPair> firstSet, String[] secondSet) {
+        int firstSetLineCount = firstSet.size();
+        int secondSetLineCount = secondSet.length;
+        int[][] lcs = new int[firstSetLineCount + 1][secondSetLineCount + 1];
+        for (int i = firstSetLineCount - 1; i >= 0; i--) {
+            for (int j = secondSetLineCount - 1; j >= 0; j--) {
+                if (firstSet.get(i).getLineText().equals(secondSet[j])) {
+                    lcs[i][j] = lcs[i + 1][j + 1] + 1;
+                } else {
+                    lcs[i][j] = Math.max(lcs[i + 1][j], lcs[i][j + 1]);
+                }
+            }
+        }
+        return lcs;
     }
     
     /**
-     * Connects leading with all integration copies by line.
+     * Calculates the unified difference by line.
      */
-    private void connectByLine() {
+    private void calculateByLine() {
         // get text lines from leading file and integration copy files
-        List<NumbersTextPair> unifiedLinesToRead = connectorContent.readLeadingFileToData();
-        List<String[]> integrations = connectorContent.readIntegrationCopies();
+        List<NumbersTextPair> unifiedLinesToRead = diffModel.getLeadingCopy();
+        List<String[]> integrations = diffModel.getIntegrationCopies();
         
-        // connect each integration with previously connected
+        // diff each integration with previously unified lines
         for (String[] integration : integrations) {
             // initialize local variables
             List<NumbersTextPair> unifiedLinesToWrite = new ArrayList<NumbersTextPair>();
@@ -190,7 +185,7 @@ public class UnifiedDiffConnector {
             while (i < leadingLines && j < integrationLines) {
                 String leadingLine = unifiedLinesToRead.get(i).getLineText();
                 if (leadingLine.equals(integration[j])) {
-                    // same (|)
+                    // in both
                     List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
                     lineNumbers.addAll(unifiedLinesToRead.get(i).getLineNumbers());
                     lineNumbers.add(new IndexedLineNumber(integrationColumnIndex, j + 1));
@@ -198,12 +193,12 @@ public class UnifiedDiffConnector {
                     i++;
                     j++;
                 } else {
-                    // not in integration (>)
+                    // not in integration
                     List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
                     lineNumbers.addAll(unifiedLinesToRead.get(i).getLineNumbers());
                     unifiedLinesToWrite.add(new NumbersTextPair(lineNumbers, leadingLine));
                     
-                    // not in leading (<) --> add integration copy line at the end of current difference block
+                    // not in leading --> add integration copy line at the end of current difference block
                     boolean isLastLeadingLine = (i == leadingLines - 1);
                     if (isLastLeadingLine) {
                         lineNumbers = new ArrayList<IndexedLineNumber>();
@@ -235,13 +230,13 @@ public class UnifiedDiffConnector {
             // append remainder of the respective file (that is not exhausted)
             while (i < leadingLines || j < integrationLines) {
                 if (j == integrationLines) {
-                    // not in integration (>)
+                    // not in integration
                     List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
                     lineNumbers.addAll(unifiedLinesToRead.get(i).getLineNumbers());
                     unifiedLinesToWrite.add(new NumbersTextPair(lineNumbers, unifiedLinesToRead.get(i).getLineText()));
                     i++;
                 } else if (i == leadingLines) {
-                    // not in leading (<)
+                    // not in leading
                     List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
                     lineNumbers.add(new IndexedLineNumber(integrationColumnIndex, j + 1));
                     unifiedLinesToWrite.add(new NumbersTextPair(lineNumbers, integration[j]));
@@ -253,30 +248,29 @@ public class UnifiedDiffConnector {
             unifiedLinesToRead = unifiedLinesToWrite;
         }
         
-        // post-processing step:
-        // - identify variants not respected by textual difference
-        unifiedLinesToRead = reconnect(unifiedLinesToRead);
+        // post-processing step: Identify variants not respected by textual difference
+        unifiedLinesToRead = postProcess(unifiedLinesToRead);
 
         // store connected result
-        connectorContent.setUnifiedLines(unifiedLinesToRead);
+        diffModel.setUnifiedLines(unifiedLinesToRead);
     }
+
 
     /**
      * Processes the unified lines after the initial unified difference has finished. This was
-     * introduced to alter the unified lines due to some special cases the textual difference is not
+     * introduced to alter the unified lines due to some special case the textual difference is not
      * able to identify.
      * 
      * @param unifiedLines
      *            the list of unified lines from the initial unified difference.
      * @return an altered list of unified lines.
      */
-    private List<NumbersTextPair> reconnect(List<NumbersTextPair> unifiedLines) {
-        // special case 1: variation points are identified for textually identical line.
+    private List<NumbersTextPair> postProcess(List<NumbersTextPair> unifiedLines) {
         List<NumbersTextPair> unifiedLinesToWrite = new ArrayList<NumbersTextPair>(unifiedLines);
         for (NumbersTextPair unifiedLine : unifiedLines) {
             // look for shared unified lines
             if (unifiedLine.getLineNumbers().size() > 1) {
-                if (connectorContent.hasVPsFor(unifiedLine.getLineNumbers())) {
+                if (diffModel.hasVPsFor(unifiedLine.getLineNumbers())) {
                     // separate shared lines
                     int index = unifiedLines.indexOf(unifiedLine);
                     String sharedLineText = unifiedLines.get(index).getLineText();
@@ -291,10 +285,7 @@ public class UnifiedDiffConnector {
                 }
             }
         }
-
-        // special case 2: ... (if there are others)
-        // ...
-
+        
         return unifiedLinesToWrite;
     }
     
@@ -303,8 +294,8 @@ public class UnifiedDiffConnector {
      * 
      * @return the connector content object
      */
-    public UnifiedDiffConnectorContent getConnectorContent() {
-        return this.connectorContent;
+    public UnifiedDiffConnectorModel getDiffConnectorModel() {
+        return this.diffModel;
     }
     
     /**
@@ -314,7 +305,7 @@ public class UnifiedDiffConnector {
      */
     public String getUnifiedText() {
         StringBuilder builder = new StringBuilder();
-        for (String string : connectorContent.getUnifiedTextLines()) {
+        for (String string : diffModel.getUnifiedTextLines()) {
             builder.append(string + "\n");
         }
 
@@ -327,6 +318,6 @@ public class UnifiedDiffConnector {
      * @return the file name.
      */
     public String getProccessedFileName() {
-        return connectorContent.getProccessedFileName();
+        return diffModel.getProccessedFileName();
     }
 }

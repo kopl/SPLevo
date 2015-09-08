@@ -29,7 +29,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.splevo.ui.editors.UnifiedDiffEditor;
-import org.splevo.ui.sourceconnection.UnifiedDiffConnectorContent;
+import org.splevo.ui.sourceconnection.UnifiedDiffConnectorModel;
 import org.splevo.ui.sourceconnection.helper.FileLineNumberPair;
 
 public class OpenUnifiedDiffSourceHandler extends AbstractHandler {
@@ -59,7 +59,7 @@ public class OpenUnifiedDiffSourceHandler extends AbstractHandler {
                     // prepare fetching
                     ISelection selection = selectionProvider.getSelection();
                     int selectedLineNumber = ((ITextSelection) selection).getStartLine();
-                    UnifiedDiffConnectorContent content = editor.getConnectorContent();
+                    UnifiedDiffConnectorModel content = editor.getDiffConnectorModel();
 
                     // fetch file information according to selected (unified) line
                     if (content != null) {

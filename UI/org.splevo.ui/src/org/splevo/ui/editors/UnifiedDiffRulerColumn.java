@@ -15,6 +15,11 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Display;
 import org.splevo.ui.sourceconnection.helper.IndexedLineNumber;
 
+/**
+ * This class represents a unique ruler column for the unified difference editor.
+ * 
+ * @author André Wengert
+ */
 public class UnifiedDiffRulerColumn extends LineNumberRulerColumn {
     /** A Logger instance */
     private static final Logger LOGGER = Logger.getLogger(UnifiedDiffRulerColumn.class);
@@ -45,9 +50,6 @@ public class UnifiedDiffRulerColumn extends LineNumberRulerColumn {
         this.linesToColorMapping = linesToColorMapping;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void paintLine(int line, int y, int lineheight, GC gc, Display display) {
         int widgetLine = JFaceTextUtil.modelLineToWidgetLine(getParentRuler().getTextViewer(), line);
@@ -120,9 +122,6 @@ public class UnifiedDiffRulerColumn extends LineNumberRulerColumn {
         return Integer.toString(line);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getWidth() {
         int[] indentations = null;

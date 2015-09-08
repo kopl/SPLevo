@@ -1,29 +1,25 @@
 package org.splevo.ui.sourceconnection;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.splevo.project.SPLevoProject;
-import org.splevo.ui.sourceconnection.helper.FileID;
 import org.splevo.ui.sourceconnection.helper.FileLineNumberPair;
+import org.splevo.ui.sourceconnection.helper.FileWithID;
 import org.splevo.ui.sourceconnection.helper.IndexedLineNumber;
 import org.splevo.ui.sourceconnection.helper.NumbersTextPair;
 import org.splevo.ui.sourceconnection.helper.UnifiedPOI;
+import org.splevo.ui.util.UIConstants;
 import org.splevo.vpm.VPMUtil;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
@@ -31,13 +27,16 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 /**
  * This class represents a model for the {@link UnifiedDiffConnector}. It envelops all the data
  * being processed and offers means to refine and access them.
  * 
  * @author Andre
  */
-public class UnifiedDiffConnectorContent {
+public class UnifiedDiffConnectorModel {
     /** The type of marker used for highlighting. */
     public enum MarkerType {
         NONE,
@@ -53,28 +52,30 @@ public class UnifiedDiffConnectorContent {
         MIXED_DARK
     }
 
-    /** Logger instance */
-    private static Logger LOGGER = Logger.getLogger(UnifiedDiffConnectorContent.class);
+    /** The Logger instance */
+    private static final Logger LOGGER = Logger.getLogger(UnifiedDiffConnectorModel.class);
 
     /** The working copy for the unified difference */
     private File unifiedDiffFile;
     /** The name of the currently processed file */
     private String proccessedFileName;
-    /** The variation points */
+    /** The set of variation points */
     private List<VariationPoint> variationPoints;
+    /** The id to variants mapping */
+    private Multimap<String, Variant> idToVariants;
     /** The leading file */
-    private FileID leadingFile;
-    /** List of integration copy files already added */
-    private List<FileID> integrationCopyList;
+    private FileWithID leadingFile;
+    /** List of integration copy files */
+    private List<FileWithID> integrationCopyList;
     /** List of POIs for the leading file */
     private List<UnifiedPOI> leadingPOIs;
-    /** List of POIs for the integration copies */
+    /** List of POIs for the integration copy files */
     private List<UnifiedPOI> integrationPOIs;
-    /** List of lines for the connected document */
+    /** List of lines for the unified document */
     private List<NumbersTextPair> unifiedLines;
 
     /**
-     * Constructs an instance of class {@link UnifiedDiffConnectorContent}.
+     * Constructs an instance of class {@link UnifiedDiffConnectorModel}.
      * 
      * @param splevoProject
      *            a reference to the current SPLevoProject instance.
@@ -83,16 +84,14 @@ public class UnifiedDiffConnectorContent {
      * @param unifiedDiffFile
      *            a reference to the unified difference working copy
      */
-    public UnifiedDiffConnectorContent(SPLevoProject splevoProject, Set<Variant> variants, File unifiedDiffFile) {
-        // initialize fields
+    public UnifiedDiffConnectorModel(SPLevoProject splevoProject, Set<Variant> variants, File unifiedDiffFile) {
         this.unifiedDiffFile = unifiedDiffFile;
-        this.leadingFile = null;
-        this.integrationCopyList = new ArrayList<FileID>();
         
         // extract file information
         VariationPointModel vpm = getVPM(splevoProject);
         this.proccessedFileName = getFileNameToProcess(variants);
         this.variationPoints = extractVariationPoints(vpm);
+        this.idToVariants = createIdToVariantMapping(variationPoints);
         this.leadingFile = extractLeadingFile(proccessedFileName);
         this.integrationCopyList = extractIntegrationFiles();
         
@@ -162,6 +161,23 @@ public class UnifiedDiffConnectorContent {
         }
         return vps;
     }
+   
+    /**
+     * Creates a id to variants mapping from the given variation points.
+     * 
+     * @param vps
+     *            the given variation points.
+     * @return the id to variants mapping
+     */
+    private Multimap<String, Variant> createIdToVariantMapping(List<VariationPoint> vps) {
+        Multimap<String, Variant> mapping = ArrayListMultimap.create();
+        for (VariationPoint vp : vps) {
+            for (Variant variant : vp.getVariants()) {
+                mapping.put(variant.getId(), variant);
+            }
+        }
+        return mapping;
+    }
     
     /**
      * Extract the leading file for a given file name.
@@ -170,13 +186,13 @@ public class UnifiedDiffConnectorContent {
      *            the given file name.
      * @return the leading file.
      */
-    private FileID extractLeadingFile(String fileName) {
+    private FileWithID extractLeadingFile(String fileName) {
         for (VariationPoint vp : variationPoints) {
             for (Variant var : vp.getVariants()) {
                 IPath path = Path.fromOSString(var.getImplementingElements().get(0).getSourceLocation().getFilePath());
                 String absfilePath = path.toOSString();
                 if (leadingFile == null && var.getLeading() && isValidLeading(absfilePath, fileName)) {
-                    return new FileID(new File(absfilePath), var.getId());
+                    return new FileWithID(new File(absfilePath), var.getId());
                 }
             }
         }
@@ -202,10 +218,9 @@ public class UnifiedDiffConnectorContent {
     
     /**
      * Extract the integration copy files from a given variation point model.
-     * 
      */
-    private List<FileID> extractIntegrationFiles() {
-        ArrayList<FileID> integrationCopies = new ArrayList<FileID>();
+    private List<FileWithID> extractIntegrationFiles() {
+        ArrayList<FileWithID> integrationCopies = new ArrayList<FileWithID>();
         for (VariationPoint vp : variationPoints) {
             for (Variant var : vp.getVariants()) {
                 IPath path = Path.fromOSString(var.getImplementingElements().get(0).getSourceLocation().getFilePath());
@@ -213,7 +228,7 @@ public class UnifiedDiffConnectorContent {
                 boolean isNewIntegration = !var.getLeading() && !containsFile(integrationCopies, var.getId())
                         && isValidIntegration(absfilePath);
                 if (isNewIntegration) {
-                    integrationCopies.add(new FileID(new File(absfilePath), var.getId()));
+                    integrationCopies.add(new FileWithID(new File(absfilePath), var.getId()));
                 }
             }
         }
@@ -232,13 +247,12 @@ public class UnifiedDiffConnectorContent {
      * @return {@code true} in case the collection contains a file with the given identifier,
      *         {@code false} otherwise.
      */
-    private boolean containsFile(Collection<FileID> collection, String id) {
-        for (FileID fileID : collection) {
+    private boolean containsFile(Collection<FileWithID> collection, String id) {
+        for (FileWithID fileID : collection) {
             if (fileID.getID().equals(id)) {
                 return true;
             }
         }
-        
         return false;
     }
       
@@ -263,61 +277,23 @@ public class UnifiedDiffConnectorContent {
     }
 
     /**
-     * Reads the leading file content to the used line data structure.
+     * Issues the file handler to read the leading copy from file and return it as a set.
+     * The leading copy is represented as a set of lines.
      * 
-     * @return the list of line data structures {@link NumbersTextPair}.
+     * @return the leading copy.
      */
-    public List<NumbersTextPair> readLeadingFileToData() {
-        List<NumbersTextPair> leadingData = new ArrayList<NumbersTextPair>();
-        try {
-            String[] leadingContent = readFileToLines(leadingFile.getFile());
-            for (int i = 0; i < leadingContent.length; i++) {
-                List<IndexedLineNumber> lineNumbers = new ArrayList<IndexedLineNumber>();
-                lineNumbers.add(new IndexedLineNumber(0, i + 1));
-                leadingData.add(new NumbersTextPair(lineNumbers, leadingContent[i]));
-            }
-        } catch (IOException e) {
-            LOGGER.error("An error occured while reading leading file \"" + leadingFile.getFile().getAbsolutePath() + "\"", e);
-        }
-        
-        return leadingData;
+    public List<NumbersTextPair> getLeadingCopy() {
+        return UnifiedDiffFileHandler.getInstance().readLeadingFileToData(leadingFile);
     }
     
     /**
-     * Reads the integration copies' content to a list of {@code String}-arrays.
+     * Issues the file handler to read all integration copies from file and return them as a set.
+     * Each integration copy is represented as a set of lines.
      * 
-     * @return the list of integration copies represented by arrays of <code>String</code>.
+     * @return the set of integration copies.
      */
-    public List<String[]> readIntegrationCopies() {
-        List<String[]> integrationCopiesAsArray = new ArrayList<String[]>();
-        for (FileID integrationCopy : integrationCopyList) {
-            String[] integrationCopyTextAsArray = null;
-            try {
-                integrationCopyTextAsArray = readFileToLines(integrationCopy.getFile());
-            } catch (IOException e) {
-                LOGGER.error("An error occured while reading integration copy \""
-                        + integrationCopy.getFile().getAbsolutePath() + "\"", e);
-            }
-            
-            integrationCopiesAsArray.add(integrationCopyTextAsArray);
-        }
-        
-        return integrationCopiesAsArray;
-    }
-
-    /**
-     * Reads the file contents of a given file as an array of string lines.
-     * 
-     * @param file
-     *            the file to process
-     * @return the string array containing all text lines
-     * @throws IOException
-     *             TODO Doc
-     */
-    private String[] readFileToLines(File file) throws IOException {
-        byte[] encoded = Files.readAllBytes(file.toPath());
-        // FIXME: Implement more memory friendly method (i.e. mapping lines to Unicode characters)
-        return new String(encoded).split("\\r?\\n");
+    public List<String[]> getIntegrationCopies() {
+        return UnifiedDiffFileHandler.getInstance().readIntegrationCopies(integrationCopyList);
     }
 
     /**
@@ -330,18 +306,6 @@ public class UnifiedDiffConnectorContent {
     }
     
     /**
-     * Deletes the current unified difference working copy.
-     * 
-     * @throws CoreException
-     *             in case the unified difference working copy could not be deleted.
-     */
-    public void deleteWorkingCopy() throws CoreException {
-        if (unifiedDiffFile != null && unifiedDiffFile.exists()) {
-            unifiedDiffFile.delete();
-        }
-    }
-
-    /**
      * Gets the unified difference marker type for a given unified line.
      * 
      * @param line
@@ -351,10 +315,9 @@ public class UnifiedDiffConnectorContent {
     public MarkerType getMarkerTypeFor(int line) {
         MarkerType marker = MarkerType.NONE;
         List<IndexedLineNumber> lineNumbers = unifiedLines.get(line).getLineNumbers();
-
         if (lineNumbers.size() > 1) {
-            // contains multiple (but not leading) --> mixed
-            if (!containsColumnIndex(lineNumbers, 0)) {
+            boolean isMixed = !containsColumnIndex(lineNumbers, 0);
+            if (isMixed) {
                 if (isPOI(lineNumbers)) {
                     marker = MarkerType.MIXED_DARK;
                 } else {
@@ -362,33 +325,15 @@ public class UnifiedDiffConnectorContent {
                 }
             }
         } else {
-            if (containsColumnIndex(lineNumbers, 0)) {
-                // contains only leading (column 0) --> leading
-                if (isPOI(lineNumbers)) {
-                    marker = MarkerType.LEADING_DARK;
-                } else {
-                    marker = MarkerType.LEADING_LIGHT;
-                }
-            } else if (containsColumnIndex(lineNumbers, 1)) {
-                // contains only leading (column 1) --> integration 1
-                if (isPOI(lineNumbers)) {
-                    marker = MarkerType.INTEGRATION1_DARK;
-                } else {
-                    marker = MarkerType.INTEGRATION1_LIGHT;
-                }
-            } else if (containsColumnIndex(lineNumbers, 2)) {
-                // contains only leading (column 2) --> integration 2
-                if (isPOI(lineNumbers)) {
-                    marker = MarkerType.INTEGRATION2_DARK;
-                } else {
-                    marker = MarkerType.INTEGRATION2_LIGHT;
-                }
-            } else if (containsColumnIndex(lineNumbers, 3)) {
-                // contains only leading (column 3) --> integration 3
-                if (isPOI(lineNumbers)) {
-                    marker = MarkerType.INTEGRATION3_DARK;
-                } else {
-                    marker = MarkerType.INTEGRATION3_LIGHT;
+            // contains only one copy
+            int colCount = integrationCopyList.size() + 1;
+            for (int i = 0; i < colCount; i++) {
+                if (containsColumnIndex(lineNumbers, i)) {
+                    if (isPOI(lineNumbers)) {
+                        marker = UIConstants.INDEX_TO_MARKERTYPE.get(i * 2);
+                    } else {
+                        marker = UIConstants.INDEX_TO_MARKERTYPE.get(i * 2 + 1);
+                    }
                 }
             }
         }
@@ -486,23 +431,21 @@ public class UnifiedDiffConnectorContent {
     public boolean hasVPsFor(List<IndexedLineNumber> lineNumbers) {
         // initialize search range
         boolean[] hasLineNumbers = new boolean[lineNumbers.size()];
-        for (int i = 0; i < hasLineNumbers.length; i++) {
-            hasLineNumbers[i] = false;
-        }
+        Arrays.fill(hasLineNumbers, false);
         
         // look for line numbers in variation points
         for (IndexedLineNumber iLineNumber : lineNumbers) {
-            List<Variant> vars = getVsForColumn(iLineNumber.getColumnIndex());
-            for (Variant var : vars) {
-                SoftwareElement sl = var.getImplementingElements().get(0); 
+            List<Variant> variants = getVariantsForColumn(iLineNumber.getColumnIndex());
+            for (Variant variant : variants) {
+                SoftwareElement swElement = variant.getImplementingElements().get(0); 
                 // same line number in separate variation point
-                if (sl.getSourceLocation().getStartLine() == iLineNumber.getNumber()) {
+                if (swElement.getSourceLocation().getStartLine() == iLineNumber.getNumber()) {
                     hasLineNumbers[lineNumbers.indexOf(iLineNumber)] = true;
                 }
             }
         }
         
-        for (boolean hasLineNumber: hasLineNumbers) {
+        for (boolean hasLineNumber : hasLineNumbers) {
             if (!hasLineNumber) {
                 return false;
             }
@@ -518,29 +461,17 @@ public class UnifiedDiffConnectorContent {
      *            the given column index.
      * @return a list of variants.
      */
-    private List<Variant> getVsForColumn(int columnIndex) {
-        List<Variant> vars = new ArrayList<Variant>();
-
-        // get the leading of integration id for the given column index
+    private List<Variant> getVariantsForColumn(int columnIndex) {
+        // get the leading or integration id for the given column index
         String idForColumn = leadingFile.getID();
         if (columnIndex > 0) {
             idForColumn = integrationCopyList.get(columnIndex - 1).getID();
         }
-
-        // get the variations
-        for (VariationPoint vp : variationPoints) {
-            for (Variant var : vp.getVariants()) {
-                if (var.getId().equals(idForColumn)) {
-                    vars.add(var);
-                }
-            }
-        }
-
-        return vars;
+        return (List<Variant>) idToVariants.get(idForColumn);
     }
     
     /**
-     * Retrives a list of files which correspond to the given connected line number.
+     * Retrieves a list of files which correspond to the given unified line number.
      * 
      * @param unifiedLineNumber
      *            the line number in the connected lines document
@@ -574,7 +505,7 @@ public class UnifiedDiffConnectorContent {
     }
     
     /**
-     * Sets the unified text lines.
+     * Sets the unified text lines and writes the to the working copy.
      * 
      * @param unifiedLines
      *            the new list unified lines.
@@ -582,14 +513,10 @@ public class UnifiedDiffConnectorContent {
     public void setUnifiedLines(List<NumbersTextPair> unifiedLines) {
         this.unifiedLines = unifiedLines;
         if (unifiedDiffFile != null && unifiedDiffFile.exists()) {
-            try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(unifiedDiffFile), "utf-8"))) {
-                StringBuilder builder = new StringBuilder();
-                for (String string : getUnifiedTextLines()) {
-                    builder.append(string + "\n");
-                }
-                writer.write(builder.toString());
-            } catch (IOException e) {
-                LOGGER.warn("Error trying to write data to the unified difference working copy!", e);
+            try {
+                UnifiedDiffFileHandler.getInstance().writeUnifiedLines(getUnifiedTextLines(), unifiedDiffFile);
+            } catch (IOException exception) {
+                LOGGER.error("An error occured while writing data to the unified difference working copy!", exception);
             }
         }
     }
@@ -648,4 +575,5 @@ public class UnifiedDiffConnectorContent {
     public List<UnifiedPOI> getIntegrationPOIs() {
         return integrationPOIs;
     }
+    
 }
