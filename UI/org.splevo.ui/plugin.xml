@@ -364,7 +364,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.leadingLight"
        colorPreferenceKey="leadingLightAnnotation.color"
-       colorPreferenceValue="225,255,225"
+       colorPreferenceValue="200,242,200"
        contributesToHeader="false"
        highlightPreferenceKey="leadingLightAnnotation.highlight"
        highlightPreferenceValue="true"
@@ -382,7 +382,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.leadingDark"
        colorPreferenceKey="leadingDarkAnnotation.color"
-       colorPreferenceValue="190,255,190"
+       colorPreferenceValue="146,228,146"
        contributesToHeader="false"
        highlightPreferenceKey="leadingDarkAnnotation.highlight"
        highlightPreferenceValue="true"
@@ -400,7 +400,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.integration1Light"
        colorPreferenceKey="integration1LightAnnotation.color"
-       colorPreferenceValue="255,225,225"
+       colorPreferenceValue="255,195,192"
        contributesToHeader="false"
        highlightPreferenceKey="integration1Light.highlight"
        highlightPreferenceValue="true"
@@ -418,7 +418,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.integration1Dark"
        colorPreferenceKey="integration1DarkAnnotation.color"
-       colorPreferenceValue="255,190,190"
+       colorPreferenceValue="255,135,129"
        contributesToHeader="false"
        highlightPreferenceKey="integration1Dark.highlight"
        highlightPreferenceValue="true"
@@ -436,7 +436,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.integration2Light"
        colorPreferenceKey="integration2LightAnnotation.color"
-       colorPreferenceValue="255,200,160"
+       colorPreferenceValue="255,224,182"
        contributesToHeader="false"
        highlightPreferenceKey="integration2Light.highlight"
        highlightPreferenceValue="true"
@@ -454,7 +454,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.integration2Dark"
        colorPreferenceKey="integration2DarkAnnotation.color"
-       colorPreferenceValue="255,150,75"
+       colorPreferenceValue="255,194,108"
        contributesToHeader="false"
        highlightPreferenceKey="integration2Dark.highlight"
        highlightPreferenceValue="true"
@@ -472,7 +472,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.integration3Light"
        colorPreferenceKey="integration3LightAnnotation.color"
-       colorPreferenceValue="255,255,225"
+       colorPreferenceValue="254,254,213"
        contributesToHeader="false"
        highlightPreferenceKey="integration3Light.highlight"
        highlightPreferenceValue="true"
@@ -490,7 +490,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.integration3Dark"
        colorPreferenceKey="integration3DarkAnnotation.color"
-       colorPreferenceValue="255,255,190"
+       colorPreferenceValue="253,253,171"
        contributesToHeader="false"
        highlightPreferenceKey="integration3Dark.highlight"
        highlightPreferenceValue="true"
@@ -508,7 +508,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.mixedLight"
        colorPreferenceKey="mixedLightAnnotation.color"
-       colorPreferenceValue="190,190,190"
+       colorPreferenceValue="231,231,226"
        contributesToHeader="false"
        highlightPreferenceKey="mixedLight.highlight"
        highlightPreferenceValue="true"
@@ -526,7 +526,7 @@
  <specification
        annotationType="org.splevo.ui.annotations.unifieddiff.mixedDark"
        colorPreferenceKey="mixedDarkAnnotation.color"
-       colorPreferenceValue="225,225,225"
+       colorPreferenceValue="207,207,196"
        contributesToHeader="false"
        highlightPreferenceKey="mixedDark.highlight"
        highlightPreferenceValue="true"
