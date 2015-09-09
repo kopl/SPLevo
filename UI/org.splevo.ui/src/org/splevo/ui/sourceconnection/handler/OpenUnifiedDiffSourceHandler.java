@@ -32,9 +32,15 @@ import org.splevo.ui.editors.UnifiedDiffEditor;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnectorModel;
 import org.splevo.ui.sourceconnection.helper.FileLineNumberPair;
 
+/**
+ * Action class which is used to open the source document of a selected unified difference source
+ * code line in the java editor.
+ * 
+ * @author André Wengert
+ */
 public class OpenUnifiedDiffSourceHandler extends AbstractHandler {
     /** Logger instance */
-    private static Logger LOGGER = Logger.getLogger(OpenUnifiedDiffSourceHandler.class);
+    private static final Logger LOGGER = Logger.getLogger(OpenUnifiedDiffSourceHandler.class);
     
     /**
      * {@inheritDoc}
@@ -82,7 +88,7 @@ public class OpenUnifiedDiffSourceHandler extends AbstractHandler {
                 }
             }
         } else {
-            LOGGER.error("The Active Editor is not of type " + UnifiedDiffEditor.class.getName() + " but "
+            LOGGER.error("The active editor is not of type " + UnifiedDiffEditor.class.getName() + " but "
                     + editorPart.getClass().getName());
         }
 
