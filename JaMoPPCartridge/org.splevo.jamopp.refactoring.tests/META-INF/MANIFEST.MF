@@ -12,5 +12,5 @@ Require-Bundle: org.junit,
  org.splevo.jamopp.vpm.builder,
  org.eclipse.emf.ecore.xmi,
  org.splevo.vpm.refinement,
- com.google.guava;bundle-version="[11.0.0,15.0.0)",
+ com.google.guava;bundle-version="[11.0.0,15.0.1)",
  org.apache.commons.io
