@@ -12,8 +12,10 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.refactory.ifelse;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
@@ -32,48 +34,50 @@ import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Refactoring a variation point into a single code base aligned with the leading variant using if
- * else condition of the given java code base.
+ * Refactoring a variation point into a single code base aligned with the leading variant using if else condition of the
+ * given java code base.
  */
 public class IfElseRefactoring implements VariabilityRefactoring {
 
-    private static final String REFACTORING_ID = "org.splevo.refactoring.refactory.ifelse";
+	private static final String REFACTORING_ID = "org.splevo.refactoring.refactory.ifelse";
 	private static Logger logger = Logger.getLogger(IfElseRefactoring.class);
 
-    @Override
-    public void refactor(VariationPoint variationPoint) {
-        Resource javaResource = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource();
-        RoleMapping roleMapping = RefactoryUtil.getRoleMapping("IfElseBasic");
-        IRefactorer refactorer = RefactorerFactory.eINSTANCE.getRefactorer(javaResource, roleMapping);
-        ClassMethod leadingMethod = (ClassMethod) ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
-        List<EObject> integrationStatements = getVariantElements(variationPoint);
+	@Override
+	public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
+		Resource javaResource = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource();
+		RoleMapping roleMapping = RefactoryUtil.getRoleMapping("IfElseBasic");
+		IRefactorer refactorer = RefactorerFactory.eINSTANCE.getRefactorer(javaResource, roleMapping);
+		ClassMethod leadingMethod = (ClassMethod) ((JaMoPPSoftwareElement) variationPoint.getLocation())
+				.getJamoppElement();
+		List<EObject> integrationStatements = getVariantElements(variationPoint);
 
-        // TODO: adapt to new input system
-        List<EObject> inputList = new LinkedList<EObject>();
-        inputList.add(leadingMethod);
-        inputList.addAll(integrationStatements);
-        refactorer.setInput(inputList);
+		// TODO: adapt to new input system
+		List<EObject> inputList = new LinkedList<EObject>();
+		inputList.add(leadingMethod);
+		inputList.addAll(integrationStatements);
+		refactorer.setInput(inputList);
 
-        refactorer.refactor();
-        if (refactorer.didErrorsOccur()) {
-            logger.error("Errow while refactoring: " + refactorer.getStatus());
-        }
-    }
+		refactorer.refactor();
+		if (refactorer.didErrorsOccur()) {
+			logger.error("Errow while refactoring: " + refactorer.getStatus());
+		}
+		return Collections.singletonList(javaResource);
+	}
 
-    private List<EObject> getVariantElements(VariationPoint variationPoint) {
-        List<EObject> result = new LinkedList<EObject>();
-        for (SoftwareElement softwareElement : variationPoint.getVariants().get(1).getImplementingElements()) {
-            JaMoPPSoftwareElement jaMoPPSoftwareElement = (JaMoPPSoftwareElement) softwareElement;
-            result.add(jaMoPPSoftwareElement.getJamoppElement());
-        }
+	private List<EObject> getVariantElements(VariationPoint variationPoint) {
+		List<EObject> result = new LinkedList<EObject>();
+		for (SoftwareElement softwareElement : variationPoint.getVariants().get(1).getImplementingElements()) {
+			JaMoPPSoftwareElement jaMoPPSoftwareElement = (JaMoPPSoftwareElement) softwareElement;
+			result.add(jaMoPPSoftwareElement.getJamoppElement());
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public String getId() {
-        return REFACTORING_ID;
-    }
+	@Override
+	public String getId() {
+		return REFACTORING_ID;
+	}
 
 	@Override
 	public VariabilityMechanism getVariabilityMechanism() {
@@ -87,9 +91,9 @@ public class IfElseRefactoring implements VariabilityRefactoring {
 	public boolean canBeAppliedTo(VariationPoint variationPoint) {
 		Commentable jamoppElement = ((JaMoPPSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 		if (jamoppElement instanceof ClassMethod) {
-			return variationPoint.getVariants().size() >= 2; 
+			return variationPoint.getVariants().size() >= 2;
 		}
-		
+
 		return false;
 	}
 
