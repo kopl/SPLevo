@@ -3,7 +3,6 @@ package org.splevo.ui.workflow;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
-import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.jobs.LoadVPMJob;
 import org.splevo.ui.jobs.OpenVPMJob;
 import org.splevo.ui.jobs.RefreshLeadingCopyProjects;
@@ -16,9 +15,9 @@ import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
-public class BuildSemiAutomatedRefactoringWorkflowDelegate extends AbstractWorkbenchDelegate<BasicSPLevoWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
+public class BuildSemiAutomatedRefactoringWorkflowDelegate extends AbstractWorkbenchDelegate<BasicSPLevoProjectWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
-    private final BasicSPLevoWorkflowConfiguration config = new BasicSPLevoWorkflowConfiguration();
+    private BasicSPLevoProjectWorkflowConfiguration config;
     private final SPLevoBlackBoard blackboard;
     private final String variationPointId;
     
@@ -33,9 +32,9 @@ public class BuildSemiAutomatedRefactoringWorkflowDelegate extends AbstractWorkb
     }
 
     @Override
-    protected IJob createWorkflowJob(BasicSPLevoWorkflowConfiguration config) {
-        final SPLevoProjectEditor splevoProjectEditor = config.getSplevoProjectEditor();
-        final SPLevoProject splevoProject = splevoProjectEditor.getSplevoProject();
+    protected IJob createWorkflowJob(BasicSPLevoProjectWorkflowConfiguration config) {
+        this.config = config;
+        final SPLevoProject splevoProject = config.getSplevoProject();
 
         SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence =
                 new SequentialBlackboardInteractingJob<SPLevoBlackBoard>();
@@ -70,9 +69,8 @@ public class BuildSemiAutomatedRefactoringWorkflowDelegate extends AbstractWorkb
     }
 
     @Override
-    protected BasicSPLevoWorkflowConfiguration getConfiguration() {
+    protected BasicSPLevoProjectWorkflowConfiguration getConfiguration() {
         return config;
     }
-
 
 }
