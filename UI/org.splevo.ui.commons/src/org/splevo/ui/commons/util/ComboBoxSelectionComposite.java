@@ -46,7 +46,7 @@ public abstract class ComboBoxSelectionComposite extends Composite {
         explanationLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
         
         // initialize the VPM selection combo box
-        comboViewer.setContentProvider(getContentProvider());
+        comboViewer.setContentProvider(new SingleLevelContentProvider());
         comboViewer.setLabelProvider(getLabelProvider());
         comboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
@@ -83,9 +83,8 @@ public abstract class ComboBoxSelectionComposite extends Composite {
             }});
     }
     
-    protected abstract IContentProvider getContentProvider();
     protected abstract ILabelProvider getLabelProvider();
+    protected abstract SingleLevelElementProvider getComboViewerInput();
     protected abstract void handleSelectionAfterAccept(IStructuredSelection cvSelection);
-    protected abstract Object getComboViewerInput();
 
 }

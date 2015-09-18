@@ -14,7 +14,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -41,7 +40,6 @@ import org.splevo.ui.commons.project.SPLevoProjectWorkspaceListener;
 import org.splevo.ui.commons.project.SPLevoProjectWorkspaceObserver;
 import org.splevo.ui.commons.util.ComboBoxSelectionComposite;
 import org.splevo.ui.commons.util.CompositeSwitcher;
-import org.splevo.ui.commons.util.SingleLevelContentProvider;
 import org.splevo.ui.commons.util.SingleLevelElementProvider;
 import org.splevo.ui.commons.util.WorkspaceUtil;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
@@ -76,13 +74,97 @@ public class TaskView extends ViewPart {
     private TableViewer viewer = null;
     private Action getAllTasksAction = null;
     private Action startRefactoringAction = null;
-    private final SPLevoProjectWorkspaceObserver projectObserver;
-    private final SPLevoProjectWorkspaceListener projectListener;
-    private ComboBoxSelectionComposite projectSelectionComposite;
-    private CompositeSwitcher compositeSwitcherComposite;
 
+    private CompositeSwitcher compositeSwitcherComposite;
     private Optional<SPLevoProject> selectedSPLevoProject;
 
+
+    private class TaskViewComboBoxSelectionComposite extends ComboBoxSelectionComposite {
+        
+        private final SPLevoProjectWorkspaceObserver projectObserver;
+        private final SPLevoProjectWorkspaceListener projectListener;
+        
+        public TaskViewComboBoxSelectionComposite(Composite parent) {
+            super(parent, "Please select a consolidation project below. Afterwards, this list shows the outstanding refactorings for this project.",
+                    "Select");
+            
+            projectObserver = new SPLevoProjectWorkspaceObserver();
+            projectListener = new SPLevoProjectWorkspaceListener() {
+                @Override
+                public void availableProjectFilesChanged(SPLevoProjectWorkspaceObserver observer) {
+                    reset();
+                }
+            };
+            projectObserver.registerSubscriber(projectListener);
+            projectObserver.startObserver();
+        }
+
+        @Override
+        protected void handleSelectionAfterAccept(IStructuredSelection cvSelection) {
+            try {
+                if (cvSelection.getFirstElement() instanceof IFile) {
+                    SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel((IFile) cvSelection
+                            .getFirstElement());
+                    selectedSPLevoProject = Optional.fromNullable(project);
+                    if (project != null) {
+                        setSPLevoProject(project);
+                        return;
+                    }
+                }
+            } catch (IOException e) {
+                LOGGER.warn("Failure during loading of SPLevoProject.", e);
+            }
+
+            selectedSPLevoProject = Optional.absent();
+        }
+
+        @Override
+        protected ILabelProvider getLabelProvider() {
+            return new LabelProvider() {
+
+                /*
+                 * (non-Javadoc)
+                 * 
+                 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
+                 */
+                @Override
+                public String getText(Object element) {
+                    try {
+                        if (element != null && element instanceof IFile) {
+                            IFile file = (IFile) element;
+                            SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel(file);
+                            return project.getName();
+                        }
+                    } catch (IOException e) {
+                        LOGGER.warn("Could not load SPLevoProjectFile.", e);
+                    }
+                    return "Invalid element";
+                }
+            };
+        }
+
+        @Override
+        protected SingleLevelElementProvider getComboViewerInput() {
+            return new SingleLevelElementProvider() {
+                @Override
+                public Object[] getElements() {
+                    return Iterables.toArray(projectObserver.getCurrentState(), IFile.class);
+                }
+            };
+        }
+
+        /* (non-Javadoc)
+         * @see org.eclipse.swt.widgets.Widget#dispose()
+         */
+        @Override
+        public void dispose() {
+            projectObserver.stopObserver();
+            projectObserver.unregisterSubscriber(projectListener);
+            super.dispose();
+        }
+        
+    }
+    
     /**
      * Provides the table for the taskviewer
      */
@@ -113,38 +195,6 @@ public class TaskView extends ViewPart {
     }
 
     /**
-     * The constructor.
-     */
-    public TaskView() {
-        projectListener = new SPLevoProjectWorkspaceListener() {
-            @Override
-            public void availableProjectFilesChanged(SPLevoProjectWorkspaceObserver observer) {
-                refreshProjectSelectionContents();
-            }
-        };
-        projectObserver = new SPLevoProjectWorkspaceObserver();
-        projectObserver.registerSubscriber(projectListener);
-    }
-
-    private void refreshProjectSelectionContents() {
-        if (projectSelectionComposite != null) {
-            projectSelectionComposite.reset();
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.part.WorkbenchPart#dispose()
-     */
-    @Override
-    public void dispose() {
-        projectObserver.stopObserver();
-        projectObserver.unregisterSubscriber(projectListener);
-        super.dispose();
-    }
-
-    /**
      * This is a callback that will allow us to create the viewer and initialize it.
      * 
      * @param parent
@@ -153,7 +203,7 @@ public class TaskView extends ViewPart {
     public void createPartControl(Composite parent) {
         // setup UI elements
         compositeSwitcherComposite = new CompositeSwitcher(parent);
-        projectSelectionComposite = createProjectSelector(compositeSwitcherComposite);
+        new TaskViewComboBoxSelectionComposite(compositeSwitcherComposite);
         createViewer(compositeSwitcherComposite);
         compositeSwitcherComposite.switchToElement(0);
 
@@ -162,79 +212,6 @@ public class TaskView extends ViewPart {
         makeActions();
         hookContextMenu();
         contributeToActionBars();
-    }
-
-    private ComboBoxSelectionComposite createProjectSelector(Composite parent) {
-        ComboBoxSelectionComposite projectSelection = new ComboBoxSelectionComposite(
-                parent,
-                "Please select a consolidation project below. Afterwards, this list shows the outstanding refactorings for this project.",
-                "Select") {
-
-            class ProjectFileProvider implements SingleLevelElementProvider {
-                @Override
-                public Object[] getElements() {
-                    return Iterables.toArray(projectObserver.getCurrentState(), IFile.class);
-                }
-            };
-
-            @Override
-            protected void handleSelectionAfterAccept(IStructuredSelection cvSelection) {
-                try {
-                    if (cvSelection.getFirstElement() instanceof IFile) {
-                        SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel((IFile) cvSelection
-                                .getFirstElement());
-                        selectedSPLevoProject = Optional.fromNullable(project);
-                        if (project != null) {
-                            setSPLevoProject(project);
-                            return;
-                        }
-                    }
-                } catch (IOException e) {
-                    LOGGER.warn("Failure during loading of SPLevoProject.", e);
-                }
-
-                selectedSPLevoProject = Optional.absent();
-            }
-
-            @Override
-            protected ILabelProvider getLabelProvider() {
-                return new LabelProvider() {
-
-                    /*
-                     * (non-Javadoc)
-                     * 
-                     * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
-                     */
-                    @Override
-                    public String getText(Object element) {
-                        try {
-                            if (element != null && element instanceof IFile) {
-                                IFile file = (IFile) element;
-                                SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel(file);
-                                return project.getName();
-                            }
-                        } catch (IOException e) {
-                            LOGGER.warn("Could not load SPLevoProjectFile.", e);
-                        }
-                        return "Invalid element";
-                    }
-                };
-            }
-
-            @Override
-            protected IContentProvider getContentProvider() {
-                return new SingleLevelContentProvider<ProjectFileProvider>(ProjectFileProvider.class);
-            }
-
-            @Override
-            protected Object getComboViewerInput() {
-                return new ProjectFileProvider();
-            }
-        };
-
-        projectObserver.startObserver();
-
-        return projectSelection;
     }
 
     private void hookContextMenu() {

@@ -20,38 +20,47 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-
 public class SPLevoProjectWorkspaceObserver {
 
     private static final Logger LOGGER = Logger.getLogger(SPLevoProjectWorkspaceObserver.class);
-    
+
     private final IResourceChangeListener projecListener = createProjectOpenCloseListener();
     private final Set<SPLevoProjectWorkspaceListener> subscribers = Sets.newHashSet();
     private final List<IFile> projectFiles = Lists.newArrayList();
-    
+
     public void registerSubscriber(SPLevoProjectWorkspaceListener listener) {
-        subscribers.add(listener);
+        synchronized (subscribers) {
+            subscribers.add(listener);
+        }
     }
-    
+
     public void unregisterSubscriber(SPLevoProjectWorkspaceListener listener) {
-        subscribers.remove(listener);
+        synchronized (subscribers) {
+            subscribers.remove(listener);
+        }
     }
-    
+
     public void startObserver() {
-        projectFiles.clear();
-        Iterables.addAll(projectFiles, determineSPLevoProjectFiles());
-        ResourcesPlugin.getWorkspace().addResourceChangeListener(projecListener);
+        synchronized (projectFiles) {
+            projectFiles.clear();
+            Iterables.addAll(projectFiles, determineSPLevoProjectFiles());
+            ResourcesPlugin.getWorkspace().addResourceChangeListener(projecListener);
+        }
     }
 
     public void stopObserver() {
-        ResourcesPlugin.getWorkspace().removeResourceChangeListener(projecListener);
-        projectFiles.clear();
+        synchronized (projectFiles) {
+            ResourcesPlugin.getWorkspace().removeResourceChangeListener(projecListener);
+            projectFiles.clear();
+        }
     }
-    
+
     public Iterable<IFile> getCurrentState() {
-        return projectFiles;
+        synchronized (projectFiles) {
+            return projectFiles;
+        }
     }
-    
+
     private IResourceChangeListener createProjectOpenCloseListener() {
         return new IResourceChangeListener() {
             @Override
@@ -74,7 +83,7 @@ public class SPLevoProjectWorkspaceObserver {
                                         && delta.getResource() instanceof IProject) {
                                     IProject project = (IProject) delta.getResource();
                                     if (project.isOpen()) {
-                                        handleOpenedProject(project);   
+                                        handleOpenedProject(project);
                                     }
                                 }
 
@@ -91,35 +100,40 @@ public class SPLevoProjectWorkspaceObserver {
             }
         };
     }
-    
-    private void handleOpenedProject(final IProject project) {
 
-        IFile projectFile = SPLevoProjectUtil.getSPLevoProjectModelFromProject(project);
-        if (projectFile != null) {
-            projectFiles.add(projectFile);
-            notifySubscribers();
-        }
-    }
-    
-    private void handleClosedProject(final IProject project) {
-        if (Iterables.removeIf(projectFiles, new Predicate<IFile>() {
-            @Override
-            public boolean apply(IFile input) {
-                return project.equals(input.getProject());
+    private void handleOpenedProject(final IProject project) {
+        synchronized (projectFiles) {
+            IFile projectFile = SPLevoProjectUtil.getSPLevoProjectModelFromProject(project);
+            if (projectFile != null) {
+                projectFiles.add(projectFile);
+                notifySubscribers();
             }
-        })) {
-            notifySubscribers();            
         }
     }
-    
+
+    private void handleClosedProject(final IProject project) {
+        synchronized (projectFiles) {
+            if (Iterables.removeIf(projectFiles, new Predicate<IFile>() {
+                @Override
+                public boolean apply(IFile input) {
+                    return project.equals(input.getProject());
+                }
+            })) {
+                notifySubscribers();
+            }
+        }
+    }
+
     private void notifySubscribers() {
-        for (SPLevoProjectWorkspaceListener subscriber : subscribers) {
-            subscriber.availableProjectFilesChanged(this);
+        synchronized (subscribers) {
+            for (SPLevoProjectWorkspaceListener subscriber : subscribers) {
+                subscriber.availableProjectFilesChanged(this);
+            }
         }
     }
-    
+
     private Iterable<IFile> determineSPLevoProjectFiles() {
         return SPLevoProjectUtil.findAllSPLevoProjectFilesInWorkspace(true);
     }
-    
+
 }
