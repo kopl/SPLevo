@@ -55,7 +55,6 @@ public abstract class ComboBoxSelectionComposite extends Composite {
             }
         });
         comboViewer.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-        comboViewer.setInput(getComboViewerInput());
         
         // initialize the accept button
         acceptButton.setText(buttonLabel);

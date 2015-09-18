@@ -87,7 +87,7 @@ public class TaskView extends ViewPart {
         public TaskViewComboBoxSelectionComposite(Composite parent) {
             super(parent, "Please select a consolidation project below. Afterwards, this list shows the outstanding refactorings for this project.",
                     "Select");
-            
+ 
             projectObserver = new SPLevoProjectWorkspaceObserver();
             projectListener = new SPLevoProjectWorkspaceListener() {
                 @Override
@@ -97,6 +97,7 @@ public class TaskView extends ViewPart {
             };
             projectObserver.registerSubscriber(projectListener);
             projectObserver.startObserver();
+            reset();
         }
 
         @Override
