@@ -286,7 +286,7 @@ public class TaskView extends ViewPart {
                         BuildSemiAutomatedRefactoringWorkflowDelegate buildSPLWorkflowConfiguration = new BuildSemiAutomatedRefactoringWorkflowDelegate(
                                 spLevoBlackBoard, variationPointID, getSPLevoProject());
                         WorkflowListenerUtil.runWorkflowAndRunUITask(buildSPLWorkflowConfiguration,
-                                "Refactor VP semiautomatically", null);
+                                "Refactor VP semiautomatically", null, true);
 
                     }
                 }

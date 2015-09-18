@@ -76,25 +76,52 @@ public final class WorkflowListenerUtil {
 			final AbstractWorkbenchDelegate<?, ?> workflowDelegate,
 			final String workflowTitle, final Runnable uiRunnable) {
 
-		Job job = new Job(workflowTitle) {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask(workflowTitle, IProgressMonitor.UNKNOWN);
-				IAction action = new Action(workflowTitle) {
-				};
-				workflowDelegate.setProgressMonitor(monitor);
-				workflowDelegate.run(action);
-				if (uiRunnable != null) {
-					Display.getDefault().asyncExec(uiRunnable);
-				}
-
-				monitor.done();
-				// use this to open a Shell in the UI thread
-				return Status.OK_STATUS;
-			}
-
-		};
-		job.setUser(true);
-		job.schedule();
+        runWorkflowAndRunUITask(workflowDelegate, workflowTitle, uiRunnable, false);
 	}
+    
+    /**
+     * Run a workflow as an asynchronous job and trigger a post-process with ui access afterwards.
+     * 
+     * @param workflowDelegate
+     *            The delegate of the workflow to run.
+     * @param workflowTitle
+     *            The title of the workflow to show.
+     * @param uiRunnable
+     *            The post-workflow process to trigger and granted with ui access. Null means no
+     *            process is triggered.
+     * @param runHidden
+     *            The progress of the job will be hidden from the user if set to True.
+     */
+    public static void runWorkflowAndRunUITask(
+            final AbstractWorkbenchDelegate<?, ?> workflowDelegate,
+            final String workflowTitle, final Runnable uiRunnable, final boolean runHidden) {
+        
+        Job job = new Job(workflowTitle) {
+            @Override
+            protected IStatus run(IProgressMonitor monitor) {
+                monitor.beginTask(workflowTitle, IProgressMonitor.UNKNOWN);
+                IAction action = new Action(workflowTitle) {
+                };
+                workflowDelegate.setProgressMonitor(monitor);
+                workflowDelegate.run(action);
+                if (uiRunnable != null) {
+                    Display.getDefault().asyncExec(uiRunnable);
+                }
+
+                monitor.done();
+                // use this to open a Shell in the UI thread
+                return Status.OK_STATUS;
+            }
+
+        };
+        
+        if (runHidden) {
+            job.setUser(false);
+            job.setSystem(false);
+        } else {
+            job.setUser(true);            
+        }
+        
+        job.schedule();
+    }
 }
