@@ -169,7 +169,7 @@ public class SPLevoProjectUtil {
         }
     }
 
-    private static IFile getSPLevoProjectModelFromProject(IProject project) {
+    public static IFile getSPLevoProjectModelFromProject(IProject project) {
         SPLevoProjectVisitor visitor = new SPLevoProjectVisitor();
         try {
             project.accept(visitor);

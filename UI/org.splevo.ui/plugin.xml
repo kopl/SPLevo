@@ -74,6 +74,7 @@
             name="SPLevo">
       </category>
       <view
+            allowMultiple="false"
             category="org.splevo.ui"
             class="org.splevo.ui.views.taskview.TaskView"
             icon="icons/sample.gif"

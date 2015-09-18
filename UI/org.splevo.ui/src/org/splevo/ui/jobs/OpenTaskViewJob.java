@@ -7,7 +7,7 @@ import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.splevo.ui.editors.SPLevoProjectEditor;
+import org.splevo.project.SPLevoProject;
 import org.splevo.ui.views.taskview.TaskView;
 
 import de.uka.ipd.sdq.workflow.jobs.AbstractBlackboardInteractingJob;
@@ -20,10 +20,10 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
  */
 public class OpenTaskViewJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
-    private final SPLevoProjectEditor splevoProjectEditor;
+    private final SPLevoProject splevoProject;
     
-	public OpenTaskViewJob(SPLevoProjectEditor splevoProjectEditor) {
-        this.splevoProjectEditor = splevoProjectEditor;
+	public OpenTaskViewJob(SPLevoProject splevoProject) {
+        this.splevoProject = splevoProject;
     }
 
     @Override
@@ -44,14 +44,14 @@ public class OpenTaskViewJob extends AbstractBlackboardInteractingJob<SPLevoBlac
 					IViewPart viewPart;
 					try {
 						viewPart = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage()
-								.showView(TaskView.ID, "TaskView", IWorkbenchPage.VIEW_ACTIVATE);
+								.showView(TaskView.ID, null, IWorkbenchPage.VIEW_ACTIVATE);
 					} catch (PartInitException e) {
 						thrownException[0] = e;
 						return;
 					}
 					
 					final TaskView view = (TaskView) viewPart;
-					view.setSPLevoProjectEditor(splevoProjectEditor);
+					view.setSPLevoProject(splevoProject);
 
 			        PlatformUI.getWorkbench().addWorkbenchListener(new IWorkbenchListener() {
 

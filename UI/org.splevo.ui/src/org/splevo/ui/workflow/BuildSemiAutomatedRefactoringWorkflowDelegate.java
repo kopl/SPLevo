@@ -4,6 +4,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.jobs.LoadVPMJob;
+import org.splevo.ui.jobs.OpenTaskViewJob;
 import org.splevo.ui.jobs.OpenVPMJob;
 import org.splevo.ui.jobs.RefreshLeadingCopyProjects;
 import org.splevo.ui.jobs.SPLevoBlackBoard;
@@ -17,11 +18,12 @@ import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
 
 public class BuildSemiAutomatedRefactoringWorkflowDelegate extends AbstractWorkbenchDelegate<BasicSPLevoProjectWorkflowConfiguration, UIBasedWorkflow<Blackboard<?>>> {
 
-    private BasicSPLevoProjectWorkflowConfiguration config;
+    private BasicSPLevoProjectWorkflowConfiguration config = new BasicSPLevoProjectWorkflowConfiguration();
     private final SPLevoBlackBoard blackboard;
     private final String variationPointId;
     
-    public BuildSemiAutomatedRefactoringWorkflowDelegate(SPLevoBlackBoard blackboard, String variationPointId) {
+    public BuildSemiAutomatedRefactoringWorkflowDelegate(SPLevoBlackBoard blackboard, String variationPointId, SPLevoProject project) {
+        config.setSplevoProject(project);
         this.blackboard = blackboard;
         this.variationPointId = variationPointId;
     }
@@ -33,7 +35,6 @@ public class BuildSemiAutomatedRefactoringWorkflowDelegate extends AbstractWorkb
 
     @Override
     protected IJob createWorkflowJob(BasicSPLevoProjectWorkflowConfiguration config) {
-        this.config = config;
         final SPLevoProject splevoProject = config.getSplevoProject();
 
         SequentialBlackboardInteractingJob<SPLevoBlackBoard> jobSequence =
@@ -58,7 +59,8 @@ public class BuildSemiAutomatedRefactoringWorkflowDelegate extends AbstractWorkb
         // reload latest vpm model in UI
         jobSequence.add(new OpenVPMJob(splevoProject, null));
         
-        // TODO refresh task view
+        // refresh task view list
+        jobSequence.add(new OpenTaskViewJob(splevoProject));
         
         return jobSequence;
     }

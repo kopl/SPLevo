@@ -13,10 +13,15 @@
 package org.splevo.ui.commons.util;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.splevo.project.SPLevoProject;
+
+import com.google.common.base.Function;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
 
 /**
  * Utility class to interact with the SPLevo workspace.
@@ -85,6 +90,15 @@ public final class WorkspaceUtil {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         String basePath = workspace.getRoot().getRawLocation().toOSString() + "/";
         return basePath;
+    }
+    
+    public static Iterable<IProject> transformProjectNamesToProjects(Iterable<String> projectNames) {
+        Iterable<IProject> projects = Iterables.transform(projectNames, new Function<String, IProject>() {
+            @Override
+            public IProject apply(String input) {
+                return ResourcesPlugin.getWorkspace().getRoot().getProject(input);
+            } });
+        return Iterables.filter(projects, Predicates.notNull());
     }
 
 }

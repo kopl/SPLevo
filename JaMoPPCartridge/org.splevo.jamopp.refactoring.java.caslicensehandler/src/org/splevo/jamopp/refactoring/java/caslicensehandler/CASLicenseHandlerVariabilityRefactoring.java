@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 import org.splevo.jamopp.refactoring.java.JaMoPPSemiAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.CASLicenseHandlerConfiguration;
@@ -53,8 +54,13 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
 	    CASLicenseHandlerConfiguration.setRefactoringConfigurations(refactoringConfigurations);
 	    CASLicenseHandlerConfiguration.setVariationPoint(variationPoint);
 	    CASLicenseHandlerConfiguration.refactoringStarted();
-		OpenCheatSheetAction action = new OpenCheatSheetAction(CASLicenseHandlerMetaInf.CAS_LICENSE_HANDLER_CHEAT_SHEET_ID);
-	    action.run();
+		final OpenCheatSheetAction action = new OpenCheatSheetAction(CASLicenseHandlerMetaInf.CAS_LICENSE_HANDLER_CHEAT_SHEET_ID);
+		Display.getDefault().syncExec(new Runnable() {
+            @Override
+            public void run() {
+                action.run();
+            }});
+	    
 	    try {
 	        CASLicenseHandlerConfiguration.waitForRefactoringToBeFinished();	        
 	    } catch (InterruptedException e) {
