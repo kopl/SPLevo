@@ -553,63 +553,63 @@
                                         markerType="org.splevo.ui.markers.codelocationmarker.variant"/>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.leadingLight"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.leadingLight">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.leadingDark"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.leadingDark">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration1Light"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.integration1Light"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration1Dark"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.integration1Dark"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration2Light"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.integration2Light"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration2Dark"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.integration2Dark"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration3Light"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.integration3Light"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.integration3Dark"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.integration3Dark"
                       super="org.splevo.ui.annotations.unifieddiff.integration">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.mixedLight"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.mixedLight">
                 </type>
                 <type
                       markerSeverity="0"
-                      markerType="org.splevo.ui.markerTypes.unifieddiff.mixedDark"
+                      markerType="org.splevo.ui.markers.unifieddiff"
                       name="org.splevo.ui.annotations.unifieddiff.mixedDark">
                 </type>
     </extension>
@@ -652,7 +652,7 @@
                   visible="true">
             </view>
             <view
-                  id="org.splevo.ui.viewer.vpmgraph.VPMGraphViewer:*"
+                  id="org.splevo.ui.viewer.vpmgraph.VPMGraphViewer"
                   minimized="false"
                   relationship="stack"
                   relative="org.eclipse.ui.editorss"

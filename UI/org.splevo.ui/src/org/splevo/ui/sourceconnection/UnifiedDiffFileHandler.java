@@ -2,7 +2,6 @@ package org.splevo.ui.sourceconnection;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +10,8 @@ import org.apache.log4j.Logger;
 import org.splevo.ui.sourceconnection.helper.FileWithID;
 import org.splevo.ui.sourceconnection.helper.IndexedLineNumber;
 import org.splevo.ui.sourceconnection.helper.NumbersTextPair;
+
+import com.google.common.base.Charsets;
 
 /**
  * This singleton class offers functionality to read and write files from and to the used data
@@ -88,7 +89,7 @@ public final class UnifiedDiffFileHandler {
      *             in case an I/O error occurs while reading the given file.
      */
     private String[] readFileToLines(File file) throws IOException {
-        String fileContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8.name());
+        String fileContent = FileUtils.readFileToString(file, Charsets.UTF_8.name());
         // FIXME: Implement more memory friendly method (i.e. mapping lines to Unicode characters)
         return fileContent.split("\\r?\\n");
     }
@@ -108,7 +109,7 @@ public final class UnifiedDiffFileHandler {
         for (String string : unifiedTextLines) {
             builder.append(string + "\n");
         }
-        FileUtils.write(toFile, builder.toString(), StandardCharsets.UTF_8.name());
+        FileUtils.write(toFile, builder.toString(), Charsets.UTF_8.name());
     }
 
     /**
