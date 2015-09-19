@@ -16,31 +16,49 @@ public class UIConstants {
     public static final String TMP_FILE_NAME_WIHOUT_EXTENTION = "unifiedDiff_";
     public static final String TMP_FILE_EXTENTION = ".java"; // MUST be *.java or else java syntax highlighting won't work
     
-    /** Unified Difference: The marker type identifiers */
-    public static final String MARKERTYPE_MIXED_DARK = "org.splevo.ui.markerTypes.unifieddiff.mixedDark";
-    public static final String MARKERTYPE_MIXED_LIGHT = "org.splevo.ui.markerTypes.unifieddiff.mixedLight";
-    public static final String MARKERTYPE_INTEGRATION3_DARK = "org.splevo.ui.markerTypes.unifieddiff.integration3Dark";
-    public static final String MARKERTYPE_INTEGRATION3_LIGHT = "org.splevo.ui.markerTypes.unifieddiff.integration3Light";
-    public static final String MARKERTYPE_INTEGRATION2_DARK = "org.splevo.ui.markerTypes.unifieddiff.integration2Dark";
-    public static final String MARKERTYPE_INTEGRATION2_LIGHT = "org.splevo.ui.markerTypes.unifieddiff.integration2Light";
-    public static final String MARKERTYPE_INTEGRATION1_DARK = "org.splevo.ui.markerTypes.unifieddiff.integration1Dark";
-    public static final String MARKERTYPE_INTEGRATION1_LIGHT = "org.splevo.ui.markerTypes.unifieddiff.integration1Light";
-    public static final String MARKERTYPE_LEADING_DARK = "org.splevo.ui.markerTypes.unifieddiff.leadingDark";
-    public static final String MARKERTYPE_LEADING_LIGHT = "org.splevo.ui.markerTypes.unifieddiff.leadingLight";
+    
+    /** Unified Difference: The annotation identifiers */
+    public static final String UNIFIED_DIFF_MARKERTYPE = "org.splevo.ui.markers.unifieddiff";
+    public static final String ANNOTATION_MIXED_DARK = "org.splevo.ui.annotations.unifieddiff.mixedDark";
+    public static final String ANNOTATION_MIXED_LIGHT = "org.splevo.ui.annotations.unifieddiff.mixedLight";
+    public static final String ANNOTATION_INTEGRATION3_DARK = "org.splevo.ui.annotations.unifieddiff.integration3Dark";
+    public static final String ANNOTATION_INTEGRATION3_LIGHT = "org.splevo.ui.annotations.unifieddiff.integration3Light";
+    public static final String ANNOTATION_INTEGRATION2_DARK = "org.splevo.ui.annotations.unifieddiff.integration2Dark";
+    public static final String ANNOTATION_INTEGRATION2_LIGHT = "org.splevo.ui.annotations.unifieddiff.integration2Light";
+    public static final String ANNOTATION_INTEGRATION1_DARK = "org.splevo.ui.annotations.unifieddiff.integration1Dark";
+    public static final String ANNOTATION_INTEGRATION1_LIGHT = "org.splevo.ui.annotations.unifieddiff.integration1Light";
+    public static final String ANNOTATION_LEADING_DARK = "org.splevo.ui.annotations.unifieddiff.leadingDark";
+    public static final String ANNOTATION_LEADING_LIGHT = "org.splevo.ui.annotations.unifieddiff.leadingLight";
+    
+    /** Unified Difference: Marker type to id mapping. */
+    public static final Map<MarkerType, String> ANNOTATION_TO_ID;
     
     /** Unified Difference: The id to marker type mapping */
     public static final Map<Integer, MarkerType> INDEX_TO_MARKERTYPE;
     static {
-        Map<Integer, MarkerType> mapping = new HashMap<Integer, MarkerType>();
-        mapping.put(0, MarkerType.LEADING_DARK);
-        mapping.put(1, MarkerType.LEADING_LIGHT);
-        mapping.put(2, MarkerType.INTEGRATION1_DARK);
-        mapping.put(3, MarkerType.INTEGRATION1_LIGHT);
-        mapping.put(4, MarkerType.INTEGRATION2_DARK);
-        mapping.put(5, MarkerType.INTEGRATION2_LIGHT);
-        mapping.put(6, MarkerType.INTEGRATION3_DARK);
-        mapping.put(7, MarkerType.INTEGRATION3_LIGHT);
-        INDEX_TO_MARKERTYPE = Collections.unmodifiableMap(mapping);
+        Map<Integer, MarkerType> indexTomarkerType = new HashMap<Integer, MarkerType>();
+        indexTomarkerType.put(0, MarkerType.LEADING_DARK);
+        indexTomarkerType.put(1, MarkerType.LEADING_LIGHT);
+        indexTomarkerType.put(2, MarkerType.INTEGRATION1_DARK);
+        indexTomarkerType.put(3, MarkerType.INTEGRATION1_LIGHT);
+        indexTomarkerType.put(4, MarkerType.INTEGRATION2_DARK);
+        indexTomarkerType.put(5, MarkerType.INTEGRATION2_LIGHT);
+        indexTomarkerType.put(6, MarkerType.INTEGRATION3_DARK);
+        indexTomarkerType.put(7, MarkerType.INTEGRATION3_LIGHT);
+        INDEX_TO_MARKERTYPE = Collections.unmodifiableMap(indexTomarkerType);
+        
+        Map<MarkerType, String> annotationToId = new HashMap<MarkerType, String>();
+        annotationToId.put(MarkerType.LEADING_DARK, ANNOTATION_LEADING_DARK);
+        annotationToId.put(MarkerType.LEADING_LIGHT, ANNOTATION_LEADING_LIGHT);
+        annotationToId.put(MarkerType.INTEGRATION1_DARK, ANNOTATION_INTEGRATION1_DARK);
+        annotationToId.put(MarkerType.INTEGRATION1_LIGHT, ANNOTATION_INTEGRATION1_LIGHT);
+        annotationToId.put(MarkerType.INTEGRATION2_DARK, ANNOTATION_INTEGRATION2_DARK);
+        annotationToId.put(MarkerType.INTEGRATION2_LIGHT, ANNOTATION_INTEGRATION2_LIGHT);
+        annotationToId.put(MarkerType.INTEGRATION3_DARK, ANNOTATION_INTEGRATION3_DARK);
+        annotationToId.put(MarkerType.INTEGRATION3_LIGHT, ANNOTATION_INTEGRATION3_LIGHT);
+        annotationToId.put(MarkerType.MIXED_DARK, ANNOTATION_MIXED_DARK);
+        annotationToId.put(MarkerType.MIXED_LIGHT, ANNOTATION_MIXED_LIGHT);
+        ANNOTATION_TO_ID = Collections.unmodifiableMap(annotationToId);
     }
     
     /** Unified Difference: The color keys for marker annotations */

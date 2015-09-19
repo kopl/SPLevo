@@ -8,13 +8,20 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.TextSelection;
+import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.texteditor.AnnotationPreference;
+import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.MarkerAnnotationPreferences;
+import org.eclipse.ui.texteditor.SimpleMarkerAnnotation;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnectorModel;
 import org.splevo.ui.sourceconnection.UnifiedDiffConnectorModel.MarkerType;
 import org.splevo.ui.util.UIConstants;
@@ -29,13 +36,11 @@ import org.splevo.ui.util.UIConstants;
 public class UnifiedDiffHighlighter {
     /** The Logger instance */
     private static final Logger LOGGER = Logger.getLogger(UnifiedDiffHighlighter.class);
-    
+
+    /** The unified difference editor. */
+    private final UnifiedDiffEditor editor;
     /** The unified difference editor input. */
     private final UnifiedDiffEditorInput editorInput;
-    /** The unified difference editor source viewer. */
-    private final ISourceViewer viewer;
-    /** A marker type to create-marker method mapping. */
-    private Map<MarkerType, ICreateMarkerMethod> markerTypeToCreateMarker;
     /** A marker type to get-marker-color method mapping. */
     private Map<MarkerType, IGetMarkerColor> markerTypeToGetMarkerColor;
     
@@ -46,30 +51,18 @@ public class UnifiedDiffHighlighter {
      *            a unified difference editor.
      */
     public UnifiedDiffHighlighter(UnifiedDiffEditor editor) {
+        this.editor = editor;
         this.editorInput = (UnifiedDiffEditorInput) editor.getEditorInput();
-        this.viewer = editor.getViewer();
         
-        // initialize mappings
-        initializeMarkerMappings();
+        // initialize mapping
+        initializeMarkerMapping();
         
     }
     
     /**
      * Initializes the marker type mappings.
      */
-    private void initializeMarkerMappings() {
-        markerTypeToCreateMarker = new HashMap<MarkerType, ICreateMarkerMethod>();
-        markerTypeToCreateMarker.put(MarkerType.LEADING_DARK, new CreateLeadingDarkMarker());
-        markerTypeToCreateMarker.put(MarkerType.LEADING_LIGHT, new CreateLeadingLightMarker());
-        markerTypeToCreateMarker.put(MarkerType.INTEGRATION1_DARK, new CreateIntegration1DarkMarker());
-        markerTypeToCreateMarker.put(MarkerType.INTEGRATION1_LIGHT, new CreateIntegration1LightMarker());
-        markerTypeToCreateMarker.put(MarkerType.INTEGRATION2_DARK, new CreateIntegration2DarkMarker());
-        markerTypeToCreateMarker.put(MarkerType.INTEGRATION2_LIGHT, new CreateIntegration2LightMarker());
-        markerTypeToCreateMarker.put(MarkerType.INTEGRATION3_DARK, new CreateIntegration3DarkMarker());
-        markerTypeToCreateMarker.put(MarkerType.INTEGRATION3_LIGHT, new CreateIntegration3LightMarker());
-        markerTypeToCreateMarker.put(MarkerType.MIXED_DARK, new CreateMixedDarkMarker());
-        markerTypeToCreateMarker.put(MarkerType.MIXED_LIGHT, new CreateMixedLightMarker());
-        
+    private void initializeMarkerMapping() {
         markerTypeToGetMarkerColor = new HashMap<MarkerType, IGetMarkerColor>();
         markerTypeToGetMarkerColor.put(MarkerType.LEADING_DARK, new GetLeadingDarkColor());
         markerTypeToGetMarkerColor.put(MarkerType.LEADING_LIGHT, new GetLeadingLightColor());
@@ -99,22 +92,21 @@ public class UnifiedDiffHighlighter {
 
         // add new markers from connector content
         int offset = 0;
-        int lineCount = viewer.getTextWidget().getLineCount();
+        int lineCount = editor.getViewer().getTextWidget().getLineCount();
         int lineTextLength = 0;
         String lineText = "";
         for (int line = 0; line < lineCount - 1; line++) {
-            lineText = viewer.getTextWidget().getLine(line);
+            lineText = editor.getViewer().getTextWidget().getLine(line);
             lineTextLength = lineText.length();
 
             // create marker according to type
             MarkerType markerType = diffModel.getMarkerTypeFor(line);
             if (markerType != MarkerType.NONE) {
                 try {
-                    // paint line according to type
-                    ICreateMarkerMethod createMarker = markerTypeToCreateMarker.get(markerType);
-                    IMarker marker = createMarker.create(ressource);
-                    marker.setAttribute(IMarker.CHAR_START, offset);
-                    marker.setAttribute(IMarker.CHAR_END, offset + lineTextLength);
+                    IMarker marker = ressource.createMarker(UIConstants.UNIFIED_DIFF_MARKERTYPE);
+                    TextSelection selection = new TextSelection(offset, lineTextLength);
+                    createAnnotation(marker, selection, this.editor, markerType);
+                    
                 } catch (CoreException exception) {
                     LOGGER.error("An error occurred while creating a marker or setting an attribute for said marker!",
                             exception);
@@ -129,6 +121,25 @@ public class UnifiedDiffHighlighter {
         }
 
         return colorToUnifiedLinesMapping;
+    }
+    
+    /**
+     * Creates the corresponding annotation for a given marker according to the given marker type.
+     * 
+     * @param marker the given marker.
+     * @param selection the selection to highlight.
+     * @param editor the underlying editor.
+     * @param markerType the given marker type.
+     */
+    private void createAnnotation(IMarker marker, ITextSelection selection, ITextEditor editor, MarkerType markerType) {
+        IDocumentProvider idp = editor.getDocumentProvider();
+        IDocument document = idp.getDocument(editorInput);
+        IAnnotationModel annotationModel = idp.getAnnotationModel(editorInput);
+        String annotationType = UIConstants.ANNOTATION_TO_ID.get(markerType);
+        SimpleMarkerAnnotation annotation = new SimpleMarkerAnnotation(annotationType, marker);
+        annotationModel.connect(document);
+        annotationModel.addAnnotation(annotation, new Position(selection.getOffset(), selection.getLength()));
+        annotationModel.disconnect(document);        
     }
 
     /* -----------------------------
@@ -151,132 +162,6 @@ public class UnifiedDiffHighlighter {
          *             in case the given resource does not exist.
          */
         IMarker create(IFile resource) throws CoreException;
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that only exists in the leading copy.
-     * The line is of interest and will therefore be highlighted further.
-     * 
-     * @author André Wengert
-     */
-    public class CreateLeadingDarkMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_LEADING_DARK);
-        }
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that only exists in the leading copy.
-     * 
-     * @author André Wengert
-     */
-    public class CreateLeadingLightMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_LEADING_LIGHT);
-        }
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that only exists in the first integration copy.
-     * The line is of interest and will therefore be highlighted further.
-     * 
-     * @author André Wengert
-     */
-    public class CreateIntegration1DarkMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_INTEGRATION1_DARK);
-        }
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that only exists in the first integration copy.
-     * 
-     * @author André Wengert
-     */
-    public class CreateIntegration1LightMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_INTEGRATION1_LIGHT);
-        }
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that only exists in the second integration copy.
-     * The line is of interest and will therefore be highlighted further.
-     * 
-     * @author André Wengert
-     */
-    public class CreateIntegration2DarkMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_INTEGRATION2_DARK);
-        }
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that only exists in the second integration copy.
-     * 
-     * @author André Wengert
-     */
-    public class CreateIntegration2LightMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_INTEGRATION2_LIGHT);
-        }
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that only exists in the third integration copy.
-     * The line is of interest and will therefore be highlighted further.
-     * 
-     * @author André Wengert
-     */
-    public class CreateIntegration3DarkMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_INTEGRATION3_DARK);
-        }
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that only exists in the third integration copy.
-     * The line is of interest and will therefore be highlighted further.
-     * 
-     * @author André Wengert
-     */
-    public class CreateIntegration3LightMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_INTEGRATION3_LIGHT);
-        }
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that exists in multiple copies but not the leading copy.
-     * The line is of interest and will therefore be highlighted further.
-     * 
-     * @author André Wengert
-     */
-    public class CreateMixedDarkMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_MIXED_DARK);
-        }
-    }
-    
-    /**
-     * Strategy implementation to create a marker for a line that exists in multiple copies but not the leading copy.
-     * 
-     * @author André Wengert
-     */
-    public class CreateMixedLightMarker implements ICreateMarkerMethod {
-        @Override
-        public IMarker create(IFile ressource) throws CoreException {
-            return ressource.createMarker(UIConstants.MARKERTYPE_MIXED_LIGHT);
-        }
     }
 
     /* -------------------------------

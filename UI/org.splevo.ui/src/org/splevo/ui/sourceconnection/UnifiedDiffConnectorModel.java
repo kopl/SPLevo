@@ -173,7 +173,6 @@ public class UnifiedDiffConnectorModel {
      * @return the leading file.
      */
     private FileWithID extractLeadingFile() {
-        LOGGER.debug("extractLeadingFile> from: " + this.proccessedFileName);
         for (VariationPoint vp : variationPoints) {
             for (Variant var : vp.getVariants()) {
                 IPath path = Path.fromOSString(var.getImplementingElements().get(0).getSourceLocation().getFilePath());
@@ -196,7 +195,6 @@ public class UnifiedDiffConnectorModel {
      *         process, {@code false} otherwise.
      */
     private boolean isValidLeading(String absfilePath) {
-        LOGGER.debug("isValidLeading> compare: " + FilenameUtils.getBaseName(absfilePath) + " == " + proccessedFileName);
         if (FilenameUtils.getBaseName(absfilePath).equals(proccessedFileName)) {
             return true;
         }

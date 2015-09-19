@@ -217,7 +217,6 @@ public class OpenUnifiedDiffHandler extends OpenSourceHandlerBase {
             String fileName = FilenameUtils.getBaseName(getFilePathFor(variant));
             if (!CollectionUtil.containsString(fileName, fileNames)) {
                 fileNames.add(fileName);
-                LOGGER.debug("extractNamesOfFilesToProcess> extracted: " + fileName);
             }
         }
         return fileNames;
