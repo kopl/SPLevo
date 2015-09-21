@@ -14,6 +14,8 @@ package org.splevo.jamopp.refactoring.java.ifelse;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
@@ -65,8 +67,8 @@ public class CommentRefactoring extends JaMoPPFullyAutomatedVariabilityRefactori
     }
 
     @Override
-    public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        return true;
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
+        return new BasicDiagnostic(Diagnostic.OK, null, 0, "Allright", null);
     }
 
     @Override

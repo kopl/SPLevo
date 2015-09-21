@@ -13,11 +13,13 @@ package org.splevo.jamopp.refactoring.java.ifelse.tests;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -61,7 +63,7 @@ public class IfStaticConfigClassImportTest {
 
         IfStaticConfigClassImport refactoring = new IfStaticConfigClassImport();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), is(Diagnostic.OK));
     }
 
     /**
@@ -78,7 +80,7 @@ public class IfStaticConfigClassImportTest {
 
         IfStaticConfigClassImport refactoring = new IfStaticConfigClassImport();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), is(Diagnostic.ERROR));
     }
 
     /**
@@ -95,7 +97,7 @@ public class IfStaticConfigClassImportTest {
 
         IfStaticConfigClassImport refactoring = new IfStaticConfigClassImport();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), is(Diagnostic.ERROR));
     }
 
     /**

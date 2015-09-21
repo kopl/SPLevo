@@ -16,10 +16,12 @@ Require-Bundle: org.eclipse.jface,
  org.eclipse.core.resources,
  org.splevo.project,
  org.eclipse.core.runtime;bundle-version="3.9.100",
- org.splevo.extraction
+ org.splevo.extraction,
+ org.splevo.refactoring;bundle-version="1.0.0"
 Export-Package: org.splevo.ui.commons.tooltip,
  org.splevo.ui.commons.util,
  org.splevo.ui.commons.vpm,
  org.splevo.ui.commons.wizard,
  org.splevo.ui.commons.wizard.description,
  org.splevo.ui.commons.wizard.rename
+Import-Package: org.splevo.refactoring

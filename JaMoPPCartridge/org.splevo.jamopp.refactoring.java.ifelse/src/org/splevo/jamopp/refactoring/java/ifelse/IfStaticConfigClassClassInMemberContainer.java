@@ -14,6 +14,8 @@ package org.splevo.jamopp.refactoring.java.ifelse;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.commons.Commentable;
@@ -68,20 +70,24 @@ public class IfStaticConfigClassClassInMemberContainer extends JaMoPPFullyAutoma
     }
 
     @Override
-    public boolean canBeAppliedTo(VariationPoint variationPoint) {
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
         Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Class.class);
-
+        
+        String error = "If with Static Configuration Class Member Container: ";
         boolean correctInput = correctLocation && allImplementingElementsAreClasses;
 
         if (!correctInput) {
-            return false;
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Wrong Input", null);
         }
 
-        return !RefactoringUtil.hasMembersWithConflictingNames(variationPoint);
+        if (RefactoringUtil.hasMembersWithConflictingNames(variationPoint)) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Has Members with Conflicting Names", null);
+        }
+        return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
     }
 
     @Override

@@ -18,6 +18,7 @@ import static org.junit.Assert.assertThat;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
@@ -61,7 +62,7 @@ public class IfStaticConfigClassConstructorTest {
 
         IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(true));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), is(Diagnostic.OK));
     }
 
     /**
@@ -78,7 +79,7 @@ public class IfStaticConfigClassConstructorTest {
 
         IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), is(Diagnostic.ERROR));
     }
 
     /**
@@ -95,7 +96,7 @@ public class IfStaticConfigClassConstructorTest {
 
         IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), is(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), is(Diagnostic.ERROR));
     }
 
     /**
