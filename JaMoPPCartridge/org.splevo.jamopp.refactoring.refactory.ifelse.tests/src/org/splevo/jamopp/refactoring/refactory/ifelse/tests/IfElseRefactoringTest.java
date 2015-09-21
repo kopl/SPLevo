@@ -142,7 +142,8 @@ public class IfElseRefactoringTest {
         Statement thirdStatementBeforeRefactoring = statementsBeforeRefactoring.get(2);
 
         IfElseRefactoring refactoring = new IfElseRefactoring();
-        refactoring.refactor(variationPoint);
+        Map<String, Object> refactoringConfigurations = Maps.newHashMap();
+        refactoring.refactor(variationPoint, refactoringConfigurations);
 
         SoftwareElement locationElement = variationPoint.getLocation();
         if (locationElement instanceof JaMoPPSoftwareElement) {
