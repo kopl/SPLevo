@@ -23,9 +23,10 @@ public class SemiAutomatedIfStaticConfigClassOPTXOR extends IfStaticConfigClassO
 	
 	@Override
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-		return removeAllStaticClassImportsFrom(super.refactorFullyAutomated(variationPoint, refactoringOptions));
+		return super.refactorFullyAutomated(variationPoint, refactoringOptions);
 	}
 
+	/*
 	private List<Resource> removeAllStaticClassImportsFrom(List<Resource> changedResources) {
 		List<Resource> resourcesToRemove = new ArrayList<Resource>();
 		for (Resource resource : changedResources) {
@@ -59,6 +60,7 @@ public class SemiAutomatedIfStaticConfigClassOPTXOR extends IfStaticConfigClassO
 		
 		return true;
 	}
+	*/
 	
 	 @Override
 	 public boolean canBeAppliedTo(VariationPoint variationPoint) {

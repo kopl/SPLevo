@@ -64,8 +64,12 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
         Condition vpLocation = (Condition) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
         Statement elseStatement = vpLocation.getElseStatement();
 
-       	CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
-        SPLConfigurationUtil.addConfigurationClassImportIfMissing(compilationUnit);
+        if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
+			CompilationUnit compilationUnit = vpLocation
+					.getContainingCompilationUnit();
+			SPLConfigurationUtil
+					.addConfigurationClassImportIfMissing(compilationUnit);
+		} 	
 
         String groupName = variationPoint.getGroup().getName();
         
@@ -96,14 +100,16 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
         previousCondition.setElseStatement(elseStatement);
 
         ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
-        ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
-                .getResourceSet();
-        
-        String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
-        Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet, variationPoint);
-        
-        if (configResource != null) {
-            resourceList.add(configResource);
+
+        if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
+        	ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+                    .getResourceSet();
+            String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
+            Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet, variationPoint);
+            
+            if (configResource != null) {
+                resourceList.add(configResource);
+            }
         }
 
         return resourceList;

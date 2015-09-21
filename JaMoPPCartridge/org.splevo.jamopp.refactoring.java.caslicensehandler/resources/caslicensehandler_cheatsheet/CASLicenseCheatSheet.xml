@@ -15,7 +15,18 @@ title=
 	<subitem
        label="Open Type Dialog">
         <action pluginId="org.splevo.jamopp.refactoring.java.caslicensehandler"
-        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.OpenTypeDialogAction" />
+        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.LicenseConstantsClassOpenTypeDialogAction" />
+	</subitem>
+</item>
+<item
+      title="Specify the validator class">
+   <description>
+      In this Step the validator class has to be specified. The validator class is used to check if a given license can be used for a selected variant.
+   </description>
+   <subitem
+       label="Open Type Dialog">
+        <action pluginId="org.splevo.jamopp.refactoring.java.caslicensehandler"
+        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.ValidatorClassOpenTypeDialogAction" />
 	</subitem>
 </item>
    <item
@@ -37,7 +48,7 @@ title=
       <subitem
        label="Start">
         <action pluginId="org.splevo.jamopp.refactoring.java.caslicensehandler"
-        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.StartRefactoryAction" />
+        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.StartRefactoringAction" />
 	</subitem>
    </item>
    <item

@@ -83,11 +83,13 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends
 		StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) variationPoint
 				.getLocation()).getJamoppElement();
 
-		CompilationUnit compilationUnit = vpLocation
-				.getContainingCompilationUnit();
-		SPLConfigurationUtil
-				.addConfigurationClassImportIfMissing(compilationUnit);
-
+		if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
+			CompilationUnit compilationUnit = vpLocation
+					.getContainingCompilationUnit();
+			SPLConfigurationUtil
+					.addConfigurationClassImportIfMissing(compilationUnit);
+		}
+	
 		int variabilityPositionStart = VariabilityPositionUtil
 				.getVariabilityPosition(variationPoint);
 		int variabilityPositionEnd = variabilityPositionStart;
@@ -112,16 +114,17 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends
 
 		ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation
 				.eResource());
-		ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint
-				.getLocation()).getJamoppElement().eResource().getResourceSet();
-		String sourcePath = (String) refactoringOptions
-				.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
-		Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
-                variationPoint);
-        
-		if (configResource != null) {
-			resourceList.add(configResource);
-		}
+		
+		if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
+        	ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+                    .getResourceSet();
+            String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
+            Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet, variationPoint);
+            
+            if (configResource != null) {
+                resourceList.add(configResource);
+            }
+        }
 
 		return resourceList;
 	}

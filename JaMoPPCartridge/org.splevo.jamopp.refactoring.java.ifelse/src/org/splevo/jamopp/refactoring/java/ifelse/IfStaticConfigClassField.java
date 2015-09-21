@@ -139,13 +139,16 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
         }
 
         ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
-        ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
-                .getResourceSet();
-        String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
-        Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet, variationPoint);
         
-        if (configResource != null) {
-            resourceList.add(configResource);
+        if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
+        	ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
+                    .getResourceSet();
+            String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
+            Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet, variationPoint);
+            
+            if (configResource != null) {
+                resourceList.add(configResource);
+            }
         }
 
         return resourceList;

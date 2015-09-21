@@ -5,11 +5,15 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.cheatsheets.CheatSheetViewerFactory;
+import org.eclipse.ui.cheatsheets.ICheatSheetViewer;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 import org.splevo.jamopp.refactoring.java.JaMoPPSemiAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.CASLicenseHandlerConfiguration;
 import org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.CASLicenseHandlerMetaInf;
+import org.splevo.project.SPLevoProject;
 import org.splevo.refactoring.VariabilityRefactoringFailedException;
+import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.BindingTime;
@@ -51,7 +55,8 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
 
 	@Override
 	public List<Resource> startManualRefactoringInternal(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException {
-	    CASLicenseHandlerConfiguration.setRefactoringConfigurations(refactoringConfigurations);
+	    CASLicenseHandlerConfiguration.setLeadingProject((SPLevoProject) refactoringConfigurations.get(VariabilityRefactoringService.SPLEVO_PROJECT));
+		CASLicenseHandlerConfiguration.setRefactoringConfigurations(refactoringConfigurations);
 	    CASLicenseHandlerConfiguration.setVariationPoint(variationPoint);
 	    CASLicenseHandlerConfiguration.refactoringStarted();
 		final OpenCheatSheetAction action = new OpenCheatSheetAction(CASLicenseHandlerMetaInf.CAS_LICENSE_HANDLER_CHEAT_SHEET_ID);
@@ -61,6 +66,10 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
                 action.run();
             }});
 	    
+		ICheatSheetViewer viewer = CheatSheetViewerFactory.createCheatSheetView();
+	    viewer.setInput(CASLicenseHandlerMetaInf.CAS_LICENSE_HANDLER_CHEAT_SHEET_ID);
+	    viewer.reset(null);
+		
 	    try {
 	        CASLicenseHandlerConfiguration.waitForRefactoringToBeFinished();	        
 	    } catch (InterruptedException e) {
@@ -68,5 +77,4 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
 	    }
 	    return Lists.newArrayList();
 	}
-
 }

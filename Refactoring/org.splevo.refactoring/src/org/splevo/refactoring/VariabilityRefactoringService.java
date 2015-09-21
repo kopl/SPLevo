@@ -41,6 +41,7 @@ import com.google.common.collect.Sets;
 public class VariabilityRefactoringService {
 
     public static final String JAVA_SOURCE_DIRECTORY = "JaMoPP.Refactoring.Options.SourceDirectory";
+    public static final String SPLEVO_PROJECT = "SPLEVO_PROJECT";
 
     private static Logger logger = Logger.getLogger(VariabilityRefactoringService.class);
     

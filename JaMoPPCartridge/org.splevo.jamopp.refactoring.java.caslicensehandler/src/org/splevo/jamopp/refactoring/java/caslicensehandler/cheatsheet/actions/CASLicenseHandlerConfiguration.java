@@ -9,11 +9,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Field;
-import org.emftext.language.java.resource.java.mopp.JavaResource;
-import org.splevo.ui.vpexplorer.explorer.ExplorerMediator;
+import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
-import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import com.google.common.collect.Maps;
@@ -30,6 +28,15 @@ public class CASLicenseHandlerConfiguration {
 	private static Map<String, Object> refactoringConfigurations = Maps.newHashMap();
 	private static final Object refactoringFinishedMonitor = new Object();
 	private static boolean refactoringFinished = true;
+	private static SPLevoProject leadingProjects = null;
+	
+	public static SPLevoProject getLeadingProject() {
+		return leadingProjects;
+	}
+	
+	public static void setLeadingProject(SPLevoProject project) {
+		leadingProjects = project;
+	}
 	
 	/**
 	 * Maps the src-directory to the leading path.
@@ -82,8 +89,13 @@ public class CASLicenseHandlerConfiguration {
 		return variantToLicenseMap;
 	}
 	
-	public static void addVariantLicensePair(String variantID, String license) {
+	public static boolean addVariantLicensePair(String variantID, String license) {
+		if (variantToLicenseMap.containsKey(variantID)) {
+			return false;
+		}
+		
 		variantToLicenseMap.put(variantID, license);
+		return true;
 	}
 	
 	public static void setLicenseValidatorName(String newLicenseValidatorName) {

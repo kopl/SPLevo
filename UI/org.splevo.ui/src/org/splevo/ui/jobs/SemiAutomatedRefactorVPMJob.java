@@ -23,10 +23,12 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 public class SemiAutomatedRefactorVPMJob extends RefactorVPMJob {
 
     private final String variationPointId;
+    private final SPLevoProject splevoProject;
 
     public SemiAutomatedRefactorVPMJob(SPLevoProject splevoProject, String variationPointId) {
         super(splevoProject);
         this.variationPointId = variationPointId;
+        this.splevoProject = splevoProject;
     }
 
     /*
@@ -47,6 +49,7 @@ public class SemiAutomatedRefactorVPMJob extends RefactorVPMJob {
         String leadingSrcPath = new File(getLeadingSrcPath()).getAbsolutePath();
         Map<String, Object> refactoringConfigurations = Maps.newHashMap();
         refactoringConfigurations.put(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY, leadingSrcPath);
+        refactoringConfigurations.put(VariabilityRefactoringService.SPLEVO_PROJECT, this.splevoProject);
 
         VariabilityRefactoringService variabilityRefactoringService = new VariabilityRefactoringService();
         try {

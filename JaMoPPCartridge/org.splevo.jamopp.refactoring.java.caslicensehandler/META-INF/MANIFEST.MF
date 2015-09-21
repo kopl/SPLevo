@@ -26,6 +26,8 @@ Require-Bundle: org.splevo.jamopp.refactoring,
  org.eclipse.ui.ide,
  com.google.guava;bundle-version="[11.0.0,15.0.0)",
  org.splevo.jamopp.vpm,
- org.apache.log4j
+ org.apache.log4j,
+ org.splevo.project,
+ org.splevo.ui.commons
 Export-Package: org.splevo.jamopp.refactoring.java.caslicensehandler,
  org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions

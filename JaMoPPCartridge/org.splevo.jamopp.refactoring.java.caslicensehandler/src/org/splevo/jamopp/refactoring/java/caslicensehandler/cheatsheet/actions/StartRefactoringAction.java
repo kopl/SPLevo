@@ -17,9 +17,9 @@ import org.splevo.vpm.variability.VariationPointModel;
 /**
  * This Action starts the fully-automated if-static-config-refactoring.
  */
-public class StartRefactoryAction extends Action implements ICheatSheetAction {
+public class StartRefactoringAction extends Action implements ICheatSheetAction {
 
-    private static final Logger LOGGER = Logger.getLogger(StartRefactoryAction.class);
+    private static final Logger LOGGER = Logger.getLogger(StartRefactoringAction.class);
     
 	@Override
 	public void run(String[] params, ICheatSheetManager manager) {

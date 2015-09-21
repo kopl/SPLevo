@@ -281,7 +281,8 @@ public class TaskView extends ViewPart {
             public void run() {
                 TableItem[] tableItem = table.getSelection();
                 if (null != tableItem) {
-                    String variationPointID = tableItem[0].getText(0);
+                	String[] splittedByBlank = tableItem[0].getText(0).split(" ");
+					String variationPointID = splittedByBlank[0];
                     if (variationPointID != "" || variationPointID != null) {
                         SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
                         BuildSemiAutomatedRefactoringWorkflowDelegate buildSPLWorkflowConfiguration = new BuildSemiAutomatedRefactoringWorkflowDelegate(
@@ -289,6 +290,7 @@ public class TaskView extends ViewPart {
                         WorkflowListenerUtil.runWorkflowAndRunUITask(buildSPLWorkflowConfiguration,
                                 "Refactor VP semiautomatically", null, true);
 
+                        table.remove(table.getSelectionIndex());
                     }
                 }
             }

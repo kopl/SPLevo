@@ -14,8 +14,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+import com.google.common.base.Strings;
 
 /**
  * The user can assign a variant to a given license with the mapping dialog.
@@ -58,8 +60,19 @@ public class MappingDialog extends Dialog {
 	      @Override
 	      public void widgetSelected(SelectionEvent e) {	  
 	    	  if (counter < variationPoint.getVariants().size()) {
-	    		  updateVariantToLicenseMapper();
-	    		  incrementCounter();
+	    		  String license = combo.getText();
+	    		  
+	    		  if (Strings.isNullOrEmpty(license)) {
+	    			  MessageDialog.openInformation(new Shell(), "Information", "No license was specified");
+	    			  return;
+	    		  }
+	    		  
+	    		  if (updateVariantToLicenseMapper(license)) {
+	    			  MessageDialog.openInformation(new Shell(), "Information", "The license is already assigned to a variant. Please choose a different.");
+	    			  return;
+	    		  }
+	    		  
+	    		  prepareNextAssignment();
 	    	  }
 	      }
 	    });
@@ -72,11 +85,11 @@ public class MappingDialog extends Dialog {
 	      @Override
 	      public void widgetSelected(SelectionEvent e) {
 	    	  AddLicenseDialog dialog = new AddLicenseDialog(
-	    			  org.eclipse.jdt.internal.ui.JavaPlugin.getActiveWorkbenchShell(), 
+	    			  PlatformUI.getWorkbench().getDisplay().getActiveShell(), 
 	    			  variationPoint.getVariants().get(counter).getId());
 	    	  
 	    	  if (Window.OK == dialog.open()) {
-	    		  incrementCounter();
+	    		  prepareNextAssignment();
 	    	  
 	    	  	  combo.setItems(CASLicenseHandlerConfiguration.getAllLicenses());
 	    	  	  combo.select(0);
@@ -103,14 +116,12 @@ public class MappingDialog extends Dialog {
 	  variantTextField.setText(this.variationPoint.getVariants().get(counter).getId());
   }
   
-  private void updateVariantToLicenseMapper() {
+  private boolean updateVariantToLicenseMapper(String license) {
 	  Variant variant = this.variationPoint.getVariants().get(counter);
-	  String license = combo.getText();
-	  
-	  CASLicenseHandlerConfiguration.addVariantLicensePair(variant.getId(), license);
+	  return CASLicenseHandlerConfiguration.addVariantLicensePair(variant.getId(), license);
   }
   
-  private void incrementCounter() {
+  private void prepareNextAssignment() {
 	  counter++;
 	  
 	  if (counter < variationPoint.getVariants().size()) {

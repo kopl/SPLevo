@@ -9,6 +9,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import com.google.common.base.Strings;
+
 /**
  * With the dialog new licenses can be added.
  */
@@ -60,13 +62,18 @@ public class AddLicenseDialog extends Dialog {
 	protected void okPressed() {
 		String license = licenseTextField.getText();
 		
-		if (license != "" && license != null) {
-			JaMoPPRoutines.addConstantLicenseFieldTo(CASLicenseHandlerConfiguration.getLicenseConstant(), license);
-			CASLicenseHandlerConfiguration.addVariantLicensePair(constantText, license);
-			this.close();
-		} else {
-			MessageDialog.openError(new Shell(), "Error", "You have to specify a license.");
+		if (Strings.isNullOrEmpty(license)) {
+			MessageDialog.openInformation(new Shell(), "Information", "No license was specified");
+			return;
+		} 
+		
+		if (!CASLicenseHandlerConfiguration.addVariantLicensePair(constantText, license)) {
+			MessageDialog.openInformation(new Shell(), "Information", "The license is already assigned to a variant. Please choose a different.");
+			return;
 		}
+		
+		JaMoPPRoutines.addConstantLicenseFieldTo(CASLicenseHandlerConfiguration.getLicenseConstant(), license);
+		this.close();
 	}
 
 }
