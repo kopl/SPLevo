@@ -9,9 +9,6 @@ public class LicenseConstantsClassOpenTypeDialogAction extends OpenTypeDialogAct
 	@Override
 	public void run(String[] params, ICheatSheetManager manager) {
 		FilteredItemsSelectionDialog licenseConstantDialog = initTypeDialog();
-		if (null == licenseConstantDialog) {
-			return;
-		}
 
 		if (licenseConstantDialog.open() == Window.OK) {
 			IFile file = (IFile) licenseConstantDialog.getResult()[0];

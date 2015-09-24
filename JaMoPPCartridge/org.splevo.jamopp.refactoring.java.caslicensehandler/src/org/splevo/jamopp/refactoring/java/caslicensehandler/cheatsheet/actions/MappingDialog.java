@@ -1,5 +1,7 @@
 package org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions;
 
+import java.util.Iterator;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -17,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
+
 import com.google.common.base.Strings;
 
 /**
@@ -24,21 +27,22 @@ import com.google.common.base.Strings;
  */
 public class MappingDialog extends Dialog {
 	
-  private VariationPoint variationPoint = null;
-  private int counter = 0;
+  private Iterator<Variant> variants = null;
+  private Variant currentVariant = null;
   private Text variantTextField = null;
   private Combo combo = null;
   private CASLicenseHandlerConfiguration config = null;
 	
   /**
-	 * The ID of the view as specified by the extension.
+	 * The constructor.
 	 * @param parentShell
 	 * 				represents the parent shell.
 	 */
   public MappingDialog(Shell parentShell) {
     super(parentShell);
     this.config = CASLicenseHandlerConfiguration.getInstance();
-    this.variationPoint = config.getVariationPoint();
+    this.variants = config.getVariationPoint().getVariants().iterator();
+    this.currentVariant = this.variants.next();
   }
 
   @Override
@@ -61,21 +65,19 @@ public class MappingDialog extends Dialog {
 	    nextButton.addSelectionListener(new SelectionAdapter() {
 	      @Override
 	      public void widgetSelected(SelectionEvent e) {	  
-	    	  if (counter < variationPoint.getVariants().size()) {
-	    		  String license = combo.getText();
+	    	  String license = combo.getText();
 	    		  
-	    		  if (Strings.isNullOrEmpty(license)) {
-	    			  MessageDialog.openInformation(new Shell(), "Information", "No license was specified");
-	    			  return;
-	    		  }
-	    		  
-	    		  if (!updateVariantToLicenseMapper(license)) {
-	    			  MessageDialog.openInformation(new Shell(), "Information", "The license is already assigned to a variant. Please choose a different.");
-	    			  return;
-	    		  }
-	    		  
-	    		  prepareNextAssignment();
+	    	  if (Strings.isNullOrEmpty(license)) {
+	    		  MessageDialog.openInformation(new Shell(), "Information", "No license was specified");
+	    		  return;
 	    	  }
+	    		  
+	    	  if (!updateVariantToLicenseMapper(license)) {
+	    		  MessageDialog.openInformation(new Shell(), "Information", "The license is already assigned to a variant. Please choose a different.");
+	    		  return;
+	    	  }
+	    		  
+	    	  prepareNextAssignment();
 	      }
 	    });
 	    
@@ -88,7 +90,7 @@ public class MappingDialog extends Dialog {
 	      public void widgetSelected(SelectionEvent e) {
 	    	  AddLicenseDialog dialog = new AddLicenseDialog(
 	    			  PlatformUI.getWorkbench().getDisplay().getActiveShell(), 
-	    			  variationPoint.getVariants().get(counter).getId());
+	    			  currentVariant.getId());
 	    	  
 	    	  if (Window.OK == dialog.open()) {
 	    	  	  combo.setItems(config.getAllLicenses());
@@ -115,21 +117,23 @@ public class MappingDialog extends Dialog {
   private void initTextField(Composite container) {
 	  variantTextField = new Text(container, SWT.SINGLE | SWT.BORDER);
 	  variantTextField.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-	  variantTextField.setText(this.variationPoint.getVariants().get(counter).getId());
+	  updateTextField();
+  }
+  
+  private void updateTextField() {
+	  variantTextField.setText(this.currentVariant.getId());
   }
   
   private boolean updateVariantToLicenseMapper(String license) {
-	  Variant variant = this.variationPoint.getVariants().get(counter);
-	  return config.addVariantLicensePair(variant.getId(), license);
+	  return config.addVariantLicensePair(currentVariant.getId(), license);
   }
   
   private void prepareNextAssignment() {
-	  counter++;
-	  
-	  if (counter < variationPoint.getVariants().size()) {
-		  variantTextField.setText(variationPoint.getVariants().get(counter).getId());
+	  if (this.variants.hasNext()) {
+		  this.currentVariant = this.variants.next();
+		  updateTextField();
 	  } else {
-		  MessageDialog.openInformation(new Shell(), "Information", "All Variants are assigned");
+		  MessageDialog.openInformation(this.getShell(), "Information", "All Variants are assigned");
 		  close();
 	  }
   }

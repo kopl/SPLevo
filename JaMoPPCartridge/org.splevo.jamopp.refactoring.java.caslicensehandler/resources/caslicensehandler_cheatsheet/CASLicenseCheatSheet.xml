@@ -48,7 +48,7 @@ title=
       <subitem
        label="Start">
         <action pluginId="org.splevo.jamopp.refactoring.java.caslicensehandler"
-        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.StartRefactoringAction" />
+        		class="org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.StartCASLicenseHandlerRefactoringAction" />
 	</subitem>
    </item>
    <item

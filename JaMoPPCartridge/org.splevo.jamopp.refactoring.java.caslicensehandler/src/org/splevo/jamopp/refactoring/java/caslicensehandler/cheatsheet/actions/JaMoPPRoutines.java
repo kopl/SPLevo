@@ -46,6 +46,10 @@ public class JaMoPPRoutines {
 	 * 			represents the license name.
 	 */
 	public static void addConstantLicenseFieldTo(File file, String licenseName) {
+		if (isAlreadyStored(licenseName.toUpperCase())) {
+			return;
+		}
+		
 		Resource resource = JaMoPPRoutines.getResourceOf(file);
 		CompilationUnit compilationUnit = (CompilationUnit) resource.getContents().get(0);
 		
@@ -60,6 +64,15 @@ public class JaMoPPRoutines {
 		}
 	}
 	
+	private static boolean isAlreadyStored(String licenseName) {
+		for (String storedLicense : CASLicenseHandlerConfiguration.getInstance().getAllLicenses()) {
+			if (storedLicense.equals(licenseName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	//TODO see also SPLConfigurationUtil
 	private static Field createField(String fieldName) {	
 		StringReference value = ReferencesFactory.eINSTANCE.createStringReference();

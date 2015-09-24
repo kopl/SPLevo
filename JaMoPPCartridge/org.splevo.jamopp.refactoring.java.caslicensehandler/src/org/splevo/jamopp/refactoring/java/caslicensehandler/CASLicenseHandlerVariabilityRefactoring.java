@@ -70,10 +70,6 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
                 action.run();
                 view.getCheatSheetViewer().reset(null);
             }});
-	    
-		//ICheatSheetViewer viewer = CheatSheetViewerFactory.createCheatSheetView();
-	    //viewer.setInput(CASLicenseHandlerMetaInf.CAS_LICENSE_HANDLER_CHEAT_SHEET_ID);
-	    //viewer.reset(null);
 		
 	    try {
 	        CASLicenseHandlerConfiguration.waitForRefactoringToBeFinished();	        

@@ -15,7 +15,7 @@ import com.google.common.base.Strings;
  * With the dialog new licenses can be added.
  */
 public class AddLicenseDialog extends Dialog {
-	private String constantText = null;
+	private final String licenseConstantText;
 	private Text constantTextField = null;
 	private Text licenseTextField = null;
 	
@@ -28,7 +28,7 @@ public class AddLicenseDialog extends Dialog {
 	 */
 	protected AddLicenseDialog(Shell parentShell, String variant) {
 		super(parentShell);
-		this.constantText = variant;
+		this.licenseConstantText = variant;
 	}
 	
 	@Override
@@ -52,7 +52,7 @@ public class AddLicenseDialog extends Dialog {
 	private void initTextFields(Composite container) {
 		constantTextField = new Text(container, SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY);
 		constantTextField.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-		constantTextField.setText(this.constantText);
+		constantTextField.setText(this.licenseConstantText);
 		  
 		licenseTextField = new Text(container, SWT.SINGLE | SWT.BORDER);
 		licenseTextField.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
@@ -68,7 +68,7 @@ public class AddLicenseDialog extends Dialog {
 			return;
 		} 
 		
-		if (!config.addVariantLicensePair(constantText, license)) {
+		if (!config.addVariantLicensePair(licenseConstantText, license)) {
 			MessageDialog.openInformation(new Shell(), "Information", "The license is already assigned to a variant. Please choose a different.");
 			return;
 		}

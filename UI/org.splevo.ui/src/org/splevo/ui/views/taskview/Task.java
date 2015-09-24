@@ -4,10 +4,10 @@ package org.splevo.ui.views.taskview;
  * Class Task for encapsulating task-attributes
  */
 public class Task {
-	private String description = null;
-	private String resource = null;
-	private String path = null;
-	private int location = 0;
+	private final String description;
+	private final String resource;
+	private final String path;
+	private final int location;
 
 	/**
      * Constructor with parameters to initialize the membervariables
@@ -21,11 +21,11 @@ public class Task {
      * @param location
      *            contains the line number of the found tasktag.
      */
-	public Task(String description, String resource, String path, int location) {
-		this.description = description;
-		this.resource = resource;
-		this.path = path;
-		this.location = location;
+	public Task(String newDescription, String newResource, String newPath, int newLocation) {
+		this.description = newDescription;
+		this.resource = newResource;
+		this.path = newPath;
+		this.location = newLocation;
 	}
 	
 	/**

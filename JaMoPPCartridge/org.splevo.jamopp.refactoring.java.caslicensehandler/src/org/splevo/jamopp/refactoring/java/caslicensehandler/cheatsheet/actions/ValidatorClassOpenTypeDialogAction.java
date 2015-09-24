@@ -10,9 +10,6 @@ public class ValidatorClassOpenTypeDialogAction extends OpenTypeDialogAction {
 	@Override
 	public void run(String[] params, ICheatSheetManager manager) {
 		FilteredItemsSelectionDialog licenseValidatorDialog = initTypeDialog();
-		if (null == licenseValidatorDialog) {
-			return;
-		}
 		
 		if (licenseValidatorDialog.open() == Window.OK) {
 			CASLicenseHandlerConfiguration.getInstance().setLicenseValidatorName(getNameFrom((IFile) licenseValidatorDialog.getResult()[0]));
