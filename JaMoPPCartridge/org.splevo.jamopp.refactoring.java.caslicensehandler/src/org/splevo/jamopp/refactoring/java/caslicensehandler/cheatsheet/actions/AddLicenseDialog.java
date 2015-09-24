@@ -61,19 +61,20 @@ public class AddLicenseDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		String license = licenseTextField.getText();
+		CASLicenseHandlerConfiguration config = CASLicenseHandlerConfiguration.getInstance();
 		
 		if (Strings.isNullOrEmpty(license)) {
 			MessageDialog.openInformation(new Shell(), "Information", "No license was specified");
 			return;
 		} 
 		
-		if (!CASLicenseHandlerConfiguration.addVariantLicensePair(constantText, license)) {
+		if (!config.addVariantLicensePair(constantText, license)) {
 			MessageDialog.openInformation(new Shell(), "Information", "The license is already assigned to a variant. Please choose a different.");
 			return;
 		}
 		
-		JaMoPPRoutines.addConstantLicenseFieldTo(CASLicenseHandlerConfiguration.getLicenseConstant(), license);
-		this.close();
+		JaMoPPRoutines.addConstantLicenseFieldTo(config.getLicenseConstant(), license);
+		close();
 	}
 
 }

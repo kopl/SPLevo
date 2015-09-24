@@ -15,7 +15,7 @@ public class ValidatorClassOpenTypeDialogAction extends OpenTypeDialogAction {
 		}
 		
 		if (licenseValidatorDialog.open() == Window.OK) {
-			CASLicenseHandlerConfiguration.setLicenseValidatorName(getNameFrom((IFile) licenseValidatorDialog.getResult()[0]));
+			CASLicenseHandlerConfiguration.getInstance().setLicenseValidatorName(getNameFrom((IFile) licenseValidatorDialog.getResult()[0]));
 			return;
 		}
 		

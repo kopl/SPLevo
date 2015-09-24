@@ -28,6 +28,7 @@ public class MappingDialog extends Dialog {
   private int counter = 0;
   private Text variantTextField = null;
   private Combo combo = null;
+  private CASLicenseHandlerConfiguration config = null;
 	
   /**
 	 * The ID of the view as specified by the extension.
@@ -36,7 +37,8 @@ public class MappingDialog extends Dialog {
 	 */
   public MappingDialog(Shell parentShell) {
     super(parentShell);
-    this.variationPoint = CASLicenseHandlerConfiguration.getVariationPoint();
+    this.config = CASLicenseHandlerConfiguration.getInstance();
+    this.variationPoint = config.getVariationPoint();
   }
 
   @Override
@@ -67,7 +69,7 @@ public class MappingDialog extends Dialog {
 	    			  return;
 	    		  }
 	    		  
-	    		  if (updateVariantToLicenseMapper(license)) {
+	    		  if (!updateVariantToLicenseMapper(license)) {
 	    			  MessageDialog.openInformation(new Shell(), "Information", "The license is already assigned to a variant. Please choose a different.");
 	    			  return;
 	    		  }
@@ -89,10 +91,10 @@ public class MappingDialog extends Dialog {
 	    			  variationPoint.getVariants().get(counter).getId());
 	    	  
 	    	  if (Window.OK == dialog.open()) {
-	    		  prepareNextAssignment();
-	    	  
-	    	  	  combo.setItems(CASLicenseHandlerConfiguration.getAllLicenses());
+	    	  	  combo.setItems(config.getAllLicenses());
 	    	  	  combo.select(0);
+	    	  	  
+	    	  	  prepareNextAssignment();
 	    	  }
 	      }
 	    });
@@ -101,7 +103,7 @@ public class MappingDialog extends Dialog {
   private void initComboBox(Composite container) {
 	  combo = new Combo(container, SWT.READ_ONLY);
 	  combo.setBounds(50, 50, 150, 65);
-	  combo.setItems(CASLicenseHandlerConfiguration.getAllLicenses());
+	  combo.setItems(config.getAllLicenses());
 	  combo.select(0);
   }
   
@@ -118,7 +120,7 @@ public class MappingDialog extends Dialog {
   
   private boolean updateVariantToLicenseMapper(String license) {
 	  Variant variant = this.variationPoint.getVariants().get(counter);
-	  return CASLicenseHandlerConfiguration.addVariantLicensePair(variant.getId(), license);
+	  return config.addVariantLicensePair(variant.getId(), license);
   }
   
   private void prepareNextAssignment() {

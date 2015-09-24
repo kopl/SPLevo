@@ -21,21 +21,34 @@ import com.google.common.collect.Maps;
  */
 public class CASLicenseHandlerConfiguration {
 
-	private static File licenseConstants = null;
-	private static String licenseValidatorName = "";
-	private static Map<String, String> variantToLicenseMap = new  HashMap<String, String>();
-	private static VariationPoint variationPoint = null;
-	private static Map<String, Object> refactoringConfigurations = Maps.newHashMap();
+	private File licenseConstants = null;
+	private String licenseValidatorName = "";
+	private Map<String, String> variantToLicenseMap = new  HashMap<String, String>();
+	private VariationPoint variationPoint = null;
+	private Map<String, Object> refactoringConfigurations = Maps.newHashMap();
 	private static final Object refactoringFinishedMonitor = new Object();
 	private static boolean refactoringFinished = true;
-	private static SPLevoProject leadingProjects = null;
+	private SPLevoProject leadingProjects = null;
 	
-	public static SPLevoProject getLeadingProject() {
-		return leadingProjects;
+	private static CASLicenseHandlerConfiguration INSTANCE = null;
+	
+	private CASLicenseHandlerConfiguration() {
+		
 	}
 	
-	public static void setLeadingProject(SPLevoProject project) {
-		leadingProjects = project;
+	public static CASLicenseHandlerConfiguration getInstance() {
+		if (isRefactoringFinished()) {
+			INSTANCE = new CASLicenseHandlerConfiguration();
+		}
+		return INSTANCE;
+	}
+	
+	public SPLevoProject getLeadingProject() {
+		return this.leadingProjects;
+	}
+	
+	public void setLeadingProject(SPLevoProject project) {
+		this.leadingProjects = project;
 	}
 	
 	/**
@@ -45,8 +58,8 @@ public class CASLicenseHandlerConfiguration {
 	 * @param leadingSrcPath
 	 * 				represents the leading source path
 	 */
-	public static void setRefactoringConfigurations(Map<String, Object> configuration) {
-		refactoringConfigurations = configuration;
+	public void setRefactoringConfigurations(Map<String, Object> configuration) {
+		this.refactoringConfigurations = configuration;
 	}
 	
 	/**
@@ -54,8 +67,8 @@ public class CASLicenseHandlerConfiguration {
 	 * @return
 	 * 			returns the stored refactoring configuration map.
 	 */
-	public static Map<String, Object> getRefactoringConfigurations() {
-		return refactoringConfigurations;
+	public Map<String, Object> getRefactoringConfigurations() {
+		return this.refactoringConfigurations;
 	}
 	
 	/**
@@ -63,8 +76,8 @@ public class CASLicenseHandlerConfiguration {
 	 * @param newVariationPointID
 	 * 				represents the variant id.
 	 */
-	public static void setVariationPoint(VariationPoint vp) {
-		variationPoint = vp;
+	public void setVariationPoint(VariationPoint vp) {
+		this.variationPoint = vp;
 	}
 	
 	/**
@@ -72,12 +85,12 @@ public class CASLicenseHandlerConfiguration {
 	 * @return 
 	 * 			returns a variation point.
 	 */
-	public static VariationPoint getVariationPoint() {
-		return variationPoint;
+	public VariationPoint getVariationPoint() {
+		return this.variationPoint;
 	}
 	
-	public static Variant getVariantBy(String variantID) {
-		for (Variant variant : getVariationPoint().getVariants()) {
+	public Variant getVariantBy(String variantID) {
+		for (Variant variant : this.getVariationPoint().getVariants()) {
 			if (variant.getId().equals(variantID)) {
 				return variant;
 			}
@@ -85,47 +98,56 @@ public class CASLicenseHandlerConfiguration {
 		return null;
 	}
 	
-	public static Map<String, String> getVariantToLicenseMap() {
-		return variantToLicenseMap;
+	public Map<String, String> getVariantToLicenseMap() {
+		return this.variantToLicenseMap;
 	}
 	
-	public static boolean addVariantLicensePair(String variantID, String license) {
-		if (variantToLicenseMap.containsKey(variantID)) {
+	public boolean addVariantLicensePair(String variantID, String license) {
+		if (this.isLicenseAlreadyAssigned(license.toUpperCase())) {
 			return false;
 		}
 		
-		variantToLicenseMap.put(variantID, license);
+		this.variantToLicenseMap.put(variantID, license.toUpperCase());
 		return true;
 	}
 	
-	public static void setLicenseValidatorName(String newLicenseValidatorName) {
-		licenseValidatorName = newLicenseValidatorName;
+	private boolean isLicenseAlreadyAssigned(String licenseToCheck) {
+		for (String currentLicense : this.variantToLicenseMap.values()) {
+			if (currentLicense.equals(licenseToCheck)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void setLicenseValidatorName(String newLicenseValidatorName) {
+		this.licenseValidatorName = newLicenseValidatorName;
 	}
 	
-	public static String getLicenseValidatorName() {
-		return licenseValidatorName;
+	public String getLicenseValidatorName() {
+		return this.licenseValidatorName;
 	}
 	
-	public static File getLicenseConstant() {
-		return licenseConstants;
+	public File getLicenseConstant() {
+		return this.licenseConstants;
 	}
 	
-	public static void setLicenseConstant(File newLicenseConstantClass) {
-		licenseConstants = newLicenseConstantClass;
+	public void setLicenseConstant(File newLicenseConstantClass) {
+		this.licenseConstants = newLicenseConstantClass;
 	}
 	
-	public static String[] getAllLicenses() {
+	public String[] getAllLicenses() {
 		
-		if(null == licenseConstants) {
+		if(null == this.licenseConstants) {
 			return null;
 		}
 		
-        Resource resource = JaMoPPRoutines.getResourceOf(licenseConstants);
+        Resource resource = JaMoPPRoutines.getResourceOf(this.licenseConstants);
         		
-		return getAllLicensesBy((CompilationUnit) resource.getContents().get(0));
+		return this.getAllLicensesBy((CompilationUnit) resource.getContents().get(0));
 	}
 
-	private static String[] getAllLicensesBy(CompilationUnit compilationUnit) {
+	private String[] getAllLicensesBy(CompilationUnit compilationUnit) {
 		ArrayList<String> licenses = new ArrayList<String>();
 		
 		for (ConcreteClassifier concreteClassifier : compilationUnit.getClassifiers()) {
@@ -137,8 +159,8 @@ public class CASLicenseHandlerConfiguration {
 		return licenses.toArray(new String[licenses.size()]);
 	}
 	
-	public static VariationPointModel getVariationPointModel() {
-	    return (VariationPointModel)getVariationPoint().eContainer().eContainer();
+	public VariationPointModel getVariationPointModel() {
+	    return (VariationPointModel)this.getVariationPoint().eContainer().eContainer();
 	}
 	
 	public static void refactoringStarted() {

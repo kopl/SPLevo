@@ -15,7 +15,7 @@ public class LicenseConstantsClassOpenTypeDialogAction extends OpenTypeDialogAct
 
 		if (licenseConstantDialog.open() == Window.OK) {
 			IFile file = (IFile) licenseConstantDialog.getResult()[0];
-			CASLicenseHandlerConfiguration.setLicenseConstant(getFileFrom(file));
+			CASLicenseHandlerConfiguration.getInstance().setLicenseConstant(convertToFile(file));
 			return;
 		}
 		

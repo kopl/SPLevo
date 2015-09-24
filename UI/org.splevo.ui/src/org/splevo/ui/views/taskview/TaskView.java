@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.splevo.project.SPLevoProject;
@@ -70,15 +69,13 @@ public class TaskView extends ViewPart {
     public static final String ID = "org.splevo.ui.views.taskview.TaskView";
 
     private static final Logger LOGGER = Logger.getLogger(TaskView.class);
-    private static Table table = null;
+    private Table table = null;
     private TableViewer viewer = null;
-    private Action getAllTasksAction = null;
     private Action startRefactoringAction = null;
 
     private CompositeSwitcher compositeSwitcherComposite;
     private Optional<SPLevoProject> selectedSPLevoProject;
-
-
+    
     private class TaskViewComboBoxSelectionComposite extends ComboBoxSelectionComposite {
         
         private final SPLevoProjectWorkspaceObserver projectObserver;
@@ -235,48 +232,20 @@ public class TaskView extends ViewPart {
     }
 
     private void fillLocalPullDown(IMenuManager manager) {
-        manager.add(getAllTasksAction);
-        manager.add(new Separator());
         manager.add(startRefactoringAction);
         manager.add(new Separator());
     }
 
     private void fillContextMenu(IMenuManager manager) {
-        manager.add(getAllTasksAction);
-        manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
         manager.add(startRefactoringAction);
         manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
     }
 
     private void fillLocalToolBar(IToolBarManager manager) {
-        manager.add(getAllTasksAction);
         manager.add(startRefactoringAction);
     }
 
     private void makeActions() {
-        getAllTasksAction = new Action() {
-            public void run() {
-                IWorkbenchPart workbenchPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                        .getActivePart();
-                if (workbenchPart.getSite().getPage().getActiveEditor() == null) {
-                    showMessage("Editor is empty!");
-                    return;
-                }
-
-                IFile file = (IFile) workbenchPart.getSite().getPage().getActiveEditor().getEditorInput()
-                        .getAdapter(IFile.class);
-                if (file == null) {
-                    showMessage("file is empty");
-                }
-
-                fillTableWithTasks(true);
-            }
-        };
-        getAllTasksAction.setText("Get all Tasks");
-        getAllTasksAction.setToolTipText("Get all SPLevo tasks and collect them in the SPLevoTaskView");
-        getAllTasksAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
-                .getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-
         startRefactoringAction = new Action() {
             public void run() {
                 TableItem[] tableItem = table.getSelection();

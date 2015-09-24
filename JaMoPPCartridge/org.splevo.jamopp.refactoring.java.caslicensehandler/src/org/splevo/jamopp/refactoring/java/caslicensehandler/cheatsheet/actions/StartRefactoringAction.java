@@ -7,7 +7,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 import org.splevo.jamopp.refactoring.java.ifelse.optxor.SemiAutomatedIfStaticConfigClassOPTXOR;
-import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringFailedException;
 import org.splevo.refactoring.VariabilityRefactoringService;
@@ -23,14 +22,15 @@ public class StartRefactoringAction extends Action implements ICheatSheetAction 
     
 	@Override
 	public void run(String[] params, ICheatSheetManager manager) {
-		VariationPoint variationPoint = CASLicenseHandlerConfiguration.getVariationPoint();
-		VariationPointModel vpm = CASLicenseHandlerConfiguration.getVariationPointModel();
-		Map<String, Object> refactoringConfigurations = CASLicenseHandlerConfiguration.getRefactoringConfigurations();
+		CASLicenseHandlerConfiguration config = CASLicenseHandlerConfiguration.getInstance();		
+		VariationPoint variationPoint = config.getVariationPoint();
+		VariationPointModel vpm = config.getVariationPointModel();
+		Map<String, Object> refactoringConfigurations = config.getRefactoringConfigurations();
 		
-		String validatorName = CASLicenseHandlerConfiguration.getLicenseValidatorName();
+		String validatorName = config.getLicenseValidatorName();
 	
 		VariabilityRefactoring refactoring = new SemiAutomatedIfStaticConfigClassOPTXOR(validatorName, 
-													 									CASLicenseHandlerConfiguration.getVariantToLicenseMap());
+																						config.getVariantToLicenseMap());
 		
 		VariabilityRefactoringService refactoringService = new VariabilityRefactoringService();
 		try {

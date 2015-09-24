@@ -18,21 +18,43 @@ import org.splevo.ui.commons.util.WorkspaceUtil;
 @SuppressWarnings("restriction")
 public abstract class OpenTypeDialogAction extends Action implements ICheatSheetAction {
 	
+	/**
+	 * Get the name from a given file.
+	 * @param chosenLicenseValidatorClass
+	 * 			represents a file.
+	 * @return
+	 * 			returns the name of the file.
+	 */
 	protected String getNameFrom(IFile chosenLicenseValidatorClass) {
-		return FilenameUtils.removeExtension(getFileFrom(chosenLicenseValidatorClass).getName());
+		return FilenameUtils.removeExtension(convertToFile(chosenLicenseValidatorClass).getName());
 	}
-
-	protected File getFileFrom(IFile chosenLicenseConstantClass) {
+	
+	/**
+	 * Converts a IFile object to a File object.
+	 * @param chosenLicenseConstantClass
+	 * 			given IFile object which has to be converted.
+	 * @return 
+	 * 			returns the converted File object.
+	 */
+	protected File convertToFile(IFile chosenLicenseConstantClass) {
 		return chosenLicenseConstantClass.getRawLocation().makeAbsolute().toFile();
 	}
 	
+	/**
+	 * Opens the FilteredItemSelectionDialog.
+	 * @return
+	 * 			returns the dialog.
+	 */
 	protected FilteredItemsSelectionDialog initTypeDialog() {
 		
 		return new LeadingProjectFilteredSelectionDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), 
 														 false, 
-														 WorkspaceUtil.transformProjectNamesToProjects(CASLicenseHandlerConfiguration.getLeadingProject().getLeadingProjects()));
+														 WorkspaceUtil.transformProjectNamesToProjects(CASLicenseHandlerConfiguration.getInstance().getLeadingProject().getLeadingProjects()));
 	}
 	
+	/**
+	 * Opens a error-message.
+	 */
 	protected void openErrorMessage() {
 		MessageDialog.openError(new Shell(), "Error", "An error ocurred. Please restart the cheat sheet.");
 	}

@@ -110,7 +110,7 @@ public class LeadingProjectFilteredSelectionDialog extends FilteredItemsSelectio
 			progressMonitor.worked(1);
 		}
 	}
-
+	
 	private List<IFile> getAllFilesIn(IContainer container) {
 		IResource[] members = null;
 		List<IFile> files = new ArrayList<IFile>();
@@ -138,7 +138,7 @@ public class LeadingProjectFilteredSelectionDialog extends FilteredItemsSelectio
 
 	@Override
 	public String getElementName(Object item) {
-		return ((IFile) item).getName();
+		return ((IFile) item).getFullPath().lastSegment();
 	}
 
 }
