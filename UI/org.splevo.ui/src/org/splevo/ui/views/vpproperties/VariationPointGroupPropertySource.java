@@ -126,6 +126,7 @@ public class VariationPointGroupPropertySource extends PropertySource {
         	
             if (!setPropertyValue(action, vp)) {
                 characteristicRollback(transaction);
+                break;
             }
         }  
     }
