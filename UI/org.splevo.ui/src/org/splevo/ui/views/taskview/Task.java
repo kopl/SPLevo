@@ -12,13 +12,13 @@ public class Task {
 	/**
      * Constructor with parameters to initialize the membervariables
      *
-     * @param description
+     * @param newDescription
      *            contains the task description.
-     * @param resource
+     * @param newResource
      *            contains the resource of the task.
-     * @param path
+     * @param newPath
      *            contains the path where the tasktag was found.
-     * @param location
+     * @param newLocation
      *            contains the line number of the found tasktag.
      */
 	public Task(String newDescription, String newResource, String newPath, int newLocation) {

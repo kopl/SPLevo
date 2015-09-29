@@ -19,14 +19,7 @@ import com.google.common.collect.Lists;
  * With TaskCreater can tasks created and filtered with respect to the toDoTaskTag.
  */
 public class TaskCreator {	
-	
-	/**
-	 * Default constructor.
-	 */
-	public TaskCreator() {
 
-	}
-	
 	/**
      * Create and filter tasks with respect to the toDoTaskTag.
 	 * @param relevantProjects 

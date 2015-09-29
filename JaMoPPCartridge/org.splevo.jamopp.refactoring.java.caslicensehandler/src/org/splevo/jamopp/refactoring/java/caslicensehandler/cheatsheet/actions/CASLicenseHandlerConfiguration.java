@@ -36,6 +36,10 @@ public class CASLicenseHandlerConfiguration {
 		
 	}
 	
+	/**
+	 * Returns the currently used instance.
+	 * @return the currently used instance.
+	 */
 	public static CASLicenseHandlerConfiguration getInstance() {
 		if (isRefactoringFinished()) {
 			INSTANCE = new CASLicenseHandlerConfiguration();
@@ -43,10 +47,19 @@ public class CASLicenseHandlerConfiguration {
 		return INSTANCE;
 	}
 	
+	/**
+	 * Returns the leading SPLevoProject.
+	 * @return the leading SPLevoProject.
+	 */
 	public SPLevoProject getLeadingProject() {
 		return this.leadingProjects;
 	}
 	
+	/**
+	 * Sets the leading SPLevoProject.
+	 * @param project
+	 * 			represents the new project which will be set.
+	 */
 	public void setLeadingProject(SPLevoProject project) {
 		this.leadingProjects = project;
 	}
@@ -89,6 +102,13 @@ public class CASLicenseHandlerConfiguration {
 		return this.variationPoint;
 	}
 	
+	/**
+	 * Returns a variant by the variants id.
+	 * @param variantID
+	 * 			the id which identify the variant.
+	 * @return
+	 * 			returns the variant by the id.
+	 */
 	public Variant getVariantBy(String variantID) {
 		for (Variant variant : this.getVariationPoint().getVariants()) {
 			if (variant.getId().equals(variantID)) {
@@ -98,6 +118,10 @@ public class CASLicenseHandlerConfiguration {
 		return null;
 	}
 	
+	/**
+	 * Returns the current variant-to-license map.
+	 * @return the current variant-to-license map.
+	 */
 	public Map<String, String> getVariantToLicenseMap() {
 		return this.variantToLicenseMap;
 	}

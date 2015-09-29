@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
@@ -110,7 +111,7 @@ public class MappingDialog extends Dialog {
   }
   
   private void initLabel(Composite container) {
-	  org.eclipse.swt.widgets.Label label = new org.eclipse.swt.widgets.Label(container, SWT.NULL);
+	  Label label = new Label(container, SWT.NULL);
 	  label.setText("Variant:");
   }
   

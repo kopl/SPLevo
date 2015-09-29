@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.cheatsheets.CheatSheetViewerFactory;
-import org.eclipse.ui.cheatsheets.ICheatSheetViewer;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 import org.eclipse.ui.internal.cheatsheets.views.CheatSheetView;
 import org.eclipse.ui.internal.cheatsheets.views.ViewUtilities;
@@ -69,7 +67,7 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
             	CheatSheetView view = ViewUtilities.showCheatSheetView();
                 action.run();
                 view.getCheatSheetViewer().reset(null);
-            }});
+            } });
 		
 	    try {
 	        CASLicenseHandlerConfiguration.waitForRefactoringToBeFinished();	        

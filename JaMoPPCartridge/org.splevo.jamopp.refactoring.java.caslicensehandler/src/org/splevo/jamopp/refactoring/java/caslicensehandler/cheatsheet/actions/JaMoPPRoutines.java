@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -19,11 +20,14 @@ import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
+import org.splevo.refactoring.VariabilityRefactoringService;
 
 /**
  * Implements some routines on the JaMoPP-model.
  */
 public class JaMoPPRoutines {
+	private static Logger logger = Logger.getLogger(JaMoPPRoutines.class);
+	
 	/**
 	 * Returns the resource object to a given file.
 	 * @param file
@@ -61,6 +65,8 @@ public class JaMoPPRoutines {
 			constantLicenseClass.getMembers().add(field);
 			
 			saveJaMoPPModel(resource);
+		} else {
+			logger.error("Could not add member field: " + licenseName);
 		}
 	}
 	
@@ -99,7 +105,7 @@ public class JaMoPPRoutines {
         try {
             eResource.save(null);
         } catch (IOException e) {
-            e.printStackTrace();
+        	logger.error("Could not save resource: " + eResource.getURI().lastSegment(), e);
         }
 		
     }

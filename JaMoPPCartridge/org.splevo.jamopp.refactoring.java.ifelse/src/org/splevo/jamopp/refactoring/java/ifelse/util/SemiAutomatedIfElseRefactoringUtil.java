@@ -6,12 +6,12 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.StatementsFactory;
 
-public class SemiAutomatedIfElseRefactoring implements IfElseRefactoringUtil {
+public class SemiAutomatedIfElseRefactoringUtil implements IfElseRefactoringUtil {
 
 	private String validatorName = "";
 	private Map<String, String> variantToLicenseMap = null;
 	
-	public SemiAutomatedIfElseRefactoring(String validatorName, Map<String, String> variantToLicenseMap) {
+	public SemiAutomatedIfElseRefactoringUtil(String validatorName, Map<String, String> variantToLicenseMap) {
 		this.validatorName = validatorName;
 		this.variantToLicenseMap = variantToLicenseMap;
 	}

@@ -76,6 +76,10 @@ public class TaskView extends ViewPart {
     private CompositeSwitcher compositeSwitcherComposite;
     private Optional<SPLevoProject> selectedSPLevoProject;
     
+    /**
+     * The class provides a selection of all started refactorings
+     * and visualize the remaining tasks in the taskview.
+     */
     private class TaskViewComboBoxSelectionComposite extends ComboBoxSelectionComposite {
         
         private final SPLevoProjectWorkspaceObserver projectObserver;
@@ -353,6 +357,11 @@ public class TaskView extends ViewPart {
         return this.selectedSPLevoProject.orNull();
     }
 
+    /**
+     * Sets a SPLevoProject
+     * @param splevoProject
+     * 			represents the project which will be set.
+     */
     public void setSPLevoProject(SPLevoProject splevoProject) {
         this.selectedSPLevoProject = Optional.fromNullable(splevoProject);
         fillTableWithTasks(false);
