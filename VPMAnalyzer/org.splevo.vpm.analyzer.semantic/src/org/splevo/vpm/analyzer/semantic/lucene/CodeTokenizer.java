@@ -24,7 +24,10 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * This {@link Tokenizer} applies following steps to the stream:
@@ -71,7 +74,12 @@ public class CodeTokenizer extends Tokenizer {
      */
     public CodeTokenizer(Reader input, boolean splitCamelCase, Set<String> featuredTerms, boolean featuredTermsOnly) {
         this(input, splitCamelCase);
-        this.featuredTerms = featuredTerms;
+        this.featuredTerms = Sets.newHashSet(Iterables.transform(featuredTerms, new Function<String, String>() {
+            @Override
+            public String apply(String input) {
+                return input.toLowerCase();
+            }
+        }));
         this.featuredTermsOnly = featuredTermsOnly;
     }
 
@@ -101,9 +109,10 @@ public class CodeTokenizer extends Tokenizer {
         }
 
         String token = tokens.getFirst();
-        String featuredTerm = containsFeaturedTerm(token);
+        String tokenLower = token.toLowerCase();
+        String featuredTerm = containsFeaturedTerm(tokenLower);
         if (featuredTerm != null) {
-            String[] split = token.split(featuredTerm);
+            String[] split = tokenLower.split(featuredTerm);
             if (split.length > 0) {
                 tokens.addAll(Arrays.asList(split));
             }
