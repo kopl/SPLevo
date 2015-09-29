@@ -145,6 +145,7 @@ public class UIConfigurationCompositeFactory {
         spinner.setDigits(decimalPlaces);
         spinner.setMinimum(config.getLowerBoundary());
         spinner.setMaximum(config.getUpperBoundary());
+        config.setCurrentValue(config.getDefaultValue());
         spinner.setSelection(config.getDefaultValue());
         spinner.addModifyListener(new ModifyListener() {
 
@@ -176,6 +177,7 @@ public class UIConfigurationCompositeFactory {
         final List<String> labels = config.getAvailableValues();
         final Combo combo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
         combo.setItems(labels.toArray(new String[0]));
+        config.setCurrentValue(config.getDefaultValue());
         combo.select(labels.indexOf(config.getDefaultValue()));
         combo.addSelectionListener(new SelectionAdapter() {
 
@@ -212,6 +214,7 @@ public class UIConfigurationCompositeFactory {
             }
         });
         String defaultText = config.getDefaultValue();
+        config.setCurrentValue(defaultText);
         text.setText(defaultText);
         GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
         layoutData.widthHint = SWT.FILL;
@@ -236,6 +239,7 @@ public class UIConfigurationCompositeFactory {
     private void createBooleanConfigField(Composite parent, final BooleanConfiguration config) {
         final Button checkButton = new Button(parent, SWT.CHECK);
         checkButton.setSelection(config.getDefaultValue());
+        config.setCurrentValue(config.getDefaultValue());
         checkButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
