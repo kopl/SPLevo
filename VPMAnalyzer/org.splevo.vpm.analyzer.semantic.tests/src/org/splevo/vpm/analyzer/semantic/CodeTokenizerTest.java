@@ -60,8 +60,8 @@ public class CodeTokenizerTest extends AbstractTest {
         Set<String> tokens = readTokens(tokenizer);
 
         assertThat(tokens.size(), is(2));
-        assertThat(tokens, hasItem("UseCase"));
-        assertThat(tokens, hasItem("doSth"));
+        assertThat(tokens, hasItem("usecase"));
+        assertThat(tokens, hasItem("dosth"));
 
         tokenizer.close();
     }
@@ -97,10 +97,10 @@ public class CodeTokenizerTest extends AbstractTest {
         Set<String> tokens = readTokens(tokenizer);
 
         assertThat(tokens.size(), is(4));
-        assertThat(tokens, hasItem("Use"));
-        assertThat(tokens, hasItem("Case"));
+        assertThat(tokens, hasItem("use"));
+        assertThat(tokens, hasItem("case"));
         assertThat(tokens, hasItem("do"));
-        assertThat(tokens, hasItem("Sth"));
+        assertThat(tokens, hasItem("sth"));
 
         tokenizer.close();
     }
@@ -136,10 +136,10 @@ public class CodeTokenizerTest extends AbstractTest {
         Set<String> tokens = readTokens(tokenizer);
 
         assertThat(tokens.size(), is(4));
-        assertThat(tokens, hasItem("Use"));
-        assertThat(tokens, hasItem("Case"));
-        assertThat(tokens, hasItem("featureTerm"));
-        assertThat(tokens, hasItem("Variable"));
+        assertThat(tokens, hasItem("use"));
+        assertThat(tokens, hasItem("case"));
+        assertThat(tokens, hasItem("featureterm"));
+        assertThat(tokens, hasItem("variable"));
 
         tokenizer.close();
     }
@@ -175,10 +175,10 @@ public class CodeTokenizerTest extends AbstractTest {
         Set<String> tokens = readTokens(tokenizer);
 
         assertThat(tokens.size(), is(4));
-        assertThat(tokens, hasItem("UseCase"));
+        assertThat(tokens, hasItem("usecase"));
         assertThat(tokens, hasItem("feature"));
-        assertThat(tokens, hasItem("Term"));
-        assertThat(tokens, hasItem("Variable"));
+        assertThat(tokens, hasItem("term"));
+        assertThat(tokens, hasItem("variable"));
 
         tokenizer.close();
     }
@@ -214,10 +214,10 @@ public class CodeTokenizerTest extends AbstractTest {
         Set<String> tokens = readTokens(tokenizer);
 
         assertThat(tokens.size(), is(4));
-        assertThat(tokens, hasItem("UseCase"));
+        assertThat(tokens, hasItem("usecase"));
         assertThat(tokens, hasItem("feature"));
         assertThat(tokens, hasItem("term"));
-        assertThat(tokens, hasItem("Variable"));
+        assertThat(tokens, hasItem("variable"));
 
         tokenizer.close();
     }
@@ -238,10 +238,10 @@ public class CodeTokenizerTest extends AbstractTest {
         Set<String> tokens = readTokens(tokenizer);
 
         assertThat(tokens.size(), is(4));
-        assertThat(tokens, hasItem("UseCase"));
-        assertThat(tokens, hasItem("Graph"));
-        assertThat(tokens, hasItem("Model"));
-        assertThat(tokens, hasItem("Diagram"));
+        assertThat(tokens, hasItem("usecase"));
+        assertThat(tokens, hasItem("graph"));
+        assertThat(tokens, hasItem("model"));
+        assertThat(tokens, hasItem("diagram"));
 
         tokenizer.close();
     }
@@ -262,10 +262,10 @@ public class CodeTokenizerTest extends AbstractTest {
         Set<String> tokens = readTokens(tokenizer);
 
         assertThat(tokens.size(), is(4));
-        assertThat(tokens, hasItem("UseCase"));
-        assertThat(tokens, hasItem("Graph"));
-        assertThat(tokens, hasItem("Model"));
-        assertThat(tokens, hasItem("Diagram"));
+        assertThat(tokens, hasItem("usecase"));
+        assertThat(tokens, hasItem("graph"));
+        assertThat(tokens, hasItem("model"));
+        assertThat(tokens, hasItem("diagram"));
 
         tokenizer.close();
     }
