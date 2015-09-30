@@ -1,7 +1,7 @@
 package org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -14,7 +14,7 @@ import com.google.common.base.Strings;
 /**
  * With the dialog new licenses can be added.
  */
-public class AddLicenseDialog extends Dialog {
+public class AddLicenseDialog extends TitleAreaDialog {
 	private final String licenseConstantText;
 	private Text constantTextField = null;
 	private Text licenseTextField = null;
@@ -37,6 +37,7 @@ public class AddLicenseDialog extends Dialog {
 		
 	    initLabels(container);
 	    initTextFields(container);
+	    this.setTitle("Add license");
 	    
 	    return container;
 	 }

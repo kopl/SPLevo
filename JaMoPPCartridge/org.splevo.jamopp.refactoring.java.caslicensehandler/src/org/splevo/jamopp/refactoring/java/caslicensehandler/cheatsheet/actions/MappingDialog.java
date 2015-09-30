@@ -2,8 +2,8 @@ package org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions;
 
 import java.util.Iterator;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -19,14 +19,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.vpm.variability.Variant;
-import org.splevo.vpm.variability.VariationPoint;
 
 import com.google.common.base.Strings;
 
 /**
  * The user can assign a variant to a given license with the mapping dialog.
  */
-public class MappingDialog extends Dialog {
+public class MappingDialog extends TitleAreaDialog {
 	
   private Iterator<Variant> variants = null;
   private Variant currentVariant = null;
@@ -54,6 +53,7 @@ public class MappingDialog extends Dialog {
     initComboBox(container);
     initLabel(container);
     initTextField(container);
+    this.setTitle("MappingDialog");
     
     return container;
   }
@@ -138,13 +138,7 @@ public class MappingDialog extends Dialog {
 		  close();
 	  }
   }
-
-  @Override
-  protected void configureShell(Shell newShell) {
-    super.configureShell(newShell);
-    newShell.setText("Mapping dialog");
-  }
-
+ 
   @Override
   protected Point getInitialSize() {
     return new Point(450, 300);
