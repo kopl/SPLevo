@@ -176,13 +176,22 @@ public class CASLicenseHandlerConfiguration {
 		return this.licenseConstantsType;
 	}
 	
+	/**
+	 * Sets the type of the LicenseConstant-class.
+	 * @param newLicenseConstantClass
+	 * 			represents the new type of LicenseCOnstant-class
+	 */
 	public void setLicenseConstantType(IType newLicenseConstantClass) {
 		this.licenseConstantsType = newLicenseConstantClass;
 	}
 	
+	/**
+	 * Gets all License stored in the LicenseConstant-class.
+	 * @return all licenses.
+	 */
 	public String[] getAllLicenses() {
 		
-		if(null == this.licenseConstantsType) {
+		if (null == this.licenseConstantsType) {
 			return null;
 		}
 		
@@ -205,10 +214,17 @@ public class CASLicenseHandlerConfiguration {
         }), String.class);
     }
 	
+    /**
+	 * Gets the variation-point-model.
+	 * @return the variation-point-model of the current variation point.
+	 */
 	public VariationPointModel getVariationPointModel() {
-	    return (VariationPointModel)this.getVariationPoint().eContainer().eContainer();
+	    return (VariationPointModel) this.getVariationPoint().eContainer().eContainer();
 	}
 	
+	/**
+	 * Indicates that a refactoring is started.
+	 */
 	public static void refactoringStarted() {
        synchronized(refactoringFinishedMonitor) {
            refactoringFinished = false;
@@ -216,6 +232,9 @@ public class CASLicenseHandlerConfiguration {
         }
 	}
 	
+	/**
+	 * Indicates that a refactoring is finished.
+	 */
 	public static void refactoringFinished() {
        synchronized(refactoringFinishedMonitor) {
            refactoringFinished = true;
@@ -223,6 +242,11 @@ public class CASLicenseHandlerConfiguration {
         }   
 	}
 	
+	/**
+	 * Stops the thread until the refactoring-thread is finished.
+	 * @throws InterruptedException
+	 * 			thrown if the thread is interrupted.
+	 */
 	public static void waitForRefactoringToBeFinished() throws InterruptedException {
 	    synchronized(refactoringFinishedMonitor) {
 	        while (!refactoringFinished) {
@@ -231,6 +255,10 @@ public class CASLicenseHandlerConfiguration {
 	    }
 	}
 	
+	/**
+	 * Checks if a refactoring is finished.
+	 * @return true if the refactoring is finished, otherwise false.
+	 */
 	public static boolean isRefactoringFinished() {
        synchronized(refactoringFinishedMonitor) {
            return refactoringFinished;

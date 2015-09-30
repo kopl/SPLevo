@@ -32,7 +32,7 @@ public class SemiAutomatedIfElseRefactoringUtil implements IfElseRefactoringUtil
      * @param variantId
      *            The variant id as {@link String}.
      * @param groupName
-     *            The group name as {@link String}.
+     *            is not used in this context.
      * @return The generated {@link Condition}.
      */
 	@Override

@@ -11,6 +11,13 @@ import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 public class VariantToLicenseMappingAction extends Action implements
 		ICheatSheetAction {
 	
+	/**
+	 * Main-method to start the dialog.
+	 * @param params
+	 * 			is not used in this context.
+	 * @param manager
+	 * 			is not used in this context.
+	 */
 	@Override
 	public void run(String[] params, ICheatSheetManager manager) {
 		MappingDialog dialog = new MappingDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());

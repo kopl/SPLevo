@@ -54,7 +54,8 @@ public abstract class OpenTypeDialogAction extends Action implements ICheatSheet
 
     /**
      * Opens the FilteredItemSelectionDialog.
-     * 
+     * @param dialogTitle
+     * 			represent the title of the dialog.
      * @return returns the dialog.
      */
     protected FilteredItemsSelectionDialog initTypeDialog(String dialogTitle) {

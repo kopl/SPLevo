@@ -20,6 +20,13 @@ public class StartCASLicenseHandlerRefactoringAction extends Action implements I
 
     private static final Logger LOGGER = Logger.getLogger(StartCASLicenseHandlerRefactoringAction.class);
     
+    /**
+	 * Main-method to start the refactoring.
+	 * @param params
+	 * 			is not used in this context.
+	 * @param manager
+	 * 			is not used in this context.
+	 */
 	@Override
 	public void run(String[] params, ICheatSheetManager manager) {
 		CASLicenseHandlerConfiguration config = CASLicenseHandlerConfiguration.getInstance();		
