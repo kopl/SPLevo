@@ -27,7 +27,7 @@ public class StartCASLicenseHandlerRefactoringAction extends Action implements I
 		VariationPointModel vpm = config.getVariationPointModel();
 		Map<String, Object> refactoringConfigurations = config.getRefactoringConfigurations();
 		
-		String validatorName = config.getLicenseValidatorName();
+		String validatorName = config.getLicenseValidatorType().getElementName(); // TODO replace name with ConcreteClassifier
 	
 		VariabilityRefactoring refactoring = new SemiAutomatedIfStaticConfigClassOPTXOR(validatorName, 
 																						config.getVariantToLicenseMap());

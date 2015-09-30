@@ -73,7 +73,7 @@ public class AddLicenseDialog extends Dialog {
 			return;
 		}
 		
-		JaMoPPRoutines.addConstantLicenseFieldTo(config.getLicenseConstant(), license);
+		JaMoPPRoutines.addConstantLicenseFieldTo(config.getLicenseConstantType(), license);
 		close();
 	}
 

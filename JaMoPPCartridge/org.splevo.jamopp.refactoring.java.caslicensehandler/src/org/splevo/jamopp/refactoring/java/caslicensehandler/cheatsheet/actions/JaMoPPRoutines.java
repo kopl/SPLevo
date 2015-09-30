@@ -1,13 +1,13 @@
 package org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.jdt.core.IType;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
@@ -20,7 +20,10 @@ import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoringService;
+
+import com.google.common.base.Optional;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
  * Implements some routines on the JaMoPP-model.
@@ -29,44 +32,51 @@ public class JaMoPPRoutines {
 	private static Logger logger = Logger.getLogger(JaMoPPRoutines.class);
 	
 	/**
-	 * Returns the resource object to a given file.
-	 * @param file
-	 * 			represents the file.
+	 * Returns the concrete classifier (JaMoPP) for the given type (JavaCore).
+	 * @param type
+	 * 			represents the type.
 	 * @return
-	 * 			returns the resource to the corresponding file.
+	 * 			the matched classifier.
 	 */
-	public static Resource getResourceOf(File file) {
+	public static Optional<ConcreteClassifier> getConcreteClassifierOf(IType type) {
 		ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) CASLicenseHandlerConfiguration.getInstance().getVariationPoint()
-									.getLocation()).getJamoppElement().eResource().getResourceSet();		
+									.getLocation()).getJamoppElement().eResource().getResourceSet();
+		
+		final String typeName = type.getElementName();
+		URI resourceURI = URI.createPlatformResourceURI(type.getResource().getFullPath().toString(), true);
+		Resource r = resourceSet.getResource(resourceURI, true);
+		for (CompilationUnit cu : Iterables.filter(r.getContents(), CompilationUnit.class)) {
+		    LinkedList<ConcreteClassifier> queue = Lists.newLinkedList(cu.getClassifiers());
+		    while (!queue.isEmpty()) {
+		        ConcreteClassifier classifier = queue.pop();
+		        if (typeName.equals(classifier.getName())) {
+		            return Optional.of(classifier);
+		        }
+		    }
+		}
 	
-		return resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
+		return Optional.absent();
 	}
 	
 	/**
 	 * Adds a public static field to a give class.
-	 * @param file
-	 * 			represents a file.
+	 * @param type
+	 * 			represents the type.
 	 * @param licenseName
 	 * 			represents the license name.
 	 */
-	public static void addConstantLicenseFieldTo(File file, String licenseName) {
+	public static void addConstantLicenseFieldTo(IType type, String licenseName) {
 		if (isAlreadyStored(licenseName.toUpperCase())) {
 			return;
 		}
 		
-		Resource resource = JaMoPPRoutines.getResourceOf(file);
-		CompilationUnit compilationUnit = (CompilationUnit) resource.getContents().get(0);
-		
-		Field field = createField(licenseName);
-		
-		ConcreteClassifier constantLicenseClass = compilationUnit.getContainedClassifier(FilenameUtils.removeExtension(file.getName()));
-
-		if (constantLicenseClass != null)  {
-			constantLicenseClass.getMembers().add(field);
-			
-			saveJaMoPPModel(resource);
+		Optional<ConcreteClassifier> classifier = JaMoPPRoutines.getConcreteClassifierOf(type);
+		if (classifier.isPresent()) {
+		    Field field = createField(licenseName);
+		    classifier.get().getMembers().add(field);
+		    saveJaMoPPModel(classifier.get().eResource());
 		} else {
-			logger.error("Could not add member field: " + licenseName);
+		    logger.error("Could not add member field: " + licenseName);		    
 		}
 	}
 	

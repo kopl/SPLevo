@@ -1,19 +1,19 @@
 package org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jdt.core.IType;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.Field;
 import org.splevo.project.SPLevoProject;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
 /**
@@ -21,8 +21,8 @@ import com.google.common.collect.Maps;
  */
 public class CASLicenseHandlerConfiguration {
 
-	private File licenseConstants = null;
-	private String licenseValidatorName = "";
+	private IType licenseConstantsType;
+	private IType licenseValidatorType;
 	private Map<String, String> variantToLicenseMap = new  HashMap<String, String>();
 	private VariationPoint variationPoint = null;
 	private Map<String, Object> refactoringConfigurations = Maps.newHashMap();
@@ -144,44 +144,46 @@ public class CASLicenseHandlerConfiguration {
 		return false;
 	}
 
-	public void setLicenseValidatorName(String newLicenseValidatorName) {
-		this.licenseValidatorName = newLicenseValidatorName;
+	public void setLicenseValidatorType(IType type) {
+		this.licenseValidatorType = type;
 	}
 	
-	public String getLicenseValidatorName() {
-		return this.licenseValidatorName;
+	public IType getLicenseValidatorType() {
+		return this.licenseValidatorType;
 	}
 	
-	public File getLicenseConstant() {
-		return this.licenseConstants;
+	public IType getLicenseConstantType() {
+		return this.licenseConstantsType;
 	}
 	
-	public void setLicenseConstant(File newLicenseConstantClass) {
-		this.licenseConstants = newLicenseConstantClass;
+	public void setLicenseConstantType(IType newLicenseConstantClass) {
+		this.licenseConstantsType = newLicenseConstantClass;
 	}
 	
 	public String[] getAllLicenses() {
 		
-		if(null == this.licenseConstants) {
+		if(null == this.licenseConstantsType) {
 			return null;
 		}
 		
-        Resource resource = JaMoPPRoutines.getResourceOf(this.licenseConstants);
+        Optional<ConcreteClassifier> classifier = JaMoPPRoutines.getConcreteClassifierOf(this.licenseConstantsType);
+        if (classifier.isPresent()) {
+            return this.getAllLicensesBy(classifier.get());            
+        } else {
+            // TODO logging
+            return null;
+        }
         		
-		return this.getAllLicensesBy((CompilationUnit) resource.getContents().get(0));
 	}
 
-	private String[] getAllLicensesBy(CompilationUnit compilationUnit) {
-		ArrayList<String> licenses = new ArrayList<String>();
-		
-		for (ConcreteClassifier concreteClassifier : compilationUnit.getClassifiers()) {
-			for (Field field : concreteClassifier.getFields()) {
-					licenses.add(field.getName());
-			}
-		}
-		
-		return licenses.toArray(new String[licenses.size()]);
-	}
+    private String[] getAllLicensesBy(ConcreteClassifier classifier) {
+        return Iterables.toArray(Iterables.transform(classifier.getFields(), new Function<Field, String>() {
+            @Override
+            public String apply(Field input) {
+                return input.getName();
+            }
+        }), String.class);
+    }
 	
 	public VariationPointModel getVariationPointModel() {
 	    return (VariationPointModel)this.getVariationPoint().eContainer().eContainer();
