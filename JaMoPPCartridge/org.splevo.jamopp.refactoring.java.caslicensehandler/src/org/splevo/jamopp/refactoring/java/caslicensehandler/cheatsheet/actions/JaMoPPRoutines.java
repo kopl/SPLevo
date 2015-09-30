@@ -20,7 +20,6 @@ import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoringService;
 
 /**
  * Implements some routines on the JaMoPP-model.

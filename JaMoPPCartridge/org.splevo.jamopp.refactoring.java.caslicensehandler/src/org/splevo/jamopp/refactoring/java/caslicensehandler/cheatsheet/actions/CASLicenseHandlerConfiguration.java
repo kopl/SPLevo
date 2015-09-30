@@ -30,7 +30,7 @@ public class CASLicenseHandlerConfiguration {
 	private static boolean refactoringFinished = true;
 	private SPLevoProject leadingProjects = null;
 	
-	private static CASLicenseHandlerConfiguration INSTANCE = null;
+	private static CASLicenseHandlerConfiguration eINSTANCE = null;
 	
 	private CASLicenseHandlerConfiguration() {
 		
@@ -42,9 +42,9 @@ public class CASLicenseHandlerConfiguration {
 	 */
 	public static CASLicenseHandlerConfiguration getInstance() {
 		if (isRefactoringFinished()) {
-			INSTANCE = new CASLicenseHandlerConfiguration();
+			eINSTANCE = new CASLicenseHandlerConfiguration();
 		}
-		return INSTANCE;
+		return eINSTANCE;
 	}
 	
 	/**
@@ -66,10 +66,8 @@ public class CASLicenseHandlerConfiguration {
 	
 	/**
 	 * Maps the src-directory to the leading path.
-	 * @param srcDirectory
-	 * 				represents the source directory
-	 * @param leadingSrcPath
-	 * 				represents the leading source path
+	 * @param configuration
+	 * 				sets the current refactoring configurations.
 	 */
 	public void setRefactoringConfigurations(Map<String, Object> configuration) {
 		this.refactoringConfigurations = configuration;
@@ -85,16 +83,16 @@ public class CASLicenseHandlerConfiguration {
 	}
 	
 	/**
-	 * Set the variant id.
-	 * @param newVariationPointID
-	 * 				represents the variant id.
+	 * Sets the variation point.
+	 * @param vp
+	 * 				represents the variation point.
 	 */
 	public void setVariationPoint(VariationPoint vp) {
 		this.variationPoint = vp;
 	}
 	
 	/**
-	 * Returns the corresponding variation point to the id.
+	 * Returns the variation point.
 	 * @return 
 	 * 			returns a variation point.
 	 */
@@ -107,7 +105,7 @@ public class CASLicenseHandlerConfiguration {
 	 * @param variantID
 	 * 			the id which identify the variant.
 	 * @return
-	 * 			returns the variant by the id.
+	 * 			returns the corresponding variant by the id.
 	 */
 	public Variant getVariantBy(String variantID) {
 		for (Variant variant : this.getVariationPoint().getVariants()) {
@@ -126,6 +124,15 @@ public class CASLicenseHandlerConfiguration {
 		return this.variantToLicenseMap;
 	}
 	
+	/**
+	 * Add a given variant-license-pair.
+	 * @param variantID
+	 * 			represents the key of the map.
+	 * @param license
+	 * 			represents the given value of the map.
+	 * @return a boolean value which identifies if a given variant-license-pair
+	 * 		   is already contained in the map.	
+	 */
 	public boolean addVariantLicensePair(String variantID, String license) {
 		if (this.isLicenseAlreadyAssigned(license.toUpperCase())) {
 			return false;
@@ -144,14 +151,27 @@ public class CASLicenseHandlerConfiguration {
 		return false;
 	}
 
+	/**
+	 * Sets the LicenseValidator-class.
+	 * @param newLicenseValidatorName
+	 * 			represents the name of the class.
+	 */
 	public void setLicenseValidatorName(String newLicenseValidatorName) {
 		this.licenseValidatorName = newLicenseValidatorName;
 	}
 	
+	/**
+	 * Gets the name of the LicenseValidator-class.
+	 * @return the name of the class.
+	 */
 	public String getLicenseValidatorName() {
 		return this.licenseValidatorName;
 	}
 	
+	/**
+	 * Returns a file-object of the LicenseConstants-class.
+	 * @return the file-object of the LicenseConstants-class.
+	 */
 	public File getLicenseConstant() {
 		return this.licenseConstants;
 	}
