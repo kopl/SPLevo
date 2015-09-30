@@ -44,7 +44,8 @@ public abstract class JaMoPPSemiAutomatedVariabilityRefactoring extends SemiAuto
     public List<Resource> startLanguageSpecificManualRefactoring(VariationPoint variationPoint,
             Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException {
         List<Resource> changedResources = startManualRefactoringInternal(variationPoint, refactoringConfigurations);
-        RefactoringUtil.deleteCommentFrom(variationPoint);
+        RefactoringUtil.deleteRefactoringCommentFor(variationPoint);
+        changedResources.add(variationPoint.getLocation().getWrappedElement().eResource());
         return changedResources;
     }
     

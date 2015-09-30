@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.BundleException;
 import org.splevo.commons.eclipse.ExtensionHelper;
 import org.splevo.commons.registry.RegistryBase;
+import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -74,6 +75,19 @@ public class ResourceProcessorService {
         final List<ResourceProcessor> processors = RESOURCE_PROCESSOR_REGISTRY.getElements();
         for (ResourceProcessor processor : processors) {
             processor.processVPMBeforeRefactoring(variationPointModel);
+        }
+    }
+    
+    /**
+     * Preprocesses the source code and VPM with respect to the given variation point.
+     * 
+     * @param variationPoint
+     *            The variation point to be processed.
+     */
+    public void processVPBeforeFullyAutomatedRefactoring(VariationPoint variationPoint) {
+        final List<ResourceProcessor> processors = RESOURCE_PROCESSOR_REGISTRY.getElements();
+        for (ResourceProcessor processor : processors) {
+            processor.processVPBeforeFullyAutomatedRefactoring(variationPoint);
         }
     }
 

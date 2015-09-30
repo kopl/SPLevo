@@ -47,6 +47,7 @@ public abstract class FullyAutomatedVariabilityRefactoring implements Variabilit
    
     @Override
     public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
+        new ResourceProcessorService().processVPBeforeFullyAutomatedRefactoring(variationPoint);
         List<Resource> changedResources = refactorFullyAutomated(variationPoint, refactoringConfigurations);
         fixVPMAfterRefactoring(variationPoint);
         variationPoint.setRefactored(true);

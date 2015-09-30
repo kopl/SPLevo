@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.util;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,11 +22,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.arrays.ArrayDimension;
@@ -37,7 +34,6 @@ import org.emftext.language.java.arrays.ArrayInstantiationByValues;
 import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.Class;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
@@ -82,7 +78,6 @@ import org.splevo.jamopp.refactoring.JaMoPPTodoTagCustomizer;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
-import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.jamopp.vpm.software.impl.CommentableSoftwareElementImpl;
 import org.splevo.vpm.software.SoftwareElement;
@@ -98,6 +93,7 @@ import com.google.common.collect.Maps;
  */
 public final class RefactoringUtil {
 
+    private static final String NEWLINE = System.getProperty("line.separator");
     private static SimilarityChecker similarityChecker;
 
     static {
@@ -388,15 +384,16 @@ public final class RefactoringUtil {
             return;
         }
 
-        String finalComment = layoutInformation.getHiddenTokenText();
-        if (finalComment.length() == 0) {
-            finalComment = "/* " + comment + " */\n";
+        final String oldComment = layoutInformation.getHiddenTokenText();
+        String newComment = String.format("/* %s */", comment);
+        if (oldComment.length() != 0) {
+            newComment = buildIntegratedCommentString(oldComment, newComment);
         } else {
-            finalComment = "\n/* " + comment + " */\n" + finalComment;
+            newComment = NEWLINE + newComment;
         }
-        layoutInformation.setHiddenTokenText(finalComment);
+        layoutInformation.setHiddenTokenText(newComment);
     }
-
+    
     /**
      * Removes the final modifier of an element (if existing) and adds a comment with a fix-me tag
      * to the element: "\/* Removed final modifier to introduce variability. *\/"
@@ -739,7 +736,21 @@ public final class RefactoringUtil {
             }
         }
     }
-       
+    
+    /**
+     * Removes the comment for a CommentableSoftwareElement from source code.
+     * 
+     * @param commentableElement
+     *            The element for which the comment shall be removed.
+     * @return True if the comment has been removed successfully.
+     */
+    public static boolean removeCommentableSoftwareElementReference(CommentableSoftwareElement commentableElement) {
+        final String commentText = CommentableSoftwareElementImpl.buildReferencingCommentText(commentableElement
+                .getId());
+        final Commentable commentable = commentableElement.getJamoppElement();
+        return removeTransitiveCommentString(commentable, commentText);
+    }
+           
     /**
      * Adds a comment to the given element (or one of its sub elements) that can be used by a
      * CommentableSoftwareElement to refer to the given element.
@@ -770,52 +781,86 @@ public final class RefactoringUtil {
     }
     
     /**
-	 * Removes the SPLEVO_REFACTORING comment.
+	 * Removes the refactoring comment for the given variation point from the source code.
 	 * @param variationPoint
-	 * 			represents the variationpoint.
+	 * 			The variation point for which the comment shall be removed.
+	 * @return True if the comment has been removed successfully.
 	 */
-	public static void deleteCommentFrom(VariationPoint variationPoint) {
-		Commentable vpCommentable = (Commentable) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
-		CompilationUnit compilationUnit = vpCommentable.getContainingCompilationUnit();
-	
-		removeSPLevoRefactoringCommentIfExist(compilationUnit.getLayoutInformations(), variationPoint);
+	public static boolean deleteRefactoringCommentFor(VariationPoint variationPoint) {
+		Commentable commentable = (Commentable) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+		final String commentText = JaMoPPTodoTagCustomizer.getTodoTaskTag() + " " + variationPoint.getId();
 		
-		TreeIterator<EObject> iterator = compilationUnit.eAllContents();
-		while (iterator.hasNext()) {
-			EObject nextItem = iterator.next();
-            if (!(nextItem instanceof Commentable)) {
-            	iterator.prune();
-                continue;
+        return removeTransitiveCommentString(commentable, commentText);
+	}
+	
+    private static boolean removeTransitiveCommentString(Commentable commentable, String commentToRemove) {
+        TreeIterator<EObject> iterator = commentable.eAllContents();
+        for (EObject nextItem = commentable; iterator.hasNext(); nextItem = iterator.next()) {
+            if (nextItem instanceof Commentable) {
+                if (removeDirectCommentString((Commentable) nextItem, commentToRemove)) {
+                    return true;
+                }
+            } else {
+                iterator.prune();
             }
-					
-            removeSPLevoRefactoringCommentIfExist(((Commentable) nextItem).getLayoutInformations(), variationPoint);
-		}
-		
-		save(vpCommentable.eResource());
-	}
-	
-	private static void removeSPLevoRefactoringCommentIfExist(EList<LayoutInformation> comments, VariationPoint variationPoint) {
-		for (LayoutInformation comment : comments) {
-        	if (comment.getHiddenTokenText().contains(variationPoint.getId())) {
-        		//comments.remove(comment);
-        		String currentCommentText = comment.getHiddenTokenText();
-        		comment.setHiddenTokenText(editComment(currentCommentText, variationPoint.getId()));
-        		break;
-        	}
         }
-	}
-	
-	private static String editComment(String currentCommentText, String subElement) {
-		String textToReplace = JaMoPPTodoTagCustomizer.getTodoTaskTag() + " " + subElement;		
-		return currentCommentText.replace(textToReplace, "");
-	}
-
-	private static void save(Resource eResource) {
-        try {
-            eResource.save(null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		
+        return false;
     }
+    
+    private static boolean removeDirectCommentString(Commentable commentable, String commentToRemove) {
+        for (LayoutInformation comment : commentable.getLayoutInformations()) {
+            if (comment.getHiddenTokenText().contains(commentToRemove)) {
+                String currentCommentText = comment.getHiddenTokenText();
+                comment.setHiddenTokenText(cleanCommentStringFromComment(currentCommentText, commentToRemove));
+                return true;
+            }
+        }
+        return false;
+    }
+	
+    private static String cleanCommentStringFromComment(String currentCommentText, String subComment) {
+        String stringToRemove = subComment;
+        if (!Pattern.compile("/\\*\\s*" + subComment + "\\s*\\*/").matcher(subComment).matches()) {
+            stringToRemove = String.format("/* %s */", subComment);
+        }
+
+        int subCommentIndex = currentCommentText.indexOf(stringToRemove);
+        int lineBreakBeforeSubCommentIndex = currentCommentText.substring(0, subCommentIndex).lastIndexOf('\n');
+        if (lineBreakBeforeSubCommentIndex - 1 >= 0
+                && currentCommentText.charAt(lineBreakBeforeSubCommentIndex - 1) == '\r') {
+            lineBreakBeforeSubCommentIndex--;
+        }
+        int firstAfterSubCommentIndex = subCommentIndex + stringToRemove.length() + 1;
+
+        return currentCommentText.substring(0, lineBreakBeforeSubCommentIndex)
+                + currentCommentText.substring(firstAfterSubCommentIndex);
+    }
+
+    private static String buildIntegratedCommentString(String oldComment, String partToInsert) {
+        int oldContentStartIndex = firstIndexOfNotWhitespace(oldComment);
+        if (oldContentStartIndex == -1) {
+            oldContentStartIndex = oldComment.length();
+        }
+        String whitespaceString = oldComment.substring(0, oldContentStartIndex);
+        int lastLineBreakIndex = whitespaceString.lastIndexOf('\n');
+        if (lastLineBreakIndex == -1) {
+            lastLineBreakIndex = 0;
+        } else {
+            lastLineBreakIndex++;
+        }
+        String paddingString = whitespaceString.substring(lastLineBreakIndex);
+
+        return oldComment.substring(0, oldContentStartIndex) + partToInsert + NEWLINE + paddingString
+                + oldComment.substring(oldContentStartIndex);
+    }
+    
+    private static int firstIndexOfNotWhitespace(String str) {
+        for (int i = 0; i < str.length(); ++i) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }

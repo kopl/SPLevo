@@ -12,6 +12,7 @@
 package org.splevo.refactoring;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
 /**
@@ -52,5 +53,13 @@ public interface ResourceProcessor {
      *            The VPM to be processed.
      */
     void processVPMAfterRefactorings(VariationPointModel variationPointModel);
+
+    /**
+     * Processes the given VP before a fully automated refactoring is carried out.
+     * 
+     * @param variationPoint
+     *            The VP to be processed.
+     */
+    void processVPBeforeFullyAutomatedRefactoring(VariationPoint variationPoint);
 
 }
