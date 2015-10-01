@@ -9,8 +9,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;bundle-version="2.8.1",
  org.featuremapper.models.feature;bundle-version="0.8.6";visibility:=reexport,
  org.featuremapper.models.featuremapping;bundle-version="0.8.6";visibility:=reexport,
- org.emftext.language.java,
- org.splevo.jamopp.vpm,
  org.splevo.fm.builder,
  org.featuremapper.interpreter.emf,
  org.eclipse.core.resources

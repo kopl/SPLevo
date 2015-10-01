@@ -34,7 +34,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.emftext.language.java.commons.Commentable;
 import org.featuremapper.interpreter.emf.EMFInterpreter;
 import org.featuremapper.models.feature.Feature;
 import org.featuremapper.models.feature.FeatureFactory;
@@ -49,7 +48,6 @@ import org.featuremapper.models.featuremapping.FeatureRef;
 import org.featuremapper.models.featuremapping.SolutionModelRef;
 import org.splevo.fm.builder.FeatureModelBuilder;
 import org.splevo.fm.builder.FeatureModelWrapper;
-import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -129,12 +127,10 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 						featureRef.setFeature(vFeature);
 						mapping.setTerm(featureRef);
 
-						// FIXME do we need this JaMoPP dependency or can we use getWrappedElement instead?
-						Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) softwareElement).getJamoppElement();
-						mapping.setElement(jamoppElement);
+						EObject wrappedElement = softwareElement.getWrappedElement();
 
-						mapping.setElement(jamoppElement);
-						Resource containingResource = jamoppElement.eResource();
+						mapping.setElement(wrappedElement);
+						Resource containingResource = wrappedElement.eResource();
 						URI fixedUri = getFixedURI(containingResource.getURI());
 						containingResource.setURI(fixedUri);
 						solutionModelResources.add(containingResource);
