@@ -131,7 +131,6 @@ public class FeatureMapperBuilderTestSupport {
 		for (Feature f : childFeatures) {
 			String name = f.getName();
 			foundChilds.add(name);
-			System.out.println(name);
 		}
 		for (String expectedChild : childNamesFiltered) {
 			assertTrue("Expected child " + expectedChild,
