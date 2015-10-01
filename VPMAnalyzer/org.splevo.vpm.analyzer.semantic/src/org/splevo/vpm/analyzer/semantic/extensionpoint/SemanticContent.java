@@ -12,21 +12,25 @@
  *******************************************************************************/
 package org.splevo.vpm.analyzer.semantic.extensionpoint;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 /**
  * Container to store textual code and comments.
  */
 public class SemanticContent {
-	private List<String> code;
+	private Set<String> code;
 	private List<String> comments;
 
 	/**
 	 * The default constructor.
 	 */
 	public SemanticContent() {
-		this.code = new LinkedList<String>();
+		this.code = Sets.newHashSet();
 		this.comments = new LinkedList<String>();
 	}
 
@@ -35,7 +39,7 @@ public class SemanticContent {
 	 *
 	 * @return A {@link List} containing the words.
 	 */
-	public List<String> getCode() {
+	public Collection<String> getCode() {
 		return code;
 	}
 

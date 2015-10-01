@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.commons.Commentable;
@@ -173,7 +175,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
     }
 
     @Override
-    public boolean canBeAppliedTo(VariationPoint variationPoint) {
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
         Commentable vpLocation = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = vpLocation instanceof StatementListContainer;
@@ -181,14 +183,23 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends 
                 Statement.class);
         boolean correctInput = correctLocation && allImplementingElementsAreStatements;
 
+        String error = "If with Static Configuration Class Statement in Statmentlist (OPTXOR): ";
+        
         if (!correctInput) {
-            return false;
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Wrong Input", null);
         }
 
         boolean hasConflictingVariables = RefactoringUtil.hasConflictingLocalVariables(variationPoint);
         boolean hasConstructorCalls = RefactoringUtil.hasConstructorCalls(variationPoint);
-
-        return !hasConflictingVariables && !hasConstructorCalls;
+        
+        if (hasConflictingVariables) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Has Conflicting Variables", null);   
+        }
+        if (hasConstructorCalls) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Has Constructor Calls", null);
+        }
+        
+        return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
     }
 
     @Override

@@ -11,12 +11,13 @@
  *******************************************************************************/
 package org.splevo.jamopp.vpm.analyzer.semantic;
 
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
-import java.util.List;
+import java.io.IOException;
+import java.util.Collection;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -28,13 +29,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.StatementsFactory;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContent;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.UnsupportedSoftwareElementException;
+import org.splevo.vpm.software.SoftwareElement;
 
 import com.google.common.collect.Lists;
 
@@ -43,27 +47,34 @@ import com.google.common.collect.Lists;
  */
 public class JaMoPPSemanticContentProviderTest {
 
+    private JaMoPPSemanticContentProvider provider;
+
     /**
      * Prepare the test. Initializes a log4j logging environment.
      */
     @BeforeClass
-    public static void setUp() {
+    public static void init() {
         // set up a basic logging configuration for the test environment
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("%m%n")));
     }
 
     /**
+     * Initializes the test subject.
+     */
+    @Before
+    public void setUp() {
+        provider = new JaMoPPSemanticContentProvider();
+    }
+
+    /**
      * Test the returned semantic content for a block element.
-     *
+     * 
      * @throws UnsupportedSoftwareElementException
      *             A failed test.
      */
     @Test
     public void testGetRelevantContent() throws UnsupportedSoftwareElementException {
-
-        JaMoPPSemanticContentProvider provider = new JaMoPPSemanticContentProvider();
-
         JaMoPPSoftwareElement element = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
         Block myBlock = StatementsFactory.eINSTANCE.createBlock();
         myBlock.setName("Block");
@@ -71,23 +82,54 @@ public class JaMoPPSemanticContentProviderTest {
 
         SemanticContent relevantContent = provider.getRelevantContent(element, false);
 
-        List<String> code = relevantContent.getCode();
-        assertThat(code.size(), is(0));
+        Collection<String> code = relevantContent.getCode();
+        assertThat(code.size(), equalTo(0));
 
     }
 
     /**
      * Test the extraction of compilation units content.
-     *
+     * 
      * @throws Exception
      *             Failed test code loading.
      */
     @Test
     public void testProvideCompilationUnitContent() throws Exception {
+        SoftwareElement element = constructSoftwareElement("CompilationUnit");
+        String[] expected = { "MyClass", "MyClass.java", "doSth", "param1" };
 
-        String relativePath = "testcode/CompilationUnit/";
+        Collection<String> actual = provider.getRelevantContent(element, false).getCode();
 
-        JaMoPPSemanticContentProvider provider = new JaMoPPSemanticContentProvider();
+        assertThat(actual, hasItems(expected));
+        assertThat(actual.size(), equalTo(expected.length));
+    }
+
+    /**
+     * Test the extended extraction of compilation unit contents. The extraction is extended because
+     * not only names of elements but also references to elements are considered.
+     * 
+     * @throws SoftwareModelExtractionException
+     *             Failed execution of test subject.
+     * @throws IOException
+     *             Failed test code loading.
+     * @throws UnsupportedSoftwareElementException
+     *             Failed test code loading.
+     */
+    @Test
+    public void testProvideCompilationUnitContentExtended() throws UnsupportedSoftwareElementException,
+            SoftwareModelExtractionException, IOException {
+        SoftwareElement element = constructSoftwareElement("ExtendedDetection");
+        String[] expected = { "OtherClass.java", "OtherClass", "aMethod", "aNumber", "Arrays", "asList", "System",
+                "out", "println", "qq123" };
+
+        Collection<String> actual = provider.getRelevantContent(element, false).getCode();
+
+        assertThat(actual, hasItems(expected));
+        assertThat(actual.size(), equalTo(expected.length));
+    }
+
+    private SoftwareElement constructSoftwareElement(String name) throws IOException, SoftwareModelExtractionException {
+        String relativePath = "testcode/" + name + "/";
 
         String pathA = new File(relativePath).getCanonicalPath();
         JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
@@ -97,13 +139,7 @@ public class JaMoPPSemanticContentProviderTest {
 
         JaMoPPSoftwareElement element = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
         element.setJamoppElement((Commentable) eObject);
-
-        SemanticContent relevantContent = provider.getRelevantContent(element, false);
-        assertThat(relevantContent.getCode().size(), is(4));
-        assertThat(relevantContent.getCode(), hasItem("MyClass"));
-        assertThat(relevantContent.getCode(), hasItem("MyClass.java"));
-        assertThat(relevantContent.getCode(), hasItem("doSth"));
-        assertThat(relevantContent.getCode(), hasItem("param1"));
+        return element;
     }
 
 }

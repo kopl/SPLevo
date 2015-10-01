@@ -135,9 +135,10 @@ public abstract class PropertySource implements IPropertySource {
      * @param value the new value for the property; <code>null</code> is allowed
      * @param oldValue the old value for the property
      * @param vp the variation point, that is being set
+     * @return true if the new value could be set, false otherwise
      */
-    protected void setPropertyValue(final Object id, final Object value, final Object oldValue, VariationPoint vp) {
-        boolean changed = VPMAttributeSetter.applyIfPossible(new SetAndRevertAction<VariationPoint>() {
+    protected boolean setPropertyValue(final Object id, final Object value, final Object oldValue, VariationPoint vp) {
+        return setPropertyValue(new SetAndRevertAction<VariationPoint>() {
             
             @Override
             public void set(VariationPoint vp) {
@@ -148,16 +149,26 @@ public abstract class PropertySource implements IPropertySource {
             public void revert(VariationPoint vp) {
                 setPropertyInternal(vp, id, oldValue);
             }
-        }, vp);
+        }, vp);        
+    }
+    
+    /**
+     * See {@link org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(Object id, Object value)}
+     * @param action the action to be applied
+     * @param vp the variation point, that is being set
+     * @return true if the new value could be set, false otherwise
+     */
+    protected boolean setPropertyValue(SetAndRevertAction<VariationPoint> action, VariationPoint vp) {
+        boolean changed = VPMAttributeSetter.applyIfPossible(action, vp);
 
         if (changed) {
             saveVariationPoint(vp);            
         }
+        return changed;
     }
     
-    
     /**
-     * Saves the variation point.
+     * Saves the given variation point.
      * @param vp the variation point to save
      */
     protected void saveVariationPoint(VariationPoint vp) {

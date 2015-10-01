@@ -99,7 +99,7 @@ public class RobillardReferenceSelector implements ReferenceSelector {
             }
         }
         
-        references.remove(referencesToRemove);
+        references.removeAll(referencesToRemove);
 
         return references;
     }

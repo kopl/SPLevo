@@ -11,10 +11,12 @@
  *******************************************************************************/
 package org.splevo.ui.views.vpproperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringRegistry;
+import org.splevo.ui.commons.vpm.VPMAttributeSetter.SetAndRevertAction;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 
@@ -103,9 +105,37 @@ public class VariationPointGroupPropertySource extends PropertySource {
         if (Objects.equal(oldValue, value)) {
             return;
         }
-        for (int i = 0; i < vps.size(); i++) {
-            setPropertyValue(id, value, oldValue, vps.get(i));
-        }
-    }
         
+        List<SetAndRevertAction<VariationPoint>> transaction = new ArrayList<SetAndRevertAction<VariationPoint>>();
+        
+        for (VariationPoint vp : vps) {
+        	
+        	SetAndRevertAction<VariationPoint> action = new SetAndRevertAction<VariationPoint>() {
+                
+                @Override
+                public void set(VariationPoint vp) {
+                    setPropertyInternal(vp, id, value);
+                }
+                
+                @Override
+                public void revert(VariationPoint vp) {
+                    setPropertyInternal(vp, id, oldValue);
+                }
+            };
+        	transaction.add(action);
+        	
+            if (!setPropertyValue(action, vp)) {
+                characteristicRollback(transaction);
+                break;
+            }
+        }  
+    }
+    
+    private void characteristicRollback(List<SetAndRevertAction<VariationPoint>> transaction) {
+    	for (int i = 0; i < transaction.size(); i++) {
+    	    VariationPoint vp = vps.get(i);
+    		transaction.get(i).revert(vp);
+    		saveVariationPoint(vp);
+    	}
+    }        
 }

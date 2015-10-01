@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.splevo.refactoring.RecommenderResult.Status;
@@ -65,7 +66,7 @@ public class VariabilityRefactoringService {
                 VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getInstance().getElementById(
                         refactoringID);
 
-                if (!refactoring.canBeAppliedTo(variationPoint)) {
+                if (refactoring.canBeAppliedTo(variationPoint).getSeverity() != Diagnostic.OK) {
                     logger.debug("Recommended refactoring cannot be applied to this variation point.");
                     continue;
                 }
@@ -167,10 +168,9 @@ public class VariabilityRefactoringService {
      */
     private VariabilityRefactoring getBestMatchingRefactoring(VariationPoint vp,
             List<VariabilityRefactoring> refactorings) {
-        for (int i = 0; i < refactorings.size(); i++) {
-            VariabilityRefactoring refactoring = refactorings.get(i); 
-            
-            if (refactoring.canBeAppliedTo(vp)) {
+        
+        for (VariabilityRefactoring refactoring : refactorings) {            
+            if (refactoring.canBeAppliedTo(vp).getSeverity() == Diagnostic.OK) {
                 return refactoring;
             }            
         }        

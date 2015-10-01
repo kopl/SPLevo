@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.commons.Commentable;
@@ -121,19 +123,23 @@ public class IfStaticConfigClassEnumerationInMemberContainer extends JaMoPPFully
     }
 
     @Override
-    public boolean canBeAppliedTo(VariationPoint variationPoint) {
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
         Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreEnums = RefactoringUtil.allImplementingElementsOfType(variationPoint,
-                Enumeration.class);
+                Enumeration.class);        
         boolean correctInput = correctLocation && allImplementingElementsAreEnums;
 
+        String error = "If with Static Configuration Class Enumeration: ";
         if (!correctInput) {
-            return false;
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Wrong Input", null);
         }
 
-        return !RefactoringUtil.hasMembersWithConflictingNames(variationPoint);
+        if (RefactoringUtil.hasMembersWithConflictingNames(variationPoint)) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Has Members with Conflicting Names", null);
+        }
+        return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
     }
 
     @Override

@@ -17,6 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.classifiers.Class;
@@ -219,19 +221,22 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
     }
 
     @Override
-    public boolean canBeAppliedTo(VariationPoint variationPoint) {
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
         Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof MemberContainer;
         boolean allImplementingElementsAreFields = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Field.class);
         boolean correctInput = correctLocation && allImplementingElementsAreFields;
-
+        String error = "If with Static Configuration Class Field: ";
         if (!correctInput) {
-            return false;
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Wrong Input", null);
         }
 
-        return !RefactoringUtil.hasConflictingFields(variationPoint);
+        if (RefactoringUtil.hasConflictingFields(variationPoint)) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Has Conflicting Fields", null);
+        }
+        return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
     }
 
     @Override

@@ -15,6 +15,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -97,14 +99,21 @@ public class IfStaticConfigClassCompilationUnit extends JaMoPPFullyAutomatedVari
     }
 
     @Override
-    public boolean canBeAppliedTo(VariationPoint variationPoint) {
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
         Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof CompilationUnit;
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 CompilationUnit.class);
+        String error = "If with Static Configuration Class Compilition Unit: ";
+        if (!correctLocation) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Wrong Location", null);
+        }
+        if (!allImplementingElementsAreClasses) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Not all Implementing Elements are Classes", null);
+        }
 
-        return correctLocation && allImplementingElementsAreClasses;
+        return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
     }
 
     @Override
