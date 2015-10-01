@@ -20,8 +20,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -94,6 +96,7 @@ import com.google.common.collect.Maps;
 public final class RefactoringUtil {
 
     private static final String NEWLINE = System.getProperty("line.separator");
+    private static final Logger LOGGER = Logger.getLogger(RefactoringUtil.class);
     private static SimilarityChecker similarityChecker;
 
     static {
@@ -794,10 +797,14 @@ public final class RefactoringUtil {
 	}
 	
     private static boolean removeTransitiveCommentString(Commentable commentable, String commentToRemove) {
+        String stringToRemove = commentToRemove;
+        if (!Pattern.compile("/\\*\\s*" + commentToRemove + "\\s*\\*/").matcher(commentToRemove).matches()) {
+            stringToRemove = String.format("/* %s */", commentToRemove);
+        }
         TreeIterator<EObject> iterator = commentable.eAllContents();
         for (EObject nextItem = commentable; iterator.hasNext(); nextItem = iterator.next()) {
             if (nextItem instanceof Commentable) {
-                if (removeDirectCommentString((Commentable) nextItem, commentToRemove)) {
+                if (removeDirectCommentString((Commentable) nextItem, stringToRemove)) {
                     return true;
                 }
             } else {
@@ -818,25 +825,40 @@ public final class RefactoringUtil {
         return false;
     }
 	
-    private static String cleanCommentStringFromComment(String currentCommentText, String subComment) {
-        String stringToRemove = subComment;
-        if (!Pattern.compile("/\\*\\s*" + subComment + "\\s*\\*/").matcher(subComment).matches()) {
-            stringToRemove = String.format("/* %s */", subComment);
+    private static String cleanCommentStringFromComment(String currentCommentText, String stringToRemove) {
+        Pattern pattern = Pattern.compile("(\\r?\\n)?([^\\S\n]*?)" + Pattern.quote(stringToRemove) + "[^\\S\n]*?(\\r?\\n)?");
+        Matcher matcher = pattern.matcher(currentCommentText);
+        if (!matcher.find()) {
+            LOGGER.warn(String.format("Could not remove comment \"%s\" from \"%s\".", stringToRemove, currentCommentText));
+            return currentCommentText;
         }
-
-        int subCommentIndex = currentCommentText.indexOf(stringToRemove);
-        int lineBreakBeforeSubCommentIndex = currentCommentText.substring(0, subCommentIndex).lastIndexOf('\n');
-        if (lineBreakBeforeSubCommentIndex - 1 > 0
-                && currentCommentText.charAt(lineBreakBeforeSubCommentIndex - 1) == '\r') {
-            lineBreakBeforeSubCommentIndex--;
+        
+        if (matcher.group(1) != null && matcher.group(3) != null) {
+            return matcher.replaceAll(NEWLINE);
         }
-        int firstAfterSubCommentIndex = subCommentIndex + stringToRemove.length() + 1;
-
-        return currentCommentText.substring(0, lineBreakBeforeSubCommentIndex)
-                + currentCommentText.substring(firstAfterSubCommentIndex);
+        if (matcher.group(1) != null && matcher.group(3) == null) {
+            return matcher.replaceAll(matcher.group(1) + matcher.group(2));
+        }
+        return matcher.replaceAll("");
     }
 
+    /**
+     * Builds a new comment string from an old one and a part to be inserted. The new part will be
+     * added in front of the old comment. The algorithm determines the indenting of the old comment
+     * and uses it for the new comment as well.
+     * 
+     * @param oldComment The old comment.
+     * @param partToInsert The part to be inserted into the old comment.
+     * @return The new comment string.
+     */
     private static String buildIntegratedCommentString(String oldComment, String partToInsert) {
+        /**
+         * 1. Determine the start of the real content (no whitespace character).
+         * 2. Determine the whitespaces before the start of the real content in the same line.
+         * 3. Use the determined whitespaces as padding/indenting.
+         * 4. Add the new part at the starting position of the real content
+         *    and append a newline and the padding.
+         */
         int oldContentStartIndex = firstIndexOfNotWhitespace(oldComment);
         if (oldContentStartIndex == -1) {
             oldContentStartIndex = oldComment.length();
