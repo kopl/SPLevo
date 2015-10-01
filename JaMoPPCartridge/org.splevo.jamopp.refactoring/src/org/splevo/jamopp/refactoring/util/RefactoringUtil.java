@@ -25,7 +25,9 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.Switch;
 import org.emftext.commons.layout.LayoutInformation;
 import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.arrays.ArrayInitializationValue;
@@ -34,10 +36,12 @@ import org.emftext.language.java.arrays.ArrayInstantiationByValues;
 import org.emftext.language.java.arrays.ArrayInstantiationByValuesTyped;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.Class;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.containers.util.ContainersSwitch;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
@@ -57,6 +61,7 @@ import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.Method;
+import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Final;
 import org.emftext.language.java.modifiers.Modifier;
@@ -85,6 +90,8 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 import org.splevo.vpm.variability.VariationPointModel;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
 /**
@@ -146,13 +153,12 @@ public final class RefactoringUtil {
      * @return <code>true</code> if the vp has conflicting members; <code>false</code> otherwise.
      */
     public static boolean hasMembersWithConflictingNames(VariationPoint variationPoint) {
-        MemberContainer jamoppElement = (MemberContainer) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
-                .getJamoppElement();
-
         if (RefactoringUtil.hasLeadingVariant(variationPoint)) {
             return false;
         }
-
+        
+        Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
+                .getJamoppElement();
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Member member = (Member) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
@@ -684,24 +690,77 @@ public final class RefactoringUtil {
     }
 
     /**
-     * Checks whether a given container has a class, interface or enumeration with with a given
+     * Checks whether a given container has a class, interface or enumeration with a given
      * name.
      * 
      * @param container
-     *            The {@link MemberContainer}.
+     *            The container.
      * @param name
      *            The {@link String} name.
-     * @return <code>true</code> if such a entity was found; <code>false</code> otherwise.
+     * @return <code>true</code> if such an entity was found; <code>false</code> otherwise.
      */
-    public static boolean containsClassInterfaceOrEnumWithName(MemberContainer container, String name) {
-        for (Member member : container.getMembers()) {
-            if (member instanceof Class || member instanceof Interface || member instanceof Enumeration) {
-                if (member.getName().equals(name)) {
-                    return true;
-                }
-            }
+    public static boolean containsClassInterfaceOrEnumWithName(Commentable container, String name) {
+        Switch<Boolean> switcher = new ContainerHasConflictingNameSwitch(name);
+        return switcher.doSwitch(container);
+    }
+    
+    /**
+     * Switch for containers that determines if an Interface, Class, or Enumeration is contained
+     * that has the same name as specified. If the given container cannot contain these elements
+     * (e.g. because the element is a Statement), the result will be false.
+     */
+    private static class ContainerHasConflictingNameSwitch extends ComposedSwitch<Boolean> {
+
+        protected final String possibleConflictingName;
+
+        public ContainerHasConflictingNameSwitch(String possibleConflictingName) {
+            this.possibleConflictingName = possibleConflictingName;
+
+            this.addSwitch(new ContainerElementHasConflictingNameSwitch());
+            this.addSwitch(new MemberElementHasConflictingNameSwitch());
         }
-        return false;
+
+        @Override
+        public Boolean defaultCase(EObject eObject) {
+            return false;
+        }
+
+        private static boolean containsClassInterfaceOrEnumWithName(final Iterable<Member> members, final String name) {
+            Iterable<ConcreteClassifier> filteredMembers = Iterables.concat(Iterables.filter(members, Class.class),
+                    Iterables.filter(members, Interface.class), Iterables.filter(members, Enumeration.class));
+            return Iterables.any(filteredMembers, new Predicate<ConcreteClassifier>() {
+                @Override
+                public boolean apply(ConcreteClassifier input) {
+                    return input.getName().equals(name);
+                }
+            });
+        }
+
+        /**
+         * Tests a name collision with an element from the containers package.
+         */
+        private class ContainerElementHasConflictingNameSwitch extends ContainersSwitch<Boolean> {
+
+            @Override
+            public Boolean caseCompilationUnit(CompilationUnit object) {
+                return containsClassInterfaceOrEnumWithName(Iterables.filter(object.getClassifiers(), Member.class),
+                        possibleConflictingName);
+            }
+
+        }
+
+        /**
+         * Tests a name collision with an element from the members package.
+         */
+        private class MemberElementHasConflictingNameSwitch extends MembersSwitch<Boolean> {
+
+            @Override
+            public Boolean caseMemberContainer(MemberContainer object) {
+                return containsClassInterfaceOrEnumWithName(object.getMembers(), possibleConflictingName);
+            }
+
+        }
+
     }
 
     /**

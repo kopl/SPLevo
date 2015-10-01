@@ -24,6 +24,7 @@ import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassBlock;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassClassInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassCompilationUnit;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassEnumerationInCompilationUnit;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassEnumerationInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport;
@@ -59,6 +60,7 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
         availableRefactorings.add(new IfStaticConfigClassClassInMemberContainer());
         availableRefactorings.add(new IfStaticConfigClassInterfaceInMemberContainer());
         availableRefactorings.add(new IfStaticConfigClassEnumerationInMemberContainer());
+        availableRefactorings.add(new IfStaticConfigClassEnumerationInCompilationUnit());
         availableRefactorings.add(new IfStaticConfigClassField());
         availableRefactorings.add(new IfStaticConfigClassBlock());
         availableRefactorings.add(new IfStaticConfigClassMethod());
@@ -109,8 +111,7 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
             Diagnostic d = refactoring.canBeAppliedTo(variationPoint);
             if (d.getSeverity() == Diagnostic.OK) {
                 return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
-            }
-            else {
+            } else {
                 diagnostic.add(d);
             }
         } 
