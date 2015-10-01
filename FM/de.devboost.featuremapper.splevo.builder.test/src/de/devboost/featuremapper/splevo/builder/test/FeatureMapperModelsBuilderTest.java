@@ -41,18 +41,18 @@ public class FeatureMapperModelsBuilderTest {
 		org.featuremapper.models.feature.Feature feature_RootFeature = featureMapperBuilderTestSupport.withARootFeature("RootFeature", featureModel_);
 		// With 1 child features named PointP
 		featureMapperBuilderTestSupport.withChildFeaturesNamed(1, java.util.Arrays.asList(new java.lang.String[] {"PointP"}), feature_RootFeature);
-		// With feature PointP that contains 2 child features named A and B
-		featureMapperBuilderTestSupport.withFeatureThatContainsChildFeaturesNamedAnd("PointP", 2, java.util.Arrays.asList(new java.lang.String[] {"A", "and", "B"}), featureModel_);
+		// With feature PointP that contains 2 child features named PointP_A and PointP_B
+		featureMapperBuilderTestSupport.withFeatureThatContainsChildFeaturesNamedAnd("PointP", 2, java.util.Arrays.asList(new java.lang.String[] {"PointP_A", "and", "PointP_B"}), featureModel_);
 		// A Mapping Model
 		org.featuremapper.models.featuremapping.FeatureMappingModel featureMappingModel_ = featureMapperBuilderTestSupport.MappingModel(featureMapperModelSet_);
 		// With solution space model ClassA_Resource
 		featureMapperBuilderTestSupport.withSolutionSpaceModel("ClassA_Resource", featureMappingModel_);
 		// With solution space model ClassB_Resource
 		featureMapperBuilderTestSupport.withSolutionSpaceModel("ClassB_Resource", featureMappingModel_);
-		// With a mapping of feature A to ExampleClassA
-		featureMapperBuilderTestSupport.withAMappingOfFeatureTo("A", "ExampleClassA", featureMappingModel_);
-		// With a mapping of feature B to ExampleClassB
-		featureMapperBuilderTestSupport.withAMappingOfFeatureTo("B", "ExampleClassB", featureMappingModel_);
+		// With a mapping of feature PointP_A to ExampleClassA
+		featureMapperBuilderTestSupport.withAMappingOfFeatureTo("PointP_A", "ExampleClassA", featureMappingModel_);
+		// With a mapping of feature PointP_B to ExampleClassB
+		featureMapperBuilderTestSupport.withAMappingOfFeatureTo("PointP_B", "ExampleClassB", featureMappingModel_);
 		
 	}
 

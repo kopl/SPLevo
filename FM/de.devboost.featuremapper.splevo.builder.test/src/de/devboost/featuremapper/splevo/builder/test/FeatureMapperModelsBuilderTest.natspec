@@ -13,11 +13,11 @@ Then the FeatureMapper Models Builder generates
 	A Feature Model
 		With a root feature RootFeature
 			With 1 child features named PointP
-		With feature PointP that contains 2 child features named A and B 
+		With feature PointP that contains 2 child features named PointP_A and PointP_B 
 				
 	A Mapping Model
 		With solution space model ClassA_Resource
 		With solution space model ClassB_Resource
-		With a mapping of feature A to ExampleClassA
-		With a mapping of feature B to ExampleClassB
+		With a mapping of feature PointP_A to ExampleClassA
+		With a mapping of feature PointP_B to ExampleClassB
 	

@@ -169,7 +169,7 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 		return new FeatureModelWrapper<FeatureMapperModelSet>(featureMapperModelSet, true);
 	}
 
-	private URI getFixedURI(URI uri) {
+	protected URI getFixedURI(URI uri) {
 		URI fixedUri = uri;
 		if (uri.isFile()) {
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
