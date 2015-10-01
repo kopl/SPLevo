@@ -47,7 +47,7 @@ public class StartCASLicenseHandlerRefactoringAction extends Action implements I
             // TODO inform user about failed refactoring
         }
 		// TODO add finish action to the cheat sheet and move the following call into this action
-		CASLicenseHandlerConfiguration.refactoringFinished();
+		CASLicenseHandlerConfiguration.getInstance().refactoringFinished();
 	}
 
 }

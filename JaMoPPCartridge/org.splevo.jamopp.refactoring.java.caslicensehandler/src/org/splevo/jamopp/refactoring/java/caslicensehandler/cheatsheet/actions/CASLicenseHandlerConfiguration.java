@@ -19,15 +19,15 @@ import com.google.common.collect.Maps;
 /**
  * Configuration class for the cheat sheet. Stores values which are needed in another contexts.
  */
-public class CASLicenseHandlerConfiguration {
+public final class CASLicenseHandlerConfiguration {
 
 	private IType licenseConstantsType;
 	private IType licenseValidatorType;
 	private Map<String, String> variantToLicenseMap = new  HashMap<String, String>();
 	private VariationPoint variationPoint = null;
 	private Map<String, Object> refactoringConfigurations = Maps.newHashMap();
-	private static final Object refactoringFinishedMonitor = new Object();
-	private static boolean refactoringFinished = true;
+	private final Object refactoringFinishedMonitor = new Object();
+	private boolean refactoringFinished = true;
 	private SPLevoProject leadingProjects = null;
 	
 	private static CASLicenseHandlerConfiguration eINSTANCE = null;
@@ -41,7 +41,7 @@ public class CASLicenseHandlerConfiguration {
 	 * @return the currently used instance.
 	 */
 	public static CASLicenseHandlerConfiguration getInstance() {
-		if (isRefactoringFinished()) {
+		if (eINSTANCE == null || eINSTANCE.isRefactoringFinished()) {
 			eINSTANCE = new CASLicenseHandlerConfiguration();
 		}
 		return eINSTANCE;
@@ -225,20 +225,20 @@ public class CASLicenseHandlerConfiguration {
 	/**
 	 * Indicates that a refactoring is started.
 	 */
-	public static void refactoringStarted() {
-       synchronized(refactoringFinishedMonitor) {
-           refactoringFinished = false;
-           refactoringFinishedMonitor.notifyAll();
+	public void refactoringStarted() {
+       synchronized (this.refactoringFinishedMonitor) {
+           this.refactoringFinished = false;
+           this.refactoringFinishedMonitor.notifyAll();
         }
 	}
 	
 	/**
 	 * Indicates that a refactoring is finished.
 	 */
-	public static void refactoringFinished() {
-       synchronized(refactoringFinishedMonitor) {
-           refactoringFinished = true;
-           refactoringFinishedMonitor.notifyAll();
+	public void refactoringFinished() {
+       synchronized (this.refactoringFinishedMonitor) {
+           this.refactoringFinished = true;
+           this.refactoringFinishedMonitor.notifyAll();
         }   
 	}
 	
@@ -247,10 +247,10 @@ public class CASLicenseHandlerConfiguration {
 	 * @throws InterruptedException
 	 * 			thrown if the thread is interrupted.
 	 */
-	public static void waitForRefactoringToBeFinished() throws InterruptedException {
-	    synchronized(refactoringFinishedMonitor) {
-	        while (!refactoringFinished) {
-	            refactoringFinishedMonitor.wait();
+	public void waitForRefactoringToBeFinished() throws InterruptedException {
+	    synchronized (this.refactoringFinishedMonitor) {
+	        while (!this.refactoringFinished) {
+	            this.refactoringFinishedMonitor.wait();
 	        }
 	    }
 	}
@@ -259,9 +259,9 @@ public class CASLicenseHandlerConfiguration {
 	 * Checks if a refactoring is finished.
 	 * @return true if the refactoring is finished, otherwise false.
 	 */
-	public static boolean isRefactoringFinished() {
-       synchronized(refactoringFinishedMonitor) {
-           return refactoringFinished;
+	public boolean isRefactoringFinished() {
+       synchronized (this.refactoringFinishedMonitor) {
+           return this.refactoringFinished;
         }
 	}
 }

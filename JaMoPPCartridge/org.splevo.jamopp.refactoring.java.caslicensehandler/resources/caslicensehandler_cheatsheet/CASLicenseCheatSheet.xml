@@ -41,9 +41,9 @@ title=
 	</subitem>
    </item>
    <item
-         title="Start Refactory">
+         title="Start Refactoring">
       <description>
-         After every variant was assigned to a constant license the refactory-process can be started.
+         After every variant was assigned to a constant license the refactoring-process can be started.
       </description>
       <subitem
        label="Start">

@@ -59,7 +59,7 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
 	    config.setLeadingProject((SPLevoProject) refactoringConfigurations.get(VariabilityRefactoringService.SPLEVO_PROJECT));
 	    config.setRefactoringConfigurations(refactoringConfigurations);
 	    config.setVariationPoint(variationPoint);
-	    CASLicenseHandlerConfiguration.refactoringStarted();
+	    config.refactoringStarted();
 		final OpenCheatSheetAction action = new OpenCheatSheetAction(CASLicenseHandlerMetaInf.CAS_LICENSE_HANDLER_CHEAT_SHEET_ID);
 		Display.getDefault().syncExec(new Runnable() {
             @Override
@@ -70,7 +70,7 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
             } });
 		
 	    try {
-	        CASLicenseHandlerConfiguration.waitForRefactoringToBeFinished();	        
+	        config.waitForRefactoringToBeFinished();	        
 	    } catch (InterruptedException e) {
 	        throw new VariabilityRefactoringFailedException("The refactoring has been aborted before it has been finished.", e);
 	    }

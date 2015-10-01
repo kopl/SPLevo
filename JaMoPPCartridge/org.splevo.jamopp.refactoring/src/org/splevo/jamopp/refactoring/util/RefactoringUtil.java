@@ -826,7 +826,7 @@ public final class RefactoringUtil {
 
         int subCommentIndex = currentCommentText.indexOf(stringToRemove);
         int lineBreakBeforeSubCommentIndex = currentCommentText.substring(0, subCommentIndex).lastIndexOf('\n');
-        if (lineBreakBeforeSubCommentIndex - 1 >= 0
+        if (lineBreakBeforeSubCommentIndex - 1 > 0
                 && currentCommentText.charAt(lineBreakBeforeSubCommentIndex - 1) == '\r') {
             lineBreakBeforeSubCommentIndex--;
         }
