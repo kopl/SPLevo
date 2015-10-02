@@ -59,7 +59,8 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
             return super.getEObject(id);
         }
 
-        EObject resolvedEObject = referenceCache.getEObject(this, id);
+        EObject resolvedEObject = referenceCache.getEObject(this, id);            
+
         if (resolvedEObject == null) {
             resolvedEObject = super.getEObject(id);
             if (resolvedEObject != null) {
@@ -67,5 +68,12 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
             }
         }
         return resolvedEObject;
+    }
+    
+    /**
+     * Resets the internal cache.
+     */
+    public void resetCache() {
+        referenceCache.reset();
     }
 }
