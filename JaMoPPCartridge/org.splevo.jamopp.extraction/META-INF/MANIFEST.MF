@@ -15,4 +15,5 @@ Require-Bundle: org.splevo.extraction;visibility:=reexport,
  com.google.guava;bundle-version="[11.0.0,15.0.1)",
  org.emftext.commons.antlr3_4_0,
  org.emftext.language.java.resource.bcel
-Export-Package: org.splevo.jamopp.extraction
+Export-Package: org.splevo.jamopp.extraction,
+ org.splevo.jamopp.extraction.resource

@@ -23,6 +23,7 @@ import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.IJavaTextResource;
 import org.splevo.commons.emf.ReplacementUtil;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
+import org.splevo.jamopp.extraction.resource.JavaSourceOrClassFileCachingResource;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.CommentableSoftwareElement;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
@@ -60,6 +61,9 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
         
         // add comment to source code
         final String elementID = RefactoringUtil.addCommentableSoftwareElementReference(referencedElement);
+        if (referencedElement.eResource() instanceof JavaSourceOrClassFileCachingResource) {
+            ((JavaSourceOrClassFileCachingResource) referencedElement.eResource()).resetCache();
+        }
         saveJaMoPPModel(referencedElement.eResource());
 
         // replace old software element with new one in VPM
