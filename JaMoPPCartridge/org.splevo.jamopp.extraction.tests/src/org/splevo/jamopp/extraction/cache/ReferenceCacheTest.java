@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.junit.After;
 import org.junit.Before;
@@ -150,7 +151,8 @@ public class ReferenceCacheTest {
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(cacheFileDirs, javaClasspath,
+        JavaSourceOrClassFileResourceFactoryImpl f = new JavaSourceOrClassFileResourceFactoryImpl();
+        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(f, cacheFileDirs, javaClasspath,
                 jarPaths));
 
         return rs;

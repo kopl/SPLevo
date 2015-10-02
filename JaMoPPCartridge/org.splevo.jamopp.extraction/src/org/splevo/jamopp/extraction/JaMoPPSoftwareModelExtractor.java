@@ -11,13 +11,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
-import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.extraction.SoftwareModelExtractor;
@@ -294,34 +293,13 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
      * @return The initialized resource set.
      */
     private ResourceSet setUpResourceSet(String sourceModelDirectory, List<String> jarPaths, boolean extractLayoutInfo) {
-
-        ResourceSet rs = new ResourceSetImpl();
-
-        Boolean disableLayoutOption = extractLayoutInfo ? Boolean.FALSE : Boolean.TRUE;
-
-        // further resource set enhancement for the extraction specific needs
-        Map<Object, Object> options = rs.getLoadOptions();
-        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, disableLayoutOption);
-        options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
-        options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
-        options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
-        options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
-
-        EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
-
         ArrayList<String> directories = Lists.newArrayList();
         if (sourceModelDirectory != null) {
             directories.add(sourceModelDirectory);
         }
-
-        Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        JavaClasspath javaClasspath = JavaClasspath.get(rs);
-        JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
-                directories, javaClasspath, jarPaths);
-        factoryMap.put("java", factory);
-        // DesignDecision No caching for byte code resources to improve performance
-        factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());
-
+        
+        ResourceSet rs = new ResourceSetImpl();
+        initResourceSet(rs, directories, extractLayoutInfo, jarPaths);
         return rs;
     }
 
@@ -337,23 +315,27 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
     @Override
     public void prepareResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation) {
+        initResourceSet(rs, sourceModelPaths, loadLayoutInformation, null);
+    }
 
-        Map<Object, Object> options = rs.getLoadOptions();
+    private static void initResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation,
+            List<String> jarPaths) {
+        final Boolean disableLayoutOption = loadLayoutInformation ? Boolean.FALSE : Boolean.TRUE;
+
+        final Map<Object, Object> options = rs.getLoadOptions();
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
-        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.valueOf(!loadLayoutInformation));
-        options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.valueOf(!loadLayoutInformation));
-        
-        EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
+        options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, disableLayoutOption);
+        options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
-        JavaSourceOrClassFileResourceCachingFactoryImpl factory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
-                sourceModelPaths, javaClasspath);
-        factoryMap.put("java", factory);
+        Factory existingJaMoPPFactory = Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI(JavaPackage.eNS_URI));
+        Factory cachedJaMoPPFactory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
+                existingJaMoPPFactory, sourceModelPaths, javaClasspath, jarPaths);
+        factoryMap.put("java", cachedJaMoPPFactory);
         // DesignDecision No caching for byte code resources to improve performance
-        factoryMap.put("class", new JavaSourceOrClassFileResourceFactoryImpl());
+        factoryMap.put("class", existingJaMoPPFactory);
     }
-
 }
