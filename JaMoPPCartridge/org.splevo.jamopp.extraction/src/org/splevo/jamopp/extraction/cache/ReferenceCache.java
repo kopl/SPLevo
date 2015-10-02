@@ -360,4 +360,12 @@ public class ReferenceCache {
     private boolean isNotLibraryProxy(EObject resolvedElement) {
         return !("pathmap".equals(((InternalEObject) resolvedElement).eProxyURI().scheme()));
     }
+    
+    /**
+     * Resets the internal cache.
+     */
+    public void reset() {
+        this.cacheData = new ReferenceCacheData();
+        this.notResolvedFromCacheCounterReference = 0;
+    }
 }
