@@ -165,6 +165,15 @@ public abstract class JaMoPPJavaSoftwareElementImpl extends MinimalEObjectImpl.C
      * 
      * @generated
      */
+    public String getQualifiedName() {
+        return org.splevo.jamopp.util.JaMoPPElementUtil.getQualifiedName(resolveJaMoPPElement());
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     @Override
     public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
         switch (operationID) {
@@ -176,6 +185,8 @@ public abstract class JaMoPPJavaSoftwareElementImpl extends MinimalEObjectImpl.C
             return getName();
         case softwarePackage.JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT:
             return getWrappedElement();
+        case softwarePackage.JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_QUALIFIED_NAME:
+            return getQualifiedName();
         case softwarePackage.JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION:
             return getSourceLocation();
         }

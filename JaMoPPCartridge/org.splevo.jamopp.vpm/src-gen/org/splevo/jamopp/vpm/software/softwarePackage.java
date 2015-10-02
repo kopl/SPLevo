@@ -131,13 +131,22 @@ public interface softwarePackage extends EPackage {
     int JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 3;
 
     /**
+     * The operation id for the '<em>Get Qualified Name</em>' operation. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_QUALIFIED_NAME = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 4;
+
+    /**
      * The number of operations of the '<em>Ja Mo PP Java Software Element</em>' class. <!--
      * begin-user-doc --> <!-- end-user-doc -->
      * 
      * @generated
      * @ordered
      */
-    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 4;
+    int JA_MO_PP_JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT = SoftwarePackage.JAVA_SOFTWARE_ELEMENT_OPERATION_COUNT + 5;
 
     /**
      * The meta object id for the '
@@ -212,6 +221,15 @@ public interface softwarePackage extends EPackage {
      * @ordered
      */
     int JA_MO_PP_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT;
+
+    /**
+     * The operation id for the '<em>Get Qualified Name</em>' operation. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int JA_MO_PP_SOFTWARE_ELEMENT___GET_QUALIFIED_NAME = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_QUALIFIED_NAME;
 
     /**
      * The number of operations of the '<em>Ja Mo PP Software Element</em>' class. <!--
@@ -313,6 +331,15 @@ public interface softwarePackage extends EPackage {
      * @ordered
      */
     int COMMENTABLE_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT;
+
+    /**
+     * The operation id for the '<em>Get Qualified Name</em>' operation. <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * 
+     * @generated
+     * @ordered
+     */
+    int COMMENTABLE_SOFTWARE_ELEMENT___GET_QUALIFIED_NAME = JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_QUALIFIED_NAME;
 
     /**
      * The number of operations of the '<em>Commentable Software Element</em>' class. <!--
@@ -449,6 +476,17 @@ public interface softwarePackage extends EPackage {
     EOperation getJaMoPPJavaSoftwareElement__GetWrappedElement();
 
     /**
+     * Returns the meta object for the '
+     * {@link org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getQualifiedName()
+     * <em>Get Qualified Name</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @return the meta object for the '<em>Get Qualified Name</em>' operation.
+     * @see org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement#getQualifiedName()
+     * @generated
+     */
+    EOperation getJaMoPPJavaSoftwareElement__GetQualifiedName();
+
+    /**
      * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!--
      * end-user-doc -->
      * 
@@ -572,6 +610,15 @@ public interface softwarePackage extends EPackage {
          */
         EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT = eINSTANCE
                 .getJaMoPPJavaSoftwareElement__GetWrappedElement();
+
+        /**
+         * The meta object literal for the '<em><b>Get Qualified Name</b></em>' operation. <!--
+         * begin-user-doc --> <!-- end-user-doc -->
+         * 
+         * @generated
+         */
+        EOperation JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_QUALIFIED_NAME = eINSTANCE
+                .getJaMoPPJavaSoftwareElement__GetQualifiedName();
 
     }
 

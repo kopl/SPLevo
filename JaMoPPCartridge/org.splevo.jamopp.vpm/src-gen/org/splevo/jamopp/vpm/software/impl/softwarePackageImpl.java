@@ -285,6 +285,15 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
      * 
      * @generated
      */
+    public EOperation getJaMoPPJavaSoftwareElement__GetQualifiedName() {
+        return jaMoPPJavaSoftwareElementEClass.getEOperations().get(4);
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     public softwareFactory getsoftwareFactory() {
         return (softwareFactory) getEFactoryInstance();
     }
@@ -321,6 +330,7 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
         createEOperation(jaMoPPJavaSoftwareElementEClass, JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_LABEL);
         createEOperation(jaMoPPJavaSoftwareElementEClass, JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_NAME);
         createEOperation(jaMoPPJavaSoftwareElementEClass, JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT);
+        createEOperation(jaMoPPJavaSoftwareElementEClass, JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_QUALIFIED_NAME);
     }
 
     /**
@@ -402,6 +412,9 @@ public class softwarePackageImpl extends EPackageImpl implements softwarePackage
 
         initEOperation(getJaMoPPJavaSoftwareElement__GetWrappedElement(), theEcorePackage.getEObject(),
                 "getWrappedElement", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+        initEOperation(getJaMoPPJavaSoftwareElement__GetQualifiedName(), ecorePackage.getEString(), "getQualifiedName",
+                1, 1, IS_UNIQUE, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

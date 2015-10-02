@@ -51,4 +51,13 @@ public interface JaMoPPJavaSoftwareElement extends JavaSoftwareElement {
      * @generated
      */
     EObject getWrappedElement();
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @model kind="operation" required="true" annotation=
+     *        "http://www.eclipse.org/emf/2002/GenModel body='return org.splevo.jamopp.util.JaMoPPElementUtil.getFullyQualifiedName(resolveJaMoPPElement());'"
+     * @generated
+     */
+    String getQualifiedName();
 } // JaMoPPJavaSoftwareElement

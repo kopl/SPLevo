@@ -59,6 +59,11 @@
           <details key="body" value="return resolveJaMoPPElement();"/>
         </eAnnotations>
       </eOperations>
+      <eOperations name="getQualifiedName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="return org.splevo.jamopp.util.JaMoPPElementUtil.getFullyQualifiedName(resolveJaMoPPElement());"/>
+        </eAnnotations>
+      </eOperations>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>
