@@ -11,15 +11,11 @@
  *******************************************************************************/
 package org.splevo.jamopp.refactoring.java;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
-import org.splevo.jamopp.extraction.resource.JavaSourceOrClassFileCachingResource;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
@@ -38,37 +34,18 @@ public abstract class JaMoPPFullyAutomatedVariabilityRefactoring extends FullyAu
     private static final Logger LOGGER = Logger.getLogger(JaMoPPFullyAutomatedVariabilityRefactoring.class);
 
     @Override
-    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
-        List<Resource> changedResources = super.refactor(variationPoint, refactoringConfigurations);
-        for (Resource r : changedResources) {
-            if (r instanceof JavaSourceOrClassFileCachingResource) {
-                ((JavaSourceOrClassFileCachingResource) r).resetCache();
-            }
-        }
-        return changedResources;
-    }
-
-    @Override
     protected SoftwareElement createSoftwareElement(EObject eobject) {
         if (!(eobject instanceof Commentable)) {
             LOGGER.error("The given EObject is no Commentable, but a " + eobject.getClass().getSimpleName() + ".");
             return null;
         }
         Commentable element = (Commentable) eobject;
-
-        JaMoPPSoftwareElement swe = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
-        swe.setJamoppElement(element);
         
-        return swe;
+        JaMoPPSoftwareElement jse = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
+        jse.setJamoppElement(element);
+        return jse;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.splevo.refactoring.FullyAutomatedVariabilityRefactoring#executeReplacement(java.util.
-     * Map.Entry, org.splevo.vpm.variability.VariationPoint)
-     */
     @Override
     protected void executeReplacement(Entry<EObject, EObject> replacement, VariationPoint variationPoint) {
         // collect all possible replacement targets

@@ -2,6 +2,7 @@
  */
 package org.splevo.jamopp.vpm.software.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
@@ -16,6 +17,7 @@ import org.emftext.language.java.resource.java.IJavaLocationMap;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.mopp.JavaDevNullLocationMap;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
+import org.splevo.commons.emf.FileResourceHandling;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwarePackage;
 import org.splevo.vpm.software.SoftwareFactory;
@@ -117,7 +119,8 @@ public abstract class JaMoPPJavaSoftwareElementImpl extends MinimalEObjectImpl.C
 
     private SourceLocation buildLocation(Commentable element, JavaResource resource) {
         SourceLocation location = SoftwareFactory.eINSTANCE.createSourceLocation();
-        location.setFilePath(resource.getURI().toFileString());
+        File realFilePath = FileResourceHandling.getPhysicalFilePath(resource);
+        location.setFilePath(realFilePath.getAbsolutePath());
 
         IJavaLocationMap locationMap = resource.getLocationMap();
         location.setStartLine(locationMap.getLine(element));

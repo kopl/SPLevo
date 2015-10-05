@@ -26,7 +26,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -250,7 +249,6 @@ public class OpenUnifiedDiffHandler extends OpenSourceHandlerBase {
      * @return the file path of the enveloping file.
      */
     private String getFilePathFor(Variant variant) {
-        EObject locElement = variant.getVariationPoint().getLocation().getWrappedElement();
-        return locElement.eResource().getURI().toFileString();
+        return variant.getVariationPoint().getLocation().getSourceLocation().getFilePath();
     }
 }

@@ -11,7 +11,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -20,6 +19,7 @@ import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.splevo.commons.emf.SPLevoResourceSet;
 
 /**
  * Base class for JaMoPPJavaSoftwareElement tests.
@@ -84,7 +84,7 @@ public abstract class JaMoPPJavaSoftwareElementTest {
      * @return The initialized resource set.
      */
     private static ResourceSet setUpResourceSet(boolean layoutInformation) {       
-        ResourceSet rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
         Map<String, Object> extensionToFactoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
         extensionToFactoryMap.put("java", new JavaSourceOrClassFileResourceFactoryImpl());

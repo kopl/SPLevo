@@ -26,12 +26,13 @@ import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.splevo.commons.emf.SPLevoResourceSet;
 
 /**
  * Test for the diffing model utilities.
@@ -80,7 +81,7 @@ public class DiffingModelUtilTest {
 
         String modelPath = "testmodel/singlediffmodel.diff";
         File modelFile = new File(modelPath).getAbsoluteFile();
-        ResourceSetImpl rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
         DiffingModelUtil.loadModel(modelFile, rs);
 
         Resource resource = rs.getResources().get(0);

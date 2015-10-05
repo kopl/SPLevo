@@ -22,9 +22,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.vpm.variability.VariationPoint;
 
 import com.google.common.collect.Lists;
@@ -57,7 +57,7 @@ public class RefinementUtil {
                 new XMIResourceFactoryImpl());
 
         // load the resource and resolve the proxies
-        ResourceSet rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
         Resource r = rs.createResource(URI.createPlatformResourceURI(refinementFile.getPath(), true));
         r.load(null);
         EcoreUtil.resolveAll(rs);
@@ -104,7 +104,7 @@ public class RefinementUtil {
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put(RefinementUtil.REFINEMENT_FILE_EXTENSION, new XMIResourceFactoryImpl());
-        ResourceSet resSet = new ResourceSetImpl();
+        ResourceSet resSet = new SPLevoResourceSet();
         URI resourceUri = null;
         if (isAbsolutePath) {
             resourceUri = URI.createFileURI(filePath.getAbsolutePath());

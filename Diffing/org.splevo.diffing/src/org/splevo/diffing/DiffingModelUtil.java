@@ -22,8 +22,8 @@ import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.splevo.commons.emf.SPLevoResourceSet;
 
 /**
  * The Class SPLevoProjectUtil. Utility class to handle splevo project models.
@@ -105,7 +105,7 @@ public class DiffingModelUtil {
         String fileExtension = getFileExtension(filePath);
 
         // try to write to the project file
-        ResourceSet resSet = new ResourceSetImpl();
+        ResourceSet resSet = new SPLevoResourceSet();
         Map<String, Object> m = resSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
         m.put(fileExtension, new XMIResourceFactoryImpl());
 

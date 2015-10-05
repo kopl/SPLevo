@@ -25,7 +25,6 @@ import com.google.common.collect.Lists;
  */
 public class JavaSourceOrClassFileResourceCachingFactoryImpl implements Resource.Factory {
 
-    private static final String FILE_URI_SCHEME = "file";
     private final Resource.Factory factory;
     
     /** The reference cache to use. */
@@ -86,7 +85,7 @@ public class JavaSourceOrClassFileResourceCachingFactoryImpl implements Resource
      */
     @Override
     public Resource createResource(URI uri) {
-        if (FILE_URI_SCHEME.equals(uri.scheme())) {
+        if (uri.isFile() || uri.isPlatform()) {
             return new JavaSourceOrClassFileCachingResource(uri, referenceCache);
         } else {
             return factory.createResource(uri);

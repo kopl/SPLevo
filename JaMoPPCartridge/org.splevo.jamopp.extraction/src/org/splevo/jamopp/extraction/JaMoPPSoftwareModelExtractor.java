@@ -14,10 +14,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.JavaClasspath;
-import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.emftext.language.java.resource.java.IJavaOptions;
+import org.splevo.commons.emf.FileResourceHandling.ResourceHandlingOptions;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.extraction.SoftwareModelExtractor;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
@@ -224,6 +225,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
 
         Collection<File> javaFiles = FileUtils.listFiles(rootFolder, new String[] { "java" }, true);
         for (File javaFile : javaFiles) {
+            
             Resource resource = parseResource(javaFile, rs);
             if (resource != null) {
                 resources.add(resource);
@@ -298,7 +300,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
             directories.add(sourceModelDirectory);
         }
         
-        ResourceSet rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
         initResourceSet(rs, directories, extractLayoutInfo, jarPaths);
         return rs;
     }
@@ -317,7 +319,7 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
     public void prepareResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation) {
         initResourceSet(rs, sourceModelPaths, loadLayoutInformation, null);
     }
-
+    
     private static void initResourceSet(ResourceSet rs, List<String> sourceModelPaths, boolean loadLayoutInformation,
             List<String> jarPaths) {
         final Boolean disableLayoutOption = loadLayoutInformation ? Boolean.FALSE : Boolean.TRUE;
@@ -328,14 +330,17 @@ public class JaMoPPSoftwareModelExtractor implements SoftwareModelExtractor {
         options.put(IJavaOptions.DISABLE_EMF_VALIDATION, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, disableLayoutOption);
         options.put(IJavaOptions.DISABLE_LOCATION_MAP, disableLayoutOption);
+        options.put(ResourceHandlingOptions.USE_PLATFORM_RESOURCE,
+                ResourceHandlingOptions.USE_PLATFORM_RESOURCE.getDefault());
+
+        Factory originalFactory = new JavaSourceOrClassFileResourceFactoryImpl();
+        Factory cachedJaMoPPFactory = new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory,
+                sourceModelPaths, JavaClasspath.get(rs), jarPaths);
 
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        JavaClasspath javaClasspath = JavaClasspath.get(rs);
-        Factory existingJaMoPPFactory = Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI(JavaPackage.eNS_URI));
-        Factory cachedJaMoPPFactory = new JavaSourceOrClassFileResourceCachingFactoryImpl(
-                existingJaMoPPFactory, sourceModelPaths, javaClasspath, jarPaths);
         factoryMap.put("java", cachedJaMoPPFactory);
         // DesignDecision No caching for byte code resources to improve performance
-        factoryMap.put("class", existingJaMoPPFactory);
+        factoryMap.put("class", originalFactory);
     }
+
 }

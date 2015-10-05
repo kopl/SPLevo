@@ -20,9 +20,9 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
@@ -59,7 +59,7 @@ public class IfStaticConfigClassCompilationUnit extends JaMoPPFullyAutomatedVari
 
         String sourcePath = (String) refactoringConfigurations.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
 
-        ResourceSet resourceSet = new ResourceSetImpl();
+        ResourceSet resourceSet = new SPLevoResourceSet();
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 continue;

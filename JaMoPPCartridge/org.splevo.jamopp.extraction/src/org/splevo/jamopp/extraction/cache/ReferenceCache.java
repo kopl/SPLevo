@@ -21,6 +21,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -32,21 +34,23 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.JavaClasspath;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * A file based cache to reuse the proxy resolutions already performed.
- *
+ * 
  * The cache was designed to work with one or more cache files to use it with resource sets
  * containing the resources of one or more software models. For example, during extraction a
  * separate resource set is used per software, but for differencing several software models must be
  * accessed in one resource set.
- *
+ * 
  * Cache files are always named according to {@link #CACHE_FILE_NAME}.
- *
+ * 
  * During initialization, cache files existing in the provided directories are loaded.
  * Subdirectories are not considered.
- *
+ * 
  * When proxies in new resources are resolved and {@link #save()} is triggered, they are stored in a
  * cache file of the first directory provided in the list. If a cache file already exists in the
  * first cache directory, the existing cache is loaded and enhanced with the new cached references.
@@ -62,10 +66,12 @@ public class ReferenceCache {
      * Internal counter how many references have not been resolved from cache, while their resources
      * have. This is an indicator for failed proxy resolutions or that the cache was not involved in
      * the resolution.
-     *
+     * 
      */
     private int notResolvedFromCacheCounterReference = 0;
 
+    private final Set<URI> blacklistedResourceURIs = Sets.newHashSet(); 
+    
     /**
      * The file the cache will be serialized into.
      */
@@ -80,9 +86,9 @@ public class ReferenceCache {
     /**
      * Constructor to set a list of directories containing cache files. Within these directories,
      * files with the name {@link #CACHE_FILE_NAME} are searched.
-     *
+     * 
      * If a new file must be created, this will be done in the first directory of the list.
-     *
+     * 
      * @param cacheFileDirectories
      *            A list of absolute paths to the directories containing cache files.
      * @param javaClasspath
@@ -95,9 +101,9 @@ public class ReferenceCache {
     /**
      * Constructor to set a list of directories containing cache files. Within these directories,
      * files with the name {@link #CACHE_FILE_NAME} are searched.
-     *
+     * 
      * If a new file must be created, this will be done in the first directory of the list.
-     *
+     * 
      * @param cacheFileDirectories
      *            A list of absolute paths to the directories containing cache files.
      * @param javaClasspath
@@ -115,7 +121,7 @@ public class ReferenceCache {
 
     /**
      * Initialize the cache by loading all cache files available in the configured directory.
-     *
+     * 
      * In addition, register the jar files in the {@link JavaClasspath}.
      */
     private void init() {
@@ -137,12 +143,12 @@ public class ReferenceCache {
 
     /**
      * Forces the complete resolving of the resource.
-     *
+     * 
      * <p>
      * <strong>Note:</strong> This should be used for loading the cache only. It is also recommended
      * to call this method not before all resources are present in the ResourceSet.
      * </p>
-     *
+     * 
      * @param resource
      *            Resource to be resolved.
      */
@@ -154,12 +160,12 @@ public class ReferenceCache {
      * Trigger to save all non yet persisted cache entries.<br>
      * These are the entries created for resources that could not be loaded from any existing cache
      * file.
-     *
+     * 
      * If more than one cache file directory was created, the first entry in the list will be used.
-     *
+     * 
      * If the cache file already exists, it will not be overridden, but loaded and the new entries
      * will be added to it.
-     *
+     * 
      */
     public void save() {
 
@@ -180,7 +186,7 @@ public class ReferenceCache {
 
     /**
      * Persist the cache in the file system.
-     *
+     * 
      * @param cacheFile
      *            The file to save to.
      * @param cacheData
@@ -209,7 +215,7 @@ public class ReferenceCache {
 
     /**
      * Load the cache from a file.
-     *
+     * 
      * @param cacheFile
      *            The file to load.
      * @return The cache map loaded from this file.
@@ -248,7 +254,7 @@ public class ReferenceCache {
 
     /**
      * Get the target object for a specified URI.
-     *
+     * 
      * @param resource
      *            The resource to use for EObject resolution.
      * @param targetURI
@@ -266,7 +272,7 @@ public class ReferenceCache {
      * Get the internal counter how many references have not been resolved from cache, while their
      * resources have. This is an indicator for failed proxy resolutions or that the cache was not
      * involved in the resolution.
-     *
+     * 
      * @return The counter value.
      */
     public int getNotResolvedFromCacheCounterReference() {
@@ -275,7 +281,7 @@ public class ReferenceCache {
 
     /**
      * Resolve a specific proxy referenced in resource.
-     *
+     * 
      * @param resource
      *            The resource containing the proxy.
      * @param id
@@ -299,7 +305,7 @@ public class ReferenceCache {
 
     /**
      * Check is already present in the cached.
-     *
+     * 
      * @param resource
      *            The resource to check for.
      * @return True/ False if it is cached or not.
@@ -311,7 +317,7 @@ public class ReferenceCache {
     /**
      * Register a resolved {@link EObject} to the cache which has been resolved by EMF without
      * involving the cache. E.g. by indirectly resolving it without participating the cache.
-     *
+     * 
      * @param resource
      *            The resource containing the proxy / reference
      * @param fragmentURI
@@ -321,6 +327,12 @@ public class ReferenceCache {
      */
     public void registerEObject(Resource resource, String fragmentURI, EObject resolvedElement) {
 
+        if (resolvedElement != null && resolvedElement.eResource() != null
+                && resolvedElement.eResource().getURI() != null
+                && blacklistedResourceURIs.contains(resolvedElement.eResource().getURI())) {
+            return;
+        }
+        
         String resourceUri = resource.getURI().toString();
 
         if (resolvedElement == null) {
@@ -360,12 +372,41 @@ public class ReferenceCache {
     private boolean isNotLibraryProxy(EObject resolvedElement) {
         return !("pathmap".equals(((InternalEObject) resolvedElement).eProxyURI().scheme()));
     }
-    
+
     /**
-     * Resets the internal cache.
+     * Resets the cache for the given resource and saves the cache afterwards to prevent old entries
+     * from appearing after loading the resource again.
+     * 
+     * @param resource
+     *            The resource for which the cache shall be reset.
      */
-    public void reset() {
-        this.cacheData = new ReferenceCacheData();
-        this.notResolvedFromCacheCounterReference = 0;
+    public void reset(Resource resource) {
+        if (!isCached(resource)) {
+            return;
+        }
+        final String uriToRemovePrefix = resource.getURI().toString() + "#";
+        cacheData.getResourceToTargetURIListMap().remove(resource.getURI().toString());
+        for (LinkedHashMap<String, String> map : cacheData.getResourceToTargetURIListMap().values()) {
+            List<String> toRemove = Lists.newArrayList();
+            for (Entry<String, String> entry : map.entrySet()) {
+                if (entry.getValue().startsWith(uriToRemovePrefix)) {
+                    toRemove.add(entry.getKey());
+                }
+            }
+            map.keySet().removeAll(toRemove);
+        }
+        save();
+    }
+
+    /**
+     * Blacklists the given resource by its URI. The cache will ignore any attempts to set a cache
+     * line involving the given resource.
+     * 
+     * @param resource
+     *            The resource to be blacklisted.
+     */
+    public void blacklist(Resource resource) {
+        reset(resource);
+        blacklistedResourceURIs.add(resource.getURI());
     }
 }

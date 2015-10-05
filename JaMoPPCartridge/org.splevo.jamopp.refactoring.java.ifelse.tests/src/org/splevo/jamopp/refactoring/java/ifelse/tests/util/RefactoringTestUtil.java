@@ -33,7 +33,6 @@ import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
@@ -46,6 +45,7 @@ import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
@@ -800,7 +800,7 @@ public final class RefactoringTestUtil {
         JaMoPPVPMBuilder builder = new JaMoPPVPMBuilder();
         VariationPointModel vpm = builder.buildVPM(comparison, "leading", "integration");
         
-        ResourceSet rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
         rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
         .put("vpm", new XMIResourceFactoryImpl());
         Resource r = rs.createResource(URI.createFileURI("test123.vpm"));

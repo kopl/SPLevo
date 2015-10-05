@@ -11,7 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.project.SPLevoProject;
 import org.splevo.ui.sourceconnection.helper.FileLineNumberPair;
 import org.splevo.ui.sourceconnection.helper.FileWithID;
@@ -124,7 +124,7 @@ public class UnifiedDiffConnectorModel {
         File vpmFile = new File(splevoProject.getVpmModelReferences().get(lastIndex).getPath());
         
         try {
-            return VPMUtil.loadVariationPointModel(vpmFile, new ResourceSetImpl());
+            return VPMUtil.loadVariationPointModel(vpmFile, new SPLevoResourceSet());
             
         } catch (IOException e) {
             LOGGER.error("Could not load variation point model located at \"" + vpmFile.getAbsolutePath() + "\".", e);
