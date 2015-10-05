@@ -1,8 +1,8 @@
 package org.splevo.commons.emf;
 
-import java.io.File;
-
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -38,30 +38,37 @@ public class SPLevoResourceSet extends ResourceSetImpl {
     }
 
     private URI convertURI(URI uri) {
-        if (FileResourceHandling.usePlatformResource(this) && uri.isPlatform()) {
-            return uri;
-        }
-
-        File f = FileResourceHandling.getPhysicalFilePath(uri, this);
-        if (f == null) {
-            return uri;
-        }
 
         if (FileResourceHandling.usePlatformResource(this)) {
-            IPath path = new Path(f.getAbsolutePath());
-            IFile resourceFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
-            return createURI(URI.createPlatformResourceURI(resourceFile.getFullPath().toString(), true), uri.fragment());
-        } else if (uri.isFile()) {
-            return createURI(URI.createFileURI(f.getAbsolutePath()), uri.fragment());
+
+            if (uri.isPlatform()) {
+                return uri;
+            } else {
+                IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+                IPath p = new Path(uri.toFileString());
+                IFile f = root.getFileForLocation(p);
+                return createURI(URI.createPlatformResourceURI(f.getFullPath().toString(), true), uri.fragment());
+            }
+
+        } else {
+
+            if (uri.isPlatform()) {
+                IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+                IResource f = root.findMember(uri.toPlatformString(true));
+                return URI.createFileURI(f.getLocationURI().toString());
+            } else {
+                return uri;
+            }
+
         }
-        return uri;
+
     }
         
     private static URI createURI(URI uri, String fragment) {
         if (Strings.isNullOrEmpty(fragment)) {
             return uri;
         }
-        return URI.createURI(uri.toString() + "#" + fragment, false, URI.FRAGMENT_FIRST_SEPARATOR);
+        return URI.createURI(uri.toString() + "#" + fragment, true, URI.FRAGMENT_LAST_SEPARATOR);
     }
 
 }

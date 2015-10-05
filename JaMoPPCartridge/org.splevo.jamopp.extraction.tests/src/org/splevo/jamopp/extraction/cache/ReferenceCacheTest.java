@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.junit.After;
 import org.junit.Before;
@@ -148,11 +149,11 @@ public class ReferenceCacheTest {
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
-        Factory existingJaMoPPFactory = Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI(JavaPackage.eNS_URI));
+        Factory originalFactory = new JavaSourceOrClassFileResourceFactoryImpl();
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(existingJaMoPPFactory, cacheFileDirs, javaClasspath,
+        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory, cacheFileDirs, javaClasspath,
                 jarPaths));
 
         return rs;
