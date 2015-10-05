@@ -14,10 +14,8 @@ package org.splevo.jamopp.refactoring.java.ifelse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -72,36 +70,28 @@ public abstract class IfStaticConfigClassEnumerationBase<T extends Commentable> 
     @Override
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         Map<String, List<Enumeration>> enumerationsToName = Maps.newHashMap();
-        Map<String, Set<EnumConstant>> constantsToEnumName = Maps.newHashMap();
         Map<String, Boolean> leadingToEnumName = new HashMap<String, Boolean>();
 
         for (Variant variant : variationPoint.getVariants()) {
             for (SoftwareElement se : variant.getImplementingElements()) {
                 Enumeration currentEnum = (Enumeration) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();
-//                if (!variant.getLeading()) {
-//                    currentEnum = clone(currentEnum);
-//                }
 
-                if (!enumerationsToName.containsKey(currentEnum.getName())) {
-                    enumerationsToName.put(currentEnum.getName(), new ArrayList<Enumeration>());
+                final String currentEnumName = currentEnum.getName();
+                if (!enumerationsToName.containsKey(currentEnumName)) {
+                    enumerationsToName.put(currentEnumName, new ArrayList<Enumeration>());
                 }
                 if (variant.getLeading()) {
-                    enumerationsToName.get(currentEnum.getName()).add(0, currentEnum);
+                    enumerationsToName.get(currentEnumName).add(0, currentEnum);
                 } else {
-                    enumerationsToName.get(currentEnum.getName()).add(currentEnum);
+                    enumerationsToName.get(currentEnumName).add(currentEnum);
                 }
-                leadingToEnumName.put(currentEnum.getName(), variant.getLeading());
-
-                if (!constantsToEnumName.containsKey(currentEnum.getName())) {
-                    constantsToEnumName.put(currentEnum.getName(), new HashSet<EnumConstant>());
-                }
-                Set<EnumConstant> constantsList = constantsToEnumName.get(currentEnum.getName());
-                for (EnumConstant constant : currentEnum.getConstants()) {
-                    constantsList.add(clone(constant));
-                }
+                
+                final boolean isEnumAlreadyInLeadingCopy = variant.getLeading()
+                        || leadingToEnumName.containsKey(currentEnumName) && leadingToEnumName.get(currentEnumName);
+                leadingToEnumName.put(currentEnum.getName(), isEnumAlreadyInLeadingCopy);
             }
         }
-        
+
         @SuppressWarnings("unchecked") // we checked the type in canBeAppliedTo()
         final T vpLocation = (T) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
                 .getJamoppElement();
@@ -109,16 +99,17 @@ public abstract class IfStaticConfigClassEnumerationBase<T extends Commentable> 
         for (String enumName : enumerationsToName.keySet()) {
             Enumeration enumeration = enumerationsToName.get(enumName).get(0);
             registerReplacement(enumerationsToName.get(enumName), enumeration);
-            Set<EnumConstant> constants = constantsToEnumName.get(enumName);
 
-            for (EnumConstant constant : constants) {
-                if (!hasConstantWithSameName(enumeration.getConstants(), constant.getName())) {
-                    enumeration.getConstants().add(constant);
+            for (Enumeration currentEnumeration : enumerationsToName.get(enumName)) {
+                for (EnumConstant constant : currentEnumeration.getConstants()) {
+                    if (!hasConstantWithSameName(enumeration.getConstants(), constant.getName())) {
+                        enumeration.getConstants().add(clone(constant));
+                    }
                 }
             }
 
             if (!leadingToEnumName.get(enumName)) {
-                addToVPLocation(vpLocation, enumeration);
+                addToVPLocation(vpLocation, clone(enumeration));
             }
         }
 
