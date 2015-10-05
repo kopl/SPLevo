@@ -77,7 +77,6 @@ public class JaMoPPSoftwareModelExtractorTest {
         int projectResourceCount = 0;
         List<Resource> projectResources = new ArrayList<Resource>();
         for (Resource resource : extractionResult.getResources()) {
-            logger.warn("Debug123" + resource.getURI().toString());
             String[] segments = resource.getURI().segments();
             if ("calculator".equals(segments[segments.length - 2])) {
                 projectResourceCount++;
