@@ -33,11 +33,6 @@ public class SPLevoResourceSet extends ResourceSetImpl {
     }
 
     @Override
-    public Resource createResource(URI uri) {
-        return super.createResource(convertURI(uri));
-    }
-
-    @Override
     public Resource createResource(URI uri, String contentType) {
         return super.createResource(convertURI(uri), contentType);
     }
