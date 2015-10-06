@@ -11,19 +11,28 @@ import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
- * Specialize the {@link IfStaticConfigClassOPTXOR} class to reuse the functionality
- * and make a few adjustments.
+ * Specialize the {@link IfStaticConfigClassOPTXOR} class to reuse the functionality in
+ * semi-automated refactorings.
  */
 public class SemiAutomatedIfStaticConfigClassOPTXOR extends IfStaticConfigClassOPTXOR {
 
-	public SemiAutomatedIfStaticConfigClassOPTXOR(String validatorName, Map<String, String> variantToLicenseMap) {
-    	super(new SemiAutomatedIfElseRefactoringUtil(validatorName, variantToLicenseMap));
+    /**
+     * Constructs the refactoring.
+     * 
+     * @param validatorName
+     *            The name of the license validator class.
+     * @param variantToLicenseMap
+     *            The mapping between variants and license constant names.
+     */
+    public SemiAutomatedIfStaticConfigClassOPTXOR(String validatorName, Map<String, String> variantToLicenseMap) {
+        super(new SemiAutomatedIfElseRefactoringUtil(validatorName, variantToLicenseMap));
     }
-	
-	@Override
-    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-		return super.refactorFullyAutomated(variationPoint, refactoringOptions);
-	}
+
+    @Override
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint,
+            Map<String, Object> refactoringOptions) {
+        return super.refactorFullyAutomated(variationPoint, refactoringOptions);
+    }
 
     @Override
     protected boolean hasCorrectCharacteristics(VariationPoint variationPoint) {
@@ -32,6 +41,5 @@ public class SemiAutomatedIfStaticConfigClassOPTXOR extends IfStaticConfigClassO
         boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
         return correctBindingTime && correctVariabilityType && correctExtensibility;
     }
-	
 
 }

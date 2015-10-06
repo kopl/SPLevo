@@ -37,11 +37,6 @@ import org.splevo.ui.editors.SPLevoProjectEditor;
  */
 public class SPLevoNature implements IProjectNature {
 
-    /**
-     * ID of this project nature.
-     */
-    public static final String NATURE_ID = "org.splevo.ui.splevonature";
-
     /** The project. */
     private IProject project;
 
@@ -118,6 +113,13 @@ public class SPLevoNature implements IProjectNature {
     @Override
     public void setProject(IProject project) {
         this.project = project;
+    }
+    
+    /**
+     * @return The ID of this nature.
+     */
+    public static String getNatureId() {
+        return SPLevoProjectUtil.NATURE_ID;
     }
 
 }

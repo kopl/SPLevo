@@ -17,10 +17,14 @@ package org.splevo.refactoring;
 public interface TodoTagCustomizer {
 
     /**
-     * Adjusts the ToDo tags according to the needs of the specific technology catridge.
+     * Adjusts the ToDo tags properties of Eclipse according to the needs of the specific technology
+     * catridge.
      */
     void adjustTodoTags();
-    
+
+    /**
+     * @return A list of all todo tags that this customizer uses.
+     */
     Iterable<String> getTodoTags();
-    
+
 }

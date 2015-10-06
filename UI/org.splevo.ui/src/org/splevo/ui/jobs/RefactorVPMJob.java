@@ -27,7 +27,8 @@ import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
 /**
- * Assigns recommended refactorings to the vpm's vps, refactors them and finally saves the changed resources.
+ * Assigns recommended refactorings to the vpm's vps, refactors them and finally saves the changed
+ * resources.
  */
 public class RefactorVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
@@ -35,7 +36,7 @@ public class RefactorVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlack
 
     /**
      * Initializes the job with a given splevo project.
-     *
+     * 
      * @param splevoProject
      *            The project to get the leading paths from.
      */
@@ -61,6 +62,7 @@ public class RefactorVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlack
     }
 
     protected String getLeadingSrcPath() {
+        // TODO The project might not be correct and the src folder might not exist...
         String leadingSrcPath = splevoProject.getLeadingProjects().get(0);
         return ProjectPathUtil.buildProjectPath(leadingSrcPath) + File.separator + "src";
     }

@@ -21,62 +21,68 @@ import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 public class OpenTaskViewJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoard> {
 
     private final SPLevoProject splevoProject;
-    
-	public OpenTaskViewJob(SPLevoProject splevoProject) {
+
+    /**
+     * Constructs the job.
+     * 
+     * @param splevoProject
+     *            The SPLevoProject for which the task view shall be opened.
+     */
+    public OpenTaskViewJob(SPLevoProject splevoProject) {
         this.splevoProject = splevoProject;
     }
 
     @Override
-	public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
-		
-	}
+    public void cleanup(IProgressMonitor arg0) throws CleanupFailedException {
 
-	@Override
-	public void execute(IProgressMonitor arg0) throws JobFailedException,
-			UserCanceledException {
-		
-			final Exception[] thrownException = new Exception[1];
-	
-        	PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-				
-				@Override
-				public void run() {
-					IViewPart viewPart;
-					try {
-						viewPart = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage()
-								.showView(TaskView.ID, null, IWorkbenchPage.VIEW_ACTIVATE);
-					} catch (PartInitException e) {
-						thrownException[0] = e;
-						return;
-					}
-					
-					final TaskView view = (TaskView) viewPart;
-					view.setSPLevoProject(splevoProject);
+    }
 
-			        PlatformUI.getWorkbench().addWorkbenchListener(new IWorkbenchListener() {
+    @Override
+    public void execute(IProgressMonitor arg0) throws JobFailedException, UserCanceledException {
 
-			            @Override
-			            public boolean preShutdown(IWorkbench workbench, boolean forced) {
-			                IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			                activePage.hideView(view);
-			                return true;
-			            }
+        final Exception[] thrownException = new Exception[1];
 
-			            @Override
-			            public void postShutdown(IWorkbench workbench) {
-			            }
-			        });
-				}
-			});
-        	
-        	if (thrownException[0] != null) {
-        		throw new JobFailedException("Open View Job Failed", thrownException[0]);
-        	}
-	}
+        PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 
-	@Override
-	public String getName() {
-		return "Get All SPLevo Tasks";
-	}
+            @Override
+            public void run() {
+                IViewPart viewPart;
+                try {
+                    viewPart = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage().showView(TaskView.ID,
+                            null, IWorkbenchPage.VIEW_ACTIVATE);
+                } catch (PartInitException e) {
+                    thrownException[0] = e;
+                    return;
+                }
+
+                final TaskView view = (TaskView) viewPart;
+                view.setSPLevoProject(splevoProject);
+
+                PlatformUI.getWorkbench().addWorkbenchListener(new IWorkbenchListener() {
+
+                    @Override
+                    public boolean preShutdown(IWorkbench workbench, boolean forced) {
+                        IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                                .getActivePage();
+                        activePage.hideView(view);
+                        return true;
+                    }
+
+                    @Override
+                    public void postShutdown(IWorkbench workbench) {
+                    }
+                });
+            }
+        });
+
+        if (thrownException[0] != null) {
+            throw new JobFailedException("Open View Job Failed", thrownException[0]);
+        }
+    }
+
+    @Override
+    public String getName() {
+        return "Get All SPLevo Tasks";
+    }
 
 }

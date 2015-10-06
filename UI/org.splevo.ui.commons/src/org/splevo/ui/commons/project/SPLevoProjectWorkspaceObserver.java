@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -15,49 +14,70 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.splevo.project.SPLevoProjectUtil;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+/**
+ * Observer for available SPLevoProjects in the Eclipse workspace. If a project is opened/closed,
+ * the observer will notify its listeners. It holds a list of available projects with the SPLevo
+ * nature.
+ */
 public class SPLevoProjectWorkspaceObserver {
 
     private static final Logger LOGGER = Logger.getLogger(SPLevoProjectWorkspaceObserver.class);
 
     private final IResourceChangeListener projecListener = createProjectOpenCloseListener();
     private final Set<SPLevoProjectWorkspaceListener> subscribers = Sets.newHashSet();
-    private final List<IFile> projectFiles = Lists.newArrayList();
+    private final List<IProject> projects = Lists.newArrayList();
 
+    /**
+     * Registers a subscriber.
+     * @param listener The subscriber to register.
+     */
     public void registerSubscriber(SPLevoProjectWorkspaceListener listener) {
         synchronized (subscribers) {
             subscribers.add(listener);
         }
     }
 
+    /**
+     * Unregisters a subscriber.
+     * @param listener The subscriber to unregister.
+     */
     public void unregisterSubscriber(SPLevoProjectWorkspaceListener listener) {
         synchronized (subscribers) {
             subscribers.remove(listener);
         }
     }
 
+    /**
+     * Starts the observer.
+     */
     public void startObserver() {
-        synchronized (projectFiles) {
-            projectFiles.clear();
-            Iterables.addAll(projectFiles, determineSPLevoProjectFiles());
+        synchronized (projects) {
+            projects.clear();
+            Iterables.addAll(projects, determineSPLevoProjects());
             ResourcesPlugin.getWorkspace().addResourceChangeListener(projecListener);
         }
     }
 
+    /**
+     * Stops the observer.
+     */
     public void stopObserver() {
-        synchronized (projectFiles) {
+        synchronized (projects) {
             ResourcesPlugin.getWorkspace().removeResourceChangeListener(projecListener);
-            projectFiles.clear();
+            projects.clear();
         }
     }
 
-    public Iterable<IFile> getCurrentState() {
-        synchronized (projectFiles) {
-            return projectFiles;
+    /**
+     * @return The current state of the observer.
+     */
+    public Iterable<IProject> getCurrentState() {
+        synchronized (projects) {
+            return projects;
         }
     }
 
@@ -102,23 +122,17 @@ public class SPLevoProjectWorkspaceObserver {
     }
 
     private void handleOpenedProject(final IProject project) {
-        synchronized (projectFiles) {
-            IFile projectFile = SPLevoProjectUtil.getSPLevoProjectModelFromProject(project);
-            if (projectFile != null) {
-                projectFiles.add(projectFile);
+        synchronized (projects) {
+            if (SPLevoProjectUtil.isSPLevoProject(project)) {
+                projects.add(project);
                 notifySubscribers();
             }
         }
     }
 
     private void handleClosedProject(final IProject project) {
-        synchronized (projectFiles) {
-            if (Iterables.removeIf(projectFiles, new Predicate<IFile>() {
-                @Override
-                public boolean apply(IFile input) {
-                    return project.equals(input.getProject());
-                }
-            })) {
+        synchronized (projects) {
+            if (projects.remove(project)) {
                 notifySubscribers();
             }
         }
@@ -132,8 +146,9 @@ public class SPLevoProjectWorkspaceObserver {
         }
     }
 
-    private Iterable<IFile> determineSPLevoProjectFiles() {
-        return SPLevoProjectUtil.findAllSPLevoProjectFilesInWorkspace(true);
+    private Iterable<IProject> determineSPLevoProjects() {
+        return SPLevoProjectUtil.findAllSPLevoProjectsInWorkspace(true);
     }
+
 
 }

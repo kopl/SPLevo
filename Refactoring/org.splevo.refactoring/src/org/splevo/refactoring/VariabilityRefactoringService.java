@@ -45,37 +45,10 @@ public class VariabilityRefactoringService {
     public static final String SPLEVO_PROJECT = "SPLEVO_PROJECT";
 
     private static Logger logger = Logger.getLogger(VariabilityRefactoringService.class);
-    
-//    /**
-//     * Perform a given refactoring according to the the configured {@link VariationPoint}.
-//     * 
-//     * @param variationPoint
-//     *            The {@link VariationPoint} containing the variants which havte to be refactored.
-//     * @param refactoringConfigurations
-//     *            Refactoring configurations.
-//     * @param refactoring 
-//     * 			  Contains the refactoring which has to be executed.
-//     */
-//    public void ifElseRefactoring(VariationPoint variationPoint, 
-//    							  Map<String, Object> refactoringConfigurations, 
-//    							  VariabilityRefactoring refactoring) {
-//    	
-//    	Set<Resource> toBeSaved = new HashSet<Resource>();
-//    	
-//    	if (!refactoring.canBeAppliedTo(variationPoint)) {
-//            logger.debug("Recommended refactoring cannot be applied to this variation point.");
-//            return;
-//        }
-//
-//        List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringConfigurations);
-//
-//        toBeSaved.addAll(changedResources);
-//        
-//        postprocess(variationPoint.getGroup().getModel(), toBeSaved);
-//    }
 
     /**
-     * Perform refactoring according to the the configured {@link VariationPointModel}.
+     * Perform refactoring according to the the configured {@link VariationPointModel}. This method
+     * executes the {@link VariabilityRefactoring#refactor(VariationPoint, Map)} method.
      * 
      * @param variationPointModel
      *            The {@link VariationPointModel} containing the variation points with the intended
@@ -105,46 +78,89 @@ public class VariabilityRefactoringService {
                 toBeSaved.addAll(changedResources);
             }
         }
-        
+
         postprocess(variationPointModel, toBeSaved);
     }
-    
-    public void refactorFullyAutomated(VariabilityRefactoring refactoring, VariationPointModel vpm, VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException {
+
+    /**
+     * Perform refactoring according to the the configured {@link VariationPointModel}. This method
+     * executes the {@link VariabilityRefactoring#refactor(VariationPoint, Map)} method.
+     * 
+     * <p>
+     * <b>This method shall only be called from semi-automated refactorings that want to execute a
+     * fully-automated refactoring as part of their workflow.</b>
+     * </p>
+     * 
+     * @param refactoring
+     *            The refactoring to be executed (has to be of type
+     *            {@link FullyAutomatedVariabilityRefactoring})
+     * @param vpm
+     *            The variation point model to which the variation point belongs.
+     * @param variationPoint
+     *            The variation point to be refactored.
+     * @param refactoringConfigurations
+     *            The refactoring configuration to be used.
+     * @throws VariabilityRefactoringFailedException
+     *             Thrown if the refactoring is not applicable or not of type
+     *             {@link FullyAutomatedVariabilityRefactoring}.
+     */
+    public void refactorFullyAutomated(VariabilityRefactoring refactoring, VariationPointModel vpm,
+            VariationPoint variationPoint, Map<String, Object> refactoringConfigurations)
+            throws VariabilityRefactoringFailedException {
         if (refactoring.canBeAppliedTo(variationPoint).getSeverity() != Diagnostic.OK) {
-            throw new VariabilityRefactoringFailedException("Recommended refactoring cannot be applied to this variation point.");
+            throw new VariabilityRefactoringFailedException(
+                    "Recommended refactoring cannot be applied to this variation point.");
         }
-        
+
         if (!(refactoring instanceof FullyAutomatedVariabilityRefactoring)) {
             throw new VariabilityRefactoringFailedException("The given refactoring is no fully automated refactoring.");
         }
-        
+
         List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringConfigurations);
-                
+
         postprocess(vpm, Sets.newHashSet(changedResources));
     }
-    
 
+    /**
+     * Perform refactoring according to the the configured {@link VariationPointModel}. This method
+     * executes the
+     * {@link SemiAutomatedVariabilityRefactoring#startManualRefactoring(VariationPoint, Map)}
+     * method after determining the refactoring that shall be applied from the variation point.
+     * 
+     * @param vpm
+     *            The variation point model to which the variation point belongs.
+     * @param variationPoint
+     *            The variation point to be refactored.
+     * @param refactoringConfigurations
+     *            The refactoring configuration to be used.
+     * @throws VariabilityRefactoringFailedException
+     *             Thrown if the refactoring is not applicable, the type is not
+     *             {@link SemiAutomatedVariabilityRefactoring}, or the execution of the refactoring
+     *             failed.
+     */
+    public void refactorSemiAutomated(VariationPointModel vpm, VariationPoint variationPoint,
+            Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException {
 
-    public void refactorSemiAutomated(VariationPointModel vpm, VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException {
         String refactoringID = variationPoint.getVariabilityMechanism().getRefactoringID();
-        VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getInstance().getElementById(
-                refactoringID);
-        
+        VariabilityRefactoring refactoring = VariabilityRefactoringRegistry.getInstance().getElementById(refactoringID);
+
         if (refactoring.canBeAppliedTo(variationPoint).getSeverity() != Diagnostic.OK) {
-            throw new VariabilityRefactoringFailedException("Recommended refactoring cannot be applied to this variation point.");
+            throw new VariabilityRefactoringFailedException(
+                    "Recommended refactoring cannot be applied to this variation point.");
         }
-        
+
         if (!(refactoring instanceof SemiAutomatedVariabilityRefactoring)) {
             throw new VariabilityRefactoringFailedException("The given refactoring is no fully automated refactoring.");
         }
-        
-        List<Resource> changedResources = ((SemiAutomatedVariabilityRefactoring)refactoring).startManualRefactoring(variationPoint, refactoringConfigurations);
-                
+
+        List<Resource> changedResources = ((SemiAutomatedVariabilityRefactoring) refactoring).startManualRefactoring(
+                variationPoint, refactoringConfigurations);
+
         postprocess(vpm, Sets.newHashSet(changedResources));
     }
-    
+
     private void postprocess(VariationPointModel variationPointModel, Set<Resource> toBeSaved) {
-    	EcoreUtil.resolveAll(variationPointModel);
+        EcoreUtil.resolveAll(variationPointModel);
         postprocessVPM(variationPointModel);
         saveVPM(variationPointModel);
         saveAndPostprocessResources(toBeSaved);
@@ -158,9 +174,9 @@ public class VariabilityRefactoringService {
         for (Resource resource : toBeSaved) {
             saveResource(resource);
         }
-        
+
         postprocessResources(toBeSaved);
-        
+
         for (Resource resource : toBeSaved) {
             saveResource(resource);
         }
@@ -235,15 +251,15 @@ public class VariabilityRefactoringService {
      */
     private VariabilityRefactoring getBestMatchingRefactoring(VariationPoint vp,
             List<VariabilityRefactoring> refactorings) {
-        
-        for (VariabilityRefactoring refactoring : refactorings) {            
+
+        for (VariabilityRefactoring refactoring : refactorings) {
             if (refactoring.canBeAppliedTo(vp).getSeverity() == Diagnostic.OK) {
                 return refactoring;
-            }            
-        }        
+            }
+        }
         return null;
     }
-    
+
     private boolean saveVPM(VariationPointModel variationPointModel) {
         if (variationPointModel.eResource() != null) {
             return saveResource(variationPointModel.eResource());
@@ -261,5 +277,5 @@ public class VariabilityRefactoringService {
         }
         return true;
     }
-    
+
 }

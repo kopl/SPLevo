@@ -18,7 +18,7 @@ import de.uka.ipd.sdq.workflow.configuration.AbstractJobConfiguration;
 
 /**
  * A basic workflow configuration shared by different workflows providing access to the splevo
- * project instance.
+ * project editor instance.
  *
  * @author Benjamin Klatt
  *

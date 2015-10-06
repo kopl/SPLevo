@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.splevo.commons.emf.SPLevoResourceSet;
 
-import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -44,6 +44,9 @@ public class SPLevoProjectUtil {
 
     /** The file extension to be used for splevo projects. */
     public static final String SPLEVO_FILE_EXTENSION = "splevoproject";
+
+    /** ID of this project nature. */
+    public static final String NATURE_ID = "org.splevo.ui.splevonature";
 
     private static final Logger LOGGER = Logger.getLogger(SPLevoProjectUtil.class);
 
@@ -119,26 +122,54 @@ public class SPLevoProjectUtil {
     }
 
     /**
-     * Finds all SPLevo project files in the workspace.
+     * Checks if the given project is a SPLevoProject.
+     * 
+     * @param project
+     *            The project to check.
+     * @return True if the project is a SPLevoProject, False otherwise.
+     */
+    public static boolean isSPLevoProject(IProject project) {
+        try {
+            return project.hasNature(NATURE_ID);
+        } catch (CoreException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Finds all SPLevoProjects in the workspace.
      * 
      * @param onlyOpenProjects
-     *            If set to True, the result will only contain open projects.
-     * @return A set of files referencing the SPLevo project files.
+     *            If true, only opened projects are considers. If false, all projects in the
+     *            workspace are considered.
+     * @return The list of available SPLevoProjects in the workspace.
      */
-    public static Iterable<IFile> findAllSPLevoProjectFilesInWorkspace(boolean onlyOpenProjects) {
-        Iterable<IProject> projects = findAllSPLevoProjectsInWorkspace(onlyOpenProjects);
-        Iterable<IFile> projectFiles = Iterables.transform(projects, new Function<IProject, IFile>() {
-            @Override
-            public IFile apply(IProject arg0) {
-                return getSPLevoProjectModelFromProject(arg0);
-            }
-        });
-        return Iterables.filter(projectFiles, new Predicate<IFile>() {
-            @Override
-            public boolean apply(IFile arg0) {
-                return arg0 != null;
-            }
-        });
+    public static Iterable<IProject> findAllSPLevoProjectsInWorkspace(final boolean onlyOpenProjects) {
+        return Iterables.filter(Lists.newArrayList(ResourcesPlugin.getWorkspace().getRoot().getProjects()),
+                new Predicate<IProject>() {
+                    @Override
+                    public boolean apply(IProject arg0) {
+                        return (!onlyOpenProjects || arg0.isOpen()) && isSPLevoProject(arg0);
+                    }
+                });
+    }
+
+    /**
+     * Finds the SPLevoProject file in the given project.
+     * 
+     * @param project
+     *            The project to be searched.
+     * @return The found file as an {@link Optional}.
+     */
+    public static Optional<IFile> findSPLevoProjectFile(IProject project) {
+        SPLevoProjectVisitor visitor = new SPLevoProjectVisitor();
+        try {
+            project.accept(visitor);
+        } catch (CoreException e) {
+            LOGGER.warn("Error looking for the SPLevo project model file.", e);
+            return null;
+        }
+        return Optional.fromNullable(visitor.getSPLevoProjectFile());
     }
 
     /**
@@ -169,29 +200,4 @@ public class SPLevoProjectUtil {
         }
     }
 
-    public static IFile getSPLevoProjectModelFromProject(IProject project) {
-        SPLevoProjectVisitor visitor = new SPLevoProjectVisitor();
-        try {
-            project.accept(visitor);
-        } catch (CoreException e) {
-            LOGGER.warn("Error looking for the SPLevo project model file.", e);
-            return null;
-        }
-        return visitor.getSPLevoProjectFile();
-    }
-
-    private static Iterable<IProject> findAllSPLevoProjectsInWorkspace(final boolean onlyOpenProjects) {
-        return Iterables.filter(Lists.newArrayList(ResourcesPlugin.getWorkspace().getRoot().getProjects()),
-                new Predicate<IProject>() {
-                    @Override
-                    public boolean apply(IProject arg0) {
-                        try {
-                            return (!onlyOpenProjects || arg0.isOpen()) && arg0.hasNature("org.splevo.ui.splevonature");
-                        } catch (CoreException e) {
-                            LOGGER.warn("Error checking nature of project.", e);
-                            return false;
-                        }
-                    }
-                });
-    }
 }

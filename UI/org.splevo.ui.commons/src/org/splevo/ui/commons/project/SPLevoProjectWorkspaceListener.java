@@ -1,11 +1,18 @@
 package org.splevo.ui.commons.project;
 
-import java.util.List;
-
-import org.eclipse.core.resources.IFile;
-
+/**
+ * Base interface for listeners that are notified about availability changes of SPLevoProjects in
+ * the workspace.
+ */
 public interface SPLevoProjectWorkspaceListener {
 
-    void availableProjectFilesChanged(SPLevoProjectWorkspaceObserver observer);
+    /**
+     * Called if the available project files changed. The available projects can be determined from
+     * the given observer.
+     * 
+     * @param obserable
+     *            The observable that called the listener.
+     */
+    void availableProjectFilesChanged(SPLevoProjectWorkspaceObserver obserable);
 
 }

@@ -37,9 +37,6 @@ public abstract class JaMoPPSemiAutomatedVariabilityRefactoring extends SemiAuto
         RefactoringUtil.addCommentBefore((Commentable) element, commentText);
     }
 
-    /* (non-Javadoc)
-     * @see org.splevo.refactoring.SemiAutomatedVariabilityRefactoring#startManualRefactoring(org.splevo.vpm.variability.VariationPoint, java.util.Map)
-     */
     @Override
     public List<Resource> startLanguageSpecificManualRefactoring(VariationPoint variationPoint,
             Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException {
@@ -48,7 +45,18 @@ public abstract class JaMoPPSemiAutomatedVariabilityRefactoring extends SemiAuto
         changedResources.add(variationPoint.getLocation().getWrappedElement().eResource());
         return changedResources;
     }
-    
+
+    /**
+     * Starts the specific refactoring logic.
+     * 
+     * @param variationPoint
+     *            The variation point to be refactored.
+     * @param refactoringConfigurations
+     *            The refactoring configuration to be used.
+     * @return The list of changed resources that shall be saved.
+     * @throws VariabilityRefactoringFailedException
+     *             In case of a failed refactoring.
+     */
     protected abstract List<Resource> startManualRefactoringInternal(VariationPoint variationPoint,
             Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException;
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014
+ * Copyright (c) 2015
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,31 +15,25 @@ import org.splevo.commons.registry.RegistryBase;
 
 import com.google.common.base.Strings;
 
-
+/**
+ * Registry for todo tag customizers.
+ */
 public enum TodoTagCustomizerRegistry {
     INSTANCE;
-    
+
     private final InnerTodoTagCustomizerRegistry innerRegistry = new InnerTodoTagCustomizerRegistry();
-    
+
     /**
      * @return The singleton instance.
      */
     public static InnerTodoTagCustomizerRegistry getInstance() {
         return INSTANCE.innerRegistry;
     }
-    
+
     /**
-     * Implementation of the MergeDecider registry.
+     * Implementation of the TodoTagCustomizer registry.
      */
     public class InnerTodoTagCustomizerRegistry extends RegistryBase<TodoTagCustomizer> {
-        
-        /**
-         * Clear all registered decider.<br>
-         * This should be called if you need to ensure there are no decider registered previously.
-         */
-        public void clearRegistry() {
-            elements.clear();
-        }
 
         @Override
         protected boolean areElementsConsideredTheSame(TodoTagCustomizer element1, TodoTagCustomizer element2) {
@@ -54,5 +48,5 @@ public enum TodoTagCustomizerRegistry {
         }
 
     }
-    
+
 }

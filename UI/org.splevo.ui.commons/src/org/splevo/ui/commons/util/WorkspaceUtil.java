@@ -38,8 +38,10 @@ public final class WorkspaceUtil {
      * convert it before showing it to the user. Anyway, the output is just fine for initializing a
      * File object.
      * 
-     * @param projectRelativePath The path relative to the SPLevo project given as another parameter. 
-     * @param splevoProject The SPLevo project defining the project.
+     * @param projectRelativePath
+     *            The path relative to the SPLevo project given as another parameter.
+     * @param splevoProject
+     *            The SPLevo project defining the project.
      * @return The absolute path to the file as portable string.
      */
     public static String getAbsoluteFromProjectRelativePath(String projectRelativePath, SPLevoProject splevoProject) {
@@ -91,13 +93,22 @@ public final class WorkspaceUtil {
         String basePath = workspace.getRoot().getRawLocation().toOSString() + "/";
         return basePath;
     }
-    
+
+    /**
+     * Maps a list of given project names to a list of projects. If a project with a given name does
+     * not exist, it will be omitted in the output.
+     * 
+     * @param projectNames
+     *            The names of the projects.
+     * @return The workspace projects matching the given names.
+     */
     public static Iterable<IProject> transformProjectNamesToProjects(Iterable<String> projectNames) {
         Iterable<IProject> projects = Iterables.transform(projectNames, new Function<String, IProject>() {
             @Override
             public IProject apply(String input) {
                 return ResourcesPlugin.getWorkspace().getRoot().getProject(input);
-            } });
+            }
+        });
         return Iterables.filter(projects, Predicates.notNull());
     }
 

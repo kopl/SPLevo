@@ -28,7 +28,6 @@ import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefacto
 import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
-import org.splevo.jamopp.refactoring.java.ifelse.util.SemiAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.refactoring.VariabilityRefactoringService;
@@ -46,11 +45,17 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR): Statement in Condition";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassConditionOPTXOR";
-    
-    private IfElseRefactoringUtil ifElseRefactoringUtil = null;
-    
+
+    private final IfElseRefactoringUtil ifElseRefactoringUtil;
+
+    /**
+     * Constructs the refactoring.
+     * 
+     * @param ifElseRefactoringUtil
+     *            The refactoring util to be used during the refactoring.
+     */
     public IfStaticConfigClassStatementInConditionOPTXOR(IfElseRefactoringUtil ifElseRefactoringUtil) {
-    	this.ifElseRefactoringUtil = ifElseRefactoringUtil;
+        this.ifElseRefactoringUtil = ifElseRefactoringUtil;
     }
 
     @Override
@@ -62,31 +67,33 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
     }
 
     @Override
-    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
-        Condition vpLocation = (Condition) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint,
+            Map<String, Object> refactoringOptions) {
+        Condition vpLocation = (Condition) ((JaMoPPJavaSoftwareElement) variationPoint.getLocation())
+                .getJamoppElement();
         Statement elseStatement = vpLocation.getElseStatement();
 
         if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
-			CompilationUnit compilationUnit = vpLocation
-					.getContainingCompilationUnit();
-			SPLConfigurationUtil
-					.addConfigurationClassImportIfMissing(compilationUnit);
-		} 	
+            CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
+            SPLConfigurationUtil.addConfigurationClassImportIfMissing(compilationUnit);
+        }
 
         String groupName = variationPoint.getGroup().getName();
-        
-        Condition previousCondition = vpLocation;
-        
-        for (Variant variant : variationPoint.getVariants()) {
-            Condition variabilityCondition = this.ifElseRefactoringUtil.createVariabilityCondition(variant.getId(), groupName);
 
-            Commentable element = ((JaMoPPJavaSoftwareElement) variant.getImplementingElements().get(0)).getJamoppElement();
+        Condition previousCondition = vpLocation;
+
+        for (Variant variant : variationPoint.getVariants()) {
+            Condition variabilityCondition = this.ifElseRefactoringUtil.createVariabilityCondition(variant.getId(),
+                    groupName);
+
+            Commentable element = ((JaMoPPJavaSoftwareElement) variant.getImplementingElements().get(0))
+                    .getJamoppElement();
             Statement stmt = clone((Statement) element);
-//            if (variant.getLeading()) {
-//                stmt = (Statement) element;
-//            } else {
-//                stmt = EcoreUtil.copy((Statement) element);
-//            }
+            // if (variant.getLeading()) {
+            // stmt = (Statement) element;
+            // } else {
+            // stmt = EcoreUtil.copy((Statement) element);
+            // }
 
             if (stmt instanceof Block) {
                 variabilityCondition.setStatement(stmt);
@@ -98,17 +105,18 @@ public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAu
             previousCondition.setElseStatement(variabilityCondition);
             previousCondition = variabilityCondition;
         }
-        
+
         previousCondition.setElseStatement(elseStatement);
 
         ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
 
         if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
-        	ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
-                    .getResourceSet();
+            ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement()
+                    .eResource().getResourceSet();
             String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
-            Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet, variationPoint);
-            
+            Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
+                    variationPoint);
+
             if (configResource != null) {
                 resourceList.add(configResource);
             }

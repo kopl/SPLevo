@@ -181,12 +181,12 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
      *             identifies a problem during nature setting.
      */
     private void addNature(IProject project) throws CoreException {
-        if (!project.hasNature(SPLevoNature.NATURE_ID)) {
+        if (!project.hasNature(SPLevoNature.getNatureId())) {
             IProjectDescription description = project.getDescription();
             String[] prevNatures = description.getNatureIds();
             String[] newNatures = new String[prevNatures.length + 1];
             System.arraycopy(prevNatures, 0, newNatures, 0, prevNatures.length);
-            newNatures[prevNatures.length] = SPLevoNature.NATURE_ID;
+            newNatures[prevNatures.length] = SPLevoNature.getNatureId();
             description.setNatureIds(newNatures);
 
             IProgressMonitor monitor = null;

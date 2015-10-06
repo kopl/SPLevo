@@ -64,12 +64,18 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Field";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField";
 
-    private IfElseRefactoringUtil ifElseRefactoringUtil = null;
-    
+    private final IfElseRefactoringUtil ifElseRefactoringUtil;
+
+    /**
+     * Constructs the refactoring.
+     * 
+     * @param ifElseRefactoringUtil
+     *            The refactoring util to be used.
+     */
     public IfStaticConfigClassField(IfElseRefactoringUtil ifElseRefactoringUtil) {
-    	this.ifElseRefactoringUtil = ifElseRefactoringUtil;
+        this.ifElseRefactoringUtil = ifElseRefactoringUtil;
     }
-    
+
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
         VariabilityMechanism variabilityMechanism = RealizationFactory.eINSTANCE.createVariabilityMechanism();
@@ -79,7 +85,8 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
     }
 
     @Override
-    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint,
+            Map<String, Object> refactoringOptions) {
         Map<String, List<Field>> fieldToFieldName = Maps.newHashMap();
         Map<String, List<Integer>> positionToFieldName = Maps.newHashMap();
         Map<String, List<Expression>> initialValuesToFieldName = new HashMap<String, List<Expression>>();
@@ -103,9 +110,9 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
 
             Field field = Iterables.getLast(fields);
             int fieldPos = Iterables.getLast(fieldPositions);
-            
+
             registerReplacement(fields, field);
-            
+
             vpLocation.getMembers().add(fieldPos, field);
 
             if (initialValues.size() > 1) {
@@ -116,7 +123,7 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
                 for (Expression value : initialValues) {
                     String variantId = variantIDToInitialValue.get(value);
                     String groupName = variationPoint.getGroup().getName();
-                    
+
                     ExpressionStatement fieldAssignment = createFieldAssignment(field, value);
 
                     Condition condition = this.ifElseRefactoringUtil.createVariabilityCondition(variantId, groupName);
@@ -141,13 +148,14 @@ public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRef
         }
 
         ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
-        
+
         if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
-        	ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement().eResource()
-                    .getResourceSet();
+            ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement()
+                    .eResource().getResourceSet();
             String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
-            Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet, variationPoint);
-            
+            Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
+                    variationPoint);
+
             if (configResource != null) {
                 resourceList.add(configResource);
             }

@@ -18,6 +18,12 @@ import com.google.common.collect.Lists;
  */
 public abstract class SemiAutomatedVariabilityRefactoring implements VariabilityRefactoring {
 
+    /**
+     * Prepares the variation point for the outstanding semi-automated refactoring.
+     * 
+     * @see org.splevo.refactoring.VariabilityRefactoring#refactor(org.splevo.vpm.variability.VariationPoint,
+     *      java.util.Map)
+     */
     @Override
     public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
         EObject elementToComment = variationPoint.getLocation().getWrappedElement();
@@ -37,21 +43,36 @@ public abstract class SemiAutomatedVariabilityRefactoring implements Variability
     protected abstract void addCommentToElement(EObject element, String variationPointID);
 
     /**
-     * Starts the semi-automated refactoring process.
-     * TODO we might be able to provide some more base functionality for this.
+     * Starts the semi-automated refactoring process. TODO we might be able to provide some more
+     * base functionality for this.
      * 
      * @param variationPoint
      *            The variation point to be refactored.
      * @param refactoringConfigurations
      *            The refactoring configurations to be considered during the refactoring.
+     * @return The list of changed resources that shall be peristed.
+     * @throws VariabilityRefactoringFailedException
+     *             If the refactoring did not finish successfully.
      */
     public List<Resource> startManualRefactoring(VariationPoint variationPoint,
             Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException {
-        List<Resource> changedResources = startLanguageSpecificManualRefactoring(variationPoint, refactoringConfigurations);
+        List<Resource> changedResources = startLanguageSpecificManualRefactoring(variationPoint,
+                refactoringConfigurations);
         variationPoint.setRefactored(true);
         return changedResources;
     }
-    
+
+    /**
+     * Starts the language specific part of the refactoring.
+     * 
+     * @param variationPoint
+     *            The variation point to be refactored.
+     * @param refactoringConfigurations
+     *            The refactoring configuration to be used.
+     * @return The list of changed resources that shall be peristed.
+     * @throws VariabilityRefactoringFailedException
+     *             If the refactoring did not finish successfully.
+     */
     protected abstract List<Resource> startLanguageSpecificManualRefactoring(VariationPoint variationPoint,
             Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException;
 

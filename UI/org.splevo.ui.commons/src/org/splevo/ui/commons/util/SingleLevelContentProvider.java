@@ -4,6 +4,11 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+/**
+ * Content provider that only provides elements without children. Therefore, there is no hierarchy
+ * in the provided information. This provider required an input of type
+ * {@link SingleLevelElementProvider}.
+ */
 public class SingleLevelContentProvider implements IStructuredContentProvider {
 
     private static final Logger LOGGER = Logger.getLogger(SingleLevelContentProvider.class);

@@ -1,9 +1,23 @@
+/*******************************************************************************
+ * Copyright (c) 2015
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Stephan Seifermann
+ *******************************************************************************/
 package org.splevo.ui.workflow;
 
 import org.splevo.project.SPLevoProject;
 
 import de.uka.ipd.sdq.workflow.configuration.AbstractJobConfiguration;
 
+/**
+ * A basic workflow configuration that only consists of the SPLevoProject instance.
+ */
 public class BasicSPLevoProjectWorkflowConfiguration extends AbstractJobConfiguration {
 
     public static final String ERROR_MSG_PROJECT_MISSING = "No SPLevo Project configured";
@@ -13,7 +27,7 @@ public class BasicSPLevoProjectWorkflowConfiguration extends AbstractJobConfigur
 
     /**
      * Check the configuration and return a message in case of an error.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override

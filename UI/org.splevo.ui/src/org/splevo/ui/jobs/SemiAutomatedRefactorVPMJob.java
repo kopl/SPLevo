@@ -20,22 +20,28 @@ import com.google.common.collect.Maps;
 import de.uka.ipd.sdq.workflow.jobs.JobFailedException;
 import de.uka.ipd.sdq.workflow.jobs.UserCanceledException;
 
+/**
+ * Job for executing a semi-automated refactoring.
+ */
 public class SemiAutomatedRefactorVPMJob extends RefactorVPMJob {
 
     private final String variationPointId;
     private final SPLevoProject splevoProject;
 
+    /**
+     * Constructs the refactoring job.
+     * 
+     * @param splevoProject
+     *            The SPLevoProject to which the variation point belongs.
+     * @param variationPointId
+     *            The ID of the variation point to be refactored.
+     */
     public SemiAutomatedRefactorVPMJob(SPLevoProject splevoProject, String variationPointId) {
         super(splevoProject);
         this.variationPointId = variationPointId;
         this.splevoProject = splevoProject;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.splevo.ui.jobs.RefactorVPMJob#execute(org.eclipse.core.runtime.IProgressMonitor)
-     */
     @Override
     public void execute(IProgressMonitor arg0) throws JobFailedException, UserCanceledException {
         VariationPointModel vpm = getBlackboard().getVariationPointModel();
@@ -77,11 +83,6 @@ public class SemiAutomatedRefactorVPMJob extends RefactorVPMJob {
         });
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.splevo.ui.jobs.RefactorVPMJob#getName()
-     */
     @Override
     public String getName() {
         return "Semi-automated VPM refactoring job";

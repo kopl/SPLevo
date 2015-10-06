@@ -88,7 +88,7 @@ public class AddSPLevoNatureHandler extends AbstractHandler {
             String[] natures = description.getNatureIds();
 
             for (int i = 0; i < natures.length; ++i) {
-                if (SPLevoNature.NATURE_ID.equals(natures[i])) {
+                if (SPLevoNature.getNatureId().equals(natures[i])) {
                     // Remove the nature
                     String[] newNatures = new String[natures.length - 1];
                     System.arraycopy(natures, 0, newNatures, 0, i);
@@ -102,7 +102,7 @@ public class AddSPLevoNatureHandler extends AbstractHandler {
             // Add the nature
             String[] newNatures = new String[natures.length + 1];
             System.arraycopy(natures, 0, newNatures, 0, natures.length);
-            newNatures[natures.length] = SPLevoNature.NATURE_ID;
+            newNatures[natures.length] = SPLevoNature.getNatureId();
             description.setNatureIds(newNatures);
             project.setDescription(description, null);
         } catch (CoreException e) {

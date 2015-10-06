@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.splevo.jamopp.refactoring.tests;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Fragment-Host: org.splevo.jamopp.refactoring
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.junit,

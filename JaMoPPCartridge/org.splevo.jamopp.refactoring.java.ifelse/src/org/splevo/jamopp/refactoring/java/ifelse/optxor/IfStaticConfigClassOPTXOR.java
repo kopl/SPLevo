@@ -53,10 +53,19 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
 
     protected List<VariabilityRefactoring> availableRefactorings;
 
+    /**
+     * Constructs the refactoring.
+     */
     public IfStaticConfigClassOPTXOR() {
-    	this (new FullyAutomatedIfElseRefactoringUtil());
+        this(new FullyAutomatedIfElseRefactoringUtil());
     }
-    
+
+    /**
+     * Constructs the refactoring.
+     * 
+     * @param util
+     *            The refactoring util to be used in the refactoring.s
+     */
     public IfStaticConfigClassOPTXOR(IfElseRefactoringUtil util) {
         availableRefactorings = new LinkedList<VariabilityRefactoring>();
 
@@ -84,7 +93,8 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
     }
 
     @Override
-    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
+    protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint,
+            Map<String, Object> refactoringOptions) {
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             if (refactoring.canBeAppliedTo(variationPoint).getSeverity() == Diagnostic.OK) {
                 List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringOptions);
@@ -101,12 +111,12 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
     public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
         boolean correctCharacteristics = hasCorrectCharacteristics(variationPoint);
         if (!correctCharacteristics) {
-            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, 
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0,
                     "If with Static Configuration Class (OPTXOR): Wrong Characteristics", null);
         }
 
-        BasicDiagnostic diagnostic =  new BasicDiagnostic(Diagnostic.ERROR, null, 0, 
-                "No matching Refactoring can be found!", null); 
+        BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.ERROR, null, 0,
+                "No matching Refactoring can be found!", null);
         for (VariabilityRefactoring refactoring : availableRefactorings) {
             Diagnostic d = refactoring.canBeAppliedTo(variationPoint);
             if (d.getSeverity() == Diagnostic.OK) {
@@ -114,10 +124,10 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
             } else {
                 diagnostic.add(d);
             }
-        } 
+        }
         return diagnostic;
     }
-    
+
     /**
      * Determines if the variation point has the correct characteristics for this refactoring.
      * 

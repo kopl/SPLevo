@@ -47,6 +47,8 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.project.SPLevoProjectUtil;
 import org.splevo.project.VPMModelReference;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 
 /**
@@ -107,7 +109,14 @@ public class LoadVPMCompositeHandler {
         public Object[] getElements() {
             List<VPMLoadingInformation> elements = new ArrayList<VPMLoadingInformation>();
 
-            Iterable<IFile> projectFiles = SPLevoProjectUtil.findAllSPLevoProjectFilesInWorkspace(true);
+            Iterable<IProject> projects = SPLevoProjectUtil.findAllSPLevoProjectsInWorkspace(true);
+            Iterable<IFile> projectFiles = Iterables.filter(
+                    Iterables.transform(projects, new Function<IProject, IFile>() {
+                        @Override
+                        public IFile apply(IProject input) {
+                            return SPLevoProjectUtil.findSPLevoProjectFile(input).orNull();
+                        }
+                    }), Predicates.notNull());
             for (IFile projectFile : projectFiles) {
                 try {
                     SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel(projectFile);

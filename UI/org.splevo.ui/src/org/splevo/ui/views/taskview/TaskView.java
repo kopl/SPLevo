@@ -75,20 +75,22 @@ public class TaskView extends ViewPart {
 
     private CompositeSwitcher compositeSwitcherComposite;
     private Optional<SPLevoProject> selectedSPLevoProject;
-    
+
     /**
-     * The class provides a selection of all started refactorings
-     * and visualize the remaining tasks in the taskview.
+     * The class provides a selection of all started refactorings and visualize the remaining tasks
+     * in the taskview.
      */
     private class TaskViewComboBoxSelectionComposite extends ComboBoxSelectionComposite {
-        
+
         private final SPLevoProjectWorkspaceObserver projectObserver;
         private final SPLevoProjectWorkspaceListener projectListener;
-        
+
         public TaskViewComboBoxSelectionComposite(Composite parent) {
-            super(parent, "Please select a consolidation project below. Afterwards, this list shows the outstanding refactorings for this project.",
+            super(
+                    parent,
+                    "Please select a consolidation project below. Afterwards, this list shows the outstanding refactorings for this project.",
                     "Select");
- 
+
             projectObserver = new SPLevoProjectWorkspaceObserver();
             projectListener = new SPLevoProjectWorkspaceListener() {
                 @Override
@@ -124,21 +126,11 @@ public class TaskView extends ViewPart {
         protected ILabelProvider getLabelProvider() {
             return new LabelProvider() {
 
-                /*
-                 * (non-Javadoc)
-                 * 
-                 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
-                 */
                 @Override
                 public String getText(Object element) {
-                    try {
-                        if (element != null && element instanceof IFile) {
-                            IFile file = (IFile) element;
-                            SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel(file);
-                            return project.getName();
-                        }
-                    } catch (IOException e) {
-                        LOGGER.warn("Could not load SPLevoProjectFile.", e);
+                    if (element != null && element instanceof IProject) {
+                        IProject project = (IProject) element;
+                        return project.getName();
                     }
                     return "Invalid element";
                 }
@@ -150,12 +142,14 @@ public class TaskView extends ViewPart {
             return new SingleLevelElementProvider() {
                 @Override
                 public Object[] getElements() {
-                    return Iterables.toArray(projectObserver.getCurrentState(), IFile.class);
+                    return Iterables.toArray(projectObserver.getCurrentState(), IProject.class);
                 }
             };
         }
 
-        /* (non-Javadoc)
+        /*
+         * (non-Javadoc)
+         * 
          * @see org.eclipse.swt.widgets.Widget#dispose()
          */
         @Override
@@ -164,9 +158,9 @@ public class TaskView extends ViewPart {
             projectObserver.unregisterSubscriber(projectListener);
             super.dispose();
         }
-        
+
     }
-    
+
     /**
      * Provides the table for the taskviewer
      */
@@ -254,8 +248,8 @@ public class TaskView extends ViewPart {
             public void run() {
                 TableItem[] tableItem = table.getSelection();
                 if (null != tableItem) {
-                	String[] splittedByBlank = tableItem[0].getText(0).split(" ");
-					String variationPointID = splittedByBlank[0];
+                    String[] splittedByBlank = tableItem[0].getText(0).split(" ");
+                    String variationPointID = splittedByBlank[0];
                     if (variationPointID != "" || variationPointID != null) {
                         SPLevoBlackBoard spLevoBlackBoard = new SPLevoBlackBoard();
                         BuildSemiAutomatedRefactoringWorkflowDelegate buildSPLWorkflowConfiguration = new BuildSemiAutomatedRefactoringWorkflowDelegate(
@@ -273,18 +267,19 @@ public class TaskView extends ViewPart {
         startRefactoringAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
                 .getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
     }
-    
+
     private void fillTableWithTasks(boolean forceProjectSelection) {
         if (forceProjectSelection || !selectedSPLevoProject.isPresent()) {
             compositeSwitcherComposite.switchToElement(0);
             return;
         }
-        
+
         compositeSwitcherComposite.switchToElement(1);
         SPLevoProject project = selectedSPLevoProject.get();
-        Iterable<IProject> relevantProjects = Iterables.concat(WorkspaceUtil.transformProjectNamesToProjects(project.getLeadingProjects()),
+        Iterable<IProject> relevantProjects = Iterables.concat(
+                WorkspaceUtil.transformProjectNamesToProjects(project.getLeadingProjects()),
                 WorkspaceUtil.transformProjectNamesToProjects(project.getIntegrationProjects()));
-        
+
         try {
             viewer.setInput(new TaskCreator().getTasks(relevantProjects));
         } catch (CoreException e) {
@@ -359,8 +354,9 @@ public class TaskView extends ViewPart {
 
     /**
      * Sets a SPLevoProject
+     * 
      * @param splevoProject
-     * 			represents the project which will be set.
+     *            represents the project which will be set.
      */
     public void setSPLevoProject(SPLevoProject splevoProject) {
         this.selectedSPLevoProject = Optional.fromNullable(splevoProject);
