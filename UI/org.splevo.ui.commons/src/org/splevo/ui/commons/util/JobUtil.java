@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.extraction.DefaultExtractionService;
 import org.splevo.project.SPLevoProject;
 
@@ -41,9 +42,9 @@ public final class JobUtil {
      *            Flag to activate loading of layout information.
      * @return The initialized resource set.
      */
-	public static ResourceSetImpl initResourceSet(SPLevoProject splevoProject, boolean loadLayoutInformation) {
+	public static ResourceSet initResourceSet(SPLevoProject splevoProject, boolean loadLayoutInformation) {
 
-		ResourceSetImpl resourceSet = new ResourceSetImpl();
+		ResourceSet resourceSet = new SPLevoResourceSet();
 
 		List<String> sourceModelPaths = Lists.newArrayList();
 		sourceModelPaths.add(splevoProject.getSourceModelPathLeading());

@@ -17,6 +17,7 @@ import static org.junit.Assert.assertThat;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.statements.StatementsFactory;
@@ -57,7 +58,7 @@ public class IfStaticConfigClassOPTXORTest {
 
         IfStaticConfigClassOPTXOR refactoring = new IfStaticConfigClassOPTXOR();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), equalTo(Diagnostic.ERROR));
     }
 
     /**
@@ -74,7 +75,7 @@ public class IfStaticConfigClassOPTXORTest {
 
         IfStaticConfigClassOPTXOR refactoring = new IfStaticConfigClassOPTXOR();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), equalTo(Diagnostic.ERROR));
     }
 
     /**
@@ -91,6 +92,6 @@ public class IfStaticConfigClassOPTXORTest {
 
         IfStaticConfigClassOPTXOR refactoring = new IfStaticConfigClassOPTXOR();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), equalTo(Diagnostic.ERROR));
     }
 }

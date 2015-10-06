@@ -15,6 +15,9 @@ package org.splevo.ui.vpexplorer.featureoutline;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.TreeNodeContentProvider;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
+import org.splevo.ui.vpexplorer.featureoutline.content.GetVariationPointGroupChildren;
+import org.splevo.ui.vpexplorer.featureoutline.content.GetVariationPointGroupChildrenBase;
+import org.splevo.ui.vpexplorer.featureoutline.content.VariantWrapper;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 
@@ -26,6 +29,8 @@ import org.splevo.vpm.variability.VariationPointGroup;
 public class FeatureOutlineContentProvider extends TreeNodeContentProvider {
 
     private static Logger logger = Logger.getLogger(FeatureOutlineContentProvider.class);
+    
+    private GetVariationPointGroupChildren vpgc = new GetVariationPointGroupChildrenBase();    
 
     @Override
     public Object[] getElements(Object inputElement) {
@@ -44,11 +49,13 @@ public class FeatureOutlineContentProvider extends TreeNodeContentProvider {
             return getChildren((VPExplorerContent) parentElement);
 
         } else if (parentElement instanceof VariationPointGroup) {
-            return getChildren((VariationPointGroup) parentElement);
+            return vpgc.getChildren((VariationPointGroup) parentElement);
 
         } else if (parentElement instanceof VariationPoint) {
             return getChildren((VariationPoint) parentElement);
 
+        } else if (parentElement instanceof VariantWrapper) {
+            return ((VariantWrapper) parentElement).getVariationPoints().toArray();
         } else {
             logger.warn("Unhandled Parent Element: " + parentElement.getClass().getSimpleName());
         }
@@ -64,14 +71,11 @@ public class FeatureOutlineContentProvider extends TreeNodeContentProvider {
         }
     }
 
-    private Object[] getChildren(VariationPointGroup parentElement) {
-        return parentElement.getVariationPoints().toArray();
-    }
 
     private Object[] getChildren(VariationPoint parentElement) {
         return new Object[0];
     }
-
+    
     @Override
     public Object getParent(Object element) {
         if (element instanceof VPExplorerContent) {
@@ -99,5 +103,13 @@ public class FeatureOutlineContentProvider extends TreeNodeContentProvider {
 
     private Object getParent(VariationPoint element) {
         return element.getGroup();
+    }
+    
+    /**
+     * Sets the context of the provider.
+     * @param vpgc the context that is set
+     */
+    public void setGetChildren(GetVariationPointGroupChildren vpgc) {
+        this.vpgc = vpgc;
     }
 }

@@ -61,13 +61,6 @@
       </wizard>
    </extension>
 
-null
-null
-null
-null
-null
-null
-null
    <extension point="org.eclipse.ui.editors">
       <editor
             id="org.splevo.vpm.variability.presentation.variabilityEditorID"
@@ -95,11 +88,4 @@ null
       </wizard>
    </extension>
 
-null
-null
-null
-null
-null
-null
-null
 </plugin>

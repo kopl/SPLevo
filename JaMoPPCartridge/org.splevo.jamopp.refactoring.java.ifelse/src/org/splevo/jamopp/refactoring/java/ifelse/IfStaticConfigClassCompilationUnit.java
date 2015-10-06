@@ -15,12 +15,14 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
@@ -57,7 +59,7 @@ public class IfStaticConfigClassCompilationUnit extends JaMoPPFullyAutomatedVari
 
         String sourcePath = (String) refactoringConfigurations.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
 
-        ResourceSet resourceSet = new ResourceSetImpl();
+        ResourceSet resourceSet = new SPLevoResourceSet();
         for (Variant variant : variationPoint.getVariants()) {
             if (variant.getLeading()) {
                 continue;
@@ -97,14 +99,21 @@ public class IfStaticConfigClassCompilationUnit extends JaMoPPFullyAutomatedVari
     }
 
     @Override
-    public boolean canBeAppliedTo(VariationPoint variationPoint) {
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
         Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof CompilationUnit;
         boolean allImplementingElementsAreClasses = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 CompilationUnit.class);
+        String error = "If with Static Configuration Class Compilition Unit: ";
+        if (!correctLocation) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Wrong Location", null);
+        }
+        if (!allImplementingElementsAreClasses) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Not all Implementing Elements are Classes", null);
+        }
 
-        return correctLocation && allImplementingElementsAreClasses;
+        return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
     }
 
     @Override

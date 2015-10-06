@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.TreeNodeContentProvider;
 import org.eclipse.ui.PlatformUI;
+import org.splevo.commons.emf.FileResourceHandling;
 import org.splevo.ui.vpexplorer.explorer.VPExplorer;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
 import org.splevo.vpm.software.SoftwareElement;
@@ -347,7 +348,8 @@ public class VPExplorerContentProvider extends TreeNodeContentProvider {
                 // element wrappers location to save further navigation
                 // and resolving overhead.
                 EObject locationElement = vp.getLocation().getWrappedElement();
-                String filePath = locationElement.eResource().getURI().toFileString();
+                File realSourceFile = FileResourceHandling.getPhysicalFilePath(locationElement.eResource());
+                String filePath = realSourceFile.getAbsolutePath();
                 File sourceFile = new VPExplorerContentFileWithChildReference(filePath,
                         new Function<VPExplorerContentFileWithChildReference, Object[]>() {
                     @Override

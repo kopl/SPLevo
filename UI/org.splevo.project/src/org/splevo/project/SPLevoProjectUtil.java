@@ -28,9 +28,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.splevo.commons.emf.SPLevoResourceSet;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -80,7 +80,7 @@ public class SPLevoProjectUtil {
                 new XMIResourceFactoryImpl());
 
         // load the resource and resolve the proxies
-        ResourceSet rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
         Resource r = rs.createResource(URI.createPlatformResourceURI(splevoProjectFile.getPath(), true));
         r.load(null);
         EcoreUtil.resolveAll(rs);
@@ -111,7 +111,7 @@ public class SPLevoProjectUtil {
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put(SPLevoProjectUtil.SPLEVO_FILE_EXTENSION, new XMIResourceFactoryImpl());
-        ResourceSet resSet = new ResourceSetImpl();
+        ResourceSet resSet = new SPLevoResourceSet();
         final Resource resource = resSet.createResource(URI.createPlatformResourceURI(filePath.getPath(), true));
         resource.getContents().add(project);
 

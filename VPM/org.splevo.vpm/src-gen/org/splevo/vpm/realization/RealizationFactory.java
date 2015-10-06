@@ -22,31 +22,30 @@ import org.eclipse.emf.ecore.EFactory;
  * @generated
  */
 public interface RealizationFactory extends EFactory {
-	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	RealizationFactory eINSTANCE = org.splevo.vpm.realization.impl.RealizationFactoryImpl
-			.init();
+    /**
+     * The singleton instance of the factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    RealizationFactory eINSTANCE = org.splevo.vpm.realization.impl.RealizationFactoryImpl.init();
 
-	/**
-	 * Returns a new object of class '<em>Variability Mechanism</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Variability Mechanism</em>'.
-	 * @generated
-	 */
-	VariabilityMechanism createVariabilityMechanism();
+    /**
+     * Returns a new object of class '<em>Variability Mechanism</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Variability Mechanism</em>'.
+     * @generated
+     */
+    VariabilityMechanism createVariabilityMechanism();
 
-	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
-	RealizationPackage getRealizationPackage();
+    /**
+     * Returns the package supported by this factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the package supported by this factory.
+     * @generated
+     */
+    RealizationPackage getRealizationPackage();
 
 } //RealizationFactory

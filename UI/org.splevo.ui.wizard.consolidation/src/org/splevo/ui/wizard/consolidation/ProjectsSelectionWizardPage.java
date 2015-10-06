@@ -106,11 +106,12 @@ public class ProjectsSelectionWizardPage extends WizardPage {
         projectConfiguration.setVariantNameLeading(leadingVariantNameField.getText().trim());
         projectConfiguration.setVariantNameIntegration(integrationVariantNameField.getText().trim());
         
-        for (String chosenLeadingProjectName : getChosenProjectsNames(leadingProjectsTable)) {   
+        projectConfiguration.getLeadingProjects().clear();
+        for (String chosenLeadingProjectName : getChosenProjectsNames(leadingProjectsTable)) {  
             projectConfiguration.getLeadingProjects().add(chosenLeadingProjectName);
         }
-        
-        for (String chosenIntegrationProjectName : getChosenProjectsNames(integrationProjectsTable)) {   
+        projectConfiguration.getIntegrationProjects().clear();
+        for (String chosenIntegrationProjectName : getChosenProjectsNames(integrationProjectsTable)) {  
             projectConfiguration.getIntegrationProjects().add(chosenIntegrationProjectName);
         }
     }

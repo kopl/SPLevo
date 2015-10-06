@@ -21,6 +21,7 @@ import java.util.HashMap;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.expressions.EqualityExpression;
@@ -70,7 +71,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
 
         IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR(ifElseRefactoringUtil);
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), equalTo(Diagnostic.OK));
     }
 
     /**
@@ -87,7 +88,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
 
         IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR(ifElseRefactoringUtil);
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), equalTo(Diagnostic.ERROR));
     }
 
     /**
@@ -104,7 +105,7 @@ public class IfStaticConfigClassStatementInConditionOPTXORTest {
 
         IfStaticConfigClassStatementInConditionOPTXOR refactoring = new IfStaticConfigClassStatementInConditionOPTXOR(ifElseRefactoringUtil);
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), equalTo(Diagnostic.ERROR));
     }
 
     /**

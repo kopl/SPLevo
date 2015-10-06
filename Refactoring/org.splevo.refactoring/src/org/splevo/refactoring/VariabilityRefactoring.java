@@ -15,6 +15,7 @@ package org.splevo.refactoring;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.splevo.commons.interfaces.IdHavingElement;
 import org.splevo.vpm.realization.VariabilityMechanism;
@@ -52,7 +53,7 @@ public interface VariabilityRefactoring extends IdHavingElement<String> {
      * @return Flag is the refactoring can be applied.
      * 
      */
-    public boolean canBeAppliedTo(VariationPoint variationPoint);
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint);
 
     /**
      * Get the identifier of the refactoring.

@@ -24,6 +24,8 @@ import java.util.List;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.splevo.vpm.realization.RealizationFactory;
@@ -59,7 +61,9 @@ public class VariabilityRefactoringServiceTest {
         VariabilityRefactoring refactoring2 = buildRefactoring("REFACTORING2");
         List<VariabilityRefactoring> refactorings = Lists.newArrayList(refactoring, refactoring2);
 
-        when(refactoring.canBeAppliedTo(notNull(VariationPoint.class))).thenReturn(true);
+        Diagnostic diagnostic = new BasicDiagnostic(Diagnostic.OK, null, 0, null, null);
+        when(refactoring.canBeAppliedTo(notNull(VariationPoint.class))).thenReturn(diagnostic);
+        
         List<VariabilityMechanism> mechanisms = Lists.newArrayList(null, refactoring2.getVariabilityMechanism());
         VariationPointModel model = crateVPMWithOneGroup(mechanisms);
 
@@ -79,7 +83,11 @@ public class VariabilityRefactoringServiceTest {
         VariabilityRefactoring refactoring = buildRefactoring("REFACTORING1");
         VariabilityRefactoring refactoring2 = buildRefactoring("REFACTORING2");
         List<VariabilityRefactoring> refactorings = Lists.newArrayList(refactoring, refactoring2);
-
+        
+        Diagnostic diagnostic = new BasicDiagnostic(Diagnostic.ERROR, null, 0, null, null);
+        when(refactoring.canBeAppliedTo(notNull(VariationPoint.class))).thenReturn(diagnostic);
+        when(refactoring2.canBeAppliedTo(notNull(VariationPoint.class))).thenReturn(diagnostic);
+        
         List<VariabilityMechanism> mechanisms = Lists.newArrayList(null, refactoring2.getVariabilityMechanism());
         VariationPointModel model = crateVPMWithOneGroup(mechanisms);
 

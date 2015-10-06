@@ -17,7 +17,8 @@ Require-Bundle: org.junit;visibility:=reexport,
  org.emftext.language.refactoring.rolemapping.resource.rolemapping,
  org.emftext.language.refactoring.roles.resource.rolestext,
  org.emftext.language.refactoring.specification.resource.refspec,
- com.google.guava;bundle-version="12.0.0",
+ com.google.guava;bundle-version="[11.0.0,15.0.1)",
  org.splevo.vpm.refinement,
  org.splevo.jamopp.vpm.builder,
- org.splevo.jamopp.extraction
+ org.splevo.jamopp.extraction,
+ org.emftext.refactoring.util

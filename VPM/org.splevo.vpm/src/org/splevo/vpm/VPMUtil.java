@@ -20,8 +20,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
@@ -100,7 +100,7 @@ public class VPMUtil {
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put(VPMUtil.VPM_FILE_EXTENSION, new XMIResourceFactoryImpl());
-        ResourceSet resSet = new ResourceSetImpl();
+        ResourceSet resSet = new SPLevoResourceSet();
         final Resource resource = resSet.createResource(uri);
         resource.getContents().add(vpm);
 

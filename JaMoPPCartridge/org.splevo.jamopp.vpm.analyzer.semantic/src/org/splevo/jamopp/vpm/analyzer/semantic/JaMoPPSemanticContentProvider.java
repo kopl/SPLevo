@@ -15,8 +15,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.commons.NamedElement;
-import org.emftext.language.java.statements.Block;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContent;
 import org.splevo.vpm.analyzer.semantic.extensionpoint.SemanticContentProvider;
@@ -30,6 +28,8 @@ import com.google.common.collect.Lists;
  */
 public class JaMoPPSemanticContentProvider implements SemanticContentProvider {
 
+    private static final JaMoPPSemanticContentProviderSwitch CONTENT_SWITCH = new JaMoPPSemanticContentProviderSwitch(false);
+    
     @Override
     public SemanticContent getRelevantContent(SoftwareElement element, boolean matchComments)
             throws UnsupportedSoftwareElementException {
@@ -73,8 +73,10 @@ public class JaMoPPSemanticContentProvider implements SemanticContentProvider {
             }
 
             Commentable commentableChild = (Commentable) child;
-            String text = getRelevantTextFromElement(commentableChild);
-            content.addCode(text);
+            Iterable<String> texts = getRelevantTextFromElement(commentableChild);
+            for (String text : texts) {
+                content.addCode(text);                
+            }
 
             if (matchComments) {
                 StringBuilder builder = new StringBuilder();
@@ -89,29 +91,14 @@ public class JaMoPPSemanticContentProvider implements SemanticContentProvider {
     }
 
     /**
-     * extracts relevant text from a given object.
+     * Extracts relevant text from a given object.
      *
      * @param eObject
      *            The object to extract the information from.
      * @return The extracted text.
      */
-    private String getRelevantTextFromElement(EObject eObject) {
-
-        if (eObject instanceof Block) {
-            Block block = (Block) eObject;
-            if ("block".equalsIgnoreCase(block.getName())) {
-                return "";
-            } else {
-                return block.getName();
-            }
-
-        }
-
-        if (eObject instanceof NamedElement) {
-            return ((NamedElement) eObject).getName();
-        }
-
-        return "";
+    private Iterable<String> getRelevantTextFromElement(EObject eObject) {
+        return CONTENT_SWITCH.doSwitch(eObject);
     }
 
 }

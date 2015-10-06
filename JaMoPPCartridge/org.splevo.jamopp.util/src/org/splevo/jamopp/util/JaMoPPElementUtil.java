@@ -11,14 +11,26 @@
  *******************************************************************************/
 package org.splevo.jamopp.util;
 
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.ComposedSwitch;
+import org.eclipse.emf.ecore.util.Switch;
+import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.Interface;
+import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
 import org.emftext.language.java.commons.Commentable;
+import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.containers.JavaRoot;
+import org.emftext.language.java.containers.util.ContainersSwitch;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.extensions.members.ConstructorExtension;
 import org.emftext.language.java.imports.ClassifierImport;
@@ -28,6 +40,7 @@ import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Method;
+import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.statements.Block;
@@ -41,7 +54,10 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
  * Utility class to handle JaMoPP elements.
@@ -225,6 +241,148 @@ public final class JaMoPPElementUtil {
         }
 
         return "JaMoPP Element " + element.getClass().getSimpleName();
+    }
+
+    /**
+     * Determines a qualified name for the given element. The name is not fully qualified but gives
+     * some hints about the location of the element. The compilation unit and the containing
+     * classifier and method are mentioned.
+     * 
+     * @param commentable
+     *            The Commentable for which the name shall be determined.
+     * @return The qualified name of the Commentable.
+     */
+    public static String getQualifiedName(Commentable commentable) {
+        String result = new QualifiedNameSwitch().doSwitch(commentable);
+        return result;
+    }
+    
+    /**
+     * Determines the qualified name of a given EObject. If the object is no Commentable, null will
+     * be returned.
+     */
+    private static class QualifiedNameSwitch extends ComposedSwitch<String> {
+        
+        public QualifiedNameSwitch() {
+            addSwitch(new MembersQualifiedNameSwitch());
+            addSwitch(new ClassifiersQualifiedNameSwitch());
+            addSwitch(new ContainersQualifiedNameSwitch());
+        }
+        
+        @Override
+        public String doSwitch(EObject eObject) {
+            Optional<NamedElement> containerOptional = findRelevantContainer(eObject);
+            if (!containerOptional.isPresent()) {
+                return null;
+            }
+
+            String containerName = doSuperSwitch(containerOptional.get());
+            
+            NamedElement container = containerOptional.get();
+            if (container != eObject) {
+                String elementName = eObject.getClass().getSimpleName();
+                if (eObject instanceof NamedElement) {
+                    elementName = ((NamedElement) eObject).getName();
+                }
+                return String.format("%s -> %s", containerName, elementName);
+            }
+            
+            return containerName;
+        }
+        
+        @Override
+        protected String doSwitch(EClass theEClass, EObject theEObject) {
+            List<EClass> typesToCheck = Lists.newLinkedList(theEClass.getEAllSuperTypes());
+            typesToCheck.add(0, theEClass);
+            typesToCheck.remove(CommonsPackage.eINSTANCE.getCommentable());
+            for (EClass eclass : typesToCheck) {
+                Switch<String> delegate = findDelegate(eclass.getEPackage());
+                if (delegate != null) {
+                    String result = delegatedDoSwitch(delegate, eclass, theEObject);
+                    if (result != null) {
+                        return result;
+                    }
+                }
+            }
+            return defaultCase(theEObject);
+        }
+
+        private String doSuperSwitch(EObject obj) {
+            return super.doSwitch(obj);
+        }
+
+        private static Optional<NamedElement> findRelevantContainer(EObject obj) {
+            EObject relevantContainer = obj;
+            while (relevantContainer != null && !isRelevantContainerObject(relevantContainer)) {
+                relevantContainer = relevantContainer.eContainer();
+            }
+            if (relevantContainer != null && relevantContainer instanceof NamedElement) {
+                return Optional.of((NamedElement) relevantContainer);
+            }
+            return Optional.absent();
+        }
+        
+        @SuppressWarnings("unchecked")
+        private static boolean isRelevantContainerObject(final EObject obj) {
+            return Iterables.any(
+                    Lists.newArrayList(JavaRoot.class, Classifier.class, Method.class, Constructor.class, Field.class),
+                    new Predicate<Class<?>>() {
+                        @Override
+                        public boolean apply(Class<?> input) {
+                            return input.isAssignableFrom(obj.getClass());
+                        }
+                    });
+        }
+
+        /**
+         * Determines the qualified name for a container element.
+         */
+        private class ContainersQualifiedNameSwitch extends ContainersSwitch<String> {
+
+            @Override
+            public String caseJavaRoot(JavaRoot object) {
+                String namespaces = object.getNamespacesAsString();
+                Matcher m = Pattern.compile(Pattern.quote(namespaces) + "(.*?)(\\.java)?").matcher(object.getName());
+                if (m.matches()) {
+                    return m.group(1);
+                }
+                return object.getName();
+            }
+            
+        }
+        
+        /**
+         * Determines the qualified name for a classifier element.
+         */
+        private class ClassifiersQualifiedNameSwitch extends ClassifiersSwitch<String> {
+
+            @Override
+            public String caseClassifier(Classifier object) {
+                return String.format("%s::%s", doSuperSwitch(object.getContainingCompilationUnit()), object.getName());
+            }
+            
+        }
+
+        /**
+         * Determines the qualified name for a member element.
+         */
+        private class MembersQualifiedNameSwitch extends MembersSwitch<String> {
+
+            @Override
+            public String caseField(Field object) {
+                return String.format("%s::%s::%s",  doSuperSwitch(object.getContainingCompilationUnit()), object
+                        .getContainingConcreteClassifier().getName(), object.getName());
+            }
+
+            @Override
+            public String caseMethod(Method object) {
+                return String.format("%s::%s::%s()",  doSuperSwitch(object.getContainingCompilationUnit()), object
+                        .getContainingConcreteClassifier().getName(), object.getName());
+            }
+
+        }
+
+        
     }
 
     private static Method getContainingMethod(Commentable element) {

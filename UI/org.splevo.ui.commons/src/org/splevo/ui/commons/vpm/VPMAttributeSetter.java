@@ -13,9 +13,11 @@ package org.splevo.ui.commons.vpm;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.splevo.refactoring.VariabilityRefactoring;
+import org.splevo.refactoring.VariabilityRefactoringRegistry;
+import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.variability.VariationPoint;
 
 /**
@@ -50,23 +52,48 @@ public class VPMAttributeSetter {
      */
     public static boolean applyIfPossible(SetAndRevertAction<VariationPoint> action, VariationPoint vp) {
         action.set(vp);
-        
-        Diagnostic diagnostic = Diagnostician.INSTANCE.validate(vp);
+        VariabilityMechanism mechanism = vp.getVariabilityMechanism();
+        if (mechanism == null) { 
+            return true;
+        }
+        VariabilityRefactoring ref = VariabilityRefactoringRegistry.getInstance().getElementById(mechanism.getRefactoringID());
+        if (ref == null) {
+            return true;
+        }
+        Diagnostic diagnostic = ref.canBeAppliedTo(vp);
         if (diagnostic.getSeverity() != Diagnostic.OK) {
             StringBuilder errorMessage = new StringBuilder();
             errorMessage.append("The following errors occured during validation:\n\n");
-            for (Diagnostic childDiagnostic : diagnostic.getChildren()) {
-                errorMessage.append(childDiagnostic.getMessage() + "\n");
-            }
+            errorMessage.append(diagnostic.getMessage() + "\n");   
             errorMessage.append("\nYour changes have been discarded.");
-            MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Validation Errors",
-                    errorMessage.toString());
+            
+            MessageDialog dialog = new MessageDialog(Display.getDefault().getActiveShell(), "Validation Errors", null, 
+                    errorMessage.toString(), 0, getDialogLabels(diagnostic), 0);
+            
+            if (dialog.open() == 1) {  
+                MessageDialog.openInformation(Display.getDefault().getActiveShell(), 
+                        "Validation Errors", getDiagnosticChildrenMessage(diagnostic));
+            }
             
             action.revert(vp);
             return false;
         }
-
         return true;
     }
     
+    private static String[] getDialogLabels(Diagnostic diagnostic) {
+        if (diagnostic.getChildren().size() > 0) {
+            return new String[] {"OK", "More Information"};
+        }
+        return new String[] {"OK"};
+    }
+        
+    private static String getDiagnosticChildrenMessage(Diagnostic diagnostic) {
+        StringBuilder message = new StringBuilder();
+        message.append("The following errors occured during validation:\n\n");                
+        for (Diagnostic childDiagnostic : diagnostic.getChildren()) {
+            message.append(childDiagnostic.getMessage() + "\n");
+        }
+        return message.toString();
+    }   
 }

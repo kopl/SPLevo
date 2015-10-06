@@ -31,7 +31,6 @@ import com.google.common.collect.Lists;
 
 import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 import de.uka.ipd.sdq.workflow.jobs.IJob;
-import de.uka.ipd.sdq.workflow.jobs.ParallelBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.jobs.SequentialBlackboardInteractingJob;
 import de.uka.ipd.sdq.workflow.ui.UIBasedWorkflow;
 import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
@@ -71,15 +70,14 @@ public class InitVPMWorkflowDelegate extends
 
         List<String> requiredExtractors = getRequiredExtractors(splevoProject);
 
-        // create the parallel extraction
-        ParallelBlackboardInteractingJob<SPLevoBlackBoard> parallelJob = new ParallelBlackboardInteractingJob<SPLevoBlackBoard>();
+        // we do not create a parallel extraction job because of a timing issue during JDT initialization
+        // TODO check if we can fix this with a more fine-grained locking mechanism
         for (String extractorId : requiredExtractors) {
             ExtractionJob leadingExtractionJob = new ExtractionJob(extractorId, splevoProject, true);
             ExtractionJob integrationExtractionJob = new ExtractionJob(extractorId, splevoProject, false);
-            parallelJob.add(leadingExtractionJob);
-            parallelJob.add(integrationExtractionJob);
+            jobSequence.add(leadingExtractionJob);
+            jobSequence.add(integrationExtractionJob);
         }
-        jobSequence.add(parallelJob);
 
         // refresh the workspace to ensure if an extractor has changed the workspace
         // the eclipse environment does not struggle because of an workspace not in sync

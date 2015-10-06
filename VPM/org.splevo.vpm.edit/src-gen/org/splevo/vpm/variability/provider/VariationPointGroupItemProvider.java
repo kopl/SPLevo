@@ -147,7 +147,7 @@ public class VariationPointGroupItemProvider extends CustomizableNameHavingItemP
      * This returns the label text for the adapted class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
+     * @generated not
      */
     @Override
     public String getText(Object object) {

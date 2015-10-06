@@ -22,6 +22,7 @@ import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.IJavaTextResource;
+import org.splevo.commons.emf.CachingResource;
 import org.splevo.commons.emf.ReplacementUtil;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
@@ -47,6 +48,9 @@ public class JaMoPPResourceProcessor implements ResourceProcessor {
 
     @Override
     public void processBeforeRefactoring(Resource resource) {
+        if (resource instanceof CachingResource) {
+            ((CachingResource) resource).disableCaching();
+        }
         if (!JaMoPPSoftwareModelExtractor.EXTRACTOR_EXTRACT_LAYOUT_BY_DEFAULT && resource instanceof IJavaTextResource) {
             reloadResourceWithLayoutInformation(resource);
         }

@@ -16,12 +16,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassBlock;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassClassInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassCompilationUnit;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassConstructor;
+import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassEnumerationInCompilationUnit;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassEnumerationInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport;
@@ -63,6 +66,7 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
         availableRefactorings.add(new IfStaticConfigClassClassInMemberContainer());
         availableRefactorings.add(new IfStaticConfigClassInterfaceInMemberContainer());
         availableRefactorings.add(new IfStaticConfigClassEnumerationInMemberContainer());
+        availableRefactorings.add(new IfStaticConfigClassEnumerationInCompilationUnit());
         availableRefactorings.add(new IfStaticConfigClassField(util));
         availableRefactorings.add(new IfStaticConfigClassBlock());
         availableRefactorings.add(new IfStaticConfigClassMethod());
@@ -82,7 +86,7 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
     @Override
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
         for (VariabilityRefactoring refactoring : availableRefactorings) {
-            if (refactoring.canBeAppliedTo(variationPoint)) {
+            if (refactoring.canBeAppliedTo(variationPoint).getSeverity() == Diagnostic.OK) {
                 List<Resource> changedResources = refactoring.refactor(variationPoint, refactoringOptions);
                 RefactoringUtil.resolveVPsWithSameLocation(variationPoint);
 
@@ -94,23 +98,38 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
     }
 
     @Override
-    public boolean canBeAppliedTo(VariationPoint variationPoint) {
-        boolean correctBindingTime = (variationPoint.getBindingTime() == BindingTime.COMPILE_TIME);
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
+        boolean correctCharacteristics = hasCorrectCharacteristics(variationPoint);
+        if (!correctCharacteristics) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, 
+                    "If with Static Configuration Class (OPTXOR): Wrong Characteristics", null);
+        }
+
+        BasicDiagnostic diagnostic =  new BasicDiagnostic(Diagnostic.ERROR, null, 0, 
+                "No matching Refactoring can be found!", null); 
+        for (VariabilityRefactoring refactoring : availableRefactorings) {
+            Diagnostic d = refactoring.canBeAppliedTo(variationPoint);
+            if (d.getSeverity() == Diagnostic.OK) {
+                return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
+            } else {
+                diagnostic.add(d);
+            }
+        } 
+        return diagnostic;
+    }
+    
+    /**
+     * Determines if the variation point has the correct characteristics for this refactoring.
+     * 
+     * @param variationPoint
+     *            The variation point to be checked.
+     * @return True if this refactoring can be applied to the variation point, False otherwise.
+     */
+    protected boolean hasCorrectCharacteristics(VariationPoint variationPoint) {
+        boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.COMPILE_TIME;
         boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTXOR;
         boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-        boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
-
-        if (!correctCharacteristics) {
-            return false;
-        }
-
-        for (VariabilityRefactoring refactoring : availableRefactorings) {
-            if (refactoring.canBeAppliedTo(variationPoint)) {
-                return true;
-            }
-        }
-
-        return false;
+        return correctBindingTime && correctVariabilityType && correctExtensibility;
     }
 
     @Override

@@ -7,7 +7,9 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    CONTRIBUTR_FIRST_AND_LAST_NAME - WORK_DONE (e.g. "initial API and implementation and/or initial documentation")
+ *    Benjamin Klatt
+ *    Stephan Seifermann
+ *    Thomas Czogalic
  *******************************************************************************/
 package org.splevo.ui.listeners;
 
@@ -27,58 +29,52 @@ import de.uka.ipd.sdq.workflow.workbench.AbstractWorkbenchDelegate;
  */
 public final class WorkflowListenerUtil {
 
-	/**
-	 * Disable default constructor for utility class.
-	 */
-	private WorkflowListenerUtil() {
-	}
+    /**
+     * Disable default constructor for utility class.
+     */
+    private WorkflowListenerUtil() {
+    }
 
-	/**
-	 * Run a workflow as an asynchronous job and update the SPLevo project
-	 * editor ui afterwards.
-	 *
-	 * @param workflowDelegate
-	 *            The delegate of the workflow to run.
-	 * @param workflowTitle
-	 *            The title of the workflow to show.
-	 * @param splevoProjectEditor
-	 *            The editor to update.
-	 */
-	public static void runWorkflowAndUpdateUI(
-			final AbstractWorkbenchDelegate<?, ?> workflowDelegate,
-			final String workflowTitle,
-			final SPLevoProjectEditor splevoProjectEditor) {
+    /**
+     * Run a workflow as an asynchronous job and update the SPLevo project editor ui afterwards.
+     * 
+     * @param workflowDelegate
+     *            The delegate of the workflow to run.
+     * @param workflowTitle
+     *            The title of the workflow to show.
+     * @param splevoProjectEditor
+     *            The editor to update.
+     */
+    public static void runWorkflowAndUpdateUI(final AbstractWorkbenchDelegate<?, ?> workflowDelegate,
+            final String workflowTitle, final SPLevoProjectEditor splevoProjectEditor) {
 
-		Runnable uiProcess = new Runnable() {
-			@Override
-			public void run() {
-				splevoProjectEditor.updateUI(workflowTitle + " completed");
-			}
-		};
+        Runnable uiProcess = new Runnable() {
+            @Override
+            public void run() {
+                splevoProjectEditor.updateUI(workflowTitle + " completed");
+            }
+        };
 
-		WorkflowListenerUtil.runWorkflowAndRunUITask(workflowDelegate,
-				workflowTitle, uiProcess);
-	}
+        WorkflowListenerUtil.runWorkflowAndRunUITask(workflowDelegate, workflowTitle, uiProcess);
+    }
 
-	/**
-	 * Run a workflow as an asynchronous job and trigger a post-process with ui
-	 * access afterwards.
-	 *
-	 * @param workflowDelegate
-	 *            The delegate of the workflow to run.
-	 * @param workflowTitle
-	 *            The title of the workflow to show.
-	 * @param uiRunnable
-	 *            The post-workflow process to trigger and granted with ui
-	 *            access. Null means no process is triggered.
-	 */
-    public static void runWorkflowAndRunUITask(
-			final AbstractWorkbenchDelegate<?, ?> workflowDelegate,
-			final String workflowTitle, final Runnable uiRunnable) {
+    /**
+     * Run a workflow as an asynchronous job and trigger a post-process with ui access afterwards.
+     * 
+     * @param workflowDelegate
+     *            The delegate of the workflow to run.
+     * @param workflowTitle
+     *            The title of the workflow to show.
+     * @param uiRunnable
+     *            The post-workflow process to trigger and granted with ui access. Null means no
+     *            process is triggered.
+     */
+    public static void runWorkflowAndRunUITask(final AbstractWorkbenchDelegate<?, ?> workflowDelegate,
+            final String workflowTitle, final Runnable uiRunnable) {
 
         runWorkflowAndRunUITask(workflowDelegate, workflowTitle, uiRunnable, false);
-	}
-    
+    }
+
     /**
      * Run a workflow as an asynchronous job and trigger a post-process with ui access afterwards.
      * 
@@ -92,10 +88,9 @@ public final class WorkflowListenerUtil {
      * @param runHidden
      *            The progress of the job will be hidden from the user if set to True.
      */
-    public static void runWorkflowAndRunUITask(
-            final AbstractWorkbenchDelegate<?, ?> workflowDelegate,
+    public static void runWorkflowAndRunUITask(final AbstractWorkbenchDelegate<?, ?> workflowDelegate,
             final String workflowTitle, final Runnable uiRunnable, final boolean runHidden) {
-        
+
         Job job = new Job(workflowTitle) {
             @Override
             protected IStatus run(IProgressMonitor monitor) {
@@ -104,6 +99,10 @@ public final class WorkflowListenerUtil {
                 };
                 workflowDelegate.setProgressMonitor(monitor);
                 workflowDelegate.run(action);
+                if (monitor.isCanceled()) {
+                    monitor.done();
+                    return Status.CANCEL_STATUS;
+                }
                 if (uiRunnable != null) {
                     Display.getDefault().asyncExec(uiRunnable);
                 }
@@ -114,14 +113,14 @@ public final class WorkflowListenerUtil {
             }
 
         };
-        
+
         if (runHidden) {
             job.setUser(false);
             job.setSystem(false);
         } else {
-            job.setUser(true);            
+            job.setUser(true);
         }
-        
+
         job.schedule();
     }
 }

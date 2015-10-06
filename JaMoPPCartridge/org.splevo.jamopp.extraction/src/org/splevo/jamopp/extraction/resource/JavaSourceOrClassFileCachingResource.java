@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.resource.JavaSourceOrClassFileResource;
+import org.splevo.commons.emf.CachingResource;
 import org.splevo.jamopp.extraction.cache.ReferenceCache;
 
 import com.google.common.base.Strings;
@@ -25,13 +26,13 @@ import com.google.common.base.Strings;
  * As long as the cache is not explicitly triggered to resolve a resource, proxies will be resolved
  * when required only.
  */
-public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileResource {
+public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileResource implements CachingResource {
 
     @SuppressWarnings("unused")
     private static Logger logger = Logger.getLogger(JavaSourceOrClassFileCachingResource.class);
 
     /** The reference cache to resolve proxies. */
-    private ReferenceCache referenceCache = null;
+    private ReferenceCache referenceCache;
 
     /**
      * Constructor to set the reference cache the resource should use for resolving.
@@ -41,10 +42,11 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
      * @param referenceCache
      *            The reference cache to use. If null is provided no cache is used.
      */
-    public JavaSourceOrClassFileCachingResource(URI uri, ReferenceCache referenceCache) {
+    public JavaSourceOrClassFileCachingResource(URI uri, final ReferenceCache referenceCache) {
         super(uri);
         this.referenceCache = referenceCache;
     }
+
 
     @Override
     public EObject getEObject(String id) {
@@ -68,4 +70,15 @@ public class JavaSourceOrClassFileCachingResource extends JavaSourceOrClassFileR
         }
         return resolvedEObject;
     }
+
+
+    @Override
+    public void disableCaching() {
+        if (referenceCache != null) {
+            referenceCache.blacklist(this);
+            referenceCache = null;            
+        }
+    }
+
+    
 }

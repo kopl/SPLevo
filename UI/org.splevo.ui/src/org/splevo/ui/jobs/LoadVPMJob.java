@@ -15,6 +15,7 @@ import java.io.File;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.splevo.project.SPLevoProject;
 import org.splevo.project.VPMModelReference;
 import org.splevo.ui.commons.util.JobUtil;
@@ -89,6 +90,9 @@ public class LoadVPMJob extends AbstractBlackboardInteractingJob<SPLevoBlackBoar
         } catch (Exception e) {
             throw new JobFailedException("Failed to load vpm model.", e);
         }
+        
+        // resolve VPM
+        EcoreUtil.resolveAll(vpm);
 
         logger.info("Put variation point model on the blackboard");
         getBlackboard().setVariationPointModel(vpm);

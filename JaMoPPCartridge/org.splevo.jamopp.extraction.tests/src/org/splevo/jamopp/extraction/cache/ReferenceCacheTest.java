@@ -27,15 +27,17 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.resource.JavaSourceOrClassFileResourceFactoryImpl;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.extraction.resource.JavaSourceOrClassFileResourceCachingFactoryImpl;
 
@@ -140,17 +142,18 @@ public class ReferenceCacheTest {
      */
     private ResourceSet prepareResourceSetAsDoneByExtractor(List<String> cacheFileDirs, List<String> jarPaths) {
 
-        ResourceSet rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
 
         Map<Object, Object> options = rs.getLoadOptions();
         options.put(JavaClasspath.OPTION_USE_LOCAL_CLASSPATH, Boolean.TRUE);
         options.put(JavaClasspath.OPTION_REGISTER_STD_LIB, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.TRUE);
         options.put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.TRUE);
+        Factory originalFactory = new JavaSourceOrClassFileResourceFactoryImpl();
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);
         JavaClasspath javaClasspath = JavaClasspath.get(rs);
         Map<String, Object> factoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(cacheFileDirs, javaClasspath,
+        factoryMap.put("java", new JavaSourceOrClassFileResourceCachingFactoryImpl(originalFactory, cacheFileDirs, javaClasspath,
                 jarPaths));
 
         return rs;
@@ -181,7 +184,7 @@ public class ReferenceCacheTest {
      * @return The prepared resource set.
      */
     private ResourceSet initNewResourceSet(List<String> cacheFileDirs) {
-        ResourceSet resourceSet = new ResourceSetImpl();
+        ResourceSet resourceSet = new SPLevoResourceSet();
         JaMoPPSoftwareModelExtractor extractor = new JaMoPPSoftwareModelExtractor();
         extractor.prepareResourceSet(resourceSet, cacheFileDirs, false);
         return resourceSet;

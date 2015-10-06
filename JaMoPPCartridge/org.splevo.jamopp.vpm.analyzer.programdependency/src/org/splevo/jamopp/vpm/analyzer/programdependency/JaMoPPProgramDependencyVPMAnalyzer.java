@@ -314,7 +314,10 @@ public class JaMoPPProgramDependencyVPMAnalyzer extends AbstractVPMAnalyzer {
 
             // filter external elements (i.e. contained in binary resources)
             if (filterExternalsConfig.getCurrentValue()) {
-                Resource resource = reference.getTarget().eResource();
+            	if (reference.getTarget() == null) {
+            		continue;
+            	}
+            	Resource resource = reference.getTarget().eResource();
                 if (resource != null && "pathmap".equals(resource.getURI().scheme())) {
                     continue;
                 }

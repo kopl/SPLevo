@@ -26,6 +26,7 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.ui.commons.util.LabelUtils;
 import org.splevo.ui.vpexplorer.explorer.VPExplorerContent;
+import org.splevo.ui.vpexplorer.featureoutline.content.VariantWrapper;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
@@ -50,7 +51,9 @@ public class VPExplorerLabelProvider extends LabelProvider {
             File file = ((FileWrapper) element).getFile();
             return getImageForFile(file);
         }
-
+        if (element instanceof VariantWrapper) {
+            element = ((VariantWrapper) element).getVariant();
+        }
         Image image = getItemProviderImage(element);
         if (image != null) {
             return image;
@@ -86,7 +89,9 @@ public class VPExplorerLabelProvider extends LabelProvider {
             return LabelUtils.getItemProviderText(element);
         } else if (element instanceof Variant) {
             return "Variant: " + ((Variant) element).getId();
-        } else if (element instanceof SoftwareElement) {
+        } else if (element instanceof VariantWrapper) {
+            return "Variant: " + ((VariantWrapper) element).getVariant().getId();
+        } else if (element instanceof SoftwareElement) {        
             return ((SoftwareElement) element).getLabel();
         } else if (element instanceof File) {
             File file = (File) element;

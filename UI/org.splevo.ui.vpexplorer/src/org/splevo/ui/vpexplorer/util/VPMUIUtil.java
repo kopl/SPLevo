@@ -156,6 +156,10 @@ public final class VPMUIUtil {
     private static void initVPMAccess(final IProgressMonitor monitor, VariationPointModel vpm) {
         SubMonitor subMonitor = SubMonitor.convert(monitor, "Init VPM Access", vpm.getVariationPointGroups().size());
         for (VariationPointGroup vpg : vpm.getVariationPointGroups()) {
+            if (subMonitor.isCanceled()) {
+                subMonitor.done();
+                return;
+            }
             for (VariationPoint vp : vpg.getVariationPoints()) {
                 vp.getLocation().getSourceLocation();
             }

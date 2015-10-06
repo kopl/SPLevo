@@ -11,8 +11,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
@@ -96,7 +96,7 @@ public abstract class RefactoringTestUtilsBase {
         File tmpVpm = new File(tmpDir, "tmp.vpm");
         VPMUtil.save(vpm, URI.createFileURI(tmpVpm.getAbsolutePath()));
 
-        ResourceSet rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
         extractor.prepareResourceSet(rs,
                 Lists.newArrayList(tmpLeading.getAbsolutePath(), tmpIntegration.getAbsolutePath()), layoutInformation);
         rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("vpm", new XMIResourceFactoryImpl());

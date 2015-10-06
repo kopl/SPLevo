@@ -223,10 +223,12 @@ public class LoadVPMCompositeHandler {
             public void resourceChanged(IResourceChangeEvent event) {
                 if (event.getType() == IResourceChangeEvent.PRE_CLOSE) {
                     projectClosed((IProject) event.getResource());
-                }
-
+                }  
+                
                 if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
+                    projectClosed((IProject) event.getResource());
                     try {
+                        
                         event.getDelta().accept(new IResourceDeltaVisitor() {
                             @Override
                             public boolean visit(IResourceDelta delta) throws CoreException {

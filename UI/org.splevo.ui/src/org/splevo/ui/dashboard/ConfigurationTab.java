@@ -49,6 +49,10 @@ import com.google.common.collect.Lists;
  * 
  */
 public class ConfigurationTab extends AbstractDashboardTab {
+    /** 
+     * Number of columns in the groups.
+     */
+    private final int columnNum = 4;
 
     /**
      * Create the tab to handle the SPL profile configuration.
@@ -95,17 +99,21 @@ public class ConfigurationTab extends AbstractDashboardTab {
     }
 
     private Group buildFeatureModelBuilderGroup(Composite composite) {
+        
         Group group = new Group(composite, SWT.FILL);
         group.setText("FeatureModel Builders");
-        group.setLayout(new GridLayout(2, false));
-        group.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        group.setLayout(new GridLayout(columnNum, true));
+        group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
 
         Label configLabel = new Label(group, SWT.NONE);
         configLabel.setText("Feature Model Builder:");
         //configLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
-
+        
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+        gridData.horizontalSpan = columnNum - 1;
+        
         final Combo fmBuilderCombo = new Combo(group, SWT.READ_ONLY | SWT.DROP_DOWN);
-        //fmBuilderCombo.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
+        fmBuilderCombo.setLayoutData(gridData);
         for (FeatureModelBuilder<?> fmBuilder : FeatureModelBuilderRegistry.getInstance().getElements()) {
             fmBuilderCombo.add(fmBuilder.getLabel());
         }
@@ -150,10 +158,9 @@ public class ConfigurationTab extends AbstractDashboardTab {
      * @return The newly created group.
      */
     private Group buildDifferConfigurationGroup(Composite composite) {
-
         Group groupDiffers = new Group(composite, SWT.FILL);
         groupDiffers.setText("Difference Analysis");
-        groupDiffers.setLayout(new GridLayout(2, false));
+        groupDiffers.setLayout(new GridLayout(columnNum, true));
         groupDiffers.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
 
         List<Button> differCheckBoxes = new LinkedList<Button>();
@@ -172,7 +179,7 @@ public class ConfigurationTab extends AbstractDashboardTab {
 
             Button checkBox = new Button(groupDiffers, SWT.CHECK);
             GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-            gridData.horizontalSpan = 2;
+            gridData.horizontalSpan = columnNum;
             checkBox.setLayoutData(gridData);
             checkBox.addSelectionListener(new DifferCheckBoxListener(checkBox, differ.getId(), getSplevoProjectEditor()));
             checkBox.setBounds(10, yPositionCurrent, 450, singleHeight);
@@ -195,10 +202,13 @@ public class ConfigurationTab extends AbstractDashboardTab {
                 configLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
                 yPositionCurrent = yPositionCurrent + (singleHeight + 3);
-
+                
+                GridData grid = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+                grid.horizontalSpan = columnNum - 1;                
+                
                 Text configInput = new Text(groupDiffers, SWT.BORDER | SWT.V_SCROLL);
                 configInput.setBounds(10, yPositionCurrent, 450, multipleHeight);
-                configInput.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+                configInput.setLayoutData(grid);
                 if (currentValue != null) {
                     configInput.setText(currentValue);
                 } else {

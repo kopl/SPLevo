@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.splevo.refactoring;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.splevo.vpm.VPMValidator;
 import org.splevo.vpm.variability.VariationPoint;
 
@@ -22,7 +23,7 @@ public class RefactoringSpecificVPMValidator implements VPMValidator {
     @Override
     public VPMValidationResult validate(VariationPoint vp) {
         VariabilityRefactoring ref = getVariabilityRefactoring(vp);
-        if (ref != null && !ref.canBeAppliedTo(vp)) {
+        if (ref != null && ref.canBeAppliedTo(vp).getSeverity() != Diagnostic.OK) {
             return new VPMValidationResult(false, String.format(
                     "The refactoring %s does not match the defined characteristics.", ref.getClass().getSimpleName()));
         }

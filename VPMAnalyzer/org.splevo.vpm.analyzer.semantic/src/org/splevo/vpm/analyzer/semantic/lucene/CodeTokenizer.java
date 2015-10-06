@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 /**
@@ -103,23 +104,23 @@ public class CodeTokenizer extends Tokenizer {
         String token = tokens.getFirst();
         String featuredTerm = containsFeaturedTerm(token);
         if (featuredTerm != null) {
-            String[] split = token.split(featuredTerm);
+            String[] split = token.split("(?i)" + featuredTerm);
             if (split.length > 0) {
                 tokens.addAll(Arrays.asList(split));
             }
-            termAtt.append(featuredTerm);
+            termAtt.append(featuredTerm.toLowerCase());
         } else if (!featuredTermsOnly || featuredTerms == null || featuredTerms.size() == 0) {
             // Process only if non featured terms are allowed
             if (!splitCamelCase) {
-                termAtt.append(token);
+                termAtt.append(token.toLowerCase());
             } else {
                 String[] camelCaseTokens = token.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
                 for (int i = 0; i < camelCaseTokens.length; i++) {
                     if (i == 0) {
-                        termAtt.append(camelCaseTokens[i]);
+                        termAtt.append(camelCaseTokens[i].toLowerCase());
                         continue;
                     }
-                    tokens.add(camelCaseTokens[i]);
+                    tokens.add(camelCaseTokens[i].toLowerCase());
                 }
             }
         }
@@ -151,14 +152,7 @@ public class CodeTokenizer extends Tokenizer {
         }
 
         for (String term : terms) {
-            StringBuilder sb = new StringBuilder();
-            for (char termChar : term.toCharArray()) {
-                if (sb.length() > 0) {
-                    sb.append(".?");
-                }
-                sb.append(termChar);
-            }
-            String pattern = sb.toString();
+            String pattern = String.format("(?i)%s", Joiner.on(".?").join(Lists.charactersOf(term)));
 
             // perform this logging in debug only as it might require
             // a lot of processing resources
@@ -190,7 +184,7 @@ public class CodeTokenizer extends Tokenizer {
         }
 
         for (String featuredTerm : featuredTerms) {
-            if (token.contains(featuredTerm)) {
+            if (token.toLowerCase().contains(featuredTerm.toLowerCase())) {
                 return featuredTerm;
             }
         }

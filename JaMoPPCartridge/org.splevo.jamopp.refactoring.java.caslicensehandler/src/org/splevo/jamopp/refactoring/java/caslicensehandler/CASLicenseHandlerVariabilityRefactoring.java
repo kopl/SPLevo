@@ -3,6 +3,8 @@ package org.splevo.jamopp.refactoring.java.caslicensehandler;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
@@ -40,12 +42,17 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
 	}
 
 	@Override
-	public boolean canBeAppliedTo(VariationPoint variationPoint) {
+	public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
 		boolean correctBindingTime = variationPoint.getBindingTime() == BindingTime.RUN_TIME;
         boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTXOR;
         boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-
-        return (correctBindingTime && correctVariabilityType && correctExtensibility);
+        boolean correctCharacteristics = (correctBindingTime && correctVariabilityType && correctExtensibility);
+        
+        if (!correctCharacteristics) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, 
+                    "If with Static Configuration Class (OPTXOR): Wrong Characteristics", null);            
+        }
+        return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
 	}
 
 	@Override

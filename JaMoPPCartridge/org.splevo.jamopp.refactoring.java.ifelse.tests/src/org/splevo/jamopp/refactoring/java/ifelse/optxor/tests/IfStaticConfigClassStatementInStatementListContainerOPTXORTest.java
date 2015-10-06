@@ -24,6 +24,7 @@ import java.util.HashMap;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
@@ -85,7 +86,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
 
         IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), equalTo(Diagnostic.OK));
     }
 
     /**
@@ -102,7 +103,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
 
         IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), equalTo(Diagnostic.ERROR));
     }
 
     /**
@@ -119,7 +120,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
 
         IfStaticConfigClassConstructor refactoring = new IfStaticConfigClassConstructor();
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), equalTo(Diagnostic.ERROR));
     }
 
     /**
@@ -134,7 +135,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXORTest {
         VariationPoint vp = RefactoringTestUtil.getStatementLocalVarDiffTypesCase(VariabilityType.OPTXOR);
         IfStaticConfigClassStatementInStatementListContainerOPTXOR refactoring = new IfStaticConfigClassStatementInStatementListContainerOPTXOR(ifElseRefactoringUtil);
 
-        assertThat(refactoring.canBeAppliedTo(vp), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vp).getSeverity(), equalTo(Diagnostic.ERROR));
     }
 
     /**

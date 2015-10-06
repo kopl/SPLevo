@@ -14,6 +14,8 @@ package org.splevo.jamopp.refactoring.java.ifelse;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -66,14 +68,20 @@ public class IfStaticConfigClassImport extends JaMoPPFullyAutomatedVariabilityRe
     }
 
     @Override
-    public boolean canBeAppliedTo(VariationPoint variationPoint) {
+    public Diagnostic canBeAppliedTo(VariationPoint variationPoint) {
         Commentable jamoppElement = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement();
 
         boolean correctLocation = jamoppElement instanceof CompilationUnit;
         boolean allImplementingElementsAreImports = RefactoringUtil.allImplementingElementsOfType(variationPoint,
                 Import.class);
-
-        return correctLocation && allImplementingElementsAreImports;
+        String error = "If with Static Configuration Class Imports: ";
+        if (!correctLocation) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Wrong Location", null);
+        }
+        if (!allImplementingElementsAreImports) {
+            return new BasicDiagnostic(Diagnostic.ERROR, null, 0, error + "Not all Implementing Elements are Imports", null);
+        }
+        return new BasicDiagnostic(Diagnostic.OK, null, 0, "OK", null);
     }
 
     @Override

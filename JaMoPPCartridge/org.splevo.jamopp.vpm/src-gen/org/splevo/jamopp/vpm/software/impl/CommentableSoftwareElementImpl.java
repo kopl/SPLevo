@@ -235,7 +235,7 @@ public class CommentableSoftwareElementImpl extends JaMoPPJavaSoftwareElementImp
         }
         return Optional.absent();
     }
-    
+
     @Override
     public Commentable resolveJaMoPPElement() {
         if (isReferencedElement(getCompilationUnit()).isPresent()) {

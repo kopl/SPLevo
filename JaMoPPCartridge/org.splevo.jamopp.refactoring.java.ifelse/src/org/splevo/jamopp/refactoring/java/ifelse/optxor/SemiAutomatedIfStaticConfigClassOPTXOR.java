@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SemiAutomatedIfElseRefactoringUtil;
-import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
@@ -25,24 +24,14 @@ public class SemiAutomatedIfStaticConfigClassOPTXOR extends IfStaticConfigClassO
     protected List<Resource> refactorFullyAutomated(VariationPoint variationPoint, Map<String, Object> refactoringOptions) {
 		return super.refactorFullyAutomated(variationPoint, refactoringOptions);
 	}
+
+    @Override
+    protected boolean hasCorrectCharacteristics(VariationPoint variationPoint) {
+        boolean correctBindingTime = (variationPoint.getBindingTime() == BindingTime.RUN_TIME);
+        boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTXOR;
+        boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
+        return correctBindingTime && correctVariabilityType && correctExtensibility;
+    }
 	
-	 @Override
-	 public boolean canBeAppliedTo(VariationPoint variationPoint) {
-		 boolean correctBindingTime = (variationPoint.getBindingTime() == BindingTime.RUN_TIME);
-		 boolean correctVariabilityType = variationPoint.getVariabilityType() == VariabilityType.OPTXOR;
-		 boolean correctExtensibility = variationPoint.getExtensibility() == Extensible.NO;
-		 boolean correctCharacteristics = correctBindingTime && correctVariabilityType && correctExtensibility;
-		 
-		 if (!correctCharacteristics) {
-			 return false;
-		 }
 
-		 for (VariabilityRefactoring refactoring : this.availableRefactorings) {
-			 if (refactoring.canBeAppliedTo(variationPoint)) {
-				 return true;
-			 }
-		 }
-
-	        return false;
-	    }
 }

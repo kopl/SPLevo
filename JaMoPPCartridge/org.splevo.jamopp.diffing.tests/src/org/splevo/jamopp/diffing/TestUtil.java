@@ -36,7 +36,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.JavaClasspath;
@@ -46,6 +45,7 @@ import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.mopp.JavaPrinter2;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
 import org.junit.BeforeClass;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.extraction.SoftwareModelExtractionException;
 import org.splevo.jamopp.diffing.jamoppdiff.ClassChange;
 import org.splevo.jamopp.diffing.jamoppdiff.CompilationUnitChange;
@@ -125,7 +125,7 @@ public abstract class TestUtil {
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map<String, Object> m = reg.getExtensionToFactoryMap();
         m.put(fileExtension, new XMIResourceFactoryImpl());
-        ResourceSet resSet = new ResourceSetImpl();
+        ResourceSet resSet = new SPLevoResourceSet();
         final Resource resource = resSet.createResource(URI.createFileURI(relativeFilePath));
         resource.getContents().add(comparisonModel);
 
@@ -318,7 +318,7 @@ public abstract class TestUtil {
      * @return The initialized resource set.
      */
     private static ResourceSet setUpResourceSet() {
-        ResourceSet rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
         rs.getLoadOptions().put(IJavaOptions.DISABLE_LAYOUT_INFORMATION_RECORDING, Boolean.FALSE);
         rs.getLoadOptions().put(IJavaOptions.DISABLE_LOCATION_MAP, Boolean.FALSE);
         EPackage.Registry.INSTANCE.put("http://www.emftext.org/java", JavaPackage.eINSTANCE);

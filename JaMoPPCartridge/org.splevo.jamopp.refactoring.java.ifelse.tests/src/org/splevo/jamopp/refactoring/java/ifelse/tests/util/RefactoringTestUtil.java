@@ -20,7 +20,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,6 @@ import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
@@ -47,6 +45,7 @@ import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesFactory;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.jamopp.diffing.JaMoPPDiffer;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 import org.splevo.jamopp.vpm.builder.JaMoPPVPMBuilder;
@@ -624,6 +623,25 @@ public final class RefactoringTestUtil {
 
         return variationPoint;
     }
+    
+    /**
+     * Generates a variation point according to the EnumerationInCU_AddEnumConstant test case.
+     * 
+     * @param variabilityType
+     *            The {@link VariabilityType} the variation point will have.
+     * @return The generated {@link VariationPoint}.
+     * @throws Exception
+     *             In case of an unexpected error.
+     */
+    public static VariationPoint getEnumerationInCUAddEnumConstantCase(VariabilityType variabilityType) throws Exception {
+        VariationPointModel vpm = initializeVariationPointModel("EnumerationInCU_AddEnumConstant");
+        assertVariationPointStructure(vpm);
+
+        VariationPoint variationPoint = vpm.getVariationPointGroups().get(0).getVariationPoints().get(0);
+        setUpVariationPoint(variationPoint, variabilityType);
+
+        return variationPoint;
+    }
 
     /**
      * Generates a variation point according to the Block_Add test case.
@@ -782,7 +800,7 @@ public final class RefactoringTestUtil {
         JaMoPPVPMBuilder builder = new JaMoPPVPMBuilder();
         VariationPointModel vpm = builder.buildVPM(comparison, "leading", "integration");
         
-        ResourceSet rs = new ResourceSetImpl();
+        ResourceSet rs = new SPLevoResourceSet();
         rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
         .put("vpm", new XMIResourceFactoryImpl());
         Resource r = rs.createResource(URI.createFileURI("test123.vpm"));
@@ -819,9 +837,15 @@ public final class RefactoringTestUtil {
         variationPoint.setVariabilityType(variabilityType);
     }
 
-    public static void assertValidVPM(VariationPoint vp) throws IOException {
+    /**
+     * Assert that the given variation point is valid after a refactoring. A variation point is
+     * valid if all references software elements point to a leading resource.
+     * 
+     * @param vp The variation point to be checked.
+     */
+    public static void assertValidVPM(VariationPoint vp) {
         for (Variant v : vp.getVariants()) {
-            OuterLoop: for (SoftwareElement swe : v.getImplementingElements()) {               
+            OuterLoop: for (SoftwareElement swe : v.getImplementingElements()) {
                 EObject wantedObject = swe.getWrappedElement();
                 TreeIterator<EObject> content = vp.getLocation().getWrappedElement().eAllContents();
                 while (content.hasNext()) {
@@ -829,7 +853,10 @@ public final class RefactoringTestUtil {
                         break OuterLoop;
                     }
                 }
-                fail(String.format("The referenced object %s (resource %s) is not contained in the leading resource %s.", wantedObject.toString(), wantedObject.eResource(), vp.getLocation().getWrappedElement().eResource()));
+                fail(String.format(
+                        "The referenced object %s (resource %s) is not contained in the leading resource %s.",
+                        wantedObject.toString(), wantedObject.eResource(), vp.getLocation().getWrappedElement()
+                                .eResource()));
             }
         }
     }

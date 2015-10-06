@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
@@ -78,7 +80,7 @@ public class IfStaticConfigClassFieldTest {
 
         IfStaticConfigClassField refactoring = new IfStaticConfigClassField(ifElseRefactoringUtil);
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(true));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), is(Diagnostic.OK));
     }
 
     /**
@@ -95,7 +97,7 @@ public class IfStaticConfigClassFieldTest {
 
         IfStaticConfigClassField refactoring = new IfStaticConfigClassField(ifElseRefactoringUtil);
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), is(Diagnostic.ERROR));
     }
 
     /**
@@ -112,7 +114,7 @@ public class IfStaticConfigClassFieldTest {
 
         IfStaticConfigClassField refactoring = new IfStaticConfigClassField(ifElseRefactoringUtil);
 
-        assertThat(refactoring.canBeAppliedTo(vpMock), equalTo(false));
+        assertThat(refactoring.canBeAppliedTo(vpMock).getSeverity(), is(Diagnostic.ERROR));
     }
 
     /**

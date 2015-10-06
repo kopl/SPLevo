@@ -2,6 +2,7 @@
  */
 package org.splevo.jamopp.vpm.software.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
@@ -16,6 +17,7 @@ import org.emftext.language.java.resource.java.IJavaLocationMap;
 import org.emftext.language.java.resource.java.IJavaOptions;
 import org.emftext.language.java.resource.java.mopp.JavaDevNullLocationMap;
 import org.emftext.language.java.resource.java.mopp.JavaResource;
+import org.splevo.commons.emf.FileResourceHandling;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
 import org.splevo.jamopp.vpm.software.softwarePackage;
 import org.splevo.vpm.software.SoftwareFactory;
@@ -117,7 +119,8 @@ public abstract class JaMoPPJavaSoftwareElementImpl extends MinimalEObjectImpl.C
 
     private SourceLocation buildLocation(Commentable element, JavaResource resource) {
         SourceLocation location = SoftwareFactory.eINSTANCE.createSourceLocation();
-        location.setFilePath(resource.getURI().toFileString());
+        File realFilePath = FileResourceHandling.getPhysicalFilePath(resource);
+        location.setFilePath(realFilePath.getAbsolutePath());
 
         IJavaLocationMap locationMap = resource.getLocationMap();
         location.setStartLine(locationMap.getLine(element));
@@ -165,6 +168,15 @@ public abstract class JaMoPPJavaSoftwareElementImpl extends MinimalEObjectImpl.C
      * 
      * @generated
      */
+    public String getQualifiedName() {
+        return org.splevo.jamopp.util.JaMoPPElementUtil.getQualifiedName(resolveJaMoPPElement());
+    }
+
+    /**
+     * <!-- begin-user-doc --> <!-- end-user-doc -->
+     * 
+     * @generated
+     */
     @Override
     public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
         switch (operationID) {
@@ -176,6 +188,8 @@ public abstract class JaMoPPJavaSoftwareElementImpl extends MinimalEObjectImpl.C
             return getName();
         case softwarePackage.JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_WRAPPED_ELEMENT:
             return getWrappedElement();
+        case softwarePackage.JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_QUALIFIED_NAME:
+            return getQualifiedName();
         case softwarePackage.JA_MO_PP_JAVA_SOFTWARE_ELEMENT___GET_SOURCE_LOCATION:
             return getSourceLocation();
         }

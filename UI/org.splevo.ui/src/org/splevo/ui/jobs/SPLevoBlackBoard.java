@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.ui.refinementbrowser.RefinementModelProvider;
 import org.splevo.ui.views.vpmgraph.VPMGraphProvider;
 import org.splevo.vpm.analyzer.VPMAnalyzerResult;
@@ -33,10 +33,10 @@ import de.uka.ipd.sdq.workflow.blackboard.Blackboard;
 public class SPLevoBlackBoard extends Blackboard<Object> implements VPMGraphProvider, RefinementModelProvider {
 
 	/** The resources of the leading variant. */
-	private final ResourceSet resourceSetLeading = new ResourceSetImpl();
+	private final ResourceSet resourceSetLeading = new SPLevoResourceSet();
 
 	/** The resource set of the integration variant. */
-	private final ResourceSet resourceSetIntegration = new ResourceSetImpl();
+	private final ResourceSet resourceSetIntegration = new SPLevoResourceSet();
 
     /** The diffing model. */
     private Comparison diffModel = null;

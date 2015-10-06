@@ -32,200 +32,196 @@ import org.splevo.vpm.realization.VariabilityMechanism;
  *
  * @generated
  */
-public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container
-		implements VariabilityMechanism {
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
+public class VariabilityMechanismImpl extends MinimalEObjectImpl.Container implements VariabilityMechanism {
+    /**
+     * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getName()
+     * @generated
+     * @ordered
+     */
+    protected static final String NAME_EDEFAULT = null;
 
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
+    /**
+     * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getName()
+     * @generated
+     * @ordered
+     */
+    protected String name = NAME_EDEFAULT;
 
-	/**
-	 * The default value of the '{@link #getRefactoringID() <em>Refactoring ID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefactoringID()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String REFACTORING_ID_EDEFAULT = null;
+    /**
+     * The default value of the '{@link #getRefactoringID() <em>Refactoring ID</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getRefactoringID()
+     * @generated
+     * @ordered
+     */
+    protected static final String REFACTORING_ID_EDEFAULT = null;
 
-	/**
-	 * The cached value of the '{@link #getRefactoringID() <em>Refactoring ID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefactoringID()
-	 * @generated
-	 * @ordered
-	 */
-	protected String refactoringID = REFACTORING_ID_EDEFAULT;
+    /**
+     * The cached value of the '{@link #getRefactoringID() <em>Refactoring ID</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getRefactoringID()
+     * @generated
+     * @ordered
+     */
+    protected String refactoringID = REFACTORING_ID_EDEFAULT;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected VariabilityMechanismImpl() {
-		super();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected VariabilityMechanismImpl() {
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EClass eStaticClass() {
-		return RealizationPackage.Literals.VARIABILITY_MECHANISM;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    protected EClass eStaticClass() {
+        return RealizationPackage.Literals.VARIABILITY_MECHANISM;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					RealizationPackage.VARIABILITY_MECHANISM__NAME, oldName,
-					name));
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setName(String newName) {
+        String oldName = name;
+        name = newName;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, RealizationPackage.VARIABILITY_MECHANISM__NAME,
+                    oldName, name));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getRefactoringID() {
-		return refactoringID;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getRefactoringID() {
+        return refactoringID;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRefactoringID(String newRefactoringID) {
-		String oldRefactoringID = refactoringID;
-		refactoringID = newRefactoringID;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID,
-					oldRefactoringID, refactoringID));
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setRefactoringID(String newRefactoringID) {
+        String oldRefactoringID = refactoringID;
+        refactoringID = newRefactoringID;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET,
+                    RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID, oldRefactoringID, refactoringID));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-		case RealizationPackage.VARIABILITY_MECHANISM__NAME:
-			return getName();
-		case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
-			return getRefactoringID();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public Object eGet(int featureID, boolean resolve, boolean coreType) {
+        switch (featureID) {
+        case RealizationPackage.VARIABILITY_MECHANISM__NAME:
+            return getName();
+        case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
+            return getRefactoringID();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-		case RealizationPackage.VARIABILITY_MECHANISM__NAME:
-			setName((String) newValue);
-			return;
-		case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
-			setRefactoringID((String) newValue);
-			return;
-		}
-		super.eSet(featureID, newValue);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void eSet(int featureID, Object newValue) {
+        switch (featureID) {
+        case RealizationPackage.VARIABILITY_MECHANISM__NAME:
+            setName((String) newValue);
+            return;
+        case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
+            setRefactoringID((String) newValue);
+            return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-		case RealizationPackage.VARIABILITY_MECHANISM__NAME:
-			setName(NAME_EDEFAULT);
-			return;
-		case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
-			setRefactoringID(REFACTORING_ID_EDEFAULT);
-			return;
-		}
-		super.eUnset(featureID);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public void eUnset(int featureID) {
+        switch (featureID) {
+        case RealizationPackage.VARIABILITY_MECHANISM__NAME:
+            setName(NAME_EDEFAULT);
+            return;
+        case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
+            setRefactoringID(REFACTORING_ID_EDEFAULT);
+            return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-		case RealizationPackage.VARIABILITY_MECHANISM__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
-					.equals(name);
-		case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
-			return REFACTORING_ID_EDEFAULT == null ? refactoringID != null
-					: !REFACTORING_ID_EDEFAULT.equals(refactoringID);
-		}
-		return super.eIsSet(featureID);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public boolean eIsSet(int featureID) {
+        switch (featureID) {
+        case RealizationPackage.VARIABILITY_MECHANISM__NAME:
+            return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+        case RealizationPackage.VARIABILITY_MECHANISM__REFACTORING_ID:
+            return REFACTORING_ID_EDEFAULT == null ? refactoringID != null : !REFACTORING_ID_EDEFAULT
+                    .equals(refactoringID);
+        }
+        return super.eIsSet(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public String toString() {
+        if (eIsProxy())
+            return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", refactoringID: ");
-		result.append(refactoringID);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (name: ");
+        result.append(name);
+        result.append(", refactoringID: ");
+        result.append(refactoringID);
+        result.append(')');
+        return result.toString();
+    }
 
 } //VariabilityMechanismImpl

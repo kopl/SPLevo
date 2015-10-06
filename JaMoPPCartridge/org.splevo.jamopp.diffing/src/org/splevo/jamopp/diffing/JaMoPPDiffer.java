@@ -42,10 +42,10 @@ import org.eclipse.emf.compare.utils.EqualityHelper;
 import org.eclipse.emf.compare.utils.IEqualityHelper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.commons.layout.LayoutPackage;
 import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.commons.Commentable;
+import org.splevo.commons.emf.SPLevoResourceSet;
 import org.splevo.diffing.Differ;
 import org.splevo.diffing.DiffingException;
 import org.splevo.diffing.DiffingNotSupportedException;
@@ -494,7 +494,7 @@ public class JaMoPPDiffer implements Differ {
             logger.error("Failed to load resource set", e);
         }
 
-        return new ResourceSetImpl();
+        return new SPLevoResourceSet();
     }
 
     @Override

@@ -16,8 +16,8 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.Commentable;
-import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPSoftwareElement;
+import org.splevo.jamopp.vpm.software.softwareFactory;
 import org.splevo.refactoring.FullyAutomatedVariabilityRefactoring;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
@@ -40,18 +40,12 @@ public abstract class JaMoPPFullyAutomatedVariabilityRefactoring extends FullyAu
             return null;
         }
         Commentable element = (Commentable) eobject;
-
-        final String elementID = RefactoringUtil.addCommentableSoftwareElementReference(element);
-        return RefactoringUtil.createCommentableSoftwareElement(element, elementID);
+        
+        JaMoPPSoftwareElement jse = softwareFactory.eINSTANCE.createJaMoPPSoftwareElement();
+        jse.setJamoppElement(element);
+        return jse;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.splevo.refactoring.FullyAutomatedVariabilityRefactoring#executeReplacement(java.util.
-     * Map.Entry, org.splevo.vpm.variability.VariationPoint)
-     */
     @Override
     protected void executeReplacement(Entry<EObject, EObject> replacement, VariationPoint variationPoint) {
         // collect all possible replacement targets

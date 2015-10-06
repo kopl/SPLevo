@@ -20,7 +20,12 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.views.properties.PropertySheet;
 import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointGroup;
 
@@ -71,7 +76,8 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
                     VariationPointGroup group = (VariationPointGroup) element;
                     for (VariationPoint vp : group.getVariationPoints()) {
                         if (changeVariationPointCharacteristic(vp)) {
-                            resourceToSave.add(vp.eResource());                            
+                            resourceToSave.add(vp.eResource());  
+                            
                         }
                     }
                 }
@@ -84,7 +90,21 @@ public abstract class AbstractChangeCharacteristicHandler extends AbstractHandle
                 throw new ExecutionException("Failed to save modified resource", e);
             }
         }
+        refreshPropertySheet(selection);
         return null;
+    }
+    
+    private void refreshPropertySheet(ISelection selection) {
+        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        IViewPart view = page.findView("org.eclipse.ui.views.PropertySheet");
+        
+        if (!(view instanceof PropertySheet)) {
+            return;
+        }
+        PropertySheet pSheet = (PropertySheet) view;        
+        
+        pSheet.selectionChanged(page.getActivePart(), StructuredSelection.EMPTY);
+        pSheet.selectionChanged(page.getActivePart(), selection);
     }
     
     /**

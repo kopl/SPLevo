@@ -61,9 +61,10 @@ public class FeatureMapperBuilderTestSupport {
 		VariationPointGroup vpg = factory.createVariationPointGroup();
 		vpg.setName(pointName);
 		vpm.getVariationPointGroups().add(vpg);
-
+	
 		EList<VariationPoint> variationPoints = vpg.getVariationPoints();
 		VariationPoint vpa = factory.createVariationPoint();
+		vpa.setRefactored(true);
 		variationPoints.add(vpa);
 		return vpa;
 	}
@@ -90,7 +91,8 @@ public class FeatureMapperBuilderTestSupport {
 	@TextSyntax("Then the FeatureMapper Models Builder generates")
 	public FeatureMapperModelSet theModelsBuilderWillGenerate(
 			VariationPointModel vpm) {
-		FeatureMapperModelsBuilder builder = new FeatureMapperModelsBuilder();
+		// we use a test mock of the FeatureMapperModelsBuilder here, to avoid dependency on eclipse workspace
+		FeatureMapperModelsBuilder builder = new FeatureMapperModelsBuilderMock();
 		FeatureModelWrapper<FeatureMapperModelSet> fmWrapper = builder.build(vpm, "RootFeature");
 		FeatureMapperModelSet featureModelSet = fmWrapper.getModel();
 		return featureModelSet;
