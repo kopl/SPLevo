@@ -23,6 +23,7 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
+import org.splevo.jamopp.refactoring.java.ifelse.RequiresIfRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
@@ -37,7 +38,8 @@ import com.google.common.collect.Lists;
 /**
  * Refactors variable else-statements.
  */
-public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAutomatedVariabilityRefactoring {
+public class IfStaticConfigClassStatementInConditionOPTXOR extends JaMoPPFullyAutomatedVariabilityRefactoring implements
+        RequiresIfRefactoringUtil {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR): Statement in Condition";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassConditionOPTXOR";

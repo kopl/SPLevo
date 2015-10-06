@@ -30,6 +30,7 @@ import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassImport;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassInterfaceInMemberContainer;
 import org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassMethod;
+import org.splevo.jamopp.refactoring.java.ifelse.RequiresIfRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
@@ -40,6 +41,9 @@ import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
 import org.splevo.vpm.variability.VariabilityType;
 import org.splevo.vpm.variability.VariationPoint;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 
 /**
  * This refactoring implements the if-else mechanism for the use with a static configuration class.
@@ -147,4 +151,24 @@ public class IfStaticConfigClassOPTXOR extends JaMoPPFullyAutomatedVariabilityRe
         return REFACTORING_ID;
     }
 
+    /**
+     * Checks if the given variation point can be refactored without the use of the RefactoringUtil.
+     * This implies that all features offered by the {@link IfElseRefactoringUtil} are not used in
+     * these refactorings.
+     * 
+     * @param variationPoint The variation point to be refactored.
+     * @return True if the variation point can be refactored, False otherwise.
+     */
+    public boolean canBeRefactoredWithoutRefactoringUtil(final VariationPoint variationPoint) {
+        return Iterables.any(availableRefactorings, new Predicate<VariabilityRefactoring>() {
+            @Override
+            public boolean apply(VariabilityRefactoring input) {
+                if (input instanceof RequiresIfRefactoringUtil) {
+                    return false;
+                }
+                return input.canBeAppliedTo(variationPoint).getSeverity() == Diagnostic.OK;
+            }
+        });
+
+    }
 }

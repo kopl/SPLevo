@@ -32,6 +32,7 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.Void;
 import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
+import org.splevo.jamopp.refactoring.java.ifelse.RequiresIfRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.VariabilityPositionUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
@@ -52,7 +53,7 @@ import com.google.common.collect.Lists;
  * methods. Throws an exception if no variant was selected in the configuration.
  */
 public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends
-        JaMoPPFullyAutomatedVariabilityRefactoring {
+        JaMoPPFullyAutomatedVariabilityRefactoring implements RequiresIfRefactoringUtil {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class (OPTXOR): Statement in StatementListContainer";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassStatementOPTXOR";

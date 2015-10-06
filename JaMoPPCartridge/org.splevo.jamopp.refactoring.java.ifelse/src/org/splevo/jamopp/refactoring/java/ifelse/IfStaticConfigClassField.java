@@ -56,7 +56,7 @@ import com.google.common.collect.Maps;
  * The code base class must contain all fields from the variants. Therefore, this refactoring merges
  * the fields from all variants into the base.
  */
-public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRefactoring {
+public class IfStaticConfigClassField extends JaMoPPFullyAutomatedVariabilityRefactoring implements RequiresIfRefactoringUtil {
 
     private static final String REFACTORING_NAME = "IF with Static Configuration Class: Field";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.ifelse.IfStaticConfigClassField";

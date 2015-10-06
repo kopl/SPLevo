@@ -13,6 +13,7 @@ import org.eclipse.ui.internal.cheatsheets.views.ViewUtilities;
 import org.splevo.jamopp.refactoring.java.JaMoPPSemiAutomatedVariabilityRefactoring;
 import org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.CASLicenseHandlerConfiguration;
 import org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions.CASLicenseHandlerMetaInf;
+import org.splevo.jamopp.refactoring.java.ifelse.optxor.IfStaticConfigClassOPTXOR;
 import org.splevo.project.SPLevoProject;
 import org.splevo.refactoring.VariabilityRefactoringFailedException;
 import org.splevo.refactoring.VariabilityRefactoringService;
@@ -33,6 +34,24 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
 
     private static final String REFACTORING_NAME = "CAS License Handler";
     private static final String REFACTORING_ID = "org.splevo.jamopp.refactoring.java.caslicensehandler.CASLicenseHandler";
+
+    @Override
+    public List<Resource> refactor(VariationPoint variationPoint, Map<String, Object> refactoringConfigurations) {
+        /**
+         * Only statements can be encapsulated into a condition. Therefore, we try to refactor all
+         * other elements in a fully automated way to safe effort for the user.
+         */
+        variationPoint.setBindingTime(BindingTime.COMPILE_TIME);
+        try {
+            IfStaticConfigClassOPTXOR fullyAutomatedRefactoring = new IfStaticConfigClassOPTXOR();
+            if (fullyAutomatedRefactoring.canBeRefactoredWithoutRefactoringUtil(variationPoint)) {
+                return fullyAutomatedRefactoring.refactor(variationPoint, refactoringConfigurations);
+            }
+        } finally {
+            variationPoint.setBindingTime(BindingTime.RUN_TIME);
+        }
+        return super.refactor(variationPoint, refactoringConfigurations);
+    }
 
     @Override
     public VariabilityMechanism getVariabilityMechanism() {
