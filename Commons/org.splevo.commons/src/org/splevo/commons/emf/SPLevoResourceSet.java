@@ -52,7 +52,7 @@ public class SPLevoResourceSet extends ResourceSetImpl {
 
         if (FileResourceHandling.usePlatformResource(this)) {
 
-            if (uri.isPlatform()) {
+            if (uri.isPlatform() || "pathmap".equals(uri.scheme())) {
                 return uri;
             } else {
                 IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
