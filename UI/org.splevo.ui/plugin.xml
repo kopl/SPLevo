@@ -77,7 +77,7 @@
             allowMultiple="false"
             category="org.splevo.ui"
             class="org.splevo.ui.views.taskview.TaskView"
-            icon="icons/sample.gif"
+            icon="icons/tasklist.gif"
             id="org.splevo.ui.views.taskview.TaskView"
             name="TaskView">
       </view>
