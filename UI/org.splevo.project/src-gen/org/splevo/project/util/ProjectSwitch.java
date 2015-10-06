@@ -20,6 +20,8 @@ import org.splevo.project.*;
 import org.splevo.project.ProjectPackage;
 import org.splevo.project.SPLProfile;
 import org.splevo.project.SPLevoProject;
+import org.splevo.project.VPMModelReference;
+import org.splevo.project.utils.*;
 
 /**
  * <!-- begin-user-doc -->

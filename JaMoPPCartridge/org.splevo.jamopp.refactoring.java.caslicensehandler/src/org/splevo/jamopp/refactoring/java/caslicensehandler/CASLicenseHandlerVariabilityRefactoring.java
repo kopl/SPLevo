@@ -84,7 +84,7 @@ public class CASLicenseHandlerVariabilityRefactoring extends JaMoPPSemiAutomated
     public List<Resource> startManualRefactoringInternal(VariationPoint variationPoint,
             Map<String, Object> refactoringConfigurations) throws VariabilityRefactoringFailedException {
         CASLicenseHandlerConfiguration config = CASLicenseHandlerConfiguration.getInstance();
-        config.setLeadingProject((SPLevoProject) refactoringConfigurations
+        config.setConsolidationProject((SPLevoProject) refactoringConfigurations
                 .get(VariabilityRefactoringService.SPLEVO_PROJECT));
         config.setRefactoringConfigurations(refactoringConfigurations);
         config.setVariationPoint(variationPoint);

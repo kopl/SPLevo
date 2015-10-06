@@ -33,7 +33,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.splevo.project.SPLevoProject;
-import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.project.utils.SPLevoProjectUtil;
 import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.dashboard.ConfigurationTab;
 import org.splevo.ui.dashboard.ProcessControlTab;

@@ -10,7 +10,7 @@
  *    Benjamin Klatt - initial API and implementation and/or initial documentation
  *    Stephan Seifermann
  *******************************************************************************/
-package org.splevo.project;
+package org.splevo.project.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +31,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.splevo.commons.emf.SPLevoResourceSet;
+import org.splevo.project.ProjectPackage;
+import org.splevo.project.SPLevoProject;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -49,6 +51,23 @@ public class SPLevoProjectUtil {
     public static final String NATURE_ID = "org.splevo.ui.splevonature";
 
     private static final Logger LOGGER = Logger.getLogger(SPLevoProjectUtil.class);
+
+    /**
+     * Loads a SPLevo project from a file resource.
+     * 
+     * @param consolidationProject
+     *            The project that represents the consolidation project.
+     * @return The loaded SPLevo project.
+     * @throws IOException
+     *             Thrown if the file could not be loaded.
+     */
+    public static SPLevoProject loadSPLevoProjectModel(IProject consolidationProject) throws IOException {
+        Optional<IFile> projectFile = findSPLevoProjectFile(consolidationProject);
+        if (projectFile.isPresent()) {
+            return loadSPLevoProjectModel(projectFile.get());
+        }
+        return null;
+    }
 
     /**
      * Loads a SPLevo project from a file resource.

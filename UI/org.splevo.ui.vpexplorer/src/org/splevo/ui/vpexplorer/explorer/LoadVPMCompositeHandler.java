@@ -44,8 +44,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.splevo.project.SPLevoProject;
-import org.splevo.project.SPLevoProjectUtil;
 import org.splevo.project.VPMModelReference;
+import org.splevo.project.utils.SPLevoProjectUtil;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;

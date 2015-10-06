@@ -27,7 +27,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.splevo.project.SPLevoProject;
-import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.project.utils.SPLevoProjectUtil;
 
 /**
  * Builder for the SPLevo project nature.

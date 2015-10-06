@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.splevo.jamopp.refactoring.java.ifelse.util.SemiAutomatedIfElseRefactoringUtil;
 import org.splevo.vpm.variability.BindingTime;
 import org.splevo.vpm.variability.Extensible;
@@ -19,13 +20,13 @@ public class SemiAutomatedIfStaticConfigClassOPTXOR extends IfStaticConfigClassO
     /**
      * Constructs the refactoring.
      * 
-     * @param validatorName
+     * @param validator
      *            The name of the license validator class.
      * @param variantToLicenseMap
      *            The mapping between variants and license constant names.
      */
-    public SemiAutomatedIfStaticConfigClassOPTXOR(String validatorName, Map<String, String> variantToLicenseMap) {
-        super(new SemiAutomatedIfElseRefactoringUtil(validatorName, variantToLicenseMap));
+    public SemiAutomatedIfStaticConfigClassOPTXOR(ConcreteClassifier validator, Map<String, String> variantToLicenseMap) {
+        super(new SemiAutomatedIfElseRefactoringUtil(validator, variantToLicenseMap));
     }
 
     @Override

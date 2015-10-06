@@ -25,99 +25,94 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-
 /**
  * Implements some routines on the JaMoPP-model.
  */
 public class JaMoPPRoutines {
-	private static Logger logger = Logger.getLogger(JaMoPPRoutines.class);
-	
-	/**
-	 * Returns the concrete classifier (JaMoPP) for the given type (JavaCore).
-	 * @param type
-	 * 			represents the type.
-	 * @return
-	 * 			the matched classifier.
-	 */
-	public static Optional<ConcreteClassifier> getConcreteClassifierOf(IType type) {
-		ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) CASLicenseHandlerConfiguration.getInstance().getVariationPoint()
-									.getLocation()).getJamoppElement().eResource().getResourceSet();
-		
-		final String typeName = type.getElementName();
-		URI resourceURI = URI.createPlatformResourceURI(type.getResource().getFullPath().toString(), true);
-		Resource r = resourceSet.getResource(resourceURI, true);
-		for (CompilationUnit cu : Iterables.filter(r.getContents(), CompilationUnit.class)) {
-		    LinkedList<ConcreteClassifier> queue = Lists.newLinkedList(cu.getClassifiers());
-		    while (!queue.isEmpty()) {
-		        ConcreteClassifier classifier = queue.pop();
-		        if (typeName.equals(classifier.getName())) {
-		            return Optional.of(classifier);
-		        }
-		    }
-		}
-	
-		return Optional.absent();
-	}
-	
-	/**
-	 * Adds a public static field to a give class.
-	 * @param type
-	 * 			represents the type.
-	 * @param licenseName
-	 * 			represents the license name.
-	 */
-	public static void addConstantLicenseFieldTo(IType type, String licenseName) {
-		if (isAlreadyStored(licenseName.toUpperCase())) {
-			return;
-		}
-		
-		Optional<ConcreteClassifier> classifier = JaMoPPRoutines.getConcreteClassifierOf(type);
-		if (classifier.isPresent()) {
-		    Field field = createField(licenseName);
-		    classifier.get().getMembers().add(field);
-		    saveJaMoPPModel(classifier.get().eResource());
-		} else {
-		    logger.error("Could not add member field: " + licenseName);		    
-		}
-	}
-	
-	private static boolean isAlreadyStored(String licenseName) {
-		for (String storedLicense : CASLicenseHandlerConfiguration.getInstance().getAllLicenses()) {
-			if (storedLicense.equals(licenseName)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    private static Logger logger = Logger.getLogger(JaMoPPRoutines.class);
 
-	//TODO see also SPLConfigurationUtil
-	private static Field createField(String fieldName) {	
-		StringReference value = ReferencesFactory.eINSTANCE.createStringReference();
+    /**
+     * Returns the concrete classifier (JaMoPP) for the given type (JavaCore).
+     * 
+     * @param type
+     *            represents the type.
+     * @return the matched classifier.
+     */
+    public static Optional<ConcreteClassifier> getConcreteClassifierOf(IType type) {
+        ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) CASLicenseHandlerConfiguration.getInstance()
+                .getVariationPoint().getLocation()).getJamoppElement().eResource().getResourceSet();
+
+        final String typeName = type.getElementName();
+        URI resourceURI = URI.createPlatformResourceURI(type.getResource().getFullPath().toString(), true);
+        Resource r = resourceSet.getResource(resourceURI, true);
+        for (CompilationUnit cu : Iterables.filter(r.getContents(), CompilationUnit.class)) {
+            LinkedList<ConcreteClassifier> queue = Lists.newLinkedList(cu.getClassifiers());
+            while (!queue.isEmpty()) {
+                ConcreteClassifier classifier = queue.pop();
+                if (typeName.equals(classifier.getName())) {
+                    return Optional.of(classifier);
+                }
+            }
+        }
+
+        return Optional.absent();
+    }
+
+    /**
+     * Adds a public static field to a give class.
+     * 
+     * @param concreteClassifier
+     *            represents the type.
+     * @param licenseName
+     *            represents the license name.
+     */
+    public static void addConstantLicenseFieldTo(ConcreteClassifier concreteClassifier, String licenseName) {
+        if (isAlreadyStored(licenseName.toUpperCase())) {
+            return;
+        }
+
+        Field field = createField(licenseName);
+        concreteClassifier.getMembers().add(field);
+        saveJaMoPPModel(concreteClassifier.eResource());
+    }
+
+    private static boolean isAlreadyStored(String licenseName) {
+        for (String storedLicense : CASLicenseHandlerConfiguration.getInstance().getAllLicenses()) {
+            if (storedLicense.equals(licenseName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // TODO see also SPLConfigurationUtil
+    private static Field createField(String fieldName) {
+        StringReference value = ReferencesFactory.eINSTANCE.createStringReference();
         value.setValue(fieldName);
-        
+
         Field field = MembersFactory.eINSTANCE.createField();
-		field.setName(fieldName.toUpperCase());
-		field.setInitialValue(value);
-		
-		Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
+        field.setName(fieldName.toUpperCase());
+        field.setInitialValue(value);
+
+        Class stringClass = ClassifiersFactory.eINSTANCE.createClass();
         stringClass.setName("String");
         ClassifierReference stringRef = TypesFactory.eINSTANCE.createClassifierReference();
         stringRef.setTarget(stringClass);
-        
+
         field.setTypeReference(stringRef);
         field.makePublic();
         field.addModifier(ModifiersFactory.eINSTANCE.createStatic());
         field.addModifier(ModifiersFactory.eINSTANCE.createFinal());
-        
+
         return field;
-	}
-	
-	private static void saveJaMoPPModel(Resource eResource) {
+    }
+
+    private static void saveJaMoPPModel(Resource eResource) {
         try {
             eResource.save(null);
         } catch (IOException e) {
-        	logger.error("Could not save resource: " + eResource.getURI().lastSegment(), e);
+            logger.error("Could not save resource: " + eResource.getURI().lastSegment(), e);
         }
-		
+
     }
 }

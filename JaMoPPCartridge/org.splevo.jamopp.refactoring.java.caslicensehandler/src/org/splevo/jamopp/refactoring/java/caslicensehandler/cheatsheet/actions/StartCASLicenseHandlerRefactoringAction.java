@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.splevo.jamopp.refactoring.java.ifelse.optxor.SemiAutomatedIfStaticConfigClassOPTXOR;
 import org.splevo.refactoring.VariabilityRefactoring;
 import org.splevo.refactoring.VariabilityRefactoringFailedException;
@@ -34,9 +35,9 @@ public class StartCASLicenseHandlerRefactoringAction extends Action implements I
 		VariationPointModel vpm = config.getVariationPointModel();
 		Map<String, Object> refactoringConfigurations = config.getRefactoringConfigurations();
 		
-		String validatorName = config.getLicenseValidatorType().getElementName(); // TODO replace name with ConcreteClassifier
+		ConcreteClassifier validator = config.getLicenseValidatorClassifier();
 	
-		VariabilityRefactoring refactoring = new SemiAutomatedIfStaticConfigClassOPTXOR(validatorName, 
+		VariabilityRefactoring refactoring = new SemiAutomatedIfStaticConfigClassOPTXOR(validator, 
 																						config.getVariantToLicenseMap());
 		
 		VariabilityRefactoringService refactoringService = new VariabilityRefactoringService();

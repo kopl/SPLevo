@@ -3,7 +3,6 @@ package org.splevo.ui.views.taskview;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
@@ -34,7 +33,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.splevo.project.SPLevoProject;
-import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.project.utils.SPLevoProjectUtil;
 import org.splevo.ui.commons.project.SPLevoProjectWorkspaceListener;
 import org.splevo.ui.commons.project.SPLevoProjectWorkspaceObserver;
 import org.splevo.ui.commons.util.ComboBoxSelectionComposite;
@@ -104,8 +103,8 @@ public class TaskView extends ViewPart {
         @Override
         protected void handleSelectionAfterAccept(IStructuredSelection cvSelection) {
             try {
-                if (cvSelection.getFirstElement() instanceof IFile) {
-                    SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel((IFile) cvSelection
+                if (cvSelection.getFirstElement() instanceof IProject) {
+                     SPLevoProject project = SPLevoProjectUtil.loadSPLevoProjectModel((IProject) cvSelection
                             .getFirstElement());
                     selectedSPLevoProject = Optional.fromNullable(project);
                     if (project != null) {

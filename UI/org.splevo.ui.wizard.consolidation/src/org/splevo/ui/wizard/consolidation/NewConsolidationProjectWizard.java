@@ -37,7 +37,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.splevo.project.ProjectFactory;
 import org.splevo.project.SPLevoProject;
-import org.splevo.project.SPLevoProjectUtil;
+import org.splevo.project.utils.SPLevoProjectUtil;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.nature.SPLevoNature;
  

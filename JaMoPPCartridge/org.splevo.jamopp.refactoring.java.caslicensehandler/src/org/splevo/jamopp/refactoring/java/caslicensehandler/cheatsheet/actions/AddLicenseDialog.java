@@ -74,7 +74,7 @@ public class AddLicenseDialog extends TitleAreaDialog {
 			return;
 		}
 		
-		JaMoPPRoutines.addConstantLicenseFieldTo(config.getLicenseConstantType(), license);
+		JaMoPPRoutines.addConstantLicenseFieldTo(config.getLicenseConstantClassifier(), license);
 		close();
 	}
 
