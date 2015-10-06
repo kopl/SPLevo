@@ -90,9 +90,9 @@ public class StartRefactoringListener extends MouseAdapter {
     }
 
     private boolean askForRecommenderExecution() {
-        boolean executeRecommender = MessageDialog
-                .openConfirm(getShell(), "Execute Recommender",
-                        "Not all variation points have a variability mechanism defined, yet. Do you want to start the auto recommender?");
+        boolean executeRecommender = MessageDialog.openConfirm(getShell(), "Execute Recommender",
+                "Not all variation points have a variability mechanism defined, yet. "
+                        + "Do you want to start the auto recommender?");
         return executeRecommender;
     }
 

@@ -20,9 +20,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.Condition;
@@ -34,19 +32,17 @@ import org.emftext.language.java.types.Type;
 import org.emftext.language.java.types.Void;
 import org.emftext.language.java.variables.LocalVariable;
 import org.splevo.jamopp.refactoring.java.JaMoPPFullyAutomatedVariabilityRefactoring;
-import org.splevo.jamopp.refactoring.java.ifelse.util.FullyAutomatedIfElseRefactoringUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.IfElseRefactoringUtil;
-import org.splevo.jamopp.refactoring.java.ifelse.util.SPLConfigurationUtil;
 import org.splevo.jamopp.refactoring.java.ifelse.util.VariabilityPositionUtil;
 import org.splevo.jamopp.refactoring.util.RefactoringUtil;
 import org.splevo.jamopp.vpm.software.JaMoPPJavaSoftwareElement;
-import org.splevo.refactoring.VariabilityRefactoringService;
 import org.splevo.vpm.realization.RealizationFactory;
 import org.splevo.vpm.realization.VariabilityMechanism;
 import org.splevo.vpm.software.SoftwareElement;
 import org.splevo.vpm.variability.Variant;
 import org.splevo.vpm.variability.VariationPoint;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
 /**
@@ -87,10 +83,7 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends
         StatementListContainer vpLocation = (StatementListContainer) ((JaMoPPJavaSoftwareElement) variationPoint
                 .getLocation()).getJamoppElement();
 
-        if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
-            CompilationUnit compilationUnit = vpLocation.getContainingCompilationUnit();
-            SPLConfigurationUtil.addConfigurationClassImportIfMissing(compilationUnit);
-        }
+        ifElseRefactoringUtil.createConfigurationClassImport(vpLocation);
 
         int variabilityPositionStart = VariabilityPositionUtil.getVariabilityPosition(variationPoint);
         int variabilityPositionEnd = variabilityPositionStart;
@@ -112,17 +105,12 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends
 
         ArrayList<Resource> resourceList = Lists.newArrayList(vpLocation.eResource());
 
-        if (this.ifElseRefactoringUtil instanceof FullyAutomatedIfElseRefactoringUtil) {
-            ResourceSet resourceSet = ((JaMoPPJavaSoftwareElement) variationPoint.getLocation()).getJamoppElement()
-                    .eResource().getResourceSet();
-            String sourcePath = (String) refactoringOptions.get(VariabilityRefactoringService.JAVA_SOURCE_DIRECTORY);
-            Resource configResource = SPLConfigurationUtil.addConfigurationIfMissing(sourcePath, resourceSet,
-                    variationPoint);
-
-            if (configResource != null) {
-                resourceList.add(configResource);
-            }
+        Optional<Resource> configClassResource = ifElseRefactoringUtil.createConfigurationClass(variationPoint,
+                refactoringOptions);
+        if (configClassResource.isPresent()) {
+            resourceList.add(configClassResource.get());
         }
+
 
         return resourceList;
     }
@@ -160,9 +148,8 @@ public class IfStaticConfigClassStatementInStatementListContainerOPTXOR extends
         VariationPoint variationPoint = variant.getVariationPoint();
 
         String variantId = variant.getId();
-        String groupName = variationPoint.getGroup().getName();
 
-        Condition currentCondition = this.ifElseRefactoringUtil.createVariabilityCondition(variantId, groupName);
+        Condition currentCondition = this.ifElseRefactoringUtil.createVariabilityCondition(variationPoint, variantId);
 
         for (SoftwareElement se : variant.getImplementingElements()) {
             Statement originalStatement = (Statement) ((JaMoPPJavaSoftwareElement) se).getJamoppElement();

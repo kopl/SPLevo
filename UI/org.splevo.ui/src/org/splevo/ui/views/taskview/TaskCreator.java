@@ -40,7 +40,8 @@ public class TaskCreator {
         }));
         
         for (IProject relevantProject : relevantProjects) {
-            Iterable<IMarker> toDoTasks = Lists.newArrayList(relevantProject.findMarkers(IMarker.TASK, true, IResource.DEPTH_INFINITE));
+            Iterable<IMarker> toDoTasks = Lists.newArrayList(relevantProject.findMarkers(IMarker.TASK, true,
+                    IResource.DEPTH_INFINITE));
             for (IMarker toDoTask : toDoTasks) {
                 final String toDoTaskDescritpion = (String) toDoTask.getAttribute(IMarker.MESSAGE);
                 
