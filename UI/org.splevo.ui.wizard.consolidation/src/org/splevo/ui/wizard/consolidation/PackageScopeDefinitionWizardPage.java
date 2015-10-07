@@ -11,18 +11,11 @@
  *******************************************************************************/
 package org.splevo.ui.wizard.consolidation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
+//import org.apache.log4j.Logger;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -35,7 +28,7 @@ import org.splevo.project.SPLevoProject;
 import org.splevo.ui.wizard.consolidation.listener.PackagesCheckStateListener;
 import org.splevo.ui.wizard.consolidation.provider.PackageLabelProvider;
 import org.splevo.ui.wizard.consolidation.provider.PackagesTreeContentProvider;
-import org.splevo.ui.wizard.consolidation.util.PackagesComparator;
+import org.splevo.ui.wizard.consolidation.util.PackageUtil;
 
 /**
  * Third page of the New Consolidation Project Wizard in which java packages to be ignored have to
@@ -49,7 +42,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
     private PackagesTreeContentProvider packagesTreeContentProvider;
     private PackagesCheckStateListener packagesCheckStateListener;
 
-    private static Logger logger = Logger.getLogger(NewConsolidationProjectWizard.class);
+    //private static Logger logger = Logger.getLogger(NewConsolidationProjectWizard.class);
 
     /**
      * Constructor preparing the wizard page infrastructure.
@@ -70,12 +63,13 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
         super.setVisible(visible);
 
         if (visible) {
-            javaPackages = getJavaPackages();
+            javaPackages = PackageUtil.getJavaPackages(projectConfiguration);
 
             packagesTreeContentProvider.setJavaPackages(javaPackages);
             packagesCheckStateListener.setJavaPackages(javaPackages);
+            List<IPackageFragment> list = PackageUtil.getRootpackages(packagesTreeContentProvider, javaPackages);
 
-            packagesTreeViewer.setInput(getRootpackages());
+            packagesTreeViewer.setInput(list.toArray(new IPackageFragment[list.size()]));
         }
     }
 
@@ -94,7 +88,7 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
 
         setControl(container);
     }
-
+    
     /**
      * Create a check box tree viewer for the packages.
      * 
@@ -140,70 +134,5 @@ public class PackageScopeDefinitionWizardPage extends WizardPage {
             projectConfiguration.getDifferOptions()
                     .put(JaMoPPDiffer.OPTION_JAVA_IGNORE_PACKAGES, packagesString.trim());
         }
-    }
-
-    /**
-     * Get all java packages which are in the class path of the chosen projects without duplicates
-     * and ordered by name (ascending).
-     * 
-     * @return A sorted set with all java packages.
-     */
-    private SortedSet<IPackageFragment> getJavaPackages() {
-        SortedSet<IPackageFragment> javaPackagesSet = new TreeSet<IPackageFragment>(new PackagesComparator());
-
-        for (IProject project : getAllChosenProjects()) {
-            try {
-                if (project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
-                    for (IPackageFragment packageFragment : JavaCore.create(project).getPackageFragments()) {
-                        if (!packageFragment.getElementName().equals("")) {
-                            javaPackagesSet.add(packageFragment);
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                logger.error("Exception thrown during getting all java packages "
-                        + "which are in the class path of the chosen projects", e);
-            }
-        }
-        return javaPackagesSet;
-    }
-
-    /**
-     * Get all projects the user has chosen on the previous page.
-     * 
-     * @return List with all chosen projects.
-     */
-    private List<IProject> getAllChosenProjects() {
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IWorkspaceRoot root = workspace.getRoot();
-
-        List<IProject> allChosenProjects = new ArrayList<IProject>();
-
-        for (String chosenProjectName : projectConfiguration.getLeadingProjects()) {
-            allChosenProjects.add(root.getProject(chosenProjectName));
-        }
-
-        for (String chosenProjectName : projectConfiguration.getIntegrationProjects()) {
-            allChosenProjects.add(root.getProject(chosenProjectName));
-        }
-
-        return allChosenProjects;
-    }
-
-    /**
-     * Get all root packages which have to be shown in the tree.
-     * 
-     * @return Array with all root packages.
-     */
-    private IPackageFragment[] getRootpackages() {
-        List<IPackageFragment> rootPackages = new ArrayList<IPackageFragment>();
-
-        for (IPackageFragment javaPackage : javaPackages) {
-            if (packagesTreeContentProvider.getParentPackage(javaPackage) == null) {
-                rootPackages.add(javaPackage);
-            }
-        }
-
-        return rootPackages.toArray(new IPackageFragment[rootPackages.size()]);
     }
 }

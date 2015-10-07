@@ -36,6 +36,14 @@ public class PackagesTreeContentProvider implements ITreeContentProvider {
     public void setJavaPackages(SortedSet<IPackageFragment> javaPackages) {
         this.javaPackages = javaPackages;        
     }
+    
+    /**
+     * Returns the java packages of the content provider.
+     * @return the java packages of the content provider.
+     */
+    public SortedSet<IPackageFragment> getJavaPackages() {
+        return javaPackages;
+    }
 
     @Override
     public void dispose() {
@@ -94,9 +102,9 @@ public class PackagesTreeContentProvider implements ITreeContentProvider {
             if (parentPackage != null) {
                 return parentPackage;
             }
-            return new Object[0];
+            return null;
         }
-        return new Object[0];
+        return null;
     }
 
     /**

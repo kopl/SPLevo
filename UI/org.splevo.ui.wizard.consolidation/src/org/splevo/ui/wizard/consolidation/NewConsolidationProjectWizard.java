@@ -58,6 +58,9 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
 
     private PackageScopeDefinitionWizardPage packageScopeDefinitionWizardPage;
 
+    private PackageMapWizardPage packageMapWizardPage;
+
+
     /**
      * Constructor preparing the wizard infrastructure.
      */
@@ -70,17 +73,21 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
         super.addPages();
 
         projectCreationPage = new WizardNewProjectCreationPage("Consolidation Project Wizard");
+
         projectCreationPage.setTitle("Consolidation Project");
         projectCreationPage.setDescription("Create a new project for consolidating project "
                 + "copies into a variable product line.");
 
         projectConfiguration = ProjectFactory.eINSTANCE.createSPLevoProject();
         packageScopeDefinitionWizardPage = new PackageScopeDefinitionWizardPage(projectConfiguration);
+        packageMapWizardPage = new PackageMapWizardPage(projectConfiguration);
 
         addPage(projectCreationPage);
         addPage(new ProjectsSelectionWizardPage(projectConfiguration));
         addPage(packageScopeDefinitionWizardPage);
+        addPage(packageMapWizardPage);
     }
+
 
     @Override
     public boolean performFinish() {
@@ -100,7 +107,8 @@ public class NewConsolidationProjectWizard extends Wizard implements INewWizard,
             projectConfiguration.setName(project.getName());
 
             packageScopeDefinitionWizardPage.saveChosenPackages();
-
+            packageMapWizardPage.saveMergedPackages();
+            
             try {
                 SPLevoProjectUtil.save(projectConfiguration, filePath);
                 project.refreshLocal(-1, new NullProgressMonitor());
