@@ -2,6 +2,7 @@ package org.splevo.jamopp.refactoring.java.caslicensehandler.cheatsheet.actions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.members.Field;
@@ -11,7 +12,9 @@ import org.splevo.vpm.variability.VariationPoint;
 import org.splevo.vpm.variability.VariationPointModel;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -127,17 +130,17 @@ public final class CASLicenseHandlerConfiguration {
     }
 
     /**
-     * Add a given variant-license-pair.
+     * Add a given variant-license-pair. The pair is only added if the given license constant is not
+     * part of any other mapping stored in the map.
      * 
      * @param variantID
      *            represents the key of the map.
      * @param license
      *            represents the given value of the map.
-     * @return a boolean value which identifies if a given variant-license-pair is already contained
-     *         in the map.
+     * @return True if the mapping has been added. False if the mapping has not been added.
      */
     public boolean addVariantLicensePair(String variantID, String license) {
-        if (this.isLicenseAlreadyAssigned(license.toUpperCase())) {
+        if (this.isLicenseAlreadyAssigned(license.toUpperCase(), variantID)) {
             return false;
         }
 
@@ -145,13 +148,17 @@ public final class CASLicenseHandlerConfiguration {
         return true;
     }
 
-    private boolean isLicenseAlreadyAssigned(String licenseToCheck) {
-        for (String currentLicense : this.variantToLicenseMap.values()) {
-            if (currentLicense.equals(licenseToCheck)) {
-                return true;
+    private boolean isLicenseAlreadyAssigned(final String licenseToCheck, final String... variantIdsToIgnore) {
+        final Iterable<String> idsToIgnore = Lists.newArrayList(variantIdsToIgnore);
+        return Iterables.any(variantToLicenseMap.entrySet(), new Predicate<Entry<String, String>>() {
+            @Override
+            public boolean apply(Entry<String, String> input) {
+                if (Iterables.contains(idsToIgnore, input.getKey())) {
+                    return false;
+                }
+                return input.getValue().equals(licenseToCheck);
             }
-        }
-        return false;
+        });
     }
 
     /**

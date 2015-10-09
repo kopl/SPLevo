@@ -31,12 +31,17 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 import org.splevo.vpm.variability.Variant;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+
 
 /**
  * The user can assign a variant to a given license with the mapping dialog.
  */
 public class MappingDialog extends TitleAreaDialog {
 
+    public static final int DATA_INCOMPLETE = 3;
+    
     private List<Variant> variants;
     private CASLicenseHandlerConfiguration config;
     private ComboBoxViewerCellEditor cellEditor;
@@ -56,8 +61,8 @@ public class MappingDialog extends TitleAreaDialog {
     @Override
     public void create() {
         super.create();
-        setTitle("Mapping Dialog");
-        setMessage("Assign a variant to a given license");
+        setTitle("License Mapping Dialog");
+        setMessage("Please assign a license constant to every variant.");
     }
 
     @Override
@@ -71,12 +76,13 @@ public class MappingDialog extends TitleAreaDialog {
         tableLayout.addColumnData(new ColumnWeightData(1));
         tableLayout.addColumnData(new ColumnWeightData(1));
         
-        Table table = new Table(container, SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
+        final Table table = new Table(container, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION
+                | SWT.V_SCROLL);
         table.setLinesVisible(true);
         table.setHeaderVisible(true);
         table.setLayout(tableLayout);
-        
-        TableViewer tableViewer = new TableViewer(table);
+               
+        final TableViewer tableViewer = new TableViewer(table);
         tableViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
         
         TableViewerColumn labelColumn = new TableViewerColumn(tableViewer, SWT.NONE);
@@ -87,18 +93,18 @@ public class MappingDialog extends TitleAreaDialog {
 
         EditingSupport exampleEditingSupport = new TableEditingSupport(valueColumn.getViewer());
         valueColumn.setEditingSupport(exampleEditingSupport);
-
+        
         tableViewer.setContentProvider(new ArrayContentProvider());
         tableViewer.setLabelProvider(new VariantTableLabelProvider());
         tableViewer.setInput(variants);
         
         Button newLicense = new Button(container, SWT.PUSH);
-        newLicense.setText("New License Constant");
+        newLicense.setText("Create New License Constant");
         newLicense.addMouseListener(new MouseListener() {
             
             @Override
             public void mouseUp(MouseEvent e) {
-                AddLicenseDialog dialog = new AddLicenseDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
+                AddLicenseDialog dialog = new AddLicenseDialog(getShell());
                 if (dialog.open() == Window.OK) {
                     cellEditor.setInput(config.getAllLicenses());
                 }
@@ -134,7 +140,10 @@ public class MappingDialog extends TitleAreaDialog {
             case 0:
                 return data.getId();
             case 1:
-                return config.getVariantToLicenseMap().get(data.getId());
+                if (getLicenseConstantName(data.getId()) == null) {
+                    return "Please select...";
+                }
+                return getLicenseConstantName(data.getId());
             default:
                 return "";
             }
@@ -146,13 +155,17 @@ public class MappingDialog extends TitleAreaDialog {
      */
     private final class TableEditingSupport extends EditingSupport {       
 
-        @SuppressWarnings("deprecation")
         private TableEditingSupport(ColumnViewer viewer) {
             super(viewer);
-            cellEditor = new ComboBoxViewerCellEditor((Composite) getViewer().getControl(), SWT.NONE);
+            cellEditor = new ComboBoxViewerCellEditor((Composite) getViewer().getControl(), SWT.READ_ONLY);
             cellEditor.setLabelProvider(new LabelProvider());
-            cellEditor.setContenProvider(new ArrayContentProvider());    
-            cellEditor.setInput(config.getAllLicenses());       
+            cellEditor.setContentProvider(new ArrayContentProvider());    
+            cellEditor.setInput(config.getAllLicenses());
+            cellEditor.setActivationStyle(ComboBoxViewerCellEditor.DROP_DOWN_ON_KEY_ACTIVATION
+                    | ComboBoxViewerCellEditor.DROP_DOWN_ON_MOUSE_ACTIVATION
+                    | ComboBoxViewerCellEditor.DROP_DOWN_ON_PROGRAMMATIC_ACTIVATION
+                    | ComboBoxViewerCellEditor.DROP_DOWN_ON_TRAVERSE_ACTIVATION);
+            CASLicenseHandlerConfiguration.getInstance().getVariantToLicenseMap().clear();
         }
 
         @Override
@@ -170,14 +183,14 @@ public class MappingDialog extends TitleAreaDialog {
             if (!(element instanceof Variant)) {
                 return null;
             }            
-            return config.getVariantToLicenseMap().get(((Variant) element).getId());
+            return getLicenseConstantName(((Variant) element).getId());
         }
 
         @Override
         protected void setValue(Object element, Object value) {
             if (element instanceof Variant && value instanceof String) {
                 Variant data = (Variant) element;
-                String license = (String) value;                
+                String license = (String) value;
                 if (!config.addVariantLicensePair(data.getId(), license)) {
                     MessageDialog.openInformation(PlatformUI.getWorkbench().getDisplay().getActiveShell(), 
                             "Information", "Every variant needs a different License Constant.");                   
@@ -190,5 +203,22 @@ public class MappingDialog extends TitleAreaDialog {
     @Override 
     protected Point getInitialSize() { 
         return new Point(450, 300); 
+    }
+
+    @Override
+    public boolean close() {
+        if (getReturnCode() == Window.OK && !Iterables.all(variants, new Predicate<Variant>() {
+            @Override
+            public boolean apply(Variant input) {
+                return getLicenseConstantName(input.getId()) != null;
+            }
+        })) {
+            setReturnCode(DATA_INCOMPLETE);
+        }
+        return super.close();
+    }
+    
+    private String getLicenseConstantName(String variantId) {
+        return config.getVariantToLicenseMap().get(variantId);
     }
 }
