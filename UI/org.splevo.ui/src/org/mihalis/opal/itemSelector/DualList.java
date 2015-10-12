@@ -901,6 +901,7 @@ public class DualList extends Composite {
 		item.setLastAction(LAST_ACTION.SELECTION);
 		selectedItems.add(item);
 		this.selection.add(item);
+		this.items.remove(item);
 		this.fireSelectionEvent(item);
 		fireSelectionChangeEvent(selectedItems);
 		this.redrawTables();
@@ -944,6 +945,7 @@ public class DualList extends Composite {
 			selectedItems.add(item);
 
 			this.selection.add(item);
+			this.items.remove(item);
 			this.fireSelectionEvent(item);
 		}
 		fireSelectionChangeEvent(selectedItems);
@@ -986,6 +988,7 @@ public class DualList extends Composite {
 			item.setLastAction(LAST_ACTION.SELECTION);
 			selectedItems.add(item);
 			this.selection.add(item);
+			this.items.remove(item);
 			this.fireSelectionEvent(item);
 		}
 		fireSelectionChangeEvent(selectedItems);
