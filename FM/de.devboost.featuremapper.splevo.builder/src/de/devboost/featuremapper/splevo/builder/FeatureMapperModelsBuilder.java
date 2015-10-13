@@ -12,9 +12,11 @@
 
 package de.devboost.featuremapper.splevo.builder;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +42,7 @@ import org.featuremapper.models.feature.FeatureFactory;
 import org.featuremapper.models.feature.FeatureModel;
 import org.featuremapper.models.feature.FeaturePackage;
 import org.featuremapper.models.feature.Group;
+import org.featuremapper.models.featuremapping.ColorMapping;
 import org.featuremapper.models.featuremapping.ElementMapping;
 import org.featuremapper.models.featuremapping.FeatureMappingFactory;
 import org.featuremapper.models.featuremapping.FeatureMappingModel;
@@ -62,6 +65,25 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 
 	private static Logger logger = Logger.getLogger(FeatureMapperModelsBuilder.class);
 	private Map<String, Feature> cachedVariantFeatures = new HashMap<String, Feature>();
+	private Map<Feature, ColorMapping> colorMappings = new HashMap<Feature, ColorMapping>();
+
+	private static final String[] indexcolors = new String[] { "#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46",
+			"#008941", "#006FA6", "#A30059", "#FFDBE5", "#7A4900", "#0000A6", "#63FFAC", "#B79762", "#004D43",
+			"#8FB0FF", "#997D87", "#5A0007", "#809693", "#FEFFE6", "#1B4400", "#4FC601", "#3B5DFF", "#4A3B53",
+			"#FF2F80", "#61615A", "#BA0900", "#6B7900", "#00C2A0", "#FFAA92", "#FF90C9", "#B903AA", "#D16100",
+			"#DDEFFF", "#000035", "#7B4F4B", "#A1C299", "#300018", "#0AA6D8", "#013349", "#00846F", "#372101",
+			"#FFB500", "#C2FFED", "#A079BF", "#CC0744", "#C0B9B2", "#C2FF99", "#001E09", "#00489C", "#6F0062",
+			"#0CBD66", "#EEC3FF", "#456D75", "#B77B68", "#7A87A1", "#788D66", "#885578", "#FAD09F", "#FF8A9A",
+			"#D157A0", "#BEC459", "#456648", "#0086ED", "#886F4C",
+
+			"#34362D", "#B4A8BD", "#00A6AA", "#452C2C", "#636375", "#A3C8C9", "#FF913F", "#938A81", "#575329",
+			"#00FECF", "#B05B6F", "#8CD0FF", "#3B9700", "#04F757", "#C8A1A1", "#1E6E00", "#7900D7", "#A77500",
+			"#6367A9", "#A05837", "#6B002C", "#772600", "#D790FF", "#9B9700", "#549E79", "#FFF69F", "#201625",
+			"#72418F", "#BC23FF", "#99ADC0", "#3A2465", "#922329", "#5B4534", "#FDE8DC", "#404E55", "#0089A3",
+			"#CB7E98", "#A4E804", "#324E72", "#6A3A4C", "#83AB58", "#001C1E", "#D1F7CE", "#004B28", "#C8D0F6",
+			"#A3A489", "#806C66", "#222800", "#BF5650", "#E83000", "#66796D", "#DA007C", "#FF1A59", "#8ADBB4",
+			"#1E0200", "#5B4E51", "#C895C5", "#320033", "#FF6832", "#66E1D3", "#CFCDAC", "#D0AC94", "#7ED379",
+			"#012C58" };
 
 	@Override
 	public String getId() {
@@ -122,6 +144,7 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 					EList<SoftwareElement> softwareEntities = variant.getImplementingElements();
 
 					for (SoftwareElement softwareElement : softwareEntities) {
+						getOrCreateColorMapping(vFeature, mappingModel);
 						ElementMapping mapping = mappingFactory.createElementMapping();
 						FeatureRef featureRef = mappingFactory.createFeatureRef();
 						featureRef.setFeature(vFeature);
@@ -164,9 +187,44 @@ public class FeatureMapperModelsBuilder implements FeatureModelBuilder<FeatureMa
 				logger.error("Could not create solution model reference for resource " + resourceIdentifier);
 			}
 		}
-
+		initialiseColorMappings(colorMappings.values());
 		FeatureMapperModelSet featureMapperModelSet = new FeatureMapperModelSet(featureModel, mappingModel);
 		return new FeatureModelWrapper<FeatureMapperModelSet>(featureMapperModelSet, true);
+	}
+
+	private void initialiseColorMappings(Collection<ColorMapping> values) {
+		List<Color> colors = createUniqueColors(values.size());
+		int i = 0;
+		for (ColorMapping colorMapping : values) {
+			Color color = colors.get(i);
+			colorMapping.setColor((color.getRed() << 16) + (color.getGreen() << 8) + color.getBlue());
+			i++;
+		}
+	}
+
+	private List<Color> createUniqueColors(int size) {
+		List<Color> colors = new ArrayList<Color>();
+		for (int i = 0; i < size; i++) {
+			String hexColor = indexcolors[i + 1 % 128];
+			Color color = Color.decode(hexColor);
+			colors.add(color);
+			System.out.println(color);
+		}
+		return colors;
+	}
+
+	private void getOrCreateColorMapping(Feature vFeature, FeatureMappingModel mappingModel) {
+		if (colorMappings.get(vFeature) != null) {
+			return;
+		}
+		FeatureMappingFactory mappingFactory = FeatureMappingFactory.eINSTANCE;
+
+		ColorMapping colorMapping = mappingFactory.createColorMapping();
+		FeatureRef term = mappingFactory.createFeatureRef();
+		term.setFeature(vFeature);
+		colorMapping.setTerm(term);
+		mappingModel.getColorMappings().add(colorMapping);
+		colorMappings.put(vFeature, colorMapping);
 	}
 
 	protected URI getFixedURI(URI uri) {
