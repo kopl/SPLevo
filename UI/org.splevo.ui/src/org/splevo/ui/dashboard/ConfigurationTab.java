@@ -30,10 +30,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.ResourceManager;
+import org.mihalis.opal.header.Header;
 import org.splevo.diffing.Differ;
 import org.splevo.diffing.DifferRegistry;
 import org.splevo.fm.builder.FeatureModelBuilder;
 import org.splevo.fm.builder.FeatureModelBuilderRegistry;
+import org.splevo.ui.SPLevoUIPlugin;
 import org.splevo.ui.editors.SPLevoProjectEditor;
 import org.splevo.ui.editors.listener.DifferCheckBoxListener;
 
@@ -90,7 +93,8 @@ public class ConfigurationTab extends AbstractDashboardTab {
         Composite composite = new Composite(scrolledComposite, SWT.FILL);
         composite.setLayout(new GridLayout(1, false));
         composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
-
+        
+        createHeader(composite);
         buildFeatureModelBuilderGroup(composite);
         buildDifferConfigurationGroup(composite);
         scrolledComposite.setContent(composite);
@@ -247,6 +251,14 @@ public class ConfigurationTab extends AbstractDashboardTab {
         Splitter splitter = Splitter.on(CharMatcher.anyOf(".")).omitEmptyStrings().trimResults();
         Joiner joiner = Joiner.on(" ").skipNulls();
         return joiner.join(splitter.split(configKey));
+    }
+    
+    private void createHeader(Composite composite) {
+        final Header header = new Header(composite, SWT.NONE);
+        header.setTitle("Configuration");
+        header.setImage(ResourceManager.getPluginImage(SPLevoUIPlugin.PLUGIN_ID, "icons/configure.png"));
+        header.setDescription("Configuration of the consolidation process.");
+        header.setLayoutData(new GridData(GridData.FILL, GridData.VERTICAL_ALIGN_BEGINNING, true, false));
     }
 
 }
